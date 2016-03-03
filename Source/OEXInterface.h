@@ -66,9 +66,9 @@ extern NSString* const OEXDownloadEndedNotification;
 #pragma mark Resource downloading
 - (BOOL)downloadWithRequestString:(nullable NSString*)URLString forceUpdate:(BOOL)update;
 - (nullable NSData*)resourceDataForURLString:(nullable NSString*)URLString downloadIfNotAvailable:(BOOL)shouldDownload;
-- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler;      // This method get called while user logged out from app
-// videos : OEXHelperVideoDownload
+- (void)deactivate;
 
+// videos : OEXHelperVideoDownload
 #pragma CC methods
 + (void)setCCSelectedLanguage:(NSString*)language;
 + (NSString*)getCCSelectedLanguage;

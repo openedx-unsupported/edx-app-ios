@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable NSString*)filePathForRequestKey:(nullable NSString*)key username:(nullable NSString*)username;
 + (nullable NSURL*)fileURLForRequestKey:(nullable NSString*)key username:(nullable NSString*)username;
 
++ (void)nukeUserData;
+
 @end
 
 @interface OEXFileUtility (Testing)

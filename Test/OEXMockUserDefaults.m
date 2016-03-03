@@ -51,12 +51,20 @@
         return value;
     }
     else {
-        return [self.store[key] stringValue];
+        return [value stringValue];
     }
 }
 
 - (void)setString:(NSString*)string forKey:(NSString*)key {
-    self.store[key] = key;
+    [self setObject:string forKey:key];
+}
+
+- (NSURL*)URLForKey:(NSString*)key {
+    return [NSURL URLWithString:[self stringForKey:key]];
+}
+
+- (void)setURL:(NSURL*)URL forKey:(NSString*)key {
+    [self setObject:URL.absoluteString forKey:key];
 }
 
 - (NSInteger)integerForKey:(NSString*)key {

@@ -19,11 +19,11 @@ class OEXRearTableViewController : UITableViewController {
     // TODO replace this with a proper injection when we nuke the storyboard
     struct Environment {
         let analytics = OEXRouter.sharedRouter().environment.analytics
+        let config = OEXRouter.sharedRouter().environment.config
         let interface = OEXRouter.sharedRouter().environment.interface
         let networkManager = OEXRouter.sharedRouter().environment.networkManager
-        let userProfileManager = OEXRouter.sharedRouter().environment.dataManager.userProfileManager
-        let config = OEXRouter.sharedRouter().environment.config
         let session = OEXRouter.sharedRouter().environment.session
+        let userProfileManager = OEXRouter.sharedRouter().environment.dataManager.userProfileManager
         weak var router = OEXRouter.sharedRouter()
     }
     
@@ -149,7 +149,7 @@ class OEXRearTableViewController : UITableViewController {
             switch option {
             case .UserProfile:
                 guard environment.config.shouldEnableProfiles() else { break }
-                guard let currentUserName = OEXSession.sharedSession()?.currentUser?.username else { return }
+                guard let currentUserName = environment.session.currentUser?.username else { return }
                 environment.router?.showProfileForUsername(username: currentUserName)
             case .MyCourse:
                 environment.router?.showMyCourses()
@@ -177,12 +177,7 @@ class OEXRearTableViewController : UITableViewController {
     }
     
     @IBAction func logoutClicked(sender: UIButton) {
-        
-        environment.interface?.logoutUserAndInvalidateSession { () -> Void in
-        }
-        
-        sender.setBackgroundImage(UIImage(named: "bt_logout_active"), forState: .Normal)
-        environment.router?.showLoggedOutScreen()
+        environment.router?.logout()
     }
     
     func dataAvailable(notification: NSNotification) {

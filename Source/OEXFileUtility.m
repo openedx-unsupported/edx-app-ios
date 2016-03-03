@@ -164,6 +164,12 @@
     return filepath;
 }
 
++ (void)nukeUserData {
+    NSError* error = nil;
+    [[NSFileManager defaultManager] removeItemAtPath:[self applicationSupportPath] error:&error];
+    NSAssert(error == nil || error.code == NSFileNoSuchFileError, @"Error nuking all user data");
+}
+
 @end
 
 @implementation OEXFileUtility (Testing)
