@@ -18,7 +18,7 @@ public struct DiscussionComment {
     var threadID: String
     var rawBody: String?
     var renderedBody: String?
-    var author: String
+    var author: String? // user cannot add response as anonymous. AuthorLabelProtocol is shared by both DiscussionComment and DiscussionThread that's why its optional.
     var authorLabel: String?
     var voted = false
     var voteCount = 0
@@ -89,7 +89,7 @@ public struct DiscussionThread {
     var title: String?
     var rawBody: String?
     var renderedBody: String?
-    var author: String
+    var author: String? // Posts by anonymous user have no author
     var authorLabel: String?
     var commentCount = 0
     var commentListUrl: String?
@@ -113,14 +113,16 @@ extension DiscussionThread {
     public init?(json: JSON) {
         guard let
             topicId = json["topic_id"].string,
-            identifier = json["id"].string,
-            author = json["author"].string else
+            identifier = json["id"].string
+            else
         {
             return nil
         }
+        
         self.threadID = identifier
         self.topicId = topicId
         
+        self.author = json["author"].string
         self.type = DiscussionThreadType(rawValue: json["type"].string ?? "") ?? .Discussion
         self.courseId = json["course_id"].string
         self.groupId = json["group_id"].intValue
@@ -128,7 +130,6 @@ extension DiscussionThread {
         self.title = json["title"].string
         self.rawBody = json["raw_body"].string
         self.renderedBody = json["rendered_body"].string
-        self.author = author
         self.authorLabel = json["author_label"].string
         self.commentCount = json["comment_count"].intValue
         self.commentListUrl = json["comment_list_url"].string

@@ -10,9 +10,9 @@ import Foundation
 
 class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     
-    private let GoogleCategoryKey = "category";
-    private let GoogleLabelKey = "label";
-    private let GoogleActionKey = "action";
+    private let GoogleCategoryKey = "category"
+    private let GoogleLabelKey = "label"
+    private let GoogleActionKey = "action"
     
     var currentOrientationValue : String {
         return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
