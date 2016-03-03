@@ -31,17 +31,17 @@ class DiscussionResponsesDataController: NSObject {
     }
 
     /// "Given a new comment, looks through responses and update vote information of that comment."
-    func updateResponsesWithCommentID(commentID : String, updater: DiscussionComment -> DiscussionComment) {
+    func updateResponsesWithComment(comment : DiscussionComment) {
         for i in 0 ..< responses.count {
-            if responses[i].commentID == commentID {
-                responses[i] = updater(responses[i])
+            if responses[i].commentID == comment.commentID {
+                responses[i] = comment
             }
         }
         
         for i in 0..<endorsedResponses.count {
             
-            if endorsedResponses[i].commentID == commentID {
-                endorsedResponses[i] = updater(endorsedResponses[i])
+            if endorsedResponses[i].commentID == comment.commentID {
+                endorsedResponses[i] = comment
             }
         }
     }

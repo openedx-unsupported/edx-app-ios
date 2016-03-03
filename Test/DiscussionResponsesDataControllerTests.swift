@@ -48,9 +48,7 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         testResponse.voteCount += 1
         testResponse.voted = !testResponse.voted
         
-        responsesDataController.updateResponsesWithCommentID(testResponse.commentID) { (updatedResponse) -> DiscussionComment in
-            return testResponse;
-        }
+        responsesDataController.updateResponsesWithComment(testResponse)
         
         XCTAssertEqual(responses[0].voteCount + 1, responsesDataController.endorsedResponses[0].voteCount)
         XCTAssertEqual(!responses[0].voted, responsesDataController.endorsedResponses[0].voted)
@@ -61,9 +59,7 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         votedResponse.voteCount -= 1
         votedResponse.voted = !votedResponse.voted
         
-        responsesDataController.updateResponsesWithCommentID(votedResponse.commentID) { (updatedResponse) -> DiscussionComment in
-            return votedResponse;
-        }
+        responsesDataController.updateResponsesWithComment(votedResponse)
         
         XCTAssertEqual(responses[0].voteCount, responsesDataController.endorsedResponses[0].voteCount)
         XCTAssertEqual(responses[0].voted, responsesDataController.endorsedResponses[0].voted)
@@ -81,9 +77,7 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         var testResponse = responses[0]
         testResponse.abuseFlagged = !testResponse.abuseFlagged
         
-        responsesDataController.updateResponsesWithCommentID(testResponse.commentID) { (updatedResponse) -> DiscussionComment in
-            return testResponse;
-        }
+        responsesDataController.updateResponsesWithComment(testResponse)
         
         XCTAssertEqual(!responses[0].abuseFlagged, responsesDataController.endorsedResponses[0].abuseFlagged)
         XCTAssertTrue(responsesDataController.endorsedResponses[0].abuseFlagged)
@@ -92,10 +86,8 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         var flaggedResponse = responsesDataController.endorsedResponses[0]
         flaggedResponse.abuseFlagged = !flaggedResponse.abuseFlagged
         
-        responsesDataController.updateResponsesWithCommentID(flaggedResponse.commentID) { (updatedResponse) -> DiscussionComment in
-            return flaggedResponse;
-        }
-        
+        responsesDataController.updateResponsesWithComment(flaggedResponse)
+    
         XCTAssertEqual(responses[0].abuseFlagged, responsesDataController.endorsedResponses[0].abuseFlagged)
         XCTAssertFalse(responsesDataController.endorsedResponses[0].abuseFlagged)
     }

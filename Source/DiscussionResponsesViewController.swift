@@ -560,10 +560,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             self?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let comment: DiscussionComment = result.data {
-                    self?.responsesDataController.updateResponsesWithCommentID(comment.commentID, updater: { (updatedComment) -> DiscussionComment in
-                        return comment
-                    })
-                    
+                    self?.responsesDataController.updateResponsesWithComment(comment)
                     self?.updateVoteText(cell.voteButton, voteCount: comment.voteCount, voted: comment.voted)
                     self?.tableView.reloadData()
                 }
@@ -578,9 +575,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             self?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let comment = result.data {
-                    self?.responsesDataController.updateResponsesWithCommentID(comment.commentID, updater: { (updatedComment) -> DiscussionComment in
-                        return comment
-                    })
+                    self?.responsesDataController.updateResponsesWithComment(comment)
                     
                     self?.updateReportText(cell.reportButton, report: comment.abuseFlagged)
                     self?.tableView.reloadData()
