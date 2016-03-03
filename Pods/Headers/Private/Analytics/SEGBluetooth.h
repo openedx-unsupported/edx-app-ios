@@ -1,1 +1,1 @@
-../../../Analytics/Analytics/Helpers/SEGBluetooth.h
+../../../Analytics/Pod/Classes/Internal/SEGBluetooth.h
