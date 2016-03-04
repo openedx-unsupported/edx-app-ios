@@ -24,6 +24,7 @@ import Foundation
     func logoutIfServerChanged(config config: OEXConfig, logoutAction : Void -> Void) {
         if let lastURL = lastUsedAPIHostURL, currentURL = config.apiHostURL() where lastURL != currentURL {
             logoutAction()
+            OEXFileUtility.nukeUserData()
         }
         lastUsedAPIHostURL = config.apiHostURL()
     }
@@ -31,7 +32,6 @@ import Foundation
     func logoutIfServerChanged() {
         logoutIfServerChanged(config: OEXConfig(appBundleData: ())) {
             OEXSession().closeAndClearSession()
-            OEXFileUtility.nukeUserData()
         }
     }
 }

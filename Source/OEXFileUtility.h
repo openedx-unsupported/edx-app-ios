@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a path for saving user specific data. This data is not backed up
 /// When called it will create the directory if it does not already exist
 + (nullable NSString*)pathForUserNameCreatingIfNecessary:(nullable NSString*)userName;
+
 /// Shortcut for pathForUserNameCreatingIfNecessary: with the current user.
 /// Do not add new uses of this. In the future we want to be explicitly passing the user
 + (nullable NSString*)userDirectory;
