@@ -69,9 +69,25 @@ class KVOListenerTests: XCTestCase {
         
         autoreleasepool {
             scope(observed)
-            XCTAssertTrue(updated.value)
-            observed.value = "new"
         }
+        XCTAssertTrue(updated.value)
+        observed.value = "new"
+    }
+
+    func testObserverOwnsObserved() {
+        let cleared = MutableBox(false)
+        func scope() {
+            let observed = ListenableObject()
+            observed.oex_addObserver(self, forKeyPath: "value") { (observer, object, value) -> Void in }
+            observed.oex_performActionOnDealloc { () -> Void in
+                cleared.value = true
+            }
+        }
+
+        autoreleasepool {
+            scope()
+        }
+        XCTAssertFalse(cleared.value)
     }
 
 }
