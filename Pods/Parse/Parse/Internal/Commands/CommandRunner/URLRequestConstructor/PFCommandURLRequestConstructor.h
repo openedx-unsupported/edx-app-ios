@@ -9,38 +9,43 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Parse/PFConstants.h>
+
 #import "PFDataProvider.h"
 
+@class BFTask<__covariant BFGenericType>;
 @class PFRESTCommand;
 
 @interface PFCommandURLRequestConstructor : NSObject
 
 @property (nonatomic, weak, readonly) id<PFInstallationIdentifierStoreProvider> dataSource;
+@property (nonatomic, strong, readonly) NSURL *serverURL;
 
 ///--------------------------------------
-/// @name Init
+#pragma mark - Init
 ///--------------------------------------
 
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithDataSource:(id<PFInstallationIdentifierStoreProvider>)dataSource NS_DESIGNATED_INITIALIZER;
-+ (instancetype)constructorWithDataSource:(id<PFInstallationIdentifierStoreProvider>)dataSource;
++ (instancetype)new NS_UNAVAILABLE;
+
++ (instancetype)constructorWithDataSource:(id<PFInstallationIdentifierStoreProvider>)dataSource serverURL:(NSURL *)serverURL;
 
 ///--------------------------------------
-/// @name Data
+#pragma mark - Data
 ///--------------------------------------
 
-- (NSURLRequest *)dataURLRequestForCommand:(PFRESTCommand *)command;
+- (BFTask<NSURLRequest *> *)getDataURLRequestAsyncForCommand:(PFRESTCommand *)command;
 
 ///--------------------------------------
-/// @name File Upload
+#pragma mark - File Upload
 ///--------------------------------------
 
-- (NSURLRequest *)fileUploadURLRequestForCommand:(PFRESTCommand *)command
-                                 withContentType:(NSString *)contentType
-                           contentSourceFilePath:(NSString *)contentFilePath;
+- (BFTask<NSURLRequest *> *)getFileUploadURLRequestAsyncForCommand:(PFRESTCommand *)command
+                                                   withContentType:(NSString *)contentType
+                                             contentSourceFilePath:(NSString *)contentFilePath;
 
 ///--------------------------------------
-/// @name Headers
+#pragma mark - Headers
 ///--------------------------------------
 
 + (NSDictionary *)defaultURLRequestHeadersForApplicationId:(NSString *)applicationId

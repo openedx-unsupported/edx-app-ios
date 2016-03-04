@@ -2,10 +2,10 @@ Bolts
 ============
 [![Build Status](http://img.shields.io/travis/BoltsFramework/Bolts-iOS/master.svg?style=flat)](https://travis-ci.org/BoltsFramework/Bolts-iOS)
 [![Coverage Status](https://codecov.io/github/BoltsFramework/Bolts-iOS/coverage.svg?branch=master)](https://codecov.io/github/BoltsFramework/Bolts-iOS?branch=master)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Pod Version](http://img.shields.io/cocoapods/v/Bolts.svg?style=flat)](http://cocoadocs.org/docsets/Bolts/)
 [![Pod Platform](http://img.shields.io/cocoapods/p/Bolts.svg?style=flat)](http://cocoadocs.org/docsets/Bolts/)
 [![Pod License](http://img.shields.io/cocoapods/l/Bolts.svg?style=flat)](https://github.com/BoltsFramework/Bolts-iOS/blob/master/LICENSE)
-[![Dependency Status](https://www.versioneye.com/objective-c/bolts/1.1.1/badge.svg?style=flat)](https://www.versioneye.com/objective-c/bolts)
 [![Reference Status](https://www.versioneye.com/objective-c/bolts/reference_badge.svg?style=flat)](https://www.versioneye.com/objective-c/bolts/references)
 
 Bolts is a collection of low-level libraries designed to make developing mobile
@@ -261,7 +261,7 @@ It's often convenient to have a long chain of success callbacks with only one er
 
 ## Creating Tasks
 
-When you're getting started, you can just use the tasks returned from methods like `findAsync:` or `saveAsync:`. However, for more advanced scenarios, you may want to make your own tasks. To do that, you create a `BFTaskCompletionSource`. This object will let you create a new `BFTask`, and control whether it gets marked as finished or cancelled. After you create a `BFTask`, you'll need to call `setResult:`, `setError:`, or `cancel` to trigger its continuations.
+When you're getting started, you can just use the tasks returned from methods like `findAsync:` or `saveAsync:`. However, for more advanced scenarios, you may want to make your own tasks. To do that, you create a `BFTaskCompletionSource`. This object will let you create a new `BFTask`, and control whether it gets marked as finished or cancelled. After you create a `BFTaskCompletionSource`, you'll need to call `setResult:`, `setError:`, or `cancel` to trigger its continuations.
 
 ```objective-c
 // Objective-C

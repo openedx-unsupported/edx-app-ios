@@ -91,7 +91,7 @@ class DiscussionTestsDataFactory: NSObject {
         renderedBody: "<p>Lorem ipsum dolor sit amet</p>",
         author: "Test Person",
         authorLabel: nil,
-        voted: true,
+        voted: false,
         voteCount: 10,
         createdAt: NSDate.stableTestDate(),
         updatedAt: nil,

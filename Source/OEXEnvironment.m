@@ -10,6 +10,8 @@
 
 #import "OEXEnvironment.h"
 
+#import <Analytics/SEGAnalytics.h>
+#import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
 #import "OEXInterface.h"
@@ -64,6 +66,7 @@
             OEXAnalytics* analytics = [[OEXAnalytics alloc] init];
             OEXSegmentConfig* segmentConfig = [env.config segmentConfig];
             if(segmentConfig.apiKey != nil && segmentConfig.isEnabled) {
+                [[SEGAnalyticsConfiguration configurationWithWriteKey:segmentConfig.apiKey] use:[SEGGoogleAnalyticsIntegrationFactory instance]];
                 [analytics addTracker:[[SegmentAnalyticsTracker alloc] init]];
                 [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
             }
