@@ -8,25 +8,36 @@
 
 import Foundation
 import edXCore
+import edX
+
+// This is just a class in the current bundle rather than in whatever bundle JSON is in.
+// Which allows us to isolate test data to the test bundle
+private class BundleClass {}
 
 public extension JSON {
     
-    public init(resourceWithName fileName: String) {
-        
-        var jsonData : NSData?
-        
-        if let URL = NSBundle.mainBundle().URLForResource(fileName, withExtension: "json") {
-            jsonData = try? NSData(contentsOfURL: URL, options: NSDataReadingOptions.DataReadingMappedIfSafe)
-            assert(jsonData != nil, "Couldn't load data from file")
+    public init(resourceNamed fileName: String) {
+        guard let
+            URL = NSBundle(forClass: BundleClass().dynamicType).URLForResource(fileName, withExtension: "json"),
+            data = try? NSData(contentsOfURL: URL, options: NSDataReadingOptions.DataReadingMappedIfSafe) else
+        {
+            assertionFailure("Couldn't load data from file")
+            self.init([:])
+            return
         }
-        
-        var jsonDict : NSDictionary?
-        if let data = jsonData {
-            jsonDict = (try? NSJSONSerialization.JSONObjectWithData(data, options: [])) as? NSDictionary
-            assert(jsonDict != nil, "Couldn't parse JSON from data")
-        }
-        
-        self.init(jsonDict ?? [:])
+        self.init(data:data)
     }
 
+    public init(plistResourceNamed fileName: String) {
+        guard let
+            URL = NSBundle(forClass: BundleClass().dynamicType).URLForResource(fileName, withExtension: "plist"),
+            data = NSDictionary(contentsOfURL: URL) else
+        {
+            assertionFailure("Couldn't load data from file")
+            self.init([:])
+            return
+        }
+        self.init(data)
+
+    }
 }

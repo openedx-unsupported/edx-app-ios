@@ -124,7 +124,9 @@
                                        credentialProvider:env.config
                                        baseURL:env.config.apiHostURL
                                        cache: cache];
-            [manager addStandardInterceptors];
+            [env.postSetupActions addObject:^(OEXEnvironment* env) {
+                [manager addStandardInterceptors:env.router];
+            }];
             return manager;
         };
         self.routerBuilder = ^(OEXEnvironment* env) {

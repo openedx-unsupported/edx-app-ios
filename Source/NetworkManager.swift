@@ -326,13 +326,15 @@ public class NetworkManager : NSObject {
 
 
 extension NetworkManager {
-    public func addStandardInterceptors() {
-        addJSONInterceptor(courseAccessInterceptor)
+    public func addStandardInterceptors(router:OEXRouter) {
+        let invalidAccessInterceptor = {[weak router] response, json in
+            NetworkManager.invalidAccessInterceptor(router, response: response, json: json)
+        }
+        addJSONInterceptor(NetworkManager.courseAccessInterceptor)
         addJSONInterceptor(invalidAccessInterceptor)
     }
 
-
-    func courseAccessInterceptor(response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
+    static func courseAccessInterceptor(response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
         guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode) where statusCode.is4xx else {
             return Success(json)
         }
@@ -344,16 +346,16 @@ extension NetworkManager {
         return Success(json)
     }
 
-    func invalidAccessInterceptor(response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
+    static func invalidAccessInterceptor(router: OEXRouter?, response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
         guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), error = NSError(json: json, code: response.statusCode) where statusCode == .Code401Unauthorised else {
             return Success(json)
         }
         dispatch_async(dispatch_get_main_queue()) {
             if error.isAPIError(.OAuth2Expired) {
                 //TODO: In Phase 2 actually refresh the token: MA-1772
-                LogoutService.logout()
+                router?.logout()
             } else {
-                LogoutService.logout()
+                router?.logout()
             }
         }
         return Failure(error)

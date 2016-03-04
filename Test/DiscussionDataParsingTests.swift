@@ -15,7 +15,7 @@ class DiscussionDataParsingTests: XCTestCase {
    
     func testAnonymousUserPostParsed() {
 
-        let unparsed = JSON(resourceWithName : "DiscussionPosts")
+        let unparsed = JSON(resourceNamed: "DiscussionPosts")
         XCTAssertNil(unparsed["author"].string)
         
         let parsedThread = DiscussionThread(json:unparsed)

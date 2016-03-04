@@ -11,4 +11,5 @@
 #import "OEXFileUtility+TestAdditions.h"
 #import "OEXMockCredentialStorage.h"
 #import "OEXMockUserDefaults.h"
+#import "NSString+OEXFormatting.h"
 #import "OEXUserDetails+OEXTestDataFactory.h"

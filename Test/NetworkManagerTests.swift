@@ -214,10 +214,10 @@ class NetworkManagerTests: XCTestCase {
         waitForExpectations()
     }
     
-    func checkJSONInterceptionWithStubResponse(stubResponse : OHHTTPStubsResponse, verifier : Result<JSON> -> Void) {
-        
+    func checkJSONInterceptionWithStubResponse(router: OEXRouter, stubResponse : OHHTTPStubsResponse, verifier : Result<JSON> -> Void) {
+
         let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"http://example.com")!, cache : MockResponseCache())
-        manager.addStandardInterceptors()
+        manager.addStandardInterceptors(router)
         let request = NetworkRequest<JSON> (
             method: HTTPMethod.GET,
             path: "path",
@@ -252,33 +252,32 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func testJSONInterception401CausesLogout() {
-        OEXRouter.setSharedRouter(MockRouter())
-        checkJSONInterceptionWithStubResponse(OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
+        let router = MockRouter()
+        checkJSONInterceptionWithStubResponse(router, stubResponse: OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
             $0.ifFailure {
                 XCTAssertEqual($0.code, 401)
                 //Test that the logout isn't called for a generic 401
-                XCTAssertTrue((OEXRouter.sharedRouter() as! MockRouter).logoutCalled)
+                XCTAssertTrue(router.logoutCalled)
             }
             XCTAssertTrue($0.value == nil)
         })
     }
     
     func testJSONInterceptionPassthrough() {
-        OEXRouter.setSharedRouter(MockRouter())
-        checkJSONInterceptionWithStubResponse(OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 404, headers: nil), verifier: {
+        let router = MockRouter()
+        checkJSONInterceptionWithStubResponse(router, stubResponse:OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 404, headers: nil), verifier: {
             XCTAssertTrue($0.value != nil)
-            let mockRouter: MockRouter = OEXRouter.sharedRouter() as! MockRouter
-            XCTAssertFalse(mockRouter.logoutCalled)
+            XCTAssertFalse(router.logoutCalled)
         })
     }
 
     //TODO: This should be changed to to check for refresh once that goes through
     func test401WithTokenExpiredCausesLogout() {
-        OEXRouter.setSharedRouter(MockRouter())
-        checkJSONInterceptionWithStubResponse(OHHTTPStubsResponse(data: "{\"error_code\":\"token_expired\"}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
+        let router = MockRouter()
+        checkJSONInterceptionWithStubResponse(router, stubResponse: OHHTTPStubsResponse(data: "{\"error_code\":\"token_expired\"}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
             $0.ifFailure {
                 XCTAssertEqual($0.code, 401)
-                XCTAssertTrue((OEXRouter.sharedRouter() as! MockRouter).logoutCalled)
+                XCTAssertTrue(router.logoutCalled)
             }
             XCTAssertTrue($0.value == nil)
         })
