@@ -155,13 +155,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private let responsesDataController = DiscussionResponsesDataController()
     var thread: DiscussionThread?
     var postFollowing = false
-    private var areAnsweredResponsesLoaded: Bool = false
 
     func loadedThread(thread : DiscussionThread) {
         let hadThread = self.thread != nil
         self.thread = thread
         if !hadThread {
-            areAnsweredResponsesLoaded = false
             loadResponses()
             logScreenEvent()
         }
@@ -287,7 +285,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     private func loadResponses() {
         if let thread = thread {
-            if !areAnsweredResponsesLoaded &&  thread.type == .Question {
+            if thread.type == .Question {
                 // load answered responses
                 loadAnsweredResponses()
             }
@@ -315,9 +313,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self?.responsesDataController.endorsedResponses = responses
                 self?.tableView.reloadData()
                 
-                if self?.paginationController?.hasNext ?? false {
+                if self?.paginationController?.hasNext ?? false { }
+                else {
                     // load unanswered responses
-                    self?.areAnsweredResponsesLoaded = true
                     self?.loadUnansweredResponses()
                 }
                 
