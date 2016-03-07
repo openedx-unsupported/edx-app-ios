@@ -146,9 +146,10 @@ class DiscussionCommentCell: UITableViewCell {
             let apiRequest = DiscussionAPI.flagComment(!comment.abuseFlagged, commentID: comment.commentID)
             viewController?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let response = result.data {
-                    if viewController?.comments.count > index && viewController!.comments[index].commentID == response.commentID {
+                    if viewController?.comments.count > index && viewController?.comments[index].commentID == response.commentID {
                         viewController?.comments[index] = response
                         viewController?.updateReportText(self.commentCountOrReportIconButton, report: response.abuseFlagged)
+                        viewController?.tableView.reloadData()
                     }
                 }
             }
