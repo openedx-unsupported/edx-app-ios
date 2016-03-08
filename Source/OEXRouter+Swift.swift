@@ -221,9 +221,8 @@ extension OEXRouter {
     }
 
     public func logout() {
-        OEXInterface.sharedInterface().logoutUserAndInvalidateSession({ () -> Void in
-            self.showLoggedOutScreen()
-        })
+        self.environment.session.closeAndClearSession()
+        self.showLoggedOutScreen()
     }
 
     // MARK: - Debug

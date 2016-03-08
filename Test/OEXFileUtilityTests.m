@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "NSArray+OEXFunctional.h"
 #import "OEXFileUtility.h"
 
 @interface OEXFileUtilityTests : XCTestCase
@@ -126,6 +127,19 @@
     NSString* path = [OEXFileUtility filePathForRequestKey:testURL username:self.username];
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:path]);
     XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
+}
+
+- (void)testNukeData {
+    NSArray<NSString*>* users = @[[NSUUID UUID].UUIDString, [NSUUID UUID].UUIDString, [NSUUID UUID].UUIDString];
+    NSArray<NSString*>* paths = [users oex_map:^(NSString* user){
+        return [OEXFileUtility pathForUserNameCreatingIfNecessary:user];
+    }];
+
+    [OEXFileUtility nukeUserData];
+
+    for(NSString* path in paths) {
+        XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:path]);
+    }
 }
 
 @end

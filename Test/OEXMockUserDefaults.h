@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)stringForKey:(NSString*)key;
 - (void)setString:(NSString*)string forKey:(NSString*)key;
 
+- (NSURL*)URLForKey:(NSString*)key;
+- (void)setURL:(NSURL*)URL forKey:(NSString*)key;
+
 - (NSInteger)integerForKey:(NSString*)key;
 - (void)setInteger:(NSInteger)value forKey:(NSString*)key;
 

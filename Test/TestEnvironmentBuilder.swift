@@ -18,6 +18,8 @@ class TestEnvironmentBuilder: NSObject {
         
         OEXStyles.setSharedStyles(OEXStyles())
         OEXStyles.sharedStyles().applyGlobalAppearance()
+
+        OEXFileUtility.routeUserDataToTempPath()
         
         OHHTTPStubs.stubRequestsPassingTest({ (request) -> Bool in
             return true

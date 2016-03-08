@@ -96,6 +96,10 @@ static OEXInterface* _sharedInterface = nil;
         [observer activateInterfaceForUser:user];
     }];
 
+    [[NSNotificationCenter defaultCenter] oex_addObserver:self notification:OEXSessionEndedNotification action:^(NSNotification * _Nonnull notification, id  _Nonnull observer, id<OEXRemovable>  _Nonnull removable) {
+        [observer deactivate];
+    }];
+
     [self firstLaunchWifiSetting];
     return self;
 }
@@ -1397,13 +1401,12 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 #pragma mark deactivate user interface
-- (void)deactivateWithCompletionHandler:(void (^)(void))completionHandler {
+- (void)deactivate {
     
     // Set the language to blank
     [OEXInterface setCCSelectedLanguage:@""];
     
     if(!_network) {
-        completionHandler();
         return;
     }
     [self.network invalidateNetworkManager];
@@ -1415,7 +1418,6 @@ static OEXInterface* _sharedInterface = nil;
         self.parser = nil;
         self.numberOfRecentDownloads = 0;
         [self.videoSummaries removeAllObjects];
-        completionHandler();
     }];
 }
 
