@@ -9,6 +9,7 @@ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS 
 **/
 
 import UIKit
+import edXCore
 
 // See https://openedx.atlassian.net/wiki/display/MA/Discussion+API
 

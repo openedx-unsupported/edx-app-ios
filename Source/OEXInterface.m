@@ -6,6 +6,8 @@
 //  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
+@import edXCore;
+
 #import "OEXInterface.h"
 
 #import "edX-Swift.h"
@@ -13,7 +15,6 @@
 
 #import "NSArray+OEXFunctional.h"
 #import "NSArray+OEXSafeAccess.h"
-#import "NSString+OEXFormatting.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"

@@ -6,8 +6,7 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
-#import "OEXAppDelegate.h"
-
+@import edXCore;
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -15,10 +14,10 @@
 #import <NewRelicAgent/NewRelic.h>
 #import <SEGAnalytics.h>
 
+#import "OEXAppDelegate.h"
+
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
-
-#import "NSBundle+OEXConveniences.h"
 
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"

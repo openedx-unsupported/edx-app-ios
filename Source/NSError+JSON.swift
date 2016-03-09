@@ -8,6 +8,8 @@
 
 import Foundation
 
+import edXCore
+
 enum APIErrorCode : String {
     case OAuth2Error = "token_error"
     case OAuth2Expired = "token_expired"

@@ -6,6 +6,7 @@
 //  Copyright © 2015 edX. All rights reserved.
 //
 
+import edXCore
 
 public struct CourseCatalogAPI {
     

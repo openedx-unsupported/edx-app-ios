@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import edXCore
 
 protocol RawStringExtractable {
     var rawValue : String { get }

@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
+@import edXCore;
+
 #import "OEXRegistrationFieldSelectController.h"
-#import "NSString+OEXFormatting.h"
+
 #import "edX-Swift.h"
 
 @interface OEXRegistrationFieldSelectController ()

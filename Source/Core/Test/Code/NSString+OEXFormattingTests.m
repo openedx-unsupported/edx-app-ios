@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#import "NSString+OEXFormatting.h"
+@import edXCore;
 
 @interface NSString_OEXFormattingTests : XCTestCase
 

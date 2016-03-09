@@ -8,6 +8,7 @@
 
 
 import Foundation
+import edXCore
 
 public enum HTTPMethod: String {
     case GET = "GET"

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import edXCore
 
 //TODO: remove NSObject when done with @objc
 public class UserCourseEnrollment : NSObject {

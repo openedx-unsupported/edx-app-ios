@@ -9,6 +9,7 @@
 import UIKit
 import XCTest
 
+import edXCore
 import edX
 
 class NetworkManagerTests: XCTestCase {

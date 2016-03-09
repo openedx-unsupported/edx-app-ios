@@ -7,6 +7,8 @@
 //
 
 import Foundation
+
+import edXCore
 @testable import edX
 
 class DiscussionDataParsingTests: XCTestCase {
