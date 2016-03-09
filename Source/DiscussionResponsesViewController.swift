@@ -160,7 +160,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let hadThread = self.thread != nil
         self.thread = thread
         if !hadThread {
-            initializePaginator()
+            loadResponses()
             logScreenEvent()
         }
         let styles = OEXStyles.sharedStyles()
@@ -283,38 +283,60 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
     }
     
-    private func initializePaginator() {
-        
-        if let thread = thread {
-            postFollowing = thread.following
-            
-            let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-                return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, pageNumber: page)
-            }
-            
-            paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
-            
-            loadEndorsedResponses()
-            loadResponses()
-        }
-    }
-    
-    private func loadEndorsedResponses() {
-        if let thread = thread {
-            // its assumption always there shoud be 1 page for endorsed responses
-            let apiRequest = DiscussionAPI.getEndorsedResponses(thread.threadID, threadType: .Question)
-            
-            self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
-                if let responses = result.data {
-                    self?.loadController?.state = .Loaded
-                    self?.responsesDataController.endorsedResponses = responses
-                    self?.tableView.reloadData()
-                }
-            }
-        }
-    }
-    
     private func loadResponses() {
+        if let thread = thread {
+            if thread.type == .Question {
+                // load answered responses
+                loadAnsweredResponses()
+            }
+            else {
+                loadUnansweredResponses()
+            }
+        }
+    }
+    
+    private func loadAnsweredResponses() {
+        
+        guard let thread = thread else { return }
+        
+        postFollowing = thread.following
+        
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+            return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, endorsedOnly: true, pageNumber: page)
+        }
+        
+        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        
+        paginationController?.stream.listen(self, success:
+            { [weak self] responses in
+                self?.loadController?.state = .Loaded
+                self?.responsesDataController.endorsedResponses = responses
+                self?.tableView.reloadData()
+                
+                if self?.paginationController?.hasNext ?? false { }
+                else {
+                    // load unanswered responses
+                    self?.loadUnansweredResponses()
+                }
+                
+            }, failure: { [weak self] (error) -> Void in
+                self?.loadController?.state = LoadState.failed(error)
+                
+            })
+        
+        paginationController?.loadMore()
+    }
+    
+    private func loadUnansweredResponses() {
+        
+        guard let thread = thread else { return }
+        
+        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+            return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, pageNumber: page)
+        }
+        
+        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        
         paginationController?.stream.listen(self, success:
             { [weak self] responses in
                 self?.loadController?.state = .Loaded

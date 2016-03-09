@@ -70,10 +70,6 @@ public class DiscussionAPI {
     private static func commentListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionComment]> {
         return listDeserializer(response, items: json.array, constructor: { DiscussionComment(json : $0) } )
     }
-    
-    private static func endorsedListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionComment]> {
-        return listDeserializer(response, items: json["results"].array, constructor: { DiscussionComment(json : $0) } )
-    }
 
     private static func topicListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionTopic]> {
         if let coursewareTopics = json["courseware_topics"].array,
@@ -291,23 +287,6 @@ public class DiscussionAPI {
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
         ).paginated(page: pageNumber)
-    }
-    
-    static func getEndorsedResponses(threadID: String,  threadType : DiscussionThreadType) -> NetworkRequest<[DiscussionComment]> {
-        var query = ["thread_id": JSON(threadID)]
-        
-        //Only set the endorsed flag if the post is a question
-        if threadType == .Question {
-            query["endorsed"] = JSON(true)
-        }
-        
-        return NetworkRequest(
-            method : HTTPMethod.GET,
-            path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
-            query: query,
-            requiresAuth : true,
-            deserializer : .JSONResponse(endorsedListDeserializer)
-            )
     }
     
     static func getCourseTopics(courseID: String) -> NetworkRequest<[DiscussionTopic]> {
