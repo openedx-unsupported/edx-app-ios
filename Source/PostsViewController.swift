@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol PostsViewControllerDelegate : class {
+    func searchQueryUpdated(searchQuery: String)
+}
+
 class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate {
 
     typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
@@ -102,6 +106,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var selectedOrderBy: DiscussionPostsSort = .RecentActivity
     
     var searchBarDelegate : DiscussionSearchBarDelegate?
+    weak var delegate: PostsViewControllerDelegate?
     
     private var queryString : String?
     private var refineTextStyle : OEXTextStyle {
@@ -129,7 +134,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             searchBar?.text = context.queryString
             searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
                 self?.context = Context.Search(text)
+                self?.delegate?.searchQueryUpdated(text)
                 self?.loadController.state = .Initial
+                self?.loadContent()
             }
             searchBar?.delegate = searchBarDelegate
         }
