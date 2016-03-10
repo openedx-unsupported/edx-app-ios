@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PostsViewControllerDelegate  {
+public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
     public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
@@ -195,13 +195,6 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
     }
-    
-    // MARK :- PostsViewControllerDelegate
-    
-    func searchQueryUpdated(searchQuery: String) {
-        searchBar.text = searchQuery
-    }
-
 }
 
 extension DiscussionTopicsViewController {

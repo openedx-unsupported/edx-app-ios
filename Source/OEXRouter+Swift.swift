@@ -153,10 +153,6 @@ extension OEXRouter {
     func showPostsFromController(controller : UIViewController, courseID : String, queryString : String) {
         let postsController = PostsViewController(environment: environment, courseID: courseID, queryString : queryString)
         
-        if let delegate = controller as? PostsViewControllerDelegate {
-            postsController.delegate = delegate
-        }
-        
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
