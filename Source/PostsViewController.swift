@@ -130,6 +130,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
                 self?.context = Context.Search(text)
                 self?.loadController.state = .Initial
+                self?.searchThreads(text)
             }
             searchBar?.delegate = searchBarDelegate
         }

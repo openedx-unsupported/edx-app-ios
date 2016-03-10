@@ -195,7 +195,6 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
     }
-
 }
 
 extension DiscussionTopicsViewController {
