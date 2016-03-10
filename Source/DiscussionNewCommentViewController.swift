@@ -98,7 +98,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     private var isEndorsed : Bool = false {
         didSet {
-            containerView.applyBorderStyle(isEndorsed ? OEXStyles.sharedStyles().endorsedPostBorderStyle : BorderStyle())
+            containerView.applyBorderStyle(BorderStyle())
             answerLabel.hidden = !isEndorsed
             
             responseTitle.snp_updateConstraints { (make) -> Void in

@@ -114,10 +114,6 @@ extension OEXStyles {
         return BorderStyle(width: .Size(1), color: OEXStyles.sharedStyles().neutralLight())
     }
     
-    var endorsedPostBorderStyle : BorderStyle {
-        return BorderStyle(width: .Hairline, color: OEXStyles.sharedStyles().utilitySuccessBase())
-    }
-    
 //Standard Divider styles
     
     var standardDividerColor : UIColor {
