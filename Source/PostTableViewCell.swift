@@ -139,8 +139,10 @@ class PostTableViewCell: UITableViewCell {
             options.append(Icon.FollowStar.attributedTextWithStyle(cellDetailTextStyle))
         }
 
-        let authorLabelText = Strings.byAuthor(authorName: thread.authorLabel ?? Strings.anonymous)
-        options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
+        if let authorString = thread.authorLabel {
+            let authorLabelText = Strings.byAuthor(authorName: authorString)
+            options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
+        }
         
         self.byText = NSAttributedString.joinInNaturalLayout(options)
         
