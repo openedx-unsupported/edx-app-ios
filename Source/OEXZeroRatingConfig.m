@@ -8,8 +8,12 @@
 
 #import "OEXZeroRatingConfig.h"
 
+static NSString* const OEXZeroRatingConfigKey = @"ZERO_RATING";
+
 @interface OEXZeroRatingConfig ()
+
 @property(nonatomic, strong) NSArray* carriers;
+
 @end
 
 @implementation OEXZeroRatingConfig
@@ -21,6 +25,17 @@
         _carriers = dictionary[@"CARRIERS"] ?: @[];
     }
     return self;
+}
+
+@end
+
+
+@implementation OEXConfig (ZeroRating)
+
+- (OEXZeroRatingConfig*)zeroRatingConfig {
+    NSDictionary* dictionary = [self objectForKey:OEXZeroRatingConfigKey];
+    OEXZeroRatingConfig* zeroRatingConfig = [[OEXZeroRatingConfig alloc] initWithDictionary:dictionary];
+    return zeroRatingConfig;
 }
 
 @end

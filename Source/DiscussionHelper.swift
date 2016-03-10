@@ -28,7 +28,7 @@ class DiscussionHelper: NSObject {
        
         authorButton.setAttributedTitle(title, forState: .Normal)
         
-        let profilesEnabled = OEXConfig.sharedConfig().shouldEnableProfiles()
+        let profilesEnabled = OEXConfig.sharedConfig().profilesEnabled
         authorButton.enabled = profilesEnabled
         
         if let author = author where profilesEnabled {

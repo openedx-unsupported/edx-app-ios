@@ -8,6 +8,8 @@
 
 #import "OEXSegmentConfig.h"
 
+static NSString* const OEXSegmentIOConfigKey = @"SEGMENT_IO";
+
 @implementation OEXSegmentConfig
 
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary {
@@ -18,4 +20,15 @@
     }
     return self;
 }
+
+@end
+
+@implementation OEXConfig (Segment)
+
+- (OEXSegmentConfig*)segmentConfig {
+    NSDictionary* dictionary = [self objectForKey:OEXSegmentIOConfigKey];
+    OEXSegmentConfig* segmentConfig = [[OEXSegmentConfig alloc] initWithDictionary:dictionary];
+    return segmentConfig;
+}
+
 @end

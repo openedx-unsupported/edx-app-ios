@@ -8,6 +8,8 @@
 
 #import "OEXGoogleConfig.h"
 
+static NSString* const OEXGoogleConfigKey = @"GOOGLE";
+
 @interface OEXGoogleConfig () {
     BOOL _enabled;
 }
@@ -29,6 +31,16 @@
 {
     //In order for Google+ To work, the API Key must also be set. 
     return _enabled && _apiKey != nil;
+}
+
+@end
+
+@implementation OEXConfig (Google)
+
+- (OEXGoogleConfig*)googleConfig {
+    NSDictionary* dictionary = [self objectForKey:OEXGoogleConfigKey];
+    OEXGoogleConfig* googleConfig = [[OEXGoogleConfig alloc] initWithDictionary:dictionary];
+    return googleConfig;
 }
 
 @end

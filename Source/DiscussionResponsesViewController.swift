@@ -530,7 +530,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         DiscussionHelper.styleAuthorButton(cell.authorButton, title: response.formattedUserLabel(infoTextStyle), author: response.author, viewController: self, router: self.environment.router)
         
-        let profilesEnabled = self.environment.config.shouldEnableProfiles()
+        let profilesEnabled = self.environment.config.profilesEnabled
         cell.authorButton.enabled = profilesEnabled
         
         if profilesEnabled && response.endorsed {
@@ -723,7 +723,7 @@ extension AuthorLabelProtocol {
         
         let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
         
-        if let _ = name where OEXConfig.sharedConfig().shouldEnableProfiles() {
+        if let _ = name where OEXConfig.sharedConfig().profilesEnabled {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
         }
         else {

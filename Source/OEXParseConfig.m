@@ -8,6 +8,8 @@
 
 #import "OEXParseConfig.h"
 
+static NSString* const OEXParseConfigKey = @"PARSE";
+
 @implementation OEXParseConfig
 
 - (id)initWithDictionary:(NSDictionary*)dictionary {
@@ -19,5 +21,16 @@
     }
     return self;
 }
+
+@end
+
+@implementation OEXConfig (Parse)
+
+- (OEXParseConfig*)parseConfig {
+    NSDictionary* dictionary = [self objectForKey:OEXParseConfigKey];
+    OEXParseConfig* parseConfig = [[OEXParseConfig alloc] initWithDictionary:dictionary];
+    return parseConfig;
+}
+
 
 @end

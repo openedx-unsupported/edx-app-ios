@@ -43,3 +43,14 @@ class BasicAuthCredential: NSObject {
         return NSURLCredential(user: username, password: password, persistence: .ForSession)
     }
 }
+
+private let key = "BASIC_AUTH_CREDENTIALS"
+
+extension OEXConfig {
+    var basicAuthCredentials : [BasicAuthCredential] {
+        return (self[key] as? [[String:AnyObject]] ?? []).mapSkippingNils { item in
+            return BasicAuthCredential(dictionary: item)
+        }
+    }
+}
+

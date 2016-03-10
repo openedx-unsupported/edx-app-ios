@@ -11,7 +11,8 @@ import Foundation
 
 struct TwitterConfiguration {
 
-    private enum Fields: String {
+    private enum Fields: String, RawStringExtractable {
+        case Root = "TWITTER"
         case HashTag = "HASHTAG"
     }
 
@@ -19,5 +20,15 @@ struct TwitterConfiguration {
 
     init(_ dictionary: NSDictionary) {
         hashTag = dictionary[Fields.HashTag.rawValue] as? String
+    }
+}
+
+extension OEXConfig {
+
+    var twitterConfiguration: TwitterConfiguration? {
+        if let twitterDictionary = self[TwitterConfiguration.Fields.Root] as? NSDictionary {
+            return TwitterConfiguration(twitterDictionary)
+        }
+        return nil
     }
 }

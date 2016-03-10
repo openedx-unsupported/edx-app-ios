@@ -168,7 +168,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         verifyAccessForCourse(enrollment.course)
         prepareTableViewData(enrollment)
         self.tableView.reloadData()
-        shareButton.hidden = enrollment.course.course_about == nil || !environment.config.shouldEnableCourseSharing()
+        shareButton.hidden = enrollment.course.course_about == nil || !environment.config.courseSharingEnabled
         shareButton.oex_removeAllActions()
         shareButton.oex_addAction({[weak self] _ in
             self?.shareCourse(enrollment.course)
@@ -189,7 +189,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
 
     private func addShareButton(courseView: UIView) {
-        if environment.config.shouldEnableCourseSharing() {
+        if environment.config.courseSharingEnabled {
             shareButton.setImage(UIImage(named: "share"), forState: .Normal)
             shareButton.tintColor = OEXStyles.sharedStyles().neutralLight()
             courseView.addSubview(shareButton)
@@ -264,13 +264,13 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     
     private func shouldShowDiscussions(course: OEXCourse) -> Bool {
-        let canShowDiscussions = self.environment.config.shouldEnableDiscussions() ?? false
+        let canShowDiscussions = self.environment.config.discussionsEnabled ?? false
         let courseHasDiscussions = course.hasDiscussionsEnabled ?? false
         return canShowDiscussions && courseHasDiscussions
     }
 
     private func getCertificateUrl(enrollment: UserCourseEnrollment) -> String? {
-        guard environment.config.shouldEnableCertificates() else { return nil }
+        guard environment.config.discussionsEnabled else { return nil }
         return enrollment.certificateUrl
     }
     

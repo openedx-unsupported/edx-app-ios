@@ -13,12 +13,12 @@ class EnrollmentConfigTests : XCTestCase {
     
     func testCourseEnrollmentNoConfig() {
         let config = OEXConfig(dictionary:[:])
-        XCTAssertEqual(config.courseEnrollmentConfig().type, EnrollmentType.Native)
+        XCTAssertEqual(config.courseEnrollmentConfig.type, EnrollmentType.Native)
     }
     
     func testCourseEnrollmentEmptyConfig() {
         let config = OEXConfig(dictionary:["COURSE_ENROLLMENT":[:]])
-        XCTAssertEqual(config.courseEnrollmentConfig().type, EnrollmentType.Native)
+        XCTAssertEqual(config.courseEnrollmentConfig.type, EnrollmentType.Native)
     }
     
     func testCourseEnrollmentWebview() {
@@ -35,9 +35,9 @@ class EnrollmentConfigTests : XCTestCase {
             ]
         ]
         let config = OEXConfig(dictionary: configDictionary)
-        XCTAssertEqual(config.courseEnrollmentConfig().type, EnrollmentType.Webview)
-        XCTAssertEqual(config.courseEnrollmentConfig().webviewConfig.searchURL!.absoluteString, sampleSearchURL)
-        XCTAssertEqual(config.courseEnrollmentConfig().webviewConfig.courseInfoURLTemplate!, sampleInfoURLTemplate)
+        XCTAssertEqual(config.courseEnrollmentConfig.type, EnrollmentType.Webview)
+        XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.searchURL!.absoluteString, sampleSearchURL)
+        XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate!, sampleInfoURLTemplate)
     }
 
 }

@@ -10,26 +10,14 @@ import UIKit
 import XCTest
 @testable import edX
 
-private class DashboardStubConfig: OEXConfig {
-    let discussionsEnabled : Bool
-    var certificatesEnabled: Bool = true
-    var courseSharingEnabled: Bool = true
+private extension OEXConfig {
 
-    init(discussionsEnabled : Bool) {
-        self.discussionsEnabled = discussionsEnabled
-        super.init(dictionary: [:])
-    }
-    
-    override private func shouldEnableDiscussions() -> Bool {
-        return discussionsEnabled
-    }
-
-    private override func shouldEnableCertificates() -> Bool {
-        return certificatesEnabled
-    }
-
-    private override func shouldEnableCourseSharing() -> Bool {
-        return courseSharingEnabled
+    convenience init(discussionsEnabled : Bool, courseSharingEnabled: Bool = false) {
+        self.init(dictionary: [
+            "DISCUSSIONS_ENABLED": discussionsEnabled,
+            "COURSE_SHARING_ENABLED": courseSharingEnabled
+            ]
+        )
     }
 }
 
@@ -39,7 +27,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         for enabledInConfig in [true, false] {
             for enabledInCourse in [true, false] {
                 
-                let config = DashboardStubConfig(discussionsEnabled: enabledInConfig)
+                let config = OEXConfig(discussionsEnabled: enabledInConfig)
                 let course = OEXCourse.freshCourse(discussionsEnabled: enabledInCourse)
                 let environment = TestRouterEnvironment(config: config)
                 environment.mockEnrollmentManager.courses = [course]
@@ -60,7 +48,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testSnapshot() {
-        let config = DashboardStubConfig(discussionsEnabled: true)
+        let config = OEXConfig(discussionsEnabled: true)
         let course = OEXCourse.freshCourse()
         let environment = TestRouterEnvironment(config: config)
         environment.mockEnrollmentManager.courses = [course]
@@ -112,7 +100,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     func testCertificate() {
         let courseData = OEXCourse.testData()
         let enrollment = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])!
-        let config = DashboardStubConfig(discussionsEnabled: true)
+        let config = OEXConfig(discussionsEnabled: true)
         let environment = TestRouterEnvironment(config: config).logInTestUser()
         environment.mockEnrollmentManager.enrollments = [enrollment]
         
@@ -129,8 +117,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let courseData = OEXCourse.testData(aboutUrl: "http://www.yahoo.com")
         let enrollment = UserCourseEnrollment(dictionary: ["course" : courseData])!
         
-        let config = DashboardStubConfig(discussionsEnabled: true)
-        config.courseSharingEnabled = true
+        let config = OEXConfig(discussionsEnabled: true, courseSharingEnabled: true)
         
         let environment = TestRouterEnvironment(config: config)
         environment.mockEnrollmentManager.enrollments = [enrollment]

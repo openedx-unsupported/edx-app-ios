@@ -6,6 +6,8 @@
 //  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
+#import "OEXConfig.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXGoogleConfig : NSObject
@@ -13,6 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, copy, nullable) NSString* apiKey;
 
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary;
+
+@end
+
+@interface OEXConfig (Google)
+
+@property (nullable, readonly, strong, nonatomic) OEXGoogleConfig* googleConfig;
 
 @end
 

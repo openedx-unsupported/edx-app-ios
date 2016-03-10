@@ -11,7 +11,7 @@ import UIKit
 
 extension OEXConfig : URLCredentialProvider {
     @objc public func URLCredentialForHost(host : NSString) -> NSURLCredential? {
-        for item in self.basicAuthCredentials() {
+        for item in self.basicAuthCredentials {
             if item.host.host == host {
                 return item.URLCredential
             }

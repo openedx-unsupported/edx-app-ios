@@ -10,8 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class BasicAuthCredential;
-@class EnrollmentConfig;
 @class OEXFabricConfig;
 @class OEXFacebookConfig;
 @class OEXGoogleConfig;
@@ -32,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id)objectForKey:(NSString*)key;
 - (nullable NSString*)stringForKey:(NSString*)key;
+- (BOOL)boolForKey:(NSString*)key;
 
 @end
 
@@ -52,30 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSURL*)apiHostURL;
 - (nullable NSString*)feedbackEmailAddress;
 - (nullable NSString*)oauthClientID;
-- (BOOL)pushNotificationsEnabled;
-- (NSArray<BasicAuthCredential*>*)basicAuthCredentials;
-
-- (EnrollmentConfig*)courseEnrollmentConfig;
-- (nullable OEXFabricConfig*)fabricConfig;
-- (nullable OEXFacebookConfig*)facebookConfig;
-- (nullable OEXGoogleConfig*)googleConfig;
-- (nullable OEXParseConfig*)parseConfig;
-- (nullable OEXNewRelicConfig*)newRelicConfig;
-- (nullable OEXSegmentConfig*)segmentConfig;
-- (nullable OEXZeroRatingConfig*)zeroRatingConfig;
-
-/// Feature Flag for under development discussion feature. Will be removed once the feature is done
-/// at which point discussion control will be configured by the server
-- (BOOL)shouldEnableDiscussions;
-
-/// Feature Flag for under development user profiles. Will be removed once the feature is done.
-- (BOOL)shouldEnableProfiles;
-
-/// Feature Flag for under development certificate sharing. Will be removed once the feature is done.
-- (BOOL)shouldEnableCertificates;
-
-/** Feature Flag for under development course   sharing. Will be removed once the feature is done. */
-- (BOOL)shouldEnableCourseSharing;
 
 /** Feature flag for the debug menu */
 - (BOOL)shouldShowDebug;

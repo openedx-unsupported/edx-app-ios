@@ -8,6 +8,8 @@
 
 #import "OEXNewRelicConfig.h"
 
+static NSString* const OEXNewRelicConfigKey = @"NEW_RELIC";
+
 @implementation OEXNewRelicConfig
 
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary {
@@ -18,4 +20,14 @@
     }
     return self;
 }
+@end
+
+@implementation OEXConfig (NewRelic)
+
+- (OEXNewRelicConfig*)newRelicConfig {
+    NSDictionary* dictionary = [self objectForKey:OEXNewRelicConfigKey];
+    OEXNewRelicConfig* newRelicConfig = [[OEXNewRelicConfig alloc] initWithDictionary:dictionary];
+    return newRelicConfig;
+}
+
 @end

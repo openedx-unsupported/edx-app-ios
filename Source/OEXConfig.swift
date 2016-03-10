@@ -8,28 +8,15 @@
 
 import Foundation
 
-protocol ConfigurationKey: RawStringExtractable {}
-
-enum CompositeConfigurationKey: String, ConfigurationKey {
-    case TwitterKey = "TWITTER"
-}
-
-
 //MARK: - Basic & Helper Operations
 extension OEXConfig {
-    subscript(value: ConfigurationKey) -> Any? {
+
+    subscript(value : RawStringExtractable) -> Any? {
         return self.objectForKey(value.rawValue)
     }
 
-}
-
-//MARK: - 3rd Party Services Configurations
-extension OEXConfig {
-
-    var twitterConfiguration: TwitterConfiguration? {
-        if let twitterDictionary = self[CompositeConfigurationKey.TwitterKey] as? NSDictionary {
-            return TwitterConfiguration(twitterDictionary)
-        }
-        return nil
+    subscript(value : String) -> Any? {
+        return self.objectForKey(value)
     }
+
 }
