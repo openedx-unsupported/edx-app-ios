@@ -24,6 +24,8 @@ private var smallIconStyle : OEXTextStyle {
     return OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralDark())
 }
 
+private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
+
 class DiscussionCommentCell: UITableViewCell {
     
     private let bodyTextLabel = UILabel()
@@ -354,8 +356,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private func updateReportText(button: UIButton, report: Bool) {
+        
+        let iconStyle = report ? smallIconSelectedStyle : smallIconStyle
+        
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
-            Icon.ReportFlag.attributedTextWithStyle(smallIconStyle),
+            Icon.ReportFlag.attributedTextWithStyle(iconStyle),
             smallTextStyle.attributedStringWithText((report ? Strings.discussionUnreport : Strings.discussionReport ))])
         button.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
     }
