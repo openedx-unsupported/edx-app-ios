@@ -24,7 +24,7 @@ private var smallIconStyle : OEXTextStyle {
     return OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralDark())
 }
 
-private let smallIconSelectredStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
+private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
 
 class DiscussionCommentCell: UITableViewCell {
     
@@ -357,7 +357,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     private func updateReportText(button: UIButton, report: Bool) {
         
-        let iconStyle = report ? smallIconSelectredStyle : smallIconStyle
+        let iconStyle = report ? smallIconSelectedStyle : smallIconStyle
         
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.ReportFlag.attributedTextWithStyle(iconStyle),
