@@ -132,7 +132,7 @@ class DiscussionResponseCell: UITableViewCell {
 }
 
 
-class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
+class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, DiscussionCommentsViewControllerDelegate {
     typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
 
     enum TableSection : Int {
@@ -654,7 +654,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
     
-    // MARK- DiscussionNewCommentViewControllerDelegate method
+    // MARK:- DiscussionNewCommentViewControllerDelegate method
     
     func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
         
@@ -665,6 +665,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             responsesDataController.addedChildComment(comment)
         }
         
+        self.tableView.reloadData()
+    }
+    
+    // MARK:- DiscussionCommentsViewControllerDelegate
+    
+    func discussionCommentsView(controller: DiscussionCommentsViewController, updatedComment comment: DiscussionComment) {
+        responsesDataController.updateResponsesWithComment(comment)
         self.tableView.reloadData()
     }
 }

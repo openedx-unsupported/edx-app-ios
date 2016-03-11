@@ -168,6 +168,11 @@ class DiscussionCommentCell: UITableViewCell {
     
 }
 
+protocol DiscussionCommentsViewControllerDelegate: class {
+    
+    func discussionCommentsView(controller  : DiscussionCommentsViewController, updatedComment comment: DiscussionComment)
+}
+
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
     
     typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
@@ -192,6 +197,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private var tableView: UITableView!
     private var comments : [DiscussionComment]  = []
     private var responseItem: DiscussionComment
+    weak var delegate: DiscussionCommentsViewControllerDelegate?
     
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
@@ -409,7 +415,10 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     // MARK- DiscussionNewCommentViewControllerDelegate method 
     
     func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
+        responseItem.childCount += 1
         self.comments.append(comment)
         self.tableView.reloadData()
+        
+        delegate?.discussionCommentsView(self, updatedComment: responseItem)
     }
 }
