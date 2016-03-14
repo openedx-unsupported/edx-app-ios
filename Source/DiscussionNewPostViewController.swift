@@ -198,7 +198,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenCreateTopicThread, courseId: self.courseID, value: selectedTopic?.name, threadId: nil, topicId: selectedTopic?.id, commentId: nil)
+        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenCreateTopicThread, courseId: self.courseID, value: selectedTopic?.name, threadId: nil, topicId: selectedTopic?.id, responseID: nil)
     }
     
     private func updateLoadState() {

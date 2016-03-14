@@ -332,13 +332,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func logScreenEvent() {
         switch context {
         case let .Topic(topic):
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, commentId: nil)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, responseID: nil)
         case let .Search(query):
             self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
         case .Following:
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", commentId: nil)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", responseID: nil)
         case .AllPosts:
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", commentId: nil)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
         }
     }
     

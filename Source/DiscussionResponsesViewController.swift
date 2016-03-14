@@ -243,7 +243,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func logScreenEvent(){
         if let thread = thread {
             
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewThread, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, commentId: nil)
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewThread, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, responseID: nil)
         }
     }
     
