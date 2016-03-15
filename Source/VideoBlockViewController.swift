@@ -56,7 +56,16 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     func addLoadListener() {
         loader.listen (self,
             success : { [weak self] block in
-                if let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID) {
+                if let video = block.type.asVideo,
+                    let encoding = video.preferredEncoding where encoding.isYoutube,
+                    let URL = encoding.URL
+                {
+                    self?.showYoutubeMessage(URL)
+                }
+                else if
+                    let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID)
+                    where block.type.asVideo?.preferredEncoding != nil
+                {
                     self?.showLoadedBlock(block, forVideo: video)
                 }
                 else {
@@ -215,24 +224,26 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     private func showError(error : NSError?) {
         loadController.state = LoadState.failed(error, icon: .UnknownError, message: Strings.videoContentNotAvailable)
     }
-    
-    private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload?) {
-        if let _ = block.type.asVideo {
-            navigationItem.title = block.displayName
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                self.loadController.state = .Loaded
-            }
-            
-            if let video = video {
-                videoController.playVideoFor(video)
+
+    private func showYoutubeMessage(URL: String) {
+        let buttonInfo = MessageButtonInfo(title: Strings.Video.viewOnYoutube) {
+            if let URL = NSURL(string: URL) {
+                UIApplication.sharedApplication().openURL(URL)
             }
         }
-        else {
-            showError(nil)
-        }
+        loadController.state = LoadState.empty(icon: .CourseModeVideo, message: Strings.Video.onlyOnYoutube, attributedMessage: nil, accessibilityMessage: nil, buttonInfo: buttonInfo)
     }
     
+    private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload) {
+        navigationItem.title = block.displayName
+
+        dispatch_async(dispatch_get_main_queue()) {
+            self.loadController.state = .Loaded
+        }
+
+        videoController.playVideoFor(video)
+    }
+
     private func canDownloadVideo() -> Bool {
         let hasWifi = environment.reachability.isReachableViaWiFi() ?? false
         let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
