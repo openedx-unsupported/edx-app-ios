@@ -44,17 +44,8 @@ private class TestCredentialManager {
             "honor_code": "true",
             "terms_of_service": "true"
         ]
-        print("body is \(body)")
-        let registrationRequest = NetworkRequest<JSON>(
-            method: .POST,
-            path: "/user_api/v1/account/registration/",
-            body: .FormEncoded(body),
-            deserializer: .JSONResponse({ (result, json) in
-                // TODO fail on request failure
-                return .Success(json)
-            }))
+        let registrationRequest = RegistrationAPI.registrationRequest(body)
         let result = networkManager.streamForRequest(registrationRequest).waitForValue()
-        print("result is \(result.value)")
         assert(result.value != nil, "failed to register user")
     }
 }

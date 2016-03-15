@@ -11,7 +11,8 @@ import edXCore
 
 extension Stream {
     func waitForValue(timeout: NSTimeInterval = 10) -> Stream {
-        while self.value == nil {
+        let expirationDate = NSDate(timeIntervalSinceNow: timeout)
+        while self.value == nil && NSDate().compare(expirationDate) == .OrderedAscending {
             let nextCheck = NSDate().dateByAddingTimeInterval(0.1)
             NSRunLoop.mainRunLoop().runUntilDate(nextCheck)
         }
