@@ -498,13 +498,13 @@ static OEXAnalytics* sAnalytics;
 
 #pragma mark- Discussion
 
-- (void) trackDiscussionScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value threadId:(nullable NSString *) threadID topicId:(nullable NSString *) topicID commentId:(nullable NSString *) commentID {
+- (void) trackDiscussionScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value threadId:(nullable NSString *) threadID topicId:(nullable NSString *) topicID responseID:(nullable NSString *) responseID {
 
     NSMutableDictionary *additionInfo = [NSMutableDictionary dictionary];
     
     [additionInfo setObjectOrNil:threadID forKey:OEXAnalyticsKeyThreadID];
     [additionInfo setObjectOrNil:topicID forKey:OEXAnalyticsKeyTopicID];
-    [additionInfo setObjectOrNil:commentID forKey:OEXAnalyticsKeyCommentID];
+    [additionInfo setObjectOrNil:responseID forKey:OEXAnalyticsKeyResponseID];
     
     [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:additionInfo];
 }
