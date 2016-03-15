@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-import edX
-import UIKit
+import edXCore
 
 class MockResponseCache: NSObject, ResponseCache {
     private var backing : [String: ResponseCacheEntry] = [:]

@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-import UIKit
-
 // Bookkeeping class for a listener of a stream
 private class Listener<A> : Removable, Equatable, CustomStringConvertible {
     private var removeAction : (Listener<A> -> Void)?
@@ -98,7 +96,7 @@ public class Stream<A> : StreamDependency {
     /// - parameter value: The initial value of the stream.
     public convenience init(value : A) {
         self.init()
-        self.lastResult = Success(value)
+        self.lastResult = .Success(value)
     }
     
     /// Seed a new stream with a constant error.
@@ -106,7 +104,7 @@ public class Stream<A> : StreamDependency {
     /// - parameter error: The initial error for the stream
     public convenience init(error : NSError) {
         self.init()
-        self.lastResult = Failure(error)
+        self.lastResult = .Failure(error)
     }
     
     
@@ -140,10 +138,10 @@ public class Stream<A> : StreamDependency {
         }
         
         if let value = self.value where fireIfAlreadyLoaded {
-            action(Success(value))
+            action(.Success(value))
         }
         else if let error = self.error where fireIfAlreadyLoaded {
-            action(Failure(error))
+            action(.Failure(error))
         }
         
         return BlockRemovable {
@@ -280,7 +278,7 @@ public class Stream<A> : StreamDependency {
     public func cachedByStream(cacheStream : Stream<A>) -> Stream<A> {
         let sink = Sink<A>(dependencies: [cacheStream, self])
         listen(sink.token) {[weak sink] current in
-            if !(current.error?.oex_isNoInternetConnectionError() ?? false) || (sink?.lastResult == nil && !cacheStream.active) {
+            if !(current.error?.oex_isNoInternetConnectionError ?? false) || (sink?.lastResult == nil && !cacheStream.active) {
                 sink?.send(current)
             }
         }
@@ -338,11 +336,11 @@ public class Sink<A> : Stream<A> {
     }
     
     public func send(value : A) {
-        send(Success(value))
+        send(.Success(value))
     }
     
     public func send(error : NSError) {
-        send(Failure(error))
+        send(.Failure(error))
     }
     
     public func send(result : Result<A>) {
@@ -429,12 +427,12 @@ public class BackedStream<A> : Stream<A> {
         backingRecords = []
     }
     
-    var hasBacking : Bool {
+    public var hasBacking : Bool {
         return backingRecords.count > 0
     }
     
     /// Send a new value to the stream.
-    func send(result : Result<A>) {
+    public func send(result : Result<A>) {
         self.lastResult = result
         
         for listener in listeners {
@@ -517,7 +515,7 @@ public func joinStreams<T>(streams : [Stream<T>]) -> Stream<[T]> {
     }
     
     if streams.count == 0 {
-        sink.send(Success([]))
+        sink.send(.Success([]))
     }
     
     return sink

@@ -8,12 +8,12 @@
 
 import Foundation
 
-enum HttpErrorGroup {
+public enum HttpErrorGroup {
     case Http4xx
     case Http5xx
 }
 
-extension OEXHTTPStatusCode {
+public extension OEXHTTPStatusCode {
     private func isGroup(group : Int) -> Bool {
         let raw = self.rawValue
         return raw >= group * 100 && raw < (group + 1) * 100
@@ -31,7 +31,7 @@ extension OEXHTTPStatusCode {
         return isGroup(5)
     }
     
-    var errorGroup : HttpErrorGroup? {
+    public var errorGroup : HttpErrorGroup? {
         if is4xx {
             return .Http4xx
         }
@@ -40,4 +40,5 @@ extension OEXHTTPStatusCode {
         }
         return nil
     }
+    
 }

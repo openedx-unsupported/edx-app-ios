@@ -41,11 +41,17 @@ static OEXConfig* sSharedConfig;
 }
 
 - (id)initWithAppBundleData {
-    NSString* path = [[NSBundle mainBundle] pathForResource:@"config" ofType:@"plist"];
+    self = [self initWithBundle:[NSBundle mainBundle]];
+    return self;
+}
+
+- (id)initWithBundle:(NSBundle*)bundle {
+    NSString* path = [bundle pathForResource:@"config" ofType:@"plist"];
     NSDictionary* dict = [[NSDictionary alloc] initWithContentsOfFile:path];
     NSAssert(dict, @"Unable to load config.");
     self = [self initWithDictionary:dict];
     return self;
+
 }
 
 - (id)initWithDictionary:(NSDictionary*)dictionary {

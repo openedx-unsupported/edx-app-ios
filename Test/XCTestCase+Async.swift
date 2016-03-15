@@ -8,7 +8,6 @@
 
 import Foundation
 import XCTest
-import edX
 
 extension XCTestCase {
     

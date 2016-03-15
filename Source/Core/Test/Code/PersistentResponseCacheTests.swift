@@ -6,43 +6,53 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-import edX
-import UIKit
 import XCTest
+import edXCore
 
 class PersistentResponseCacheTests: XCTestCase {
     
-    class Provider : NSObject, UsernameProvider {
+    class Provider : NSObject, PathProvider {
         let username : String
-        init(username : String) {
+        let basePath: NSURL
+        init(username : String, basePath: NSURL) {
             self.username = username
+            self.basePath = basePath
         }
         
-        var currentUsername : String? {
-            return username
+        func pathForRequestKey(key: String?) -> NSURL? {
+            return key.map {
+                let path = basePath
+                    .URLByAppendingPathComponent(self.username, isDirectory: true)
+                try! NSFileManager.defaultManager().createDirectoryAtURL(path, withIntermediateDirectories: true, attributes: [:])
+
+                return path.URLByAppendingPathComponent($0.oex_md5)
+            }
         }
     }
 
-    var username : String = ""
+    var username: String!
+    var basePath: NSURL!
     
     override func setUp() {
         super.setUp()
+
+        basePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).URLByAppendingPathComponent("persistent-cache-tests", isDirectory: true)
         username = NSUUID().UUIDString
     }
     
     override func tearDown() {
         super.tearDown()
-        
-        let path = OEXFileUtility.pathForUserNameCreatingIfNecessary(self.username)
+
         do {
-            try NSFileManager.defaultManager().removeItemAtPath(path!)
-        } catch _ as NSError {
+            try NSFileManager.defaultManager().removeItemAtURL(basePath)
+        }
+        catch {
             XCTFail()
         }
     }
     
     func testStoreLoad() {
-        let cache = PersistentResponseCache(provider : Provider(username: username))
+        let cache = PersistentResponseCache(provider : Provider(username: username, basePath: basePath))
         let storeExpectation = expectationWithDescription("Cache stored")
         let request = NSURLRequest(URL: NSURL(string: "http://example.com")!)
         let statusCode = 200
@@ -68,7 +78,7 @@ class PersistentResponseCacheTests: XCTestCase {
     func testDifferentMethods() {
         // Store different data with the same URL but different HTTP methods
         // and make sure we get the different data out
-        let cache = PersistentResponseCache(provider : Provider(username: username))
+        let cache = PersistentResponseCache(provider : Provider(username: username, basePath: basePath))
         let getRequest = NSURLRequest(URL: NSURL(string: "http://example.com")!)
         let response = NSHTTPURLResponse(URL: getRequest.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])!
         
@@ -105,7 +115,7 @@ class PersistentResponseCacheTests: XCTestCase {
     }
     
     func testMiss() {
-        let cache = PersistentResponseCache(provider : Provider(username: username))
+        let cache = PersistentResponseCache(provider : Provider(username: username, basePath: basePath))
         let request = NSURLRequest(URL: NSURL(string: "http://example.com")!)
         // Just shove something in the cache to make sure we don't get that
         let storeExpectation = expectationWithDescription("Cache stored")

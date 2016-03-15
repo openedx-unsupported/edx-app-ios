@@ -9,6 +9,8 @@
 import WebKit
 import UIKit
 
+import edXCore
+
 class CourseCatalogDetailViewController: UIViewController {
     private let courseID: String
     

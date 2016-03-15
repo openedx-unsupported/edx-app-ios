@@ -15,5 +15,9 @@ FOUNDATION_EXPORT double edXCoreVersionNumber;
 FOUNDATION_EXPORT const unsigned char edXCoreVersionString[];
 
 #import <edXCore/NSBundle+OEXConveniences.h>
+#import <edXCore/NSSTring+OEXCrypto.h>
+#import <edXCore/NSObject+OEXDeallocAction.h>
 #import <edXCore/NSString+OEXFormatting.h>
 #import <edXCore/OEXConfig.h>
+#import <edXCore/OEXHTTPStatusCodes.h>
+#import <edXCore/OEXRemovable.h>

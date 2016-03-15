@@ -13,8 +13,6 @@ class TestEnvironmentBuilder: NSObject {
     
     override init() {
         super.init()
-        // TODO remove this once the new navigation is done
-        OEXConfig.setSharedConfig(OEXConfig(dictionary: ["NEW_COURSE_NAVIGATION_ENABLED" : true]))
         
         OEXStyles.setSharedStyles(OEXStyles())
         OEXStyles.sharedStyles().applyGlobalAppearance()

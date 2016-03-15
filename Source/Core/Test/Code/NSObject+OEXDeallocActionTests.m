@@ -8,9 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "NSObject+OEXDeallocAction.h"
-
-#import "OEXRemovable.h"
+@import edXCore;
 
 @interface NSObject_OEXDeallocActionTests : XCTestCase
 

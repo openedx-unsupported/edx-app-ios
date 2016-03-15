@@ -7,7 +7,9 @@
 //
 
 import Foundation
-import edX
+import XCTest
+
+import edXCore
 
 func AssertSuccess<A>(result : Result<A> , file : String = __FILE__, line : UInt = __LINE__, assertions : (A -> Void)? = nil) {
     switch result {

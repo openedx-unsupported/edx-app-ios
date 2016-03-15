@@ -8,6 +8,7 @@
 
 import UIKit
 import XCTest
+import edXCore
 @testable import edX
 
 private extension OEXConfig {

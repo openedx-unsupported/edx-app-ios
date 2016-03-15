@@ -8,8 +8,6 @@
 
 #import "NSError+OEXKnownErrors.h"
 
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-
 #import "edX-Swift.h"
 
 #import "OEXCoursewareAccess.h"
@@ -38,12 +36,6 @@ NSString* const OEXErrorDomain = @"org.edx.error";
 
 + (NSError*)oex_unknownError {
     return [self oex_errorWithCode:OEXErrorCodeUnknown message:[Strings unableToLoadCourseContent]];
-}
-
-- (BOOL)oex_isNoInternetConnectionError {
-    return ([self.domain isEqualToString:NSURLErrorDomain] &&
-            (self.code == kCFURLErrorNotConnectedToInternet || self.code == kCFURLErrorNetworkConnectionLost)) ||
-    ([self.domain isEqual:FBSDKErrorDomain] && self.code == FBSDKNetworkErrorCode);
 }
 
 @end

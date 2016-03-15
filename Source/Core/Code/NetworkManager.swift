@@ -8,7 +8,6 @@
 
 
 import Foundation
-import edXCore
 
 public enum HTTPMethod: String {
     case GET = "GET"
@@ -20,7 +19,8 @@ public enum HTTPMethod: String {
 
 public enum RequestBody {
     case JSONBody(JSON)
-    case DataBody(data : NSData, contentType : String)
+    case FormEncoded([String:String])
+    case DataBody(data : NSData, contentType: String)
     case EmptyBody
 }
 
@@ -31,13 +31,13 @@ public enum ResponseDeserializer<Out> {
 }
 
 public struct NetworkRequest<Out> {
-    let method : HTTPMethod
-    let path : String // Absolute URL or URL relative to the API base
-    let requiresAuth : Bool
-    let body : RequestBody
-    let query: [String:JSON]
-    let deserializer : ResponseDeserializer<Out>
-    let additionalHeaders: [String: String]?
+    public let method : HTTPMethod
+    public let path : String // Absolute URL or URL relative to the API base
+    public let requiresAuth : Bool
+    public let body : RequestBody
+    public let query: [String:JSON]
+    public let deserializer : ResponseDeserializer<Out>
+    public let additionalHeaders: [String: String]?
     
     public init(method : HTTPMethod,
         path : String,
@@ -101,14 +101,39 @@ public class NetworkTask : Removable {
     var networkManager : NetworkManager { get }
 }
 
+extension NSError {
+
+    static var oex_unknownNetworkError : NSError {
+        return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.UnknownError.rawValue, userInfo: nil)
+    }
+
+    static func oex_HTTPError(statusCode statusCode : Int, userInfo: [NSObject:AnyObject]) -> NSError {
+        return NSError(domain: NetworkManager.errorDomain, code: statusCode, userInfo: userInfo)
+    }
+
+    public var oex_isUnknownNetworkError : Bool {
+        return self.domain == NetworkManager.errorDomain && self.code == NetworkManager.Error.UnknownError.rawValue
+    }
+
+    public var oex_isNoInternetConnectionError : Bool {
+        return self.domain == NSURLErrorDomain && (self.code == NSURLErrorNotConnectedToInternet || self.code == NSURLErrorNetworkConnectionLost)
+    }
+}
+
 public class NetworkManager : NSObject {
-    static let NETWORK = "NETWORK" // Logger key
-    
+    private static let errorDomain = "com.edx.NetworkManager"
+    enum Error : Int {
+        case UnknownError = -1
+    }
+
+    public static let NETWORK = "NETWORK" // Logger key
+
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
+
+    public let baseURL : NSURL
 
     private let authorizationHeaderProvider: AuthorizationHeaderProvider?
     private let credentialProvider : URLCredentialProvider?
-    let baseURL : NSURL
     private let cache : ResponseCache
     private var jsonInterceptors : [JSONInterceptor] = []
     
@@ -118,7 +143,9 @@ public class NetworkManager : NSObject {
         self.baseURL = baseURL
         self.cache = cache
     }
-    
+
+    public static var unknownError : NSError { return NSError.oex_unknownNetworkError }
+
     /// Allows you to add a processing pass to any JSON response.
     /// Typically used to check for errors that can be sent by any request
     public func addJSONInterceptor(interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) {
@@ -126,11 +153,11 @@ public class NetworkManager : NSObject {
     }
 
     public func URLRequestWithRequest<Out>(request : NetworkRequest<Out>) -> Result<NSURLRequest> {
-        return NSURL(string: request.path, relativeToURL: baseURL).toResult().flatMap { url -> Result<NSURLRequest> in
+        return NSURL(string: request.path, relativeToURL: baseURL).toResult(NetworkManager.unknownError).flatMap { url -> Result<NSURLRequest> in
             
             let URLRequest = NSURLRequest(URL: url)
             if request.query.count == 0 {
-                return Success(URLRequest)
+                return .Success(URLRequest)
             }
             
             var queryParams : [String:String] = [:]
@@ -146,10 +173,10 @@ public class NetworkManager : NSObject {
             // So first we encode the get parameters
             let (paramRequest, error) = ParameterEncoding.URL.encode(URLRequest, parameters: queryParams)
             if let error = error {
-                return Failure(error)
+                return .Failure(error)
             }
             else {
-                return Success(paramRequest)
+                return .Success(paramRequest)
             }
         }
         .flatMap { URLRequest in
@@ -170,15 +197,23 @@ public class NetworkManager : NSObject {
             // Now we encode the body
             switch request.body {
             case .EmptyBody:
-                return Success(mutableURLRequest)
+                return .Success(mutableURLRequest)
             case let .DataBody(data: data, contentType: contentType):
                 mutableURLRequest.HTTPBody = data
                 mutableURLRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
-                return Success(mutableURLRequest)
+                return .Success(mutableURLRequest)
+            case let .FormEncoded(dict):
+                let (bodyRequest, error) = ParameterEncoding.URL.encode(mutableURLRequest, parameters: dict)
+                if let error = error {
+                    return .Failure(error)
+                }
+                else {
+                    return .Success(bodyRequest)
+                }
             case let .JSONBody(json):
                 let (bodyRequest, error) = ParameterEncoding.JSON.encode(mutableURLRequest, parameters: json.dictionaryObject ?? [:])
                 if let error = error {
-                    return Failure(error)
+                    return .Failure(error)
                 }
                 else {
                     let mutableURLRequest = bodyRequest.mutableCopy() as! NSMutableURLRequest
@@ -187,14 +222,14 @@ public class NetworkManager : NSObject {
                             mutableURLRequest.setValue(value, forHTTPHeaderField: header)
                         }
                     }
-                    return Success(mutableURLRequest)
+                    return .Success(mutableURLRequest)
                 }
             }
             
         }
     }
     
-    private static func deserialize<Out>(deserializer : ResponseDeserializer<Out>, interceptors : [JSONInterceptor], response : NSHTTPURLResponse?, data : NSData?) -> Result<Out> {
+    private static func deserialize<Out>(deserializer : ResponseDeserializer<Out>, interceptors : [JSONInterceptor], response : NSHTTPURLResponse?, data : NSData?, error: NSError) -> Result<Out> {
         if let response = response {
             switch deserializer {
             case let .JSONResponse(f):
@@ -202,7 +237,7 @@ public class NetworkManager : NSObject {
                     raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
                 {
                     let json = JSON(raw)
-                    let result = interceptors.reduce(Success(json)) {(current : Result<JSON>, interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) -> Result<JSON> in
+                    let result = interceptors.reduce(.Success(json)) {(current : Result<JSON>, interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) -> Result<JSON> in
                         return current.flatMap {interceptor(response : response, json: $0)}
                     }
                     return result.flatMap {
@@ -210,25 +245,25 @@ public class NetworkManager : NSObject {
                     }
                 }
                 else {
-                    return Failure(NSError.oex_unknownError())
+                    return .Failure(error)
                 }
             case let .DataResponse(f):
-                return data.toResult().flatMap { f(response, $0) }
+                return data.toResult(error).flatMap { f(response, $0) }
             case let .NoContent(f):
                 if response.hasErrorResponseCode() { // server error
                     guard let data = data,
                         raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) else {
-                            return Failure(NSError.oex_unknownError())
+                            return .Failure(error)
                     }
                     let userInfo = JSON(raw).object as? [NSObject : AnyObject]
-                    return .Failure(NSError(domain: OEXErrorDomain, code:response.statusCode, userInfo: userInfo))
+                    return .Failure(NSError.oex_HTTPError(statusCode: response.statusCode, userInfo: userInfo ?? [:]))
                 }
                 
                 return f(response)
             }
         }
         else {
-            return Failure()
+            return .Failure(error)
         }
     }
     
@@ -240,7 +275,7 @@ public class NetworkManager : NSObject {
             Logger.logInfo(NetworkManager.NETWORK, "Request is \(URLRequest)")
             let task = Manager.sharedInstance.request(URLRequest)
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
-                let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: response, data: data)
+                let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
                 return (Box((value : result.value, original : data)), result.error)
             }
             task.response(serializer: serializer) { (request, response, object, error) in
@@ -277,7 +312,7 @@ public class NetworkManager : NSObject {
                 
                 if let entry = entry {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {[weak cacheStream] in
-                        let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: entry.response, data: entry.data)
+                        let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: entry.response, data: entry.data, error: NetworkManager.unknownError)
                         dispatch_async(dispatch_get_main_queue()) {[weak cacheStream] in
                             cacheStream?.close()
                             cacheStream?.send(result)
@@ -286,7 +321,7 @@ public class NetworkManager : NSObject {
                 }
                 else {
                     cacheStream.close()
-                    if let error = stream.error where error.oex_isNoInternetConnectionError() {
+                    if let error = stream.error where error.oex_isNoInternetConnectionError {
                         cacheStream.send(error)
                     }
                 }
@@ -308,7 +343,7 @@ public class NetworkManager : NSObject {
             stream?.send(result)
         }
         var result : Stream<Out> = stream.flatMap {(result : NetworkResult<Out>) -> Result<Out> in
-            return result.data.toResult(result.error)
+            return result.data.toResult(result.error ?? NetworkManager.unknownError)
         }
         
         if persistResponse {
@@ -324,40 +359,3 @@ public class NetworkManager : NSObject {
 
 }
 
-
-extension NetworkManager {
-    public func addStandardInterceptors(router:OEXRouter) {
-        let invalidAccessInterceptor = {[weak router] response, json in
-            NetworkManager.invalidAccessInterceptor(router, response: response, json: json)
-        }
-        addJSONInterceptor(NetworkManager.courseAccessInterceptor)
-        addJSONInterceptor(invalidAccessInterceptor)
-    }
-
-    static func courseAccessInterceptor(response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
-        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode) where statusCode.is4xx else {
-            return Success(json)
-        }
-
-        if json["has_access"].bool == false {
-            let access = OEXCoursewareAccess(dictionary : json.dictionaryObject)
-            return Failure(OEXCoursewareAccessError(coursewareAccess: access, displayInfo: nil))
-        }
-        return Success(json)
-    }
-
-    static func invalidAccessInterceptor(router: OEXRouter?, response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
-        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), error = NSError(json: json, code: response.statusCode) where statusCode == .Code401Unauthorised else {
-            return Success(json)
-        }
-        dispatch_async(dispatch_get_main_queue()) {
-            if error.isAPIError(.OAuth2Expired) {
-                //TODO: In Phase 2 actually refresh the token: MA-1772
-                router?.logout()
-            } else {
-                router?.logout()
-            }
-        }
-        return Failure(error)
-    }
-}

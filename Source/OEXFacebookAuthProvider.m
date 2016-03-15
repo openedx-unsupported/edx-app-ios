@@ -40,6 +40,10 @@
     OEXFBSocial* facebookManager = [[OEXFBSocial alloc] init]; //could be named facebookHelper.
     [facebookManager loginFromController:controller completion:^(NSString *accessToken, NSError *error) {
         if(error) {
+            if([error.domain isEqual:FBSDKErrorDomain] && error.code == FBSDKNetworkErrorCode) {
+                // Hide FB specific errors inside this abstraction barrier
+                error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNetworkConnectionLost userInfo:error.userInfo];
+            }
             completion(accessToken, nil, error);
             return;
         }

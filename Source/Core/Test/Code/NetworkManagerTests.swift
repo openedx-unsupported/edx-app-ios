@@ -10,7 +10,6 @@ import UIKit
 import XCTest
 
 import edXCore
-import edX
 
 class NetworkManagerTests: XCTestCase {
     class AuthProvider : NSObject, AuthorizationHeaderProvider {
@@ -38,7 +37,7 @@ class NetworkManagerTests: XCTestCase {
             query: ["a" : JSON("b"), "c":JSON("d")],
             deserializer : .DataResponse({ (response, data) -> Result<Void> in
                 XCTFail("Shouldn't send request")
-                return Failure(nil)
+                return .Failure(NetworkManager.unknownError)
             })
         )
         
@@ -64,7 +63,7 @@ class NetworkManagerTests: XCTestCase {
             query: ["a" : JSON("b"), "c":JSON("d")],
             deserializer : .DataResponse({ (response, data) -> Result<Void> in
                 XCTFail("Shouldn't send request")
-                return Failure(nil)
+                return .Failure(NetworkManager.unknownError)
             })
         )
         
@@ -77,32 +76,13 @@ class NetworkManagerTests: XCTestCase {
             XCTAssertEqual(foundJSON, sampleJSON)
         }
     }
-    
-    // When running tests, we don't want network requests to actually work
-    func testNetworkNotLive() {
-        let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"https://google.com")!, cache : cache)
-    
-        let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : .DataResponse({_ -> Result<NSObject> in
-            XCTFail("Shouldn't receive data")
-            return Failure(nil)
-        }))
-        // make sure this is a valid request
-        AssertSuccess(manager.URLRequestWithRequest(apiRequest))
         
-        let expectation = expectationWithDescription("Request dispatched")
-        manager.taskForRequest(apiRequest) { result in
-            XCTAssertNil(result.data)
-            expectation.fulfill()
-        }
-        self.waitForExpectations()
-    }
-    
     func requestEnvironment() -> (MockNetworkManager, NetworkRequest<NSData>, NSURLRequest) {
         let manager = MockNetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"http://example.com")!)
         let request = NetworkRequest<NSData> (
             method: HTTPMethod.GET,
             path: "path",
-            deserializer: .DataResponse({(_, data) in Success(data)}))
+            deserializer: .DataResponse({(_, data) in .Success(data)}))
         let URLRequest = manager.URLRequestWithRequest(request).value!
         return (manager, request, URLRequest)
     }
@@ -154,7 +134,7 @@ class NetworkManagerTests: XCTestCase {
         let (manager, request, URLRequest) = requestEnvironment()
         manager.interceptWhenMatching({_ -> Bool in return true },
             withResponse: {_ in
-                return NetworkResult<NSData>(request: URLRequest, response: nil, data: nil, baseData: nil, error: NSError.oex_unknownError())
+                return NetworkResult<NSData>(request: URLRequest, response: nil, data: nil, baseData: nil, error: NetworkManager.unknownError)
             }
         )
         let stream = manager.streamForRequest(request, persistResponse: true)
@@ -212,74 +192,5 @@ class NetworkManagerTests: XCTestCase {
             cacheExpectation.fulfill()
         }
         waitForExpectations()
-    }
-    
-    func checkJSONInterceptionWithStubResponse(router: OEXRouter, stubResponse : OHHTTPStubsResponse, verifier : Result<JSON> -> Void) {
-
-        let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"http://example.com")!, cache : MockResponseCache())
-        manager.addStandardInterceptors(router)
-        let request = NetworkRequest<JSON> (
-            method: HTTPMethod.GET,
-            path: "path",
-            deserializer: .JSONResponse({(_, json) in Success(json)}))
-        
-        manager.addJSONInterceptor {(response : NSHTTPURLResponse?, json : JSON) in
-            if response?.statusCode ?? 0 == 401 {
-                return Failure(NSError(domain: "{}", code: -100, userInfo: [:]))
-            }
-            else {
-                return Success(json)
-            }
-        }
-        
-        let stub = OHHTTPStubs.stubRequestsPassingTest({ (_) -> Bool in
-            return true
-            }, withStubResponse: { (_) -> OHHTTPStubsResponse in
-                return stubResponse
-        })
-        
-        let expectation = expectationWithDescription("Request Completes")
-        let stream = manager.streamForRequest(request, autoCancel : false)
-        
-        stream.extendLifetimeUntilFirstResult {
-            verifier($0)
-            expectation.fulfill()
-        }
-        
-        waitForExpectations()
-        
-        OHHTTPStubs.removeStub(stub)
-    }
-    
-    func testJSONInterception401CausesLogout() {
-        let router = MockRouter()
-        checkJSONInterceptionWithStubResponse(router, stubResponse: OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
-            $0.ifFailure {
-                XCTAssertEqual($0.code, 401)
-                //Test that the logout isn't called for a generic 401
-                XCTAssertTrue(router.logoutCalled)
-            }
-            XCTAssertTrue($0.value == nil)
-        })
-    }
-    
-    func testJSONInterceptionPassthrough() {
-        let router = MockRouter()
-        checkJSONInterceptionWithStubResponse(router, stubResponse:OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 404, headers: nil), verifier: {
-            XCTAssertTrue($0.value != nil)
-            XCTAssertFalse(router.logoutCalled)
-        })
-    }
-
-    //TODO: This should be changed to to check for refresh once that goes through
-    func test401WithTokenExpiredCausesLogout() {
-        let router = MockRouter()
-        checkJSONInterceptionWithStubResponse(router, stubResponse: OHHTTPStubsResponse(data: "{\"error_code\":\"token_expired\"}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
-            $0.ifFailure {
-                XCTAssertEqual($0.code, 401)
-                XCTAssertTrue(router.logoutCalled)
-            }
-            XCTAssertTrue($0.value == nil)
-        })
     }
 }

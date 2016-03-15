@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedConfig;
 
 - (id)initWithAppBundleData;
+- (id)initWithBundle:(NSBundle*)bundle;
 - (id)initWithDictionary:(NSDictionary*)dictionary;
 
 - (nullable id)objectForKey:(NSString*)key;
