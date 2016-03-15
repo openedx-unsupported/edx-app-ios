@@ -280,11 +280,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         logScreenEvent()
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        paginationController = nil
-    }
-    
     private func logScreenEvent() {
         self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem.threadID, topicId: nil, responseID: responseItem.commentID)
     }
@@ -416,9 +411,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
         responseItem.childCount += 1
-        self.comments.append(comment)
-        self.tableView.reloadData()
+        
+        if !(paginationController?.hasNext ?? false) {
+            self.comments.append(comment)
+            self.tableView.reloadData()
+        }
         
         delegate?.discussionCommentsView(self, updatedComment: responseItem)
+        
+        self.showOverlayMessage(Strings.discussionCommentPosted)
     }
 }
