@@ -11,6 +11,7 @@
 #import "edX-Swift.h"
 #import "OEXVideoEncoding.h"
 #import "OEXVideoPathEntry.h"
+#import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSArray+OEXFunctional.h"
 #import "NSArray+OEXSafeAccess.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
@@ -34,7 +35,6 @@
 
 // [String:OEXVideoEncoding]
 @property (nonatomic, strong) NSDictionary* encodings;
-@property (nonatomic, strong) OEXVideoEncoding* preferredEncoding;
 
 @property (nonatomic, strong) NSDictionary* transcripts;
 
@@ -74,18 +74,10 @@
         NSDictionary* rawEncodings = OEXSafeCastAsClass(summary[@"encoded_videos"], NSDictionary);
         NSMutableDictionary* encodings = [[NSMutableDictionary alloc] init];
         [rawEncodings enumerateKeysAndObjectsUsingBlock:^(NSString* name, NSDictionary* encodingInfo, BOOL *stop) {
-            OEXVideoEncoding* encoding = [[OEXVideoEncoding alloc] initWithDictionary:encodingInfo];
+            OEXVideoEncoding* encoding = [[OEXVideoEncoding alloc] initWithDictionary:encodingInfo name:name];
             [encodings safeSetObject:encoding forKey:name];
         }];
-        self.encodings = (rawEncodings != nil) ? encodings : @{@"fallback" : [[OEXVideoEncoding alloc] initWithURL: videoURL size:videoSize]};
-        
-        for(NSString* name in [[OEXVideoEncoding knownEncodingNames] arrayByAddingObject:[OEXVideoEncoding fallbackEncodingName]]) {
-            OEXVideoEncoding* encoding = self.encodings[name];
-            if (encoding != nil) {
-                self.preferredEncoding = encoding;
-                break;
-            }
-        }
+        self.encodings = (rawEncodings != nil) ? encodings : @{@"fallback" : [[OEXVideoEncoding alloc] initWithName:nil URL:videoURL size:videoSize]};
 
         self.videoThumbnailURL = [summary objectForKey:@"video_thumbnail_url"];
         self.videoID = [summary objectForKey:@"id"] ;
@@ -117,6 +109,28 @@
         self.path = path;
     }
     return self;
+}
+
+- (id)initWithVideoID:(NSString *)videoID name:(NSString *)name encodings:(NSDictionary<NSString*, OEXVideoEncoding *> *)encodings {
+    self = [super init];
+    if(self != nil) {
+        self.name = name;
+        self.videoID = videoID;
+        self.encodings = encodings;
+    }
+    return self;
+}
+
+- (OEXVideoEncoding*)preferredEncoding {
+    for(NSString* name in [[OEXVideoEncoding knownEncodingNames] arrayByAddingObject:[OEXVideoEncoding fallbackEncodingName]]) {
+        OEXVideoEncoding* encoding = self.encodings[name];
+        if (encoding != nil) {
+            return encoding;
+        }
+    }
+    // Don't have a known encoding, so just pick one. These are in a dict, but we need to do
+    // something stable, so just do it alphabetically
+    return self.encodings[[self.encodings.allKeys sortedArrayUsingSelector:@selector(compare:)].firstObject];
 }
 
 - (NSString*)videoURL {

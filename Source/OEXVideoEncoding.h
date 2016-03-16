@@ -12,11 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXVideoEncoding : NSObject
 
-- (id)initWithDictionary:(NSDictionary*)dictionary;
-- (id)initWithURL:(NSString*)URL size:(NSNumber*)size;
+- (id)initWithDictionary:(NSDictionary*)dictionary name:(NSString*)name;
+- (id)initWithName:(nullable NSString*)name URL:(NSString*)URL size:(NSNumber*)size;
 
+@property (readonly, nonatomic, copy, nullable) NSString* name;
 @property (readonly, nonatomic, copy, nullable) NSString* URL;
 @property (readonly, nonatomic, strong, nullable) NSNumber* size;
+@property (readonly, nonatomic) BOOL isYoutube;
 
 /// [String], ordered by preference
 + (NSArray*)knownEncodingNames;

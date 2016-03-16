@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class OEXVideoEncoding;
 @class OEXVideoPathEntry;
 
 @interface OEXVideoSummary : NSObject
@@ -19,13 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID name:(NSString*)name;
 
 /// Generate a simple stub video summary. Used only for testing
-/// path : OEXVideoPathEntry array
-- (id)initWithVideoID:(NSString*)videoID name:(NSString*)name path:(NSArray*)path;
+- (id)initWithVideoID:(NSString*)videoID name:(NSString*)name path:(NSArray<OEXVideoPathEntry*>*)path;
+/// Generate a simple stub video summary. Used only for testing
+- (id)initWithVideoID:(NSString*)videoID name:(NSString*)name encodings:(NSDictionary<NSString*, OEXVideoEncoding *> *)encodings;
 
 @property (readonly, nonatomic, copy, nullable) NSString* sectionURL;     // used for OPEN IN BROWSER
 
 @property (readonly, strong, nonatomic, nullable) OEXVideoPathEntry* chapterPathEntry;
 @property (readonly, strong, nonatomic, nullable) OEXVideoPathEntry* sectionPathEntry;
+
+@property (readonly, nonatomic, strong, nullable) OEXVideoEncoding* preferredEncoding;
 
 /// displayPath : OEXVideoPathEntry array
 /// This is just the list [chapterPathEntry, sectionPathEntry], filtering out nil items

@@ -8,8 +8,13 @@
 
 #import "OEXVideoEncoding.h"
 
+static NSString* const OEXVideoEncodingYoutube = @"youtube";
+static NSString* const OEXVideoEncodingMobileHigh = @"mobile_high";
+static NSString* const OEXVideoEncodingMobileLow = @"mobile_low";
+
 @interface OEXVideoEncoding ()
 
+@property (copy, nonatomic) NSString* name;
 @property (copy, nonatomic) NSString* URL;
 @property (strong, nonatomic) NSNumber* size;
 
@@ -18,15 +23,16 @@
 @implementation OEXVideoEncoding
 
 + (NSArray*)knownEncodingNames {
-    return @[@"mobile_low", @"mobile_high"];
+    return @[OEXVideoEncodingMobileLow, OEXVideoEncodingMobileHigh, OEXVideoEncodingYoutube];
 }
 
 + (NSString*)fallbackEncodingName {
     return @"fallback";
 }
 
-- (id)initWithDictionary:(NSDictionary*)dictionary {
+- (id)initWithDictionary:(NSDictionary*)dictionary name:(NSString*)name {
     if(self != nil) {
+        self.name = name;
         self.URL = dictionary[@"url"];
         self.size = dictionary[@"file_size"];
     }
@@ -35,13 +41,18 @@
 }
 
 
-- (id)initWithURL:(NSString*)URL size:(NSNumber*)size {
+- (id)initWithName:(NSString*)name URL:(NSString*)URL size:(NSNumber*)size {
     self = [super init];
     if(self != nil) {
+        self.name = name;
         self.URL = URL;
         self.size = size;
     }
     return self;
+}
+
+- (BOOL)isYoutube {
+    return [self.name isEqualToString:OEXVideoEncodingYoutube];
 }
 
 @end
