@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
+#import <Parse/Parse.h>
+@import edXCore;
+
 #import "OEXParsePushProvider.h"
 
-#import <Parse/Parse.h>
-
 #import "NSArray+OEXFunctional.h"
-#import "NSBundle+OEXConveniences.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXInterface.h"
 #import "OEXPushSettingsManager.h"

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import edXCore
 
 public struct CourseLastAccessed {
     public let moduleId : String

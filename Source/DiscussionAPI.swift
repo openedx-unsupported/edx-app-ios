@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import edXCore
 
 public enum DiscussionPostsFilter {
     case AllPosts

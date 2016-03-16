@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import edXCore
 
 private let notificationLabelLeadingOffset = 20.0
 private let notificationLabelTrailingOffset = -10.0

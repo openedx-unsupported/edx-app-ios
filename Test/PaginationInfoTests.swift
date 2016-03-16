@@ -7,6 +7,8 @@
 //
 
 import XCTest
+
+import edXCore
 @testable import edX
 
 class PaginationInfoTests: XCTestCase {

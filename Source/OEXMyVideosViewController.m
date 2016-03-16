@@ -6,13 +6,14 @@
 //  Copyright (c) 2014-2015 edX. All rights reserved.
 //
 
+@import edXCore;
+
 #import "OEXMyVideosViewController.h"
 
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
 
 #import "NSArray+OEXSafeAccess.h"
-#import "NSString+OEXFormatting.h"
 
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"

@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
+@import edXCore;
+
 #import "OEXLoginViewController.h"
 
 #import "edX-Swift.h"
 
-#import "NSString+OEXFormatting.h"
 #import "NSString+OEXValidation.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
 

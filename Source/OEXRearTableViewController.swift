@@ -9,6 +9,7 @@
 import Foundation
 import MessageUI
 
+import edXCore
 
 private enum OEXRearViewOptions: Int {
     case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeedback, Debug

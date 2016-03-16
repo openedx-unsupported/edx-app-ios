@@ -6,6 +6,8 @@
 //  Copyright © 2015 edX. All rights reserved.
 //
 
+import edXCore
+
 public struct PaginationDefaults {
     // Defaults for our APIs
     static let startPage = 1

@@ -8,6 +8,8 @@
 
 import UIKit
 import XCTest
+
+import edXCore
 import edX
 
 class CourseLastAccessedTests: XCTestCase {
