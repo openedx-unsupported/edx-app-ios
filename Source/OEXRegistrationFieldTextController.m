@@ -23,6 +23,7 @@
         self.view = [[OEXRegistrationFormTextField alloc] init];
         self.view.instructionMessage = field.instructions;
         self.view.placeholder = field.label;
+        self.view.textInputView.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
     }
     return self;
 }

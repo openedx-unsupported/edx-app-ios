@@ -12,7 +12,7 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     var options : [OEXRegistrationOption] = []
     private(set) var selected : OEXRegistrationOption?
     
-    private let picker = UIPickerView(frame: CGRectZero)
+    @objc let picker = UIPickerView(frame: CGRectZero)
     private let dropdownTab = UIImageView()
     
     override init(frame : CGRect) {

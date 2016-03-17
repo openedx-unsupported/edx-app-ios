@@ -27,6 +27,8 @@
         self.view.instructionMessage = field.instructions;
         self.view.placeholder = field.label;
         self.view.options = self.field.fieldOptions;
+        self.view.textInputView.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
+        self.view.picker.accessibilityIdentifier = [NSString stringWithFormat:@"picker-field-%@", field.name];
     }
     return self;
 }

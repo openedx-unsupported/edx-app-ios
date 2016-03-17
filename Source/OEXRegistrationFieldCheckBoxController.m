@@ -7,10 +7,15 @@
 //
 
 #import "OEXRegistrationFieldCheckBoxController.h"
+
+#import "OEXCheckBoxView.h"
 #import "OEXRegistrationFieldCheckBoxView.h"
+
 @interface OEXRegistrationFieldCheckBoxController ()
+
 @property(nonatomic, strong) OEXRegistrationFormField* field;
 @property(nonatomic, strong) OEXRegistrationFieldCheckBoxView* view;
+
 @end
 
 @implementation OEXRegistrationFieldCheckBoxController
@@ -21,6 +26,7 @@
         self.view = [[OEXRegistrationFieldCheckBoxView alloc] init];
         self.view.instructionMessage = field.instructions;
         self.view.label = field.label;
+        self.view.checkBox.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
     }
     return self;
 }
@@ -38,7 +44,7 @@
 }
 
 - (void)handleError:(NSString*)errorMsg {
-    [self.view setErrorMessage:errorMsg];
+    self.view.errorMessage = errorMsg;
 }
 
 - (BOOL)isValidInput {

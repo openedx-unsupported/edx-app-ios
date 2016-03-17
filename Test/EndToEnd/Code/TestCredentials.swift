@@ -28,7 +28,7 @@ private class TestCredentialManager {
         return Credentials(username : username, password: password, email: email)
     }
 
-    lazy var defaultCredentials: Credentials = {
+    private lazy var defaultCredentials: Credentials = {
         let credentials = self.freshCredentials()
         self.registerUser(credentials)
         return credentials
@@ -51,8 +51,7 @@ private class TestCredentialManager {
 }
 
 class TestCredentials {
-    let username : String
-    let password : String
+    private let credentials : Credentials
 
     enum Type {
         case Fresh // Credentials without an existing account
@@ -60,15 +59,15 @@ class TestCredentials {
     }
 
     init(type: Type = .Default) {
-        let credentials: Credentials
         switch type {
         case .Fresh:
             credentials = TestCredentialManager.shared.freshCredentials()
         case .Default:
             credentials = TestCredentialManager.shared.defaultCredentials
         }
-
-        username = credentials.username
-        password = credentials.password
     }
+
+    var username: String { return credentials.username }
+    var password: String { return credentials.password }
+    var email: String { return credentials.email }
 }
