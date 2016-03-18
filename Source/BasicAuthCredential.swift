@@ -44,11 +44,11 @@ class BasicAuthCredential: NSObject {
     }
 }
 
-private let key = "BASIC_AUTH_CREDENTIALS"
+private let authCredentialKey = "BASIC_AUTH_CREDENTIALS"
 
 extension OEXConfig {
     var basicAuthCredentials : [BasicAuthCredential] {
-        return (self[key] as? [[String:AnyObject]] ?? []).mapSkippingNils { item in
+        return (self[authCredentialKey] as? [[String:AnyObject]] ?? []).mapSkippingNils { item in
             return BasicAuthCredential(dictionary: item)
         }
     }

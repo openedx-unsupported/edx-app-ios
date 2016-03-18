@@ -55,7 +55,7 @@ public func responseCacheKeyForRequest(request : NSURLRequest) -> String? {
         method = request.HTTPMethod {
             return "\(urlString)_\(method)"
     }
-    return ""
+    return nil
 }
 
 
