@@ -232,6 +232,10 @@
 "DOWNLOADS"="Downloads";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
+/* Discussion comment overlay message when new comment added */
+"DISCUSSION_COMMENT_POSTED" = "Your comment has been added.";
+/* Discussion response overlay message when new response added */
+"DISCUSSION_THREAD_POSTED" = "Your response has been added.";
 /* Title for Edit button on My Videos Screen */
 "EDIT" = "Edit";
 /* Alert message shown when user tries to send an email, but email isn't setup */

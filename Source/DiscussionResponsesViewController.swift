@@ -660,9 +660,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         switch controller.currentContext() {
         case .Thread(_):
-            self.responsesDataController.responses.append(comment)
+            if !(paginationController?.hasNext ?? false) {
+                self.responsesDataController.responses.append(comment)
+            }
+            self.showOverlayMessage(Strings.discussionThreadPosted)
         case .Comment(_):
             responsesDataController.addedChildComment(comment)
+            self.showOverlayMessage(Strings.discussionCommentPosted)
         }
         
         self.tableView.reloadData()
