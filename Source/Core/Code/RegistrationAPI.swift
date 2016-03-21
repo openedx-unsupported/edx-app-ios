@@ -28,28 +28,28 @@ class RegistrationAPIError : NSError {
 
 public struct RegistrationAPI {
 
+    static func registrationDeserializer(response : NSHTTPURLResponse, json: JSON) -> Result<()> {
+        if response.httpStatusCode.is2xx {
+            return .Success(())
+        }
+        else if response.httpStatusCode == OEXHTTPStatusCode.Code400BadRequest {
+            var fields: [String:RegistrationAPIError.Field] = [:]
+            for (key, value) in json.dictionaryValue ?? [:] {
+                if let message = value.array?.first?["user_message"].string {
+                    fields[key] = RegistrationAPIError.Field(userMessage: message)
+                }
+            }
+            return .Failure(RegistrationAPIError(fields: fields))
+        }
+        return .Failure(NetworkManager.unknownError)
+    }
+
     // Registers a new user
-    // -param parameters
-    public static func registrationRequest(parameters: [String:String]) -> NetworkRequest<()> {
+    public static func registrationRequest(fields fields: [String:String]) -> NetworkRequest<()> {
         return NetworkRequest(
             method: .POST,
             path: "/user_api/v1/account/registration/",
-            body: .FormEncoded(parameters),
-            deserializer: .JSONResponse({ (result, json) in
-                print("result is \(result)\n json is \(json)")
-                if result.httpStatusCode.is2xx {
-                    return .Success(())
-                }
-                else if result.httpStatusCode == OEXHTTPStatusCode.Code400BadRequest {
-                    var fields: [String:RegistrationAPIError.Field] = [:]
-                    for (key, value) in json.dictionaryValue ?? [:] {
-                        if let message = value.array?.first?["user_message"].string {
-                            fields[key] = RegistrationAPIError.Field(userMessage: message)
-                        }
-                    }
-                    return .Failure(RegistrationAPIError(fields: fields))
-                }
-                return .Failure(NetworkManager.unknownError)
-            }))
+            body: .FormEncoded(fields),
+            deserializer: .JSONResponse(registrationDeserializer))
     }
 }

@@ -49,7 +49,7 @@ class NetworkManagerTests: XCTestCase {
         }
     }
     
-    func testPostConstruction() {
+    func testJSONPostConstruction() {
         let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: baseURL, cache : cache)
         let sampleJSON = JSON([
             "Some field" : true,
@@ -74,6 +74,42 @@ class NetworkManagerTests: XCTestCase {
             XCTAssertEqual(r.allHTTPHeaderFields!["FakeHeader"], "TestValue")
             let foundJSON = JSON(data : r.HTTPBody!)
             XCTAssertEqual(foundJSON, sampleJSON)
+        }
+    }
+
+    func testFormEncodingPostConstruction() {
+        let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: baseURL, cache : cache)
+        let fields = [
+            "Some field" : "true",
+            "Some other field" : "some value"
+            ]
+        let apiRequest = NetworkRequest(
+            method: HTTPMethod.POST,
+            path: "/something",
+            requiresAuth: true,
+            body: RequestBody.FormEncoded(fields),
+            query: ["a" : JSON("b"), "c":JSON("d")],
+            deserializer : .DataResponse({ (response, data) -> Result<Void> in
+                XCTFail("Shouldn't send request")
+                return .Failure(NetworkManager.unknownError)
+            })
+        )
+
+        AssertSuccess(manager.URLRequestWithRequest(apiRequest)) { r in
+            XCTAssertEqual(r.URL!.absoluteString, "http://example.com/something?a=b&c=d")
+            XCTAssertEqual(r.HTTPMethod!, "POST")
+            XCTAssertEqual(r.allHTTPHeaderFields!["Content-Type"], "application/x-www-form-urlencoded")
+            XCTAssertEqual(r.allHTTPHeaderFields!["FakeHeader"], "TestValue")
+
+            // Hackily extract form encoded fields
+            let foundBody = String(data : r.HTTPBody!, encoding: NSUTF8StringEncoding)
+            let items = foundBody?.componentsSeparatedByString("&") ?? []
+            let pairs = items.map { return $0.componentsSeparatedByString("=") }
+
+            // Sort since the fields are in arbitrary order
+            let sortedPairs = pairs.sort({ return $0.first < $1.first })
+            print("pairs are \(sortedPairs)")
+            XCTAssertEqual(sortedPairs, [["Some%20field", "true"], ["Some%20other%20field", "some%20value"]])
         }
     }
         

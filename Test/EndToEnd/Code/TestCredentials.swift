@@ -44,7 +44,7 @@ private class TestCredentialManager {
             "honor_code": "true",
             "terms_of_service": "true"
         ]
-        let registrationRequest = RegistrationAPI.registrationRequest(body)
+        let registrationRequest = RegistrationAPI.registrationRequest(fields: body)
         let result = networkManager.streamForRequest(registrationRequest).waitForValue()
         assert(result.value != nil, "failed to register user")
     }
