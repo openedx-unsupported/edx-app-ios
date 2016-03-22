@@ -210,7 +210,7 @@ extension OEXRouter {
     }
     
     func showCourseCatalog() {
-        switch environment.config.courseEnrollmentConfig().type {
+        switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
             let controller = OEXFindCoursesViewController()
             self.showContentStackWithRootController(controller, animated: true)

@@ -53,13 +53,17 @@
     // Skip all this initialization if we're running the unit tests
     // So they can start from a clean state.
     // dispatch_async so that the XCTest bundle (where TestEnvironmentBuilder lives) has already loaded
-    if(NSClassFromString(@"XCTest") != nil) {
+    if([[NSProcessInfo processInfo].arguments containsObject:@"-UNIT_TEST"]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             Class builder = NSClassFromString(@"TestEnvironmentBuilder");
             NSAssert(builder != nil, @"Can't find test environment builder");
             (void)[[builder alloc] init];
         });
         return YES;
+    }
+    if([[NSProcessInfo processInfo].arguments containsObject:@"-END_TO_END_TEST"]) {
+        [[[OEXSession alloc] init] closeAndClearSession];
+        [OEXFileUtility nukeUserData];
     }
 #endif
 

@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-import edX
+
+import XCTest
+import edXCore
 
 struct MockSuccessResult<Out> {
     let data : Out
@@ -60,7 +62,7 @@ class MockNetworkManager: NetworkManager {
         })
     }
     /// Returns failure with the given value
-    func interceptWhenMatching<Out>(matcher : (NetworkRequest<Out> -> Bool), afterDelay delay : NSTimeInterval = 0, statusCode : Int = 400, error : NSError = NSError.oex_unknownError()) -> Removable {
+    func interceptWhenMatching<Out>(matcher : (NetworkRequest<Out> -> Bool), afterDelay delay : NSTimeInterval = 0, statusCode : Int = 400, error : NSError = NetworkManager.unknownError) -> Removable {
         return interceptWhenMatching(matcher, afterDelay: delay, withResponse: {[weak self] request in
             let URLRequest = self!.URLRequestWithRequest(request).value!
             let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: statusCode, HTTPVersion: nil, headerFields: [:])
@@ -91,7 +93,7 @@ class MockNetworkManager: NetworkManager {
             }
             
             let URLRequest = self.URLRequestWithRequest(request).value!
-            handler(NetworkResult(request: URLRequest, response: nil, data: nil, baseData: nil, error: NSError.oex_unknownError()))
+            handler(NetworkResult(request: URLRequest, response: nil, data: nil, baseData: nil, error: NetworkManager.unknownError))
             
         }
         
@@ -115,7 +117,7 @@ class MockNetworkManagerTests : XCTestCase {
         let expectation = expectationWithDescription("Request sent")
         let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .DataResponse({ _ -> Result<String> in
             XCTFail("Should not get here")
-            return Failure(nil)
+            return .Failure(NetworkManager.unknownError)
         }))
         manager.taskForRequest(request) {result in
             XCTAssertEqual(result.data!, "Success")
@@ -130,7 +132,7 @@ class MockNetworkManagerTests : XCTestCase {
         let expectation = expectationWithDescription("Request sent")
         let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .DataResponse({ _ -> Result<String> in
             XCTFail("Should not get here")
-            return Failure(nil)
+            return .Failure(NetworkManager.unknownError)
         }))
         
         manager.taskForRequest(request) {result in

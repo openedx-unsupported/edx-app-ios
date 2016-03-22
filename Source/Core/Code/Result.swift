@@ -73,10 +73,10 @@ public enum Result<A> {
 
 public func join<T, U>(t : Result<T>, u : Result<U>) -> Result<(T, U)> {
     switch (t, u) {
-    case let (.Success(tValue), .Success(uValue)): return Success((tValue, uValue))
-    case let (.Success(_), .Failure(error)): return Failure(error)
-    case let (.Failure(error), .Success(_)): return Failure(error)
-    case let (.Failure(error), .Failure(_)): return Failure(error)
+    case let (.Success(tValue), .Success(uValue)): return .Success((tValue, uValue))
+    case let (.Success(_), .Failure(error)): return .Failure(error)
+    case let (.Failure(error), .Success(_)): return .Failure(error)
+    case let (.Failure(error), .Failure(_)): return .Failure(error)
     }
 }
 
@@ -85,33 +85,17 @@ public func join<T>(results : [Result<T>]) -> Result<[T]> {
     for result in results {
         switch result {
         case let .Success(v): values.append(v)
-        case let .Failure(e): return Failure(e)
+        case let .Failure(e): return .Failure(e)
         }
     }
-    return Success(values)
-}
-
-public func Success<A>(v : A) -> Result<A> {
-    return Result.Success(v)
-}
-
-public func Failure<A>(e : NSError? = nil) -> Result<A> {
-    return Result.Failure(e ?? NSError.oex_unknownError())
+    return .Success(values)
 }
 
 extension Optional {
-    
-    /// Converts an optional to an error, using `error` if the `self` is `nil`
-    func toResult(@autoclosure error : Void -> NSError?) -> Result<Wrapped> {
-        if let v = self {
-            return Success(v)
+    public func toResult(@autoclosure error: () -> NSError) -> Result<Wrapped> {
+        switch self {
+        case let .Some(v): return .Success(v)
+        case .None: return .Failure(error())
         }
-        else {
-            return Failure(error() ?? NSError.oex_unknownError())
-        }
-    }
-    
-    func toResult() -> Result<Wrapped> {
-        return toResult(NSError.oex_unknownError())
     }
 }

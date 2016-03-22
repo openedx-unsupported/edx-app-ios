@@ -8,6 +8,8 @@
 
 import Foundation
 
+import edXCore
+
 public enum LoadState {
     case Initial
     case Loaded
@@ -171,11 +173,15 @@ class LoadStateViewController : UIViewController {
             case let .Failed(info):
                 self.messageView.buttonInfo = info.buttonInfo
                 UIView.performWithoutAnimation {
-                    if let error = info.error where error.oex_isNoInternetConnectionError() {
+                    if let error = info.error where error.oex_isNoInternetConnectionError {
                         self.messageView.showNoConnectionError()
                     }
                     else if let error = info.error as? OEXAttributedErrorMessageCarrying {
                         self.messageView.attributedMessage = error.attributedDescriptionWithBaseStyle(self.messageStyle)
+                        self.messageView.icon = info.icon ?? .UnknownError
+                    }
+                    else if let error = info.error where error.oex_isUnknownNetworkError {
+                        self.messageView.message = Strings.courseContentUnknown
                         self.messageView.icon = info.icon ?? .UnknownError
                     }
                     else {

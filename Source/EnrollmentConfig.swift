@@ -39,3 +39,10 @@ class EnrollmentConfig : NSObject {
         self.webviewConfig = EnrollmentWebviewConfig(dictionary: dictionary[EnrollmentKeys.Webview] as? [String: AnyObject] ?? [:])
     }
 }
+
+private let key = "COURSE_ENROLLMENT"
+extension OEXConfig {
+    var courseEnrollmentConfig : EnrollmentConfig {
+        return EnrollmentConfig(dictionary: self[key] as? [String:AnyObject] ?? [:])
+    }
+}

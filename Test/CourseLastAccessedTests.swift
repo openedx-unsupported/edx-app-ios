@@ -16,7 +16,7 @@ class CourseLastAccessedTests: XCTestCase {
 
     func testExample() {
         
-        let json = JSON(resourceWithName : "CourseStatusInfo")
+        let json = JSON(resourceNamed : "CourseStatusInfo")
         
         if let lastAccessed = CourseLastAccessed(json : json) {
         

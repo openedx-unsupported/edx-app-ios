@@ -72,6 +72,9 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.view.accessibilityIdentifier = "enrolled-courses-screen"
+
         addChildViewController(tableController)
         tableController.didMoveToParentViewController(self)
         self.loadController.setupInController(self, contentView: tableController.view)

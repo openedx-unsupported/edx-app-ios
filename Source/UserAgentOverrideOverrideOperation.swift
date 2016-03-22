@@ -9,6 +9,8 @@
 import Foundation
 import WebKit
 
+import edXCore
+
 class UserAgentGenerationOperation : Operation {
     
     private let webView : WKWebView?

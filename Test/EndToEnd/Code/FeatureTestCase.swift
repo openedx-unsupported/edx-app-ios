@@ -46,3 +46,5 @@ extension FeatureInteractor {
     var textFields: XCUIElementQuery { return XCUIApplication().textFields }
 }
 
+extension XCUIElement : FeatureInteractor {}
+

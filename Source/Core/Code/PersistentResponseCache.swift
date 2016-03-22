@@ -64,33 +64,22 @@ public func responseCacheKeyForRequest(request : NSURLRequest) -> String? {
     func setCacheResponse(response : NSHTTPURLResponse, withData data : NSData?, forRequest request : NSURLRequest, completion : (Void -> Void)?)
 }
 
-@objc public protocol UsernameProvider {
-    var currentUsername : String? { get }
-}
-
-@objc public class SessionUsernameProvider : NSObject, UsernameProvider {
-    private let session : OEXSession
-    public init(session : OEXSession) {
-        self.session = session
-    }
-    
-    public var currentUsername : String? {
-        return self.session.currentUser?.username
-    }
+@objc public protocol PathProvider {
+    func pathForRequestKey(key: String?) -> NSURL?
 }
 
 @objc public class PersistentResponseCache : NSObject, ResponseCache {
     
     private let queue : dispatch_queue_t
-    private let provider : UsernameProvider
+    private let pathProvider : PathProvider
     
-    public init(provider : UsernameProvider) {
+    public init(provider : PathProvider) {
         queue = dispatch_queue_create("org.edx.request-cache", DISPATCH_QUEUE_SERIAL)
-        self.provider = provider
+        self.pathProvider = provider
     }
     
     public func fetchCacheEntryWithRequest(request : NSURLRequest, completion : ResponseCacheEntry? -> Void) {
-        let path = OEXFileUtility.fileURLForRequestKey(responseCacheKeyForRequest(request), username: self.provider.currentUsername)
+        let path = self.pathProvider.pathForRequestKey(responseCacheKeyForRequest(request))
         dispatch_async(queue) {
             if let path = path,
                 data = try? NSData(contentsOfURL: path, options: NSDataReadingOptions()),
@@ -110,7 +99,7 @@ public func responseCacheKeyForRequest(request : NSURLRequest) -> String? {
     
     public func setCacheResponse(response : NSHTTPURLResponse, withData data : NSData?, forRequest request : NSURLRequest, completion : (Void -> Void)? = nil) {
         let entry = ResponseCacheEntry(data: data, response: response)
-        let path = OEXFileUtility.fileURLForRequestKey(responseCacheKeyForRequest(request), username: self.provider.currentUsername)
+        let path = self.pathProvider.pathForRequestKey(responseCacheKeyForRequest(request))
         dispatch_async(queue) {
             let archive = NSKeyedArchiver.archivedDataWithRootObject(entry)
             if let path = path {

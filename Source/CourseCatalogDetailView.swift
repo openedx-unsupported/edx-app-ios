@@ -8,6 +8,8 @@
 
 private let margin : CGFloat = 20
 
+import edXCore
+
 class CourseCatalogDetailView : UIView, UIWebViewDelegate {
 
     private struct Field {

@@ -31,8 +31,6 @@ typedef NS_ENUM(NSUInteger, OEXErrorCode) {
 + (instancetype)oex_invalidURLError;
 + (instancetype)oex_errorWithCode:(OEXErrorCode)code message:(NSString*)message;
 
-- (BOOL)oex_isNoInternetConnectionError;
-
 @end
 
 @protocol OEXAttributedErrorMessageCarrying <NSObject>

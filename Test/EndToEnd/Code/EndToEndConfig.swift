@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import edXCore
 
 class EndToEndConfig {
     let emailTemplate: String
@@ -14,10 +15,10 @@ class EndToEndConfig {
     init(info: [String:AnyObject]) {
         emailTemplate = (info["EMAIL_TEMPLATE"] as? String) ?? "test-{unique_id}@example.com"
     }
+}
 
-    convenience init() {
-        let path = NSBundle(forClass: self.dynamicType).pathForResource("config", ofType: "plist")!
-        let config = NSDictionary(contentsOfFile: path)!
-        self.init(info:(config["END_TO_END_TEST"] as? [String:AnyObject]) ?? [:])
+extension OEXConfig {
+    var endToEndConfig : EndToEndConfig {
+        return EndToEndConfig(info: (self.objectForKey("END_TO_END_TESTS") as? [String:AnyObject]) ?? [:])
     }
 }

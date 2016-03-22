@@ -145,7 +145,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
             make.top.equalTo(self.view)
             make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
-            if environment.config.pushNotificationsEnabled() {
+            if environment.config.pushNotificationsEnabled {
                 make.height.equalTo(notificationBarHeight)
             }
             else {

@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 
-extension XCUIElement : FeatureInteractor {
+extension XCUIElement {
 
     ///Removes any current text in the field before typing in the new value
     /// - Parameter text: the text to enter into the field

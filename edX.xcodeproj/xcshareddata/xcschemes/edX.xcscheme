@@ -77,6 +77,16 @@
                ReferencedContainer = "container:edX.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "77E6482F1C91016300B6740D"
+               BuildableName = "EndToEndTests.xctest"
+               BlueprintName = "EndToEndTests"
+               ReferencedContainer = "container:edX.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
@@ -90,6 +100,10 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "-AppleLocale en_US"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-UNIT_TEST"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

@@ -8,6 +8,8 @@
 
 #import "OEXFabricConfig.h"
 
+static NSString* const OEXFabricConfigKey = @"FABRIC";
+
 @interface OEXFabricConfig ()
 @property(nonatomic, copy) NSString* buildSecret;
 @end
@@ -23,4 +25,14 @@
     }
     return self;
 }
+@end
+
+@implementation OEXConfig (Fabric)
+
+- (OEXFabricConfig*)fabricConfig {
+    NSDictionary* dictionary = [self objectForKey:OEXFabricConfigKey];
+    OEXFabricConfig* fabricConfig = [[OEXFabricConfig alloc] initWithDictionary:dictionary];
+    return fabricConfig;
+}
+
 @end

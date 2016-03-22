@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Array {
+public extension Array {
     
     init(count : Int, @noescape generator : Int -> Element) {
         self.init()

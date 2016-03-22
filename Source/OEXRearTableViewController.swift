@@ -70,7 +70,7 @@ class OEXRearTableViewController : UITableViewController {
         setNaturalTextAlignment()
         setAccessibilityLabels()
         
-        if !environment.config.shouldEnableProfiles() {
+        if !environment.config.profilesEnabled {
             //hide the profile image while not display the feature
             //there is still a little extra padding, but this will just be a temporary issue anyway
             userProfilePicture.hidden = true
@@ -83,7 +83,7 @@ class OEXRearTableViewController : UITableViewController {
     }
     
     private func setupProfileLoader() {
-        guard environment.config.shouldEnableProfiles() else { return }
+        guard environment.config.profilesEnabled else { return }
         profileFeed = self.environment.userProfileManager.feedForCurrentUser()
         profileFeed?.output.listen(self,  success: { profile in
             self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
@@ -149,7 +149,7 @@ class OEXRearTableViewController : UITableViewController {
         if let option = OEXRearViewOptions(rawValue: indexPath.row) {
             switch option {
             case .UserProfile:
-                guard environment.config.shouldEnableProfiles() else { break }
+                guard environment.config.profilesEnabled else { break }
                 guard let currentUserName = environment.session.currentUser?.username else { return }
                 environment.router?.showProfileForUsername(username: currentUserName)
             case .MyCourse:
