@@ -59,4 +59,9 @@
 
     return YES;
 }
+
+- (UIView*)accessibleInputField {
+    return self.view.textInputView;
+}
+
 @end

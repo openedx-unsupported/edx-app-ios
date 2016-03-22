@@ -26,7 +26,6 @@
         self.view = [[OEXRegistrationFieldCheckBoxView alloc] init];
         self.view.instructionMessage = field.instructions;
         self.view.label = field.label;
-        self.view.checkBox.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
     }
     return self;
 }
@@ -53,6 +52,11 @@
         return NO;
     }
     return YES;
+}
+
+
+-  (UIView*)accessibleInputField {
+    return self.view.checkBox;
 }
 
 @end

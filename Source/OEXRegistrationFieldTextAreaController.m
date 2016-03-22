@@ -7,11 +7,16 @@
 //
 
 #import "OEXRegistrationFieldTextAreaController.h"
+
 #import "OEXRegistrationFieldTextAreaView.h"
 #import "OEXRegistrationFieldValidator.h"
+#import "OEXPlaceholderTextView.h"
+
 @interface OEXRegistrationFieldTextAreaController ()
+
 @property(nonatomic, strong) OEXRegistrationFormField* field;
 @property(nonatomic, strong) OEXRegistrationFieldTextAreaView* view;
+
 @end
 
 @implementation OEXRegistrationFieldTextAreaController
@@ -53,4 +58,9 @@
     }
     return YES;
 }
+
+-  (UIView*)accessibleInputField {
+    return self.view.textInputView;
+}
+
 @end

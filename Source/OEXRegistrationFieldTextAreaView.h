@@ -11,14 +11,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class OEXPlaceholderTextView;
+
 @interface OEXRegistrationFieldTextAreaView : UIView
-{
-    OEXPlaceholderTextView* inputView;
-    UILabel* errorLabel;
-    UILabel* instructionLabel;
-}
 
 - (void)takeValue:(NSString*)value;
+
+@property (readonly, strong, nonatomic) OEXPlaceholderTextView* textInputView;
 
 @property(nonatomic, strong, nullable) NSString* errorMessage;
 @property(nonatomic, strong) NSString* instructionMessage;

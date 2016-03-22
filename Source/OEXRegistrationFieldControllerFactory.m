@@ -53,9 +53,11 @@
 + (id <OEXRegistrationFieldController>)textFieldControllerWith:(OEXRegistrationFormField*)formField {
     return [[OEXRegistrationFieldTextController alloc] initWithRegistrationFormField:formField];
 }
+
 + (id <OEXRegistrationFieldController>)passwordFieldControllerWith:(OEXRegistrationFormField*)formField {
     return [[OEXRegistrationFieldPasswordController alloc] initWithRegistrationFormField:formField];
 }
+
 + (id <OEXRegistrationFieldController>)checkboxFieldControllerWith:(OEXRegistrationFormField*)formField {
     return [[OEXRegistrationFieldCheckBoxController alloc] initWithRegistrationFormField:formField];
 }
@@ -63,6 +65,7 @@
 + (id <OEXRegistrationFieldController>)textAreaFieldControllerWith:(OEXRegistrationFormField*)formField {
     return [[OEXRegistrationFieldTextAreaController alloc] initWithRegistrationFormField:formField];
 }
+
 + (id <OEXRegistrationFieldController>)registrationAgreementControllerWith:(OEXRegistrationFormField*)formField {
     return [[OEXRegistrationAgreementController alloc] initWithRegistrationFormField:formField];
 }

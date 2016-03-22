@@ -15,17 +15,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, nonatomic) UIView* view;
 
+@property (readonly, assign, nonatomic) BOOL hasValue;
+@property (readonly, assign, nonatomic) BOOL isValidInput;
+@property (strong, nonatomic, readonly) OEXRegistrationFormField* field;
+
+// The actual entry field. This doesn't make sense for every subclass
+// so those can return null
+@property (readonly, nonatomic, nullable) UIView* accessibleInputField;
+
 /// id should be a JSON safe type.
 - (id)currentValue;
 - (void)takeValue:(id)value;
 
-- (BOOL)hasValue;
-
-- (OEXRegistrationFormField*)field;
-
 - (void)handleError:(nullable NSString*)errorMsg;
-
-- (BOOL)isValidInput;
 
 @end
 
