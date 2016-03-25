@@ -19,15 +19,16 @@ public extension Array {
     
     /// Performs a map, but if any of the items return nil, return nil for the overall result.
     func mapOrFailIfNil<U>(@noescape f : Element -> U?) -> [U]? {
-        return reduce([], combine: { (var acc, v) -> [U]? in
-            if let x = f(v) {
-                acc?.append(x)
-                return acc
+        var result : [U] = []
+        for item in self {
+            if let x = f(item) {
+                result.append(x)
             }
             else {
                 return nil
             }
-        })
+        }
+        return result
     }
     
     /// Performs a map, but skips any items that return nil
@@ -69,7 +70,7 @@ public extension Array {
         for value in self {
             let next = (value : value, index : i)
             result.append(next)
-            i++
+            i += 1
         }
         return result
     }

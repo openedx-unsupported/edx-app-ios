@@ -10,7 +10,8 @@ import UIKit
 
 extension NSAttributedString {
     
-    class func joinInNaturalLayout(var attributedStrings : [NSAttributedString]) -> NSAttributedString {
+    class func joinInNaturalLayout(attributedStrings : [NSAttributedString]) -> NSAttributedString {
+        var attributedStrings = attributedStrings
         
         if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
             attributedStrings = Array(attributedStrings.reverse())

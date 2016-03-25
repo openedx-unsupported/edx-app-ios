@@ -93,12 +93,12 @@ class SnapshotTestCase : FBSnapshotTestCase {
     // Asserts that a snapshot matches expectations
     // This is similar to the objc only FBSnapshotTest macros
     // But works in swift
-    func assertSnapshotValidWithContent(content : SnapshotTestable, identifier : String? = nil, message : String? = nil, file : String = __FILE__, line : UInt = __LINE__) {
+    func assertSnapshotValidWithContent(content : SnapshotTestable, identifier : String? = nil, message : String? = nil, file : StaticString = #file, line : UInt = #line) {
         
         let qualifiedIdentifier = qualifyIdentifier(identifier, content : content)
         
         do {
-            try content.snapshotTestWithCase(self, referenceImagesDirectory: FB_REFERENCE_IMAGE_DIR, identifier: qualifiedIdentifier)
+            try content.snapshotTestWithCase(self, referenceImagesDirectory: SNAPSHOT_TEST_DIR, identifier: qualifiedIdentifier)
         }
         catch let error as NSError {
             let unknownError = "Unknown Error"

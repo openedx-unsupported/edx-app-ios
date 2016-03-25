@@ -105,7 +105,7 @@ class CropViewController: UIViewController {
             make.edges.equalTo(scrollView)
         }
         
-        let tap = UITapGestureRecognizer(target: self, action: "zoomOut")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(CropViewController.zoomOut))
         tap.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(tap)
         
