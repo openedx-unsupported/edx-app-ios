@@ -177,6 +177,7 @@
 		770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A3D441AF0167A008F09D9 /* UIControl+OEXBlockActions.m */; };
 		770C514B1B1685E3009B9696 /* HTMLBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770C514A1B1685E3009B9696 /* HTMLBlockViewController.swift */; };
 		770C514D1B1685F5009B9696 /* AuthenticatedWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770C514C1B1685F5009B9696 /* AuthenticatedWebViewController.swift */; };
+		77124FDB1CA5A706002DA012 /* SessionUsernameProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77124FDA1CA5A706002DA012 /* SessionUsernameProviderTests.swift */; };
 		771273271BA36B76008BA397 /* LoggingAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771273261BA36B76008BA397 /* LoggingAnalyticsTracker.swift */; };
 		7712732E1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7712732D1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift */; };
 		771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7712732F1BA8FAD2008BA397 /* OEXAnalytics+Swift.swift */; };
@@ -890,6 +891,7 @@
 		770A3D441AF0167A008F09D9 /* UIControl+OEXBlockActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+OEXBlockActions.m"; sourceTree = "<group>"; };
 		770C514A1B1685E3009B9696 /* HTMLBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLBlockViewController.swift; sourceTree = "<group>"; };
 		770C514C1B1685F5009B9696 /* AuthenticatedWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticatedWebViewController.swift; sourceTree = "<group>"; };
+		77124FDA1CA5A706002DA012 /* SessionUsernameProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SessionUsernameProviderTests.swift; path = Test/SessionUsernameProviderTests.swift; sourceTree = "<group>"; };
 		771273261BA36B76008BA397 /* LoggingAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingAnalyticsTracker.swift; sourceTree = "<group>"; };
 		7712732A1BA8885E008BA397 /* Logger+OEXObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Logger+OEXObjC.h"; sourceTree = "<group>"; };
 		7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Logger+OEXObjC.m"; sourceTree = "<group>"; };
@@ -2441,6 +2443,7 @@
 		77E648711C912E4500B6740D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				77124FDA1CA5A706002DA012 /* SessionUsernameProviderTests.swift */,
 				77E648721C912E4E00B6740D /* Shared Helpers */,
 				77E6483B1C91024C00B6740D /* EndToEnd */,
 				BECB7B331924C0C3009C77F1 /* Unit Tests */,
@@ -4050,6 +4053,7 @@
 				775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */,
 				7765025B1C73B90C007384E7 /* OEXRearTableViewControllerTests.swift in Sources */,
 				771FA0161B4588D80067F22D /* CourseDataManagerTests.swift in Sources */,
+				77124FDB1CA5A706002DA012 /* SessionUsernameProviderTests.swift in Sources */,
 				773CC01F1BE29D5100DDC127 /* UserProfileManagerTests.swift in Sources */,
 				773CC0231BE2C4C200DDC127 /* MockUserProfileManager.swift in Sources */,
 				775391461C9763D000FA959C /* Result+Assertions.swift in Sources */,
