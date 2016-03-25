@@ -13,3 +13,8 @@
 #import "OEXMockUserDefaults.h"
 #import "NSString+OEXFormatting.h"
 #import "OEXUserDetails+OEXTestDataFactory.h"
+
+// This is #defined as a command line preprocessor argumet
+// so it can contain environment variables that get resolved
+// this exposes it to swift, which doesn't have preprocessor defines
+#define SNAPSHOT_TEST_DIR FB_REFERENCE_IMAGE_DIR

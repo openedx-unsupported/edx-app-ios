@@ -11,14 +11,14 @@ import XCTest
 
 import edXCore
 
-func AssertSuccess<A>(result : Result<A> , file : String = __FILE__, line : UInt = __LINE__, assertions : (A -> Void)? = nil) {
+func AssertSuccess<A>(result : Result<A> , file : StaticString = #file, line : UInt = #line, assertions : (A -> Void)? = nil) {
     switch result {
     case let .Success(r): assertions?(r)
     case let .Failure(e): XCTFail("Unexpected failure: \(e.localizedDescription)", file : file, line : line)
     }
 }
 
-func AssertFailure<A>(result : Result<A> , file : String = __FILE__, line : UInt = __LINE__, assertions : (NSError -> Void)? = nil) {
+func AssertFailure<A>(result : Result<A> , file : StaticString = #file, line : UInt = #line, assertions : (NSError -> Void)? = nil) {
     switch result {
     case let .Success(r): XCTFail("Unexpected success: \(r)", file : file, line : line)
     case let .Failure(e): assertions?(e)

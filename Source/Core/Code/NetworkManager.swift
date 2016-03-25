@@ -57,7 +57,7 @@ public struct NetworkRequest<Out> {
 }
 
 extension NetworkRequest: CustomDebugStringConvertible {
-    public var debugDescription: String { return "\(_stdlib_getDemangledTypeName(self.dynamicType)) {\(method):\(path)}" }
+    public var debugDescription: String { return "\(self.dynamicType) {\(method):\(path)}" }
 }
 
 

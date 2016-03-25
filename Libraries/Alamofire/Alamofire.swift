@@ -555,17 +555,17 @@ public class Manager {
 
         public override func respondsToSelector(selector: Selector) -> Bool {
             switch selector {
-            case "URLSession:didBecomeInvalidWithError:":
+            case #selector(NSURLSessionDelegate.URLSession(_:didBecomeInvalidWithError:)):
                 return (sessionDidBecomeInvalidWithError != nil)
-            case "URLSession:didReceiveChallenge:completionHandler:":
+            case #selector(NSURLSessionDelegate.URLSession(_:didReceiveChallenge:completionHandler:)):
                 return (sessionDidReceiveChallenge != nil)
-            case "URLSessionDidFinishEventsForBackgroundURLSession:":
+            case #selector(NSURLSessionDelegate.URLSessionDidFinishEventsForBackgroundURLSession(_:)):
                 return (sessionDidFinishEventsForBackgroundURLSession != nil)
-            case "URLSession:task:willPerformHTTPRedirection:newRequest:completionHandler:":
+            case #selector(NSURLSessionTaskDelegate.URLSession(_:task:willPerformHTTPRedirection:newRequest:completionHandler:)):
                 return (taskWillPerformHTTPRedirection != nil)
-            case "URLSession:dataTask:didReceiveResponse:completionHandler:":
+            case #selector(NSURLSessionDataDelegate.URLSession(_:dataTask:didReceiveResponse:completionHandler:)):
                 return (dataTaskDidReceiveResponse != nil)
-            case "URLSession:dataTask:willCacheResponse:completionHandler:":
+            case #selector(NSURLSessionDataDelegate.URLSession(_:dataTask:willCacheResponse:completionHandler:)):
                 return (dataTaskWillCacheResponse != nil)
             default:
                 return self.dynamicType.instancesRespondToSelector(selector)
@@ -1345,7 +1345,7 @@ extension Request : CustomDebugStringConvertible {
         }
 
         if let credentialStorage = self.session.configuration.URLCredentialStorage {
-            let protectionSpace = NSURLProtectionSpace(host: URL!.host!, port: URL!.port?.integerValue ?? 0, `protocol`: URL!.scheme, realm: URL!.host!, authenticationMethod: NSURLAuthenticationMethodHTTPBasic)
+            let protectionSpace = NSURLProtectionSpace(host: URL!.host!, port: URL!.port?.integerValue ?? 0, protocol: URL!.scheme, realm: URL!.host!, authenticationMethod: NSURLAuthenticationMethodHTTPBasic)
             if let credentials = credentialStorage.credentialsForProtectionSpace(protectionSpace)?.values {
                 for credential in credentials {
                     components.append("-u \(credential.user!):\(credential.password!)")
@@ -1420,7 +1420,8 @@ extension Request {
 
         :returns: A string response serializer.
     */
-    public class func stringResponseSerializer(var encoding: NSStringEncoding? = nil) -> Serializer {
+    public class func stringResponseSerializer(encoding: NSStringEncoding? = nil) -> Serializer {
+        var encoding = encoding
         return { (_, response, data) in
             if data == nil || data?.length == 0 {
                 return (nil, nil)

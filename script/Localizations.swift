@@ -177,8 +177,8 @@ func getArguments(string : String) throws -> [String] {
     var current = string.startIndex
 
     while current < string.endIndex {
-        if let start = string.rangeOfString("{", options:NSStringCompareOptions(), range:Range(start:current, end:string.endIndex)) {
-            if let end = string.rangeOfString("}", options:NSStringCompareOptions(), range:Range(start:start.startIndex, end:string.endIndex)) {
+        if let start = string.rangeOfString("{", options:NSStringCompareOptions(), range:current ..< string.endIndex) {
+            if let end = string.rangeOfString("}", options:NSStringCompareOptions(), range:start.startIndex ..< string.endIndex) {
                 let argument = string[start.startIndex.successor()..<end.endIndex.predecessor()]
                 arguments.append(argument)
                 current = end.endIndex

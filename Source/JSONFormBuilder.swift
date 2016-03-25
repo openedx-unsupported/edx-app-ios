@@ -322,7 +322,7 @@ class JSONFormBuilder {
                     let title = attributedChooserRow(Icon.Country, title: Strings.Profile.currentLocationLabel, value: countryName)
                     
                     tableData.insert(ChooserDatum(value: id, title: nil, attributedTitle: title), atIndex: 0)
-                    if defaultRow >= 0 { defaultRow++ }
+                    if defaultRow >= 0 { defaultRow += 1 }
                 }
             } else if dataType == .LanguageType {
                 if let id = NSLocale.currentLocale().objectForKey(NSLocaleLanguageCode) as? String {
@@ -330,7 +330,7 @@ class JSONFormBuilder {
                     let title = attributedChooserRow(Icon.Comment, title: Strings.Profile.currentLanguageLabel, value: languageName)
                     
                     tableData.insert(ChooserDatum(value: id, title: nil, attributedTitle: title), atIndex: 0)
-                    if defaultRow >= 0 { defaultRow++ }
+                    if defaultRow >= 0 { defaultRow += 1 }
                 }
             }
             

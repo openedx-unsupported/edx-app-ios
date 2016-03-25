@@ -51,7 +51,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
         startInfo: OEXCourseStartDisplayInfo? = nil,
         mediaInfo: [String:CourseMediaInfo] = [:],
         endDate: NSDate? = nil,
-        file : String = __FILE__, line : UInt = __LINE__,
+        file : StaticString = #file, line : UInt = #line,
         verifier : CourseCatalogDetailView -> Bool)
     {
         let course = OEXCourse.freshCourse(

@@ -85,7 +85,7 @@ public class Logger : NSObject {
    
     // Domains are filtered out by default. To enable, hit pause in the debugger and do
     // lldb> call Logger.addDomain(domain)
-    public func log(level : Level = .Info, _ domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__ ) {
+    public func log(level : Level = .Info, _ domain : String, _ message : String, file : String = #file, line : UInt = #line ) {
         for sink in sinks {
             if (activeDomains.contains(domain) || level.alwaysPrinted) || printAll || sink.alwaysPrint {
                 sink.log(level, domain: domain, message: message, file:file, line:line)
@@ -106,19 +106,19 @@ extension Logger {
         sharedLogger.removeDomain(domain)
     }
     
-    private static func log(level : Level = .Info, _ domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__) {
+    private static func log(level : Level = .Info, _ domain : String, _ message : String, file : String = #file, line : UInt = #line) {
         sharedLogger.log(level, domain, message, file:file, line:line)
     }
     
-    public static func logDebug(domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__) {
+    public static func logDebug(domain : String, _ message : String, file : String = #file, line : UInt = #line) {
         sharedLogger.log(.Debug, domain, message, file:file, line:line)
     }
     
-    public static func logInfo(domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__) {
+    public static func logInfo(domain : String, _ message : String, file : String = #file, line : UInt = #line) {
         sharedLogger.log(.Info, domain, message, file:file, line:line)
     }
     
-    public static func logError(domain : String, _ message : String, file : String = __FILE__, line : UInt = __LINE__) {
+    public static func logError(domain : String, _ message : String, file : String = #file, line : UInt = #line) {
         sharedLogger.log(.Error, domain, message, file:file, line:line)
     }
 }
