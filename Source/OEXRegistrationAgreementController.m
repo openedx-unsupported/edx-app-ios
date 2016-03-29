@@ -52,4 +52,9 @@
     }
     return YES;
 }
+
+- (UIView*)accessibleInputField {
+    return nil;
+}
+
 @end

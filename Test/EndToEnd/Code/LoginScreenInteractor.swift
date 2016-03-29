@@ -13,19 +13,19 @@ import edXCore
 
 class LoginScreenInteractor : FeatureInteractor {
     var container : XCUIElement {
-        return XCUIApplication().otherElements["login-screen"]
+        return otherElements["login-screen"]
     }
 
     var usernameField: XCUIElement {
-        return XCUIApplication().textFields["user-field"]
+        return textFields["user-field"]
     }
 
     var passwordField: XCUIElement {
-        return XCUIApplication().secureTextFields["password-field"]
+        return secureTextFields["password-field"]
     }
 
     var signInButton: XCUIElement {
-        return XCUIApplication().buttons["sign-in-button"]
+        return buttons["sign-in-button"]
     }
 
     func waitForDisplay() {

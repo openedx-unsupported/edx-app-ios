@@ -127,15 +127,17 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 //Currently using asset file only to get from description
 - (void)makeFieldControllers {
-    self.fieldControllers = [self.registrationDescription.registrationFormFields
-                             oex_map:^id < OEXRegistrationFieldController > (OEXRegistrationFormField* formField) {
-        id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
-        if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {
-            // These don't have explicit representations in the apps
-            return nil;
-        }
-        return fieldController;
-    }];
+    NSArray* fields = self.registrationDescription.registrationFormFields;
+    self.fieldControllers = [fields oex_map:^id < OEXRegistrationFieldController > (OEXRegistrationFormField* formField)
+                             {
+                                 id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
+                                 fieldController.accessibleInputField.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", formField.name];
+                                 if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {
+                                     // These don't have explicit representations in the apps
+                                     return nil;
+                                 }
+                                 return fieldController;
+                             }];
 }
 
 // This method will set default ui.
@@ -160,6 +162,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.registerButton setTitle:[Strings registrationCreateMyAccount] forState:UIControlStateNormal];
     [self.registerButton addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
     [self.registerButton setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
+    self.registerButton.accessibilityIdentifier = @"register";
 
     ////Create progrssIndicator as subview to btnCreateAccount
     self.progressIndicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];

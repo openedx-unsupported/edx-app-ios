@@ -11,8 +11,7 @@ import XCTest
 
 class LoginFeatureTestCase : FeatureTestCase {
 
-    func testLaunchExists() {
-
+    func testLoginWithUsernamePassword() {
         AppInteractor()
             .launchApp()
             .observeSplashScreen()
