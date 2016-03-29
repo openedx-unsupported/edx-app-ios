@@ -19,9 +19,11 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     weak var delegate : FindCoursesWebViewHelperDelegate?
     
     let webView : WKWebView = WKWebView()
+    let searchBar = UISearchBar()
     private var loadController = LoadStateViewController()
     
     private var request : NSURLRequest? = nil
+    var searchBaseURL: NSURL?
     
     init(config : OEXConfig?, delegate : FindCoursesWebViewHelperDelegate?) {
         self.config = config
@@ -34,10 +36,25 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
 
         if let container = delegate?.containingControllerForWebViewHelper(self) {
             loadController.setupInController(container, contentView: webView)
+
+            searchBar.delegate = self
+
+            container.view.insertSubview(searchBar, atIndex: 0)
             container.view.insertSubview(self.webView, atIndex: 0)
-            
+
+            searchBar.snp_makeConstraints{ make in
+                make.leading.equalTo(container.view)
+                make.trailing.equalTo(container.view)
+                make.top.equalTo(container.view)
+
+            }
+
             self.webView.snp_makeConstraints { make in
-                make.edges.equalTo(container.view)
+                make.leading.equalTo(container.view)
+                make.trailing.equalTo(container.view)
+                make.bottom.equalTo(container.view)
+                make.top.equalTo(searchBar.snp_bottom)
+//                make.edges.equalTo(container.view)
             }
         }
     }
@@ -101,3 +118,34 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         }
     }
 }
+
+extension FindCoursesWebViewHelper: UISearchBarDelegate {
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        return true
+    }
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+
+        guard let searchTerms = searchBar.text, searchURL = searchBaseURL else { return }
+        if let URL = FindCoursesWebViewHelper.buildQuery(searchURL.URLString, toolbarString: searchTerms) {
+            loadRequestWithURL(URL)
+        }
+    }
+
+    @objc static func buildQuery(baseURL: String, toolbarString: String) -> NSURL? {
+        let items = toolbarString.componentsSeparatedByString(" ")
+        let escapedItems = items.flatMap { $0.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) }
+        let searchTerm = "search_query=" + escapedItems.joinWithSeparator("+")
+        let newQuery: String
+        if baseURL.containsString("?") {
+            newQuery = baseURL + "&" + searchTerm
+        } else {
+            newQuery = baseURL + "?" + searchTerm
+
+        }
+        return NSURL(string: newQuery)
+    }
+}
+
+

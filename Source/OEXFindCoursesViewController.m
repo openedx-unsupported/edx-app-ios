@@ -39,7 +39,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 
-    [self.webViewHelper loadRequestWithURL:[self enrollmentConfig].webviewConfig.searchURL];
+    self.webViewHelper.searchBaseURL = [self enrollmentConfig].webviewConfig.searchURL;
+    [self.webViewHelper loadRequestWithURL:self.webViewHelper.searchBaseURL];
 }
 
 - (EnrollmentConfig*)enrollmentConfig {
