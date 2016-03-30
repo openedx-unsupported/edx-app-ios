@@ -29,4 +29,8 @@ extension OEXConfig {
         return boolForKey("COURSE_SHARING_ENABLED")
     }
 
+    var badgesEnabled : Bool {
+        return boolForKey("BADGES_ENABLED")
+    }
+
 }
