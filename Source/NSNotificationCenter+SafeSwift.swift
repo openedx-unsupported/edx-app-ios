@@ -40,7 +40,7 @@ extension NSNotificationCenter {
         let removable = observer.oex_performActionOnDealloc {
             listener.remove()
         }
-        self.addObserver(listener, selector: "notificationFired:", name: name, object: nil)
+        self.addObserver(listener, selector: #selector(NotificationListener.notificationFired(_:)), name: name, object: nil)
         
         return BlockRemovable { removable.remove() }
     }

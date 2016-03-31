@@ -58,7 +58,7 @@ class OEXRearTableViewController : UITableViewController {
         logoutButton.setBackgroundImage(UIImage(named: "bt_logout_active"), forState: .Highlighted)
         
         //Listen to notification
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dataAvailable:", name: NOTIFICATION_URL_RESPONSE, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(OEXRearTableViewController.dataAvailable(_:)), name: NOTIFICATION_URL_RESPONSE, object: nil)
         
         coursesLabel.text = Strings.myCourses.oex_uppercaseStringInCurrentLocale()
         videosLabel.text = Strings.myVideos.oex_uppercaseStringInCurrentLocale()

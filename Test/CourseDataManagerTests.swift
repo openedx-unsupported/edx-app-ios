@@ -14,7 +14,7 @@ class CourseDataManagerTests: XCTestCase {
     
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     
-    func checkOutlineLoadsWithQuerier(querier : CourseOutlineQuerier, rootID : CourseBlockID, line : UInt = __LINE__, file : String = __FILE__) {
+    func checkOutlineLoadsWithQuerier(querier : CourseOutlineQuerier, rootID : CourseBlockID, line : UInt = #line, file : StaticString = #file) {
         let rootStream = querier.blockWithID(nil)
         let expectation = self.expectationWithDescription("Outline loads from network")
         rootStream.listenOnce(self) {rootBlock in

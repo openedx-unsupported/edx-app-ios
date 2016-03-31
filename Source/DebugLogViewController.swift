@@ -20,8 +20,8 @@ class DebugLogViewController : UIViewController {
 
         loadLog()
 
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
-        let clearButton = UIBarButtonItem(barButtonSystemItem: .Trash, target: self, action: "clear")
+        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(DebugLogViewController.share))
+        let clearButton = UIBarButtonItem(barButtonSystemItem: .Trash, target: self, action: #selector(DebugLogViewController.clear))
         navigationItem.rightBarButtonItems = [clearButton, shareButton]
     }
 
