@@ -52,6 +52,7 @@ public class UserCourseEnrollment : NSObject {
     
     convenience init?(json: JSON) {
         guard let dict = json.dictionaryObject else {
+            self.init(dictionary:[:])
             return nil
         }
         self.init(dictionary: dict)
