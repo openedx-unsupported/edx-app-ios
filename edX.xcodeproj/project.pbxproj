@@ -151,8 +151,6 @@
 		7320DDD1D50E661BE4E15CEE /* libPods-edXTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53124181654DAFE6683F8E45 /* libPods-edXTests.a */; };
 		77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A361A76EF8C007D306C /* NSString+OEXValidation.m */; };
 		77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */; };
-		77000A451A7754A3007D306C /* OEXDateFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A441A7754A3007D306C /* OEXDateFormatting.m */; };
-		77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A461A77555B007D306C /* OEXDateFormattingTests.m */; };
 		77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */; };
 		77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */; };
 		7702A3731BF54D9E00D2A63F /* OEXMySettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7702A3721BF54D9E00D2A63F /* OEXMySettingsViewControllerTests.swift */; };
@@ -211,6 +209,10 @@
 		772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 772619B91ADDC68E005BD7E4 /* OEXMockUserDefaults.m */; };
 		7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */; };
 		7727EC351BBC73F300C9987F /* RevealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7727EC341BBC73F300C9987F /* RevealViewController.swift */; };
+		772856E11CADC5DB00460E7C /* RawStringExtractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772856E01CADC5DB00460E7C /* RawStringExtractable.swift */; };
+		772856E31CADCE0900460E7C /* OEXDateFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 772856E21CADCE0900460E7C /* OEXDateFormattingTests.m */; };
+		772856E71CADCEB200460E7C /* OEXDateFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 772856E51CADCE2E00460E7C /* OEXDateFormatting.m */; };
+		772856E81CADCEB600460E7C /* OEXDateFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = 772856E41CADCE2E00460E7C /* OEXDateFormatting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181361B697644000CC050 /* DiscussionDataManager.swift */; };
 		773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */; };
 		7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */; };
@@ -256,9 +258,9 @@
 		775391461C9763D000FA959C /* Result+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753913D1C9758A300FA959C /* Result+Assertions.swift */; };
 		775391481C97A70700FA959C /* RegistrationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391471C97A70700FA959C /* RegistrationAPI.swift */; };
 		7753914B1C98A16600FA959C /* VideoBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391491C98A15100FA959C /* VideoBlockViewControllerTests.swift */; };
-		775391841CA0600700FA959C /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391831CA0600700FA959C /* RegistrationAPITests.swift */; };
 		7753914E1C98B6FA00FA959C /* RegistrationScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753914C1C98B6CA00FA959C /* RegistrationScreenInteractor.swift */; };
 		775391501C98B7C500FA959C /* RegisterFeatureTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753914F1C98B7C500FA959C /* RegisterFeatureTestCase.swift */; };
+		775391841CA0600700FA959C /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391831CA0600700FA959C /* RegistrationAPITests.swift */; };
 		775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434821AD7394D00635A40 /* OEXPushNotificationManager.m */; };
 		775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434851AD73D1900635A40 /* OEXParseConfig.m */; };
 		775434891AD8121200635A40 /* OEXParsePushProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 775434881AD8121200635A40 /* OEXParsePushProvider.m */; };
@@ -338,7 +340,6 @@
 		778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */; };
 		778C72EF1B179C4A00FC3F68 /* CourseOutlineModeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778C72EE1B179C4A00FC3F68 /* CourseOutlineModeController.swift */; };
 		778C72F11B17C30000FC3F68 /* Dictionary+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */; };
-		778CC8241BBECD9100DCCAE4 /* RawStringExtractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778CC8231BBECD9100DCCAE4 /* RawStringExtractable.swift */; };
 		778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */; };
 		778D53351B3D96E900441A98 /* ListCursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778D53341B3D96E900441A98 /* ListCursor.swift */; };
 		778D53371B3D97CC00441A98 /* ListCursorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778D53361B3D97CC00441A98 /* ListCursorTests.swift */; };
@@ -370,6 +371,7 @@
 		77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4AE1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m */; };
 		77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */; };
 		77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */; };
+		77AF076D1CADD1BE00A42704 /* JSON+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF076C1CADD1BE00A42704 /* JSON+Formatting.swift */; };
 		77AFD10B1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */; };
 		77AFD10E1C1A75A5001985FD /* UserAgentGenerationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */; };
 		77AFD1111C1B4F79001985FD /* NSString+TestExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD1101C1B4F79001985FD /* NSString+TestExamples.m */; };
@@ -859,9 +861,6 @@
 		77000A351A76EF8C007D306C /* NSString+OEXValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXValidation.h"; sourceTree = "<group>"; };
 		77000A361A76EF8C007D306C /* NSString+OEXValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidation.m"; sourceTree = "<group>"; };
 		77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidationTests.m"; sourceTree = "<group>"; };
-		77000A431A7754A3007D306C /* OEXDateFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXDateFormatting.h; sourceTree = "<group>"; };
-		77000A441A7754A3007D306C /* OEXDateFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDateFormatting.m; sourceTree = "<group>"; };
-		77000A461A77555B007D306C /* OEXDateFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXDateFormattingTests.m; path = Test/OEXDateFormattingTests.m; sourceTree = SOURCE_ROOT; };
 		77000A481A7757E0007D306C /* NSDate+OEXComparisons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+OEXComparisons.h"; sourceTree = "<group>"; };
 		77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OEXComparisons.m"; sourceTree = "<group>"; };
 		77000A4B1A775904007D306C /* NSDate+OEXComparisonsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+OEXComparisonsTests.m"; sourceTree = "<group>"; };
@@ -938,6 +937,10 @@
 		7726BD1B1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+OEXSafeAccess.h"; sourceTree = "<group>"; };
 		7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		7727EC341BBC73F300C9987F /* RevealViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RevealViewController.swift; sourceTree = "<group>"; };
+		772856E01CADC5DB00460E7C /* RawStringExtractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RawStringExtractable.swift; path = Source/Core/Code/RawStringExtractable.swift; sourceTree = SOURCE_ROOT; };
+		772856E21CADCE0900460E7C /* OEXDateFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXDateFormattingTests.m; path = Source/Core/Test/Code/OEXDateFormattingTests.m; sourceTree = SOURCE_ROOT; };
+		772856E41CADCE2E00460E7C /* OEXDateFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXDateFormatting.h; path = Source/Core/Code/OEXDateFormatting.h; sourceTree = SOURCE_ROOT; };
+		772856E51CADCE2E00460E7C /* OEXDateFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXDateFormatting.m; path = Source/Core/Code/OEXDateFormatting.m; sourceTree = SOURCE_ROOT; };
 		773181361B697644000CC050 /* DiscussionDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataManager.swift; sourceTree = "<group>"; };
 		773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsViewControllerTests.swift; sourceTree = "<group>"; };
 		7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeparatorInsetable.swift; sourceTree = "<group>"; };
@@ -983,9 +986,9 @@
 		775391431C9760BD00FA959C /* NSString+OEXCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+OEXCrypto.m"; path = "Source/Core/Code/NSString+OEXCrypto.m"; sourceTree = SOURCE_ROOT; };
 		775391471C97A70700FA959C /* RegistrationAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPI.swift; path = Source/Core/Code/RegistrationAPI.swift; sourceTree = SOURCE_ROOT; };
 		775391491C98A15100FA959C /* VideoBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBlockViewControllerTests.swift; sourceTree = "<group>"; };
-		775391831CA0600700FA959C /* RegistrationAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPITests.swift; path = Source/Core/Test/Code/RegistrationAPITests.swift; sourceTree = SOURCE_ROOT; };
 		7753914C1C98B6CA00FA959C /* RegistrationScreenInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationScreenInteractor.swift; sourceTree = "<group>"; };
 		7753914F1C98B7C500FA959C /* RegisterFeatureTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterFeatureTestCase.swift; sourceTree = "<group>"; };
+		775391831CA0600700FA959C /* RegistrationAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationAPITests.swift; path = Source/Core/Test/Code/RegistrationAPITests.swift; sourceTree = SOURCE_ROOT; };
 		775434801AD738AD00635A40 /* OEXPushProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushProvider.h; sourceTree = "<group>"; };
 		775434811AD7394D00635A40 /* OEXPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushNotificationManager.h; sourceTree = "<group>"; };
 		775434821AD7394D00635A40 /* OEXPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationManager.m; sourceTree = "<group>"; };
@@ -1084,7 +1087,6 @@
 		778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXEnvironment.m; sourceTree = "<group>"; };
 		778C72EE1B179C4A00FC3F68 /* CourseOutlineModeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineModeController.swift; sourceTree = "<group>"; };
 		778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Functional.swift"; sourceTree = "<group>"; };
-		778CC8231BBECD9100DCCAE4 /* RawStringExtractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawStringExtractable.swift; sourceTree = "<group>"; };
 		778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAnalyticsTracker.swift; sourceTree = "<group>"; };
 		778D53341B3D96E900441A98 /* ListCursor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCursor.swift; sourceTree = "<group>"; };
 		778D53361B3D97CC00441A98 /* ListCursorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCursorTests.swift; sourceTree = "<group>"; };
@@ -1124,6 +1126,7 @@
 		77ADF4B11AC1FACC00AC8955 /* OEXTextStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXTextStyle.h; sourceTree = "<group>"; };
 		77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTextStyle.m; sourceTree = "<group>"; };
 		77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtilityTests.m; sourceTree = "<group>"; };
+		77AF076C1CADD1BE00A42704 /* JSON+Formatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSON+Formatting.swift"; sourceTree = SOURCE_ROOT; };
 		77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentOverrideOverrideOperation.swift; sourceTree = "<group>"; };
 		77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentGenerationOperation.swift; sourceTree = "<group>"; };
 		77AFD10F1C1B4F79001985FD /* NSString+TestExamples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TestExamples.h"; sourceTree = "<group>"; };
@@ -1565,8 +1568,6 @@
 			isa = PBXGroup;
 			children = (
 				77E209821AF049930071316D /* Course Structure */,
-				77000A431A7754A3007D306C /* OEXDateFormatting.h */,
-				77000A441A7754A3007D306C /* OEXDateFormatting.m */,
 				191A001E1940560D004F7902 /* OEXDataParser.h */,
 				191A001F1940560D004F7902 /* OEXDataParser.m */,
 				191A002219405B91004F7902 /* OEXUserDetails.h */,
@@ -1958,7 +1959,7 @@
 		775391351C97405D00FA959C /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				775391471C97A70700FA959C /* RegistrationAPI.swift */,
+				77AF07701CADD2D800A42704 /* API */,
 				771D65DA1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift */,
 				771D65C21C922DE500112B7E /* OEXHTTPStatusCodes.h */,
 				771D65C81C922EE600112B7E /* NetworkManager.swift */,
@@ -2014,6 +2015,7 @@
 			children = (
 				775391831CA0600700FA959C /* RegistrationAPITests.swift */,
 				77E6489F1C91EB2000B6740D /* NetworkManagerTests.swift */,
+				772856E21CADCE0900460E7C /* OEXDateFormattingTests.m */,
 				7753913B1C97579000FA959C /* PersistentResponseCacheTests.swift */,
 			);
 			name = Tests;
@@ -2073,7 +2075,6 @@
 			children = (
 				77DCD23C1C2B434200CAEBB5 /* UIViewController+Overlay.swift */,
 				7706AAC01BCFEEBF00728432 /* NSAttributedString+Formatting.swift */,
-				778CC8231BBECD9100DCCAE4 /* RawStringExtractable.swift */,
 				7727EC341BBC73F300C9987F /* RevealViewController.swift */,
 				5DEA47D51B62F64300831EC9 /* QLearnSDK */,
 				774B393A1B5EEF8A00595D33 /* UIAlertController+Selection.swift */,
@@ -2270,6 +2271,14 @@
 			name = Providers;
 			sourceTree = "<group>";
 		};
+		77AF07701CADD2D800A42704 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				775391471C97A70700FA959C /* RegistrationAPI.swift */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
 		77AFD11E1C1B77D3001985FD /* Lists */ = {
 			isa = PBXGroup;
 			children = (
@@ -2373,6 +2382,7 @@
 			isa = PBXGroup;
 			children = (
 				77E648841C91385C00B6740D /* Array+Functional.swift */,
+				77AF076C1CADD1BE00A42704 /* JSON+Formatting.swift */,
 				77E648241C90DE0200B6740D /* NSBundle+OEXConveniences.h */,
 				77E648251C90DE0200B6740D /* NSBundle+OEXConveniences.m */,
 				771D65D61C922FF400112B7E /* NSHTTPURLResponse+OEXHelpers.swift */,
@@ -2383,6 +2393,7 @@
 				77E648901C91407B00B6740D /* NSObject+OEXDeallocAction.h */,
 				77E648911C91407B00B6740D /* NSObject+OEXDeallocAction.m */,
 				771D65D21C922FD400112B7E /* Operation.swift */,
+				772856E01CADC5DB00460E7C /* RawStringExtractable.swift */,
 				771D65CF1C922FC800112B7E /* StreamWaitOperation.swift */,
 			);
 			name = "Library Additions";
@@ -2432,6 +2443,8 @@
 				775391341C97404600FA959C /* Base Structures */,
 				77E648631C91276500B6740D /* Configuration */,
 				77E647BF1C90C6BE00B6740D /* Library Additions */,
+				772856E41CADCE2E00460E7C /* OEXDateFormatting.h */,
+				772856E51CADCE2E00460E7C /* OEXDateFormatting.m */,
 				775391351C97405D00FA959C /* Network */,
 			);
 			name = Code;
@@ -3023,7 +3036,6 @@
 				77F76A6F1B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift */,
 				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
 				770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */,
-				77000A461A77555B007D306C /* OEXDateFormattingTests.m */,
 				9E35A2831B32D7090040B9A9 /* DateFormattingTests.swift */,
 				194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */,
 				7778F0921ABA1F8000B4CDA0 /* OEXStatusMessageViewControllerTests.m */,
@@ -3163,6 +3175,7 @@
 				77E647C91C90C76C00B6740D /* NSString+OEXFormatting.h in Headers */,
 				775391441C9760BD00FA959C /* NSString+OEXCrypto.h in Headers */,
 				77E648261C90DE0200B6740D /* NSBundle+OEXConveniences.h in Headers */,
+				772856E81CADCEB600460E7C /* OEXDateFormatting.h in Headers */,
 				771D65C61C922E6700112B7E /* OEXRemovable.h in Headers */,
 				77E648941C91407B00B6740D /* NSObject+OEXDeallocAction.h in Headers */,
 				77E648221C90DD6B00B6740D /* edXCore.h in Headers */,
@@ -3635,17 +3648,20 @@
 				77E648651C9127DF00B6740D /* Logger.swift in Sources */,
 				771D65C91C922EE600112B7E /* NetworkManager.swift in Sources */,
 				77E648611C91274E00B6740D /* OEXConfig.m in Sources */,
+				772856E11CADC5DB00460E7C /* RawStringExtractable.swift in Sources */,
 				77E647D01C90CABD00B6740D /* NSString+OEXFormatting.m in Sources */,
 				771D65D11C922FC800112B7E /* StreamWaitOperation.swift in Sources */,
 				77E6487D1C91337300B6740D /* Alamofire.swift in Sources */,
 				771D65D31C922FD400112B7E /* Operation.swift in Sources */,
 				771D65D91C92300000112B7E /* Box.swift in Sources */,
+				77AF076D1CADD1BE00A42704 /* JSON+Formatting.swift in Sources */,
 				77E647D11C90CB0700B6740D /* SwiftyJSON.swift in Sources */,
 				771D65CD1C922FB800112B7E /* Stream.swift in Sources */,
 				77E648271C90DE0200B6740D /* NSBundle+OEXConveniences.m in Sources */,
 				771D65D51C922FE500112B7E /* PersistentResponseCache.swift in Sources */,
 				771D65D71C922FF400112B7E /* NSHTTPURLResponse+OEXHelpers.swift in Sources */,
 				775391451C9760BD00FA959C /* NSString+OEXCrypto.m in Sources */,
+				772856E71CADCEB200460E7C /* OEXDateFormatting.m in Sources */,
 				771D65C71C922E6700112B7E /* OEXRemovable.m in Sources */,
 				771D65DB1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift in Sources */,
 				77E648951C91407B00B6740D /* NSObject+OEXDeallocAction.m in Sources */,
@@ -3658,6 +3674,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77E648A41C91F99400B6740D /* MockNetworkManager.swift in Sources */,
+				772856E31CADCE0900460E7C /* OEXDateFormattingTests.m in Sources */,
 				775391841CA0600700FA959C /* RegistrationAPITests.swift in Sources */,
 				7753913C1C97579000FA959C /* PersistentResponseCacheTests.swift in Sources */,
 				77E648A01C91EB2000B6740D /* NetworkManagerTests.swift in Sources */,
@@ -3843,7 +3860,6 @@
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
 				77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */,
-				77000A451A7754A3007D306C /* OEXDateFormatting.m in Sources */,
 				77691F9C1B3A0774003922F2 /* Result+JSON.swift in Sources */,
 				199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */,
 				772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */,
@@ -3981,7 +3997,6 @@
 				77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */,
 				775434831AD7394D00635A40 /* OEXPushNotificationManager.m in Sources */,
 				7793764F1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift in Sources */,
-				778CC8241BBECD9100DCCAE4 /* RawStringExtractable.swift in Sources */,
 				77E648591C91235A00B6740D /* OEXConfig+AppFeatures.swift in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,
 				771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */,
@@ -4067,7 +4082,6 @@
 				775391461C9763D000FA959C /* Result+Assertions.swift in Sources */,
 				773CC0251BE42EAC00DDC127 /* UserProfileEditViewControllerTests.swift in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
-				77000A471A77555B007D306C /* OEXDateFormattingTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
 				77691FAB1B3C74AF003922F2 /* OpenOnWebControllerTests.swift in Sources */,
 				77D705FC1B7C0DEC00ABCB70 /* OEXCourseTests.swift in Sources */,

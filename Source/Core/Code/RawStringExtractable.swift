@@ -7,13 +7,12 @@
 //
 
 import Foundation
-import edXCore
 
-protocol RawStringExtractable {
+public protocol RawStringExtractable {
     var rawValue : String { get }
 }
 
-extension JSON {
+public extension JSON {
     
     subscript(key : RawStringExtractable) -> JSON {
         return self[key.rawValue]
@@ -21,7 +20,7 @@ extension JSON {
 
 }
 
-protocol DictionaryExtractionExtension {
+public protocol DictionaryExtractionExtension {
     associatedtype Key
     associatedtype Value
     subscript(key: Key) -> Value? { get }
@@ -29,7 +28,7 @@ protocol DictionaryExtractionExtension {
 
 extension Dictionary: DictionaryExtractionExtension {}
 
-extension DictionaryExtractionExtension where Self.Key == String {
+public extension DictionaryExtractionExtension where Self.Key == String {
     
     subscript(key : RawStringExtractable) -> Value? {
         return self[key.rawValue]

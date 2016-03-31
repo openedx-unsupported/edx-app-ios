@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#import "OEXDateFormatting.h"
+#import <edXCore/edXCore.h>
 
 @interface OEXDateFormattingTests : XCTestCase
 

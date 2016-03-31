@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import edXCore
 
 enum EnrollmentType : String {
     case Native = "native"
