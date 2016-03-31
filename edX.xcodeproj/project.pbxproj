@@ -209,6 +209,7 @@
 		772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 772619B91ADDC68E005BD7E4 /* OEXMockUserDefaults.m */; };
 		7726BD1D1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */; };
 		7727EC351BBC73F300C9987F /* RevealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7727EC341BBC73F300C9987F /* RevealViewController.swift */; };
+		772856DF1CADBFD100460E7C /* BadgesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772856DE1CADBFD100460E7C /* BadgesAPI.swift */; };
 		772856E11CADC5DB00460E7C /* RawStringExtractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772856E01CADC5DB00460E7C /* RawStringExtractable.swift */; };
 		772856E31CADCE0900460E7C /* OEXDateFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 772856E21CADCE0900460E7C /* OEXDateFormattingTests.m */; };
 		772856E71CADCEB200460E7C /* OEXDateFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 772856E51CADCE2E00460E7C /* OEXDateFormatting.m */; };
@@ -372,6 +373,8 @@
 		77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */; };
 		77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */; };
 		77AF076D1CADD1BE00A42704 /* JSON+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF076C1CADD1BE00A42704 /* JSON+Formatting.swift */; };
+		77AF076F1CADD20F00A42704 /* BadgesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF076E1CADD20F00A42704 /* BadgesModel.swift */; };
+		77AF07731CADD44A00A42704 /* BadgesAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07711CADD37800A42704 /* BadgesAPITests.swift */; };
 		77AFD10B1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */; };
 		77AFD10E1C1A75A5001985FD /* UserAgentGenerationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */; };
 		77AFD1111C1B4F79001985FD /* NSString+TestExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD1101C1B4F79001985FD /* NSString+TestExamples.m */; };
@@ -937,6 +940,7 @@
 		7726BD1B1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+OEXSafeAccess.h"; sourceTree = "<group>"; };
 		7726BD1C1A36572F003B3354 /* NSMutableDictionary+OEXSafeAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+OEXSafeAccess.m"; sourceTree = "<group>"; };
 		7727EC341BBC73F300C9987F /* RevealViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RevealViewController.swift; sourceTree = "<group>"; };
+		772856DE1CADBFD100460E7C /* BadgesAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesAPI.swift; path = Source/Core/Code/BadgesAPI.swift; sourceTree = SOURCE_ROOT; };
 		772856E01CADC5DB00460E7C /* RawStringExtractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RawStringExtractable.swift; path = Source/Core/Code/RawStringExtractable.swift; sourceTree = SOURCE_ROOT; };
 		772856E21CADCE0900460E7C /* OEXDateFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXDateFormattingTests.m; path = Source/Core/Test/Code/OEXDateFormattingTests.m; sourceTree = SOURCE_ROOT; };
 		772856E41CADCE2E00460E7C /* OEXDateFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXDateFormatting.h; path = Source/Core/Code/OEXDateFormatting.h; sourceTree = SOURCE_ROOT; };
@@ -1127,6 +1131,8 @@
 		77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTextStyle.m; sourceTree = "<group>"; };
 		77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtilityTests.m; sourceTree = "<group>"; };
 		77AF076C1CADD1BE00A42704 /* JSON+Formatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSON+Formatting.swift"; sourceTree = SOURCE_ROOT; };
+		77AF076E1CADD20F00A42704 /* BadgesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesModel.swift; path = Source/Core/Code/BadgesModel.swift; sourceTree = SOURCE_ROOT; };
+		77AF07711CADD37800A42704 /* BadgesAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesAPITests.swift; sourceTree = SOURCE_ROOT; };
 		77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentOverrideOverrideOperation.swift; sourceTree = "<group>"; };
 		77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentGenerationOperation.swift; sourceTree = "<group>"; };
 		77AFD10F1C1B4F79001985FD /* NSString+TestExamples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TestExamples.h"; sourceTree = "<group>"; };
@@ -2013,6 +2019,7 @@
 		7753913A1C97576100FA959C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				77AF07711CADD37800A42704 /* BadgesAPITests.swift */,
 				775391831CA0600700FA959C /* RegistrationAPITests.swift */,
 				77E6489F1C91EB2000B6740D /* NetworkManagerTests.swift */,
 				772856E21CADCE0900460E7C /* OEXDateFormattingTests.m */,
@@ -2274,6 +2281,8 @@
 		77AF07701CADD2D800A42704 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				772856DE1CADBFD100460E7C /* BadgesAPI.swift */,
+				77AF076E1CADD20F00A42704 /* BadgesModel.swift */,
 				775391471C97A70700FA959C /* RegistrationAPI.swift */,
 			);
 			name = API;
@@ -3642,6 +3651,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				772856DF1CADBFD100460E7C /* BadgesAPI.swift in Sources */,
+				77AF076F1CADD20F00A42704 /* BadgesModel.swift in Sources */,
 				77E648851C91385C00B6740D /* Array+Functional.swift in Sources */,
 				775391481C97A70700FA959C /* RegistrationAPI.swift in Sources */,
 				771D65D01C922FC800112B7E /* Removable.swift in Sources */,
@@ -3683,6 +3694,7 @@
 				77E648991C91CC0700B6740D /* NSObject+OEXDeallocActionTests.m in Sources */,
 				77E6489C1C91CC6700B6740D /* Array+FunctionalTests.swift in Sources */,
 				77E6482A1C90DE5000B6740D /* NSString+OEXFormattingTests.m in Sources */,
+				77AF07731CADD44A00A42704 /* BadgesAPITests.swift in Sources */,
 				7753913E1C9758A300FA959C /* Result+Assertions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
