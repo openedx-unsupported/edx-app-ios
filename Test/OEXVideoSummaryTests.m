@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "OEXVideoEncoding.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
 
@@ -103,6 +104,22 @@
                            };
     OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info];
     XCTAssertEqual(summary.displayPath.count, 0);
+}
+
+- (void)testUsesFallbackBeforeYoutube {
+    NSDictionary* info = @{@"summary":
+                                 @{@"encoded_videos": @{
+                                                       @"youtube": @{
+                                                               @"url": @"http://youtube.com/whatever",
+                                                               @"size": @(2)
+                                                               }
+                                                       },
+                                     @"video_url":@"http://example.com/whatever",
+                                     @"file_size":@(47)
+                                 }
+                           };
+    OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info];
+    XCTAssertEqualObjects(summary.preferredEncoding.name, @"fallback");
 }
 
 @end
