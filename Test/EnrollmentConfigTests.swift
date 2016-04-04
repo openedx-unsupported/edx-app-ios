@@ -30,7 +30,8 @@ class EnrollmentConfigTests : XCTestCase {
                 "TYPE": "webview",
                 "WEBVIEW" : [
                     "COURSE_SEARCH_URL" : sampleSearchURL,
-                    "COURSE_INFO_URL_TEMPLATE" : sampleInfoURLTemplate
+                    "COURSE_INFO_URL_TEMPLATE" : sampleInfoURLTemplate,
+                    "SEARCH_BAR_ENABLED" : true
                 ]
             ]
         ]
@@ -38,6 +39,7 @@ class EnrollmentConfigTests : XCTestCase {
         XCTAssertEqual(config.courseEnrollmentConfig.type, EnrollmentType.Webview)
         XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.searchURL!.absoluteString, sampleSearchURL)
         XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate!, sampleInfoURLTemplate)
+        XCTAssertTrue(config.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled)
     }
 
 }

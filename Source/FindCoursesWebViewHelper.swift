@@ -37,24 +37,32 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         if let container = delegate?.containingControllerForWebViewHelper(self) {
             loadController.setupInController(container, contentView: webView)
 
-            searchBar.delegate = self
+            let searchbarEnabled = config?.courseEnrollmentConfig.webviewConfig.nativeSeachbarEnabled ?? false
 
-            container.view.insertSubview(searchBar, atIndex: 0)
-            container.view.insertSubview(self.webView, atIndex: 0)
+            let webviewTop: ConstraintItem
+            if searchbarEnabled {
+                searchBar.delegate = self
 
-            searchBar.snp_makeConstraints{ make in
-                make.leading.equalTo(container.view)
-                make.trailing.equalTo(container.view)
-                make.top.equalTo(container.view)
+                container.view.insertSubview(searchBar, atIndex: 0)
 
+                searchBar.snp_makeConstraints{ make in
+                    make.leading.equalTo(container.view)
+                    make.trailing.equalTo(container.view)
+                    make.top.equalTo(container.view)
+                }
+                webviewTop = searchBar.snp_bottom
+            } else {
+                webviewTop = container.view.snp_top
             }
 
-            self.webView.snp_makeConstraints { make in
+
+            container.view.insertSubview(webView, atIndex: 0)
+
+            webView.snp_makeConstraints { make in
                 make.leading.equalTo(container.view)
                 make.trailing.equalTo(container.view)
                 make.bottom.equalTo(container.view)
-                make.top.equalTo(searchBar.snp_bottom)
-//                make.edges.equalTo(container.view)
+                make.top.equalTo(webviewTop)
             }
         }
     }
