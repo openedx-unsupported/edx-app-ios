@@ -8,10 +8,14 @@
 
 import Foundation
 
-private class GestureListener : NSObject, Removable {
-    var token : Void  = ()
+private class GestureListener : Removable {
+    let token = malloc(1)
     var action : (UIGestureRecognizer -> Void)?
     var removeAction : (GestureListener -> Void)?
+    
+    deinit {
+        free(token)
+    }
     
     @objc func gestureFired(gesture : UIGestureRecognizer) {
         self.action?(gesture)
@@ -36,18 +40,18 @@ extension GestureActionable where Self : UIGestureRecognizer {
     }
     
     func addAction(action : Self -> Void) -> Removable {
-        var listener = GestureListener()
+        let listener = GestureListener()
         listener.action = {(gesture : UIGestureRecognizer) in
             if let gesture = gesture as? Self {
                 action(gesture)
             }
         }
-        objc_setAssociatedObject(self, &listener, listener, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        listener.removeAction = {[weak self] (var listener : GestureListener) in
+        objc_setAssociatedObject(self, listener.token, listener, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        listener.removeAction = {[weak self] (listener : GestureListener) in
             self?.removeTarget(listener, action: nil)
-            objc_setAssociatedObject(self, &listener, nil, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, listener.token, nil, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
-        self.addTarget(listener, action: Selector("gestureFired:"))
+        self.addTarget(listener, action: #selector(GestureListener.gestureFired(_:)))
         
         return listener
     }

@@ -25,7 +25,10 @@ private enum ErrorFields: String, RawStringExtractable {
 
 extension NSError {
     convenience init?(json: JSON, code: Int) {
-        guard let info = json.object as? [NSObject : AnyObject] else { return nil }
+        guard let info = json.object as? [NSObject : AnyObject] else {
+            self.init(domain: OEXErrorDomain, code: code, userInfo: nil)
+            return nil
+        }
         self.init(domain: OEXErrorDomain, code: code, userInfo: info)
     }
 

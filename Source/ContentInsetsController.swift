@@ -12,7 +12,7 @@ public protocol ContentInsetsSourceDelegate : class {
     func contentInsetsSourceChanged(source : ContentInsetsSource)
 }
 
-public protocol ContentInsetsSource {
+public protocol ContentInsetsSource : class {
     var currentInsets : UIEdgeInsets { get }
     weak var insetsDelegate : ContentInsetsSourceDelegate? { get set }
     var affectsScrollIndicators : Bool { get }
@@ -73,7 +73,7 @@ public class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
         updateInsets()
     }
     
-    public func addSource(var source : ContentInsetsSource) {
+    public func addSource(source : ContentInsetsSource) {
         source.insetsDelegate = self
         insetSources.append(source)
         updateInsets()

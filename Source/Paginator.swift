@@ -7,7 +7,7 @@
 //
 
 protocol Paginator {
-    typealias Element
+    associatedtype Element
     // Accumulation of all the objects loaded so far
     var stream : Stream<[Element]> { get }
     var hasNext : Bool { get }

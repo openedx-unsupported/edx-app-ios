@@ -19,7 +19,7 @@ public class OEXCheckBox: UIButton {
     private func _setup() {
         imageView?.contentMode = .ScaleAspectFit
         
-        addTarget(self, action: "tapped", forControlEvents: .TouchUpInside)
+        addTarget(self, action: #selector(OEXCheckBox.tapped), forControlEvents: .TouchUpInside)
         updateState()
     }
     

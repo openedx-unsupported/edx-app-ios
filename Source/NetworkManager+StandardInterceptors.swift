@@ -32,7 +32,10 @@ extension NetworkManager {
     }
 
     static func invalidAccessInterceptor(router: OEXRouter?, response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
-        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), error = NSError(json: json, code: response.statusCode) where statusCode == .Code401Unauthorised else {
+        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode),
+            error = NSError(json: json, code: response.statusCode)
+            where statusCode == .Code401Unauthorised else
+        {
             return Success(json)
         }
         dispatch_async(dispatch_get_main_queue()) {
