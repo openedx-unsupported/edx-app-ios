@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString* const OEXVideoEncodingFallback;
+
 @interface OEXVideoEncoding : NSObject
 
 - (id)initWithDictionary:(NSDictionary*)dictionary name:(NSString*)name;
@@ -22,8 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// [String], ordered by preference
 + (NSArray*)knownEncodingNames;
-
-+ (NSString*)fallbackEncodingName;
 
 @end
 
