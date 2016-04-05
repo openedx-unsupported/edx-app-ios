@@ -377,6 +377,7 @@
 		77AF076F1CADD20F00A42704 /* BadgesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF076E1CADD20F00A42704 /* BadgesModel.swift */; };
 		77AF07731CADD44A00A42704 /* BadgesAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07711CADD37800A42704 /* BadgesAPITests.swift */; };
 		77AF07751CB311B200A42704 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07741CB311B200A42704 /* UserProfileView.swift */; };
+		77AF07771CB42AC400A42704 /* TabContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07761CB42AC400A42704 /* TabContainerView.swift */; };
 		77AFD10B1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */; };
 		77AFD10E1C1A75A5001985FD /* UserAgentGenerationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */; };
 		77AFD1111C1B4F79001985FD /* NSString+TestExamples.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD1101C1B4F79001985FD /* NSString+TestExamples.m */; };
@@ -392,6 +393,7 @@
 		77BECB0A1B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */; };
 		77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */; };
 		77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BFD8691BB9E15B001D7BE5 /* Strings.swift */; };
+		77C6BBC81CB43A6D0026C37B /* TabContainerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C6BBC61CB438170026C37B /* TabContainerViewTests.swift */; };
 		77C901A71BBDDD630016E468 /* TableCellStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C901A61BBDDD630016E468 /* TableCellStyle.swift */; };
 		77CBF55A1BFBE89300B4F121 /* CourseAnnouncementsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CBF5591BFBE89300B4F121 /* CourseAnnouncementsViewControllerTests.swift */; };
 		77D470571C11EB4D00C6F0C9 /* ChoiceLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D470561C11EB4D00C6F0C9 /* ChoiceLabel.swift */; };
@@ -1137,6 +1139,7 @@
 		77AF076E1CADD20F00A42704 /* BadgesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesModel.swift; path = Source/Core/Code/BadgesModel.swift; sourceTree = SOURCE_ROOT; };
 		77AF07711CADD37800A42704 /* BadgesAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesAPITests.swift; sourceTree = SOURCE_ROOT; };
 		77AF07741CB311B200A42704 /* UserProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
+		77AF07761CB42AC400A42704 /* TabContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabContainerView.swift; sourceTree = "<group>"; };
 		77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentOverrideOverrideOperation.swift; sourceTree = "<group>"; };
 		77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentGenerationOperation.swift; sourceTree = "<group>"; };
 		77AFD10F1C1B4F79001985FD /* NSString+TestExamples.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+TestExamples.h"; sourceTree = "<group>"; };
@@ -1156,6 +1159,7 @@
 		77BECB071B0A771700894276 /* OfflineModeViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineModeViewTests.swift; sourceTree = "<group>"; };
 		77BECB091B0A8AD800894276 /* UIEdgeInsets+GeometryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+GeometryTests.swift"; sourceTree = "<group>"; };
 		77BFD8691BB9E15B001D7BE5 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C6BBC61CB438170026C37B /* TabContainerViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabContainerViewTests.swift; sourceTree = "<group>"; };
 		77C901A61BBDDD630016E468 /* TableCellStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCellStyle.swift; sourceTree = "<group>"; };
 		77CBF5591BFBE89300B4F121 /* CourseAnnouncementsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseAnnouncementsViewControllerTests.swift; sourceTree = "<group>"; };
 		77D470561C11EB4D00C6F0C9 /* ChoiceLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChoiceLabel.swift; sourceTree = "<group>"; };
@@ -2293,6 +2297,15 @@
 			name = API;
 			sourceTree = "<group>";
 		};
+		77AF07781CB42ACB00A42704 /* Helper Views */ = {
+			isa = PBXGroup;
+			children = (
+				199B9B761935EA5200081A09 /* ErrorView */,
+				77AF07761CB42AC400A42704 /* TabContainerView.swift */,
+			);
+			name = "Helper Views";
+			sourceTree = "<group>";
+		};
 		77AFD11E1C1B77D3001985FD /* Lists */ = {
 			isa = PBXGroup;
 			children = (
@@ -2948,9 +2961,9 @@
 				198826E41952FE1A005D4D8A /* Open In Browser */,
 				1913DD3A194B265600573977 /* Download View */,
 				193B504219459BE60038E11C /* Custom Styles */,
+				77AF07781CB42ACB00A42704 /* Helper Views */,
 				191A001D194055DD004F7902 /* Model */,
 				8FE04B4A1A1E24C7007F88B8 /* SocialLogin */,
-				199B9B761935EA5200081A09 /* ErrorView */,
 				E0AF4E8C1BFB19A00083753C /* PassthroughView */,
 				199B9B6419349DE800081A09 /* Videos */,
 				BE0D454E192DE63900D720D6 /* Data */,
@@ -2986,6 +2999,7 @@
 		BECB7B331924C0C3009C77F1 /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
+				77C6BBC61CB438170026C37B /* TabContainerViewTests.swift */,
 				775391491C98A15100FA959C /* VideoBlockViewControllerTests.swift */,
 				775391401C97593B00FA959C /* NetworkManager+InterceptionTests.swift */,
 				77ADB7921C92228D006A66A1 /* XCTestCase+Stream.swift */,
@@ -3882,6 +3896,7 @@
 				772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */,
 				77ADF49E1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m in Sources */,
 				B4B6D63F1A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */,
+				77AF07771CB42AC400A42704 /* TabContainerView.swift in Sources */,
 				199B9B751935E35D00081A09 /* OEXHelperVideoDownload.m in Sources */,
 				BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */,
 				B4B6D6151A949F0F000F44E8 /* OEXRegistrationFormTextField.m in Sources */,
@@ -4150,6 +4165,7 @@
 				775391411C97593B00FA959C /* NetworkManager+InterceptionTests.swift in Sources */,
 				774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */,
 				773181401B6C23F9000CC050 /* DiscussionTopic+DataFactory.swift in Sources */,
+				77C6BBC81CB43A6D0026C37B /* TabContainerViewTests.swift in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
 				77E648A51C92062900B6740D /* MockResponseCache.swift in Sources */,
 				77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */,
