@@ -26,6 +26,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     private let countryLabel = UILabel()
     private let languageLabel = UILabel()
     private let bioText = UITextView()
+    private let tabs = TabContainerView()
     private let bioSystemMessage = SystemLabel()
     private let avatarImage = ProfileImageView()
     private let header = ProfileBanner()
@@ -33,16 +34,15 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        bioText.textContainerInset = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
 
         self.addSubview(scrollView)
-        scrollView.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
 
         setupViews()
         setupConstraints()
     }
 
     private func setupViews() {
+        scrollView.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
         scrollView.delegate = self
 
         avatarImage.borderWidth = 3.0
@@ -64,19 +64,27 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         countryLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
         scrollView.addSubview(countryLabel)
 
-        bioText.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        bioText.backgroundColor = UIColor.clearColor()
         bioText.textAlignment = .Natural
         bioText.scrollEnabled = false
         bioText.editable = false
-        scrollView.addSubview(bioText)
+        bioText.textContainer.lineFragmentPadding = 0;
+        bioText.textContainerInset = UIEdgeInsetsZero
+
+        tabs.layoutMargins = UIEdgeInsets(top: StandardHorizontalMargin, left: StandardHorizontalMargin, bottom: StandardHorizontalMargin, right: StandardHorizontalMargin)
+
+        tabs.items = [
+            TabContainerView.Item(name: "About", view: bioText, identifier: "bio")
+        ]
+        scrollView.addSubview(tabs)
 
         bottomBackground.backgroundColor = bioText.backgroundColor
-        scrollView.insertSubview(bottomBackground, belowSubview: bioText)
+        scrollView.insertSubview(bottomBackground, belowSubview: tabs)
 
         bioSystemMessage.hidden = true
         bioSystemMessage.numberOfLines = 0
         bioSystemMessage.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        scrollView.insertSubview(bioSystemMessage, aboveSubview: bioText)
+        scrollView.insertSubview(bioSystemMessage, aboveSubview: tabs)
 
         header.style = .LightContent
         header.backgroundColor = scrollView.backgroundColor
@@ -121,7 +129,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             make.centerX.equalTo(scrollView)
         }
 
-        bioText.snp_makeConstraints { (make) -> Void in
+        tabs.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(countryLabel.snp_bottom).offset(35).priorityHigh()
             make.bottom.equalTo(scrollView)
             make.leading.equalTo(scrollView)
@@ -130,11 +138,11 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         }
 
         bioSystemMessage.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(bioText)
+            make.top.equalTo(tabs)
             make.bottom.greaterThanOrEqualTo(self)
-            make.leading.equalTo(bioText)
-            make.trailing.equalTo(bioText)
-            make.width.equalTo(bioText)
+            make.leading.equalTo(scrollView)
+            make.trailing.equalTo(scrollView)
+            make.width.equalTo(scrollView)
         }
 
         bottomBackground.snp_makeConstraints {make in
