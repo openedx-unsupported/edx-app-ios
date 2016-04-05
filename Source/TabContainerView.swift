@@ -39,11 +39,6 @@ class TabContainerView : UIView {
             make.bottom.equalTo(self.snp_bottomMargin)
         }
 
-        let selectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralBlackT())
-        let unselectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
-        control.setTitleTextAttributes(selectedAttributes.attributes, forState: .Selected)
-        control.setTitleTextAttributes(unselectedAttributes.attributes, forState: .Normal)
-        control.tintColor = OEXStyles.sharedStyles().primaryXLightColor()
         control.oex_addAction({[weak self] control in
             let index = (control as! UISegmentedControl).selectedSegmentIndex
             self?.showTabAtIndex(index)
