@@ -77,7 +77,10 @@
             OEXVideoEncoding* encoding = [[OEXVideoEncoding alloc] initWithDictionary:encodingInfo name:name];
             [encodings safeSetObject:encoding forKey:name];
         }];
-        self.encodings = (rawEncodings != nil) ? encodings : @{@"fallback" : [[OEXVideoEncoding alloc] initWithName:nil URL:videoURL size:videoSize]};
+        if(!encodings[OEXVideoEncodingFallback]) {
+            [encodings safeSetObject:[[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:videoURL size:videoSize] forKey:OEXVideoEncodingFallback];
+        }
+        self.encodings = encodings;
 
         self.videoThumbnailURL = [summary objectForKey:@"video_thumbnail_url"];
         self.videoID = [summary objectForKey:@"id"] ;
@@ -122,7 +125,7 @@
 }
 
 - (OEXVideoEncoding*)preferredEncoding {
-    for(NSString* name in [[OEXVideoEncoding knownEncodingNames] arrayByAddingObject:[OEXVideoEncoding fallbackEncodingName]]) {
+    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
         OEXVideoEncoding* encoding = self.encodings[name];
         if (encoding != nil) {
             return encoding;

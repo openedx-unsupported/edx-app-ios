@@ -12,6 +12,8 @@ static NSString* const OEXVideoEncodingYoutube = @"youtube";
 static NSString* const OEXVideoEncodingMobileHigh = @"mobile_high";
 static NSString* const OEXVideoEncodingMobileLow = @"mobile_low";
 
+NSString* const OEXVideoEncodingFallback = @"fallback";
+
 @interface OEXVideoEncoding ()
 
 @property (copy, nonatomic) NSString* name;
@@ -23,11 +25,7 @@ static NSString* const OEXVideoEncodingMobileLow = @"mobile_low";
 @implementation OEXVideoEncoding
 
 + (NSArray*)knownEncodingNames {
-    return @[OEXVideoEncodingMobileLow, OEXVideoEncodingMobileHigh, OEXVideoEncodingYoutube];
-}
-
-+ (NSString*)fallbackEncodingName {
-    return @"fallback";
+    return @[OEXVideoEncodingMobileLow, OEXVideoEncodingMobileHigh, OEXVideoEncodingFallback, OEXVideoEncodingYoutube];
 }
 
 - (id)initWithDictionary:(NSDictionary*)dictionary name:(NSString*)name {
