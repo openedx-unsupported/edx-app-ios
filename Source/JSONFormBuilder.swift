@@ -64,12 +64,6 @@ class JSONFormBuilder {
             
             titleLabel.textAlignment = .Natural
             
-            let selectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralBlackT())
-            let unselectedAttributes = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
-            typeControl.setTitleTextAttributes(selectedAttributes.attributes, forState: .Selected)
-            typeControl.setTitleTextAttributes(unselectedAttributes.attributes, forState: .Normal)
-            typeControl.tintColor = OEXStyles.sharedStyles().primaryXLightColor()
-            
             descriptionLabel.textAlignment = .Natural
             descriptionLabel.numberOfLines = 0
             descriptionLabel.preferredMaxLayoutWidth = 200 //value doesn't seem to matter as long as it's small enough

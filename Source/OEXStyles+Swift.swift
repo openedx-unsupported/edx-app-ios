@@ -37,7 +37,7 @@ extension OEXStyles {
         let styleAttributes = OEXTextStyle(weight: .Normal, size : .Small, color : self.neutralBlack()).attributes
         UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, forState: UIControlState.Selected)
         UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, forState: UIControlState.Normal)
-        UISegmentedControl.appearance().tintColor = self.neutralLight()
+        UISegmentedControl.appearance().tintColor = self.primaryXLightColor()
         
         UINavigationBar.appearance().translucent = false
 
