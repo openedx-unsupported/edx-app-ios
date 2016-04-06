@@ -741,7 +741,7 @@ extension AuthorLabelProtocol {
         attributedStrings.append(byAuthor)
         
         if let authorLabel = label {
-            attributedStrings.append(textStyle.attributedStringWithText(authorLabel))
+            attributedStrings.append(textStyle.attributedStringWithText("(\(authorLabel))"))
         }
         
         return NSAttributedString.joinInNaturalLayout(attributedStrings)
