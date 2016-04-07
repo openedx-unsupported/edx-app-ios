@@ -16,7 +16,9 @@ import UIKit
 // TODO: Migrate off of NSCoding and instead write JSON blobs
 // It's less convenient, but as a format it's less tied to our code at a specific
 // moment in time
-public class ResponseCacheEntry : NSObject, NSCoding {
+// Use @objc so that if we move this between modules again, any new cache entries
+// will reference the same class
+@objc(OEXResponseCacheEntry) public class ResponseCacheEntry : NSObject, NSCoding {
     public let data : NSData?
     public let headers : [String:String]
     public let statusCode : Int
@@ -76,7 +78,7 @@ public func responseCacheKeyForRequest(request : NSURLRequest) -> String? {
     func pathForRequestKey(key: String?) -> NSURL?
 }
 
-@objc public class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverDelegate {
+public class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverDelegate {
 
     // We need a valid class that implements NSCoding to return in case unarchiving fails
     // because it can't find the class to unarchive.
