@@ -11,11 +11,11 @@ import Foundation
 public struct BadgeSpec {
 
     let slug : String
-    let issuingComponent : String
-    let name : String
-    let description : String
-    let imageURL : NSURL
-    let courseID : String
+    let issuingComponent : String?
+    let name : String?
+    let description : String?
+    let imageURL : NSURL?
+    let courseID : String?
 
     private enum Fields : String, RawStringExtractable {
         case Slug = "slug"
@@ -28,29 +28,24 @@ public struct BadgeSpec {
 
     public init?(json : JSON) {
         guard let
-            slug = json[Fields.Slug].string,
-            issuingComponent = json[Fields.IssuingComponent].string,
-            name = json[Fields.Name].string,
-            description = json[Fields.Description].string,
-            imageURL = json[Fields.ImageURL].URL,
-            courseID = json[Fields.CourseID].string
+            slug = json[Fields.Slug].string
             else {
                 return nil
         }
-        self.issuingComponent = issuingComponent
         self.slug = slug
-        self.name = name
-        self.description = description
-        self.imageURL = imageURL
-        self.courseID = courseID
+        self.issuingComponent = json[Fields.IssuingComponent].string
+        self.name = json[Fields.Name].string
+        self.description = json[Fields.Description].string
+        self.imageURL = json[Fields.ImageURL].URL
+        self.courseID = json[Fields.CourseID].string
     }
 }
 
 public struct BadgeAssertion {
-    let username : String
+    let username : String?
     let evidence : NSURL
     let imageURL : NSURL
-    let awardedOn : NSDate
+    let awardedOn : NSDate?
     let spec : BadgeSpec
 
 
@@ -64,18 +59,16 @@ public struct BadgeAssertion {
 
     public init?(json : JSON) {
         guard let
-            username = json[Fields.Username].string,
+            spec = BadgeSpec(json: json[Fields.Spec]),
             evidence = json[Fields.Evidence].URL,
-            imageURL = json[Fields.ImageURL].URL,
-            awardedOn = json[Fields.AwardedOn].serverDate,
-            spec = BadgeSpec(json: json[Fields.Spec])
-            else {
+            imageURL = json[Fields.ImageURL].URL ?? spec.imageURL else
+        {
                 return nil
         }
-        self.username = username
         self.evidence = evidence
         self.imageURL = imageURL
-        self.awardedOn = awardedOn
+        self.username = json[Fields.Username].string
+        self.awardedOn = json[Fields.AwardedOn].serverDate
         self.spec = spec
     }
 }
