@@ -134,4 +134,83 @@ class PersistentResponseCacheTests: XCTestCase {
         waitForExpectations()
     }
 
+
+    // Basic class that implements NSCoding
+    class CodeableObject : NSObject, NSCoding {
+        override init() {
+            super.init()
+        }
+
+        required init?(coder aDecoder: NSCoder) {
+        }
+
+        func encodeWithCoder(aCoder: NSCoder) {
+            // no representation
+        }
+    }
+
+    // Since we use NSCoding to save cache entries, it's not super robust against
+    // refactoring like class name changes or moving classes between modules.
+    // This test saves a cache file with a class
+    // that only exists temporarily and makes sure we don't crash if the class is gone.
+    func testInvalidObjectNoCrash() {
+
+        let url = "http://example.com/url"
+        let request = NSURLRequest(URL: NSURL(string: url)!)
+        let key = responseCacheKeyForRequest(request)
+        let provider = Provider(username: username, basePath: basePath)
+        let path = provider.pathForRequestKey(key)
+
+        let klass: AnyClass = objc_allocateClassPair(CodeableObject.self, "FakeClass", 0)
+        objc_registerClassPair(klass)
+        autoreleasepool {
+            let object = OEXMetaClassHelpers.instanceOfClassNamed("FakeClass")
+            NSKeyedArchiver.archiveRootObject(object, toFile: path!.path!)
+        }
+        objc_disposeClassPair(klass)
+
+        let cache = PersistentResponseCache(provider: provider)
+
+        let expectation = expectationWithDescription("cache loads")
+        cache.fetchCacheEntryWithRequest(request) { (entry) in
+            XCTAssertNil(entry)
+            expectation.fulfill()
+        }
+        waitForExpectations()
+    }
+
+    // Since we use NSCoding to save cache entries, it's not super robust against
+    // refactoring like class name changes or moving classes between modules.
+    // This test saves a cache file with a variant
+    // of the entry class that only exists temporarily and makes sure we still get
+    // a proper cache entry. This is a proxy for trying to unarchive the same class, but moved
+    // to a different module which is hard to fake.
+    func testCacheEntryClassRenamed() {
+        let url = "http://example.com/url"
+        let request = NSURLRequest(URL: NSURL(string: url)!)
+        let key = responseCacheKeyForRequest(request)
+        let provider = Provider(username: username, basePath: basePath)
+        let path = provider.pathForRequestKey(key)
+
+        let klass: AnyClass = objc_allocateClassPair(ResponseCacheEntry.self, "FakeEntryClass", 0)
+        objc_registerClassPair(klass)
+        autoreleasepool {
+            let entry = ResponseCacheEntry(data: "test".dataUsingEncoding(NSUTF8StringEncoding), response: NSHTTPURLResponse(URL: request.URL!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!)
+            object_setClass(entry, klass)
+            NSKeyedArchiver.archiveRootObject(entry, toFile: path!.path!)
+        }
+        objc_disposeClassPair(klass)
+
+        let cache = PersistentResponseCache(provider: provider)
+
+        let expectation = expectationWithDescription("cache loads")
+        cache.fetchCacheEntryWithRequest(request) { (entry) in
+            XCTAssertEqual(entry?.statusCode, 200)
+            XCTAssertEqual(entry?.URL, request.URL)
+            XCTAssertEqual(entry?.data, "test".dataUsingEncoding(NSUTF8StringEncoding))
+            expectation.fulfill()
+        }
+        waitForExpectations()
+    }
+
 }
