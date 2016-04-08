@@ -75,4 +75,24 @@
     XCTAssertEqualObjects(courseURLString, @"https://webview.edx.org/course/science-happiness-uc-berkeleyx-gg101x", @"Course Info URL incorrectly determined");
 }
 
+- (void) testSearchQueryBare {
+    NSString* baseURL = @"http://www.fakex.com/course";
+    NSString* queryString = @"mobile linux";
+
+    NSString* expected = @"http://www.fakex.com/course?search_query=mobile+linux";
+    NSURL* expectedURL = [NSURL URLWithString:expected];
+    NSURL* output = [FindCoursesWebViewHelper buildQuery:baseURL toolbarString:queryString];
+    XCTAssertEqualObjects(output, expectedURL);
+}
+
+- (void) testSearchQueryAlreadyHasQuery {
+    NSString* baseURL = @"http://www.fakex.com/course?type=mobile";
+    NSString* queryString = @"mobile linux";
+
+    NSString* expected = @"http://www.fakex.com/course?type=mobile&search_query=mobile+linux";
+    NSURL* expectedURL = [NSURL URLWithString:expected];
+    NSURL* output = [FindCoursesWebViewHelper buildQuery:baseURL toolbarString:queryString];
+    XCTAssertEqualObjects(output, expectedURL);
+}
+
 @end
