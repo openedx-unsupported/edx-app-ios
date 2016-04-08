@@ -8,7 +8,17 @@
 
 import UIKit
 
-public class ResponseCacheEntry : NSObject, NSCoding {
+// Be careful renaming this class or moving it between modules
+// since we archive instances of it to disk using NSCoding
+// which figures out how to inflate a class by looking it up by name.
+// Note that different swift modules will result in different class names even if the
+// class name string didn't change
+// TODO: Migrate off of NSCoding and instead write JSON blobs
+// It's less convenient, but as a format it's less tied to our code at a specific
+// moment in time
+// Use @objc so that if we move this between modules again, any new cache entries
+// will reference the same class
+@objc(OEXResponseCacheEntry) public class ResponseCacheEntry : NSObject, NSCoding {
     public let data : NSData?
     public let headers : [String:String]
     public let statusCode : Int
@@ -68,7 +78,22 @@ public func responseCacheKeyForRequest(request : NSURLRequest) -> String? {
     func pathForRequestKey(key: String?) -> NSURL?
 }
 
-@objc public class PersistentResponseCache : NSObject, ResponseCache {
+public class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverDelegate {
+
+    // We need a valid class that implements NSCoding to return in case unarchiving fails
+    // because it can't find the class to unarchive.
+    // Since it has no properties, it should work no matter what type is used
+    // This will lose the cache entry when we try to cast to an actual cache entry type
+    // but it's better than crashing
+    private class DummyCodeableObject: NSObject, NSCoding {
+        @objc required init?(coder aDecoder: NSCoder) {
+            return nil
+        }
+
+        @objc private func encodeWithCoder(aCoder: NSCoder) {
+            // do nothing
+        }
+    }
     
     private let queue : dispatch_queue_t
     private let pathProvider : PathProvider
@@ -77,13 +102,30 @@ public func responseCacheKeyForRequest(request : NSURLRequest) -> String? {
         queue = dispatch_queue_create("org.edx.request-cache", DISPATCH_QUEUE_SERIAL)
         self.pathProvider = provider
     }
+
+    // When you move a class between modules it gets a different class name from the perspective of
+    // unarchiving. This catches that case and reroutes the unarchiver to the correct class
+    public func unarchiver(unarchiver: NSKeyedUnarchiver, cannotDecodeObjectOfClassName name: String, originalClasses classNames: [String]) -> AnyClass? {
+        if name.containsString("Entry") {
+            return ResponseCacheEntry.classForKeyedUnarchiver()
+        }
+
+        return DummyCodeableObject.classForKeyedUnarchiver()
+    }
+
+    private func unarchiveEntryWithData(data : NSData) -> ResponseCacheEntry? {
+        let unarchiver = NSKeyedUnarchiver(forReadingWithData: data)
+        unarchiver.delegate = self
+        let result = unarchiver.decodeObjectForKey(NSKeyedArchiveRootObjectKey) as? ResponseCacheEntry
+        return result
+    }
     
     public func fetchCacheEntryWithRequest(request : NSURLRequest, completion : ResponseCacheEntry? -> Void) {
         let path = self.pathProvider.pathForRequestKey(responseCacheKeyForRequest(request))
         dispatch_async(queue) {
             if let path = path,
                 data = try? NSData(contentsOfURL: path, options: NSDataReadingOptions()),
-                entry = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? ResponseCacheEntry {
+                entry = self.unarchiveEntryWithData(data) {
                     dispatch_async(dispatch_get_main_queue()) {
                         completion(entry)
                     }
