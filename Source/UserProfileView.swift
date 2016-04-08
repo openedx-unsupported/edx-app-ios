@@ -73,9 +73,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
         tabs.layoutMargins = UIEdgeInsets(top: StandardHorizontalMargin, left: StandardHorizontalMargin, bottom: StandardHorizontalMargin, right: StandardHorizontalMargin)
 
-        tabs.items = [
-            TabContainerView.Item(name: "About", view: bioText, identifier: "bio")
-        ]
+        tabs.items = [bioTab]
         scrollView.addSubview(tabs)
 
         bottomBackground.backgroundColor = bioText.backgroundColor
@@ -191,6 +189,10 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         }
     }
 
+    private var bioTab : TabItem {
+        return TabItem(name: "About", view: bioText, identifier: "bio")
+    }
+
     func populateFields(profile: UserProfile, editable : Bool, networkManager : NetworkManager) {
         let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
         let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
@@ -236,10 +238,20 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
         header.showProfile(profile, networkManager: networkManager)
     }
+
+    var extraTabs : [TabItem] = [] {
+        didSet {
+            tabs.items = [bioTab] + extraTabs
+        }
+    }
     
     @objc func scrollViewDidScroll(scrollView: UIScrollView) {
         UIView.animateWithDuration(0.25) {
             self.header.hidden = scrollView.contentOffset.y < CGRectGetMaxY(self.avatarImage.frame)
         }
+    }
+
+    func chooseTab(identifier: String) {
+        tabs.showTabWithIdentifier(identifier)
     }
 }

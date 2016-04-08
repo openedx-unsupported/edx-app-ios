@@ -66,6 +66,8 @@
 "ACCESSIBILITY_UNKNOWN" = "Unknown";
 /* Accessibility label for Video Icon in the Courseware screens */
 "ACCESSIBILITY_VIDEO" = "Video";
+/* Title of user profile section for user accomplishments (like badges) */
+"ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Add a comment";
 /* Add a response button title used in discussion's responses screen */
