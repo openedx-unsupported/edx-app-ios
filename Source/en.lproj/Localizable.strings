@@ -536,6 +536,8 @@
 "POST_VISIBILITY"="This post is visible only to {cohort}.";
 /* Text that indicates the visibility of the post to everyone */
 "POST_VISIBILITY_EVERYONE" = "This post is visible to everyone.";
+/*Add parenthesis around text*/
+"PARENTHESIS" = "({text})";
 /* Alert dialog title shown when network request takes too long to complete */
 "TIMEOUT_ALERT_TITLE"="Time Out";
 /* Alert dialog content shown when network request takes too long to complete */
