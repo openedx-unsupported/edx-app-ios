@@ -409,7 +409,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     // MARK- DiscussionNewCommentViewControllerDelegate method 
     
-    func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
+    func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment, underlayingResponse response: DiscussionComment?) {
         responseItem.childCount += 1
         
         if !(paginationController?.hasNext ?? false) {

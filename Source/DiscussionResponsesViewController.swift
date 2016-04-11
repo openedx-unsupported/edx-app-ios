@@ -377,9 +377,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                         environment.router?.showDiscussionNewCommentFromController(self, courseID: courseID, thread:thread, context: .Comment(response))
                     }
                 } else {
-                    guard let thread = thread else { return }
-                    
-                    environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed, thread: thread)
+                    self.showDiscussionCommentsScreenForResponse(response)
                 }
             }
         }
@@ -654,9 +652,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
     
+    private func showDiscussionCommentsScreenForResponse(response: DiscussionComment) {
+        guard let thread = thread else { return }
+        
+        environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed, thread: thread)
+    }
+    
     // MARK:- DiscussionNewCommentViewControllerDelegate method
     
-    func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
+    func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment, underlayingResponse response: DiscussionComment?) {
         
         switch controller.currentContext() {
         case .Thread(_):
@@ -667,6 +671,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         case .Comment(_):
             responsesDataController.addedChildComment(comment)
             self.showOverlayMessage(Strings.discussionCommentPosted)
+            
+            if let response = response {
+                self.showDiscussionCommentsScreenForResponse(response)
+            }
         }
         
         self.tableView.reloadData()
