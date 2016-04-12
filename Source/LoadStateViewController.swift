@@ -180,17 +180,20 @@ class LoadStateViewController : UIViewController {
                         self.messageView.attributedMessage = error.attributedDescriptionWithBaseStyle(self.messageStyle)
                         self.messageView.icon = info.icon ?? .UnknownError
                     }
+                    else if let message = info.attributedMessage {
+                        self.messageView.attributedMessage = message
+                        self.messageView.icon = info.icon ?? .UnknownError
+                    }
+                    else if let message = info.message {
+                        self.messageView.message = message
+                        self.messageView.icon = info.icon ?? .UnknownError
+                    }
                     else if let error = info.error where error.oex_isUnknownNetworkError {
                         self.messageView.message = Strings.courseContentUnknown
                         self.messageView.icon = info.icon ?? .UnknownError
                     }
                     else {
-                        if let message = info.attributedMessage {
-                            self.messageView.attributedMessage = message
-                        }
-                        else {
-                            self.messageView.message = info.message ?? info.error?.localizedDescription
-                        }
+                        self.messageView.message = info.error?.localizedDescription
                         self.messageView.icon = info.icon ?? .UnknownError
                     }
                 }
