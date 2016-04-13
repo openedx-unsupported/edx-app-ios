@@ -30,8 +30,11 @@ class FeatureTestCase : XCTestCase {
 /// Requires the current test to be a subclass of FeatureTestCase
 protocol FeatureInteractor {}
 extension FeatureInteractor {
-    func waitForElement(element : XCUIElement, file: String = #file, line: UInt = #line) {
-        let predicate = NSPredicate(format: "exists == true")
+    func waitForElement(element : XCUIElement, findByValue:Bool = false, file: String = #file, line: UInt = #line) {
+        var predicate:NSPredicate
+        
+        findByValue ? (predicate = NSPredicate(format: "value != nil")) : (predicate = NSPredicate(format: "exists == true"))
+        
         FeatureTestCase.activeTest.expectationForPredicate(predicate, evaluatedWithObject: element, handler: nil)
         FeatureTestCase.activeTest.waitForExpectations { (error) -> Void in
             if error != nil {

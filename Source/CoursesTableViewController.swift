@@ -76,6 +76,7 @@ class CoursesTableViewController: UITableViewController {
         self.tableView.dataSource = self
         self.tableView.separatorStyle = .None
         self.tableView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.tableView.accessibilityIdentifier = "courses-table-view"
         
         self.tableView.snp_makeConstraints {make in
             make.edges.equalTo(self.view)

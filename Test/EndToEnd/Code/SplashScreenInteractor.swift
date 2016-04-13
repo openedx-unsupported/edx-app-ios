@@ -30,15 +30,15 @@ class SplashScreenInteractor : FeatureInteractor {
     }
 
     func navigateToLoginScreen() -> LoginScreenInteractor {
-        loginButton.tap()
         let loginScreen = LoginScreenInteractor()
+        loginButton.tapUntilElementExists(loginScreen.container)
         loginScreen.waitForDisplay()
         return loginScreen
     }
 
     func navigateToRegisterScreen() -> RegistrationScreenInteractor {
-        registerButton.tap()
         let registrationScreen = RegistrationScreenInteractor()
+        registerButton.tapUntilElementExists(registrationScreen.container)
         registrationScreen.waitForDisplay()
         return registrationScreen
     }

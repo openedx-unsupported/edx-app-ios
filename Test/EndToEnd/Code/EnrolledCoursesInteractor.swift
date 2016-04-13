@@ -14,7 +14,22 @@ class EnrolledCoursesInteractor : FeatureInteractor {
         return otherElements["enrolled-courses-screen"]
     }
 
+    var navigationBarButton : XCUIElement {
+        return buttons["navigation-bar-button"]
+    }
+
     func observeEnrolledCoursesScreen() {
         waitForElement(container)
+    }
+
+    func openNavigationDrawer() -> NavigationDrawerInteractor {
+        
+        navigationBarButton.tap()
+        
+        let interactor = NavigationDrawerInteractor()
+        interactor.waitForDisplay()
+        
+        
+        return interactor
     }
 }
