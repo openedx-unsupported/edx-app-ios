@@ -139,7 +139,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
                 courseID = self?.courseID {
                     let dataManager = self?.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID)
                     dataManager?.commentAddedStream.send((threadID: comment.threadID, comment: comment))
-                    self?.callbackDelegateWithComment(comment)
+                    self?.callbackDelegateWithAddedComment(comment)
                     self?.dismissViewControllerAnimated(true, completion: nil)
             }
             else {
@@ -148,7 +148,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
     }
     
-    private func callbackDelegateWithComment(comment: DiscussionComment) {
+    private func callbackDelegateWithAddedComment(comment: DiscussionComment) {
         switch context {
         case .Thread(_):
             self.delegate?.newCommentController(self, addedComment: comment, underlayingResponse: nil)
