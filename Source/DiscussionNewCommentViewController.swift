@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DiscussionNewCommentViewControllerDelegate : class {
-    func newCommentController(controller  : DiscussionNewCommentViewController, addedComment comment: DiscussionComment)
+    func newCommentController(controller  : DiscussionNewCommentViewController, addedComment comment: DiscussionComment, underlayingResponse response: DiscussionComment?)
 }
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
@@ -139,12 +139,21 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
                 courseID = self?.courseID {
                     let dataManager = self?.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID)
                     dataManager?.commentAddedStream.send((threadID: comment.threadID, comment: comment))
-                    self?.delegate?.newCommentController(self!, addedComment: comment)
+                    self?.callbackDelegateWithAddedComment(comment)
                     self?.dismissViewControllerAnimated(true, completion: nil)
             }
             else {
                 // TODO: error handling
             }
+        }
+    }
+    
+    private func callbackDelegateWithAddedComment(comment: DiscussionComment) {
+        switch context {
+        case .Thread(_):
+            self.delegate?.newCommentController(self, addedComment: comment, underlayingResponse: nil)
+        case let .Comment(response):
+            self.delegate?.newCommentController(self, addedComment: comment, underlayingResponse: response)
         }
     }
     
