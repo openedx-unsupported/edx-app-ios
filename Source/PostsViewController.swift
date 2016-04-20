@@ -479,6 +479,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         let controller = UIAlertController.actionSheetWithItems(options, currentSelection : self.selectedFilter) {filter in
             self.selectedFilter = filter
+            self.loadController.state = .Initial
             self.loadContent()
             
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Filter.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
@@ -497,6 +498,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let controller = UIAlertController.actionSheetWithItems(options, currentSelection : self.selectedOrderBy) {sort in
             self.selectedOrderBy = sort
+            self.loadController.state = .Initial
             self.loadContent()
             
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
