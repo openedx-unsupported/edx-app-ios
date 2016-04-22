@@ -663,6 +663,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if !(paginationController?.hasNext ?? false) {
                 self.responsesDataController.responses.append(comment)
             }
+            
+            if let _ = thread {
+                thread?.responseCount = (thread?.responseCount)! + 1
+            }
+            
             self.showOverlayMessage(Strings.discussionThreadPosted)
         case .Comment(_):
             responsesDataController.addedChildComment(comment)
