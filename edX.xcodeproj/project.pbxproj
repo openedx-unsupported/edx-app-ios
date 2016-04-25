@@ -376,7 +376,6 @@
 		77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */; };
 		77AE2F621ABB71840027E799 /* OEXFileUtilityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */; };
 		77AF076F1CADD20F00A42704 /* BadgesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF076E1CADD20F00A42704 /* BadgesModel.swift */; };
-		77AF07731CADD44A00A42704 /* BadgesAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07711CADD37800A42704 /* BadgesAPITests.swift */; };
 		77AF07751CB311B200A42704 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07741CB311B200A42704 /* UserProfileView.swift */; };
 		77AF07771CB42AC400A42704 /* TabContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AF07761CB42AC400A42704 /* TabContainerView.swift */; };
 		77AFD10B1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */; };
@@ -1141,7 +1140,6 @@
 		77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXTextStyle.m; sourceTree = "<group>"; };
 		77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtilityTests.m; sourceTree = "<group>"; };
 		77AF076E1CADD20F00A42704 /* BadgesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesModel.swift; path = Source/Core/Code/BadgesModel.swift; sourceTree = SOURCE_ROOT; };
-		77AF07711CADD37800A42704 /* BadgesAPITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesAPITests.swift; sourceTree = SOURCE_ROOT; };
 		77AF07741CB311B200A42704 /* UserProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		77AF07761CB42AC400A42704 /* TabContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabContainerView.swift; sourceTree = "<group>"; };
 		77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgentOverrideOverrideOperation.swift; sourceTree = "<group>"; };
@@ -4736,6 +4734,7 @@
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
+				PROVISIONING_PROFILE = "${RELEASE_PROFILE}";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
