@@ -664,9 +664,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self.responsesDataController.responses.append(comment)
             }
             
-            if let _ = thread {
-                thread?.responseCount = (thread?.responseCount)! + 1
-            }
+            let count = thread?.responseCount ?? 0
+            thread?.responseCount = count + 1
             
             self.showOverlayMessage(Strings.discussionThreadPosted)
         case .Comment(_):
