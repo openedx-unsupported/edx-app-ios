@@ -3089,13 +3089,13 @@
 				773CC0241BE40EB900DDC127 /* UserProfileEditViewControllerTests.swift */,
 				773CC01D1BE29C2500DDC127 /* UserProfileManagerTests.swift */,
 				E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */,
+				E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */,
 				E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				7772BE901AF90C8A0081CA7A /* Helpers */,
 				77567B501AC5EC0400877A7B /* Test Doubles */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
-				E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
