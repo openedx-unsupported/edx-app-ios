@@ -180,6 +180,11 @@
     }
 }
 
+- (void) updateViewConstraints {
+    [super updateViewConstraints];
+    [[OEXFlowErrorViewController sharedInstance] updateViewFrameWithParentView:self.view];
+}
+
 
 #pragma mark - NSURLConnection Delegtates
 
