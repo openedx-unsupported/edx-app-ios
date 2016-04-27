@@ -42,6 +42,11 @@
     [self setNeedsDisplay];
 }
 
+- (void) updateConstraints {
+    [super updateConstraints];
+    [self setNeedsDisplay];
+}
+
 #pragma mark - NSObject
 
 - (void)dealloc {

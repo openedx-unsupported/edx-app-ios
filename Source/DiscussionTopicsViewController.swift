@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding  {
     
     public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
@@ -132,6 +132,14 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override public func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .AllButUpsideDown
     }
     
     // MARK: - TableView Data and Delegate
