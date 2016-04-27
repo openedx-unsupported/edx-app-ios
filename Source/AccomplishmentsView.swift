@@ -76,7 +76,7 @@ class AccomplishmentView : UIView {
 
         self.imageView.remoteImage = accomplishment.image
 
-        let formattedDate = accomplishment.date.map { OEXDateFormatting.formatAsDateMonthYearStringWithDate($0) }
+        let formattedDate = accomplishment.date.map { OEXDateFormatting.formatAsMonthDayYearString($0) }
 
         for (field, text, style) in [
             (self.title, accomplishment.title, titleStyle),

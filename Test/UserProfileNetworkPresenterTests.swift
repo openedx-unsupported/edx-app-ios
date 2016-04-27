@@ -19,8 +19,9 @@ class UserProfileNetworkPresenterTests: XCTestCase {
     private func presenterWithProfile(profile: UserProfile, badges: [BadgeAssertion]) -> UserProfilePresenter {
         let config = OEXConfig(dictionary: ["BADGES_ENABLED": true])
         let environment = TestRouterEnvironment(config: config)
-        environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (NSData?, [BadgeAssertion]) in
-            (nil, badges)
+        environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (NSData?, Paginated<[BadgeAssertion]>) in
+            let paginatedBadges = Paginated(pagination: PaginationInfo(totalCount: badges.count, pageCount: 1), value: badges)
+            return (nil, paginatedBadges)
         }
         environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (NSData?, UserProfile) in
             (nil, profile)
@@ -38,8 +39,8 @@ class UserProfileNetworkPresenterTests: XCTestCase {
     func testAchievementsTabExistsWhenBadges() {
         let presenter = presenterWithProfile(sampleProfile, badges:
             [
-                BadgeAssertion(evidence: NSURL(string:"http://somebadge.com")!, imageURL: "http://example.com/image", spec: BadgeSpec(name: "Good job!")),
-                BadgeAssertion(evidence: NSURL(string:"http://somebadge.com")!, imageURL: "http://example.com/image", spec: BadgeSpec(name: "Good job!"))
+                BadgeAssertion(assertionURL: NSURL(string:"http://somebadge.com")!, imageURL: "http://example.com/image", badgeClass: BadgeClass(name: "Good job!")),
+                BadgeAssertion(assertionURL: NSURL(string:"http://somebadge.com")!, imageURL: "http://example.com/image", badgeClass: BadgeClass(name: "Good job!"))
             ]
         )
         waitForStream(presenter.tabStream) {tabs in

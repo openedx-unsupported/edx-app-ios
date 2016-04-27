@@ -11,7 +11,7 @@ import Foundation
 extension Accomplishment {
     convenience init(badge: BadgeAssertion, networkManager: NetworkManager) {
         let image = RemoteImageImpl(url: badge.imageURL, networkManager: networkManager, placeholder: nil, persist: false)
-        self.init(image: image, title: badge.spec.name, detail: badge.spec.detail, date: badge.awardedOn, shareURL: badge.evidence)
+        self.init(image: image, title: badge.badgeClass.name, detail: badge.badgeClass.detail, date: badge.created, shareURL: badge.assertionURL)
     }
 }
 
@@ -59,27 +59,12 @@ class UserProfileNetworkPresenter : UserProfilePresenter {
             // turn badges into accomplishments
             let accomplishmentsTab = self.environment.networkManager.streamForRequest(request)
                 .map { badges -> [Accomplishment] in
-                    return badges.map { badge in
+                    return badges.value.map { badge in
                         return Accomplishment(badge: badge, networkManager: self.environment.networkManager)
                     }
                 }
                 .map {accomplishments -> TabItem? in
-                    // turn accomplishments into the accomplishments tab
-                    if accomplishments.count > 0 {
-                        let view = AccomplishmentsView(accomplishments: accomplishments) {[weak self] in
-                            if let owner = self {
-                                owner.delegate?.presenter(owner, choseShareURL:$0.shareURL)
-                            }
-                        }
-                        return TabItem(
-                            name: Strings.Accomplishments.title,
-                            view: view,
-                            identifier: UserProfileNetworkPresenter.AccomplishmentsTabIdentifier
-                        )
-                    }
-                    else {
-                        return nil
-                    }
+                    return self.tabWithAccomplishments(accomplishments)
             }
             return joinStreams([accomplishmentsTab]).map { $0.flatMap { $0 }}
         }
@@ -87,4 +72,24 @@ class UserProfileNetworkPresenter : UserProfilePresenter {
             return Stream(value: [])
         }
     }()
+
+
+    private func tabWithAccomplishments(accomplishments: [Accomplishment]) -> TabItem? {
+        // turn accomplishments into the accomplishments tab
+        if accomplishments.count > 0 {
+            let view = AccomplishmentsView(accomplishments: accomplishments) {[weak self] in
+                if let owner = self {
+                    owner.delegate?.presenter(owner, choseShareURL:$0.shareURL)
+                }
+            }
+            return TabItem(
+                name: Strings.Accomplishments.title,
+                view: view,
+                identifier: UserProfileNetworkPresenter.AccomplishmentsTabIdentifier
+            )
+        }
+        else {
+            return nil
+        }
+    }
 }

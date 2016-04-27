@@ -8,8 +8,7 @@
 
 import XCTest
 
-import edXCore
-@testable import edX
+@testable import edXCore
 
 class PaginationInfoTests: XCTestCase {
     
@@ -46,7 +45,7 @@ class PaginationInfoTests: XCTestCase {
             query: ["A": "B"],
             headers: ["header": "value"],
             deserializer: ResponseDeserializer.JSONResponse { (_, json) in
-                return (json.array?.flatMap{ $0.number }).toResult()
+                return (json.array?.flatMap{ $0.number }).toResult(NetworkManager.unknownError)
             }
         )
         let paginated = request.paginated(page: 3)

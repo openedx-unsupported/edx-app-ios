@@ -6,24 +6,22 @@
 //  Copyright © 2015 edX. All rights reserved.
 //
 
-import edXCore
-
 public struct PaginationDefaults {
     // Defaults for our APIs
-    static let startPage = 1
-    static let pageSize = 20
+    public static let startPage = 1
+    public static let pageSize = 20
     static let pageParam = "page"
     static let pageSizeParam = "page_size"
 }
 
 public struct PaginationInfo {
     
-    let totalCount : Int
-    let pageCount : Int
-    let previous : NSURL?
-    let next : NSURL?
+    public let totalCount : Int
+    public let pageCount : Int
+    public let previous : NSURL?
+    public let next : NSURL?
     
-    init?(json : JSON) {
+    public init?(json : JSON) {
         guard let totalCount = json["count"].int else { return nil }
         guard let pageCount = json["num_pages"].int else { return nil }
         self.totalCount = totalCount
@@ -33,7 +31,7 @@ public struct PaginationInfo {
         self.next = json["next"].string.flatMap { NSURL(string: $0) }
     }
     
-    init(totalCount : Int, pageCount : Int, previous : NSURL? = nil, next: NSURL? = nil) {
+    public init(totalCount : Int, pageCount : Int, previous : NSURL? = nil, next: NSURL? = nil) {
         self.totalCount = totalCount
         self.pageCount = pageCount
         self.previous = previous
@@ -43,17 +41,23 @@ public struct PaginationInfo {
 
 public struct Paginated<A> {
     
-    let pagination : PaginationInfo
-    let value : A
+    public let pagination : PaginationInfo
+    public let value : A
     
-    init?(json : JSON, valueParser : JSON -> A?) {
-        guard let pagination = PaginationInfo(json: json["pagination"]) else { return nil }
+    public init?(json : JSON, valueParser : JSON -> A?) {
+        // There are two different shapes to our pagination payloads, either embedded under a
+        // "pagination" key or flat at the top level.
+        // 1. {"pagination": <..pagination fields..>, "results" : <..stuff..>}
+        // 2. {"next": ..., "prev": ..., "results" : <..stuff..>}
+        // So try both, nested first
+        guard let pagination = PaginationInfo(json: json["pagination"]) ?? PaginationInfo(json: json)
+            else { return nil }
         guard let value = valueParser(json["results"]) else { return nil }
         self.value = value
         self.pagination = pagination
     }
     
-    init(pagination : PaginationInfo, value : A) {
+    public init(pagination : PaginationInfo, value : A) {
         self.pagination = pagination
         self.value = value
     }
@@ -66,7 +70,7 @@ extension NetworkRequest {
         switch deserializer {
         case let .JSONResponse(f):
             paginatedDeserializer = ResponseDeserializer.JSONResponse {(response, json) in
-                Paginated(json: json, valueParser: { f(response, $0).value }).toResult()
+                Paginated(json: json, valueParser: { f(response, $0).value }).toResult(NetworkManager.unknownError)
             }
         case let .DataResponse(f):
             paginatedDeserializer = ResponseDeserializer.DataResponse {(response, data) in

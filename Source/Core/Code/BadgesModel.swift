@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct BadgeSpec {
+public struct BadgeClass {
 
     public let slug : String?
     public let issuingComponent : String?
@@ -20,7 +20,7 @@ public struct BadgeSpec {
     private enum Fields : String, RawStringExtractable {
         case Slug = "slug"
         case IssuingComponent = "issuing_component"
-        case Name = "name"
+        case DisplayName = "display_name"
         case Description = "description"
         case ImageURL = "image_url"
         case CourseID = "course_id"
@@ -36,7 +36,7 @@ public struct BadgeSpec {
     }
 
     public init?(json : JSON) {
-        guard let name = json[Fields.Name].string else { return nil }
+        guard let name = json[Fields.DisplayName].string else { return nil }
         self.slug = json[Fields.Slug].string
         self.issuingComponent = json[Fields.IssuingComponent].string
         self.name = name
@@ -47,40 +47,37 @@ public struct BadgeSpec {
 }
 
 public struct BadgeAssertion {
-    public let username : String?
-    public let evidence : NSURL
+    public let assertionURL : NSURL
     public let imageURL : String
-    public let awardedOn : NSDate?
-    public let spec : BadgeSpec
+    public let created : NSDate?
+    public let badgeClass : BadgeClass
 
     private enum Fields : String, RawStringExtractable {
         case Username = "username"
-        case Evidence = "evidence"
+        case AssertionURL = "assertion_url"
         case ImageURL = "image_url"
-        case AwardedOn = "awarded_on"
-        case Spec = "spec"
+        case Created = "created"
+        case BadgeClass = "badge_class"
     }
 
-    public init(username: String? = nil, evidence: NSURL, imageURL: String, awardedOn: NSDate? = nil, spec: BadgeSpec) {
-        self.username = username
-        self.evidence = evidence
+    public init(assertionURL: NSURL, imageURL: String, created: NSDate? = nil, badgeClass: BadgeClass) {
+        self.assertionURL = assertionURL
         self.imageURL = imageURL
-        self.awardedOn = awardedOn
-        self.spec = spec
+        self.created = created
+        self.badgeClass = badgeClass
     }
 
     public init?(json : JSON) {
         guard let
-            spec = BadgeSpec(json: json[Fields.Spec]),
-            evidence = json[Fields.Evidence].URL,
-            imageURL = json[Fields.ImageURL].string ?? spec.imageURL
+            badgeClass = BadgeClass(json: json[Fields.BadgeClass]),
+            assertionURL = json[Fields.AssertionURL].URL,
+            imageURL = json[Fields.ImageURL].string ?? badgeClass.imageURL
         else {
                 return nil
         }
-        self.evidence = evidence
+        self.assertionURL = assertionURL
         self.imageURL = imageURL
-        self.username = json[Fields.Username].string
-        self.awardedOn = json[Fields.AwardedOn].serverDate
-        self.spec = spec
+        self.created = json[Fields.Created].serverDate
+        self.badgeClass = badgeClass
     }
 }
