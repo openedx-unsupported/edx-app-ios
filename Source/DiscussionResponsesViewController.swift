@@ -654,6 +654,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
     
+    func addResponseIncreaseResponseCount() {
+        let count = thread?.responseCount ?? 0
+        thread?.responseCount = count + 1
+    }
+    
     // MARK:- DiscussionNewCommentViewControllerDelegate method
     
     func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
@@ -664,8 +669,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self.responsesDataController.responses.append(comment)
             }
             
-            let count = thread?.responseCount ?? 0
-            thread?.responseCount = count + 1
+            addResponseIncreaseResponseCount()
             
             self.showOverlayMessage(Strings.discussionThreadPosted)
         case .Comment(_):

@@ -10,22 +10,22 @@ import Foundation
 @testable import edX
 
 class DiscussionResponsesViewControllerTests: XCTestCase {
- 
-    func testAddResponse() {
-        var thread = DiscussionTestsDataFactory.thread
-        let endorsedResponses = DiscussionTestsDataFactory.endorsedResponses()
-        var unendorsedResponses = DiscussionTestsDataFactory.unendorsedResponses()
+    
+    func testAddResponseIncreasesParentCount() {
         
-        thread.responseCount = endorsedResponses.count + unendorsedResponses.count
+        let thread = DiscussionTestsDataFactory.thread
         
-        let unendorsedResponse = DiscussionTestsDataFactory.unendorsedComment
+        let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
+        let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
+        responsesViewController.thread = thread
         
-        unendorsedResponses.append(unendorsedResponse)
+        let responseCount = responsesViewController.thread?.responseCount ?? 0
         
-        let responseCount = thread.responseCount ?? 0
-        thread.responseCount = responseCount + 1
+        responsesViewController.addResponseIncreaseResponseCount()
         
-        XCTAssertEqual(thread.responseCount, endorsedResponses.count + unendorsedResponses.count)
+        let updatedResponseCount = responsesViewController.thread?.responseCount
+        
+        XCTAssertEqual(responseCount + 1, updatedResponseCount)
         
     }
 }
