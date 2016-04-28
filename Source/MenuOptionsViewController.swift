@@ -56,8 +56,6 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         let label : String
     }
     
-    var menuWidth: CGFloat = 120.0
-    var menuHeight: CGFloat = 90.0
     static let menuItemHeight: CGFloat = 30.0
 
     private var tableView: UITableView?
@@ -73,18 +71,23 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: menuWidth, height: menuHeight), style: .Plain)
-        tableView.registerClass(MenuOptionTableViewCell.classForCoder(), forCellReuseIdentifier: MenuOptionTableViewCell.identifier)
-        tableView.separatorStyle = .SingleLine
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView = UITableView(frame: CGRectZero, style: .Plain)
+        tableView?.registerClass(MenuOptionTableViewCell.classForCoder(), forCellReuseIdentifier: MenuOptionTableViewCell.identifier)
+        tableView?.dataSource = self
+        tableView?.delegate = self
         
-        tableView.layer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
-        tableView.layer.borderWidth = 1.0
+        tableView?.layer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
+        tableView?.layer.borderWidth = 1.0
+        view.addSubview(tableView!)
         
-        view.addSubview(tableView)
-        
-        self.tableView = tableView
+        setConstraints()
+    }
+    
+    private func setConstraints() {
+        tableView?.snp_updateConstraints { (make) -> Void in
+            make.edges.equalTo(view)
+            make.height.equalTo(view.snp_height).offset(-2)
+        }
     }
 
     // MARK: - Table view data source

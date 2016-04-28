@@ -16,7 +16,7 @@ struct DiscussionNewThread {
     let rawBody: String
 }
 
-public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate {
+public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate, InterfaceOrientationOverriding {
  
     public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
@@ -201,6 +201,14 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenCreateTopicThread, courseId: self.courseID, value: selectedTopic?.name, threadId: nil, topicId: selectedTopic?.id, responseID: nil)
     }
     
+    override public func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .AllButUpsideDown
+    }
+    
     private func updateLoadState() {
         if let _ = self.topics.value {
             loadController.state = LoadState.Loaded
@@ -217,8 +225,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
         
         self.optionsViewController = MenuOptionsViewController()
-        self.optionsViewController?.menuHeight = min((CGFloat)(self.view.frame.height - self.topicButton.frame.minY - self.topicButton.frame.height), MenuOptionsViewController.menuItemHeight * (CGFloat)(topics.value?.count ?? 0))
-        self.optionsViewController?.menuWidth = self.topicButton.frame.size.width
         self.optionsViewController?.delegate = self
         
         guard let courseTopics = topics.value else  {

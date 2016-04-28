@@ -173,7 +173,7 @@ protocol DiscussionCommentsViewControllerDelegate: class {
     func discussionCommentsView(controller  : DiscussionCommentsViewController, updatedComment comment: DiscussionComment)
 }
 
-class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
+class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, InterfaceOrientationOverriding {
     
     typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
@@ -278,6 +278,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         logScreenEvent()
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .AllButUpsideDown
     }
     
     private func logScreenEvent() {
