@@ -10,16 +10,31 @@
 
 class MockProfilePresenter: UserProfilePresenter {
     let profileStream: Stream<UserProfile>
-    let tabStream: Stream<[TabItem]>
+    let tabStream: Stream<[ProfileTabItem]>
 
     weak var delegate: UserProfilePresenterDelegate?
 
-    init(profile: UserProfile, tabs: [TabItem]) {
+    init(profile: UserProfile, tabs: [ProfileTabItem]) {
         profileStream = Stream(value: profile)
         tabStream = Stream(value: tabs)
     }
 
     func refresh() {
+        // do nothing
+    }
+}
+
+class MockPaginator<A>: Paginator {
+    typealias Element = A
+
+    let stream: Stream<[A]>
+    init(values : [A]) {
+        self.stream = Stream(value: values)
+    }
+
+    let hasNext: Bool = false
+
+    func loadMore() {
         // do nothing
     }
 }
@@ -55,9 +70,10 @@ class UserProfileViewTests: SnapshotTestCase {
             Accomplishment(image: image, title: "Some Other Thing I did", detail: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", date: NSDate.stableTestDate(), shareURL: NSURL(string:"https://whatever")!)
         ]
 
-        let tabs = [TabItem(name: Strings.Accomplishments.title,
-                           view: AccomplishmentsView(accomplishments: accomplishments) {_ in },
-                           identifier: "accomplishments")]
+        let tabs = [{(scrollView: UIScrollView) -> TabItem in
+            let paginator = AnyPaginator(MockPaginator(values:accomplishments))
+            let view = AccomplishmentsView(paginator: paginator, containingScrollView: scrollView) {_ in }
+            return TabItem(name: Strings.Accomplishments.title, view: view, identifier: "accomplishments")}]
         let testPresenter = MockProfilePresenter(profile: profile, tabs: tabs)
         let controller = UserProfileViewController(environment: TestRouterEnvironment(), presenter: testPresenter, editable: false)
         

@@ -231,7 +231,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         return responseItem.commentID
     }
     
-    var paginationController : TablePaginationController<DiscussionComment>?
+    var paginationController : PaginationController<DiscussionComment>?
     
     //Only used to set commentsClosed out of initialization context
     //TODO: Get rid of this variable when Swift improves
@@ -348,7 +348,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
             return DiscussionAPI.getComments(commentID, pageNumber: page)
         }
-        paginationController = TablePaginationController(paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController(paginator: paginator, tableView: self.tableView)
     }
     
     private func loadContent() {

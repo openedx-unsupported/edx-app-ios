@@ -8,20 +8,12 @@
 
 import Foundation
 
-class Accomplishment {
+struct Accomplishment {
     let image: RemoteImage
     let title: String?
     let detail: String?
     let date: NSDate?
     let shareURL: NSURL
-
-    init(image: RemoteImage, title: String?, detail: String?, date: NSDate?, shareURL: NSURL) {
-        self.image = image
-        self.title = title
-        self.detail = detail
-        self.date = date
-        self.shareURL = shareURL
-    }
 }
 
 class AccomplishmentView : UIView {
@@ -47,7 +39,8 @@ class AccomplishmentView : UIView {
 
         shareButton.setImage(UIImage(named: "share"), forState: .Normal)
         shareButton.tintColor = OEXStyles.sharedStyles().neutralLight()
-        shareButton.contentEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        shareButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        shareButton.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
         shareButton.oex_addAction({ _ in
             shareAction()
             }, forEvents: .TouchUpInside)
@@ -71,17 +64,17 @@ class AccomplishmentView : UIView {
             make.trailing.equalTo(self)
         }
 
-        self.title.numberOfLines = 0
-        self.detail.numberOfLines = 0
+        title.numberOfLines = 0
+        detail.numberOfLines = 0
 
-        self.imageView.remoteImage = accomplishment.image
+        imageView.remoteImage = accomplishment.image
 
         let formattedDate = accomplishment.date.map { OEXDateFormatting.formatAsMonthDayYearString($0) }
 
         for (field, text, style) in [
-            (self.title, accomplishment.title, titleStyle),
-            (self.detail, accomplishment.detail, detailStyle),
-            (self.date, formattedDate, dateStyle)
+            (title, accomplishment.title, titleStyle),
+            (detail, accomplishment.detail, detailStyle),
+            (date, formattedDate, dateStyle)
             ]
         {
             field.attributedText = style.attributedStringWithText(text)
@@ -109,9 +102,17 @@ class AccomplishmentView : UIView {
 class AccomplishmentsView : UIView {
 
     private let stack = TZStackView()
+    private let shareAction: Accomplishment -> Void
 
-    init(accomplishments : [Accomplishment], shareAction: Accomplishment -> Void) {
+    private var accomplishments: [Accomplishment] = []
+    private let paginationController: PaginationController<Accomplishment>
+
+    init(paginator: AnyPaginator<Accomplishment>, containingScrollView scrollView: UIScrollView, shareAction: Accomplishment -> Void) {
+        self.shareAction = shareAction
+        paginationController = PaginationController(paginator: paginator, stackView: stack, containingScrollView: scrollView)
+
         super.init(frame: CGRectZero)
+
         addSubview(stack)
         stack.axis = .Vertical
         stack.alignment = .Fill
@@ -119,11 +120,22 @@ class AccomplishmentsView : UIView {
         stack.snp_makeConstraints {make in
             make.edges.equalTo(self)
         }
+        paginator.stream.listen(self, success: {[weak self] accomplishments in
+            let newAccomplishments = accomplishments.suffixFrom(self?.accomplishments.count ?? 0)
+            self?.addAccomplishments(newAccomplishments)
+            }, failure: {_ in
+                // We should only get here if we already have accomplishments and the paginator will try to
+                // load again if it fails, so just do nothing
+        })
+    }
 
-        for accomplishment in accomplishments {
+    func addAccomplishments<A: SequenceType where A.Generator.Element == Accomplishment>(newAccomplishments: A) {
+        let action = shareAction
+        for accomplishment in newAccomplishments {
             stack.addArrangedSubview(
-                AccomplishmentView(accomplishment: accomplishment) { shareAction(accomplishment) })
+                AccomplishmentView(accomplishment: accomplishment) { action(accomplishment) })
         }
+        accomplishments.appendContentsOf(newAccomplishments)
     }
     
     required init?(coder aDecoder: NSCoder) {

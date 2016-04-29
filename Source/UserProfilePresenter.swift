@@ -9,7 +9,7 @@
 import Foundation
 
 extension Accomplishment {
-    convenience init(badge: BadgeAssertion, networkManager: NetworkManager) {
+    init(badge: BadgeAssertion, networkManager: NetworkManager) {
         let image = RemoteImageImpl(url: badge.imageURL, networkManager: networkManager, placeholder: nil, persist: false)
         self.init(image: image, title: badge.badgeClass.name, detail: badge.badgeClass.detail, date: badge.created, shareURL: badge.assertionURL)
     }
@@ -19,16 +19,18 @@ protocol UserProfilePresenterDelegate : class {
     func presenter(presenter: UserProfilePresenter, choseShareURL url: NSURL)
 }
 
-protocol UserProfilePresenter {
+typealias ProfileTabItem = UIScrollView -> TabItem
+
+protocol UserProfilePresenter: class {
 
     var profileStream: Stream<UserProfile> { get }
-    var tabStream: Stream<[TabItem]> { get }
+    var tabStream: Stream<[ProfileTabItem]> { get }
     func refresh() -> Void
 
     weak var delegate: UserProfilePresenterDelegate? { get }
 }
 
-class UserProfileNetworkPresenter : UserProfilePresenter {
+class UserProfileNetworkPresenter : NSObject, UserProfilePresenter {
     typealias Environment = protocol<OEXConfigProvider, DataManagerProvider, NetworkManagerProvider>
 
     static let AccomplishmentsTabIdentifier = "AccomplishmentsTab"
@@ -46,6 +48,9 @@ class UserProfileNetworkPresenter : UserProfilePresenter {
         self.profileFeed = environment.dataManager.userProfileManager.feedForUser(username)
         self.environment = environment
         self.username = username
+
+        super.init()
+
         self.refresh()
     }
 
@@ -53,18 +58,29 @@ class UserProfileNetworkPresenter : UserProfilePresenter {
         profileFeed.refresh()
     }
 
-    lazy var tabStream: Stream<[TabItem]> = {
+    lazy var tabStream: Stream<[ProfileTabItem]> = {
         if self.environment.config.badgesEnabled {
-            let request = BadgesAPI.requestBadgesForUser(self.username)
             // turn badges into accomplishments
-            let accomplishmentsTab = self.environment.networkManager.streamForRequest(request)
-                .map { badges -> [Accomplishment] in
-                    return badges.value.map { badge in
-                        return Accomplishment(badge: badge, networkManager: self.environment.networkManager)
+            let networkManager = self.environment.networkManager
+            let paginator = WrappedPaginator(networkManager: self.environment.networkManager) {
+                BadgesAPI.requestBadgesForUser(self.username, page: $0).map {paginatedBadges in
+                    // turn badges into accomplishments
+                    return paginatedBadges.map {badges in
+                        badges.map {badge in
+                            return Accomplishment(badge: badge, networkManager: networkManager)
+                        }
                     }
                 }
-                .map {accomplishments -> TabItem? in
-                    return self.tabWithAccomplishments(accomplishments)
+            }
+            paginator.loadMore()
+
+            let sink = Sink<[Accomplishment]>()
+            paginator.stream.listenOnce(self) {
+                sink.send($0)
+            }
+
+            let accomplishmentsTab = sink.map {accomplishments -> ProfileTabItem? in
+                    return self.tabWithAccomplishments(accomplishments, paginator: AnyPaginator(paginator))
             }
             return joinStreams([accomplishmentsTab]).map { $0.flatMap { $0 }}
         }
@@ -74,22 +90,25 @@ class UserProfileNetworkPresenter : UserProfilePresenter {
     }()
 
 
-    private func tabWithAccomplishments(accomplishments: [Accomplishment]) -> TabItem? {
+    private func tabWithAccomplishments(accomplishments: [Accomplishment], paginator: AnyPaginator<Accomplishment>) -> ProfileTabItem? {
         // turn accomplishments into the accomplishments tab
         if accomplishments.count > 0 {
-            let view = AccomplishmentsView(accomplishments: accomplishments) {[weak self] in
-                if let owner = self {
-                    owner.delegate?.presenter(owner, choseShareURL:$0.shareURL)
+            return {scrollView -> TabItem in
+                let view = AccomplishmentsView(paginator: paginator, containingScrollView: scrollView) {[weak self] in
+                    if let owner = self {
+                        owner.delegate?.presenter(owner, choseShareURL:$0.shareURL)
+                    }
                 }
+                return TabItem(
+                    name: Strings.Accomplishments.title,
+                    view: view,
+                    identifier: UserProfileNetworkPresenter.AccomplishmentsTabIdentifier
+                )
             }
-            return TabItem(
-                name: Strings.Accomplishments.title,
-                view: view,
-                identifier: UserProfileNetworkPresenter.AccomplishmentsTabIdentifier
-            )
         }
         else {
             return nil
         }
     }
+
 }

@@ -146,7 +146,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var threadID: String!
     
     var loadController : LoadStateViewController?
-    var paginationController : TablePaginationController<DiscussionComment>?
+    var paginationController : PaginationController<DiscussionComment>?
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var contentView: UIView!
@@ -313,7 +313,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, endorsedOnly: true, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         paginationController?.stream.listen(self, success:
             { [weak self] responses in
@@ -343,7 +343,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         paginationController?.stream.listen(self, success:
             { [weak self] responses in

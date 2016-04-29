@@ -1,5 +1,5 @@
 //
-//  TablePaginationControllerTests.swift
+//  PaginationControllerTests.swift
 //  edX
 //
 //  Created by Akiva Leffert on 12/16/15.
@@ -10,9 +10,9 @@ import XCTest
 @testable import edX
 
 
-class TablePaginationControllerTests: XCTestCase {
+class PaginationControllerTests: XCTestCase {
 
-    func testScrollStartsLoad() {
+    func testTableScrollStartsLoad() {
         let tableView = UITableView(frame:CGRect(x: 0, y: 0, width: 100, height: 100))
         let dataSource = DummyTableViewDataSource<Int>()
         tableView.dataSource = dataSource
@@ -24,7 +24,7 @@ class TablePaginationControllerTests: XCTestCase {
             // to better match actual cases
             return Stream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
         }
-        let paginationController = TablePaginationController(paginator: paginator, tableView: tableView)
+        let paginationController = PaginationController(paginator: paginator, tableView: tableView)
         
         paginationController.stream.listen(self) {
             dataSource.items = $0.value ?? []
@@ -64,9 +64,10 @@ class TablePaginationControllerTests: XCTestCase {
             // to better match actual cases
             return Stream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
         }
+
         func connectPaginator() {
             var cleared = false
-            let paginationController = TablePaginationController(paginator: paginator, tableView: tableView)
+            let paginationController = PaginationController(paginator: paginator, tableView: tableView)
             paginationController.loadMore()
             
             paginationController.stream.listen(self) {
@@ -91,4 +92,5 @@ class TablePaginationControllerTests: XCTestCase {
         let bottomIndexPath = NSIndexPath(forRow: tableView.numberOfRowsInSection(0) - 1, inSection: 0)
         tableView.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
     }
+
 }

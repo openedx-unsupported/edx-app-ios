@@ -19,9 +19,12 @@ class UserProfileNetworkPresenterTests: XCTestCase {
     private func presenterWithProfile(profile: UserProfile, badges: [BadgeAssertion]) -> UserProfilePresenter {
         let config = OEXConfig(dictionary: ["BADGES_ENABLED": true])
         let environment = TestRouterEnvironment(config: config)
-        environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (NSData?, Paginated<[BadgeAssertion]>) in
-            let paginatedBadges = Paginated(pagination: PaginationInfo(totalCount: badges.count, pageCount: 1), value: badges)
-            return (nil, paginatedBadges)
+        let accomplishments = badges.map {
+            return Accomplishment(badge: $0, networkManager: environment.networkManager)
+        }
+        environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (NSData?, Paginated<[Accomplishment]>) in
+            let paginatedAccomplishments = Paginated(pagination: PaginationInfo(totalCount: accomplishments.count, pageCount: 1), value: accomplishments)
+            return (nil, paginatedAccomplishments)
         }
         environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (NSData?, UserProfile) in
             (nil, profile)
@@ -45,7 +48,7 @@ class UserProfileNetworkPresenterTests: XCTestCase {
         )
         waitForStream(presenter.tabStream) {tabs in
             XCTAssertEqual(tabs.value!.count, 1)
-            let tab = tabs.value?.firstObjectMatching { $0.identifier == UserProfileNetworkPresenter.AccomplishmentsTabIdentifier }
+            let tab = tabs.value?.firstObjectMatching { $0(UIScrollView()).identifier == UserProfileNetworkPresenter.AccomplishmentsTabIdentifier }
             XCTAssertNotNil(tab)
         }
     }

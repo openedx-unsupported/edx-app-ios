@@ -61,6 +61,10 @@ public struct Paginated<A> {
         self.pagination = pagination
         self.value = value
     }
+
+    public func map<B>(f : A -> B) -> Paginated<B> {
+        return Paginated<B>(pagination: pagination, value: f(value))
+    }
 }
 
 extension NetworkRequest {

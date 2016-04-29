@@ -200,10 +200,10 @@
 		771D65D91C92300000112B7E /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65D81C92300000112B7E /* Box.swift */; };
 		771D65DB1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65DA1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift */; };
 		771FA0161B4588D80067F22D /* CourseDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771FA0151B4588D80067F22D /* CourseDataManagerTests.swift */; };
-		77236EEB1C21C32E006AC1A4 /* TablePaginationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77236EEA1C21C32E006AC1A4 /* TablePaginationController.swift */; };
+		77236EEB1C21C32E006AC1A4 /* PaginationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77236EEA1C21C32E006AC1A4 /* PaginationController.swift */; };
 		77236EED1C21C376006AC1A4 /* Paginator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77236EEC1C21C376006AC1A4 /* Paginator.swift */; };
 		77236EEF1C21C3D5006AC1A4 /* PaginatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77236EEE1C21C3D5006AC1A4 /* PaginatorTests.swift */; };
-		77236EF11C21F3B3006AC1A4 /* TablePaginationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77236EF01C21F3B3006AC1A4 /* TablePaginationControllerTests.swift */; };
+		77236EF11C21F3B3006AC1A4 /* PaginationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77236EF01C21F3B3006AC1A4 /* PaginationControllerTests.swift */; };
 		7725016A1C80FB5C002549A9 /* ServerChangedChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772501691C80FB5C002549A9 /* ServerChangedChecker.swift */; };
 		772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 772619B61ADDA8ED005BD7E4 /* OEXPushSettingsManager.m */; };
 		772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 772619B91ADDC68E005BD7E4 /* OEXMockUserDefaults.m */; };
@@ -401,6 +401,8 @@
 		77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BFD8691BB9E15B001D7BE5 /* Strings.swift */; };
 		77C182A61CD2997C00AE1474 /* PaginationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C182A51CD2997C00AE1474 /* PaginationInfo.swift */; };
 		77C182A81CD299AE00AE1474 /* PaginationInfoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C182A71CD299AE00AE1474 /* PaginationInfoTests.swift */; };
+		77C182AA1CD2E46900AE1474 /* TablePaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C182A91CD2E46900AE1474 /* TablePaginationManipulator.swift */; };
+		77C182AC1CD2E60E00AE1474 /* StackPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C182AB1CD2E60E00AE1474 /* StackPaginationManipulator.swift */; };
 		77C6BBC81CB43A6D0026C37B /* TabContainerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C6BBC61CB438170026C37B /* TabContainerViewTests.swift */; };
 		77C6BBCA1CB4BC6F0026C37B /* AccomplishmentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C6BBC91CB4BC6F0026C37B /* AccomplishmentsView.swift */; };
 		77C901A71BBDDD630016E468 /* TableCellStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C901A61BBDDD630016E468 /* TableCellStyle.swift */; };
@@ -937,10 +939,10 @@
 		771D65D81C92300000112B7E /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Box.swift; path = Source/Core/Code/Box.swift; sourceTree = SOURCE_ROOT; };
 		771D65DA1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OEXHTTPStatusCode+Groups.swift"; path = "Source/Core/Code/OEXHTTPStatusCode+Groups.swift"; sourceTree = SOURCE_ROOT; };
 		771FA0151B4588D80067F22D /* CourseDataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDataManagerTests.swift; sourceTree = "<group>"; };
-		77236EEA1C21C32E006AC1A4 /* TablePaginationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TablePaginationController.swift; sourceTree = "<group>"; };
+		77236EEA1C21C32E006AC1A4 /* PaginationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationController.swift; sourceTree = "<group>"; };
 		77236EEC1C21C376006AC1A4 /* Paginator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginator.swift; sourceTree = "<group>"; };
 		77236EEE1C21C3D5006AC1A4 /* PaginatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatorTests.swift; sourceTree = "<group>"; };
-		77236EF01C21F3B3006AC1A4 /* TablePaginationControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TablePaginationControllerTests.swift; sourceTree = "<group>"; };
+		77236EF01C21F3B3006AC1A4 /* PaginationControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginationControllerTests.swift; sourceTree = "<group>"; };
 		772501691C80FB5C002549A9 /* ServerChangedChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerChangedChecker.swift; sourceTree = "<group>"; };
 		772619B51ADDA8ED005BD7E4 /* OEXPushSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushSettingsManager.h; sourceTree = "<group>"; };
 		772619B61ADDA8ED005BD7E4 /* OEXPushSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushSettingsManager.m; sourceTree = "<group>"; };
@@ -1172,6 +1174,8 @@
 		77BFD8691BB9E15B001D7BE5 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C182A51CD2997C00AE1474 /* PaginationInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginationInfo.swift; path = Source/Core/Code/PaginationInfo.swift; sourceTree = SOURCE_ROOT; };
 		77C182A71CD299AE00AE1474 /* PaginationInfoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaginationInfoTests.swift; path = Source/Core/Test/Code/PaginationInfoTests.swift; sourceTree = SOURCE_ROOT; };
+		77C182A91CD2E46900AE1474 /* TablePaginationManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TablePaginationManipulator.swift; sourceTree = "<group>"; };
+		77C182AB1CD2E60E00AE1474 /* StackPaginationManipulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackPaginationManipulator.swift; sourceTree = "<group>"; };
 		77C6BBC61CB438170026C37B /* TabContainerViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabContainerViewTests.swift; sourceTree = "<group>"; };
 		77C6BBC91CB4BC6F0026C37B /* AccomplishmentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccomplishmentsView.swift; sourceTree = "<group>"; };
 		77C901A61BBDDD630016E468 /* TableCellStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCellStyle.swift; sourceTree = "<group>"; };
@@ -3033,7 +3037,7 @@
 				778B40DC1C2F85BC0009F33E /* FeedTests.swift */,
 				778B40DA1C2F64680009F33E /* EnrollmentManagerTests.swift */,
 				77236EEE1C21C3D5006AC1A4 /* PaginatorTests.swift */,
-				77236EF01C21F3B3006AC1A4 /* TablePaginationControllerTests.swift */,
+				77236EF01C21F3B3006AC1A4 /* PaginationControllerTests.swift */,
 				77AFD10C1C1A63C3001985FD /* UserAgentGenerationOperation.swift */,
 				77AFD10F1C1B4F79001985FD /* NSString+TestExamples.h */,
 				77AFD1101C1B4F79001985FD /* NSString+TestExamples.m */,
@@ -3150,9 +3154,11 @@
 		BECB7B531924CA0C009C77F1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				77C182AB1CD2E60E00AE1474 /* StackPaginationManipulator.swift */,
 				77E6487E1C9133C600B6740D /* SessionUsernameProvider.swift */,
 				77E6486D1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift */,
-				77236EEA1C21C32E006AC1A4 /* TablePaginationController.swift */,
+				77236EEA1C21C32E006AC1A4 /* PaginationController.swift */,
+				77C182A91CD2E46900AE1474 /* TablePaginationManipulator.swift */,
 				77236EEC1C21C376006AC1A4 /* Paginator.swift */,
 				7793764C1BED27D000900A8C /* BasicAuthCredential.swift */,
 				7793764E1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift */,
@@ -3958,9 +3964,11 @@
 				774B393B1B5EEF8A00595D33 /* UIAlertController+Selection.swift in Sources */,
 				1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,
+				77C182AC1CD2E60E00AE1474 /* StackPaginationManipulator.swift in Sources */,
 				5D7EACC81B3E202C000A6C36 /* DiscussionAPI.swift in Sources */,
 				77EA92261BB4590A00EC625A /* DownloadsAccessoryView.swift in Sources */,
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
+				77C182AA1CD2E46900AE1474 /* TablePaginationManipulator.swift in Sources */,
 				778B61001B0691CE00489532 /* OfflineModeView.swift in Sources */,
 				B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */,
 				9E2C87821B1D830B00FCD764 /* OpenOnWebController.swift in Sources */,
@@ -4037,7 +4045,7 @@
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,
 				77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */,
 				77AF07751CB311B200A42704 /* UserProfileView.swift in Sources */,
-				77236EEB1C21C32E006AC1A4 /* TablePaginationController.swift in Sources */,
+				77236EEB1C21C32E006AC1A4 /* PaginationController.swift in Sources */,
 				1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */,
 				B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
@@ -4196,7 +4204,7 @@
 				77E648A51C92062900B6740D /* MockResponseCache.swift in Sources */,
 				77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */,
 				9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */,
-				77236EF11C21F3B3006AC1A4 /* TablePaginationControllerTests.swift in Sources */,
+				77236EF11C21F3B3006AC1A4 /* PaginationControllerTests.swift in Sources */,
 				778F17831C0E06640099BF93 /* TestRouterEnvironment.swift in Sources */,
 				77FD164C1C2336EB00F059DF /* DummyTableViewDataSource.swift in Sources */,
 				77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */,

@@ -239,9 +239,10 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         header.showProfile(profile, networkManager: networkManager)
     }
 
-    var extraTabs : [TabItem] = [] {
+    var extraTabs : [ProfileTabItem] = [] {
         didSet {
-            tabs.items = [bioTab] + extraTabs
+            let instantiatedTabs = extraTabs.map {tab in tab(scrollView) }
+            tabs.items = [bioTab] + instantiatedTabs
         }
     }
     
