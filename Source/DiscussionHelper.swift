@@ -44,4 +44,14 @@ class DiscussionHelper: NSObject {
             authorButton.enabled = false
         }
     }
+    
+    class func getErrorMessage(error: NSError?) -> String {
+        
+        if let error = error where error.oex_isNoInternetConnectionError {
+            return Strings.networkNotAvailableMessageTrouble
+        }
+        else {
+            return Strings.discussionError
+        }
+    }
 }
