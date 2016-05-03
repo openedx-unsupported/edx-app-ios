@@ -45,13 +45,13 @@ class DiscussionHelper: NSObject {
         }
     }
     
-    class func getErrorMessage(response:NSHTTPURLResponse?, error: NSError?) -> String {
+    class func getErrorMessage(operation:String, error: NSError?) -> String {
         
         if let error = error where error.oex_isNoInternetConnectionError {
             return Strings.networkNotAvailableMessageTrouble
         }
         else {
-            return Strings.unknownError
+            return Strings.discussionError(action: operation.oex_lowercaseStringInCurrentLocale())
         }
     }
 }
