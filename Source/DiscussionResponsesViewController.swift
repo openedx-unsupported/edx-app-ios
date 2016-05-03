@@ -654,7 +654,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
     
-    func addResponseIncreaseResponseCount() {
+    func increaseResponseCount() {
         let count = thread?.responseCount ?? 0
         thread?.responseCount = count + 1
     }
@@ -669,7 +669,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self.responsesDataController.responses.append(comment)
             }
             
-            addResponseIncreaseResponseCount()
+            increaseResponseCount()
             
             self.showOverlayMessage(Strings.discussionThreadPosted)
         case .Comment(_):

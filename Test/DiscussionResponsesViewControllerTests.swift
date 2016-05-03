@@ -19,9 +19,9 @@ class DiscussionResponsesViewControllerTests: XCTestCase {
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.thread = thread
         
-        let responseCount = responsesViewController.thread?.responseCount ?? 0
+        let responseCount = responsesViewController.thread!.responseCount!
         
-        responsesViewController.addResponseIncreaseResponseCount()
+        responsesViewController.increaseResponseCount()
         
         let updatedResponseCount = responsesViewController.thread?.responseCount
         
