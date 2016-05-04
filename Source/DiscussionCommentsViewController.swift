@@ -414,9 +414,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         if !(paginationController?.hasNext ?? false) {
             self.comments.append(comment)
-            self.tableView.reloadData()
         }
         
+        self.tableView.reloadData()
         delegate?.discussionCommentsView(self, updatedComment: responseItem)
         
         self.showOverlayMessage(Strings.discussionCommentPosted)
