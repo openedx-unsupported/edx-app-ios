@@ -236,10 +236,6 @@
 "DISCUSSION_COMMENT_POSTED" = "Your comment has been added.";
 /* Discussion response overlay message when new response added */
 "DISCUSSION_THREAD_POSTED" = "Your response has been added.";
-/*Discussion response used when failed to add response*/
-"DISCUSSION_RESPONSE" = "Response";
-/*Discussion comment used when failed to add comment*/
-"DISCUSSION_COMMENT" = "Comment";
 /* Title for Edit button on My Videos Screen */
 "EDIT" = "Edit";
 /* Alert message shown when user tries to send an email, but email isn't setup */
