@@ -144,7 +144,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
             else {
                 self?.addCommentButton.enabled = true
-                self?.showErrorMessage(result.error)
+                self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
             }
         }
     }
@@ -208,16 +208,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddThreadResponse, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, responseID: nil)
         case let .Comment(comment):
             self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddResponseComment, courseId: self.courseID, value: thread?.title, threadId: comment.threadID, topicId: nil, responseID: comment.commentID)
-        }
-        
-    }
-    
-    private func showErrorMessage(error: NSError?) {
-        switch context {
-        case .Thread(_):
-            self.showOverlayMessage(DiscussionHelper.getErrorMessage(Strings.discussionResponse, error:error))
-        case .Comment(_):
-            self.showOverlayMessage(DiscussionHelper.getErrorMessage(Strings.discussionComment, error:error))
         }
         
     }

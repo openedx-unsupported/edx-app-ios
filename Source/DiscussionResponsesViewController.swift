@@ -471,10 +471,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 let apiRequest = DiscussionAPI.voteThread(thread.voted, threadID: thread.threadID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
+                    button.enabled = true
+                    
                     if let thread: DiscussionThread = result.data {
                         self?.loadedThread(thread)
                     }
-                    button.enabled = true
+                    else {
+                        self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
+                    }
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
@@ -489,6 +493,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     if let thread: DiscussionThread = result.data {
                         owner.updateFollowText(cell.followButton, following: thread.following)
                         owner.postFollowing = thread.following
+                    }
+                    else {
+                        self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
                     }
                 }
             }
@@ -510,6 +517,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     if let thread = result.data {
                         self?.thread?.abuseFlagged = thread.abuseFlagged
                         owner.updateReportText(cell.reportButton, report: thread.abuseFlagged)
+                    }
+                    else {
+                        self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
                     }
                 }
             }
@@ -586,6 +596,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.updateVoteText(cell.voteButton, voteCount: comment.voteCount, voted: comment.voted)
                     self?.tableView.reloadData()
                 }
+                else {
+                    self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
+                }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
@@ -601,6 +614,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     
                     self?.updateReportText(cell.reportButton, report: comment.abuseFlagged)
                     self?.tableView.reloadData()
+                }
+                else {
+                    self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
