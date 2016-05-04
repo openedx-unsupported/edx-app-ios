@@ -75,7 +75,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
     }
     var environment: Environment!
-    private var paginationController : TablePaginationController<DiscussionThread>?
+    private var paginationController : PaginationController<DiscussionThread>?
     
     private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
 
@@ -384,7 +384,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return DiscussionAPI.getFollowedThreads(courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         loadThreads()
     }
@@ -395,7 +395,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         loadThreads()
     }
@@ -415,7 +415,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         loadThreads()
     }

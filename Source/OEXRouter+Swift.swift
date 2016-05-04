@@ -180,8 +180,7 @@ extension OEXRouter {
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true) {
         OEXAnalytics.sharedAnalytics().trackProfileViewed(username)
         let editable = self.environment.session.currentUser?.username == username
-        let profileFeed = self.environment.dataManager.userProfileManager.feedForUser(username)
-        let profileController = UserProfileViewController(environment: environment, feed: profileFeed, editable: editable)
+        let profileController = UserProfileViewController(environment: environment, username: username, editable: editable)
         if let controller = controller {
             controller.navigationController?.pushViewController(profileController, animated: true)
         } else {

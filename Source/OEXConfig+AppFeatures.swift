@@ -30,7 +30,7 @@ extension OEXConfig {
     }
 
     var badgesEnabled : Bool {
-        return boolForKey("BADGES_ENABLED")
+        return true//boolForKey("BADGES_ENABLED")
     }
 
 }

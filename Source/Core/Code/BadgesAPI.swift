@@ -13,12 +13,12 @@ public struct BadgesAPI {
         return (json.array?.mapSkippingNils { BadgeAssertion(json: $0) }).toResult(NetworkManager.unknownError)
     }
 
-    public static func requestBadgesForUser(username : String) -> NetworkRequest<[BadgeAssertion]> {
+    public static func requestBadgesForUser(username : String, page: Int = 1) -> NetworkRequest<Paginated<[BadgeAssertion]>> {
         return NetworkRequest(
             method: .GET,
             path: "api/badges/v1/assertions/user/{username}".oex_formatWithParameters(["username": username]),
             deserializer: .JSONResponse(badgeAssertionsDeserializer)
-        )
+        ).paginated(page: page)
     }
 
 }

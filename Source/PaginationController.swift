@@ -14,13 +14,21 @@ extension UIScrollView {
     }
 }
 
+
+protocol ScrollingPaginationViewManipulator {
+    func setFooter(footer: UIView, visible: Bool)
+    var scrollView: UIScrollView? { get }
+    var canPaginate: Bool { get }
+}
+
 private let footerHeight = 30
-public class TablePaginationController<A> : NSObject, Paginator {
-    
+
+public class PaginationController<A> : NSObject, Paginator {
     typealias Element = A
-    
-    private let tableView : UITableView
+
     private let paginator : AnyPaginator<A>
+    private let viewManipulator: ScrollingPaginationViewManipulator
+
     private let footer : UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: footerHeight))
         let activityIndicator = SpinnerView(size: .Large, color: .Primary)
@@ -30,47 +38,44 @@ public class TablePaginationController<A> : NSObject, Paginator {
         }
         return view
     }()
-    
-    init<P: Paginator where P.Element == A>(paginator : P, tableView : UITableView) {
-        self.tableView = tableView
+
+    init<P: Paginator where P.Element == A>(paginator: P, manipulator: ScrollingPaginationViewManipulator) {
         self.paginator = AnyPaginator(paginator)
-        
+        self.viewManipulator = manipulator
         super.init()
-        
+        manipulator.setFooter(self.footer, visible: false)
+
         paginator.stream.listen(self) {[weak self] _ in
             self?.updateVisibility()
         }
-        
-        tableView.oex_addObserver(self, forKeyPath: "bounds") { (controller, tableView, newValue) -> Void in
+
+        manipulator.scrollView?.oex_addObserver(self, forKeyPath: "bounds") { (controller, tableView, newValue) -> Void in
             controller.viewScrolled()
         }
     }
-    
+
     var stream : Stream<[A]> {
         return paginator.stream
     }
-    
+
     func loadMore() {
         paginator.loadMore()
     }
-    
+
     var hasNext: Bool {
         return paginator.hasNext
     }
-    
+
+    private func updateVisibility() {
+        viewManipulator.setFooter(self.footer, visible: self.paginator.stream.active)
+    }
+
     private func viewScrolled() {
-        if !self.paginator.stream.active && tableView.scrolledNearBottom && self.paginator.hasNext {
+        if !self.paginator.stream.active && (viewManipulator.scrollView?.scrolledNearBottom ?? false) && viewManipulator.canPaginate && self.paginator.hasNext {
             self.paginator.loadMore()
             self.updateVisibility()
         }
     }
-    
-    private func updateVisibility() {
-        if self.paginator.stream.active {
-            self.tableView.tableFooterView = footer
-        }
-        else {
-            self.tableView.tableFooterView = nil
-        }
-    }
+
 }
+
