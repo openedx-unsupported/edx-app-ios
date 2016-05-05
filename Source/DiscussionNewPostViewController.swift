@@ -97,9 +97,14 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 self?.postButton.enabled = true
                 self?.postButton.showProgress = false
-                self?.dismissViewControllerAnimated(true, completion: nil)
+                
+                if let _ = result.data {
+                    self?.dismissViewControllerAnimated(true, completion: nil)
+                }
+                else {
+                 self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
+                }
             }
-            
         }
     }
     

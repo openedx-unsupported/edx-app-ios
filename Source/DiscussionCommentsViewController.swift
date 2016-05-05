@@ -154,6 +154,9 @@ class DiscussionCommentCell: UITableViewCell {
                         viewController?.tableView.reloadData()
                     }
                 }
+                else {
+                    viewController?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
+                }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         

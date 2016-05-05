@@ -390,6 +390,8 @@
 "POSTS_IM_FOLLOWING" = "Posts I'm Following";
 /* Navigation item title for post and responses */
 "DISCUSSION_POST" = "Discussion Post";
+/*Error message when operation failed on post in duscussions*/
+"DISCUSSIONS.GENERIC_ERROR" = "Your action could not be completed.";
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
 /* Post question button title in Create a new post */
