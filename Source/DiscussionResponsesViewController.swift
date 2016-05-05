@@ -477,7 +477,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                         self?.loadedThread(thread)
                     }
                     else {
-                        self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
+                        self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                     }
                 }
             }
@@ -495,7 +495,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                         owner.postFollowing = thread.following
                     }
                     else {
-                        self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
+                        self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                     }
                 }
             }
@@ -519,7 +519,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                         owner.updateReportText(cell.reportButton, report: thread.abuseFlagged)
                     }
                     else {
-                        self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
+                        self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                     }
                 }
             }
@@ -597,7 +597,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.tableView.reloadData()
                 }
                 else {
-                    self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
+                    self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
@@ -616,7 +616,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.tableView.reloadData()
                 }
                 else {
-                    self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
+                    self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)

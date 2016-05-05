@@ -102,7 +102,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
                     self?.dismissViewControllerAnimated(true, completion: nil)
                 }
                 else {
-                 self?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
+                 self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                 }
             }
         }

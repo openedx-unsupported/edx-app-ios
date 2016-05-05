@@ -155,7 +155,7 @@ class DiscussionCommentCell: UITableViewCell {
                     }
                 }
                 else {
-                    viewController?.showOverlayMessage(DiscussionHelper.getErrorMessage(result.error))
+                    viewController?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
