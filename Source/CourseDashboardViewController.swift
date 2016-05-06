@@ -188,14 +188,13 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
     }
 
-    private func addShareButton(courseView: UIView) {
+    private func addShareButton(courseView: CourseCardView) {
         if environment.config.courseSharingEnabled {
             shareButton.setImage(UIImage(named: "share"), forState: .Normal)
             shareButton.tintColor = OEXStyles.sharedStyles().neutralDark()
-            courseView.addSubview(shareButton)
+
+            courseView.titleAccessoryView = shareButton
             shareButton.snp_makeConstraints(closure: { (make) -> Void in
-                make.trailing.equalTo(courseView).inset(10)
-                make.bottom.equalTo(courseView).inset(10)
                 make.height.equalTo(26)
                 make.width.equalTo(20)
             })
