@@ -49,7 +49,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testSnapshot() {
-        let config = OEXConfig(discussionsEnabled: true)
+        let config = OEXConfig(discussionsEnabled: true, courseSharingEnabled: true)
         let course = OEXCourse.freshCourse()
         let environment = TestRouterEnvironment(config: config)
         environment.mockEnrollmentManager.courses = [course]
