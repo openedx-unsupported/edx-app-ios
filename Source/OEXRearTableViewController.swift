@@ -45,7 +45,6 @@ class OEXRearTableViewController : UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupProfileLoader()
         updateUIWithUserInfo()
         

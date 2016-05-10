@@ -38,4 +38,5 @@ class LoginScreenInteractor : FeatureInteractor {
         signInButton.tap()
         return EnrolledCoursesInteractor()
     }
+    
 }
