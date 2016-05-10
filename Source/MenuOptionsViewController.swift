@@ -108,6 +108,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         let option = options[indexPath.row]
         
         cell.selectionStyle = option.depth == 0 ? .None : .Default
+        cell.applyStandardSeparatorInsets()
         
         if let optionIndex = selectedOptionIndex where indexPath.row == optionIndex {
             cell.backgroundColor = OEXStyles.sharedStyles().neutralLight()
