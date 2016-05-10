@@ -232,6 +232,7 @@ class UserProfileEditViewController: UITableViewController {
         let field = fields[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(field.cellIdentifier, forIndexPath: indexPath)
         cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.applyStandardSeparatorInsets()
 
         guard let formCell = cell as? FormCell else { return cell }
         formCell.applyData(field, data: profile)
