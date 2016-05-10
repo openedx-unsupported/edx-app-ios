@@ -166,6 +166,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.estimatedRowHeight = 150
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.applyStandardSeparatorInsets()
         
         filterButton.oex_addAction(
             {[weak self] _ in

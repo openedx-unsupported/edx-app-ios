@@ -166,6 +166,7 @@ class UserProfileEditViewController: UITableViewController {
         
         tableView.tableHeaderView = makeHeader()
         tableView.tableFooterView = footer //get rid of extra lines when the content is shorter than a screen
+        tableView.applyStandardSeparatorInsets()
         
         if let form = JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView)
@@ -232,6 +233,7 @@ class UserProfileEditViewController: UITableViewController {
         let field = fields[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(field.cellIdentifier, forIndexPath: indexPath)
         cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.applyStandardSeparatorInsets()
 
         guard let formCell = cell as? FormCell else { return cell }
         formCell.applyData(field, data: profile)
