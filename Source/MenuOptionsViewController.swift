@@ -75,6 +75,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         tableView?.registerClass(MenuOptionTableViewCell.classForCoder(), forCellReuseIdentifier: MenuOptionTableViewCell.identifier)
         tableView?.dataSource = self
         tableView?.delegate = self
+        tableView?.applyStandardSeparatorInsets()
         
         tableView?.layer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
         tableView?.layer.borderWidth = 1.0
@@ -102,6 +103,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
 
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(MenuOptionTableViewCell.identifier, forIndexPath: indexPath) as! MenuOptionTableViewCell
+        cell.applyStandardSeparatorInsets()
         
         // Configure the cell...
         let style : OEXTextStyle
