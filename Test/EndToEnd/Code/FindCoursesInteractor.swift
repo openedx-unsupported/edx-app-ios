@@ -37,7 +37,7 @@ class FindCoursesInteractor: FeatureInteractor {
             waitForElement(coursesTableView.cells.elementBoundByIndex(0))
             
         case .Webview:
-            waitForElement(coursesWebView, findByValue: true)
+            waitForElementNonNullValue(coursesWebView)
         }
     }
 }
