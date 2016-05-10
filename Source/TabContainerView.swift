@@ -8,14 +8,15 @@
 
 import Foundation
 
+
+struct TabItem {
+    let name : String
+    let view : UIView
+    let identifier : String
+}
+
 // Simple tab view with a segmented control at the top
 class TabContainerView : UIView {
-
-    struct Item {
-        let name : String
-        let view : UIView
-        let identifier : String
-    }
 
     private let control = UISegmentedControl()
 
@@ -49,7 +50,7 @@ class TabContainerView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    var items : [Item] = [] {
+    var items : [TabItem] = [] {
         didSet {
             control.removeAllSegments()
 
@@ -65,10 +66,7 @@ class TabContainerView : UIView {
             else {
                 currentIdentifier = nil
             }
-
-            if items.count < 2 {
-                control.hidden = true
-            }
+            control.hidden = items.count < 2
         }
     }
 
@@ -99,7 +97,7 @@ class TabContainerView : UIView {
 
 // Only used for testing
 extension TabContainerView {
-    func t_isShowingViewForItem(item : Item) -> Bool {
+    func t_isShowingViewForItem(item : TabItem) -> Bool {
         let viewsMatch = stackView.arrangedSubviews == [control, item.view]
         let indexMatches = indexOfItemWithIdentifier(item.identifier) == control.selectedSegmentIndex
         let identifierMatches = currentIdentifier == item.identifier

@@ -13,17 +13,25 @@ import edXCore
 
 class BadgesAPITests : XCTestCase {
 
+    private func paginate(results results: JSON) -> JSON {
+        var result = JSON([
+            "count": 1,
+            "num_pages": 1
+        ])
+        result["results"] = results
+        return result
+    }
+
     private var sampleBadgeJSON : JSON {
         return [
-            "username" : "foo",
-            "evidence": "http://example.com/evidence",
+            "assertion_url": "http://example.com/evidence",
             "image_url": "http://example.com/image.jpg",
-            "awarded_on": OEXDateFormatting.serverStringWithDate(NSDate()),
-            "spec": [
+            "created": OEXDateFormatting.serverStringWithDate(NSDate()),
+            "badge_class": [
                 "description" : "Some cool badge!",
                 "slug": "someslug",
                 "issuing_component": "somecomponent",
-                "name": "some name",
+                "display_name": "some name",
                 "image_url": "http://example.com/image.jpg",
                 "course_id": "some+course+id",
             ]
@@ -53,9 +61,9 @@ class BadgesAPITests : XCTestCase {
         switch request.deserializer {
         case let .JSONResponse(deserializer):
             let response = NSHTTPURLResponse(URL: NSURL(string: "http://example.com")!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!
-            let result = deserializer(response, JSON([sampleBadgeJSON, sampleBadgeJSON]))
+            let result = deserializer(response, paginate(results: JSON([sampleBadgeJSON, sampleBadgeJSON])))
             AssertSuccess(result)
-            XCTAssertEqual(result.value!.count, 2)
+            XCTAssertEqual(result.value!.value.count, 2)
         default:
             XCTFail()
         }
@@ -66,9 +74,10 @@ class BadgesAPITests : XCTestCase {
         switch request.deserializer {
         case let .JSONResponse(deserializer):
             let response = NSHTTPURLResponse(URL: NSURL(string: "http://example.com")!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!
-            let result = deserializer(response, JSON([sampleBadgeJSON, ["foo":"bar"]]))
+
+            let result = deserializer(response, paginate(results: JSON([sampleBadgeJSON, ["foo":"bar"]])))
             AssertSuccess(result)
-            XCTAssertEqual(result.value!.count, 1)
+            XCTAssertEqual(result.value!.value.count, 1)
         default:
             XCTFail()
         }

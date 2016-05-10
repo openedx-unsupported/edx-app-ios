@@ -13,9 +13,9 @@ import XCTest
 
 class TabContainerViewTests : XCTestCase {
 
-    var testItems : (TabContainerView.Item, TabContainerView.Item) = (
-        TabContainerView.Item(name: "Name", view: UIView(), identifier: "item1"),
-        TabContainerView.Item(name: "Name", view: UIView(), identifier: "item2")
+    var testItems : (TabItem, TabItem) = (
+        TabItem(name: "Name", view: UIView(), identifier: "item1"),
+        TabItem(name: "Name", view: UIView(), identifier: "item2")
     )
 
     func testSettingItemsChoosesFirstItem() {

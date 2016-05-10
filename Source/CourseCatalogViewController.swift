@@ -28,14 +28,14 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var paginationController : TablePaginationController<OEXCourse> = {
+    private lazy var paginationController : PaginationController<OEXCourse> = {
         let username = self.environment.session.currentUser?.username ?? ""
         precondition(username != "", "Shouldn't be showing course catalog without a logged in user")
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
             return CourseCatalogAPI.getCourseCatalog(username, page: page)
         }
-        return TablePaginationController(paginator: paginator, tableView: self.tableController.tableView)
+        return PaginationController(paginator: paginator, tableView: self.tableController.tableView)
     }()
     
     override func viewDidLoad() {

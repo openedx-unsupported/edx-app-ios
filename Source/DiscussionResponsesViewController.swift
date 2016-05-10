@@ -132,7 +132,7 @@ class DiscussionResponseCell: UITableViewCell {
 }
 
 
-class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, DiscussionCommentsViewControllerDelegate {
+class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, DiscussionCommentsViewControllerDelegate, InterfaceOrientationOverriding {
     typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
 
     enum TableSection : Int {
@@ -146,7 +146,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var threadID: String!
     
     var loadController : LoadStateViewController?
-    var paginationController : TablePaginationController<DiscussionComment>?
+    var paginationController : PaginationController<DiscussionComment>?
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var contentView: UIView!
@@ -240,6 +240,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         loadThread()
     }
     
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .AllButUpsideDown
+    }
+    
     private func logScreenEvent(){
         if let thread = thread {
             
@@ -305,7 +313,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, endorsedOnly: true, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         paginationController?.stream.listen(self, success:
             { [weak self] responses in
@@ -335,7 +343,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         paginationController?.stream.listen(self, success:
             { [weak self] responses in
@@ -471,10 +479,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 let apiRequest = DiscussionAPI.voteThread(thread.voted, threadID: thread.threadID)
                 
                 owner.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
+                    button.enabled = true
+                    
                     if let thread: DiscussionThread = result.data {
                         self?.loadedThread(thread)
                     }
-                    button.enabled = true
+                    else {
+                        self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
+                    }
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
@@ -489,6 +501,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     if let thread: DiscussionThread = result.data {
                         owner.updateFollowText(cell.followButton, following: thread.following)
                         owner.postFollowing = thread.following
+                    }
+                    else {
+                        self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                     }
                 }
             }
@@ -510,6 +525,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     if let thread = result.data {
                         self?.thread?.abuseFlagged = thread.abuseFlagged
                         owner.updateReportText(cell.reportButton, report: thread.abuseFlagged)
+                    }
+                    else {
+                        self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                     }
                 }
             }
@@ -586,6 +604,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.updateVoteText(cell.voteButton, voteCount: comment.voteCount, voted: comment.voted)
                     self?.tableView.reloadData()
                 }
+                else {
+                    self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
+                }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
@@ -601,6 +622,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     
                     self?.updateReportText(cell.reportButton, report: comment.abuseFlagged)
                     self?.tableView.reloadData()
+                }
+                else {
+                    self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
@@ -654,6 +678,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         button.setAttributedTitle(buttonText, forState:.Normal)
     }
     
+    func increaseResponseCount() {
+        let count = thread?.responseCount ?? 0
+        thread?.responseCount = count + 1
+    }
+    
     // MARK:- DiscussionNewCommentViewControllerDelegate method
     
     func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
@@ -663,6 +692,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             if !(paginationController?.hasNext ?? false) {
                 self.responsesDataController.responses.append(comment)
             }
+            
+            increaseResponseCount()
+            
             self.showOverlayMessage(Strings.discussionThreadPosted)
         case .Comment(_):
             responsesDataController.addedChildComment(comment)

@@ -65,4 +65,12 @@
     [self.environment.router showSignUpScreenFromController:self];
 }
 
+- (BOOL) shouldAutorotate {
+    return false;
+}
+
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 @end

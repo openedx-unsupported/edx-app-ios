@@ -12,7 +12,7 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
     func newCommentController(controller  : DiscussionNewCommentViewController, addedComment comment: DiscussionComment)
 }
 
-public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate {
+public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate, InterfaceOrientationOverriding {
     
     public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
@@ -143,7 +143,8 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
                     self?.dismissViewControllerAnimated(true, completion: nil)
             }
             else {
-                // TODO: error handling
+                self?.addCommentButton.enabled = true
+                self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
             }
         }
     }
@@ -199,6 +200,14 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         logScreenEvent()
+    }
+    
+    override public func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .AllButUpsideDown
     }
     
     private func logScreenEvent(){

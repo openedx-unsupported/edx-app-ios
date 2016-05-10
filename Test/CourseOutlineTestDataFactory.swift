@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import edX
 
 public class CourseOutlineTestDataFactory {
 

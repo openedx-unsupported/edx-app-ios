@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding {
 
     typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
@@ -75,7 +75,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
     }
     var environment: Environment!
-    private var paginationController : TablePaginationController<DiscussionThread>?
+    private var paginationController : PaginationController<DiscussionThread>?
     
     private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
 
@@ -329,6 +329,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadContent()
     }
     
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .AllButUpsideDown
+    }
+    
     private func logScreenEvent() {
         switch context {
         case let .Topic(topic):
@@ -376,7 +384,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return DiscussionAPI.getFollowedThreads(courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         loadThreads()
     }
@@ -387,7 +395,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         loadThreads()
     }
@@ -407,7 +415,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
-        paginationController = TablePaginationController (paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
         
         loadThreads()
     }
@@ -479,6 +487,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         let controller = UIAlertController.actionSheetWithItems(options, currentSelection : self.selectedFilter) {filter in
             self.selectedFilter = filter
+            self.loadController.state = .Initial
             self.loadContent()
             
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Filter.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
@@ -497,6 +506,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let controller = UIAlertController.actionSheetWithItems(options, currentSelection : self.selectedOrderBy) {sort in
             self.selectedOrderBy = sort
+            self.loadController.state = .Initial
             self.loadContent()
             
             let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),

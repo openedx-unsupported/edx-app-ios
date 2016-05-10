@@ -98,15 +98,11 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             make.height.equalTo(self.coverImageView.snp_width).multipliedBy(0.533).priorityLow()
             make.bottom.equalTo(self)
         }
-        self.titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.container).offset(StandardHorizontalMargin)
-            make.trailing.lessThanOrEqualTo(self.container).offset(-StandardHorizontalMargin)
-            make.top.equalTo(self.container).offset(verticalMargin)
-        }
         self.detailLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.container).offset(StandardHorizontalMargin)
             make.top.equalTo(self.titleLabel.snp_bottom)
             make.bottom.equalTo(self.container).offset(-verticalMargin)
+            make.trailing.equalTo(self.titleLabel)
         }
         self.bottomLine.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self)
@@ -130,6 +126,40 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         let tapGesture = UITapGestureRecognizer {[weak self] _ in self?.cardTapped() }
         tapGesture.delegate = self
         self.addGestureRecognizer(tapGesture)
+    }
+
+    override func updateConstraints() {
+        if let accessory = titleAccessoryView {
+            accessory.snp_remakeConstraints { make in
+                make.trailing.equalTo(container).offset(-StandardHorizontalMargin)
+                make.centerY.equalTo(container)
+            }
+        }
+
+        self.titleLabel.snp_remakeConstraints { (make) -> Void in
+            make.leading.equalTo(container).offset(StandardHorizontalMargin)
+            if let accessory = titleAccessoryView {
+                make.trailing.lessThanOrEqualTo(accessory).offset(-StandardHorizontalMargin)
+            }
+            else {
+                make.trailing.equalTo(container).offset(-StandardHorizontalMargin)
+            }
+            make.top.equalTo(container).offset(verticalMargin)
+        }
+
+        super.updateConstraints()
+    }
+
+    var titleAccessoryView : UIView? = nil {
+        willSet {
+            titleAccessoryView?.removeFromSuperview()
+        }
+        didSet {
+            if let accessory = titleAccessoryView {
+                container.addSubview(accessory)
+            }
+            updateConstraints()
+        }
     }
     
     override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {

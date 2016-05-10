@@ -20,7 +20,7 @@ protocol RemoteImage {
 
 private let imageCache = NSCache()
 
-struct RemoteImageImpl: RemoteImage {
+class RemoteImageImpl: RemoteImage {
     let placeholder: UIImage?
     let url: String
     var localImage: UIImage?
@@ -65,7 +65,7 @@ struct RemoteImageImpl: RemoteImage {
     
     private func imageDeserializer(response: NSHTTPURLResponse, data: NSData) -> Result<RemoteImage> {
         if let newImage = UIImage(data: data) {
-            var result = self
+            let result = self
             result.localImage = newImage
             
             let cost = data.length

@@ -28,6 +28,14 @@ public enum ResponseDeserializer<Out> {
     case JSONResponse((NSHTTPURLResponse, JSON) -> Result<Out>)
     case DataResponse((NSHTTPURLResponse, NSData) -> Result<Out>)
     case NoContent(NSHTTPURLResponse -> Result<Out>)
+
+    func map<A>(f: Out -> A) -> ResponseDeserializer<A> {
+        switch self {
+        case let .JSONResponse(d): return .JSONResponse({(request, json) in d(request, json).map(f)})
+        case let .DataResponse(d): return .DataResponse({(request, data) in d(request, data).map(f)})
+        case let .NoContent(d): return .NoContent({args in d(args).map(f)})
+        }
+    }
 }
 
 public struct NetworkRequest<Out> {
@@ -53,6 +61,11 @@ public struct NetworkRequest<Out> {
             self.query = query
             self.deserializer = deserializer
             self.additionalHeaders = headers
+    }
+
+    public func map<A>(f : Out -> A) -> NetworkRequest<A> {
+        return NetworkRequest<A>(method: method, path: path, requiresAuth: requiresAuth, body: body, query: query, headers: additionalHeaders, deserializer: deserializer.map(f))
+
     }
 }
 

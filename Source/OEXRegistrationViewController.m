@@ -559,6 +559,14 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
+- (BOOL) shouldAutorotate {
+    return false;
+}
+
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 #pragma mark - Scolling on Keyboard Hide/Show
 
 // Called when the UIKeyboardDidChangeFrameNotification is sent.

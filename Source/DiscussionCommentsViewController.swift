@@ -154,6 +154,9 @@ class DiscussionCommentCell: UITableViewCell {
                         viewController?.tableView.reloadData()
                     }
                 }
+                else {
+                    viewController?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
+                }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
         
@@ -173,7 +176,7 @@ protocol DiscussionCommentsViewControllerDelegate: class {
     func discussionCommentsView(controller  : DiscussionCommentsViewController, updatedComment comment: DiscussionComment)
 }
 
-class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate {
+class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, InterfaceOrientationOverriding {
     
     typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
@@ -231,7 +234,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         return responseItem.commentID
     }
     
-    var paginationController : TablePaginationController<DiscussionComment>?
+    var paginationController : PaginationController<DiscussionComment>?
     
     //Only used to set commentsClosed out of initialization context
     //TODO: Get rid of this variable when Swift improves
@@ -278,6 +281,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         logScreenEvent()
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .AllButUpsideDown
     }
     
     private func logScreenEvent() {
@@ -340,7 +351,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
             return DiscussionAPI.getComments(commentID, pageNumber: page)
         }
-        paginationController = TablePaginationController(paginator: paginator, tableView: self.tableView)
+        paginationController = PaginationController(paginator: paginator, tableView: self.tableView)
     }
     
     private func loadContent() {
@@ -414,9 +425,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         if !(paginationController?.hasNext ?? false) {
             self.comments.append(comment)
-            self.tableView.reloadData()
         }
         
+        self.tableView.reloadData()
         delegate?.discussionCommentsView(self, updatedComment: responseItem)
         
         self.showOverlayMessage(Strings.discussionCommentPosted)
