@@ -78,6 +78,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         
         tableView?.layer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
         tableView?.layer.borderWidth = 1.0
+        tableView?.applyStandardSeparatorInsets()
         view.addSubview(tableView!)
         
         setConstraints()
