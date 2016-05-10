@@ -122,6 +122,7 @@ class ChooserDataSource<T> : NSObject, UITableViewDataSource, UITableViewDelegat
     }
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
+        cell.applyStandardSeparatorInsets()
         let datum = data[indexPath.row]
         if let title = datum.attributedTitle {
             cell.textLabel?.attributedText = title

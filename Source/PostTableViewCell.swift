@@ -22,6 +22,14 @@ class PostTableViewCell: UITableViewCell {
         return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralLight())
     }
     
+    private var questionStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().secondaryDarkColor())
+    }
+    
+    private var answerStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().utilitySuccessDark())
+    }
+    
     private var cellDetailTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralBase())
     }
@@ -124,7 +132,7 @@ class PostTableViewCell: UITableViewCell {
     }
         
     func useThread(thread : DiscussionThread, selectedOrderBy : DiscussionPostsSort) {
-        self.typeText = iconForThread(thread).attributedTextWithStyle(postTypeStyle)
+        self.typeText = threadTypeText(thread)
         self.titleText = thread.title
         var options = [NSAttributedString]()
         
@@ -185,12 +193,12 @@ class PostTableViewCell: UITableViewCell {
         super.updateConstraints()
     }
     
-    private func iconForThread(thread : DiscussionThread) -> Icon {
+    private func threadTypeText(thread : DiscussionThread) -> NSAttributedString {
         switch thread.type {
         case .Discussion:
-            return Icon.Comments
+            return Icon.Comments.attributedTextWithStyle(postTypeStyle)
         case .Question:
-            return thread.hasEndorsed ? Icon.Answered : Icon.Question
+            return thread.hasEndorsed ? Icon.Answered.attributedTextWithStyle(answerStyle) : Icon.Question.attributedTextWithStyle(questionStyle)
         }
     }
     
