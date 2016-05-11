@@ -11,7 +11,7 @@ import UIKit
 class LoggingAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     private let ANALYTICS = "ANALYTICS"
     
-    func identifyUser(user: OEXUserDetails) {
+    func identifyUser(user: OEXUserDetails?) {
         Logger.logInfo(ANALYTICS, "Identified User: \(user)")
     }
     

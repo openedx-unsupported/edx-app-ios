@@ -61,7 +61,7 @@ class MockAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     
     let eventStream = Sink<MockAnalyticsRecord>()
     
-    func identifyUser(user: OEXUserDetails) {
+    func identifyUser(user: OEXUserDetails?) {
         currentUser = user
     }
     

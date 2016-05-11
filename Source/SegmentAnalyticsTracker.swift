@@ -25,13 +25,13 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         }
     }
 
-    func identifyUser(user : OEXUserDetails) {
-        if let userID = user.userId {
+    func identifyUser(user : OEXUserDetails?) {
+        if let userID = user?.userId {
             var traits : [String:AnyObject] = [:]
-            if let email = user.email {
+            if let email = user?.email {
                 traits[key_email] = email
             }
-            if let username = user.username {
+            if let username = user?.username {
                 traits[key_username] = username
             }
             SEGAnalytics.sharedAnalytics().identify(userID.description, traits:traits)
