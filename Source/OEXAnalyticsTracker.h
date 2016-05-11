@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol OEXAnalyticsTracker <NSObject>
 
-- (void)identifyUser:(OEXUserDetails*)user;
+- (void)identifyUser:(nullable OEXUserDetails*)user;
 - (void)clearIdentifiedUser;
 
 - (void)trackEvent:(OEXAnalyticsEvent*)event forComponent:(nullable NSString*)component withProperties:(NSDictionary<NSString*, id>*)properties;
