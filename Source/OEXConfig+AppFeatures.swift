@@ -33,4 +33,8 @@ extension OEXConfig {
         return boolForKey("BADGES_ENABLED")
     }
 
+    var newLogistrationFlowEnabled: Bool {
+        return boolForKey("NEW_LOGISTRATION_ENABLED")
+    }
+
 }
