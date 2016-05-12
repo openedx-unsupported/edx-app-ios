@@ -89,9 +89,13 @@ public class UserProfile {
 
 extension UserProfile { //ViewModel
     func image(networkManager: NetworkManager) -> RemoteImage {
-        
-        let url = hasProfileImage && imageURL != nil ? imageURL! : ""
-        return RemoteImageImpl(url: url, networkManager: networkManager, placeholder: UIImage(named: "avatarPlaceholder"), persist: true)
+        let placeholder = UIImage(named: "avatarPlaceholder")
+        if let url = imageURL where hasProfileImage {
+            return RemoteImageImpl(url: url, networkManager: networkManager, placeholder: placeholder, persist: true)
+        }
+        else {
+            return RemoteImageJustImage(image: placeholder)
+        }
     }
     
     var country: String? {
