@@ -543,7 +543,15 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
         
         if let thread = thread {
-            cell.endorsedByButton.setAttributedTitle(response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,endorsedLabel: true, threadType: thread.type, textStyle: infoTextStyle), forState: .Normal)
+            
+            let formatedTitle = response.formattedUserLabel(response.endorsedBy, date: response.endorsedAt,label: response.endorsedByLabel ,endorsedLabel: true, threadType: thread.type, textStyle: infoTextStyle)
+            
+            cell.endorsedByButton.setAttributedTitle(formatedTitle, forState: .Normal)
+            
+            cell.endorsedByButton.snp_updateConstraints(closure: { (make) in
+                make.width.equalTo(formatedTitle.width() + 10)
+            })
+            
         }
         
         DiscussionHelper.styleAuthorButton(cell.authorButton, title: response.formattedUserLabel(infoTextStyle), author: response.author, viewController: self, router: self.environment.router)
