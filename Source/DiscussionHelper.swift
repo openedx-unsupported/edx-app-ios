@@ -29,7 +29,7 @@ class DiscussionHelper: NSObject {
         authorButton.setAttributedTitle(title, forState: .Normal)
         
         authorButton.snp_updateConstraints { (make) in
-            make.width.equalTo(title.width() + 10)
+            make.width.equalTo(title.singleLineWidth() + StandardHorizontalMargin)
         }
         
         let profilesEnabled = OEXConfig.sharedConfig().profilesEnabled
@@ -57,13 +57,5 @@ class DiscussionHelper: NSObject {
         else {
             return Strings.Discussions.genericError
         }
-    }
-}
-
-extension NSAttributedString {
-    func width() -> CGFloat {
-        let boundingRect = self.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: [.UsesLineFragmentOrigin, .UsesFontLeading], context: nil)
-        
-        return boundingRect.width
     }
 }

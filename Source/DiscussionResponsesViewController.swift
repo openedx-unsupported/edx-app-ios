@@ -549,7 +549,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.endorsedByButton.setAttributedTitle(formatedTitle, forState: .Normal)
             
             cell.endorsedByButton.snp_updateConstraints(closure: { (make) in
-                make.width.equalTo(formatedTitle.width() + 10)
+                make.width.equalTo(formatedTitle.singleLineWidth() + StandardHorizontalMargin)
             })
             
         }

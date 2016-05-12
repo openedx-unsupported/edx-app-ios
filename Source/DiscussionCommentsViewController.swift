@@ -96,6 +96,7 @@ class DiscussionCommentCell: UITableViewCell {
             make.top.equalTo(bodyTextLabel.snp_bottom)
             make.leading.equalTo(bodyTextLabel)
             make.bottom.equalTo(containerView).offset(-StandardVerticalMargin)
+            make.trailing.lessThanOrEqualTo(containerView)
         }
         
         endorsedLabel.snp_makeConstraints { (make) -> Void in

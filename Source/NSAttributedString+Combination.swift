@@ -26,6 +26,12 @@ extension NSAttributedString {
         }
         return resultString
     }
+    
+    func singleLineWidth() -> CGFloat {
+        let boundingRect = self.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: [.UsesLineFragmentOrigin, .UsesFontLeading], context: nil)
+        
+        return boundingRect.width
+    }
 }
 
 extension String {
