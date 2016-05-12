@@ -10,7 +10,7 @@ import UIKit
 
 public enum Result<A> {
     case Success(A)
-    case Failure(NSError)    
+    case Failure(NSError)
     
     public func map<B>(f : A -> B) -> Result<B> {
         switch self {

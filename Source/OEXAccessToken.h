@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString* accessToken;
 @property(nonatomic, copy, nullable) NSString* tokenType;
 @property(nonatomic, copy, nullable) NSString* scope;
+@property(nonatomic, copy, nullable) NSString* refreshToken;
 
 /// Provides a persistent representation of an access token
 - (NSData* _Nullable)accessTokenData;

@@ -125,7 +125,8 @@
                                        baseURL:env.config.apiHostURL
                                        cache: cache];
             [env.postSetupActions addObject:^(OEXEnvironment* env) {
-                [manager addStandardInterceptors:env.router];
+                [manager addStandardInterceptors];
+                [manager addAuthenticator:env.router session:env.session clientId:env.config.oauthClientID];
             }];
             return manager;
         };
