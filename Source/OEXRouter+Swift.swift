@@ -225,6 +225,23 @@ extension OEXRouter {
         fromController.navigationController?.pushViewController(detailController, animated: true)
     }
 
+    // MARK: - LOGIN / LOGOUT
+
+    func showSplash() {
+        revealController = nil
+        removeCurrentContentController()
+
+        let splashController: UIViewController
+        if environment.config.newLogistrationFlowEnabled {
+            splashController = StartupViewController()
+        } else {
+            let splashEnvironment = OEXLoginSplashViewControllerEnvironment(router: self)
+            splashController = OEXLoginSplashViewController(environment: splashEnvironment)
+        }
+        
+        makeContentControllerCurrent(splashController)
+    }
+
     public func logout() {
         self.environment.session.closeAndClearSession()
         self.showLoggedOutScreen()

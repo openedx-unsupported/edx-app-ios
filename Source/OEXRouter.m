@@ -102,15 +102,6 @@ OEXRegistrationViewControllerDelegate
     self.currentContentController = controller;
 }
 
-- (void)showSplash {
-    self.revealController = nil;
-    [self removeCurrentContentController];
-    
-    OEXLoginSplashViewControllerEnvironment* splashEnvironment = [[OEXLoginSplashViewControllerEnvironment alloc] initWithRouter:self];
-    OEXLoginSplashViewController* splashController = [[OEXLoginSplashViewController alloc] initWithEnvironment:splashEnvironment];
-    [self makeContentControllerCurrent:splashController];
-}
-
 - (void)showLoggedInContent {
     [self removeCurrentContentController];
     

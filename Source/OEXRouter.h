@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXHelperVideoDownload;
 @class OEXVideoPathEntry;
 @class NetworkManager;
+@class RevealViewController;
 
 typedef NS_ENUM(NSUInteger, OEXSideNavigationState) {
     OEXSideNavigationStateHidden,
@@ -74,6 +75,10 @@ extern NSString* OEXSideNavigationChangedStateKey;
 @interface OEXRouter (Private)
 
 @property (readonly, strong, nonatomic) RouterEnvironment* environment;
+@property (strong, nonatomic, nullable) RevealViewController* revealController;
+
+- (void)removeCurrentContentController;
+- (void)makeContentControllerCurrent:(UIViewController*)controller;
 
 @end
 
