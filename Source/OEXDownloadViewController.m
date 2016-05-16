@@ -35,6 +35,8 @@
 @property (strong, nonatomic) IBOutlet UITableView* table_Downloads;
 @property (strong, nonatomic) IBOutlet OEXCustomButton *btn_View;
 @property (strong, nonatomic) NSNumberFormatter* percentFormatter;
+@property (nonatomic) ContentInsetsController *insetsController;
+
 @end
 
 @implementation OEXDownloadViewController
@@ -94,6 +96,13 @@
     self.percentFormatter = [[NSNumberFormatter alloc] init];
     self.percentFormatter.numberStyle = NSNumberFormatterPercentStyle;
     
+    [self addOfflineSupport];
+}
+
+- (void) addOfflineSupport {
+    self.insetsController = [[ContentInsetsController alloc] init];
+    [self.insetsController setupInController:self scrollView:self.table_Downloads];
+    [self.insetsController supportOfflineMode:[[[OEXRouter sharedRouter] environment] reachability]];
 }
 
 - (void)reloadDownloadingVideos {

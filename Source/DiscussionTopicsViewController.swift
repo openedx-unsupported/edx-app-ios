@@ -11,7 +11,7 @@ import UIKit
 
 public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding  {
     
-    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider>
     
     private enum TableSection : Int {
         case AllPosts
@@ -30,6 +30,8 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
     private let contentView = UIView()
     private let tableView = UITableView()
     private let searchBarSeparator = UIView()
+    private let containerView = UIScrollView()
+    private let insetsController = ContentInsetsController()
     
     public init(environment: Environment, courseID: String) {
         self.environment = environment
@@ -63,10 +65,11 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         searchBarSeparator.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         
-        self.view.addSubview(contentView)
-        self.contentView.addSubview(tableView)
-        self.contentView.addSubview(searchBar)
-        self.contentView.addSubview(searchBarSeparator)
+        self.view.addSubview(containerView)
+        containerView.addSubview(contentView)
+        containerView.addSubview(tableView)
+        containerView.addSubview(searchBar)
+        containerView.addSubview(searchBarSeparator)
         
         // Set up tableView
         tableView.dataSource = self
@@ -82,8 +85,14 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         
         searchBar.delegate = searchBarDelegate
         
+        containerView.snp_makeConstraints {make in
+            make.edges.equalTo(view)
+        }
+        
         contentView.snp_makeConstraints {make in
-            make.edges.equalTo(self.view)
+            make.top.equalTo(containerView)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
         }
         
         searchBar.snp_makeConstraints { (make) -> Void in
@@ -103,7 +112,7 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         tableView.snp_makeConstraints { make -> Void in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(contentView)
+            make.bottom.equalTo(view)
         }
         
         // Register tableViewCell
@@ -116,6 +125,13 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         }, failure : {[weak self] error in
             self?.loadController.state = LoadState.failed(error)
         })
+        
+        addOfflineSupport()
+    }
+    
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: containerView)
+        insetsController.supportOfflineMode(environment.reachability)
     }
     
     func loadedData() {

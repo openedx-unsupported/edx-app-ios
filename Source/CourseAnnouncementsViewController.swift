@@ -34,11 +34,13 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
     
     private let loadController = LoadStateViewController()
     private let announcementsLoader = BackedStream<[OEXAnnouncement]>()
+    private let insetsController = ContentInsetsController()
     
     private let webView: UIWebView
     private let notificationBar : UIView
     private let notificationLabel : UILabel
     private let notificationSwitch : UISwitch
+    private let containerView: UIScrollView = UIScrollView()
     
     private let fontStyle = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlack())
     private let switchStyle = OEXStyles.sharedStyles().standardSwitchStyle()
@@ -95,6 +97,8 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
                 observer.loadContent()
             }
         }
+        
+        addOfflineSupport()
     }
     
     private static func requestForCourse(course: OEXCourse) -> NetworkRequest<[OEXAnnouncement]> {
@@ -121,15 +125,25 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         )
     }
     
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: containerView)
+        insetsController.supportOfflineMode(environment.reachability)
+    }
+    
     //MARK: - Setup UI
     private func addSubviews() {
-        self.view.addSubview(webView)
-        self.view.addSubview(notificationBar)
+        view.addSubview(containerView)
+        containerView.addSubview(webView)
+        containerView.addSubview(notificationBar)
         notificationBar.addSubview(notificationLabel)
         notificationBar.addSubview(notificationSwitch)
     }
     
     private func setConstraints() {
+        containerView.snp_makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
+        
         notificationLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(notificationBar.snp_leading).offset(notificationLabelLeadingOffset)
             make.centerY.equalTo(notificationBar)
@@ -142,7 +156,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         }
         
         notificationBar.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.view)
+            make.top.equalTo(containerView)
             make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
             if environment.config.pushNotificationsEnabled {

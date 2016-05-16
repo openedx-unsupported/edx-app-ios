@@ -196,7 +196,7 @@ static OEXStyles* sSharedStyles;
 }
 
 - (UIColor*)warningDark {
-    return [UIColor colorWithRed:169/255. green:125/255. blue:57/255. alpha:1.0];
+    return [UIColor colorWithRed:175/255. green:131/255. blue:63/255. alpha:1.0];
 }
 
 - (UIColor*)warningBase {
@@ -204,11 +204,11 @@ static OEXStyles* sSharedStyles;
 }
 
 - (UIColor*)warningLight {
-    return [UIColor colorWithRed:253/255. green:210/255. blue:141/255. alpha:1.0];
+    return [UIColor colorWithRed:253/255. green:209/255. blue:141/255. alpha:1.0];
 }
 
 - (UIColor*)errorDark {
-    return [UIColor colorWithRed:119/255. green:4/255. blue:10/255. alpha:1.0];
+    return [UIColor colorWithRed:125/255. green:9/255. blue:16/255. alpha:1.0];
 }
 
 - (UIColor*)errorBase {
@@ -216,7 +216,7 @@ static OEXStyles* sSharedStyles;
 }
 
 - (UIColor*)errorLight {
-    return [UIColor colorWithRed:203/255. green:88/255. blue:94/255. alpha:1.0];
+    return [UIColor colorWithRed:209/255. green:87/255. blue:94/255. alpha:1.0];
 }
 
 - (UIColor*)banner {

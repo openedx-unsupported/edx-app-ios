@@ -10,7 +10,7 @@ import UIKit
 
 class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding {
 
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider>
     
     enum Context {
         case Topic(DiscussionTopic)
@@ -94,7 +94,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let courseID: String
     
     private let contentView = UIView()
-    
+    private let containerView = UIScrollView()
     private var context : Context
     
     private var posts: [DiscussionThread] = []
@@ -184,7 +184,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             }, forEvents: .TouchUpInside)
 
         loadController.setupInController(self, contentView: contentView)
-        insetsController.setupInController(self, scrollView: tableView)
+        insetsController.setupInController(self, scrollView: containerView)
+        insetsController.supportOfflineMode(environment.reachability)
         refreshController.setupInScrollView(tableView)
         insetsController.addSource(refreshController)
         refreshController.delegate = self
@@ -193,12 +194,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         updateHeaderViewVisibility()
         
     }
-    
+
     private func addSubviews() {
-        view.addSubview(contentView)
-        view.addSubview(headerView)
+        view.addSubview(containerView)
+        containerView.addSubview(contentView)
+        containerView.addSubview(headerView)
         if let searchBar = searchBar {
-            view.addSubview(searchBar)
+            containerView.addSubview(searchBar)
         }
         contentView.addSubview(tableView)
         headerView.addSubview(refineLabel)
@@ -210,9 +212,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func setConstraints() {
+        
+        containerView.snp_makeConstraints{ (make) -> Void in
+            make.edges.equalTo(view)
+        }
+        
         contentView.snp_makeConstraints { (make) -> Void in
             if context.allowsPosting {
-                make.top.equalTo(view)
+                make.top.equalTo(containerView)
             }
             //Else the top is equal to searchBar.snp_bottom
             make.leading.equalTo(view)
@@ -228,7 +235,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         searchBar?.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(view)
+            make.top.equalTo(containerView)
             make.trailing.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.bottom.equalTo(contentView.snp_top)

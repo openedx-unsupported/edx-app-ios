@@ -178,7 +178,7 @@ protocol DiscussionCommentsViewControllerDelegate: class {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, InterfaceOrientationOverriding {
     
-    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider>
     
     private enum TableSection : Int {
         case Response = 0
@@ -201,6 +201,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private var comments : [DiscussionComment]  = []
     private var responseItem: DiscussionComment
     weak var delegate: DiscussionCommentsViewControllerDelegate?
+    private let insetsController = ContentInsetsController()
     
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
@@ -276,11 +277,17 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         initializePaginator()
         loadContent()
+        addOfflineSupport()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         logScreenEvent()
+    }
+    
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: tableView)
+        insetsController.supportOfflineMode(environment.reachability)
     }
     
     override func shouldAutorotate() -> Bool {

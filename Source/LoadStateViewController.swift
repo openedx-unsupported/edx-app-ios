@@ -192,6 +192,9 @@ class LoadStateViewController : UIViewController {
                         self.messageView.message = Strings.courseContentUnknown
                         self.messageView.icon = info.icon ?? .UnknownError
                     }
+                    else if let error = info.error where error.oex_isOutdatedVersionError {
+                        self.messageView.showDepricatedVersionError()
+                    }
                     else {
                         self.messageView.message = info.error?.localizedDescription
                         self.messageView.icon = info.icon ?? .UnknownError

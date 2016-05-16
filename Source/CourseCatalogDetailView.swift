@@ -18,7 +18,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         let icon : Icon
     }
     
-    typealias Environment = NetworkManagerProvider
+    typealias Environment = protocol<NetworkManagerProvider, ReachabilityProvider>
     
     private let environment : Environment
     
@@ -107,10 +107,12 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
             // As such, we manually offset it here
             observer.container.transform = CGAffineTransformMakeTranslation(0, -offset)
         }
+        
     }
     
     func setupInController(controller: UIViewController) {
         insetsController.setupInController(controller, scrollView: descriptionView.scrollView)
+        insetsController.supportOfflineMode(environment.reachability)
     }
     
     private var blurbStyle : OEXTextStyle {

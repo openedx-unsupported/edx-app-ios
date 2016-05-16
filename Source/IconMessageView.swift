@@ -166,6 +166,11 @@ class IconMessageView : UIView {
         self.icon = .InternetError
     }
     
+    func showDepricatedVersionError() {
+        self.message = Strings.VersionUpgrade.outdatedVersion
+        self.icon = .VersionUpgrade
+    }
+    
     var buttonInfo : MessageButtonInfo? {
         didSet {
             self.bottomButton.oex_removeAllActions()

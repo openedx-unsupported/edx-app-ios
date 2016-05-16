@@ -14,7 +14,7 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate, InterfaceOrientationOverriding {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider>
     
     public enum Context {
         case Thread(DiscussionThread)
@@ -194,6 +194,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         self.addCommentButton.enabled = false
         
         self.insetsController.setupInController(self, scrollView: scrollView)
+        self.insetsController.supportOfflineMode(environment.reachability)
         self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: addCommentButton)
     }
     

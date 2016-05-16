@@ -49,7 +49,7 @@ struct CertificateDashboardItem: CourseDashboardItem {
 
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
-    public typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXInterfaceProvider, OEXRouterProvider>
+    public typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXInterfaceProvider, OEXRouterProvider, ReachabilityProvider>
     
     private let spacerHeight: CGFloat = OEXStyles.dividerSize()
 
@@ -67,6 +67,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     private let loadController = LoadStateViewController()
     private let courseStream = BackedStream<UserCourseEnrollment>()
+    private let insetsController = ContentInsetsController()
     
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
@@ -147,6 +148,13 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
                 observer.showOverlayMessage(message)
             }
         }
+        
+        addOfflineSupport()
+    }
+    
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: containerView)
+        insetsController.supportOfflineMode(environment.reachability)
     }
     
     private func resultLoaded(result : Result<UserCourseEnrollment>) {

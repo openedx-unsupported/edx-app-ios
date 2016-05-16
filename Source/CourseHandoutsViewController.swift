@@ -16,6 +16,7 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     let webView : UIWebView
     let loadController : LoadStateViewController
     let handouts : BackedStream<String> = BackedStream()
+    private let insetsController = ContentInsetsController()
     
     init(environment : Environment, courseID : String) {
         self.environment = environment
@@ -48,6 +49,8 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
                 self.loadHandouts()
             }
         }
+        
+        addOfflineSupport()
     }
     
     private func addSubviews() {
@@ -58,6 +61,11 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         webView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(self.view)
         }
+    }
+    
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: webView.scrollView)
+        insetsController.supportOfflineMode(environment.reachability)
     }
     
     private func setStyles() {

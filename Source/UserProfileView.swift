@@ -20,7 +20,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         }
     }
 
-    private let scrollView = UIScrollView()
+    let scrollView = UIScrollView()
     private let usernameLabel = UILabel()
     private let messageLabel = UILabel()
     private let countryLabel = UILabel()

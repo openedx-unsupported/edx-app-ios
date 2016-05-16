@@ -9,7 +9,7 @@
 import UIKit
 
 class CourseCatalogViewController: UIViewController, CoursesTableViewControllerDelegate {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXSessionProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXSessionProvider, ReachabilityProvider>
     
     private let environment : Environment
     private let tableController : CoursesTableViewController
@@ -66,6 +66,9 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         paginationController.loadMore()
         
         insetsController.setupInController(self, scrollView: tableController.tableView)
+        insetsController.supportVersionUpgrade()
+        insetsController.supportOfflineMode(environment.reachability)
+        
         insetsController.addSource(
             // add a little padding to the bottom since we have a big space between
             // each course card

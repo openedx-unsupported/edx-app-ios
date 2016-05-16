@@ -91,40 +91,28 @@ typedef  enum OEXAlertType
 
 @property (weak, nonatomic) IBOutlet UILabel* lbl_NoVideo;
 @property (weak, nonatomic) IBOutlet UIView* recentVideoView;
-@property   (weak, nonatomic) IBOutlet UIView* recentVideoPlayBackView;
 @property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_videoHeader;
-@property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_videobottom;
-@property (weak, nonatomic)  IBOutlet OEXCustomLabel* lbl_section;
 @property (weak, nonatomic) IBOutlet UIView* video_containerView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint* videoViewHeight;
 @property   (weak, nonatomic) IBOutlet UIView* videoVideo;
 @property(nonatomic, strong) IBOutlet NSLayoutConstraint* recentEditViewHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* TrailingSpaceCustomProgress;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* TrailingSpaceOffline;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* ConstraintRecentTop;
-@property (weak, nonatomic) IBOutlet UIView* view_NavBG;
 
-@property (weak, nonatomic) IBOutlet UIView* view_Offline;
 @property (weak, nonatomic) IBOutlet UITableView* table_MyVideos;
-@property (weak, nonatomic) IBOutlet UIButton* btn_LeftNavigation;
-@property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressView;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Download;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_NavTitle;
 @property (weak, nonatomic) IBOutlet UIView* tabView;
 @property (weak, nonatomic) IBOutlet UICollectionView* collectionView;
 @property (weak, nonatomic) IBOutlet UITableView* table_RecentVideos;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_Offline;
-@property (weak, nonatomic) IBOutlet OEXCheckBox* btn_SelectAllEditing;
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+@property (nonatomic) OEXCheckBox* btn_SelectAllEditing;
+@property (nonatomic)UIBarButtonItem *selectAllBarItem;
+@property (nonatomic) ProgressController *progressController;
+@property (nonatomic) ContentInsetsController *insetsController;
+
 @end
 
 @implementation OEXMyVideosViewController
 
-
-- (IBAction)downloadsButtonPressed:(id)sender {
-     [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
-}
 
 
 #pragma mark Status Overlay
@@ -135,55 +123,18 @@ typedef  enum OEXAlertType
 
 - (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller {
     NSMutableArray* result = [[NSMutableArray alloc] init];
-    [result oex_safeAddObjectOrNil:self.view_NavBG];
     [result oex_safeAddObjectOrNil:self.tabView];
-    [result oex_safeAddObjectOrNil:self.btn_LeftNavigation];
-    [result oex_safeAddObjectOrNil:self.lbl_NavTitle];
-    [result oex_safeAddObjectOrNil:self.lbl_Offline];
-    [result oex_safeAddObjectOrNil:self.view_Offline];
     [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
-    [result oex_safeAddObjectOrNil:self.customProgressView];
-    [result oex_safeAddObjectOrNil:self.btn_Downloads];
     return result;
-}
-
-#pragma mark - REACHABILITY
-
-- (void)HideOfflineLabel:(BOOL)isOnline {
-    //Minor Hack for matching the Spec right now.
-    //TODO: Remove once refactoring with a navigation bar.
-    self.lbl_Offline.hidden = true;
-    self.view_Offline.hidden = isOnline;
-
-    if(self.isTableEditing) {
-        if(!isOnline) {
-            self.lbl_NavTitle.textAlignment = NSTextAlignmentLeft;
-        }
-    }
-    else {
-        self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
-    }
-}
-
-- (void)reachabilityDidChange:(NSNotification*)notification {
-    id <Reachability> reachability = [notification object];
-
-    if([reachability isReachable]) {
-        _dataInterface.reachable = YES;
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        _dataInterface.reachable = NO;
-        [self HideOfflineLabel:NO];
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:false animated:animated];
+    
     //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
-
-    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     // Add Observer
     [self addObservers];
@@ -199,39 +150,8 @@ typedef  enum OEXAlertType
     [self getMyVideosTableData];
     _isShifted = NO;
 
-    //While editing goto downloads then comes back Progressview overlaps checkbox.
-    // To avoid this check this.
-    if(_isTableEditing) {
-        self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
-        self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE + MOVE_OFFLINE_X;
-        self.lbl_NavTitle.textAlignment = NSTextAlignmentLeft;
-    }
-    else {
-        self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE;
 
-        self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
-
-        if(self.videoViewHeight.constant == 225) {
-            [self.recentEditViewHeight setConstant:0.0f];
-        }
-    }
-
-    // Check Reachability for OFFLINE
-    if(_dataInterface.reachable) {
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        [self HideOfflineLabel:NO];
-    }
-
-    self.navigationController.navigationBarHidden = YES;
-
-    self.table_RecentVideos.separatorInset = UIEdgeInsetsZero;
-#ifdef __IPHONE_8_0
-    if(IS_IOS8) {
-        [self.table_RecentVideos setLayoutMargins:UIEdgeInsetsZero];
-    }
-#endif
+    [self.table_RecentVideos setLayoutMargins:UIEdgeInsetsZero];
 }
 
 - (void)removeAllObserver {
@@ -246,21 +166,8 @@ typedef  enum OEXAlertType
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleteNotification:)
                                                  name:OEXDownloadEndedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigationStateChangedWithNotification:) name:OEXSideNavigationChangedStateKey object:nil];
-}
-
-- (void)leftNavigationBtnClicked {
-    //Hide overlay
-    [_videoPlayerInterface setShouldRotate:NO];
-    [_videoPlayerInterface.moviePlayerController pause];
-    [self performSelector:@selector(toggleReveal) withObject:nil afterDelay:0.2];
-}
-
-- (void)toggleReveal {
-    [self.revealViewController toggleDrawerAnimated:YES];
 }
 
 - (void)viewDidLoad {
@@ -275,16 +182,9 @@ typedef  enum OEXAlertType
     [self.navigationController.navigationBar setTranslucent:NO];
 
     //Set exclusive touch for all buttons
-    self.btn_LeftNavigation.exclusiveTouch = YES;
     self.videoVideo.exclusiveTouch = YES;
     self.table_RecentVideos.exclusiveTouch = YES;
     self.table_MyVideos.exclusiveTouch = YES;
-
-    //set navigation title font
-    self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
-
-    // Mock NavStyle
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.view_NavBG label:self.lbl_NavTitle leftIconButton: self.btn_LeftNavigation];
     
     // Initialize array of data to show on table
     self.arr_SubsectionData = [[NSMutableArray alloc] init];
@@ -292,23 +192,10 @@ typedef  enum OEXAlertType
     // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
 
-    //Add custom button for drawer
-    [self.btn_LeftNavigation setImage:[UIImage MenuIcon] forState:UIControlStateNormal];
-    [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-
-    //set custom progress bar properties
-    [self.customProgressView setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
-    [self.customProgressView setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
-    [self.customProgressView setProgress:_dataInterface.totalProgress animated:YES];
-
     //Fix for 20px issue for the table view
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.table_MyVideos setContentInset:UIEdgeInsetsMake(0, 0, 8, 0)];
 
-    [[self.dataInterface progressViews] addObject:self.customProgressView];
-    [[self.dataInterface progressViews] addObject:self.btn_Downloads];
-    [self.customProgressView setHidden:YES];
-    [self.btn_Downloads setHidden:YES];
     [self.dataInterface setNumberOfRecentDownloads:0];
 
     // Used for autorotation
@@ -318,14 +205,39 @@ typedef  enum OEXAlertType
     [self.customEditing.btn_Edit addTarget:self action:@selector(editTableClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.customEditing.btn_Delete addTarget:self action:@selector(deleteTableClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.customEditing.btn_Cancel addTarget:self action:@selector(cancelTableClicked:) forControlEvents:UIControlEventTouchUpInside];
-    self.btn_SelectAllEditing.hidden = YES;
     self.isTableEditing = NO;           // Check Edit button is clicked
     self.selectAll = NO;        // Check if all are selected
 
     // set select all button color to white so it look prominent on blue navigation bar
     self.btn_SelectAllEditing.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
-    [self.btn_Downloads tintColor:[[OEXStyles sharedStyles] navigationItemTintColor]];
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
+    
+    
+    self.progressController = [[ProgressController alloc] initWithOwner:self router:[OEXRouter sharedRouter] dataInterface:self.dataInterface];
+    
+    [self.progressController hideProgessView];
+    
+    self.btn_SelectAllEditing = [[OEXCheckBox alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [self.btn_SelectAllEditing addTarget:self action:@selector(selectAllChanged:) forControlEvents:UIControlEventValueChanged];
+    self.selectAllBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.btn_SelectAllEditing];
+
+    [self setupInsetsController];
+}
+
+- (void) setupInsetsController {
+    self.insetsController = [[ContentInsetsController alloc] init];
+    [self.insetsController setupInController:self scrollView:self.scrollView];
+    [self.insetsController supportVersionUpgrade];
+    [self.insetsController supportOfflineMode:[[[OEXRouter sharedRouter] environment] reachability]];
+}
+
+- (void) hideShowSelectAllButton:(BOOL) hide {
+    if (hide) {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: [self.progressController navigationItem], nil];
+    }
+    else {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:self.selectAllBarItem, [self.progressController navigationItem], nil];
+    }
 }
 
 - (void)reloadTable {
@@ -374,9 +286,6 @@ typedef  enum OEXAlertType
     }
 }
 
-- (void)updateTotalDownloadProgress:(NSNotification* )notification {
-    [self.customProgressView setProgress:_dataInterface.totalProgress animated:YES];
-}
 
 - (void)getMyVideosTableData {
     // Initialize array
@@ -675,18 +584,13 @@ typedef  enum OEXAlertType
 
     [self disableDeleteButton];
 
-    // SHIFT THE PROGRESS TO LEFT
-    self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR;
-    self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE;
-    self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
-
     [self hideComponentsOnEditing:NO];
     [self.table_RecentVideos reloadData];
 }
 
 - (void)hideComponentsOnEditing:(BOOL)hide {
     self.isTableEditing = hide;
-    self.btn_SelectAllEditing.hidden = !hide;
+    [self hideShowSelectAllButton:!hide];
 
     self.customEditing.btn_Edit.hidden = hide;
     self.customEditing.btn_Cancel.hidden = !hide;
@@ -706,14 +610,6 @@ typedef  enum OEXAlertType
 - (void)editTableClicked:(id)sender {
     self.arr_SelectedObjects = [[NSMutableArray alloc] init];
 
-    // SHIFT THE PROGRESS TO LEFT
-    self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
-
-    self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE + MOVE_OFFLINE_X;
-
-    if(!_dataInterface.reachable) {
-        self.lbl_NavTitle.textAlignment = NSTextAlignmentLeft;
-    }
 
     [self hideComponentsOnEditing:YES];
 
@@ -781,7 +677,7 @@ typedef  enum OEXAlertType
     self.btn_SelectAllEditing.checked = self.selectAll;
 }
 
-- (IBAction)selectAllChanged:(id)sender {
+- (void)selectAllChanged:(id)sender {
     if(self.selectAll) {
         // de-select all the videos to delete
 
@@ -843,8 +739,6 @@ typedef  enum OEXAlertType
     [self handleComponentsFrame];
 
     self.lbl_videoHeader.text = [NSString stringWithFormat:@"%@ ", self.currentTappedVideo.summary.name];
-    self.lbl_videobottom.text = [NSString stringWithFormat:@"%@ ", self.currentTappedVideo.summary.name];
-    self.lbl_section.text = [NSString stringWithFormat:@"%@\n%@", self.currentTappedVideo.summary.sectionPathEntry.name, self.currentTappedVideo.summary.chapterPathEntry.name];
 
     [_videoPlayerInterface playVideoFor:self.currentTappedVideo];
 
@@ -917,7 +811,6 @@ typedef  enum OEXAlertType
     cellSelectedIndex = indexPath.row;
     self.currentTappedVideo = nil;
     _selectedIndexPath = nil;
-    self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
     [self resetPlayer];
 
     switch(indexPath.row)
@@ -927,9 +820,7 @@ typedef  enum OEXAlertType
             self.table_MyVideos.hidden = NO;
             self.recentVideoView.hidden = YES;
             self.customEditing.hidden = YES;
-            self.btn_SelectAllEditing.hidden = YES;
-            self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR;
-            self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE;
+            [self hideShowSelectAllButton:YES];
             [self cancelTableClicked:nil];
 
             //Analytics Screen record
@@ -949,13 +840,7 @@ typedef  enum OEXAlertType
             self.customEditing.hidden = NO;
 
             if(self.isTableEditing) {
-                self.btn_SelectAllEditing.hidden = NO;
-                self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
-                self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE + MOVE_OFFLINE_X;
-                self.lbl_NavTitle.textAlignment = NSTextAlignmentLeft;
-            }
-            else {
-                self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE;
+                [self hideShowSelectAllButton:NO];
             }
 
             //Analytics Screen record
@@ -1217,6 +1102,8 @@ typedef  enum OEXAlertType
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    
     if(self.navigationController.topViewController != self) {
         [self.videoPlayerInterface.moviePlayerController pause];
     }
@@ -1316,7 +1203,7 @@ typedef  enum OEXAlertType
 
             // if no objects to show
             if([self.arr_CourseData count] == 0) {
-                self.btn_SelectAllEditing.hidden = YES;
+                [self hideShowSelectAllButton:YES];
                 self.btn_SelectAllEditing.checked = NO;
                 self.isTableEditing = NO;
                 [self.recentEditViewHeight setConstant:0.0];

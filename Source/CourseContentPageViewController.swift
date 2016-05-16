@@ -24,7 +24,7 @@ extension CourseBlockDisplayType {
 // Container for scrolling horizontally between different screens of course content
 public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate, StatusBarOverriding, InterfaceOrientationOverriding, OpenOnWebControllerDelegate {
     
-    public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, OEXRouterProvider>
+    public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, OEXRouterProvider,ReachabilityProvider>
     
     private let initialLoadController : LoadStateViewController
     private let environment : Environment
@@ -46,10 +46,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private lazy var webController : OpenOnWebController = OpenOnWebController(delegate: self)
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
+    private let insetsController = ContentInsetsController()
     
     ///Manages the caching of the viewControllers that have been viewed atleast once.
     ///Removes the ViewControllers from memory in case of a memory warning
     private let cacheManager : BlockViewControllerCacheManager
+    
     
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
         self.environment = environment
@@ -117,6 +119,15 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         // Verified on iOS9 and iOS 8
         if let scrollView = (self.view.subviews.flatMap { return $0 as? UIScrollView }).first {
             scrollView.delaysContentTouches = false
+        }
+        
+        addOfflineSupport()
+    }
+    
+    private func addOfflineSupport() {
+        if let scrollView = (self.view.subviews.flatMap { return $0 as? UIScrollView }).first {
+            insetsController.setupInController(self, scrollView: scrollView)
+            insetsController.supportOfflineMode(environment.reachability)
         }
     }
     

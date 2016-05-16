@@ -18,7 +18,7 @@ struct DiscussionNewThread {
 
 public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate, InterfaceOrientationOverriding {
  
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider>
     
     private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
 
@@ -192,6 +192,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
 
         self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postButton)
         self.insetsController.setupInController(self, scrollView: scrollView)
+        insetsController.supportOfflineMode(environment.reachability)
         
         // Force setting it to call didSet which is only called out of initialization context
         self.selectedThreadType = .Discussion
