@@ -33,21 +33,7 @@ extension SeparatorInsetable where Self : UIView {
 }
 
 extension UITableView : SeparatorInsetable {
-    override public var layoutMargins: UIEdgeInsets {
-        set(newlayoutMargins) {
-            superview?.layoutMargins = newlayoutMargins
-        }
-        
-        get { return UIEdgeInsetsZero}
-    }
 }
 
 extension UITableViewCell : SeparatorInsetable {
-    override public var layoutMargins: UIEdgeInsets {
-        set(newlayoutMargins) {
-            super.layoutMargins = newlayoutMargins
-        }
-        
-        get { return UIEdgeInsetsZero}
-    }
 }
