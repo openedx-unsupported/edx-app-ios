@@ -24,14 +24,18 @@ class AccomplishmentView : UIView {
     private let shareButton = UIButton()
     private let textStack = TZStackView()
 
-    init(accomplishment: Accomplishment, shareAction: () -> Void) {
+    init(accomplishment: Accomplishment, shareAction: (() -> Void)?) {
         super.init(frame: CGRectZero)
         textStack.axis = .Vertical
 
         // horizontal: imageView - textStack(stretches) - shareButton
         addSubview(imageView)
         addSubview(textStack)
-        addSubview(shareButton)
+        let sharing = shareAction != nil
+
+        if(sharing) {
+            addSubview(shareButton)
+        }
         // vertical stack in the center
         textStack.addArrangedSubview(title)
         textStack.addArrangedSubview(detail)
@@ -42,7 +46,7 @@ class AccomplishmentView : UIView {
         shareButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         shareButton.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
         shareButton.oex_addAction({ _ in
-            shareAction()
+            shareAction?()
             }, forEvents: .TouchUpInside)
 
         imageView.snp_makeConstraints {make in
@@ -58,10 +62,17 @@ class AccomplishmentView : UIView {
             make.bottom.lessThanOrEqualTo(self)
         }
 
-        shareButton.snp_makeConstraints {make in
-            make.leading.equalTo(textStack.snp_trailing).offset(StandardHorizontalMargin)
-            make.centerY.equalTo(imageView)
-            make.trailing.equalTo(self)
+        if sharing {
+            shareButton.snp_makeConstraints {make in
+                make.leading.equalTo(textStack.snp_trailing).offset(StandardHorizontalMargin)
+                make.centerY.equalTo(imageView)
+                make.trailing.equalTo(self)
+            }
+        }
+        else {
+            textStack.snp_makeConstraints {make in
+                make.trailing.equalTo(self)
+            }
         }
 
         title.numberOfLines = 0
@@ -102,12 +113,13 @@ class AccomplishmentView : UIView {
 class AccomplishmentsView : UIView {
 
     private let stack = TZStackView()
-    private let shareAction: Accomplishment -> Void
+    private let shareAction: (Accomplishment -> Void)?
 
     private var accomplishments: [Accomplishment] = []
     private let paginationController: PaginationController<Accomplishment>
 
-    init(paginator: AnyPaginator<Accomplishment>, containingScrollView scrollView: UIScrollView, shareAction: Accomplishment -> Void) {
+    // If shareAction is nil then don't show sharing buttons
+    init(paginator: AnyPaginator<Accomplishment>, containingScrollView scrollView: UIScrollView, shareAction: (Accomplishment -> Void)?) {
         self.shareAction = shareAction
         paginationController = PaginationController(paginator: paginator, stackView: stack, containingScrollView: scrollView)
 
@@ -133,7 +145,8 @@ class AccomplishmentsView : UIView {
         let action = shareAction
         for accomplishment in newAccomplishments {
             stack.addArrangedSubview(
-                AccomplishmentView(accomplishment: accomplishment) { action(accomplishment) })
+                AccomplishmentView(accomplishment: accomplishment, shareAction: action.map {f in { f(accomplishment) }})
+            )
         }
         accomplishments.appendContentsOf(newAccomplishments)
     }
