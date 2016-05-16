@@ -31,7 +31,7 @@ protocol UserProfilePresenter: class {
 }
 
 class UserProfileNetworkPresenter : NSObject, UserProfilePresenter {
-    typealias Environment = protocol<OEXConfigProvider, DataManagerProvider, NetworkManagerProvider>
+    typealias Environment = protocol<OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, OEXSessionProvider>
 
     static let AccomplishmentsTabIdentifier = "AccomplishmentsTab"
     private let profileFeed: Feed<UserProfile>
@@ -56,6 +56,10 @@ class UserProfileNetworkPresenter : NSObject, UserProfilePresenter {
 
     func refresh() {
         profileFeed.refresh()
+    }
+
+    private var canShareAccomplishments : Bool {
+        return self.username == self.environment.session.currentUser?.username
     }
 
     lazy var tabStream: Stream<[ProfileTabItem]> = {
@@ -94,11 +98,12 @@ class UserProfileNetworkPresenter : NSObject, UserProfilePresenter {
         // turn accomplishments into the accomplishments tab
         if accomplishments.count > 0 {
             return {scrollView -> TabItem in
-                let view = AccomplishmentsView(paginator: paginator, containingScrollView: scrollView) {[weak self] in
+                let shareAction : Accomplishment -> Void = {[weak self] in
                     if let owner = self {
                         owner.delegate?.presenter(owner, choseShareURL:$0.shareURL)
                     }
                 }
+                let view = AccomplishmentsView(paginator: paginator, containingScrollView: scrollView, shareAction: self.canShareAccomplishments ? shareAction: nil)
                 return TabItem(
                     name: Strings.Accomplishments.title,
                     view: view,
