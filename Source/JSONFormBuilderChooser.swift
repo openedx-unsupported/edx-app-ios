@@ -8,7 +8,7 @@
 
 import Foundation
 
-private class JSONFormTableSelectionCell: UITableViewCell {
+private class JSONFormTableSelectionCell: StandardTableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .Default, reuseIdentifier: reuseIdentifier)
         tintColor = OEXStyles.sharedStyles().utilitySuccessBase()

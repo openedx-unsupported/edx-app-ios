@@ -23,7 +23,7 @@ extension UITableViewCell {
 
 public class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    class MenuOptionTableViewCell : UITableViewCell {
+    class MenuOptionTableViewCell : StandardTableViewCell {
         
         static let identifier = "MenuOptionTableViewCellIdentifier"
         

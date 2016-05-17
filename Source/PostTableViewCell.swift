@@ -9,7 +9,7 @@
 import UIKit
 
 
-class PostTableViewCell: UITableViewCell {
+class PostTableViewCell: StandardTableViewCell {
     
     static let identifier = "PostCell"
     
