@@ -73,4 +73,4 @@ extension NSObjectExtensions where Self : NSObject {
 // This shouldn't be necessary, but there appears to be a compiler bug (as of Swift 2.2)
 // where it doesn't recognize that there's an extension on NSObject here
 // unless we call out the classes that use it explicitly
-extension UIScrollView : NSObjectExtensions {}
+//extension UIScrollView : NSObjectExtensions {}

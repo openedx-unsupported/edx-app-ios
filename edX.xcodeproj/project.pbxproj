@@ -120,6 +120,7 @@
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */; };
 		1AAD95F61CEA222500BBF70C /* StartupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAD95F51CEA222500BBF70C /* StartupViewController.swift */; };
+		1AAD95F81CEB725900BBF70C /* OEXTextStyle+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAD95F71CEB725900BBF70C /* OEXTextStyle+Swift.swift */; };
 		1AB539E41BFA24DC0065501F /* CertificateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539E31BFA24DC0065501F /* CertificateViewController.swift */; };
 		1AB539F51BFDFBC10065501F /* DebugMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539F41BFDFBC10065501F /* DebugMenuViewController.swift */; };
 		1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB539F71BFE046C0065501F /* DebugMenuLogger.swift */; };
@@ -846,6 +847,7 @@
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
 		1AAD95F51CEA222500BBF70C /* StartupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupViewController.swift; sourceTree = "<group>"; };
+		1AAD95F71CEB725900BBF70C /* OEXTextStyle+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXTextStyle+Swift.swift"; sourceTree = "<group>"; };
 		1AB539E31BFA24DC0065501F /* CertificateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CertificateViewController.swift; sourceTree = "<group>"; };
 		1AB539F41BFDFBC10065501F /* DebugMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugMenuViewController.swift; sourceTree = "<group>"; };
 		1AB539F71BFE046C0065501F /* DebugMenuLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugMenuLogger.swift; sourceTree = "<group>"; };
@@ -1695,6 +1697,7 @@
 				7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */,
 				77ADF4B11AC1FACC00AC8955 /* OEXTextStyle.h */,
 				77ADF4B21AC1FACC00AC8955 /* OEXTextStyle.m */,
+				1AAD95F71CEB725900BBF70C /* OEXTextStyle+Swift.swift */,
 				775EB3AB1B1FC37C009526A8 /* SpinnerView.swift */,
 				770848BD1B20BB5B002FEEEE /* Deprecated */,
 			);
@@ -1967,11 +1970,11 @@
 				772501691C80FB5C002549A9 /* ServerChangedChecker.swift */,
 				778F176B1C0CF57F0099BF93 /* RouterEnvironment.swift */,
 				77AFD10A1C1A04C3001985FD /* UserAgentOverrideOverrideOperation.swift */,
-				77FDF40E1AFBAE7700E8C639 /* OEXRouter+Swift.swift */,
 				BECB7B1D1924C0C3009C77F1 /* OEXAppDelegate.h */,
 				BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */,
 				777EFEFB1A7AFF0E00F8BF06 /* OEXRouter.h */,
 				777EFEFC1A7AFF0E00F8BF06 /* OEXRouter.m */,
+				77FDF40E1AFBAE7700E8C639 /* OEXRouter+Swift.swift */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -3969,6 +3972,7 @@
 				9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */,
 				9ED168B01B29A9EF00AA7B5B /* CouseLastAccessed.swift in Sources */,
 				B4B6D61A1A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m in Sources */,
+				1AAD95F81CEB725900BBF70C /* OEXTextStyle+Swift.swift in Sources */,
 				1A67E5411BD7D61800C53401 /* Feed.swift in Sources */,
 				BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */,
 				7772BEA81AFA68330081CA7A /* Debugging.swift in Sources */,

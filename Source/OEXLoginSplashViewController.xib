@@ -90,8 +90,8 @@
                         <constraint firstAttribute="width" constant="150" id="jgv-0i-pWO"/>
                     </constraints>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8TK-pN-GGc">
-                    <rect key="frame" x="38" y="435" width="525" height="100"/>
+                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8TK-pN-GGc">
+                    <rect key="frame" x="175.5" y="463" width="250" height="44"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <accessibility key="accessibilityConfiguration" identifier="register"/>
                     <constraints>

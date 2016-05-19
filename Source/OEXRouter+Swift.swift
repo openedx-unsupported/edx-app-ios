@@ -233,7 +233,7 @@ extension OEXRouter {
 
         let splashController: UIViewController
         if environment.config.newLogistrationFlowEnabled {
-            splashController = StartupViewController()
+            splashController = StartupViewController(environment: environment)
         } else {
             let splashEnvironment = OEXLoginSplashViewControllerEnvironment(router: self)
             splashController = OEXLoginSplashViewController(environment: splashEnvironment)

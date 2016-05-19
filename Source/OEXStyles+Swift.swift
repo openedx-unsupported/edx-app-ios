@@ -9,6 +9,22 @@
 import Foundation
 import UIKit
 
+struct ShadowStyle {
+    let angle: Int //degrees
+    let color: UIColor
+    let opacity: CGFloat //0..1
+    let distance: CGFloat
+    let size: CGFloat
+
+    var shadow: NSShadow {
+        let shadow = NSShadow()
+        shadow.shadowColor = color.colorWithAlphaComponent(opacity)
+        shadow.shadowOffset = CGSize(width: cos(CGFloat(angle) / 180.0 * CGFloat(M_PI)), height: sin(CGFloat(angle) / 180.0 * CGFloat(M_PI)))
+        shadow.shadowBlurRadius = size
+        return shadow
+    }
+}
+
 extension OEXStyles {
     
     var navigationTitleTextStyle : OEXTextStyle {
@@ -88,11 +104,15 @@ extension OEXStyles {
 // Standard button styles
 
     var filledPrimaryButtonStyle : ButtonStyle {
+        return filledButtonStyle(OEXStyles.sharedStyles().primaryBaseColor())
+    }
+
+    func filledButtonStyle(color: UIColor) -> ButtonStyle {
         let buttonMargins : CGFloat = 8
         let borderStyle = BorderStyle()
         let textStyle = OEXTextStyle(weight: .SemiBold, size: .Small, color: self.neutralWhite())
-        return ButtonStyle(textStyle: textStyle, backgroundColor: OEXStyles.sharedStyles().primaryBaseColor(), borderStyle: borderStyle,
-            contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins))
+        return ButtonStyle(textStyle: textStyle, backgroundColor: color, borderStyle: borderStyle,
+                           contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins))
     }
     
     var linkButtonStyle: ButtonStyle {
