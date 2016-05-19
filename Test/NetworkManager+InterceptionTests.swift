@@ -46,18 +46,6 @@ class NetworkManager_InterceptionTests : XCTestCase {
         OHHTTPStubs.removeStub(stub)
     }
 
-    func testJSONInterception401CausesLogout() {
-        let router = MockRouter()
-        checkJSONInterceptionWithStubResponse(router, stubResponse: OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
-            $0.ifFailure {
-                XCTAssertEqual($0.code, 401)
-                //Test that the logout isn't called for a generic 401
-                XCTAssertTrue(router.logoutCalled)
-            }
-            XCTAssertTrue($0.value == nil)
-        })
-    }
-
     func testJSONInterceptionPassthrough() {
         let router = MockRouter()
         checkJSONInterceptionWithStubResponse(router, stubResponse:OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 404, headers: nil), verifier: {
@@ -66,17 +54,6 @@ class NetworkManager_InterceptionTests : XCTestCase {
         })
     }
 
-    //TODO: This should be changed to to check for refresh once that goes through
-    func test401WithTokenExpiredCausesLogout() {
-        let router = MockRouter()
-        checkJSONInterceptionWithStubResponse(router, stubResponse: OHHTTPStubsResponse(data: "{\"error_code\":\"token_expired\"}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 401, headers: nil), verifier: {
-            $0.ifFailure {
-                XCTAssertEqual($0.code, 401)
-                XCTAssertTrue(router.logoutCalled)
-            }
-            XCTAssertTrue($0.value == nil)
-        })
-    }
     // When running tests, we don't want network requests to actually work
     func testNetworkNotLive() {
         let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string:"https://google.com")!, cache : MockResponseCache())

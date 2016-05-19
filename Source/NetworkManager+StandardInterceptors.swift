@@ -11,7 +11,7 @@ import Foundation
 import edXCore
 
 extension NetworkManager {
-    public func addStandardInterceptors() {
+public func addStandardInterceptors() {
         addJSONInterceptor(NetworkManager.courseAccessInterceptor)
     }
     

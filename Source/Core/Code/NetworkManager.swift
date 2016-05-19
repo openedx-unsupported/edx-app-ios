@@ -26,7 +26,7 @@ public enum RequestBody {
 
 private enum DeserializationResult<Out> {
     case DeserializedResult(value : Result<Out>, original : NSData?)
-    case ExpiredAccessToken(AuthenticateRequestCreator)
+    case ExpiredAccessToken(AuthenticateRequestCreator, original: NSData?)
 }
 
 public typealias AuthenticateRequestCreator = (networkManager: NetworkManager, completion: (success : Bool) -> Void) -> Void
@@ -34,6 +34,20 @@ public typealias AuthenticateRequestCreator = (networkManager: NetworkManager, c
 public enum AuthenticationAction {
     case Proceed
     case Authenticate(AuthenticateRequestCreator)
+    
+    public var isProceed : Bool {
+        switch self {
+        case .Proceed(_): return true
+        case .Authenticate(_): return false
+        }
+    }
+    
+    public var isAuthenticate : Bool {
+        switch self {
+        case .Proceed(_): return false
+        case .Authenticate(_): return true
+        }
+    }
 }
 
 public enum ResponseDeserializer<Out> {
@@ -154,7 +168,7 @@ public class NetworkManager : NSObject {
     public static let NETWORK = "NETWORK" // Logger key
     
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
-    public typealias Authenticator = (response: NSHTTPURLResponse, data: NSData) -> AuthenticationAction
+    public typealias Authenticator = (response: NSHTTPURLResponse, data: NSData?) -> AuthenticationAction
     
     public let baseURL : NSURL
     
@@ -179,7 +193,7 @@ public class NetworkManager : NSObject {
         jsonInterceptors.append(interceptor)
     }
     
-    public func addAuthenticator(authenticator : (response: NSHTTPURLResponse, data: NSData) -> AuthenticationAction) {
+    public func setupAuthenticator(authenticator : (response: NSHTTPURLResponse, data: NSData?) -> AuthenticationAction) {
         self.authenticator = authenticator
     }
     
@@ -308,12 +322,12 @@ public class NetworkManager : NSObject {
             let task = Manager.sharedInstance.request(URLRequest)
             
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
-                switch authenticator?(response: response!, data: data!) ?? .Proceed {
+                switch response.flatMap({authenticator?(response: $0, data: data)}) ?? .Proceed {
                 case .Proceed:
                     let result = NetworkManager.deserialize(networkRequest.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
                     return (Box(DeserializationResult.DeserializedResult(value : result, original : data)), result.error)
-                case .Authenticate(let thing):
-                    let result = Box<DeserializationResult<Out>>(DeserializationResult.ExpiredAccessToken(thing))
+                case .Authenticate(let authenticateRequest):
+                    let result = Box<DeserializationResult<Out>>(DeserializationResult.ExpiredAccessToken(authenticateRequest, original: data))
                     return (result, nil)
                 }
             }
@@ -324,7 +338,7 @@ public class NetworkManager : NSObject {
                     let result = NetworkResult<Out>(request: request, response: response, data: value.value, baseData: original, error: error)
                     Logger.logInfo(NetworkManager.NETWORK, "Response is \(response)")
                     handler(result)
-                case let .Some(.ExpiredAccessToken(authHandler)):
+                case let .Some(.ExpiredAccessToken(authHandler, originalData)):
                     authHandler(networkManager: self, completion: {success in
                         if success {
                             Logger.logInfo(NetworkManager.NETWORK, "Access token refresh successful, reattempting original request")
@@ -332,11 +346,7 @@ public class NetworkManager : NSObject {
                         }
                         else {
                             Logger.logInfo(NetworkManager.NETWORK, "Access token refresh unsuccessful")
-                            
-                            //TODO Send original failure result?
-                            //TODO Send original failure result?
-                            //TODO Send original failure result?
-                            handler(NetworkResult<Out>(request: request, response: response, data: nil, baseData: nil, error: error))
+                            handler(NetworkResult<Out>(request: request, response: response, data: nil, baseData: originalData, error: error))
                         }
                     })
                 case .None:

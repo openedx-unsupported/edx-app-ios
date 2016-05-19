@@ -126,7 +126,7 @@
                                        cache: cache];
             [env.postSetupActions addObject:^(OEXEnvironment* env) {
                 [manager addStandardInterceptors];
-                [manager addAuthenticator:env.router session:env.session clientId:env.config.oauthClientID];
+                [manager addRefreshTokenAuthenticator:env.router session:env.session clientId:env.config.oauthClientID];
             }];
             return manager;
         };

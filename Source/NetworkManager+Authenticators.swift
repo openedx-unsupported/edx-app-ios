@@ -11,15 +11,18 @@ import Foundation
 import edXCore
 
 extension NetworkManager {
-    public func addAuthenticator(router:OEXRouter, session:OEXSession, clientId:String) {
-        let invalidAccessInterceptor = {[weak router] response, data in
+    @objc public func addRefreshTokenAuthenticator(router:OEXRouter, session:OEXSession, clientId:String) {
+        let invalidAccessAuthenticator = {[weak router] response, data in
             NetworkManager.invalidAccessAuthenticator(router, session: session, clientId:clientId, response: response, data: data)
         }
-        addAuthenticator(invalidAccessInterceptor)
+        setupAuthenticator(invalidAccessAuthenticator)
     }
     
-    // 
-    static func invalidAccessAuthenticator(router: OEXRouter?, session:OEXSession, clientId:String, response: NSHTTPURLResponse?, data: NSData?) -> AuthenticationAction {
+    /** Checks if the response's status code is 401. Then checks the error
+     message for an expired access token. If so, a new network request to
+     refresh the access token is made and this new access token is saved.
+     */
+    public static func invalidAccessAuthenticator(router: OEXRouter?, session:OEXSession, clientId:String, response: NSHTTPURLResponse?, data: NSData?) -> AuthenticationAction {
         if let data = data,
             response = response,
             raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
@@ -34,37 +37,44 @@ extension NetworkManager {
             }
             
             guard let refreshToken = session.token?.refreshToken else {
-                dispatch_async(dispatch_get_main_queue()) {
-                    router?.logout()
-                }
-                return AuthenticationAction.Proceed
+                return logout(router)
             }
             
             if error.isAPIError(.OAuth2Expired) {
-                return AuthenticationAction.Authenticate({ (networkManager, completion) in
-                    let networkRequest = LoginAPI.refreshAccessToken(
-                        refreshToken,
-                        clientId: clientId,
-                        grantType: "refresh_token"
-                    )
-                    networkManager.taskForRequest(networkRequest) {result in
-                        if let newAccessToken = result.data {
-                            session.saveAccessToken(newAccessToken, userDetails: session.currentUser!)
-                            completion(success: true)
-                        } else {
-                            completion(success: false)
-                        }
-                    }
-                })
-            } else if error.isAPIError(.OAuth2Nonexistent) {
-                dispatch_async(dispatch_get_main_queue()) {
-                    router?.logout()
-                }
+                return refreshAccessToken(clientId, refreshToken: refreshToken, session: session)
+            }
+            if error.isAPIError(.OAuth2Nonexistent) {
+                return logout(router)
             }
         }
-        dispatch_async(dispatch_get_main_queue()) {
-            router?.logout()
-        }
-        return AuthenticationAction.Proceed
+        return logout(router)
     }
+}
+
+private func logout(router:OEXRouter?) -> AuthenticationAction {
+    dispatch_async(dispatch_get_main_queue()) {
+        router?.logout()
+    }
+    return AuthenticationAction.Proceed
+}
+
+/** Creates a networkRequest to refresh the access_token. If successful, the
+ new access token is saved and a successful AuthenticationAction is returned.
+ */
+private func refreshAccessToken(clientId:String, refreshToken:String, session: OEXSession) -> AuthenticationAction {
+    return AuthenticationAction.Authenticate({ (networkManager, completion) in
+        let networkRequest = LoginAPI.refreshAccessToken(
+            refreshToken,
+            clientId: clientId,
+            grantType: "refresh_token"
+        )
+        networkManager.taskForRequest(networkRequest) {result in
+            if let newAccessToken = result.data {
+                session.saveAccessToken(newAccessToken, userDetails: session.currentUser!)
+                completion(success: true)
+            } else {
+                completion(success: false)
+            }
+        }
+    })
 }
