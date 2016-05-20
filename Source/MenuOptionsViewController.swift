@@ -23,7 +23,7 @@ extension UITableViewCell {
 
 public class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    class MenuOptionTableViewCell : UITableViewCell {
+    class MenuOptionTableViewCell : ZeroMarginsTableViewCell {
         
         static let identifier = "MenuOptionTableViewCellIdentifier"
         
@@ -75,7 +75,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         tableView?.registerClass(MenuOptionTableViewCell.classForCoder(), forCellReuseIdentifier: MenuOptionTableViewCell.identifier)
         tableView?.dataSource = self
         tableView?.delegate = self
-        
+        tableView?.applyStandardSeparatorInsets()
         tableView?.layer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
         tableView?.layer.borderWidth = 1.0
         view.addSubview(tableView!)
@@ -100,6 +100,10 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         return options.count
     }
 
+    public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        cell.applyStandardSeparatorInsets()
+    }
+    
     public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(MenuOptionTableViewCell.identifier, forIndexPath: indexPath) as! MenuOptionTableViewCell
         
@@ -108,7 +112,6 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         let option = options[indexPath.row]
         
         cell.selectionStyle = option.depth == 0 ? .None : .Default
-        cell.applyStandardSeparatorInsets()
         
         if let optionIndex = selectedOptionIndex where indexPath.row == optionIndex {
             cell.backgroundColor = OEXStyles.sharedStyles().neutralLight()
