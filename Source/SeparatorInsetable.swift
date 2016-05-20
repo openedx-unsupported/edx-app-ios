@@ -39,8 +39,8 @@ extension UITableViewCell : SeparatorInsetable {
 }
 
 // In Landscape mode applyStandardSeparatorInsets not shows desired reqults
-// Use StandardTableViewCell for full separator line in both Portrait and LandScape mode
-class StandardTableViewCell: UITableViewCell {
+// Use ZeroMarginsTableViewCell for full separator line in both Portrait and LandScape mode
+class ZeroMarginsTableViewCell: UITableViewCell {
     override var layoutMargins: UIEdgeInsets {
         set{}
         get { return UIEdgeInsetsZero}

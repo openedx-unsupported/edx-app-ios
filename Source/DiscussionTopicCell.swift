@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscussionTopicCell: StandardTableViewCell {
+class DiscussionTopicCell: ZeroMarginsTableViewCell {
 
     static let identifier = "DiscussionTopicCellIdentifier"
     
