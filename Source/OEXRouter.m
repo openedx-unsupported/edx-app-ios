@@ -165,6 +165,8 @@ OEXRegistrationViewControllerDelegate
 - (UIBarButtonItem*)showNavigationBarItem {
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar:)];
     item.accessibilityLabel = [Strings accessibilityNavigation];
+    item.accessibilityIdentifier = @"navigation-bar-button";
+    
     return item;
 }
 

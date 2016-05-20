@@ -26,4 +26,14 @@ extension XCUIElement {
 
         self.typeText(text)
     }
+    /// Sometimes the first tap doesn't take, possibly due to a timing issue around userInteractionEnabled.
+    /// Tap in a loop until it works
+    func tapUntilElementExists(element : XCUIElement) {
+        while(!element.exists) {
+            self.tap()
+            if(!element.exists) {
+                sleep(1)
+            }
+        }
+    }
 }

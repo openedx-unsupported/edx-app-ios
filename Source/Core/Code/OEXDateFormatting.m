@@ -58,7 +58,7 @@ static NSString* const OEXStandardDateFormatMicroseconds = @"yyyy-MM-dd'T'HH:mm:
         return nil;
     }
     NSDateFormatter* formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@" MMMM dd, yyyy "];
+    [formater setDateFormat:@"MMMM dd, yyyy "];
     return [formater stringFromDate:date];
 }
 

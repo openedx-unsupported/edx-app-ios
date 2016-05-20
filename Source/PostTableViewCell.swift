@@ -18,8 +18,16 @@ class PostTableViewCell: ZeroMarginsTableViewCell {
     private let titleLabel = UILabel()
     private let countButton = UIButton(type: .Custom)
     
-    private var postTypeStyle : OEXTextStyle {
+    private var postNormalStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralLight())
+    }
+    
+    private var questionStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().secondaryDarkColor())
+    }
+    
+    private var answerStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().utilitySuccessDark())
     }
     
     private var cellDetailTextStyle : OEXTextStyle {
@@ -124,7 +132,7 @@ class PostTableViewCell: ZeroMarginsTableViewCell {
     }
         
     func useThread(thread : DiscussionThread, selectedOrderBy : DiscussionPostsSort) {
-        self.typeText = iconForThread(thread).attributedTextWithStyle(postTypeStyle)
+        self.typeText = threadTypeText(thread)
         self.titleText = thread.title
         var options = [NSAttributedString]()
         
@@ -185,12 +193,12 @@ class PostTableViewCell: ZeroMarginsTableViewCell {
         super.updateConstraints()
     }
     
-    private func iconForThread(thread : DiscussionThread) -> Icon {
+    private func threadTypeText(thread : DiscussionThread) -> NSAttributedString {
         switch thread.type {
         case .Discussion:
-            return Icon.Comments
+            return Icon.Comments.attributedTextWithStyle(postNormalStyle)
         case .Question:
-            return thread.hasEndorsed ? Icon.Answered : Icon.Question
+            return thread.hasEndorsed ? Icon.Answered.attributedTextWithStyle(answerStyle) : Icon.Question.attributedTextWithStyle(questionStyle)
         }
     }
     

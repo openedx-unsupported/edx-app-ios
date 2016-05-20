@@ -81,9 +81,20 @@ class RemoteImageImpl: RemoteImage {
     }
     
     func fetchImage(completion: (remoteImage : NetworkResult<RemoteImage>) -> ()) -> Removable {
+        // Only authorize requests to the API host
+        // This is necessary for two reasons:
+        // 1. We don't want to leak credentials by loading random images
+        // 2. Some servers will explicitly reject our credentials even if
+        // the image is public. Causing the load to fail
+        let host = NSURL(string: url).flatMap { $0.host }
+        let noHost = host?.isEmpty ?? true
+        let matchesBaseHost = host == self.networkManager.baseURL.host
+
+        let requiresAuth = noHost || matchesBaseHost
+        
         let request = NetworkRequest(method: .GET,
             path: url,
-            requiresAuth: true,
+            requiresAuth: requiresAuth,
             deserializer: .DataResponse(imageDeserializer)
         )
         return networkManager.taskForRequest(request, handler: completion)
@@ -186,16 +197,15 @@ extension UIImageView {
     }
     
     func startSpinner() {
-        if spinner == nil {
-            spinner = SpinnerView(size: .Large, color: .Primary)
-        }
+        let spinner = self.spinner ?? SpinnerView(size: .Large, color: .Primary)
+        self.spinner = spinner
         
-        superview?.addSubview(spinner!)
-        spinner!.snp_makeConstraints { (make) -> Void in
+        superview?.addSubview(spinner)
+        spinner.snp_makeConstraints { (make) -> Void in
             make.center.equalTo(snp_center)
         }
-        spinner!.startAnimating()
-        spinner!.hidden = false
+        spinner.startAnimating()
+        spinner.hidden = false
     }
     
     func stopSpinner() {

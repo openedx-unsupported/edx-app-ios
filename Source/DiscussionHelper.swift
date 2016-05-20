@@ -28,6 +28,10 @@ class DiscussionHelper: NSObject {
        
         authorButton.setAttributedTitle(title, forState: .Normal)
         
+        authorButton.snp_updateConstraints { (make) in
+            make.width.equalTo(title.singleLineWidth() + StandardHorizontalMargin)
+        }
+        
         let profilesEnabled = OEXConfig.sharedConfig().profilesEnabled
         authorButton.enabled = profilesEnabled
         

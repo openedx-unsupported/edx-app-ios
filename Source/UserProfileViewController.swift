@@ -12,6 +12,7 @@ class UserProfileViewController: UIViewController, UserProfilePresenterDelegate 
     
     typealias Environment = protocol<
         OEXAnalyticsProvider,
+        OEXConfigProvider,
         NetworkManagerProvider,
         OEXRouterProvider
     >
@@ -94,7 +95,11 @@ class UserProfileViewController: UIViewController, UserProfilePresenterDelegate 
     }
 
     func presenter(presenter: UserProfilePresenter, choseShareURL url: NSURL) {
-        let controller = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        let message = Strings.Accomplishments.shareText(platformName:self.environment.config.platformName())
+        let controller = UIActivityViewController(
+            activityItems: [message, url],
+            applicationActivities: nil
+        )
         self.presentViewController(controller, animated: true, completion: nil)
     }
 }

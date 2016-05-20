@@ -33,6 +33,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         
         webView.navigationDelegate = self
         webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
+        webView.accessibilityIdentifier = "find-courses-webview"
 
         if let container = delegate?.containingControllerForWebViewHelper(self) {
             loadController.setupInController(container, contentView: webView)
@@ -97,6 +98,16 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         self.loadController.state = .Loaded
+        
+        //Setting webView accessibilityValue for testing
+        webView.evaluateJavaScript("document.getElementsByClassName('course-card')[0].innerText",
+                                   completionHandler: { (result: AnyObject?, error: NSError?) in
+                                    
+                                    if (error == nil) {
+                                        self.webView.accessibilityValue = "findCoursesLoaded"
+                                    }
+        })
+        
     }
     
     func showError(error : NSError) {
@@ -155,5 +166,3 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
         return NSURL(string: newQuery)
     }
 }
-
-
