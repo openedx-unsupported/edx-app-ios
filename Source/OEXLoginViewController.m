@@ -12,6 +12,8 @@
 
 #import "edX-Swift.h"
 
+#import <Masonry/Masonry.h>
+
 #import "NSString+OEXValidation.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
 
@@ -22,6 +24,7 @@
 #import "OEXCustomLabel.h"
 #import "OEXAuthentication.h"
 #import "OEXFBSocial.h"
+#import "OEXExternalAuthOptionsView.h"
 #import "OEXFacebookAuthProvider.h"
 #import "OEXFacebookConfig.h"
 #import "OEXFlowErrorViewController.h"
@@ -40,13 +43,11 @@
 
 #define USER_EMAIL @"USERNAME"
 
-@interface OEXLoginViewController () <NSURLSessionDelegate, UIAlertViewDelegate>
+@interface OEXLoginViewController () <UIAlertViewDelegate>
 {
     CGPoint originalOffset;     // store the offset of the scrollview.
     UITextField* activeField;   // assign textfield object which is in active state.
 
-    NSMutableData* receivedData;
-    BOOL isSocialLoginClicked;
 }
 @property (nonatomic, strong) NSString* str_ForgotEmail;
 @property (nonatomic, strong) NSString* signInID;
@@ -57,12 +58,10 @@
 @property (weak, nonatomic, nullable) IBOutlet UIButton* btn_Close;
 @property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_OpenEULA;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_SeparatorEULA;
-@property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_Facebook;
-@property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_Google;
+@property (strong, nonatomic) IBOutlet UIView* externalAuthContainer;
 @property (weak, nonatomic, nullable) IBOutlet OEXCustomLabel* lbl_OrSignIn;
 @property (weak, nonatomic, nullable) IBOutlet UIView *mockNavBar;
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
-@property(nonatomic, strong) NSString* strLoggedInWith;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorLeft;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorRight;
 // For Login Design change
@@ -100,22 +99,13 @@
 @property (weak, nonatomic, nullable) IBOutlet UIActivityIndicatorView* activityIndicator;
 @property (strong, nonatomic) IBOutlet UILabel* versionLabel;
 
-- (IBAction)signUpClicked:(id)sender;
-- (IBAction)troubleLoggingClicked:(id)sender;
-- (IBAction)loginClicked:(id)sender;
-- (IBAction)facebookClicked:(id)sender;
-- (IBAction)googleClicked:(id)sender;
-
-@property (nonatomic, assign) BOOL handleFacebookSchema;
-@property (nonatomic, assign) BOOL handleGoogleSchema;
+@property (nonatomic, assign) id <OEXExternalAuthProvider> authProvider;
 
 @end
 
 @implementation OEXLoginViewController
 
 - (void)layoutSubviews {
-    self.btn_Facebook.hidden = ![self isFacebookEnabled];
-    self.btn_Google.hidden = ![self isGoogleEnabled];
     if(!([self isFacebookEnabled] || [self isGoogleEnabled])) {
         self.lbl_OrSignIn.hidden = YES;
         self.seperatorLeft.hidden = YES;
@@ -190,7 +180,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.view setUserInteractionEnabled:NO];
 }
-
 - (BOOL)isFacebookEnabled {
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXFacebookConfig* facebookConfig = [config facebookConfig];
@@ -210,9 +199,24 @@
     [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
 
     [self.btn_TroubleLogging setTitle:[Strings troubleInLoginButton] forState:UIControlStateNormal];
-    
-    [self.btn_Facebook setTitle:[Strings facebook] forState:UIControlStateNormal];
-    [self.btn_Google setTitle:[Strings google] forState:UIControlStateNormal];
+
+    NSMutableArray* providers = [[NSMutableArray alloc] init];
+    if([self isGoogleEnabled]) {
+        [providers addObject:[[OEXGoogleAuthProvider alloc] init]];
+    }
+    if([self isFacebookEnabled]) {
+        [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
+    }
+
+    __weak __typeof(self) owner = self;
+    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers tapAction:^(id<OEXExternalAuthProvider> provider) {
+        [owner externalLoginWithProvider:provider];
+    }];
+    [self.externalAuthContainer addSubview:externalAuthOptions];
+    [externalAuthOptions mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.externalAuthContainer);
+    }];
+
     [self.lbl_OrSignIn setText:[Strings orSignInWith]];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
 
@@ -224,10 +228,6 @@
     [self setExclusiveTouch];
 
     if ([self isRTL]) {
-        [self.btn_Facebook setBackgroundImage:[UIImage imageNamed:@"bt_facebook_RTL"] forState:UIControlStateNormal];
-        [self.btn_Facebook setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 30)];
-        [self.btn_Google setBackgroundImage:[UIImage imageNamed:@"bt_google_RTL"] forState:UIControlStateNormal];
-        [self.btn_Google setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 30)];
         [self.btn_TroubleLogging setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
     }
     
@@ -251,8 +251,6 @@
 - (void)setExclusiveTouch {
     self.btn_SignUp.exclusiveTouch = YES;
     self.btn_OpenEULA.exclusiveTouch = YES;
-    self.btn_Google.exclusiveTouch = YES;
-    self.btn_Facebook.exclusiveTouch = YES;
     self.btn_Login.exclusiveTouch = YES;
     self.btn_TroubleLogging.exclusiveTouch = YES;
     self.view.multipleTouchEnabled = NO;
@@ -315,33 +313,30 @@
 }
 
 - (void)handleActivationDuringLogin {
-    if(isSocialLoginClicked) {
+    if(self.authProvider != nil) {
         [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
         [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
 
         [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
         [self.activityIndicator stopAnimating];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.view setUserInteractionEnabled:YES];
-        });
+        [self.view setUserInteractionEnabled:YES];
 
-        isSocialLoginClicked = NO;
+        self.authProvider = nil;
     }
 }
 
 - (void)setSignInToDefaultState:(NSNotification*)notification {
     OEXFBSocial *facebookManager = [[OEXFBSocial alloc]init];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    if(self.handleGoogleSchema && ![[OEXGoogleSocial sharedInstance] handledOpenUrl]) {
+    if([self.authProvider isKindOfClass:[OEXGoogleAuthProvider class]] && ![[OEXGoogleSocial sharedInstance] handledOpenUrl]) {
         [[OEXGoogleSocial sharedInstance] clearHandler];
         [self handleActivationDuringLogin];
     }
-    else if(![facebookManager isLogin] && self.handleFacebookSchema) {
+    else if(![facebookManager isLogin] && [self.authProvider isKindOfClass:[OEXFacebookAuthProvider class]]) {
         [self handleActivationDuringLogin];
     }
 
-    self.handleFacebookSchema = NO;
-    self.handleGoogleSchema = NO;
+    self.authProvider = nil;
     [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:NO];
 }
 
@@ -491,7 +486,6 @@
     else {
         self.signInID = _tf_EmailID.text;
         self.signInPassword = _tf_Password.text;
-        self.strLoggedInWith = @"Password";
 
         [OEXAuthentication requestTokenWithUser:_signInID
                                        password:_signInPassword
@@ -509,22 +503,16 @@
 - (void)handleLoginResponseWith:(NSData*)data response:(NSURLResponse*)response error:(NSError*)error {
     [[OEXGoogleSocial sharedInstance] clearHandler];
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.view setUserInteractionEnabled:YES];
-    });
+    [self.view setUserInteractionEnabled:YES];
 
     if(!error) {
         NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
         if(httpResp.statusCode == 200) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self loginSuccessful];
-            });
+            [self loginSuccessful];
         }
         else if(httpResp.statusCode >= 400 && httpResp.statusCode <= 500) {
             NSString* errorStr = [Strings invalidUsernamePassword];
-            dispatch_async(dispatch_get_main_queue(), ^{
                 [self loginFailedWithErrorMessage:errorStr title:nil];
-            });
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -533,35 +521,19 @@
         }
     }
     else {
-        [self performSelectorOnMainThread:@selector(loginHandleLoginError:) withObject:error waitUntilDone:NO];
+        [self loginHandleLoginError:error];
     }
-}
-
-// TODO: Factor this to have an array of auth providers and use OEXExternalRegistrationOptionsView
-// to display them instead of casing out the buttons
-- (IBAction)facebookClicked:(id)sender {
-    isSocialLoginClicked = YES;
-    self.handleFacebookSchema = YES;
-    self.strLoggedInWith = @"Facebook";
-    [self externalLoginWithProvider:[[OEXFacebookAuthProvider alloc] init]];
-}
-
-- (IBAction)googleClicked:(id)sender {
-    isSocialLoginClicked = YES;
-    self.handleGoogleSchema = YES;
-    self.strLoggedInWith = @"Google";
-    [self externalLoginWithProvider:[[OEXGoogleAuthProvider alloc] init]];
+    self.authProvider = nil;
 }
 
 - (void)externalLoginWithProvider:(id <OEXExternalAuthProvider>)provider {
+    self.authProvider = provider;
     if(!self.reachable) {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings networkNotAvailableTitle]
                                                                 message:[Strings networkNotAvailableMessage]
                                                        onViewController:self.view
                                                              shouldHide:YES];
-        self.handleFacebookSchema = NO;
-        self.handleGoogleSchema = NO;
-        self.strLoggedInWith = @"";
+        self.authProvider = nil;
         return;
     }
     
@@ -570,8 +542,7 @@
             [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
             return;
         }
-        self.handleFacebookSchema = NO;
-        self.handleGoogleSchema = NO;
+        self.authProvider = nil;
         
         [self handleLoginResponseWith:data response:response error:error];
     };
@@ -595,32 +566,19 @@
 
 - (void)loginHandleLoginError:(NSError*)error {
     if(error.code == -1003 || error.code == -1009 || error.code == -1005) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
-        });
+        [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
     }
     else {
         if(error.code == 401) {
             [[OEXGoogleSocial sharedInstance] clearHandler];
 
             // MOB - 1110 - Social login error if the user's account is not linked with edX.
-            if([self.strLoggedInWith isEqualToString:@"Facebook"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self loginFailedWithServiceName: [Strings facebook]];
-                });
-            }
-            else if([self.strLoggedInWith isEqualToString:@"Google"]) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self loginFailedWithServiceName: [Strings google]];
-                });
+            if(self.authProvider != nil) {
+                [self loginFailedWithServiceName: self.authProvider.displayName];
             }
         }
         else {
-            //            [self performSelectorOnMainThread:@selector(loginFailed:) withObject:[error localizedDescription] waitUntilDone:NO ];
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self loginFailedWithErrorMessage:[error localizedDescription] title: nil];
-            });
+            [self loginFailedWithErrorMessage:[error localizedDescription] title: nil];
         }
     }
 }
@@ -652,8 +610,6 @@
 
     [self.view setUserInteractionEnabled:YES];
 
-    self.strLoggedInWith = @"";
-
     [self tappedToDismiss];
 }
 
@@ -665,9 +621,7 @@
         [OEXInterface setCCSelectedLanguage:@""];
         [[NSUserDefaults standardUserDefaults] setObject:_tf_EmailID.text forKey:USER_EMAIL];
         // Analytics User Login
-        if(self.strLoggedInWith) {
-            [[OEXAnalytics sharedAnalytics] trackUserLogin:self.strLoggedInWith];
-        }
+        [[OEXAnalytics sharedAnalytics] trackUserLogin:[self.authProvider backendName] ?: @"Password"];
     }
     [self tappedToDismiss];
     [self.activityIndicator stopAnimating];

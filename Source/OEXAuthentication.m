@@ -64,10 +64,14 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
                 NSError* error;
                 NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
                 OEXAccessToken* token = [[OEXAccessToken alloc] initWithTokenDetails:dictionary];
-                [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:completionBlock];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:completionBlock];
+                });
             }
             else {
-                completionBlock(data, httpResp, error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionBlock(data, httpResp, error);
+                });
             }
         }]resume];
 }
