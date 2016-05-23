@@ -31,6 +31,7 @@ class StartupViewController: UIViewController {
     let pagerViewport = UIView()
     let pager = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
     let viewControllers = [UIViewController(), UIViewController(), UIViewController(), UIViewController(), UIViewController()]
+    var currentTextPage = 0
 
     let environment: Environment
 
@@ -83,6 +84,9 @@ class StartupViewController: UIViewController {
 
     private func setupDiscoverButton() {
         discoverButton.applyButtonStyle(transparentDiscoverButtonStyle, withTitle: "DISCOVER COURSES")
+        discoverButton.oex_addAction({ [weak self] _ in
+            self?.showCourses()
+            }, forEvents: .TouchUpInside)
 
         view.addSubview(discoverButton)
 
@@ -100,13 +104,13 @@ class StartupViewController: UIViewController {
         bottomButtons.spacing = 40
 
         let signInButton = UIButton()
-        signInButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().discoveryBlueColor()), withTitle: "Sign in")
+        signInButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().primaryBaseColor()), withTitle: "Sign in")
         signInButton.oex_addAction({ [weak self] _ in
             self?.showLogin()
             }, forEvents: .TouchUpInside)
 
         let signUpButton = UIButton()
-        signUpButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().discoveryPinkColor()), withTitle: "Sign up")
+        signUpButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().secondaryBaseColor()), withTitle: "Sign up")
         signUpButton.oex_addAction({ [weak self] _ in
             self?.showRegistration()
             }, forEvents: .TouchUpInside)
@@ -127,14 +131,14 @@ class StartupViewController: UIViewController {
         pagerViewport.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.6)
         view.addSubview(pagerViewport)
 
+        pagerViewport.addSubview(pager.view)
         pager.willMoveToParentViewController(self)
         addChildViewController(pager)
         pager.didMoveToParentViewController(self)
+
+        pager.setViewControllers([viewControllers[0]], direction: .Forward, animated: false, completion: nil)
         pager.delegate = self
         pager.dataSource = self
-
-        pagerViewport.addSubview(pager.view)
-        pager.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: nil)
 
         pagerViewport.snp_makeConstraints { (make) in
             make.top.equalTo(discoverButton.snp_bottom)
@@ -152,6 +156,10 @@ class StartupViewController: UIViewController {
 
     func showRegistration() {
         self.environment.router?.showSignUpScreenFromController(self)
+    }
+
+    func showCourses() {
+        self.environment.router?.showCourseCatalog()
     }
 }
 
@@ -180,8 +188,7 @@ extension StartupViewController: UIPageViewControllerDataSource {
     }
 
     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
-        let current = viewControllers.indexOf(viewController)
-        return current
+        return currentTextPage
     }
 
 }

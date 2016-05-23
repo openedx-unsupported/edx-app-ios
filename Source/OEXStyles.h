@@ -98,9 +98,6 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Discovery screen
 
 - (UIColor*)discoveryButtonColor;
-- (UIColor*)discoveryPinkColor;
-- (UIColor*)discoveryBlueColor;
-
 
 @end
 
