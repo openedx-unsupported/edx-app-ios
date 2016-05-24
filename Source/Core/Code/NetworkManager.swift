@@ -120,6 +120,14 @@ extension NSError {
         return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.UnknownError.rawValue, userInfo: nil)
     }
 
+    static var oex_outdatedVersionError: NSError {
+        return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.OutdatedVersionError.rawValue, userInfo: nil)
+    }
+    
+    public var oex_isOutdatedVersionError : Bool {
+        return self.domain == NetworkManager.errorDomain && self.code == NetworkManager.Error.OutdatedVersionError.rawValue
+    }
+    
     static func oex_HTTPError(statusCode statusCode : Int, userInfo: [NSObject:AnyObject]) -> NSError {
         return NSError(domain: NetworkManager.errorDomain, code: statusCode, userInfo: userInfo)
     }
@@ -137,6 +145,7 @@ public class NetworkManager : NSObject {
     private static let errorDomain = "com.edx.NetworkManager"
     enum Error : Int {
         case UnknownError = -1
+        case OutdatedVersionError = -2
     }
 
     public static let NETWORK = "NETWORK" // Logger key
@@ -158,6 +167,7 @@ public class NetworkManager : NSObject {
     }
 
     public static var unknownError : NSError { return NSError.oex_unknownNetworkError }
+    public static var outdatedVerionError : NSError { return NSError.oex_outdatedVersionError }
 
     /// Allows you to add a processing pass to any JSON response.
     /// Typically used to check for errors that can be sent by any request
@@ -356,6 +366,14 @@ public class NetworkManager : NSObject {
             stream?.send(result)
         }
         var result : Stream<Out> = stream.flatMap {(result : NetworkResult<Out>) -> Result<Out> in
+            if let response = result.response {
+                
+                let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode)
+                if statusCode == .Code426UpgradeRequired {
+                    return result.data.toResult(NetworkManager.outdatedVerionError)
+                }
+            }
+            
             return result.data.toResult(result.error ?? NetworkManager.unknownError)
         }
         

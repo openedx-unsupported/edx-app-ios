@@ -14,7 +14,8 @@ class UserProfileViewController: UIViewController, UserProfilePresenterDelegate 
         OEXAnalyticsProvider,
         OEXConfigProvider,
         NetworkManagerProvider,
-        OEXRouterProvider
+        OEXRouterProvider,
+        ReachabilityProvider
     >
     
     private let environment : Environment
@@ -24,6 +25,7 @@ class UserProfileViewController: UIViewController, UserProfilePresenterDelegate 
     private let loadController = LoadStateViewController()
     private let contentView = UserProfileView(frame: CGRectZero)
     private let presenter : UserProfilePresenter
+    private let insetsController = ContentInsetsController()
     
     convenience init(environment : protocol<UserProfileNetworkPresenter.Environment, Environment>, username : String, editable: Bool) {
 
@@ -63,7 +65,12 @@ class UserProfileViewController: UIViewController, UserProfilePresenterDelegate 
 
         addProfileListener()
         addExtraTabsListener()
-
+        addOfflineSupport()
+    }
+    
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: contentView.scrollView)
+        insetsController.supportOfflineMode(environment.reachability)
     }
 
     override func viewWillAppear(animated: Bool) {

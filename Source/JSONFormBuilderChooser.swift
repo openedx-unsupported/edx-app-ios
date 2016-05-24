@@ -22,11 +22,13 @@ private class JSONFormTableSelectionCell: ZeroMarginsTableViewCell {
 private let cellIdentifier = "Cell"
 
 /** Options Selector Table */
-class JSONFormTableViewController<T>: UITableViewController {
+class JSONFormViewController<T>: UIViewController {
     
     var dataSource: ChooserDataSource<T>?
     var instructions: String?
     var subInstructions: String?
+    private let tableView = UITableView()
+    private let insetsController = ContentInsetsController()
 
     var doneChoosing: ((value:T?)->())?
     
@@ -73,9 +75,28 @@ class JSONFormTableViewController<T>: UITableViewController {
         tableView.registerClass(JSONFormTableSelectionCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
+        
+        addSubViews()
+        setConstrainsts()
         makeAndInstallHeader()
+        addOfflineSupport()
+    }
+    
+    private func addSubViews() {
+        view.addSubview(tableView)
+    }
+    
+    private func setConstrainsts() {
+        tableView.snp_makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
     }
 
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: tableView)
+        insetsController.supportOfflineMode(OEXRouter.sharedRouter().environment.reachability)
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenChooseFormValue + " " + (title ?? ""))

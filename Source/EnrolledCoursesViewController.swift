@@ -8,42 +8,6 @@
 
 import Foundation
 
-private class OfflineInfoOverlay : UIView {
-    private let titleLabel = UILabel()
-    private let promptLabel = UILabel()
-    
-    init() {
-        super.init(frame: CGRectZero)
-        
-        self.backgroundColor = UIColor(red: 173.0/255.0, green: 43.0/255.0, blue: 101.0/255.0, alpha: 1.0)
-        addSubview(titleLabel)
-        addSubview(promptLabel)
-        
-        let baseStyle = OEXStatusMessageViewController.statusMessageStyle()
-        let titleStyle = baseStyle.withSize(.Large)
-        
-        self.titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.offlineMode)
-        self.promptLabel.attributedText = baseStyle.attributedStringWithText(Strings.offlineModeDetail)
-        self.promptLabel.numberOfLines = 0
-        
-        titleLabel.snp_makeConstraints { make in
-            make.top.equalTo(self).offset(OEXStatusMessagePadding)
-            make.centerX.equalTo(self)
-        }
-        
-        promptLabel.snp_makeConstraints { make in
-            make.top.equalTo(titleLabel.snp_bottom).offset(OEXStatusMessagePadding)
-            make.bottom.equalTo(self).offset(-OEXStatusMessagePadding)
-            make.leading.equalTo(self).offset(OEXStatusMessagePadding)
-            make.trailing.equalTo(self).offset(-OEXStatusMessagePadding)
-        }
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 class EnrolledCoursesViewController : UIViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate {
     
     typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
@@ -93,6 +57,7 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
         
         insetsController.setupInController(self, scrollView: tableController.tableView)
         insetsController.addSource(self.refreshController)
+        insetsController.supportVersionUpgrade()
         insetsController.supportOfflineMode(environment.reachability)
 
         // We visually separate each course card so we also need a little padding
@@ -130,9 +95,7 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
                     self?.loadController.state = .Initial
                 }
             case let .Failure(error):
-                if self?.loadController.state.isInitial ?? true {
-                    self?.loadController.state = LoadState.failed(error)
-                }
+                self?.loadController.state = LoadState.failed(error)
             }
         }
     }
@@ -161,10 +124,6 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
         
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: kReachabilityChangedNotification) { (notification, observer, _) -> Void in
             observer.refreshIfNecessary()
-            if !observer.environment.reachability.isReachable() && !observer.shownOfflineInfoHeader {
-                observer.showOverlayMessageView(OfflineInfoOverlay())
-                observer.shownOfflineInfoHeader = true
-            }
         }
     }
     

@@ -133,7 +133,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, DiscussionCommentsViewControllerDelegate, InterfaceOrientationOverriding {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider, ReachabilityProvider>
 
     enum TableSection : Int {
         case Post = 0
@@ -147,6 +147,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     var loadController : LoadStateViewController?
     var paginationController : PaginationController<DiscussionComment>?
+    private let insetsController = ContentInsetsController()
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var contentView: UIView!
@@ -238,6 +239,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         loadThread()
+        addOfflineSupport()
+    }
+    
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: tableView)
+        insetsController.supportOfflineMode(environment.reachability)
     }
     
     override func shouldAutorotate() -> Bool {

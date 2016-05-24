@@ -606,6 +606,14 @@
 "VOTE##{one}"="{count} Vote";
 /* Discussion vote - {count} is a number of votes */
 "VOTE##{other}"="{count} Votes";
+/*Title of warning header for Verion Upgrade*/
+"VERSION_UPGRADE.UPGRADE" = "Please Upgrade";
+/*Error message in case of out dated app version*/
+"VERSION_UPGRADE.OUTDATED_VERSION" = "Your version of the edX app is no longer supported. Please upgrade to the latest version.";
+/*Version upgrade overlay message*/
+"VERSION_UPGRADE.UPGRADE_DETAIL_MESSAGE" = "A new version of the edX app is available. Upgrade to the latest version";
+/*Version upgrade overlay message with deadline*/
+"VERSION_UPGRADE.UPGRADE_LAST_SUPPORTED_DATE_OVERLAY_MESSGAE" = "Your version of the edX app is no longer supported. Upgrade to the latest version by {date} to continue accessing course content online.";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */

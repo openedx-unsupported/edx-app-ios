@@ -15,8 +15,15 @@ extension NetworkManager {
         let invalidAccessInterceptor = {[weak router] response, json in
             NetworkManager.invalidAccessInterceptor(router, response: response, json: json)
         }
+        
+        let depricatedVersionInterceptor = {[weak router] response, json in
+            NetworkManager.depricatedVersionInterceptor(router, response: response, json: json)
+        }
+        
         addJSONInterceptor(NetworkManager.courseAccessInterceptor)
         addJSONInterceptor(invalidAccessInterceptor)
+        addJSONInterceptor(depricatedVersionInterceptor)
+    
     }
 
     static func courseAccessInterceptor(response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
@@ -46,6 +53,24 @@ extension NetworkManager {
                 router?.logout()
             }
         }
+        return Failure(error)
+    }
+    
+    static func depricatedVersionInterceptor(router: OEXRouter?, response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
+        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode),
+            error = NSError(json: json, code: response.statusCode)
+            where statusCode == .Code426UpgradeRequired else
+        {
+            let headerFields = response.allHeaderFields
+            print("headerFields \(headerFields)")
+            
+            let versionController = VersionUpgradeInfoController.sharedController
+            versionController.populateHeaders(httpResponseHeaders: response.allHeaderFields)
+            
+            
+            return Success(json)
+        }
+        
         return Failure(error)
     }
 }

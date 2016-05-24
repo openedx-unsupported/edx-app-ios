@@ -102,7 +102,7 @@ public class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
 extension ContentInsetsController {
     
     func supportOfflineMode(reachability: Reachability) {
-        let controller = OfflineModeController(reachability: reachability)
+        let controller = OfflineModeController(reachability: reachability, viewController: owner)
         addSource(controller)
         
         if let owner = owner {
@@ -110,4 +110,12 @@ extension ContentInsetsController {
         }
     }
     
+    func supportVersionUpgrade() {
+        let controller = VersionUpgradeController(viewController: owner)
+        addSource(controller)
+        
+        if let owner = owner {
+            controller.setupInController(owner)
+        }
+    }
 }

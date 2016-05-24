@@ -9,6 +9,9 @@
 import Foundation
 
 class JSONFormBuilderTextEditorViewController: UIViewController {
+    private let containerView = UIScrollView()
+    private let insetsController = ContentInsetsController()
+    
     let textView = OEXPlaceholderTextView()
     var text: String { return textView.text }
     
@@ -34,6 +37,7 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         textView.delegate = self
         
         setupViews()
+        addOfflineSupport()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -44,12 +48,22 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         super.viewWillAppear(animated)
         OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenEditTextFormValue)
     }
+    
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: containerView)
+        insetsController.supportOfflineMode(OEXRouter.sharedRouter().environment.reachability)
+    }
 
     private func setupViews() {
-        view.addSubview(textView)
+        view.addSubview(containerView)
+        containerView.addSubview(textView)
+        
+        containerView.snp_makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
         
         textView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(view.snp_topMargin).offset(15)
+            make.top.equalTo(containerView.snp_topMargin).offset(15)
             make.leading.equalTo(view.snp_leadingMargin)
             make.trailing.equalTo(view.snp_trailingMargin)
             make.bottom.equalTo(view.snp_bottomMargin)

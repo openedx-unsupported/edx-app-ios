@@ -14,7 +14,7 @@ import edXCore
 class CourseCatalogDetailViewController: UIViewController {
     private let courseID: String
     
-    typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
+    typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, ReachabilityProvider>
     
     private let environment: Environment
     private lazy var loadController = LoadStateViewController()

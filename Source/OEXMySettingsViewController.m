@@ -25,6 +25,8 @@ typedef NS_ENUM(NSUInteger, OEXMySettingsAlertTag) {
 @property (weak, nonatomic) IBOutlet UISwitch* wifiOnlySwitch;
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) ContentInsetsController *insetsController;
 
 @end
 
@@ -40,6 +42,13 @@ typedef NS_ENUM(NSUInteger, OEXMySettingsAlertTag) {
     self.wifiOnlyCell.accessibilityLabel = [NSString stringWithFormat:@"%@ , %@", self.titleLabel.text, self.subtitleLabel.text];
     
     self.navigationItem.title = [Strings settings];
+    [self addOfflineSupport];
+}
+
+- (void) addOfflineSupport {
+    self.insetsController = [[ContentInsetsController alloc] init];
+    [self.insetsController setupInController:self scrollView:_tableView];
+    [self.insetsController supportOfflineMode:[[[OEXRouter sharedRouter] environment] reachability]];
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {

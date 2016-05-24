@@ -82,9 +82,9 @@ extension UserProfile : FormData {
     }
 }
 
-class UserProfileEditViewController: UITableViewController {
+class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider>
+    typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider>
     
     var profile: UserProfile
     let environment: Environment
@@ -92,6 +92,8 @@ class UserProfileEditViewController: UITableViewController {
     var imagePicker: ProfilePictureTaker?
     var banner: ProfileBanner!
     let footer = UIView()
+    private let tableView: UITableView = UITableView()
+    private let insetsController = ContentInsetsController()
     
     init(profile: UserProfile, environment: Environment) {
         self.profile = profile
@@ -162,6 +164,8 @@ class UserProfileEditViewController: UITableViewController {
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44
+        tableView.delegate = self
+        tableView.dataSource = self
         
         
         tableView.tableHeaderView = makeHeader()
@@ -171,6 +175,19 @@ class UserProfileEditViewController: UITableViewController {
             JSONFormBuilder.registerCells(tableView)
             fields = form.fields!
         }
+        
+        view.addSubview(tableView)
+        
+        tableView.snp_makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
+        
+        addOfflineSupport()
+    }
+    
+    private func addOfflineSupport() {
+        insetsController.setupInController(self, scrollView: tableView)
+        insetsController.supportOfflineMode(environment.reachability)
     }
     
     override func viewWillLayoutSubviews() {
@@ -220,15 +237,15 @@ class UserProfileEditViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fields.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let field = fields[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(field.cellIdentifier, forIndexPath: indexPath)
         cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -260,12 +277,12 @@ class UserProfileEditViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let field = fields[indexPath.row]
         field.takeAction(profile, controller: self)
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         let field = fields[indexPath.row]
         let enabled = !disabledFields.contains(field.name)
         cell.userInteractionEnabled = enabled

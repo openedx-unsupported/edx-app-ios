@@ -34,8 +34,6 @@
 
 
 #define HEADER_HEIGHT 80.0
-#define SHIFT_LEFT 40.0
-#define ORIGINAL_RIGHT_SPACE_PROGRESSBAR 8
 #define VIDEO_VIEW_HEIGHT  225
 
 typedef NS_ENUM (NSUInteger, OEXAlertType) {
@@ -64,20 +62,21 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 @property(nonatomic) NSInteger alertCount;
 
 @property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_videoHeader;
-@property (weak, nonatomic) IBOutlet OEXCustomLabel* lbl_videobottom;
-@property (weak, nonatomic)  IBOutlet OEXCustomLabel* lbl_section;
-@property (weak, nonatomic) IBOutlet UIView* video_containerView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint* videoViewHeight;
 @property   (weak, nonatomic) IBOutlet UIView* videoVideo;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* TrailingSpaceCustomProgress;
 
 @property (weak, nonatomic) IBOutlet OEXCustomNavigationView* customNavigation;
 @property (weak, nonatomic) IBOutlet UITableView* table_SubSectionVideos;
-@property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressBar;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* contraintEditingView;
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
-@property (weak, nonatomic) IBOutlet OEXCheckBox* selectAllButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
+
+@property (nonatomic) ProgressController *progressController;
+@property (nonatomic) OEXCheckBox* selectAllButton;
+@property (nonatomic) UIBarButtonItem *selectAllBarItem;
+@property (nonatomic) ContentInsetsController *insetsController;
 
 @end
 
@@ -90,83 +89,24 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 - (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller {
     NSMutableArray* result = [[NSMutableArray alloc] init];
     [result oex_safeAddObjectOrNil:self.customNavigation];
-    [result oex_safeAddObjectOrNil:self.customProgressBar];
     [result oex_safeAddObjectOrNil:self.selectAllButton];
-    [result oex_safeAddObjectOrNil:self.btn_Downloads];
     return result;
-}
-
-#pragma mark - REACHABILITY
-
-- (void)HideOfflineLabel:(BOOL)isOnline {
-    self.customNavigation.lbl_Offline.hidden = isOnline;
-    self.customNavigation.view_Offline.hidden = isOnline;
-    [self.customNavigation adjustPositionOfComponentsWithEditingMode:_isTableEditing isOnline:isOnline];
-}
-
-- (void)reachabilityDidChange:(NSNotification*)notification {
-    id<Reachability> reachability = [notification object];
-
-    if([reachability isReachable]) {
-        _dataInterface.reachable = YES;
-
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        _dataInterface.reachable = NO;
-
-        [self HideOfflineLabel:NO];
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     //Add oserver
     [self addObservers];
-
-    if(_isTableEditing) {
-        self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
-    }
-    // Add Observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
-
 
     if(_videoPlayerInterface) {
         [self.videoPlayerInterface videoPlayerShouldRotate];
     }
 
-    // Check Reachability for OFFLINE
-    if(_dataInterface.reachable) {
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        [self HideOfflineLabel:NO];
-    }
-
     // To clear already selected items when traverese back from Download screen.
     [self cancelTableClicked:nil];
 
-    self.table_SubSectionVideos.separatorInset = UIEdgeInsetsZero;
-#ifdef __IPHONE_8_0
-    if(IS_IOS8) {
-        [self.table_SubSectionVideos setLayoutMargins:UIEdgeInsetsZero];
-    }
-#endif
-}
-
-- (void)navigateBack {
-    [self cancelTableClicked:nil];
-    [self removePlayerObserver];
-    [self.videoPlayerInterface.moviePlayerController pause];
-    [self.videoPlayerInterface.moviePlayerController setFullscreen:NO];
-    [self.videoPlayerInterface resetPlayer];
-    self.videoPlayerInterface.videoPlayerVideoView = nil;
-    [self.videoPlayerInterface willMoveToParentViewController:nil];
-    [self.videoPlayerInterface removeFromParentViewController];
-    self.videoPlayerInterface = nil;
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.table_SubSectionVideos setLayoutMargins:UIEdgeInsetsZero];
 }
 
 - (void)removePlayerObserver {
@@ -182,28 +122,15 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     //set exclusive touch for all btns
     self.customNavigation.btn_Back.exclusiveTouch = YES;
-    self.btn_Downloads.exclusiveTouch = YES;
+
     self.view.exclusiveTouch = YES;
     self.videoVideo.exclusiveTouch = YES;
 
-    //Hide back button
-    [self.navigationItem setHidesBackButton:YES];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.navigationController.navigationBar setTranslucent:NO];
-
     // Set custom navigation properties
-    self.customNavigation.lbl_TitleView.text = self.course.name;
-    [self.customNavigation.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
+    self.title = self.course.name;
 
     // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
-    //set custom progress bar properties
-
-    [self.customProgressBar setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
-
-    [self.customProgressBar setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
-
-    [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
 
     //Init video view and video player
     self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
@@ -220,11 +147,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     // Call to populate data
     [self getSubsectionVideoDataFromArray];
 
-    [[self.dataInterface progressViews] addObject:self.customProgressBar];
-    [[self.dataInterface progressViews] addObject:self.btn_Downloads];
-    [self.customProgressBar setHidden:YES];
-    [self.btn_Downloads setHidden:YES];
-
     // Used for autorotation
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 
@@ -232,7 +154,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [self.customEditing.btn_Edit addTarget:self action:@selector(editTableClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.customEditing.btn_Delete addTarget:self action:@selector(deleteTableClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.customEditing.btn_Cancel addTarget:self action:@selector(cancelTableClicked:) forControlEvents:UIControlEventTouchUpInside];
-    self.selectAllButton.hidden = YES;
     self.selectAllButton.accessibilityLabel = [Strings accessibilitySelectAll];
 
     // set select all button color to white so it look prominent on blue navigation bar
@@ -244,15 +165,27 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavigation.btn_Back];
     [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavigation label:self.customNavigation.lbl_TitleView leftIconButton:self.customNavigation.btn_Back];
     
-    [self.btn_Downloads tintColor:[[OEXStyles sharedStyles] navigationItemTintColor]];
     
+    self.progressController = [[ProgressController alloc] initWithOwner:self router:[OEXRouter sharedRouter] dataInterface:self.dataInterface];
+    
+    [self.progressController hideProgessView];
+    
+    self.selectAllButton = [[OEXCheckBox alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [self.selectAllButton addTarget:self action:@selector(selectAllChanged:) forControlEvents:UIControlEventValueChanged];
+    self.selectAllBarItem = [[UIBarButtonItem alloc] initWithCustomView:self.selectAllButton];
+    
+    [self addOfflineSupport];
+}
+
+- (void) addOfflineSupport {
+    self.insetsController = [[ContentInsetsController alloc] init];
+    [self.insetsController setupInController:self scrollView:_scrollView];
+    [self.insetsController supportOfflineMode:[[[OEXRouter sharedRouter] environment] reachability]];
 }
 
 - (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextVideo) name:NOTIFICATION_NEXT_VIDEO object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playPreviousVideo) name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playbackStateChanged:)
@@ -264,6 +197,15 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(downloadCompleteNotification:)
                                                  name:OEXDownloadEndedNotification object:nil];
+}
+
+- (void) hideShowSelectAllButton:(BOOL) hide {
+    if (hide) {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects: [self.progressController navigationItem], nil];
+    }
+    else {
+        self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:self.selectAllBarItem, [self.progressController navigationItem], nil];
+    }
 }
 
 #pragma update total download progress
@@ -279,10 +221,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     }
 }
 
-- (void)updateTotalDownloadProgress:(NSNotification* )notification {
-    [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
-}
-
 - (void)getSubsectionVideoDataFromArray {
     // Initialize array
     self.arr_CourseData = [[NSMutableArray alloc] init];
@@ -292,23 +230,10 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     NSMutableArray* arrCourseAndVideo = [[NSMutableArray alloc] initWithArray: [_dataInterface coursesAndVideosForDownloadState:OEXDownloadStateComplete] ];
 
-    /*
-    <__NSArrayM 0x10c7a3e40>(
-
-            {
-                course = "<Course: 0x10c78f730>";
-                videos =     (
-                              "<HelperVideoDownload: 0x10c7aa6b0>"
-                              );
-            }
-
-     )
-    */
-
     for(NSDictionary* dict in arrCourseAndVideo) {
         OEXCourse* course = [dict objectForKey:CAV_KEY_COURSE];
 
-        if([course.name isEqualToString:self.customNavigation.lbl_TitleView.text]) {
+        if([course.name isEqualToString:self.title]) {
             self.arr_CourseData = [dict objectForKey:CAV_KEY_VIDEOS];
         }
     }
@@ -344,6 +269,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
             [self.arr_SubsectionData addObject:arr_section];
         }
     }
+    
     [self.table_SubSectionVideos reloadData];
 }
 
@@ -572,8 +498,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     self.currentTappedVideo = obj;
     self.currentVideoURL = [NSURL fileURLWithPath:self.currentTappedVideo.filePath];
     self.lbl_videoHeader.text = [NSString stringWithFormat:@"%@ ", self.currentTappedVideo.summary.name];
-    self.lbl_videobottom.text = [NSString stringWithFormat:@"%@ ", obj.summary.name];
-    self.lbl_section.text = [NSString stringWithFormat:@"%@\n%@", self.currentTappedVideo.summary.sectionPathEntry.name, self.currentTappedVideo.summary.chapterPathEntry.name];
     [self.table_SubSectionVideos deselectRowAtIndexPath:indexPath animated:NO];
     self.contraintEditingView.constant = 0;
     [self handleComponentsFrame];
@@ -814,7 +738,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     }
 
     [self removePlayerObserver];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadEndedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
 }
@@ -834,16 +757,13 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     [self disableDeleteButton];
 
-    // SHIFT THE PROGRESS TO LEFT
-    self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR;
-
     [self hideComponentsOnEditing:NO];
     [self.table_SubSectionVideos reloadData];
 }
 
 - (void)hideComponentsOnEditing:(BOOL)hide {
     self.isTableEditing = hide;
-    self.selectAllButton.hidden = !hide;
+    [self hideShowSelectAllButton:!hide];
 
     self.customEditing.btn_Edit.hidden = hide;
     self.customEditing.btn_Cancel.hidden = !hide;
@@ -869,8 +789,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [self.customNavigation adjustPositionOfComponentsWithEditingMode:YES isOnline:[_dataInterface reachable]];
     self.arr_SelectedObjects = [[NSMutableArray alloc] init];
 
-    // SHIFT THE PROGRESS TO LEFT
-    self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
 
     [self hideComponentsOnEditing:YES];
 
@@ -1022,7 +940,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
             // if no objects to show
             if([self.arr_SubsectionData count] == 0) {
-                self.selectAllButton.hidden = YES;
+                [self hideShowSelectAllButton:YES];
                 [self performSelector:@selector(pop) withObject:nil afterDelay:1.0];
             }
             else {
