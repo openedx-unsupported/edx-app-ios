@@ -120,7 +120,7 @@ public class WarningInfoView: UIView {
             }
             
             overlayView.buttonInfo = MessageButtonInfo(title: "Tap Here To Upgrade Now", action: {
-                print("clicked")
+                UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/edx/id945480667?mt=8")!)
             })
         }
     }
