@@ -102,7 +102,7 @@ public class WarningInfoView: UIView {
         
         switch warningType {
         case .OfflineMode:
-            let overlayView = OfflineInfoOverlay(title: Strings.offlineMode, detail: Strings.offlineModeDetail)
+            let overlayView = WarningInfoOverlay(title: Strings.offlineMode, detail: Strings.offlineModeDetail)
             
             if let viewController = viewController {
                 viewController.showOverlayMessageView(overlayView)
@@ -113,7 +113,7 @@ public class WarningInfoView: UIView {
                 detailMessage = Strings.VersionUpgrade.upgradeLastSupportedDateOverlayMessgae(date: lastSupportedDate)
             }
             
-            let overlayView = OfflineInfoOverlay(title: nil, detail: detailMessage)
+            let overlayView = WarningInfoOverlay(title: nil, detail: detailMessage)
             
             if let viewController = viewController {
                 viewController.showOverlayMessageView(overlayView)

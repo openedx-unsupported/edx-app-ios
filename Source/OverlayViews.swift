@@ -8,7 +8,7 @@
 
 import Foundation
 
-class OfflineInfoOverlay : UIView {
+class WarningInfoOverlay : UIView {
     private let titleLabel : UILabel = UILabel()
     private let detailLabel : UILabel = UILabel()
     private var bottomButton : UIButton = UIButton(type: .System)
