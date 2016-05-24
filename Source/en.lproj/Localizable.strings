@@ -520,10 +520,20 @@
 "SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Signing in...";
 /* Indicates a date in the near future */
 "SOON"="Soon";
-/* Label for date when course starts */
-"STARTING"="Starting - {start_date}";
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
+/* Label for date when course starts */
+"STARTING"="Starting - {start_date}";
+/* Value prop for startup screen. */
+"STARTUP.VALUEPROP.0"="Learn from the best. Anytime. Anywhere.";
+/* Value prop for startup screen. */
+"STARTUP.VALUEPROP.1"="Earn a certificate";
+/* Value prop for startup screen. */
+"STARTUP.VALUEPROP.2"="Advance Your Career";
+/* Value prop for startup screen. */
+"STARTUP.VALUEPROP.3"="Master a Subject";
+/* Value prop for startup screen. */
+"STARTUP.VALUEPROP.4"="Earn University Credit";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK.OPTION_TITLE" = "Submit Feedback";
 /* Support message email title */
