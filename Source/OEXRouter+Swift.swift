@@ -209,13 +209,17 @@ extension OEXRouter {
     }
     
     func showCourseCatalog() {
+        let controller: UIViewController
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
-            let controller = OEXFindCoursesViewController()
-            self.showContentStackWithRootController(controller, animated: true)
+            controller = OEXFindCoursesViewController()
         case .Native:
-            let controller = CourseCatalogViewController(environment: self.environment)
+            controller = CourseCatalogViewController(environment: self.environment)
+        }
+        if revealController != nil {
             self.showContentStackWithRootController(controller, animated: true)
+        } else {
+            presentViewController(controller, completion: nil)
         }
         self.environment.analytics.trackUserFindsCourses()
     }

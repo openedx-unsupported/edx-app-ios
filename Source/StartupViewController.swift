@@ -23,17 +23,16 @@ class StartupViewController: UIViewController {
     typealias Environment = protocol<OEXRouterProvider>
 
 
-    let backgroundImageView = UIImageView()
-    let logoImageView = UIImageView()
-    let discoverButton = UIButton()
-    let bottomButtons = TZStackView()
+    private let backgroundImageView = UIImageView()
+    private let logoImageView = UIImageView()
+    private let discoverButton = UIButton()
+    private let bottomButtons = TZStackView()
 
-    let pagerViewport = UIView()
-    let pager = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
-    let viewControllers = [UIViewController(), UIViewController(), UIViewController(), UIViewController(), UIViewController()]
-    var currentTextPage = 0
+    private let pagerScrollView = UIScrollView()
+    private let pageIndicator = UIPageControl()
+    private let valueProps = ["One","Two","Three","Four"]
 
-    let environment: Environment
+    private let environment: Environment
 
     init(environment: Environment) {
         self.environment = environment
@@ -128,24 +127,51 @@ class StartupViewController: UIViewController {
     }
 
     private func setupPager() {
-        pagerViewport.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.6)
-        view.addSubview(pagerViewport)
 
-        pagerViewport.addSubview(pager.view)
-        pager.willMoveToParentViewController(self)
-        addChildViewController(pager)
-        pager.didMoveToParentViewController(self)
+        pagerScrollView.backgroundColor = UIColor.blueColor().colorWithAlphaComponent(0.6)
+        pagerScrollView.pagingEnabled = true
+        pagerScrollView.scrollEnabled = true
+        pagerScrollView.showsHorizontalScrollIndicator = false
+        pagerScrollView.delegate = self
+        view.addSubview(pagerScrollView)
 
-        pager.setViewControllers([viewControllers[0]], direction: .Forward, animated: false, completion: nil)
-        pager.delegate = self
-        pager.dataSource = self
+        var lastLabel: UILabel?
+        for phrase in valueProps {
+            let label = UILabel()
+            label.text = phrase
+            label.textAlignment = .Center
+            label.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
 
-        pagerViewport.snp_makeConstraints { (make) in
+            pagerScrollView.addSubview(label)
+            label.snp_makeConstraints(closure: { (make) in
+                make.width.equalTo(pagerScrollView)
+                make.centerY.equalTo(pagerScrollView)
+                make.leading.equalTo(lastLabel == nil ? pagerScrollView.snp_leading : lastLabel!.snp_trailing)
+            })
+            lastLabel = label
+        }
+        lastLabel?.snp_updateConstraints(closure: { (make) in
+            make.trailing.equalTo(pagerScrollView)
+        })
+
+
+        pageIndicator.numberOfPages = valueProps.count
+        pageIndicator.currentPage = 0
+        pagerScrollView.addSubview(pageIndicator)
+        pageIndicator.snp_makeConstraints { (make) in
+            make.centerX.equalTo(pagerScrollView)
+            make.bottom.equalTo(pagerScrollView).inset(10)
+        }
+
+
+        pagerScrollView.snp_makeConstraints { (make) in
             make.top.equalTo(discoverButton.snp_bottom)
             make.bottom.equalTo(bottomButtons.snp_top)
             make.leading.equalTo(view.snp_leading)
             make.trailing.equalTo(view.snp_trailing)
         }
+
+
     }
 
     //MARK: - Actions
@@ -163,32 +189,9 @@ class StartupViewController: UIViewController {
     }
 }
 
-// MARK: - Paging
-
-extension StartupViewController: UIPageViewControllerDelegate {
-
-}
-
-extension StartupViewController: UIPageViewControllerDataSource {
-
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        let current = viewControllers.indexOf(viewController)
-        if current == viewControllers.count - 1 || current == nil { return nil }
-        return viewControllers[current! + 1]
+extension StartupViewController : UIScrollViewDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        let currentPage = floor(scrollView.contentOffset.x / scrollView.contentSize.width)
+        pageIndicator.currentPage = Int(currentPage)
     }
-
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        let current = viewControllers.indexOf(viewController)
-        if current == 0 || current == nil { return nil }
-        return viewControllers[current! - 1]
-    }
-
-    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return viewControllers.count
-    }
-
-    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return currentTextPage
-    }
-
 }
