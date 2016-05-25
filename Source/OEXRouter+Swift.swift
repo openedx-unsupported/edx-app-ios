@@ -219,7 +219,14 @@ extension OEXRouter {
         if revealController != nil {
             self.showContentStackWithRootController(controller, animated: true)
         } else {
-            presentViewController(controller, completion: nil)
+            let backButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
+            backButton.oex_setAction({ 
+                controller.dismissViewControllerAnimated(true, completion: nil)
+            })
+            controller.navigationItem.leftBarButtonItem = backButton
+            let navController = ForwardingNavigationController(rootViewController: controller)
+
+            presentViewController(navController, completion: nil)
         }
         self.environment.analytics.trackUserFindsCourses()
     }

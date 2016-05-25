@@ -11,7 +11,7 @@ import Foundation
 var transparentDiscoverButtonStyle: ButtonStyle {
     let buttonMargins : CGFloat = 8
     let borderStyle = BorderStyle(cornerRadius: .Size(10), width: .Size(3), color: OEXStyles.sharedStyles().discoveryButtonColor())
-    let textStyle = OEXTextStyleWithShadow(weight: .Light, size: .XXXLarge, color: OEXStyles.sharedStyles().neutralWhite())
+    let textStyle = OEXTextStyleWithShadow(weight: .Light, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhite())
     let textShadowStyle = ShadowStyle(angle: 90, color: UIColor.blackColor(), opacity: 0.35, distance: 1, size: 1)
     textStyle.shadow = textShadowStyle
     let shadowStyle = ShadowStyle(angle: 90, color: UIColor.blackColor(), opacity: 0.45, distance: 2, size: 2)
@@ -81,7 +81,7 @@ class StartupViewController: UIViewController {
     }
 
     private func setupDiscoverButton() {
-        discoverButton.applyButtonStyle(transparentDiscoverButtonStyle, withTitle: "DISCOVER COURSES")
+        discoverButton.applyButtonStyle(transparentDiscoverButtonStyle, withTitle: Strings.Startup.discovercourses)
         discoverButton.oex_addAction({ [weak self] _ in
             self?.showCourses()
             }, forEvents: .TouchUpInside)
