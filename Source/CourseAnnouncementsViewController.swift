@@ -133,7 +133,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
     //MARK: - Setup UI
     private func addSubviews() {
         view.addSubview(containerView)
-        containerView.addSubview(webView)
+        view.addSubview(webView)
         containerView.addSubview(notificationBar)
         notificationBar.addSubview(notificationLabel)
         notificationBar.addSubview(notificationSwitch)

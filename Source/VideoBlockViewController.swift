@@ -113,12 +113,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.view.layoutIfNeeded()
         super.viewDidAppear(animated)
         
-        guard canDownloadVideo() else {
-            guard let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where video.downloadState == .Complete else {
-                if environment.reachability.isReachable() {
-                    self.showOverlayMessage(Strings.noWifiMessage)
-                }
-                return
+        guard canDownloadVideo(), let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where (video.downloadState != .Complete) else {
+            
+            if environment.reachability.isReachable() {
+                self.showOverlayMessage(Strings.noWifiMessage)
             }
             return
         }

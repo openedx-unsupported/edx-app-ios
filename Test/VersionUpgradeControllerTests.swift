@@ -11,17 +11,17 @@ import UIKit
 import XCTest
 
 class VersionUpgradeControllerTests: XCTestCase {
-    let rootController = UIApplication.sharedApplication().keyWindow?.rootViewController
+    let viewController = UIViewController()
     
     func testVisibilityInitialNotUpgradeable(){
-        let controller = VersionUpgradeController(viewController: rootController)
+        let controller = VersionUpgradeController(viewController: viewController)
         XCTAssertTrue(controller.t_messageHidden)
     }
     
     func testVisibilityUpgradeable(){
         let versionInfoController = VersionUpgradeInfoController.sharedController
-        versionInfoController.populateHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
-        let controller = VersionUpgradeController(viewController: rootController)
+        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
+        let controller = VersionUpgradeController(viewController: viewController)
         XCTAssertFalse(controller.t_messageHidden)
     }
     
@@ -29,7 +29,7 @@ class VersionUpgradeControllerTests: XCTestCase {
         
         let versionInfoController = VersionUpgradeInfoController.sharedController
         
-        let controller = VersionUpgradeController(viewController: rootController)
+        let controller = VersionUpgradeController(viewController: viewController)
         XCTAssertTrue(controller.t_messageHidden)
         
         let expectation = expectationWithDescription("new version available")
@@ -38,7 +38,7 @@ class VersionUpgradeControllerTests: XCTestCase {
             expectation.fulfill()
         }
         
-        versionInfoController.populateHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
+        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
         
         self.waitForExpectations()
         removable.remove()

@@ -12,18 +12,18 @@ import XCTest
 
 class OfflineModeControllerTests: XCTestCase {
     
-    let rootController = UIApplication.sharedApplication().keyWindow?.rootViewController
+    let viewController = UIViewController()
     
     func testVisibilityInitiallyReachable() {
         let reachability = MockReachability()
-        let controller = OfflineModeController(reachability : reachability, viewController: rootController)
+        let controller = OfflineModeController(reachability : reachability, viewController: viewController)
         XCTAssertTrue(controller.t_messageHidden)
     }
     
     func testVisibilityInitiallyUnreachable() {
         let reachability = MockReachability()
         reachability.networkStatus = (wifi : false, wwan : false)
-        let controller = OfflineModeController(reachability : reachability, viewController: rootController)
+        let controller = OfflineModeController(reachability : reachability, viewController: viewController)
         XCTAssertFalse(controller.t_messageHidden)
     }
     
@@ -32,7 +32,7 @@ class OfflineModeControllerTests: XCTestCase {
         reachability.networkStatus = (wifi : false, wwan : false)
         reachability.startNotifier()
         
-        let controller = OfflineModeController(reachability : reachability, viewController: rootController)
+        let controller = OfflineModeController(reachability : reachability, viewController: viewController)
         XCTAssertFalse(controller.t_messageHidden)
         
         let expectation = expectationWithDescription("reachability changed")

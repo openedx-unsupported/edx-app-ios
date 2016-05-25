@@ -166,8 +166,8 @@ class IconMessageView : UIView {
         self.icon = .InternetError
     }
     
-    func showDepricatedVersionError() {
-        self.message = Strings.VersionUpgrade.outdatedVersion
+    func showDeprecatedVersionError() {
+        self.message = Strings.VersionUpgrade.outdatedVersion(platformName: OEXConfig.sharedConfig().platformName())
         self.icon = .VersionUpgrade
     }
     

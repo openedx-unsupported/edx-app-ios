@@ -202,7 +202,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let searchBar = searchBar {
             containerView.addSubview(searchBar)
         }
-        contentView.addSubview(tableView)
+        view.addSubview(tableView)
         headerView.addSubview(refineLabel)
         headerView.addSubview(headerButtonHolderView)
         headerButtonHolderView.addSubview(filterButton)

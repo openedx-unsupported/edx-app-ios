@@ -65,9 +65,9 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         searchBarSeparator.backgroundColor = OEXStyles.sharedStyles().neutralLight()
         
-        self.view.addSubview(containerView)
+        view.addSubview(containerView)
         containerView.addSubview(contentView)
-        containerView.addSubview(tableView)
+        view.addSubview(tableView)
         containerView.addSubview(searchBar)
         containerView.addSubview(searchBarSeparator)
         
@@ -86,7 +86,10 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         searchBar.delegate = searchBarDelegate
         
         containerView.snp_makeConstraints {make in
-            make.edges.equalTo(view)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.top.equalTo(view)
+            make.bottom.equalTo(tableView.snp_top)
         }
         
         contentView.snp_makeConstraints {make in

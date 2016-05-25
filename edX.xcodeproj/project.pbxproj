@@ -1488,7 +1488,7 @@
 		E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataControllerTests.swift; sourceTree = "<group>"; };
 		E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTestsDataFactory.swift; sourceTree = "<group>"; };
 		E06290B11CF45507009A2FA0 /* VersionUpgradeControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeControllerTests.swift; sourceTree = "<group>"; };
-		E06290B31CF461FC009A2FA0 /* VersionUpgradeDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeDataFactory.swift; sourceTree = "<group>"; };
+		E06290B31CF461FC009A2FA0 /* VersionUpgradeDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VersionUpgradeDataFactory.swift; path = ../Source/VersionUpgradeDataFactory.swift; sourceTree = "<group>"; };
 		E06290B51CF4673C009A2FA0 /* VersionUpgradeInfoControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoControllerTests.swift; sourceTree = "<group>"; };
 		E07107921C7591360004B76C /* DiscussionHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionHelper.swift; sourceTree = "<group>"; };
 		E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataController.swift; sourceTree = "<group>"; };
@@ -3049,6 +3049,7 @@
 		BECB7B331924C0C3009C77F1 /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E06290B31CF461FC009A2FA0 /* VersionUpgradeDataFactory.swift */,
 				77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */,
 				77C6BBC61CB438170026C37B /* TabContainerViewTests.swift */,
 				775391491C98A15100FA959C /* VideoBlockViewControllerTests.swift */,
@@ -3243,7 +3244,6 @@
 			children = (
 				E08977E71CE9C26700319DE7 /* VersionUpgradeController.swift */,
 				E08977EA1CE9C81400319DE7 /* VersionUpgradeInfoController.swift */,
-				E06290B31CF461FC009A2FA0 /* VersionUpgradeDataFactory.swift */,
 			);
 			name = "Version Upgrade";
 			sourceTree = "<group>";

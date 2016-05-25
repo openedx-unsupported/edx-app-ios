@@ -19,8 +19,8 @@ public class WarningInfoView: UIView {
     private let bottomDivider : UIView = UIView(frame: CGRectZero)
     private let messageView : UILabel = UILabel(frame: CGRectZero)
     private let infoButton: UIButton = UIButton(type: .System)
-    private var warningType : WarningType
-    private var viewController:UIViewController?
+    private let warningType : WarningType
+    private weak var viewController:UIViewController?
     private var textColor : UIColor? {
         return OEXStyles.sharedStyles().neutralDark()
     }
@@ -44,7 +44,7 @@ public class WarningInfoView: UIView {
         
         messageView.attributedText = warningTitle()
         
-        let infoIcon = Icon.InfoCircle.attributedTextWithStyle(infoButtonStyle)
+        let infoIcon = Icon.MoreInfo.attributedTextWithStyle(infoButtonStyle)
         
         infoButton.setAttributedTitle(NSAttributedString.joinInNaturalLayout([infoIcon]), forState: .Normal)
         
@@ -100,28 +100,31 @@ public class WarningInfoView: UIView {
     
     private func showOverlayMessage() {
         
+        var title: String?
+        var detail: String?
+        
         switch warningType {
         case .OfflineMode:
-            let overlayView = WarningInfoOverlay(title: Strings.offlineMode, detail: Strings.offlineModeDetail)
+            title = Strings.offlineMode
+            detail = Strings.offlineModeDetail
             
-            if let viewController = viewController {
-                viewController.showOverlayMessageView(overlayView)
-            }
         case .VersionUpgrade:
-            var detailMessage = Strings.VersionUpgrade.upgradeDetailMessage
+            detail = Strings.VersionUpgrade.upgradeDetailMessage(platformName: OEXConfig.sharedConfig().platformName())
             if let lastSupportedDate = VersionUpgradeInfoController.sharedController.lastSupportedDateString {
-                detailMessage = Strings.VersionUpgrade.upgradeLastSupportedDateOverlayMessgae(date: lastSupportedDate)
+                detail = Strings.VersionUpgrade.upgradeLastSupportedDateOverlayMessgae(platformName: OEXConfig.sharedConfig().platformName(), date: lastSupportedDate)
             }
-            
-            let overlayView = WarningInfoOverlay(title: nil, detail: detailMessage)
-            
-            if let viewController = viewController {
-                viewController.showOverlayMessageView(overlayView)
-            }
-            
+        }
+        
+        let overlayView = WarningInfoOverlay(title: title, detail: detail)
+        
+        if case .VersionUpgrade = self.warningType {
             overlayView.buttonInfo = MessageButtonInfo(title: "Tap Here To Upgrade Now", action: {
-                UIApplication.sharedApplication().openURL(NSURL(string: "https://itunes.apple.com/us/app/edx/id945480667?mt=8")!)
+                UIApplication.sharedApplication().openURL(OEXConfig.sharedConfig().appStoreURL())
             })
+        }
+        
+        if let viewController = viewController {
+            viewController.showOverlayMessageView(overlayView)
         }
     }
 }

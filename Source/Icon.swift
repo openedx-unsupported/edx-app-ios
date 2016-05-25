@@ -140,7 +140,7 @@ public enum Icon {
     case VideoRewind
     case VideoShrink
     case Warning
-    case InfoCircle
+    case MoreInfo
     case VersionUpgrade
     
     private var renderer : IconRenderer {
@@ -251,7 +251,7 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Lock)
         case .Warning:
             return FontAwesomeRenderer(icon: .Exclamation)
-        case .InfoCircle:
+        case .MoreInfo:
             return FontAwesomeRenderer(icon: .InfoCircle)
         case .VersionUpgrade:
             return FontAwesomeRenderer(icon: .Exclamation)

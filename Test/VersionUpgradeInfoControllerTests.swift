@@ -16,7 +16,7 @@ class VersionUpgradeInfoControllerTests: XCTestCase {
         XCTAssertFalse(versionInfoController.isNewVersionAvailable)
         
         // test version upgrade available without deadline
-        versionInfoController.populateHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
+        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
         
         XCTAssertTrue(versionInfoController.isNewVersionAvailable)
         XCTAssertNotNil(versionInfoController.latestVersion)
@@ -24,7 +24,7 @@ class VersionUpgradeInfoControllerTests: XCTestCase {
         
         
         // test version upgrade available with deadline
-        versionInfoController.populateHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfoWithDeadline)
+        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfoWithDeadline)
         
         XCTAssertTrue(versionInfoController.isNewVersionAvailable)
         XCTAssertNotNil(versionInfoController.latestVersion)

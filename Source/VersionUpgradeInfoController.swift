@@ -16,63 +16,43 @@ class VersionUpgradeInfoController: NSObject {
     
     static let sharedController = VersionUpgradeInfoController()
     
-    private var _isNewVersionAvailable:Bool = false
-    private var _latestVersion:String?
-    private var _lastSupportedDateString:String?
+    private(set) var isNewVersionAvailable:Bool = false
+    private(set) var latestVersion:String?
+    private(set) var lastSupportedDateString:String?
     private var postNotification:Bool = false
     
-    var isNewVersionAvailable: Bool {
-        get { return _isNewVersionAvailable }
-    }
-    
-    var latestVersion:String? {
-        get { return _latestVersion }
-    }
-    
-    var lastSupportedDateString: String? {
-        get { return _lastSupportedDateString }
-    }
-    
     private func defaultState() {
-        _isNewVersionAvailable = false
-        _latestVersion = nil
-        _lastSupportedDateString = nil
+        isNewVersionAvailable = false
+        latestVersion = nil
+        lastSupportedDateString = nil
     }
     
-    func populateHeaders(httpResponseHeaders headers: [NSObject : AnyObject]?) {
+    func populateFromHeaders(httpResponseHeaders headers: [NSObject : AnyObject]?) {
         
         guard let responseHeaders = headers else {
-            if _isNewVersionAvailable {
+            if isNewVersionAvailable {
                 // if version upgrade header is showing then hide it
                 defaultState()
                 postVersionUpgradeNotification()
             }
-            
             return
         }
         
-        if let latestVersion = responseHeaders[AppLatestVersionKey] as? String {
-            
-            if _latestVersion == latestVersion {
-                postNotification = false
-            }
-            else {
-                postNotification = true
-            }
-            
-            _latestVersion = latestVersion
-            _isNewVersionAvailable = true
+        if let appLatestVersion = responseHeaders[AppLatestVersionKey] as? String {
+            postNotification = latestVersion != appLatestVersion
+            latestVersion = appLatestVersion
+            isNewVersionAvailable = true
         }
         else {
             // In case if server stop sending version upgrade info
-            if _isNewVersionAvailable {
+            if isNewVersionAvailable {
                 defaultState()
                 postNotification = true
             }
         }
         
         if let versionLastSupportedDate = responseHeaders[AppVersionLastSupportedDateKey] as? String {
-            _lastSupportedDateString = versionLastSupportedDate
+            lastSupportedDateString = versionLastSupportedDate
         }
         
         if postNotification {

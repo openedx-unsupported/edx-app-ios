@@ -112,7 +112,6 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     
     func setupInController(controller: UIViewController) {
         insetsController.setupInController(controller, scrollView: descriptionView.scrollView)
-        insetsController.supportOfflineMode(environment.reachability)
     }
     
     private var blurbStyle : OEXTextStyle {
