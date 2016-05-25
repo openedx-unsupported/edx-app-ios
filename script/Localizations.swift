@@ -310,7 +310,7 @@ func printArray(group : Group, indent: String) {
     var values = [String]()
     let sortedItems = group.items.sort { return $0.key.name.compare($1.key.name) == .OrderedAscending }
     for item in sortedItems {
-        values.append("\"" + item.values[0] + "\"")
+        values.append("OEXLocalizedString(\"\(item.key.original)\", nil)")
     }
     print("\(indent)static var \(variableName(group.name)) = [\(values.joinWithSeparator(", "))]", toStream: &output)
 }
