@@ -525,7 +525,7 @@
 /* Label for date when course starts */
 "STARTING"="Starting - {start_date}";
 /* Value prop for startup screen. */
-"STARTUP.VALUEPROP.0"="Learn from the best. Anytime. Anywhere.";
+"STARTUP.VALUEPROP.0"="Learn from the best.\\nAnytime. Anywhere.";
 /* Value prop for startup screen. */
 "STARTUP.VALUEPROP.1"="Earn a certificate";
 /* Value prop for startup screen. */

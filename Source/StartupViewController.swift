@@ -30,7 +30,6 @@ class StartupViewController: UIViewController {
 
     private let pagerScrollView = UIScrollView()
     private let pageIndicator = UIPageControl()
-    private let valueProps = ["One","Two","Three","Four"]
 
     private let environment: Environment
 
@@ -127,8 +126,6 @@ class StartupViewController: UIViewController {
     }
 
     private func setupPager() {
-
-        pagerScrollView.backgroundColor = UIColor.blueColor().colorWithAlphaComponent(0.6)
         pagerScrollView.pagingEnabled = true
         pagerScrollView.scrollEnabled = true
         pagerScrollView.showsHorizontalScrollIndicator = false
@@ -136,11 +133,12 @@ class StartupViewController: UIViewController {
         view.addSubview(pagerScrollView)
 
         var lastLabel: UILabel?
-        for phrase in valueProps {
+        let style = OEXTextStyle(weight: .Normal, size: .XXXLarge, color: UIColor.whiteColor())
+        for phrase in Strings.Startup.valueprop {
             let label = UILabel()
-            label.text = phrase
+            label.attributedText = style.attributedStringWithText(phrase)
             label.textAlignment = .Center
-            label.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+            label.numberOfLines = 0
 
             pagerScrollView.addSubview(label)
             label.snp_makeConstraints(closure: { (make) in
@@ -154,15 +152,13 @@ class StartupViewController: UIViewController {
             make.trailing.equalTo(pagerScrollView)
         })
 
-
-        pageIndicator.numberOfPages = valueProps.count
+        pageIndicator.numberOfPages = Strings.Startup.valueprop.count
         pageIndicator.currentPage = 0
-        pagerScrollView.addSubview(pageIndicator)
+        view.addSubview(pageIndicator)
         pageIndicator.snp_makeConstraints { (make) in
             make.centerX.equalTo(pagerScrollView)
-            make.bottom.equalTo(pagerScrollView).inset(10)
+            make.bottom.equalTo(pagerScrollView).inset(30)
         }
-
 
         pagerScrollView.snp_makeConstraints { (make) in
             make.top.equalTo(discoverButton.snp_bottom)
@@ -170,8 +166,6 @@ class StartupViewController: UIViewController {
             make.leading.equalTo(view.snp_leading)
             make.trailing.equalTo(view.snp_trailing)
         }
-
-
     }
 
     //MARK: - Actions
@@ -191,7 +185,7 @@ class StartupViewController: UIViewController {
 
 extension StartupViewController : UIScrollViewDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        let currentPage = floor(scrollView.contentOffset.x / scrollView.contentSize.width)
+        let currentPage = floor(scrollView.contentOffset.x / scrollView.frame.width)
         pageIndicator.currentPage = Int(currentPage)
     }
 }
