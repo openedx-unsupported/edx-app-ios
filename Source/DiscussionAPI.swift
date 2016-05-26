@@ -71,6 +71,10 @@ public class DiscussionAPI {
     private static func commentListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionComment]> {
         return listDeserializer(response, items: json.array, constructor: { DiscussionComment(json : $0) } )
     }
+    
+    private static func topicDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionTopic> {
+        return DiscussionTopic(json : json).toResult(NSError.oex_courseContentLoadError())
+    }
 
     private static func topicListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionTopic]> {
         if let coursewareTopics = json["courseware_topics"].array,
@@ -296,6 +300,17 @@ public class DiscussionAPI {
                 path : "/api/discussion/v1/course_topics/\(courseID)",
                 requiresAuth : true,
                 deserializer : .JSONResponse(topicListDeserializer)
+        )
+    }
+    
+    static func getTopicByID(courseID: String, topicID : String) -> NetworkRequest<DiscussionTopic> {
+        let query = ["topic_id" : JSON(topicID)]
+        return NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/course_topics/\(courseID)",
+            query: query,
+            requiresAuth : true,
+            deserializer : .JSONResponse(topicDeserializer)
         )
     }
     

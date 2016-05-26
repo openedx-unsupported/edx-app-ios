@@ -145,7 +145,12 @@ extension OEXRouter {
         controller.presentViewController(navigationController, animated: true, completion: nil)
     }
     
-    func showPostsFromController(controller : UIViewController, courseID : String, topic : DiscussionTopic) {
+    func showPostsFromController(controller : UIViewController, courseID : String, topicID: String?) {
+        let postsController = PostsViewController(environment: environment, courseID: courseID, topicID: topicID)
+        controller.navigationController?.pushViewController(postsController, animated: true)
+    }
+    
+    func showPostsFromController(controller : UIViewController, courseID : String, topic: DiscussionTopic) {
         let postsController = PostsViewController(environment: environment, courseID: courseID, topic: topic)
         controller.navigationController?.pushViewController(postsController, animated: true)
     }

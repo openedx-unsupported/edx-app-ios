@@ -80,8 +80,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
 
     private let viewSeparator = UIView()
-    private let loadController : LoadStateViewController
-    private let refreshController : PullRefreshController
+    private let loadController = LoadStateViewController()
+    private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
     
     private let refineLabel = UILabel()
@@ -95,7 +95,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private let contentView = UIView()
     
-    private var context : Context
+    private var context : Context?
+    private var topicID: String?
     
     private var posts: [DiscussionThread] = []
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
@@ -114,41 +115,33 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var hasResults:Bool = false
     
-    required init(environment: Environment, courseID : String, context : Context) {
+    required init(environment: Environment, courseID: String, topicID: String?, context: Context?) {
         self.courseID = courseID
         self.environment = environment
+        self.topicID = topicID
         self.context = context
-        loadController = LoadStateViewController()
-        refreshController = PullRefreshController()
         
         super.init(nibName: nil, bundle: nil)
         
-        if !self.context.allowsPosting {
-            searchBar = UISearchBar()
-            searchBar?.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
-            searchBar?.text = context.queryString
-            searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
-                self?.context = Context.Search(text)
-                self?.loadController.state = .Initial
-                self?.searchThreads(text)
-            }
-            searchBar?.delegate = searchBarDelegate
-        }
+        configureSearchBar()
     }
     
-    convenience init(environment: Environment,courseID: String, topic : DiscussionTopic) {
-        self.init(environment: environment, courseID : courseID, context : .Topic(topic))
+    convenience init(environment: Environment, courseID: String, topicID: String?) {
+        self.init(environment: environment, courseID : courseID, topicID: topicID, context: nil)
+    }
+    
+    convenience init(environment: Environment, courseID: String, topic: DiscussionTopic) {
+        self.init(environment: environment, courseID : courseID, topicID: nil, context: .Topic(topic))
     }
     
     convenience init(environment: Environment,courseID: String, queryString : String) {
-        self.init(environment: environment, courseID : courseID, context : .Search(queryString))
+        self.init(environment: environment, courseID : courseID, topicID: nil, context : .Search(queryString))
     }
     
     ///Convenience initializer for All Posts and Followed posts
     convenience init(environment: Environment, courseID: String, following : Bool) {
-        self.init(environment: environment, courseID : courseID, context : following ? .Following : .AllPosts)
+        self.init(environment: environment, courseID : courseID, topicID: nil, context : following ? .Following : .AllPosts)
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -179,7 +172,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.oex_addAction(
             {[weak self] _ in
                 if let owner = self {
-                    owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, selectedTopic : owner.context.selectedTopic)
+                    owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, selectedTopic : owner.context?.selectedTopic)
                 }
             }, forEvents: .TouchUpInside)
 
@@ -194,6 +187,22 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
     }
     
+    private func configureSearchBar() {
+        guard let context = context where !context.allowsPosting else {
+            return
+        }
+        
+        searchBar = UISearchBar()
+        searchBar?.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
+        searchBar?.text = context.queryString
+        searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
+            self?.context = Context.Search(text)
+            self?.loadController.state = .Initial
+            self?.searchThreads(text)
+            self?.searchBar?.delegate = self?.searchBarDelegate
+        }
+    }
+
     private func addSubviews() {
         view.addSubview(contentView)
         view.addSubview(headerView)
@@ -211,7 +220,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func setConstraints() {
         contentView.snp_makeConstraints { (make) -> Void in
-            if context.allowsPosting {
+            if  context?.allowsPosting ?? false {
                 make.top.equalTo(view)
             }
             //Else the top is equal to searchBar.snp_bottom
@@ -224,7 +233,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.top.equalTo(contentView)
-            make.height.equalTo(context.allowsPosting ? 40 : 0)
+            make.height.equalTo(context?.allowsPosting ?? false ? 40 : 0)
         }
         
         searchBar?.snp_makeConstraints(closure: { (make) -> Void in
@@ -239,7 +248,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.centerY.equalTo(headerView)
         }
         refineLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-        
         
         headerButtonHolderView.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(refineLabel.snp_trailing)
@@ -263,7 +271,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(context.allowsPosting ? OEXStyles.sharedStyles().standardFooterHeight : 0)
+            make.height.equalTo(context?.allowsPosting ?? false ? OEXStyles.sharedStyles().standardFooterHeight : 0)
             make.top.equalTo(contentView.snp_bottom)
             make.bottom.equalTo(view)
         }
@@ -309,7 +317,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         newPostButton.contentVerticalAlignment = .Center
         
-        self.navigationItem.title = context.navigationItemTitle
+        self.navigationItem.title = context?.navigationItemTitle
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         viewSeparator.backgroundColor = styles.neutralXLight()
@@ -321,8 +329,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let selectedIndex = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(selectedIndex, animated: false)
         }
-        
-        logScreenEvent()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -339,28 +345,58 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func logScreenEvent() {
-        switch context {
-        case let .Topic(topic):
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, responseID: nil)
-        case let .Search(query):
-            self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
-        case .Following:
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", responseID: nil)
-        case .AllPosts:
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
+        if let context = context {
+            switch context {
+            case let .Topic(topic):
+                self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, responseID: nil)
+            case let .Search(query):
+                self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
+            case .Following:
+                self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", responseID: nil)
+            case .AllPosts:
+                self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
+            }
+        }
+    }
+    
+    private func loadTopic() {
+        guard let topicID = topicID else {
+            loadController.state = LoadState.failed(NSError.oex_unknownError())
+            return
+        }
+        
+        let apRequest = DiscussionAPI.getTopicByID(courseID, topicID: topicID)
+        self.environment.networkManager.taskForRequest(apRequest) {[weak self] response in
+            if let topic = response.data {
+                self?.context = .Topic(topic)
+                self?.navigationItem.title = self?.context?.navigationItemTitle
+                self?.setConstraints()
+                self?.loadContent()
+            }
+            else {
+                self?.loadController.state = LoadState.failed(NSError.oex_unknownError())
+            }
         }
     }
     
     private func loadContent() {
-        switch context {
-        case let .Topic(topic):
-            loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
-        case let .Search(query):
-            searchThreads(query)
-        case .Following:
-            loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
-        case .AllPosts:
-            loadPostsForTopic(nil, filter: selectedFilter, orderBy: selectedOrderBy)
+        if let context = context {
+            logScreenEvent()
+            
+            switch context {
+            case let .Topic(topic):
+                loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
+            case let .Search(query):
+                searchThreads(query)
+            case .Following:
+                loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
+            case .AllPosts:
+                loadPostsForTopic(nil, filter: selectedFilter, orderBy: selectedOrderBy)
+            }
+        }
+        else {
+            // context is only nil in case if topic is selected
+            loadTopic()
         }
     }
     
@@ -372,8 +408,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func updateHeaderViewVisibility() {
         
         // if post has results then set hasResults yes
-        if context.allowsPosting && self.posts.count > 0 {
-                hasResults = true
+        if let context = context where context.allowsPosting && self.posts.count > 0 {
+            hasResults = true
         }
         
         headerView.hidden = !hasResults
@@ -473,6 +509,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func errorMessage() -> String {
+        guard let context = context else {
+            return ""
+        }
+        
         if isFilterApplied() {
             return context.noResultsMessage + " " + Strings.removeFilter
         }
