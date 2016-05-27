@@ -69,7 +69,7 @@ extension OEXStyles {
         return 50
     }
     
-    private var standardVerticalMargin : CGFloat {
+    var standardVerticalMargin : CGFloat {
         return 8.0
     }
     
