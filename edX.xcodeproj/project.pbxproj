@@ -464,7 +464,6 @@
 		77E6489C1C91CC6700B6740D /* Array+FunctionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E6489B1C91CC6700B6740D /* Array+FunctionalTests.swift */; };
 		77E6489D1C91D92400B6740D /* CourseStatusInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E9AA36D1B31757800CD7D44 /* CourseStatusInfo.json */; };
 		77E6489E1C91D92D00B6740D /* DiscussionPosts.json in Resources */ = {isa = PBXBuildFile; fileRef = E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */; };
-		77E648A01C91EB2000B6740D /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E6489F1C91EB2000B6740D /* NetworkManagerTests.swift */; };
 		77E648A21C91EB4900B6740D /* MockResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E648A11C91EB4900B6740D /* MockResponseCache.swift */; };
 		77E648A41C91F99400B6740D /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77864DD61B1002A800182FC2 /* MockNetworkManager.swift */; };
 		77E648A51C92062900B6740D /* MockResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E648A11C91EB4900B6740D /* MockResponseCache.swift */; };
@@ -645,6 +644,7 @@
 		F22A0ABB1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22A0ABA1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift */; };
 		F22A0ABD1CE660B300D50DFF /* LoginApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22A0ABC1CE660B300D50DFF /* LoginApi.swift */; };
 		F2586E061CF5F8C7007C1118 /* NetworkManager+AuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2808CF91CF374FA002EAD1D /* NetworkManager+AuthenticatorTests.swift */; };
+		F2C1F0D81CFDDC400051743C /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E6489F1C91EB2000B6740D /* NetworkManagerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -3759,7 +3759,6 @@
 				772856E31CADCE0900460E7C /* OEXDateFormattingTests.m in Sources */,
 				775391841CA0600700FA959C /* RegistrationAPITests.swift in Sources */,
 				7753913C1C97579000FA959C /* PersistentResponseCacheTests.swift in Sources */,
-				77E648A01C91EB2000B6740D /* NetworkManagerTests.swift in Sources */,
 				7753913F1C9758D400FA959C /* XCTestCase+Async.swift in Sources */,
 				77542CDB1CB6A463006CA428 /* OEXMetaClassHelpers.m in Sources */,
 				77E648A21C91EB4900B6740D /* MockResponseCache.swift in Sources */,
@@ -4198,6 +4197,7 @@
 				77BC6F421CB82DFA00F0A8C1 /* OEXVideoSummaryTestDataFactory.swift in Sources */,
 				779998231C3C1EE00058E5FE /* EnrolledCoursesViewControllerTests.swift in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
+				F2C1F0D81CFDDC400051743C /* NetworkManagerTests.swift in Sources */,
 				7753914B1C98A16600FA959C /* VideoBlockViewControllerTests.swift in Sources */,
 				E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */,
 				46CECC441B055B0F0073C63A /* CourseDashboardViewControllerTests.swift in Sources */,

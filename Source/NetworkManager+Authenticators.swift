@@ -11,11 +11,11 @@ import Foundation
 import edXCore
 
 extension NetworkManager {
-    @objc public func addRefreshTokenAuthenticator(router:OEXRouter, session:OEXSession, clientId:String) {
+    public func addRefreshTokenAuthenticator(router:OEXRouter, session:OEXSession, clientId:String) {
         let invalidAccessAuthenticator = {[weak router] response, data in
             NetworkManager.invalidAccessAuthenticator(router, session: session, clientId:clientId, response: response, data: data)
         }
-        setupAuthenticator(invalidAccessAuthenticator)
+        self.authenticator = invalidAccessAuthenticator
     }
     
     /** Checks if the response's status code is 401. Then checks the error
@@ -63,18 +63,17 @@ private func logout(router:OEXRouter?) -> AuthenticationAction {
  */
 private func refreshAccessToken(clientId:String, refreshToken:String, session: OEXSession) -> AuthenticationAction {
     return AuthenticationAction.Authenticate({ (networkManager, completion) in
-        let networkRequest = LoginAPI.refreshAccessToken(
+        let networkRequest = LoginAPI.requestTokenWithRefreshToken(
             refreshToken,
             clientId: clientId,
             grantType: "refresh_token"
         )
         networkManager.taskForRequest(networkRequest) {result in
-            if let newAccessToken = result.data {
-                session.saveAccessToken(newAccessToken, userDetails: session.currentUser!)
-                completion(success: true)
-            } else {
-                completion(success: false)
+            guard let currentUser = session.currentUser, let newAccessToken = result.data else {
+                return completion(success: false)
             }
+            session.saveAccessToken(newAccessToken, userDetails: currentUser)
+            return completion(success: true)
         }
     })
 }

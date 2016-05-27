@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import XCTest
 
@@ -76,13 +77,13 @@ class NetworkManagerTests: XCTestCase {
             XCTAssertEqual(foundJSON, sampleJSON)
         }
     }
-
+    
     func testFormEncodingPostConstruction() {
         let manager = NetworkManager(authorizationHeaderProvider: authProvider, baseURL: baseURL, cache : cache)
         let fields = [
             "Some field" : "true",
             "Some other field" : "some value"
-            ]
+        ]
         let apiRequest = NetworkRequest(
             method: HTTPMethod.POST,
             path: "/something",
@@ -94,25 +95,25 @@ class NetworkManagerTests: XCTestCase {
                 return .Failure(NetworkManager.unknownError)
             })
         )
-
+        
         AssertSuccess(manager.URLRequestWithRequest(apiRequest)) { r in
             XCTAssertEqual(r.URL!.absoluteString, "http://example.com/something?a=b&c=d")
             XCTAssertEqual(r.HTTPMethod!, "POST")
             XCTAssertEqual(r.allHTTPHeaderFields!["Content-Type"], "application/x-www-form-urlencoded")
             XCTAssertEqual(r.allHTTPHeaderFields!["FakeHeader"], "TestValue")
-
+            
             // Hackily extract form encoded fields
             let foundBody = String(data : r.HTTPBody!, encoding: NSUTF8StringEncoding)
             let items = foundBody?.componentsSeparatedByString("&") ?? []
             let pairs = items.map { return $0.componentsSeparatedByString("=") }
-
+            
             // Sort since the fields are in arbitrary order
             let sortedPairs = pairs.sort({ return $0.first < $1.first })
             print("pairs are \(sortedPairs)")
             XCTAssertEqual(sortedPairs, [["Some%20field", "true"], ["Some%20other%20field", "some%20value"]])
         }
     }
-        
+    
     func requestEnvironment() -> (MockNetworkManager, NetworkRequest<NSData>, NSURLRequest) {
         let manager = MockNetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"http://example.com")!)
         let request = NetworkRequest<NSData> (
@@ -139,9 +140,9 @@ class NetworkManagerTests: XCTestCase {
         // make a request
         let networkData = "network".dataUsingEncoding(NSUTF8StringEncoding)!
         manager.interceptWhenMatching({_ -> Bool in return true },
-            afterDelay : 0.1,
-            withResponse: {_ in
-            return NetworkResult(request: URLRequest, response: response, data: networkData, baseData: networkData, error: nil)
+                                      afterDelay : 0.1,
+                                      withResponse: {_ in
+                                        return NetworkResult(request: URLRequest, response: response, data: networkData, baseData: networkData, error: nil)
             }
         )
         
@@ -160,7 +161,7 @@ class NetworkManagerTests: XCTestCase {
             })
             waitForExpectations()
         }
-
+        
         XCTAssertEqual(results.value, [originalData, networkData])
     }
     
@@ -169,13 +170,13 @@ class NetworkManagerTests: XCTestCase {
         
         let (manager, request, URLRequest) = requestEnvironment()
         manager.interceptWhenMatching({_ -> Bool in return true },
-            withResponse: {_ in
-                return NetworkResult<NSData>(request: URLRequest, response: nil, data: nil, baseData: nil, error: NetworkManager.unknownError)
+                                      withResponse: {_ in
+                                        return NetworkResult<NSData>(request: URLRequest, response: nil, data: nil, baseData: nil, error: NetworkManager.unknownError)
             }
         )
         let stream = manager.streamForRequest(request, persistResponse: true)
         let loadedExpectation = expectationWithDescription("Request finished")
-
+        
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
             stream.listen(owner) {_ in
                 loadedExpectation.fulfill()
@@ -208,8 +209,8 @@ class NetworkManagerTests: XCTestCase {
         let headers = ["a" : "b"]
         let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 404, HTTPVersion: nil, headerFields: headers)!
         manager.interceptWhenMatching({_ -> Bool in return true },
-            withResponse: {_ in
-                return NetworkResult<NSData>(request: URLRequest, response: response, data: testData, baseData: testData, error: nil)
+                                      withResponse: {_ in
+                                        return NetworkResult<NSData>(request: URLRequest, response: response, data: testData, baseData: testData, error: nil)
             }
         )
         let stream = manager.streamForRequest(request, persistResponse: true)
@@ -228,5 +229,87 @@ class NetworkManagerTests: XCTestCase {
             cacheExpectation.fulfill()
         }
         waitForExpectations()
+    }
+    
+    func testAuthenticationActionAuthenticateSuccess() {
+        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: baseURL, cache : cache)
+        
+        let expectation = expectationWithDescription("Request Completes")
+        let request = NetworkRequest<JSON> (
+            method: HTTPMethod.GET,
+            path: "path",
+            deserializer: .JSONResponse({(_, json) in .Success(json)}))
+        
+        let expectedStubResponse = simpleStubResponseBuilder(200, data: "{\"I Love\":\"Cake\"}")
+        let stub200Response = OHHTTPStubs.stubRequestsPassingTest({ (_) -> Bool in
+            return true
+            }, withStubResponse: { (_) -> OHHTTPStubsResponse in
+                return expectedStubResponse
+        })
+        
+        let initialStubResponse = simpleStubResponseBuilder(401, data: "{\"error_code\":\"token_expired\"}")
+        let stub401Response = OHHTTPStubs.stubRequestsPassingTest({ (_) -> Bool in
+            return true
+            }, withStubResponse: { (_) -> OHHTTPStubsResponse in
+                return initialStubResponse
+        })
+        
+        
+        manager.authenticator = { (response, data) -> AuthenticationAction in
+            if response.statusCode == 401 {
+                return AuthenticationAction.Authenticate({ (networkManager, completion) in
+                    OHHTTPStubs.removeStub(stub401Response)
+                    return completion(success: true)
+                })}
+            else {
+                OHHTTPStubs.removeStub(stub200Response)
+                return AuthenticationAction.Proceed
+            }
+        }
+        
+        manager.taskForRequest(request) { (response) in
+            XCTAssertEqual(response.response?.statusCode, 200)
+            XCTAssertEqual(response.data?.rawString(), "{\n  \"I Love\" : \"Cake\"\n}")
+            expectation.fulfill()
+        }
+        waitForExpectations()
+    }
+    
+    func testAuthenticationActionAuthenticateFailure() {
+        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: baseURL, cache : cache)
+       
+        let expectation = expectationWithDescription("Request Completes")
+        let request = NetworkRequest<JSON> (
+            method: HTTPMethod.GET,
+            path: "path",
+            deserializer: .JSONResponse({(_, json) in .Success(json)}))
+        
+        let expectedStubResponse = simpleStubResponseBuilder(401, data: "{\"error_code\":\"token_expired\"}")
+        let stub401Response = OHHTTPStubs.stubRequestsPassingTest({ (_) -> Bool in
+            return true
+            }, withStubResponse: { (_) -> OHHTTPStubsResponse in
+                return expectedStubResponse
+        })
+        
+        manager.authenticator = { (response, data) -> AuthenticationAction in
+            return AuthenticationAction.Authenticate({ (networkManager, completion) in
+                OHHTTPStubs.removeStub(stub401Response)
+                return completion(success: false)
+            })
+        }
+        
+        manager.taskForRequest(request) { (response) in
+            XCTAssertEqual(response.response?.statusCode, 401)
+            XCTAssertEqual(response.data, nil)
+            expectation.fulfill()
+        }
+        waitForExpectations()
+    }
+    
+    func simpleStubResponseBuilder(statusCode: Int32, data: String) -> OHHTTPStubsResponse{
+        return OHHTTPStubsResponse(
+            data: data.dataUsingEncoding(NSUTF8StringEncoding)!,
+            statusCode: statusCode,
+            headers: nil)
     }
 }
