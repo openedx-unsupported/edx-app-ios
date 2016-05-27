@@ -25,6 +25,7 @@ enum CourseBlockDisplayType {
     case Unit
     case Video
     case HTML(CourseHTMLBlockSubkind)
+    case Discussion(DiscussionModel)
     
     var isUnknown : Bool {
         switch self {
@@ -45,6 +46,7 @@ extension CourseBlock {
         case .Section: return .Outline
         case .Unit: return .Unit
         case let .Video(summary): return summary.onlyOnWeb ? .Unknown : .Video
+        case let .Discussion(discussionModel): return .Discussion(discussionModel)
         }
     }
 }
@@ -76,6 +78,12 @@ extension OEXRouter {
                 pageController.navigationDelegate = delegate
             }
             controller.navigationController?.pushViewController(pageController, animated: true)
+        case .Discussion:
+            let pageController = unitControllerForCourseID(courseID, blockID: parentID, initialChildID: blockID)
+            if let delegate = controller as? CourseContentPageViewControllerDelegate {
+                pageController.navigationDelegate = delegate
+            }
+            controller.navigationController?.pushViewController(pageController, animated: true)
         }
     }
     
@@ -94,6 +102,9 @@ extension OEXRouter {
             return controller
         case .Unknown:
             let controller = CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
+            return controller
+        case let .Discussion(discussionModel):
+            let controller = DiscussionBlockViewController(blockID: blockID, courseID: courseID, topicID: discussionModel.topicID, environment: environment)
             return controller
         }
     }

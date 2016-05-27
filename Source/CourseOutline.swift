@@ -82,6 +82,10 @@ public struct CourseOutline {
                         let bodyData = (body[Fields.StudentViewData].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name ?? Strings.untitled)
                         type = .Video(summary)
+                    case CourseBlock.Category.Discussion:
+                        let bodyData = body[Fields.StudentViewData].object as? NSDictionary
+                        let discussionModel = DiscussionModel(dictionary: bodyData ?? [:])
+                        type = .Discussion(discussionModel)
                     }
                 }
                 else {
@@ -122,6 +126,7 @@ public enum CourseBlockType {
     case Video(OEXVideoSummary)
     case Problem
     case HTML
+    case Discussion(DiscussionModel)
     
     public var asVideo : OEXVideoSummary? {
         switch self {
@@ -144,6 +149,7 @@ public class CourseBlock {
         case Section = "sequential"
         case Unit = "vertical"
         case Video = "video"
+        case Discussion = "discussion"
     }
     
     public let type : CourseBlockType
