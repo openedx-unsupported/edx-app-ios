@@ -110,7 +110,6 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
             triggered()
             shouldStartOnTouchRelease = false
         }
-        // TODO: Drive an animation to indicate how far the user is from triggering it
     }
     
 }

@@ -297,6 +297,7 @@
 		7765025B1C73B90C007384E7 /* OEXRearTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7765025A1C73B90C007384E7 /* OEXRearTableViewControllerTests.swift */; };
 		7765025D1C77CAE8007384E7 /* NSDate+TestDates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7765025C1C77BC0A007384E7 /* NSDate+TestDates.swift */; };
 		7765025F1C7CEBC5007384E7 /* SingleChildContainingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7765025E1C7CEBC5007384E7 /* SingleChildContainingViewController.swift */; };
+		7768745B1CDCCB1E001DFB77 /* RemoteImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7768745A1CDCCB1E001DFB77 /* RemoteImageTests.swift */; };
 		77691F911B388626003922F2 /* UIGestureRecognizer+BlockActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691F901B388626003922F2 /* UIGestureRecognizer+BlockActions.swift */; };
 		77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691F951B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift */; };
 		77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */; };
@@ -1060,6 +1061,7 @@
 		7765025A1C73B90C007384E7 /* OEXRearTableViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXRearTableViewControllerTests.swift; sourceTree = "<group>"; };
 		7765025C1C77BC0A007384E7 /* NSDate+TestDates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDate+TestDates.swift"; sourceTree = "<group>"; };
 		7765025E1C7CEBC5007384E7 /* SingleChildContainingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleChildContainingViewController.swift; sourceTree = "<group>"; };
+		7768745A1CDCCB1E001DFB77 /* RemoteImageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RemoteImageTests.swift; path = Test/RemoteImageTests.swift; sourceTree = SOURCE_ROOT; };
 		77691F901B388626003922F2 /* UIGestureRecognizer+BlockActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIGestureRecognizer+BlockActions.swift"; sourceTree = "<group>"; };
 		77691F951B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotificationCenter+SafeSwiftTests.swift"; sourceTree = "<group>"; };
 		77691F971B38A09B003922F2 /* NSAttributedString+Combination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Combination.swift"; sourceTree = "<group>"; };
@@ -3041,6 +3043,7 @@
 		BECB7B331924C0C3009C77F1 /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
+				7768745A1CDCCB1E001DFB77 /* RemoteImageTests.swift */,
 				77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */,
 				77C6BBC61CB438170026C37B /* TabContainerViewTests.swift */,
 				775391491C98A15100FA959C /* VideoBlockViewControllerTests.swift */,
@@ -4145,6 +4148,7 @@
 				778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */,
 				778F177E1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift in Sources */,
 				77E00B731B83997E00573622 /* DiscussionNewCommentViewControllerTests.swift in Sources */,
+				7768745B1CDCCB1E001DFB77 /* RemoteImageTests.swift in Sources */,
 				77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */,
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
 				77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */,

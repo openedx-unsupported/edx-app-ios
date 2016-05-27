@@ -15,7 +15,6 @@
 #import "NSArray+OEXFunctional.h"
 
 #import "OEXExternalAuthOptionsView.h"
-#import "OEXExternalAuthProviderButton.h"
 #import "OEXRegistrationStyles.h"
 #import "OEXTextStyle.h"
 
@@ -42,14 +41,11 @@
         self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         self.activityIndicator.hidden = YES;
         [self addSubview:self.activityIndicator];
-        
-        NSArray* providerButtons = [providers oex_map:^id(id <OEXExternalAuthProvider> provider) {
-            OEXExternalAuthProviderButton* button = [provider freshAuthButton];
-            [button addTarget:self action:@selector(choseProvider:) forControlEvents:UIControlEventTouchUpInside];
-            return button;
+
+        __weak __typeof(self) owner = self;
+        self.authOptionsView = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.bounds providers:providers tapAction:^(id<OEXExternalAuthProvider> provider) {
+            [owner choseProvider:provider];
         }];
-        
-        self.authOptionsView = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.bounds optionButtons:providerButtons];
         self.authOptionsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self addSubview:self.authOptionsView];
         
@@ -74,7 +70,6 @@
         make.top.equalTo(self.signUpHeading.mas_bottom).offset(self.styles.headingPromptMarginBottom);
         make.leading.equalTo(self.mas_leading);
         make.trailing.equalTo(self.mas_trailing);
-        make.height.mas_equalTo(self.styles.externalAuthButtonHeight);
     }];
     [self.emailSuggestion mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.authOptionsView.mas_bottom).offset(self.styles.headingPromptMarginTop);
@@ -89,8 +84,8 @@
     [super updateConstraints];
 }
 
-- (void)choseProvider:(OEXExternalAuthProviderButton*)button {
-    [self.delegate optionsView:self choseProvider:button.provider];
+- (void)choseProvider:(id<OEXExternalAuthProvider>)provider {
+    [self.delegate optionsView:self choseProvider:provider];
 }
 
 - (void)beginIndicatingActivity {

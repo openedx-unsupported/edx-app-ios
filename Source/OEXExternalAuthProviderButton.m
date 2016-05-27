@@ -24,11 +24,6 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
 
 @implementation OEXExternalAuthProviderButton
 
-// This seems like it should be unnecessary
-// but when I didn't have it, I got a method not found crash.
-// Maybe a compiler bug?
-@synthesize provider = _provider;
-
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if(self != nil) {
@@ -41,7 +36,7 @@ static CGFloat OEXExternalAuthButtonSeparatorInset = 4;
 }
 
 - (OEXTextStyle*)labelTextStyle {
-    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightSemiBold size:OEXTextSizeBase color:[UIColor whiteColor]];
+    OEXMutableTextStyle* style = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightSemiBold size:OEXTextSizeSmall color:[UIColor whiteColor]];
     style.alignment = NSTextAlignmentCenter;
     return style;
 }

@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithFrame:(CGRect)frame providers:(NSArray*)providers;
 
 @property (weak, nonatomic, nullable) id <OEXExternalRegistrationOptionsViewDelegate> delegate;
-@property (readonly, nonatomic) CGFloat desiredHeight;
 
 - (void)beginIndicatingActivity;
 - (void)endIndicatingActivity;

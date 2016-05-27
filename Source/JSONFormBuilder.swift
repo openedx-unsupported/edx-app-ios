@@ -47,7 +47,7 @@ private func loadJSON(jsonFile: String) throws -> JSON {
 class JSONFormBuilder {
     
     /** Show a segmented control from a limited set of options */
-    class SegmentCell: UITableViewCell, FormCell {
+    class SegmentCell: ZeroMarginsTableViewCell, FormCell {
         static let Identifier = "JSONForm.SwitchCell"
 
         let titleLabel = UILabel()
@@ -124,7 +124,7 @@ class JSONFormBuilder {
     }
     
     /** Show a cell that provides a long list of options in a new viewcontroller */
-    class OptionsCell: UITableViewCell, FormCell {
+    class OptionsCell: ZeroMarginsTableViewCell, FormCell {
         static let Identifier = "JSONForm.OptionsCell"
         private let choiceView = ChoiceLabel()
         

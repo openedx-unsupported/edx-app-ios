@@ -9,6 +9,7 @@
 #import "OEXAuthentication.h"
 
 #import "NSDictionary+OEXEncoding.h"
+#import "NSError+OEXKnownErrors.h"
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
 
@@ -64,10 +65,14 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
                 NSError* error;
                 NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
                 OEXAccessToken* token = [[OEXAccessToken alloc] initWithTokenDetails:dictionary];
-                [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:completionBlock];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [OEXAuthentication handleSuccessfulLoginWithToken:token completionHandler:completionBlock];
+                });
             }
             else {
-                completionBlock(data, httpResp, error);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionBlock(data, httpResp, error);
+                });
             }
         }]resume];
 }
@@ -189,7 +194,16 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
         if(httpResp.statusCode == 200) {
             NSDictionary* dictionary = [NSJSONSerialization JSONObjectWithData:userdata options:kNilOptions error:nil];
             OEXUserDetails* userDetails = [[OEXUserDetails alloc] initWithUserDictionary:dictionary];
-            [[OEXSession sharedSession] saveAccessToken:token userDetails:userDetails];
+            if(token != nil && userDetails != nil) {
+                [[OEXSession sharedSession] saveAccessToken:token userDetails:userDetails];
+            }
+            else {
+                // On the off chance that something messed up and we have nil
+                // for token or user details,
+                // stub in some error values
+                usererror = [NSError oex_unknownError];
+                userresponse = [[NSHTTPURLResponse alloc] initWithURL:userresponse.URL statusCode:OEXHTTPStatusCode400BadRequest HTTPVersion:nil headerFields:nil];
+            }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
                 OEXWrapURLCompletion(completionHandler)(userdata, userresponse, usererror);

@@ -61,7 +61,12 @@ static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
 - (void)saveAccessToken:(OEXAccessToken*)token userDetails:(OEXUserDetails*)userDetails {
     [self.credentialStore clear];
     [self.credentialStore saveAccessToken:token userDetails:userDetails];
-    [self loadTokenFromStore];
+
+    self.token = token;
+    self.currentUser = userDetails;
+    if(token != nil && userDetails != nil) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEXSessionStartedNotification object:nil userInfo:@{OEXSessionStartedUserDetailsKey : userDetails}];
+    }
 }
 
 - (void)loadTokenFromStore {

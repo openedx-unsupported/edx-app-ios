@@ -10,11 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol OEXExternalAuthProvider;
+
 @interface OEXExternalAuthOptionsView : UIView
 
-- (id)initWithFrame:(CGRect)frame optionButtons:(NSArray*)optionButtons;
+- (id)initWithFrame:(CGRect)frame providers:(NSArray<id<OEXExternalAuthProvider>>*)providers tapAction:(void(^)(id<OEXExternalAuthProvider>))tapAction;
 
-/// Defaults to 0
 /// Vertical space between rows in cases where this needs to wrap
 /// to multiple rows
 @property (assign, nonatomic) CGFloat rowSpacing;
