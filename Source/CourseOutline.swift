@@ -63,7 +63,7 @@ public struct CourseOutline {
                 } ?? [:]
                 let graded = body[Fields.Graded].bool ?? false
                 
-                let type : CourseBlockType
+                var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
                     switch category {
                     case CourseBlock.Category.Course:
@@ -83,9 +83,14 @@ public struct CourseOutline {
                         let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name ?? Strings.untitled)
                         type = .Video(summary)
                     case CourseBlock.Category.Discussion:
-                        let bodyData = body[Fields.StudentViewData].object as? NSDictionary
-                        let discussionModel = DiscussionModel(dictionary: bodyData ?? [:])
-                        type = .Discussion(discussionModel)
+                        // Inline discussion is in progress feature. Will remove this code when it's ready to ship
+                        type = .Unknown(typeName)
+                        
+                        if OEXConfig.sharedConfig().inlineDiscussionsEnabled {
+                            let bodyData = body[Fields.StudentViewData].object as? NSDictionary
+                            let discussionModel = DiscussionModel(dictionary: bodyData ?? [:])
+                            type = .Discussion(discussionModel)
+                        }
                     }
                 }
                 else {
