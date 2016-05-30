@@ -96,7 +96,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let contentView = UIView()
     
     private var context : Context?
-    private var topicID: String?
+    private let topicID: String?
     
     private var posts: [DiscussionThread] = []
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
@@ -345,17 +345,19 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func logScreenEvent() {
-        if let context = context {
-            switch context {
-            case let .Topic(topic):
-                self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, responseID: nil)
-            case let .Search(query):
-                self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
-            case .Following:
-                self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", responseID: nil)
-            case .AllPosts:
-                self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
-            }
+        guard let context = context else {
+            return
+        }
+        
+        switch context {
+        case let .Topic(topic):
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, responseID: nil)
+        case let .Search(query):
+            self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
+        case .Following:
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", responseID: nil)
+        case .AllPosts:
+            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
         }
     }
     
@@ -380,26 +382,26 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func loadContent() {
-        if let context = context {
-            logScreenEvent()
-            
-            switch context {
-            case let .Topic(topic):
-                loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
-            case let .Search(query):
-                searchThreads(query)
-            case .Following:
-                loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
-            case .AllPosts:
-                loadPostsForTopic(nil, filter: selectedFilter, orderBy: selectedOrderBy)
-            }
-        }
-        else {
+        guard let context = context else {
             // context is only nil in case if topic is selected
             loadTopic()
+            return
+        }
+        
+        logScreenEvent()
+        
+        switch context {
+        case let .Topic(topic):
+            loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
+        case let .Search(query):
+            searchThreads(query)
+        case .Following:
+            loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
+        case .AllPosts:
+            loadPostsForTopic(nil, filter: selectedFilter, orderBy: selectedOrderBy)
         }
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         insetsController.updateInsets()
@@ -408,9 +410,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func updateHeaderViewVisibility() {
         
         // if post has results then set hasResults yes
-        if let context = context where context.allowsPosting && self.posts.count > 0 {
-            hasResults = true
-        }
+        hasResults = context?.allowsPosting ?? false && self.posts.count > 0
         
         headerView.hidden = !hasResults
     }

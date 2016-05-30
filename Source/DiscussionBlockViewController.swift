@@ -40,6 +40,7 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
         
         addChildViewController(postsController)
         postsController.didMoveToParentViewController(self)
+        postsController.willMoveToParentViewController(nil)
         
         view.addSubview(postsController.view)
         postsController.view.snp_makeConstraints {make in
