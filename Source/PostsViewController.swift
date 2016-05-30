@@ -77,7 +77,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     var environment: Environment!
     private var paginationController : PaginationController<DiscussionThread>?
     
-    private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
+    private lazy var tableView = ZeroMarginsTableView(frame: CGRectZero, style: .Plain)
 
     private let viewSeparator = UIView()
     private let loadController : LoadStateViewController
