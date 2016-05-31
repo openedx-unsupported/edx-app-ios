@@ -367,8 +367,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             return
         }
         
-        let apRequest = DiscussionAPI.getTopicByID(courseID, topicID: topicID)
-        self.environment.networkManager.taskForRequest(apRequest) {[weak self] response in
+        let apiRequest = DiscussionAPI.getTopicByID(courseID, topicID: topicID)
+        self.environment.networkManager.taskForRequest(apiRequest) {[weak self] response in
             if let topics = response.data {
                 //Sending signle topic id so always get a single topic
                 self?.context = .Topic(topics[0])
