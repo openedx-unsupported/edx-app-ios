@@ -13,11 +13,10 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
     typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
     let courseID: String
-    let topicID: String?
     let blockID : CourseBlockID?
+    private let topicID: String?
     private let environment : Environment
-    let postsController:PostsViewController
-    
+    private let postsController:PostsViewController
     
     init(blockID: CourseBlockID?, courseID : String, topicID: String?, environment : Environment) {
         self.blockID = blockID
