@@ -369,8 +369,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let apRequest = DiscussionAPI.getTopicByID(courseID, topicID: topicID)
         self.environment.networkManager.taskForRequest(apRequest) {[weak self] response in
-            if let topic = response.data {
-                self?.context = .Topic(topic)
+            if let topics = response.data {
+                //Sending signle topic id so always get a single topic
+                self?.context = .Topic(topics[0])
                 self?.navigationItem.title = self?.context?.navigationItemTitle
                 self?.setConstraints()
                 self?.loadContent()
