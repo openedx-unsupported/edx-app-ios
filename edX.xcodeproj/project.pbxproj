@@ -633,6 +633,7 @@
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
 		E03402211C7F1FC9003EB9B7 /* DiscussionResponsesDataControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */; };
 		E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */; };
+		E04848341CFEAF5400BE00E1 /* WarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848331CFEAF5400BE00E1 /* WarningViewController.swift */; };
 		E06290B21CF45507009A2FA0 /* VersionUpgradeControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06290B11CF45507009A2FA0 /* VersionUpgradeControllerTests.swift */; };
 		E06290B41CF461FC009A2FA0 /* VersionUpgradeDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06290B31CF461FC009A2FA0 /* VersionUpgradeDataFactory.swift */; };
 		E06290B61CF4673C009A2FA0 /* VersionUpgradeInfoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06290B51CF4673C009A2FA0 /* VersionUpgradeInfoControllerTests.swift */; };
@@ -1487,6 +1488,7 @@
 		E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DiscussionPosts.json; sourceTree = "<group>"; };
 		E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataControllerTests.swift; sourceTree = "<group>"; };
 		E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTestsDataFactory.swift; sourceTree = "<group>"; };
+		E04848331CFEAF5400BE00E1 /* WarningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarningViewController.swift; sourceTree = "<group>"; };
 		E06290B11CF45507009A2FA0 /* VersionUpgradeControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeControllerTests.swift; sourceTree = "<group>"; };
 		E06290B31CF461FC009A2FA0 /* VersionUpgradeDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VersionUpgradeDataFactory.swift; path = ../Source/VersionUpgradeDataFactory.swift; sourceTree = "<group>"; };
 		E06290B51CF4673C009A2FA0 /* VersionUpgradeInfoControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoControllerTests.swift; sourceTree = "<group>"; };
@@ -2232,6 +2234,7 @@
 				770848B91B200C76002FEEEE /* ViewTopMessageController.swift */,
 				9EF8A6FE1B2852BB005E0042 /* FullScreenMessageViewController.swift */,
 				9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */,
+				E04848331CFEAF5400BE00E1 /* WarningViewController.swift */,
 			);
 			name = "Controller Helpers";
 			sourceTree = "<group>";
@@ -3869,6 +3872,7 @@
 				191A00201940560D004F7902 /* OEXDataParser.m in Sources */,
 				774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */,
 				9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */,
+				E04848341CFEAF5400BE00E1 /* WarningViewController.swift in Sources */,
 				7758FFDE1C32FD6A0072355B /* EnrollmentShared.swift in Sources */,
 				E08977EB1CE9C81400319DE7 /* VersionUpgradeInfoController.swift in Sources */,
 				5D43B1861B0C1F9200448B52 /* PostTableViewCell.swift in Sources */,

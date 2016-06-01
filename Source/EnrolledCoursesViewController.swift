@@ -8,7 +8,7 @@
 
 import Foundation
 
-class EnrolledCoursesViewController : UIViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate {
+class EnrolledCoursesViewController : WarningViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate {
     
     typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
     
@@ -43,9 +43,9 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
         tableController.didMoveToParentViewController(self)
         self.loadController.setupInController(self, contentView: tableController.view)
         
-        self.view.addSubview(tableController.view)
+        contentView.addSubview(tableController.view)
         tableController.view.snp_makeConstraints {make in
-            make.edges.equalTo(self.view)
+            make.edges.equalTo(contentView)
         }
         
         tableController.delegate = self
@@ -57,8 +57,8 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
         
         insetsController.setupInController(self, scrollView: tableController.tableView)
         insetsController.addSource(self.refreshController)
-        insetsController.supportVersionUpgrade()
-        insetsController.supportOfflineMode(environment.reachability)
+//        insetsController.supportVersionUpgrade()
+//        insetsController.supportOfflineMode(environment.reachability)
 
         // We visually separate each course card so we also need a little padding
         // at the bottom to match
