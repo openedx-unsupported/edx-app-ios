@@ -208,11 +208,11 @@ extension OEXRouter {
         fromController.navigationController?.pushViewController(controller, animated: animated)
     }
     
-    func showCourseCatalog() {
+    func showCourseCatalog(bottomBar: UIView?) {
         let controller: UIViewController
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
-            controller = OEXFindCoursesViewController()
+            controller = OEXFindCoursesViewController(bottomBar: bottomBar)
         case .Native:
             controller = CourseCatalogViewController(environment: self.environment)
         }

@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString* const OEXFindCoursesLinkURLScheme;
 
 @interface OEXFindCoursesViewController : UIViewController
+- (instancetype) initWithBottomBar:(UIView* _Nullable)bottomBar;
 
 @end
 

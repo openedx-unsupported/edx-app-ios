@@ -140,7 +140,7 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
     private func setupFooter() {
         let footer = EnrolledCoursesFooterView()
         footer.findCoursesAction = {[weak self] in
-            self?.environment.router?.showCourseCatalog()
+            self?.environment.router?.showCourseCatalog(nil)
         }
         footer.missingCoursesAction = {[weak self] in
             self?.showCourseNotListedScreen()

@@ -520,6 +520,8 @@
 "SIGN_IN_BUTTON_TEXT"="Sign In";
 /* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Signing in...";
+/* Button initiating sign up process on the main screen */
+"SIGN_UP_BUTTON_TEXT"="Sign Up";
 /* Indicates a date in the near future */
 "SOON"="Soon";
 /* Label for posts pinned by Staff */

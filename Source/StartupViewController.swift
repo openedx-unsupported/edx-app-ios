@@ -102,13 +102,13 @@ class StartupViewController: UIViewController {
         bottomButtons.spacing = 40
 
         let signInButton = UIButton()
-        signInButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().primaryBaseColor()), withTitle: "Sign in")
+        signInButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().primaryBaseColor()), withTitle: Strings.signInButtonText)
         signInButton.oex_addAction({ [weak self] _ in
             self?.showLogin()
             }, forEvents: .TouchUpInside)
 
         let signUpButton = UIButton()
-        signUpButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().secondaryBaseColor()), withTitle: "Sign up")
+        signUpButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().secondaryBaseColor()), withTitle: Strings.signUpButtonText)
         signUpButton.oex_addAction({ [weak self] _ in
             self?.showRegistration()
             }, forEvents: .TouchUpInside)
@@ -179,7 +179,46 @@ class StartupViewController: UIViewController {
     }
 
     func showCourses() {
-        self.environment.router?.showCourseCatalog()
+        let bottomBar = makeBottomBar()
+        self.environment.router?.showCourseCatalog(bottomBar)
+    }
+
+    private func makeBottomBar() -> UIView {
+        let bar = UIView()
+        bar.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.65)
+
+        let signInButton = UIButton()
+        signInButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().primaryBaseColor()), withTitle: Strings.signInButtonText)
+        signInButton.oex_addAction({ [weak self] _ in
+            self?.dismissViewControllerAnimated(false, completion: { 
+                self?.showLogin()
+            })
+            }, forEvents: .TouchUpInside)
+
+        let signUpButton = UIButton()
+        signUpButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().secondaryBaseColor()), withTitle: Strings.signUpButtonText)
+        signUpButton.oex_addAction({ [weak self] _ in
+            self?.dismissViewControllerAnimated(false, completion: {
+                self?.showRegistration()
+            })
+            }, forEvents: .TouchUpInside)
+
+        bar.addSubview(signInButton)
+        bar.addSubview(signUpButton)
+
+        signInButton.snp_makeConstraints { (make) in
+            make.centerY.equalTo(bar)
+            make.leading.equalTo(bar).inset(30)
+            make.width.equalTo(120)
+        }
+
+        signUpButton.snp_makeConstraints { (make) in
+            make.centerY.equalTo(bar)
+            make.trailing.equalTo(bar).inset(30)
+            make.width.equalTo(signInButton)
+        }
+
+        return bar
     }
 }
 

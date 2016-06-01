@@ -121,7 +121,7 @@ OEXRegistrationViewControllerDelegate
     OEXLoginViewController* loginController = [[UIStoryboard storyboardWithName:@"OEXLoginViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginView"];
     loginController.delegate = self;
     
-    [self presentViewController:loginController fromController:nil completion:completion];
+    [self presentViewController:loginController fromController:controller completion:completion];
 }
 
 - (void)showSignUpScreenFromController:(UIViewController*)controller {
