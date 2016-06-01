@@ -25,7 +25,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     private var request : NSURLRequest? = nil
     var searchBaseURL: NSURL?
 
-    let thing: TZStackView? = TZStackView()
+    let thing =  UIView()
     
     init(config : OEXConfig?, delegate : FindCoursesWebViewHelperDelegate?) {
         self.config = config
@@ -68,24 +68,24 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
                 make.top.equalTo(webviewTop)
             }
 
-            thing!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.65)
-            container.view.insertSubview(thing!, atIndex: 0)
-            thing!.snp_makeConstraints(closure: { (make) in
+            thing.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.65)
+            container.view.insertSubview(thing, atIndex: 0)
+            thing.snp_makeConstraints(closure: { (make) in
                 make.height.equalTo(50)
                 make.leading.equalTo(container.view)
                 make.trailing.equalTo(container.view)
                 make.bottom.equalTo(container.view)
             })
 
-            setupBottomButtons(thing!)
+            setupBottomButtons(thing)
         }
     }
 
-    private func setupBottomButtons(bottomButtons: TZStackView) {
-        bottomButtons.distribution = TZStackViewDistribution.EqualCentering
-        bottomButtons.axis = .Horizontal
-        bottomButtons.spacing = 40
-        
+    private func setupBottomButtons(bottomButtons: UIView) {
+//        bottomButtons.distribution = TZStackViewDistribution.EqualCentering
+//        bottomButtons.axis = .Horizontal
+//        bottomButtons.spacing = 40
+//        
 
         let signInButton = UIButton()
         signInButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().primaryBaseColor()), withTitle: "Sign in")
@@ -99,9 +99,24 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
 //            self?.showRegistration()
             }, forEvents: .TouchUpInside)
 
+        bottomButtons.addSubview(signInButton)
+        bottomButtons.addSubview(signUpButton)
 
-        bottomButtons.addArrangedSubview(signUpButton)
-        bottomButtons.addArrangedSubview(signInButton)
+        signInButton.snp_makeConstraints { (make) in
+            make.centerY.equalTo(bottomButtons)
+            make.leading.equalTo(bottomButtons).inset(30)
+            make.width.equalTo(120)
+        }
+
+        signUpButton.snp_makeConstraints { (make) in
+            make.centerY.equalTo(bottomButtons)
+            make.trailing.equalTo(bottomButtons).inset(30)
+            make.width.equalTo(signInButton)
+        }
+
+//
+//        bottomButtons.addArrangedSubview(signUpButton)
+//        bottomButtons.addArrangedSubview(signInButton)
 
 //        view.addSubview(bottomButtons)
 //        bottomButtons.snp_makeConstraints { (make) in
@@ -150,7 +165,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
                                         self.webView.accessibilityValue = "findCoursesLoaded"
                                     }
         })
-        thing?.superview?.bringSubviewToFront(thing!)   
+        thing.superview?.bringSubviewToFront(thing)
     }
     
     func showError(error : NSError) {

@@ -121,18 +121,22 @@ OEXRegistrationViewControllerDelegate
     OEXLoginViewController* loginController = [[UIStoryboard storyboardWithName:@"OEXLoginViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginView"];
     loginController.delegate = self;
     
-    [self presentViewController:loginController completion:completion];
+    [self presentViewController:loginController fromController:nil completion:completion];
 }
 
 - (void)showSignUpScreenFromController:(UIViewController*)controller {
     OEXRegistrationViewControllerEnvironment* registrationEnvironment = [[OEXRegistrationViewControllerEnvironment alloc] initWithAnalytics:self.environment.analytics config:self.environment.config router:self];
     OEXRegistrationViewController* registrationController = [[OEXRegistrationViewController alloc] initWithEnvironment:registrationEnvironment];
     registrationController.delegate = self;
-    [self presentViewController:registrationController completion:nil];
+    [self presentViewController:registrationController fromController:controller completion:nil];
 }
 
-- (void)presentViewController:(UIViewController*)controller completion:(void(^)(void))completion {
-    [self.containerViewController presentViewController:controller animated:YES completion:completion];
+- (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)fromController completion:(void(^)(void))completion {
+    if (fromController == nil) {
+        fromController = self.containerViewController;
+    }
+
+    [fromController presentViewController:controller animated:YES completion:completion];
 }
 
 - (void)showLoggedOutScreen {

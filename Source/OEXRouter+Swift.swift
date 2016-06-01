@@ -226,7 +226,7 @@ extension OEXRouter {
             controller.navigationItem.leftBarButtonItem = backButton
             let navController = ForwardingNavigationController(rootViewController: controller)
 
-            presentViewController(navController, completion: nil)
+            presentViewController(navController, fromController:nil, completion: nil)
         }
         self.environment.analytics.trackUserFindsCourses()
     }
