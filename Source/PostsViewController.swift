@@ -185,6 +185,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         //set visibility of header view
         updateHeaderViewVisibility()
         
+        loadContent()
     }
     
     private func configureSearchBar() {
@@ -329,11 +330,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let selectedIndex = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(selectedIndex, animated: false)
         }
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        loadContent()
     }
     
     override func shouldAutorotate() -> Bool {
@@ -633,4 +629,12 @@ extension UITableView {
     }
 }
 
+// Testing only
+extension PostsViewController {
+    var t_loaded : Stream<()> {
+        return self.paginationController!.stream.map {_ in
+            return
+        }
+    }
+}
 
