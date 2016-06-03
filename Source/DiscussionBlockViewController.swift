@@ -41,11 +41,17 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
         postsController.didMoveToParentViewController(self)
         
         view.addSubview(postsController.view)
-        postsController.view.snp_makeConstraints {make in
+    }
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        
+        postsController.view.snp_remakeConstraints {make in
             make.top.equalTo(view)
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.bottom.equalTo(view).offset(-OEXStyles.sharedStyles().standardFooterHeight)
+            let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
+            make.bottom.equalTo(view).offset(-barHeight)
         }
     }
 }
