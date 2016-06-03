@@ -50,6 +50,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.registerClass(CourseProblemTableViewCell.self, forCellReuseIdentifier: CourseProblemTableViewCell.identifier)
         tableView.registerClass(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.registerClass(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
+        tableView.registerClass(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
         
         headerContainer.addSubview(lastAccessedView)
         lastAccessedView.snp_makeConstraints { (make) -> Void in
@@ -142,6 +143,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 return videos.filter { video in !video.summary!.onlyOnWeb }
             })
             cell.delegate = self
+            return cell
+        case .Discussion:
+            let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTableViewCell.identifier, forIndexPath: indexPath) as! DiscussionTableViewCell
+            cell.block = block
             return cell
         }
     }

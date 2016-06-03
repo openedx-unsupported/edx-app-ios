@@ -299,6 +299,17 @@ public class DiscussionAPI {
         )
     }
     
+    static func getTopicByID(courseID: String, topicID : String) -> NetworkRequest<[DiscussionTopic]> {
+        let query = ["topic_id" : JSON(topicID)]
+        return NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/course_topics/\(courseID)",
+            query: query,
+            requiresAuth : true,
+            deserializer : .JSONResponse(topicListDeserializer)
+        )
+    }
+    
     // get response comments
     static func getComments(commentID: String, pageNumber: Int) -> NetworkRequest<Paginated<[DiscussionComment]>> {
         

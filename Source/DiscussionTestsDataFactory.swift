@@ -41,6 +41,35 @@ class DiscussionTestsDataFactory: NSObject {
         unreadCommentCount: 0,
         responseCount: 0)
     
+    static let unreadThread = DiscussionThread(
+        threadID: "123",
+        type: .Discussion,
+        courseId: "some-course",
+        topicId: "abc",
+        groupId: nil,
+        groupName: nil,
+        title: "Test Post",
+        rawBody: "Lorem ipsum dolor sit amet",
+        renderedBody: "<p>Lorem ipsum dolor sit amet</p>",
+        author: "Test Person",
+        authorLabel: "Test User",
+        commentCount: 5,
+        commentListUrl: nil,
+        hasEndorsed: true,
+        pinned: false,
+        closed: false,
+        following: false,
+        flagged: false,
+        abuseFlagged: false,
+        voted: true,
+        voteCount: 4,
+        createdAt: NSDate.stableTestDate(),
+        updatedAt: nil,
+        editableFields: nil,
+        read: false,
+        unreadCommentCount: 0,
+        responseCount: 0)
+    
     static let unendorsedComment = DiscussionComment(
         commentID: "123",
         parentID: "123",

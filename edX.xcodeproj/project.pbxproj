@@ -630,14 +630,19 @@
 		BEEEBF87196AB7EA00EF2C35 /* OEXStatusMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEEBF85196AB7EA00EF2C35 /* OEXStatusMessageViewController.m */; };
 		BEEEBF88196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEEEBF86196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib */; };
 		DC4DF62530E533B021DE5F00 /* libPods-edX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A2AAE7DB51F8E01CE137D8E /* libPods-edX.a */; };
+		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
+		E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */; };
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
 		E03402211C7F1FC9003EB9B7 /* DiscussionResponsesDataControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */; };
 		E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */; };
+		E04848321CFDA10600BE00E1 /* DiscussionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */; };
+		E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */; };
 		E07107931C7591360004B76C /* DiscussionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07107921C7591360004B76C /* DiscussionHelper.swift */; };
 		E076A5C21C7DB624008A99C6 /* DiscussionResponsesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */; };
 		E0816D7D1CBE35CE00818769 /* NavigationDrawerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D781CBE356E00818769 /* NavigationDrawerInteractor.swift */; };
 		E0816D7E1CBE35D300818769 /* FindCoursesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D771CBE356E00818769 /* FindCoursesInteractor.swift */; };
 		E0816D7F1CBE35DA00818769 /* FindCoursesTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D7B1CBE358900818769 /* FindCoursesTestCase.swift */; };
+		E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
 		E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */; };
@@ -1482,15 +1487,20 @@
 		BEEEBF84196AB7EA00EF2C35 /* OEXStatusMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXStatusMessageViewController.h; sourceTree = "<group>"; };
 		BEEEBF85196AB7EA00EF2C35 /* OEXStatusMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXStatusMessageViewController.m; sourceTree = "<group>"; };
 		BEEEBF86196AB7EA00EF2C35 /* OEXStatusMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXStatusMessageViewController.xib; sourceTree = "<group>"; };
+		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
+		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
 		E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewControllerTests.swift; sourceTree = "<group>"; };
 		E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DiscussionPosts.json; sourceTree = "<group>"; };
 		E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataControllerTests.swift; sourceTree = "<group>"; };
 		E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTestsDataFactory.swift; sourceTree = "<group>"; };
+		E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModelTests.swift; sourceTree = "<group>"; };
+		E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsViewControllerTests.swift; sourceTree = "<group>"; };
 		E07107921C7591360004B76C /* DiscussionHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionHelper.swift; sourceTree = "<group>"; };
 		E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataController.swift; sourceTree = "<group>"; };
 		E0816D771CBE356E00818769 /* FindCoursesInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindCoursesInteractor.swift; sourceTree = "<group>"; };
 		E0816D781CBE356E00818769 /* NavigationDrawerInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDrawerInteractor.swift; sourceTree = "<group>"; };
 		E0816D7B1CBE358900818769 /* FindCoursesTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindCoursesTestCase.swift; sourceTree = "<group>"; };
+		E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModel.swift; sourceTree = "<group>"; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
@@ -2403,6 +2413,7 @@
 				1913DD4319502E5D00573977 /* OEXVideoSummary.m */,
 				9ED168AF1B29A9EF00AA7B5B /* CouseLastAccessed.swift */,
 				9EC6E0FF1BDE40E100729704 /* OEXCourse+Swift.swift */,
+				E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */,
 			);
 			name = "Course Structure";
 			sourceTree = "<group>";
@@ -2893,6 +2904,7 @@
 				1AE0A6C71BF4F68A00E14917 /* CourseCertificateCell.swift */,
 				9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */,
 				9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */,
+				E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */,
 				77B463941A30F6390083453A /* Announcements */,
 				1918AFB2194835A500F40345 /* Level 1 */,
 				1913DD3F194EC59C00573977 /* Course Video List View */,
@@ -3130,6 +3142,9 @@
 				E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */,
 				E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */,
 				E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */,
+				E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */,
+				E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */,
+				E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				7772BE901AF90C8A0081CA7A /* Helpers */,
@@ -3841,6 +3856,7 @@
 				773B1D441B1F77D400B861DF /* ViewController+SnapKit.swift in Sources */,
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */,
+				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
@@ -3975,6 +3991,7 @@
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
 				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
 				9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */,
+				E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */,
 				9ED168B01B29A9EF00AA7B5B /* CouseLastAccessed.swift in Sources */,
 				B4B6D61A1A949F0F000F44E8 /* OEXRegistrationFieldTextAreaView.m in Sources */,
 				1A67E5411BD7D61800C53401 /* Feed.swift in Sources */,
@@ -4173,6 +4190,7 @@
 				77124FDB1CA5A706002DA012 /* SessionUsernameProviderTests.swift in Sources */,
 				773CC01F1BE29D5100DDC127 /* UserProfileManagerTests.swift in Sources */,
 				773CC0231BE2C4C200DDC127 /* MockUserProfileManager.swift in Sources */,
+				E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */,
 				775391461C9763D000FA959C /* Result+Assertions.swift in Sources */,
 				773CC0251BE42EAC00DDC127 /* UserProfileEditViewControllerTests.swift in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
@@ -4231,6 +4249,7 @@
 				775391411C97593B00FA959C /* NetworkManager+InterceptionTests.swift in Sources */,
 				774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */,
 				773181401B6C23F9000CC050 /* DiscussionTopic+DataFactory.swift in Sources */,
+				E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */,
 				77C6BBC81CB43A6D0026C37B /* TabContainerViewTests.swift in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
 				77E648A51C92062900B6740D /* MockResponseCache.swift in Sources */,
@@ -4239,6 +4258,7 @@
 				77236EF11C21F3B3006AC1A4 /* PaginationControllerTests.swift in Sources */,
 				778F17831C0E06640099BF93 /* TestRouterEnvironment.swift in Sources */,
 				77FD164C1C2336EB00F059DF /* DummyTableViewDataSource.swift in Sources */,
+				E04848321CFDA10600BE00E1 /* DiscussionModelTests.swift in Sources */,
 				77000A4C1A775904007D306C /* NSDate+OEXComparisonsTests.m in Sources */,
 				770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */,
 				77BC6F451CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift in Sources */,
