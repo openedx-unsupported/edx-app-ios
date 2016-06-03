@@ -166,6 +166,9 @@ class UserProfileEditViewController: UITableViewController {
         
         tableView.tableHeaderView = makeHeader()
         tableView.tableFooterView = footer //get rid of extra lines when the content is shorter than a screen
+        if #available(iOS 9.0, *) {
+            tableView.cellLayoutMarginsFollowReadableWidth = false
+        }
         
         if let form = JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView)
