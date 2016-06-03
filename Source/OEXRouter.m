@@ -44,6 +44,7 @@ OEXRegistrationViewControllerDelegate
 @property (strong, nonatomic) UIViewController* currentContentController;
 
 @property (strong, nonatomic) RevealViewController* revealController;
+@property (strong, nonatomic) void(^registrationCompletion)(void);
 
 @end
 
@@ -124,7 +125,8 @@ OEXRegistrationViewControllerDelegate
     [self presentViewController:loginController fromController:controller completion:completion];
 }
 
-- (void)showSignUpScreenFromController:(UIViewController*)controller {
+- (void)showSignUpScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
+    self.registrationCompletion = completion;
     OEXRegistrationViewControllerEnvironment* registrationEnvironment = [[OEXRegistrationViewControllerEnvironment alloc] initWithAnalytics:self.environment.analytics config:self.environment.config router:self];
     OEXRegistrationViewController* registrationController = [[OEXRegistrationViewController alloc] initWithEnvironment:registrationEnvironment];
     registrationController.delegate = self;
@@ -207,6 +209,10 @@ OEXRegistrationViewControllerDelegate
 - (void)registrationViewControllerDidRegister:(OEXRegistrationViewController *)controller completion:(void (^)(void))completion {
     [self showLoggedInContent];
     [controller dismissViewControllerAnimated:YES completion:completion];
+    if (self.registrationCompletion) {
+        self.registrationCompletion();
+        self.registrationCompletion = nil;
+    }
 }
 
 - (void)loginViewControllerDidLogin:(OEXLoginViewController *)loginController {

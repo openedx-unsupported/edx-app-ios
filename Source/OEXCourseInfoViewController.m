@@ -92,7 +92,9 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
     OEXSession* session = [OEXSession sharedSession];
     if (session.currentUser == nil) {
-        [[OEXRouter sharedRouter] showSignUpScreenFromController:self];
+        [[OEXRouter sharedRouter] showSignUpScreenFromController:self completion:^{
+            [self enrollInCourseWithCourseID:courseID emailOptIn:emailOptIn];
+        }];
         return;
     }
 

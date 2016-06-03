@@ -53,6 +53,11 @@ class StartupViewController: UIViewController {
         setupPager()
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        OEXAnalytics.sharedAnalytics().trackScreenWithName("launch")
+    }
+
     // MARK: - View Setup
 
     private func setupBackground() {
@@ -175,7 +180,7 @@ class StartupViewController: UIViewController {
     }
 
     func showRegistration() {
-        self.environment.router?.showSignUpScreenFromController(self)
+        self.environment.router?.showSignUpScreenFromController(self, completion: nil)
     }
 
     func showCourses() {
