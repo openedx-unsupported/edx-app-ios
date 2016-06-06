@@ -159,7 +159,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.estimatedRowHeight = 150
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.applyStandardSeparatorInsets()
+        if #available(iOS 9.0, *) {
+            tableView.cellLayoutMarginsFollowReadableWidth = false
+        }
         
         filterButton.oex_addAction(
             {[weak self] _ in
@@ -596,6 +598,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(PostTableViewCell.identifier, forIndexPath: indexPath) as! PostTableViewCell
         cell.useThread(posts[indexPath.row], selectedOrderBy : selectedOrderBy)
+        cell.applyStandardSeparatorInsets()
             return cell
     }
     

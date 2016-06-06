@@ -71,6 +71,9 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
+        if #available(iOS 9.0, *) {
+            tableView.cellLayoutMarginsFollowReadableWidth = false
+        }
         
         searchBar.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
         
