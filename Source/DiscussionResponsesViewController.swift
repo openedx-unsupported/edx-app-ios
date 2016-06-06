@@ -237,7 +237,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         loadController?.setupInController(self, contentView: self.contentView)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
-        loadThread()
+        markThreadAsRead()
     }
     
     override func shouldAutorotate() -> Bool {
@@ -269,24 +269,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     private func markThreadAsRead() {
-        if let thread = thread {
-            let apiRequest = DiscussionAPI.readThread(true, threadID: thread.threadID)
-            
-            self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
-                if let thread = result.data {
-                    self?.loadedThread(thread)
-                    self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
-                }
-            }
-        }
-    }
-    
-    private func loadThread() {
-        let updatePostRequest = DiscussionAPI.getThreadByID(threadID)
-        self.environment.networkManager.taskForRequest(updatePostRequest) {[weak self] response in
-            if let postThread = response.data {
-                self?.loadedThread(postThread)
-                self?.markThreadAsRead()
+        let apiRequest = DiscussionAPI.readThread(true, threadID: threadID)
+        self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
+            if let thread = result.data {
+                self?.loadedThread(thread)
+                self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
             }
         }
     }
