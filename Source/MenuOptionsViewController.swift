@@ -77,6 +77,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         tableView?.delegate = self
         tableView?.layer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
         tableView?.layer.borderWidth = 1.0
+        tableView?.applyStandardSeparatorInsets()
         if #available(iOS 9.0, *) {
             tableView?.cellLayoutMarginsFollowReadableWidth = false
         }
