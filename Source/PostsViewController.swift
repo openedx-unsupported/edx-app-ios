@@ -159,6 +159,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.tableFooterView = UIView(frame: CGRectZero)
         tableView.estimatedRowHeight = 150
         tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.applyStandardSeparatorInsets()
         if #available(iOS 9.0, *) {
             tableView.cellLayoutMarginsFollowReadableWidth = false
         }
