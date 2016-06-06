@@ -8,16 +8,6 @@
 
 import Foundation
 
-var transparentDiscoverButtonStyle: ButtonStyle {
-    let buttonMargins : CGFloat = 8
-    let borderStyle = BorderStyle(cornerRadius: .Size(10), width: .Size(3), color: OEXStyles.sharedStyles().discoveryButtonColor())
-    let textStyle = OEXTextStyleWithShadow(weight: .Light, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhite())
-    let textShadowStyle = ShadowStyle(angle: 90, color: UIColor.blackColor(), opacity: 0.35, distance: 1, size: 1)
-    textStyle.shadow = textShadowStyle
-    let shadowStyle = ShadowStyle(angle: 90, color: UIColor.blackColor(), opacity: 0.45, distance: 2, size: 2)
-    return ButtonStyle(textStyle: textStyle, backgroundColor: OEXStyles.sharedStyles().discoveryButtonColor().colorWithAlphaComponent(0.78), borderStyle: borderStyle, contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins), shadow: shadowStyle)
-}
-
 class StartupViewController: UIViewController {
 
     typealias Environment = protocol<OEXRouterProvider>
@@ -26,10 +16,7 @@ class StartupViewController: UIViewController {
     private let backgroundImageView = UIImageView()
     private let logoImageView = UIImageView()
     private let discoverButton = UIButton()
-    private let bottomButtons = TZStackView()
-
-    private let pagerScrollView = UIScrollView()
-    private let pageIndicator = UIPageControl()
+    private let exploreButton = UIButton()
 
     private let environment: Environment
 
@@ -48,9 +35,8 @@ class StartupViewController: UIViewController {
 
         setupBackground()
         setupLogo()
-        setupDiscoverButton()
+        setupDiscoverButtons()
         setupBottomButtons()
-        setupPager()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -85,92 +71,84 @@ class StartupViewController: UIViewController {
         }
     }
 
-    private func setupDiscoverButton() {
-        discoverButton.applyButtonStyle(transparentDiscoverButtonStyle, withTitle: Strings.Startup.discovercourses)
+    private func setupDiscoverButtons() {
+
+        discoverButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Startup.discovercourses)
         discoverButton.oex_addAction({ [weak self] _ in
             self?.showCourses()
             }, forEvents: .TouchUpInside)
 
         view.addSubview(discoverButton)
 
+
+        exploreButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Startup.exploresubjects)
+        exploreButton.oex_addAction({ [weak self] _ in
+            self?.showCourses()
+            }, forEvents: .TouchUpInside)
+
+        view.addSubview(exploreButton)
+
         discoverButton.snp_makeConstraints { (make) in
-            make.centerY.equalTo(view.snp_centerY)
+            make.centerY.equalTo(view.snp_centerY).inset(-35)
             make.leading.equalTo(view.snp_leading).offset(30)
             make.trailing.equalTo(view.snp_trailing).inset(30)
-            make.height.equalTo(60)
+        }
+
+        exploreButton.snp_makeConstraints { (make) in
+            make.centerY.equalTo(view.snp_centerY).inset(35)
+            make.leading.equalTo(view.snp_leading).offset(30)
+            make.trailing.equalTo(view.snp_trailing).inset(30)
         }
     }
 
     private func setupBottomButtons() {
-        bottomButtons.distribution = TZStackViewDistribution.FillEqually
-        bottomButtons.axis = .Horizontal
-        bottomButtons.spacing = 40
+        let bottomBar = UIView()
+        bottomBar.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.90)
 
         let signInButton = UIButton()
-        signInButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().primaryBaseColor()), withTitle: Strings.signInButtonText)
+        signInButton.setTitle(Strings.signInButtonText, forState: .Normal)
         signInButton.oex_addAction({ [weak self] _ in
             self?.showLogin()
             }, forEvents: .TouchUpInside)
 
         let signUpButton = UIButton()
-        signUpButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().secondaryBaseColor()), withTitle: Strings.signUpButtonText)
+        signUpButton.setTitle(Strings.signUpButtonText, forState: .Normal)
         signUpButton.oex_addAction({ [weak self] _ in
             self?.showRegistration()
             }, forEvents: .TouchUpInside)
 
 
-        bottomButtons.addArrangedSubview(signUpButton)
-        bottomButtons.addArrangedSubview(signInButton)
+        bottomBar.addSubview(signUpButton)
+        bottomBar.addSubview(signInButton)
 
-        view.addSubview(bottomButtons)
-        bottomButtons.snp_makeConstraints { (make) in
-            make.bottom.equalTo(view).inset(15)
-            make.leading.equalTo(view.snp_leading).offset(30)
-            make.trailing.equalTo(view.snp_trailing).inset(30)
-        }
-    }
-
-    private func setupPager() {
-        pagerScrollView.pagingEnabled = true
-        pagerScrollView.scrollEnabled = true
-        pagerScrollView.showsHorizontalScrollIndicator = false
-        pagerScrollView.delegate = self
-        view.addSubview(pagerScrollView)
-
-        var lastLabel: UILabel?
-        let style = OEXTextStyle(weight: .Normal, size: .XXXLarge, color: UIColor.whiteColor())
-        for phrase in Strings.Startup.valueprop {
-            let label = UILabel()
-            label.attributedText = style.attributedStringWithText(phrase)
-            label.textAlignment = .Center
-            label.numberOfLines = 0
-
-            pagerScrollView.addSubview(label)
-            label.snp_makeConstraints(closure: { (make) in
-                make.width.equalTo(pagerScrollView)
-                make.centerY.equalTo(pagerScrollView)
-                make.leading.equalTo(lastLabel == nil ? pagerScrollView.snp_leading : lastLabel!.snp_trailing)
-            })
-            lastLabel = label
-        }
-        lastLabel?.snp_updateConstraints(closure: { (make) in
-            make.trailing.equalTo(pagerScrollView)
-        })
-
-        pageIndicator.numberOfPages = Strings.Startup.valueprop.count
-        pageIndicator.currentPage = 0
-        view.addSubview(pageIndicator)
-        pageIndicator.snp_makeConstraints { (make) in
-            make.centerX.equalTo(pagerScrollView)
-            make.bottom.equalTo(pagerScrollView).inset(30)
-        }
-
-        pagerScrollView.snp_makeConstraints { (make) in
-            make.top.equalTo(discoverButton.snp_bottom)
-            make.bottom.equalTo(bottomButtons.snp_top)
+        view.addSubview(bottomBar)
+        bottomBar.snp_makeConstraints { (make) in
+            make.height.equalTo(70)
+            make.bottom.equalTo(view)
             make.leading.equalTo(view.snp_leading)
             make.trailing.equalTo(view.snp_trailing)
         }
+
+        signInButton.snp_makeConstraints { (make) in
+            make.centerY.equalTo(bottomBar)
+            make.centerX.equalTo(bottomBar.snp_trailing).multipliedBy(0.75)
+        }
+
+        signUpButton.snp_makeConstraints { (make) in
+            make.centerY.equalTo(bottomBar)
+            make.centerX.equalTo(bottomBar.snp_trailing).multipliedBy(0.25)
+        }
+
+        let line = UIView()
+        line.backgroundColor = OEXStyles.sharedStyles().neutralBase()
+        bottomBar.addSubview(line)
+        line.snp_makeConstraints { (make) in
+            make.top.equalTo(bottomBar)
+            make.bottom.equalTo(bottomBar)
+            make.centerX.equalTo(bottomBar)
+            make.width.equalTo(1)
+        }
+
     }
 
     //MARK: - Actions
@@ -224,12 +202,5 @@ class StartupViewController: UIViewController {
         }
 
         return bar
-    }
-}
-
-extension StartupViewController : UIScrollViewDelegate {
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        let currentPage = floor(scrollView.contentOffset.x / scrollView.frame.width)
-        pageIndicator.currentPage = Int(currentPage)
     }
 }

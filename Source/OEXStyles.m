@@ -228,11 +228,6 @@ static OEXStyles* sSharedStyles;
     return [UIColor grayColor];
 }
 
-- (UIColor*) discoveryButtonColor {
-    return [[UIColor alloc] initWithRGBHex:0x252525 alpha:1];
-}
-
-
 #pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {

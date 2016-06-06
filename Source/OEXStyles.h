@@ -95,10 +95,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)banner;
 - (UIColor*)disabledButtonColor;
 
-#pragma mark Discovery screen
-
-- (UIColor*)discoveryButtonColor;
-
 @end
 
 

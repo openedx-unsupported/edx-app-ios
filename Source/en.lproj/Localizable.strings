@@ -521,7 +521,7 @@
 /* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Signing in...";
 /* Button initiating sign up process on the main screen */
-"SIGN_UP_BUTTON_TEXT"="Sign Up";
+"SIGN_UP_BUTTON_TEXT"="Register";
 /* Indicates a date in the near future */
 "SOON"="Soon";
 /* Label for posts pinned by Staff */
@@ -529,17 +529,9 @@
 /* Label for date when course starts */
 "STARTING"="Starting - {start_date}";
 /* Discover Courses button text on the first screen */
-"STARTUP.DISCOVERCOURSES"="DISCOVER COURSES";
-/* Value prop for startup screen. */
-"STARTUP.VALUEPROP.0"="Learn from the best.\nAnytime. Anywhere.";
-/* Value prop for startup screen. */
-"STARTUP.VALUEPROP.1"="Earn a certificate";
-/* Value prop for startup screen. */
-"STARTUP.VALUEPROP.2"="Advance Your Career";
-/* Value prop for startup screen. */
-"STARTUP.VALUEPROP.3"="Master a Subject";
-/* Value prop for startup screen. */
-"STARTUP.VALUEPROP.4"="Earn University Credit";
+"STARTUP.DISCOVERCOURSES"="Discover Courses";
+/* Explore Subjects button text on the first screen */
+"STARTUP.EXPLORESUBJECTS"="Explore Subjects";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK.OPTION_TITLE" = "Submit Feedback";
 /* Support message email title */
