@@ -168,7 +168,7 @@ public class NetworkManager : NSObject {
     public static let NETWORK = "NETWORK" // Logger key
     
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
-    public typealias Authenticator = (response: NSHTTPURLResponse, data: NSData) -> AuthenticationAction
+    public typealias Authenticator = (response: NSHTTPURLResponse?, data: NSData) -> AuthenticationAction
     
     public let baseURL : NSURL
     
@@ -318,7 +318,7 @@ public class NetworkManager : NSObject {
             let task = Manager.sharedInstance.request(URLRequest)
             
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
-                switch authenticator?(response: response!, data: data!) ?? .Proceed {
+                switch authenticator?(response: response, data: data!) ?? .Proceed {
                 case .Proceed:
                     let result = NetworkManager.deserialize(networkRequest.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
                     return (Box(DeserializationResult.DeserializedResult(value : result, original : data)), result.error)
