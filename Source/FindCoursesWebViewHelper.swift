@@ -41,7 +41,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         if let container = delegate?.containingControllerForWebViewHelper(self) {
             loadController.setupInController(container, contentView: webView)
 
-            let searchbarEnabled = config?.courseEnrollmentConfig.webviewConfig.nativeSeachbarEnabled ?? false
+            let searchbarEnabled = config?.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false
 
             let webviewTop: ConstraintItem
             if searchbarEnabled {

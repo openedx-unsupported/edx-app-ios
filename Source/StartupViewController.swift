@@ -15,8 +15,6 @@ class StartupViewController: UIViewController {
 
     private let backgroundImageView = UIImageView()
     private let logoImageView = UIImageView()
-    private let discoverButton = UIButton()
-    private let exploreButton = UIButton()
 
     private let environment: Environment
 
@@ -36,7 +34,7 @@ class StartupViewController: UIViewController {
         setupBackground()
         setupLogo()
         setupDiscoverButtons()
-        setupBottomButtons()
+        setupBottomBar()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -73,6 +71,7 @@ class StartupViewController: UIViewController {
 
     private func setupDiscoverButtons() {
 
+        let discoverButton = UIButton()
         discoverButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Startup.discovercourses)
         discoverButton.oex_addAction({ [weak self] _ in
             self?.showCourses()
@@ -81,9 +80,10 @@ class StartupViewController: UIViewController {
         view.addSubview(discoverButton)
 
 
+        let exploreButton = UIButton()
         exploreButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Startup.exploresubjects)
         exploreButton.oex_addAction({ [weak self] _ in
-            self?.showCourses()
+            self?.exploreSubjects()
             }, forEvents: .TouchUpInside)
 
         view.addSubview(exploreButton)
@@ -101,26 +101,8 @@ class StartupViewController: UIViewController {
         }
     }
 
-    private func setupBottomButtons() {
-        let bottomBar = UIView()
-        bottomBar.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.90)
-
-        let signInButton = UIButton()
-        signInButton.setTitle(Strings.signInButtonText, forState: .Normal)
-        signInButton.oex_addAction({ [weak self] _ in
-            self?.showLogin()
-            }, forEvents: .TouchUpInside)
-
-        let signUpButton = UIButton()
-        signUpButton.setTitle(Strings.signUpButtonText, forState: .Normal)
-        signUpButton.oex_addAction({ [weak self] _ in
-            self?.showRegistration()
-            }, forEvents: .TouchUpInside)
-
-
-        bottomBar.addSubview(signUpButton)
-        bottomBar.addSubview(signInButton)
-
+    private func setupBottomBar() {
+        let bottomBar = makeBottomBar(false)
         view.addSubview(bottomBar)
         bottomBar.snp_makeConstraints { (make) in
             make.height.equalTo(70)
@@ -128,6 +110,40 @@ class StartupViewController: UIViewController {
             make.leading.equalTo(view.snp_leading)
             make.trailing.equalTo(view.snp_trailing)
         }
+
+    }
+
+    private func makeBottomBar(dismissFirst: Bool) -> UIView {
+        let bottomBar = UIView()
+        bottomBar.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.90)
+
+        let signInButton = UIButton()
+        signInButton.setTitle(Strings.signInButtonText, forState: .Normal)
+        signInButton.oex_addAction({ [weak self] _ in
+            if dismissFirst {
+                self?.dismissViewControllerAnimated(false, completion: {
+                    self?.showLogin()
+                })
+            } else {
+                self?.showLogin()
+            }
+            }, forEvents: .TouchUpInside)
+
+        let signUpButton = UIButton()
+        signUpButton.setTitle(Strings.signUpButtonText, forState: .Normal)
+        signUpButton.oex_addAction({ [weak self] _ in
+            if dismissFirst {
+                self?.dismissViewControllerAnimated(false, completion: {
+                    self?.showRegistration()
+                })
+            } else {
+                self?.showRegistration()
+            }
+            }, forEvents: .TouchUpInside)
+
+
+        bottomBar.addSubview(signUpButton)
+        bottomBar.addSubview(signInButton)
 
         signInButton.snp_makeConstraints { (make) in
             make.centerY.equalTo(bottomBar)
@@ -149,12 +165,12 @@ class StartupViewController: UIViewController {
             make.width.equalTo(1)
         }
 
+        return bottomBar
     }
 
     //MARK: - Actions
     func showLogin() {
         self.environment.router?.showLoginScreenFromController(self, completion: nil)
-
     }
 
     func showRegistration() {
@@ -162,45 +178,12 @@ class StartupViewController: UIViewController {
     }
 
     func showCourses() {
-        let bottomBar = makeBottomBar()
+        let bottomBar = makeBottomBar(true)
         self.environment.router?.showCourseCatalog(bottomBar)
     }
 
-    private func makeBottomBar() -> UIView {
-        let bar = UIView()
-        bar.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.65)
-
-        let signInButton = UIButton()
-        signInButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().primaryBaseColor()), withTitle: Strings.signInButtonText)
-        signInButton.oex_addAction({ [weak self] _ in
-            self?.dismissViewControllerAnimated(false, completion: { 
-                self?.showLogin()
-            })
-            }, forEvents: .TouchUpInside)
-
-        let signUpButton = UIButton()
-        signUpButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXStyles.sharedStyles().secondaryBaseColor()), withTitle: Strings.signUpButtonText)
-        signUpButton.oex_addAction({ [weak self] _ in
-            self?.dismissViewControllerAnimated(false, completion: {
-                self?.showRegistration()
-            })
-            }, forEvents: .TouchUpInside)
-
-        bar.addSubview(signInButton)
-        bar.addSubview(signUpButton)
-
-        signInButton.snp_makeConstraints { (make) in
-            make.centerY.equalTo(bar)
-            make.leading.equalTo(bar).inset(30)
-            make.width.equalTo(120)
-        }
-
-        signUpButton.snp_makeConstraints { (make) in
-            make.centerY.equalTo(bar)
-            make.trailing.equalTo(bar).inset(30)
-            make.width.equalTo(signInButton)
-        }
-
-        return bar
+    func exploreSubjects() {
+        let bottomBar = makeBottomBar(true)
+        self.environment.router?.showExploreCourses(bottomBar)
     }
 }

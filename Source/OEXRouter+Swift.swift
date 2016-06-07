@@ -217,20 +217,34 @@ extension OEXRouter {
             controller = CourseCatalogViewController(environment: self.environment)
         }
         if revealController != nil {
-            self.showContentStackWithRootController(controller, animated: true)
+            showContentStackWithRootController(controller, animated: true)
         } else {
-            let backButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
-            backButton.oex_setAction({ 
-                controller.dismissViewControllerAnimated(true, completion: nil)
-            })
-            controller.navigationItem.leftBarButtonItem = backButton
-            let navController = ForwardingNavigationController(rootViewController: controller)
-
-            presentViewController(navController, fromController:nil, completion: nil)
+            showControllerFromStartupScreen(controller)
         }
         self.environment.analytics.trackUserFindsCourses()
     }
-    
+
+    func showExploreCourses(bottomBar: UIView?) {
+        let controller = OEXFindCoursesViewController(bottomBar: bottomBar)
+        controller.startURL = .ExploreSubjects
+        if revealController != nil {
+            showContentStackWithRootController(controller, animated: true)
+        } else {
+            showControllerFromStartupScreen(controller)
+        }
+    }
+
+    private func showControllerFromStartupScreen(controller: UIViewController) {
+        let backButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
+        backButton.oex_setAction({
+            controller.dismissViewControllerAnimated(true, completion: nil)
+        })
+        controller.navigationItem.leftBarButtonItem = backButton
+        let navController = ForwardingNavigationController(rootViewController: controller)
+
+        presentViewController(navController, fromController:nil, completion: nil)
+    }
+
     func showCourseCatalogDetail(courseID: String, fromController: UIViewController) {
         let detailController = CourseCatalogDetailViewController(environment: environment, courseID: courseID)
         fromController.navigationController?.pushViewController(detailController, animated: true)

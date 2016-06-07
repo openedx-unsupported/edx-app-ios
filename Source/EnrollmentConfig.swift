@@ -16,6 +16,7 @@ enum EnrollmentType : String {
 
 private enum EnrollmentKeys: String, RawStringExtractable {
     case CourseSearchURL = "COURSE_SEARCH_URL"
+    case ExploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
     case CourseInfoURLTemplate = "COURSE_INFO_URL_TEMPLATE"
     case NativeSearchBarEnabled = "SEARCH_BAR_ENABLED"
     case EnrollmentType = "TYPE"
@@ -24,13 +25,15 @@ private enum EnrollmentKeys: String, RawStringExtractable {
 
 class EnrollmentWebviewConfig : NSObject {
     let searchURL: NSURL?
+    let exploreSubjectsURL: NSURL?
     let courseInfoURLTemplate: String?
-    let nativeSeachbarEnabled: Bool
+    let nativeSearchbarEnabled: Bool
     
     init(dictionary: [String: AnyObject]) {
         searchURL = (dictionary[EnrollmentKeys.CourseSearchURL] as? String).flatMap { NSURL(string:$0)}
         courseInfoURLTemplate = dictionary[EnrollmentKeys.CourseInfoURLTemplate] as? String
-        nativeSeachbarEnabled = dictionary[EnrollmentKeys.NativeSearchBarEnabled] as? Bool ?? false
+        nativeSearchbarEnabled = dictionary[EnrollmentKeys.NativeSearchBarEnabled] as? Bool ?? false
+        exploreSubjectsURL = (dictionary[EnrollmentKeys.ExploreSubjectsURL] as? String).flatMap { NSURL(string:$0)}
     }
 }
 
