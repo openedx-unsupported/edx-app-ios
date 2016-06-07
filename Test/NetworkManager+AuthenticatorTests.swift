@@ -60,7 +60,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         let data = "I AM NOT A JSON".dataUsingEncoding(NSUTF8StringEncoding)!
         let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: true)
         XCTAssertTrue(result.isProceed)
-        XCTAssertTrue(router.logoutCalled)
+        XCTAssertFalse(router.logoutCalled)
     }
     
     func testExpiredAccessTokenReturnsAuthenticate() {
