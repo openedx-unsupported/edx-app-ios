@@ -64,6 +64,10 @@ public enum ResponseDeserializer<Out> {
     }
 }
 
+public protocol ResponseInterceptor {
+    func handleResponse<Out>(result: NetworkResult<Out>) -> Result<Out>
+}
+
 public struct NetworkRequest<Out> {
     public let method : HTTPMethod
     public let path : String // Absolute URL or URL relative to the API base
@@ -173,7 +177,7 @@ public class NetworkManager : NSObject {
     public static let NETWORK = "NETWORK" // Logger key
     
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
-    public typealias Authenticator = (response: NSHTTPURLResponse, data: NSData) -> AuthenticationAction
+    public typealias Authenticator = (response: NSHTTPURLResponse?, data: NSData) -> AuthenticationAction
     
     public let baseURL : NSURL
     
@@ -181,6 +185,7 @@ public class NetworkManager : NSObject {
     private let credentialProvider : URLCredentialProvider?
     private let cache : ResponseCache
     private var jsonInterceptors : [JSONInterceptor] = []
+    private var responseInterceptors: [ResponseInterceptor] = []
     public var authenticator : Authenticator?
     
     public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : NSURL, cache : ResponseCache) {
@@ -196,6 +201,10 @@ public class NetworkManager : NSObject {
     /// Typically used to check for errors that can be sent by any request
     public func addJSONInterceptor(interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) {
         jsonInterceptors.append(interceptor)
+    }
+    
+    public func addResponseInterceptors(interceptor: ResponseInterceptor) {
+        responseInterceptors.append(interceptor)
     }
     
     public func URLRequestWithRequest<Out>(request : NetworkRequest<Out>) -> Result<NSURLRequest> {
@@ -323,7 +332,7 @@ public class NetworkManager : NSObject {
             let task = Manager.sharedInstance.request(URLRequest)
             
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
-                switch authenticator?(response: response!, data: data!) ?? .Proceed {
+                switch authenticator?(response: response, data: data!) ?? .Proceed {
                 case .Proceed:
                     let result = NetworkManager.deserialize(networkRequest.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
                     return (Box(DeserializationResult.DeserializedResult(value : result, original : data)), result.error)
@@ -414,13 +423,7 @@ public class NetworkManager : NSObject {
             stream?.send(result)
         }
         var result : Stream<Out> = stream.flatMap {(result : NetworkResult<Out>) -> Result<Out> in
-            if let response = result.response {
-                let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode)
-                if statusCode == .Code426UpgradeRequired {
-                    return result.data.toResult(NSError.oex_outdatedVersionError())
-                }
-            }
-            return result.data.toResult(result.error ?? NetworkManager.unknownError)
+            return self.handleResponse(result)
         }
         
         if persistResponse {
@@ -429,6 +432,18 @@ public class NetworkManager : NSObject {
         
         if autoCancel {
             result = result.autoCancel(task)
+        }
+        
+        return result
+    }
+    
+    private func handleResponse<Out>(networkResult: NetworkResult<Out>) -> Result<Out> {
+        var result:Result<Out>!
+        for responseInterceptor in self.responseInterceptors {
+            result = responseInterceptor.handleResponse(networkResult)
+            if case .None = result {
+                break
+            }
         }
         
         return result

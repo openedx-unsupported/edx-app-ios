@@ -6,20 +6,17 @@
 //  Copyright © 2016 edX. All rights reserved.
 //
 
-let AppLatestVersionKey = "EDX-APP-LATEST-VERSION"
-let AppVersionLastSupportedDateKey = "EDX-APP-VERSION-LAST-SUPPORTED-DATE"
+private let AppLatestVersionKey = "EDX-APP-LATEST-VERSION"
+private let AppVersionLastSupportedDateKey = "EDX-APP-VERSION-LAST-SUPPORTED-DATE"
 let AppNewVersionAvailableNotification = "AppNewVersionAvailableNotification"
 
 class VersionUpgradeInfoController: NSObject {
     
     static let sharedController = VersionUpgradeInfoController()
-    private(set) var isNewVersionAvailable:Bool = false
     private(set) var latestVersion:String?
     private(set) var lastSupportedDateString:String?
-    private var postNotification:Bool = false
     
-    private func defaultState() {
-        isNewVersionAvailable = false
+    private func returnToDefaultState() {
         latestVersion = nil
         lastSupportedDateString = nil
     }
@@ -27,23 +24,24 @@ class VersionUpgradeInfoController: NSObject {
     func populateFromHeaders(httpResponseHeaders headers: [NSObject : AnyObject]?) {
         
         guard let responseHeaders = headers else {
-            if isNewVersionAvailable {
-                // if version upgrade header is showing then hide it
-                defaultState()
+            if let _ = latestVersion {
+                // if server stop sending header information in response and version upgrade header is showing then hide it
+                returnToDefaultState()
                 postVersionUpgradeNotification()
             }
             return
         }
         
+        var postNotification:Bool = false
+        
         if let appLatestVersion = responseHeaders[AppLatestVersionKey] as? String {
             postNotification = latestVersion != appLatestVersion
             latestVersion = appLatestVersion
-            isNewVersionAvailable = true
         }
         else {
-            // In case if server stop sending version upgrade info
-            if isNewVersionAvailable {
-                defaultState()
+            // In case if server stop sending version upgrade info in headers
+            if let _ = latestVersion {
+                returnToDefaultState()
                 postNotification = true
             }
         }

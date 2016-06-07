@@ -15,18 +15,15 @@ import XCTest
 class VersionUpgradeInfoControllerTests: XCTestCase {
     func testParsing(){
         let versionInfoController = VersionUpgradeInfoController.sharedController
-        XCTAssertFalse(versionInfoController.isNewVersionAvailable)
+        XCTAssertNil(versionInfoController.latestVersion)
         
         // test version upgrade available without deadline
         versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
-        XCTAssertTrue(versionInfoController.isNewVersionAvailable)
         XCTAssertNotNil(versionInfoController.latestVersion)
         XCTAssertNil(versionInfoController.lastSupportedDateString)
         
         // test version upgrade available with deadline
         versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfoWithDeadline)
-        
-        XCTAssertTrue(versionInfoController.isNewVersionAvailable)
         XCTAssertNotNil(versionInfoController.latestVersion)
         XCTAssertNotNil(versionInfoController.lastSupportedDateString)
     }

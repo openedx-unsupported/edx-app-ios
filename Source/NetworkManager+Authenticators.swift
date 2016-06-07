@@ -11,6 +11,7 @@ import Foundation
 import edXCore
 
 extension NetworkManager {
+    
     public func addRefreshTokenAuthenticator(router:OEXRouter, session:OEXSession, clientId:String) {
         let invalidAccessAuthenticator = {[weak router] response, data in
             NetworkManager.invalidAccessAuthenticator(router, session: session, clientId:clientId, response: response, data: data)
@@ -43,11 +44,15 @@ extension NetworkManager {
             if error.isAPIError(.OAuth2Expired) {
                 return refreshAccessToken(clientId, refreshToken: refreshToken, session: session)
             }
+            
+            // This case should not happen on production. It is useful for devs
+            // when switching between development environments.
             if error.isAPIError(.OAuth2Nonexistent) {
                 return logout(router)
             }
         }
-        return logout(router)
+        Logger.logError("Network Authenticator", "Request failed: " + response.debugDescription)
+        return AuthenticationAction.Proceed
     }
 }
 

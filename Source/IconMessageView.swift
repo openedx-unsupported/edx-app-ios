@@ -167,7 +167,7 @@ class IconMessageView : UIView {
     }
     
     func setupForOutdatedVersionError() {
-        message = Strings.VersionUpgrade.deprecatedMessage
+        message = Strings.VersionUpgrade.outDatedMessage
         icon = .Warning
         
         buttonInfo = MessageButtonInfo(title : Strings.VersionUpgrade.upgrade)

@@ -12,7 +12,7 @@ private var StatusMessageHideActionKey = "StatusMessageHideActionKey"
 private var SnackBarHideActionKey = "SnackBarHideActionKey"
 
 private typealias StatusMessageRemovalInfo = (action : () -> Void, container : UIView)
-private typealias SnackBarRemovalInfo = (action : () -> Void, container : UIView)
+private typealias TemporaryViewRemovalInfo = (action : () -> Void, container : UIView)
 
 private class StatusMessageView : UIView {
     
@@ -57,7 +57,7 @@ private class VersionUpgradeView: UIView {
         self.backgroundColor = OEXStyles.sharedStyles().warningBase()
         messageLabel.numberOfLines = 0
         messageLabel.attributedText = messageLabelStyle.attributedStringWithText(message)
-        upgradeButton.setAttributedTitle(buttonLabelStyle.attributedStringWithText(Strings.VersionUpgrade.upgrade), forState: .Normal)
+        upgradeButton.setAttributedTitle(buttonLabelStyle.attributedStringWithText(Strings.VersionUpgrade.update), forState: .Normal)
         dismissButton.setAttributedTitle(buttonLabelStyle.attributedStringWithText(Strings.VersionUpgrade.dismiss), forState: .Normal)
         
         addSubview(messageLabel)
@@ -105,14 +105,16 @@ private class VersionUpgradeView: UIView {
     }
     
     private func dismissView() {
-        if let container = superview {
-            let size = self.systemLayoutSizeFittingSize(CGSizeMake(container.bounds.width, CGFloat.max))
-            UIView.animateWithDuration(animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseOut, animations: {
-                self.transform = CGAffineTransformMakeTranslation(0, -size.height)
-                }, completion: { _ in
-                    container.removeFromSuperview()
-            })
+        var container = superview
+        if container == nil {
+            container = self
         }
+        
+        UIView.animateWithDuration(animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseOut, animations: {
+            self.transform = CGAffineTransformIdentity
+            }, completion: { _ in
+                container!.removeFromSuperview()
+        })
     }
 }
 
@@ -189,18 +191,14 @@ extension UIViewController {
             make.edges.equalTo(container)
         }
         
-        let size = snackBarView.systemLayoutSizeFittingSize(CGSizeMake(view.bounds.width, CGFloat.max))
-        snackBarView.transform = CGAffineTransformMakeTranslation(0, -size.height)
-        container.layoutIfNeeded()
-        
         let hideAction = {[weak self] in
-            let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<SnackBarRemovalInfo>
+            let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
             if hideInfo?.value.container == container {
                 objc_setAssociatedObject(self, &SnackBarHideActionKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
             
             UIView.animateWithDuration(animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseOut, animations: {
-                snackBarView.transform = CGAffineTransformMakeTranslation(0, -size.height)
+                snackBarView.transform = CGAffineTransformIdentity
                 }, completion: { _ in
                     container.removeFromSuperview()
             })
@@ -211,15 +209,20 @@ extension UIViewController {
             snackBarView.transform = CGAffineTransformIdentity
             }, completion: nil)
         
-        let info : SnackBarRemovalInfo = (action: hideAction, container: container)
+        let info : TemporaryViewRemovalInfo = (action: hideAction, container: container)
         objc_setAssociatedObject(self, &SnackBarHideActionKey, Box(info), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     
     func showVersionUpgradeSnackBar(string: String) {
-        let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<SnackBarRemovalInfo>
+        let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
         let view = VersionUpgradeView(message: string)
         showSnackBarView(view)
+    }
+    
+    func hideSnackBar() {
+        let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
+        hideInfo?.value.action()
     }
 }
 
@@ -232,7 +235,7 @@ extension UIViewController {
     }
     
     var t_isShowingSnackBar : Bool {
-        return objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<SnackBarRemovalInfo> != nil
+        return objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo> != nil
     }
     
 }

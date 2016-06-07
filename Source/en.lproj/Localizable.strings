@@ -606,12 +606,18 @@
 "VOTE##{one}"="{count} Vote";
 /* Discussion vote - {count} is a number of votes */
 "VOTE##{other}"="{count} Votes";
-/*Title of upgrade button on SnackBar and fullscreen error*/
+/*Title of upgrade button on fullscreen error*/
 "VERSION_UPGRADE.UPGRADE" = "Upgrade";
+/*Title of update button on SnackBar*/
+"VERSION_UPGRADE.UPDATE" = "Update";
 /*Title of dismiss button on SnackBar*/
 "VERSION_UPGRADE.DISMISS" = "Dismiss";
 /*Deprecated version detail message*/
-"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "This version of the app is no longer supported, functionally will be limited. Please upgrade";
+"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "A new version of the app is available.";
+/*Outdated version detail message*/
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Your version of the app is no longer supported.";
+/*New version available without deadline message*/
+"VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "A new version of the app is available.";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */
