@@ -230,15 +230,6 @@ public class DiscussionAPI {
         ).paginated(page: pageNumber)
     }
     
-    static func getThreadByID(threadID : String) -> NetworkRequest<DiscussionThread> {
-        return NetworkRequest(
-            method : HTTPMethod.GET,
-            path : "/api/discussion/v1/threads/\(threadID)/",
-            requiresAuth : true,
-            deserializer : .JSONResponse(threadDeserializer)
-        )
-    }
-    
     static func getFollowedThreads(courseID courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionThread]>> {
         var query = ["course_id" : JSON(courseID), "following" : JSON(true) ]
         if let view = filter.apiRepresentation {
