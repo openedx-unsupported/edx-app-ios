@@ -63,7 +63,7 @@ class DiscussionTopicCell: UITableViewCell {
         didSet {
             self.titleLabel.snp_updateConstraints { make in
                 make.leading.equalTo(self.contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
-                depth == 0 ? self.applyStandardSeparatorInsets() : self.removeStandardSeparatorInsets()
+                self.applyStandardSeparatorInsets()
             }
         }
     }
