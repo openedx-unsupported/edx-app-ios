@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showHidingAutomatically:(BOOL)shouldHide;
 - (void)showErrorWithTitle:(NSString*)title message:(NSString*)message onViewController:(UIView*)View shouldHide:(BOOL)hide;
 - (void)showNoConnectionErrorOnView:(UIView*)view;
+- (void)updateViewFrameWithParentView:(UIView *) view;
 
 @property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_ErrorTitle;
 @property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_ErrorMessage;

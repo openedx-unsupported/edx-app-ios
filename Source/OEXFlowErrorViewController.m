@@ -10,9 +10,8 @@
 
 #import "edX-Swift.h"
 
-#define ERRORVIEW_X 0
-#define ERRORVIEW_Y -98
 #define ERRORVIEW_HEIGHT 100
+#define ERRORVIEW_TAG 123456
 
 @interface OEXFlowErrorViewController ()
 
@@ -53,8 +52,9 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
     self.parentViewFrame = View.frame;
     _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
                                              _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
-                                             SCREEN_WIDTH,
+                                             _parentViewFrame.size.width,
                                              ERRORVIEW_HEIGHT);
+    [_sharedInterface.view setTag:ERRORVIEW_TAG];
     [View addSubview:_sharedInterface.view];
 
     //Pass data
@@ -62,6 +62,18 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
 
     //Animate
     [_sharedInterface showHidingAutomatically:hide];
+}
+
+// View frame is setting progamatically that's why need to update view frame on orientation change
+- (void)updateViewFrameWithParentView:(UIView *) view {
+    
+    self.parentViewFrame = view.frame;
+    UIView *errorFlowView = [view viewWithTag:ERRORVIEW_TAG];
+    
+    errorFlowView.frame = CGRectMake(errorFlowView.frame.origin.x,
+                                             errorFlowView.frame.origin.y,
+                                             _parentViewFrame.size.width,
+                                             ERRORVIEW_HEIGHT);
 }
 
 #pragma Logic
@@ -83,7 +95,7 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
                      animations:^{
         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
                                                  _parentViewFrame.origin.y,
-                                                 SCREEN_WIDTH,
+                                                 _parentViewFrame.size.width,
                                                  ERRORVIEW_HEIGHT);
     } completion:^(BOOL finished) {
         if(shouldHide) {
@@ -102,9 +114,10 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
                      animations:^{
         _sharedInterface.view.frame = CGRectMake(_parentViewFrame.origin.x,
                                                  _parentViewFrame.origin.y - ERRORVIEW_HEIGHT,
-                                                 SCREEN_WIDTH,
+                                                 _parentViewFrame.size.width,
                                                  ERRORVIEW_HEIGHT);
     } completion:^(BOOL finished) {
+        [self removeSelfFromSuperView];
     }];
 }
 
