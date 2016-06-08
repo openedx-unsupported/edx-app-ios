@@ -142,7 +142,7 @@ class IconMessageView : UIView {
             make.top.equalTo(container)
         }
         
-        messageView.snp_updateConstraints { (make) -> Void in
+        messageView.snp_remakeConstraints { (make) -> Void in
             make.top.equalTo(self.iconView.snp_bottom).offset(IconMessageMargin)
             make.centerX.equalTo(container)
             make.width.equalTo(IconMessageTextWidth)
@@ -152,7 +152,7 @@ class IconMessageView : UIView {
         }
         
         if hasBottomButton {
-            bottomButton.snp_makeConstraints { (make) -> Void in
+            bottomButton.snp_remakeConstraints { (make) -> Void in
                 make.top.equalTo(self.messageView.snp_bottom).offset(MessageButtonMargin)
                 make.centerX.equalTo(container)
                 make.bottom.equalTo(container)
@@ -166,12 +166,24 @@ class IconMessageView : UIView {
         self.icon = .InternetError
     }
     
+    func setupForOutdatedVersionError() {
+        message = Strings.VersionUpgrade.deprecatedMessage
+        icon = .Warning
+        
+        buttonInfo = MessageButtonInfo(title : Strings.VersionUpgrade.upgrade)
+        {
+            if let URL = OEXConfig.sharedConfig().iOSAppStoreURL() {
+                UIApplication.sharedApplication().openURL(URL)
+            }
+        }
+    }
+    
     var buttonInfo : MessageButtonInfo? {
         didSet {
-            self.bottomButton.oex_removeAllActions()
-            self.buttonTitle = buttonInfo?.title
+            bottomButton.oex_removeAllActions()
+            buttonTitle = buttonInfo?.title
             if let action = buttonInfo?.action {
-                self.bottomButton.oex_addAction({button in action() }, forEvents: .TouchUpInside)
+                bottomButton.oex_addAction({button in action() }, forEvents: .TouchUpInside)
             }
         }
     }

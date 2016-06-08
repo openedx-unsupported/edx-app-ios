@@ -606,6 +606,12 @@
 "VOTE##{one}"="{count} Vote";
 /* Discussion vote - {count} is a number of votes */
 "VOTE##{other}"="{count} Votes";
+/*Title of upgrade button on SnackBar and fullscreen error*/
+"VERSION_UPGRADE.UPGRADE" = "Upgrade";
+/*Title of dismiss button on SnackBar*/
+"VERSION_UPGRADE.DISMISS" = "Dismiss";
+/*Deprecated version detail message*/
+"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "This version of the app is no longer supported, functionally will be limited. Please upgrade";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
 /* Alert dialog button title to confirm an action */

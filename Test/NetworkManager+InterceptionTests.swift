@@ -12,7 +12,7 @@ class NetworkManager_InterceptionTests : XCTestCase {
     func checkJSONInterceptionWithStubResponse(router: OEXRouter, stubResponse : OHHTTPStubsResponse, verifier : Result<JSON> -> Void) {
 
         let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string:"http://example.com")!, cache : MockResponseCache())
-        manager.addStandardInterceptors()
+        manager.addStandardInterceptors(router)
         let request = NetworkRequest<JSON> (
             method: HTTPMethod.GET,
             path: "path",
