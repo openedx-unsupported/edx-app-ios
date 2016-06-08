@@ -47,7 +47,7 @@ public struct CourseOutlineAPI {
             username: username,
             fields : ["graded", "student_view_multi_device", "format"],
             blockCount : [CourseBlock.Category.Video.rawValue],
-            studentViewData : [CourseBlock.Category.Video]
+            studentViewData : [CourseBlock.Category.Video, CourseBlock.Category.Discussion]
         )
         return NetworkRequest(
             method : .GET,

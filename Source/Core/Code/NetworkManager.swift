@@ -24,11 +24,37 @@ public enum RequestBody {
     case EmptyBody
 }
 
+private enum DeserializationResult<Out> {
+    case DeserializedResult(value : Result<Out>, original : NSData?)
+    case ReauthenticationRequest(AuthenticateRequestCreator, original: NSData?)
+}
+
+public typealias AuthenticateRequestCreator = (networkManager: NetworkManager, completion: (success : Bool) -> Void) -> Void
+
+public enum AuthenticationAction {
+    case Proceed
+    case Authenticate(AuthenticateRequestCreator)
+    
+    public var isProceed : Bool {
+        switch self {
+        case .Proceed(_): return true
+        case .Authenticate(_): return false
+        }
+    }
+    
+    public var isAuthenticate : Bool {
+        switch self {
+        case .Proceed(_): return false
+        case .Authenticate(_): return true
+        }
+    }
+}
+
 public enum ResponseDeserializer<Out> {
     case JSONResponse((NSHTTPURLResponse, JSON) -> Result<Out>)
     case DataResponse((NSHTTPURLResponse, NSData) -> Result<Out>)
     case NoContent(NSHTTPURLResponse -> Result<Out>)
-
+    
     func map<A>(f: Out -> A) -> ResponseDeserializer<A> {
         switch self {
         case let .JSONResponse(d): return .JSONResponse({(request, json) in d(request, json).map(f)})
@@ -48,24 +74,24 @@ public struct NetworkRequest<Out> {
     public let additionalHeaders: [String: String]?
     
     public init(method : HTTPMethod,
-        path : String,
-        requiresAuth : Bool = false,
-        body : RequestBody = .EmptyBody,
-        query : [String:JSON] = [:],
-        headers: [String: String]? = nil,
-        deserializer : ResponseDeserializer<Out>) {
-            self.method = method
-            self.path = path
-            self.requiresAuth = requiresAuth
-            self.body = body
-            self.query = query
-            self.deserializer = deserializer
-            self.additionalHeaders = headers
+                path : String,
+                requiresAuth : Bool = false,
+                body : RequestBody = .EmptyBody,
+                query : [String:JSON] = [:],
+                headers: [String: String]? = nil,
+                deserializer : ResponseDeserializer<Out>) {
+        self.method = method
+        self.path = path
+        self.requiresAuth = requiresAuth
+        self.body = body
+        self.query = query
+        self.deserializer = deserializer
+        self.additionalHeaders = headers
     }
-
+    
     public func map<A>(f : Out -> A) -> NetworkRequest<A> {
         return NetworkRequest<A>(method: method, path: path, requiresAuth: requiresAuth, body: body, query: query, headers: additionalHeaders, deserializer: deserializer.map(f))
-
+        
     }
 }
 
@@ -115,19 +141,19 @@ public class NetworkTask : Removable {
 }
 
 extension NSError {
-
+    
     static var oex_unknownNetworkError : NSError {
         return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.UnknownError.rawValue, userInfo: nil)
     }
-
+    
     static func oex_HTTPError(statusCode statusCode : Int, userInfo: [NSObject:AnyObject]) -> NSError {
         return NSError(domain: NetworkManager.errorDomain, code: statusCode, userInfo: userInfo)
     }
-
+    
     public var oex_isUnknownNetworkError : Bool {
         return self.domain == NetworkManager.errorDomain && self.code == NetworkManager.Error.UnknownError.rawValue
     }
-
+    
     public var oex_isNoInternetConnectionError : Bool {
         return self.domain == NSURLErrorDomain && (self.code == NSURLErrorNotConnectedToInternet || self.code == NSURLErrorNetworkConnectionLost)
     }
@@ -138,17 +164,19 @@ public class NetworkManager : NSObject {
     enum Error : Int {
         case UnknownError = -1
     }
-
+    
     public static let NETWORK = "NETWORK" // Logger key
-
+    
     public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
-
+    public typealias Authenticator = (response: NSHTTPURLResponse?, data: NSData) -> AuthenticationAction
+    
     public let baseURL : NSURL
-
+    
     private let authorizationHeaderProvider: AuthorizationHeaderProvider?
     private let credentialProvider : URLCredentialProvider?
     private let cache : ResponseCache
     private var jsonInterceptors : [JSONInterceptor] = []
+    public var authenticator : Authenticator?
     
     public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : NSURL, cache : ResponseCache) {
         self.authorizationHeaderProvider = authorizationHeaderProvider
@@ -156,15 +184,15 @@ public class NetworkManager : NSObject {
         self.baseURL = baseURL
         self.cache = cache
     }
-
+    
     public static var unknownError : NSError { return NSError.oex_unknownNetworkError }
-
+    
     /// Allows you to add a processing pass to any JSON response.
     /// Typically used to check for errors that can be sent by any request
     public func addJSONInterceptor(interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) {
         jsonInterceptors.append(interceptor)
     }
-
+    
     public func URLRequestWithRequest<Out>(request : NetworkRequest<Out>) -> Result<NSURLRequest> {
         return NSURL(string: request.path, relativeToURL: baseURL).toResult(NetworkManager.unknownError).flatMap { url -> Result<NSURLRequest> in
             
@@ -191,54 +219,54 @@ public class NetworkManager : NSObject {
             else {
                 return .Success(paramRequest)
             }
-        }
-        .flatMap { URLRequest in
-            let mutableURLRequest = URLRequest.mutableCopy() as! NSMutableURLRequest
-            if request.requiresAuth {
-                for (key, value) in self.authorizationHeaderProvider?.authorizationHeaders ?? [:] {
-                    mutableURLRequest.setValue(value, forHTTPHeaderField: key)
-                }
             }
-            mutableURLRequest.HTTPMethod = request.method.rawValue
-            if let additionalHeaders = request.additionalHeaders {
-                for (header, value) in additionalHeaders {
-                    mutableURLRequest.setValue(value, forHTTPHeaderField: header)
-                }
-            }
-
-            
-            // Now we encode the body
-            switch request.body {
-            case .EmptyBody:
-                return .Success(mutableURLRequest)
-            case let .DataBody(data: data, contentType: contentType):
-                mutableURLRequest.HTTPBody = data
-                mutableURLRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
-                return .Success(mutableURLRequest)
-            case let .FormEncoded(dict):
-                let (bodyRequest, error) = ParameterEncoding.URL.encode(mutableURLRequest, parameters: dict)
-                if let error = error {
-                    return .Failure(error)
-                }
-                else {
-                    return .Success(bodyRequest)
-                }
-            case let .JSONBody(json):
-                let (bodyRequest, error) = ParameterEncoding.JSON.encode(mutableURLRequest, parameters: json.dictionaryObject ?? [:])
-                if let error = error {
-                    return .Failure(error)
-                }
-                else {
-                    let mutableURLRequest = bodyRequest.mutableCopy() as! NSMutableURLRequest
-                    if let additionalHeaders = request.additionalHeaders {
-                        for (header, value) in additionalHeaders {
-                            mutableURLRequest.setValue(value, forHTTPHeaderField: header)
-                        }
+            .flatMap { URLRequest in
+                let mutableURLRequest = URLRequest.mutableCopy() as! NSMutableURLRequest
+                if request.requiresAuth {
+                    for (key, value) in self.authorizationHeaderProvider?.authorizationHeaders ?? [:] {
+                        mutableURLRequest.setValue(value, forHTTPHeaderField: key)
                     }
-                    return .Success(mutableURLRequest)
                 }
-            }
-            
+                mutableURLRequest.HTTPMethod = request.method.rawValue
+                if let additionalHeaders = request.additionalHeaders {
+                    for (header, value) in additionalHeaders {
+                        mutableURLRequest.setValue(value, forHTTPHeaderField: header)
+                    }
+                }
+                
+                
+                // Now we encode the body
+                switch request.body {
+                case .EmptyBody:
+                    return .Success(mutableURLRequest)
+                case let .DataBody(data: data, contentType: contentType):
+                    mutableURLRequest.HTTPBody = data
+                    mutableURLRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
+                    return .Success(mutableURLRequest)
+                case let .FormEncoded(dict):
+                    let (bodyRequest, error) = ParameterEncoding.URL.encode(mutableURLRequest, parameters: dict)
+                    if let error = error {
+                        return .Failure(error)
+                    }
+                    else {
+                        return .Success(bodyRequest)
+                    }
+                case let .JSONBody(json):
+                    let (bodyRequest, error) = ParameterEncoding.JSON.encode(mutableURLRequest, parameters: json.dictionaryObject ?? [:])
+                    if let error = error {
+                        return .Failure(error)
+                    }
+                    else {
+                        let mutableURLRequest = bodyRequest.mutableCopy() as! NSMutableURLRequest
+                        if let additionalHeaders = request.additionalHeaders {
+                            for (header, value) in additionalHeaders {
+                                mutableURLRequest.setValue(value, forHTTPHeaderField: header)
+                            }
+                        }
+                        return .Success(mutableURLRequest)
+                    }
+                }
+                
         }
     }
     
@@ -280,22 +308,47 @@ public class NetworkManager : NSObject {
         }
     }
     
-    public func taskForRequest<Out>(request : NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> Removable {
-        let URLRequest = URLRequestWithRequest(request)
+    public func taskForRequest<Out>(networkRequest : NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> Removable {
+        let URLRequest = URLRequestWithRequest(networkRequest)
         
+        let authenticator = self.authenticator
         let interceptors = jsonInterceptors
         let task = URLRequest.map {URLRequest -> NetworkTask in
             Logger.logInfo(NetworkManager.NETWORK, "Request is \(URLRequest)")
             let task = Manager.sharedInstance.request(URLRequest)
+            
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
-                let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
-                return (Box((value : result.value, original : data)), result.error)
+                switch authenticator?(response: response, data: data!) ?? .Proceed {
+                case .Proceed:
+                    let result = NetworkManager.deserialize(networkRequest.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
+                    return (Box(DeserializationResult.DeserializedResult(value : result, original : data)), result.error)
+                case .Authenticate(let authenticateRequest):
+                    let result = Box<DeserializationResult<Out>>(DeserializationResult.ReauthenticationRequest(authenticateRequest, original: data))
+                    return (result, nil)
+                }
             }
             task.response(serializer: serializer) { (request, response, object, error) in
-                let parsed = (object as? Box<(value : Out?, original : NSData?)>)?.value
-                let result = NetworkResult<Out>(request: request, response: response, data: parsed?.value, baseData: parsed?.original, error: error)
-                Logger.logInfo(NetworkManager.NETWORK, "Response is \(response)")
-                handler(result)
+                let parsed = (object as? Box<DeserializationResult<Out>>)?.value
+                switch parsed {
+                case let .Some(.DeserializedResult(value, original)):
+                    let result = NetworkResult<Out>(request: request, response: response, data: value.value, baseData: original, error: error)
+                    Logger.logInfo(NetworkManager.NETWORK, "Response is \(response)")
+                    handler(result)
+                case let .Some(.ReauthenticationRequest(authHandler, originalData)):
+                    authHandler(networkManager: self, completion: {success in
+                        if success {
+                            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting original request")
+                            self.taskForRequest(networkRequest, handler: handler)
+                        }
+                        else {
+                            Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful")
+                            handler(NetworkResult<Out>(request: request, response: response, data: nil, baseData: originalData, error: error))
+                        }
+                    })
+                case .None:
+                    assert(false, "Deserialization failed in an unexpected way")
+                    handler(NetworkResult<Out>(request:request, response:response, data: nil, baseData: nil, error: error))
+                }
             }
             if let
                 host = URLRequest.URL?.host,
@@ -330,7 +383,7 @@ public class NetworkManager : NSObject {
                             cacheStream?.close()
                             cacheStream?.send(result)
                         }
-                    })
+                        })
                 }
                 else {
                     cacheStream.close()
@@ -369,6 +422,6 @@ public class NetworkManager : NSObject {
         
         return result
     }
-
+    
 }
 

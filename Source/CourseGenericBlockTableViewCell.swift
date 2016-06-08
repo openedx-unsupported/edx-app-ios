@@ -74,3 +74,18 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
     
 }
 
+class DiscussionTableViewCell: CourseGenericBlockTableViewCell {
+    
+    static let identifier = "DiscussionTableViewCellIdentifier"
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        content.setContentIcon(Icon.Discussions)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+}
+

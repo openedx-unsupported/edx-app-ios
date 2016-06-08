@@ -16,7 +16,7 @@ extension CourseBlockDisplayType {
     var isCacheable : Bool {
         switch self {
         case .Video: return false
-        case .Unknown, .HTML(_), .Outline, .Unit: return true
+        case .Unknown, .HTML(_), .Outline, .Unit, .Discussion: return true
         }
     }
 }

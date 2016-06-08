@@ -8,7 +8,7 @@
 
 import Foundation
 
-private class JSONFormTableSelectionCell: ZeroMarginsTableViewCell {
+private class JSONFormTableSelectionCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .Default, reuseIdentifier: reuseIdentifier)
         tintColor = OEXStyles.sharedStyles().utilitySuccessBase()
@@ -73,6 +73,9 @@ class JSONFormTableViewController<T>: UITableViewController {
         tableView.registerClass(JSONFormTableSelectionCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
+        if #available(iOS 9.0, *) {
+            tableView.cellLayoutMarginsFollowReadableWidth = false
+        }
         makeAndInstallHeader()
     }
 

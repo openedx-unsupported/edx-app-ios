@@ -23,7 +23,7 @@ extension UITableViewCell {
 
 public class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    class MenuOptionTableViewCell : ZeroMarginsTableViewCell {
+    class MenuOptionTableViewCell : UITableViewCell {
         
         static let identifier = "MenuOptionTableViewCellIdentifier"
         
@@ -75,9 +75,12 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         tableView?.registerClass(MenuOptionTableViewCell.classForCoder(), forCellReuseIdentifier: MenuOptionTableViewCell.identifier)
         tableView?.dataSource = self
         tableView?.delegate = self
-        tableView?.applyStandardSeparatorInsets()
         tableView?.layer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
         tableView?.layer.borderWidth = 1.0
+        tableView?.applyStandardSeparatorInsets()
+        if #available(iOS 9.0, *) {
+            tableView?.cellLayoutMarginsFollowReadableWidth = false
+        }
         view.addSubview(tableView!)
         
         setConstraints()
