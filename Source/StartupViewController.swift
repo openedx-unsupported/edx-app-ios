@@ -73,18 +73,20 @@ class StartupViewController: UIViewController {
 
         let discoverButton = UIButton()
         discoverButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Startup.discovercourses)
+        let discoverEvent = OEXAnalytics.discoverCoursesEvent()
         discoverButton.oex_addAction({ [weak self] _ in
             self?.showCourses()
-            }, forEvents: .TouchUpInside)
+            }, forEvents: .TouchUpInside, analyticsEvent: discoverEvent)
 
         view.addSubview(discoverButton)
 
 
         let exploreButton = UIButton()
         exploreButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Startup.exploresubjects)
+        let exploreEvent = OEXAnalytics.exploreSubjectsEvent()
         exploreButton.oex_addAction({ [weak self] _ in
             self?.exploreSubjects()
-            }, forEvents: .TouchUpInside)
+            }, forEvents: .TouchUpInside, analyticsEvent: exploreEvent)
 
         view.addSubview(exploreButton)
 
@@ -119,6 +121,7 @@ class StartupViewController: UIViewController {
 
         let signInButton = UIButton()
         signInButton.setTitle(Strings.signInButtonText, forState: .Normal)
+        let signInEvent = OEXAnalytics.loginEvent()
         signInButton.oex_addAction({ [weak self] _ in
             if dismissFirst {
                 self?.dismissViewControllerAnimated(false, completion: {
@@ -127,10 +130,11 @@ class StartupViewController: UIViewController {
             } else {
                 self?.showLogin()
             }
-            }, forEvents: .TouchUpInside)
+            }, forEvents: .TouchUpInside, analyticsEvent: signInEvent)
 
         let signUpButton = UIButton()
         signUpButton.setTitle(Strings.signUpButtonText, forState: .Normal)
+        let signUpEvent = OEXAnalytics.registerEvent()
         signUpButton.oex_addAction({ [weak self] _ in
             if dismissFirst {
                 self?.dismissViewControllerAnimated(false, completion: {
@@ -139,7 +143,7 @@ class StartupViewController: UIViewController {
             } else {
                 self?.showRegistration()
             }
-            }, forEvents: .TouchUpInside)
+            }, forEvents: .TouchUpInside, analyticsEvent: signUpEvent)
 
 
         bottomBar.addSubview(signUpButton)

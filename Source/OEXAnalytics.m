@@ -15,6 +15,7 @@
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXSession.h"
+#import "edx-Swift.h"
 
 @implementation OEXAnalyticsEvent
 
@@ -380,9 +381,7 @@ static OEXAnalytics* sAnalytics;
     NSMutableDictionary* info = @{}.mutableCopy;
     [info safeSetObject:method forKey:key_method];
 
-    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
-    event.name = value_login;
-    event.displayName = @"User Login";
+    OEXAnalyticsEvent* event = [OEXAnalytics loginEvent];
     [self trackEvent:event forComponent:nil withInfo:info];
 }
 
@@ -394,11 +393,7 @@ static OEXAnalytics* sAnalytics;
 }
 
 - (void)trackRegistrationWithProvider:(NSString *)provider {
-    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
-    event.name = OEXAnalyticsEventRegistration;
-    event.displayName = @"Create Account Clicked";
-    event.category = OEXAnalyticsCategoryConversion;
-    event.label = [NSString stringWithFormat:@"iOS v%@", [[NSBundle mainBundle] oex_shortVersionString]];
+    OEXAnalyticsEvent* event = [OEXAnalytics registerEvent];
     
     NSMutableDictionary* properties = [[NSMutableDictionary alloc] init];
     [properties setObjectOrNil:provider forKey:OEXAnalyticsKeyProvider];
@@ -480,11 +475,7 @@ static OEXAnalytics* sAnalytics;
 }
 
 - (void)trackUserEnrolledInCourse:(NSString*)courseID {
-    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
-    event.name = OEXAnalyticsEventCourseEnrollment;
-    event.displayName = @"Enroll Course Clicked";
-    event.category = OEXAnalyticsCategoryConversion;
-    event.label = courseID;
+    OEXAnalyticsEvent* event = [OEXAnalytics enrollEvent:courseID];
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 

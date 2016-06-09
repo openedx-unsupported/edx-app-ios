@@ -21,8 +21,8 @@ class OEXRegistrationViewControllerTests: SnapshotTestCase {
         controller.t_registerWithParameters([:])
 
         let event = baseEnvironment.eventTracker.events[0].asEvent!
-        XCTAssertEqual(event.event.category, OEXAnalyticsCategoryConversion)
-        XCTAssertEqual(event.event.name, OEXAnalyticsEventRegistration)
+        XCTAssertEqual(event.event.category, AnalyticsCategory.Conversion.rawValue)
+        XCTAssertEqual(event.event.name, AnalyticsEventName.UserRegistration.rawValue)
     }
 
     func testSnapshotContent() {
