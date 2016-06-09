@@ -58,7 +58,7 @@ extension OEXAnalytics {
 
     @objc static func enrollEvent(courseId: String) -> OEXAnalyticsEvent {
         let event = OEXAnalyticsEvent()
-        event.name = AnalyticsEventName.UserRegistration.rawValue
+        event.name = AnalyticsEventName.CourseEnrollment.rawValue
         event.displayName = "Enroll Course Clicked"
         event.category = AnalyticsCategory.Conversion.rawValue
         event.label = courseId
