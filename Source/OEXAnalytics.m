@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 24/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
 @import edXCore;
@@ -18,6 +18,17 @@
 #import "edx-Swift.h"
 
 @implementation OEXAnalyticsEvent
+
+- (id)copyWithZone:(NSZone *)zone {
+    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent allocWithZone:zone] init];
+    event.openInBrowserURL = self.openInBrowserURL;
+    event.courseID = self.courseID;
+    event.name = self.name;
+    event.displayName = self.displayName;
+    event.category = self.category;
+    event.label = self.label;
+    return self;
+}
 
 - (NSString*)description {
     NSMutableDictionary* info = [[NSMutableDictionary alloc] init];

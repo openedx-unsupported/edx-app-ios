@@ -108,6 +108,7 @@
 		1A5501A41BBAB8BD00D5F9DD /* JSONFormBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5501A31BBAB8BD00D5F9DD /* JSONFormBuilder.swift */; };
 		1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */; };
 		1A67E5411BD7D61800C53401 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A67E5401BD7D61800C53401 /* Feed.swift */; };
+		1A6D90931D0A05D500D01BEA /* StartupViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6D90921D0A05D500D01BEA /* StartupViewControllerTests.swift */; };
 		1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E86231BB9C6500039A216 /* OEXStyles+Profile.swift */; };
 		1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E86251BB9CEC80039A216 /* UserProfileViewTests.swift */; };
 		1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */; };
@@ -844,6 +845,7 @@
 		1A5501A31BBAB8BD00D5F9DD /* JSONFormBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilder.swift; sourceTree = "<group>"; };
 		1A5AC57F1B94ED0D00885187 /* CourseCardViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardViewModel.swift; sourceTree = "<group>"; };
 		1A67E5401BD7D61800C53401 /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		1A6D90921D0A05D500D01BEA /* StartupViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupViewControllerTests.swift; sourceTree = "<group>"; };
 		1A6E86231BB9C6500039A216 /* OEXStyles+Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXStyles+Profile.swift"; sourceTree = "<group>"; };
 		1A6E86251BB9CEC80039A216 /* UserProfileViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewTests.swift; sourceTree = "<group>"; };
 		1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
@@ -3151,6 +3153,7 @@
 				E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */,
 				E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */,
 				E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */,
+				1A6D90921D0A05D500D01BEA /* StartupViewControllerTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				7772BE901AF90C8A0081CA7A /* Helpers */,
@@ -4175,6 +4178,7 @@
 				778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */,
 				778F177E1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift in Sources */,
 				77E00B731B83997E00573622 /* DiscussionNewCommentViewControllerTests.swift in Sources */,
+				1A6D90931D0A05D500D01BEA /* StartupViewControllerTests.swift in Sources */,
 				7768745B1CDCCB1E001DFB77 /* RemoteImageTests.swift in Sources */,
 				77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */,
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
