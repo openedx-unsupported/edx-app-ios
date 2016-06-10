@@ -333,6 +333,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let selectedIndex = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(selectedIndex, animated: false)
         }
+        
+        loadContent()
     }
     
     override func shouldAutorotate() -> Bool {
