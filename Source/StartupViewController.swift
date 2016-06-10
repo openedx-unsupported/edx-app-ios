@@ -151,12 +151,12 @@ class StartupViewController: UIViewController {
 
         signInButton.snp_makeConstraints { (make) in
             make.centerY.equalTo(bottomBar)
-            make.centerX.equalTo(bottomBar.snp_trailing).multipliedBy(0.75)
+            make.centerX.equalTo(bottomBar.snp_right).multipliedBy(0.75)
         }
 
         signUpButton.snp_makeConstraints { (make) in
             make.centerY.equalTo(bottomBar)
-            make.centerX.equalTo(bottomBar.snp_trailing).multipliedBy(0.25)
+            make.centerX.equalTo(bottomBar.snp_right).multipliedBy(0.25)
         }
 
         let line = UIView()
