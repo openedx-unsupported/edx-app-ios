@@ -32,9 +32,4 @@ extension OEXConfig {
     var badgesEnabled : Bool {
         return boolForKey("BADGES_ENABLED")
     }
-    
-    var inlineDiscussionsEnabled : Bool {
-        return boolForKey("INLINE_DISCUSSIONS")
-    }
-
 }
