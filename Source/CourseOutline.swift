@@ -86,7 +86,7 @@ public struct CourseOutline {
                         // Inline discussion is in progress feature. Will remove this code when it's ready to ship
                         type = .Unknown(typeName)
                         
-                        if OEXConfig.sharedConfig().inlineDiscussionsEnabled {
+                        if OEXConfig.sharedConfig().discussionsEnabled {
                             let bodyData = body[Fields.StudentViewData].object as? NSDictionary
                             let discussionModel = DiscussionModel(dictionary: bodyData ?? [:])
                             type = .Discussion(discussionModel)
