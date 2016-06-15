@@ -229,6 +229,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             return
         }
         
+        view.endEditing(true)
+        
         self.optionsViewController = MenuOptionsViewController()
         self.optionsViewController?.delegate = self
         
