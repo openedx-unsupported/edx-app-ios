@@ -67,7 +67,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             }
         )
         
-        self.selectedTopic = selectedTopic ?? self.firstSelectableTopic
+        self.selectedTopic = selectedTopic
     }
     
     private var firstSelectableTopic : DiscussionTopic? {
@@ -151,13 +151,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         titleTextField.placeholder = Strings.title
         titleTextField.defaultTextAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
-        
-        if let topic = selectedTopic, name = topic.name {
-            let title = Strings.topic(topic: name)
-            
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
-        }
-        
+        setTopicsButtonTitle()
         let insets = OEXStyles.sharedStyles().standardTextViewInsets
         topicButton.titleEdgeInsets = UIEdgeInsetsMake(0, insets.left, 0, insets.right)
         
@@ -197,8 +191,12 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.selectedThreadType = .Discussion
         
         loadController.setupInController(self, contentView: self.scrollView)
-        updateLoadState()
         
+        topics.listen(self, success : {[weak self]_ in
+            self?.loadedData()
+            }, failure : {[weak self] error in
+                self?.loadController.state = LoadState.failed(error)
+            })
     }
     
     override public func viewWillAppear(animated: Bool) {
@@ -214,13 +212,20 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         return .AllButUpsideDown
     }
     
-    private func updateLoadState() {
-        if let _ = self.topics.value {
-            loadController.state = LoadState.Loaded
+    private func loadedData() {
+        loadController.state = topics.value?.count == 0 ? LoadState.empty(icon: .NoTopics, message : Strings.unableToLoadCourseContent) : .Loaded
+        
+        if selectedTopic == nil {
+            selectedTopic = firstSelectableTopic
         }
-        else {
-            loadController.state = LoadState.failed(message: Strings.failedToLoadTopics)
-            return
+        
+        setTopicsButtonTitle()
+    }
+    
+    private func setTopicsButtonTitle() {
+        if let topic = selectedTopic, name = topic.name {
+            let title = Strings.topic(topic: name)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
         }
     }
     
@@ -289,9 +294,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int) {
         selectedTopic = self.topics.value?[index]
         
-        if let topic = selectedTopic, name = topic.name where topic.id != nil {
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(Strings.topic(topic: name)), forState: .Normal)
-            
+        if let topic = selectedTopic where topic.id != nil {
+            setTopicsButtonTitle()
             UIView.animateWithDuration(0.3, animations: {
                 self.optionsViewController?.view.alpha = 0.0
                 }, completion: {(finished: Bool) in
@@ -306,4 +310,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         growingTextController.scrollToVisible()
     }
     
+}
+
+// For use in testing only
+extension DiscussionNewPostViewController {
+    public func t_topicsLoaded() -> Stream<[DiscussionTopic]> {
+        return topics
+    }
 }
