@@ -13,13 +13,22 @@ import XCTest
 class DiscussionNewPostViewControllerTests: SnapshotTestCase {
 
     func testContent() {
-        let courseID = OEXCourse.freshCourse().course_id!
+        let course = OEXCourse.freshCourse()
+        let topics = DiscussionTopic.testTopics()
+        let topicsManager = DiscussionDataManager(courseID : course.course_id!, topics : topics)
         let environment = TestRouterEnvironment()
-        let topic = DiscussionTopic(id: nil, name: "Example", children: [], depth: 0)
-        let controller = DiscussionNewPostViewController(environment: environment, courseID: courseID, selectedTopic : topic)
+        environment.mockCourseDataManager.topicsManager = topicsManager
+        
+        let controller = DiscussionNewPostViewController(environment: environment, courseID: course.course_id!, selectedTopic : topics[0])
+        
+        let expectation = expectationWithDescription("New post topics loaded")
+        controller.t_topicsLoaded().listenOnce(self) {_ in
+            expectation.fulfill()
+        }
+        waitForExpectations()
+        
         inScreenNavigationContext(controller, action: {
             assertSnapshotValidWithContent(controller.navigationController!)
         })
     }
-    
 }
