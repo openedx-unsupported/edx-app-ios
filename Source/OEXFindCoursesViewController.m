@@ -45,7 +45,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [super viewDidLoad];
     self.navigationItem.title = [Strings findCourses];
 
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar];
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:YES];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 
     self.webViewHelper.searchBaseURL = [self enrollmentConfig].webviewConfig.searchURL;

@@ -27,7 +27,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
 
     let bottomBar: UIView?
     
-    init(config : OEXConfig?, delegate : FindCoursesWebViewHelperDelegate?, bottomBar: UIView?) {
+    init(config : OEXConfig?, delegate : FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool) {
         self.config = config
         self.delegate = delegate
         self.bottomBar = bottomBar
@@ -41,7 +41,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         if let container = delegate?.containingControllerForWebViewHelper(self) {
             loadController.setupInController(container, contentView: webView)
 
-            let searchbarEnabled = config?.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false
+            let searchbarEnabled = (config?.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false) && showSearch
 
             let webviewTop: ConstraintItem
             if searchbarEnabled {
