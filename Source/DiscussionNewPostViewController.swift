@@ -35,6 +35,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     @IBOutlet private var bodyTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var topicButton: UIButton!
     @IBOutlet private var postButton: SpinnerButton!
+    @IBOutlet weak var contentTitleLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     
     private let loadController = LoadStateViewController()
     private let courseID: String
@@ -42,14 +44,18 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private var selectedTopic: DiscussionTopic?
     private var optionsViewController: MenuOptionsViewController?
 
+    var textStyle : OEXTextStyle{
+        return OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+    }
+    
     private var selectedThreadType: DiscussionThreadType = .Discussion {
         didSet {
             switch selectedThreadType {
             case .Discussion:
-                self.contentTextView.placeholder = Strings.courseDashboardDiscussion
+                self.contentTitleLabel.attributedText = textStyle.attributedStringWithText(Strings.courseDashboardDiscussion)
                 postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: Strings.postDiscussion)
             case .Question:
-                self.contentTextView.placeholder = Strings.question
+                self.contentTitleLabel.attributedText = textStyle.attributedStringWithText(Strings.question)
                 postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.postQuestion)
             }
         }
@@ -118,7 +124,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
         self.navigationItem.leftBarButtonItem = cancelItem
         
-        
+        titleLabel.attributedText = textStyle.attributedStringWithText(Strings.title)
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
         contentTextView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
@@ -126,30 +132,9 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         contentTextView.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
         contentTextView.delegate = self
         
-        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
-        let segmentOptions : [(title : String, value : DiscussionThreadType)] = [
-            (title : Strings.discussion, value : .Discussion),
-            (title : Strings.question, value : .Question),
-        ]
-        let options = segmentOptions.withItemIndexes()
-        
-        for option in options {
-            discussionQuestionSegmentedControl.setTitle(option.value.title, forSegmentAtIndex: option.index)
-        }
-        
-        discussionQuestionSegmentedControl.oex_addAction({ [weak self] (control:AnyObject) -> Void in
-            if let segmentedControl = control as? UISegmentedControl {
-                let index = segmentedControl.selectedSegmentIndex
-                let threadType = segmentOptions[index].value
-                self?.selectedThreadType = threadType
-            }
-            else {
-                assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
-            }
-        }, forEvents: UIControlEvents.ValueChanged)
-        
-        titleTextField.placeholder = Strings.title
+        configureSegmentControl()
         titleTextField.defaultTextAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
         setTopicsButtonTitle()
         let insets = OEXStyles.sharedStyles().standardTextViewInsets
@@ -159,8 +144,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         topicButton.localizedHorizontalContentAlignment = .Leading
         
         let dropdownLabel = UILabel()
-        let style = OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
-        dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style)
+        dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(textStyle)
         topicButton.addSubview(dropdownLabel)
         dropdownLabel.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(topicButton).offset(-insets.right)
@@ -188,7 +172,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.insetsController.setupInController(self, scrollView: scrollView)
         
         // Force setting it to call didSet which is only called out of initialization context
-        self.selectedThreadType = .Discussion
+        self.selectedThreadType = .Question
         
         loadController.setupInController(self, contentView: self.scrollView)
         
@@ -197,6 +181,58 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             }, failure : {[weak self] error in
                 self?.loadController.state = LoadState.failed(error)
             })
+    }
+    
+    private func configureSegmentControl() {
+        discussionQuestionSegmentedControl.removeAllSegments()
+        let questionIcon = Icon.Question.attributedTextWithStyle(textStyle)
+        let questionTitle = NSAttributedString.joinInNaturalLayout([questionIcon,
+            textStyle.attributedStringWithText(Strings.question)])
+        
+        let discussionIcon = Icon.Comments.attributedTextWithStyle(textStyle)
+        let discussionTitle = NSAttributedString.joinInNaturalLayout([discussionIcon,
+            textStyle.attributedStringWithText(Strings.discussion)])
+        
+        let segmentOptions : [(title : NSAttributedString, value : DiscussionThreadType)] = [
+            (title : questionTitle, value : .Question),
+            (title : discussionTitle, value : .Discussion),
+            ]
+        
+        for i in 0..<segmentOptions.count {
+            discussionQuestionSegmentedControl.segmentWithAttributedTitle(segmentOptions[i].title, index: i, animated: false)
+        }
+        
+        discussionQuestionSegmentedControl.oex_addAction({ [weak self] (control:AnyObject) -> Void in
+            if let segmentedControl = control as? UISegmentedControl {
+                let index = segmentedControl.selectedSegmentIndex
+                let threadType = segmentOptions[index].value
+                self?.selectedThreadType = threadType
+                self?.updateSelectedTabColor()
+            }
+            else {
+                assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
+            }
+            }, forEvents: UIControlEvents.ValueChanged)
+        discussionQuestionSegmentedControl.tintColor = OEXStyles.sharedStyles().neutralDark()
+        discussionQuestionSegmentedControl.setTitleTextAttributes([NSForegroundColorAttributeName: OEXStyles.sharedStyles().neutralWhite()], forState: UIControlState.Selected)
+        discussionQuestionSegmentedControl.selectedSegmentIndex = 0
+        
+        updateSelectedTabColor()
+    }
+    
+    private func updateSelectedTabColor() {
+        // //UIsegmentControl don't Multiple tint color so updating tint color of subviews to match desired behaviour
+        let subViews:NSArray = discussionQuestionSegmentedControl.subviews
+        for i in 0..<subViews.count {
+            if subViews.objectAtIndex(i).isSelected ?? false {
+                let view = subViews.objectAtIndex(i) as! UIView
+                view.tintColor = OEXStyles.sharedStyles().primaryBaseColor()
+            }
+            else {
+                let view = subViews.objectAtIndex(i) as! UIView
+                view.tintColor = OEXStyles.sharedStyles().neutralDark()
+            }
+        }
     }
     
     override public func viewWillAppear(animated: Bool) {
@@ -310,6 +346,29 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         growingTextController.scrollToVisible()
     }
     
+}
+
+extension UISegmentedControl {
+    //UIsegmentControl didn't support attributedTitle by default
+    func segmentWithAttributedTitle(title: NSAttributedString, index: NSInteger, animated: Bool) {
+        let segmentLabel = UILabel()
+        segmentLabel.backgroundColor = UIColor.clearColor()
+        segmentLabel.textAlignment = .Center
+        segmentLabel.attributedText = title
+        segmentLabel.sizeToFit()
+        self.insertSegmentWithImage(segmentLabel.toImage(), atIndex: 1, animated: false)
+    }
+}
+
+extension UILabel {
+    func toImage()-> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0)
+        self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext();
+        return image;
+    }
 }
 
 // For use in testing only

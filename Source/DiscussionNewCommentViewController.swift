@@ -80,6 +80,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var contentTitleLabel: UILabel!
     @IBOutlet private var authorButton: UIButton!
     @IBOutlet private var viewHeight: NSLayoutConstraint!
     
@@ -238,19 +239,19 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     // For determining the context of the screen and also manipulating the relevant elements on screen
     private func setupContext() {
         let buttonTitle : String
-        let placeholderText : String
+        let titleText : String
         let navigationItemTitle : String
         
         switch context {
         case let .Thread(thread):
             buttonTitle = Strings.addResponse
-            placeholderText = Strings.addAResponse
+            titleText = Strings.addAResponse
             navigationItemTitle = Strings.addResponse
             responseTitle.attributedText = responseTitleStyle.attributedStringWithText(thread.title)
             self.isEndorsed = false
         case let .Comment(comment):
             buttonTitle = Strings.addComment
-            placeholderText = Strings.addAComment
+            titleText = Strings.addAComment
             navigationItemTitle = Strings.addComment
             responseTitle.snp_makeConstraints{ (make) -> Void in
                 make.height.equalTo(0)
@@ -262,7 +263,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         responseBody.attributedText = responseBodyStyle.attributedStringWithText(context.rawBody)
         
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
-        contentTextView.placeholder = placeholderText
+        self.contentTitleLabel.attributedText = responseBodyStyle.attributedStringWithText(titleText)
         self.navigationItem.title = navigationItemTitle
             
         if case .Comment(_) = self.context, let thread = thread{
