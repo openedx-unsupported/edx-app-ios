@@ -52,10 +52,10 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         didSet {
             switch selectedThreadType {
             case .Discussion:
-                self.contentTitleLabel.attributedText = titleTextStyle.attributedStringWithText(Strings.courseDashboardDiscussion)
+                self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.courseDashboardDiscussion), titleTextStyle.attributedStringWithText(Strings.asteric)])
                 postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: Strings.postDiscussion)
             case .Question:
-                self.contentTitleLabel.attributedText = titleTextStyle.attributedStringWithText(Strings.question)
+                self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.question), titleTextStyle.attributedStringWithText(Strings.asteric)])
                 postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.postQuestion)
             }
         }
@@ -124,7 +124,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
         self.navigationItem.leftBarButtonItem = cancelItem
         
-        titleLabel.attributedText = titleTextStyle.attributedStringWithText(Strings.title)
+        titleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.title), titleTextStyle.attributedStringWithText(Strings.asteric)])
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
         contentTextView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes

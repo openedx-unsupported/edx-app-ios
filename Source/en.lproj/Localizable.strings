@@ -94,6 +94,8 @@
 "ANSWER"="Answer";
 /* Navigation title for a Question Post which has endorsed answers */
 "ANSWERED_QUESTION"="Answered Question";
+/*Asteric for marking fields required*/
+"ASTERIC" = "*";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR" = "By {author_name}";
 /* Prefix used with Staff of Community TA on the posts screen */

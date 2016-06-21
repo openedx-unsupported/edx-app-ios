@@ -263,7 +263,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         responseBody.attributedText = responseBodyStyle.attributedStringWithText(context.rawBody)
         
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
-        self.contentTitleLabel.attributedText = responseBodyStyle.attributedStringWithText(titleText)
+        self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([responseBodyStyle.attributedStringWithText(titleText), responseBodyStyle.attributedStringWithText(Strings.asteric)])
         self.navigationItem.title = navigationItemTitle
             
         if case .Comment(_) = self.context, let thread = thread{
