@@ -194,16 +194,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         return OEXTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralXDark())
     }
     
-    var postBodyTextStyle : OEXTextStyle {
+    var detailTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
     }
     
-    var responseBodyTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
-    }
-    
     var infoTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
 
     }
     
@@ -417,7 +413,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             var authorLabelAttributedStrings = [NSAttributedString]()
             
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(thread.title)
-            cell.bodyTextLabel.attributedText = postBodyTextStyle.attributedStringWithText(thread.rawBody)
+            cell.bodyTextLabel.attributedText = detailTextStyle.attributedStringWithText(thread.rawBody)
             
             let visibilityString : String
             if let cohortName = thread.groupName {
@@ -527,7 +523,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func cellForResponseAtIndexPath(indexPath : NSIndexPath, response: DiscussionComment) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
         
-        cell.bodyTextLabel.attributedText = responseBodyTextStyle.attributedStringWithText(response.rawBody)
+        cell.bodyTextLabel.attributedText = detailTextStyle.attributedStringWithText(response.rawBody)
         
         if let thread = thread {
             
@@ -756,9 +752,11 @@ extension AuthorLabelProtocol {
         
         if let _ = name where OEXConfig.sharedConfig().profilesEnabled {
             highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
+            highlightStyle.weight = .SemiBold
         }
         else {
             highlightStyle.color = OEXStyles.sharedStyles().neutralBase()
+            highlightStyle.weight = textStyle.weight
         }
             
         let formattedUserName = highlightStyle.attributedStringWithText(name ?? Strings.anonymous.oex_lowercaseStringInCurrentLocale())

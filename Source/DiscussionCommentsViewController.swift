@@ -9,19 +9,15 @@
 import UIKit
 
 private var commentTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralDark())
-}
-
-private var mediaTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XXSmall, color : OEXStyles.sharedStyles().neutralBase())
+    return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var smallTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XXSmall, color : OEXStyles.sharedStyles().neutralBase())
+    return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralBase())
 }
 
 private var smallIconStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
 }
 
 private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
