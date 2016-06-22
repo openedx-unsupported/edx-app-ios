@@ -33,6 +33,9 @@ class DiscussionPostCell: UITableViewCell {
     @IBOutlet private var reportButton: DiscussionCellButton!
     @IBOutlet private var separatorLine: UIView!
     @IBOutlet private var separatorLineHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var authorProfileImage: UIImageView!
+    @IBOutlet weak var authorNameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -57,6 +60,7 @@ class DiscussionPostCell: UITableViewCell {
         followButton.localizedHorizontalContentAlignment = .Center
         reportButton.localizedHorizontalContentAlignment = .Trailing
         authorButton.localizedHorizontalContentAlignment = .Leading
+        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
 }
 
@@ -76,6 +80,9 @@ class DiscussionResponseCell: UITableViewCell {
     @IBOutlet private var separatorLine: UIView!
     @IBOutlet private var separatorLineHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var endorsedByButton: UIButton!
+    @IBOutlet weak var authorProfileImage: UIImageView!
+    @IBOutlet weak var authorNameLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -102,6 +109,7 @@ class DiscussionResponseCell: UITableViewCell {
         endorsedByButton.localizedHorizontalContentAlignment = .Leading
 
         containerView.applyBorderStyle(BorderStyle())
+        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
     var endorsed : Bool = false {
@@ -116,16 +124,12 @@ class DiscussionResponseCell: UITableViewCell {
     }
     
     override func updateConstraints() {
-        if endorsed {
-            bodyTextLabel.snp_updateConstraints(closure: { (make) -> Void in
-                make.top.equalTo(endorsedLabel.snp_bottom)
+        if endorsedByButton.hidden {
+            bodyTextLabel.snp_updateConstraints(closure: { (make) in
+                make.bottom.equalTo(separatorLine.snp_top).offset(-StandardVerticalMargin)
             })
         }
-        else {
-            bodyTextLabel.snp_updateConstraints(closure: { (make) -> Void in
-                make.top.equalTo(containerView).offset(StandardVerticalMargin)
-            })
-        }
+        
         super.updateConstraints()
         
     }
@@ -414,8 +418,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     func applyThreadToCell(cell: DiscussionPostCell) -> UITableViewCell {
         if let thread = self.thread {
-            var authorLabelAttributedStrings = [NSAttributedString]()
-            
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(thread.title)
             cell.bodyTextLabel.attributedText = postBodyTextStyle.attributedStringWithText(thread.rawBody)
             
@@ -426,21 +428,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             else {
                 visibilityString = Strings.postVisibilityEveryone
             }
-            
-            
             cell.visibilityLabel.attributedText = infoTextStyle.attributedStringWithText(visibilityString)
             
-            if postClosed {
-                authorLabelAttributedStrings.append(Icon.Closed.attributedTextWithStyle(infoTextStyle, inline: true))
-            }
-            
-            if (thread.pinned) {
-                authorLabelAttributedStrings.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline: true))
-            }
-            
-            authorLabelAttributedStrings.append(thread.formattedUserLabel(infoTextStyle))
-            
-            DiscussionHelper.styleAuthorButton(cell.authorButton, title: NSAttributedString.joinInNaturalLayout(authorLabelAttributedStrings), author: thread.author, viewController: self, router: self.environment.router)
+            DiscussionHelper.styleAuthorDetails(thread.author, authorLabel: thread.authorLabel, createdAt: thread.createdAt, hasProfileImage: thread.hasProfileImage, imageURL: thread.imageURL, authoNameLabel: cell.authorNameLabel, dateLabel: cell.dateLabel, authorButton: cell.authorButton, imageView: cell.authorProfileImage, viewController: self, router: environment.router)
 
             if let responseCount = thread.responseCount {
                 let icon = Icon.Comment.attributedTextWithStyle(infoTextStyle)
@@ -541,13 +531,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
         }
         
-        DiscussionHelper.styleAuthorButton(cell.authorButton, title: response.formattedUserLabel(infoTextStyle), author: response.author, viewController: self, router: self.environment.router)
+        DiscussionHelper.styleAuthorDetails(response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: cell.authorNameLabel, dateLabel: cell.dateLabel, authorButton: cell.authorButton, imageView: cell.authorProfileImage, viewController: self, router: environment.router)
         
         let profilesEnabled = self.environment.config.profilesEnabled
-        cell.authorButton.enabled = profilesEnabled
         
         if profilesEnabled && response.endorsed {
-            
             cell.endorsedByButton.oex_removeAllActions()
             cell.endorsedByButton.oex_addAction({ [weak self] _ in
                 

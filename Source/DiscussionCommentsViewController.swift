@@ -25,6 +25,8 @@ private var smallIconStyle : OEXTextStyle {
 }
 
 private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
+private let UserProfileImageWidth = 40.0
+private let UserProfileImageHeight = 40.0
 
 class DiscussionCommentCell: UITableViewCell {
     
@@ -34,6 +36,9 @@ class DiscussionCommentCell: UITableViewCell {
     private let divider = UIView()
     private let containerView = IrregularBorderView()
     private let endorsedLabel = UILabel()
+    private let authorProfileImage = UIImageView()
+    private let authorNameLabel = UILabel()
+    private let dateLabel = UILabel()
     
     private var endorsedTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
@@ -44,17 +49,7 @@ class DiscussionCommentCell: UITableViewCell {
         self.containerView.style = IrregularBorderStyle(position: position, base: BorderStyle())
         let showsDivider = !endorsed && !position.contains(.Bottom)
         self.divider.backgroundColor = showsDivider ? OEXStyles.sharedStyles().neutralXLight() : nil
-        
         endorsedLabel.hidden = !endorsed
-        //Had to force this in here, because of a compiler bug - (not passing the correct value for endorsed updateConstraints())
-        bodyTextLabel.snp_updateConstraints { (make) -> Void in
-            if endorsed {
-                make.top.equalTo(endorsedLabel.snp_bottom)
-            }
-            else {
-                make.top.equalTo(containerView).offset(StandardVerticalMargin)
-            }
-        }
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -79,6 +74,10 @@ class DiscussionCommentCell: UITableViewCell {
         containerView.addSubview(endorsedLabel)
         containerView.addSubview(commentCountOrReportIconButton)
         containerView.addSubview(divider)
+        containerView.addSubview(authorProfileImage)
+        containerView.addSubview(authorNameLabel)
+        containerView.addSubview(dateLabel)
+        
     }
     
     private func setConstraints() {
@@ -87,51 +86,72 @@ class DiscussionCommentCell: UITableViewCell {
             make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(0, StandardHorizontalMargin, 0, StandardHorizontalMargin))
         }
         
-        bodyTextLabel.snp_makeConstraints { (make) -> Void in
+        authorProfileImage.snp_makeConstraints { (make) in
             make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(containerView).offset(-StandardHorizontalMargin)
+            make.top.equalTo(containerView).offset(StandardVerticalMargin)
+            make.width.equalTo(UserProfileImageWidth)
+            make.height.equalTo(UserProfileImageHeight)
+        }
+        
+        authorNameLabel.snp_makeConstraints { (make) in
+            make.top.equalTo(authorProfileImage)
+            make.leading.equalTo(authorProfileImage.snp_trailing).offset(StandardHorizontalMargin)
+        }
+        
+        dateLabel.snp_makeConstraints { (make) in
+            make.top.equalTo(authorNameLabel.snp_bottom)
+            make.leading.equalTo(authorNameLabel)
         }
         
         authorButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(bodyTextLabel.snp_bottom)
-            make.leading.equalTo(bodyTextLabel)
-            make.bottom.equalTo(containerView).offset(-StandardVerticalMargin)
-            make.trailing.lessThanOrEqualTo(containerView)
+            make.top.equalTo(authorProfileImage)
+            make.leading.equalTo(contentView)
+            make.bottom.equalTo(authorProfileImage)
+            make.trailing.equalTo(dateLabel)
+            make.trailing.equalTo(authorNameLabel)
         }
         
         endorsedLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(bodyTextLabel)
-            make.top.equalTo(containerView).offset(StandardVerticalMargin)
+            make.leading.equalTo(dateLabel)
+            make.top.equalTo(dateLabel.snp_bottom)
+        }
+        
+        bodyTextLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(authorProfileImage.snp_bottom).offset(StandardVerticalMargin)
+            make.leading.equalTo(authorProfileImage)
+            make.trailing.equalTo(containerView).offset(-StandardHorizontalMargin)
         }
         
         commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(containerView).offset(-OEXStyles.sharedStyles().standardHorizontalMargin())
-            make.centerY.equalTo(authorButton)
+            make.top.equalTo(authorNameLabel)
         }
         
         divider.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.containerView)
-            make.trailing.equalTo(self.containerView)
-            make.bottom.equalTo(self.containerView)
+            make.top.equalTo(bodyTextLabel.snp_bottom).offset(StandardVerticalMargin)
+            make.leading.equalTo(containerView)
+            make.trailing.equalTo(containerView)
+            make.bottom.equalTo(containerView)
             make.height.equalTo(OEXStyles.dividerSize())
         }
     }
     
     func useResponse(response : DiscussionComment, position : CellPosition, viewController : DiscussionCommentsViewController) {
-        self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-        self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.rawBody)
-        
-        DiscussionHelper.styleAuthorButton(authorButton, title: response.formattedUserLabel(smallTextStyle), author: response.author, viewController: viewController, router: viewController.environment.router)
+        containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.rawBody)
+        DiscussionHelper.styleAuthorDetails(response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
         let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
-        self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        self.setEndorsed(response.endorsed, position: position)
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
+        setEndorsed(response.endorsed, position: position)
+        
+        setNeedsLayout()
+        layoutIfNeeded()
+        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition, index: NSInteger) {
@@ -139,8 +159,7 @@ class DiscussionCommentCell: UITableViewCell {
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         viewController.updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
-        
-        DiscussionHelper.styleAuthorButton(authorButton, title: comment.formattedUserLabel(smallTextStyle), author: comment.author, viewController: viewController, router: viewController.environment.router)
+        DiscussionHelper.styleAuthorDetails(comment.author, authorLabel: comment.authorLabel, createdAt: comment.createdAt, hasProfileImage: comment.hasProfileImage, imageURL: comment.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
@@ -161,8 +180,10 @@ class DiscussionCommentCell: UITableViewCell {
             }, forEvents: UIControlEvents.TouchUpInside)
         
         
-        
         setEndorsed(false, position: position)
+        setNeedsLayout()
+        layoutIfNeeded()
+        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -431,5 +452,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         delegate?.discussionCommentsView(self, updatedComment: responseItem)
         
         self.showOverlayMessage(Strings.discussionCommentPosted)
+    }
+}
+
+// Testing only
+extension DiscussionCommentsViewController {
+    var t_loaded : Stream<()> {
+        return self.paginationController!.stream.map {_ in
+            return
+        }
     }
 }
