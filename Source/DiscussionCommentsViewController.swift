@@ -25,8 +25,8 @@ private var smallIconStyle : OEXTextStyle {
 }
 
 private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
-private let UserProfileImageWidth = 40.0
-private let UserProfileImageHeight = 40.0
+
+private let UserProfileImageSize = CGSizeMake(40.0,40.0)
 
 class DiscussionCommentCell: UITableViewCell {
     
@@ -62,7 +62,6 @@ class DiscussionCommentCell: UITableViewCell {
         
         bodyTextLabel.numberOfLines = 0
         containerView.userInteractionEnabled = true
-        authorButton.localizedHorizontalContentAlignment = .Leading
         commentCountOrReportIconButton.localizedHorizontalContentAlignment = .Trailing
         contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
     }
@@ -77,7 +76,6 @@ class DiscussionCommentCell: UITableViewCell {
         containerView.addSubview(authorProfileImage)
         containerView.addSubview(authorNameLabel)
         containerView.addSubview(dateLabel)
-        
     }
     
     private func setConstraints() {
@@ -89,8 +87,8 @@ class DiscussionCommentCell: UITableViewCell {
         authorProfileImage.snp_makeConstraints { (make) in
             make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
             make.top.equalTo(containerView).offset(StandardVerticalMargin)
-            make.width.equalTo(UserProfileImageWidth)
-            make.height.equalTo(UserProfileImageHeight)
+            make.width.equalTo(UserProfileImageSize.width)
+            make.height.equalTo(UserProfileImageSize.height)
         }
         
         authorNameLabel.snp_makeConstraints { (make) in
@@ -148,9 +146,6 @@ class DiscussionCommentCell: UITableViewCell {
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         setEndorsed(response.endorsed, position: position)
-        
-        setNeedsLayout()
-        layoutIfNeeded()
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
@@ -158,7 +153,7 @@ class DiscussionCommentCell: UITableViewCell {
         
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
         self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
-        viewController.updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
+        updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
         DiscussionHelper.styleAuthorDetails(comment.author, authorLabel: comment.authorLabel, createdAt: comment.createdAt, hasProfileImage: comment.hasProfileImage, imageURL: comment.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
         commentCountOrReportIconButton.oex_removeAllActions()
@@ -169,7 +164,7 @@ class DiscussionCommentCell: UITableViewCell {
                 if let response = result.data {
                     if viewController?.comments.count > index && viewController?.comments[index].commentID == response.commentID {
                         viewController?.comments[index] = response
-                        viewController?.updateReportText(self.commentCountOrReportIconButton, report: response.abuseFlagged)
+                        self.updateReportText(self.commentCountOrReportIconButton, report: response.abuseFlagged)
                         viewController?.tableView.reloadData()
                     }
                 }
@@ -188,6 +183,22 @@ class DiscussionCommentCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func updateReportText(button: UIButton, report: Bool) {
+        
+        let iconStyle = report ? smallIconSelectedStyle : smallIconStyle
+        let reportIcon = Icon.ReportFlag.attributedTextWithStyle(iconStyle)
+        let reportTitle = smallTextStyle.attributedStringWithText((report ? Strings.discussionUnreport : Strings.discussionReport ))
+        
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([reportIcon, reportTitle])
+        button.setAttributedTitle(buttonTitle, forState: .Normal)
+        
+        button.snp_remakeConstraints { (make) in
+            make.top.equalTo(contentView).offset(StandardVerticalMargin)
+            make.width.equalTo(buttonTitle.singleLineWidth() + StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).offset(-2*StandardHorizontalMargin)
+        }
     }
     
 }
@@ -386,16 +397,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         })
         
         paginationController?.loadMore()
-    }
-    
-    private func updateReportText(button: UIButton, report: Bool) {
-        
-        let iconStyle = report ? smallIconSelectedStyle : smallIconStyle
-        
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([
-            Icon.ReportFlag.attributedTextWithStyle(iconStyle),
-            smallTextStyle.attributedStringWithText((report ? Strings.discussionUnreport : Strings.discussionReport ))])
-        button.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
     }
     
     // MARK - tableview delegate methods

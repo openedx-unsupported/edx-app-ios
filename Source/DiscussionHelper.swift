@@ -24,31 +24,6 @@ class DiscussionHelper: NSObject {
         }
     }
     
-    class func styleAuthorButton(authorButton: UIButton, title: NSAttributedString, author: String?, viewController: UIViewController, router: OEXRouter?) {
-       
-        authorButton.setAttributedTitle(title, forState: .Normal)
-        
-        authorButton.snp_updateConstraints { (make) in
-            make.width.equalTo(title.singleLineWidth() + StandardHorizontalMargin)
-        }
-        
-        let profilesEnabled = OEXConfig.sharedConfig().profilesEnabled
-        authorButton.enabled = profilesEnabled
-        
-        if let author = author where profilesEnabled {
-            authorButton.oex_removeAllActions()
-            authorButton.oex_addAction({ [weak viewController] _ in
-                
-                router?.showProfileForUsername(viewController, username: author ?? Strings.anonymous, editable: false)
-                
-                }, forEvents: .TouchUpInside)
-        }
-        else {
-            // if post is by anonymous user then disable author button (navigating to user profile)
-            authorButton.enabled = false
-        }
-    }
-    
     class func messageForError(error: NSError?) -> String {
         
         if let error = error where error.oex_isNoInternetConnectionError {
@@ -76,7 +51,6 @@ class DiscussionHelper: NSObject {
             return RemoteImageJustImage(image: placeholder)
         }
     }
-    
     
     class func styleAuthorDetails(author: String?, authorLabel: String?, createdAt: NSDate?, hasProfileImage: Bool, imageURL: String?, authoNameLabel: UILabel, dateLabel: UILabel, authorButton: UIButton, imageView: UIImageView, viewController: UIViewController, router: OEXRouter?) {
         let textStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().neutralBase())
