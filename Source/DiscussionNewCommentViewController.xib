@@ -169,7 +169,7 @@
                             <rect key="frame" x="0.0" y="127" width="320" height="141"/>
                             <subviews>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7p-rv-Xzb" userLabel="Text Area" customClass="OEXPlaceholderTextView">
-                                    <rect key="frame" x="8" y="15" width="304" height="66"/>
+                                    <rect key="frame" x="8" y="31" width="304" height="66"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="66" id="8bY-QI-PYZ"/>
@@ -178,13 +178,27 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a response" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="24g-Uq-8xS">
+                                    <rect key="frame" x="15" y="10" width="101" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstItem="24g-Uq-8xS" firstAttribute="top" secondItem="Gnd-fd-cf1" secondAttribute="top" constant="10" id="3hE-hu-VzO"/>
+                                <constraint firstItem="24g-Uq-8xS" firstAttribute="leading" secondItem="Gnd-fd-cf1" secondAttribute="leading" constant="15" id="9Qe-YE-6e5"/>
                                 <constraint firstItem="u7p-rv-Xzb" firstAttribute="top" secondItem="Gnd-fd-cf1" secondAttribute="top" constant="15" id="Ojh-2h-9Hv"/>
                                 <constraint firstItem="u7p-rv-Xzb" firstAttribute="leading" secondItem="Gnd-fd-cf1" secondAttribute="leading" constant="8" id="d6W-kR-wUv"/>
                                 <constraint firstAttribute="trailing" secondItem="u7p-rv-Xzb" secondAttribute="trailing" constant="8" id="j10-a4-ksr"/>
+                                <constraint firstItem="u7p-rv-Xzb" firstAttribute="top" secondItem="24g-Uq-8xS" secondAttribute="bottom" constant="4" id="mvn-um-8cE"/>
                             </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="Ojh-2h-9Hv"/>
+                                </mask>
+                            </variation>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKk-aE-KJb" userLabel="Submit Button" customClass="SpinnerButton" customModule="edX" customModuleProvider="target">
                             <rect key="frame" x="8" y="223" width="304" height="30"/>
