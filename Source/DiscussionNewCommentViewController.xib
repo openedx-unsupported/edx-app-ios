@@ -16,6 +16,7 @@
                 <outlet property="containerView" destination="AlE-TT-c4f" id="mba-SF-laj"/>
                 <outlet property="contentTextView" destination="u7p-rv-Xzb" id="X4y-5Z-dkN"/>
                 <outlet property="contentTextViewHeightConstraint" destination="8bY-QI-PYZ" id="bJE-j2-K1u"/>
+                <outlet property="contentTitleLabel" destination="24g-Uq-8xS" id="EQo-Mf-bD5"/>
                 <outlet property="dateLabel" destination="Ckh-Fw-ssg" id="fXZ-Mf-Nfl"/>
                 <outlet property="responseBody" destination="c2c-Zj-aHi" id="eI1-EJ-C1Z"/>
                 <outlet property="responseTitle" destination="Rgs-Dg-mXb" id="2Ye-X5-TN2"/>
@@ -166,7 +167,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gnd-fd-cf1">
-                            <rect key="frame" x="0.0" y="127" width="320" height="141"/>
+                            <rect key="frame" x="0.0" y="127" width="320" height="157"/>
                             <subviews>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7p-rv-Xzb" userLabel="Text Area" customClass="OEXPlaceholderTextView">
                                     <rect key="frame" x="8" y="31" width="304" height="66"/>
@@ -201,7 +202,7 @@
                             </variation>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKk-aE-KJb" userLabel="Submit Button" customClass="SpinnerButton" customModule="edX" customModuleProvider="target">
-                            <rect key="frame" x="8" y="223" width="304" height="30"/>
+                            <rect key="frame" x="8" y="239" width="304" height="30"/>
                             <state key="normal" title="example">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
