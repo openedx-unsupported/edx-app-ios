@@ -46,12 +46,6 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8 responses" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obq-Kp-AOa" userLabel="Response Count Label">
-                                                            <rect key="frame" x="512" y="119" width="79.5" height="17"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LAA-Rz-HUh" userLabel="Separator Line">
                                                             <rect key="frame" x="0.0" y="139" width="600" height="1"/>
                                                             <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
@@ -129,11 +123,19 @@
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8 responses" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obq-Kp-AOa" userLabel="Response Count Label">
+                                                                    <rect key="frame" x="512" y="0.0" width="80" height="17"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                    <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="74D-eX-A73" firstAttribute="trailing" secondItem="CWK-zu-5QZ" secondAttribute="trailing" id="1l5-45-7tQ"/>
                                                                 <constraint firstItem="EFZ-pU-2wk" firstAttribute="top" secondItem="CWK-zu-5QZ" secondAttribute="bottom" id="BIn-oP-2c8"/>
                                                                 <constraint firstItem="CWK-zu-5QZ" firstAttribute="top" secondItem="1Cc-N7-tvJ" secondAttribute="top" id="CSZ-AA-6Tx"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Obq-Kp-AOa" secondAttribute="trailing" constant="8" id="Q9Z-bq-Yvl"/>
+                                                                <constraint firstItem="Obq-Kp-AOa" firstAttribute="top" secondItem="1Cc-N7-tvJ" secondAttribute="top" id="R34-0P-k8g"/>
                                                                 <constraint firstAttribute="bottom" secondItem="74D-eX-A73" secondAttribute="bottom" id="RLy-5q-IQP"/>
                                                                 <constraint firstItem="t5n-Jc-AJT" firstAttribute="leading" secondItem="1Cc-N7-tvJ" secondAttribute="leading" constant="15" id="SD1-LA-kHx"/>
                                                                 <constraint firstItem="74D-eX-A73" firstAttribute="leading" secondItem="1Cc-N7-tvJ" secondAttribute="leading" id="V2c-ES-fwn"/>
@@ -157,17 +159,14 @@
                                                         <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="6dv-fn-8x8" secondAttribute="trailing" constant="8" id="B9e-2K-nQV"/>
                                                         <constraint firstItem="1Cc-N7-tvJ" firstAttribute="top" secondItem="dbX-Af-div" secondAttribute="topMargin" id="E9I-zX-3ZN"/>
                                                         <constraint firstItem="5nU-48-Ubc" firstAttribute="top" secondItem="j0K-vv-JYH" secondAttribute="bottom" constant="8" id="GDX-b6-HQf"/>
-                                                        <constraint firstItem="LAA-Rz-HUh" firstAttribute="top" secondItem="Obq-Kp-AOa" secondAttribute="bottom" constant="8" id="GSv-Tq-7Sa"/>
                                                         <constraint firstItem="6dv-fn-8x8" firstAttribute="top" secondItem="1Cc-N7-tvJ" secondAttribute="bottom" constant="8" id="MKd-tW-RwG"/>
                                                         <constraint firstItem="LAA-Rz-HUh" firstAttribute="top" secondItem="5nU-48-Ubc" secondAttribute="bottom" constant="3" id="OcI-a2-286"/>
-                                                        <constraint firstAttribute="trailing" secondItem="Obq-Kp-AOa" secondAttribute="trailing" constant="8" id="QrA-R6-gKo"/>
                                                         <constraint firstItem="5nU-48-Ubc" firstAttribute="leading" secondItem="dbX-Af-div" secondAttribute="leadingMargin" id="S8d-2a-dSE"/>
                                                         <constraint firstItem="5nU-48-Ubc" firstAttribute="top" secondItem="j0K-vv-JYH" secondAttribute="bottom" id="TPO-tp-PWk"/>
                                                         <constraint firstAttribute="trailing" secondItem="j0K-vv-JYH" secondAttribute="trailing" constant="8" id="UQu-jc-dOz"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="1Cc-N7-tvJ" secondAttribute="trailing" constant="-8" id="VDC-ga-jo1"/>
                                                         <constraint firstAttribute="trailing" secondItem="LAA-Rz-HUh" secondAttribute="trailing" id="Vmv-ci-Dbn"/>
                                                         <constraint firstItem="1Cc-N7-tvJ" firstAttribute="leading" secondItem="dbX-Af-div" secondAttribute="leadingMargin" constant="-8" id="X99-BF-FAd"/>
-                                                        <constraint firstItem="LAA-Rz-HUh" firstAttribute="top" secondItem="Obq-Kp-AOa" secondAttribute="bottom" constant="3" id="ZXi-Po-ily"/>
                                                         <constraint firstItem="j0K-vv-JYH" firstAttribute="top" secondItem="6dv-fn-8x8" secondAttribute="bottom" constant="8" id="gvt-r2-Nvf"/>
                                                         <constraint firstItem="j0K-vv-JYH" firstAttribute="top" secondItem="6dv-fn-8x8" secondAttribute="bottom" id="kAw-6K-aiW"/>
                                                         <constraint firstItem="j0K-vv-JYH" firstAttribute="top" secondItem="6dv-fn-8x8" secondAttribute="bottom" constant="4" id="kRE-Ji-yiM"/>
@@ -183,7 +182,6 @@
                                                             <exclude reference="GDX-b6-HQf"/>
                                                             <exclude reference="S8d-2a-dSE"/>
                                                             <exclude reference="TPO-tp-PWk"/>
-                                                            <exclude reference="GSv-Tq-7Sa"/>
                                                         </mask>
                                                     </variation>
                                                 </tableViewCellContentView>

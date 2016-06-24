@@ -17,7 +17,7 @@ private var smallTextStyle : OEXTextStyle {
 }
 
 private var smallIconStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
 }
 
 private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
@@ -214,11 +214,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private let identifierCommentCell = "CommentCell"
-    private let minBodyTextHeight: CGFloat = 20.0
-    private let nonBodyTextHeight: CGFloat = 35.0
-    private let defaultResponseCellHeight: CGFloat = 50.0
-    private let defaultCommentCellHeight: CGFloat = 55.0
-    
     private let environment: Environment
     private let courseID: String
     private let discussionManager : DiscussionDataManager
