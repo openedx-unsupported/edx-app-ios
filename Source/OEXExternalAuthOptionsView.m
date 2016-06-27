@@ -39,6 +39,9 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
             [self addSubview:button];
             return button;
         }];
+        
+        if (self.itemsPerRow <= 1 )
+            self.itemsPerRow = 1;
     }
 
     return self;
