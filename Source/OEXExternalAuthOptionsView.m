@@ -28,9 +28,10 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
 - (id)initWithFrame:(CGRect)frame providers:(nonnull NSArray *)providers tapAction:(void(^)(id<OEXExternalAuthProvider>))tapAction {
     self = [super initWithFrame:frame];
     if(self != nil) {
-        self.itemsPerRow = 2;
+        
         self.rowSpacing = [[OEXStyles sharedStyles] standardVerticalMargin];
         self.optionButtons = [providers oex_map:^id(id <OEXExternalAuthProvider> provider) {
+            self.itemsPerRow += 1;
             UIButton* button = [provider freshAuthButton];
             [button oex_addAction:^(id  _Nonnull control) {
                 tapAction(provider);
