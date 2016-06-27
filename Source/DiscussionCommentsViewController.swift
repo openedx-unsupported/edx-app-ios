@@ -30,7 +30,7 @@ class DiscussionCommentCell: UITableViewCell {
     private let authorButton = UIButton(type: .System)
     private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
-    private let containerView = IrregularBorderView()
+    private let containerView = UIView()
     private let endorsedLabel = UILabel()
     private let authorProfileImage = UIImageView()
     private let authorNameLabel = UILabel()
@@ -40,11 +40,7 @@ class DiscussionCommentCell: UITableViewCell {
         return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
-    private func setEndorsed(endorsed : Bool, position: CellPosition) {
-        
-        self.containerView.style = IrregularBorderStyle(position: position, base: BorderStyle())
-        let showsDivider = !endorsed && !position.contains(.Bottom)
-        self.divider.backgroundColor = showsDivider ? OEXStyles.sharedStyles().neutralXLight() : nil
+    private func setEndorsed(endorsed : Bool) {
         endorsedLabel.hidden = !endorsed
     }
     
@@ -54,12 +50,14 @@ class DiscussionCommentCell: UITableViewCell {
         
         applyStandardSeparatorInsets()
         addSubViews()
-        setConstraints()
-        
+        setConstraints()        
         bodyTextLabel.numberOfLines = 0
         containerView.userInteractionEnabled = true
         commentCountOrReportIconButton.localizedHorizontalContentAlignment = .Trailing
         contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
+        divider.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
+        containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        containerView.applyBorderStyle(BorderStyle())
     }
     
     private func addSubViews() {
@@ -125,13 +123,15 @@ class DiscussionCommentCell: UITableViewCell {
             make.top.equalTo(bodyTextLabel.snp_bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
+            make.height.equalTo(StandardVerticalMargin)
             make.bottom.equalTo(containerView)
-            make.height.equalTo(OEXStyles.dividerSize())
         }
     }
     
-    func useResponse(response : DiscussionComment, position : CellPosition, viewController : DiscussionCommentsViewController) {
-        containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+    func useResponse(response : DiscussionComment, viewController : DiscussionCommentsViewController) {
+        divider.snp_updateConstraints { (make) in
+            make.height.equalTo(StandardVerticalMargin)
+        }
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.rawBody)
         DiscussionHelper.styleAuthorDetails(response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
@@ -141,14 +141,15 @@ class DiscussionCommentCell: UITableViewCell {
             smallTextStyle.attributedStringWithText(message)])
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        setEndorsed(response.endorsed, position: position)
+        setEndorsed(response.endorsed)
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
-    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition, index: NSInteger) {
-        
+    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, index: NSInteger) {
+        divider.snp_updateConstraints { (make) in
+            make.height.equalTo(2)
+        }
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
-        self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
         DiscussionHelper.styleAuthorDetails(comment.author, authorLabel: comment.authorLabel, createdAt: comment.createdAt, hasProfileImage: comment.hasProfileImage, imageURL: comment.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
@@ -171,7 +172,7 @@ class DiscussionCommentCell: UITableViewCell {
             }, forEvents: UIControlEvents.TouchUpInside)
         
         
-        setEndorsed(false, position: position)
+        setEndorsed(false)
         setNeedsLayout()
         layoutIfNeeded()
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
@@ -411,19 +412,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Response):
-            let hasComments = comments.count > 0
-            let position : CellPosition = hasComments ? [.Top] : [.Top, .Bottom]
-            cell.useResponse(responseItem, position: position, viewController: self)
-            
+            cell.useResponse(responseItem, viewController: self)
             if let thread = thread {
                 DiscussionHelper.updateEndorsedTitle(thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
             }
             
             return cell
         case .Some(.Comments):
-            let isLastRow = tableView.isLastRow(indexPath: indexPath)
-            let commentPosition = isLastRow ? CellPosition.Bottom : []
-            cell.useComment(comments[indexPath.row], inViewController: self, position: commentPosition, index: indexPath.row)
+            cell.useComment(comments[indexPath.row], inViewController: self, index: indexPath.row)
             return cell
         case .None:
             assert(false, "Unknown table section")
