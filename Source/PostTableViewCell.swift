@@ -102,10 +102,8 @@ class PostTableViewCell: UITableViewCell {
         }
     }
 
-    private func updateThreadCount(count : String, selectedOrderBy : DiscussionPostsSort, hasActivity activity: Bool, hidden: Bool ) {
-        let textStyle = activity ? activeCountStyle : inactiveCountStyle
-        countLabel.attributedText = textStyle.attributedStringWithText(count)
-        countLabel.hidden = hidden
+    private func updateThreadCount(count : String) {
+        countLabel.attributedText = activeCountStyle.attributedStringWithText(count)
     }
     
     func useThread(thread : DiscussionThread, selectedOrderBy : DiscussionPostsSort) {
@@ -128,10 +126,9 @@ class PostTableViewCell: UITableViewCell {
         
         infoLabel.attributedText = NSAttributedString.joinInNaturalLayout(options)
         
-        let count = countForThread(thread, sortBy: selectedOrderBy)
-        let hasActivity = shouldShowActivityForThread(thread, sortBy: selectedOrderBy)
-        let hidden = shouldHideCountLabel(thread, sortBy: selectedOrderBy)
-        updateThreadCount(count, selectedOrderBy: selectedOrderBy, hasActivity: hasActivity, hidden: hidden)
+        let count = formatdCommentsCount(thread.unreadCommentCount)
+        countLabel.attributedText = activeCountStyle.attributedStringWithText(count)
+        countLabel.hidden = !Bool(thread.unreadCommentCount)
     }
     
     private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
@@ -156,33 +153,6 @@ class PostTableViewCell: UITableViewCell {
             return (thread.unreadCommentCount > 0) ? Icon.Comments.attributedTextWithStyle(activeCountStyle) : Icon.Comments.attributedTextWithStyle(inactiveCountStyle)
         case .Question:
             return thread.hasEndorsed ? Icon.Answered.attributedTextWithStyle(answerStyle) : Icon.Question.attributedTextWithStyle(questionStyle)
-        }
-    }
-    
-    private func countForThread(thread : DiscussionThread, sortBy : DiscussionPostsSort) -> String {
-        switch sortBy {
-        case .VoteCount:
-            return formatdCommentsCount(thread.voteCount)
-        case .RecentActivity, .MostActivity:
-            return formatdCommentsCount(thread.unreadCommentCount)
-        }
-    }
-    
-    private func shouldShowActivityForThread(thread : DiscussionThread, sortBy : DiscussionPostsSort) -> Bool {
-        switch sortBy {
-        case .VoteCount:
-            return thread.voted
-        case .RecentActivity, .MostActivity:
-            return thread.unreadCommentCount != 0
-        }
-    }
-    
-    private func shouldHideCountLabel(thread : DiscussionThread, sortBy : DiscussionPostsSort) -> Bool {
-        switch sortBy {
-        case .VoteCount:
-            return false
-        case .RecentActivity, .MostActivity:
-            return thread.unreadCommentCount == 0
         }
     }
 }
