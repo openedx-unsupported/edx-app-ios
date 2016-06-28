@@ -35,11 +35,13 @@ class DiscussionTestsDataFactory: NSObject {
         voted: true,
         voteCount: 4,
         createdAt: NSDate.stableTestDate(),
-        updatedAt: nil,
+        updatedAt: NSDate.stableTestDate(),
         editableFields: nil,
         read: true,
         unreadCommentCount: 0,
-        responseCount: 0)
+        responseCount: 0,
+        hasProfileImage: false,
+        imageURL: nil)
     
     static let unreadThread = DiscussionThread(
         threadID: "123",
@@ -56,19 +58,21 @@ class DiscussionTestsDataFactory: NSObject {
         commentCount: 5,
         commentListUrl: nil,
         hasEndorsed: true,
-        pinned: false,
+        pinned: true,
         closed: false,
-        following: false,
+        following: true,
         flagged: false,
         abuseFlagged: false,
         voted: true,
         voteCount: 4,
         createdAt: NSDate.stableTestDate(),
-        updatedAt: nil,
+        updatedAt: NSDate.stableTestDate(),
         editableFields: nil,
         read: false,
-        unreadCommentCount: 0,
-        responseCount: 0)
+        unreadCommentCount: 4,
+        responseCount: 0,
+        hasProfileImage: false,
+        imageURL: nil)
     
     static let unendorsedComment = DiscussionComment(
         commentID: "123",
@@ -89,7 +93,9 @@ class DiscussionTestsDataFactory: NSObject {
         flagged: false,
         abuseFlagged: false,
         editableFields: nil,
-        childCount: 0)
+        childCount: 0,
+        hasProfileImage: false,
+        imageURL: nil)
     
     static let unendorsedComment1 = DiscussionComment(
         commentID: "124",
@@ -110,7 +116,9 @@ class DiscussionTestsDataFactory: NSObject {
         flagged: false,
         abuseFlagged: false,
         editableFields: nil,
-        childCount: 5)
+        childCount: 5,
+        hasProfileImage: false,
+        imageURL: nil)
     
     static let endorsedComment = DiscussionComment(
         commentID: "125",
@@ -131,7 +139,9 @@ class DiscussionTestsDataFactory: NSObject {
         flagged: false,
         abuseFlagged: false,
         editableFields: nil,
-        childCount: 0)
+        childCount: 0,
+        hasProfileImage: false,
+        imageURL: nil)
     
     static let endorsedComment1 = DiscussionComment(
         commentID: "126",
@@ -152,7 +162,9 @@ class DiscussionTestsDataFactory: NSObject {
         flagged: false,
         abuseFlagged: false,
         editableFields: nil,
-        childCount: 2)
+        childCount: 2,
+        hasProfileImage: false,
+        imageURL: nil)
     
     static func unendorsedResponses()-> [DiscussionComment] {
         return [unendorsedComment, unendorsedComment1]

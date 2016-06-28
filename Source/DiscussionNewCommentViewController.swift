@@ -47,26 +47,8 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             case let .Comment(comment): return comment.author
             }
         }
-        
-        func authorLabelForTextStyle(style : OEXTextStyle) -> NSAttributedString {
-            switch self {
-            case let .Thread(thread): return thread.formattedUserLabel(style)
-            case let .Comment(comment): return comment.formattedUserLabel(style)
-            }
-        }
-        
-        func endorsedLabelForTextStyle(style : OEXTextStyle, type: DiscussionThreadType) -> NSAttributedString? {
-            switch self {
-            case .Thread(_): return nil
-            case let .Comment(comment): return comment.formattedUserLabel(comment.endorsedBy, date: comment.endorsedAt, label: comment.endorsedByLabel, endorsedLabel: true, threadType: type, textStyle: style)
-            }
-        }
-        
     }
-    
-    private let ANSWER_LABEL_VISIBLE_HEIGHT : CGFloat = 15
-    
-    private let minBodyTextHeight: CGFloat = 66 // height for 3 lines of text
+
     private let environment: Environment
     
     weak var delegate: DiscussionNewCommentViewControllerDelegate?
@@ -76,12 +58,14 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var responseTitle: UILabel!
     @IBOutlet private var answerLabel: UILabel!
     @IBOutlet private var responseBody: UILabel!
-    @IBOutlet private var personTimeLabel: UILabel!
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var contentTitleLabel: UILabel!
     @IBOutlet private var authorButton: UIButton!
-    @IBOutlet private var viewHeight: NSLayoutConstraint!
+    @IBOutlet weak var authorNamelabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var authorProfileImage: UIImageView!
     
     private let insetsController = ContentInsetsController()
     private let growingTextController = GrowingTextViewController()
@@ -100,14 +84,8 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         didSet {
             containerView.applyBorderStyle(BorderStyle())
             answerLabel.hidden = !isEndorsed
-            
             responseTitle.snp_updateConstraints { (make) -> Void in
-                if isEndorsed {
-                    make.top.equalTo(answerLabel.snp_bottom)
-                }
-                else {
-                    make.top.equalTo(containerView).offset(8)
-                }
+                make.top.equalTo(authorProfileImage.snp_bottom).offset(StandardVerticalMargin)
             }
         }
     }
@@ -195,11 +173,14 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         self.insetsController.setupInController(self, scrollView: scrollView)
         self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: addCommentButton)
+        
+        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
     override public func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         logScreenEvent()
+        authorDetails()
     }
     
     override public func shouldAutorotate() -> Bool {
@@ -220,6 +201,15 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
     }
     
+    private func authorDetails() {
+        switch context {
+        case let .Comment(commnet):
+            DiscussionHelper.styleAuthorDetails(commnet.author, authorLabel: commnet.authorLabel, createdAt: commnet.createdAt, hasProfileImage: commnet.hasProfileImage, imageURL: commnet.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
+        case let .Thread(thread):
+            DiscussionHelper.styleAuthorDetails(thread.author, authorLabel: thread.authorLabel, createdAt: thread.createdAt, hasProfileImage: thread.hasProfileImage, imageURL: thread.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
+        }
+    }
+    
     public func textViewDidChange(textView: UITextView) {
         self.validateAddButton()
         self.growingTextController.handleTextChange()
@@ -238,19 +228,19 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     // For determining the context of the screen and also manipulating the relevant elements on screen
     private func setupContext() {
         let buttonTitle : String
-        let placeholderText : String
+        let titleText : String
         let navigationItemTitle : String
         
         switch context {
         case let .Thread(thread):
             buttonTitle = Strings.addResponse
-            placeholderText = Strings.addAResponse
+            titleText = Strings.addAResponse
             navigationItemTitle = Strings.addResponse
             responseTitle.attributedText = responseTitleStyle.attributedStringWithText(thread.title)
             self.isEndorsed = false
         case let .Comment(comment):
             buttonTitle = Strings.addComment
-            placeholderText = Strings.addAComment
+            titleText = Strings.addAComment
             navigationItemTitle = Strings.addComment
             responseTitle.snp_makeConstraints{ (make) -> Void in
                 make.height.equalTo(0)
@@ -262,14 +252,12 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         responseBody.attributedText = responseBodyStyle.attributedStringWithText(context.rawBody)
         
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
-        contentTextView.placeholder = placeholderText
+        self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([responseBodyStyle.attributedStringWithText(titleText), responseBodyStyle.attributedStringWithText(Strings.asteric)])
         self.navigationItem.title = navigationItemTitle
             
         if case .Comment(_) = self.context, let thread = thread{
             DiscussionHelper.updateEndorsedTitle(thread, label: answerLabel, textStyle: answerLabelStyle)
         }
-        
-        DiscussionHelper.styleAuthorButton(authorButton, title: context.authorLabelForTextStyle(personTimeLabelStyle), author: self.context.author, viewController: self, router: self.environment.router)
     }
 
 }
