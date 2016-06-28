@@ -41,7 +41,11 @@ import Foundation
         playedState: OEXPlayedState
         ) -> VideoData
     func videoDownloadComplete(data: VideoData?)
+    func videoDownloadCancelled(data: VideoData?)
     func videosForTaskIdentifier(taskId: Int) -> [VideoData]?
+    func videosForDownloadState(state: OEXDownloadState) -> [VideoData]?
+    func pausedAllDownloads()
+    func allCurrentlyDownloadingVideos(url: String) -> [VideoData]?
 }
 
 
@@ -271,6 +275,14 @@ private enum Entities : String {
         save()
     }
 
+    func videoDownloadCancelled(data: VideoData?) {
+        guard let data = data else { return }
+        data.download_state = OEXDownloadState.New.rawValue
+        data.dm_id = 0
+        deleteVideoData(data.video_id!)
+        save()
+    }
+
     func videosForTaskIdentifier(taskId: Int) -> [VideoData]? {
         let fetchRequest = Entities.VideoData.fetchRequest(context)
 
@@ -280,5 +292,24 @@ private enum Entities : String {
         let result = try? context.executeFetchRequest(fetchRequest) as? [VideoData]
         return result?.flatMap { return $0 }
     }
-}
 
+    func videosForDownloadState(state: OEXDownloadState) -> [VideoData]? {
+        guard let videos = allVideos() else { return nil }
+        return videos.filter { $0.download_state == state.rawValue }
+    }
+
+    func pausedAllDownloads() {
+        guard let videos = allVideos() else { return }
+        for video in videos {
+            if video.download_state == OEXDownloadState.Partial.rawValue || video.dm_id != 0 {
+                video.dm_id = 0
+            }
+        }
+        save()
+    }
+
+    func allCurrentlyDownloadingVideos(url: String) -> [VideoData]? {
+        guard let videos = videosDownloadsForUrl(url) else { return nil }
+        return videos.filter { $0.download_state == OEXDownloadState.Partial.rawValue  || $0.dm_id != 0}
+    }
+}

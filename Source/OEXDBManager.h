@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OEXDBManager2 : NSObject <OEXStorageInterface>
+@interface OEXDBManager2 : NSObject <OEXStorageInterface2>
 {
 }
 //Singleton method
