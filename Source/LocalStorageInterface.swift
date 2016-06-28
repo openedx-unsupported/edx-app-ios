@@ -8,15 +8,40 @@
 
 import Foundation
 
+//TODO: split the implementation of these into two different providers
 @objc protocol CourseInfoStorageInterface: class {
     func lastAccessedData(courseId: String) -> LastAccessed?
     func setLastAccessedSubsection(subsectionID: String, subsectionName: String, courseID: String, timestamp: String)
+    func deactivate()
 }
 
 @objc protocol VideoStorageInterface: class {
     func lastPlayedInterval(videoId: String) -> Float
     func markLastPlayedInterval(videoId: String, interval: Float)
+    func markPlayedState(videoId: String, state: OEXPlayedState)
     func deleteVideoData(videoId: String)
+    func registerAllVideos(forEnrollments courses:Set<String>)
+    func deleteUnregisteredVideos()
+    func insertVideoData(
+        username: String?,
+        title: String?,
+        size: String?,
+        duration: String?,
+        downloadState: OEXDownloadState,
+        videoUrl: String?,
+        videoId: String,
+        unitURL: String?,
+        courseId: String?,
+        dmId: Int,
+        chapterName: String?,
+        sectionName: String?,
+        downloadTimestamp: NSDate?,
+        lastPlayedTime: Float,
+        isRegistered: Bool,
+        playedState: OEXPlayedState
+        ) -> VideoData
+    func videoDownloadComplete(data: VideoData?)
+    func videosForTaskIdentifier(taskId: Int) -> [VideoData]?
 }
 
 
@@ -27,7 +52,15 @@ private enum Entities : String {
     func entity(context: NSManagedObjectContext) -> NSEntityDescription {
         return NSEntityDescription.entityForName(self.rawValue, inManagedObjectContext: context)!
     }
+
+    func fetchRequest(context: NSManagedObjectContext) -> NSFetchRequest {
+        let fetchRequest = NSFetchRequest()
+        fetchRequest.entity = entity(context)
+        return fetchRequest
+    }
 }
+
+//TODO: continue moving functionality out of OEXInterface that is video state specific
 
 @objc class CoreDataStorage : NSObject, CourseInfoStorageInterface, VideoStorageInterface {
 
@@ -61,11 +94,16 @@ private enum Entities : String {
         }
     }
 
+    func deactivate() {
+        Logger.logInfo("STORAGE", "Deactivating database")
+        save()
+        context.reset()
+    }
+
     //MARK: - Last Accessed
 
     func lastAccessedData(courseId: String) -> LastAccessed? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = Entities.LastAccessed.entity(context)
+        let fetchRequest = Entities.LastAccessed.fetchRequest(context)
 
         let query = NSPredicate(format: "course_id==%@", courseId)
         fetchRequest.predicate = query
@@ -89,9 +127,14 @@ private enum Entities : String {
 
     //MARK: - Videos
 
+    func allVideos() -> [VideoData]? {
+        let fetchRequest = Entities.VideoData.fetchRequest(context)
+        let result = try? context.executeFetchRequest(fetchRequest) as? [VideoData]
+        return result?.flatMap { return $0 }
+    }
+
     func videoData(videoId: String) -> VideoData? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = Entities.VideoData.entity(context)
+        let fetchRequest = Entities.VideoData.fetchRequest(context)
 
         let query = NSPredicate(format: "video_id==%@", videoId)
         fetchRequest.predicate = query
@@ -100,9 +143,8 @@ private enum Entities : String {
         return result?.flatMap { return $0.first }
     }
 
-    func videoDownloadsForUrl(downloadURL: String) -> [VideoData]? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = Entities.VideoData.entity(context)
+    func videosDownloadsForUrl(downloadURL: String) -> [VideoData]? {
+        let fetchRequest = Entities.VideoData.fetchRequest(context)
 
         let query = NSPredicate(format: "video_url==%@", downloadURL)
         fetchRequest.predicate = query
@@ -122,10 +164,16 @@ private enum Entities : String {
         save()
     }
 
-    func deleteVideoData(videoId: String) {
+    func markPlayedState(videoId: String, state: OEXPlayedState) {
         guard let videoData = videoData(videoId) else { return }
+        videoData.played_state = state.rawValue
+        save()
+    }
+
+    func deleteVideoData(videoId: String) {
+        guard let videoData = videoData(videoId), videoURL = videoData.video_url else { return }
         var referenceCount = 0
-        if let videos = videoDownloadsForUrl(videoData.video_url) where videos.count > 1 {
+        if let videos = videosDownloadsForUrl(videoURL) where videos.count > 1 {
             for video in videos {
                 if video.download_state.integerValue == OEXDownloadState.Complete.rawValue {
                     referenceCount += 1
@@ -139,9 +187,98 @@ private enum Entities : String {
         save()
 
         if (referenceCount <= 1) {
-            FileSystemProvider.deleteVideoFile(videoData.video_url)
+            FileSystemProvider.deleteVideoFile(videoURL)
         }
 
+    }
+
+    func registerAllVideos(forEnrollments courses:Set<String>) {
+        guard let videos = allVideos() else { return }
+
+        for video in videos {
+            if video.enrollment_id != nil && courses.contains(video.enrollment_id!) {
+                video.is_registered = true
+            }
+        }
+        save()
+    }
+
+    func deleteUnregisteredVideos() {
+        let fetchRequest = Entities.VideoData.fetchRequest(context)
+        fetchRequest.predicate = NSPredicate(format: "is_registered==%@", false)
+
+        if let videos = (try? context.executeFetchRequest(fetchRequest)) as? [VideoData] {
+            for video in videos {
+                if let url = video.video_url {
+                    FileSystemProvider.deleteVideoFile(url)
+                }
+                context.deleteObject(video)
+            }
+            save()
+        }
+    }
+
+    func insertVideoData(
+        username: String?,
+        title: String?,
+        size: String?,
+        duration: String?,
+        downloadState: OEXDownloadState,
+        videoUrl: String?,
+        videoId: String,
+        unitURL: String?,
+        courseId: String?,
+        dmId: Int,
+        chapterName: String?,
+        sectionName: String?,
+        downloadTimestamp: NSDate?,
+        lastPlayedTime: Float,
+        isRegistered: Bool,
+        playedState: OEXPlayedState
+        ) -> VideoData {
+        var data: VideoData! = videoData(videoId)
+
+        if data == nil {
+            data = NSEntityDescription.insertNewObjectForEntityForName(Entities.VideoData.rawValue, inManagedObjectContext: context) as? VideoData
+        }
+
+        data?.username = username
+        data?.title = title
+        data?.size = size
+        data?.duration = duration
+        data?.download_state = downloadState.rawValue
+        data?.video_url = videoUrl
+        data?.video_id = videoId
+        data?.unit_url = unitURL
+        data?.enrollment_id = courseId
+        data?.dm_id = dmId
+        data?.chapter_name = chapterName
+        data?.section_name = sectionName
+        data?.downloadCompleteDate = downloadTimestamp
+        data?.last_played_offset = lastPlayedTime
+        data?.is_registered = isRegistered
+        data?.played_state = playedState.rawValue
+
+        save()
+        return data
+    }
+
+    func videoDownloadComplete(data: VideoData?) {
+        guard let data = data else { return }
+        data.download_state = OEXDownloadState.Complete.rawValue
+        data.downloadCompleteDate = NSDate()
+        data.dm_id = 0
+        save()
+    }
+
+    func videosForTaskIdentifier(taskId: Int) -> [VideoData]? {
+        let fetchRequest = Entities.VideoData.fetchRequest(context)
+
+        let query = NSPredicate(format: "dm_id==%lu", taskId)
+        fetchRequest.predicate = query
+
+        let result = try? context.executeFetchRequest(fetchRequest) as? [VideoData]
+        return result?.flatMap { return $0 }
     }
 }
 

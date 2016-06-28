@@ -45,7 +45,7 @@ extern NSString* const OEXDownloadEndedNotification;
 
 @property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
 
-@property (nonatomic, weak, nullable) CoreDataStorage* storage;
+@property (nonatomic, strong, nullable) CoreDataStorage* storage;
 
 // [String(Course.video_outline) : OEXHelperVideoDownload]
 // TODO: Make this indexed by courseID instead of course.video_outline
@@ -127,7 +127,6 @@ extern NSString* const OEXDownloadEndedNotification;
 - (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo;
 
 #pragma mark- For Refresh of all Courses.
-- (void)setAllEntriesUnregister;
 /// @param courses Array of OEXCourse*
 - (void)setRegisteredCourses:(NSArray<OEXCourse*>*)courses;
 - (void)deleteUnregisteredItems;

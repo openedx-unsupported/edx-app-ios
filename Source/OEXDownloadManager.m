@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Abhishek Bhagat on 10/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
 #import "OEXDownloadManager.h"
@@ -18,7 +18,6 @@
 #import "OEXNetworkConstants.h"
 #import "OEXSession.h"
 #import "OEXStorageInterface.h"
-#import "OEXStorageFactory.h"
 #import "OEXUserDetails.h"
 
 static OEXDownloadManager* _downloadManager = nil;
@@ -30,7 +29,7 @@ static NSURLSession* videosBackgroundSession = nil;
 @interface OEXDownloadManager () <NSURLSessionDownloadDelegate>
 {
 }
-@property(nonatomic, weak) id <OEXStorageInterface>storage;
+@property(nonatomic, readonly, nullable) CoreDataStorage* storage;
 @property(nonatomic, strong) NSMutableDictionary* dictVideoData;
 @property(nonatomic, assign) BOOL isActive;
 @end
@@ -56,13 +55,8 @@ static NSURLSession* videosBackgroundSession = nil;
     _isActive = YES;
 }
 
-- (id <OEXStorageInterface>)storage {
-    if(_isActive) {
-        return [OEXStorageFactory getInstance];
-    }
-    else {
-        return nil;
-    }
+- (CoreDataStorage*) storage {
+    return _isActive ? [OEXInterface sharedInterface].storage : nil;
 }
 
 - (void)activateDownloadManager {
