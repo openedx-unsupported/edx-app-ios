@@ -114,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setRegisteredCoursesAndDeleteUnregisteredData:(NSString*)courseid;
 - (void)deleteUnregisteredItems;
 
-- (void)createDatabaseDirectory;
+//- (void)createDatabaseDirectory;
 
 - (void)createVideosDirectory;
 

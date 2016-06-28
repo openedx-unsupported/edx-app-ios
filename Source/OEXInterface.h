@@ -18,8 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXUserDetails;
 @class UserCourseEnrollment;
 @class VideoData;
-
-@protocol LocalStorageInterface;
+@class CoreDataStorage;
 
 /// Fires when the course list changes
 extern NSString* const OEXCourseListChangedNotification;
@@ -46,7 +45,7 @@ extern NSString* const OEXDownloadEndedNotification;
 
 @property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
 
-@property (nonatomic, weak, nullable) id <LocalStorageInterface> storage;
+@property (nonatomic, weak, nullable) CoreDataStorage* storage;
 
 // [String(Course.video_outline) : OEXHelperVideoDownload]
 // TODO: Make this indexed by courseID instead of course.video_outline

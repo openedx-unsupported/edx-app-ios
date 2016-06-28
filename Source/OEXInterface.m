@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 22/05/14.
-//  Copyright (c) 2014-2015 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
 @import edXCore;
@@ -30,7 +30,6 @@
 #import "OEXHelperVideoDownload.h"
 #import "OEXNetworkConstants.h"
 #import "OEXSession.h"
-#import "OEXStorageFactory.h"
 #import "OEXUserDetails.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
@@ -213,9 +212,9 @@ static OEXInterface* _sharedInterface = nil;
     return NO;
 }
 
-- (void)createDatabaseDirectory {
-    [_storage createDatabaseDirectory];
-}
+//- (void)createDatabaseDirectory {
+//    [_storage createDatabaseDirectory];
+//}
 
 #pragma mark Wifi Only
 
@@ -426,7 +425,8 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (NSData*)resourceDataForURLString:(NSString*)URLString downloadIfNotAvailable:(BOOL)shouldDownload {
-    NSData* data = [_storage dataForURLString:URLString];
+
+    NSData* data = [FileSystemProvider dataAtURLString:URLString];
     //If data is not downloaded, start download
     if(!data && shouldDownload) {
         [self downloadWithRequestString:URLString forceUpdate:NO];
@@ -439,14 +439,13 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (float)lastPlayedIntervalForVideoID:(NSString*)videoID {
-    return [_storage lastPlayedIntervalForVideoID:videoID];
+    return [_storage lastPlayedInterval:videoID];
 }
 
 - (void)markLastPlayedInterval:(float)playedInterval forVideoID:(NSString*)videoId {
-    if(playedInterval <= 0) {
-        return;
+    if (playedInterval > 0) {
+        [_storage markLastPlayedInterval:videoId interval:playedInterval];
     }
-    [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
 }
 
 - (void)deleteDownloadedVideoForVideoId:(NSString*)videoId completionHandler:(void (^)(BOOL success))completionHandler {
