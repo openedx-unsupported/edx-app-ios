@@ -3,7 +3,7 @@
 //  edX
 //
 //  Created by Ehmad Zubair Chughtai on 03/07/2015.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
 import UIKit
@@ -99,7 +99,7 @@ public class CourseLastAccessedController: NSObject {
                 var item = $0.1
                 item.moduleName = block.displayName
                 
-                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(item.moduleId, subsectionName: block.displayName, courseID: self!.courseID, timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
                 self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item)
             }
             

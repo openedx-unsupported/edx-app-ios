@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Nirbhay Agarwal on 22/05/14.
-//  Copyright (c) 2014-2015 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,13 +11,15 @@
 
 #import "OEXNetworkInterface.h"
 #import "OEXCourse.h"
-#import "OEXStorageInterface.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class OEXHelperVideoDownload;
 @class OEXUserDetails;
 @class UserCourseEnrollment;
+@class VideoData;
+
+@protocol LocalStorageInterface;
 
 /// Fires when the course list changes
 extern NSString* const OEXCourseListChangedNotification;
@@ -44,7 +46,7 @@ extern NSString* const OEXDownloadEndedNotification;
 
 @property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
 
-@property (nonatomic, weak, nullable) id <OEXStorageInterface>  storage;
+@property (nonatomic, weak, nullable) id <LocalStorageInterface> storage;
 
 // [String(Course.video_outline) : OEXHelperVideoDownload]
 // TODO: Make this indexed by courseID instead of course.video_outline

@@ -17,9 +17,9 @@
 #import "OEXSession.h"
 #import "VideoData.h"
 
-static OEXDBManager* _sharedManager = nil;
+static OEXDBManager2* _sharedManager = nil;
 
-@interface OEXDBManager ()
+@interface OEXDBManager2 ()
 @property (nonatomic, strong) NSManagedObjectModel* managedObjectModel;
 @property (nonatomic, strong) NSManagedObjectContext* masterManagedObjectContext;
 @property (nonatomic, strong) NSPersistentStoreCoordinator* persistentStoreCoordinator;
@@ -31,7 +31,7 @@ static OEXDBManager* _sharedManager = nil;
 - (NSManagedObjectContext*)masterManagedObjectContext;
 @end
 
-@implementation OEXDBManager
+@implementation OEXDBManager2
 
 #pragma appdelegate code
 
@@ -177,11 +177,11 @@ static OEXDBManager* _sharedManager = nil;
 //===================================================================================================================//
 #pragma mark - Singleton method
 
-+ (OEXDBManager*)sharedManager {
++ (OEXDBManager2*)sharedManager {
     if(!_sharedManager) {
         OEXUserDetails* user = [[OEXSession sharedSession] currentUser];
         if(user) {
-            _sharedManager = [[OEXDBManager alloc] init];
+            _sharedManager = [[OEXDBManager2 alloc] init];
             [_sharedManager openDatabaseForUser:user.username];
         }
         else {

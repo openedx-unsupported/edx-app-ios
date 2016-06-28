@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol OEXStorageInterface <NSObject>
+@protocol OEXStorageInterface2 <NSObject>
 
 // Save all table data at a time
 - (void)saveCurrentStateToDB;

@@ -11,11 +11,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OEXDBManager : NSObject <OEXStorageInterface>
+@interface OEXDBManager2 : NSObject <OEXStorageInterface>
 {
 }
 //Singleton method
-+ (OEXDBManager*)sharedManager;
++ (OEXDBManager2*)sharedManager;
 @end
 
 NS_ASSUME_NONNULL_END
