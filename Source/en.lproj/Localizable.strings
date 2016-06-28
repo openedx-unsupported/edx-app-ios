@@ -398,8 +398,6 @@
 "POSTS_IM_FOLLOWING" = "Posts I'm Following";
 /* Navigation item title for post and responses */
 "DISCUSSION_POST" = "Discussion Post";
-/*Error message when operation failed on post in duscussions*/
-"DISCUSSIONS.GENERIC_ERROR" = "Your action could not be completed.";
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
 /* Post question button title in Create a new post */
@@ -578,6 +576,8 @@
 "UNTITLED"="Untitled";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
+/*Error message when operation failed with unknow error*/
+"UNKNOWN_ERROR" = "Your action could not be completed.";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "Version {number} {environment}";
 /* Error shown when video download fails */
