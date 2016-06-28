@@ -30,7 +30,7 @@ class DiscussionHelper: NSObject {
             return Strings.networkNotAvailableMessageTrouble
         }
         else {
-            return Strings.Discussions.genericError
+            return Strings.unknownError
         }
     }
     
