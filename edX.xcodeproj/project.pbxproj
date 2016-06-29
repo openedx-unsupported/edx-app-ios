@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */; };
-		1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1401A1386C2006A5524 /* OEXDBManager.m */; };
 		1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */; };
 		1904A14E1A1386C2006A5524 /* VideoData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1431A1386C2006A5524 /* VideoData.m */; };
 		1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1461A1386C2006A5524 /* ResourceData.m */; };
@@ -128,6 +127,7 @@
 		1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */; };
 		1AC9EC3D1D22959600E53842 /* LocalStorageInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC9EC3C1D22959600E53842 /* LocalStorageInterface.swift */; };
 		1AC9EC411D22AFBF00E53842 /* FileSystemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC9EC401D22AFBF00E53842 /* FileSystemProvider.swift */; };
+		1AC9EC431D24381500E53842 /* CoreDataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC9EC421D24381500E53842 /* CoreDataStorage.swift */; };
 		1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */; };
 		1AE0A6C81BF4F68A00E14917 /* CourseCertificateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0A6C71BF4F68A00E14917 /* CourseCertificateCell.swift */; };
 		1AE0A6CA1BF4FF9000E14917 /* UserCourseEnrollment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0A6C91BF4FF9000E14917 /* UserCourseEnrollment.swift */; };
@@ -701,14 +701,11 @@
 /* Begin PBXFileReference section */
 		0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCoursewareAccess.m; sourceTree = "<group>"; };
 		0B1212231B4F08B6002EE96C /* OEXCoursewareAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXCoursewareAccess.h; sourceTree = "<group>"; };
-		1904A1401A1386C2006A5524 /* OEXDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDBManager.m; sourceTree = "<group>"; };
 		1904A1411A1386C2006A5524 /* edXDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = edXDB.xcdatamodel; sourceTree = "<group>"; };
-		1904A1421A1386C2006A5524 /* OEXStorageInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXStorageInterface.h; sourceTree = "<group>"; };
 		1904A1431A1386C2006A5524 /* VideoData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoData.m; sourceTree = "<group>"; };
 		1904A1441A1386C2006A5524 /* VideoData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoData.h; sourceTree = "<group>"; };
 		1904A1451A1386C2006A5524 /* ResourceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceData.h; sourceTree = "<group>"; };
 		1904A1461A1386C2006A5524 /* ResourceData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResourceData.m; sourceTree = "<group>"; };
-		1904A1471A1386C2006A5524 /* OEXDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXDBManager.h; sourceTree = "<group>"; };
 		1905BFF01A31B037001917FA /* COURSE_NOT_LISTED.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = COURSE_NOT_LISTED.htm; sourceTree = "<group>"; };
 		1905BFF21A31B097001917FA /* NEW_USER.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = NEW_USER.htm; sourceTree = "<group>"; };
 		190AF7941A4061950029E23E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -862,6 +859,7 @@
 		1AC147381BCEC09F00E0A230 /* UIImage+OEXHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXHelpers.swift"; sourceTree = "<group>"; };
 		1AC9EC3C1D22959600E53842 /* LocalStorageInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalStorageInterface.swift; sourceTree = "<group>"; };
 		1AC9EC401D22AFBF00E53842 /* FileSystemProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemProvider.swift; sourceTree = "<group>"; };
+		1AC9EC421D24381500E53842 /* CoreDataStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStorage.swift; sourceTree = "<group>"; };
 		1ACD163B1BB1BE63006ACC82 /* UserProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		1AE0A6C71BF4F68A00E14917 /* CourseCertificateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCertificateCell.swift; sourceTree = "<group>"; };
 		1AE0A6C91BF4FF9000E14917 /* UserCourseEnrollment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCourseEnrollment.swift; sourceTree = "<group>"; };
@@ -3170,13 +3168,11 @@
 			isa = PBXGroup;
 			children = (
 				1904A13F1A13862F006A5524 /* CoreData */,
-				1904A1421A1386C2006A5524 /* OEXStorageInterface.h */,
-				1904A1471A1386C2006A5524 /* OEXDBManager.h */,
-				1904A1401A1386C2006A5524 /* OEXDBManager.m */,
 				1AC9EC401D22AFBF00E53842 /* FileSystemProvider.swift */,
 				B42DA18A1A153A0500E3AD4E /* OEXFileUtility.h */,
 				B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */,
 				1AC9EC3C1D22959600E53842 /* LocalStorageInterface.swift */,
+				1AC9EC421D24381500E53842 /* CoreDataStorage.swift */,
 			);
 			name = Storage;
 			sourceTree = "<group>";
@@ -4005,6 +4001,7 @@
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,
 				B4B6D62B1A949F1B000F44E8 /* OEXRegistrationFieldTextController.m in Sources */,
 				7772BEAC1AFA68330081CA7A /* View+SnapKit.swift in Sources */,
+				1AC9EC431D24381500E53842 /* CoreDataStorage.swift in Sources */,
 				774B393B1B5EEF8A00595D33 /* UIAlertController+Selection.swift in Sources */,
 				1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,
@@ -4022,7 +4019,6 @@
 				77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				77503E8C1B278B9A00C47229 /* RegistrationFieldSelectView.swift in Sources */,
-				1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */,
 				BE54F19C195F080E005D069F /* Reachability.m in Sources */,
 				775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */,
 				1AE0A6C81BF4F68A00E14917 /* CourseCertificateCell.swift in Sources */,

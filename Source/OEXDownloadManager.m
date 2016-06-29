@@ -17,7 +17,6 @@
 #import "OEXInterface.h"
 #import "OEXNetworkConstants.h"
 #import "OEXSession.h"
-#import "OEXStorageInterface.h"
 #import "OEXUserDetails.h"
 
 static OEXDownloadManager* _downloadManager = nil;
