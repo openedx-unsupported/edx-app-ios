@@ -34,7 +34,8 @@ private enum Entities : String {
     override init() {
         let model = NSManagedObjectModel.mergedModelFromBundles(nil)!
 
-        let storePath = (OEXFileUtility.userDirectory()! as NSString).stringByAppendingPathComponent("Database/edXDB.sqlite")
+        let username = OEXSession.sharedSession()!.currentUser!.username
+        let storePath = (OEXFileUtility.pathForUserNameCreatingIfNecessary(username)! as NSString).stringByAppendingPathComponent("Database/edXDB.sqlite")
         let storeURL = NSURL(fileURLWithPath: storePath)
         Logger.logInfo("STORAGE", "DB path \(storeURL)")
 

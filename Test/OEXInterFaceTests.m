@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Abhishek Bhagat on 19/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -16,9 +16,11 @@
 #import "OEXVideoSummary.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary+OEXTestDataFactory.h"
+#import "OEXEnvironment.h"
 
 @interface OEXInterfaceTests : XCTestCase
 
+@property (strong, nonatomic) OEXEnvironment* environment;
 @property (strong, nonatomic) OEXInterface* interface;
 @property (strong, nonatomic) NSString* outlineURL;
 @property (strong, nonatomic) OEXVideoPathEntry* chapter1;
@@ -33,6 +35,9 @@
 
 - (void)setUp {
     [super setUp];
+
+    self.environment = [[OEXEnvironment alloc] init];
+    [self.environment setupEnvironment];
     self.outlineURL = @"http://abc/def";
     
     self.chapter1 = [[OEXVideoPathEntry alloc] initWithEntryID:@"chapterid1" name:@"Example" category:@"chapter"];

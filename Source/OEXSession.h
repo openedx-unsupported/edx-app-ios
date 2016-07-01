@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Abhishek Bhagat on 19/01/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -30,7 +30,7 @@ extern NSString* const OEXSessionEndedNotification;
 - (id)initWithCredentialStore:(id <OEXCredentialStorage>)storage;
 
 @property (readonly, nonatomic, strong, nullable) OEXAccessToken* token;
-@property (readonly, nonatomic, strong, nullable) OEXUserDetails* currentUser;
+@property (nonatomic, strong, nullable) OEXUserDetails* currentUser;
 
 - (void)loadTokenFromStore;
 - (void)saveAccessToken:(OEXAccessToken*)token userDetails:(OEXUserDetails*)userDetails;

@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Abhishek Bhagat on 19/01/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
 #import "OEXSession.h"
@@ -32,7 +32,6 @@ static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
 @interface OEXSession ()
 
 @property (nonatomic, strong) OEXAccessToken* token;
-@property (nonatomic, strong) OEXUserDetails* currentUser;
 @property (nonatomic, strong) id <OEXCredentialStorage> credentialStore;
 
 @end

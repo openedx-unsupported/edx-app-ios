@@ -1413,6 +1413,7 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)activateInterfaceForUser:(OEXUserDetails*)user {
     // Reset Default Settings
+    [OEXSession sharedSession].currentUser = user;
     self.storage = [[CoreDataStorage alloc] init];
     self.network = [[OEXNetworkInterface alloc] init];
     self.downloadManger = [OEXDownloadManager sharedManager];
