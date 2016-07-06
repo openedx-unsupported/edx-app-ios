@@ -26,6 +26,12 @@ static NSString* const OEXUserDetailsUrlKey = @"url";
     return copy;
 }
 
+- (instancetype) init {
+    self = [super init];
+    _username = @"";
+    return self;
+}
+
 - (id)initWithUserName:(NSString*)username email:(NSString*)email courseEnrollments:(NSString*)course_enrollments name:(NSString*)name userId:(NSNumber*)userId andUrl:(NSString*)url {
     if((self = [super init])) {
         _username = [username copy];

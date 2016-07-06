@@ -121,8 +121,8 @@
     
     OEXAccessToken* token = [[OEXAccessToken alloc] init];
     OEXUserDetails* userDetails = [[OEXUserDetails alloc] init];
-    
     [[self.provider expect] sessionStartedWithUserDetails:userDetails settingsManager:self.settingsManager];
+    
     
     [self.session saveAccessToken:token userDetails:userDetails];
     
