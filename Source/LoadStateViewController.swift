@@ -189,7 +189,7 @@ class LoadStateViewController : UIViewController {
                         self.messageView.icon = info.icon ?? .UnknownError
                     }
                     else if let error = info.error where error.errorIsThisType(NSError.oex_unknownNetworkError()) {
-                        self.messageView.message = Strings.courseContentUnknown
+                        self.messageView.message = Strings.unknownError
                         self.messageView.icon = info.icon ?? .UnknownError
                     }
                     else if let error = info.error where error.errorIsThisType(NSError.oex_outdatedVersionError()) {
