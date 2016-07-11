@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding, DiscussionNewPostViewControllerDelegate {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding {
 
     typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
@@ -614,11 +614,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         updateSelectedPostAttributes(indexPath)
     }
     
-    //MARK :- DiscussionNewPostViewControllerDelegate method
+//    MARK :- DiscussionNewPostViewControllerDelegate method
     
-    func newPostController(controller: DiscussionNewPostViewController, addedPost post: DiscussionThread) {
-        loadContent()
-    }
+//    func newPostController(controller: DiscussionNewPostViewController, addedPost post: DiscussionThread) {
+//        loadContent()
+//    }
 }
 
 //We want to make sure that only non-root node topics are selectable
