@@ -104,7 +104,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
                 self?.postButton.enabled = true
                 self?.postButton.showProgress = false
                 
-                if let _ = result.data {
+                if let post = result.data {
+                    
+                    //test coverave
+                    print(post)
+                    
                     self?.dismissViewControllerAnimated(true, completion: nil)
                 }
                 else {
