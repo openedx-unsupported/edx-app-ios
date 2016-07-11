@@ -94,6 +94,8 @@
 "ANSWER"="Answer";
 /* Navigation title for a Question Post which has endorsed answers */
 "ANSWERED_QUESTION"="Answered Question";
+/*Asteric for marking fields required*/
+"ASTERIC" = "*";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR" = "By {author_name}";
 /* Prefix used with Staff of Community TA on the posts screen */
@@ -216,6 +218,10 @@
 "DISCUSSION_UNFOLLOW"="Unfollow";
 /* Title of action to unreport a discussion post/response/comment to the course staff */
 "DISCUSSION_UNREPORT"="Unreport";
+/* Discussion comments count (Posts screen) - {count} is a number of comments */
+"DISCUSSIONS.REPLIES_COUNT"="{count} Replies";
+/*Discussion posts screen last post date - {date} last updated thread date*/
+"DISCUSSIONS.LAST_POST" = "Last post: {date}";
 /* Alert dialog button for allowing/disallowing downloads on cellular data */
 "DO_NOT_ALLOW"="Don't allow";
 /* Description about for button to download videos. For example, "Download 1 video" */
@@ -392,8 +398,6 @@
 "POSTS_IM_FOLLOWING" = "Posts I'm Following";
 /* Navigation item title for post and responses */
 "DISCUSSION_POST" = "Discussion Post";
-/*Error message when operation failed on post in duscussions*/
-"DISCUSSIONS.GENERIC_ERROR" = "Your action could not be completed.";
 /* Post discussion button title in Create a new post */
 "POST_DISCUSSION"="Post discussion";
 /* Post question button title in Create a new post */
@@ -444,6 +448,8 @@
 "PROFILE.UNABLE_TO_SEND" = "We weren't able to update your {field_name}.";
 /* Error message when setting a new profile picture */
 "PROFILE.UNABLE_TO_SET_PHOTO" = "We weren't able to update your photo.";
+/*Pipe sign using for formatting in discussion posts*/
+"PIPE_SIGN" = "|";
 /* Question used in the segmented control Creating a new post */
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */
@@ -570,6 +576,8 @@
 "UNTITLED"="Untitled";
 /* Hint text for login field */
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
+/*Error message when operation failed with unknow error*/
+"UNKNOWN_ERROR" = "Your action could not be completed.";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "Version {number} {environment}";
 /* Error shown when video download fails */

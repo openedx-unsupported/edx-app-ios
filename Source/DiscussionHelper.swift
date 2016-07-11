@@ -24,17 +24,62 @@ class DiscussionHelper: NSObject {
         }
     }
     
-    class func styleAuthorButton(authorButton: UIButton, title: NSAttributedString, author: String?, viewController: UIViewController, router: OEXRouter?) {
-       
-        authorButton.setAttributedTitle(title, forState: .Normal)
+    class func messageForError(error: NSError?) -> String {
         
-        authorButton.snp_updateConstraints { (make) in
-            make.width.equalTo(title.singleLineWidth() + StandardHorizontalMargin)
+        if let error = error where error.oex_isNoInternetConnectionError {
+            return Strings.networkNotAvailableMessageTrouble
+        }
+        else {
+            return Strings.unknownError
+        }
+    }
+    
+    class func styleAuthorProfileImageView(imageView: UIImageView) {
+        imageView.layer.cornerRadius = imageView.bounds.size.width / 2
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = OEXStyles.sharedStyles().primaryBaseColor().CGColor
+        imageView.clipsToBounds = true
+        imageView.layer.masksToBounds = true
+    }
+    
+    class func profileImage(hasProfileImage: Bool, imageURL: String?) ->RemoteImage {
+        let placeholder = UIImage(named: "avatarPlaceholder")
+        if let URL = imageURL where hasProfileImage {
+            return RemoteImageImpl(url: URL, networkManager: OEXRouter.sharedRouter().environment.networkManager, placeholder: placeholder, persist: true)
+        }
+        else {
+            return RemoteImageJustImage(image: placeholder)
+        }
+    }
+    
+    class func styleAuthorDetails(author: String?, authorLabel: String?, createdAt: NSDate?, hasProfileImage: Bool, imageURL: String?, authoNameLabel: UILabel, dateLabel: UILabel, authorButton: UIButton, imageView: UIImageView, viewController: UIViewController, router: OEXRouter?) {
+        let textStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().neutralXDark())
+        // formate author name
+        let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
+        if let _ = author where OEXConfig.sharedConfig().profilesEnabled {
+            highlightStyle.color = OEXStyles.sharedStyles().primaryBaseColor()
+            highlightStyle.weight = .Bold
+        }
+        else {
+            highlightStyle.color = OEXStyles.sharedStyles().neutralBase()
+            highlightStyle.weight = textStyle.weight
+        }
+        let authorName = highlightStyle.attributedStringWithText(author ?? Strings.anonymous.oex_lowercaseStringInCurrentLocale())
+        var attributedStrings = [NSAttributedString]()
+        attributedStrings.append(authorName)
+        if let authorLabel = authorLabel {
+            attributedStrings.append(textStyle.attributedStringWithText(Strings.parenthesis(text: authorLabel)))
+        }
+        
+        let formattedAuthorName = NSAttributedString.joinInNaturalLayout(attributedStrings)
+        authoNameLabel.attributedText = formattedAuthorName
+        
+        if let createdAt = createdAt {
+            dateLabel.attributedText = textStyle.attributedStringWithText(createdAt.displayDate)
         }
         
         let profilesEnabled = OEXConfig.sharedConfig().profilesEnabled
         authorButton.enabled = profilesEnabled
-        
         if let author = author where profilesEnabled {
             authorButton.oex_removeAllActions()
             authorButton.oex_addAction({ [weak viewController] _ in
@@ -47,15 +92,8 @@ class DiscussionHelper: NSObject {
             // if post is by anonymous user then disable author button (navigating to user profile)
             authorButton.enabled = false
         }
-    }
-    
-    class func messageForError(error: NSError?) -> String {
         
-        if let error = error where error.oex_isNoInternetConnectionError {
-            return Strings.networkNotAvailableMessageTrouble
-        }
-        else {
-            return Strings.Discussions.genericError
-        }
+        imageView.remoteImage = profileImage(hasProfileImage, imageURL: imageURL)
+        
     }
 }

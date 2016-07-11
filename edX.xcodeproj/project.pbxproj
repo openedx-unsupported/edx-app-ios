@@ -4232,6 +4232,7 @@
 				775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */,
 				773181441B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift in Sources */,
 				7731813D1B6C237F000CC050 /* DiscussionTopicTests.swift in Sources */,
+				E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */,
 				775E5A831BE1C91B0046B26B /* LiveObjectCacheTests.swift in Sources */,
 				77BECB081B0A771700894276 /* OfflineModeViewTests.swift in Sources */,
 				77BC6F421CB82DFA00F0A8C1 /* OEXVideoSummaryTestDataFactory.swift in Sources */,

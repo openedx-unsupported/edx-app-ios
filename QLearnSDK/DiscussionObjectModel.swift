@@ -33,7 +33,8 @@ public struct DiscussionComment {
     var abuseFlagged = false
     var editableFields: String?
     var childCount = 0
-    
+    var hasProfileImage = false
+    var imageURL: String?
 }
 
 extension DiscussionComment {
@@ -71,6 +72,19 @@ extension DiscussionComment {
         self.abuseFlagged = json["abuse_flagged"].boolValue
         self.editableFields = json["editable_fields"].string
         self.childCount = json["child_count"].intValue
+        
+        let users = json["users"].dictionary
+        if let users = users{
+            let user = users[author]?.dictionary
+            if let user = user {
+                let profile = user["profile"]
+                if let profile = profile {
+                    let image = profile["image"]
+                    self.hasProfileImage = image["has_image"].boolValue
+                    self.imageURL = image["image_url_medium"].string
+                }
+            }
+        }
     }
 }
 
@@ -108,6 +122,8 @@ public struct DiscussionThread {
     var read = false
     var unreadCommentCount = 0
     var responseCount : Int?
+    var hasProfileImage = false
+    var imageURL: String?
 }
 
 extension DiscussionThread {
@@ -154,6 +170,19 @@ extension DiscussionThread {
         self.editableFields = json["editable_fields"].string
         if let numberOfResponses = json["response_count"].int {
             self.responseCount = numberOfResponses
+        }
+        
+        let users = json["users"].dictionary
+        if let users = users where author != nil {
+            let user = users[author!]?.dictionary
+            if let user = user {
+                let profile = user["profile"]
+                if let profile = profile {
+                    let image = profile["image"]
+                    self.hasProfileImage = image["has_image"].boolValue
+                    self.imageURL = image["image_url_medium"].string
+                }
+            }
         }
     }
 }
