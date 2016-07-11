@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding {
+class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding, DiscussionNewPostViewControllerDelegate {
 
     typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
     
@@ -333,8 +333,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let selectedIndex = tableView.indexPathForSelectedRow {
             tableView.deselectRowAtIndexPath(selectedIndex, animated: false)
         }
-        
-        loadContent()
     }
     
     override func shouldAutorotate() -> Bool {
@@ -562,6 +560,18 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.presentViewController(controller, animated: true, completion:nil)
     }
     
+    private func updateSelectedPostAttributes(indexPath: NSIndexPath) {
+        posts[indexPath.row].read = true
+        posts[indexPath.row].unreadCommentCount = 0
+        tableView.reloadData()
+    }
+    
+    //MARK :- DiscussionNewPostViewControllerDelegate method
+    
+    func newPostController(controller: DiscussionNewPostViewController, addedPost post: DiscussionThread) {
+        loadContent()
+    }
+    
     // MARK - Pull Refresh
     
     func refreshControllerActivated(controller: PullRefreshController) {
@@ -606,6 +616,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        updateSelectedPostAttributes(indexPath)
         environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, threadID: posts[indexPath.row].threadID)
     }
 }
