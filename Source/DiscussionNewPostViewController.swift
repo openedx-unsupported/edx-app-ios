@@ -16,6 +16,10 @@ struct DiscussionNewThread {
     let rawBody: String
 }
 
+//protocol DiscussionNewPostViewControllerDelegate : class {
+//    func newPostController(controller  : DiscussionNewPostViewController, addedPost post: DiscussionThread)
+//}
+
 public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate, InterfaceOrientationOverriding {
  
     public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
@@ -26,6 +30,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     private let growingTextController = GrowingTextViewController()
     private let insetsController = ContentInsetsController()
+//    weak var delegate: DiscussionNewPostViewControllerDelegate?
     
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var backgroundView: UIView!
@@ -105,6 +110,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
                 self?.postButton.showProgress = false
                 
                 if let _ = result.data {
+//                    self?.delegate?.newPostController(self!, addedPost: post)
                     self?.dismissViewControllerAnimated(true, completion: nil)
                 }
                 else {
