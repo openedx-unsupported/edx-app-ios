@@ -438,7 +438,7 @@ public class NetworkManager : NSObject {
     }
     
     private func handleResponse<Out>(networkResult: NetworkResult<Out>) -> Result<Out> {
-        var result:Result<Out>!
+        var result:Result<Out>?
         for responseInterceptor in self.responseInterceptors {
             result = responseInterceptor.handleResponse(networkResult)
             if case .None = result {
@@ -446,7 +446,7 @@ public class NetworkManager : NSObject {
             }
         }
         
-        return result
+        return result ?? networkResult.data.toResult(NetworkManager.unknownError)
     }
     
 }
