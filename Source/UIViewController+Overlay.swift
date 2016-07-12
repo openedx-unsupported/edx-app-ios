@@ -105,4 +105,6 @@ extension UIViewController {
         return objc_getAssociatedObject(self, &StatusMessageHideActionKey) as? Box<StatusMessageRemovalInfo> != nil
     }
     
+    // Testing Coverage
+    
 }
