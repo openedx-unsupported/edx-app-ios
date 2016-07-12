@@ -111,6 +111,7 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreenWithName(OEXAnalyticsScreenMyCourses)
+        showVersionUpgradeSnackBarIfNecessary()
     }
 
     private func setupListener() {
@@ -130,8 +131,9 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
                     self?.loadController.state = .Initial
                 }
             case let .Failure(error):
-                if self?.loadController.state.isInitial ?? true {
-                    self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error)
+                if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
+                    self?.hideSnackBar()
                 }
             }
         }
@@ -166,6 +168,10 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
                 observer.shownOfflineInfoHeader = true
             }
         }
+        
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: AppNewVersionAvailableNotification) { (notification, observer, _) -> Void in
+            observer.showVersionUpgradeSnackBarIfNecessary()
+        }
     }
     
     func refreshIfNecessary() {
@@ -179,6 +185,19 @@ class EnrolledCoursesViewController : UIViewController, CoursesTableViewControll
     
     private func showCourseNotListedScreen() {
         environment.router?.showFullScreenMessageViewControllerFromViewController(self, message: Strings.courseNotListed, bottomButtonTitle: Strings.close)
+    }
+    
+    private func showVersionUpgradeSnackBarIfNecessary() {
+        if let _ = VersionUpgradeInfoController.sharedController.latestVersion {
+            var infoString = Strings.VersionUpgrade.newVersionAvailable
+            if let _ = VersionUpgradeInfoController.sharedController.lastSupportedDateString {
+                infoString = Strings.VersionUpgrade.deprecatedMessage
+            }
+            showVersionUpgradeSnackBar(infoString)
+        }
+        else {
+            hideSnackBar()
+        }
     }
     
     func coursesTableChoseCourse(course: OEXCourse) {

@@ -12,6 +12,7 @@
 
 // Please keep sorted alphabetically
 static NSString* const OEXAPIHostURL = @"API_HOST_URL";
+static NSString* const OEXiOSAPPStoreURL = @"IOS_APP_STORE_URL";
 static NSString* const OEXEnvironmentDisplayName = @"ENVIRONMENT_DISPLAY_NAME";
 static NSString* const OEXPlatformName = @"PLATFORM_NAME";
 static NSString* const OEXPlatformDestinationName = @"PLATFORM_DESTINATION_NAME";
@@ -93,6 +94,10 @@ static OEXConfig* sSharedConfig;
 
 - (NSURL*)apiHostURL {
     return [NSURL URLWithString:[self stringForKey:OEXAPIHostURL]];
+}
+
+- (NSURL*) iOSAppStoreURL {
+    return [NSURL URLWithString:[self stringForKey:OEXiOSAPPStoreURL]];
 }
 
 - (NSString*)environmentName {

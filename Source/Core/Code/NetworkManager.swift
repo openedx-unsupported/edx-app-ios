@@ -64,6 +64,10 @@ public enum ResponseDeserializer<Out> {
     }
 }
 
+public protocol ResponseInterceptor {
+    func handleResponse<Out>(result: NetworkResult<Out>) -> Result<Out>
+}
+
 public struct NetworkRequest<Out> {
     public let method : HTTPMethod
     public let path : String // Absolute URL or URL relative to the API base
@@ -142,7 +146,7 @@ public class NetworkTask : Removable {
 
 extension NSError {
     
-    static var oex_unknownNetworkError : NSError {
+    public static func oex_unknownNetworkError() -> NSError {
         return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.UnknownError.rawValue, userInfo: nil)
     }
     
@@ -150,12 +154,16 @@ extension NSError {
         return NSError(domain: NetworkManager.errorDomain, code: statusCode, userInfo: userInfo)
     }
     
-    public var oex_isUnknownNetworkError : Bool {
-        return self.domain == NetworkManager.errorDomain && self.code == NetworkManager.Error.UnknownError.rawValue
+    public static func oex_outdatedVersionError() -> NSError {
+        return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.OutdatedVersionError.rawValue, userInfo: nil)
     }
     
     public var oex_isNoInternetConnectionError : Bool {
         return self.domain == NSURLErrorDomain && (self.code == NSURLErrorNotConnectedToInternet || self.code == NSURLErrorNetworkConnectionLost)
+    }
+    
+    public func errorIsThisType(error: NSError) -> Bool {
+        return error.domain == NetworkManager.errorDomain && error.code == self.code
     }
 }
 
@@ -163,6 +171,7 @@ public class NetworkManager : NSObject {
     private static let errorDomain = "com.edx.NetworkManager"
     enum Error : Int {
         case UnknownError = -1
+        case OutdatedVersionError = -2
     }
     
     public static let NETWORK = "NETWORK" // Logger key
@@ -176,6 +185,7 @@ public class NetworkManager : NSObject {
     private let credentialProvider : URLCredentialProvider?
     private let cache : ResponseCache
     private var jsonInterceptors : [JSONInterceptor] = []
+    private var responseInterceptors: [ResponseInterceptor] = []
     public var authenticator : Authenticator?
     
     public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : NSURL, cache : ResponseCache) {
@@ -185,12 +195,16 @@ public class NetworkManager : NSObject {
         self.cache = cache
     }
     
-    public static var unknownError : NSError { return NSError.oex_unknownNetworkError }
+    public static var unknownError : NSError { return NSError.oex_unknownNetworkError() }
     
     /// Allows you to add a processing pass to any JSON response.
     /// Typically used to check for errors that can be sent by any request
     public func addJSONInterceptor(interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) {
         jsonInterceptors.append(interceptor)
+    }
+    
+    public func addResponseInterceptors(interceptor: ResponseInterceptor) {
+        responseInterceptors.append(interceptor)
     }
     
     public func URLRequestWithRequest<Out>(request : NetworkRequest<Out>) -> Result<NSURLRequest> {
@@ -402,14 +416,14 @@ public class NetworkManager : NSObject {
     public func streamForRequest<Out>(request : NetworkRequest<Out>, persistResponse : Bool = false, autoCancel : Bool = true) -> Stream<Out> {
         let stream = Sink<NetworkResult<Out>>()
         let task = self.taskForRequest(request) {[weak stream, weak self] result in
-            if let response = result.response, request = result.request where persistResponse {
-                self?.cache.setCacheResponse(response, withData: result.baseData, forRequest: request, completion: nil)
+            if let response = result.response, request = result.request, data = result.baseData where (persistResponse && data.length > 0) {
+                self?.cache.setCacheResponse(response, withData: data, forRequest: request, completion: nil)
             }
             stream?.close()
             stream?.send(result)
         }
         var result : Stream<Out> = stream.flatMap {(result : NetworkResult<Out>) -> Result<Out> in
-            return result.data.toResult(result.error ?? NetworkManager.unknownError)
+            return self.handleResponse(result)
         }
         
         if persistResponse {
@@ -421,6 +435,18 @@ public class NetworkManager : NSObject {
         }
         
         return result
+    }
+    
+    private func handleResponse<Out>(networkResult: NetworkResult<Out>) -> Result<Out> {
+        var result:Result<Out>?
+        for responseInterceptor in self.responseInterceptors {
+            result = responseInterceptor.handleResponse(networkResult)
+            if case .None = result {
+                break
+            }
+        }
+        
+        return result ?? networkResult.data.toResult(NetworkManager.unknownError)
     }
     
 }

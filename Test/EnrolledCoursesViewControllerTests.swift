@@ -44,5 +44,27 @@ class EnrolledCoursesViewControllerTests: SnapshotTestCase {
             XCTAssertNotNil(event)
         }
     }
-
+    
+    func testNewAppVersionAvailable() {
+        let environment = TestRouterEnvironment().logInTestUser()
+        let controller = EnrolledCoursesViewController(environment: environment)
+        
+        // test initial state
+        XCTAssertFalse(controller.t_isShowingSnackBar)
+        
+        //test new version available
+        let expectation = expectationWithDescription("new app version available")
+        let removable = addNotificationObserver(self, name: AppNewVersionAvailableNotification) { (_, _, removable) -> Void in
+            controller.showVersionUpgradeSnackBar("new app version available")
+            expectation.fulfill()
+        }
+        
+        let versionInfoController = VersionUpgradeInfoController.sharedController
+        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
+        self.waitForExpectations()
+        removable.remove()
+        XCTAssertTrue(controller.t_isShowingSnackBar)
+        // remove version upgrade info
+        versionInfoController.populateFromHeaders(httpResponseHeaders: [:])
+    }
 }

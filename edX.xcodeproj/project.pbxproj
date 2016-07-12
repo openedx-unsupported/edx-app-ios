@@ -637,12 +637,16 @@
 		E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */; };
 		E04848321CFDA10600BE00E1 /* DiscussionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */; };
 		E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */; };
+		E055D53D1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */; };
 		E07107931C7591360004B76C /* DiscussionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07107921C7591360004B76C /* DiscussionHelper.swift */; };
 		E076A5C21C7DB624008A99C6 /* DiscussionResponsesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */; };
 		E0816D7D1CBE35CE00818769 /* NavigationDrawerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D781CBE356E00818769 /* NavigationDrawerInteractor.swift */; };
 		E0816D7E1CBE35D300818769 /* FindCoursesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D771CBE356E00818769 /* FindCoursesInteractor.swift */; };
 		E0816D7F1CBE35DA00818769 /* FindCoursesTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D7B1CBE358900818769 /* FindCoursesTestCase.swift */; };
 		E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */; };
+		E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */; };
+		E09B9D6E1D06D79F0080BAE0 /* VersionUpgradeInfoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */; };
+		E09B9D701D06D8010080BAE0 /* VersionUpgradeDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */; };
 		E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
@@ -1496,12 +1500,16 @@
 		E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTestsDataFactory.swift; sourceTree = "<group>"; };
 		E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModelTests.swift; sourceTree = "<group>"; };
 		E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsViewControllerTests.swift; sourceTree = "<group>"; };
+		E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+ResponseInterceptors.swift"; sourceTree = SOURCE_ROOT; };
 		E07107921C7591360004B76C /* DiscussionHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionHelper.swift; sourceTree = "<group>"; };
 		E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataController.swift; sourceTree = "<group>"; };
 		E0816D771CBE356E00818769 /* FindCoursesInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindCoursesInteractor.swift; sourceTree = "<group>"; };
 		E0816D781CBE356E00818769 /* NavigationDrawerInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDrawerInteractor.swift; sourceTree = "<group>"; };
 		E0816D7B1CBE358900818769 /* FindCoursesTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindCoursesTestCase.swift; sourceTree = "<group>"; };
 		E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModel.swift; sourceTree = "<group>"; };
+		E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoController.swift; sourceTree = "<group>"; };
+		E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoControllerTests.swift; sourceTree = "<group>"; };
+		E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeDataFactory.swift; sourceTree = "<group>"; };
 		E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionCommentsViewControllerTests.swift; sourceTree = "<group>"; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
@@ -3005,6 +3013,7 @@
 		BECB7B141924C0C3009C77F1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				E09B9D691D06C91D0080BAE0 /* VersionUpgrade */,
 				9EAFFA211B2F00B600B100AB /* Utils */,
 				77864DDA1B10057600182FC2 /* Base Structures */,
 				7772BE781AF40A730081CA7A /* Controller Helpers */,
@@ -3147,6 +3156,8 @@
 				E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */,
 				E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */,
 				E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */,
+				E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */,
+				E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */,
 				E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
@@ -3195,6 +3206,7 @@
 		BECB7B531924CA0C009C77F1 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */,
 				77C182AB1CD2E60E00AE1474 /* StackPaginationManipulator.swift */,
 				77E6487E1C9133C600B6740D /* SessionUsernameProvider.swift */,
 				77E6486D1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift */,
@@ -3250,6 +3262,14 @@
 				1905BFF21A31B097001917FA /* NEW_USER.htm */,
 			);
 			name = Login;
+			sourceTree = "<group>";
+		};
+		E09B9D691D06C91D0080BAE0 /* VersionUpgrade */ = {
+			isa = PBXGroup;
+			children = (
+				E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */,
+			);
+			name = VersionUpgrade;
 			sourceTree = "<group>";
 		};
 		E0AF4E8C1BFB19A00083753C /* PassthroughView */ = {
@@ -3906,6 +3926,7 @@
 				1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */,
 				198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */,
 				77E647CE1C90CAB800B6740D /* NSAttributedString+OEXFormatting.m in Sources */,
+				E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */,
 				9E882B6A1BBA9825007347A2 /* DiscussionTopicCell.swift in Sources */,
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
@@ -4139,6 +4160,7 @@
 				77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */,
 				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
 				77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */,
+				E055D53D1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift in Sources */,
 				1A1181E41BB462D700CFE52B /* RemoteImage.swift in Sources */,
 				1AB539FA1BFE08DE0065501F /* DebugLogViewController.swift in Sources */,
 				1AE0A6CA1BF4FF9000E14917 /* UserCourseEnrollment.swift in Sources */,
@@ -4243,6 +4265,7 @@
 				77E648551C91137800B6740D /* JSON+ReadFromFile.swift in Sources */,
 				77691FAD1B3C764F003922F2 /* UIBarButtonItem+Touchable.swift in Sources */,
 				77D7FD281B04FEC8002ACA8C /* SnapshotTestCase.swift in Sources */,
+				E09B9D6E1D06D79F0080BAE0 /* VersionUpgradeInfoControllerTests.swift in Sources */,
 				7754348C1AD83E4600635A40 /* OEXPushNotificationManagerTests.m in Sources */,
 				E03402211C7F1FC9003EB9B7 /* DiscussionResponsesDataControllerTests.swift in Sources */,
 				778D53371B3D97CC00441A98 /* ListCursorTests.swift in Sources */,
@@ -4271,6 +4294,7 @@
 				77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */,
 				77503E901B2882C800C47229 /* KeyboardInsetsSourceTests.swift in Sources */,
 				7765025D1C77CAE8007384E7 /* NSDate+TestDates.swift in Sources */,
+				E09B9D701D06D8010080BAE0 /* VersionUpgradeDataFactory.swift in Sources */,
 				9E74AFE71B4A821500B2D843 /* CourseLastAccessedControllerTests.swift in Sources */,
 				77691FB21B3C824E003922F2 /* CourseOutlineQuerierTests.swift in Sources */,
 				77691FB01B3C820B003922F2 /* CourseOutlineViewControllerTests.swift in Sources */,
