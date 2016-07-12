@@ -662,6 +662,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         thread?.responseCount = count + 1
     }
     
+    private func showAddedResponse(comment: DiscussionComment) {
+        responsesDataController.responses.append(comment)
+        tableView.reloadData()
+        let indexPath = NSIndexPath(forRow: responsesDataController.responses.count - 1, inSection: TableSection.Responses.rawValue)
+        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
+    }
+    
     // MARK:- DiscussionNewCommentViewControllerDelegate method
     
     func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
@@ -669,12 +676,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         switch controller.currentContext() {
         case .Thread(_):
             if !(paginationController?.hasNext ?? false) {
-                self.responsesDataController.responses.append(comment)
+                showAddedResponse(comment)
             }
             
             increaseResponseCount()
-            
-            self.showOverlayMessage(Strings.discussionThreadPosted)
+            showOverlayMessage(Strings.discussionThreadPosted)
         case .Comment(_):
             responsesDataController.addedChildComment(comment)
             self.showOverlayMessage(Strings.discussionCommentPosted)
