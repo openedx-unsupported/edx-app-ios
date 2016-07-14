@@ -371,9 +371,7 @@
 /*Text for author if post is by anonymous user*/
 "ANONYMOUS" = "Anonymous";
 /* Label indicating user has on internet connection and is in offline mode */
-"OFFLINE_MODE" = "Offline Mode";
-/* Overlay message explaining the details of offline mode. */
-"OFFLINE_MODE_DETAIL" = "In offline mode you can only view videos that are saved on your device.";
+"OFFLINE" = "Offline";
 /* Alert dialog okay button */
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */
@@ -502,6 +500,8 @@
 "RESET_PASSWORD_CONFIRMATION_MESSAGE"="We've sent a message with password reset instructions to your e-mail address. If you don't see it in the next few minutes, make sure to check your spam folder.";
 /* Button that allows user to retry an operation that did not succeed */
 "RETRY" = "Retry";
+/*Offline snackbar button that allows user to reload data*/
+"RELOAD" = "Reload";
 /* Response back title in adding a new response */
 "ADD_A_RESPONSE"="Add a response";
 /* Discussion response - {count} is a number of responses */

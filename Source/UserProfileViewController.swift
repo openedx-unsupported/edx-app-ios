@@ -8,13 +8,14 @@
 
 import UIKit
 
-class UserProfileViewController: UIViewController, UserProfilePresenterDelegate {
+class UserProfileViewController: OfflineSupportViewController, UserProfilePresenterDelegate {
     
     typealias Environment = protocol<
         OEXAnalyticsProvider,
         OEXConfigProvider,
         NetworkManagerProvider,
-        OEXRouterProvider
+        OEXRouterProvider,
+        ReachabilityProvider
     >
     
     private let environment : Environment
@@ -36,7 +37,7 @@ class UserProfileViewController: UIViewController, UserProfilePresenterDelegate 
         self.editable = editable
         self.environment = environment
         self.presenter = presenter
-        super.init(nibName: nil, bundle: nil)
+        super.init(env: environment)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -70,6 +71,10 @@ class UserProfileViewController: UIViewController, UserProfilePresenterDelegate 
         super.viewWillAppear(animated)
         environment.analytics.trackScreenWithName(OEXAnalyticsScreenProfileView)
 
+        presenter.refresh()
+    }
+    
+    override func reloadViewData() {
         presenter.refresh()
     }
 

@@ -97,17 +97,3 @@ public class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
         self.scrollView?.scrollIndicatorInsets = indicatorInsets
     }
 }
-
-// Common additions
-extension ContentInsetsController {
-    
-    func supportOfflineMode(reachability: Reachability) {
-        let controller = OfflineModeController(reachability: reachability)
-        addSource(controller)
-        
-        if let owner = owner {
-            controller.setupInController(owner)
-        }
-    }
-    
-}

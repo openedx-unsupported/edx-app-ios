@@ -40,84 +40,6 @@ private class StatusMessageView : UIView {
     }
 }
 
-private class VersionUpgradeView: UIView {
-    private let messageLabel = UILabel()
-    private let upgradeButton = UIButton(type: .System)
-    private let dismissButton = UIButton(type: .System)
-    private var messageLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
-    }
-    
-    private var buttonLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
-    }
-    
-    init(message: String) {
-        super.init(frame: CGRectZero)
-        self.backgroundColor = OEXStyles.sharedStyles().warningBase()
-        messageLabel.numberOfLines = 0
-        messageLabel.attributedText = messageLabelStyle.attributedStringWithText(message)
-        upgradeButton.setAttributedTitle(buttonLabelStyle.attributedStringWithText(Strings.VersionUpgrade.update), forState: .Normal)
-        dismissButton.setAttributedTitle(buttonLabelStyle.attributedStringWithText(Strings.VersionUpgrade.dismiss), forState: .Normal)
-        
-        addSubview(messageLabel)
-        addSubview(dismissButton)
-        addSubview(upgradeButton)
-        
-        addConstrains()
-        addButtonActions()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    private func addConstrains() {
-        messageLabel.snp_makeConstraints { make in
-            make.top.equalTo(self).offset(StandardVerticalMargin)
-            make.leading.equalTo(self).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(self).offset(-StandardHorizontalMargin)
-        }
-        
-        upgradeButton.snp_makeConstraints { (make) in
-            make.top.equalTo(messageLabel.snp_bottom)
-            make.trailing.equalTo(self).offset(-StandardHorizontalMargin)
-            make.bottom.equalTo(self).offset(-StandardVerticalMargin)
-        }
-        
-        dismissButton.snp_makeConstraints { (make) in
-            make.top.equalTo(messageLabel.snp_bottom)
-            make.trailing.equalTo(upgradeButton.snp_leading).offset(-StandardHorizontalMargin)
-            make.bottom.equalTo(self).offset(-StandardVerticalMargin)
-        }
-    }
-    
-    private func addButtonActions() {
-        dismissButton.oex_addAction({[weak self] _ in
-            self?.dismissView()
-            }, forEvents: .TouchUpInside)
-        
-        upgradeButton.oex_addAction({ _ in
-            if let appStoreURL = OEXConfig.sharedConfig().iOSAppStoreURL() {
-                UIApplication.sharedApplication().openURL(appStoreURL)
-            }}, forEvents: .TouchUpInside)
-    }
-    
-    private func dismissView() {
-        var container = superview
-        if container == nil {
-            container = self
-        }
-        
-        UIView.animateWithDuration(animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseOut, animations: {
-            self.transform = CGAffineTransformIdentity
-            }, completion: { _ in
-                container!.removeFromSuperview()
-        })
-    }
-}
-
 private let visibleDuration: NSTimeInterval = 5.0
 private let animationDuration: NSTimeInterval = 1.0
 
@@ -217,6 +139,14 @@ extension UIViewController {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
         let view = VersionUpgradeView(message: string)
+        showSnackBarView(view)
+    }
+    
+    
+    func showOfflineSnackBar(message: String, selector: Selector?) {
+        let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
+        hideInfo?.value.action()
+        let view = OfflineView(message: message, selector: selector)
         showSnackBarView(view)
     }
     

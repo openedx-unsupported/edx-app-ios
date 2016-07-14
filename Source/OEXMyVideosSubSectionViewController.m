@@ -96,29 +96,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     return result;
 }
 
-#pragma mark - REACHABILITY
-
-- (void)HideOfflineLabel:(BOOL)isOnline {
-    self.customNavigation.lbl_Offline.hidden = isOnline;
-    self.customNavigation.view_Offline.hidden = isOnline;
-    [self.customNavigation adjustPositionOfComponentsWithEditingMode:_isTableEditing isOnline:isOnline];
-}
-
-- (void)reachabilityDidChange:(NSNotification*)notification {
-    id<Reachability> reachability = [notification object];
-
-    if([reachability isReachable]) {
-        _dataInterface.reachable = YES;
-
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        _dataInterface.reachable = NO;
-
-        [self HideOfflineLabel:NO];
-    }
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:true animated:animated];
@@ -129,20 +106,10 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     if(_isTableEditing) {
         self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
     }
-    // Add Observer
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
 
     if(_videoPlayerInterface) {
         [self.videoPlayerInterface videoPlayerShouldRotate];
-    }
-
-    // Check Reachability for OFFLINE
-    if(_dataInterface.reachable) {
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        [self HideOfflineLabel:NO];
     }
 
     // To clear already selected items when traverese back from Download screen.
@@ -194,6 +161,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     // Set custom navigation properties
     self.customNavigation.lbl_TitleView.text = self.course.name;
     [self.customNavigation.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
+    self.customNavigation.lbl_Offline.hidden = YES;
 
     // Initialize the interface for API calling
     self.dataInterface = [OEXInterface sharedInterface];
@@ -822,7 +790,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 #pragma mark - USED WHILE EDITING
 
 - (void)cancelTableClicked:(id)sender {
-    [self.customNavigation adjustPositionOfComponentsWithEditingMode:NO isOnline:[_dataInterface reachable]];
     // set isSelected to NO for all the objects
     for(NSArray* arr in self.arr_SubsectionData) {
         for(OEXHelperVideoDownload* videos in arr) {
@@ -866,7 +833,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 }
 
 - (void)editTableClicked:(id)sender {
-    [self.customNavigation adjustPositionOfComponentsWithEditingMode:YES isOnline:[_dataInterface reachable]];
     self.arr_SelectedObjects = [[NSMutableArray alloc] init];
 
     // SHIFT THE PROGRESS TO LEFT
