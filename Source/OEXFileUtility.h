@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable NSURL*)fileURLForRequestKey:(nullable NSString*)key username:(nullable NSString*)username;
 
 + (void)nukeUserData;
++ (void) nukeUserPIIData;
 
 @end
 
@@ -36,8 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)t_legacyPathForUserName:(NSString*)userName;
 // Unlike the non test version, this does not create the directory
 + (NSString*)t_pathForUserName:(NSString*)userName;
-
-+ (NSString*)t_legacyPathForURL:(NSString*)url userName:(NSString*)userName;
 
 @end
 

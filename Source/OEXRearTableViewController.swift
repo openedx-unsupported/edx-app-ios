@@ -177,7 +177,8 @@ class OEXRearTableViewController : UITableViewController {
     }
     
     @IBAction func logoutClicked(sender: UIButton) {
-        environment.router?.logout()
+        OEXFileUtility.nukeUserPIIData()
+        self.environment.router?.logout()
     }
     
     func dataAvailable(notification: NSNotification) {

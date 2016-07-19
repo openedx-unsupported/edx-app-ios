@@ -116,8 +116,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)createDatabaseDirectory;
 
-- (void)createVideosDirectory;
-
 - (void)activate;
 - (void)deactivate;
 

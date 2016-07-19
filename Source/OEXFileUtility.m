@@ -42,7 +42,18 @@
 }
 
 + (NSString*)pathForUserName:(NSString*)userName {
-    return [[OEXFileUtility savedFilesRootPath] stringByAppendingPathComponent:userName];
+    NSString *userNewPath = [[OEXFileUtility savedFilesRootPath] stringByAppendingPathComponent:userName.oex_md5];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:userNewPath]) {
+        NSString *oldPath = [[OEXFileUtility savedFilesRootPath] stringByAppendingPathComponent:userName];
+        if([[NSFileManager defaultManager] fileExistsAtPath:oldPath]) {
+            NSError* error = nil;
+            if(![[NSFileManager defaultManager] moveItemAtPath:oldPath toPath:userNewPath error:&error]) {
+                NSAssert(error == nil, @"Error migrating file");
+            }
+        }
+    }
+    
+    return userNewPath;
 }
 
 + (NSString*)pathForUserNameCreatingIfNecessary:(NSString*)userName {
@@ -87,20 +98,6 @@
     return [self filePathForRequestKey:url username:[[OEXSession sharedSession] currentUser].username];
 }
 
-// WARNING: DO NOT ADD NEW USES OF THIS.
-// It is deprecated and should only be used for migrations.
-+ (NSString*)legacyPathForURL:(NSString*)url userName:(NSString*)username creatingIfNecessary:(BOOL)create {
-    NSString* userPath = [self pathForUserNameCreatingIfNecessary:username];
-    NSString* containerPath = [userPath stringByAppendingPathComponent:@"Videos"];
-    NSError* error = nil;
-    if(create && ![[NSFileManager defaultManager] createDirectoryAtPath:containerPath withIntermediateDirectories:YES attributes:nil error:&error] ) {
-        NSAssert(@"Error creating directory: %@", error.localizedDescription);
-    }
-    // XXX using ``hash`` for anything without then checking equality of the originals is bad
-    NSString* totalPath = [containerPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)[url hash]]];
-    return totalPath;
-}
-
 + (NSString*)filePathForRequestKey:(NSString*)url username:(NSString*)username {
     if(username != nil && url != nil) {
         NSString* userPath = [self pathForUserNameCreatingIfNecessary:username];
@@ -117,28 +114,14 @@
         // This is not a good idea since that makes no guarantees about likelihood of collisions
         // or whether it will change. It's also different on different architectures.
         
-        // So if we still have a file using the old path, move it to an md5 based path.
-        // Added 6/19/2015. Probably safe to remove this migration mid to late 2016.
-        NSString* oldTotalPath = [self legacyPathForURL:url userName:username creatingIfNecessary:false];
-
-        if([[NSFileManager defaultManager] fileExistsAtPath:oldTotalPath]) {
-            NSError* error = nil;
-            if(![[NSFileManager defaultManager] moveItemAtPath:oldTotalPath toPath:totalPath error:&error]) {
-                NSAssert(error == nil, @"Error migrating file");
-            }
-        }
         
-        // It used to be that videos specifically sometimes had .mp4 at the end of their paths
-        // instead of just a hash. This handles that extra case, by looking at the old format
-        // name file and migrating that as well.
-        NSString* pathExtension = [url pathExtension];
-        if(pathExtension.length > 0) {
-            NSString* extendedOldTotalPath = [oldTotalPath stringByAppendingPathExtension:pathExtension];
-            if([[NSFileManager defaultManager] fileExistsAtPath:extendedOldTotalPath]) {
-                NSError* error = nil;
-                if(![[NSFileManager defaultManager] moveItemAtPath:extendedOldTotalPath toPath:totalPath error:&error]) {
-                    NSAssert(error == nil, @"Error migrating file");
-                }
+        // we were using Videos path to save downloaded videos but later decided to move videos to responses folder.
+        // Now the migration of videos is completed from "Videos" to "Resources" so removing videos folder
+        NSString* videosPath = [userPath stringByAppendingPathComponent:@"Videos"];
+        if([[NSFileManager defaultManager] fileExistsAtPath:videosPath]) {
+            BOOL success = [[NSFileManager defaultManager] removeItemAtPath:videosPath error:&error];
+            if (!success) {
+                NSAssert(@"Error deleting videos directory: %@", error.localizedDescription);
             }
         }
         
@@ -170,6 +153,40 @@
     NSAssert(error == nil || error.code == NSFileNoSuchFileError, @"Error nuking all user data");
 }
 
++ (void) nukeUserPIIData {
+    [OEXFileUtility deleteUserFilesExceptVideos:[self pathForUserName:[[OEXSession sharedSession] currentUser].username]];
+}
+
++ (void) deleteUserFilesExceptVideos:(NSString *) directory {
+    BOOL isDirectory = NO;
+    NSError* error = nil;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *filesList= [fileManager contentsOfDirectoryAtPath:directory error:nil];
+    for (NSString *file in filesList) {
+        NSString *completePath = [directory stringByAppendingPathComponent:file];
+        BOOL isFileExist = [fileManager fileExistsAtPath:completePath isDirectory:&isDirectory];
+        if (isFileExist && isDirectory) {
+            [OEXFileUtility deleteUserFilesExceptVideos:completePath];
+        }
+        else {
+            if ([OEXFileUtility canDeleteFile:file]) {
+                [[NSFileManager defaultManager] removeItemAtPath:completePath error:&error];
+            }
+        }
+    }
+    
+     NSAssert(error == nil || error.code == NSFileNoSuchFileError, @"Error nuking all user data");
+}
+
++ (BOOL) canDeleteFile:(NSString *) file {
+    NSString *fileExtension = [[file pathExtension] lowercaseString];
+    if ([fileExtension isEqualToString:@"mp4"] || [fileExtension containsString:@"sqlite"]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 @end
 
 @implementation OEXFileUtility (Testing)
@@ -182,8 +199,5 @@
     return [self pathForUserName:userName];
 }
 
-+ (NSString*)t_legacyPathForURL:(NSString*)url userName:(NSString*)userName {
-    return [self legacyPathForURL:url userName:userName creatingIfNecessary:true];
-}
 
 @end
