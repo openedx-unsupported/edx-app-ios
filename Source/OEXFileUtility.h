@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Abhishek Bhagat on 14/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,10 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a path for saving user specific data. This data is not backed up
 /// When called it will create the directory if it does not already exist
 + (nullable NSString*)pathForUserNameCreatingIfNecessary:(nullable NSString*)userName;
-
-/// Shortcut for pathForUserNameCreatingIfNecessary: with the current user.
-/// Do not add new uses of this. In the future we want to be explicitly passing the user
-+ (nullable NSString*)userDirectory;
 
 /// Do not add new uses of this. In the future we want to be explicitly passing the user
 + (nullable NSString*)filePathForRequestKey:(nullable NSString*)key;

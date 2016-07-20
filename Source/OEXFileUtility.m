@@ -79,10 +79,6 @@
     return userDirectory;
 }
 
-+ (NSString*)userDirectory {
-    return [self pathForUserNameCreatingIfNecessary:[[OEXSession sharedSession] currentUser].username];
-}
-
 + (NSString*)filePathForRequestKey:(NSString*)url {
     return [self filePathForRequestKey:url username:[[OEXSession sharedSession] currentUser].username];
 }

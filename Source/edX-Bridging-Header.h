@@ -55,6 +55,7 @@
 #import "OEXVideoSummary.h"
 #import "OEXVideoPlayerInterface.h"
 #import "UIAppearance+Swift.h"
+#import "VideoData.h"
 
 #import "Reachability.h"
 #import "SWRevealViewController.h"
