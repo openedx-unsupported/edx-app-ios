@@ -391,6 +391,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         paginationController?.loadMore()
     }
     
+    private func showAddedComment(comment: DiscussionComment) {
+        comments.append(comment)
+        tableView.reloadData()
+        let indexPath = NSIndexPath(forRow: comments.count - 1, inSection: TableSection.Comments.rawValue)
+        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
+    }
+    
     // MARK - tableview delegate methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -433,13 +440,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         responseItem.childCount += 1
         
         if !(paginationController?.hasNext ?? false) {
-            self.comments.append(comment)
+            showAddedComment(comment)
         }
         
-        self.tableView.reloadData()
         delegate?.discussionCommentsView(self, updatedComment: responseItem)
-        
-        self.showOverlayMessage(Strings.discussionCommentPosted)
+        showOverlayMessage(Strings.discussionCommentPosted)
     }
 }
 
