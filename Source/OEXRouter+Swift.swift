@@ -179,6 +179,9 @@ extension OEXRouter {
 
     func showDiscussionNewPostFromController(controller: UIViewController, courseID : String, selectedTopic : DiscussionTopic?) {
         let newPostController = DiscussionNewPostViewController(environment: environment, courseID: courseID, selectedTopic: selectedTopic)
+        if let delegate = controller as? DiscussionNewPostViewControllerDelegate {
+            newPostController.delegate = delegate
+        }
         let navigationController = UINavigationController(rootViewController: newPostController)
         controller.presentViewController(navigationController, animated: true, completion: nil)
     }
