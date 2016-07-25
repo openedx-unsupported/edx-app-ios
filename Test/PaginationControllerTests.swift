@@ -47,8 +47,10 @@ class PaginationControllerTests: XCTestCase {
         // and see if we get more content
         waitForStream(paginationController.stream, fireIfAlreadyLoaded: false)
         let newCount = paginationController.stream.value?.count ?? 0
+        let newIndexPath = NSIndexPath(forRow: initialCount, inSection: 0)
+        tableView.scrollToRowAtIndexPath(newIndexPath, atScrollPosition: .Bottom, animated: true)
         XCTAssertGreaterThanOrEqual(newCount, initialCount)
-        XCTAssertNil(tableView.tableFooterView) // Should not be showing spinner
+        XCTAssertNotNil(tableView.tableFooterView) // Should not be showing spinner
         
     }
     
