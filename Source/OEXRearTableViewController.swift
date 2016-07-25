@@ -12,8 +12,10 @@ import MessageUI
 import edXCore
 
 private enum OEXRearViewOptions: Int {
-    case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeedback, Debug
+    case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeedback, Debug, Logout
 }
+
+private let LogoutCellDefaultHeight: CGFloat = 130.0
 
 class OEXRearTableViewController : UITableViewController {
 
@@ -164,6 +166,8 @@ class OEXRearTableViewController : UITableViewController {
                 launchEmailComposer()
             case .Debug:
                 environment.router?.showDebugPane()
+            case .Logout:
+                break
             }
         }
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -173,6 +177,13 @@ class OEXRearTableViewController : UITableViewController {
         if indexPath.row == OEXRearViewOptions.Debug.rawValue && environment.config.shouldShowDebug() == false {
             return 0
         }
+        
+        if indexPath.row == OEXRearViewOptions.Logout.rawValue {
+            let screenHeight = UIScreen.mainScreen().bounds.height
+            let tableviewHeight = tableView.contentSize.height
+            return max((screenHeight - tableviewHeight) + LogoutCellDefaultHeight, LogoutCellDefaultHeight)
+        }
+        
         return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
     }
     
