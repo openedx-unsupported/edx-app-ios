@@ -52,26 +52,9 @@ static OEXDBManager* _sharedManager = nil;
     }
 }
 
-- (void)createVideosDirectory {
-    //File URL
-    NSString* basePath = [OEXFileUtility userDirectory];
-    NSString* videosDirectory = [basePath stringByAppendingPathComponent:@"Videos"];
-
-    if(![[NSFileManager defaultManager] fileExistsAtPath:videosDirectory]) {
-        NSError* error;
-        if(![[NSFileManager defaultManager] createDirectoryAtPath:videosDirectory
-                                      withIntermediateDirectories:NO
-                                                       attributes:nil
-                                                            error:&error]) {
-            OEXLogInfo(@"STORAGE", @"Database directory created at %@", basePath);
-        }
-    }
-}
-
 - (void)openDatabaseForUser:(NSString*)userName {
     if(![self.userName isEqualToString:userName]) {
         [self createDatabaseDirectory];
-        [self createVideosDirectory];
         _userName = userName;
         if(_masterManagedObjectContext != nil) {
             [_backGroundContext save:nil];

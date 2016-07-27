@@ -60,6 +60,19 @@
     XCTAssertTrue([self pathIsExcludedFromBackup:directory]);
 }
 
+- (void) testVideosDirectoryDeletion  {
+    NSString *videosPath = [[OEXFileUtility t_pathForUserName:self.username] stringByAppendingPathComponent:@"Videos"];
+    NSError* error = nil;
+    [[NSFileManager defaultManager] createDirectoryAtPath:videosPath withIntermediateDirectories:YES attributes:nil error:&error];
+    XCTAssertNil(error);
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:videosPath]);
+    
+    [[NSFileManager defaultManager] removeItemAtPath:videosPath error:&error];
+    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:videosPath]);
+    XCTAssertNil(error);
+}
+
+
 - (void)testUserDirectoryCreation {
     NSString* directory = [OEXFileUtility pathForUserNameCreatingIfNecessary:self.username];
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:directory]);
@@ -101,32 +114,6 @@
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:path]);
     
     XCTAssertTrue([self pathIsExcludedFromBackup:path]);
-}
-
-- (void)testHashMigration {
-    NSString* testURL = @"http://a.fake.url/foo";
-    NSString* oldPath = [OEXFileUtility t_legacyPathForURL:testURL userName:self.username];
-    NSError* error = nil;
-    [@"Sample Contents" writeToFile:oldPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-    XCTAssertNil(error);
-    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
-    
-    NSString* path = [OEXFileUtility filePathForRequestKey:testURL username:self.username];
-    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:path]);
-    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
-}
-
-- (void)testVideoExtensionMigration {
-    NSString* testURL = @"http://a.fake.url/foo.mp4";
-    NSString* oldPath = [[OEXFileUtility t_legacyPathForURL:testURL userName:self.username] stringByAppendingPathExtension:@"mp4"];
-    NSError* error = nil;
-    [@"Sample Contents" writeToFile:oldPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-    XCTAssertNil(error);
-    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
-    
-    NSString* path = [OEXFileUtility filePathForRequestKey:testURL username:self.username];
-    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:path]);
-    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:oldPath]);
 }
 
 - (void)testNukeData {
