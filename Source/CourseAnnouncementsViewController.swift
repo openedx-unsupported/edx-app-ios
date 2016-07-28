@@ -27,7 +27,7 @@ private func announcementsDeserializer(response: NSHTTPURLResponse, json: JSON) 
 }
 
 
-class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
+class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebViewDelegate {
     private let environment: CourseAnnouncementsViewControllerEnvironment
     
     let courseID: String
@@ -51,7 +51,7 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         self.notificationBar.clipsToBounds = true
         self.notificationLabel = UILabel(frame: CGRectZero)
         self.notificationSwitch = UISwitch(frame: CGRectZero)
-        super.init(nibName: nil, bundle: nil)
+        super.init(env: environment)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -88,13 +88,6 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
                 }
             }
         }
-        
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: kReachabilityChangedNotification) { (_, observer, _) in
-            if observer.announcementsLoader.error != nil && !observer.announcementsLoader.active && observer.environment.reachability.isReachable() {
-                observer.loadController.state = .Initial
-                observer.loadContent()
-            }
-        }
     }
     
     private static func requestForCourse(course: OEXCourse) -> NetworkRequest<[OEXAnnouncement]> {
@@ -111,14 +104,20 @@ class CourseAnnouncementsViewController: UIViewController, UIWebViewDelegate {
         self.loadContent()
     }
     
+    override func reloadViewData() {
+        loadContent()
+    }
+    
     private func loadContent() {
-        let networkManager = environment.networkManager
-        announcementsLoader.backWithStream(
-            environment.dataManager.enrollmentManager.streamForCourseWithID(courseID).transform {
-                let request = CourseAnnouncementsViewController.requestForCourse($0.course)
-                return networkManager.streamForRequest(request, persistResponse: true)
-            }
-        )
+        if !announcementsLoader.active {
+            let networkManager = environment.networkManager
+            announcementsLoader.backWithStream(
+                environment.dataManager.enrollmentManager.streamForCourseWithID(courseID).transform {
+                    let request = CourseAnnouncementsViewController.requestForCourse($0.course)
+                    return networkManager.streamForRequest(request, persistResponse: true)
+                }
+            )
+        }
     }
     
     //MARK: - Setup UI

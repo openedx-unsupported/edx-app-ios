@@ -100,11 +100,9 @@ typedef  enum OEXAlertType
 @property   (weak, nonatomic) IBOutlet UIView* videoVideo;
 @property(nonatomic, strong) IBOutlet NSLayoutConstraint* recentEditViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* TrailingSpaceCustomProgress;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* TrailingSpaceOffline;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* ConstraintRecentTop;
 @property (weak, nonatomic) IBOutlet UIView* view_NavBG;
 
-@property (weak, nonatomic) IBOutlet UIView* view_Offline;
 @property (weak, nonatomic) IBOutlet UITableView* table_MyVideos;
 @property (weak, nonatomic) IBOutlet UIButton* btn_LeftNavigation;
 @property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressView;
@@ -114,7 +112,6 @@ typedef  enum OEXAlertType
 @property (weak, nonatomic) IBOutlet UICollectionView* collectionView;
 @property (weak, nonatomic) IBOutlet UITableView* table_RecentVideos;
 @property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_Offline;
 @property (weak, nonatomic) IBOutlet OEXCheckBox* btn_SelectAllEditing;
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
 @end
@@ -139,44 +136,12 @@ typedef  enum OEXAlertType
     [result oex_safeAddObjectOrNil:self.tabView];
     [result oex_safeAddObjectOrNil:self.btn_LeftNavigation];
     [result oex_safeAddObjectOrNil:self.lbl_NavTitle];
-    [result oex_safeAddObjectOrNil:self.lbl_Offline];
-    [result oex_safeAddObjectOrNil:self.view_Offline];
     [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
     [result oex_safeAddObjectOrNil:self.customProgressView];
     [result oex_safeAddObjectOrNil:self.btn_Downloads];
     return result;
 }
 
-#pragma mark - REACHABILITY
-
-- (void)HideOfflineLabel:(BOOL)isOnline {
-    //Minor Hack for matching the Spec right now.
-    //TODO: Remove once refactoring with a navigation bar.
-    self.lbl_Offline.hidden = true;
-    self.view_Offline.hidden = isOnline;
-
-    if(self.isTableEditing) {
-        if(!isOnline) {
-            self.lbl_NavTitle.textAlignment = NSTextAlignmentLeft;
-        }
-    }
-    else {
-        self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
-    }
-}
-
-- (void)reachabilityDidChange:(NSNotification*)notification {
-    id <Reachability> reachability = [notification object];
-
-    if([reachability isReachable]) {
-        _dataInterface.reachable = YES;
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        _dataInterface.reachable = NO;
-        [self HideOfflineLabel:NO];
-    }
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -203,25 +168,11 @@ typedef  enum OEXAlertType
     // To avoid this check this.
     if(_isTableEditing) {
         self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
-        self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE + MOVE_OFFLINE_X;
-        self.lbl_NavTitle.textAlignment = NSTextAlignmentLeft;
     }
     else {
-        self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE;
-
-        self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
-
         if(self.videoViewHeight.constant == 225) {
             [self.recentEditViewHeight setConstant:0.0f];
         }
-    }
-
-    // Check Reachability for OFFLINE
-    if(_dataInterface.reachable) {
-        [self HideOfflineLabel:YES];
-    }
-    else {
-        [self HideOfflineLabel:NO];
     }
 
     self.navigationController.navigationBarHidden = YES;
@@ -247,8 +198,7 @@ typedef  enum OEXAlertType
                                              selector:@selector(downloadCompleteNotification:)
                                                  name:OEXDownloadEndedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigationStateChangedWithNotification:) name:OEXSideNavigationChangedStateKey object:nil];
 }
 
@@ -677,8 +627,6 @@ typedef  enum OEXAlertType
 
     // SHIFT THE PROGRESS TO LEFT
     self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR;
-    self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE;
-    self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
 
     [self hideComponentsOnEditing:NO];
     [self.table_RecentVideos reloadData];
@@ -708,12 +656,6 @@ typedef  enum OEXAlertType
 
     // SHIFT THE PROGRESS TO LEFT
     self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
-
-    self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE + MOVE_OFFLINE_X;
-
-    if(!_dataInterface.reachable) {
-        self.lbl_NavTitle.textAlignment = NSTextAlignmentLeft;
-    }
 
     [self hideComponentsOnEditing:YES];
 
@@ -929,7 +871,6 @@ typedef  enum OEXAlertType
             self.customEditing.hidden = YES;
             self.btn_SelectAllEditing.hidden = YES;
             self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR;
-            self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE;
             [self cancelTableClicked:nil];
 
             //Analytics Screen record
@@ -951,13 +892,8 @@ typedef  enum OEXAlertType
             if(self.isTableEditing) {
                 self.btn_SelectAllEditing.hidden = NO;
                 self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
-                self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE + MOVE_OFFLINE_X;
-                self.lbl_NavTitle.textAlignment = NSTextAlignmentLeft;
             }
-            else {
-                self.TrailingSpaceOffline.constant = ORIGINAL_RIGHT_SPACE_OFFLINE;
-            }
-
+            
             //Analytics Screen record
             [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - Recent Videos"];
 
