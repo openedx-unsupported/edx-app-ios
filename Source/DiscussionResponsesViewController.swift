@@ -70,7 +70,7 @@ class DiscussionResponseCell: UITableViewCell {
     private static let margin : CGFloat = 8.0
     
     @IBOutlet private var containerView: UIView!
-    @IBOutlet private var bodyTextLabel: UILabel!
+    @IBOutlet private var bodyTextView: UITextView!
     @IBOutlet private var authorButton: UIButton!
     @IBOutlet private var voteButton: DiscussionCellButton!
     @IBOutlet private var reportButton: DiscussionCellButton!
@@ -125,7 +125,7 @@ class DiscussionResponseCell: UITableViewCell {
     
     override func updateConstraints() {
         if endorsedByButton.hidden {
-            bodyTextLabel.snp_updateConstraints(closure: { (make) in
+            bodyTextView.snp_updateConstraints(closure: { (make) in
                 make.bottom.equalTo(separatorLine.snp_top).offset(-StandardVerticalMargin)
             })
         }
@@ -415,6 +415,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func applyThreadToCell(cell: DiscussionPostCell) -> UITableViewCell {
         if let thread = self.thread {
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(thread.title)
+            
+            
+            
             cell.bodyTextLabel.attributedText = detailTextStyle.attributedStringWithText(thread.rawBody)
             
             let visibilityString : String
@@ -513,7 +516,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     func cellForResponseAtIndexPath(indexPath : NSIndexPath, response: DiscussionComment) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionResponseCell.identifier, forIndexPath: indexPath) as! DiscussionResponseCell
         
-        cell.bodyTextLabel.attributedText = detailTextStyle.attributedStringWithText(response.rawBody)
+        cell.bodyTextView.editable = false
+        cell.bodyTextView.dataDetectorTypes = UIDataDetectorTypes.All
+        
+        cell.bodyTextView.attributedText = detailTextStyle.markdownStringWithText(response.renderedBody)
         
         if let thread = thread {
             

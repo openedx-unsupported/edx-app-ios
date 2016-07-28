@@ -162,6 +162,17 @@
     return [[NSAttributedString alloc] initWithString:text ?: @"" attributes:self.attributes];
 }
 
+- (NSAttributedString*)markdownStringWithText:(NSString*)text{
+    
+    UIFont *font = [self.attributes valueForKey:NSFontAttributeName];
+    
+    NSString *string = [text stringByAppendingString:[NSString stringWithFormat:@"<style>body{font-family: '%@'; font-size:%fpx;}</style>", font.fontName, font.pointSize]];
+    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithData:[string dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)} documentAttributes:nil error:nil];
+    
+    return attributedText;
+
+}
+
 @end
 
 @implementation OEXMutableTextStyle
