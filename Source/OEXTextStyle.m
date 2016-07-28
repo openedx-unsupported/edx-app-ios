@@ -10,6 +10,7 @@
 
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "OEXStyles.h"
+#import "UIColor+OEXHex.h"
 
 @interface OEXMutableTextStyle ()
 
@@ -165,9 +166,10 @@
 - (NSAttributedString*)markdownStringWithText:(NSString*)text{
     
     UIFont *font = [self.attributes valueForKey:NSFontAttributeName];
+    UIColor *textColor = [self.attributes valueForKey:NSForegroundColorAttributeName];
     
-    NSString *string = [text stringByAppendingString:[NSString stringWithFormat:@"<style>body{font-family: '%@'; font-size:%fpx;}</style>", font.fontName, font.pointSize]];
-    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithData:[string dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)} documentAttributes:nil error:nil];
+    NSString *formattedString = [text stringByAppendingString:[NSString stringWithFormat:@"<style>body{font-family: '%@'; font-size:%fpx; color: %@;}</style>", font.fontName, font.pointSize, [textColor hexString]]];
+    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithData:[formattedString dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)} documentAttributes:nil error:nil];
     
     return attributedText;
 
