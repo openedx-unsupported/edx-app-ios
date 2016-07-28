@@ -52,5 +52,34 @@ class CourseCardViewModelTests: XCTestCase {
         let course = OEXCourse.freshCourse(startInfo: startInfo, end: endDate)
         XCTAssertEqual(course.nextRelevantDate, Strings.courseEnded(endDate: OEXDateFormatting.formatAsMonthDayString(endDate)))
     }
+    
+    func testTimeZoneDates() {
+        let argentinaTimeZone = NSTimeZone(name: "America/Argentina/Buenos_Aires")!
+        func setUpDate() -> NSDate {
+            let date = NSDate().dateByAddingDays(2)
+            let utcCalendar = NSCalendar.currentCalendar().copy() as! NSCalendar
+            utcCalendar.timeZone = NSTimeZone(name: "UTC")!
+            return utcCalendar.startOfDayForDate(date)
+        }
+        func setUpCourseWithDate(date: NSDate) -> OEXCourse {
+            let startInfo = OEXCourseStartDisplayInfo(date: date, displayDate: nil, type: .Timestamp)
+            return OEXCourse.freshCourse(startInfo: startInfo, end: NSDate.distantFuture())
+        }
+        func setUpExpectedDate(date: NSDate) -> String {
+            let formatter = NSDateFormatter()
+            formatter.timeZone = argentinaTimeZone
+            formatter.dateFormat = "MMMM dd"
+            return formatter.stringFromDate(date).uppercaseString
+        }
+        
+        let startOfDate = setUpDate()
+        let course = setUpCourseWithDate(startOfDate)
+        let expectedDate = setUpExpectedDate(startOfDate)
+        
+        NSTimeZone.setDefaultTimeZone(NSTimeZone(name: "UTC")!)
+        XCTAssertNotEqual(course.nextRelevantDate, Strings.starting(startDate: expectedDate))
+        NSTimeZone.setDefaultTimeZone(argentinaTimeZone)
+        XCTAssertEqual(course.nextRelevantDate, Strings.starting(startDate: expectedDate))
+    }
 
 }

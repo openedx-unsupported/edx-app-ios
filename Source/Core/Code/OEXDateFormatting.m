@@ -8,7 +8,8 @@
 
 #import "OEXDateFormatting.h"
 
-///The standard date format used all across the edX Platform. Standard ISO 8601
+/// Time zone set by UserPreferenceAPI
+/// The standard date format used all across the edX Platform. Standard ISO 8601
 static NSString* const OEXStandardDateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
 static NSString* const OEXStandardDateFormatMicroseconds = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'";
 
