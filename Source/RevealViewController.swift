@@ -70,8 +70,7 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
             }
         }
     }
-    
-    func revealController(revealController: SWRevealViewController!, didMoveToPosition position: FrontViewPosition) {
+    func revealController(revealController: SWRevealViewController!, willMoveToPosition position: FrontViewPosition) {
         guard let state = self.sideNavigationStateForPosition(position) else {
             return
         }
@@ -90,12 +89,18 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
             dimmingOverlay.frame = frontViewController.view.bounds
             frontViewController.view.addSubview(dimmingOverlay)
             dimmingOverlay.hidden = false
-            UIView.animateWithDuration(0.5) { _ in
+            UIView.animateWithDuration(self.replaceViewAnimationDuration) { _ in
                 self.dimmingOverlay.alpha = 0.5
             }
         }
+    }
+    
+    func revealController(revealController: SWRevealViewController!, didMoveToPosition position: FrontViewPosition) {
+        guard let state = self.sideNavigationStateForPosition(position) else {
+            return
+        }
+        //Reveal Animations moved to 'willMove' to better align with transitions
         postNavigationStateChanged(state)
-        
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
