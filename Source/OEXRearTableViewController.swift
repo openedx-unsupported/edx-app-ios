@@ -51,7 +51,7 @@ class OEXRearTableViewController : UITableViewController {
         updateUIWithUserInfo()
         
         let environmentName = self.environment.config.environmentName()
-        let appVersion = NSBundle.mainBundle().oex_shortVersionString()
+        let appVersion = NSBundle.mainBundle().oex_buildVersionString()
         
         lbl_AppVersion.text = Strings.versionDisplay(number: appVersion, environment: environmentName)
         
