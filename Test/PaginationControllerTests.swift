@@ -19,7 +19,7 @@ class PaginationControllerTests: XCTestCase {
         tableView.delegate = dataSource
         
         let paginator = WrappedPaginator<Int> { page in
-            let info = PaginationInfo(totalCount: 60, pageCount: 20)
+            let info = PaginationInfo(totalCount: 10, pageCount: 5)
             // Add a slight delay to make sure we get proper async behavior
             // to better match actual cases
             return Stream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
@@ -40,17 +40,19 @@ class PaginationControllerTests: XCTestCase {
         XCTAssertEqual(tableView.contentSize.height, CGFloat(initialCount) * dataSource.rowHeight)
         
         // Now scroll to the bottom
-        let bottomIndexPath = NSIndexPath(forRow: initialCount - 1, inSection: 0)
+        var bottomIndexPath = NSIndexPath(forRow: initialCount - 1, inSection: 0)
         tableView.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
         XCTAssertNotNil(tableView.tableFooterView) // Should be showing spinner
 
         // and see if we get more content
         waitForStream(paginationController.stream, fireIfAlreadyLoaded: false)
         let newCount = paginationController.stream.value?.count ?? 0
-        let newIndexPath = NSIndexPath(forRow: initialCount, inSection: 0)
-        tableView.scrollToRowAtIndexPath(newIndexPath, atScrollPosition: .Bottom, animated: true)
         XCTAssertGreaterThanOrEqual(newCount, initialCount)
-        XCTAssertNotNil(tableView.tableFooterView) // Should not be showing spinner
+        
+        //Scrolling to the bottom second time to confirm that results are loaded
+        bottomIndexPath = NSIndexPath(forRow: newCount - 1, inSection: 0)
+        tableView.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
+        XCTAssertNil(tableView.tableFooterView) // Should not be showing spinner
         
     }
     
