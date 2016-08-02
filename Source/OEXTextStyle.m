@@ -164,7 +164,6 @@
 }
 
 - (NSAttributedString*)markdownStringWithText:(NSString*)text{
-    
     UIFont *font = [self.attributes valueForKey:NSFontAttributeName];
     UIColor *textColor = [self.attributes valueForKey:NSForegroundColorAttributeName];
     
@@ -172,7 +171,6 @@
     NSAttributedString *attributedText = [[NSAttributedString alloc] initWithData:[formattedString dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)} documentAttributes:nil error:nil];
     
     return attributedText;
-
 }
 
 @end

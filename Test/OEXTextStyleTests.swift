@@ -67,19 +67,17 @@ class OEXTextStyleTests: XCTestCase {
     }
     
     func testAttributedString() {
-        
-        let sampleString = "This is a sample response."
-        
+        let sampleResponse = "This is a sample response."
         let style = weirdStyle
-        XCTAssertEqual(style.attributedStringWithText(sampleString).string, sampleString)
+        
+        XCTAssertEqual(style.attributedStringWithText(sampleResponse).string, sampleResponse)
     }
     
     func testMarkdownString() {
-        
         let htmlString = "<p>This is a response with a <a href=\"http://www.google.com/\">link</a></p>"
         let expectedString = "This is a response with a link\n"
-        
         let style = weirdStyle
+        
         XCTAssertEqual(style.markdownStringWithText(htmlString).string, expectedString)
     }
     
