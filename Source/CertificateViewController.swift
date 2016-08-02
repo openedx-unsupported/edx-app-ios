@@ -10,7 +10,7 @@ import Foundation
 
 class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceOrientationOverriding {
 
-    typealias Environment = protocol<OEXAnalyticsProvider>
+    typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider>
     private let environment: Environment
 
     private let loadController = LoadStateViewController()
