@@ -416,8 +416,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let thread = self.thread {
             cell.titleLabel.attributedText = titleTextStyle.attributedStringWithText(thread.title)
             
-            
-            
             cell.bodyTextLabel.attributedText = detailTextStyle.attributedStringWithText(thread.rawBody)
             
             let visibilityString : String
