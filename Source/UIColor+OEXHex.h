@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithRGBHex:(uint32_t)value alpha:(CGFloat)alpha;
 
+- (NSString *)hexString;
+
 @end
 
 NS_ASSUME_NONNULL_END
