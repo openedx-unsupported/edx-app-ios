@@ -57,7 +57,7 @@
 
 -(void)testEnrollURLParsing{
     NSURL *testEnrollURL = [NSURL URLWithString:@"edxapp://enroll?course_id=course-v1:BerkeleyX+GG101x-2+1T2015&email_opt_in=false"];
-    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"abc"];
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"abc" bottomBar:nil];
     
     NSString* courseID = nil;
     BOOL emailOptIn = true;
@@ -70,7 +70,7 @@
 
 // Disabled for now since this test makes bad assumptions about the current configuration
 -(void)disable_testCourseInfoURLTemplateSubstitution{
-    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"science-happiness-uc-berkeleyx-gg101x"];
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"science-happiness-uc-berkeleyx-gg101x" bottomBar:nil];
     NSString *courseURLString = [courseInfoViewController courseURLString];
     XCTAssertEqualObjects(courseURLString, @"https://webview.edx.org/course/science-happiness-uc-berkeleyx-gg101x", @"Course Info URL incorrectly determined");
 }

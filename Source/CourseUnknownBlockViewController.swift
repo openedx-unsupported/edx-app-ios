@@ -90,13 +90,3 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
 }
-
-extension UIViewController {
-    func isVerticallyCompact() -> Bool {
-        return self.traitCollection.verticalSizeClass == .Compact
-    }
-    
-    func currentOrientation() -> UIInterfaceOrientation {
-        return UIApplication.sharedApplication().statusBarOrientation
-    }
-}

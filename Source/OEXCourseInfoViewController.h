@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXCourseInfoViewController : UIViewController
 
-- (instancetype)initWithPathID:(NSString*)pathID;
+- (instancetype)initWithPathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar;
 
 @end
 

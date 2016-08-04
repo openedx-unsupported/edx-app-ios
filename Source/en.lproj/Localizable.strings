@@ -529,7 +529,7 @@
 /* Label for date when course starts */
 "STARTING"="Starting - {start_date}";
 /* Discover Courses button text on the first screen */
-"STARTUP.DISCOVERCOURSES"="Find Courses";
+"STARTUP.DISCOVERCOURSES"="Discover Courses";
 /* Explore Subjects button text on the first screen */
 "STARTUP.EXPLORESUBJECTS"="Explore Subjects";
 /* Button allowing user to submit feedback about the app via email */

@@ -62,12 +62,20 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [self.webViewHelper loadRequestWithURL:urlToLoad];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if ([[OEXSession sharedSession] currentUser]) {
+        [self.webViewHelper.bottomBar removeFromSuperview];
+    }
+}
+
 - (EnrollmentConfig*)enrollmentConfig {
     return [[OEXConfig sharedConfig] courseEnrollmentConfig];
 }
 
 - (void)showCourseInfoWithPathID:(NSString*)coursePathID {
-    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:coursePathID];
+    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:coursePathID bottomBar:self.bottomBar];
     [self.navigationController pushViewController:courseInfoViewController animated:YES];
 }
 
