@@ -13,7 +13,7 @@ import UIKit
 public let barButtonFixedSpaceWidth : CGFloat = 20
 
 public class CourseOutlineViewController :
-    UIViewController,
+    OfflineSupportViewController,
     CourseBlockViewController,
     CourseOutlineTableControllerDelegate,
     CourseOutlineModeControllerDelegate,
@@ -67,7 +67,7 @@ public class CourseOutlineViewController :
         
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier)
         
-        super.init(nibName: nil, bundle: nil)
+        super.init(env: environment)
         
         lastAccessedController.delegate = self
         modeController.delegate = self
@@ -99,13 +99,9 @@ public class CourseOutlineViewController :
         tableController.refreshController.delegate = self
         
         insetsController.setupInController(self, scrollView : self.tableController.tableView)
-        insetsController.supportOfflineMode(environment.reachability)
         insetsController.addSource(tableController.refreshController)
-        
         self.view.setNeedsUpdateConstraints()
-        
         addListeners()
-        
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -125,7 +121,6 @@ public class CourseOutlineViewController :
             failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
             }
-            
         )
     }
     
@@ -149,6 +144,10 @@ public class CourseOutlineViewController :
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.insetsController.updateInsets()
+    }
+    
+    override func reloadViewData() {
+        reload()
     }
     
     private func setupNavigationItem(block : CourseBlock) {

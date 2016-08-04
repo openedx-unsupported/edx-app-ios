@@ -45,10 +45,6 @@ public class PaginationController<A> : NSObject, Paginator {
         super.init()
         manipulator.setFooter(self.footer, visible: false)
 
-        paginator.stream.listen(self) {[weak self] _ in
-            self?.updateVisibility()
-        }
-
         manipulator.scrollView?.oex_addObserver(self, forKeyPath: "bounds") { (controller, tableView, newValue) -> Void in
             controller.viewScrolled()
         }
@@ -73,6 +69,9 @@ public class PaginationController<A> : NSObject, Paginator {
     private func viewScrolled() {
         if !self.paginator.stream.active && (viewManipulator.scrollView?.scrolledNearBottom ?? false) && viewManipulator.canPaginate && self.paginator.hasNext {
             self.paginator.loadMore()
+            self.updateVisibility()
+        }
+        else if !self.paginator.hasNext && (viewManipulator.scrollView?.scrolledNearBottom ?? false){
             self.updateVisibility()
         }
     }

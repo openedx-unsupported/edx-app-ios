@@ -7,7 +7,7 @@
 //
 
 import UIKit
-public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
+public class CourseHandoutsViewController: OfflineSupportViewController, UIWebViewDelegate {
     
     public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, ReachabilityProvider>
 
@@ -23,7 +23,7 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         self.webView = UIWebView()
         self.loadController = LoadStateViewController()
         
-        super.init(nibName: nil, bundle: nil)
+        super.init(env: environment)
         
         addListener()
     }
@@ -41,13 +41,10 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
         setStyles()
         webView.delegate = self
         loadHandouts()
-        
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: kReachabilityChangedNotification) { (_, observer, _) -> Void in
-            if !observer.loadController.state.isLoaded && !observer.handouts.active && observer.environment.reachability.isReachable() {
-                self.loadController.state = .Initial
-                self.loadHandouts()
-            }
-        }
+    }
+    
+    override func reloadViewData() {
+        loadHandouts()
     }
     
     private func addSubviews() {
@@ -77,13 +74,14 @@ public class CourseHandoutsViewController: UIViewController, UIWebViewDelegate {
     }
 
     private func loadHandouts() {
-        let courseStream = self.environment.dataManager.enrollmentManager.streamForCourseWithID(courseID)
-        let handoutStream = courseStream.transform {[weak self] enrollment in
-            return self?.streamForCourse(enrollment.course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
+        if !handouts.active {
+            loadController.state = .Initial
+            let courseStream = self.environment.dataManager.enrollmentManager.streamForCourseWithID(courseID)
+            let handoutStream = courseStream.transform {[weak self] enrollment in
+                return self?.streamForCourse(enrollment.course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
+            }
+            self.handouts.backWithStream(handoutStream)
         }
-        
-        self.handouts.backWithStream(handoutStream)
-        
     }
     
     private func addListener() {

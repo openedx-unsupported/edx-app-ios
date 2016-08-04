@@ -9,22 +9,20 @@
 import UIKit
 
 private var commentTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralDark())
-}
-
-private var mediaTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XXSmall, color : OEXStyles.sharedStyles().neutralBase())
+    return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var smallTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XXSmall, color : OEXStyles.sharedStyles().neutralBase())
+    return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralBase())
 }
 
 private var smallIconStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
 }
 
 private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
+
+private let UserProfileImageSize = CGSizeMake(40.0,40.0)
 
 class DiscussionCommentCell: UITableViewCell {
     
@@ -32,29 +30,18 @@ class DiscussionCommentCell: UITableViewCell {
     private let authorButton = UIButton(type: .System)
     private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
-    private let containerView = IrregularBorderView()
+    private let containerView = UIView()
     private let endorsedLabel = UILabel()
+    private let authorProfileImage = UIImageView()
+    private let authorNameLabel = UILabel()
+    private let dateLabel = UILabel()
     
     private var endorsedTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
-    private func setEndorsed(endorsed : Bool, position: CellPosition) {
-        
-        self.containerView.style = IrregularBorderStyle(position: position, base: BorderStyle())
-        let showsDivider = !endorsed && !position.contains(.Bottom)
-        self.divider.backgroundColor = showsDivider ? OEXStyles.sharedStyles().neutralXLight() : nil
-        
+    private func setEndorsed(endorsed : Bool) {
         endorsedLabel.hidden = !endorsed
-        //Had to force this in here, because of a compiler bug - (not passing the correct value for endorsed updateConstraints())
-        bodyTextLabel.snp_updateConstraints { (make) -> Void in
-            if endorsed {
-                make.top.equalTo(endorsedLabel.snp_bottom)
-            }
-            else {
-                make.top.equalTo(containerView).offset(StandardVerticalMargin)
-            }
-        }
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -63,13 +50,14 @@ class DiscussionCommentCell: UITableViewCell {
         
         applyStandardSeparatorInsets()
         addSubViews()
-        setConstraints()
-        
+        setConstraints()        
         bodyTextLabel.numberOfLines = 0
         containerView.userInteractionEnabled = true
-        authorButton.localizedHorizontalContentAlignment = .Leading
         commentCountOrReportIconButton.localizedHorizontalContentAlignment = .Trailing
         contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
+        divider.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
+        containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        containerView.applyBorderStyle(BorderStyle())
     }
     
     private func addSubViews() {
@@ -79,6 +67,9 @@ class DiscussionCommentCell: UITableViewCell {
         containerView.addSubview(endorsedLabel)
         containerView.addSubview(commentCountOrReportIconButton)
         containerView.addSubview(divider)
+        containerView.addSubview(authorProfileImage)
+        containerView.addSubview(authorNameLabel)
+        containerView.addSubview(dateLabel)
     }
     
     private func setConstraints() {
@@ -87,60 +78,80 @@ class DiscussionCommentCell: UITableViewCell {
             make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(0, StandardHorizontalMargin, 0, StandardHorizontalMargin))
         }
         
-        bodyTextLabel.snp_makeConstraints { (make) -> Void in
+        authorProfileImage.snp_makeConstraints { (make) in
             make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(containerView).offset(-StandardHorizontalMargin)
+            make.top.equalTo(containerView).offset(StandardVerticalMargin)
+            make.width.equalTo(UserProfileImageSize.width)
+            make.height.equalTo(UserProfileImageSize.height)
+        }
+        
+        authorNameLabel.snp_makeConstraints { (make) in
+            make.top.equalTo(authorProfileImage)
+            make.leading.equalTo(authorProfileImage.snp_trailing).offset(StandardHorizontalMargin)
+        }
+        
+        dateLabel.snp_makeConstraints { (make) in
+            make.top.equalTo(authorNameLabel.snp_bottom)
+            make.leading.equalTo(authorNameLabel)
         }
         
         authorButton.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(bodyTextLabel.snp_bottom)
-            make.leading.equalTo(bodyTextLabel)
-            make.bottom.equalTo(containerView).offset(-StandardVerticalMargin)
-            make.trailing.lessThanOrEqualTo(containerView)
+            make.top.equalTo(authorProfileImage)
+            make.leading.equalTo(contentView)
+            make.bottom.equalTo(authorProfileImage)
+            make.trailing.equalTo(dateLabel)
+            make.trailing.equalTo(authorNameLabel)
         }
         
         endorsedLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(bodyTextLabel)
-            make.top.equalTo(containerView).offset(StandardVerticalMargin)
+            make.leading.equalTo(dateLabel)
+            make.top.equalTo(dateLabel.snp_bottom)
+        }
+        
+        bodyTextLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(authorProfileImage.snp_bottom).offset(StandardVerticalMargin)
+            make.leading.equalTo(authorProfileImage)
+            make.trailing.equalTo(containerView).offset(-StandardHorizontalMargin)
         }
         
         commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(containerView).offset(-OEXStyles.sharedStyles().standardHorizontalMargin())
-            make.centerY.equalTo(authorButton)
+            make.top.equalTo(authorNameLabel)
         }
         
         divider.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.containerView)
-            make.trailing.equalTo(self.containerView)
-            make.bottom.equalTo(self.containerView)
-            make.height.equalTo(OEXStyles.dividerSize())
+            make.top.equalTo(bodyTextLabel.snp_bottom).offset(StandardVerticalMargin)
+            make.leading.equalTo(containerView)
+            make.trailing.equalTo(containerView)
+            make.height.equalTo(StandardVerticalMargin)
+            make.bottom.equalTo(containerView)
         }
     }
     
-    func useResponse(response : DiscussionComment, position : CellPosition, viewController : DiscussionCommentsViewController) {
-        self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-        self.bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.rawBody)
-        
-        DiscussionHelper.styleAuthorButton(authorButton, title: response.formattedUserLabel(smallTextStyle), author: response.author, viewController: viewController, router: viewController.environment.router)
+    func useResponse(response : DiscussionComment, viewController : DiscussionCommentsViewController) {
+        divider.snp_updateConstraints { (make) in
+            make.height.equalTo(StandardVerticalMargin)
+        }
+        bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.rawBody)
+        DiscussionHelper.styleAuthorDetails(response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
         let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout([
             Icon.Comment.attributedTextWithStyle(smallIconStyle),
             smallTextStyle.attributedStringWithText(message)])
-        self.commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
-        self.setEndorsed(response.endorsed, position: position)
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
+        setEndorsed(response.endorsed)
+        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
-    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, position : CellPosition, index: NSInteger) {
-        
+    func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, index: NSInteger) {
+        divider.snp_updateConstraints { (make) in
+            make.height.equalTo(2)
+        }
         bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
-        self.containerView.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
-        viewController.updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
-        
-        DiscussionHelper.styleAuthorButton(authorButton, title: comment.formattedUserLabel(smallTextStyle), author: comment.author, viewController: viewController, router: viewController.environment.router)
+        updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
+        DiscussionHelper.styleAuthorDetails(comment.author, authorLabel: comment.authorLabel, createdAt: comment.createdAt, hasProfileImage: comment.hasProfileImage, imageURL: comment.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
@@ -150,7 +161,7 @@ class DiscussionCommentCell: UITableViewCell {
                 if let response = result.data {
                     if viewController?.comments.count > index && viewController?.comments[index].commentID == response.commentID {
                         viewController?.comments[index] = response
-                        viewController?.updateReportText(self.commentCountOrReportIconButton, report: response.abuseFlagged)
+                        self.updateReportText(self.commentCountOrReportIconButton, report: response.abuseFlagged)
                         viewController?.tableView.reloadData()
                     }
                 }
@@ -161,12 +172,30 @@ class DiscussionCommentCell: UITableViewCell {
             }, forEvents: UIControlEvents.TouchUpInside)
         
         
-        
-        setEndorsed(false, position: position)
+        setEndorsed(false)
+        setNeedsLayout()
+        layoutIfNeeded()
+        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func updateReportText(button: UIButton, report: Bool) {
+        
+        let iconStyle = report ? smallIconSelectedStyle : smallIconStyle
+        let reportIcon = Icon.ReportFlag.attributedTextWithStyle(iconStyle)
+        let reportTitle = smallTextStyle.attributedStringWithText((report ? Strings.discussionUnreport : Strings.discussionReport ))
+        
+        let buttonTitle = NSAttributedString.joinInNaturalLayout([reportIcon, reportTitle])
+        button.setAttributedTitle(buttonTitle, forState: .Normal)
+        
+        button.snp_remakeConstraints { (make) in
+            make.top.equalTo(contentView).offset(StandardVerticalMargin)
+            make.width.equalTo(buttonTitle.singleLineWidth() + StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).offset(-2*StandardHorizontalMargin)
+        }
     }
     
 }
@@ -186,11 +215,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private let identifierCommentCell = "CommentCell"
-    private let minBodyTextHeight: CGFloat = 20.0
-    private let nonBodyTextHeight: CGFloat = 35.0
-    private let defaultResponseCellHeight: CGFloat = 50.0
-    private let defaultCommentCellHeight: CGFloat = 55.0
-    
     private let environment: Environment
     private let courseID: String
     private let discussionManager : DiscussionDataManager
@@ -367,14 +391,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         paginationController?.loadMore()
     }
     
-    private func updateReportText(button: UIButton, report: Bool) {
-        
-        let iconStyle = report ? smallIconSelectedStyle : smallIconStyle
-        
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([
-            Icon.ReportFlag.attributedTextWithStyle(iconStyle),
-            smallTextStyle.attributedStringWithText((report ? Strings.discussionUnreport : Strings.discussionReport ))])
-        button.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
+    private func showAddedComment(comment: DiscussionComment) {
+        comments.append(comment)
+        tableView.reloadData()
+        let indexPath = NSIndexPath(forRow: comments.count - 1, inSection: TableSection.Comments.rawValue)
+        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
     }
     
     // MARK - tableview delegate methods
@@ -398,19 +419,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         switch TableSection(rawValue: indexPath.section) {
         case .Some(.Response):
-            let hasComments = comments.count > 0
-            let position : CellPosition = hasComments ? [.Top] : [.Top, .Bottom]
-            cell.useResponse(responseItem, position: position, viewController: self)
-            
+            cell.useResponse(responseItem, viewController: self)
             if let thread = thread {
                 DiscussionHelper.updateEndorsedTitle(thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
             }
             
             return cell
         case .Some(.Comments):
-            let isLastRow = tableView.isLastRow(indexPath: indexPath)
-            let commentPosition = isLastRow ? CellPosition.Bottom : []
-            cell.useComment(comments[indexPath.row], inViewController: self, position: commentPosition, index: indexPath.row)
+            cell.useComment(comments[indexPath.row], inViewController: self, index: indexPath.row)
             return cell
         case .None:
             assert(false, "Unknown table section")
@@ -424,12 +440,19 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         responseItem.childCount += 1
         
         if !(paginationController?.hasNext ?? false) {
-            self.comments.append(comment)
+            showAddedComment(comment)
         }
         
-        self.tableView.reloadData()
         delegate?.discussionCommentsView(self, updatedComment: responseItem)
-        
-        self.showOverlayMessage(Strings.discussionCommentPosted)
+        showOverlayMessage(Strings.discussionCommentPosted)
+    }
+}
+
+// Testing only
+extension DiscussionCommentsViewController {
+    var t_loaded : Stream<()> {
+        return self.paginationController!.stream.map {_ in
+            return
+        }
     }
 }

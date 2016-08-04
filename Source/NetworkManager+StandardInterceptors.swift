@@ -11,8 +11,12 @@ import Foundation
 import edXCore
 
 extension NetworkManager {
-public func addStandardInterceptors() {
+    public func addStandardInterceptors() {
+        let deprecatedVersionInterceptor = { response, json in
+            NetworkManager.deprecatedVersionInterceptor(response, json: json)
+        }
         addJSONInterceptor(NetworkManager.courseAccessInterceptor)
+        addJSONInterceptor(deprecatedVersionInterceptor)
     }
     
     static func courseAccessInterceptor(response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
@@ -24,6 +28,12 @@ public func addStandardInterceptors() {
             let access = OEXCoursewareAccess(dictionary : json.dictionaryObject)
             return Failure(OEXCoursewareAccessError(coursewareAccess: access, displayInfo: nil))
         }
+        return Success(json)
+    }
+    
+    static func deprecatedVersionInterceptor(response: NSHTTPURLResponse, json: JSON) -> Result<JSON> {
+        let versionController = VersionUpgradeInfoController.sharedController
+        versionController.populateFromHeaders(httpResponseHeaders: response.allHeaderFields)
         return Success(json)
     }
 }

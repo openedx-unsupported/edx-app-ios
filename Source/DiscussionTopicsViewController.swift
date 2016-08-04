@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-public class DiscussionTopicsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding  {
+public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding  {
     
-    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider>
     
     private enum TableSection : Int {
         case AllPosts
@@ -36,13 +36,14 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         self.courseID = courseID
         self.loadController = LoadStateViewController()
         
-        super.init(nibName: nil, bundle: nil)
+       super.init(env: environment)
         
         let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
         topics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }
         )
+        
         tableView.estimatedRowHeight = 80.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.tableFooterView = UIView(frame: CGRectZero)
@@ -113,12 +114,26 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         tableView.registerClass(DiscussionTopicCell.classForCoder(), forCellReuseIdentifier: DiscussionTopicCell.identifier)
         
         loadController.setupInController(self, contentView: contentView)
+        loadTopics()
+    }
+    
+    private func loadTopics() {
         
         topics.listen(self, success : {[weak self]_ in
             self?.loadedData()
-        }, failure : {[weak self] error in
-            self?.loadController.state = LoadState.failed(error)
-        })
+            }, failure : {[weak self] error in
+                self?.loadController.state = LoadState.failed(error)
+            })
+    }
+    
+    private func refreshTopics() {
+        loadController.state = .Initial
+        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
+        topics.backWithStream(stream.map {
+            return DiscussionTopic.linearizeTopics($0)
+            }
+        )
+        loadTopics()
     }
     
     func loadedData() {
@@ -135,6 +150,10 @@ public class DiscussionTopicsViewController: UIViewController, UITableViewDataSo
         self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    override func reloadViewData() {
+        refreshTopics()
     }
     
     override public func shouldAutorotate() -> Bool {

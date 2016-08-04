@@ -18,4 +18,13 @@
     return self;
 }
 
+- (NSString *)hexString {
+    const size_t totalComponents = CGColorGetNumberOfComponents(self.CGColor);
+    const CGFloat * components = CGColorGetComponents(self.CGColor);
+    return [NSString stringWithFormat:@"#%02X%02X%02X",
+            (int)(255 * components[MIN(0,totalComponents-2)]),
+            (int)(255 * components[MIN(1,totalComponents-2)]),
+            (int)(255 * components[MIN(2,totalComponents-2)])];
+}
+
 @end

@@ -13,13 +13,17 @@ class PostTableViewCell: UITableViewCell {
     
     static let identifier = "PostCell"
     
-    private let typeButton = UILabel()
-    private let byLabel = UILabel()
+    private let typeLabel = UILabel()
+    private let infoLabel = UILabel()
     private let titleLabel = UILabel()
-    private let countButton = UIButton(type: .Custom)
+    private let countLabel = UILabel()
     
-    private var postNormalStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralLight())
+    private var postReadStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralXDark())
+    }
+    
+    private var postUnreadStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Bold, size: .Base, color: OEXStyles.sharedStyles().neutralXDark())
     }
     
     private var questionStyle : OEXTextStyle {
@@ -30,19 +34,19 @@ class PostTableViewCell: UITableViewCell {
         return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().utilitySuccessDark())
     }
     
-    private var cellDetailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralBase())
+    private var infoTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        self.postRead = false
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
         
-        contentView.addSubview(typeButton)
+        contentView.addSubview(typeLabel)
         contentView.addSubview(titleLabel)
-        contentView.addSubview(byLabel)
-        contentView.addSubview(countButton)
+        contentView.addSubview(infoLabel)
+        contentView.addSubview(countLabel)
         
         addConstraints()
         
@@ -54,21 +58,25 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private func addConstraints() {
-        typeButton.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.contentView).offset(15)
-            make.centerY.equalTo(self.contentView)
-            //forcing the size because different icons can have different intrinzicContentSizes.
-            //that changes the position of the titleLabel
-            make.size.equalTo(CGSizeMake(20, 20))
-        }
-        titleLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(typeButton.snp_trailing).offset(10)
-            make.top.greaterThanOrEqualTo(self.contentView).offset(StandardVerticalMargin)
+        typeLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+            make.top.equalTo(titleLabel)
         }
         
-        byLabel.snp_makeConstraints { (make) -> Void in
+        titleLabel.snp_makeConstraints { (make) -> Void in
+            make.leading.equalTo(typeLabel.snp_trailing).offset(StandardHorizontalMargin)
+            make.top.equalTo(contentView).offset(StandardVerticalMargin)
+        }
+        
+        countLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(titleLabel)
+            make.leading.greaterThanOrEqualTo(titleLabel.snp_trailing).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(contentView).offset(-StandardHorizontalMargin)
+        }
+        
+        infoLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(titleLabel)
-            make.top.greaterThanOrEqualTo(titleLabel.snp_bottom)
+            make.top.equalTo(titleLabel.snp_bottom)
             make.bottom.equalTo(contentView).offset(-StandardVerticalMargin)
         }
     }
@@ -78,165 +86,84 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private var activeCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight: .Bold, size: .Base, color : OEXStyles.sharedStyles().primaryBaseColor())
     }
     
     private var inactiveCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
-    }
-    
-    private var titleText : String? {
-        get {
-            return titleLabel.text
-        }
-        set {
-            titleLabel.attributedText = titleTextStyle.attributedStringWithText(newValue)
-        }
+        return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralBase())
     }
     
     private var typeText : NSAttributedString? {
         get {
-            return typeButton.attributedText
+            return typeLabel.attributedText
         }
         set {
-            typeButton.attributedText = newValue
-        }
-    }
-    
-    private var byText : NSAttributedString? {
-        get {
-            return byLabel.attributedText
-        }
-        set {
-            byLabel.attributedText = newValue
-        }
-    }
-    
-    private var postRead : Bool {
-        didSet {
-            self.contentView.backgroundColor = postRead ? OEXStyles.sharedStyles().neutralXXLight() : OEXStyles.sharedStyles().neutralWhiteT()
+            typeLabel.attributedText = newValue
         }
     }
 
-    private func updateThreadCount(count : Int, selectedOrderBy : DiscussionPostsSort, hasActivity activity: Bool, reverseIconAndCount reverse : Bool ) {
-        
-        let textStyle = activity ? activeCountStyle : inactiveCountStyle
-        let icon = selectedOrderBy.icon.attributedTextWithStyle(textStyle, inline : true)
-        let countString = textStyle.attributedStringWithText(String(count))
-        var buttonTitleStrings = [countString, icon]
-        
-        if reverse { buttonTitleStrings = buttonTitleStrings.reverse() }
-        
-        let buttonTitle = NSAttributedString.joinInNaturalLayout(buttonTitleStrings)
-        countButton.setAttributedTitle(buttonTitle, forState: .Normal)
+    private func updateThreadCount(count : String) {
+        countLabel.attributedText = activeCountStyle.attributedStringWithText(count)
     }
-        
+    
     func useThread(thread : DiscussionThread, selectedOrderBy : DiscussionPostsSort) {
         self.typeText = threadTypeText(thread)
-        self.titleText = thread.title
+        
+        titleLabel.attributedText = thread.read ? postReadStyle.attributedStringWithText(thread.title) : postUnreadStyle.attributedStringWithText(thread.title)
+        
         var options = [NSAttributedString]()
         
-        if thread.closed {
-            options.append(Icon.Closed.attributedTextWithStyle(cellDetailTextStyle, inline : true))
-        }
-        if thread.pinned {
-            options.append(Icon.Pinned.attributedTextWithStyle(cellDetailTextStyle, inline : true))
-        }
+        if thread.closed { options.append(Icon.Closed.attributedTextWithStyle(infoTextStyle, inline : true)) }
+        if thread.pinned { options.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline : true)) }
+        if thread.following { options.append(Icon.FollowStar.attributedTextWithStyle(infoTextStyle)) }
+        if options.count > 0 { options.append(infoTextStyle.attributedStringWithText(Strings.pipeSign)) }
+        options.append(infoTextStyle.attributedStringWithText(Strings.Discussions.repliesCount(count: formatdCommentsCount(thread.commentCount))))
         
-        if thread.following {
-            options.append(Icon.FollowStar.attributedTextWithStyle(cellDetailTextStyle))
-        }
-
-        if let authorString = thread.authorLabel {
-            let authorLabelText = Strings.byAuthor(authorName: authorString)
-            options.append(cellDetailTextStyle.attributedStringWithText(authorLabelText))
+        if let updatedAt = thread.updatedAt {
+            options.append(infoTextStyle.attributedStringWithText(Strings.pipeSign))
+            options.append(infoTextStyle.attributedStringWithText(Strings.Discussions.lastPost(date: updatedAt.displayDate)))
         }
         
-        self.byText = NSAttributedString.joinInNaturalLayout(options)
+        infoLabel.attributedText = NSAttributedString.joinInNaturalLayout(options)
         
-        titleLabel.snp_updateConstraints { (make) -> Void in
-            let situationalOffset = options.count > 0 ? -StandardVerticalMargin : 0
-            make.centerY.equalTo(contentView).offset(situationalOffset)
-        }
-        
-        let count = countForThread(thread, sortBy: selectedOrderBy)
-        let hasActivity = shouldShowActivityForThread(thread, sortBy: selectedOrderBy)
-        let shouldReverse = shouldReverseIconAndCountForThread(thread, sortBy: selectedOrderBy)
-        
-        self.updateThreadCount(count, selectedOrderBy: selectedOrderBy, hasActivity: hasActivity, reverseIconAndCount : shouldReverse)
-
-        self.postRead = thread.read
-        
-        self.layoutIfNeeded()
-        self.setNeedsUpdateConstraints()
+        let count = formatdCommentsCount(thread.unreadCommentCount)
+        countLabel.attributedText = activeCountStyle.attributedStringWithText(count)
+        countLabel.hidden = !Bool(thread.unreadCommentCount)
     }
     
     private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
         return text.map {text in
-            let style = cellDetailTextStyle
+            let style = infoTextStyle
             return NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(style),
                 style.attributedStringWithText(text)])
         }
     }
     
-    override func updateConstraints() {
-        countButton.snp_updateConstraints { (make) -> Void in
-            make.leading.greaterThanOrEqualTo(titleLabel.snp_trailing).offset(8)
-            make.leading.greaterThanOrEqualTo(byLabel.snp_trailing).offset(8)
-            make.trailing.equalTo(self.contentView).offset(-15)
-            make.centerY.equalTo(self.contentView).offset(0)
-            // Add a little padding to the ideal size since UIKit doesn't seem to calculate an intrinsic size
-            // correctly (possible related to text attachments)
-            make.width.equalTo(((self.countButton.attributedTitleForState(.Normal)?.size())?.width ?? 0) + 2)
+    private func formatdCommentsCount(count: NSInteger) -> String {
+        if count > 99 {
+            return "99+"
         }
         
-        super.updateConstraints()
+        return String(count)
     }
     
     private func threadTypeText(thread : DiscussionThread) -> NSAttributedString {
         switch thread.type {
         case .Discussion:
-            return Icon.Comments.attributedTextWithStyle(postNormalStyle)
+            return (thread.unreadCommentCount > 0) ? Icon.Comments.attributedTextWithStyle(activeCountStyle) : Icon.Comments.attributedTextWithStyle(inactiveCountStyle)
         case .Question:
             return thread.hasEndorsed ? Icon.Answered.attributedTextWithStyle(answerStyle) : Icon.Question.attributedTextWithStyle(questionStyle)
-        }
-    }
-    
-    private func countForThread(thread : DiscussionThread, sortBy : DiscussionPostsSort) -> Int {
-        switch sortBy {
-        case .VoteCount:
-            return thread.voteCount
-        case .RecentActivity, .MostActivity:
-            return thread.commentCount
-        }
-    }
-    
-    private func shouldShowActivityForThread(thread : DiscussionThread, sortBy : DiscussionPostsSort) -> Bool {
-        switch sortBy {
-        case .VoteCount:
-            return thread.voted
-        case .RecentActivity, .MostActivity:
-            return thread.unreadCommentCount != 0
-        }
-    }
-    
-    private func shouldReverseIconAndCountForThread(thread : DiscussionThread, sortBy : DiscussionPostsSort) -> Bool {
-        switch sortBy {
-        case .VoteCount:
-            return true
-        case .RecentActivity, .MostActivity:
-            return false
         }
     }
 }
 
 extension DiscussionPostsSort {
-    var icon : Icon {
+    var canHide : Bool {
         switch self {
         case .RecentActivity, .MostActivity:
-            return Icon.Comment
+            return true
         case .VoteCount:
-            return Icon.UpVote
+            return false
         }
     }
 }
