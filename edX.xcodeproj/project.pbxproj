@@ -114,6 +114,9 @@
 		5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */; };
 		5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */; };
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
+		6960892B1D53935500EE66DD /* courseCertificate.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089281D53935500EE66DD /* courseCertificate.png */; };
+		6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089291D53935500EE66DD /* courseCertificate@2x.png */; };
+		6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6960892A1D53935500EE66DD /* courseCertificate@3x.png */; };
 		69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A31D50D1170030CF87 /* FontAwesome.otf */; };
 		69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */; };
 		69ECC5FF1D50D1170030CF87 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */; };
@@ -154,9 +157,6 @@
 		69ECC6221D50D1170030CF87 /* bt_view_active.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5CA1D50D1170030CF87 /* bt_view_active.png */; };
 		69ECC6231D50D1170030CF87 /* bt_view_deactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5CB1D50D1170030CF87 /* bt_view_deactive.png */; };
 		69ECC6241D50D1170030CF87 /* bt_view_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5CC1D50D1170030CF87 /* bt_view_default.png */; };
-		69ECC6251D50D1170030CF87 /* cert-asset.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5CD1D50D1170030CF87 /* cert-asset.png */; };
-		69ECC6261D50D1170030CF87 /* cert-asset@2.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5CE1D50D1170030CF87 /* cert-asset@2.png */; };
-		69ECC6271D50D1170030CF87 /* cert-asset@3.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5CF1D50D1170030CF87 /* cert-asset@3.png */; };
 		69ECC6281D50D1170030CF87 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5D01D50D1170030CF87 /* check.png */; };
 		69ECC6291D50D1170030CF87 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5D11D50D1170030CF87 /* check@2x.png */; };
 		69ECC62A1D50D1170030CF87 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5D21D50D1170030CF87 /* Default-568h@2x.png */; };
@@ -877,6 +877,9 @@
 		5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewPostViewController.swift; sourceTree = "<group>"; };
 		5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewPostViewController.xib; sourceTree = "<group>"; };
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
+		696089281D53935500EE66DD /* courseCertificate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate.png; sourceTree = "<group>"; };
+		696089291D53935500EE66DD /* courseCertificate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@2x.png"; sourceTree = "<group>"; };
+		6960892A1D53935500EE66DD /* courseCertificate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@3x.png"; sourceTree = "<group>"; };
 		69ECC5A31D50D1170030CF87 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
 		69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -917,9 +920,6 @@
 		69ECC5CA1D50D1170030CF87 /* bt_view_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_view_active.png; sourceTree = "<group>"; };
 		69ECC5CB1D50D1170030CF87 /* bt_view_deactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_view_deactive.png; sourceTree = "<group>"; };
 		69ECC5CC1D50D1170030CF87 /* bt_view_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_view_default.png; sourceTree = "<group>"; };
-		69ECC5CD1D50D1170030CF87 /* cert-asset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cert-asset.png"; sourceTree = "<group>"; };
-		69ECC5CE1D50D1170030CF87 /* cert-asset@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cert-asset@2.png"; sourceTree = "<group>"; };
-		69ECC5CF1D50D1170030CF87 /* cert-asset@3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cert-asset@3.png"; sourceTree = "<group>"; };
 		69ECC5D01D50D1170030CF87 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		69ECC5D11D50D1170030CF87 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
 		69ECC5D21D50D1170030CF87 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1970,6 +1970,9 @@
 		69ECC5B61D50D1170030CF87 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				696089281D53935500EE66DD /* courseCertificate.png */,
+				696089291D53935500EE66DD /* courseCertificate@2x.png */,
+				6960892A1D53935500EE66DD /* courseCertificate@3x.png */,
 				69ECC5B71D50D1170030CF87 /* arrow_next@2x.png */,
 				69ECC5B81D50D1170030CF87 /* avatarPlaceholder.png */,
 				69ECC5B91D50D1170030CF87 /* bg_card_image.png */,
@@ -1992,9 +1995,6 @@
 				69ECC5CA1D50D1170030CF87 /* bt_view_active.png */,
 				69ECC5CB1D50D1170030CF87 /* bt_view_deactive.png */,
 				69ECC5CC1D50D1170030CF87 /* bt_view_default.png */,
-				69ECC5CD1D50D1170030CF87 /* cert-asset.png */,
-				69ECC5CE1D50D1170030CF87 /* cert-asset@2.png */,
-				69ECC5CF1D50D1170030CF87 /* cert-asset@3.png */,
 				69ECC5D01D50D1170030CF87 /* check.png */,
 				69ECC5D11D50D1170030CF87 /* check@2x.png */,
 				69ECC5D21D50D1170030CF87 /* Default-568h@2x.png */,
@@ -3560,10 +3560,10 @@
 				69ECC64D1D50D1170030CF87 /* Default-667h@2x.png in Resources */,
 				69ECC6401D50D1170030CF87 /* iTunesArtwork in Resources */,
 				69ECC6441D50D1170030CF87 /* map@2x.png in Resources */,
+				6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */,
 				69ECC61D1D50D1170030CF87 /* bt_logout_default.png in Resources */,
 				69ECC6501D50D1170030CF87 /* Default@2x.png in Resources */,
 				69ECC6341D50D1170030CF87 /* ic_next_deactive.png in Resources */,
-				69ECC6251D50D1170030CF87 /* cert-asset.png in Resources */,
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
 				B4B6D63B1A950C28000F44E8 /* registration.json in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
@@ -3576,10 +3576,8 @@
 				69ECC61E1D50D1170030CF87 /* bt_scrollbar_tap.png in Resources */,
 				69ECC62B1D50D1170030CF87 /* downloading.png in Resources */,
 				69ECC60D1D50D1170030CF87 /* Icon-60@2x.png in Resources */,
-				69ECC6261D50D1170030CF87 /* cert-asset@2.png in Resources */,
 				69ECC6221D50D1170030CF87 /* bt_view_active.png in Resources */,
 				69ECC60A1D50D1170030CF87 /* Icon-29@3x.png in Resources */,
-				69ECC6271D50D1170030CF87 /* cert-asset@3.png in Resources */,
 				69ECC6191D50D1170030CF87 /* bt_grey_deactive.png in Resources */,
 				69ECC6241D50D1170030CF87 /* bt_view_default.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
@@ -3639,6 +3637,7 @@
 				69ECC6301D50D1170030CF87 /* ic_circle.png in Resources */,
 				69ECC64B1D50D1170030CF87 /* Splash_map.png in Resources */,
 				69ECC61F1D50D1170030CF87 /* bt_signin_active.png in Resources */,
+				6960892B1D53935500EE66DD /* courseCertificate.png in Resources */,
 				69ECC6071D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				69ECC60C1D50D1170030CF87 /* Icon-40@3x.png in Resources */,
 				1A7CEA351BABA9B30043A58C /* Profiles.xcassets in Resources */,
@@ -3650,6 +3649,7 @@
 				69ECC6211D50D1170030CF87 /* bt_signin_default.png in Resources */,
 				19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */,
 				805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */,
+				6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */,
 				193F8BC919A4CE6500AAA525 /* ic_next_press.png in Resources */,
 				1905BFF31A31B097001917FA /* NEW_USER.htm in Resources */,
 				69ECC6351D50D1170030CF87 /* ic_next_default.png in Resources */,
