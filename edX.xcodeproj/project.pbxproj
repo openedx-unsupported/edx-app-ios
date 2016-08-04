@@ -632,6 +632,7 @@
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
 		E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */; };
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
+		E00A33C11D3CEB3400963D8F /* SnackbarViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */; };
 		E01591F21D533F3B00201B15 /* UIViewController+CommonAditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01591F11D533F3B00201B15 /* UIViewController+CommonAditions.swift */; };
 		E03402211C7F1FC9003EB9B7 /* DiscussionResponsesDataControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */; };
 		E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */; };
@@ -1499,6 +1500,7 @@
 		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
 		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
 		E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewControllerTests.swift; sourceTree = "<group>"; };
+		E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnackbarViewsTests.swift; sourceTree = "<group>"; };
 		E01591F11D533F3B00201B15 /* UIViewController+CommonAditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+CommonAditions.swift"; sourceTree = "<group>"; };
 		E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DiscussionPosts.json; sourceTree = "<group>"; };
 		E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataControllerTests.swift; sourceTree = "<group>"; };
@@ -2221,6 +2223,7 @@
 				9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */,
 				9EACF3291BE0C92C0019130E /* JSON+ReadFromFile.swift */,
 				E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */,
+				E03E6A181D38EC7500944AAA /* UIView+UIViewController.swift */,
 				E01591F11D533F3B00201B15 /* UIViewController+CommonAditions.swift */,
 			);
 			name = "Library Additions";
@@ -3167,6 +3170,13 @@
 				E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */,
 				E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */,
 				E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */,
+				E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */,
+				E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */,
+				E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */,
+				F2808CF91CF374FA002EAD1D /* NetworkManager+AuthenticatorTests.swift */,
+				E03E6A1E1D38F28000944AAA /* UIView+UIViewControllerTests.swift */,
+				E03E6A211D38F77C00944AAA /* OfflineSupportViewControllerTests.swift */,
+				E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */,
 				1A6D90921D0A05D500D01BEA /* StartupViewControllerTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
