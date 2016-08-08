@@ -32,4 +32,8 @@ extension OEXConfig {
     var badgesEnabled : Bool {
         return boolForKey("BADGES_ENABLED")
     }
+    
+    var courseEnrollmentEnabled : Bool {
+        return boolForKey("COURSE_ENROLLMENT_ENABLED")
+    }
 }
