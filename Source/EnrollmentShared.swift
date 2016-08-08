@@ -12,5 +12,4 @@
     
     // This is an delay chosen semi-arbitrarily to ensure that any transition animation has completed
     static let overlayMessageDelay : NSTimeInterval = 0.5
-
 }
