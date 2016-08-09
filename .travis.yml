@@ -11,7 +11,7 @@ env:
 
 script:
     - instruments -s devices | grep "iPhone 5s (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a "simulator" --args -CurrentDeviceUDID
-    - set -o pipefail && ./gradlew --info -q $TEST_TASK | xcpretty -c
+    - set -o pipefail && ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)

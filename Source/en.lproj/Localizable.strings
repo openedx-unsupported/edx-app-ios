@@ -537,7 +537,7 @@
 /* Discover Courses button text on the first screen */
 "STARTUP.DISCOVERCOURSES"="Discover Courses";
 /* Explore Subjects button text on the first screen */
-"STARTUP.EXPLORESUBJECTS"="Explore Subjects";
+"STARTUP.EXPLORE_SUBJECTS"="Explore Subjects";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK.OPTION_TITLE" = "Submit Feedback";
 /* Support message email title */

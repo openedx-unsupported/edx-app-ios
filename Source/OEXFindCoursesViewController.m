@@ -55,7 +55,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
             urlToLoad = [self enrollmentConfig].webviewConfig.searchURL;
             break;
         case OEXFindCoursesBaseTypeExploreSubjects:
-            self.navigationItem.title = [Startup exploresubjects];
+            self.navigationItem.title = [Startup exploreSubjects];
             urlToLoad = [self enrollmentConfig].webviewConfig.exploreSubjectsURL;
             break;
     }
@@ -75,7 +75,9 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void)showCourseInfoWithPathID:(NSString*)coursePathID {
-    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:coursePathID bottomBar:self.bottomBar];
+    // FindCoursesWebViewHelper and OEXCourseInfoViewController are showing bottom bars so each should have their own copy of botombar view
+    
+    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:coursePathID bottomBar:[_bottomBar copy]];
     [self.navigationController pushViewController:courseInfoViewController animated:YES];
 }
 

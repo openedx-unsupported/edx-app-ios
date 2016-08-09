@@ -633,7 +633,7 @@
 		E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */; };
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
 		E00A33C11D3CEB3400963D8F /* SnackbarViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */; };
-		E01591F21D533F3B00201B15 /* UIViewController+CommonAditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01591F11D533F3B00201B15 /* UIViewController+CommonAditions.swift */; };
+		E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */; };
 		E03402211C7F1FC9003EB9B7 /* DiscussionResponsesDataControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */; };
 		E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */; };
 		E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A141D38C91F00944AAA /* OfflineSupportViewController.swift */; };
@@ -1501,7 +1501,7 @@
 		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
 		E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewControllerTests.swift; sourceTree = "<group>"; };
 		E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnackbarViewsTests.swift; sourceTree = "<group>"; };
-		E01591F11D533F3B00201B15 /* UIViewController+CommonAditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+CommonAditions.swift"; sourceTree = "<group>"; };
+		E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+CommonAdditions.swift"; sourceTree = "<group>"; };
 		E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DiscussionPosts.json; sourceTree = "<group>"; };
 		E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataControllerTests.swift; sourceTree = "<group>"; };
 		E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTestsDataFactory.swift; sourceTree = "<group>"; };
@@ -2224,7 +2224,7 @@
 				9EACF3291BE0C92C0019130E /* JSON+ReadFromFile.swift */,
 				E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */,
 				E03E6A181D38EC7500944AAA /* UIView+UIViewController.swift */,
-				E01591F11D533F3B00201B15 /* UIViewController+CommonAditions.swift */,
+				E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -4104,7 +4104,7 @@
 				779D1CE11B8E6FE000FCC847 /* PullRefreshController.swift in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
 				777DE7141C1630110068E280 /* CourseMediaInfo.swift in Sources */,
-				E01591F21D533F3B00201B15 /* UIViewController+CommonAditions.swift in Sources */,
+				E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */,
 				F22A0ABD1CE660B300D50DFF /* LoginApi.swift in Sources */,
 				773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */,
 				7772BEAB1AFA68330081CA7A /* SnapKit.swift in Sources */,
