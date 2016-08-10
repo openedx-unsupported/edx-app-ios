@@ -641,7 +641,6 @@
 		BECB7B131924C0C3009C77F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B121924C0C3009C77F1 /* UIKit.framework */; };
 		BECB7B1B1924C0C3009C77F1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B1A1924C0C3009C77F1 /* main.m */; };
 		BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */; };
-		BECB7B271924C0C3009C77F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BECB7B261924C0C3009C77F1 /* Images.xcassets */; };
 		BECB7B2F1924C0C3009C77F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B0E1924C0C3009C77F1 /* Foundation.framework */; };
 		BECB7B301924C0C3009C77F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B121924C0C3009C77F1 /* UIKit.framework */; };
 		BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B501924C9FB009C77F1 /* OEXVideoPlayerInterface.m */; };
@@ -1523,7 +1522,6 @@
 		BECB7B1C1924C0C3009C77F1 /* edX-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "edX-Prefix.pch"; sourceTree = "<group>"; };
 		BECB7B1D1924C0C3009C77F1 /* OEXAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXAppDelegate.h; sourceTree = "<group>"; };
 		BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEXAppDelegate.m; sourceTree = "<group>"; };
-		BECB7B261924C0C3009C77F1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		BECB7B2C1924C0C3009C77F1 /* edXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = edXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BECB7B351924C0C3009C77F1 /* edXTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "edXTests-Info.plist"; sourceTree = "<group>"; };
 		BECB7B4F1924C9FB009C77F1 /* OEXVideoPlayerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXVideoPlayerInterface.h; sourceTree = "<group>"; };
@@ -3051,6 +3049,7 @@
 				7754348A1AD8122E00635A40 /* Push Notifications */,
 				19BB622C1A9C6554007DBF47 /* Settings View */,
 				8FE04B4A1A1E24C7007F88B8 /* SocialLogin */,
+				1AB539F61BFDFBCD0065501F /* Debug */,
 				BECB7B151924C0C3009C77F1 /* Supporting Files */,
 				1A6B23CE1BAB4A5100FD7309 /* User Profiles */,
 				9EAFFA211B2F00B600B100AB /* Utils */,
@@ -3544,7 +3543,6 @@
 				69ECC6161D50D1170030CF87 /* bt_facebook_RTL.png in Resources */,
 				69ECC6411D50D1170030CF87 /* iTunesArtwork@2x in Resources */,
 				6926CDAE1D59BE3600A16E22 /* ic_previous.png in Resources */,
-				BECB7B271924C0C3009C77F1 /* Images.xcassets in Resources */,
 				69ECC61E1D50D1170030CF87 /* bt_scrollbar_tap.png in Resources */,
 				69ECC62B1D50D1170030CF87 /* downloading.png in Resources */,
 				69ECC60D1D50D1170030CF87 /* Icon-60@2x.png in Resources */,
