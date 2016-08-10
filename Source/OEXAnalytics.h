@@ -3,10 +3,10 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 24/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @protocol OEXAnalyticsTracker;
 
@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OEXAnalyticsEvent : NSObject
+@interface OEXAnalyticsEvent : NSObject <NSCopying>
 
 @property (copy, nonatomic, nullable) NSString* openInBrowserURL;
 @property (copy, nonatomic, nullable) NSString* courseID;

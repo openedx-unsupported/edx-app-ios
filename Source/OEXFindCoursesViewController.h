@@ -10,8 +10,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString* const OEXFindCoursesLinkURLScheme;
 
-@interface OEXFindCoursesViewController : UIViewController
+typedef NS_ENUM(NSInteger, OEXFindCoursesBaseType) {
+    OEXFindCoursesBaseTypeFindCourses,
+    OEXFindCoursesBaseTypeExploreSubjects
+};
 
+@interface OEXFindCoursesViewController : UIViewController
+- (instancetype) initWithBottomBar:(UIView* _Nullable)bottomBar;
+@property (nonatomic) OEXFindCoursesBaseType startURL;
 @end
 
 NS_ASSUME_NONNULL_END

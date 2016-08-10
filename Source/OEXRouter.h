@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXHelperVideoDownload;
 @class OEXVideoPathEntry;
 @class NetworkManager;
+@class RevealViewController;
 
 typedef NS_ENUM(NSUInteger, OEXSideNavigationState) {
     OEXSideNavigationStateHidden,
@@ -49,12 +50,12 @@ extern NSString* OEXSideNavigationChangedStateKey;
 - (void)openInWindow:(nullable UIWindow*)window;
 
 #pragma mark Presentation
-- (void)presentViewController:(UIViewController*)controller completion:(nullable void(^)(void))completion;
+- (void)presentViewController:(UIViewController*)controller fromController:(nullable UIViewController*)fromController completion:(nullable void(^)(void))completion;
 
 #pragma mark Logistration
 - (void)showLoginScreenFromController:(nullable UIViewController*)controller completion:(nullable void(^)(void))completion;
 - (void)showLoggedOutScreen;
-- (void)showSignUpScreenFromController:(nullable UIViewController*)controller;
+- (void)showSignUpScreenFromController:(nullable UIViewController*)controller completion:(nullable void(^)(void))completion;
 
 #pragma mark Top Level
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated;
@@ -74,6 +75,10 @@ extern NSString* OEXSideNavigationChangedStateKey;
 @interface OEXRouter (Private)
 
 @property (readonly, strong, nonatomic) RouterEnvironment* environment;
+@property (strong, nonatomic, nullable) RevealViewController* revealController;
+
+- (void)removeCurrentContentController;
+- (void)makeContentControllerCurrent:(UIViewController*)controller;
 
 @end
 

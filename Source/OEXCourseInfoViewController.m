@@ -33,15 +33,17 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;
+@property (strong,nonatomic, nullable) UIView *bottomBar;
 
 @end
 
 @implementation OEXCourseInfoViewController
 
-- (instancetype)initWithPathID:(NSString*)pathID {
+- (instancetype)initWithPathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar {
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
         self.pathID = pathID;
+        self.bottomBar = bottomBar;
         self.navigationItem.title = [Strings findCourses];
     }
     return self;
@@ -60,9 +62,17 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self];
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:NO];
     [self.webViewHelper loadRequestWithURL:self.courseInfoURL];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if ([[OEXSession sharedSession] currentUser]) {
+        [self.webViewHelper.bottomBar removeFromSuperview];
+    }
 }
 
 - (BOOL)webViewHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
@@ -89,6 +99,15 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (void)enrollInCourseWithCourseID:(NSString*)courseID emailOptIn:(BOOL)emailOptIn {
+
+    OEXSession* session = [OEXSession sharedSession];
+    if (session.currentUser == nil) {
+        [[OEXRouter sharedRouter] showSignUpScreenFromController:self completion:^{
+            [self enrollInCourseWithCourseID:courseID emailOptIn:emailOptIn];
+        }];
+        return;
+    }
+
     UserCourseEnrollment* courseEnrollment = [[OEXInterface sharedInterface] enrollmentForCourseWithID:courseID];
 
     if(courseEnrollment) {
@@ -139,6 +158,10 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
 - (void)postEnrollmentSuccessNotification:(NSString*)message {
     [[NSNotificationCenter defaultCenter] postNotificationName:EnrollmentShared.successNotification object:message];
+    
+    if ([self isModal]) {
+        [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end

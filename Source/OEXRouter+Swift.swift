@@ -222,21 +222,63 @@ extension OEXRouter {
         fromController.navigationController?.pushViewController(controller, animated: animated)
     }
     
-    func showCourseCatalog() {
+    func showCourseCatalog(bottomBar: UIView?) {
+        let controller: UIViewController
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
-            let controller = OEXFindCoursesViewController()
-            self.showContentStackWithRootController(controller, animated: true)
+            controller = OEXFindCoursesViewController(bottomBar: bottomBar)
         case .Native:
-            let controller = CourseCatalogViewController(environment: self.environment)
-            self.showContentStackWithRootController(controller, animated: true)
+            controller = CourseCatalogViewController(environment: self.environment)
+        }
+        if revealController != nil {
+            showContentStackWithRootController(controller, animated: true)
+        } else {
+            showControllerFromStartupScreen(controller)
         }
         self.environment.analytics.trackUserFindsCourses()
     }
-    
+
+    func showExploreCourses(bottomBar: UIView?) {
+        let controller = OEXFindCoursesViewController(bottomBar: bottomBar)
+        controller.startURL = .ExploreSubjects
+        if revealController != nil {
+            showContentStackWithRootController(controller, animated: true)
+        } else {
+            showControllerFromStartupScreen(controller)
+        }
+    }
+
+    private func showControllerFromStartupScreen(controller: UIViewController) {
+        let backButton = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
+        backButton.oex_setAction({
+            controller.dismissViewControllerAnimated(true, completion: nil)
+        })
+        controller.navigationItem.leftBarButtonItem = backButton
+        let navController = ForwardingNavigationController(rootViewController: controller)
+
+        presentViewController(navController, fromController:nil, completion: nil)
+    }
+
     func showCourseCatalogDetail(courseID: String, fromController: UIViewController) {
         let detailController = CourseCatalogDetailViewController(environment: environment, courseID: courseID)
         fromController.navigationController?.pushViewController(detailController, animated: true)
+    }
+
+    // MARK: - LOGIN / LOGOUT
+
+    func showSplash() {
+        revealController = nil
+        removeCurrentContentController()
+
+        let splashController: UIViewController
+        if environment.config.newLogistrationFlowEnabled {
+            splashController = StartupViewController(environment: environment)
+        } else {
+            let splashEnvironment = OEXLoginSplashViewControllerEnvironment(router: self)
+            splashController = OEXLoginSplashViewController(environment: splashEnvironment)
+        }
+        
+        makeContentControllerCurrent(splashController)
     }
 
     public func logout() {

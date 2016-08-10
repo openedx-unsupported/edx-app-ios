@@ -158,7 +158,7 @@ class OEXRearTableViewController : UITableViewController {
             case .MyVideos:
                 environment.router?.showMyVideos()
             case .FindCourses:
-                environment.router?.showCourseCatalog()
+                environment.router?.showCourseCatalog(nil)
                 environment.analytics.trackUserFindsCourses()
             case .MySettings:
                 environment.router?.showMySettings()

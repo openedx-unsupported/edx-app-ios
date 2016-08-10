@@ -99,7 +99,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         playButton.layer.shadowRadius = 3
         playButton.layer.shadowOffset = CGSizeZero
         courseCard.addCenteredOverlay(playButton)
-        
+
         descriptionView.scrollView.oex_addObserver(self, forKeyPath: "bounds") { (observer, scrollView, _) -> Void in
             let offset = scrollView.contentOffset.y + scrollView.contentInset.top
             // Even though it's in the webview's scrollview,

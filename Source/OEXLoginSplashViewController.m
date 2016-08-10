@@ -62,7 +62,7 @@
 }
 
 - (IBAction)showRegistration:(id)sender {
-    [self.environment.router showSignUpScreenFromController:self];
+    [self.environment.router showSignUpScreenFromController:self completion:nil];
 }
 
 - (BOOL) shouldAutorotate {

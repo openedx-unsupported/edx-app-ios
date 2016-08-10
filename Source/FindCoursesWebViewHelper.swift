@@ -24,10 +24,13 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     
     private var request : NSURLRequest? = nil
     var searchBaseURL: NSURL?
+
+    let bottomBar: UIView?
     
-    init(config : OEXConfig?, delegate : FindCoursesWebViewHelperDelegate?) {
+    init(config : OEXConfig?, delegate : FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool) {
         self.config = config
         self.delegate = delegate
+        self.bottomBar = bottomBar
         
         super.init()
         
@@ -38,7 +41,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         if let container = delegate?.containingControllerForWebViewHelper(self) {
             loadController.setupInController(container, contentView: webView)
 
-            let searchbarEnabled = config?.courseEnrollmentConfig.webviewConfig.nativeSeachbarEnabled ?? false
+            let searchbarEnabled = (config?.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false) && showSearch
 
             let webviewTop: ConstraintItem
             if searchbarEnabled {
@@ -65,9 +68,20 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
                 make.bottom.equalTo(container.view)
                 make.top.equalTo(webviewTop)
             }
+
+            if let bar = bottomBar {
+                container.view.insertSubview(bar, atIndex: 0)
+                bar.snp_makeConstraints(closure: { (make) in
+                    make.height.equalTo(50)
+                    make.leading.equalTo(container.view)
+                    make.trailing.equalTo(container.view)
+                    make.bottom.equalTo(container.view)
+                })
+            }
         }
     }
-    
+
+
     private var courseInfoTemplate : String {
         return config?.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate ?? ""
     }
@@ -107,7 +121,9 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
                                         self.webView.accessibilityValue = "findCoursesLoaded"
                                     }
         })
-        
+        if let bar = bottomBar {
+            bar.superview?.bringSubviewToFront(bar)
+        }
     }
     
     func showError(error : NSError) {
@@ -136,6 +152,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
             completionHandler(.PerformDefaultHandling, nil)
         }
     }
+
 }
 
 extension FindCoursesWebViewHelper: UISearchBarDelegate {

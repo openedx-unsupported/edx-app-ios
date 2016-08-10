@@ -62,10 +62,8 @@ extern NSString* const OEXAnalyticsKeyQueryString;
 extern NSString* const OEXAnalyticsEventAnnouncementNotificationReceived;
 extern NSString* const OEXAnalyticsEventAnnouncementNotificationTapped;
 extern NSString* const OEXAnalyticsEventComponentViewed;
-extern NSString* const OEXAnalyticsEventCourseEnrollment;
 extern NSString* const OEXAnalyticsEventPictureSet;
 extern NSString* const OEXAnalyticsEventProfileViewed;
-extern NSString* const OEXAnalyticsEventRegistration;
 extern NSString* const OEXAnalyticsEventOpenInBrowser;
 extern NSString* const OEXAnalyticsEventOutlineModeChanged;
 extern NSString* const OEXAnalyticsEventScreen;
@@ -89,7 +87,6 @@ extern NSString* const OEXAnalyticsEventCourseShared;
 #define value_bulk_download_subsection @"edx.bi.video.subsection.bulkdownload.requested"
 #define value_single_download @"edx.bi.video.download.requested"
 #define value_fullscreen @"edx.bi.video.screen.fullscreen.toggled"
-#define value_login @"edx.bi.app.user.login"
 #define value_logout @"edx.bi.app.user.logout"
 #define value_browser_launched @"edx.bi.app.browser.launched"
 #define value_transcript_language @"edx.bi.video.transcript.language.selected"
@@ -98,7 +95,6 @@ extern NSString* const OEXAnalyticsEventCourseShared;
 
 // Categories
 
-extern NSString* const OEXAnalyticsCategoryConversion;
 extern NSString* const OEXAnalyticsCategoryNavigation;
 extern NSString* const OEXAnalyticsCategoryNotifications;
 extern NSString* const OEXAnalyticsCategoryProfile;

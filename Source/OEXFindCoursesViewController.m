@@ -27,20 +27,47 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 @interface OEXFindCoursesViewController () <FindCoursesWebViewHelperDelegate>
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
+@property (strong, nonatomic) UIView* bottomBar;
 
 @end
 
 @implementation OEXFindCoursesViewController
 
+- (instancetype) initWithBottomBar:(UIView*)bottomBar {
+    self = [super init];
+    if (self) {
+        _bottomBar = bottomBar;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = [Strings findCourses];
 
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self];
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:YES];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 
     self.webViewHelper.searchBaseURL = [self enrollmentConfig].webviewConfig.searchURL;
-    [self.webViewHelper loadRequestWithURL:self.webViewHelper.searchBaseURL];
+    NSURL* urlToLoad = nil;
+    switch (self.startURL) {
+        case OEXFindCoursesBaseTypeFindCourses:
+            urlToLoad = [self enrollmentConfig].webviewConfig.searchURL;
+            break;
+        case OEXFindCoursesBaseTypeExploreSubjects:
+            self.navigationItem.title = [Startup exploreSubjects];
+            urlToLoad = [self enrollmentConfig].webviewConfig.exploreSubjectsURL;
+            break;
+    }
+    [self.webViewHelper loadRequestWithURL:urlToLoad];
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if ([[OEXSession sharedSession] currentUser]) {
+        [self.webViewHelper.bottomBar removeFromSuperview];
+    }
 }
 
 - (EnrollmentConfig*)enrollmentConfig {
@@ -48,7 +75,9 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void)showCourseInfoWithPathID:(NSString*)coursePathID {
-    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:coursePathID];
+    // FindCoursesWebViewHelper and OEXCourseInfoViewController are showing bottom bars so each should have their own copy of botombar view
+    
+    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:coursePathID bottomBar:[_bottomBar copy]];
     [self.navigationController pushViewController:courseInfoViewController animated:YES];
 }
 

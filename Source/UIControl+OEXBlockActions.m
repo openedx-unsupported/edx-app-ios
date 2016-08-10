@@ -3,14 +3,14 @@
 //  edX
 //
 //  Created by Akiva Leffert on 4/28/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
-#import <objc/runtime.h>
+@import ObjectiveC.runtime;
 
 #import "UIControl+OEXBlockActions.h"
-
 #import "OEXRemovable.h"
+#import "OEXAnalytics.h"
 
 static NSString* const OEXControlActionListenersKey = @"OEXControlActionListenersKey";
 
@@ -18,6 +18,7 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
 
 @property (copy, nonatomic) void (^action)(UIControl* control);
 @property (copy, nonatomic) void (^removeAction)(OEXControlActionListener* listener);
+@property (copy, nonatomic, nullable) OEXAnalyticsEvent* event;
 
 @end
 
@@ -32,6 +33,10 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
 - (void)actionFired:(UIControl*)sender {
     if (self.action != nil) {
         self.action(sender);
+
+        if (self.event != nil) {
+            [[OEXAnalytics sharedAnalytics]trackEvent:self.event forComponent:nil withInfo:nil];
+        }
     }
 }
 
@@ -49,9 +54,16 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
 }
 
 - (id <OEXRemovable>)oex_addAction:(void (^)(id))action forEvents:(UIControlEvents)events {
+    return [self oex_addAction:action forEvents:events analyticsEvent:nil];
+}
+
+
+- (id <OEXRemovable>)oex_addAction:(void (^)(id))action forEvents:(UIControlEvents)events analyticsEvent:(OEXAnalyticsEvent* _Nullable) event {
+
     NSMutableArray* listeners = [self oex_actionListeners];
     OEXControlActionListener* listener = [[OEXControlActionListener alloc] init];
     listener.action = action;
+    listener.event = event;
     
     __weak __typeof(self) weakself = self;
     listener.removeAction = ^(OEXControlActionListener* listener){

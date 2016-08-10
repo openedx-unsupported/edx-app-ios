@@ -44,6 +44,7 @@ OEXRegistrationViewControllerDelegate
 @property (strong, nonatomic) UIViewController* currentContentController;
 
 @property (strong, nonatomic) RevealViewController* revealController;
+@property (strong, nonatomic) void(^registrationCompletion)(void);
 
 @end
 
@@ -102,15 +103,6 @@ OEXRegistrationViewControllerDelegate
     self.currentContentController = controller;
 }
 
-- (void)showSplash {
-    self.revealController = nil;
-    [self removeCurrentContentController];
-    
-    OEXLoginSplashViewControllerEnvironment* splashEnvironment = [[OEXLoginSplashViewControllerEnvironment alloc] initWithRouter:self];
-    OEXLoginSplashViewController* splashController = [[OEXLoginSplashViewController alloc] initWithEnvironment:splashEnvironment];
-    [self makeContentControllerCurrent:splashController];
-}
-
 - (void)showLoggedInContent {
     [self removeCurrentContentController];
     
@@ -130,18 +122,23 @@ OEXRegistrationViewControllerDelegate
     OEXLoginViewController* loginController = [[UIStoryboard storyboardWithName:@"OEXLoginViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginView"];
     loginController.delegate = self;
     
-    [self presentViewController:loginController completion:completion];
+    [self presentViewController:loginController fromController:[controller topMostController] completion:completion];
 }
 
-- (void)showSignUpScreenFromController:(UIViewController*)controller {
+- (void)showSignUpScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
+    self.registrationCompletion = completion;
     OEXRegistrationViewControllerEnvironment* registrationEnvironment = [[OEXRegistrationViewControllerEnvironment alloc] initWithAnalytics:self.environment.analytics config:self.environment.config router:self];
     OEXRegistrationViewController* registrationController = [[OEXRegistrationViewController alloc] initWithEnvironment:registrationEnvironment];
     registrationController.delegate = self;
-    [self presentViewController:registrationController completion:nil];
+    [self presentViewController:registrationController fromController:[controller topMostController] completion:nil];
 }
 
-- (void)presentViewController:(UIViewController*)controller completion:(void(^)(void))completion {
-    [self.containerViewController presentViewController:controller animated:YES completion:completion];
+- (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)fromController completion:(void(^)(void))completion {
+    if (fromController == nil) {
+        fromController = self.containerViewController;
+    }
+
+    [fromController presentViewController:controller animated:YES completion:completion];
 }
 
 - (void)showLoggedOutScreen {
@@ -212,6 +209,10 @@ OEXRegistrationViewControllerDelegate
 - (void)registrationViewControllerDidRegister:(OEXRegistrationViewController *)controller completion:(void (^)(void))completion {
     [self showLoggedInContent];
     [controller dismissViewControllerAnimated:YES completion:completion];
+    if (self.registrationCompletion) {
+        self.registrationCompletion();
+        self.registrationCompletion = nil;
+    }
 }
 
 - (void)loginViewControllerDidLogin:(OEXLoginViewController *)loginController {

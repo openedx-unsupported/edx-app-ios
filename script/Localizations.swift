@@ -103,6 +103,8 @@ class Item {
         self.arguments = arguments
         self.plurality = plurality
     }
+
+    var arrayItem: Bool { return Int(key.name) != nil }
 }
 
 enum ArgumentError : ErrorType {
@@ -304,8 +306,22 @@ guard var output = FileOutputStream(path:dest) else {
     exit(1)
 }
 
+func printArray(group : Group, indent: String) {
+    var values = [String]()
+    let sortedItems = group.items.sort { return $0.key.name.compare($1.key.name) == .OrderedAscending }
+    for item in sortedItems {
+        values.append("OEXLocalizedString(\"\(item.key.original)\", nil)")
+    }
+    print("\(indent)static var \(variableName(group.name)) = [\(values.joinWithSeparator(", "))]", toStream: &output)
+}
+
 func printGroup(group : Group, depth : UInt = 0) {
     let indent = tabs(depth)
+    guard !(group.items.first?.arrayItem ?? false) else {
+        printArray(group, indent: indent)
+        return
+    }
+
     print("\(indent)@objc class \(className(group.name)) : NSObject {", toStream: &output)
     if group.children.count > 0 {
         print("", toStream: &output)

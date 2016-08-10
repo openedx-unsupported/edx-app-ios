@@ -177,7 +177,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             guard let event = record.asEvent else {
                 return false
             }
-            return event.event.name == OEXAnalyticsEventCourseEnrollment
+            return event.event.name == AnalyticsEventName.CourseEnrollment.rawValue
         })
         XCTAssertNotNil(index)
     }

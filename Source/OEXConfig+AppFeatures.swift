@@ -32,4 +32,8 @@ extension OEXConfig {
     var badgesEnabled : Bool {
         return boolForKey("BADGES_ENABLED")
     }
+    var newLogistrationFlowEnabled: Bool {
+        return boolForKey("NEW_LOGISTRATION_ENABLED")
+    }
+
 }

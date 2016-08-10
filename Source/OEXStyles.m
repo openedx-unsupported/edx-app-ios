@@ -228,7 +228,6 @@ static OEXStyles* sSharedStyles;
     return [UIColor grayColor];
 }
 
-
 #pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {

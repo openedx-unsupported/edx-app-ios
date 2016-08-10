@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Akiva Leffert on 3/16/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Copyright (c) 2015-2016 edX. All rights reserved.
 //
 
 #import "OEXAnalyticsData.h"
@@ -21,10 +21,9 @@ NSString* const OEXAnalyticsKeyQueryString = @"query_string";
 
 NSString* const OEXAnalyticsEventAnnouncementNotificationReceived = @"edx.bi.app.notification.course.update.received";
 NSString* const OEXAnalyticsEventAnnouncementNotificationTapped = @"edx.bi.app.notification.course.update.tapped";
-NSString* const OEXAnalyticsEventCourseEnrollment = @"edx.bi.app.course.enroll.clicked";
 NSString* const OEXAnalyticsEventPictureSet = @"edx.bi.app.profile.view";
 NSString* const OEXAnalyticsEventProfileViewed = @"edx.bi.app.profile.setphoto";
-NSString* const OEXAnalyticsEventRegistration = @"edx.bi.app.user.register.clicked";
+
 NSString* const OEXAnalyticsEventOpenInBrowser = @"edx.bi.app.navigation.open-in-browser";
 NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.component.viewed";
 NSString* const OEXAnalyticsEventOutlineModeChanged = @"edx.bi.app.navigation.switched-mode.clicked";
@@ -32,7 +31,6 @@ NSString* const OEXAnalyticsEventScreen = @"edx.bi.app.navigation.screen";
 NSString* const OEXAnalyticsEventCertificateShared = @"edx.bi.app.certificate.shared";
 NSString* const OEXAnalyticsEventCourseShared = @"edx.bi.app.course.shared";
 
-NSString* const OEXAnalyticsCategoryConversion = @"conversion";
 NSString* const OEXAnalyticsCategoryNavigation = @"navigation";
 NSString* const OEXAnalyticsCategoryNotifications = @"notifications";
 NSString* const OEXAnalyticsCategoryProfile = @"profiles";

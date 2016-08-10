@@ -3,7 +3,7 @@
 //  edXVideoLocker
 //
 //  Created by Rahul Varma on 24/11/14.
-//  Copyright (c) 2014 edX. All rights reserved.
+//  Copyright (c) 2014-2016 edX. All rights reserved.
 //
 
 @import edXCore;
@@ -15,8 +15,20 @@
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXSession.h"
+#import "edx-Swift.h"
 
 @implementation OEXAnalyticsEvent
+
+- (id)copyWithZone:(NSZone *)zone {
+    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent allocWithZone:zone] init];
+    event.openInBrowserURL = self.openInBrowserURL;
+    event.courseID = self.courseID;
+    event.name = self.name;
+    event.displayName = self.displayName;
+    event.category = self.category;
+    event.label = self.label;
+    return self;
+}
 
 - (NSString*)description {
     NSMutableDictionary* info = [[NSMutableDictionary alloc] init];
@@ -380,9 +392,7 @@ static OEXAnalytics* sAnalytics;
     NSMutableDictionary* info = @{}.mutableCopy;
     [info safeSetObject:method forKey:key_method];
 
-    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
-    event.name = value_login;
-    event.displayName = @"User Login";
+    OEXAnalyticsEvent* event = [OEXAnalytics loginEvent];
     [self trackEvent:event forComponent:nil withInfo:info];
 }
 
@@ -394,11 +404,7 @@ static OEXAnalytics* sAnalytics;
 }
 
 - (void)trackRegistrationWithProvider:(NSString *)provider {
-    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
-    event.name = OEXAnalyticsEventRegistration;
-    event.displayName = @"Create Account Clicked";
-    event.category = OEXAnalyticsCategoryConversion;
-    event.label = [NSString stringWithFormat:@"iOS v%@", [[NSBundle mainBundle] oex_shortVersionString]];
+    OEXAnalyticsEvent* event = [OEXAnalytics registerEvent];
     
     NSMutableDictionary* properties = [[NSMutableDictionary alloc] init];
     [properties setObjectOrNil:provider forKey:OEXAnalyticsKeyProvider];
@@ -480,11 +486,7 @@ static OEXAnalytics* sAnalytics;
 }
 
 - (void)trackUserEnrolledInCourse:(NSString*)courseID {
-    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
-    event.name = OEXAnalyticsEventCourseEnrollment;
-    event.displayName = @"Enroll Course Clicked";
-    event.category = OEXAnalyticsCategoryConversion;
-    event.label = courseID;
+    OEXAnalyticsEvent* event = [OEXAnalytics enrollEvent:courseID];
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 

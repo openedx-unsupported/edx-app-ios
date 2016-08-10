@@ -23,6 +23,7 @@ class EnrollmentConfigTests : XCTestCase {
     
     func testCourseEnrollmentWebview() {
         let sampleSearchURL = "http://example.com/course-search"
+        let sampleExploreURL = "http://example.com/explore-courses"
         let sampleInfoURLTemplate = "http://example.com/{path_id}"
         
         let configDictionary = [
@@ -30,6 +31,7 @@ class EnrollmentConfigTests : XCTestCase {
                 "TYPE": "webview",
                 "WEBVIEW" : [
                     "COURSE_SEARCH_URL" : sampleSearchURL,
+                    "EXPLORE_SUBJECTS_URL": sampleExploreURL,
                     "COURSE_INFO_URL_TEMPLATE" : sampleInfoURLTemplate,
                     "SEARCH_BAR_ENABLED" : true
                 ]
@@ -39,8 +41,8 @@ class EnrollmentConfigTests : XCTestCase {
         XCTAssertEqual(config.courseEnrollmentConfig.type, EnrollmentType.Webview)
         XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.searchURL!.absoluteString, sampleSearchURL)
         XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate!, sampleInfoURLTemplate)
-        //TODO: re-enable once we figure out the compiler's deal
-        // XCTAssertTrue(config.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled)
+        XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.exploreSubjectsURL!.absoluteString, sampleExploreURL)
+        XCTAssertTrue(config.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled)
     }
 
 }
