@@ -10,9 +10,14 @@ import XCTest
 @testable import edX
 
 class EnrolledCoursesViewControllerTests: SnapshotTestCase {
-
+    
+    let config = OEXConfig(dictionary: [
+        "COURSE_ENROLLMENT": [
+            "TYPE": "webview"]
+        ])
+    
     func testSnapshotNoCourses() {
-        let environment = TestRouterEnvironment().logInTestUser()
+        let environment = TestRouterEnvironment(config: config, interface: nil).logInTestUser()
         environment.mockEnrollmentManager.enrollments = []
         let controller = EnrolledCoursesViewController(environment: environment)
         inScreenNavigationContext(controller) {
@@ -22,6 +27,27 @@ class EnrolledCoursesViewControllerTests: SnapshotTestCase {
     }
     
     func testCourseList() {
+        let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
+        let environment = TestRouterEnvironment(config: config, interface: nil).logInTestUser()
+        environment.mockEnrollmentManager.courses = courses
+        let controller = EnrolledCoursesViewController(environment: environment)
+        inScreenNavigationContext(controller) {
+            waitForStream(controller.t_loaded)
+            assertSnapshotValidWithContent(controller.navigationController!)
+        }
+    }
+    
+    func testSnapshotNoCoursesCourseDiscoveryDisabled() {
+        let environment = TestRouterEnvironment().logInTestUser()
+        environment.mockEnrollmentManager.enrollments = []
+        let controller = EnrolledCoursesViewController(environment: environment)
+        inScreenNavigationContext(controller) {
+            waitForStream(controller.t_loaded)
+            assertSnapshotValidWithContent(controller.navigationController!)
+        }
+    }
+    
+    func testCourseListCourseDiscoveryDisabled() {
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
         let environment = TestRouterEnvironment().logInTestUser()
         environment.mockEnrollmentManager.courses = courses
