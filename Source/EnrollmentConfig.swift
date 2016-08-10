@@ -12,6 +12,7 @@ import edXCore
 enum EnrollmentType : String {
     case Native = "native"
     case Webview = "webview"
+    case None = "none"
 }
 
 private enum EnrollmentKeys: String, RawStringExtractable {
@@ -42,8 +43,12 @@ class EnrollmentConfig : NSObject {
     let webviewConfig: EnrollmentWebviewConfig
     
     init(dictionary: [String: AnyObject]) {
-        self.type = (dictionary[EnrollmentKeys.EnrollmentType] as? String).flatMap { EnrollmentType(rawValue: $0) } ?? .Native
+        self.type = (dictionary[EnrollmentKeys.EnrollmentType] as? String).flatMap { EnrollmentType(rawValue: $0) } ?? .None
         self.webviewConfig = EnrollmentWebviewConfig(dictionary: dictionary[EnrollmentKeys.Webview] as? [String: AnyObject] ?? [:])
+    }
+    
+    func isCourseDiscoveryEnabled()-> Bool {
+        return self.type != .None
     }
 }
 

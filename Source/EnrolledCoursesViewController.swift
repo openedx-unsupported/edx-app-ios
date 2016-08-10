@@ -92,6 +92,9 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                     self?.tableController.courses = enrollments.flatMap { $0.course } ?? []
                     self?.tableController.tableView.reloadData()
                     self?.loadController.state = .Loaded
+                    if enrollments.count <= 0 {
+                        self?.enrollmentsEmptyState()
+                    }
                 }
                 else {
                     self?.loadController.state = .Initial
@@ -106,16 +109,28 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private func setupFooter() {
-        let footer = EnrolledCoursesFooterView()
-        footer.findCoursesAction = {[weak self] in
-            self?.environment.router?.showCourseCatalog(nil)
+        if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+            let footer = EnrolledCoursesFooterView()
+            footer.findCoursesAction = {[weak self] in
+                self?.environment.router?.showCourseCatalog(nil)
+            }
+            footer.missingCoursesAction = {[weak self] in
+                self?.showCourseNotListedScreen()
+            }
+            
+            footer.sizeToFit()
+            self.tableController.tableView.tableFooterView = footer
         }
-        footer.missingCoursesAction = {[weak self] in
-            self?.showCourseNotListedScreen()
+        else {
+            tableController.tableView.tableFooterView = UIView()
         }
-        
-        footer.sizeToFit()
-        self.tableController.tableView.tableFooterView = footer
+    }
+    
+    private func enrollmentsEmptyState() {
+        if !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+            let error = NSError.oex_errorWithCode(.Unknown, message: Strings.noCourseEnrollmentInfoMessage)
+            loadController.state = LoadState.failed(error, icon: Icon.UnknownError)
+        }
     }
     
     private func setupObservers() {

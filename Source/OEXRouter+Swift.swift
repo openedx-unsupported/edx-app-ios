@@ -227,6 +227,8 @@ extension OEXRouter {
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
             controller = OEXFindCoursesViewController(bottomBar: bottomBar)
+        case .None:
+            fallthrough
         case .Native:
             controller = CourseCatalogViewController(environment: self.environment)
         }
@@ -271,7 +273,7 @@ extension OEXRouter {
         removeCurrentContentController()
 
         let splashController: UIViewController
-        if environment.config.newLogistrationFlowEnabled {
+        if environment.config.newLogistrationFlowEnabled && environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
             splashController = StartupViewController(environment: environment)
         } else {
             let splashEnvironment = OEXLoginSplashViewControllerEnvironment(router: self)

@@ -368,6 +368,8 @@
 "NOT_APPLICABLE" = "NA";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Allow Notifications";
+/* Error message when user is not enrolled to any course and course discovery is also disabled.*/
+"NO_COURSE_ENROLLMENT_INFO_MESSAGE" = "It looks like you are not enrolled in any courses yet.";
 /*Text for author if post is by anonymous user*/
 "ANONYMOUS" = "Anonymous";
 /* Label indicating user has on internet connection and is in offline mode */
