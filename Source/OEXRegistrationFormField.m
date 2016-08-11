@@ -9,6 +9,7 @@
 #import "OEXRegistrationFormField.h"
 
 #import "NSArray+OEXFunctional.h"
+#import "OEXConfig.h"
 
 @interface OEXRegistrationFormField ()
 
@@ -42,6 +43,7 @@
         self.defaultValue = dictionary[@"defaultValue"];
         self.instructions = dictionary[@"instructions"];
         self.label = dictionary[@"label"];
+        self.label = [self.label stringByReplacingOccurrencesOfString:@"edX" withString:[[OEXConfig sharedConfig] platformName]];
         self.type = dictionary[@"type"];
         self.fieldType = [self registrationFieldType:dictionary[@"type"]];
         self.errorMessage = [[OEXRegistrationErrorMessage alloc] initWithDictionary:dictionary[@"errorMessages"]];
