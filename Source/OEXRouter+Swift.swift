@@ -227,9 +227,7 @@ extension OEXRouter {
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
             controller = OEXFindCoursesViewController(bottomBar: bottomBar)
-        case .None:
-            fallthrough
-        case .Native:
+        case .Native, .None:
             controller = CourseCatalogViewController(environment: self.environment)
         }
         if revealController != nil {

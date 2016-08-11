@@ -262,6 +262,8 @@
 "ENROLLMENT_LIST.FIND_COURSES" = "Find a mobile-friendly course";
 /* Button title showing screen providing information about why a course may not be visible */
 "ENROLLMENT_LIST.LOOKING_FOR_COURSE" = "Can't find one of your courses?";
+/* Error message when user is not enrolled to any course and course discovery is also disabled.*/
+"ENROLLMENT_LIST.NO_ENROLLMENT" = "It looks like you are not enrolled in any courses yet.";
 /* Prompt indicating user needs to enter an email address */
 "ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
 /* Prompt indicating user needs to enter a password */
@@ -368,8 +370,6 @@
 "NOT_APPLICABLE" = "NA";
 /* Label of switch that toggles push notification support */
 "NOTIFICATIONS_ENABLED" = "Allow Notifications";
-/* Error message when user is not enrolled to any course and course discovery is also disabled.*/
-"NO_COURSE_ENROLLMENT_INFO_MESSAGE" = "It looks like you are not enrolled in any courses yet.";
 /*Text for author if post is by anonymous user*/
 "ANONYMOUS" = "Anonymous";
 /* Label indicating user has on internet connection and is in offline mode */

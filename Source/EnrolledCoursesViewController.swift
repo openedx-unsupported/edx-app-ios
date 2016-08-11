@@ -128,7 +128,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     
     private func enrollmentsEmptyState() {
         if !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
-            let error = NSError.oex_errorWithCode(.Unknown, message: Strings.noCourseEnrollmentInfoMessage)
+            let error = NSError.oex_errorWithCode(.Unknown, message: Strings.EnrollmentList.noEnrollment)
             loadController.state = LoadState.failed(error, icon: Icon.UnknownError)
         }
     }
