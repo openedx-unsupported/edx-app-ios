@@ -45,7 +45,7 @@
         self.label = dictionary[@"label"];
         NSString *platformName = [[OEXConfig sharedConfig] platformName];
         if (platformName) {
-            self.label = [self.label stringByReplacingOccurrencesOfString:@"edX" withString:[[OEXConfig sharedConfig] platformName]];
+            self.label = [self.label stringByReplacingOccurrencesOfString:@"edX" withString:platformName];
         }
         self.type = dictionary[@"type"];
         self.fieldType = [self registrationFieldType:dictionary[@"type"]];
