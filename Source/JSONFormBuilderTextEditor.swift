@@ -28,9 +28,13 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
 
         
         textView.text = text ?? ""
-        if let placeholder = placeholder {
-            textView.placeholder = placeholder
+        
+        var placeHolder: String?
+        if let _ = placeholder {
+            placeHolder = placeholder?.stringByReplacingOccurrencesOfString("edX", withString: OEXConfig.sharedConfig().platformName())
+            textView.placeholder = placeHolder ?? ""
         }
+
         textView.delegate = self
         
         setupViews()
