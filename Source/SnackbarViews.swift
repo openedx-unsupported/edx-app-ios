@@ -67,11 +67,12 @@ public class VersionUpgradeView: UIView {
             }, forEvents: .TouchUpInside)
         
         upgradeButton.oex_addAction({ _ in
-            if let appStoreURL = OEXConfig.sharedConfig().iOSAppStoreURL() {
-                if UIApplication.sharedApplication().canOpenURL(appStoreURL) {
-                    UIApplication.sharedApplication().openURL(appStoreURL)
+            if let URL = OEXConfig.sharedConfig().appUpgradeConfig.iOSAppStoreURL() {
+                if UIApplication.sharedApplication().canOpenURL(URL) {
+                    UIApplication.sharedApplication().openURL(URL)
                 }
-            }}, forEvents: .TouchUpInside)
+            }
+            }, forEvents: .TouchUpInside)
     }
     
     private func dismissView() {

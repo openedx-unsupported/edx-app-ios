@@ -675,6 +675,8 @@
 		E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */; };
 		E09B9D6E1D06D79F0080BAE0 /* VersionUpgradeInfoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */; };
 		E09B9D701D06D8010080BAE0 /* VersionUpgradeDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */; };
+		E0A2461F1D5DA12A0066C766 /* AppUpgradeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461E1D5DA12A0066C766 /* AppUpgradeConfig.swift */; };
+		E0A246211D5DB3FD0066C766 /* AppUpgradeConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
 		E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */; };
@@ -1559,6 +1561,8 @@
 		E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoController.swift; sourceTree = "<group>"; };
 		E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoControllerTests.swift; sourceTree = "<group>"; };
 		E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeDataFactory.swift; sourceTree = "<group>"; };
+		E0A2461E1D5DA12A0066C766 /* AppUpgradeConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUpgradeConfig.swift; sourceTree = "<group>"; };
+		E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUpgradeConfigTests.swift; sourceTree = "<group>"; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
@@ -2772,6 +2776,7 @@
 				B4B285E61A9A662600DD603A /* OEXZeroRatingConfig.h */,
 				B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */,
 				1A8172521C3C21DE007262AA /* TwitterConfig.swift */,
+				E0A2461E1D5DA12A0066C766 /* AppUpgradeConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -3033,12 +3038,10 @@
 				9C9B7F701A8CC68D00A857B2 /* Course Enrollment */,
 				193B504219459BE60038E11C /* Custom Styles */,
 				BE0D454E192DE63900D720D6 /* Data */,
-				1AB539F61BFDFBCD0065501F /* Debug */,
 				46D567A51B0292D40068F823 /* Discussion */,
 				1913DD3A194B265600573977 /* Download View */,
 				BECB7B5B1924D7B9009C77F1 /* Front Rear views */,
 				77AF07781CB42ACB00A42704 /* Helper Views */,
-				BECB7B261924C0C3009C77F1 /* Images.xcassets */,
 				776459831A0968F0008404CC /* Library Additions */,
 				77AFD11E1C1B77D3001985FD /* Lists */,
 				77D76BFE1AA5077600C51C2C /* Localization */,
@@ -3173,6 +3176,7 @@
 				E03E6A211D38F77C00944AAA /* OfflineSupportViewControllerTests.swift */,
 				E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */,
 				1A6D90921D0A05D500D01BEA /* StartupViewControllerTests.swift */,
+				E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				7772BE901AF90C8A0081CA7A /* Helpers */,
@@ -3915,6 +3919,7 @@
 				7772BEA31AFA68330081CA7A /* ConstraintAttributes.swift in Sources */,
 				773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */,
 				191A002B19405E1B004F7902 /* OEXCourse.m in Sources */,
+				E0A2461F1D5DA12A0066C766 /* AppUpgradeConfig.swift in Sources */,
 				7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */,
 				B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */,
 				77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */,
@@ -4321,6 +4326,7 @@
 				7778F0951ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m in Sources */,
 				775716B71CB803330091AB10 /* UIImage+TestData.swift in Sources */,
 				775391411C97593B00FA959C /* NetworkManager+InterceptionTests.swift in Sources */,
+				E0A246211D5DB3FD0066C766 /* AppUpgradeConfigTests.swift in Sources */,
 				774B9C121B0B9D18000B1069 /* MockReachability.swift in Sources */,
 				773181401B6C23F9000CC050 /* DiscussionTopic+DataFactory.swift in Sources */,
 				E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */,
