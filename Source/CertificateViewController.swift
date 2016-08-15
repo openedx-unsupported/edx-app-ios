@@ -10,7 +10,7 @@ import Foundation
 
 class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceOrientationOverriding {
 
-    typealias Environment = protocol<OEXAnalyticsProvider>
+    typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider>
     private let environment: Environment
 
     private let loadController = LoadStateViewController()
@@ -72,7 +72,7 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
 
     func share() {
         guard let url = request?.URL else { return }
-        let text = Strings.Certificates.shareText
+        let text = Strings.Certificates.shareText(platformName: environment.config.platformName())
         let controller = shareTextAndALink(text, url: url) { analyticsType in
             self.environment.analytics.trackCertificateShared(url.absoluteString, type: analyticsType)
         }

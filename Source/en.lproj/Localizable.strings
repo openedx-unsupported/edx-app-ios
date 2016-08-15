@@ -107,7 +107,7 @@
 /* Get certificate button text. */
 "CERTIFICATES.GET_CERTIFICATE"="View certificate";
 /* Text to share on FB & Twitter when sharing a course cert */
-"CERTIFICATES.SHARE_TEXT"="I just earned a Certificate on edX! Check it out:";
+"CERTIFICATES.SHARE_TEXT"="I just earned a Certificate on {platform_name}! Check it out:";
 /* Title bar when viewing an actual certificate */
 "CERTIFICATES.VIEW_CERT_TITLE"="Certificate";
 /* Title of course announcements section */

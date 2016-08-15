@@ -176,8 +176,9 @@ class JSONFormBuilder {
         }
         
         func applyData(field: Field, data: FormData) {
-            choiceView.titleText = Strings.formLabel(label: field.title!)
-            choiceView.valueText = data.valueForField(field.name) ?? field.placeholder ?? ""
+            choiceView.titleText = Strings.formLabel(label: field.title ?? "")
+            let placeHoder = field.placeholder?.stringByReplacingOccurrencesOfString("edX", withString: OEXConfig.sharedConfig().platformName())
+            choiceView.valueText = data.valueForField(field.name) ?? placeHoder ?? ""
         }
     }
     
@@ -241,7 +242,7 @@ class JSONFormBuilder {
         let type: FieldType
         let name: String
         var cellIdentifier: String { return type.cellIdentifier }
-        let title: String?
+        var title: String?
         
         let instructions: String?
         let subInstructions: String?
@@ -255,6 +256,7 @@ class JSONFormBuilder {
             type = FieldType(jsonVal: json["type"].string)!
             title = json["label"].string
             name = json["name"].string!
+            title = title?.stringByReplacingOccurrencesOfString("edX", withString: OEXConfig.sharedConfig().platformName())
             
             instructions = json["instructions"].string
             subInstructions = json["sub_instructions"].string
