@@ -8,7 +8,7 @@
 
 import Foundation
 
-class StartupViewController: UIViewController {
+class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
     typealias Environment = protocol<OEXRouterProvider>
 
@@ -40,6 +40,14 @@ class StartupViewController: UIViewController {
         OEXAnalytics.sharedAnalytics().trackScreenWithName("launch")
     }
 
+    override func shouldAutorotate() -> Bool {
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return .Portrait
+    }
+    
     // MARK: - View Setup
 
     private func setupBackground() {
