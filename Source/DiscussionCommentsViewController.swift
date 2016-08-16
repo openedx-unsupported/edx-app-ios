@@ -145,6 +145,9 @@ class DiscussionCommentCell: UITableViewCell {
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         setEndorsed(response.endorsed)
+        setNeedsLayout()
+        layoutIfNeeded()
+        
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     

@@ -256,7 +256,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
         
         
-        responseTextView.attributedText = responseTextViewStyle.markdownStringWithText(context.renderedBody)
+        responseTextView.attributedText = responseTextViewStyle.markdownStringWithText(context.renderedBody ?? "")
         
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
         self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([responseTextViewStyle.attributedStringWithText(titleText), responseTextViewStyle.attributedStringWithText(Strings.asteric)])
