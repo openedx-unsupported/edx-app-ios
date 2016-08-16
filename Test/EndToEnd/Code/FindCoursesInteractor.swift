@@ -33,7 +33,7 @@ class FindCoursesInteractor: FeatureInteractor {
         let config = OEXConfig(bundle: NSBundle(forClass: FindCoursesInteractor.self))
      
         switch config.courseEnrollmentConfig.type {
-        case .Native:
+        case .Native, .None:
             waitForElement(coursesTableView.cells.elementBoundByIndex(0))
             
         case .Webview:

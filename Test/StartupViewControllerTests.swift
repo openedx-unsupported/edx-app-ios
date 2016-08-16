@@ -12,7 +12,12 @@ import XCTest
 class StartupViewControllerTests: SnapshotTestCase {
 
     func testScreenshot() {
-        let mockEnv = TestRouterEnvironment()
+        let config = OEXConfig(dictionary: [
+            "COURSE_ENROLLMENT": [
+                "TYPE": "webview"]
+            ])
+        
+        let mockEnv = TestRouterEnvironment(config: config, interface: nil)
         let controller = StartupViewController(environment: mockEnv)
         inScreenDisplayContext(controller) {
             assertSnapshotValidWithContent(controller)

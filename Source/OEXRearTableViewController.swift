@@ -174,15 +174,18 @@ class OEXRearTableViewController : UITableViewController {
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == OEXRearViewOptions.Debug.rawValue && environment.config.shouldShowDebug() == false {
+        if indexPath.row == OEXRearViewOptions.Debug.rawValue && !environment.config.shouldShowDebug() {
             return 0
         }
-        
-        if indexPath.row == OEXRearViewOptions.Logout.rawValue {
+        else if indexPath.row == OEXRearViewOptions.FindCourses.rawValue && !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+            return 0
+        }
+        else if indexPath.row == OEXRearViewOptions.Logout.rawValue {
             let screenHeight = UIScreen.mainScreen().bounds.height
             let tableviewHeight = tableView.contentSize.height
             return max((screenHeight - tableviewHeight) + LogoutCellDefaultHeight, LogoutCellDefaultHeight)
         }
+        
         
         return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
     }
