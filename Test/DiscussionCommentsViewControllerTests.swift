@@ -28,6 +28,7 @@ class DiscussionCommentsViewControllerTests: SnapshotTestCase {
         
         inScreenNavigationContext(controller) {
             waitForStream(controller.t_loaded)
+            stepRunLoop()
             assertSnapshotValidWithContent(controller.navigationController!)
         }
     }

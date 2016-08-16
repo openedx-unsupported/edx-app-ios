@@ -171,12 +171,11 @@
                                                                font.fontName,
                                                                font.pointSize,
                                                                [textColor hexString]]];
-    NSAttributedString *attributedText = [[NSAttributedString alloc] initWithData:[formattedString dataUsingEncoding:NSUnicodeStringEncoding]
-                                                                          options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                                    NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithData:[formattedString dataUsingEncoding:NSUnicodeStringEncoding]
+                                                                          options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
                                                                documentAttributes:nil
                                                                             error:nil];
-    
+    [attributedText.mutableString replaceOccurrencesOfString:@"\n" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, attributedText.mutableString.length)];
     return attributedText;
 }
 

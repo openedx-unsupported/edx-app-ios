@@ -34,6 +34,13 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
         }
         
+        var renderedBody: String? {
+            switch self {
+            case let .Thread(thread): return thread.renderedBody
+            case let .Comment(comment): return comment.renderedBody
+            }
+        }
+        
         var newCommentParentID: String? {
             switch self {
             case .Thread(_): return nil
@@ -57,7 +64,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     @IBOutlet private var scrollView: UIScrollView!
     @IBOutlet private var responseTitle: UILabel!
     @IBOutlet private var answerLabel: UILabel!
-    @IBOutlet private var responseBody: UILabel!
+    @IBOutlet private var responseTextView: UITextView!
     @IBOutlet private var contentTextView: OEXPlaceholderTextView!
     @IBOutlet private var addCommentButton: SpinnerButton!
     @IBOutlet private var contentTextViewHeightConstraint: NSLayoutConstraint!
@@ -135,7 +142,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
     }
     
-    private var responseBodyStyle : OEXTextStyle {
+    private var responseTextViewStyle : OEXTextStyle {
         return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
     }
     
@@ -249,10 +256,10 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
         
         
-        responseBody.attributedText = responseBodyStyle.attributedStringWithText(context.rawBody)
+        responseTextView.attributedText = responseTextViewStyle.markdownStringWithText(context.renderedBody ?? "")
         
         addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
-        self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([responseBodyStyle.attributedStringWithText(titleText), responseBodyStyle.attributedStringWithText(Strings.asteric)])
+        self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([responseTextViewStyle.attributedStringWithText(titleText), responseTextViewStyle.attributedStringWithText(Strings.asteric)])
         self.navigationItem.title = navigationItemTitle
             
         if case .Comment(_) = self.context, let thread = thread{

@@ -26,7 +26,7 @@ private let UserProfileImageSize = CGSizeMake(40.0,40.0)
 
 class DiscussionCommentCell: UITableViewCell {
     
-    private let bodyTextLabel = UILabel()
+    private let bodyTextView = UITextView()
     private let authorButton = UIButton(type: .System)
     private let commentCountOrReportIconButton = UIButton(type: .System)
     private let divider = UIView()
@@ -50,8 +50,11 @@ class DiscussionCommentCell: UITableViewCell {
         
         applyStandardSeparatorInsets()
         addSubViews()
-        setConstraints()        
-        bodyTextLabel.numberOfLines = 0
+        setConstraints()
+        bodyTextView.editable = false
+        bodyTextView.dataDetectorTypes = UIDataDetectorTypes.All
+        bodyTextView.scrollEnabled = false
+        bodyTextView.backgroundColor = UIColor.clearColor()
         containerView.userInteractionEnabled = true
         commentCountOrReportIconButton.localizedHorizontalContentAlignment = .Trailing
         contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
@@ -62,7 +65,7 @@ class DiscussionCommentCell: UITableViewCell {
     
     private func addSubViews() {
        contentView.addSubview(containerView)
-        containerView.addSubview(bodyTextLabel)
+        containerView.addSubview(bodyTextView)
         containerView.addSubview(authorButton)
         containerView.addSubview(endorsedLabel)
         containerView.addSubview(commentCountOrReportIconButton)
@@ -108,7 +111,7 @@ class DiscussionCommentCell: UITableViewCell {
             make.top.equalTo(dateLabel.snp_bottom)
         }
         
-        bodyTextLabel.snp_makeConstraints { (make) -> Void in
+        bodyTextView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(authorProfileImage.snp_bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(authorProfileImage)
             make.trailing.equalTo(containerView).offset(-StandardHorizontalMargin)
@@ -120,7 +123,7 @@ class DiscussionCommentCell: UITableViewCell {
         }
         
         divider.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(bodyTextLabel.snp_bottom).offset(StandardVerticalMargin)
+            make.top.equalTo(bodyTextView.snp_bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
             make.height.equalTo(StandardVerticalMargin)
@@ -132,7 +135,7 @@ class DiscussionCommentCell: UITableViewCell {
         divider.snp_updateConstraints { (make) in
             make.height.equalTo(StandardVerticalMargin)
         }
-        bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(response.rawBody)
+        bodyTextView.attributedText = commentTextStyle.markdownStringWithText(response.renderedBody)
         DiscussionHelper.styleAuthorDetails(response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
         let message = Strings.comment(count: response.childCount)
@@ -142,6 +145,9 @@ class DiscussionCommentCell: UITableViewCell {
         commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
         
         setEndorsed(response.endorsed)
+        setNeedsLayout()
+        layoutIfNeeded()
+        
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
@@ -149,7 +155,7 @@ class DiscussionCommentCell: UITableViewCell {
         divider.snp_updateConstraints { (make) in
             make.height.equalTo(2)
         }
-        bodyTextLabel.attributedText = commentTextStyle.attributedStringWithText(comment.rawBody)
+        bodyTextView.attributedText = commentTextStyle.markdownStringWithText(comment.renderedBody)
         updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
         DiscussionHelper.styleAuthorDetails(comment.author, authorLabel: comment.authorLabel, createdAt: comment.createdAt, hasProfileImage: comment.hasProfileImage, imageURL: comment.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
