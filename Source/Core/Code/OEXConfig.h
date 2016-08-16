@@ -47,8 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)platformName;
 /// User facing platform web destination, like "edx.org"
 - (NSString*)platformDestinationName;
-/// Application iOS app store url
-- (nullable NSURL*) iOSAppStoreURL;
 // Network
 - (nullable NSURL*)apiHostURL;
 - (nullable NSString*)feedbackEmailAddress;
