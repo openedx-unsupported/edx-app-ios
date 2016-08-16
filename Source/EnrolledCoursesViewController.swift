@@ -18,10 +18,12 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
     private let enrollmentFeed: Feed<[UserCourseEnrollment]?>
-    
-     init(environment: Environment) {
+    private let userPreferencesFeed: Feed<UserPreference?>
+
+    init(environment: Environment) {
         self.tableController = CoursesTableViewController(environment: environment, context: .EnrollmentList)
         self.enrollmentFeed = environment.dataManager.enrollmentManager.feed
+        self.userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
         self.environment = environment
         
         super.init(env: environment)
@@ -64,6 +66,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         )
         
         self.enrollmentFeed.refresh()
+        self.userPreferencesFeed.refresh()
         
         setupListener()
         setupFooter()
@@ -169,6 +172,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     
     func refreshControllerActivated(controller: PullRefreshController) {
         self.enrollmentFeed.refresh()
+        self.userPreferencesFeed.refresh()
     }
     
     override func viewDidLayoutSubviews() {
