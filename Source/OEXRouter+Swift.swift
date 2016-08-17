@@ -282,8 +282,16 @@ extension OEXRouter {
     }
 
     public func logout() {
-        self.environment.session.closeAndClearSession()
-        self.showLoggedOutScreen()
+        invalidateToken()
+        environment.session.closeAndClearSession()
+        showLoggedOutScreen()
+    }
+    
+    func invalidateToken() {
+        if let refreshToken = environment.session.token?.refreshToken, clientID = environment.config.oauthClientID() {
+            let networkRequest = LogoutApi.invalidateToken(refreshToken, clientID: clientID)
+            environment.networkManager.taskForRequest(networkRequest) { result in }
+        }
     }
 
     // MARK: - Debug
