@@ -120,9 +120,10 @@ OEXRegistrationViewControllerDelegate
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
     OEXLoginViewController* loginController = [[UIStoryboard storyboardWithName:@"OEXLoginViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginView"];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
     loginController.delegate = self;
     
-    [self presentViewController:loginController fromController:[controller topMostController] completion:completion];
+    [self presentViewController:navController fromController:[controller topMostController] completion:completion];
 }
 
 - (void)showSignUpScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {

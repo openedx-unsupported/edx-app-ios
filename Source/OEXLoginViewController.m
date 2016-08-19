@@ -53,15 +53,11 @@
 @property (nonatomic, strong) NSString* signInID;
 @property (nonatomic, strong) NSString* signInPassword;
 @property (nonatomic, assign) BOOL reachable;
-@property (weak, nonatomic, nullable) IBOutlet UIView* view_EULA;
 @property (weak, nonatomic, nullable) IBOutlet UIWebView* webview_EULA;
-@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_Close;
 @property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_OpenEULA;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_SeparatorEULA;
 @property (strong, nonatomic) IBOutlet UIView* externalAuthContainer;
 @property (weak, nonatomic, nullable) IBOutlet OEXCustomLabel* lbl_OrSignIn;
-@property (weak, nonatomic, nullable) IBOutlet UIView *mockNavBar;
-@property (strong, nonatomic) IBOutlet UILabel* titleLabel;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorLeft;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorRight;
 // For Login Design change
@@ -73,29 +69,22 @@
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_SignInTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_SignTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_separatorTop;
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_FBTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_BySigningTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_EULATop;
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_LogoTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_UserGreyTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_PassGreyTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_LeftSepTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_RightSepTop;
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_GoogleTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_ActivityIndTop;
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_httpBottom;
 
 @property (weak, nonatomic, nullable) IBOutlet UITextField* tf_EmailID;
 @property (weak, nonatomic, nullable) IBOutlet UITextField* tf_Password;
 @property (weak, nonatomic, nullable) IBOutlet UIButton* btn_TroubleLogging;
 @property (weak, nonatomic, nullable) IBOutlet UIButton* btn_Login;
-@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_SignUp;
 @property (weak, nonatomic, nullable) IBOutlet UIScrollView* scroll_Main;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Map;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Logo;
-@property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Separator;
 @property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_Redirect;
-@property (weak, nonatomic, nullable) IBOutlet UILabel* lbl_RedirectLink;
 @property (weak, nonatomic, nullable) IBOutlet UIActivityIndicatorView* activityIndicator;
 @property (strong, nonatomic) IBOutlet UILabel* versionLabel;
 
@@ -114,7 +103,6 @@
 
     if(IS_IPHONE_4) {
         self.constraint_MapTop.constant = 70;
-        self.constraint_LogoTop.constant = 58;
         self.constraint_UsernameTop.constant = 20;
         self.constraint_UserGreyTop.constant = 20;
         self.constraint_PasswordTop.constant = 8;
@@ -127,8 +115,6 @@
         if([self isGoogleEnabled] || [self isFacebookEnabled]) {
             self.constraint_LeftSepTop.constant = 18;
             self.constraint_RightSepTop.constant = 18;
-            self.constraint_FBTop.constant = 3;
-            self.constraint_GoogleTop.constant = 3;
             self.constraint_BySigningTop.constant = 69;
             self.constraint_EULATop.constant = 73;
         }
@@ -138,15 +124,12 @@
             self.seperatorRight.hidden = YES;
             self.constraint_LeftSepTop.constant = 18;
             self.constraint_RightSepTop.constant = 18;
-            self.constraint_FBTop.constant = 3;
-            self.constraint_GoogleTop.constant = 3;
             self.constraint_BySigningTop.constant = 18;
             self.constraint_EULATop.constant = 23;
         }
     }
     else {
         self.constraint_MapTop.constant = 90;
-        self.constraint_LogoTop.constant = 80;
         self.constraint_UsernameTop.constant = 25;
         self.constraint_UserGreyTop.constant = 25;
         self.constraint_PasswordTop.constant = 12;
@@ -158,8 +141,6 @@
         if([self isGoogleEnabled] || [self isFacebookEnabled]) {
             self.constraint_LeftSepTop.constant = 25;
             self.constraint_RightSepTop.constant = 25;
-            self.constraint_FBTop.constant = 10;
-            self.constraint_GoogleTop.constant = 10;
             self.constraint_BySigningTop.constant = 85;
             self.constraint_EULATop.constant = 88;
         }
@@ -194,9 +175,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.titleLabel.text = [Strings loginSignInToPlatformWithPlatformName:[[OEXConfig sharedConfig] platformName]];
-    [self.titleLabel setFont:[UIFont fontWithName:@"OpenSans-Semibold" size:20]];
+    
+    [self setTitle:[Strings loginSignInToPlatformWithPlatformName:[[OEXConfig sharedConfig] platformName]]];
 
     [self.btn_TroubleLogging setTitle:[Strings troubleInLoginButton] forState:UIControlStateNormal];
 
@@ -219,11 +199,10 @@
 
     [self.lbl_OrSignIn setText:[Strings orSignInWith]];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
-
-    //Set Up mock nav bar
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.mockNavBar label:self.titleLabel leftIconButton: self.btn_Close];
     
-    self.btn_Close.accessibilityLabel = [Strings close];
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack)];
+    closeButton.accessibilityLabel = [Strings close];
+    self.navigationItem.leftBarButtonItem = closeButton;
     
     [self setExclusiveTouch];
 
@@ -244,12 +223,11 @@
     }
 }
 
-- (IBAction)navigateBack:(id)sender {
+- (void)navigateBack {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)setExclusiveTouch {
-    self.btn_SignUp.exclusiveTouch = YES;
     self.btn_OpenEULA.exclusiveTouch = YES;
     self.btn_Login.exclusiveTouch = YES;
     self.btn_TroubleLogging.exclusiveTouch = YES;
@@ -260,7 +238,6 @@
 - (void)hideEULA:(BOOL)hide {
     //EULA
     [self.webview_EULA.scrollView setContentOffset:CGPointMake(0, 0)];
-    self.view_EULA.hidden = hide;
     self.webview_EULA.hidden = hide;
     self.img_SeparatorEULA.hidden = hide;
 }
@@ -277,8 +254,6 @@
     [self.view setUserInteractionEnabled:YES];
     self.view.exclusiveTouch = YES;
 
-    self.lbl_RedirectLink.hidden = YES; // This has been removed from design for GA
-
     //EULA
     [self hideEULA:YES];
 
@@ -294,9 +269,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:UIApplicationDidBecomeActiveNotification object:nil];
-
-    //Hide navigation bar
-    self.navigationController.navigationBarHidden = YES;
 
     //Tap to dismiss keyboard
     UIGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -385,37 +357,11 @@
     }
 }
 
-- (IBAction)buttonTouchedDown:(id)sender {
-    //[self.view setUserInteractionEnabled:NO];
-}
-
-- (void)loadEULA:(NSString*)resourse {
-    [self.webview_EULA loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:resourse ofType:@"htm"] isDirectory:NO]]];
-}
-
-- (BOOL)webView:(UIWebView*)inWeb shouldStartLoadWithRequest:(NSURLRequest*)inRequest navigationType:(UIWebViewNavigationType)inType {
-    if(inType == UIWebViewNavigationTypeLinkClicked) {
-        [[UIApplication sharedApplication] openURL:[inRequest URL]];
-        return NO;
-    }
-    return YES;
-}
-
 #pragma mark IBActions
 - (IBAction)openEULA:(id)sender {
     NSURL* url = [[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
     OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
     [self presentViewController:viewController animated:YES completion:nil];
-}
-
-- (IBAction)closeEULA:(id)sender {
-    [self hideEULA:YES];
-}
-
-- (IBAction)signUpClicked:(id)sender {
-    [self loadEULA:@"NEW_USER"];
-    [self hideEULA:NO];
-    [[OEXAnalytics sharedAnalytics] trackUserDoesNotHaveAccount];
 }
 
 - (IBAction)troubleLoggingClicked:(id)sender {
@@ -458,7 +404,7 @@
     if(!self.reachable) {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings networkNotAvailableTitle]
                                                                 message:[Strings networkNotAvailableMessage]
-                                                       onViewController:self.view
+                                                       onViewController:self.navigationController.view
                                                              shouldHide:YES];
 
         [self.view setUserInteractionEnabled:YES];
@@ -470,7 +416,7 @@
     if([self.tf_EmailID.text length] == 0) {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings floatingErrorLoginTitle]
                                                                 message:[Strings enterEmail]
-                                                       onViewController:self.view
+                                                       onViewController:self.navigationController.view
                                                              shouldHide:YES];
 
         [self.view setUserInteractionEnabled:YES];
@@ -478,7 +424,7 @@
     else if([self.tf_Password.text length] == 0) {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings floatingErrorLoginTitle]
                                                                 message:[Strings enterPassword]
-                                                       onViewController:self.view
+                                                       onViewController:self.navigationController.view
                                                              shouldHide:YES];
 
         [self.view setUserInteractionEnabled:YES];
@@ -531,7 +477,7 @@
     if(!self.reachable) {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings networkNotAvailableTitle]
                                                                 message:[Strings networkNotAvailableMessage]
-                                                       onViewController:self.view
+                                                       onViewController:self.navigationController.view
                                                              shouldHide:YES];
         self.authProvider = nil;
         return;
@@ -596,12 +542,12 @@
 
     if(title) {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title
-                                                                message:errorStr onViewController:self.view shouldHide:YES];
+                                                                message:errorStr onViewController:self.navigationController.view shouldHide:YES];
     }
     else {
         [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings floatingErrorLoginTitle]
                                                                 message:errorStr
-                                                       onViewController:self.view
+                                                       onViewController:self.navigationController.view
                                                              shouldHide:YES];
     }
 
@@ -653,7 +599,7 @@
             if([EmailtextField.text length] == 0 || ![EmailtextField.text oex_isValidEmailAddress]) {
                 [[OEXFlowErrorViewController sharedInstance]
                  showErrorWithTitle:[Strings floatingErrorTitle]
-                            message:[Strings invalidEmailMessage] onViewController:self.view shouldHide:YES];
+                            message:[Strings invalidEmailMessage] onViewController:self.navigationController.view shouldHide:YES];
             }
             else {
                 self.str_ForgotEmail = [[NSString alloc] init];
@@ -664,7 +610,7 @@
 
                 [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings resetPasswordTitle]
                                                                         message:[Strings waitingForResponse]
-                                                               onViewController:self.view shouldHide:NO];
+                                                               onViewController:self.navigationController.view shouldHide:NO];
                 [self resetPassword];
             }
         }
