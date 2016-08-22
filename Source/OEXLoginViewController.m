@@ -79,8 +79,8 @@
 
 @property (weak, nonatomic, nullable) IBOutlet UITextField* tf_EmailID;
 @property (weak, nonatomic, nullable) IBOutlet UITextField* tf_Password;
-@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_TroubleLogging;
-@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_Login;
+@property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_TroubleLogging;
+@property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_Login;
 @property (weak, nonatomic, nullable) IBOutlet UIScrollView* scroll_Main;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Map;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Logo;
@@ -286,9 +286,6 @@
 
 - (void)handleActivationDuringLogin {
     if(self.authProvider != nil) {
-        [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
-        [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
-
         [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
         [self.activityIndicator stopAnimating];
         [self.view setUserInteractionEnabled:YES];
@@ -320,11 +317,15 @@
     self.tf_Password.text = @"";
 
     self.lbl_Redirect.text = [Strings redirectText];
-    [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
-    [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
+    [self.btn_TroubleLogging setTitleColor:[[OEXStyles sharedStyles] primaryBaseColor] forState:UIControlStateNormal];
+    [self.btn_OpenEULA setTitleColor:[[OEXStyles sharedStyles] primaryBaseColor] forState:UIControlStateNormal];
     [self.btn_OpenEULA setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:[[OEXConfig sharedConfig] platformName]] forState:UIControlStateNormal];
+    self.btn_OpenEULA.accessibilityTraits = UIAccessibilityTraitLink;
 
     [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
+    self.btn_Login.layer.cornerRadius = 3.0;
+    self.btn_Login.layer.masksToBounds = YES;
+    [self.btn_Login setBackgroundColor:[[OEXStyles sharedStyles] primaryBaseColor]];
     [self.activityIndicator stopAnimating];
 
     NSString* username = [[NSUserDefaults standardUserDefaults] objectForKey:USER_EMAIL];
