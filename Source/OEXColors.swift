@@ -11,9 +11,9 @@ import UIKit
 public class OEXColors: NSObject {
 
     //MARK: - Shared Instance
-    static let sharedInstance = OEXColors()
+    public static let sharedInstance = OEXColors()
     
-    private var colorsDictionary = [String: AnyObject]()
+    public var colorsDictionary = [String: AnyObject]()
     
     private override init() {
         super.init()
@@ -21,7 +21,7 @@ public class OEXColors: NSObject {
     }
     
     private func initializeColorsDictionary() -> [String: AnyObject] {
-        guard let filePath = NSBundle.mainBundle().pathForResource("colors", ofType: "json") else { return [String: AnyObject]() }
+        guard let filePath = NSBundle.mainBundle().pathForResource("colors", ofType: "json") else { assert(false, "Could not find colors.json") }
         if let data = NSData(contentsOfFile: filePath) {
             var error : NSError?
             if let json = NSJSONSerialization.oex_JSONObjectWithData(data, error: &error) as? [String: AnyObject] {
@@ -43,5 +43,5 @@ public class OEXColors: NSObject {
         }
         assert(false, "Could not find the required color in colors.json")
     }
-
+    
 }

@@ -38,6 +38,10 @@ static OEXStyles* sSharedStyles;
     return 5;
 }
 
+- (OEXColors *)oexColors {
+    return [OEXColors sharedInstance];
+}
+
 #pragma mark Computed Style
 
 - (UIColor*)navigationBarColor {
@@ -94,133 +98,133 @@ static OEXStyles* sSharedStyles;
 #pragma mark Primary
 
 - (UIColor*)primaryXDarkColor {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"primaryXDarkColor"];
+    return [self.oexColors colorForIdentifier:@"primaryXDarkColor"];
 }
 
 - (UIColor*)primaryDarkColor {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"primaryDarkColor"];
+    return [self.oexColors colorForIdentifier:@"primaryDarkColor"];
 }
 
 - (UIColor*)primaryBaseColor {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"primaryBaseColor"];
+    return [self.oexColors colorForIdentifier:@"primaryBaseColor"];
 }
 
 - (UIColor*)primaryLightColor {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"primaryLightColor"];
+    return [self.oexColors colorForIdentifier:@"primaryLightColor"];
 }
 
 - (UIColor*)primaryXLightColor {
     // Note. This is not the color value from the mobile style guide.
     // iOS seems to have a darker color space than the desktop so this is
     // deliberately lightened from that.
-    return [[OEXColors sharedInstance] colorForIdentifier:@"primaryXLightColor"];
+    return [self.oexColors colorForIdentifier:@"primaryXLightColor"];
 }
 
 #pragma mark Secondary
 
 - (UIColor*)secondaryXDarkColor {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"secondaryXDarkColor"];
+    return [self.oexColors colorForIdentifier:@"secondaryXDarkColor"];
 }
 
 - (nonnull UIColor*)secondaryDarkColor {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"secondaryDarkColor"];
+    return [self.oexColors colorForIdentifier:@"secondaryDarkColor"];
 }
 
 - (nonnull UIColor*)secondaryBaseColor {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"secondaryBaseColor"];
+    return [self.oexColors colorForIdentifier:@"secondaryBaseColor"];
 }
 
 - (nonnull UIColor*)secondaryLightColor {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"secondaryLightColor"];
+    return [self.oexColors colorForIdentifier:@"secondaryLightColor"];
 }
 
 - (nonnull UIColor*)secondaryXLightColor {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"secondaryXLightColor"];
+    return [self.oexColors colorForIdentifier:@"secondaryXLightColor"];
 }
 
 #pragma mark Neutral
 
 - (UIColor*)neutralBlack {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralBlack"];
+    return [self.oexColors colorForIdentifier:@"neutralBlack"];
 }
 
 - (UIColor*)neutralBlackT {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralBlackT"];
+    return [self.oexColors colorForIdentifier:@"neutralBlackT"];
 }
 
 - (UIColor*)neutralXDark {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralXDark"];
+    return [self.oexColors colorForIdentifier:@"neutralXDark"];
 }
 
 - (UIColor*)neutralDark {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralDark"];
+    return [self.oexColors colorForIdentifier:@"neutralDark"];
 }
 
 - (UIColor*)neutralBase {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralBase"];
+    return [self.oexColors colorForIdentifier:@"neutralBase"];
 }
 
 - (UIColor*)neutralLight {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralLight"];
+    return [self.oexColors colorForIdentifier:@"neutralLight"];
 }
 
 - (UIColor*)neutralXLight {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralXLight"];
+    return [self.oexColors colorForIdentifier:@"neutralXLight"];
 }
 
 - (UIColor*)neutralXXLight {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralXXLight"];
+    return [self.oexColors colorForIdentifier:@"neutralXXLight"];
 }
 
 - (UIColor*)neutralWhite {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralWhite"];
+    return [self.oexColors colorForIdentifier:@"neutralWhite"];
 }
 
 - (UIColor*)neutralWhiteT {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"neutralWhiteT"];
+    return [self.oexColors colorForIdentifier:@"neutralWhiteT"];
 }
 
 
 #pragma mark Utility
 
 - (UIColor*)utilitySuccessDark {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"utilitySuccessDark"];
+    return [self.oexColors colorForIdentifier:@"utilitySuccessDark"];
 }
 
 - (UIColor*)utilitySuccessBase {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"utilitySuccessBase"];
+    return [self.oexColors colorForIdentifier:@"utilitySuccessBase"];
 }
 
 - (UIColor*)utilitySuccessLight {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"utilitySuccessLight"];
+    return [self.oexColors colorForIdentifier:@"utilitySuccessLight"];
 }
 
 - (UIColor*)warningDark {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"warningDark"];
+    return [self.oexColors colorForIdentifier:@"warningDark"];
 }
 
 - (UIColor*)warningBase {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"warningBase"];
+    return [self.oexColors colorForIdentifier:@"warningBase"];
 }
 
 - (UIColor*)warningLight {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"warningLight"];
+    return [self.oexColors colorForIdentifier:@"warningLight"];
 }
 
 - (UIColor*)errorDark {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"errorDark"];
+    return [self.oexColors colorForIdentifier:@"errorDark"];
 }
 
 - (UIColor*)errorBase {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"errorBase"];
+    return [self.oexColors colorForIdentifier:@"errorBase"];
 }
 
 - (UIColor*)errorLight {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"errorLight"];
+    return [self.oexColors colorForIdentifier:@"errorLight"];
 }
 
 - (UIColor*)banner {
-    return [[OEXColors sharedInstance] colorForIdentifier:@"banner"];
+    return [self.oexColors colorForIdentifier:@"banner"];
 }
 
 - (UIColor * __nonnull) disabledButtonColor
