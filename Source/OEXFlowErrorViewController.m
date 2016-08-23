@@ -69,6 +69,7 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
 - (void)setErrorTitle:(NSString*)title WithMessage:(NSString*)message {
     self.lbl_ErrorTitle.text = title;
     self.lbl_ErrorMessage.text = message;
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,  self.lbl_ErrorTitle);
 }
 
 #pragma mark Animation
@@ -105,11 +106,13 @@ static OEXFlowErrorViewController* _sharedInterface = nil;
                                                  SCREEN_WIDTH,
                                                  ERRORVIEW_HEIGHT);
     } completion:^(BOOL finished) {
+        [self removeSelfFromSuperView];
     }];
 }
 
 - (void)removeSelfFromSuperView {
     [self.view removeFromSuperview];
+    UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,  nil);
 }
 
 - (void)showNoConnectionErrorOnView:(UIView *)view {
