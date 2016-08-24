@@ -507,7 +507,6 @@
     [self.view setUserInteractionEnabled:NO];
     [self.activityIndicator startAnimating];
     [self.btn_Login setTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
-    [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
 }
 
 - (void)loginHandleLoginError:(NSError*)error {
