@@ -89,6 +89,10 @@
 @property (strong, nonatomic) IBOutlet UILabel* versionLabel;
 
 @property (nonatomic, assign) id <OEXExternalAuthProvider> authProvider;
+@property (nonatomic) OEXTextStyle *placeHolderStyle;
+@property (nonatomic) OEXMutableTextStyle *buttonTitleStyle;
+
+
 
 @end
 
@@ -221,6 +225,9 @@
     else {
         self.versionLabel.text = @"";
     }
+    
+    _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+    _buttonTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
 }
 
 - (void)navigateBack {
@@ -311,8 +318,8 @@
 
 - (void)setToDefaultProperties {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.tf_EmailID.placeholder = [Strings usernamePlaceholder];
-    self.tf_Password.placeholder = [Strings passwordPlaceholder];
+    self.tf_EmailID.attributedPlaceholder = [_placeHolderStyle attributedStringWithText:[Strings usernamePlaceholder]];
+    self.tf_Password.attributedPlaceholder = [_placeHolderStyle attributedStringWithText:[Strings passwordPlaceholder]];
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
 
@@ -381,7 +388,7 @@
 
         if([self.tf_EmailID.text length] > 0) {
             UITextField* tf = [alert textFieldAtIndex:0];
-            [[alert textFieldAtIndex:0] setPlaceholder:[Strings emailAddressPrompt]];
+            [[alert textFieldAtIndex:0] setAttributedPlaceholder:[_placeHolderStyle attributedStringWithText:[Strings emailAddressPrompt]]];
             tf.text = self.tf_EmailID.text;
         }
 
