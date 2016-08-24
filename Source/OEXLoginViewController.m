@@ -90,9 +90,6 @@
 
 @property (nonatomic, assign) id <OEXExternalAuthProvider> authProvider;
 @property (nonatomic) OEXTextStyle *placeHolderStyle;
-@property (nonatomic) OEXMutableTextStyle *buttonTitleStyle;
-
-
 
 @end
 
@@ -227,7 +224,6 @@
     }
     
     _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
-    _buttonTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
 }
 
 - (void)navigateBack {
@@ -293,7 +289,7 @@
 
 - (void)handleActivationDuringLogin {
     if(self.authProvider != nil) {
-        [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
+        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
         [self.activityIndicator stopAnimating];
         [self.view setUserInteractionEnabled:YES];
 
@@ -328,8 +324,10 @@
     [self.btn_OpenEULA setTitleColor:[[OEXStyles sharedStyles] primaryBaseColor] forState:UIControlStateNormal];
     [self.btn_OpenEULA setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:[[OEXConfig sharedConfig] platformName]] forState:UIControlStateNormal];
     self.btn_OpenEULA.accessibilityTraits = UIAccessibilityTraitLink;
-
-    [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
+    
+    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+    
+    
     self.btn_Login.layer.cornerRadius = 3.0;
     self.btn_Login.layer.masksToBounds = YES;
     [self.btn_Login setBackgroundColor:[[OEXStyles sharedStyles] primaryBaseColor]];
@@ -354,7 +352,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view setUserInteractionEnabled:YES];
         });
-        [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
+        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
         [self.activityIndicator stopAnimating];
 
@@ -449,7 +447,7 @@
 
         [self.view setUserInteractionEnabled:NO];
         [self.activityIndicator startAnimating];
-        [self.btn_Login setTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
+        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale]];
     }
 }
 
@@ -513,7 +511,7 @@
 
     [self.view setUserInteractionEnabled:NO];
     [self.activityIndicator startAnimating];
-    [self.btn_Login setTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
+    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale]];
 }
 
 - (void)loginHandleLoginError:(NSError*)error {
@@ -558,7 +556,7 @@
     }
 
     [self.activityIndicator stopAnimating];
-    [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
+    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
     [self.view setUserInteractionEnabled:YES];
 

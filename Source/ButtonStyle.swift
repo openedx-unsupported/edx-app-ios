@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import UIKit
 
-public struct ButtonStyle  {
+@objc public class ButtonStyle : NSObject {
     var textStyle : OEXTextStyle
     var backgroundColor : UIColor?
     var borderStyle : BorderStyle?
@@ -39,8 +40,8 @@ public struct ButtonStyle  {
     }
 }
 
-extension UIButton {
-    func applyButtonStyle(style : ButtonStyle, withTitle text : String?) {
+public extension UIButton {
+    public func applyButtonStyle(style : ButtonStyle, withTitle text : String?) {
         style.applyToButton(self, withTitle: text)
     }
 }
