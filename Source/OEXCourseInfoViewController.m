@@ -80,7 +80,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     BOOL emailOptIn = false;
     [self parseURL:request.URL getCourseID:&courseID emailOptIn:&emailOptIn];
     if(courseID != nil) {
-        [self enrollInCourseWithCourseID:courseID emailOptIn:emailOptIn];
+        [self enrollInCourse:courseID emailOpt:emailOptIn];
         return NO;
     }
     return YES;
@@ -98,62 +98,9 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     }
 }
 
-- (void)enrollInCourseWithCourseID:(NSString*)courseID emailOptIn:(BOOL)emailOptIn {
-
-    OEXSession* session = [OEXSession sharedSession];
-    if (session.currentUser == nil) {
-        [[OEXRouter sharedRouter] showSignUpScreenFromController:self completion:^{
-            [self enrollInCourseWithCourseID:courseID emailOptIn:emailOptIn];
-        }];
-        return;
-    }
-
-    UserCourseEnrollment* courseEnrollment = [[OEXInterface sharedInterface] enrollmentForCourseWithID:courseID];
-
-    if(courseEnrollment) {
-        [self showMainScreenWithMessage:[Strings findCoursesAlreadyEnrolledMessage] courseID:courseID];
-        return;
-    }
-
-    OEXNetworkManager* networkManager = [OEXNetworkManager sharedManager];
-
-    NSDictionary* enrollmentDictionary = @{@"course_details":@{@"course_id": courseID, @"email_opt_in":@(emailOptIn)}};
-
-    NSData* enrollmentJSONData = [NSJSONSerialization dataWithJSONObject:enrollmentDictionary options:0 error:nil];
-
-    [[OEXAnalytics sharedAnalytics] trackUserEnrolledInCourse:courseID];
-
-    [networkManager callAuthorizedWebServiceWithURLPath:URL_COURSE_ENROLLMENT method:OEXHTTPMethodPOST body:enrollmentJSONData completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-        if(httpResponse.statusCode == 200) {
-            if([NSThread isMainThread]) {
-                [self showMainScreenWithMessage:[Strings findCoursesEnrollmentSuccessfulMessage] courseID:courseID];
-            }
-            else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                        [self showMainScreenWithMessage:[Strings findCoursesEnrollmentSuccessfulMessage] courseID:courseID];
-                    });
-            }
-            return;
-        }
-        if([NSThread isMainThread]) {
-            [self showEnrollmentError];
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                    [self showEnrollmentError];
-                });
-        }
-    }];
-}
-
 - (void)showMainScreenWithMessage:(NSString*)message courseID:(NSString*)courseID {
     [[OEXRouter sharedRouter] showMyCoursesAnimated:YES pushingCourseWithID:courseID];
     [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:0.5];
-}
-
-- (void)showEnrollmentError {
-    [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings findCoursesEnrollmentErrorTitle] message:[Strings findCoursesEnrollmentErrorDescription] onViewController:self.view shouldHide:YES];
 }
 
 - (void)postEnrollmentSuccessNotification:(NSString*)message {
