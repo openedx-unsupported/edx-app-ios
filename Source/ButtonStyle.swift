@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@objc public class ButtonStyle : NSObject {
+public class ButtonStyle : NSObject {
     var textStyle : OEXTextStyle
     var backgroundColor : UIColor?
     var borderStyle : BorderStyle?
@@ -40,8 +40,8 @@ import UIKit
     }
 }
 
-public extension UIButton {
-    public func applyButtonStyle(style : ButtonStyle, withTitle text : String?) {
+extension UIButton {
+    func applyButtonStyle(style : ButtonStyle, withTitle text : String?) {
         style.applyToButton(self, withTitle: text)
     }
 }

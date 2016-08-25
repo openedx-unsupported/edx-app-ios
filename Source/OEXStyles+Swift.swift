@@ -122,7 +122,7 @@ extension OEXStyles {
     
     var filledEmphasisButtonStyle : ButtonStyle {
         let buttonMargins : CGFloat = 12
-        var result = filledPrimaryButtonStyle
+        let result = filledPrimaryButtonStyle
         result.backgroundColor = OEXStyles.sharedStyles().utilitySuccessBase()
         result.textStyle = result.textStyle.withSize(.XLarge)
         result.contentInsets = UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins)

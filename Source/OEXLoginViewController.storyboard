@@ -128,7 +128,7 @@
                                             <outlet property="delegate" destination="riJ-LC-sPF" id="TAL-DA-nTV"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tp9-tH-kdk" customClass="OEXCustomButton">
+                                    <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tp9-tH-kdk">
                                         <rect key="frame" x="40" y="277" width="123" height="17"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="17" id="qfK-nC-mRI"/>
@@ -208,7 +208,7 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <button opaque="NO" tag="106" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYz-SW-wBv" customClass="OEXCustomButton">
+                                    <button opaque="NO" tag="106" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYz-SW-wBv">
                                         <rect key="frame" x="215" y="420" width="171" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="FFH-LG-Rhl"/>
@@ -386,8 +386,8 @@
                     <connections>
                         <outlet property="activityIndicator" destination="5Ki-dQ-Zuc" id="TO6-Z5-8Lc"/>
                         <outlet property="btn_Login" destination="gKO-wT-mn0" id="G3A-QX-wde"/>
-                        <outlet property="btn_OpenEULA" destination="cYz-SW-wBv" id="0Ze-do-qQt"/>
-                        <outlet property="btn_TroubleLogging" destination="Tp9-tH-kdk" id="lkg-Nx-4xe"/>
+                        <outlet property="btn_OpenEULA" destination="cYz-SW-wBv" id="s64-5e-XLZ"/>
+                        <outlet property="btn_TroubleLogging" destination="Tp9-tH-kdk" id="LAh-uz-BZh"/>
                         <outlet property="constraint_ActivityIndTop" destination="RNV-2E-14V" id="rcV-Ln-jkj"/>
                         <outlet property="constraint_MapTop" destination="5At-WC-HPh" id="vB5-Im-oOp"/>
                         <outlet property="constraint_PassGreyTop" destination="nWT-tP-Q5n" id="png-JO-djj"/>

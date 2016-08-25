@@ -54,7 +54,7 @@
 @property (nonatomic, strong) NSString* signInPassword;
 @property (nonatomic, assign) BOOL reachable;
 @property (weak, nonatomic, nullable) IBOutlet UIWebView* webview_EULA;
-@property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_OpenEULA;
+@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_OpenEULA;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_SeparatorEULA;
 @property (strong, nonatomic) IBOutlet UIView* externalAuthContainer;
 @property (weak, nonatomic, nullable) IBOutlet OEXCustomLabel* lbl_OrSignIn;
@@ -79,8 +79,8 @@
 
 @property (weak, nonatomic, nullable) IBOutlet UITextField* tf_EmailID;
 @property (weak, nonatomic, nullable) IBOutlet UITextField* tf_Password;
-@property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_TroubleLogging;
-@property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_Login;
+@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_TroubleLogging;
+@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_Login;
 @property (weak, nonatomic, nullable) IBOutlet UIScrollView* scroll_Main;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Map;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Logo;
@@ -90,6 +90,8 @@
 
 @property (nonatomic, assign) id <OEXExternalAuthProvider> authProvider;
 @property (nonatomic) OEXTextStyle *placeHolderStyle;
+@property (nonatomic) OEXMutableTextStyle *buttonsTitleStyle;
+
 
 @end
 
@@ -179,8 +181,6 @@
     
     [self setTitle:[Strings loginSignInToPlatformWithPlatformName:[[OEXConfig sharedConfig] platformName]]];
 
-    [self.btn_TroubleLogging setTitle:[Strings troubleInLoginButton] forState:UIControlStateNormal];
-
     NSMutableArray* providers = [[NSMutableArray alloc] init];
     if([self isGoogleEnabled]) {
         [providers addObject:[[OEXGoogleAuthProvider alloc] init]];
@@ -224,6 +224,7 @@
     }
     
     _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+    _buttonsTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[[OEXStyles sharedStyles] primaryBaseColor]];
 }
 
 - (void)navigateBack {
@@ -284,7 +285,7 @@
 }
 
 - (NSString*)signInButtonText {
-    return [[Strings signInButtonText] oex_uppercaseStringInCurrentLocale];
+    return [Strings signInButtonText];
 }
 
 - (void)handleActivationDuringLogin {
@@ -320,17 +321,15 @@
     self.tf_Password.text = @"";
 
     self.lbl_Redirect.text = [Strings redirectText];
+    [self.btn_TroubleLogging setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
     [self.btn_TroubleLogging setTitleColor:[[OEXStyles sharedStyles] primaryBaseColor] forState:UIControlStateNormal];
     [self.btn_OpenEULA setTitleColor:[[OEXStyles sharedStyles] primaryBaseColor] forState:UIControlStateNormal];
-    [self.btn_OpenEULA setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:[[OEXConfig sharedConfig] platformName]] forState:UIControlStateNormal];
+    _buttonsTitleStyle.weight = OEXTextWeightNormal;
+    _buttonsTitleStyle.size = OEXTextSizeXXSmall;
+    [self.btn_OpenEULA setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:[Strings registrationAgreementButtonTitleWithPlatformName:[[OEXConfig sharedConfig] platformName]]] forState:UIControlStateNormal];
     self.btn_OpenEULA.accessibilityTraits = UIAccessibilityTraitLink;
     
     [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
-    
-    
-    self.btn_Login.layer.cornerRadius = 3.0;
-    self.btn_Login.layer.masksToBounds = YES;
-    [self.btn_Login setBackgroundColor:[[OEXStyles sharedStyles] primaryBaseColor]];
     [self.activityIndicator stopAnimating];
 
     NSString* username = [[NSUserDefaults standardUserDefaults] objectForKey:USER_EMAIL];
@@ -447,7 +446,7 @@
 
         [self.view setUserInteractionEnabled:NO];
         [self.activityIndicator startAnimating];
-        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale]];
+        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
     }
 }
 
