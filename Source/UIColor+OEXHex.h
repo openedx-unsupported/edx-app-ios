@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIColor (OEXHex)
 
 - (id)initWithRGBHex:(uint32_t)value alpha:(CGFloat)alpha;
+- (id)initWithHexString:(NSString *)hexString alpha:(CGFloat)alpha;
 
 - (NSString *)hexString;
 

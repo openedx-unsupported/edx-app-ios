@@ -107,6 +107,7 @@
 		5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */; };
 		5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */; };
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
+		6919F5FF1D65CD27006935C8 /* OEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6919F5FE1D65CD27006935C8 /* OEXColors.swift */; };
 		6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDA41D59BE3600A16E22 /* ic_next_press.png */; };
 		6926CDAC1D59BE3600A16E22 /* ic_next.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDA51D59BE3600A16E22 /* ic_next.png */; };
 		6926CDAD1D59BE3600A16E22 /* ic_previous_press.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDA61D59BE3600A16E22 /* ic_previous_press.png */; };
@@ -117,6 +118,8 @@
 		6960892B1D53935500EE66DD /* courseCertificate.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089281D53935500EE66DD /* courseCertificate.png */; };
 		6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089291D53935500EE66DD /* courseCertificate@2x.png */; };
 		6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6960892A1D53935500EE66DD /* courseCertificate@3x.png */; };
+		6987A86B1D6C57C100E9D183 /* OEXColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */; };
+		6987A86D1D6C67DB00E9D183 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 6987A86C1D6C67DB00E9D183 /* colors.json */; };
 		69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A31D50D1170030CF87 /* FontAwesome.otf */; };
 		69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */; };
 		69ECC5FF1D50D1170030CF87 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */; };
@@ -679,9 +682,9 @@
 		E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */; };
 		E09B9D6E1D06D79F0080BAE0 /* VersionUpgradeInfoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */; };
 		E09B9D701D06D8010080BAE0 /* VersionUpgradeDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */; };
+		E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461C1D5CA6950066C766 /* LogoutApi.swift */; };
 		E0A2461F1D5DA12A0066C766 /* AppUpgradeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461E1D5DA12A0066C766 /* AppUpgradeConfig.swift */; };
 		E0A246211D5DB3FD0066C766 /* AppUpgradeConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */; };
-		E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461C1D5CA6950066C766 /* LogoutApi.swift */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
 		E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */; };
@@ -875,6 +878,7 @@
 		5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewPostViewController.swift; sourceTree = "<group>"; };
 		5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewPostViewController.xib; sourceTree = "<group>"; };
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
+		6919F5FE1D65CD27006935C8 /* OEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColors.swift; sourceTree = "<group>"; };
 		6926CDA41D59BE3600A16E22 /* ic_next_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_next_press.png; sourceTree = "<group>"; };
 		6926CDA51D59BE3600A16E22 /* ic_next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_next.png; sourceTree = "<group>"; };
 		6926CDA61D59BE3600A16E22 /* ic_previous_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_previous_press.png; sourceTree = "<group>"; };
@@ -885,6 +889,8 @@
 		696089281D53935500EE66DD /* courseCertificate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate.png; sourceTree = "<group>"; };
 		696089291D53935500EE66DD /* courseCertificate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@2x.png"; sourceTree = "<group>"; };
 		6960892A1D53935500EE66DD /* courseCertificate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@3x.png"; sourceTree = "<group>"; };
+		6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsTests.swift; sourceTree = "<group>"; };
+		6987A86C1D6C67DB00E9D183 /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
 		69ECC5A31D50D1170030CF87 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
 		69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -1570,9 +1576,9 @@
 		E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoController.swift; sourceTree = "<group>"; };
 		E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoControllerTests.swift; sourceTree = "<group>"; };
 		E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeDataFactory.swift; sourceTree = "<group>"; };
+		E0A2461C1D5CA6950066C766 /* LogoutApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutApi.swift; sourceTree = SOURCE_ROOT; };
 		E0A2461E1D5DA12A0066C766 /* AppUpgradeConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUpgradeConfig.swift; sourceTree = "<group>"; };
 		E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUpgradeConfigTests.swift; sourceTree = "<group>"; };
-		E0A2461C1D5CA6950066C766 /* LogoutApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutApi.swift; sourceTree = SOURCE_ROOT; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
@@ -1708,6 +1714,7 @@
 		193B504219459BE60038E11C /* Custom Styles */ = {
 			isa = PBXGroup;
 			children = (
+				6919F5FE1D65CD27006935C8 /* OEXColors.swift */,
 				77C901A61BBDDD630016E468 /* TableCellStyle.swift */,
 				770848BB1B209EF4002FEEEE /* BorderStyle.swift */,
 				775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */,
@@ -1909,10 +1916,19 @@
 			path = QLearnSDK;
 			sourceTree = SOURCE_ROOT;
 		};
+		6919F5FB1D65CD14006935C8 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				6987A86C1D6C67DB00E9D183 /* colors.json */,
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
 		69ECC5A11D50D1170030CF87 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				77BFD8691BB9E15B001D7BE5 /* Strings.swift */,
+				6919F5FB1D65CD14006935C8 /* Colors */,
 				69ECC5A21D50D1170030CF87 /* Fonts */,
 				69ECC5AE1D50D1170030CF87 /* Icons */,
 				69ECC5B61D50D1170030CF87 /* Images */,
@@ -3119,6 +3135,7 @@
 				775E5A821BE1C91B0046B26B /* LiveObjectCacheTests.swift */,
 				7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */,
 				771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */,
+				6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */,
 				77E00B721B83997E00573622 /* DiscussionNewCommentViewControllerTests.swift */,
 				773181431B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift */,
 				7731813C1B6C237F000CC050 /* DiscussionTopicTests.swift */,
@@ -3547,6 +3564,7 @@
 				69ECC6491D50D1170030CF87 /* share.pdf in Resources */,
 				69ECC64D1D50D1170030CF87 /* Default-667h@2x.png in Resources */,
 				6926CDAF1D59BE3600A16E22 /* ic_progressbar.png in Resources */,
+				6987A86D1D6C67DB00E9D183 /* colors.json in Resources */,
 				6926CDAD1D59BE3600A16E22 /* ic_previous_press.png in Resources */,
 				69ECC6401D50D1170030CF87 /* iTunesArtwork in Resources */,
 				69ECC6441D50D1170030CF87 /* map@2x.png in Resources */,
@@ -3914,6 +3932,7 @@
 				BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */,
 				77F9C1741B0D496B004D39E7 /* CourseStructureAPI.swift in Sources */,
 				779376571BF15C1B00900A8C /* FindCoursesWebViewHelper.swift in Sources */,
+				6919F5FF1D65CD27006935C8 /* OEXColors.swift in Sources */,
 				1904A14E1A1386C2006A5524 /* VideoData.m in Sources */,
 				7772BE801AF821540081CA7A /* UIBarButtonItem+OEXBlockActions.m in Sources */,
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
@@ -4307,6 +4326,7 @@
 				775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */,
 				773181441B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift in Sources */,
 				7731813D1B6C237F000CC050 /* DiscussionTopicTests.swift in Sources */,
+				6987A86B1D6C57C100E9D183 /* OEXColorsTests.swift in Sources */,
 				E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */,
 				775E5A831BE1C91B0046B26B /* LiveObjectCacheTests.swift in Sources */,
 				77BC6F421CB82DFA00F0A8C1 /* OEXVideoSummaryTestDataFactory.swift in Sources */,
