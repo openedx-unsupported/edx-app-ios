@@ -319,6 +319,8 @@
     self.tf_Password.attributedPlaceholder = [_placeHolderStyle attributedStringWithText:[Strings passwordPlaceholder]];
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
+    self.tf_EmailID.accessibilityLabel = nil;
+    self.tf_Password.accessibilityLabel = nil;
 
     self.lbl_Redirect.text = [Strings redirectText];
     [self.btn_TroubleLogging setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
@@ -336,6 +338,7 @@
 
     if(username) {
         _tf_EmailID.text = username;
+        _tf_EmailID.accessibilityLabel = [Strings usernamePlaceholder];
     }
 }
 
@@ -678,6 +681,25 @@
         [textField resignFirstResponder];
     }
 
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([textField isEqual:_tf_EmailID] && [textField.text isEqualToString:@""] && string.length > 0) {
+        textField.accessibilityLabel = [Strings usernamePlaceholder];
+    }
+    else if([textField isEqual:_tf_EmailID] && [string isEqualToString:@""] && textField.text.length == 1) {
+        textField.accessibilityLabel = nil;
+    }
+    
+    
+    if ([textField isEqual:_tf_Password] && [textField.text isEqualToString:@""] && string.length > 0) {
+        textField.accessibilityLabel = [Strings passwordPlaceholder];
+    }
+    else if([textField isEqual:_tf_Password] && [string isEqualToString:@""] && textField.text.length == 1) {
+        textField.accessibilityLabel = nil;
+    }
+    
     return YES;
 }
 
