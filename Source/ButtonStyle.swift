@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import UIKit
 
-public struct ButtonStyle  {
+public class ButtonStyle : NSObject {
     var textStyle : OEXTextStyle
     var backgroundColor : UIColor?
     var borderStyle : BorderStyle?

@@ -54,7 +54,7 @@
 @property (nonatomic, strong) NSString* signInPassword;
 @property (nonatomic, assign) BOOL reachable;
 @property (weak, nonatomic, nullable) IBOutlet UIWebView* webview_EULA;
-@property (weak, nonatomic, nullable) IBOutlet OEXCustomButton* btn_OpenEULA;
+@property (weak, nonatomic, nullable) IBOutlet UIButton* btn_OpenEULA;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_SeparatorEULA;
 @property (strong, nonatomic) IBOutlet UIView* externalAuthContainer;
 @property (weak, nonatomic, nullable) IBOutlet OEXCustomLabel* lbl_OrSignIn;
@@ -89,6 +89,9 @@
 @property (strong, nonatomic) IBOutlet UILabel* versionLabel;
 
 @property (nonatomic, assign) id <OEXExternalAuthProvider> authProvider;
+@property (nonatomic) OEXTextStyle *placeHolderStyle;
+@property (nonatomic) OEXMutableTextStyle *buttonsTitleStyle;
+
 
 @end
 
@@ -178,8 +181,6 @@
     
     [self setTitle:[Strings loginSignInToPlatformWithPlatformName:[[OEXConfig sharedConfig] platformName]]];
 
-    [self.btn_TroubleLogging setTitle:[Strings troubleInLoginButton] forState:UIControlStateNormal];
-
     NSMutableArray* providers = [[NSMutableArray alloc] init];
     if([self isGoogleEnabled]) {
         [providers addObject:[[OEXGoogleAuthProvider alloc] init]];
@@ -221,6 +222,9 @@
     else {
         self.versionLabel.text = @"";
     }
+    
+    _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+    _buttonsTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[[OEXStyles sharedStyles] primaryBaseColor]];
 }
 
 - (void)navigateBack {
@@ -281,15 +285,12 @@
 }
 
 - (NSString*)signInButtonText {
-    return [[Strings signInButtonText] oex_uppercaseStringInCurrentLocale];
+    return [Strings signInButtonText];
 }
 
 - (void)handleActivationDuringLogin {
     if(self.authProvider != nil) {
-        [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
-        [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
-
-        [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
+        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
         [self.activityIndicator stopAnimating];
         [self.view setUserInteractionEnabled:YES];
 
@@ -314,23 +315,30 @@
 
 - (void)setToDefaultProperties {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.tf_EmailID.placeholder = [Strings usernamePlaceholder];
-    self.tf_Password.placeholder = [Strings passwordPlaceholder];
+    self.tf_EmailID.attributedPlaceholder = [_placeHolderStyle attributedStringWithText:[Strings usernamePlaceholder]];
+    self.tf_Password.attributedPlaceholder = [_placeHolderStyle attributedStringWithText:[Strings passwordPlaceholder]];
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
+    self.tf_EmailID.accessibilityLabel = nil;
+    self.tf_Password.accessibilityLabel = nil;
 
     self.lbl_Redirect.text = [Strings redirectText];
-    [self.btn_TroubleLogging setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
-    [self.btn_OpenEULA setTitleColor:[UIColor colorWithRed:31.0 / 255.0 green:159.0 / 255.0 blue:217.0 / 255.0 alpha:1.0] forState:UIControlStateNormal];
-    [self.btn_OpenEULA setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:[[OEXConfig sharedConfig] platformName]] forState:UIControlStateNormal];
-
-    [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
+    [self.btn_TroubleLogging setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
+    [self.btn_TroubleLogging setTitleColor:[[OEXStyles sharedStyles] primaryBaseColor] forState:UIControlStateNormal];
+    [self.btn_OpenEULA setTitleColor:[[OEXStyles sharedStyles] primaryBaseColor] forState:UIControlStateNormal];
+    _buttonsTitleStyle.weight = OEXTextWeightNormal;
+    _buttonsTitleStyle.size = OEXTextSizeXXSmall;
+    [self.btn_OpenEULA setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:[Strings registrationAgreementButtonTitleWithPlatformName:[[OEXConfig sharedConfig] platformName]]] forState:UIControlStateNormal];
+    self.btn_OpenEULA.accessibilityTraits = UIAccessibilityTraitLink;
+    
+    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
     [self.activityIndicator stopAnimating];
 
     NSString* username = [[NSUserDefaults standardUserDefaults] objectForKey:USER_EMAIL];
 
     if(username) {
         _tf_EmailID.text = username;
+        _tf_EmailID.accessibilityLabel = [Strings usernamePlaceholder];
     }
 }
 
@@ -346,7 +354,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view setUserInteractionEnabled:YES];
         });
-        [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
+        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
         [self.activityIndicator stopAnimating];
 
@@ -380,7 +388,7 @@
 
         if([self.tf_EmailID.text length] > 0) {
             UITextField* tf = [alert textFieldAtIndex:0];
-            [[alert textFieldAtIndex:0] setPlaceholder:[Strings emailAddressPrompt]];
+            [[alert textFieldAtIndex:0] setAttributedPlaceholder:[_placeHolderStyle attributedStringWithText:[Strings emailAddressPrompt]]];
             tf.text = self.tf_EmailID.text;
         }
 
@@ -441,8 +449,7 @@
 
         [self.view setUserInteractionEnabled:NO];
         [self.activityIndicator startAnimating];
-        [self.btn_Login setTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
-        [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
+        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
     }
 }
 
@@ -506,8 +513,7 @@
 
     [self.view setUserInteractionEnabled:NO];
     [self.activityIndicator startAnimating];
-    [self.btn_Login setTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale] forState:UIControlStateNormal];
-    [self.btn_Login setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
+    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale]];
 }
 
 - (void)loginHandleLoginError:(NSError*)error {
@@ -552,7 +558,7 @@
     }
 
     [self.activityIndicator stopAnimating];
-    [self.btn_Login setTitle:[self signInButtonText] forState:UIControlStateNormal];
+    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
     [self.view setUserInteractionEnabled:YES];
 
@@ -675,6 +681,25 @@
         [textField resignFirstResponder];
     }
 
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([textField isEqual:_tf_EmailID] && [textField.text isEqualToString:@""] && string.length > 0) {
+        textField.accessibilityLabel = [Strings usernamePlaceholder];
+    }
+    else if([textField isEqual:_tf_EmailID] && [string isEqualToString:@""] && textField.text.length == 1) {
+        textField.accessibilityLabel = nil;
+    }
+    
+    
+    if ([textField isEqual:_tf_Password] && [textField.text isEqualToString:@""] && string.length > 0) {
+        textField.accessibilityLabel = [Strings passwordPlaceholder];
+    }
+    else if([textField isEqual:_tf_Password] && [string isEqualToString:@""] && textField.text.length == 1) {
+        textField.accessibilityLabel = nil;
+    }
+    
     return YES;
 }
 
