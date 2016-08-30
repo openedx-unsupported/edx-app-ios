@@ -18,8 +18,6 @@
 "ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "Tap to un-check.";
 /* Label for action hint on check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to check.";
-/* Text spoken for Navigation Button on Course List Screen */
-"ACCESSIBILITY_NAVIGATION" = "Navigation";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
@@ -66,6 +64,8 @@
 "ACCESSIBILITY_UNKNOWN" = "Unknown";
 /* Accessibility label for Video Icon in the Courseware screens */
 "ACCESSIBILITY_VIDEO" = "Video";
+/* Text spoken for Navigation Button on Course List Screen */
+"ACCESSIBILITY_MENU" = "Menu";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
