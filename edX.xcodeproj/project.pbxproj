@@ -115,6 +115,8 @@
 		6926CDAF1D59BE3600A16E22 /* ic_progressbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDA81D59BE3600A16E22 /* ic_progressbar.png */; };
 		6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDA91D59BE3600A16E22 /* ic_seek_thumb.png */; };
 		6926CDB11D59BE3600A16E22 /* ic_seek_thumb@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6926CDAA1D59BE3600A16E22 /* ic_seek_thumb@2x.png */; };
+		694D34A01D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D349F1D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift */; };
+		694D34A21D76B75F0047F3F4 /* UIAlertController+OEXBlockActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694D34A11D76B75F0047F3F4 /* UIAlertController+OEXBlockActionsTests.swift */; };
 		6960892B1D53935500EE66DD /* courseCertificate.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089281D53935500EE66DD /* courseCertificate.png */; };
 		6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089291D53935500EE66DD /* courseCertificate@2x.png */; };
 		6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6960892A1D53935500EE66DD /* courseCertificate@3x.png */; };
@@ -887,6 +889,8 @@
 		6926CDA81D59BE3600A16E22 /* ic_progressbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_progressbar.png; sourceTree = "<group>"; };
 		6926CDA91D59BE3600A16E22 /* ic_seek_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_seek_thumb.png; sourceTree = "<group>"; };
 		6926CDAA1D59BE3600A16E22 /* ic_seek_thumb@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_seek_thumb@2x.png"; sourceTree = "<group>"; };
+		694D349F1D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+OEXBlockActions.swift"; sourceTree = "<group>"; };
+		694D34A11D76B75F0047F3F4 /* UIAlertController+OEXBlockActionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+OEXBlockActionsTests.swift"; sourceTree = "<group>"; };
 		696089281D53935500EE66DD /* courseCertificate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate.png; sourceTree = "<group>"; };
 		696089291D53935500EE66DD /* courseCertificate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@2x.png"; sourceTree = "<group>"; };
 		6960892A1D53935500EE66DD /* courseCertificate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@3x.png"; sourceTree = "<group>"; };
@@ -2453,6 +2457,7 @@
 			isa = PBXGroup;
 			children = (
 				199B9B761935EA5200081A09 /* ErrorView */,
+				694D349F1D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift */,
 				77AF07761CB42AC400A42704 /* TabContainerView.swift */,
 				E03E6A161D38EB9000944AAA /* SnackbarViews.swift */,
 			);
@@ -3209,6 +3214,7 @@
 				E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */,
 				1A6D90921D0A05D500D01BEA /* StartupViewControllerTests.swift */,
 				E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */,
+				694D34A11D76B75F0047F3F4 /* UIAlertController+OEXBlockActionsTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				7772BE901AF90C8A0081CA7A /* Helpers */,
@@ -4249,6 +4255,7 @@
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */,
 				9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */,
+				694D34A01D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
 				77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */,
 				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
@@ -4276,6 +4283,7 @@
 				7772BE821AF822500081CA7A /* UIBarButtonItem+OEXBlockActionsTests.m in Sources */,
 				775981FD1C30975A00CDBC4A /* MockEnrollmentManager.swift in Sources */,
 				9CA725F41A8E1B56009244A6 /* OEXFindCoursesTests.m in Sources */,
+				694D34A21D76B75F0047F3F4 /* UIAlertController+OEXBlockActionsTests.swift in Sources */,
 				1A373E8F1C457DBB00E3AAAA /* MockRouter.swift in Sources */,
 				77236EEF1C21C3D5006AC1A4 /* PaginatorTests.swift in Sources */,
 				77AFD11D1C1B7721001985FD /* NSObject+SafeKVOTests.swift in Sources */,

@@ -357,11 +357,11 @@
         [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
         [self.activityIndicator stopAnimating];
-
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings networkNotAvailableTitle]
+        
+        [[UIAlertController alloc] showErrorWithTitle:[Strings networkNotAvailableTitle]
                                                                 message:[Strings networkNotAvailableMessage]
-                                                       onViewController:self.view
-                                                             shouldHide:YES];
+                                                       onViewController:self.navigationController
+                                                            ];
     }
 }
 
@@ -410,10 +410,10 @@
     [self.view setUserInteractionEnabled:NO];
 
     if(!self.reachable) {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings networkNotAvailableTitle]
+        [[UIAlertController alloc] showErrorWithTitle:[Strings networkNotAvailableTitle]
                                                                 message:[Strings networkNotAvailableMessage]
-                                                       onViewController:self.navigationController.view
-                                                             shouldHide:YES];
+                                                       onViewController:self.navigationController
+                                                            ];
 
         [self.view setUserInteractionEnabled:YES];
 
@@ -422,18 +422,18 @@
 
     //Validation
     if([self.tf_EmailID.text length] == 0) {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings floatingErrorLoginTitle]
+        [[UIAlertController alloc] showErrorWithTitle:[Strings floatingErrorLoginTitle]
                                                                 message:[Strings enterEmail]
-                                                       onViewController:self.navigationController.view
-                                                             shouldHide:YES];
+                                                       onViewController:self.navigationController
+                                                            ];
 
         [self.view setUserInteractionEnabled:YES];
     }
     else if([self.tf_Password.text length] == 0) {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings floatingErrorLoginTitle]
+        [[UIAlertController alloc] showErrorWithTitle:[Strings floatingErrorLoginTitle]
                                                                 message:[Strings enterPassword]
-                                                       onViewController:self.navigationController.view
-                                                             shouldHide:YES];
+                                                       onViewController:self.navigationController
+                                                            ];
 
         [self.view setUserInteractionEnabled:YES];
     }
@@ -482,10 +482,10 @@
 - (void)externalLoginWithProvider:(id <OEXExternalAuthProvider>)provider {
     self.authProvider = provider;
     if(!self.reachable) {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings networkNotAvailableTitle]
+        [[UIAlertController alloc] showErrorWithTitle:[Strings networkNotAvailableTitle]
                                                                 message:[Strings networkNotAvailableMessage]
-                                                       onViewController:self.navigationController.view
-                                                             shouldHide:YES];
+                                                       onViewController:self.navigationController
+                                                            ];
         self.authProvider = nil;
         return;
     }
@@ -547,14 +547,14 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
     if(title) {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title
-                                                                message:errorStr onViewController:self.navigationController.view shouldHide:YES];
+        [[UIAlertController alloc] showErrorWithTitle:title
+                                      message:errorStr
+                             onViewController:self.navigationController];
     }
     else {
-        [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings floatingErrorLoginTitle]
-                                                                message:errorStr
-                                                       onViewController:self.navigationController.view
-                                                             shouldHide:YES];
+        [[UIAlertController alloc] showErrorWithTitle:[Strings floatingErrorLoginTitle]
+                                      message:errorStr
+                             onViewController:self.navigationController];
     }
 
     [self.activityIndicator stopAnimating];
@@ -603,9 +603,7 @@
 
         if(buttonIndex == 1) {
             if([EmailtextField.text length] == 0 || ![EmailtextField.text oex_isValidEmailAddress]) {
-                [[OEXFlowErrorViewController sharedInstance]
-                 showErrorWithTitle:[Strings floatingErrorTitle]
-                            message:[Strings invalidEmailMessage] onViewController:self.navigationController.view shouldHide:YES];
+                [[UIAlertController alloc] showErrorWithTitle:[Strings floatingErrorTitle] message:[Strings invalidEmailMessage] onViewController:self.navigationController];
             }
             else {
                 self.str_ForgotEmail = [[NSString alloc] init];
@@ -614,9 +612,9 @@
 
                 [self.view setUserInteractionEnabled:NO];
 
-                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:[Strings resetPasswordTitle]
-                                                                        message:[Strings waitingForResponse]
-                                                               onViewController:self.navigationController.view shouldHide:NO];
+                [[UIAlertController alloc] showErrorWithTitle:[Strings resetPasswordTitle]
+                                              message:[Strings waitingForResponse]
+                                     onViewController:self.navigationController];
                 [self resetPassword];
             }
         }
@@ -643,21 +641,19 @@
                     else if(httpResp.statusCode <= 400 && httpResp.statusCode < 500) {
                         NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:nil];
                         NSString* responseStr = [[dictionary objectForKey:@"email"] firstObject];
-                        [[OEXFlowErrorViewController sharedInstance]
+                        [[UIAlertController alloc]
                          showErrorWithTitle:[Strings floatingErrorTitle]
-                                    message:responseStr onViewController:self.view shouldHide:YES];
+                                    message:responseStr onViewController:self.navigationController];
                     }
                     else if(httpResp.statusCode > 500) {
                         NSString* responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                        [[OEXFlowErrorViewController sharedInstance]
-                         showErrorWithTitle:[Strings floatingErrorTitle]
-                                    message:responseStr onViewController:self.view shouldHide:YES];
+                        [[UIAlertController alloc] showErrorWithTitle:[Strings floatingErrorTitle] message:responseStr onViewController:self.navigationController];
+                        
                     }
                 }
                 else {
-                    [[OEXFlowErrorViewController sharedInstance]
-                     showErrorWithTitle:[Strings floatingErrorTitle]
-                                message:[error localizedDescription] onViewController:self.view shouldHide:YES];
+                    [[UIAlertController alloc]
+                     showErrorWithTitle:[Strings floatingErrorTitle] message:[error localizedDescription] onViewController:self.navigationController];
                 }
             });
     }];
