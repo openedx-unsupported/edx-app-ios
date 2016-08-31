@@ -16,6 +16,7 @@ private enum OEXRearViewOptions: Int {
 }
 
 private let LogoutCellDefaultHeight: CGFloat = 130.0
+private let versionButtonStyle = OEXTextStyle(weight:.Normal, size:.XXSmall, color: OEXStyles.sharedStyles().neutralWhite())
 
 class OEXRearTableViewController : UITableViewController {
 
@@ -39,8 +40,9 @@ class OEXRearTableViewController : UITableViewController {
     
     @IBOutlet var userNameLabel: UILabel!
     @IBOutlet var userEmailLabel: UILabel!
-    @IBOutlet var lbl_AppVersion: UILabel!
+
     @IBOutlet var userProfilePicture: UIImageView!
+    @IBOutlet weak var appVersionButton: UIButton!
     
     lazy var environment = Environment()
     var profileFeed: Feed<UserProfile>?
@@ -52,8 +54,8 @@ class OEXRearTableViewController : UITableViewController {
         
         let environmentName = self.environment.config.environmentName()
         let appVersion = NSBundle.mainBundle().oex_buildVersionString()
-        
-        lbl_AppVersion.text = Strings.versionDisplay(number: appVersion, environment: environmentName)
+        appVersionButton.setAttributedTitle(versionButtonStyle.attributedStringWithText(Strings.versionDisplay(number: appVersion, environment: environmentName)), forState:.Normal)
+        appVersionButton.accessibilityTraits = UIAccessibilityTraitStaticText
         
         //UI
         logoutButton.setBackgroundImage(UIImage(named: "bt_logout_active"), forState: .Highlighted)

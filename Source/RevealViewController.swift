@@ -37,11 +37,17 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
         dimmingOverlay.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         dimmingOverlay.backgroundColor = OEXStyles.sharedStyles().neutralBlack()
         dimmingOverlay.exclusiveTouch = true
+        dimmingOverlay.accessibilityLabel = Strings.accessibilityCloseMenu
         dimmingOverlay.oex_addAction({[weak self] _ in
             self?.toggleDrawerAnimated(true)
             }, forEvents: .TouchUpInside)
         
         super.loadView()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        performSelector(#selector(RevealViewController.defaultMenuVOFocus), withObject: nil, afterDelay: 0.4)
     }
     
     private func postNavigationStateChanged(state : OEXSideNavigationState) {
@@ -71,6 +77,10 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
         }
     }
     
+    @objc private func defaultMenuVOFocus() {
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,  dimmingOverlay)
+    }
+    
     func revealController(revealController: SWRevealViewController!, didMoveToPosition position: FrontViewPosition) {
         guard let state = self.sideNavigationStateForPosition(position) else {
             return
@@ -93,9 +103,9 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
             UIView.animateWithDuration(0.5) { _ in
                 self.dimmingOverlay.alpha = 0.5
             }
+            defaultMenuVOFocus()
         }
         postNavigationStateChanged(state)
-        
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
