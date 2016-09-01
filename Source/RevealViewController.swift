@@ -13,6 +13,8 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
 
     // Dims the front content when the side drawer is visible
     private var dimmingOverlay : UIButton!
+    // To prevent overridding of default accessibilityElements on initial load
+    private var isInitialLoad: Bool = true
     
     override init!(rearViewController: UIViewController!, frontViewController: UIViewController!) {
         super.init(rearViewController: rearViewController, frontViewController: frontViewController)
@@ -47,6 +49,10 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        if isInitialLoad {
+           isInitialLoad = false
+            return
+        }
         performSelector(#selector(RevealViewController.defaultMenuVOFocus), withObject: nil, afterDelay: 0.4)
     }
     
@@ -77,7 +83,12 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
         }
     }
     
+    private func defaultVOFocus() {
+        view.accessibilityElements = view.subviews
+    }
+    
     @objc private func defaultMenuVOFocus() {
+        view.accessibilityElements = [dimmingOverlay, rearViewController.view.subviews]
         UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,  dimmingOverlay)
     }
     
@@ -94,6 +105,7 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
                 }, completion: {_ in
                     self.dimmingOverlay.hidden = true
                     self.dimmingOverlay.removeFromSuperview()
+                    self.defaultVOFocus()
                 }
             )
         case .Visible:
