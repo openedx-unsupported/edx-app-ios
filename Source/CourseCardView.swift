@@ -211,8 +211,24 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         self.tapAction?(self)
     }
     
-    private func updateAcessibilityLabel() {
-        accessibilityLabel = "\(titleText),\(detailText),\(bottomTrailingText)"
+    func updateAcessibilityLabel()-> String? {
+        var accessibilityString = ""
+        
+        if let title = titleText {
+            accessibilityString = title
+        }
+        
+        if let text = detailText {
+         let formatedDetailText = text.stringByReplacingOccurrencesOfString("|", withString: "")
+            accessibilityString = "\(accessibilityString),\(Strings.accessibilityBy) \(formatedDetailText)"
+        }
+        
+        if let bottomText = bottomTrailingText {
+            accessibilityString = "\(accessibilityString), \(bottomText)"
+        }
+        
+        accessibilityLabel = accessibilityString
+        return accessibilityString
     }
     
     func addCenteredOverlay(view : UIView) {
