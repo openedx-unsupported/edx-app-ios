@@ -357,11 +357,6 @@
         [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
         [self.activityIndicator stopAnimating];
-        
-        [[UIAlertController alloc] showErrorWithTitle:[Strings networkNotAvailableTitle]
-                                                                message:[Strings networkNotAvailableMessage]
-                                                       onViewController:self.navigationController
-                                                            ];
     }
 }
 
