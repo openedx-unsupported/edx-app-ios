@@ -211,7 +211,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         self.tapAction?(self)
     }
     
-    func updateAcessibilityLabel()-> String? {
+    func updateAcessibilityLabel()-> String {
         var accessibilityString = ""
         
         if let title = titleText {
