@@ -14,6 +14,8 @@ private let UIAlertControllerBlocksFirstOtherButtonIndex = 2
 
 extension UIAlertController {
     
+    //MARK:- Init Methods
+    
     func showInViewController(viewController: UIViewController,
                               title: String?,
                               message: String?,
@@ -60,38 +62,49 @@ extension UIAlertController {
         
     }
     
-    func showAlertInViewController(viewController: UIViewController,
-                                   title: String?,
-                                   message: String?,
-                                   cancelButtonTitle: String?,
-                                   destructiveButtonTitle: String?,
-                                   otherButtonsTitle: [String]?,
-                                   tapBlock: ((controller: UIAlertController, action: UIAlertAction, buttonIndex: Int) -> ())?) -> UIAlertController{
-        
+    func showAlertWithTitle(title: String?,
+                            message: String?,
+                            cancelButtonTitle: String?,
+                            onViewController viewController: UIViewController) -> UIAlertController{
+
         return self.showInViewController(viewController,
                                          title: title,
                                          message: message,
                                          preferredStyle: UIAlertControllerStyle.Alert,
                                          cancelButtonTitle: cancelButtonTitle,
-                                         destructiveButtonTitle: destructiveButtonTitle,
-                                         otherButtonsTitle: otherButtonsTitle,
-                                         tapBlock: tapBlock)
+                                         destructiveButtonTitle: nil,
+                                         otherButtonsTitle: nil,
+                                         tapBlock: nil)
         
     }
     
-    func showErrorWithTitle(title: String?,
+    func showAlertWithTitle(title: String?,
                             message: String?,
                             onViewController viewController: UIViewController) -> UIAlertController{
         
-        return self.showAlertInViewController(viewController,
-                                              title: title,
-                                              message: message,
-                                              cancelButtonTitle: "OK",
-                                              destructiveButtonTitle: nil,
-                                              otherButtonsTitle: nil,
-                                              tapBlock: nil)
+        return self.showAlertWithTitle(title,
+                                       message: message,
+                                       cancelButtonTitle: OEXLocalizedString("OK", nil),
+                                       onViewController: viewController)
         
     }
+    
+    //MARK:- Add Action Methods
+    
+    func addActionButtonWithTitle(title: String,
+                                  style: UIAlertActionStyle,
+                                  actionBlock: ((action: UIAlertAction) -> ())?) {
+        
+        let alertAction = UIAlertAction(title: title, style: style, handler: { (action) in
+            if let tap = actionBlock {
+                tap(action: action)
+            }
+        })
+        self.addAction(alertAction)
+        
+    }
+    
+    //MARK:- Helper Variables
     
     var visible : Bool {
         return self.view.superview != nil;
