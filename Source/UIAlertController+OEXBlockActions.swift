@@ -84,24 +84,32 @@ extension UIAlertController {
         
         return self.showAlertWithTitle(title,
                                        message: message,
-                                       cancelButtonTitle: OEXLocalizedString("OK", nil),
+                                       cancelButtonTitle: Strings.ok,
                                        onViewController: viewController)
         
     }
     
     //MARK:- Add Action Methods
     
-    func addActionButtonWithTitle(title: String,
+    func addButtonWithTitle(title: String,
                                   style: UIAlertActionStyle,
                                   actionBlock: ((action: UIAlertAction) -> ())?) {
-        
         let alertAction = UIAlertAction(title: title, style: style, handler: { (action) in
             if let tap = actionBlock {
                 tap(action: action)
             }
         })
         self.addAction(alertAction)
-        
+    }
+    
+    func addButtonWithTitle(title: String,
+                            actionBlock: ((action: UIAlertAction) -> ())?) {
+        let alertAction = UIAlertAction(title: title, style: UIAlertActionStyle.Default, handler: { (action) in
+            if let tap = actionBlock {
+                tap(action: action)
+            }
+        })
+        self.addAction(alertAction)
     }
     
     //MARK:- Helper Variables

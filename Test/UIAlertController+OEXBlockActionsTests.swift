@@ -23,7 +23,7 @@ class UIAlertController_OEXBlockActionsTests: XCTestCase {
         let alert = UIAlertController().showAlertWithTitle("Error Title", message: "Error Message", onViewController: controller)
         XCTAssertNotNil(alert)
         XCTAssertEqual(alert.actions.count, 1)
-        XCTAssertEqual(alert.actions.first?.title, "OK")
+        XCTAssertEqual(alert.actions.first?.title, Strings.ok)
     }
     
 
