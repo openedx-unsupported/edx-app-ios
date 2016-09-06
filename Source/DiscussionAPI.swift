@@ -265,7 +265,11 @@ public class DiscussionAPI {
     //TODO: Yet to decide the semantics for the *endorsed* field. Setting false by default to fetch all questions.
     //Questions can not be fetched if the endorsed field isn't populated
     static func getResponses(threadID: String,  threadType : DiscussionThreadType, endorsedOnly endorsed : Bool =  false,pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionComment]>> {
-        var query = ["thread_id": JSON(threadID),"requested_fields": JSON("profile_image")]
+        
+        var query = ["thread_id": JSON(threadID)]
+        if OEXRouter.sharedRouter().environment.config.discussionsEnabledProfilePictureParam {
+            query["requested_fields"] = JSON("profile_image")
+        }
         
         //Only set the endorsed flag if the post is a question
         if threadType == .Question {
@@ -304,10 +308,15 @@ public class DiscussionAPI {
     // get response comments
     static func getComments(commentID: String, pageNumber: Int) -> NetworkRequest<Paginated<[DiscussionComment]>> {
         
+        var query: [String: JSON] = [:]
+        if OEXRouter.sharedRouter().environment.config.discussionsEnabledProfilePictureParam {
+            query["requested_fields"] = JSON("profile_image")
+        }
+        
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/comments/\(commentID)/",
-            query: [ "requested_fields": JSON("profile_image") ],
+            query: query,
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
         ).paginated(page: pageNumber)
