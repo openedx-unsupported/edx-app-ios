@@ -30,7 +30,8 @@
         case OEXRegistrationFieldTypeEmail:
             return [OEXRegistrationFieldControllerFactory emailFieldControllerWith:registrationField];
         case OEXRegistrationFieldTypeCheckbox:
-            return [OEXRegistrationFieldControllerFactory checkboxFieldControllerWith:registrationField];
+            return [OEXRegistrationFieldControllerFactory registrationAgreementControllerWith:registrationField];
+//            return [OEXRegistrationFieldControllerFactory checkboxFieldControllerWith:registrationField];
         case OEXRegistrationFieldTypeAgreement:
             return [OEXRegistrationFieldControllerFactory registrationAgreementControllerWith:registrationField];
         default:

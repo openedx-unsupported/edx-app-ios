@@ -42,6 +42,7 @@
 #import "OEXPushSettingsManager.h"
 #import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationOption.h"
+#import "OEXRegistrationDescription.h"
 #import "OEXRegistrationViewController.h"
 #import "OEXRemovable.h"
 #import "OEXRouter.h"

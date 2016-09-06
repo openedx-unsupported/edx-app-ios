@@ -22,9 +22,9 @@
 @property (nonatomic, copy) NSString* label;
 @property (nonatomic, copy) NSString* type;
 
-@property (nonatomic, assign) OEXRegistrationFieldType fieldType;
+@property (readwrite, nonatomic) OEXRegistrationFieldType fieldType;
 @property (nonatomic, strong) OEXRegistrationOption* defaultOption;
-@property (nonatomic, strong) OEXRegistrationAgreement* agreement;
+//@property (nonatomic, strong) OEXRegistrationAgreement* agreement;
 @property (nonatomic, strong) OEXRegistrationRestriction* restriction;
 @property (nonatomic, strong) OEXRegistrationErrorMessage* errorMessage;
 

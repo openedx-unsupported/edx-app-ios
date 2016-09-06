@@ -39,15 +39,17 @@
 #import "OEXStyles.h"
 #import "OEXUserLicenseAgreementViewController.h"
 #import "OEXUsingExternalAuthHeadingView.h"
+#import "OEXRegistrationAgreement.h"
 
 @implementation OEXRegistrationViewControllerEnvironment
 
-- (id)initWithAnalytics:(OEXAnalytics *)analytics config:(OEXConfig *)config router:(OEXRouter *)router {
+- (id)initWithAnalytics:(OEXAnalytics *)analytics config:(OEXConfig *)config networkManager:(id)networkManager router:(OEXRouter *)router {
     self = [super init];
     if(self != nil) {
         _analytics = analytics;
         _config = config;
         _router = router;
+        _networkManager = networkManager;
     }
     return self;
 }
@@ -84,8 +86,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 @property (strong, nonatomic) OEXRegistrationStyles* styles;
 
-@property (strong, nonatomic) OEXRegistrationViewControllerEnvironment* environment;
-
 @end
 
 @implementation OEXRegistrationViewController
@@ -105,6 +105,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 + (OEXRegistrationDescription*)registrationFormDescription {
+    
+    
+    
     NSString* filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"registration" ofType:@"json"];
     NSData* data = [NSData dataWithContentsOfFile:filePath];
     NSAssert(data != nil, @"Could not load registration.json");
@@ -116,9 +119,16 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self makeFieldControllers];
-    [self initializeViews];
-    [self refreshFormFields];
+//    [self makeFieldControllers];
+//    [self initializeViews];
+//    [self refreshFormFields];
+    
+    [self getRegistrationFormDescription:^(OEXRegistrationDescription * _Nonnull response) {
+        self.registrationDescription = response;
+        [self makeFieldControllers];
+        [self initializeViews];
+        [self refreshFormFields];
+    }];
     
     [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.mockNavigationBarView label:self.titleLabel leftIconButton:self.closeButton];
     //By default we only shows required fields
@@ -130,6 +140,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     NSArray* fields = self.registrationDescription.registrationFormFields;
     self.fieldControllers = [fields oex_map:^id < OEXRegistrationFieldController > (OEXRegistrationFormField* formField)
                              {
+                                 if ([formField.name isEqualToString:@"honor_code"]){
+                                     NSDictionary *agreementDict = [[NSDictionary alloc] initWithObjects:@[@"edX End User Licensing Agreement",@"https://www.edx.org/terms"] forKeys:@[@"text",@"url"]];
+                                     formField.agreement = [[OEXRegistrationAgreement alloc] initWithDictionary:agreementDict];
+//                                     formField.fieldType = OEXRegistrationFieldTypeAgreement;
+                                 }
                                  id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
                                  fieldController.accessibleInputField.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", formField.name];
                                  if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {

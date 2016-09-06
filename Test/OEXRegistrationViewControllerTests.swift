@@ -13,7 +13,7 @@ class OEXRegistrationViewControllerTests: SnapshotTestCase {
 
     func testAnalyticsEmitted() {
         let baseEnvironment = TestRouterEnvironment()
-        let environment = OEXRegistrationViewControllerEnvironment(analytics: baseEnvironment.analytics, config: baseEnvironment.config, router: baseEnvironment.router)
+        let environment = OEXRegistrationViewControllerEnvironment(analytics: baseEnvironment.analytics, config: baseEnvironment.config, networkManager: baseEnvironment.mockNetworkManager, router: baseEnvironment.router)
         let controller = OEXRegistrationViewController(environment: environment)
         OHHTTPStubs.stubRequestsPassingTest({ _ in true}) {request in
             OHHTTPStubsResponse(data: NSData(), statusCode: 404, headers: [:])
@@ -26,8 +26,9 @@ class OEXRegistrationViewControllerTests: SnapshotTestCase {
     }
 
     func testSnapshotContent() {
+        let baseEnvironment = TestRouterEnvironment()
         let config = OEXConfig(dictionary:["FACEBOOK": [ "ENABLED": true ], "GOOGLE": ["ENABLED": true, "GOOGLE_PLUS_KEY": "FAKE"], "PLATFORM_NAME" : "App Test"])
-        let environment = OEXRegistrationViewControllerEnvironment(analytics: OEXAnalytics(), config: config, router: nil)
+        let environment = OEXRegistrationViewControllerEnvironment(analytics: OEXAnalytics(), config: config, networkManager: baseEnvironment.mockNetworkManager, router: nil)
         let controller = OEXRegistrationViewController(environment: environment)
         inScreenNavigationContext(controller) {
             assertSnapshotValidWithContent(controller.navigationController!)
