@@ -531,7 +531,7 @@
 /* Button initiating login process after user enters credentials like username and password */
 "SIGN_IN_BUTTON_TEXT"="Sign In";
 /* Message shown while user waits for response to a sign in request */
-"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Signing in";
+"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Signing In";
 /* Button initiating sign up process on the main screen */
 "SIGN_UP_BUTTON_TEXT"="Register";
 /* Indicates a date in the near future */
