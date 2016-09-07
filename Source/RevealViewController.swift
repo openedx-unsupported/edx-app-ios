@@ -13,6 +13,8 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
 
     // Dims the front content when the side drawer is visible
     private var dimmingOverlay : UIButton!
+    // To prevent overridding of default accessibilityElements on initial load
+    private var isInitialLoad: Bool = true
     
     override init!(rearViewController: UIViewController!, frontViewController: UIViewController!) {
         super.init(rearViewController: rearViewController, frontViewController: frontViewController)
@@ -37,11 +39,21 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
         dimmingOverlay.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         dimmingOverlay.backgroundColor = OEXStyles.sharedStyles().neutralBlack()
         dimmingOverlay.exclusiveTouch = true
+        dimmingOverlay.accessibilityLabel = Strings.accessibilityCloseMenu
         dimmingOverlay.oex_addAction({[weak self] _ in
             self?.toggleDrawerAnimated(true)
             }, forEvents: .TouchUpInside)
         
         super.loadView()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if isInitialLoad {
+           isInitialLoad = false
+            return
+        }
+        performSelector(#selector(RevealViewController.defaultMenuVOFocus), withObject: nil, afterDelay: 0.4)
     }
     
     private func postNavigationStateChanged(state : OEXSideNavigationState) {
@@ -71,6 +83,15 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
         }
     }
     
+    private func defaultVOFocus() {
+        view.accessibilityElements = view.subviews
+    }
+    
+    @objc private func defaultMenuVOFocus() {
+        view.accessibilityElements = [dimmingOverlay, rearViewController.view.subviews]
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,  dimmingOverlay)
+    }
+    
     func revealController(revealController: SWRevealViewController!, didMoveToPosition position: FrontViewPosition) {
         guard let state = self.sideNavigationStateForPosition(position) else {
             return
@@ -84,6 +105,7 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
                 }, completion: {_ in
                     self.dimmingOverlay.hidden = true
                     self.dimmingOverlay.removeFromSuperview()
+                    self.defaultVOFocus()
                 }
             )
         case .Visible:
@@ -93,9 +115,9 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
             UIView.animateWithDuration(0.5) { _ in
                 self.dimmingOverlay.alpha = 0.5
             }
+            defaultMenuVOFocus()
         }
         postNavigationStateChanged(state)
-        
     }
 
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {

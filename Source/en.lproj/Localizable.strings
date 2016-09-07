@@ -19,7 +19,9 @@
 /* Label for action hint on check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to select";
 /* Call to action for Course content on Home Screen */
-"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Shows course content.";
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Double tap to view course content.";
+/* Appending By before course organization and number on My Find Courses*/
+"ACCESSIBILITY_BY" = "By";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Downloads in progress: {percent_complete}";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
@@ -66,6 +68,8 @@
 "ACCESSIBILITY_VIDEO" = "Video";
 /* Text spoken for Navigation Button on Course List Screen */
 "ACCESSIBILITY_MENU" = "Navigation Menu";
+/* Accessibility label for close button when left drawer is open*/
+"ACCESSIBILITY_CLOSE_MENU" = "Close Navigation Menu";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */

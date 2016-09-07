@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ifv-R8-0OA">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -57,7 +57,7 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F">
+                                                <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F">
                                                     <rect key="frame" x="129" y="48" width="111" height="22"/>
                                                     <accessibility key="accessibilityConfiguration" label=""/>
                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
@@ -296,23 +296,19 @@
                                                         <action selector="logoutClicked:" destination="pnJ-Xb-ZVe" eventType="touchUpInside" id="gDL-xP-fWM"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="207" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="center" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="ULd-Td-qS4" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="20" y="83" width="220" height="19"/>
-                                                    <accessibility key="accessibilityConfiguration" label=""/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="19" id="mUY-3j-bIR"/>
-                                                        <constraint firstAttribute="width" constant="220" id="n93-ve-hPe"/>
-                                                    </constraints>
+                                                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q5R-D1-1Ec">
+                                                    <rect key="frame" x="112.5" y="83" width="36" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                    <state key="normal" title="Version">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Q5R-D1-1Ec" firstAttribute="centerX" secondItem="Jag-qX-pQo" secondAttribute="centerX" id="CjN-h2-g8y"/>
                                                 <constraint firstAttribute="centerX" secondItem="Jag-qX-pQo" secondAttribute="centerX" constant="30" id="DnA-Ub-vU1"/>
                                                 <constraint firstAttribute="bottom" secondItem="Jag-qX-pQo" secondAttribute="bottom" constant="50" id="J4t-wj-3Po"/>
-                                                <constraint firstItem="ULd-Td-qS4" firstAttribute="centerX" secondItem="Jag-qX-pQo" secondAttribute="centerX" id="MUx-72-dmL"/>
-                                                <constraint firstItem="ULd-Td-qS4" firstAttribute="top" secondItem="Jag-qX-pQo" secondAttribute="bottom" constant="3" id="YFj-uD-pXp"/>
+                                                <constraint firstItem="Q5R-D1-1Ec" firstAttribute="top" secondItem="Jag-qX-pQo" secondAttribute="bottom" constant="3" id="wTq-Tc-DwH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.15686274510000001" green="0.16862745100000001" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
@@ -332,9 +328,9 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="600"/>
                     <connections>
+                        <outlet property="appVersionButton" destination="Q5R-D1-1Ec" id="HDw-3I-FyB"/>
                         <outlet property="coursesLabel" destination="Lcp-ZJ-taY" id="Ltg-vL-WbI"/>
                         <outlet property="findCoursesLabel" destination="EfY-2m-mAz" id="dSD-Ks-fOa"/>
-                        <outlet property="lbl_AppVersion" destination="ULd-Td-qS4" id="NVX-NY-3KN"/>
                         <outlet property="logoutButton" destination="Jag-qX-pQo" id="hNY-j6-mlg"/>
                         <outlet property="settingsLabel" destination="5Et-PU-vDe" id="czN-ft-Uht"/>
                         <outlet property="submitFeedbackLabel" destination="koV-6t-sw8" id="lBC-hL-hYc"/>
