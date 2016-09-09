@@ -32,8 +32,13 @@ extension OEXConfig {
     var badgesEnabled : Bool {
         return boolForKey("BADGES_ENABLED")
     }
+    
     var newLogistrationFlowEnabled: Bool {
         return boolForKey("NEW_LOGISTRATION_ENABLED")
     }
-
+    
+    var discussionsEnabledProfilePictureParam: Bool {
+        return boolForKey("DISCUSSIONS_ENABLE_PROFILE_PICTURE_PARAM")
+    }
+    
 }

@@ -379,7 +379,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         precondition(!commentID.isEmpty, "Shouldn't be showing comments for empty commentID")
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.getComments(commentID, pageNumber: page)
+            return DiscussionAPI.getComments(self.environment.router?.environment, commentID: commentID, pageNumber: page)
         }
         paginationController = PaginationController(paginator: paginator, tableView: self.tableView)
     }

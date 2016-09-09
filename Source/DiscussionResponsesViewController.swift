@@ -297,7 +297,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         postFollowing = thread.following
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, endorsedOnly: true, pageNumber: page)
+            return DiscussionAPI.getResponses(self.environment.router?.environment, threadID: thread.threadID, threadType: thread.type, endorsedOnly: true, pageNumber: page)
         }
         
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
@@ -327,7 +327,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         guard let thread = thread else { return }
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.getResponses(thread.threadID, threadType: thread.type, pageNumber: page)
+            return DiscussionAPI.getResponses(self.environment.router?.environment, threadID: thread.threadID, threadType: thread.type, pageNumber: page)
         }
         
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
