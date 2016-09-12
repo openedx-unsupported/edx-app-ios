@@ -8,8 +8,8 @@
 
 #import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationFieldWrapperView.h"
-#import "OEXTextStyle.h"
 #import "OEXStyles.h"
+#import "OEXTextStyle.h"
 
 @interface OEXRegistrationFormTextField () <UITextFieldDelegate>
 

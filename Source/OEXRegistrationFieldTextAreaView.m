@@ -9,6 +9,7 @@
 #import "OEXRegistrationFieldTextAreaView.h"
 #import "OEXRegistrationFieldWrapperView.h"
 #import "OEXPlaceholderTextView.h"
+#import "OEXStyles.h"
 
 static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
 
