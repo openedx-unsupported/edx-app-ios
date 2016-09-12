@@ -40,7 +40,7 @@
         [self.lbl_TitleView setHidden:NO];
         self.lbl_TitleView.textAlignment = NSTextAlignmentCenter;
         self.lbl_TitleView.backgroundColor = [UIColor clearColor];
-        self.lbl_TitleView.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
+        self.lbl_TitleView.font = [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:16.0];
         self.lbl_TitleView.textColor = [UIColor colorWithRed:69.0 / 255.0 green:73.0 / 255.0 blue:81.0 / 255.0 alpha:1.0];
         [self addSubview:self.lbl_TitleView];
 
@@ -49,7 +49,7 @@
         self.lbl_Offline.textAlignment = NSTextAlignmentRight;
         self.lbl_Offline.text = [[Strings offline] uppercaseStringWithLocale:[NSLocale currentLocale]];
         self.lbl_Offline.backgroundColor = [UIColor clearColor];
-        self.lbl_Offline.font = [UIFont fontWithName:@"OpenSans" size:9.0];
+        self.lbl_Offline.font = [[OEXStyles sharedStyles] sansSerifOfSize:9.0];
         self.lbl_Offline.textColor = [UIColor colorWithRed:179.0 / 255.0 green:43.0 / 255.0 blue:101.0 / 255.0 alpha:1.0];
         [self addSubview:self.lbl_Offline];
 

@@ -370,7 +370,7 @@ typedef  enum OEXAlertType
         UILabel* courseTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, tableView.frame.size.width - 20, RECENT_HEADER_HEIGHT)];
         courseTitle.numberOfLines = 2;
         courseTitle.text = obj_course.name;
-        courseTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
+        courseTitle.font = [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:14.0f];
         courseTitle.textColor = [UIColor colorWithRed:69.0 / 255.0 green:73.0 / 255.0 blue:81.0 / 255.0 alpha:1.0];
         [view addSubview:courseTitle];
 
