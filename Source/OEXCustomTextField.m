@@ -18,11 +18,11 @@
         switch(self.tag)
         {
             case 101:   //Username.
-                self.font = [UIFont fontWithName:@"OpenSans" size:self.font.pointSize];
+                self.font = [[OEXStyles sharedStyles] sansSerifOfSize:self.font.pointSize];
                 break;
 
             case 102:   //password
-                self.font = [UIFont fontWithName:@"OpenSans" size:self.font.pointSize];
+                self.font = [[OEXStyles sharedStyles] sansSerifOfSize:self.font.pointSize];
                 break;
 
             default:

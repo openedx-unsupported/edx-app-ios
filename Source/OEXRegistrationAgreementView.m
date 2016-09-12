@@ -24,7 +24,7 @@
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.inputView = [[UIButton alloc] initWithFrame:CGRectZero];
-        self.inputView.titleLabel.font = [UIFont fontWithName:@"OpenSans" size:10.f];
+        self.inputView.titleLabel.font = [[OEXStyles sharedStyles] sansSerifOfSize:10.f];
         [self.inputView setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         self.inputView.titleLabel.text = self.agreement;
         [self.inputView setUserInteractionEnabled:NO];

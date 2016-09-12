@@ -499,7 +499,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         fontSize = 12.0;
     }
 
-    self.subtitleLabel.font = [UIFont fontWithName:@"OpenSans" size:fontSize];
+    self.subtitleLabel.font = [[OEXStyles sharedStyles] sansSerifOfSize:fontSize];
 }
 
 - (void)updateComponentsOriginOnOrientation {
@@ -516,7 +516,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         self.topBar.hidden = YES;
     }
 
-    self.subtitleLabel.font = [UIFont fontWithName:@"OpenSans" size:fontSize];
+    self.subtitleLabel.font = [[OEXStyles sharedStyles] sansSerifOfSize:fontSize];
 
     // Label position
     [self setSubtitleLabelFrame];
@@ -660,7 +660,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     _videoTitleLabel = [[UILabel alloc] init];
     _videoTitleLabel.backgroundColor = [UIColor clearColor];
-    _videoTitleLabel.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.f];
+    _videoTitleLabel.font = [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:16.f];
     _videoTitleLabel.textColor = [UIColor whiteColor];
     _videoTitleLabel.textAlignment = NSTextAlignmentLeft;
     _videoTitleLabel.text = @"Untitled";
@@ -701,7 +701,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _timeRemainingLabel.layer.shadowRadius = 1.f;
     _timeRemainingLabel.layer.shadowOffset = CGSizeMake(1.f, 1.f);
     _timeRemainingLabel.layer.shadowOpacity = 0.8f;
-    _timeRemainingLabel.font = [UIFont fontWithName:@"OpenSans-Semibold" size:12.f];
+    _timeRemainingLabel.font = [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:12.f];
 
     self.btnPrevious = [[CLButton alloc] init];
     [self.btnPrevious setImage:[UIImage imageNamed:@"ic_previous.png"] forState:UIControlStateNormal];
