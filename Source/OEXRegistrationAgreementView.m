@@ -8,6 +8,7 @@
 
 #import "OEXRegistrationAgreementView.h"
 #import "OEXRegistrationFieldWrapperView.h"
+#import "OEXStyles.h"
 
 @interface OEXRegistrationAgreementView ()
 {

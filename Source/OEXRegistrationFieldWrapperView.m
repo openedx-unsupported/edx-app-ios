@@ -7,6 +7,7 @@
 //
 
 #import "OEXRegistrationFieldWrapperView.h"
+#import "OEXStyles.h"
 
 @interface OEXRegistrationFieldWrapperView ()
 

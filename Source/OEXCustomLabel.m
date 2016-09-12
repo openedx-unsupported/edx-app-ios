@@ -7,6 +7,7 @@
 //
 
 #import "OEXCustomLabel.h"
+#import "OEXStyles.h"
 
 @implementation OEXCustomLabel
 

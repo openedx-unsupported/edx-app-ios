@@ -7,6 +7,7 @@
 //
 
 #import "OEXCustomTextField.h"
+#import "OEXStyles.h"
 
 @implementation OEXCustomTextField
 
