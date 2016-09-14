@@ -624,8 +624,6 @@
 		B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6281A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m */; };
 		B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */; };
 		B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */; };
-		B4B6D63B1A950C28000F44E8 /* registration.json in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D63A1A950C28000F44E8 /* registration.json */; };
-		B4B6D63C1A950C28000F44E8 /* registration.json in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D63A1A950C28000F44E8 /* registration.json */; };
 		B4B6D63F1A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */; };
 		B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
 		B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */; };
@@ -1501,7 +1499,6 @@
 		B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldControllerFactory.m; sourceTree = "<group>"; };
 		B4B6D6371A95042B000F44E8 /* OEXCheckBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCheckBoxView.h; sourceTree = "<group>"; };
 		B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCheckBoxView.m; sourceTree = "<group>"; };
-		B4B6D63A1A950C28000F44E8 /* registration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = registration.json; sourceTree = "<group>"; };
 		B4B6D63D1A952D1C000F44E8 /* OEXRegistrationAgreementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationAgreementView.h; sourceTree = "<group>"; };
 		B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationAgreementView.m; sourceTree = "<group>"; };
 		B4B6D6411A95335C000F44E8 /* OEXRegistrationAgreementController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationAgreementController.h; sourceTree = "<group>"; };
@@ -3098,7 +3095,6 @@
 			children = (
 				773A04691AF289650076532C /* edX-Bridging-Header.h */,
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
-				B4B6D63A1A950C28000F44E8 /* registration.json */,
 				B47780581AADA95400436DB4 /* Terms-and-Services.htm */,
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
 				1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */,
@@ -3575,7 +3571,6 @@
 				69ECC6501D50D1170030CF87 /* Default@2x.png in Resources */,
 				69ECC6341D50D1170030CF87 /* ic_next_deactive.png in Resources */,
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
-				B4B6D63B1A950C28000F44E8 /* registration.json in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
 				69ECC6421D50D1170030CF87 /* logo@2x.png in Resources */,
 				69ECC61A1D50D1170030CF87 /* bt_grey_default.png in Resources */,
@@ -3676,7 +3671,6 @@
 				775716B31CB7FF4B0091AB10 /* test-movie.m4v in Resources */,
 				77E6489E1C91D92D00B6740D /* DiscussionPosts.json in Resources */,
 				775716B51CB7FF660091AB10 /* sample-badge.png in Resources */,
-				B4B6D63C1A950C28000F44E8 /* registration.json in Resources */,
 				B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
