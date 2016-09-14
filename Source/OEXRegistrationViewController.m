@@ -60,8 +60,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 @interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate>
 
-@property (strong, nonatomic) OEXRegistrationDescription* registrationDescription;
-
 /// Contents are id <OEXRegistrationFieldController>
 @property (strong, nonatomic) NSArray* fieldControllers;
 
@@ -90,38 +88,19 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 @implementation OEXRegistrationViewController
 
-- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description environment:(OEXRegistrationViewControllerEnvironment *)environment {
+- (id)initWithEnvironment:(OEXRegistrationViewControllerEnvironment *)environment {
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
-        self.registrationDescription = description;
         self.environment = environment;
         self.styles = [[OEXRegistrationStyles alloc] init];
     }
     return self;
 }
 
-- (id)initWithEnvironment:(OEXRegistrationViewControllerEnvironment *)environment {
-    return [self initWithRegistrationDescription: [[self class] registrationFormDescription] environment:environment];
-}
-
-+ (OEXRegistrationDescription*)registrationFormDescription {
-    
-    
-    
-    NSString* filePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"registration" ofType:@"json"];
-    NSData* data = [NSData dataWithContentsOfFile:filePath];
-    NSAssert(data != nil, @"Could not load registration.json");
-    NSError* error;
-    id json = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
-    NSAssert(error == nil, @"Could not parse registration.json");
-    return [[OEXRegistrationDescription alloc] initWithDictionary:json];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self makeFieldControllers];
-//    [self initializeViews];
-//    [self refreshFormFields];
+    self.loadController = [[LoadStateViewController alloc] init];
+    [self.loadController setupInController:self contentView:self.scrollView];
     
     [self getRegistrationFormDescription:^(OEXRegistrationDescription * _Nonnull response) {
         self.registrationDescription = response;
@@ -140,11 +119,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     NSArray* fields = self.registrationDescription.registrationFormFields;
     self.fieldControllers = [fields oex_map:^id < OEXRegistrationFieldController > (OEXRegistrationFormField* formField)
                              {
-                                 if ([formField.name isEqualToString:@"honor_code"]){
-                                     NSDictionary *agreementDict = [[NSDictionary alloc] initWithObjects:@[@"edX End User Licensing Agreement",@"https://www.edx.org/terms"] forKeys:@[@"text",@"url"]];
-                                     formField.agreement = [[OEXRegistrationAgreement alloc] initWithDictionary:agreementDict];
-//                                     formField.fieldType = OEXRegistrationFieldTypeAgreement;
-                                 }
                                  id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
                                  fieldController.accessibleInputField.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", formField.name];
                                  if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {

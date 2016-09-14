@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXConfig;
 @class OEXRouter;
 @class NetworkManager;
+@class LoadStateViewController;
 
 @protocol OEXRegistrationViewControllerDelegate <NSObject>
 
@@ -36,12 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXRegistrationViewController : UIViewController
 
-- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description environment:(nullable OEXRegistrationViewControllerEnvironment*)environment;
-/// Same as initWithRegistrationDescription:environment but with a registration description read from the app bundle
 - (id)initWithEnvironment:(nullable OEXRegistrationViewControllerEnvironment*)environment;
 
 @property (weak, nonatomic, nullable) id <OEXRegistrationViewControllerDelegate> delegate;
 @property (strong, nonatomic) OEXRegistrationViewControllerEnvironment* environment;
+@property (strong, nonatomic) OEXRegistrationDescription* registrationDescription;
+@property (strong, nonatomic) LoadStateViewController *loadController;
 
 @end
 

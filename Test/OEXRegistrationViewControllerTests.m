@@ -44,7 +44,8 @@
     NSString* method = @"POST";
     NSString* submitURL = @"http://example.com/register";
     OEXRegistrationDescription* description = [[OEXRegistrationDescription alloc] initWithFields:fields method:method submitURL:submitURL];
-    OEXRegistrationViewController* controller = [[OEXRegistrationViewController alloc] initWithRegistrationDescription:description environment:nil];
+    OEXRegistrationViewController* controller = [[OEXRegistrationViewController alloc] initWithEnvironment:nil];
+    controller.registrationDescription = description;
     (void)controller.view; // force view to load
     XCTAssertEqual([controller t_visibleFieldCount], 1);
     [controller t_toggleOptionalFields];

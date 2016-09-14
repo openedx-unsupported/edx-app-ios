@@ -163,7 +163,6 @@
 		69ECC6241D50D1170030CF87 /* bt_view_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5CC1D50D1170030CF87 /* bt_view_default.png */; };
 		69ECC6281D50D1170030CF87 /* check.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5D01D50D1170030CF87 /* check.png */; };
 		69ECC6291D50D1170030CF87 /* check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5D11D50D1170030CF87 /* check@2x.png */; };
-		69ECC62A1D50D1170030CF87 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5D21D50D1170030CF87 /* Default-568h@2x.png */; };
 		69ECC62B1D50D1170030CF87 /* downloading.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5D31D50D1170030CF87 /* downloading.png */; };
 		69ECC62C1D50D1170030CF87 /* ic_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5D41D50D1170030CF87 /* ic_back.png */; };
 		69ECC62D1D50D1170030CF87 /* ic_blue2_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5D51D50D1170030CF87 /* ic_blue2_pressed.png */; };
@@ -936,7 +935,6 @@
 		69ECC5CC1D50D1170030CF87 /* bt_view_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bt_view_default.png; sourceTree = "<group>"; };
 		69ECC5D01D50D1170030CF87 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
 		69ECC5D11D50D1170030CF87 /* check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check@2x.png"; sourceTree = "<group>"; };
-		69ECC5D21D50D1170030CF87 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		69ECC5D31D50D1170030CF87 /* downloading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downloading.png; sourceTree = "<group>"; };
 		69ECC5D41D50D1170030CF87 /* ic_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_back.png; sourceTree = "<group>"; };
 		69ECC5D51D50D1170030CF87 /* ic_blue2_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_blue2_pressed.png; sourceTree = "<group>"; };
@@ -2012,7 +2010,6 @@
 				69ECC5CC1D50D1170030CF87 /* bt_view_default.png */,
 				69ECC5D01D50D1170030CF87 /* check.png */,
 				69ECC5D11D50D1170030CF87 /* check@2x.png */,
-				69ECC5D21D50D1170030CF87 /* Default-568h@2x.png */,
 				69ECC5D31D50D1170030CF87 /* downloading.png */,
 				69ECC5D41D50D1170030CF87 /* ic_back.png */,
 				69ECC5D51D50D1170030CF87 /* ic_blue2_pressed.png */,
@@ -3560,7 +3557,6 @@
 				69ECC60F1D50D1170030CF87 /* arrow_next@2x.png in Resources */,
 				69ECC6451D50D1170030CF87 /* separator.png in Resources */,
 				69ECC6131D50D1170030CF87 /* bg_map.png in Resources */,
-				69ECC62A1D50D1170030CF87 /* Default-568h@2x.png in Resources */,
 				69ECC6011D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				19A1339719CAE108003ADD24 /* EULA.htm in Resources */,
 				69ECC6371D50D1170030CF87 /* ic_partiallywatched@3x.png in Resources */,
