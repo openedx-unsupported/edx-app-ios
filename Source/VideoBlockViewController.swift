@@ -56,17 +56,20 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     func addLoadListener() {
         loader.listen (self,
             success : { [weak self] block in
-                if let video = block.type.asVideo,
-                    let encoding = video.preferredEncoding where encoding.isYoutube,
-                    let URL = encoding.URL
+                if let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID)
                 {
-                    self?.showYoutubeMessage(URL)
-                }
-                else if
-                    let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID)
-                    where block.type.asVideo?.preferredEncoding != nil
-                {
-                    self?.showLoadedBlock(block, forVideo: video)
+                    if video.summary?.isYoutubeVideo ?? false {
+                        if let encoding = video.summary?.preferredEncoding,
+                            let URL = encoding.URL {
+                            self?.showYoutubeMessage(URL)
+                        }
+                        else {
+                            self?.showError(nil)
+                        }
+                    }
+                    else {
+                        self?.showLoadedBlock(block, forVideo: video)
+                    }
                 }
                 else {
                     self?.showError(nil)

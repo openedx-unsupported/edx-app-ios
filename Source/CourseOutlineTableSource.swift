@@ -140,7 +140,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             let courseID = courseQuerier.courseID
             cell.videos = videoStream.map({[weak self] videoIDs in
                 let videos = self?.environment.dataManager.interface?.statesForVideosWithIDs(videoIDs, courseID: courseID) ?? []
-                return videos.filter { video in !video.summary!.onlyOnWeb }
+                return videos.filter { video in (!video.summary!.onlyOnWeb || !video.summary!.isYoutubeVideo)}
             })
             cell.delegate = self
             return cell

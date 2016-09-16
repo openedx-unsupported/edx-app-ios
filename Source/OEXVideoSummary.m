@@ -136,6 +136,16 @@
     return self.encodings[[self.encodings.allKeys sortedArrayUsingSelector:@selector(compare:)].firstObject];
 }
 
+- (BOOL) isYoutubeVideo {
+    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
+        OEXVideoEncoding* encoding = self.encodings[name];
+        if (encoding.isYoutube) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (NSString*)videoURL {
     return self.preferredEncoding.URL;
 }
