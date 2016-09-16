@@ -78,7 +78,7 @@ class IrregularBorderView : UIImageView {
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return result.resizableImageWithCapInsets(UIEdgeInsets(top: cornerRadii.height, left: cornerRadii.width, bottom: cornerRadii.height, right: cornerRadii.width))
+        return result!.resizableImageWithCapInsets(UIEdgeInsets(top: cornerRadii.height, left: cornerRadii.width, bottom: cornerRadii.height, right: cornerRadii.width))
     }
     
     private func renderBorderWithEdges(corners : UIRectCorner, style : BorderStyle) -> UIImage? {
@@ -98,7 +98,7 @@ class IrregularBorderView : UIImageView {
         
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return result.resizableImageWithCapInsets(UIEdgeInsets(top: radius, left: radius, bottom: radius, right: radius))
+        return result!.resizableImageWithCapInsets(UIEdgeInsets(top: radius, left: radius, bottom: radius, right: radius))
     }
     
     override func layoutSubviews() {

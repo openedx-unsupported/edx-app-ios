@@ -57,7 +57,7 @@ class CourseCardViewModel : NSObject {
             imageURL = NSURL(string: relativeImageURL, relativeToURL: networkManager.baseURL)
         {
             remoteImage = RemoteImageImpl(
-                url: imageURL.absoluteString,
+                url: imageURL.absoluteString!,
                 networkManager: networkManager,
                 placeholder: placeholder,
                 persist: persistImage)

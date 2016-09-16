@@ -23,9 +23,9 @@ class PersistentResponseCacheTests: XCTestCase {
             return key.map {
                 let path = basePath
                     .URLByAppendingPathComponent(self.username, isDirectory: true)
-                try! NSFileManager.defaultManager().createDirectoryAtURL(path, withIntermediateDirectories: true, attributes: [:])
+                try! NSFileManager.defaultManager().createDirectoryAtURL(path!, withIntermediateDirectories: true, attributes: [:])
 
-                return path.URLByAppendingPathComponent($0.oex_md5)
+                return path!.URLByAppendingPathComponent($0.oex_md5)!
             }
         }
     }

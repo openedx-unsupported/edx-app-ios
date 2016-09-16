@@ -38,7 +38,7 @@ class SessionUsernameProviderTests: XCTestCase {
     func testReturnsUserAppropriatePath() {
         let provider = providerForUsername(user)
         let path = provider.pathForRequestKey("123")
-        XCTAssertTrue(path?.absoluteString.containsString(user.username!.oex_md5) ?? false)
+        XCTAssertTrue(path?.absoluteString?.containsString(user.username!.oex_md5) ?? false)
     }
 
     func testWorksWithResponseCache() {

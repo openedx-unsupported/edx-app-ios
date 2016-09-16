@@ -252,7 +252,7 @@
     //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName:@"Login"];
 
-    OEXAppDelegate* appD = [[UIApplication sharedApplication] delegate];
+    OEXAppDelegate* appD = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
     self.reachable = [appD.reachability isReachable];
 
     [self.view setUserInteractionEnabled:YES];

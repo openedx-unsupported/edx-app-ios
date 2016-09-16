@@ -28,7 +28,7 @@ public extension OEXCourse {
             "id" : courseID ?? "someID",
             "subscription_id" : courseID ?? "someSubscriptionID",
             "name" : "A Great Course",
-            "course_image" : imagePath!.absoluteString,
+            "course_image" : imagePath!.absoluteString ?? imagePath!.URLString,
             "org" : "edX",
             "courseware_access" : ["has_access" : accessible]
         ]
