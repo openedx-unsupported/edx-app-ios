@@ -64,9 +64,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (strong, nonatomic) NSArray* fieldControllers;
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
-@property (strong, nonatomic) IBOutlet UILabel* titleLabel;
-@property (strong, nonatomic) IBOutlet UIView *mockNavigationBarView;
-@property (strong, nonatomic) IBOutlet UIButton *closeButton;
 
 // Used in auth from an external provider
 @property (strong, nonatomic) UIView* currentHeadingView;
@@ -102,12 +99,20 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.loadController = [[LoadStateViewController alloc] init];
     [self.loadController setupInController:self contentView:self.scrollView];
     
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.mockNavigationBarView label:self.titleLabel leftIconButton:self.closeButton];
+    self.navigationController.navigationBarHidden = NO;
+    
+    [self setTitle:[Strings registrationSignUpForPlatformWithPlatformName:self.environment.config.platformName]];
+    
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack:)];
+    closeButton.accessibilityLabel = [Strings close];
+    self.navigationItem.leftBarButtonItem = closeButton;
+    
     //By default we only shows required fields
     self.isShowingOptionalFields = NO;
 }
 
 - (void)getFormFields {
+    
     [self getRegistrationFormDescription:^(OEXRegistrationDescription * _Nonnull response) {
         self.registrationDescription = response;
         [self makeFieldControllers];
@@ -137,15 +142,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     NSString* regularFont = @"OpenSans";
     NSString* semiboldFont = @"OpenSans-Semibold";
 
-    self.navigationController.navigationBarHidden = YES;
-    self.navigationController.navigationBar.topItem.title = @"";
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    // set the custom navigation view properties
-
     NSString* platform = self.environment.config.platformName;
-    self.titleLabel.text = [Strings registrationSignUpForPlatformWithPlatformName:platform];
-    [self.titleLabel setFont:[UIFont fontWithName:semiboldFont size:20.f]];
-
     ////Create and initalize 'btnCreateAccount' button
     self.registerButton = [[UIButton alloc] init];
     
@@ -198,8 +195,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         headingView.delegate = self;
         [self useHeadingView:headingView];
     }
-    
-    self.closeButton.accessibilityLabel = [Strings close];
 }
 
 - (void)useHeadingView:(UIView*)headingView {

@@ -130,8 +130,10 @@ OEXRegistrationViewControllerDelegate
     self.registrationCompletion = completion;
     OEXRegistrationViewControllerEnvironment* registrationEnvironment = [[OEXRegistrationViewControllerEnvironment alloc] initWithAnalytics:self.environment.analytics config:self.environment.config networkManager:self.environment.networkManager router:self];
     OEXRegistrationViewController* registrationController = [[OEXRegistrationViewController alloc] initWithEnvironment:registrationEnvironment];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:registrationController];
     registrationController.delegate = self;
-    [self presentViewController:registrationController fromController:[controller topMostController] completion:nil];
+    
+    [self presentViewController:navController fromController:[controller topMostController] completion:nil];
 }
 
 - (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)fromController completion:(void(^)(void))completion {
