@@ -102,16 +102,18 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.loadController = [[LoadStateViewController alloc] init];
     [self.loadController setupInController:self contentView:self.scrollView];
     
+    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.mockNavigationBarView label:self.titleLabel leftIconButton:self.closeButton];
+    //By default we only shows required fields
+    self.isShowingOptionalFields = NO;
+}
+
+- (void)getFormFields {
     [self getRegistrationFormDescription:^(OEXRegistrationDescription * _Nonnull response) {
         self.registrationDescription = response;
         [self makeFieldControllers];
         [self initializeViews];
         [self refreshFormFields];
     }];
-    
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.mockNavigationBarView label:self.titleLabel leftIconButton:self.closeButton];
-    //By default we only shows required fields
-    self.isShowingOptionalFields = NO;
 }
 
 //Currently using asset file only to get from description
@@ -215,6 +217,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
+    [self getFormFields];
     // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardFrameChanged:)

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import edX
+@testable import edX
 
 class OEXRegistrationViewControllerTests: SnapshotTestCase {
 
@@ -29,8 +29,17 @@ class OEXRegistrationViewControllerTests: SnapshotTestCase {
         let baseEnvironment = TestRouterEnvironment()
         let config = OEXConfig(dictionary:["FACEBOOK": [ "ENABLED": true ], "GOOGLE": ["ENABLED": true, "GOOGLE_PLUS_KEY": "FAKE"], "PLATFORM_NAME" : "App Test"])
         let environment = OEXRegistrationViewControllerEnvironment(analytics: OEXAnalytics(), config: config, networkManager: baseEnvironment.mockNetworkManager, router: nil)
+        let json = JSON(resourceNamed: "RegistrationForm")
+        baseEnvironment.mockNetworkManager.interceptWhenMatching({(_: NetworkRequest<OEXRegistrationDescription>) in true }) {
+            
+            let parsedThread = json.dictionaryObject.map { OEXRegistrationDescription(dictionary: $0) }
+            return (nil, parsedThread!)
+        }
+        
         let controller = OEXRegistrationViewController(environment: environment)
         inScreenNavigationContext(controller) {
+            waitForStream(controller.t_loaded)
+            stepRunLoop()
             assertSnapshotValidWithContent(controller.navigationController!)
         }
     }

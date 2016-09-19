@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXRouter;
 @class NetworkManager;
 @class LoadStateViewController;
+@class Stream;
 
 @protocol OEXRegistrationViewControllerDelegate <NSObject>
 
@@ -43,6 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) OEXRegistrationViewControllerEnvironment* environment;
 @property (strong, nonatomic) OEXRegistrationDescription* registrationDescription;
 @property (strong, nonatomic) LoadStateViewController *loadController;
+@property (strong, nonatomic) id stream;
+
+- (void)makeFieldControllers;
+- (void)refreshFormFields;
 
 @end
 

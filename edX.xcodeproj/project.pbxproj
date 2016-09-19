@@ -120,6 +120,7 @@
 		6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6960892A1D53935500EE66DD /* courseCertificate@3x.png */; };
 		6987A86B1D6C57C100E9D183 /* OEXColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */; };
 		6987A86D1D6C67DB00E9D183 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 6987A86C1D6C67DB00E9D183 /* colors.json */; };
+		69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */ = {isa = PBXBuildFile; fileRef = 69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */; };
 		69E1CD011D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */; };
 		69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A31D50D1170030CF87 /* FontAwesome.otf */; };
 		69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */; };
@@ -890,6 +891,7 @@
 		6960892A1D53935500EE66DD /* courseCertificate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@3x.png"; sourceTree = "<group>"; };
 		6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsTests.swift; sourceTree = "<group>"; };
 		6987A86C1D6C67DB00E9D183 /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
+		69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RegistrationForm.json; sourceTree = "<group>"; };
 		69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXRegistrationViewController+Swift.swift"; sourceTree = "<group>"; };
 		69ECC5A31D50D1170030CF87 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
 		69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -2680,6 +2682,7 @@
 		77FDF4171B0269FA00E8C639 /* Test Data */ = {
 			isa = PBXGroup;
 			children = (
+				69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */,
 				E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */,
 				775716B41CB7FF660091AB10 /* sample-badge.png */,
 				77FDF4151B0269F600E8C639 /* test-movie.m4v */,
@@ -3669,6 +3672,7 @@
 			files = (
 				77E6489D1C91D92400B6740D /* CourseStatusInfo.json in Resources */,
 				775716B31CB7FF4B0091AB10 /* test-movie.m4v in Resources */,
+				69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */,
 				77E6489E1C91D92D00B6740D /* DiscussionPosts.json in Resources */,
 				775716B51CB7FF660091AB10 /* sample-badge.png in Resources */,
 				B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
