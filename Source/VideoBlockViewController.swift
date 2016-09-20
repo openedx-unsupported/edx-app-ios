@@ -46,7 +46,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     var courseID : String {
         return courseQuerier.courseID
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
@@ -55,24 +55,21 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     func addLoadListener() {
         loader.listen (self,
-            success : { [weak self] block in
-                if let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID)
-                {
-                    if video.summary?.isYoutubeVideo ?? false {
-                        if let URL = block.blockURL {
+                       success : { [weak self] block in
+                        if let video = block.type.asVideo where video.isYoutubeVideo,
+                            let URL = block.blockURL
+                        {
                             self?.showYoutubeMessage(URL)
+                        }
+                        else if
+                            let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID)
+                            where block.type.asVideo?.preferredEncoding != nil
+                        {
+                            self?.showLoadedBlock(block, forVideo: video)
                         }
                         else {
                             self?.showError(nil)
                         }
-                    }
-                    else {
-                        self?.showLoadedBlock(block, forVideo: video)
-                    }
-                }
-                else {
-                    self?.showError(nil)
-                }
             }, failure : {[weak self] error in
                 self?.showError(error)
             }

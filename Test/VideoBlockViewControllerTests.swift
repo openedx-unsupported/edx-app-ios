@@ -18,7 +18,7 @@ class VideoBlockViewControllerTests : SnapshotTestCase {
             "youtube": OEXVideoEncoding(name: "youtube", URL: "https://some-youtube-url", size: 12)])
         let outline = CourseOutline(root: "root", blocks: [
             "root" : CourseBlock(type: CourseBlockType.Course, children: ["video"], blockID: "root", name: "Root", multiDevice: true, graded: false),
-            "video" : CourseBlock(type: CourseBlockType.Video(summary), children: [], blockID: "video", name: "Youtube Video", multiDevice: true, graded: false)
+            "video" : CourseBlock(type: CourseBlockType.Video(summary), children: [], blockID: "video", name: "Youtube Video", blockURL: NSURL(string: "www.example.com"), multiDevice: true, graded: false)
             ])
 
         let environment = TestRouterEnvironment()
