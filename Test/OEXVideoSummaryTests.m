@@ -69,11 +69,9 @@
     XCTAssertEqualObjects(summary.sectionURL, sectionURL);
     XCTAssertEqualObjects(summary.category, category);
     XCTAssertEqualObjects(summary.name, name);
-    XCTAssertEqualObjects(summary.videoURL, videoURL);
     XCTAssertEqualObjects(summary.videoThumbnailURL, videoThumbnailURL);
     XCTAssertEqualObjects(@(summary.duration), duration);
     XCTAssertEqualObjects(summary.videoID, videoID);
-    XCTAssertEqualObjects(summary.size, size);
     XCTAssertEqualObjects(summary.unitURL, unitURL);
     XCTAssertEqual(summary.displayPath.count, 2);
     XCTAssertEqualObjects(summary.chapterPathEntry.name, chapterName);
