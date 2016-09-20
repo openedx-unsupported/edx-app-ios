@@ -259,7 +259,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
-        // dummy commit 
         
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
