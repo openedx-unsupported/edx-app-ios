@@ -839,6 +839,7 @@ static OEXInterface* _sharedInterface = nil;
             // TODO: Short term: Update the video summary in the new API to get all its properties from block
             // TODO: Long term: Get the video module to take a block as its input
             helper.summary.duration = summary.duration;
+            helper.summary.encodings = summary.encodings;
             
             return nil;
         }

@@ -28,14 +28,9 @@
 @property (nonatomic, copy) NSString* category;
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic, copy) NSString* videoThumbnailURL;
-//@property (nonatomic, assign) double duration;
 @property (nonatomic, copy) NSString* videoID;
 @property (nonatomic, copy) NSString* unitURL;
 @property (nonatomic, assign) BOOL onlyOnWeb;
-
-// [String:OEXVideoEncoding]
-@property (nonatomic, strong) NSDictionary* encodings;
-
 @property (nonatomic, strong) NSDictionary* transcripts;
 
 @end
@@ -66,20 +61,12 @@
             self.name = [Strings untitled];
         }
         
-        // The new course outline API sends the video info as encodings instead of as a single video_url.
-        // Once finish the transition to the new API we can remove setting the video url from the top level
-        NSString* videoURL = [summary objectForKey:@"video_url"];
-        NSNumber* videoSize = [summary objectForKey:@"size"];
-        
         NSDictionary* rawEncodings = OEXSafeCastAsClass(summary[@"encoded_videos"], NSDictionary);
         NSMutableDictionary* encodings = [[NSMutableDictionary alloc] init];
         [rawEncodings enumerateKeysAndObjectsUsingBlock:^(NSString* name, NSDictionary* encodingInfo, BOOL *stop) {
             OEXVideoEncoding* encoding = [[OEXVideoEncoding alloc] initWithDictionary:encodingInfo name:name];
             [encodings safeSetObject:encoding forKey:name];
         }];
-        if(!encodings[OEXVideoEncodingFallback]) {
-            [encodings safeSetObject:[[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:videoURL size:videoSize] forKey:OEXVideoEncodingFallback];
-        }
         self.encodings = encodings;
 
         self.videoThumbnailURL = [summary objectForKey:@"video_thumbnail_url"];
@@ -139,11 +126,20 @@
 - (BOOL) isYoutubeVideo {
     for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
         OEXVideoEncoding* encoding = self.encodings[name];
-        if (encoding.isYoutube) {
-            return YES;
+        if (encoding) {
+            if ([[encoding name] isEqualToString:OEXVideoEncodingFallback]) {
+                return NO;
+            }
+            else if ([[encoding name] isEqualToString:OEXVideoEncodingMobileLow]) {
+                return NO;
+            }
+            else if ([[encoding name] isEqualToString:OEXVideoEncodingMobileHigh]) {
+                return NO;
+            }
         }
     }
-    return NO;
+    
+    return YES;
 }
 
 - (NSString*)videoURL {
