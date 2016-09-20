@@ -121,7 +121,7 @@ extension OEXRouter {
         }
     }
     
-    func showFullScreenMessageViewControllerFromViewController(controller : UIViewController, message : String, bottomButtonTitle: String?) {
+    @available(*, deprecated=2.6, message="FullScreenMessageViewController has been deprecated in favor of UIAlertController to support accessibility") func showFullScreenMessageViewControllerFromViewController(controller : UIViewController, message : String, bottomButtonTitle: String?) {
         let fullScreenViewController = FullScreenMessageViewController(message: message, bottomButtonTitle: bottomButtonTitle)
         controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
     }
