@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXRegistrationViewController;
 @class OEXConfig;
 @class OEXRouter;
+@class RouterEnvironment;
 @class NetworkManager;
 @class LoadStateViewController;
 @class Stream;
@@ -25,23 +26,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface OEXRegistrationViewControllerEnvironment : NSObject
-
-- (id)initWithAnalytics:(OEXAnalytics*)analytics config:(OEXConfig*)config networkManager:(NetworkManager*)networkManager router:(nullable OEXRouter*)router;
-
-@property (strong, nonatomic) OEXAnalytics* analytics;
-@property (strong, nonatomic) OEXConfig* config;
-@property (weak, nonatomic, nullable) OEXRouter* router;
-@property (strong, nonatomic) NetworkManager* networkManager;
-
-@end
-
 @interface OEXRegistrationViewController : UIViewController
 
-- (id)initWithEnvironment:(nullable OEXRegistrationViewControllerEnvironment*)environment;
+- (id)initWithEnvironment:(nullable RouterEnvironment*)environment;
 
 @property (weak, nonatomic, nullable) id <OEXRegistrationViewControllerDelegate> delegate;
-@property (strong, nonatomic) OEXRegistrationViewControllerEnvironment* environment;
+@property (strong, nonatomic) RouterEnvironment* environment;
 @property (strong, nonatomic) OEXRegistrationDescription* registrationDescription;
 @property (strong, nonatomic) LoadStateViewController *loadController;
 @property (strong, nonatomic) id stream;

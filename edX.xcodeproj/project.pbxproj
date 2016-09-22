@@ -118,6 +118,10 @@
 		6960892B1D53935500EE66DD /* courseCertificate.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089281D53935500EE66DD /* courseCertificate.png */; };
 		6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089291D53935500EE66DD /* courseCertificate@2x.png */; };
 		6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6960892A1D53935500EE66DD /* courseCertificate@3x.png */; };
+		697B5A011D92D9CD002C3ABD /* TestCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391321C973CEC00FA959C /* TestCredentials.swift */; };
+		697B5A021D92DA17002C3ABD /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391831CA0600700FA959C /* RegistrationAPITests.swift */; };
+		697B5A031D92DA2F002C3ABD /* RegistrationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391471C97A70700FA959C /* RegistrationAPI.swift */; };
+		697B5A091D92DB3F002C3ABD /* RegistrationFormAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */; };
 		6987A86B1D6C57C100E9D183 /* OEXColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */; };
 		6987A86D1D6C67DB00E9D183 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 6987A86C1D6C67DB00E9D183 /* colors.json */; };
 		69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */ = {isa = PBXBuildFile; fileRef = 69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */; };
@@ -299,7 +303,6 @@
 		7753912A1C9234F300FA959C /* MockResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E648A11C91EB4900B6740D /* MockResponseCache.swift */; };
 		7753912F1C973ADA00FA959C /* NSUUID+Username.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753912E1C973ADA00FA959C /* NSUUID+Username.swift */; };
 		775391311C973CBE00FA959C /* Stream+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391301C973CBE00FA959C /* Stream+Sync.swift */; };
-		775391331C973CEC00FA959C /* TestCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391321C973CEC00FA959C /* TestCredentials.swift */; };
 		7753913C1C97579000FA959C /* PersistentResponseCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753913B1C97579000FA959C /* PersistentResponseCacheTests.swift */; };
 		7753913E1C9758A300FA959C /* Result+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753913D1C9758A300FA959C /* Result+Assertions.swift */; };
 		7753913F1C9758D400FA959C /* XCTestCase+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773B1D471B1F814200B861DF /* XCTestCase+Async.swift */; };
@@ -307,11 +310,9 @@
 		775391441C9760BD00FA959C /* NSString+OEXCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 775391421C9760BD00FA959C /* NSString+OEXCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		775391451C9760BD00FA959C /* NSString+OEXCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 775391431C9760BD00FA959C /* NSString+OEXCrypto.m */; };
 		775391461C9763D000FA959C /* Result+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753913D1C9758A300FA959C /* Result+Assertions.swift */; };
-		775391481C97A70700FA959C /* RegistrationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391471C97A70700FA959C /* RegistrationAPI.swift */; };
 		7753914B1C98A16600FA959C /* VideoBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391491C98A15100FA959C /* VideoBlockViewControllerTests.swift */; };
 		7753914E1C98B6FA00FA959C /* RegistrationScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753914C1C98B6CA00FA959C /* RegistrationScreenInteractor.swift */; };
 		775391501C98B7C500FA959C /* RegisterFeatureTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753914F1C98B7C500FA959C /* RegisterFeatureTestCase.swift */; };
-		775391841CA0600700FA959C /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391831CA0600700FA959C /* RegistrationAPITests.swift */; };
 		77542CD61CB6A398006CA428 /* JSON+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77542CD51CB6A398006CA428 /* JSON+Formatting.swift */; };
 		77542CD81CB6A3AA006CA428 /* BadgesAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77542CD71CB6A3AA006CA428 /* BadgesAPITests.swift */; };
 		77542CDB1CB6A463006CA428 /* OEXMetaClassHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 77542CDA1CB6A463006CA428 /* OEXMetaClassHelpers.m */; };
@@ -889,6 +890,7 @@
 		696089281D53935500EE66DD /* courseCertificate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate.png; sourceTree = "<group>"; };
 		696089291D53935500EE66DD /* courseCertificate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@2x.png"; sourceTree = "<group>"; };
 		6960892A1D53935500EE66DD /* courseCertificate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@3x.png"; sourceTree = "<group>"; };
+		697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationFormAPI.swift; path = Source/Core/Code/RegistrationFormAPI.swift; sourceTree = SOURCE_ROOT; };
 		6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsTests.swift; sourceTree = "<group>"; };
 		6987A86C1D6C67DB00E9D183 /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
 		69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RegistrationForm.json; sourceTree = "<group>"; };
@@ -2442,6 +2444,7 @@
 				772856DE1CADBFD100460E7C /* BadgesAPI.swift */,
 				77AF076E1CADD20F00A42704 /* BadgesModel.swift */,
 				775391471C97A70700FA959C /* RegistrationAPI.swift */,
+				697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */,
 				F22A0ABC1CE660B300D50DFF /* LoginApi.swift */,
 				E0A2461C1D5CA6950066C766 /* LogoutApi.swift */,
 			);
@@ -3842,7 +3845,6 @@
 				77AF076F1CADD20F00A42704 /* BadgesModel.swift in Sources */,
 				77542CD61CB6A398006CA428 /* JSON+Formatting.swift in Sources */,
 				77E648851C91385C00B6740D /* Array+Functional.swift in Sources */,
-				775391481C97A70700FA959C /* RegistrationAPI.swift in Sources */,
 				771D65D01C922FC800112B7E /* Removable.swift in Sources */,
 				77E648651C9127DF00B6740D /* Logger.swift in Sources */,
 				771D65C91C922EE600112B7E /* NetworkManager.swift in Sources */,
@@ -3864,6 +3866,7 @@
 				771D65C71C922E6700112B7E /* OEXRemovable.m in Sources */,
 				771D65DB1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift in Sources */,
 				77E648951C91407B00B6740D /* NSObject+OEXDeallocAction.m in Sources */,
+				697B5A031D92DA2F002C3ABD /* RegistrationAPI.swift in Sources */,
 				771D65CC1C922FB800112B7E /* Result.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3874,10 +3877,10 @@
 			files = (
 				77E648A41C91F99400B6740D /* MockNetworkManager.swift in Sources */,
 				772856E31CADCE0900460E7C /* OEXDateFormattingTests.m in Sources */,
-				775391841CA0600700FA959C /* RegistrationAPITests.swift in Sources */,
 				7753913C1C97579000FA959C /* PersistentResponseCacheTests.swift in Sources */,
 				7753913F1C9758D400FA959C /* XCTestCase+Async.swift in Sources */,
 				77542CDB1CB6A463006CA428 /* OEXMetaClassHelpers.m in Sources */,
+				697B5A021D92DA17002C3ABD /* RegistrationAPITests.swift in Sources */,
 				77E648A21C91EB4900B6740D /* MockResponseCache.swift in Sources */,
 				77E648991C91CC0700B6740D /* NSObject+OEXDeallocActionTests.m in Sources */,
 				77E6489C1C91CC6700B6740D /* Array+FunctionalTests.swift in Sources */,
@@ -3893,6 +3896,7 @@
 			files = (
 				775391311C973CBE00FA959C /* Stream+Sync.swift in Sources */,
 				E0816D7F1CBE35DA00818769 /* FindCoursesTestCase.swift in Sources */,
+				697B5A011D92D9CD002C3ABD /* TestCredentials.swift in Sources */,
 				E0816D7E1CBE35D300818769 /* FindCoursesInteractor.swift in Sources */,
 				77E6484F1C91024C00B6740D /* LoginFeatureTestCase.swift in Sources */,
 				77E648521C91024C00B6740D /* XCUIElement+Helpers.swift in Sources */,
@@ -3905,7 +3909,6 @@
 				77E6484D1C91024C00B6740D /* EnrolledCoursesInteractor.swift in Sources */,
 				77E648511C91024C00B6740D /* SplashScreenInteractor.swift in Sources */,
 				77E648501C91024C00B6740D /* LoginScreenInteractor.swift in Sources */,
-				775391331C973CEC00FA959C /* TestCredentials.swift in Sources */,
 				77E6484B1C91024C00B6740D /* AppLaunchInteractor.swift in Sources */,
 				E0816D7D1CBE35CE00818769 /* NavigationDrawerInteractor.swift in Sources */,
 				775391501C98B7C500FA959C /* RegisterFeatureTestCase.swift in Sources */,
@@ -4111,6 +4114,7 @@
 				B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */,
 				9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */,
 				1A373E911C45807D00E3AAAA /* NSError+JSON.swift in Sources */,
+				697B5A091D92DB3F002C3ABD /* RegistrationFormAPI.swift in Sources */,
 				77D6A9A41C28F32900E67CCF /* CoursesAPI.swift in Sources */,
 				778B40D91C2F62520009F33E /* EnrollmentManager.swift in Sources */,
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,

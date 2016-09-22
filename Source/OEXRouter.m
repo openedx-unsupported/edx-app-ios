@@ -128,8 +128,7 @@ OEXRegistrationViewControllerDelegate
 
 - (void)showSignUpScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
     self.registrationCompletion = completion;
-    OEXRegistrationViewControllerEnvironment* registrationEnvironment = [[OEXRegistrationViewControllerEnvironment alloc] initWithAnalytics:self.environment.analytics config:self.environment.config networkManager:self.environment.networkManager router:self];
-    OEXRegistrationViewController* registrationController = [[OEXRegistrationViewController alloc] initWithEnvironment:registrationEnvironment];
+    OEXRegistrationViewController* registrationController = [[OEXRegistrationViewController alloc] initWithEnvironment:self.environment];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:registrationController];
     registrationController.delegate = self;
     

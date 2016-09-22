@@ -10,26 +10,23 @@ import Foundation
 
 extension OEXRegistrationViewController {
     
-    func registrationFormDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<OEXRegistrationDescription> {
-        return json.dictionaryObject.map { OEXRegistrationDescription(dictionary: $0) }.toResult()
-    }
-    
-    func getRegistrationFormDescription(responseBlock: (response: OEXRegistrationDescription) -> ()) {
+    func getRegistrationFormDescription(success: (response: OEXRegistrationDescription) -> ()) {
         let networkManager = self.environment.networkManager
-        let networkRequest = NetworkRequest(method: .GET, path: SIGN_UP_URL, deserializer: .JSONResponse(registrationFormDeserializer))
+        let networkRequest = RegistrationFormAPI.registrationFormRequest()
         
         self.stream = networkManager.streamForRequest(networkRequest)
-        (self.stream as! Stream<OEXRegistrationDescription>).listen(self) { (result) in
+        (self.stream as! Stream<OEXRegistrationDescription>).listen(self) {[weak self] (result) in
             if let data = result.value {
-                self.loadController.state = .Loaded
-                responseBlock(response: data)
+                self?.loadController.state = .Loaded
+                success(response: data)
             }
             else{
-                self.loadController.state = LoadState.failed(result.error, icon: nil, message: nil)
+                self?.loadController.state = LoadState.failed(result.error)
             }
         }
     }
     
+    //Testing only
     public var t_loaded : Stream<()> {
         return (self.stream as! Stream<OEXRegistrationDescription>).map {_ in () }
     }

@@ -41,20 +41,6 @@
 #import "OEXUsingExternalAuthHeadingView.h"
 #import "OEXRegistrationAgreement.h"
 
-@implementation OEXRegistrationViewControllerEnvironment
-
-- (id)initWithAnalytics:(OEXAnalytics *)analytics config:(OEXConfig *)config networkManager:(id)networkManager router:(OEXRouter *)router {
-    self = [super init];
-    if(self != nil) {
-        _analytics = analytics;
-        _config = config;
-        _router = router;
-        _networkManager = networkManager;
-    }
-    return self;
-}
-
-@end
 
 NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXExternalRegistrationWithExistingAccountNotification";
 
@@ -85,7 +71,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 @implementation OEXRegistrationViewController
 
-- (id)initWithEnvironment:(OEXRegistrationViewControllerEnvironment *)environment {
+- (id)initWithEnvironment:(RouterEnvironment *)environment {
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
         self.environment = environment;
