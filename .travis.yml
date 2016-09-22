@@ -14,7 +14,7 @@ script:
     - set -o pipefail && ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
-    - bash <(curl -s https://codecov.io/bash) -J 'edX*'
+    - bash <(curl -s https://codecov.io/bash)
 
 branches:
     only:
