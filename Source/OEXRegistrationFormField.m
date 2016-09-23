@@ -92,7 +92,7 @@
         return OEXRegistrationFieldTypeSelect;
     }
     else if([strType isEqualToString:@"checkbox"]) {
-        return OEXRegistrationFieldTypeCheckbox;
+        return OEXRegistrationFieldTypeAgreement;
     }
     else {
         return OEXRegistrationFieldTypeUnknown;

@@ -275,6 +275,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     CGSize size = [self.currentHeadingView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
     offset = topSpacing + size.height;
     
+    BOOL isOptionalFieldPresent = NO;
+    
     for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
         UIView* view = fieldController.view;
         // Add view to scroll view if field is not optional and it is not agreement field.
@@ -283,19 +285,23 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             [view setFrame:CGRectMake(0, offset, width, view.frame.size.height)];
             offset = offset + view.frame.size.height;
         }
+        if(![fieldController field].isRequired) {
+            isOptionalFieldPresent = YES;
+        }
     }
     
-    //Add the optional field toggle
-    
-    CGFloat buttonWidth = 150;
-    CGFloat buttonHeight = 30;
-    [self.scrollView addSubview:self.optionalFieldsSeparator];
-    [self.toggleOptionalFieldsButton setFrame:CGRectMake(self.view.frame.size.width / 2 - buttonWidth / 2, offset, buttonWidth, buttonHeight)];
-    [self.scrollView addSubview:self.toggleOptionalFieldsButton];
-    self.optionalFieldsSeparator.frame = CGRectMake(horizontalSpacing, self.toggleOptionalFieldsButton.center.y, contentWidth, 1);
-    self.optionalFieldsSeparator.center = self.toggleOptionalFieldsButton.center;
-    
-    offset = offset + buttonHeight + 10;
+    if (isOptionalFieldPresent) {
+        //Add the optional field toggle
+        CGFloat buttonWidth = 150;
+        CGFloat buttonHeight = 30;
+        [self.scrollView addSubview:self.optionalFieldsSeparator];
+        [self.toggleOptionalFieldsButton setFrame:CGRectMake(self.view.frame.size.width / 2 - buttonWidth / 2, offset, buttonWidth, buttonHeight)];
+        [self.scrollView addSubview:self.toggleOptionalFieldsButton];
+        self.optionalFieldsSeparator.frame = CGRectMake(horizontalSpacing, self.toggleOptionalFieldsButton.center.y, contentWidth, 1);
+        self.optionalFieldsSeparator.center = self.toggleOptionalFieldsButton.center;
+        
+        offset = offset + buttonHeight + 10;
+    }
     
     // Actually show the optional fields if necessary
     for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
@@ -312,7 +318,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
     const int progressIndicatorCenterX = [self isRTL] ? 40 : self.registerButton.frame.size.width - 40;
 
-        self.progressIndicator.center = CGPointMake(progressIndicatorCenterX, self.registerButton.frame.size.height / 2);
+    self.progressIndicator.center = CGPointMake(progressIndicatorCenterX, self.registerButton.frame.size.height / 2);
     
     [self.scrollView addSubview:self.registerButton];
     offset = offset + 40;
