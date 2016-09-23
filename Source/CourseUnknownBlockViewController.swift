@@ -31,7 +31,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             success:
             { [weak self] block in
                 if let video = block.type.asVideo where video.isYoutubeVideo{
-                    self?.showYoutubeError(Strings.Video.viewOnYoutube, message: Strings.Video.onlyOnYoutube, icon: Icon.CourseModeVideo, videoUrl: video.videoURL)
+                    self?.showYoutubeMessage(Strings.Video.viewOnYoutube, message: Strings.Video.onlyOnYoutube, icon: Icon.CourseModeVideo, videoUrl: video.videoURL)
                 }
                 else {
                     self?.showError()
@@ -43,12 +43,12 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         )
     }
     
-    private func showYoutubeError(buttonTitle: String, message: String, icon: Icon, videoUrl: String?) {
+    private func showYoutubeMessage(buttonTitle: String, message: String, icon: Icon, videoUrl: String?) {
         messageView = IconMessageView(icon: icon, message: message)
         messageView?.buttonInfo = MessageButtonInfo(title : buttonTitle)
         {
-            if let videoURL = videoUrl, URL =  NSURL(string: videoURL) {
-                UIApplication.sharedApplication().openURL(URL)
+            if let videoURL = videoUrl, url =  NSURL(string: videoURL) {
+                UIApplication.sharedApplication().openURL(url)
             }
         }
         
@@ -60,9 +60,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         messageView?.buttonInfo = MessageButtonInfo(title : Strings.openInBrowser)
         {
             [weak self] in
-            self?.loader?.listen(self!, success : {URL -> Void in
-                if let URL = URL {
-                    UIApplication.sharedApplication().openURL(URL)
+            self?.loader?.listen(self!, success : {url -> Void in
+                if let url = url {
+                    UIApplication.sharedApplication().openURL(url)
                 }
                 }, failure : {_ in
             })

@@ -57,9 +57,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         loader.listen (self,
                        success : { [weak self] block in
                         if let video = block.type.asVideo where video.isYoutubeVideo,
-                            let URL = block.blockURL
+                            let url = block.blockURL
                         {
-                            self?.showYoutubeMessage(URL)
+                            self?.showYoutubeMessage(url)
                         }
                         else if
                             let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID)
@@ -224,10 +224,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         loadController.state = LoadState.failed(error, icon: .UnknownError, message: Strings.videoContentNotAvailable)
     }
 
-    private func showYoutubeMessage(URL: NSURL) {
+    private func showYoutubeMessage(url: NSURL) {
         let buttonInfo = MessageButtonInfo(title: Strings.Video.viewOnYoutube) {
-            if UIApplication.sharedApplication().canOpenURL(URL){
-                UIApplication.sharedApplication().openURL(URL)
+            if UIApplication.sharedApplication().canOpenURL(url){
+                UIApplication.sharedApplication().openURL(url)
             }
         }
         loadController.state = LoadState.empty(icon: .CourseModeVideo, message: Strings.Video.onlyOnYoutube, attributedMessage: nil, accessibilityMessage: nil, buttonInfo: buttonInfo)
