@@ -69,11 +69,9 @@
     XCTAssertEqualObjects(summary.sectionURL, sectionURL);
     XCTAssertEqualObjects(summary.category, category);
     XCTAssertEqualObjects(summary.name, name);
-    XCTAssertEqualObjects(summary.videoURL, videoURL);
     XCTAssertEqualObjects(summary.videoThumbnailURL, videoThumbnailURL);
     XCTAssertEqualObjects(@(summary.duration), duration);
     XCTAssertEqualObjects(summary.videoID, videoID);
-    XCTAssertEqualObjects(summary.size, size);
     XCTAssertEqualObjects(summary.unitURL, unitURL);
     XCTAssertEqual(summary.displayPath.count, 2);
     XCTAssertEqualObjects(summary.chapterPathEntry.name, chapterName);
@@ -104,22 +102,6 @@
                            };
     OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info];
     XCTAssertEqual(summary.displayPath.count, 0);
-}
-
-- (void)testUsesFallbackBeforeYoutube {
-    NSDictionary* info = @{@"summary":
-                                 @{@"encoded_videos": @{
-                                                       @"youtube": @{
-                                                               @"url": @"http://youtube.com/whatever",
-                                                               @"size": @(2)
-                                                               }
-                                                       },
-                                     @"video_url":@"http://example.com/whatever",
-                                     @"file_size":@(47)
-                                 }
-                           };
-    OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info];
-    XCTAssertEqualObjects(summary.preferredEncoding.name, @"fallback");
 }
 
 @end

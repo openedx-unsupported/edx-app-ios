@@ -9,9 +9,8 @@
 #import "OEXVideoEncoding.h"
 
 static NSString* const OEXVideoEncodingYoutube = @"youtube";
-static NSString* const OEXVideoEncodingMobileHigh = @"mobile_high";
-static NSString* const OEXVideoEncodingMobileLow = @"mobile_low";
-
+NSString* const OEXVideoEncodingMobileHigh = @"mobile_high";
+NSString* const OEXVideoEncodingMobileLow = @"mobile_low";
 NSString* const OEXVideoEncodingFallback = @"fallback";
 
 @interface OEXVideoEncoding ()
@@ -47,10 +46,6 @@ NSString* const OEXVideoEncodingFallback = @"fallback";
         self.size = size;
     }
     return self;
-}
-
-- (BOOL)isYoutube {
-    return [self.name isEqualToString:OEXVideoEncodingYoutube];
 }
 
 @end

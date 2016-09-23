@@ -46,7 +46,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     var courseID : String {
         return courseQuerier.courseID
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
@@ -55,22 +55,21 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     func addLoadListener() {
         loader.listen (self,
-            success : { [weak self] block in
-                if let video = block.type.asVideo,
-                    let encoding = video.preferredEncoding where encoding.isYoutube,
-                    let URL = encoding.URL
-                {
-                    self?.showYoutubeMessage(URL)
-                }
-                else if
-                    let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID)
-                    where block.type.asVideo?.preferredEncoding != nil
-                {
-                    self?.showLoadedBlock(block, forVideo: video)
-                }
-                else {
-                    self?.showError(nil)
-                }
+                       success : { [weak self] block in
+                        if let video = block.type.asVideo where video.isYoutubeVideo,
+                            let url = block.blockURL
+                        {
+                            self?.showYoutubeMessage(url)
+                        }
+                        else if
+                            let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID)
+                            where block.type.asVideo?.preferredEncoding != nil
+                        {
+                            self?.showLoadedBlock(block, forVideo: video)
+                        }
+                        else {
+                            self?.showError(nil)
+                        }
             }, failure : {[weak self] error in
                 self?.showError(error)
             }
@@ -225,10 +224,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         loadController.state = LoadState.failed(error, icon: .UnknownError, message: Strings.videoContentNotAvailable)
     }
 
-    private func showYoutubeMessage(URL: String) {
+    private func showYoutubeMessage(url: NSURL) {
         let buttonInfo = MessageButtonInfo(title: Strings.Video.viewOnYoutube) {
-            if let URL = NSURL(string: URL) {
-                UIApplication.sharedApplication().openURL(URL)
+            if UIApplication.sharedApplication().canOpenURL(url){
+                UIApplication.sharedApplication().openURL(url)
             }
         }
         loadController.state = LoadState.empty(icon: .CourseModeVideo, message: Strings.Video.onlyOnYoutube, attributedMessage: nil, accessibilityMessage: nil, buttonInfo: buttonInfo)
@@ -259,6 +258,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
         
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
