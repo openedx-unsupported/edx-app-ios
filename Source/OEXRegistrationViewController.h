@@ -15,6 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXRegistrationViewController;
 @class OEXConfig;
 @class OEXRouter;
+@class RouterEnvironment;
+@class NetworkManager;
+@class LoadStateViewController;
+@class Stream;
 
 @protocol OEXRegistrationViewControllerDelegate <NSObject>
 
@@ -22,23 +26,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface OEXRegistrationViewControllerEnvironment : NSObject
-
-- (id)initWithAnalytics:(OEXAnalytics*)analytics config:(OEXConfig*)config router:(nullable OEXRouter*)router;
-
-@property (strong, nonatomic) OEXAnalytics* analytics;
-@property (strong, nonatomic) OEXConfig* config;
-@property (weak, nonatomic, nullable) OEXRouter* router;
-
-@end
-
 @interface OEXRegistrationViewController : UIViewController
 
-- (id)initWithRegistrationDescription:(OEXRegistrationDescription*)description environment:(nullable OEXRegistrationViewControllerEnvironment*)environment;
-/// Same as initWithRegistrationDescription:environment but with a registration description read from the app bundle
-- (id)initWithEnvironment:(nullable OEXRegistrationViewControllerEnvironment*)environment;
+- (id)initWithEnvironment:(nullable RouterEnvironment*)environment;
 
 @property (weak, nonatomic, nullable) id <OEXRegistrationViewControllerDelegate> delegate;
+@property (strong, nonatomic) RouterEnvironment* environment;
+@property (strong, nonatomic) OEXRegistrationDescription* registrationDescription;
+@property (strong, nonatomic) LoadStateViewController *loadController;
+@property (strong, nonatomic) id stream;
+
+- (void)makeFieldControllers;
+- (void)refreshFormFields;
 
 @end
 

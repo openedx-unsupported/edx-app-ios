@@ -27,7 +27,7 @@ class RegistrationAPIError : NSError {
 }
 
 public struct RegistrationAPI {
-
+    
     static func registrationDeserializer(response : NSHTTPURLResponse, json: JSON) -> Result<()> {
         if response.httpStatusCode.is2xx {
             return .Success(())
@@ -52,4 +52,5 @@ public struct RegistrationAPI {
             body: .FormEncoded(fields),
             deserializer: .JSONResponse(registrationDeserializer))
     }
+    
 }

@@ -120,8 +120,14 @@
 		6960892B1D53935500EE66DD /* courseCertificate.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089281D53935500EE66DD /* courseCertificate.png */; };
 		6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089291D53935500EE66DD /* courseCertificate@2x.png */; };
 		6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6960892A1D53935500EE66DD /* courseCertificate@3x.png */; };
+		697B5A011D92D9CD002C3ABD /* TestCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391321C973CEC00FA959C /* TestCredentials.swift */; };
+		697B5A021D92DA17002C3ABD /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391831CA0600700FA959C /* RegistrationAPITests.swift */; };
+		697B5A031D92DA2F002C3ABD /* RegistrationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391471C97A70700FA959C /* RegistrationAPI.swift */; };
+		697B5A091D92DB3F002C3ABD /* RegistrationFormAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */; };
 		6987A86B1D6C57C100E9D183 /* OEXColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */; };
 		6987A86D1D6C67DB00E9D183 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 6987A86C1D6C67DB00E9D183 /* colors.json */; };
+		69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */ = {isa = PBXBuildFile; fileRef = 69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */; };
+		69E1CD011D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */; };
 		69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A31D50D1170030CF87 /* FontAwesome.otf */; };
 		69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */; };
 		69ECC5FF1D50D1170030CF87 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */; };
@@ -299,7 +305,6 @@
 		7753912A1C9234F300FA959C /* MockResponseCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E648A11C91EB4900B6740D /* MockResponseCache.swift */; };
 		7753912F1C973ADA00FA959C /* NSUUID+Username.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753912E1C973ADA00FA959C /* NSUUID+Username.swift */; };
 		775391311C973CBE00FA959C /* Stream+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391301C973CBE00FA959C /* Stream+Sync.swift */; };
-		775391331C973CEC00FA959C /* TestCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391321C973CEC00FA959C /* TestCredentials.swift */; };
 		7753913C1C97579000FA959C /* PersistentResponseCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753913B1C97579000FA959C /* PersistentResponseCacheTests.swift */; };
 		7753913E1C9758A300FA959C /* Result+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753913D1C9758A300FA959C /* Result+Assertions.swift */; };
 		7753913F1C9758D400FA959C /* XCTestCase+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773B1D471B1F814200B861DF /* XCTestCase+Async.swift */; };
@@ -307,11 +312,9 @@
 		775391441C9760BD00FA959C /* NSString+OEXCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 775391421C9760BD00FA959C /* NSString+OEXCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		775391451C9760BD00FA959C /* NSString+OEXCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 775391431C9760BD00FA959C /* NSString+OEXCrypto.m */; };
 		775391461C9763D000FA959C /* Result+Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753913D1C9758A300FA959C /* Result+Assertions.swift */; };
-		775391481C97A70700FA959C /* RegistrationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391471C97A70700FA959C /* RegistrationAPI.swift */; };
 		7753914B1C98A16600FA959C /* VideoBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391491C98A15100FA959C /* VideoBlockViewControllerTests.swift */; };
 		7753914E1C98B6FA00FA959C /* RegistrationScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753914C1C98B6CA00FA959C /* RegistrationScreenInteractor.swift */; };
 		775391501C98B7C500FA959C /* RegisterFeatureTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7753914F1C98B7C500FA959C /* RegisterFeatureTestCase.swift */; };
-		775391841CA0600700FA959C /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391831CA0600700FA959C /* RegistrationAPITests.swift */; };
 		77542CD61CB6A398006CA428 /* JSON+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77542CD51CB6A398006CA428 /* JSON+Formatting.swift */; };
 		77542CD81CB6A3AA006CA428 /* BadgesAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77542CD71CB6A3AA006CA428 /* BadgesAPITests.swift */; };
 		77542CDB1CB6A463006CA428 /* OEXMetaClassHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 77542CDA1CB6A463006CA428 /* OEXMetaClassHelpers.m */; };
@@ -625,8 +628,6 @@
 		B4B6D62E1A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6281A949F1B000F44E8 /* OEXRegistrationFieldTextAreaController.m */; };
 		B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */; };
 		B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */; };
-		B4B6D63B1A950C28000F44E8 /* registration.json in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D63A1A950C28000F44E8 /* registration.json */; };
-		B4B6D63C1A950C28000F44E8 /* registration.json in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D63A1A950C28000F44E8 /* registration.json */; };
 		B4B6D63F1A952D1C000F44E8 /* OEXRegistrationAgreementView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */; };
 		B4B6D6431A95335C000F44E8 /* OEXRegistrationAgreementController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6421A95335C000F44E8 /* OEXRegistrationAgreementController.m */; };
 		B4B6D6481A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */; };
@@ -893,8 +894,11 @@
 		696089281D53935500EE66DD /* courseCertificate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate.png; sourceTree = "<group>"; };
 		696089291D53935500EE66DD /* courseCertificate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@2x.png"; sourceTree = "<group>"; };
 		6960892A1D53935500EE66DD /* courseCertificate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@3x.png"; sourceTree = "<group>"; };
+		697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationFormAPI.swift; path = Source/Core/Code/RegistrationFormAPI.swift; sourceTree = SOURCE_ROOT; };
 		6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsTests.swift; sourceTree = "<group>"; };
 		6987A86C1D6C67DB00E9D183 /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
+		69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RegistrationForm.json; sourceTree = "<group>"; };
+		69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXRegistrationViewController+Swift.swift"; sourceTree = "<group>"; };
 		69ECC5A31D50D1170030CF87 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
 		69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -1503,7 +1507,6 @@
 		B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationFieldControllerFactory.m; sourceTree = "<group>"; };
 		B4B6D6371A95042B000F44E8 /* OEXCheckBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCheckBoxView.h; sourceTree = "<group>"; };
 		B4B6D6381A95042B000F44E8 /* OEXCheckBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCheckBoxView.m; sourceTree = "<group>"; };
-		B4B6D63A1A950C28000F44E8 /* registration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = registration.json; sourceTree = "<group>"; };
 		B4B6D63D1A952D1C000F44E8 /* OEXRegistrationAgreementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationAgreementView.h; sourceTree = "<group>"; };
 		B4B6D63E1A952D1C000F44E8 /* OEXRegistrationAgreementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationAgreementView.m; sourceTree = "<group>"; };
 		B4B6D6411A95335C000F44E8 /* OEXRegistrationAgreementController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationAgreementController.h; sourceTree = "<group>"; };
@@ -2327,6 +2330,7 @@
 				BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */,
 				B4B6D5E61A9490FC000F44E8 /* OEXRegistrationViewController.h */,
 				B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */,
+				69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */,
 				B4B6D6451A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.h */,
 				B4B6D6461A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.m */,
 			);
@@ -2444,6 +2448,7 @@
 				772856DE1CADBFD100460E7C /* BadgesAPI.swift */,
 				77AF076E1CADD20F00A42704 /* BadgesModel.swift */,
 				775391471C97A70700FA959C /* RegistrationAPI.swift */,
+				697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */,
 				F22A0ABC1CE660B300D50DFF /* LoginApi.swift */,
 				E0A2461C1D5CA6950066C766 /* LogoutApi.swift */,
 			);
@@ -2685,6 +2690,7 @@
 		77FDF4171B0269FA00E8C639 /* Test Data */ = {
 			isa = PBXGroup;
 			children = (
+				69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */,
 				E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */,
 				775716B41CB7FF660091AB10 /* sample-badge.png */,
 				77FDF4151B0269F600E8C639 /* test-movie.m4v */,
@@ -3100,7 +3106,6 @@
 			children = (
 				773A04691AF289650076532C /* edX-Bridging-Header.h */,
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
-				B4B6D63A1A950C28000F44E8 /* registration.json */,
 				B47780581AADA95400436DB4 /* Terms-and-Services.htm */,
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
 				1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */,
@@ -3578,7 +3583,6 @@
 				69ECC6501D50D1170030CF87 /* Default@2x.png in Resources */,
 				69ECC6341D50D1170030CF87 /* ic_next_deactive.png in Resources */,
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
-				B4B6D63B1A950C28000F44E8 /* registration.json in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
 				69ECC6421D50D1170030CF87 /* logo@2x.png in Resources */,
 				69ECC61A1D50D1170030CF87 /* bt_grey_default.png in Resources */,
@@ -3677,9 +3681,9 @@
 			files = (
 				77E6489D1C91D92400B6740D /* CourseStatusInfo.json in Resources */,
 				775716B31CB7FF4B0091AB10 /* test-movie.m4v in Resources */,
+				69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */,
 				77E6489E1C91D92D00B6740D /* DiscussionPosts.json in Resources */,
 				775716B51CB7FF660091AB10 /* sample-badge.png in Resources */,
-				B4B6D63C1A950C28000F44E8 /* registration.json in Resources */,
 				B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3847,7 +3851,6 @@
 				77AF076F1CADD20F00A42704 /* BadgesModel.swift in Sources */,
 				77542CD61CB6A398006CA428 /* JSON+Formatting.swift in Sources */,
 				77E648851C91385C00B6740D /* Array+Functional.swift in Sources */,
-				775391481C97A70700FA959C /* RegistrationAPI.swift in Sources */,
 				771D65D01C922FC800112B7E /* Removable.swift in Sources */,
 				77E648651C9127DF00B6740D /* Logger.swift in Sources */,
 				771D65C91C922EE600112B7E /* NetworkManager.swift in Sources */,
@@ -3869,6 +3872,7 @@
 				771D65C71C922E6700112B7E /* OEXRemovable.m in Sources */,
 				771D65DB1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift in Sources */,
 				77E648951C91407B00B6740D /* NSObject+OEXDeallocAction.m in Sources */,
+				697B5A031D92DA2F002C3ABD /* RegistrationAPI.swift in Sources */,
 				771D65CC1C922FB800112B7E /* Result.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3879,10 +3883,10 @@
 			files = (
 				77E648A41C91F99400B6740D /* MockNetworkManager.swift in Sources */,
 				772856E31CADCE0900460E7C /* OEXDateFormattingTests.m in Sources */,
-				775391841CA0600700FA959C /* RegistrationAPITests.swift in Sources */,
 				7753913C1C97579000FA959C /* PersistentResponseCacheTests.swift in Sources */,
 				7753913F1C9758D400FA959C /* XCTestCase+Async.swift in Sources */,
 				77542CDB1CB6A463006CA428 /* OEXMetaClassHelpers.m in Sources */,
+				697B5A021D92DA17002C3ABD /* RegistrationAPITests.swift in Sources */,
 				77E648A21C91EB4900B6740D /* MockResponseCache.swift in Sources */,
 				77E648991C91CC0700B6740D /* NSObject+OEXDeallocActionTests.m in Sources */,
 				77E6489C1C91CC6700B6740D /* Array+FunctionalTests.swift in Sources */,
@@ -3898,6 +3902,7 @@
 			files = (
 				775391311C973CBE00FA959C /* Stream+Sync.swift in Sources */,
 				E0816D7F1CBE35DA00818769 /* FindCoursesTestCase.swift in Sources */,
+				697B5A011D92D9CD002C3ABD /* TestCredentials.swift in Sources */,
 				E0816D7E1CBE35D300818769 /* FindCoursesInteractor.swift in Sources */,
 				77E6484F1C91024C00B6740D /* LoginFeatureTestCase.swift in Sources */,
 				77E648521C91024C00B6740D /* XCUIElement+Helpers.swift in Sources */,
@@ -3910,7 +3915,6 @@
 				77E6484D1C91024C00B6740D /* EnrolledCoursesInteractor.swift in Sources */,
 				77E648511C91024C00B6740D /* SplashScreenInteractor.swift in Sources */,
 				77E648501C91024C00B6740D /* LoginScreenInteractor.swift in Sources */,
-				775391331C973CEC00FA959C /* TestCredentials.swift in Sources */,
 				77E6484B1C91024C00B6740D /* AppLaunchInteractor.swift in Sources */,
 				E0816D7D1CBE35CE00818769 /* NavigationDrawerInteractor.swift in Sources */,
 				775391501C98B7C500FA959C /* RegisterFeatureTestCase.swift in Sources */,
@@ -4026,6 +4030,7 @@
 				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
 				778F17781C0D123F0099BF93 /* CourseCatalogViewController.swift in Sources */,
 				1AB539E41BFA24DC0065501F /* CertificateViewController.swift in Sources */,
+				69E1CD011D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift in Sources */,
 				19BB622A1A9B28F1007DBF47 /* OEXRegistrationFieldWrapperView.m in Sources */,
 				9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */,
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
@@ -4115,6 +4120,7 @@
 				B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */,
 				9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */,
 				1A373E911C45807D00E3AAAA /* NSError+JSON.swift in Sources */,
+				697B5A091D92DB3F002C3ABD /* RegistrationFormAPI.swift in Sources */,
 				77D6A9A41C28F32900E67CCF /* CoursesAPI.swift in Sources */,
 				778B40D91C2F62520009F33E /* EnrollmentManager.swift in Sources */,
 				BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */,

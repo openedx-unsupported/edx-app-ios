@@ -42,7 +42,7 @@ typedef enum
 
 @property (readonly, nonatomic, assign) OEXRegistrationFieldType fieldType;
 @property (readonly, nonatomic, strong) OEXRegistrationOption* defaultOption;
-@property (readonly, nonatomic, strong) OEXRegistrationAgreement* agreement;
+@property (nonatomic, strong) OEXRegistrationAgreement* agreement;
 @property (readonly, nonatomic, strong) OEXRegistrationRestriction* restriction;
 @property (readonly, nonatomic, strong) OEXRegistrationErrorMessage* errorMessage;
 
@@ -62,7 +62,7 @@ typedef enum
 @property (nonatomic, copy) NSString* label;
 @property (nonatomic, copy) NSString* type;
 
-@property (nonatomic, assign) OEXRegistrationFieldType fieldType;
+@property (nonatomic) OEXRegistrationFieldType fieldType;
 @property (nonatomic, strong) OEXRegistrationOption* defaultOption;
 @property (nonatomic, strong) OEXRegistrationAgreement* agreement;
 @property (nonatomic, strong) OEXRegistrationRestriction* restriction;
