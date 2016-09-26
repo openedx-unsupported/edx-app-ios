@@ -53,7 +53,7 @@ class DiscussionHelper: NSObject {
     }
     
     class func styleAuthorDetails(author: String?, authorLabel: String?, createdAt: NSDate?, hasProfileImage: Bool, imageURL: String?, authoNameLabel: UILabel, dateLabel: UILabel, authorButton: UIButton, imageView: UIImageView, viewController: UIViewController, router: OEXRouter?) {
-        let textStyle = OEXTextStyle(weight:.Normal, size:.XSmall, color: OEXStyles.sharedStyles().neutralXDark())
+        let textStyle = OEXTextStyle(weight:.Normal, size:.Base, color: OEXStyles.sharedStyles().neutralXDark())
         // formate author name
         let highlightStyle = OEXMutableTextStyle(textStyle: textStyle)
         if let _ = author where OEXConfig.sharedConfig().profilesEnabled {
@@ -61,7 +61,7 @@ class DiscussionHelper: NSObject {
             highlightStyle.weight = .Bold
         }
         else {
-            highlightStyle.color = OEXStyles.sharedStyles().neutralBase()
+            highlightStyle.color = OEXStyles.sharedStyles().neutralXDark()
             highlightStyle.weight = textStyle.weight
         }
         let authorName = highlightStyle.attributedStringWithText(author ?? Strings.anonymous.oex_lowercaseStringInCurrentLocale())

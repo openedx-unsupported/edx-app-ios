@@ -13,11 +13,11 @@ private var commentTextStyle : OEXTextStyle {
 }
 
 private var smallTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XSmall, color : OEXStyles.sharedStyles().neutralBase())
+    return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralDark())
 }
 
 private var smallIconStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
+    return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
 }
 
 private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())

@@ -10,10 +10,9 @@ import Foundation
 
 private let GeneralPadding: CGFloat = 8.0
 
-private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.Small, color: OEXStyles.sharedStyles().neutralBase())
+private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.Base, color: OEXStyles.sharedStyles().neutralDark())
 private let cellIconSelectedStyle = cellButtonStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
-private let responseCountStyle = OEXTextStyle(weight:.Normal, size:.Base, color:OEXStyles.sharedStyles().primaryBaseColor())
-private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
+private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
 
 class DiscussionCellButton: UIButton {
     var indexPath: NSIndexPath?
@@ -199,11 +198,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralXDark())
     }
     
     var infoTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
 
     }
     
