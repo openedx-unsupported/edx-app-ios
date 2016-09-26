@@ -113,7 +113,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.fieldControllers = [fields oex_map:^id < OEXRegistrationFieldController > (OEXRegistrationFormField* formField)
                              {
                                  id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
-                                 fieldController.accessibleInputField.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", formField.name];
                                  if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {
                                      // These don't have explicit representations in the apps
                                      return nil;
@@ -150,11 +149,13 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.agreementLabel.numberOfLines = 0;
     self.agreementLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.agreementLabel.text = [Strings registrationAgreementMessageWithPlatformName:platform];
+    self.agreementLabel.isAccessibilityElement = NO;
     self.agreementLink = [[UIButton alloc] init];
     [self.agreementLink setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:platform] forState:UIControlStateNormal];
     [self.agreementLink.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
     [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
     [self.agreementLink addTarget:self action:@selector(agreementButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.agreementLink.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationAgreementMessageWithPlatformName:platform],[Strings registrationAgreementButtonTitleWithPlatformName:platform]];
 
     //This button will show and hide optional fields
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
@@ -243,6 +244,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
+    UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
 }
 
 - (void)updateViewConstraints {
