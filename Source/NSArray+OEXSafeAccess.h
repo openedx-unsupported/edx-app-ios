@@ -13,11 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Like objectAtIndex: but return nil instead of crashing if the index is out of bounds
 /// Will still assert if the index is out of bounds in DEBUG builds. See oex_objectOrNilAtIndex:
 /// if you want to ignore the nil case entirely.
-- (id)oex_safeObjectAtIndex:(NSUInteger)index;
+- (id _Nullable)oex_safeObjectAtIndex:(NSUInteger)index;
 
 /// Like objectAtIndex: but return nil instead of crashing if the index is out of bounds
 /// See oex_objectOrNilAtIndex: if you want fail fast behavior for fetching out of bounds
-- (id)oex_safeObjectOrNilAtIndex:(NSUInteger)index;
+- (id _Nullable)oex_safeObjectOrNilAtIndex:(NSUInteger)index;
 
 @end
 

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXRegistrationFieldValidator : NSObject
 /// Returns an error string, or nil if no error
-+ (NSString*)validateField:(OEXRegistrationFormField*)field withText:(NSString*)currentValue;
++ (NSString* _Nullable)validateField:(OEXRegistrationFormField*)field withText:(NSString*)currentValue;
 @end
 
 NS_ASSUME_NONNULL_END
