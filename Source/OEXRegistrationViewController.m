@@ -66,6 +66,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (assign, nonatomic) BOOL isShowingOptionalFields;
 
 @property (strong, nonatomic) OEXRegistrationStyles* styles;
+@property (nonatomic) OEXMutableTextStyle *buttonsTitleStyle;
 
 @end
 
@@ -95,6 +96,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     
     //By default we only shows required fields
     self.isShowingOptionalFields = NO;
+    
+    _buttonsTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[[OEXStyles sharedStyles] primaryBaseColor]];
 }
 
 - (void)getFormFields {
@@ -130,11 +133,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     NSString* platform = self.environment.config.platformName;
     ////Create and initalize 'btnCreateAccount' button
     self.registerButton = [[UIButton alloc] init];
-    
-    [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.registerButton setTitle:[Strings registrationCreateMyAccount] forState:UIControlStateNormal];
     [self.registerButton addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
-    [self.registerButton setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
+    [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
     self.registerButton.accessibilityIdentifier = @"register";
 
     ////Create progrssIndicator as subview to btnCreateAccount
@@ -160,7 +160,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     //This button will show and hide optional fields
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
-    [self.toggleOptionalFieldsButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.toggleOptionalFieldsButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton setTitle:[Strings registrationShowOptionalFields]  forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton.titleLabel setFont:[UIFont fontWithName:semiboldFont size:14.0]];
 
@@ -527,12 +527,12 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void)showProgress:(BOOL)status {
     if(status) {
         [self.progressIndicator startAnimating];
-        [self.registerButton setTitle:[Strings registrationCreatingAccount] forState:UIControlStateNormal];
+        [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreatingAccount]];
         [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     }
     else {
         [self.progressIndicator stopAnimating];
-        [self.registerButton setTitle:[Strings registrationCreateMyAccount] forState:UIControlStateNormal];
+        [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
 }

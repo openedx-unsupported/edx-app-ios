@@ -24,7 +24,7 @@
 }
 
 - (OEXTextStyle*)headingMessagePromptStyle {
-    OEXTextStyle* style = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightSemiBold size:OEXTextSizeSmall color:[UIColor lightGrayColor]];
+    OEXTextStyle* style = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightSemiBold size:OEXTextSizeSmall color:[[OEXStyles sharedStyles] neutralDark]];
     return style;
 }
 

@@ -8,11 +8,14 @@
 
 #import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationFieldWrapperView.h"
+#import "OEXTextStyle.h"
+#import "OEXStyles.h"
 
 @interface OEXRegistrationFormTextField () <UITextFieldDelegate>
 
 @property (strong, nonatomic) OEXRegistrationFieldWrapperView* registrationWrapper;
 @property (strong, nonatomic) UIImageView* backgroundView;
+@property (nonatomic) OEXTextStyle *placeHolderStyle;
 
 @end
 
@@ -31,6 +34,7 @@ static NSInteger const textFieldHeight = 40;
         self.textInputView.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.textInputView.autocorrectionType = UITextAutocorrectionTypeNo;
         self.textInputView.delegate = self;
+        _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
         
         self.backgroundView = [[UIImageView alloc] initWithFrame:CGRectZero];
         self.backgroundView.image = [UIImage imageNamed:textFieldBackgoundImage];
@@ -55,7 +59,7 @@ static NSInteger const textFieldHeight = 40;
     self.backgroundView.frame = CGRectMake(paddingHorizontal, paddingTop, frameWidth, textFieldHeight);
     self.textInputView.frame = CGRectInset(self.backgroundView.frame, 10, 10);
     
-    [self.textInputView setPlaceholder:self.placeholder];
+    [self.textInputView setAttributedPlaceholder:[_placeHolderStyle attributedStringWithText:self.placeholder]];
     self.textInputView.accessibilityHint = self.instructionMessage;
     offset = offset + textFieldHeight;
     [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:self.instructionMessage];
