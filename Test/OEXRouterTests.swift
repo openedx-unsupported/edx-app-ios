@@ -12,7 +12,11 @@ import XCTest
 class OEXRouterTests: XCTestCase {
     
     func testShowSplashWhenLoggedOut() {
-        let environment = TestRouterEnvironment()
+        let config = OEXConfig(dictionary:[
+            "COURSE_ENROLLMENT": [
+                "TYPE": "webview"]
+            ])
+        let environment = TestRouterEnvironment(config: config, interface: nil)
         let router = OEXRouter(environment: environment)
         router.openInWindow(nil)
         XCTAssertTrue(router.t_showingLogin())
