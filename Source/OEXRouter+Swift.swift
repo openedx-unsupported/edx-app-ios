@@ -266,7 +266,12 @@ extension OEXRouter {
         removeCurrentContentController()
 
         let splashController: UIViewController
-        if environment.config.newLogistrationFlowEnabled {
+        
+        let isRegistrationEnabled: Bool = environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() == !environment.config.isOnlySignInEnabled
+        if !isRegistrationEnabled {
+            splashController = loginViewController()
+        }
+        else if environment.config.newLogistrationFlowEnabled {
             splashController = StartupViewController(environment: environment)
         } else {
             let splashEnvironment = OEXLoginSplashViewControllerEnvironment(router: self)

@@ -41,4 +41,8 @@ extension OEXConfig {
         return boolForKey("DISCUSSIONS_ENABLE_PROFILE_PICTURE_PARAM")
     }
     
+    var isOnlySignInEnabled: Bool {
+        return boolForKey("SIGN_IN_ONLY_ENABLED")
+    }
+    
 }
