@@ -209,6 +209,8 @@
     
     self.tf_EmailID.textAlignment = NSTextAlignmentNatural;
     self.tf_Password.textAlignment = NSTextAlignmentNatural;
+    self.img_Logo.isAccessibilityElement = YES;
+    self.img_Logo.accessibilityLabel = [[OEXConfig sharedConfig] platformName];
 
     NSString* environmentName = self.environment.config.environmentName;
     if(environmentName.length > 0) {
@@ -319,13 +321,18 @@
     self.tf_Password.accessibilityLabel = nil;
 
     self.lbl_Redirect.text = [Strings redirectText];
+    self.lbl_Redirect.isAccessibilityElement = NO;
     [self.btn_TroubleLogging setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
     [self.btn_TroubleLogging setTitleColor:[[OEXStyles sharedStyles] primaryBaseColor] forState:UIControlStateNormal];
     [self.btn_OpenEULA setTitleColor:[[OEXStyles sharedStyles] primaryBaseColor] forState:UIControlStateNormal];
     _buttonsTitleStyle.weight = OEXTextWeightNormal;
     _buttonsTitleStyle.size = OEXTextSizeXXSmall;
-    [self.btn_OpenEULA setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:[Strings registrationAgreementButtonTitleWithPlatformName:self.environment.config.environmentName]] forState:UIControlStateNormal];
+
+    NSString *termsText = [Strings registrationAgreementButtonTitleWithPlatformName:self.environment.config.platformName];
+    [self.btn_OpenEULA setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:termsText] forState:UIControlStateNormal];
+
     self.btn_OpenEULA.accessibilityTraits = UIAccessibilityTraitLink;
+    self.btn_OpenEULA.accessibilityLabel = [NSString stringWithFormat:@"%@,%@",[Strings redirectText], termsText];
     
     [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
     [self.activityIndicator stopAnimating];
@@ -664,6 +671,7 @@
     }
     else {
         [textField resignFirstResponder];
+        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,  self.btn_Login);
     }
 
     return YES;
