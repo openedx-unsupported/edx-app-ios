@@ -26,7 +26,8 @@ public class OEXColors: NSObject {
         }
         if let data = NSData(contentsOfFile: filePath) {
             var error : NSError?
-            if let json = NSJSONSerialization.oex_JSONObjectWithData(data, error: &error) as? [String: AnyObject] {
+            
+            if let json = JSON(data: data, error: &error).dictionaryObject{
                 return json
             }
             return fallbackColors
