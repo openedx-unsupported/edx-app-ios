@@ -670,8 +670,8 @@
         [self.tf_Password becomeFirstResponder];
     }
     else {
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self.btn_Login);
         [textField resignFirstResponder];
-        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,  self.btn_Login);
     }
 
     return YES;
