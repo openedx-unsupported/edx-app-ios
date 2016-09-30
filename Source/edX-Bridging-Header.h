@@ -44,6 +44,7 @@
 #import "OEXRegistrationOption.h"
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationViewController.h"
+#import "OEXRegistrationFormField.h"
 #import "OEXRemovable.h"
 #import "OEXRouter.h"
 #import "OEXSession.h"

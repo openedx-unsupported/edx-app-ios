@@ -98,6 +98,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.isShowingOptionalFields = NO;
     
     _buttonsTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[[OEXStyles sharedStyles] primaryBaseColor]];
+    
+    [self getFormFields];
 }
 
 - (void)getFormFields {
@@ -206,8 +208,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    [self getFormFields];
+    
     // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardFrameChanged:)
