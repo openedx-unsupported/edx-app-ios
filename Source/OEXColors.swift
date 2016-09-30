@@ -48,7 +48,9 @@ public class OEXColors: NSObject {
             let color = UIColor(hexString: hexValue, alpha: alpha)
             return color
         }
-        return UIColor.whiteColor()
+        //Assert to crash on development, and return a random color for distribution
+        assert(false, "Could not find the required color in colors.json")
+        return UIColor(hexString: "#FABA12", alpha: 1.0)
     }
     
 }
