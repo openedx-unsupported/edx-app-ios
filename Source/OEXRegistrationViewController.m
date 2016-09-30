@@ -133,7 +133,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     NSString* platform = self.environment.config.platformName;
     ////Create and initalize 'btnCreateAccount' button
     self.registerButton = [[UIButton alloc] init];
-    [self.registerButton addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.registerButton oex_addAction:^(id  _Nonnull control) {
+        [self createAccount:nil];
+    } forEvents:UIControlEventTouchUpInside];
+    
     [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
     self.registerButton.accessibilityIdentifier = @"register";
 
@@ -154,7 +158,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.agreementLink setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:platform] forState:UIControlStateNormal];
     [self.agreementLink.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
     [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
-    [self.agreementLink addTarget:self action:@selector(agreementButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.agreementLink oex_addAction:^(id  _Nonnull control) {
+        [self agreementButtonTapped:nil];
+    } forEvents:UIControlEventTouchUpInside];
     self.agreementLink.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationAgreementMessageWithPlatformName:platform],[Strings registrationAgreementButtonTitleWithPlatformName:platform]];
 
     //This button will show and hide optional fields

@@ -37,8 +37,9 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
             textInputView.rightViewMode = .Always
             textInputView.rightView = dropdownTab
         }
-        
-        tapButton.addTarget(self, action: #selector(RegistrationFieldSelectView.makeFirstResponder), forControlEvents: UIControlEvents.TouchUpInside)
+        tapButton.oex_addAction({[weak self] _ in
+            self?.makeFirstResponder()
+            }, forEvents: UIControlEvents.TouchUpInside)
         self.addSubview(tapButton)
         
         tapButton.snp_makeConstraints { (make) in
@@ -55,7 +56,7 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     override func layoutSubviews() {
         super.layoutSubviews()
         tapButton.accessibilityLabel = self.placeholder
-        tapButton.accessibilityHint = Strings.accessibilityShowsDropdown
+        tapButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
     }
     
     override func canBecomeFirstResponder() -> Bool {
