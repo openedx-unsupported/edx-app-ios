@@ -42,7 +42,11 @@ extension OEXConfig {
     }
     
     var isRegistrationEnabled: Bool {
-        return boolForKey("REGISTRATION_ENABLED")
+        // By default registration is enabled
+        if let _ = properties["REGISTRATION_ENABLED"] {
+            return boolForKey("REGISTRATION_ENABLED")
+        }
+        return true
     }
     
 }

@@ -22,12 +22,6 @@ static NSString* const OEXOAuthClientID = @"OAUTH_CLIENT_ID";
 // Debug
 static NSString* const OEXDebugEnabledKey = @"SHOW_DEBUG";
 
-@interface OEXConfig ()
-
-@property (strong, nonatomic) NSDictionary* properties;
-
-@end
-
 static OEXConfig* sSharedConfig;
 
 @implementation OEXConfig
