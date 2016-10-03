@@ -52,7 +52,7 @@ class CourseCardViewModel : NSObject {
         card.course = self.course
         
         let remoteImage : RemoteImage
-        let placeholder = UIImage(named: "Splash_map")
+        let placeholder = UIImage(named: "placeholderCourseCardImage")
         if let relativeImageURL = courseImageURL,
             imageURL = NSURL(string: relativeImageURL, relativeToURL: networkManager.baseURL)
         {
