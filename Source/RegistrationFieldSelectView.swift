@@ -14,6 +14,7 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     
     @objc let picker = UIPickerView(frame: CGRectZero)
     private let dropdownTab = UIImageView()
+    private let tapButton = UIButton()
     
     override init(frame : CGRect) {
         super.init(frame : CGRectZero)
@@ -36,12 +37,26 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
             textInputView.rightViewMode = .Always
             textInputView.rightView = dropdownTab
         }
+        tapButton.oex_addAction({[weak self] _ in
+            self?.makeFirstResponder()
+            }, forEvents: UIControlEvents.TouchUpInside)
+        self.addSubview(tapButton)
         
-        let tapGesture = UITapGestureRecognizer()
-        tapGesture.addAction {[weak self] _ in
-            self?.becomeFirstResponder()
+        tapButton.snp_makeConstraints { (make) in
+            make.top.equalTo(textInputView)
+            make.leading.equalTo(textInputView)
+            make.trailing.equalTo(textInputView)
+            make.bottom.equalTo(textInputView)
         }
-        self.addGestureRecognizer(tapGesture)
+        
+        self.textInputView.isAccessibilityElement = false
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        tapButton.accessibilityLabel = self.placeholder
+        tapButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
     }
     
     override func canBecomeFirstResponder() -> Bool {
@@ -76,6 +91,11 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
         else {
             self.textInputView.text = ""
         }
+    }
+    
+    func makeFirstResponder() {
+        self.becomeFirstResponder()
+            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self.picker)
     }
 
 }

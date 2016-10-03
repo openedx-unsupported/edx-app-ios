@@ -51,6 +51,7 @@
         
         self.signUpHeading = [[UILabel alloc] initWithFrame:CGRectZero];
         self.signUpHeading.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationSignUpPrompt]];
+        self.signUpHeading.isAccessibilityElement = NO;
         
         [self addSubview:self.signUpHeading];
         

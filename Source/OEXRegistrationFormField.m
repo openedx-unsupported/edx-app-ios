@@ -46,12 +46,16 @@
         if (platformName) {
             self.label = [self.label stringByReplacingOccurrencesOfString:@"edX" withString:platformName];
         }
-        NSAttributedString *attributedLabel = [[NSAttributedString alloc] initWithData:[self.instructions dataUsingEncoding:NSUTF8StringEncoding]
-                                                      options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
-                                                                NSCharacterEncodingDocumentAttribute:@(NSUTF8StringEncoding)}
-                                           documentAttributes:nil
-                                                        error:nil];
-        self.instructions = attributedLabel.string;
+        if (self.instructions.length > 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSAttributedString *attributedLabel = [[NSAttributedString alloc] initWithData:[self.instructions dataUsingEncoding:NSUTF8StringEncoding]
+                                                                                       options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                                                                                 NSCharacterEncodingDocumentAttribute:@(NSUTF8StringEncoding)}
+                                                                            documentAttributes:nil
+                                                                                         error:nil];
+                self.instructions = attributedLabel.string;
+            });
+        }
         self.type = dictionary[@"type"];
         self.fieldType = [self registrationFieldType:dictionary[@"type"]];
         self.errorMessage = [[OEXRegistrationErrorMessage alloc] initWithDictionary:dictionary[@"errorMessages"]];

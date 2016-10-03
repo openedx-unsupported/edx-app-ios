@@ -8,11 +8,14 @@
 
 #import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationFieldWrapperView.h"
+#import "OEXTextStyle.h"
+#import "OEXStyles.h"
 
-@interface OEXRegistrationFormTextField ()
+@interface OEXRegistrationFormTextField () <UITextFieldDelegate>
 
 @property (strong, nonatomic) OEXRegistrationFieldWrapperView* registrationWrapper;
 @property (strong, nonatomic) UIImageView* backgroundView;
+@property (nonatomic) OEXTextStyle *placeHolderStyle;
 
 @end
 
@@ -30,6 +33,8 @@ static NSInteger const textFieldHeight = 40;
         self.textInputView.textColor = [UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:1.0];
         self.textInputView.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.textInputView.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.textInputView.delegate = self;
+        _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
         
         self.backgroundView = [[UIImageView alloc] initWithFrame:CGRectZero];
         self.backgroundView.image = [UIImage imageNamed:textFieldBackgoundImage];
@@ -39,6 +44,7 @@ static NSInteger const textFieldHeight = 40;
         
         self.registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
         [self addSubview:self.registrationWrapper];
+        
     }
     return self;
 }
@@ -53,7 +59,8 @@ static NSInteger const textFieldHeight = 40;
     self.backgroundView.frame = CGRectMake(paddingHorizontal, paddingTop, frameWidth, textFieldHeight);
     self.textInputView.frame = CGRectInset(self.backgroundView.frame, 10, 10);
     
-    [self.textInputView setPlaceholder:self.placeholder];
+    [self.textInputView setAttributedPlaceholder:[_placeHolderStyle attributedStringWithText:self.placeholder]];
+    self.textInputView.accessibilityHint = self.instructionMessage;
     offset = offset + textFieldHeight;
     [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:self.instructionMessage];
     [self.registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, self.registrationWrapper.frame.size.height)];
@@ -89,5 +96,16 @@ static NSInteger const textFieldHeight = 40;
     [self.registrationWrapper layoutIfNeeded];
     [self setNeedsLayout];
 }
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([textField isEqual:self.textInputView] && [textField.text isEqualToString:@""] && string.length > 0) {
+        textField.accessibilityLabel = self.placeholder;
+    }
+    else if([textField isEqual:self.textInputView] && [string isEqualToString:@""] && textField.text.length == 1) {
+        textField.accessibilityLabel = nil;
+    }
+    return YES;
+}
+
 
 @end

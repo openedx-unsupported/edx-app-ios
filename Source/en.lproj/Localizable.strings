@@ -18,8 +18,6 @@
 "ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "Clear the checkbox";
 /* Label for action hint on check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to select";
-/* Call to action for Course content on Home Screen */
-"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Double tap to view course content.";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "By";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
@@ -62,6 +60,10 @@
 "ACCESSIBILITY_SELECT_ALL" = "Select All";
 /* Accessibility label for Settings Button in the Video Player */
 "ACCESSIBILITY_SETTINGS" = "Settings";
+/* Call to action for Course content on Home Screen */
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Double tap to view course content.";
+/* Call to action for Opening Dropdown */
+"ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Double tap to open dropdown.";
 /* Accessibility label for Unknown Icon in the Courseware screens */
 "ACCESSIBILITY_UNKNOWN" = "Unknown";
 /* Accessibility label for Video Icon in the Courseware screens */
