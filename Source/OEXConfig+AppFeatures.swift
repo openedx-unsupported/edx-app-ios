@@ -41,4 +41,12 @@ extension OEXConfig {
         return boolForKey("DISCUSSIONS_ENABLE_PROFILE_PICTURE_PARAM")
     }
     
+    var isRegistrationEnabled: Bool {
+        // By default registration is enabled
+        if let _ = properties["REGISTRATION_ENABLED"] {
+            return boolForKey("REGISTRATION_ENABLED")
+        }
+        return true
+    }
+    
 }
