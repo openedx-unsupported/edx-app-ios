@@ -101,13 +101,9 @@ typedef  enum OEXAlertType
 @property(nonatomic, strong) IBOutlet NSLayoutConstraint* recentEditViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* TrailingSpaceCustomProgress;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* ConstraintRecentTop;
-@property (weak, nonatomic) IBOutlet UIView* view_NavBG;
 
 @property (weak, nonatomic) IBOutlet UITableView* table_MyVideos;
-@property (weak, nonatomic) IBOutlet UIButton* btn_LeftNavigation;
 @property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressView;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Download;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_NavTitle;
 @property (weak, nonatomic) IBOutlet UIView* tabView;
 @property (weak, nonatomic) IBOutlet UICollectionView* collectionView;
 @property (weak, nonatomic) IBOutlet UITableView* table_RecentVideos;
@@ -132,10 +128,7 @@ typedef  enum OEXAlertType
 
 - (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller {
     NSMutableArray* result = [[NSMutableArray alloc] init];
-    [result oex_safeAddObjectOrNil:self.view_NavBG];
     [result oex_safeAddObjectOrNil:self.tabView];
-    [result oex_safeAddObjectOrNil:self.btn_LeftNavigation];
-    [result oex_safeAddObjectOrNil:self.lbl_NavTitle];
     [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
     [result oex_safeAddObjectOrNil:self.customProgressView];
     [result oex_safeAddObjectOrNil:self.btn_Downloads];
@@ -148,7 +141,7 @@ typedef  enum OEXAlertType
     //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
 
-    [self.navigationController setNavigationBarHidden:true animated:animated];
+    [self.navigationController setNavigationBarHidden:false animated:animated];
 
     // Add Observer
     [self addObservers];
@@ -166,7 +159,7 @@ typedef  enum OEXAlertType
 
     //While editing goto downloads then comes back Progressview overlaps checkbox.
     // To avoid this check this.
-    if(_isTableEditing) {
+    if(8) {
         self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
     }
     else {
@@ -175,7 +168,7 @@ typedef  enum OEXAlertType
         }
     }
 
-    self.navigationController.navigationBarHidden = YES;
+    self.navigationController.navigationBarHidden = NO;
 
     self.table_RecentVideos.separatorInset = UIEdgeInsetsZero;
 #ifdef __IPHONE_8_0
@@ -220,21 +213,19 @@ typedef  enum OEXAlertType
 
     // Do any additional setup after loading the view.
     //Hide back button
-    [self.navigationItem setHidesBackButton:YES];
+    self.navigationController.navigationBarHidden = NO;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.navigationController.navigationBar setTranslucent:NO];
+    self.title = @"My Videos";
 
     //Set exclusive touch for all buttons
-    self.btn_LeftNavigation.exclusiveTouch = YES;
     self.videoVideo.exclusiveTouch = YES;
     self.table_RecentVideos.exclusiveTouch = YES;
     self.table_MyVideos.exclusiveTouch = YES;
-
-    //set navigation title font
-    self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
-
-    // Mock NavStyle
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.view_NavBG label:self.lbl_NavTitle leftIconButton: self.btn_LeftNavigation];
+    
+    //Set Accessibility Elements
+    self.btn_Downloads.accessibilityLabel = [Strings accessibilityDownloadProgressButtonWithPercentComplete:0 formatted:nil];
+    self.btn_Downloads.accessibilityHint = [Strings accessibilityDownloadProgressButtonHint];
+    self.btn_Downloads.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently;
     
     // Initialize array of data to show on table
     self.arr_SubsectionData = [[NSMutableArray alloc] init];
@@ -243,8 +234,9 @@ typedef  enum OEXAlertType
     self.dataInterface = [OEXInterface sharedInterface];
 
     //Add custom button for drawer
-    [self.btn_LeftNavigation setImage:[UIImage MenuIcon] forState:UIControlStateNormal];
-    [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(leftNavigationBtnClicked)];
+    closeButton.accessibilityLabel = [Strings accessibilityMenu];
+    self.navigationItem.leftBarButtonItem = closeButton;
 
     //set custom progress bar properties
     [self.customProgressView setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
@@ -326,6 +318,10 @@ typedef  enum OEXAlertType
 
 - (void)updateTotalDownloadProgress:(NSNotification* )notification {
     [self.customProgressView setProgress:_dataInterface.totalProgress animated:YES];
+    
+    NSInteger numericPercentage = _dataInterface.totalProgress * 100;
+    NSString *percentString = [NSString stringWithFormat:@"%ld percent",numericPercentage];
+    self.btn_Downloads.accessibilityLabel = [Strings accessibilityDownloadProgressButtonWithPercentComplete:numericPercentage formatted:percentString];
 }
 
 - (void)getMyVideosTableData {
@@ -859,7 +855,7 @@ typedef  enum OEXAlertType
     cellSelectedIndex = indexPath.row;
     self.currentTappedVideo = nil;
     _selectedIndexPath = nil;
-    self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
+//    self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
     [self resetPlayer];
 
     switch(indexPath.row)

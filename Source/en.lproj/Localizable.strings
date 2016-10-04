@@ -25,7 +25,7 @@
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Downloads in progress: {percent_complete}";
 /* Acessibility hint for the download progress button. */
-"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "Double tap to View current downloads";
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
 "ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "Downloading {video_name}. {percent_complete} percent complete.";
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
