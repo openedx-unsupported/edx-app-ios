@@ -65,7 +65,9 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let logo = UIImage(named: "logo")
         logoImageView.image = logo
         logoImageView.contentMode = .ScaleAspectFit
-
+        logoImageView.accessibilityLabel = environment.config.platformName()
+        logoImageView.isAccessibilityElement = true
+        logoImageView.accessibilityTraits = UIAccessibilityTraitImage
         view.addSubview(logoImageView)
 
         logoImageView.snp_makeConstraints { (make) in

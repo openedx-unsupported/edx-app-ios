@@ -66,6 +66,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (assign, nonatomic) BOOL isShowingOptionalFields;
 
 @property (strong, nonatomic) OEXRegistrationStyles* styles;
+@property (nonatomic) OEXMutableTextStyle *buttonsTitleStyle;
 
 @end
 
@@ -95,6 +96,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     
     //By default we only shows required fields
     self.isShowingOptionalFields = NO;
+    
+    _buttonsTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[[OEXStyles sharedStyles] primaryBaseColor]];
+    
+    [self getFormFields];
 }
 
 - (void)getFormFields {
@@ -113,7 +118,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.fieldControllers = [fields oex_map:^id < OEXRegistrationFieldController > (OEXRegistrationFormField* formField)
                              {
                                  id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
-                                 fieldController.accessibleInputField.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", formField.name];
                                  if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {
                                      // These don't have explicit representations in the apps
                                      return nil;
@@ -132,10 +136,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     ////Create and initalize 'btnCreateAccount' button
     self.registerButton = [[UIButton alloc] init];
     
-    [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.registerButton setTitle:[Strings registrationCreateMyAccount] forState:UIControlStateNormal];
-    [self.registerButton addTarget:self action:@selector(createAccount:) forControlEvents:UIControlEventTouchUpInside];
-    [self.registerButton setBackgroundImage:[UIImage imageNamed:@"bt_signin_active.png"] forState:UIControlStateNormal];
+    [self.registerButton oex_addAction:^(id  _Nonnull control) {
+        [self createAccount:nil];
+    } forEvents:UIControlEventTouchUpInside];
+    
+    [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
     self.registerButton.accessibilityIdentifier = @"register";
 
     ////Create progrssIndicator as subview to btnCreateAccount
@@ -150,16 +155,21 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.agreementLabel.numberOfLines = 0;
     self.agreementLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.agreementLabel.text = [Strings registrationAgreementMessageWithPlatformName:platform];
+    self.agreementLabel.isAccessibilityElement = NO;
     self.agreementLink = [[UIButton alloc] init];
     [self.agreementLink setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:platform] forState:UIControlStateNormal];
     [self.agreementLink.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
     [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
-    [self.agreementLink addTarget:self action:@selector(agreementButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.agreementLink oex_addAction:^(id  _Nonnull control) {
+        [self agreementButtonTapped:nil];
+    } forEvents:UIControlEventTouchUpInside];
+    self.agreementLink.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationAgreementMessageWithPlatformName:platform],[Strings registrationAgreementButtonTitleWithPlatformName:platform]];
 
     //This button will show and hide optional fields
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
-    [self.toggleOptionalFieldsButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.toggleOptionalFieldsButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton setTitle:[Strings registrationShowOptionalFields]  forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton.titleLabel setFont:[UIFont fontWithName:semiboldFont size:14.0]];
 
@@ -198,8 +208,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    [self getFormFields];
+    
     // Scrolling on keyboard hide and show
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardFrameChanged:)
@@ -243,6 +252,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
+    UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
 }
 
 - (void)updateViewConstraints {
@@ -525,12 +535,12 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void)showProgress:(BOOL)status {
     if(status) {
         [self.progressIndicator startAnimating];
-        [self.registerButton setTitle:[Strings registrationCreatingAccount] forState:UIControlStateNormal];
+        [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreatingAccount]];
         [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     }
     else {
         [self.progressIndicator stopAnimating];
-        [self.registerButton setTitle:[Strings registrationCreateMyAccount] forState:UIControlStateNormal];
+        [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
 }

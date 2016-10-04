@@ -31,6 +31,7 @@
         self.instructionLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.instructionLabel.numberOfLines = 0;
         self.instructionLabel.font = [UIFont fontWithName:@"OpenSans" size:10.f];
+        self.instructionLabel.isAccessibilityElement = NO;
         [self addSubview:self.instructionLabel];
     }
     return self;

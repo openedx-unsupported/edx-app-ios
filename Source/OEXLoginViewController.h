@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class OEXLoginViewController;
+@class RouterEnvironment;
 
 @protocol OEXLoginViewControllerDelegate <NSObject>
 
@@ -21,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OEXLoginViewController : UIViewController
 
 @property (weak, nonatomic, nullable) id <OEXLoginViewControllerDelegate> delegate;
+@property (strong, nonatomic) RouterEnvironment* environment;
 
 @end
 
