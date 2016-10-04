@@ -619,7 +619,7 @@
 /* Button action to open app on YouTube */
 "VIDEO.VIEW_ON_YOUTUBE" = "View video on YouTube";
 /* Message shown for videos that can only be played external the app via YouTube. */
-"VIDEO.ONLY_ON_YOUTUBE" = "This video can only be played on YouTube";
+"VIDEO.ONLY_ON_YOUTUBE" = "This video can only be played on YouTube.";
 /* Button text for showing an associated item */
 "VIEW" = "View";
 /* Button linking to course announcements */
