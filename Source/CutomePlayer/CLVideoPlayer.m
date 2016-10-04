@@ -352,7 +352,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     }
 }
 
-- (void) videoPlayerTapped:(UIGestureRecognizer *) sender {
+- (void) videoPlayerTapped:(id) sender {
     if([self.delegate respondsToSelector:@selector(videoPlayerTapped:)]) {
         [self.delegate videoPlayerTapped:sender];
     }

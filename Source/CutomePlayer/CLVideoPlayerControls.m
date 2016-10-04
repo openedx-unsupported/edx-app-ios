@@ -105,6 +105,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 @property (nonatomic, strong) CLButton* scaleButton;
 @property (nonatomic, strong) NSTimer* bufferedTimer;
+@property (nonatomic, strong) UIButton *tapButton;
 
 @property (nonatomic, strong) UISwipeGestureRecognizer* leftSwipeGestureRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer* rightSwipeGestureRecognizer;
@@ -816,9 +817,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self hideTables];
     [self setPlayerControlAccessibilityID];
     
-    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentTapped:)];
-    tapGesture.delegate = self;
-    [self addGestureRecognizer:tapGesture];
+    self.tapButton = [[UIButton alloc] initWithFrame:self.frame];
+    self.tapButton.backgroundColor = [UIColor clearColor];
+    [self addSubview:self.tapButton];
+    
+    [self.tapButton oex_addAction:^(id  _Nonnull control) {
+        [self contentTapped:control];
+    } forEvents:UIControlEventTouchUpInside];
 }
 
 - (void)resetViews {
@@ -1205,8 +1210,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self performSelector:@selector(hideControls:) withObject:nil afterDelay:self.fadeDelay];
 }
 
-- (void)contentTapped:(UIGestureRecognizer*)sender {
-
+- (void)contentTapped:(id)sender {
     
     if(self.style == CLVideoPlayerControlsStyleNone || self.state == CLVideoPlayerControlsStateLoading) {
         return;
@@ -1275,6 +1279,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             //Hide controls only when player is in fullscreen mode
             [weakself performSelector:@selector(hideControls:) withObject:nil afterDelay:weakself.fadeDelay];
         }];
+        
+        self.tapButton.accessibilityHint = [Strings accessibilityHideVideoPlayerControlsHint];
     }
     else {
         if(completion) {
@@ -1308,6 +1314,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                 completion();
             }
         }];
+        
+        self.tapButton.accessibilityHint = [Strings accessibilityShowsVideoPlayerControlsHint];
     }
     else {
         if(completion) {
@@ -1711,6 +1719,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_activityBackgroundView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     [_activityIndicator setFrame:CGRectMake((self.frame.size.width / 2) - (activityIndicatorSize / 2), (self.frame.size.height / 2) - (activityIndicatorSize / 2), activityIndicatorSize, activityIndicatorSize)];
 
+    self.tapButton.frame = self.frame;
     [self didHidePrevNext];
 }
 

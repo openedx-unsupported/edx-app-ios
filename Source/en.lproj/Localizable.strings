@@ -70,6 +70,10 @@
 "ACCESSIBILITY_MENU" = "Navigation Menu";
 /* Accessibility label for close button when left drawer is open*/
 "ACCESSIBILITY_CLOSE_MENU" = "Close Navigation Menu";
+/* Accessibility hint to show video player controls*/
+"ACCESSIBILITY_SHOWS_VIDEO_PLAYER_CONTROLS_HINT" = "Double tap to show controls";
+/* Accessibility hint to hide video player controls*/
+"ACCESSIBILITY_HIDE_VIDEO_PLAYER_CONTROLS_HINT" = "Double tap to hide controls";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
