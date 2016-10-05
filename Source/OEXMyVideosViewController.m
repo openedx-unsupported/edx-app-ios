@@ -102,13 +102,14 @@ typedef  enum OEXAlertType
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* ConstraintRecentTop;
 
 @property (weak, nonatomic) IBOutlet UITableView* table_MyVideos;
-@property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressView;
 @property (weak, nonatomic) IBOutlet UIView* tabView;
 @property (weak, nonatomic) IBOutlet UICollectionView* collectionView;
 @property (weak, nonatomic) IBOutlet UITableView* table_RecentVideos;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
-@property (weak, nonatomic) IBOutlet OEXCheckBox* btn_SelectAllEditing;
+
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
+
+@property (strong, nonatomic) OEXCheckBox* btn_SelectAllEditing;
+@property (strong, nonatomic) ProgressController *progressController;
 @end
 
 @implementation OEXMyVideosViewController
@@ -129,8 +130,6 @@ typedef  enum OEXAlertType
     NSMutableArray* result = [[NSMutableArray alloc] init];
     [result oex_safeAddObjectOrNil:self.tabView];
     [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
-    [result oex_safeAddObjectOrNil:self.customProgressView];
-    [result oex_safeAddObjectOrNil:self.btn_Downloads];
     return result;
 }
 
@@ -221,10 +220,11 @@ typedef  enum OEXAlertType
     self.table_RecentVideos.exclusiveTouch = YES;
     self.table_MyVideos.exclusiveTouch = YES;
     
-    //Set Accessibility Elements
-    self.btn_Downloads.accessibilityLabel = [Strings accessibilityDownloadProgressButtonWithPercentComplete:0 formatted:nil];
-    self.btn_Downloads.accessibilityHint = [Strings accessibilityDownloadProgressButtonHint];
-    self.btn_Downloads.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently;
+    //Set Progress Controller
+    self.btn_SelectAllEditing = [[OEXCheckBox alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    self.progressController = [[ProgressController alloc] initWithOwner:self router:self.environment.router dataInterface:self.environment.interface];
+    self.navigationItem.rightBarButtonItem = [self.progressController navigationItem];
+    [self.progressController hideProgessView];
     
     // Initialize array of data to show on table
     self.arr_SubsectionData = [[NSMutableArray alloc] init];
@@ -237,19 +237,10 @@ typedef  enum OEXAlertType
     closeButton.accessibilityLabel = [Strings accessibilityMenu];
     self.navigationItem.leftBarButtonItem = closeButton;
 
-    //set custom progress bar properties
-    [self.customProgressView setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
-    [self.customProgressView setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
-    [self.customProgressView setProgress:_dataInterface.totalProgress animated:YES];
-
     //Fix for 20px issue for the table view
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.table_MyVideos setContentInset:UIEdgeInsetsMake(0, 0, 8, 0)];
 
-    [[self.dataInterface progressViews] addObject:self.customProgressView];
-    [[self.dataInterface progressViews] addObject:self.btn_Downloads];
-    [self.customProgressView setHidden:YES];
-    [self.btn_Downloads setHidden:YES];
     [self.dataInterface setNumberOfRecentDownloads:0];
 
     // Used for autorotation
@@ -265,7 +256,6 @@ typedef  enum OEXAlertType
 
     // set select all button color to white so it look prominent on blue navigation bar
     self.btn_SelectAllEditing.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
-    [self.btn_Downloads tintColor:[[OEXStyles sharedStyles] navigationItemTintColor]];
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
 }
 
@@ -316,11 +306,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)updateTotalDownloadProgress:(NSNotification* )notification {
-    [self.customProgressView setProgress:_dataInterface.totalProgress animated:YES];
-    
-    NSInteger numericPercentage = _dataInterface.totalProgress * 100;
-    NSString *percentString = [NSString stringWithFormat:@"%ld percent",numericPercentage];
-    self.btn_Downloads.accessibilityLabel = [Strings accessibilityDownloadProgressButtonWithPercentComplete:numericPercentage formatted:percentString];
+    [self updateNavigationItemButtons];
 }
 
 - (void)getMyVideosTableData {
@@ -638,6 +624,8 @@ typedef  enum OEXAlertType
 
     self.btn_SelectAllEditing.checked = NO;
     self.selectAll = NO;
+    
+    [self updateNavigationItemButtons];
 }
 
 - (void)deleteTableClicked:(id)sender {
@@ -796,6 +784,20 @@ typedef  enum OEXAlertType
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
     }];
+}
+
+- (void)updateNavigationItemButtons {
+    NSMutableArray *barButtons = [[NSMutableArray alloc] init];
+    if(_isTableEditing) {
+        [barButtons addObject:[[UIBarButtonItem alloc] initWithCustomView:self.btn_SelectAllEditing]];
+    }
+    if(![self.progressController progressView].hidden){
+        [barButtons addObject:[self.progressController navigationItem]];
+    }
+    if(barButtons.count != self.navigationItem.rightBarButtonItems.count) {
+        self.navigationItem.rightBarButtonItems = barButtons;
+    }
+    
 }
 
 #pragma mark - CollectionView Delegate

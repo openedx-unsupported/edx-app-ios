@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--My Videos-->
@@ -354,62 +353,12 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="My Videos" id="pdG-Pb-PFK">
-                        <rightBarButtonItems>
-                            <barButtonItem id="mRn-zz-JeH">
-                                <view key="customView" contentMode="scaleToFill" id="tiu-x9-6gY" customClass="DACircularProgressView">
-                                    <rect key="frame" x="550" y="7" width="30" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qkd-gT-5H9">
-                                            <rect key="frame" x="-5" y="-6" width="41" height="41"/>
-                                            <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                            <state key="normal" image="ic_download_arrow.png">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="downloadsButtonPressed:" destination="0fg-49-r6S" eventType="touchUpInside" id="V1h-RQ-hxC"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstItem="qkd-gT-5H9" firstAttribute="leading" secondItem="tiu-x9-6gY" secondAttribute="leading" constant="-5" id="P1W-hG-XOW"/>
-                                        <constraint firstItem="qkd-gT-5H9" firstAttribute="top" secondItem="tiu-x9-6gY" secondAttribute="top" constant="-6" id="VUX-3c-elT"/>
-                                        <constraint firstAttribute="width" constant="30" id="Zrl-IR-fAZ"/>
-                                        <constraint firstAttribute="height" constant="30" id="cvg-Ff-mOO"/>
-                                        <constraint firstAttribute="bottom" secondItem="qkd-gT-5H9" secondAttribute="bottom" constant="-5" id="guK-8o-X8A"/>
-                                        <constraint firstAttribute="trailing" secondItem="qkd-gT-5H9" secondAttribute="trailing" constant="-6" id="hLx-oF-6PV"/>
-                                    </constraints>
-                                </view>
-                            </barButtonItem>
-                            <barButtonItem id="CDJ-MU-bev">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="O7e-Gg-Spv" userLabel="Select All Button" customClass="OEXCheckBox" customModule="edX" customModuleProvider="target">
-                                    <rect key="frame" x="502" y="2" width="40" height="40"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="40" id="ANs-cc-mDF"/>
-                                        <constraint firstAttribute="height" constant="40" id="YMu-Lx-M1b"/>
-                                    </constraints>
-                                    <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
-                                    <state key="normal">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="selectAllChanged:" destination="0fg-49-r6S" eventType="valueChanged" id="Vlj-Tj-pTJ"/>
-                                    </connections>
-                                </button>
-                            </barButtonItem>
-                        </rightBarButtonItems>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="My Videos" id="pdG-Pb-PFK"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="ConstraintRecentTop" destination="VMb-Vd-Ocm" id="u9H-Oh-UnC"/>
-                        <outlet property="btn_Downloads" destination="qkd-gT-5H9" id="QuH-yR-v1C"/>
-                        <outlet property="btn_SelectAllEditing" destination="O7e-Gg-Spv" id="q8Z-rk-lgB"/>
                         <outlet property="collectionView" destination="WFv-LH-THx" id="Wzj-eG-S4X"/>
                         <outlet property="customEditing" destination="yZm-m7-fVH" id="i77-KH-FeW"/>
-                        <outlet property="customProgressView" destination="tiu-x9-6gY" id="jLI-hS-iqJ"/>
                         <outlet property="lbl_NoVideo" destination="K8K-cn-EfC" id="Mw6-f3-g6J"/>
                         <outlet property="lbl_videoHeader" destination="vAF-sO-Tjz" id="FUk-fz-52x"/>
                         <outlet property="recentEditViewHeight" destination="y59-fs-o6j" id="N7H-bz-46v"/>
@@ -429,7 +378,6 @@
     </scenes>
     <resources>
         <image name="bt_scrollbar_tap.png" width="229" height="80"/>
-        <image name="ic_download_arrow.png" width="44" height="44"/>
         <image name="ic_partiallywatched.png" width="12" height="12"/>
     </resources>
 </document>
