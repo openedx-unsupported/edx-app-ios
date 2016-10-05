@@ -33,7 +33,6 @@
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
 #import "OEXRouter.h"
-#import "Reachability.h"
 #import "SWRevealViewController.h"
 #import "OEXStyles.h"
 
@@ -159,7 +158,7 @@ typedef  enum OEXAlertType
 
     //While editing goto downloads then comes back Progressview overlaps checkbox.
     // To avoid this check this.
-    if(8) {
+    if(_isTableEditing) {
         self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
     }
     else {
@@ -215,7 +214,7 @@ typedef  enum OEXAlertType
     //Hide back button
     self.navigationController.navigationBarHidden = NO;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
-    self.title = @"My Videos";
+    self.title = [Strings myVideos];
 
     //Set exclusive touch for all buttons
     self.videoVideo.exclusiveTouch = YES;
@@ -855,7 +854,6 @@ typedef  enum OEXAlertType
     cellSelectedIndex = indexPath.row;
     self.currentTappedVideo = nil;
     _selectedIndexPath = nil;
-//    self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
     [self resetPlayer];
 
     switch(indexPath.row)
@@ -1157,8 +1155,6 @@ typedef  enum OEXAlertType
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
 - (void)addPlayerObserver {
