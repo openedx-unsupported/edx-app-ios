@@ -35,7 +35,7 @@ class ProfileImageView: UIImageView {
     override init (frame: CGRect) {
         super.init(frame: frame)
         let bundle = NSBundle(forClass: self.dynamicType)
-        image = UIImage(named: "avatarPlaceholder", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
+        image = UIImage(named: "profilePhotoPlaceholder", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
         setup()
     }
     
@@ -48,7 +48,7 @@ class ProfileImageView: UIImageView {
         super.prepareForInterfaceBuilder()
         setup()
         let bundle = NSBundle(forClass: self.dynamicType)
-        image = UIImage(named: "avatarPlaceholder", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
+        image = UIImage(named: "profilePhotoPlaceholder", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
     }
     
     func blurimate() -> Removable {
