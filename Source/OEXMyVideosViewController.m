@@ -27,7 +27,6 @@
 #import "OEXFrontTableViewCell.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXNetworkConstants.h"
-#import "OEXStatusMessageViewController.h"
 #import "OEXTabBarItemsCell.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
@@ -46,19 +45,6 @@
 #define ORIGINAL_RIGHT_SPACE_PROGRESSBAR 8
 #define ORIGINAL_RIGHT_SPACE_OFFLINE 15
 
-@implementation OEXMyVideosViewControllerEnvironment
-
-- (id)initWithInterface:(OEXInterface *)interface networkManager:(NetworkManager *)networkManager router:(OEXRouter *)router {
-    if(self != nil) {
-        self.interface = interface;
-        self.networkManager = networkManager;
-        self.router = router;
-    }
-    return self;
-}
-
-@end
-
 typedef  enum OEXAlertType
 {
     OEXAlertTypeNextVideoAlert,
@@ -69,7 +55,7 @@ typedef  enum OEXAlertType
     OEXAlertTypePlayBackContentUnAvailable
 }OEXAlertType;
 
-@interface OEXMyVideosViewController () <OEXVideoPlayerInterfaceDelegate, OEXStatusMessageControlling, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface OEXMyVideosViewController () <OEXVideoPlayerInterfaceDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 {
     NSInteger cellSelectedIndex;
     NSIndexPath* clickedIndexpath;
@@ -114,25 +100,7 @@ typedef  enum OEXAlertType
 
 @implementation OEXMyVideosViewController
 
-
-- (IBAction)downloadsButtonPressed:(id)sender {
-     [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
-}
-
-
 #pragma mark Status Overlay
-
-- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController*)controller {
-    return CGRectGetMaxY(self.tabView.frame);
-}
-
-- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller {
-    NSMutableArray* result = [[NSMutableArray alloc] init];
-    [result oex_safeAddObjectOrNil:self.tabView];
-    [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
-    return result;
-}
-
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -429,7 +397,7 @@ typedef  enum OEXAlertType
     // Navigate to nextview and pass array of HelperVideoDownload obj...
     [_videoPlayerInterface resetPlayer];
     _videoPlayerInterface = nil;
-    [[OEXRouter sharedRouter] showVideoSubSectionFromViewController:self forCourse:course withCourseData:nil];
+    [self.environment.router showVideoSubSectionFromViewController:self forCourse:course withCourseData:nil];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -1183,10 +1151,7 @@ typedef  enum OEXAlertType
 
 - (void)movieTimedOut {
     if(!_videoPlayerInterface.moviePlayerController.isFullscreen) {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:[Strings timeoutCheckInternetConnection]
-                                                    onViewController:self
-        ];
-
+        [self showOverlayMessage:[Strings timeoutCheckInternetConnection]];
         [_videoPlayerInterface.moviePlayerController stop];
     }
     else {
@@ -1258,7 +1223,7 @@ typedef  enum OEXAlertType
             [self.table_MyVideos reloadData];
 
             NSString* message = [Strings videosDeletedWithCount:deleteCount formatted:nil];
-            [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
+            [self showOverlayMessage:message];
 
             // clear all objects form array after deletion.
             // To obtain correct count on next deletion process.

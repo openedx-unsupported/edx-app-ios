@@ -7,6 +7,7 @@
 //
 
 @class OEXCourse;
+@class RouterEnvironment;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMutableArray* arr_CourseData;
 @property (nonatomic, strong) OEXCourse* course;
+@property (strong, nonatomic) RouterEnvironment* environment;
 @end
 
 NS_ASSUME_NONNULL_END
