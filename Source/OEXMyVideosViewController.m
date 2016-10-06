@@ -220,8 +220,9 @@ typedef  enum OEXAlertType
     self.table_RecentVideos.exclusiveTouch = YES;
     self.table_MyVideos.exclusiveTouch = YES;
     
-    //Set Progress Controller
+    //Set Navigation Buttons
     self.btn_SelectAllEditing = [[OEXCheckBox alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [self.btn_SelectAllEditing addTarget:self action:@selector(selectAllChanged:) forControlEvents:UIControlEventTouchUpInside];
     self.progressController = [[ProgressController alloc] initWithOwner:self router:self.environment.router dataInterface:self.environment.interface];
     self.navigationItem.rightBarButtonItem = [self.progressController navigationItem];
     [self.progressController hideProgessView];
@@ -797,7 +798,6 @@ typedef  enum OEXAlertType
     if(barButtons.count != self.navigationItem.rightBarButtonItems.count) {
         self.navigationItem.rightBarButtonItems = barButtons;
     }
-    
 }
 
 #pragma mark - CollectionView Delegate
