@@ -330,6 +330,7 @@
 
     NSString *termsText = [Strings registrationAgreementButtonTitleWithPlatformName:self.environment.config.platformName];
     [self.btn_OpenEULA setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:termsText] forState:UIControlStateNormal];
+    self.btn_OpenEULA.titleLabel.adjustsFontSizeToFitWidth = YES;
 
     self.btn_OpenEULA.accessibilityTraits = UIAccessibilityTraitLink;
     self.btn_OpenEULA.accessibilityLabel = [NSString stringWithFormat:@"%@,%@",[Strings redirectText], termsText];

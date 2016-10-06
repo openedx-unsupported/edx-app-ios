@@ -160,6 +160,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.agreementLink setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:platform] forState:UIControlStateNormal];
     [self.agreementLink.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
     [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
+    self.agreementLink.accessibilityTraits = UIAccessibilityTraitLink;
+    self.agreementLink.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.agreementLink.titleLabel.textAlignment = NSTextAlignmentCenter;
     
     [self.agreementLink oex_addAction:^(id  _Nonnull control) {
         [self agreementButtonTapped:nil];
