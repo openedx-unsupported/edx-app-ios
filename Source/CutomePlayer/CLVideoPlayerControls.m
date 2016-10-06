@@ -1212,7 +1212,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)contentTapped:(id)sender {
     
-    if(self.style == CLVideoPlayerControlsStyleNone || self.state == CLVideoPlayerControlsStateLoading) {
+    if(self.style == CLVideoPlayerControlsStyleNone || self.state == CLVideoPlayerControlsStateLoading || (self.isShowing && UIAccessibilityIsVoiceOverRunning())) {
         return;
     }
     
@@ -1277,7 +1277,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                 completion();
             }
             //Hide controls only when player is in fullscreen mode
-            [weakself performSelector:@selector(hideControls:) withObject:nil afterDelay:weakself.fadeDelay];
+            if (!UIAccessibilityIsVoiceOverRunning()) {
+                [weakself performSelector:@selector(hideControls:) withObject:nil afterDelay:weakself.fadeDelay];
+            }
         }];
         
         self.tapButton.accessibilityHint = [Strings accessibilityHideVideoPlayerControlsHint];
@@ -1422,6 +1424,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieContentURLDidChange:) name:CLVideoPlayerContentURLDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieDurationAvailable:) name:MPMovieDurationAvailableNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieLoadStateDidChange:) name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(voiceOverStatusChanged) name:UIAccessibilityVoiceOverStatusChanged object:nil];
+
 
 // Used For CC
 
@@ -1432,6 +1436,15 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadedTranscript:) name:DL_COMPLETE object:nil];
+}
+
+- (void)voiceOverStatusChanged {
+    if(!UIAccessibilityIsVoiceOverRunning()) {
+        [self hideControls:nil];
+    }
+    else {
+        [self showControls:nil];
+    }
 }
 
 - (void)movieFinished:(NSNotification*)notification {
