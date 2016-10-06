@@ -26,15 +26,8 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         textView.placeholderTextColor = OEXStyles.sharedStyles().neutralBase()
         textView.textColor = OEXStyles.sharedStyles().neutralBlackT()
 
-        
+        textView.placeholder = placeholder ?? ""
         textView.text = text ?? ""
-        
-        var placeHolder: String?
-        if let _ = placeholder {
-            placeHolder = placeholder?.stringByReplacingOccurrencesOfString("edX", withString: OEXConfig.sharedConfig().platformName())
-            textView.placeholder = placeHolder ?? ""
-        }
-
         textView.delegate = self
         
         setupViews()

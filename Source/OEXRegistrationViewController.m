@@ -154,8 +154,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.agreementLabel.textAlignment = NSTextAlignmentCenter;
     self.agreementLabel.numberOfLines = 0;
     self.agreementLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.agreementLabel.text = [Strings registrationAgreementMessageWithPlatformName:platform];
     self.agreementLabel.isAccessibilityElement = NO;
+    self.agreementLabel.text = [Strings registrationAgreementMessage];
     self.agreementLink = [[UIButton alloc] init];
     [self.agreementLink setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:platform] forState:UIControlStateNormal];
     [self.agreementLink.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
@@ -167,7 +167,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.agreementLink oex_addAction:^(id  _Nonnull control) {
         [self agreementButtonTapped:nil];
     } forEvents:UIControlEventTouchUpInside];
-    self.agreementLink.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationAgreementMessageWithPlatformName:platform],[Strings registrationAgreementButtonTitleWithPlatformName:platform]];
+    self.agreementLink.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationAgreementMessage],[Strings registrationAgreementButtonTitleWithPlatformName:platform]];
 
     //This button will show and hide optional fields
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
