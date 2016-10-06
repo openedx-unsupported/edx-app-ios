@@ -42,10 +42,6 @@
         self.defaultValue = dictionary[@"defaultValue"];
         self.instructions = dictionary[@"instructions"];
         self.label = dictionary[@"label"];
-        NSString *platformName = [[OEXConfig sharedConfig] platformName];
-        if (platformName) {
-            self.label = [self.label stringByReplacingOccurrencesOfString:@"edX" withString:platformName];
-        }
         if (self.instructions.length > 0) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSAttributedString *attributedLabel = [[NSAttributedString alloc] initWithData:[self.instructions dataUsingEncoding:NSUTF8StringEncoding]
