@@ -139,6 +139,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _btnSettings.accessibilityLabel = [Strings accessibilitySettings];
     _btnLMS.accessibilityLabel = [Strings openInBrowser];
     _fullscreenButton.accessibilityLabel = [Strings accessibilityFullscreen];
+    _tapButton.isAccessibilityElement = NO;
 }
 
 #pragma mark - OEXPlayerSettings
@@ -637,6 +638,14 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     [[CLButton appearanceWhenContainedIn:[self class], nil] setTintColor:[UIColor whiteColor]];
     
+    self.tapButton = [[UIButton alloc] initWithFrame:self.frame];
+    self.tapButton.backgroundColor = [UIColor clearColor];
+    [self addSubview:self.tapButton];
+    
+    [self.tapButton oex_addAction:^(id  _Nonnull control) {
+        [self contentTapped:control];
+    } forEvents:UIControlEventTouchUpInside];
+    
     //top bar
     _topBar = [[CLMoviePlayerControlsBar alloc] init];
     _topBar.color = _barColor;
@@ -817,13 +826,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self hideTables];
     [self setPlayerControlAccessibilityID];
     
-    self.tapButton = [[UIButton alloc] initWithFrame:self.frame];
-    self.tapButton.backgroundColor = [UIColor clearColor];
-    [self addSubview:self.tapButton];
-    
-    [self.tapButton oex_addAction:^(id  _Nonnull control) {
-        [self contentTapped:control];
-    } forEvents:UIControlEventTouchUpInside];
 }
 
 - (void)resetViews {
@@ -1277,12 +1279,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                 completion();
             }
             //Hide controls only when player is in fullscreen mode
-            if (!UIAccessibilityIsVoiceOverRunning()) {
-                [weakself performSelector:@selector(hideControls:) withObject:nil afterDelay:weakself.fadeDelay];
-            }
+            [weakself performSelector:@selector(hideControls:) withObject:nil afterDelay:weakself.fadeDelay];
         }];
-        
-        self.tapButton.accessibilityHint = [Strings accessibilityHideVideoPlayerControlsHint];
     }
     else {
         if(completion) {
@@ -1292,7 +1290,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)hideControls:(void (^)(void))completion {
-    if(self.isShowing) {
+    if(self.isShowing && !UIAccessibilityIsVoiceOverRunning()) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideControls:) object:nil];
         [UIView animateWithDuration:0.3 delay:0.0 options:0 animations:^{
             if(self.style == CLVideoPlayerControlsStyleFullscreen || (self.style == CLVideoPlayerControlsStyleDefault && self.moviePlayer.isFullscreen)) {
@@ -1316,8 +1314,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                 completion();
             }
         }];
-        
-        self.tapButton.accessibilityHint = [Strings accessibilityShowsVideoPlayerControlsHint];
     }
     else {
         if(completion) {
@@ -1683,6 +1679,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         self.playPauseButton.frame = CGRectMake((self.frame.size.width / 2) - (playWidth / 2), (self.frame.size.height / 2) - (playHeight / 2), playWidth, playHeight);
 
         [_fullscreenButton setImage:[UIImage ShrinkIcon] forState:UIControlStateNormal];
+        _fullscreenButton.accessibilityLabel = [Strings accessibilityExitFullscreen];
+        [self voiceOverOnSettings];
     }
     else if(self.style == CLVideoPlayerControlsStyleEmbedded || (self.style == CLVideoPlayerControlsStyleDefault && !self.moviePlayer.isFullscreen)) {
         self.topBar.frame = CGRectMake(0, 0, self.frame.size.width, self.barHeight);
@@ -1712,6 +1710,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         self.playPauseButton.frame = CGRectMake((self.frame.size.width / 2) - (playWidth / 2), (self.frame.size.height / 2) - (playHeight / 2), playWidth, playHeight);
 
         [_fullscreenButton setImage:[UIImage ExpandIcon] forState:UIControlStateNormal];
+        _fullscreenButton.accessibilityLabel = [Strings accessibilityFullscreen];
+        [self voiceOverOnSettings];
     }
 
     self.rewindButton.frame = CGRectMake(paddingFromBezel, self.barHeight / 2 - rewindHeightWidth / 2 + 1.f, rewindHeightWidth, rewindHeightWidth);
@@ -1734,6 +1734,14 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     self.tapButton.frame = self.frame;
     [self didHidePrevNext];
+}
+
+- (void) voiceOverOnSettings {
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        _showing = NO;
+        [self showControls:nil];
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification,  _playPauseButton);
+    }
 }
 
 @end
