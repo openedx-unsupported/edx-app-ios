@@ -27,13 +27,11 @@
 #import "OEXFrontTableViewCell.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXNetworkConstants.h"
-#import "OEXStatusMessageViewController.h"
 #import "OEXTabBarItemsCell.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoPlayerInterface.h"
 #import "OEXVideoSummary.h"
 #import "OEXRouter.h"
-#import "Reachability.h"
 #import "SWRevealViewController.h"
 #import "OEXStyles.h"
 
@@ -47,19 +45,6 @@
 #define ORIGINAL_RIGHT_SPACE_PROGRESSBAR 8
 #define ORIGINAL_RIGHT_SPACE_OFFLINE 15
 
-@implementation OEXMyVideosViewControllerEnvironment
-
-- (id)initWithInterface:(OEXInterface *)interface networkManager:(NetworkManager *)networkManager router:(OEXRouter *)router {
-    if(self != nil) {
-        self.interface = interface;
-        self.networkManager = networkManager;
-        self.router = router;
-    }
-    return self;
-}
-
-@end
-
 typedef  enum OEXAlertType
 {
     OEXAlertTypeNextVideoAlert,
@@ -70,7 +55,7 @@ typedef  enum OEXAlertType
     OEXAlertTypePlayBackContentUnAvailable
 }OEXAlertType;
 
-@interface OEXMyVideosViewController () <OEXVideoPlayerInterfaceDelegate, OEXStatusMessageControlling, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface OEXMyVideosViewController () <OEXVideoPlayerInterfaceDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 {
     NSInteger cellSelectedIndex;
     NSIndexPath* clickedIndexpath;
@@ -101,54 +86,28 @@ typedef  enum OEXAlertType
 @property(nonatomic, strong) IBOutlet NSLayoutConstraint* recentEditViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* TrailingSpaceCustomProgress;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* ConstraintRecentTop;
-@property (weak, nonatomic) IBOutlet UIView* view_NavBG;
 
 @property (weak, nonatomic) IBOutlet UITableView* table_MyVideos;
-@property (weak, nonatomic) IBOutlet UIButton* btn_LeftNavigation;
-@property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressView;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Download;
-@property (weak, nonatomic) IBOutlet UILabel* lbl_NavTitle;
 @property (weak, nonatomic) IBOutlet UIView* tabView;
 @property (weak, nonatomic) IBOutlet UICollectionView* collectionView;
 @property (weak, nonatomic) IBOutlet UITableView* table_RecentVideos;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
-@property (weak, nonatomic) IBOutlet OEXCheckBox* btn_SelectAllEditing;
+
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
+
+@property (strong, nonatomic) OEXCheckBox* btn_SelectAllEditing;
+@property (strong, nonatomic) ProgressController *progressController;
 @end
 
 @implementation OEXMyVideosViewController
 
-
-- (IBAction)downloadsButtonPressed:(id)sender {
-     [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
-}
-
-
 #pragma mark Status Overlay
-
-- (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController*)controller {
-    return CGRectGetMaxY(self.tabView.frame);
-}
-
-- (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller {
-    NSMutableArray* result = [[NSMutableArray alloc] init];
-    [result oex_safeAddObjectOrNil:self.view_NavBG];
-    [result oex_safeAddObjectOrNil:self.tabView];
-    [result oex_safeAddObjectOrNil:self.btn_LeftNavigation];
-    [result oex_safeAddObjectOrNil:self.lbl_NavTitle];
-    [result oex_safeAddObjectOrNil:self.btn_SelectAllEditing];
-    [result oex_safeAddObjectOrNil:self.customProgressView];
-    [result oex_safeAddObjectOrNil:self.btn_Downloads];
-    return result;
-}
-
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     //Analytics Screen record
     [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
 
-    [self.navigationController setNavigationBarHidden:true animated:animated];
+    [self.navigationController setNavigationBarHidden:false animated:animated];
 
     // Add Observer
     [self addObservers];
@@ -175,7 +134,7 @@ typedef  enum OEXAlertType
         }
     }
 
-    self.navigationController.navigationBarHidden = YES;
+    self.navigationController.navigationBarHidden = NO;
 
     self.table_RecentVideos.separatorInset = UIEdgeInsetsZero;
 #ifdef __IPHONE_8_0
@@ -220,21 +179,21 @@ typedef  enum OEXAlertType
 
     // Do any additional setup after loading the view.
     //Hide back button
-    [self.navigationItem setHidesBackButton:YES];
+    self.navigationController.navigationBarHidden = NO;
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.navigationController.navigationBar setTranslucent:NO];
+    self.title = [Strings myVideos];
 
     //Set exclusive touch for all buttons
-    self.btn_LeftNavigation.exclusiveTouch = YES;
     self.videoVideo.exclusiveTouch = YES;
     self.table_RecentVideos.exclusiveTouch = YES;
     self.table_MyVideos.exclusiveTouch = YES;
-
-    //set navigation title font
-    self.lbl_NavTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:16.0];
-
-    // Mock NavStyle
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.view_NavBG label:self.lbl_NavTitle leftIconButton: self.btn_LeftNavigation];
+    
+    //Set Navigation Buttons
+    self.btn_SelectAllEditing = [[OEXCheckBox alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [self.btn_SelectAllEditing addTarget:self action:@selector(selectAllChanged:) forControlEvents:UIControlEventTouchUpInside];
+    self.progressController = [[ProgressController alloc] initWithOwner:self router:self.environment.router dataInterface:self.environment.interface];
+    self.navigationItem.rightBarButtonItem = [self.progressController navigationItem];
+    [self.progressController hideProgessView];
     
     // Initialize array of data to show on table
     self.arr_SubsectionData = [[NSMutableArray alloc] init];
@@ -243,22 +202,14 @@ typedef  enum OEXAlertType
     self.dataInterface = [OEXInterface sharedInterface];
 
     //Add custom button for drawer
-    [self.btn_LeftNavigation setImage:[UIImage MenuIcon] forState:UIControlStateNormal];
-    [self.btn_LeftNavigation addTarget:self action:@selector(leftNavigationBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-
-    //set custom progress bar properties
-    [self.customProgressView setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
-    [self.customProgressView setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
-    [self.customProgressView setProgress:_dataInterface.totalProgress animated:YES];
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(leftNavigationBtnClicked)];
+    closeButton.accessibilityLabel = [Strings accessibilityMenu];
+    self.navigationItem.leftBarButtonItem = closeButton;
 
     //Fix for 20px issue for the table view
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.table_MyVideos setContentInset:UIEdgeInsetsMake(0, 0, 8, 0)];
 
-    [[self.dataInterface progressViews] addObject:self.customProgressView];
-    [[self.dataInterface progressViews] addObject:self.btn_Downloads];
-    [self.customProgressView setHidden:YES];
-    [self.btn_Downloads setHidden:YES];
     [self.dataInterface setNumberOfRecentDownloads:0];
 
     // Used for autorotation
@@ -274,7 +225,6 @@ typedef  enum OEXAlertType
 
     // set select all button color to white so it look prominent on blue navigation bar
     self.btn_SelectAllEditing.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
-    [self.btn_Downloads tintColor:[[OEXStyles sharedStyles] navigationItemTintColor]];
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
 }
 
@@ -325,7 +275,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)updateTotalDownloadProgress:(NSNotification* )notification {
-    [self.customProgressView setProgress:_dataInterface.totalProgress animated:YES];
+    [self updateNavigationItemButtons];
 }
 
 - (void)getMyVideosTableData {
@@ -447,7 +397,7 @@ typedef  enum OEXAlertType
     // Navigate to nextview and pass array of HelperVideoDownload obj...
     [_videoPlayerInterface resetPlayer];
     _videoPlayerInterface = nil;
-    [[OEXRouter sharedRouter] showVideoSubSectionFromViewController:self forCourse:course withCourseData:nil];
+    [self.environment.router showVideoSubSectionFromViewController:self forCourse:course withCourseData:nil];
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath {
@@ -643,6 +593,8 @@ typedef  enum OEXAlertType
 
     self.btn_SelectAllEditing.checked = NO;
     self.selectAll = NO;
+    
+    [self updateNavigationItemButtons];
 }
 
 - (void)deleteTableClicked:(id)sender {
@@ -803,6 +755,19 @@ typedef  enum OEXAlertType
     }];
 }
 
+- (void)updateNavigationItemButtons {
+    NSMutableArray *barButtons = [[NSMutableArray alloc] init];
+    if(_isTableEditing) {
+        [barButtons addObject:[[UIBarButtonItem alloc] initWithCustomView:self.btn_SelectAllEditing]];
+    }
+    if(![self.progressController progressView].hidden){
+        [barButtons addObject:[self.progressController navigationItem]];
+    }
+    if(barButtons.count != self.navigationItem.rightBarButtonItems.count) {
+        self.navigationItem.rightBarButtonItems = barButtons;
+    }
+}
+
 #pragma mark - CollectionView Delegate
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
@@ -859,7 +824,6 @@ typedef  enum OEXAlertType
     cellSelectedIndex = indexPath.row;
     self.currentTappedVideo = nil;
     _selectedIndexPath = nil;
-    self.lbl_NavTitle.textAlignment = NSTextAlignmentCenter;
     [self resetPlayer];
 
     switch(indexPath.row)
@@ -1161,8 +1125,6 @@ typedef  enum OEXAlertType
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadProgressChangedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
 - (void)addPlayerObserver {
@@ -1189,10 +1151,7 @@ typedef  enum OEXAlertType
 
 - (void)movieTimedOut {
     if(!_videoPlayerInterface.moviePlayerController.isFullscreen) {
-        [[OEXStatusMessageViewController sharedInstance] showMessage:[Strings timeoutCheckInternetConnection]
-                                                    onViewController:self
-        ];
-
+        [self showOverlayMessage:[Strings timeoutCheckInternetConnection]];
         [_videoPlayerInterface.moviePlayerController stop];
     }
     else {
@@ -1264,7 +1223,7 @@ typedef  enum OEXAlertType
             [self.table_MyVideos reloadData];
 
             NSString* message = [Strings videosDeletedWithCount:deleteCount formatted:nil];
-            [[OEXStatusMessageViewController sharedInstance] showMessage:message onViewController:self];
+            [self showOverlayMessage:message];
 
             // clear all objects form array after deletion.
             // To obtain correct count on next deletion process.
