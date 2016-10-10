@@ -89,7 +89,7 @@ public class EnrollmentManager : NSObject {
         enrollmentFeed.refresh()
     }
     
-    func freshFeedWithUsername(username: String, organizationCode: String) -> Feed<[UserCourseEnrollment]> {
+    func freshFeedWithUsername(username: String, organizationCode: String?) -> Feed<[UserCourseEnrollment]> {
         let request = CoursesAPI.getUserEnrollments(username, organizationCode: organizationCode)
         return Feed(request: request, manager: networkManager, persistResponse: true)
     }
