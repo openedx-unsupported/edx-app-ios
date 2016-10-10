@@ -31,9 +31,10 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
     private lazy var paginationController : PaginationController<OEXCourse> = {
         let username = self.environment.session.currentUser?.username ?? ""
         precondition(username != "", "Shouldn't be showing course catalog without a logged in user")
+        let organizationCode = OEXConfig.sharedConfig().organizationCode()
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return CourseCatalogAPI.getCourseCatalog(username, page: page)
+            return CourseCatalogAPI.getCourseCatalog(username, page: page, organizationCode: organizationCode)
         }
         return PaginationController(paginator: paginator, tableView: self.tableController.tableView)
     }()
