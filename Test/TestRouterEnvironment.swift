@@ -32,7 +32,7 @@ class TestRouterEnvironment : RouterEnvironment {
         let analytics = OEXAnalytics()
         
         
-        let mockEnrollmentManager = MockEnrollmentManager(interface: interface, networkManager: mockNetworkManager)
+        let mockEnrollmentManager = MockEnrollmentManager(interface: interface, networkManager: mockNetworkManager, config: config)
         self.mockEnrollmentManager = mockEnrollmentManager
         
         let mockCourseDataManager = MockCourseDataManager(
