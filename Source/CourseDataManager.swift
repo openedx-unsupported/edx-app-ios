@@ -56,7 +56,7 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
     }
     
     public static var currentOutlineMode : CourseOutlineMode {
-        return CourseOutlineMode(rawValue: NSUserDefaults.standardUserDefaults().stringForKey(CurrentCourseOutlineModeKey) ?? "") ?? DefaultCourseMode
+        return .Full
     }
     
     public var currentOutlineMode : CourseOutlineMode {

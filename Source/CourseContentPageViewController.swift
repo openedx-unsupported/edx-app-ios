@@ -22,7 +22,7 @@ extension CourseBlockDisplayType {
 }
 
 // Container for scrolling horizontally between different screens of course content
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, CourseOutlineModeControllerDelegate, StatusBarOverriding, InterfaceOrientationOverriding, OpenOnWebControllerDelegate {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, OpenOnWebControllerDelegate {
     
     public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, OEXRouterProvider>
     
@@ -42,7 +42,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var contentLoader = BackedStream<ListCursor<CourseOutlineQuerier.GroupItem>>()
     
     private let courseQuerier : CourseOutlineQuerier
-    private let modeController : CourseOutlineModeController
     
     private lazy var webController : OpenOnWebController = OpenOnWebController(delegate: self)
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
@@ -57,8 +56,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.initialChildID = initialChildID
         
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
-        
-        modeController = environment.dataManager.courseDataManager.freshOutlineModeController()
         initialLoadController = LoadStateViewController()
         
         cacheManager = BlockViewControllerCacheManager()
@@ -66,14 +63,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         super.init(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
         self.setViewControllers([initialLoadController], direction: .Forward, animated: false, completion: nil)
         
-        modeController.delegate = self
-        
         self.dataSource = self
         self.delegate = self
-        
-        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        fixedSpace.width = barButtonFixedSpaceWidth
-        navigationItem.rightBarButtonItems = [webController.barButtonItem, fixedSpace, modeController.barItem]
         
         addStreamListeners()
     }
@@ -143,7 +134,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func loadIfNecessary() {
         if !contentLoader.hasBacking {
-            let stream = courseQuerier.spanningCursorForBlockWithID(blockID, initialChildID: initialChildID, forMode: modeController.currentMode)
+            let stream = courseQuerier.spanningCursorForBlockWithID(blockID, initialChildID: initialChildID, forMode: .Full)
             contentLoader.backWithStream(stream.firstSuccess())
         }
     }
