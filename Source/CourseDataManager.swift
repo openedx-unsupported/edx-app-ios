@@ -13,7 +13,7 @@ private let CurrentCourseOutlineModeKey = "OEXCurrentCourseOutlineMode"
 
 private let DefaultCourseMode = CourseOutlineMode.Full
 
-public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource {
+public class CourseDataManager: NSObject {
     
     private let analytics : OEXAnalytics
     private let interface : OEXInterface?
@@ -66,16 +66,6 @@ public class CourseDataManager: NSObject, CourseOutlineModeControllerDataSource 
         set {
             NSUserDefaults.standardUserDefaults().setObject(newValue.rawValue, forKey: CurrentCourseOutlineModeKey)
             NSNotificationCenter.defaultCenter().postNotificationName(CourseOutlineModeChangedNotification, object: nil)
-            analytics.trackOutlineModeChanged(currentOutlineMode)
         }
     }
-    
-    func freshOutlineModeController() -> CourseOutlineModeController {
-        return CourseOutlineModeController(dataSource : self)
-    }
-    
-    public var modeChangedNotificationName : String {
-        return CourseOutlineModeChangedNotification
-    }
-    
 }

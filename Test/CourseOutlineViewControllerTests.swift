@@ -51,42 +51,6 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         }
     }
     
-    func testVideoModeSwitches() {
-        // First ensure that there are non video sections that will be filtered
-        let querier = environment.dataManager.courseDataManager.querierForCourseWithID("anything")
-        let fullChildren = querier.childrenOfBlockWithID(outline.root, forMode: .Full)
-        let filteredChildren = querier.childrenOfBlockWithID(outline.root, forMode: .Video)
-        
-        let expectation = expectationWithDescription("Loaded children")
-        let stream = joinStreams(fullChildren, filteredChildren)
-        stream.listen(NSObject()) {
-            let full = $0.value!.0
-            let filtered = $0.value!.1
-            XCTAssertGreaterThan(full.children.count, filtered.children.count)
-            expectation.fulfill()
-        }
-        self.waitForExpectations()
-        
-        
-        // Now make sure we're in full mode
-        environment.dataManager.courseDataManager.currentOutlineMode = .Full
-
-        loadAndVerifyControllerWithBlockID(outline.root) {controller in
-            let originalBlockCount = controller.t_currentChildCount()
-            return {expectation in
-                // Switch to video mode
-                self.environment.dataManager.courseDataManager.currentOutlineMode = .Video
-                let blockLoadedStream = controller.t_setup()
-                blockLoadedStream.listen(controller) {_ in
-                    // And check that fewer things are visible
-                    XCTAssertGreaterThan(originalBlockCount, controller.t_currentChildCount())
-                    expectation.fulfill()
-                }
-            }
-            
-        }
-    }
-    
     func testScreenAnalyticsRoot() {
         loadAndVerifyControllerWithBlockID(outline.root) {_ in
             return {expectation -> Void in

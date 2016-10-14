@@ -29,7 +29,6 @@ class MockCourseDataManager : CourseDataManager {
         }
         set {
             _currentOutlineMode = newValue
-            NSNotificationCenter.defaultCenter().postNotificationName(self.modeChangedNotificationName, object: nil)
         }
     }
 }
