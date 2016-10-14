@@ -83,14 +83,6 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
             }
         }
     }
-    
-    func testSnapshotEmptySection() {
-        environment.dataManager.courseDataManager.currentOutlineMode = .Video
-        loadAndVerifyControllerWithBlockID(CourseOutlineTestDataFactory.knownEmptySection()) {
-            self.assertSnapshotValidWithContent($0.navigationController!)
-            return nil
-        }
-    }
 
     func testSnapshotContentCourse() {
         loadAndVerifyControllerWithBlockID(outline.root) {
