@@ -734,7 +734,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_bottomBar addSubview:_rewindButton];
 
     //static stuff
-    _playPauseButton = [[AccessibilityCLButton alloc] init];
+    if (!_playPauseButton) {
+        _playPauseButton = [[AccessibilityCLButton alloc] init];
+    }
     [_playPauseButton setAttributedTitle:[UIImage PauseTitle] forState:UIControlStateNormal];
     [_playPauseButton setAttributedTitle:[UIImage PlayTitle] forState:UIControlStateSelected];
 
@@ -1740,7 +1742,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     if (UIAccessibilityIsVoiceOverRunning()) {
         _showing = NO;
         [self showControls:nil];
-        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification,  _playPauseButton);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification,  _playPauseButton);
+        });
     }
 }
 
