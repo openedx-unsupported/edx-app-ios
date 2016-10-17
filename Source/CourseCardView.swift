@@ -211,6 +211,12 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         self.tapAction?(self)
     }
     
+    func wrapTitleLabel() {
+        self.titleLabel.numberOfLines = 0
+        self.titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        self.layoutIfNeeded()
+    }
+    
     func updateAcessibilityLabel()-> String {
         var accessibilityString = ""
         
