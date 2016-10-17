@@ -18,6 +18,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="SIO-jm-HLG"/>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="KSL-zR-AIM">
                     <constraints>
                         <constraint firstAttribute="height" constant="74" id="VkP-rt-iAz"/>
@@ -55,7 +56,6 @@
                         <action selector="showLogin:" destination="-1" eventType="touchUpInside" id="bpi-ei-60F"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="SIO-jm-HLG"/>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="splash-screen"/>
