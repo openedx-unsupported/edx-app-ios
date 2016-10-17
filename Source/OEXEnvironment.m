@@ -98,7 +98,7 @@
             OEXPushSettingsManager* pushSettingsManager = [[OEXPushSettingsManager alloc] init];
             EnrollmentManager* enrollmentManager =
             [[EnrollmentManager alloc] initWithInterface:[OEXInterface sharedInterface]
-                                          networkManager:env.networkManager];
+                                          networkManager:env.networkManager config:[OEXConfig sharedConfig]];
             UserProfileManager* userProfileManager =
             [[UserProfileManager alloc]
              initWithNetworkManager:env.networkManager

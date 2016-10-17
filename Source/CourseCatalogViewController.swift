@@ -9,7 +9,7 @@
 import UIKit
 
 class CourseCatalogViewController: UIViewController, CoursesTableViewControllerDelegate {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXSessionProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXSessionProvider, OEXConfigProvider>
     
     private let environment : Environment
     private let tableController : CoursesTableViewController
@@ -31,7 +31,7 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
     private lazy var paginationController : PaginationController<OEXCourse> = {
         let username = self.environment.session.currentUser?.username ?? ""
         precondition(username != "", "Shouldn't be showing course catalog without a logged in user")
-        let organizationCode = OEXConfig.sharedConfig().organizationCode()
+        let organizationCode =  self.environment.config.organizationCode()
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
             return CourseCatalogAPI.getCourseCatalog(username, page: page, organizationCode: organizationCode)

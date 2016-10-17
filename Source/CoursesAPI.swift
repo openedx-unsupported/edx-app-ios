@@ -17,8 +17,10 @@ struct CoursesAPI {
     
     static func getUserEnrollments(username: String, organizationCode: String?) -> NetworkRequest<[UserCourseEnrollment]> {
         var path = "api/mobile/v0.5/users/{username}/course_enrollments/".oex_formatWithParameters(["username": username])
-        if (!(organizationCode ?? "").isEmpty) {
-            path = "api/mobile/v0.5/users/{username}/course_enrollments/?org={org}".oex_formatWithParameters(["username": username, "org": organizationCode!])
+        if let orgCode = organizationCode {
+            if (!(orgCode ?? "").isEmpty) {
+                path = "api/mobile/v0.5/users/{username}/course_enrollments/?org={org}".oex_formatWithParameters(["username": username, "org": organizationCode!])
+            }
         }
         return NetworkRequest(
             method: .GET,
