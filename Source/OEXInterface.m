@@ -366,7 +366,7 @@ static OEXInterface* _sharedInterface = nil;
         totalSpaceRequired += [video.summary.size doubleValue];
     }
     totalSpaceRequired = totalSpaceRequired / 1024 / 1024 / 1024;
-    OEXAppDelegate* appD = [[UIApplication sharedApplication] delegate];
+    OEXAppDelegate* appD = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
     if([OEXInterface shouldDownloadOnlyOnWifi]) {
         if(![appD.reachability isReachableViaWiFi]) {
             return NO;
@@ -903,7 +903,7 @@ static OEXInterface* _sharedInterface = nil;
                 [videosArray addObject:video];
             }
             else if(video.downloadState == OEXDownloadStateNew && OEXDownloadStateNew) {
-                [videosArray addObject:video];
+//                [videosArray addObjectr:video];
             }
         }
 
@@ -1098,7 +1098,7 @@ static OEXInterface* _sharedInterface = nil;
 #pragma mark - Download Video
 
 - (void)startDownloadForVideo:(OEXHelperVideoDownload*)video completionHandler:(void (^)(BOOL sucess))completionHandler {
-    OEXAppDelegate* appD = [[UIApplication sharedApplication] delegate];
+    OEXAppDelegate* appD = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
     if([OEXInterface isURLForVideo:video.summary.videoURL]) {
         if([OEXInterface shouldDownloadOnlyOnWifi]) {
             if(![appD.reachability isReachableViaWiFi]) {

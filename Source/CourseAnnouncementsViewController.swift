@@ -207,7 +207,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
         self.loadController.state = .Loaded
     }
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         self.loadController.state = LoadState.failed(error)
     }
 }

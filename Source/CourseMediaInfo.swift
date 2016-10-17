@@ -17,9 +17,9 @@ public class CourseMediaInfo: NSObject {
         self.uri = uri
     }
     
-    public init(dict : [NSObject:AnyObject]) {
-        self.name = dict["name"] as? String
-        self.uri = dict["uri"] as? String
+    public init(dict : [NSObject:AnyObject]?) {
+        self.name = dict?["name"] as? String
+        self.uri = dict?["uri"] as? String
         super.init()
     }
     

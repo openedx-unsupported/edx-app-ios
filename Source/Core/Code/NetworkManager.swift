@@ -29,7 +29,7 @@ private enum DeserializationResult<Out> {
     case ReauthenticationRequest(AuthenticateRequestCreator, original: NSData?)
 }
 
-public typealias AuthenticateRequestCreator = (networkManager: NetworkManager, completion: (success : Bool) -> Void) -> Void
+public typealias AuthenticateRequestCreator = (_networkManager: NetworkManager, _completion: (_success : Bool) -> Void) -> Void
 
 public enum AuthenticationAction {
     case Proceed
@@ -150,7 +150,7 @@ extension NSError {
         return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.UnknownError.rawValue, userInfo: nil)
     }
     
-    static func oex_HTTPError(statusCode statusCode : Int, userInfo: [NSObject:AnyObject]) -> NSError {
+    static func oex_HTTPError(statusCode : Int, userInfo: [NSObject:AnyObject]) -> NSError {
         return NSError(domain: NetworkManager.errorDomain, code: statusCode, userInfo: userInfo)
     }
     
@@ -176,8 +176,8 @@ public class NetworkManager : NSObject {
     
     public static let NETWORK = "NETWORK" // Logger key
     
-    public typealias JSONInterceptor = (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>
-    public typealias Authenticator = (response: NSHTTPURLResponse?, data: NSData) -> AuthenticationAction
+    public typealias JSONInterceptor = (_response : NSHTTPURLResponse, _json : JSON) -> Result<JSON>
+    public typealias Authenticator = (_response: NSHTTPURLResponse?, _data: NSData) -> AuthenticationAction
     
     public let baseURL : NSURL
     
@@ -199,7 +199,7 @@ public class NetworkManager : NSObject {
     
     /// Allows you to add a processing pass to any JSON response.
     /// Typically used to check for errors that can be sent by any request
-    public func addJSONInterceptor(interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) {
+    public func addJSONInterceptor(interceptor : (NSHTTPURLResponse,JSON) -> Result<JSON>) {
         jsonInterceptors.append(interceptor)
     }
     
@@ -289,11 +289,11 @@ public class NetworkManager : NSObject {
             switch deserializer {
             case let .JSONResponse(f):
                 if let data = data,
-                    raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+                    let raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
                 {
                     let json = JSON(raw)
-                    let result = interceptors.reduce(.Success(json)) {(current : Result<JSON>, interceptor : (response : NSHTTPURLResponse, json : JSON) -> Result<JSON>) -> Result<JSON> in
-                        return current.flatMap {interceptor(response : response, json: $0)}
+                    let result = interceptors.reduce(.Success(json)) {(current : Result<JSON>, interceptor : (_response : NSHTTPURLResponse, _json : JSON) -> Result<JSON>) -> Result<JSON> in
+                        return current.flatMap {interceptor(_response : response, _json: $0)}
                     }
                     return result.flatMap {
                         return f(response, $0)
@@ -311,7 +311,7 @@ public class NetworkManager : NSObject {
                             return .Failure(error)
                     }
                     let userInfo = JSON(raw).object as? [NSObject : AnyObject]
-                    return .Failure(NSError.oex_HTTPError(statusCode: response.statusCode, userInfo: userInfo ?? [:]))
+                    return .Failure(NSError.oex_HTTPError(response.statusCode, userInfo: userInfo ?? [:]))
                 }
                 
                 return f(response)
@@ -332,7 +332,7 @@ public class NetworkManager : NSObject {
             let task = Manager.sharedInstance.request(URLRequest)
             
             let serializer = { (URLRequest : NSURLRequest, response : NSHTTPURLResponse?, data : NSData?) -> (AnyObject?, NSError?) in
-                switch authenticator?(response: response, data: data!) ?? .Proceed {
+                switch authenticator?(_response: response, _data: data!) ?? .Proceed {
                 case .Proceed:
                     let result = NetworkManager.deserialize(networkRequest.deserializer, interceptors: interceptors, response: response, data: data, error: NetworkManager.unknownError)
                     return (Box(DeserializationResult.DeserializedResult(value : result, original : data)), result.error)
@@ -349,7 +349,7 @@ public class NetworkManager : NSObject {
                     Logger.logInfo(NetworkManager.NETWORK, "Response is \(response)")
                     handler(result)
                 case let .Some(.ReauthenticationRequest(authHandler, originalData)):
-                    authHandler(networkManager: self, completion: {success in
+                    authHandler(_networkManager: self, _completion: {success in
                         if success {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting original request")
                             self.taskForRequest(networkRequest, handler: handler)

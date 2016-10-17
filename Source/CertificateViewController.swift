@@ -74,7 +74,7 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
         guard let url = request?.URL else { return }
         let text = Strings.Certificates.shareText(platformName: environment.config.platformName())
         let controller = shareTextAndALink(text, url: url) { analyticsType in
-            self.environment.analytics.trackCertificateShared(url.absoluteString, type: analyticsType)
+            self.environment.analytics.trackCertificateShared(url.absoluteString!, type: analyticsType)
         }
         presentViewController(controller, animated: true, completion: nil)
     }
@@ -91,7 +91,7 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
 
     // MARK: - Web view delegate
 
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         loadController.state = LoadState.failed(error)
     }
 

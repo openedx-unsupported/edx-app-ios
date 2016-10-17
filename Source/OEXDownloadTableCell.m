@@ -12,6 +12,7 @@
 @implementation OEXDownloadTableCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     [self.lbl_title setTextAlignment:NSTextAlignmentNatural];
     [self.lbl_time setTextAlignment:NSTextAlignmentNatural];
     [self.lbl_totalSize setTextAlignment:NSTextAlignmentNatural];

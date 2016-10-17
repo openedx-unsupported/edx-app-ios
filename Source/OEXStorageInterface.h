@@ -40,7 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)deleteResourceDataForURL:(NSString*)url;
 
-- (NSData*)dataForURLString:(NSString*)url;
+- (NSData* _Nullable)dataForURLString:(NSString*)url;
 
 - (void)updateData:(NSData*)data ForURLString:(NSString*)URLString;
 
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray*)getVideosForDownloadUrl:(NSString*)downloadUrl;
 
 // Get a last accesses data for passed CourseID
-- (LastAccessed*)lastAccessedDataForCourseID:(NSString*)courseID;
+- (LastAccessed* _Nullable)lastAccessedDataForCourseID:(NSString*)courseID;
 
 // Set a last accesses data for a course.
 - (void)setLastAccessedSubsection:(NSString*)subsectionID andSubsectionName:(NSString*)subsectionName forCourseID:(nullable NSString*)courseID OnTimeStamp:(NSString*)timestamp;
@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)markPlayedState:(OEXPlayedState)state forVideoID:(NSString*)video_id;
 
 // Returns the data of the video to resume download.
-- (NSData*)resumeDataForVideoID:(NSString*)video_id;
+- (NSData* _Nullable)resumeDataForVideoID:(NSString*)video_id;
 
 // Set the video details & set the download state to PARTIAL for a video.
 - (void)startedDownloadForVideo:(VideoData*)videoData;

@@ -282,15 +282,15 @@ public enum Icon {
 
         if renderer.shouldFlip {
             let context = UIGraphicsGetCurrentContext()
-            CGContextTranslateCTM(context, imageSize.width, 0)
-            CGContextScaleCTM(context, -1, 1)
+            CGContextTranslateCTM(context!, imageSize.width, 0)
+            CGContextScaleCTM(context!, -1, 1)
         }
         
         renderer.drawWithAttributes(attributes, inContext: UIGraphicsGetCurrentContext()!)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image.imageWithRenderingMode(.AlwaysTemplate)
+        return image!.imageWithRenderingMode(.AlwaysTemplate)
     }
 
     public func attributedTextWithStyle(style : OEXTextStyle, inline : Bool = false) -> NSAttributedString {
