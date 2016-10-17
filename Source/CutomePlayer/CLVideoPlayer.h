@@ -17,7 +17,7 @@ static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoP
 @optional
 - (void)movieTimedOut;
 - (void)playerDidStopPlaying:(NSURL*)nsurl atPlayBackTime:(float)timeinterval;
-- (void) videoPlayerTapped:(UIGestureRecognizer *) sender;
+- (void) videoPlayerTapped:(id) sender;
 @required
 - (void)moviePlayerWillMoveFromWindow;
 @end

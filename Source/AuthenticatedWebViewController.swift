@@ -199,7 +199,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     
     private func loadOAuthRefreshRequest() {
         if let hostURL = environment.config.apiHostURL() {
-            let URL = hostURL.URLByAppendingPathComponent(OAuthExchangePath)
+            guard let URL = hostURL.URLByAppendingPathComponent(OAuthExchangePath) else { return }
             let exchangeRequest = NSMutableURLRequest(URL: URL)
             exchangeRequest.HTTPMethod = HTTPMethod.POST.rawValue
             
@@ -288,7 +288,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     public func webView(webView: WKWebView, didReceiveAuthenticationChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
         // Don't use basic auth on exchange endpoint. That is explicitly non protected
         // and it screws up the authorization headers
-        if let URL = webView.URL where URL.absoluteString.hasSuffix(OAuthExchangePath) {
+        if let URL = webView.URL where ((URL.absoluteString?.hasSuffix(OAuthExchangePath)) != nil) {
             completionHandler(.PerformDefaultHandling, nil)
         }
         else if let credential = environment.config.URLCredentialForHost(challenge.protectionSpace.host)  {

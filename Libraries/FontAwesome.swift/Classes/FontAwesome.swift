@@ -30,8 +30,8 @@ private class FontLoader {
     
     let data = NSData(contentsOfURL: fontURL!)!
     
-    let provider = CGDataProviderCreateWithCFData(data)
-    let font = CGFontCreateWithDataProvider(provider)!
+    guard let provider = CGDataProviderCreateWithCFData(data) else { return }
+    let font = CGFontCreateWithDataProvider(provider)
     
     var error: Unmanaged<CFError>?
     if !CTFontManagerRegisterGraphicsFont(font, &error) {

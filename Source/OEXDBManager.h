@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 {
 }
 //Singleton method
-+ (OEXDBManager*)sharedManager;
++ (OEXDBManager* _Nullable)sharedManager;
 @end
 
 NS_ASSUME_NONNULL_END

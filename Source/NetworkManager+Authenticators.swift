@@ -25,14 +25,14 @@ extension NetworkManager {
      */
     public static func invalidAccessAuthenticator(router: OEXRouter?, session:OEXSession, clientId:String, response: NSHTTPURLResponse?, data: NSData?) -> AuthenticationAction {
         if let data = data,
-            response = response,
-            raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+            let response = response,
+            let raw : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
         {
             let json = JSON(raw)
             
             guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode),
-                error = NSError(json: json, code: response.statusCode)
-                where statusCode == .Code401Unauthorised else
+                let error = NSError(json: json, code: response.statusCode)
+                 where statusCode == .Code401Unauthorised else
             {
                 return AuthenticationAction.Proceed
             }
@@ -75,10 +75,10 @@ private func refreshAccessToken(clientId:String, refreshToken:String, session: O
         )
         networkManager.taskForRequest(networkRequest) {result in
             guard let currentUser = session.currentUser, let newAccessToken = result.data else {
-                return completion(success: false)
+                return completion(_success: false)
             }
             session.saveAccessToken(newAccessToken, userDetails: currentUser)
-            return completion(success: true)
+            return completion(_success: true)
         }
     })
 }

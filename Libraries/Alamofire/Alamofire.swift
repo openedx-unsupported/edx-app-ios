@@ -183,7 +183,7 @@ extension String: URLStringConvertible {
 
 extension NSURL: URLStringConvertible {
     public var URLString: String {
-        return absoluteString
+        return absoluteString!
     }
 }
 
@@ -1263,7 +1263,7 @@ extension Request {
             let directoryURLs = NSFileManager.defaultManager().URLsForDirectory(directory, inDomains: domain)
             if directoryURLs.count > 0 {
                 let directoryURL = directoryURLs[0]
-                return directoryURL.URLByAppendingPathComponent(response.suggestedFilename!)
+                return directoryURL.URLByAppendingPathComponent(response.suggestedFilename!)!
             }
 
             return temporaryURL
@@ -1324,7 +1324,7 @@ extension Request: CustomStringConvertible {
             components.append(request.HTTPMethod!)
         }
 
-        components.append(request.URL!.absoluteString)
+        components.append(request.URL!.absoluteString!)
 
         if response != nil {
             components.append("(\(response!.statusCode))")

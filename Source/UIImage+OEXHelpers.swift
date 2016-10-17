@@ -10,7 +10,8 @@ import Foundation
 
 extension UIImage {
     func imageCroppedToRect(rect: CGRect) -> UIImage {
-        let imageRef = CGImageCreateWithImageInRect(self.CGImage, rect)
+        guard let cgImage = self.CGImage else { return self }
+        let imageRef = CGImageCreateWithImageInRect(cgImage, rect)
         let cropped = UIImage(CGImage: imageRef!)
         return cropped
     }
@@ -20,11 +21,12 @@ extension UIImage {
         self.drawInRect(CGRect(origin: CGPointZero, size: size))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return newImage
+        return newImage ?? self
     }
     
     func rotateUp() -> UIImage {
         guard imageOrientation != .Up else { return self }
+        guard let context = UIGraphicsGetCurrentContext() else { return self }
         
         var transform:CGAffineTransform = CGAffineTransformIdentity
         switch imageOrientation {
@@ -47,11 +49,11 @@ extension UIImage {
 
         //Apply the transfrom to a graphics context and redraw the image
         UIGraphicsBeginImageContext(size)
-        let context = UIGraphicsGetCurrentContext()
+        
         drawInRect(CGRect(origin: CGPointZero, size: size))
         CGContextConcatCTM(context, transform)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image
+        return image ?? self
     }
 }

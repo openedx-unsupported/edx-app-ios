@@ -14,6 +14,7 @@
 @implementation OEXFrontTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     UIView* v = self.contentView.subviews[0];
     v.layer.cornerRadius = 5;
     v.layer.masksToBounds = YES;

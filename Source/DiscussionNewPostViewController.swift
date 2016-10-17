@@ -367,7 +367,7 @@ extension UISegmentedControl {
 }
 
 extension UILabel {
-    func toImage()-> UIImage {
+    func toImage()-> UIImage? {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0)
         self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()

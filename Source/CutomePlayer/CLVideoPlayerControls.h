@@ -39,7 +39,7 @@ typedef enum
 } CLVideoPlayerControlsState;
 
 @protocol CLVideoPlayerControlsDelegate <NSObject>
-- (void) videoPlayerTapped:(UIGestureRecognizer *) sender;
+- (void) videoPlayerTapped:(id) sender;
 @end
 
 
