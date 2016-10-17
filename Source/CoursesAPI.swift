@@ -15,10 +15,16 @@ struct CoursesAPI {
         return (json.array?.flatMap { UserCourseEnrollment(json: $0) }).toResult()
     }
     
-    static func getUserEnrollments(username: String) -> NetworkRequest<[UserCourseEnrollment]> {
+    static func getUserEnrollments(username: String, organizationCode: String?) -> NetworkRequest<[UserCourseEnrollment]> {
+        var path = "api/mobile/v0.5/users/{username}/course_enrollments/".oex_formatWithParameters(["username": username])
+        if let orgCode = organizationCode {
+            if (!(orgCode ?? "").isEmpty) {
+                path = "api/mobile/v0.5/users/{username}/course_enrollments/?org={org}".oex_formatWithParameters(["username": username, "org": organizationCode!])
+            }
+        }
         return NetworkRequest(
             method: .GET,
-            path: "api/mobile/v0.5/users/{username}/course_enrollments/".oex_formatWithParameters(["username": username]),
+            path: path,
             requiresAuth: true,
             deserializer: .JSONResponse(enrollmentsDeserializer)
         )

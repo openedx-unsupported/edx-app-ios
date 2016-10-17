@@ -36,7 +36,7 @@ class MockEnrollmentManager: EnrollmentManager {
         }
     }
     
-    override func freshFeedWithUsername(username: String) -> Feed<[UserCourseEnrollment]> {
+    override func freshFeedWithUsername(username: String, organizationCode: String?) -> Feed<[UserCourseEnrollment]> {
         return Feed {[unowned self] in
             $0.backWithStream(self.enrollmentSink)
             return
