@@ -69,44 +69,33 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 @property (weak, nonatomic) IBOutlet UIView* video_containerView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint* videoViewHeight;
 @property   (weak, nonatomic) IBOutlet UIView* videoVideo;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint* TrailingSpaceCustomProgress;
 
-@property (weak, nonatomic) IBOutlet OEXCustomNavigationView* customNavigation;
 @property (weak, nonatomic) IBOutlet UITableView* table_SubSectionVideos;
-@property (weak, nonatomic) IBOutlet DACircularProgressView* customProgressBar;
-@property (weak, nonatomic) IBOutlet UIButton* btn_Downloads;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint* contraintEditingView;
 @property (weak, nonatomic) IBOutlet OEXCustomEditingView* customEditing;
-@property (weak, nonatomic) IBOutlet OEXCheckBox* selectAllButton;
+
+@property (strong, nonatomic) OEXCheckBox* selectAllButton;
+@property (strong, nonatomic) ProgressController *progressController;
 
 @end
 
 @implementation OEXMyVideosSubSectionViewController
 
 - (CGFloat)verticalOffsetForStatusController:(OEXStatusMessageViewController*)controller {
-    return CGRectGetMaxY(self.customNavigation.frame);
+    return CGRectGetMaxY(self.navigationController.navigationBar.frame);
 }
 
 - (NSArray*)overlayViewsForStatusController:(OEXStatusMessageViewController*)controller {
     NSMutableArray* result = [[NSMutableArray alloc] init];
-    [result oex_safeAddObjectOrNil:self.customNavigation];
-    [result oex_safeAddObjectOrNil:self.customProgressBar];
     [result oex_safeAddObjectOrNil:self.selectAllButton];
-    [result oex_safeAddObjectOrNil:self.btn_Downloads];
     return result;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:true animated:animated];
 
     //Add oserver
     [self addObservers];
-
-    if(_isTableEditing) {
-        self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
-    }
-
 
     if(_videoPlayerInterface) {
         [self.videoPlayerInterface videoPlayerShouldRotate];
@@ -148,30 +137,11 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     // Do any additional setup after loading the view.
 
     //set exclusive touch for all btns
-    self.customNavigation.btn_Back.exclusiveTouch = YES;
-    self.btn_Downloads.exclusiveTouch = YES;
     self.view.exclusiveTouch = YES;
     self.videoVideo.exclusiveTouch = YES;
 
-    //Hide back button
-    [self.navigationItem setHidesBackButton:YES];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:nil action:nil];
-    [self.navigationController.navigationBar setTranslucent:NO];
-
-    // Set custom navigation properties
-    self.customNavigation.lbl_TitleView.text = self.course.name;
-    [self.customNavigation.btn_Back addTarget:self action:@selector(navigateBack) forControlEvents:UIControlEventTouchUpInside];
-    self.customNavigation.lbl_Offline.hidden = YES;
-
-    // Initialize the interface for API calling
-    self.dataInterface = [OEXInterface sharedInterface];
-    //set custom progress bar properties
-
-    [self.customProgressBar setProgressTintColor:PROGRESSBAR_PROGRESS_TINT_COLOR];
-
-    [self.customProgressBar setTrackTintColor:PROGRESSBAR_TRACK_TINT_COLOR];
-
-    [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
+    [self setTitle:self.course.name];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack)];
 
     //Init video view and video player
     self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
@@ -181,17 +151,18 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
     self.videoViewHeight.constant = 0;
     self.videoVideo.exclusiveTouch = YES;
+    
+    //Set Navigation Buttons
+    self.selectAllButton = [[OEXCheckBox alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    self.progressController = [[ProgressController alloc] initWithOwner:self router:self.environment.router dataInterface:self.environment.interface];
+    self.navigationItem.rightBarButtonItem = [self.progressController navigationItem];
+    [self.progressController hideProgessView];
 
     //Fix for 20px issue for the table view
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     // Call to populate data
     [self getSubsectionVideoDataFromArray];
-
-    [[self.dataInterface progressViews] addObject:self.customProgressBar];
-    [[self.dataInterface progressViews] addObject:self.btn_Downloads];
-    [self.customProgressBar setHidden:YES];
-    [self.btn_Downloads setHidden:YES];
 
     // Used for autorotation
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -208,11 +179,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     
     self.isTableEditing = NO;           // Check Edit button is clicked
     self.selectAll = NO;        // Check if all are selected
-    
-    [[OEXStyles sharedStyles] applyMockBackButtonStyleToButton:self.customNavigation.btn_Back];
-    [[OEXStyles sharedStyles] applyMockNavigationBarStyleToView:self.customNavigation label:self.customNavigation.lbl_TitleView leftIconButton:self.customNavigation.btn_Back];
-    
-    [self.btn_Downloads tintColor:[[OEXStyles sharedStyles] navigationItemTintColor]];
     
 }
 
@@ -248,7 +214,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 }
 
 - (void)updateTotalDownloadProgress:(NSNotification* )notification {
-    [self.customProgressBar setProgress:_dataInterface.totalProgress animated:YES];
+    [self updateNavigationItemButtons];
 }
 
 - (void)getSubsectionVideoDataFromArray {
@@ -276,7 +242,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     for(NSDictionary* dict in arrCourseAndVideo) {
         OEXCourse* course = [dict objectForKey:CAV_KEY_COURSE];
 
-        if([course.name isEqualToString:self.customNavigation.lbl_TitleView.text]) {
+        if([course.name isEqualToString:self.title]) {
             self.arr_CourseData = [dict objectForKey:CAV_KEY_VIDEOS];
         }
     }
@@ -801,9 +767,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
     [self disableDeleteButton];
 
-    // SHIFT THE PROGRESS TO LEFT
-    self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR;
-
     [self hideComponentsOnEditing:NO];
     [self.table_SubSectionVideos reloadData];
 }
@@ -818,6 +781,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     self.customEditing.imgSeparator.hidden = !hide;
 
     self.selectAll = NO;
+    
+    [self updateNavigationItemButtons];
 }
 
 - (void)deleteTableClicked:(id)sender {
@@ -834,9 +799,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 - (void)editTableClicked:(id)sender {
     self.arr_SelectedObjects = [[NSMutableArray alloc] init];
-
-    // SHIFT THE PROGRESS TO LEFT
-    self.TrailingSpaceCustomProgress.constant = ORIGINAL_RIGHT_SPACE_PROGRESSBAR + SHIFT_LEFT;
 
     [self hideComponentsOnEditing:YES];
 
@@ -935,6 +897,19 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [self.table_SubSectionVideos reloadData];
 
     [self disableDeleteButton];
+}
+
+- (void)updateNavigationItemButtons {
+    NSMutableArray *barButtons = [[NSMutableArray alloc] init];
+    if(_isTableEditing) {
+        [barButtons addObject:[[UIBarButtonItem alloc] initWithCustomView:self.selectAllButton]];
+    }
+    if(![self.progressController progressView].hidden){
+        [barButtons addObject:[self.progressController navigationItem]];
+    }
+    if(barButtons.count != self.navigationItem.rightBarButtonItems.count) {
+        self.navigationItem.rightBarButtonItems = barButtons;
+    }
 }
 
 #pragma mark videoPlayer Delegate
@@ -1096,10 +1071,6 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 }
 
 #pragma mark - Actions
-
-- (IBAction)downloadButtonPressed:(id)sender {
-    [[OEXRouter sharedRouter] showDownloadsFromViewController:self];
-}
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [OEXStyles sharedStyles].standardStatusBarStyle;

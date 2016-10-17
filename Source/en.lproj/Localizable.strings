@@ -18,8 +18,6 @@
 "ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "Clear the checkbox";
 /* Label for action hint on check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to select";
-/* Call to action for Course content on Home Screen */
-"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Double tap to view course content.";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "By";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
@@ -27,7 +25,7 @@
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Downloads in progress: {percent_complete}";
 /* Acessibility hint for the download progress button. */
-"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "View current downloads";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "Double tap to view current downloads";
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
 "ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "Downloading {video_name}. {percent_complete} percent complete.";
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
@@ -38,6 +36,8 @@
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "Downloads {video_count} videos.";
 /* Accessibility label for fullscreen button on video player */
 "ACCESSIBILITY_FULLSCREEN" = "Fullscreen";
+/* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
+"ACCESSIBILITY_EXIT_FULLSCREEN" = "Exit fullscreen";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
 /* Accessibility label for open on web button */
@@ -62,6 +62,10 @@
 "ACCESSIBILITY_SELECT_ALL" = "Select All";
 /* Accessibility label for Settings Button in the Video Player */
 "ACCESSIBILITY_SETTINGS" = "Settings";
+/* Call to action for Course content on Home Screen */
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Double tap to view course content.";
+/* Call to action for Opening Dropdown */
+"ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Double tap to open dropdown.";
 /* Accessibility label for Unknown Icon in the Courseware screens */
 "ACCESSIBILITY_UNKNOWN" = "Unknown";
 /* Accessibility label for Video Icon in the Courseware screens */
@@ -469,7 +473,7 @@
 /* Title of registration agreement */
 "REGISTRATION_AGREEMENT_BUTTON_TITLE"="{platform_name} Terms of Service and Honor Code";
 /* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
-"REGISTRATION_AGREEMENT_MESSAGE"="By creating an {platform_name} account, you agree to the ";
+"REGISTRATION_AGREEMENT_MESSAGE"="By creating an account, you agree to the ";
 /* Button text allowing user create an account */
 "REGISTRATION_CREATE_MY_ACCOUNT"="Create my account";
 /* Text shown while waiting for registration request */
@@ -617,7 +621,7 @@
 /* Button action to open app on YouTube */
 "VIDEO.VIEW_ON_YOUTUBE" = "View video on YouTube";
 /* Message shown for videos that can only be played external the app via YouTube. */
-"VIDEO.ONLY_ON_YOUTUBE" = "This video can only be played on YouTube";
+"VIDEO.ONLY_ON_YOUTUBE" = "This video can only be played on YouTube.";
 /* Button text for showing an associated item */
 "VIEW" = "View";
 /* Button linking to course announcements */

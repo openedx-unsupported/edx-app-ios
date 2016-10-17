@@ -118,7 +118,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                 self?.environment.router?.showCourseCatalog(nil)
             }
             footer.missingCoursesAction = {[weak self] in
-                self?.showCourseNotListedScreen()
+                self?.showCourseNotListedAlert()
             }
             
             footer.sizeToFit()
@@ -159,8 +159,13 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         }
     }
     
-    private func showCourseNotListedScreen() {
-        environment.router?.showFullScreenMessageViewControllerFromViewController(self, message: Strings.courseNotListed, bottomButtonTitle: Strings.close)
+    private func showCourseNotListedAlert() {
+        let alertController = UIAlertController().showAlertWithTitle(nil, message: Strings.courseNotListed, cancelButtonTitle: nil, onViewController: self)
+        alertController.addButtonWithTitle(Strings.ok, actionBlock: { (action) in
+            dispatch_async(dispatch_get_main_queue(), { 
+                UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.navigationItem.leftBarButtonItem)
+            })
+        })
     }
     
     private func showVersionUpgradeSnackBarIfNecessary() {

@@ -21,15 +21,22 @@ public class OEXColors: NSObject {
     }
     
     private func initializeColorsDictionary() -> [String: AnyObject] {
-        guard let filePath = NSBundle.mainBundle().pathForResource("colors", ofType: "json") else { assert(false, "Could not find colors.json") }
+        guard let filePath = NSBundle.mainBundle().pathForResource("colors", ofType: "json") else {
+            return fallbackColors
+        }
         if let data = NSData(contentsOfFile: filePath) {
             var error : NSError?
-            if let json = NSJSONSerialization.oex_JSONObjectWithData(data, error: &error) as? [String: AnyObject] {
+            
+            if let json = JSON(data: data, error: &error).dictionaryObject{
                 return json
             }
-                assert(error == nil, "Could not parse colors.json")
+            return fallbackColors
         }
-        assert(false, "Could not load colors.json")
+        return fallbackColors
+    }
+    
+    private var fallbackColors: [String: AnyObject] {
+        return OEXColorsDataFactory.colors
     }
     
     public func colorForIdentifier(identifier: String) -> UIColor {
@@ -41,7 +48,9 @@ public class OEXColors: NSObject {
             let color = UIColor(hexString: hexValue, alpha: alpha)
             return color
         }
+        //Assert to crash on development, and return a random color for distribution
         assert(false, "Could not find the required color in colors.json")
+        return UIColor(hexString: "#FABA12", alpha: 1.0)
     }
     
 }

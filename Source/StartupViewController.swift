@@ -51,7 +51,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     // MARK: - View Setup
 
     private func setupBackground() {
-        let backgroundImage = UIImage(named: "splash-start-lg")
+        let backgroundImage = UIImage(named: "launchBackground")
         let backgroundImageView = UIImageView(image: backgroundImage)
         backgroundImageView.contentMode = .ScaleAspectFill
         view.addSubview(backgroundImageView)
@@ -65,7 +65,9 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let logo = UIImage(named: "logo")
         logoImageView.image = logo
         logoImageView.contentMode = .ScaleAspectFit
-
+        logoImageView.accessibilityLabel = environment.config.platformName()
+        logoImageView.isAccessibilityElement = true
+        logoImageView.accessibilityTraits = UIAccessibilityTraitImage
         view.addSubview(logoImageView)
 
         logoImageView.snp_makeConstraints { (make) in

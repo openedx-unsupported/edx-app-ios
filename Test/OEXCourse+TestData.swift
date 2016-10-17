@@ -1,3 +1,4 @@
+
 //
 //  OEXCourse+TestData.swift
 //  edX
@@ -22,7 +23,7 @@ public extension OEXCourse {
         aboutUrl: String? = nil) -> [String : AnyObject]
     {
         let courseID = NSUUID().UUIDString
-        let imagePath = NSBundle.mainBundle().URLForResource("Splash_map", withExtension: "png")
+        let imagePath = NSBundle.mainBundle().URLForResource("placeholderCourseCardImage", withExtension: "png")
         
         var courseDictionary : [String : AnyObject] = [
             "id" : courseID ?? "someID",

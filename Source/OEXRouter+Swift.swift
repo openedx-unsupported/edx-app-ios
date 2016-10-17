@@ -121,11 +121,6 @@ extension OEXRouter {
         }
     }
     
-    func showFullScreenMessageViewControllerFromViewController(controller : UIViewController, message : String, bottomButtonTitle: String?) {
-        let fullScreenViewController = FullScreenMessageViewController(message: message, bottomButtonTitle: bottomButtonTitle)
-        controller.presentViewController(fullScreenViewController, animated: true, completion: nil)
-    }
-    
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, threadID : String) {
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
@@ -271,7 +266,11 @@ extension OEXRouter {
         removeCurrentContentController()
 
         let splashController: UIViewController
-        if environment.config.newLogistrationFlowEnabled {
+        
+        if !environment.config.isRegistrationEnabled {
+            splashController = loginViewController()
+        }
+        else if environment.config.newLogistrationFlowEnabled {
             splashController = StartupViewController(environment: environment)
         } else {
             let splashEnvironment = OEXLoginSplashViewControllerEnvironment(router: self)

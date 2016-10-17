@@ -44,19 +44,4 @@
     return field;
 }
 
-- (void)testShowOptionalFields {
-    NSArray* fields = @[[self optionalTestField], [self requiredTestField]];
-    NSString* method = @"POST";
-    NSString* submitURL = @"http://example.com/register";
-    OEXRegistrationDescription* description = [[OEXRegistrationDescription alloc] initWithFields:fields method:method submitURL:submitURL];
-    OEXRegistrationViewController* controller = [[OEXRegistrationViewController alloc] initWithEnvironment:nil];
-    controller.registrationDescription = description;
-    (void)controller.view; // force view to load
-    [controller makeFieldControllers];
-    [controller refreshFormFields];
-    XCTAssertEqual([controller t_visibleFieldCount], 1);
-    [controller t_toggleOptionalFields];
-    XCTAssertEqual([controller t_visibleFieldCount], 2);
-}
-
 @end

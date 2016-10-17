@@ -119,11 +119,16 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
+    [self presentViewController:[self loginViewController] fromController:[controller topMostController] completion:completion];
+}
+
+- (UINavigationController *) loginViewController {
     OEXLoginViewController* loginController = [[UIStoryboard storyboardWithName:@"OEXLoginViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginView"];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
     loginController.delegate = self;
+    loginController.environment = self.environment;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
     
-    [self presentViewController:navController fromController:[controller topMostController] completion:completion];
+    return navController;
 }
 
 - (void)showSignUpScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
@@ -191,13 +196,14 @@ OEXRegistrationViewControllerDelegate
     OEXMyVideosSubSectionViewController* vc = [[UIStoryboard storyboardWithName:@"OEXMyVideosSubSectionViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
     vc.course = course;
     vc.arr_CourseData = courseData;
+    vc.environment = self.environment;
     [controller.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)showMyVideos {
     OEXMyVideosViewController* videoController = [[UIStoryboard storyboardWithName:@"OEXMyVideosViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyVideos"];
     NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
-    videoController.environment = [[OEXMyVideosViewControllerEnvironment alloc] initWithInterface:self.environment.interface networkManager:self.environment.networkManager router:self];
+    videoController.environment = self.environment;
     [self showContentStackWithRootController:videoController animated:YES];
 }
 

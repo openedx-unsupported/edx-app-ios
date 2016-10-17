@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -27,7 +27,7 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XeO-S4-8zQ">
                                 <rect key="frame" x="0.0" y="1" width="600" height="599"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_map.png" translatesAutoresizingMaskIntoConstraints="NO" id="hfa-gq-20d">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginScreenImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="hfa-gq-20d">
                                         <rect key="frame" x="35" y="10" width="530" height="151"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="240" id="5Ly-rP-A7E"/>
@@ -413,8 +413,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bg_map.png" width="530" height="224"/>
         <image name="bt_grey_default.png" width="525" height="100"/>
+        <image name="loginScreenImage.png" width="530" height="224"/>
         <image name="logo.png" width="141" height="65"/>
         <image name="separator.png" width="526" height="2"/>
     </resources>

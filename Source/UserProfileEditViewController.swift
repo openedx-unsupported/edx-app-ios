@@ -410,7 +410,7 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
                 endBlurimate.remove()
                 self.showToast(Strings.Profile.unableToSetPhoto)
             } else {
-                //Was sucessful delete
+                //Was successful delete
                 self.reloadProfileFromImageChange(endBlurimate)
             }
         }
