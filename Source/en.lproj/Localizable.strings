@@ -36,6 +36,8 @@
 "ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "Downloads {video_count} videos.";
 /* Accessibility label for fullscreen button on video player */
 "ACCESSIBILITY_FULLSCREEN" = "Fullscreen";
+/* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
+"ACCESSIBILITY_EXIT_FULLSCREEN" = "Exit fullscreen";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
 /* Accessibility label for open on web button */
