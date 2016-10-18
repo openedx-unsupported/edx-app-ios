@@ -19,8 +19,11 @@
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     [self tintCancelButton];
     [self resetLabels];
+    
+    // Enable multi-line titles
+    _lbl_title.numberOfLines = 0;
+    _lbl_title.lineBreakMode = NSLineBreakByWordWrapping;
 }
-
 
 - (void)prepareForReuse {
     [super prepareForReuse];
