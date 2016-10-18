@@ -37,9 +37,7 @@ public struct CourseCatalogAPI {
         var query = [Params.Mobile.rawValue: JSON(true), Params.User.rawValue: JSON(userID)]
         
         if let orgCode = organizationCode {
-            if (!(orgCode ?? "").isEmpty) {
-                query[Params.Org.rawValue] = JSON(organizationCode!)
-            }
+            query[Params.Org.rawValue] = JSON(orgCode)
         }
         
         return NetworkRequest(
