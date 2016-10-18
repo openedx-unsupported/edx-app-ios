@@ -166,15 +166,17 @@
         }
         cell.lbl_title.text = videoName;
 
-        if(!downloadingVideo.summary.duration) {
-            cell.lbl_time.text = @"NA";
+        if(downloadingVideo.summary.duration < 0.01) {
+            cell.lbl_time.text = @"";
         }
         else {
             cell.lbl_time.text = [OEXDateFormatting formatSecondsAsVideoLength: downloadingVideo.summary.duration];
         }
 
         float result = (([downloadingVideo.summary.size doubleValue] / 1024) / 1024);
-        cell.lbl_totalSize.text = [NSString stringWithFormat:@"%.2fMB", result];
+        if (result > 0.01) {
+            cell.lbl_totalSize.text = [NSString stringWithFormat:@"%.2fMB", result];
+        }
         float progress = (float)downloadingVideo.downloadProgress;
         [cell.progressView setProgress:progress];
         //

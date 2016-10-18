@@ -18,9 +18,22 @@
     [self.lbl_totalSize setTextAlignment:NSTextAlignmentNatural];
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     [self tintCancelButton];
+    [self resetLabels];
 }
 
--(void) tintCancelButton {
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    [self resetLabels];
+}
+
+- (void)resetLabels {
+    self.lbl_title.text = @"";
+    self.lbl_time.text = @"";
+    self.lbl_totalSize.text = @"";
+}
+
+- (void)tintCancelButton {
     UIImage *image = [_btn_cancel.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [_btn_cancel setImage:image forState:UIControlStateNormal];
     _btn_cancel.tintColor = [[OEXStyles sharedStyles] neutralBase];
