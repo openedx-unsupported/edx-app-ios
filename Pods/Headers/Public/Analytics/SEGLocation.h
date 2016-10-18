@@ -1,1 +1,1 @@
-../../../Analytics/Pod/Classes/Internal/SEGLocation.h
+../../../Analytics/Analytics/Classes/Internal/SEGLocation.h

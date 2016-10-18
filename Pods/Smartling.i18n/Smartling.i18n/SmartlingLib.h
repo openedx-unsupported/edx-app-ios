@@ -18,8 +18,6 @@
 //  Created by Pavel Ivashkov on 2015-05-15.
 //
 
-#import <UIKit/UIKit.h>
-
 //! Project version number for SmartlingLib.
 FOUNDATION_EXPORT double SmartlingLibVersionNumber;
 
@@ -29,4 +27,4 @@ FOUNDATION_EXPORT const unsigned char SmartlingLibVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <SmartlingLib/PublicHeader.h>
 
 
-#import <SmartlingLib/SLLocalization.h>
+#import "SLLocalization.h"

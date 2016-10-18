@@ -18,7 +18,7 @@ protocol SnapshotTestable {
 
 extension UIView : SnapshotTestable {
     func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
-        try testCase.compareSnapshotOfView(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
+        try testCase.compareSnapshotOfView(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier)
     }
     
     var snapshotSize : CGSize {
@@ -28,7 +28,7 @@ extension UIView : SnapshotTestable {
 
 extension CALayer : SnapshotTestable {
     func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws  {
-        try testCase.compareSnapshotOfLayer(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
+        try testCase.compareSnapshotOfLayer(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier)
     }
     
     var snapshotSize : CGSize {
@@ -46,7 +46,7 @@ extension UIViewController : SnapshotTestable {
     
     func snapshotTestWithCase(testCase: FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
 
-        try testCase.compareSnapshotOfView(self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
+        try testCase.compareSnapshotOfView(self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier)
     }
     
     func finishSnapshot() {

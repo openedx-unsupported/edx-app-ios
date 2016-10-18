@@ -18,8 +18,11 @@
 
 #import "FBSDKAppLinkUtility.h"
 
+#import <Bolts/BFURL.h>
+
 #import "FBSDKAppEventsUtility.h"
 #import "FBSDKGraphRequest.h"
+#import "FBSDKInternalUtility.h"
 #import "FBSDKSettings.h"
 #import "FBSDKUtility.h"
 
@@ -77,4 +80,29 @@ static NSString *const FBSDKDeferredAppLinkEvent = @"DEFERRED_APP_LINK";
   }];
 }
 
++ (BOOL)fetchDeferredAppInvite:(FBSDKDeferredAppInviteHandler)handler
+{
+  return NO;
+}
+
++ (NSString*)appInvitePromotionCodeFromURL:(NSURL*)url;
+{
+  BFURL *parsedUrl = [[FBSDKInternalUtility resolveBoltsClassWithName:@"BFURL"] URLWithURL:url];
+  NSDictionary *extras = [parsedUrl appLinkExtras];
+  if (extras) {
+    NSString *deeplinkContextString = extras[@"deeplink_context"];
+
+    // Parse deeplinkContext and extract promo code
+    if ([deeplinkContextString length] > 0) {
+      NSError *error = nil;
+      NSDictionary *deeplinkContextData = [FBSDKInternalUtility objectForJSONString:deeplinkContextString error:&error];
+      if (!error && [deeplinkContextData isKindOfClass:[NSDictionary class]]) {
+        return deeplinkContextData[@"promo_code"];
+      }
+    }
+  }
+
+  return nil;
+
+}
 @end

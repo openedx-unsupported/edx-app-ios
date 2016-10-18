@@ -82,6 +82,8 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
   // Register on UIApplicationDidEnterBackgroundNotification events to reset source application data when app backgrounds.
   [FBSDKTimeSpentData registerAutoResetSourceApplication];
 
+  [FBSDKInternalUtility validateFacebookReservedURLSchemes];
+
   // Remove the observer
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -131,8 +133,9 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
                                  userInfo:nil];
   }
   [FBSDKTimeSpentData setSourceApplication:sourceApplication openURL:url];
+
 #if !TARGET_OS_TV
-  // if they completed a SFVC flow, dimiss it.
+  // if they completed a SFVC flow, dismiss it.
   [_safariViewController.presentingViewController dismissViewControllerAnimated:YES completion: nil];
   _safariViewController = nil;
 
@@ -257,7 +260,7 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
       _pendingRequestCompletionBlock = nil;
       NSError *openedURLError;
       if ([request.scheme hasPrefix:@"http"]) {
-        openedURLError = [FBSDKError errorWithCode:FBSDKBrowswerUnavailableErrorCode
+        openedURLError = [FBSDKError errorWithCode:FBSDKBrowserUnavailableErrorCode
                                            message:@"the app switch failed because the browser is unavailable"];
       } else {
         openedURLError = [FBSDKError errorWithCode:FBSDKAppVersionUnsupportedErrorCode
@@ -307,12 +310,16 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
       [parent.transitionCoordinator animateAlongsideTransition:NULL completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         // Note SFVC init must occur inside block to avoid blank screen.
         _safariViewController = [[SFSafariViewControllerClass alloc] initWithURL:url];
+        // Disable dismissing with edge pan gesture
+        _safariViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
         [_safariViewController performSelector:@selector(setDelegate:) withObject:self];
         [container displayChildController:_safariViewController];
         [parent presentViewController:container animated:YES completion:nil];
       }];
     } else {
       _safariViewController = [[SFSafariViewControllerClass alloc] initWithURL:url];
+      // Disable dismissing with edge pan gesture
+      _safariViewController.modalPresentationStyle = UIModalPresentationOverFullScreen;
       [_safariViewController performSelector:@selector(setDelegate:) withObject:self];
       [container displayChildController:_safariViewController];
       [parent presentViewController:container animated:YES completion:nil];

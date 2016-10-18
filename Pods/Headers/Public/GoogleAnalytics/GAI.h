@@ -1,1 +1,1 @@
-../../../GoogleAnalytics/Headers/Public/GAI.h
+../../../GoogleAnalytics/Sources/GAI.h

@@ -87,6 +87,11 @@
 
 - (void)track:(SEGTrackPayload *)payload
 {
+    if ([payload.event isEqualToString: @"Order Completed"]) {
+        [self orderCompleted:payload.properties];
+        return;
+    }
+    
     // Try to extract a "category" property.
     NSString *category = @"All"; // default
     NSString *categoryProperty = [payload.properties objectForKey:@"category"];
@@ -128,7 +133,7 @@
 
 #pragma mark - Ecommerce
 
-- (void)completedOrder:(NSDictionary *)properties
+- (void)orderCompleted:(NSDictionary *)properties
 {
     NSString *orderId = properties[@"orderId"];
     NSString *currency = properties[@"currency"] ?: @"USD";

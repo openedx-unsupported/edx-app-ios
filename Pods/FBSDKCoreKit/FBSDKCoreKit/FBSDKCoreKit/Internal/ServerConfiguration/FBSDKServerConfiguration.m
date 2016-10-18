@@ -36,6 +36,8 @@
 #define FBSDK_SERVER_CONFIGURATION_SYSTEM_AUTHENTICATION_ENABLED_KEY @"systemAuthenticationEnabled"
 #define FBSDK_SERVER_CONFIGURATION_NATIVE_AUTH_FLOW_ENABLED_KEY @"nativeAuthFlowEnabled"
 #define FBSDK_SERVER_CONFIGURATION_TIMESTAMP_KEY @"timestamp"
+#define FBSDK_SERVER_CONFIGURATION_SESSION_TIMEOUT_INTERVAL @"sessionTimeoutInterval"
+#define FBSDK_SERVER_CONFIGURATION_LOGGING_TOKEN @"loggingToken"
 
 #pragma mark - Dialog Names
 
@@ -82,7 +84,9 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
                   dialogFlows:(NSDictionary *)dialogFlows
                     timestamp:(NSDate *)timestamp
            errorConfiguration:(FBSDKErrorConfiguration *)errorConfiguration
+       sessionTimeoutInterval:(NSTimeInterval) sessionTimeoutInterval
                      defaults:(BOOL)defaults
+                 loggingToken:(NSString *)loggingToken
 {
   if ((self = [super init])) {
     _appID = [appID copy];
@@ -99,7 +103,9 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
     _dialogFlows = [dialogFlows copy];
     _timestamp = [timestamp copy];
     _errorConfiguration = [errorConfiguration copy];
+    _sessionTimoutInterval = sessionTimeoutInterval;
     _defaults = defaults;
+    _loggingToken = loggingToken;
   }
   return self;
 }
@@ -153,7 +159,7 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
                                                      forKey:FBSDK_SERVER_CONFIGURATION_DEFAULT_SHARE_MODE_KEY];
   BOOL advertisingIDEnabled = [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_ADVERTISING_ID_ENABLED_KEY];
   BOOL implicitLoggingEnabled = [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_IMPLICIT_LOGGING_ENABLED_KEY];
-  BOOL implicitPurchaseLoggingEnabbled =
+  BOOL implicitPurchaseLoggingEnabled =
   [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_IMPLICIT_PURCHASE_LOGGING_ENABLED_KEY];
   BOOL systemAuthenticationEnabled =
   [decoder decodeBoolForKey:FBSDK_SERVER_CONFIGURATION_SYSTEM_AUTHENTICATION_ENABLED_KEY];
@@ -173,6 +179,8 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
   NSDictionary *dialogFlows = [decoder decodeObjectOfClasses:dialogFlowsClasses
                                                       forKey:FBSDK_SERVER_CONFIGURATION_DIALOG_FLOWS_KEY];
   FBSDKErrorConfiguration *errorConfiguration = [decoder decodeObjectOfClass:[FBSDKErrorConfiguration class] forKey:FBSDK_SERVER_CONFIGURATION_ERROR_CONFIGS_KEY];
+  NSTimeInterval sessionTimeoutInterval = [decoder decodeDoubleForKey:FBSDK_SERVER_CONFIGURATION_SESSION_TIMEOUT_INTERVAL];
+  NSString *loggingToken = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDK_SERVER_CONFIGURATION_LOGGING_TOKEN];
   return [self initWithAppID:appID
                      appName:appName
          loginTooltipEnabled:loginTooltipEnabled
@@ -180,14 +188,16 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
             defaultShareMode:defaultShareMode
         advertisingIDEnabled:advertisingIDEnabled
       implicitLoggingEnabled:implicitLoggingEnabled
-implicitPurchaseLoggingEnabled:implicitPurchaseLoggingEnabbled
+implicitPurchaseLoggingEnabled:implicitPurchaseLoggingEnabled
  systemAuthenticationEnabled:systemAuthenticationEnabled
        nativeAuthFlowEnabled:nativeAuthFlowEnabled
         dialogConfigurations:dialogConfigurations
                  dialogFlows:dialogFlows
                    timestamp:timestamp
           errorConfiguration:errorConfiguration
-                    defaults:NO];
+      sessionTimeoutInterval:sessionTimeoutInterval
+                    defaults:NO
+                loggingToken:loggingToken];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
@@ -207,6 +217,8 @@ implicitPurchaseLoggingEnabled:implicitPurchaseLoggingEnabbled
   [encoder encodeBool:_nativeAuthFlowEnabled forKey:FBSDK_SERVER_CONFIGURATION_NATIVE_AUTH_FLOW_ENABLED_KEY];
   [encoder encodeBool:_systemAuthenticationEnabled forKey:FBSDK_SERVER_CONFIGURATION_SYSTEM_AUTHENTICATION_ENABLED_KEY];
   [encoder encodeObject:_timestamp forKey:FBSDK_SERVER_CONFIGURATION_TIMESTAMP_KEY];
+  [encoder encodeDouble:_sessionTimoutInterval forKey:FBSDK_SERVER_CONFIGURATION_SESSION_TIMEOUT_INTERVAL];
+  [encoder encodeObject:_loggingToken forKey:FBSDK_SERVER_CONFIGURATION_LOGGING_TOKEN];
 }
 
 #pragma mark - NSCopying

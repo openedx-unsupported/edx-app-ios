@@ -80,7 +80,7 @@ typedef void (^FBSDKGraphRequestHandler)(FBSDKGraphRequestConnection *connection
  Tells the delegate the request connection finished loading
 
  @discussion
- If the request connection completes without a network error occuring then this method is called.
+ If the request connection completes without a network error occurring then this method is called.
  Invocation of this method does not indicate success of every <FBSDKGraphRequest> made, only that the
  request connection has no further activity. Use the error argument passed to the FBSDKGraphRequestHandler
  block to determine success or failure of each <FBSDKGraphRequest>.
@@ -151,7 +151,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite;
  @abstract
  The delegate object that receives updates.
  */
-@property (nonatomic, assign) id<FBSDKGraphRequestConnectionDelegate> delegate;
+@property (nonatomic, weak) id<FBSDKGraphRequestConnectionDelegate> delegate;
 
 /*!
  @abstract Gets or sets the timeout interval to wait for a response before giving up.
