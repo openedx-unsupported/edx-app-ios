@@ -67,7 +67,7 @@
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     
     // Do any additional setup after loading the view.
-    self.table_Downloads.estimatedRowHeight = 78.0;
+    self.table_Downloads.estimatedRowHeight = 68.0;
     self.table_Downloads.rowHeight = UITableViewAutomaticDimension;
 #ifdef __IPHONE_8_0
     if(IS_IOS8) {
