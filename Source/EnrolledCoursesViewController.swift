@@ -19,6 +19,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     private let insetsController = ContentInsetsController()
     private let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
+    var isUpgradeSnackbarShown = false
 
     init(environment: Environment) {
         self.tableController = CoursesTableViewController(environment: environment, context: .EnrollmentList)
@@ -174,7 +175,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             if let _ = VersionUpgradeInfoController.sharedController.lastSupportedDateString {
                 infoString = Strings.VersionUpgrade.deprecatedMessage
             }
-            showVersionUpgradeSnackBar(infoString)
+            if !isUpgradeSnackbarShown {
+                showVersionUpgradeSnackBar(infoString)
+                isUpgradeSnackbarShown = true
+            }
         }
         else {
             hideSnackBar()
