@@ -43,12 +43,8 @@ class CourseCardViewModel : NSObject {
         return CourseCardViewModel(course: course, detailText: course.courseRunIncludingNextDate, bottomTrailingText: nil, persistImage: true, wrapTitle: true)
     }
     
-    static func onCourseCatalog(course: OEXCourse) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: course.nextRelevantDateUpperCaseString, persistImage: false)
-    }
-    
-    static func onCourseCatalogDetail(course: OEXCourse) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: course.nextRelevantDateUpperCaseString, persistImage: false, wrapTitle: true)
+    static func onCourseCatalog(course: OEXCourse, wrapTitle: Bool = false) -> CourseCardViewModel {
+        return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: course.nextRelevantDateUpperCaseString, persistImage: false, wrapTitle: wrapTitle)
     }
     
     func apply(card : CourseCardView, networkManager: NetworkManager) {
