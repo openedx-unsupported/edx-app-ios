@@ -212,8 +212,10 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     }
     
     func wrapTitleLabel() {
-        self.titleLabel.numberOfLines = 0
+        self.titleLabel.numberOfLines = 3
         self.titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        self.titleLabel.minimumScaleFactor = 0.5
+        self.titleLabel.adjustsFontSizeToFitWidth = true
         self.layoutIfNeeded()
     }
     
