@@ -33,24 +33,6 @@ class CourseOutlineQuerierTests: XCTestCase {
         removable.remove()
     }
     
-    func testModeFilter() {
-        let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
-        let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
-        let block = CourseOutlineTestDataFactory.knownVideoFilterableSection()
-        let fullStream = querier.childrenOfBlockWithID(block)
-        let filteredStream = querier.childrenOfBlockWithID(block)
-        let joined = joinStreams(fullStream, filteredStream)
-        let expectation = expectationWithDescription("Child stream loaded")
-        
-        let removable = joined.listen(self) {result in
-            let (full, filtered) = result.value!
-            XCTAssertGreaterThan(full.children.count, filtered.children.count)
-            expectation.fulfill()
-        }
-        waitForExpectations()
-        removable.remove()
-    }
-    
     func testFlatMap() {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)

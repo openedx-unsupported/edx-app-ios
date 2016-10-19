@@ -97,22 +97,4 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         }
         self.waitForExpectations()
     }
-    
-    
-    func testModeVideo() {
-        let delegate = MockLastAccessedDelegate()
-        rootController?.delegate = delegate
-        
-        let expectation = self.expectationWithDescription("Unit 1 should return nil")
-        
-        self.lastAccessedItem = CourseLastAccessed(moduleId: "unit1", moduleName: "Unit 1")
-        nonVideoSectionController?.saveLastAccessed()
-        delegate.didFetchAction = { item in
-            if (item?.moduleName == nil) {
-                expectation.fulfill()
-            }
-        }
-        rootController?.loadLastAccessed()
-        self.waitForExpectations()
-    }
 }
