@@ -628,9 +628,7 @@
 "VOTE##{one}"="{count} Vote";
 /* Discussion vote - {count} is a number of votes */
 "VOTE##{other}"="{count} Votes";
-/*Title of upgrade button on fullscreen error*/
-"VERSION_UPGRADE.UPGRADE" = "Upgrade";
-/*Title of update button on SnackBar*/
+/*Title of update button on fullscreen error and SnackBar*/
 "VERSION_UPGRADE.UPDATE" = "Update";
 /*Title of dismiss button on SnackBar*/
 "VERSION_UPGRADE.DISMISS" = "Dismiss";
