@@ -395,7 +395,6 @@
 		778B40DE1C2F85C50009F33E /* FeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B40DC1C2F85BC0009F33E /* FeedTests.swift */; };
 		778B61061B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */; };
 		778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */; };
-		778C72EF1B179C4A00FC3F68 /* CourseOutlineMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778C72EE1B179C4A00FC3F68 /* CourseOutlineMode.swift */; };
 		778C72F11B17C30000FC3F68 /* Dictionary+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */; };
 		778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */; };
 		778D53351B3D96E900441A98 /* ListCursor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778D53341B3D96E900441A98 /* ListCursor.swift */; };
@@ -1210,7 +1209,6 @@
 		778B61051B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNotificationCenter+SafeSwift.swift"; sourceTree = "<group>"; };
 		778B82EA1A520F2A0040D9E0 /* OEXEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXEnvironment.h; sourceTree = "<group>"; };
 		778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXEnvironment.m; sourceTree = "<group>"; };
-		778C72EE1B179C4A00FC3F68 /* CourseOutlineMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseOutlineMode.swift; sourceTree = "<group>"; };
 		778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Functional.swift"; sourceTree = "<group>"; };
 		778CC8251BBEDD9000DCCAE4 /* MockAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAnalyticsTracker.swift; sourceTree = "<group>"; };
 		778D53341B3D96E900441A98 /* ListCursor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCursor.swift; sourceTree = "<group>"; };
@@ -2347,7 +2345,6 @@
 				77092C721B421BD0004AA1A1 /* ContainerNavigationController.swift */,
 				770C514C1B1685F5009B9696 /* AuthenticatedWebViewController.swift */,
 				77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */,
-				778C72EE1B179C4A00FC3F68 /* CourseOutlineMode.swift */,
 				773B1D411B1F48F100B861DF /* CourseOutlineHeaderView.swift */,
 				77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */,
 				7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */,
@@ -3950,7 +3947,6 @@
 				1913DD39194B0B7F00573977 /* OEXCustomNavigationView.m in Sources */,
 				1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
-				778C72EF1B179C4A00FC3F68 /* CourseOutlineMode.swift in Sources */,
 				1A2CCDAB1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift in Sources */,
 				B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */,
 				5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */,

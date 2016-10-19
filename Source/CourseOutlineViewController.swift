@@ -96,7 +96,7 @@ public class CourseOutlineViewController :
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        lastAccessedController.loadLastAccessed(forMode: .Full)
+        lastAccessedController.loadLastAccessed()
         lastAccessedController.saveLastAccessed()
         let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(blockID))
         stream.extendLifetimeUntilFirstResult (success :
@@ -145,15 +145,6 @@ public class CourseOutlineViewController :
         self.webController.info = OpenOnWebController.Info(courseID : courseID, blockID : block.blockID, supported : block.displayType.isUnknown, URL: block.webURL)
     }
     
-    public func viewControllerForCourseOutlineModeChange() -> UIViewController {
-        return self
-    }
-    
-    public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
-        lastAccessedController.loadLastAccessed(forMode: courseMode)
-        reload()
-    }
-    
     private func reload() {
         self.blockIDStream.backWithStream(Stream(value : self.blockID))
     }
@@ -171,7 +162,7 @@ public class CourseOutlineViewController :
     private func addListeners() {
         headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
             if let owner = self {
-                return owner.courseQuerier.childrenOfBlockWithID(blockID, forMode: .Full)
+                return owner.courseQuerier.childrenOfBlockWithID(blockID)
             }
             else {
                 return Stream<CourseOutlineQuerier.BlockGroup>(error: NSError.oex_courseContentLoadError())
@@ -180,7 +171,7 @@ public class CourseOutlineViewController :
         rowsLoader.backWithStream(headersLoader.transform {[weak self] headers in
             if let owner = self {
                 let children = headers.children.map {header in
-                    return owner.courseQuerier.childrenOfBlockWithID(header.blockID, forMode: .Full)
+                    return owner.courseQuerier.childrenOfBlockWithID(header.blockID)
                 }
                 return joinStreams(children)
             }

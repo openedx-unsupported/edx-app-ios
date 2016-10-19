@@ -17,13 +17,6 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     var currentOrientationValue : String {
         return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
-    
-    var currentOutlineModeValue : String {
-        switch CourseDataManager.currentOutlineMode {
-        case .Full: return OEXAnalyticsValueNavigationModeFull
-        case .Video: return OEXAnalyticsValueNavigationModeVideo
-        }
-    }
 
     func identifyUser(user : OEXUserDetails?) {
         if let userID = user?.userId {
@@ -59,8 +52,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
             key_data : properties,
             key_context : context,
             key_name : event.name,
-            OEXAnalyticsKeyOrientation : currentOrientationValue,
-            OEXAnalyticsKeyNavigationMode : currentOutlineModeValue
+            OEXAnalyticsKeyOrientation : currentOrientationValue
         ]
         
         info[GoogleCategoryKey] = event.category

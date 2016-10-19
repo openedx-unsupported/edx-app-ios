@@ -10,7 +10,6 @@
 
 NSString* const OEXAnalyticsKeyBlockID = @"block-id";
 NSString* const OEXAnalyticsKeyCourseID = @"course-id";
-NSString* const OEXAnalyticsKeyNavigationMode = @"navigation-mode";
 NSString* const OEXAnalyticsKeyOrientation = @"device-orientation";
 NSString* const OEXAnalyticsKeyProvider = @"provider";
 NSString* const OEXAnalyticsKeySupported = @"supported";

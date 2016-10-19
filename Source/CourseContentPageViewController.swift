@@ -134,7 +134,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func loadIfNecessary() {
         if !contentLoader.hasBacking {
-            let stream = courseQuerier.spanningCursorForBlockWithID(blockID, initialChildID: initialChildID, forMode: .Full)
+            let stream = courseQuerier.spanningCursorForBlockWithID(blockID, initialChildID: initialChildID)
             contentLoader.backWithStream(stream.firstSuccess())
         }
     }
@@ -253,26 +253,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         self.updateNavigationForEnteredController(pageViewController.viewControllers?.first)
-    }
-    
-    // MARK: Course Outline Mode
-    
-    public func courseOutlineModeChanged(courseMode: CourseOutlineMode) {
-        // If we change mode we want to pop the screen since it may no longer make sense.
-        // It's easy if we're at the top of the controller stack, but we need to be careful if we're not
-        if self.navigationController?.topViewController == self {
-            self.navigationController?.popViewControllerAnimated(true)
-        }
-        else {
-            let controllers = self.navigationController?.viewControllers.filter {
-                return $0 != self
-            }
-            self.navigationController?.viewControllers = controllers ?? []
-        }
-    }
-    
-    public func viewControllerForCourseOutlineModeChange() -> UIViewController {
-        return self
     }
     
     func controllerForBlock(block : CourseBlock) -> UIViewController? {
