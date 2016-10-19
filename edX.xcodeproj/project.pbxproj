@@ -693,8 +693,8 @@
 		E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */; };
 		F22A0ABB1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22A0ABA1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift */; };
 		F22A0ABD1CE660B300D50DFF /* LoginApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22A0ABC1CE660B300D50DFF /* LoginApi.swift */; };
-		F2466EB11DB64A9F00ADD08B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2466EB01DB64A9F00ADD08B /* GoogleService-Info.plist */; };
-		F2466EB21DB64A9F00ADD08B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2466EB01DB64A9F00ADD08B /* GoogleService-Info.plist */; };
+		F2466EB71DB6D4C700ADD08B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2466EB61DB6D4C700ADD08B /* GoogleService-Info.plist */; };
+		F2466EB81DB6D4C700ADD08B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2466EB61DB6D4C700ADD08B /* GoogleService-Info.plist */; };
 		F2586E061CF5F8C7007C1118 /* NetworkManager+AuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2808CF91CF374FA002EAD1D /* NetworkManager+AuthenticatorTests.swift */; };
 		F2C1F0D81CFDDC400051743C /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E6489F1C91EB2000B6740D /* NetworkManagerTests.swift */; };
 /* End PBXBuildFile section */
@@ -1593,7 +1593,7 @@
 		EA885F7F9DB12FCE420230C3 /* Pods-edX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edX.release.xcconfig"; path = "Pods/Target Support Files/Pods-edX/Pods-edX.release.xcconfig"; sourceTree = "<group>"; };
 		F22A0ABA1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Authenticators.swift"; sourceTree = "<group>"; };
 		F22A0ABC1CE660B300D50DFF /* LoginApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginApi.swift; sourceTree = SOURCE_ROOT; };
-		F2466EB01DB64A9F00ADD08B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F2466EB61DB6D4C700ADD08B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F2808CF91CF374FA002EAD1D /* NetworkManager+AuthenticatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+AuthenticatorTests.swift"; sourceTree = "<group>"; };
 		FFB583258C2C2454ABAE266F /* Pods-edX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edX/Pods-edX.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2573,7 +2573,6 @@
 			isa = PBXGroup;
 			children = (
 				77E648201C90DD6B00B6740D /* edXCore.h */,
-				F2466EB01DB64A9F00ADD08B /* GoogleService-Info.plist */,
 				77E648211C90DD6B00B6740D /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -3022,6 +3021,7 @@
 		BECB7B021924C0C3009C77F1 = {
 			isa = PBXGroup;
 			children = (
+				F2466EB61DB6D4C700ADD08B /* GoogleService-Info.plist */,
 				E052F5A81D9953BB009F6B6F /* edX.entitlements */,
 				77E647B11C90C21100B6740D /* App */,
 				77E6478F1C90C10300B6740D /* Core */,
@@ -3551,7 +3551,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2466EB21DB64A9F00ADD08B /* GoogleService-Info.plist in Resources */,
+				F2466EB81DB6D4C700ADD08B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3670,7 +3670,7 @@
 				1A03DEA31BBC72BA006783FB /* countries.json in Resources */,
 				69ECC63F1D50D1170030CF87 /* icon_google_white@2x.png in Resources */,
 				69ECC6301D50D1170030CF87 /* ic_circle.png in Resources */,
-				F2466EB11DB64A9F00ADD08B /* GoogleService-Info.plist in Resources */,
+				F2466EB71DB6D4C700ADD08B /* GoogleService-Info.plist in Resources */,
 				69ECC64B1D50D1170030CF87 /* placeholderCourseCardImage.png in Resources */,
 				69ECC61F1D50D1170030CF87 /* bt_signin_active.png in Resources */,
 				6960892B1D53935500EE66DD /* courseCertificate.png in Resources */,

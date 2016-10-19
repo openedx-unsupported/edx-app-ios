@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseAnalytics
+
 public class CourseHandoutsViewController: OfflineSupportViewController, UIWebViewDelegate {
     
     public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, ReachabilityProvider>
@@ -82,6 +84,10 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
             }
             self.handouts.backWithStream(handoutStream)
         }
+        FIRAnalytics.logEventWithName(kFIREventSelectContent, parameters: [
+            kFIRParameterContentType:"cont",
+            kFIRParameterItemID:"1"
+            ])
     }
     
     private func addListener() {

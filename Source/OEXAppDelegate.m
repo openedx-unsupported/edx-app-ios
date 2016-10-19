@@ -7,6 +7,7 @@
 //
 
 @import edXCore;
+@import Firebase;
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -49,6 +50,7 @@
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions {
+    [FIRApp configure];
 #if DEBUG
     // Skip all this initialization if we're running the unit tests
     // So they can start from a clean state.

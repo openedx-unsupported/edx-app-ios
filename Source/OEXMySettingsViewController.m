@@ -40,6 +40,7 @@ typedef NS_ENUM(NSUInteger, OEXMySettingsAlertTag) {
     self.wifiOnlyCell.accessibilityLabel = [NSString stringWithFormat:@"%@ , %@", self.titleLabel.text, self.subtitleLabel.text];
     
     self.navigationItem.title = [Strings settings];
+    
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
