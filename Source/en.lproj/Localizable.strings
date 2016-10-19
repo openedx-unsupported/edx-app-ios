@@ -40,8 +40,6 @@
 "ACCESSIBILITY_EXIT_FULLSCREEN" = "Exit fullscreen";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
-/* Accessibility label for open on web button */
-"ACCESSIBILITY_OPEN_ON_WEB" = "View in Safari";
 /* Accessibility label for Pause Button in the Video Player */
 "ACCESSIBILITY_PAUSE" = "Pause";
 /* Accessibility label for Play Button in the Video Player */

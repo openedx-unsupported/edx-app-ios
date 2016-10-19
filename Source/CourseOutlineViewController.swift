@@ -15,7 +15,6 @@ public class CourseOutlineViewController :
     CourseOutlineTableControllerDelegate,
     CourseContentPageViewControllerDelegate,
     CourseLastAccessedControllerDelegate,
-    OpenOnWebControllerDelegate,
     PullRefreshControllerDelegate
 {
     public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, OEXInterfaceProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
@@ -46,8 +45,6 @@ public class CourseOutlineViewController :
     public var courseID : String {
         return courseQuerier.courseID
     }
-    
-    private lazy var webController : OpenOnWebController = OpenOnWebController(delegate: self)
     
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?) {
         self.rootID = rootID
@@ -142,7 +139,6 @@ public class CourseOutlineViewController :
     
     private func setupNavigationItem(block : CourseBlock) {
         self.navigationItem.title = block.displayName
-        self.webController.info = OpenOnWebController.Info(courseID : courseID, blockID : block.blockID, supported : block.displayType.isUnknown, URL: block.webURL)
     }
     
     private func reload() {
@@ -279,10 +275,6 @@ public class CourseOutlineViewController :
             self.tableController.hideLastAccessed()
         }
         
-    }
-    
-    public func presentationControllerForOpenOnWebController(controller: OpenOnWebController) -> UIViewController {
-        return self
     }
 }
 

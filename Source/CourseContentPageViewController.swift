@@ -22,7 +22,7 @@ extension CourseBlockDisplayType {
 }
 
 // Container for scrolling horizontally between different screens of course content
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, OpenOnWebControllerDelegate {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding {
     
     public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, OEXRouterProvider>
     
@@ -42,8 +42,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private var contentLoader = BackedStream<ListCursor<CourseOutlineQuerier.GroupItem>>()
     
     private let courseQuerier : CourseOutlineQuerier
-    
-    private lazy var webController : OpenOnWebController = OpenOnWebController(delegate: self)
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
     
     ///Manages the caching of the viewControllers that have been viewed atleast once.
@@ -166,10 +164,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return barButtonItem
     }
     
-    private func openOnWebInfoForBlock(block : CourseBlock) -> OpenOnWebController.Info {
-        return OpenOnWebController.Info(courseID: courseID, blockID: block.blockID, supported: block.displayType.isUnknown, URL: block.webURL)
-    }
-    
     private func updateNavigationBars() {
         if let cursor = contentLoader.value {
             let item = cursor.current
@@ -178,7 +172,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             // animation to make the push transition work right
             let actions : () -> Void = {
                 self.navigationItem.title = item.block.displayName
-                self.webController.info = self.openOnWebInfoForBlock(item.block)
             }
             if let navigationBar = navigationController?.navigationBar where navigationItem.title != nil {
                 let animated = navigationItem.title != nil
@@ -346,10 +339,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             preloadBlock(block)
         }
     }
-    
-    public func presentationControllerForOpenOnWebController(controller: OpenOnWebController) -> UIViewController {
-        return self
-    }
 }
 
 // MARK: Testing
@@ -377,9 +366,5 @@ extension CourseContentPageViewController {
     
     public func t_goBackward() {
         moveInDirection(.Reverse)
-    }
-    
-    public var t_isRightBarButtonEnabled : Bool {
-        return self.webController.barButtonItem.enabled
     }
 }
