@@ -14,7 +14,7 @@ PODS:
     - Bolts (~> 1.5)
   - FBSDKLoginKit (4.10.0):
     - FBSDKCoreKit
-  - FBSnapshotTestCase (1.8.1)
+  - FBSnapshotTestCase/Core (2.0.1)
   - GoogleAnalytics (3.14.0)
   - GoogleAppUtilities (1.0.0):
     - GoogleSymbolUtilities (~> 1.0)
@@ -63,7 +63,7 @@ DEPENDENCIES:
   - Fabric (~> 1.5)
   - FBSDKCoreKit (~> 4.6)
   - FBSDKLoginKit (~> 4.6)
-  - FBSnapshotTestCase (~> 1.8.1)
+  - FBSnapshotTestCase/Core (= 2.0.1)
   - GoogleSignIn (~> 2.4)
   - Masonry (~> 0.6)
   - NewRelicAgent (~> 4.1)
@@ -81,7 +81,7 @@ SPEC CHECKSUMS:
   Fabric: 1abc1e59f11fa39ede6f690ef7309d8563e3ec59
   FBSDKCoreKit: 13bec8373fb3af94d44daf2aa1e0958687897fbd
   FBSDKLoginKit: d3d4a2e9d31954deb00bfea964167a05ca1ea976
-  FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
+  FBSnapshotTestCase: bdb997ab2397495205f11156d4d444606daebd27
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppUtilities: c01c6a5671e9da8b9d690fdaec5959d6c2aac699
   GoogleAuthUtilities: 049ffd3a297cdffd271451b82fd4e75304f15ef3
