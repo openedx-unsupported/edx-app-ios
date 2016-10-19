@@ -10,7 +10,7 @@ PODS:
     - Fabric (~> 1.6.3)
   - DateTools (1.6.1)
   - Fabric (1.6.6)
-  - FBSDKCoreKit (4.10.0):
+  - FBSDKCoreKit (4.10.1):
     - Bolts (~> 1.5)
   - FBSDKLoginKit (4.10.0):
     - FBSDKCoreKit
