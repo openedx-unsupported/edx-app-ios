@@ -18,7 +18,7 @@ after_success:
 
 branches:
     only:
-        - master
+        - appsembler/feature/use-cocoapod-for-custom-config
 
 notifications:
   email: true
