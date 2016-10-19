@@ -1,0 +1,28 @@
+{
+  "name": "RemoteConfig",
+  "version": "0.0.1",
+  "summary": "This contains custom configuration details for edX on iOS.",
+  "homepage": "https://github.com/appsembler/edx-config",
+  "license": {
+    "type": "Apache License, Version 2.0",
+    "file": "LICENSE.txt"
+  },
+  "authors": {
+    "J'aime Ohm": "jaime@appsembler.com"
+  },
+  "platforms": {
+    "ios": null
+  },
+  "source": {
+    "git": "https://github.com/appsembler/edx-config.git",
+    "tag": "0.0.1"
+  },
+  "resource_bundles": {
+    "OEXConfig": [
+      "**/config.yaml",
+      "**/edx.properties",
+      "**/local.yaml",
+      "LICENSE.txt"
+    ]
+  }
+}
