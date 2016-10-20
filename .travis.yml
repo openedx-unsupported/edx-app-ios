@@ -1,6 +1,8 @@
 language: objective-c  
 
 osx_image: xcode8
+before_script:
+        - rvm get head # https://github.com/travis-ci/travis-ci/issues/6307
 
 env:
     matrix:
