@@ -5,8 +5,8 @@ osx_image: xcode8
 env:
     matrix:
         - TEST_TASK=testLTRCurrentOS IOS_VERSION=10.0
-        - TEST_TASK=testRTLCurrentOS IOS_VERSION=9.0
-        - TEST_TASK=testLTRPreviousOS IOS_VERSION=10.0
+        - TEST_TASK=testRTLCurrentOS IOS_VERSION=10.0
+        - TEST_TASK=testLTRPreviousOS IOS_VERSION=9.0
         - TEST_TASK=testRTLPreviousOS IOS_VERSION=9.0
 
 script:
