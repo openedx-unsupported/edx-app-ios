@@ -8,7 +8,8 @@
 
 import Foundation
 
-var isUpgradeSnackbarShown = false
+private var isUpgradeSnackbarShown = false
+var isActionTakenOnUpgradeSnackBar: Bool = false
 
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate {
     
@@ -176,7 +177,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             if let _ = VersionUpgradeInfoController.sharedController.lastSupportedDateString {
                 infoString = Strings.VersionUpgrade.deprecatedMessage
             }
-            if !isUpgradeSnackbarShown {
+            if !isUpgradeSnackbarShown || !isActionTakenOnUpgradeSnackbar {
                 showVersionUpgradeSnackBar(infoString)
                 isUpgradeSnackbarShown = true
             }
