@@ -4,13 +4,13 @@ osx_image: xcode8
 
 env:
     matrix:
-        - TEST_TASK=testLTRCurrentOS IOS_VERSION=10.0
-        - TEST_TASK=testRTLCurrentOS IOS_VERSION=10.0
-        - TEST_TASK=testLTRPreviousOS IOS_VERSION=9.0
-        - TEST_TASK=testRTLPreviousOS IOS_VERSION=9.0
+        - TEST_TASK=testLTRCurrentOS IOS_VERSION=10.0 IOS_SIMULATOR_VERSION="FD151079-9530-43EE-99E4-39832503E251"
+        - TEST_TASK=testRTLCurrentOS IOS_VERSION=10.0 IOS_SIMULATOR_VERSION="FD151079-9530-43EE-99E4-39832503E251"
+        - TEST_TASK=testLTRPreviousOS IOS_VERSION=9.0 IOS_SIMULATOR_VERSION="EF410F98-CC94-4E06-B350-9C6B539DE6C5"
+        - TEST_TASK=testRTLPreviousOS IOS_VERSION=9.0 IOS_SIMULATOR_VERSION="EF410F98-CC94-4E06-B350-9C6B539DE6C5"
 
 script:
-    - instruments -s devices | grep "iPhone 5s (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/].*//' | open -b 'com.apple.iphonesimulator' --args -CurrentDeviceUDID
+    - open -b 'com.apple.iphonesimulator' --args -CurrentDeviceUDID "${IOS_SIMULATOR_VERSION}"
     - set -o pipefail && ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
