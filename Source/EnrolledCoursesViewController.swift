@@ -177,7 +177,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             if let _ = VersionUpgradeInfoController.sharedController.lastSupportedDateString {
                 infoString = Strings.VersionUpgrade.deprecatedMessage
             }
-            if !isUpgradeSnackbarShown || !isActionTakenOnUpgradeSnackbar {
+            if !isUpgradeSnackbarShown || !isActionTakenOnUpgradeSnackBar {
                 showVersionUpgradeSnackBar(infoString)
                 isUpgradeSnackbarShown = true
             }
