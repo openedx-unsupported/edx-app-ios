@@ -13,7 +13,8 @@ env:
 
 script:
     - open -b 'com.apple.iphonesimulator' --args -CurrentDeviceUDID "${IOS_SIMULATOR_VERSION}"
-    - set -o pipefail && ./gradlew -q $TEST_TASK | xcpretty -c
+    - set -o pipefail
+    - travis_retry ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
