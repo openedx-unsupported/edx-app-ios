@@ -187,6 +187,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             }, failure : {[weak self] error in
                 self?.loadController.state = LoadState.failed(error)
             })
+        updateSelectedTabColor()
     }
     
     private func configureSegmentControl() {
