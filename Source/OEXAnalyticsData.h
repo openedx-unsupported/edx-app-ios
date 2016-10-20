@@ -10,7 +10,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString* const OEXAnalyticsKeyBlockID;
 extern NSString* const OEXAnalyticsKeyCourseID;
-extern NSString* const OEXAnalyticsKeyNavigationMode;
 extern NSString* const OEXAnalyticsKeyOrientation;
 extern NSString* const OEXAnalyticsKeyProvider;
 extern NSString* const OEXAnalyticsKeySupported;

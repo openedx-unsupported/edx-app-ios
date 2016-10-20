@@ -8,6 +8,8 @@
 
 import Foundation
 
+var isUpgradeSnackbarShown = false
+
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate {
     
     typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
@@ -19,7 +21,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     private let insetsController = ContentInsetsController()
     private let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
-    var isUpgradeSnackbarShown = false
 
     init(environment: Environment) {
         self.tableController = CoursesTableViewController(environment: environment, context: .EnrollmentList)

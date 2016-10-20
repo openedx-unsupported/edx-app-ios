@@ -52,19 +52,19 @@ public class CourseLastAccessedController: NSObject {
         return blockID != nil
     }
     
-    public func loadLastAccessed(forMode mode : CourseOutlineMode) {
+    public func loadLastAccessed() {
         if !canShowLastAccessed {
             return
         }
         
         if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(self.courseID) {
-            let blockStream = expandAccessStream(Stream(value : firstLoad), forMode : mode)
+            let blockStream = expandAccessStream(Stream(value : firstLoad))
             lastAccessedLoader.backWithStream(blockStream)
         }
         
         let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
         let lastAccessed = self.networkManager.streamForRequest(request)
-        lastAccessedLoader.backWithStream(expandAccessStream(lastAccessed, forMode : mode))
+        lastAccessedLoader.backWithStream(expandAccessStream(lastAccessed))
     }
     
     public func saveLastAccessed() {
@@ -110,9 +110,9 @@ public class CourseLastAccessedController: NSObject {
         
     }
     
-    private func expandAccessStream(stream : Stream<CourseLastAccessed>, forMode mode : CourseOutlineMode = .Full) -> Stream<(CourseBlock, CourseLastAccessed)> {
+    private func expandAccessStream(stream : Stream<CourseLastAccessed>) -> Stream<(CourseBlock, CourseLastAccessed)> {
         return stream.transform {[weak self] lastAccessed in
-            return joinStreams(self?.courseQuerier.blockWithID(lastAccessed.moduleId, mode: mode) ?? Stream<CourseBlock>(), Stream(value: lastAccessed))
+            return joinStreams(self?.courseQuerier.blockWithID(lastAccessed.moduleId) ?? Stream<CourseBlock>(), Stream(value: lastAccessed))
         }
     }
 }
