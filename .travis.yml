@@ -10,7 +10,7 @@ env:
         - TEST_TASK=testRTLPreviousOS IOS_VERSION=9.0
 
 script:
-    - instruments -s devices | grep "iPhone 5s (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/].*//' | xargs open -a "simulator" --args -CurrentDeviceUDID
+    - instruments -s devices | grep "iPhone 5s (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/].*//' | open -b 'com.apple.iphonesimulator' --args -CurrentDeviceUDID
     - set -o pipefail && ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
