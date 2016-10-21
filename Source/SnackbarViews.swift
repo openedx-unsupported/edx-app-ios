@@ -71,6 +71,7 @@ public class VersionUpgradeView: UIView {
                 if UIApplication.sharedApplication().canOpenURL(URL) {
                     self?.dismissView()
                     UIApplication.sharedApplication().openURL(URL)
+                    isActionTakenOnUpgradeSnackBar = true
                 }
             }
             }, forEvents: .TouchUpInside)
@@ -85,7 +86,8 @@ public class VersionUpgradeView: UIView {
         UIView.animateWithDuration(animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseOut, animations: {
             self.transform = CGAffineTransformIdentity
             }, completion: { _ in
-                container!.removeFromSuperview()
+                container?.removeFromSuperview()
+                isActionTakenOnUpgradeSnackBar = true
         })
     }
 }
