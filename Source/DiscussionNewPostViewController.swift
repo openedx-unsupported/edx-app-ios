@@ -129,7 +129,8 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             self?.dismissViewControllerAnimated(true, completion: nil)
         }
         self.navigationItem.leftBarButtonItem = cancelItem
-        
+        contentTitleLabel.isAccessibilityElement = false
+        titleLabel.isAccessibilityElement = false
         titleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.title), titleTextStyle.attributedStringWithText(Strings.asteric)])
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
@@ -137,6 +138,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
         contentTextView.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
         contentTextView.delegate = self
+        titleTextField.accessibilityLabel = Strings.title
         
         self.view.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
         
@@ -206,6 +208,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         for i in 0..<segmentOptions.count {
             discussionQuestionSegmentedControl.insertSegmentWithAttributedTitle(segmentOptions[i].title, index: i, animated: false)
+            discussionQuestionSegmentedControl.subviews[i].accessibilityLabel = segmentOptions[i].title.string
         }
         
         discussionQuestionSegmentedControl.oex_addAction({ [weak self] (control:AnyObject) -> Void in
@@ -313,11 +316,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         return self.topics.value?.firstIndexMatching {
                 return $0.id == selected.id
         }
-    }
-    
-    public func viewTapped(sender: UITapGestureRecognizer) {
-        contentTextView.resignFirstResponder()
-        titleTextField.resignFirstResponder()
     }
     
     public func textViewDidChange(textView: UITextView) {
