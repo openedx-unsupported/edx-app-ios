@@ -72,7 +72,6 @@
 		1A8172511C3C1F2E007262AA /* OEXConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8172501C3C1F2E007262AA /* OEXConfig.swift */; };
 		1A8172531C3C21DE007262AA /* TwitterConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8172521C3C21DE007262AA /* TwitterConfig.swift */; };
 		1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A81971A1C060FA50030254D /* ShareHelper.swift */; };
-		1A8936DB1BD1A1FD00F165FA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */; };
 		1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */; };
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */; };
@@ -840,7 +839,6 @@
 		1A8172501C3C1F2E007262AA /* OEXConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXConfig.swift; sourceTree = "<group>"; };
 		1A8172521C3C21DE007262AA /* TwitterConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterConfig.swift; sourceTree = "<group>"; };
 		1A81971A1C060FA50030254D /* ShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareHelper.swift; sourceTree = "<group>"; };
-		1A8936DC1BD1A1FD00F165FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
@@ -3102,7 +3100,6 @@
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
 				B47780581AADA95400436DB4 /* Terms-and-Services.htm */,
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
-				1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */,
 				BECB7B1A1924C0C3009C77F1 /* main.m */,
 				BECB7B1C1924C0C3009C77F1 /* edX-Prefix.pch */,
 			);
@@ -3628,7 +3625,6 @@
 				69ECC61C1D50D1170030CF87 /* bt_logout_deactive.png in Resources */,
 				9ED269CC1AF0E67200328A34 /* OEXMyVideosViewController.storyboard in Resources */,
 				69ECC6471D50D1170030CF87 /* separator3.png in Resources */,
-				1A8936DB1BD1A1FD00F165FA /* InfoPlist.strings in Resources */,
 				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
 				69ECC6021D50D1170030CF87 /* OpenSans-Italic.ttf in Resources */,
 				69ECC6481D50D1170030CF87 /* separator5.png in Resources */,
@@ -4455,14 +4451,6 @@
 				1A55019D1BBA30C900D5F9DD /* en */,
 			);
 			name = profiles.json;
-			sourceTree = "<group>";
-		};
-		1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1A8936DC1BD1A1FD00F165FA /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		1AFEB1BB1BBD88F3004C471D /* languages.json */ = {
