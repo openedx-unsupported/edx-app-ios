@@ -642,7 +642,7 @@
                          showAlertWithTitle:[Strings floatingErrorTitle]
                                     message:responseStr onViewController:self.navigationController];
                     }
-                    else if(httpResp.statusCode > 500) {
+                    else if(httpResp.statusCode >= 500) {
                         NSString* responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                         [[UIAlertController alloc] showAlertWithTitle:[Strings floatingErrorTitle] message:responseStr onViewController:self.navigationController];
                         

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Download View Controller-->
@@ -14,57 +15,51 @@
                         <viewControllerLayoutGuide type="bottom" id="LIj-us-gK9"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xcH-2Q-KBk">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="64" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="nBN-qA-hl1">
-                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellDownloads" rowHeight="78" id="3WK-Dh-zHD" customClass="OEXDownloadTableCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="78"/>
+                                        <rect key="frame" x="0.0" y="22" width="375" height="78"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3WK-Dh-zHD" id="nRJ-54-tNq">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="77"/>
+                                            <frame key="frameInset" width="375" height="77"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VeK-Lk-T2S" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="16" y="17" width="522" height="17"/>
                                                     <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="0.27058823529999998" green="0.28627450980000002" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.27058823529999998" green="0.28627450980000002" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVM-DI-8yI" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="16" y="41" width="47" height="10"/>
                                                     <accessibility key="accessibilityConfiguration" label="btnVideoLength"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="10" id="Ac7-sx-5Rh"/>
                                                         <constraint firstAttribute="width" constant="47" id="dnb-ba-UOv"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                    <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1hZ-ip-mB0" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="64" y="41" width="47" height="10"/>
                                                     <accessibility key="accessibilityConfiguration" label="btnVideoSize"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="47" id="KiK-Ee-S5k"/>
                                                         <constraint firstAttribute="height" constant="10" id="rFy-rd-xGU"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                    <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qZF-yP-mdg">
-                                                    <rect key="frame" x="16" y="61" width="512" height="2"/>
-                                                    <color key="progressTintColor" red="0.4941176471" green="0.78039215689999997" blue="0.56078431370000004" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <color key="trackTintColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="progressTintColor" red="0.4941176471" green="0.78039215689999997" blue="0.56078431370000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="trackTintColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </progressView>
                                                 <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yso-SD-GgP">
-                                                    <rect key="frame" x="548" y="1" width="52" height="77"/>
                                                     <accessibility key="accessibilityConfiguration" label=""/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="52" id="7Z0-ux-bB4"/>
@@ -72,7 +67,7 @@
                                                     </constraints>
                                                     <inset key="contentEdgeInsets" minX="24" minY="37" maxX="16" maxY="27"/>
                                                     <state key="normal" image="ic_cancel.png">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -106,7 +101,7 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="nBN-qA-hl1" secondAttribute="trailing" id="NCj-N5-QJj"/>
                             <constraint firstItem="nBN-qA-hl1" firstAttribute="leading" secondItem="xcH-2Q-KBk" secondAttribute="leading" id="QS2-vs-fcB"/>
