@@ -97,11 +97,5 @@
     [self setNeedsDisplay];
 }
 
-#pragma mark - Accessibility
-
-- (NSString *)accessibilityLabel {
-    return self.text.length > 0 ? self.text : self.placeholder;
-}
-
 
 @end

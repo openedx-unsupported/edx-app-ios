@@ -48,6 +48,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private var selectedTopic: DiscussionTopic?
     private var optionsViewController: MenuOptionsViewController?
     weak var delegate: DiscussionNewPostViewControllerDelegate?
+    private let tapButton = UIButton()
     
     var titleTextStyle : OEXTextStyle{
         return OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
@@ -59,9 +60,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             case .Discussion:
                 self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.courseDashboardDiscussion), titleTextStyle.attributedStringWithText(Strings.asteric)])
                 postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: Strings.postDiscussion)
+                contentTextView.accessibilityLabel = Strings.courseDashboardDiscussion
             case .Question:
                 self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.question), titleTextStyle.attributedStringWithText(Strings.asteric)])
                 postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.postQuestion)
+                contentTextView.accessibilityLabel = Strings.question
             }
         }
     }
@@ -168,13 +171,6 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         titleTextField.oex_addAction({[weak self] _ in
             self?.validatePostButton()
             }, forEvents: .EditingChanged)
-        
-        let tapGesture = UITapGestureRecognizer()
-        tapGesture.addAction {[weak self] _ in
-            self?.contentTextView.resignFirstResponder()
-            self?.titleTextField.resignFirstResponder()
-        }
-        self.backgroundView.addGestureRecognizer(tapGesture)
 
         self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postButton)
         self.insetsController.setupInController(self, scrollView: scrollView)
@@ -189,6 +185,16 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             }, failure : {[weak self] error in
                 self?.loadController.state = LoadState.failed(error)
             })
+        
+        backgroundView.addSubview(tapButton)
+        backgroundView.sendSubviewToBack(tapButton)
+        tapButton.backgroundColor = UIColor.clearColor()
+        tapButton.frame = CGRectMake(0, 0, backgroundView.frame.size.width, backgroundView.frame.size.height)
+        tapButton.isAccessibilityElement = false
+        tapButton.accessibilityLabel = Strings.accessibilityHideKeyboard
+        tapButton.oex_addAction({[weak self] (sender) in
+            self?.view.endEditing(true)
+            }, forEvents: .TouchUpInside)
     }
     
     private func configureSegmentControl() {
@@ -350,6 +356,21 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         growingTextController.scrollToVisible()
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        tapButton.isAccessibilityElement = true
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        tapButton.isAccessibilityElement = false
+    }
+    
+    public func textViewDidBeginEditing(textView: UITextView) {
+        tapButton.isAccessibilityElement = true
+    }
+    
+    public func textViewDidEndEditing(textView: UITextView) {
+        tapButton.isAccessibilityElement = false
+    }
 }
 
 extension UISegmentedControl {
