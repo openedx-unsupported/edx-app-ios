@@ -8,5 +8,6 @@ xcuserdata
 .gradle
 build
 /edx.properties
-default_config/local.yaml 
+default_config/local.yaml
+Pods/OEXRemoteConfig
 *.gcda
