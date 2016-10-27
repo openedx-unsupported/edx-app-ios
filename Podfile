@@ -18,8 +18,8 @@ target 'edX' do
     pod 'FBSDKLoginKit', '~> 4.6'
     pod 'Parse', '~> 1.7'
     pod 'Smartling.i18n', '~> 1.0'
-    if defined? ENV['OEX_REMOTE_CONFIG_POD_ URL']
-        pod 'OEXRemoteConfig', :git => ENV['OEX_REMOTE_CONFIG_POD_URL'] 
+    if defined? ENV[OEX_REMOTE_CONFIG_POD_URL]
+        pod 'OEXRemoteConfig', :git => ENV[OEX_REMOTE_CONFIG_POD_URL] 
     else
         pod 'OEXRemoteConfig', :git => "https://github.com/appsembler/edx-app-ios-config.git"
     end
