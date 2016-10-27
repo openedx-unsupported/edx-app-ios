@@ -143,6 +143,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [self setTitle:self.course.name];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack)];
 
+    self.dataInterface = self.environment.interface;
+    
     //Init video view and video player
     self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
     [self.videoPlayerInterface enableFullscreenAutorotation];
