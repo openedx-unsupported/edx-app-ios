@@ -20,9 +20,11 @@ target 'edX' do
     pod 'Smartling.i18n', '~> 1.0'
 
     # (optional) Store your edX config in a custom cocoapod
-    if defined? ENV['OEX_REMOTE_CONFIG_POD_URL']
-        if !ENV['OEX_REMOTE_CONFIG_POD_URL'].to_s.empty?
-           pod 'OEXRemoteConfig', :git => ENV['OEX_REMOTE_CONFIG_POD_URL'] 
+    if !(ENV['OEX_REMOTE_CONFIG_POD_URL'] rescue "").empty?
+        if !(ENV['OEX_REMOTE_CONFIG_POD_BRANCH'] rescue "").empty?
+            pod 'OEXRemoteConfig', :git => ENV['OEX_REMOTE_CONFIG_POD_URL'], :branch => ENV['OEX_REMOTE_CONFIG_POD_BRANCH']
+        else
+            pod 'OEXRemoteConfig', :git => ENV['OEX_REMOTE_CONFIG_POD_URL']
         end
     end
 end
