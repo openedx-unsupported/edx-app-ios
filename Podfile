@@ -18,8 +18,12 @@ target 'edX' do
     pod 'FBSDKLoginKit', '~> 4.6'
     pod 'Parse', '~> 1.7'
     pod 'Smartling.i18n', '~> 1.0'
+
+    # (optional) Store your edX config in a custom cocoapod
     if defined? ENV['OEX_REMOTE_CONFIG_POD_URL']
-        pod 'OEXRemoteConfig', :git => ENV['OEX_REMOTE_CONFIG_POD_URL'] 
+        if !ENV['OEX_REMOTE_CONFIG_POD_URL'].to_s.empty?
+           pod 'OEXRemoteConfig', :git => ENV['OEX_REMOTE_CONFIG_POD_URL'] 
+        end
     end
 end
 
