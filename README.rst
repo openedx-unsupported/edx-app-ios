@@ -75,6 +75,11 @@ have the following ``edx.properties``:
 The full set of known keys can be found in the ``OEXConfig.m`` or see
 `additional documentation <https://openedx.atlassian.net/wiki/display/MA/App+Configuration+Flags>`_.
 
+Advanced Setup
+--------------
+
+If you prefer to use a cocoapod to manage your configuration file, you can fork [this repo](https://github.com/appsembler/edx-app-ios-config) and set the environment variable OEX_REMOTE_CONFIG_POD_URL to your new custom cocoapod repo. You will also need to open edx.properties and change its edx.dir to 'Pods/OEXConfig/config'.
+
 Additional Customization
 ------------------------
 Right now this code is constructed specifically to build the *edx.org* app.
