@@ -61,19 +61,16 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "Parse/Parse/Resources/en.lproj"
-  install_resource "${BUILT_PRODUCTS_DIR}/OEXRemoteConfig.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "Parse/Parse/Resources/en.lproj"
-  install_resource "${BUILT_PRODUCTS_DIR}/OEXRemoteConfig.bundle"
 fi
 if [[ "$CONFIGURATION" == "Profile" ]]; then
   install_resource "DateTools/DateTools/DateTools.bundle"
   install_resource "GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "Parse/Parse/Resources/en.lproj"
-  install_resource "${BUILT_PRODUCTS_DIR}/OEXRemoteConfig.bundle"
 fi
 
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

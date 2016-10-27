@@ -35,7 +35,6 @@ PODS:
   - Masonry (0.6.4)
   - NewRelicAgent (4.186.1)
   - OCMock (3.2.2)
-  - OEXRemoteConfig (0.0.1)
   - OHHTTPStubs (4.7.1):
     - OHHTTPStubs/Default (= 4.7.1)
   - OHHTTPStubs/Core (4.7.1)
@@ -69,20 +68,10 @@ DEPENDENCIES:
   - Masonry (~> 0.6)
   - NewRelicAgent (~> 4.1)
   - OCMock (~> 3.1)
-  - OEXRemoteConfig (from `https://github.com/appsembler/edx-app-ios-config.git`)
   - OHHTTPStubs (~> 4.0)
   - Parse (~> 1.7)
   - Segment-GoogleAnalytics (~> 1.0.0)
   - Smartling.i18n (~> 1.0)
-
-EXTERNAL SOURCES:
-  OEXRemoteConfig:
-    :git: https://github.com/appsembler/edx-app-ios-config.git
-
-CHECKOUT OPTIONS:
-  OEXRemoteConfig:
-    :commit: 1c0e73446bce11b64967f384d4f588410f16ef00
-    :git: https://github.com/appsembler/edx-app-ios-config.git
 
 SPEC CHECKSUMS:
   Analytics: b342fb4f43fa4f97ca6f4358b44d3295217ba294
@@ -104,7 +93,6 @@ SPEC CHECKSUMS:
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
   OCMock: 18c9b7e67d4c2770e95bb77a9cc1ae0c91fe3835
-  OEXRemoteConfig: 6829f71c66cbac12fa9dca2330ff237016bf8611
   OHHTTPStubs: f7d1604d04d37d055460c0ef9af01bb249ded0fa
   Parse: de2c52a9a1421b91ae7594ab8ce191afd184f19b
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
