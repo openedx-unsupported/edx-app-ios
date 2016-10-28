@@ -36,7 +36,7 @@ edX platform.  This mechanism is also used to make other values available to
 the app at runtime and store secret keys for third party services.
 
 There is a default configuration that points to an edX devstack instance
-running on localhost. See the ``default_config`` directory. For the default
+running on localhost. See the ``Pods/OEXRemoteConfig/config`` directory. For the default
 configuration to work, you must add OAuth credentials specific to your
 installation.
 
