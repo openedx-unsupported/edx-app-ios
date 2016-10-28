@@ -4,6 +4,6 @@
 
 @interface SEGGoogleAnalyticsIntegrationFactory : NSObject <SEGIntegrationFactory>
 
-+ (instancetype)instance;
++ (id)instance;
 
 @end
