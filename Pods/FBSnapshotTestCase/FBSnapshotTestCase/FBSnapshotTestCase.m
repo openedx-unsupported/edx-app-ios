@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2015, Facebook, Inc.
+ *  Copyright (c) 2013, Facebook, Inc.
  *  All rights reserved.
  *
  *  This source code is licensed under the BSD-style license found in the
@@ -8,15 +8,14 @@
  *
  */
 
-#import <FBSnapshotTestCase/FBSnapshotTestCase.h>
-#import <FBSnapshotTestCase/FBSnapshotTestController.h>
+#import "FBSnapshotTestCase.h"
+
+#import "FBSnapshotTestController.h"
 
 @implementation FBSnapshotTestCase
 {
   FBSnapshotTestController *_snapshotController;
 }
-
-#pragma mark - Overrides
 
 - (void)setUp
 {
@@ -40,19 +39,6 @@
   NSAssert1(_snapshotController, @"%s cannot be called before [super setUp]", __FUNCTION__);
   _snapshotController.recordMode = recordMode;
 }
-
-- (BOOL)usesDrawViewHierarchyInRect
-{
-  return _snapshotController.usesDrawViewHierarchyInRect;
-}
-
-- (void)setUsesDrawViewHierarchyInRect:(BOOL)usesDrawViewHierarchyInRect
-{
-  NSAssert1(_snapshotController, @"%s cannot be called before [super setUp]", __FUNCTION__);
-  _snapshotController.usesDrawViewHierarchyInRect = usesDrawViewHierarchyInRect;
-}
-
-#pragma mark - Public API
 
 - (BOOL)compareSnapshotOfLayer:(CALayer *)layer
       referenceImagesDirectory:(NSString *)referenceImagesDirectory
@@ -80,20 +66,8 @@
                                        error:errorPtr];
 }
 
-- (NSString *)getReferenceImageDirectoryWithDefault:(NSString *)dir
-{
-  NSString *envReferenceImageDirectory = [NSProcessInfo processInfo].environment[@"FB_REFERENCE_IMAGE_DIR"];
-  if (envReferenceImageDirectory) {
-    return envReferenceImageDirectory;
-  }
-  if (dir && dir.length > 0) {
-    return dir;
-  }
-  return [[NSBundle bundleForClass:self.class].resourcePath stringByAppendingPathComponent:@"ReferenceImages"];
-}
-
-
-#pragma mark - Private API
+#pragma mark -
+#pragma mark Private API
 
 - (BOOL)_compareSnapshotOfViewOrLayer:(id)viewOrLayer
              referenceImagesDirectory:(NSString *)referenceImagesDirectory
