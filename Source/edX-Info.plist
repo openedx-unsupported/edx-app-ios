@@ -8,21 +8,6 @@
 	<string>edX</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string>Source/Resources/Icons/Icon-29.png</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>Icon-29.png</string>
-		<string>Icon-29@2x.png</string>
-		<string>Icon-29@3x.png</string>
-		<string>Icon-40.png</string>
-		<string>Icon-40@2x.png</string>
-		<string>Icon-40@3x.png</string>
-		<string>Icon-60@2x.png</string>
-		<string>Icon-60@3x.png</string>
-		<string>Icon-76.png</string>
-		<string>Icon-76@2x.png</string>
-	</array>
 	<key>CFBundleIcons</key>
 	<dict/>
 	<key>CFBundleIcons~ipad</key>
