@@ -633,6 +633,9 @@
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
 		B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
+		BD837BB81DC8D5D400341EFD /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = BD837BB61DC8D5D400341EFD /* Icon-76.png */; };
+		BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD837BB71DC8D5D400341EFD /* Icon-76@2x.png */; };
+		BD837BBB1DC8D5DF00341EFD /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = BD837BBA1DC8D5DF00341EFD /* Icon-40.png */; };
 		BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */; };
 		BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D4550192DE65200D720D6 /* OEXInterface.m */; };
 		BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0EE286192B78C400F9FF98 /* CoreTelephony.framework */; };
@@ -1514,6 +1517,9 @@
 		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
 		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
 		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
+		BD837BB61DC8D5D400341EFD /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
+		BD837BB71DC8D5D400341EFD /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
+		BD837BBA1DC8D5DF00341EFD /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
 		BE0D4547192DD16300D720D6 /* OEXNetworkConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXNetworkConstants.h; sourceTree = "<group>"; };
 		BE0D4548192DD4F800D720D6 /* OEXNetworkInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkInterface.h; sourceTree = "<group>"; };
 		BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNetworkInterface.m; sourceTree = "<group>"; };
@@ -1963,10 +1969,13 @@
 				69ECC5AF1D50D1170030CF87 /* Icon-29.png */,
 				69ECC5B01D50D1170030CF87 /* Icon-29@2x.png */,
 				69ECC5B11D50D1170030CF87 /* Icon-29@3x.png */,
+				BD837BBA1DC8D5DF00341EFD /* Icon-40.png */,
 				69ECC5B21D50D1170030CF87 /* Icon-40@2x.png */,
 				69ECC5B31D50D1170030CF87 /* Icon-40@3x.png */,
 				69ECC5B41D50D1170030CF87 /* Icon-60@2x.png */,
 				69ECC5B51D50D1170030CF87 /* Icon-60@3x.png */,
+				BD837BB61DC8D5D400341EFD /* Icon-76.png */,
+				BD837BB71DC8D5D400341EFD /* Icon-76@2x.png */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -3637,6 +3646,7 @@
 				1905BFF11A31B037001917FA /* COURSE_NOT_LISTED.htm in Resources */,
 				69ECC6291D50D1170030CF87 /* check@2x.png in Resources */,
 				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
+				BD837BB81DC8D5D400341EFD /* Icon-76.png in Resources */,
 				69ECC63E1D50D1170030CF87 /* icon_google_white.png in Resources */,
 				69ECC63D1D50D1170030CF87 /* icon_facebook_white@2x.png in Resources */,
 				69ECC6361D50D1170030CF87 /* ic_partiallywatched@2x.png in Resources */,
@@ -3674,6 +3684,8 @@
 				69ECC6351D50D1170030CF87 /* ic_next_default.png in Resources */,
 				69ECC6311D50D1170030CF87 /* ic_download.png in Resources */,
 				69ECC6001D50D1170030CF87 /* OpenSans-ExtraBold.ttf in Resources */,
+				BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */,
+				BD837BBB1DC8D5DF00341EFD /* Icon-40.png in Resources */,
 				69ECC60B1D50D1170030CF87 /* Icon-40@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
