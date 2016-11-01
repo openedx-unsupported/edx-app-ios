@@ -74,6 +74,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>for bluetooth</string>
+	<key>NSCameraUsageDescription</key>
+	<string>so you can take a picture for a profile image</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>so you can select a profile image</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.otf</string>
