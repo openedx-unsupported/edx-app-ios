@@ -41,6 +41,10 @@ static OEXStyles* sSharedStyles;
 - (OEXColors *)oexColors {
     return [OEXColors sharedInstance];
 }
+    
+- (OEXFonts *)oexFonts {
+    return [OEXFonts sharedInstance];
+}
 
 #pragma mark Computed Style
 
@@ -235,19 +239,19 @@ static OEXStyles* sSharedStyles;
 #pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {
-    return [UIFont fontWithName:@"OpenSans" size:size];
+    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:@"regular"] size:size];
 }
 
 - (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size {
-    return [UIFont fontWithName:@"OpenSans-Semibold" size:size];
+    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:@"semiBold"] size:size];
 }
 
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size {
-    return [UIFont fontWithName:@"OpenSans-Bold" size:size];
+    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:@"bold"] size:size];
 }
 
 - (UIFont*)lightSansSerifOfSize:(CGFloat)size {
-    return [UIFont fontWithName:@"OpenSans-Light" size:size];
+    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:@"light"] size:size];
 }
 
 - (NSString*)styleHTMLContent:(NSString*)htmlString stylesheet:(NSString*)stylesheet {
