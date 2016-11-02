@@ -106,6 +106,10 @@ extension OEXStyles {
     var filledPrimaryButtonStyle : ButtonStyle {
         return filledButtonStyle(OEXStyles.sharedStyles().primaryBaseColor())
     }
+    
+    var filledSecondaryButtonStyle : ButtonStyle {
+        return filledButtonStyle(OEXStyles.sharedStyles().secondaryBaseColor())
+    }
 
     func filledButtonStyle(color: UIColor) -> ButtonStyle {
         let buttonMargins : CGFloat = 8
