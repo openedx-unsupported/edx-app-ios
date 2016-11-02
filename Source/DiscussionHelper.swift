@@ -35,11 +35,13 @@ class DiscussionHelper: NSObject {
     }
     
     class func styleAuthorProfileImageView(imageView: UIImageView) {
-        imageView.layer.cornerRadius = imageView.bounds.size.width / 2
-        imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = OEXStyles.sharedStyles().primaryBaseColor().CGColor
-        imageView.clipsToBounds = true
-        imageView.layer.masksToBounds = true
+        dispatch_async(dispatch_get_main_queue(),{
+            imageView.layer.cornerRadius = imageView.bounds.size.width / 2
+            imageView.layer.borderWidth = 1
+            imageView.layer.borderColor = OEXStyles.sharedStyles().primaryBaseColor().CGColor
+            imageView.clipsToBounds = true
+            imageView.layer.masksToBounds = true
+        })
     }
     
     class func profileImage(hasProfileImage: Bool, imageURL: String?) ->RemoteImage {

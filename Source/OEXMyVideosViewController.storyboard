@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--My Videos-->
@@ -14,34 +15,29 @@
                         <viewControllerLayoutGuide type="bottom" id="2zw-QW-AUq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PMR-ii-iVV">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iFC-95-ZX8" userLabel="RecentVideoView">
-                                <rect key="frame" x="0.0" y="45" width="600" height="491"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h57-PP-XUC" userLabel="playback view">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="225"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rNo-KV-qy8" userLabel="videoview">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="225"/>
-                                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="225" id="E5T-iI-bXL"/>
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Mz-5c-Ilz" userLabel="titleview">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                                 <subviews>
                                                     <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" tag="701" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="294" translatesAutoresizingMaskIntoConstraints="NO" id="vAF-sO-Tjz" customClass="OEXCustomLabel">
-                                                        <rect key="frame" x="16" y="18" width="574" height="17"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.1139393682" green="0.1139393682" blue="0.1139393682" alpha="0.46999999999999997" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.1139393682" green="0.1139393682" blue="0.1139393682" alpha="0.46999999999999997" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="vAF-sO-Tjz" firstAttribute="top" secondItem="4Mz-5c-Ilz" secondAttribute="top" constant="18" id="GbR-DG-UFT"/>
                                                     <constraint firstAttribute="bottom" secondItem="vAF-sO-Tjz" secondAttribute="bottom" constant="15" id="UaV-p1-FoH"/>
@@ -50,7 +46,7 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="rNo-KV-qy8" secondAttribute="trailing" id="2wJ-C0-off"/>
                                             <constraint firstAttribute="bottom" secondItem="rNo-KV-qy8" secondAttribute="bottom" id="5b2-S0-6Ii"/>
@@ -61,30 +57,27 @@
                                             <constraint firstItem="rNo-KV-qy8" firstAttribute="top" secondItem="h57-PP-XUC" secondAttribute="top" id="ofU-hA-qag"/>
                                         </constraints>
                                     </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="60" sectionHeaderHeight="50" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="vF0-7G-Vd6" userLabel="Table View - RECENT">
-                                        <rect key="frame" x="0.0" y="225" width="600" height="216"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="50" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="vF0-7G-Vd6" userLabel="Table View - RECENT">
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellCourseVideo" rowHeight="60" id="yH3-lk-slx" customClass="OEXCourseVideosTableViewCell">
-                                                <rect key="frame" x="0.0" y="50" width="600" height="60"/>
+                                                <rect key="frame" x="0.0" y="50" width="375" height="60"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yH3-lk-slx" id="2nC-WH-FoH">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
+                                                    <frame key="frameInset" width="375" height="59"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduction to giving with purpose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1XH-jH-Bdl" customClass="OEXCustomLabel">
-                                                            <rect key="frame" x="53" y="15" width="219" height="20"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbVideoName"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="219" id="MHs-7P-C5j"/>
                                                                 <constraint firstAttribute="height" constant="20" id="MbP-8U-576"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <color key="textColor" red="0.27058823529999998" green="0.28627450980000002" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="textColor" red="0.27058823529999998" green="0.28627450980000002" blue="0.31764705879999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J9X-dx-kC7" customClass="OEXCheckBox" customModule="edX" customModuleProvider="target">
-                                                            <rect key="frame" x="550" y="10" width="40" height="40"/>
                                                             <accessibility key="accessibilityConfiguration" label="btnCheckBoxDelete"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="W8L-zz-xp8"/>
@@ -92,33 +85,30 @@
                                                             </constraints>
                                                             <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                             <state key="normal">
-                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
                                                         </button>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sSZ-cu-2C4" customClass="OEXCustomLabel">
-                                                            <rect key="frame" x="53" y="39" width="47" height="10"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbVideoLength"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="10" id="42k-zQ-8dk"/>
                                                                 <constraint firstAttribute="width" constant="47" id="lue-bY-0e1"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="503" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4PX-dG-qM3" customClass="OEXCustomLabel">
-                                                            <rect key="frame" x="101" y="39" width="47" height="10"/>
                                                             <accessibility key="accessibilityConfiguration" label="lbVideoSize"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="47" id="i5N-jd-OQ1"/>
                                                                 <constraint firstAttribute="height" constant="10" id="qgd-gI-dwf"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                            <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_partiallywatched.png" translatesAutoresizingMaskIntoConstraints="NO" id="REY-30-Fqx">
-                                                            <rect key="frame" x="16" y="22" width="15" height="15"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="15" id="7YD-2k-jNC"/>
                                                                 <constraint firstAttribute="height" constant="15" id="nQq-u1-9SN"/>
@@ -164,14 +154,13 @@
                                         </connections>
                                     </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yZm-m7-fVH" customClass="OEXCustomEditingView">
-                                        <rect key="frame" x="0.0" y="441" width="600" height="50"/>
-                                        <color key="backgroundColor" red="0.24313725489999999" green="0.25882352939999997" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.24313725489999999" green="0.25882352939999997" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="y59-fs-o6j"/>
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="vF0-7G-Vd6" firstAttribute="leading" secondItem="iFC-95-ZX8" secondAttribute="leading" id="4aF-yR-hVo"/>
                                     <constraint firstItem="h57-PP-XUC" firstAttribute="leading" secondItem="iFC-95-ZX8" secondAttribute="leading" id="5cZ-TX-ht9"/>
@@ -186,11 +175,9 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aIT-EB-vrS" userLabel="TabView">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
                                 <subviews>
                                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WFv-LH-THx">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
-                                        <color key="backgroundColor" red="0.24313725489999999" green="0.25882352939999997" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.24313725489999999" green="0.25882352939999997" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="10" id="79G-mT-IpH">
                                             <size key="itemSize" width="160" height="44"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -199,28 +186,24 @@
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tabCell" id="a0q-S3-Lpw" customClass="OEXTabBarItemsCell">
-                                                <rect key="frame" x="0.0" y="0.5" width="165" height="44"/>
+                                                <rect key="frame" x="0.0" y="1" width="165" height="44"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                     <rect key="frame" x="0.0" y="0.0" width="165" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bt_scrollbar_tap.png" translatesAutoresizingMaskIntoConstraints="NO" id="b4w-V7-ilH">
-                                                            <rect key="frame" x="16" y="1" width="140" height="43"/>
-                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bt_scrollbar_tap.png" translatesAutoresizingMaskIntoConstraints="NO" id="b4w-V7-ilH"/>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="401" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dxg-h2-Exd" customClass="OEXCustomLabel">
-                                                            <rect key="frame" x="16" y="14" width="140" height="15"/>
                                                             <accessibility key="accessibilityConfiguration">
                                                                 <accessibilityTraits key="traits" button="YES"/>
                                                             </accessibility>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <color key="backgroundColor" red="0.24313725489999999" green="0.25882352939999997" blue="0.2784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.24313725489999999" green="0.25882352939999997" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="b4w-V7-ilH" firstAttribute="leading" secondItem="Dxg-h2-Exd" secondAttribute="leading" id="3ao-mv-g29"/>
                                                     <constraint firstItem="Dxg-h2-Exd" firstAttribute="trailing" secondItem="b4w-V7-ilH" secondAttribute="trailing" id="79r-AB-kTT"/>
@@ -257,30 +240,27 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="188" sectionHeaderHeight="8" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="tEo-nb-KXu" userLabel="Table View - ALL VIDEOS">
-                                <rect key="frame" x="0.0" y="45" width="600" height="491"/>
-                                <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="188" sectionHeaderHeight="8" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="tEo-nb-KXu" userLabel="Table View - ALL VIDEOS">
+                                <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="U7W-1v-F4n"/>
                                     <constraint firstAttribute="height" priority="990" constant="459" id="Zfb-sE-vF4"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PlayerCell" rowHeight="188" id="Rid-lC-u6h" customClass="OEXFrontTableViewCell">
-                                        <rect key="frame" x="0.0" y="8" width="600" height="188"/>
+                                        <rect key="frame" x="0.0" y="8" width="375" height="188"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Rid-lC-u6h" id="7KS-O3-qpE">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="188"/>
+                                            <frame key="frameInset" width="375" height="188"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LO4-dV-iUX">
-                                                    <rect key="frame" x="8" y="0.0" width="584" height="188"/>
                                                     <subviews>
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SLQ-Vk-S3s" customClass="CourseCardView" customModule="edX" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="0.0" width="584" height="188"/>
-                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="SLQ-Vk-S3s" firstAttribute="top" secondItem="LO4-dV-iUX" secondAttribute="top" id="2pz-90-nvG"/>
                                                         <constraint firstAttribute="bottom" secondItem="SLQ-Vk-S3s" secondAttribute="bottom" id="OfZ-dc-PbY"/>
@@ -289,7 +269,7 @@
                                                     </constraints>
                                                 </view>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstItem="LO4-dV-iUX" firstAttribute="leading" secondItem="7KS-O3-qpE" secondAttribute="leading" constant="8" id="7lC-tD-Zrx"/>
                                                 <constraint firstAttribute="trailing" secondItem="LO4-dV-iUX" secondAttribute="trailing" constant="8" id="MCh-4Q-PgU"/>
@@ -298,7 +278,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="LO4-dV-iUX" secondAttribute="bottom" id="bcX-Wg-Jay"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="infoView" destination="SLQ-Vk-S3s" id="b5O-P7-394"/>
                                         </connections>
@@ -315,18 +295,17 @@
                                 </connections>
                             </tableView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are currently no videos downloaded" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="K8K-cn-EfC">
-                                <rect key="frame" x="160" y="243" width="280" height="50"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="280" id="Lo7-Cb-W7H"/>
                                     <constraint firstAttribute="height" constant="50" id="yCC-HJ-o0j"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.61960784310000006" green="0.65490196079999996" blue="0.70196078429999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="K8K-cn-EfC" firstAttribute="leading" secondItem="PMR-ii-iVV" secondAttribute="leading" constant="20" id="4uZ-rf-Jpz"/>
                             <constraint firstAttribute="centerX" secondItem="tEo-nb-KXu" secondAttribute="centerX" id="7oZ-zL-9hy"/>

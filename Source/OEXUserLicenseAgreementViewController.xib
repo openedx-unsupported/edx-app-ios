@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OEXUserLicenseAgreementViewController">
@@ -14,19 +15,16 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r7T-Mv-Iru">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="528"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <dataDetectorType key="dataDetectorTypes"/>
                 </webView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jsf-vB-Psj">
-                    <rect key="frame" x="0.0" y="528" width="320" height="40"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w6A-nU-hdw">
-                            <rect key="frame" x="27" y="5" width="266" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="ehO-Ee-nmr"/>
                                 <constraint firstAttribute="width" constant="266" id="mWh-JG-lqt"/>
@@ -34,21 +32,20 @@
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" title="CLOSE">
                                 <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
                                 <action selector="closeButtonTapped:" destination="-1" eventType="touchUpInside" id="7Rd-CY-dHh"/>
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wm6-ZJ-Jgi">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
-                            <color key="backgroundColor" red="0.8862745098" green="0.89019607840000003" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.85902148485183716" green="0.86343693733215332" blue="0.87321525812149048" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="nyU-O7-sZP"/>
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="Wm6-ZJ-Jgi" firstAttribute="top" secondItem="jsf-vB-Psj" secondAttribute="top" id="1Wz-jc-5dP"/>
                         <constraint firstAttribute="centerX" secondItem="w6A-nU-hdw" secondAttribute="centerX" id="D0r-Ct-hRl"/>
@@ -59,14 +56,13 @@
                     </constraints>
                 </view>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="pMz-QC-2nz">
-                    <rect key="frame" x="150" y="274" width="20" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="2A4-ma-UUV"/>
                         <constraint firstAttribute="width" constant="20" id="LCY-wB-8Lg"/>
                     </constraints>
                 </activityIndicatorView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="r7T-Mv-Iru" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="1lQ-IC-c9e"/>
                 <constraint firstItem="jsf-vB-Psj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1pH-lB-6nM"/>
@@ -80,7 +76,6 @@
                 <constraint firstItem="jsf-vB-Psj" firstAttribute="top" secondItem="r7T-Mv-Iru" secondAttribute="bottom" id="xes-fC-zgs"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="gZv-z8-Uhi"/>

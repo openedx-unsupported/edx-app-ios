@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Login-->
@@ -15,20 +16,17 @@
                         <viewControllerLayoutGuide type="bottom" id="4mv-8g-fca"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Po0-aV-nj3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator.png" translatesAutoresizingMaskIntoConstraints="NO" id="cx1-LN-j8a">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="1"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="NLw-kh-e1O"/>
                                 </constraints>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XeO-S4-8zQ">
-                                <rect key="frame" x="0.0" y="1" width="600" height="599"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginScreenImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="hfa-gq-20d">
-                                        <rect key="frame" x="35" y="10" width="530" height="151"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="240" id="5Ly-rP-A7E"/>
                                             <constraint firstAttribute="height" constant="119" id="dxz-go-LCx"/>
@@ -42,7 +40,6 @@
                                         </variation>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="TTs-EL-Jso">
-                                        <rect key="frame" x="253" y="61" width="95" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="D9d-Ra-6Nl"/>
                                             <constraint firstAttribute="height" constant="45" id="MUA-79-jE4"/>
@@ -57,7 +54,6 @@
                                         </variation>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bt_grey_default.png" translatesAutoresizingMaskIntoConstraints="NO" id="huu-Bj-C7B">
-                                        <rect key="frame" x="40" y="181" width="520" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="9nW-ld-e5Q"/>
                                             <constraint firstAttribute="height" constant="40" id="XSD-6U-bWJ"/>
@@ -71,8 +67,7 @@
                                         </variation>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username or E-mail address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EXv-n9-pKW" customClass="OEXCustomTextField">
-                                        <rect key="frame" x="46" y="181" width="508" height="40"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <accessibility key="accessibilityConfiguration" identifier="user-field" label="">
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
@@ -94,7 +89,6 @@
                                         </connections>
                                     </textField>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bt_grey_default.png" translatesAutoresizingMaskIntoConstraints="NO" id="w4q-wU-kRm">
-                                        <rect key="frame" x="40" y="229" width="520" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="488-82-bh6"/>
                                             <constraint firstAttribute="width" constant="240" id="4fH-7u-dAH"/>
@@ -108,8 +102,7 @@
                                         </variation>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dcW-Go-srk" customClass="OEXCustomTextField">
-                                        <rect key="frame" x="46" y="229" width="508" height="40"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <accessibility key="accessibilityConfiguration" identifier="password-field" label=""/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="3g8-aj-SUC"/>
@@ -129,7 +122,6 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" tag="103" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tp9-tH-kdk">
-                                        <rect key="frame" x="40" y="277" width="123" height="17"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="17" id="qfK-nC-mRI"/>
                                         </constraints>
@@ -139,22 +131,20 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gKO-wT-mn0" customClass="OEXCustomButton">
-                                        <rect key="frame" x="40" y="302" width="520" height="40"/>
-                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="7b9-sy-3PM"/>
                                         </constraints>
-                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="SIGN IN">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="loginClicked:" destination="riJ-LC-sPF" eventType="touchUpInside" id="9mn-JQ-ghr"/>
                                         </connections>
                                     </button>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="5Ki-dQ-Zuc">
-                                        <rect key="frame" x="526" y="312" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="8el-uH-lW7"/>
                                             <constraint firstAttribute="width" constant="20" id="Hg8-GJ-F4J"/>
@@ -169,29 +159,25 @@
                                         </variation>
                                     </activityIndicatorView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="108" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or Sign in with" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="191" translatesAutoresizingMaskIntoConstraints="NO" id="9O4-tw-OUv" customClass="OEXCustomLabel">
-                                        <rect key="frame" x="247" y="351" width="107" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="107" id="Htp-oO-a4C"/>
                                             <constraint firstAttribute="height" constant="20" id="jyy-je-BmG"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
-                                        <color key="textColor" red="0.23529411759999999" green="0.25098039220000001" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" red="0.17926862835884094" green="0.19164085388183594" blue="0.20848166942596436" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator.png" translatesAutoresizingMaskIntoConstraints="NO" id="2of-Hn-kff">
-                                        <rect key="frame" x="40" y="360" width="210" height="2"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="2" id="KON-qe-xti"/>
                                         </constraints>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator.png" translatesAutoresizingMaskIntoConstraints="NO" id="Pqx-qN-yU2">
-                                        <rect key="frame" x="350" y="360" width="210" height="2"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="2" id="OmA-hw-yhx"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="106" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By signing into the app, you agree to the" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="191" translatesAutoresizingMaskIntoConstraints="NO" id="ZfV-aD-lBt" customClass="OEXCustomLabel">
-                                        <rect key="frame" x="201" y="411" width="198" height="13"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="13" id="TLP-cU-G6l"/>
                                             <constraint firstAttribute="width" constant="198" id="cb4-zD-OcS"/>
@@ -199,7 +185,7 @@
                                             <constraint firstAttribute="width" constant="198" id="nn0-pE-53N"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="10"/>
-                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
                                             <mask key="constraints">
@@ -209,7 +195,6 @@
                                         </variation>
                                     </label>
                                     <button opaque="NO" tag="106" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cYz-SW-wBv">
-                                        <rect key="frame" x="215" y="420" width="171" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="FFH-LG-Rhl"/>
                                             <constraint firstAttribute="width" constant="191" id="jbK-Ay-hDf"/>
@@ -226,13 +211,11 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ahW-UE-xWc">
-                                        <rect key="frame" x="282" y="449" width="36" height="12"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view tag="104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BU5-Og-2jn" customClass="OEXExternalAuthOptionsView">
-                                        <rect key="frame" x="40" y="375" width="520" height="33"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="33" placeholder="YES" id="NlG-Ps-z8A"/>
                                         </constraints>
@@ -346,7 +329,7 @@
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration" identifier="login-screen"/>
                         <constraints>
                             <constraint firstItem="XeO-S4-8zQ" firstAttribute="leading" secondItem="Po0-aV-nj3" secondAttribute="leading" id="2uR-Ra-EC0"/>
@@ -414,7 +397,7 @@
     </scenes>
     <resources>
         <image name="bt_grey_default.png" width="525" height="100"/>
-        <image name="loginScreenImage.png" width="530" height="224"/>
+        <image name="loginScreenImage.png" width="320" height="171"/>
         <image name="logo.png" width="141" height="65"/>
         <image name="separator.png" width="526" height="2"/>
     </resources>

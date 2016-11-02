@@ -72,6 +72,8 @@
 "ACCESSIBILITY_MENU" = "Navigation Menu";
 /* Accessibility label for close button when left drawer is open*/
 "ACCESSIBILITY_CLOSE_MENU" = "Close Navigation Menu";
+/* Accessibility label for hiding keyboard*/
+"ACCESSIBILITY_HIDE_KEYBOARD" = "Hide Keyboard";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
