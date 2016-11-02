@@ -337,6 +337,15 @@
     
     [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
     [self.activityIndicator stopAnimating];
+    
+    [self.tf_EmailID setFont:[[OEXStyles sharedStyles] sansSerifOfSize:12.0f]];
+    [self.tf_Password setFont:[[OEXStyles sharedStyles] sansSerifOfSize:12.0f]];
+    [self.btn_TroubleLogging.titleLabel setFont:[[OEXStyles sharedStyles] sansSerifOfSize:15.0f]];
+    [self.btn_Login.titleLabel setFont:[[OEXStyles sharedStyles] sansSerifOfSize:18.0f]];
+    [self.btn_OpenEULA.titleLabel setFont:[[OEXStyles sharedStyles] sansSerifOfSize:10.0f]];
+    [self.lbl_Redirect setFont:[[OEXStyles sharedStyles] sansSerifOfSize:10.0f]];
+    [self.lbl_OrSignIn setFont:[[OEXStyles sharedStyles] sansSerifOfSize:10.0f]];
+    [self.versionLabel setFont:[[OEXStyles sharedStyles] sansSerifOfSize:10.0f]];
 
     NSString* username = [[NSUserDefaults standardUserDefaults] objectForKey:USER_EMAIL];
 
