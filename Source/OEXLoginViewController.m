@@ -173,7 +173,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setTitle:[Strings loginSignInToPlatformWithPlatformName:self.environment.config.platformName]];
+    [self setTitle:[Strings signInText]];
 
     NSMutableArray* providers = [[NSMutableArray alloc] init];
     if([self isGoogleEnabled]) {
@@ -283,7 +283,7 @@
 }
 
 - (NSString*)signInButtonText {
-    return [Strings signInButtonText];
+    return [Strings signInText];
 }
 
 - (void)handleActivationDuringLogin {
