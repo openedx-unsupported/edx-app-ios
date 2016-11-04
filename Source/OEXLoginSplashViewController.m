@@ -13,6 +13,7 @@
 #import "OEXRouter.h"
 #import "OEXLoginViewController.h"
 #import "OEXSession.h"
+#import "OEXStyles.h"
 
 @implementation OEXLoginSplashViewControllerEnvironment
 
@@ -50,6 +51,9 @@
 
     [self.signInButton setTitle:[Strings loginSplashSignIn] forState:UIControlStateNormal];
     [self.signUpButton setTitle:[Strings loginSplashSignUp] forState:UIControlStateNormal];
+    
+    [self.signInButton.titleLabel setFont:[[OEXStyles sharedStyles] boldSansSerifOfSize:14.0f]];
+    [self.signUpButton.titleLabel setFont:[[OEXStyles sharedStyles] sansSerifOfSize:18.0f]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
