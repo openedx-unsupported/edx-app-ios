@@ -32,7 +32,8 @@
 @property (nonatomic, copy) NSString* unitURL;
 @property (nonatomic, assign) BOOL onlyOnWeb;
 @property (nonatomic, strong) NSDictionary* transcripts;
-
+@property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
+    
 @end
 
 @implementation OEXVideoSummary
@@ -77,6 +78,9 @@
         self.onlyOnWeb = [[summary objectForKey:@"only_on_web"] boolValue];
 
         self.transcripts = [summary objectForKey:@"transcripts"];
+        
+        if (_encodings.count <=0)
+            _defaultEncoding = [[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:[summary objectForKey:@"video_url"] size:[summary objectForKey:@"size"]];
     }
 
     return self;
@@ -118,9 +122,9 @@
             return encoding;
         }
     }
-    // Don't have a known encoding, so just pick one. These are in a dict, but we need to do
-    // something stable, so just do it alphabetically
-    return self.encodings[[self.encodings.allKeys sortedArrayUsingSelector:@selector(compare:)].firstObject];
+    
+    // Don't have a known encoding, so return default encoding
+    return self.defaultEncoding;
 }
 
 - (BOOL) isYoutubeVideo {
