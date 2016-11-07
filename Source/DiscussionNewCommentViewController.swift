@@ -159,8 +159,8 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
         contentTextView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
-        contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
-        contentTextView.textColor = OEXStyles.sharedStyles().neutralBase()
+        contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralBase()
+        contentTextView.textColor = OEXStyles.sharedStyles().neutralDark()
         contentTextView.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
         contentTextView.delegate = self
         

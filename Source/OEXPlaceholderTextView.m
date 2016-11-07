@@ -90,7 +90,7 @@
 - (void)initialize {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:self];
 
-    self.placeholderTextColor = [UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:0.9];
+    self.placeholderTextColor = [UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:1.0];
 }
 
 - (void)textChanged:(NSNotification*)notification {
