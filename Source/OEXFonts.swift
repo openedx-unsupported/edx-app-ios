@@ -12,6 +12,32 @@ public class OEXFonts: NSObject {
     
     //MARK: - Shared Instance
     public static let sharedInstance = OEXFonts()
+    enum FontIdentifiers: String {
+        case Regular = "regular"
+        case SemiBold = "semiBold"
+        case Bold = "bold"
+        case Light = "light"
+        
+        private func toString() -> String {
+            return self.rawValue
+        }
+    }
+    
+    class func Regular() -> NSString {
+        return FontIdentifiers.Regular.toString()
+    }
+    
+    class func SemiBold() -> NSString {
+        return FontIdentifiers.SemiBold.toString()
+    }
+    
+    class func Bold() -> NSString {
+        return FontIdentifiers.Bold.toString()
+    }
+    
+    class func Light() -> NSString {
+        return FontIdentifiers.Light.toString()
+    }
     
     public var fontsDictionary = [String: AnyObject]()
     
@@ -51,6 +77,5 @@ public class OEXFonts: NSObject {
         assert(false, "Could not find the required font in fonts.json")
         return OEXFontsDataFactory.fonts["irregular"]!
     }
-    
 }
 
