@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic, nullable) id <OEXLoginViewControllerDelegate> delegate;
 @property (strong, nonatomic) RouterEnvironment* environment;
+- (id)initWithEnvironment:(RouterEnvironment*)environment;
 
 @end
 

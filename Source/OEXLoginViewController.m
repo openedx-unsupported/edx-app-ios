@@ -95,6 +95,14 @@
 
 @implementation OEXLoginViewController
 
+- (id)initWithEnvironment:(RouterEnvironment*)environment {
+    self = [super initWithNibName:nil bundle:nil];
+    if(self != nil) {
+        self.environment = environment;
+    }
+    return self;
+}
+
 - (void)layoutSubviews {
     if(!([self isFacebookEnabled] || [self isGoogleEnabled])) {
         self.lbl_OrSignIn.hidden = YES;
@@ -288,7 +296,7 @@
 
 - (void)handleActivationDuringLogin {
     if(self.authProvider != nil) {
-        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+        [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
         [self.activityIndicator stopAnimating];
         [self.view setUserInteractionEnabled:YES];
 
@@ -335,7 +343,7 @@
     self.btn_OpenEULA.accessibilityTraits = UIAccessibilityTraitLink;
     self.btn_OpenEULA.accessibilityLabel = [NSString stringWithFormat:@"%@,%@",[Strings redirectText], termsText];
     
-    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+    [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
     [self.activityIndicator stopAnimating];
 
     NSString* username = [[NSUserDefaults standardUserDefaults] objectForKey:USER_EMAIL];
@@ -358,7 +366,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view setUserInteractionEnabled:YES];
         });
-        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+        [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
         [self.activityIndicator stopAnimating];
     }
@@ -446,7 +454,7 @@
 
         [self.view setUserInteractionEnabled:NO];
         [self.activityIndicator startAnimating];
-        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
+        [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
     }
 }
 
@@ -510,7 +518,7 @@
 
     [self.view setUserInteractionEnabled:NO];
     [self.activityIndicator startAnimating];
-    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale]];
+    [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale]];
 }
 
 - (void)loginHandleLoginError:(NSError*)error {
@@ -555,7 +563,7 @@
     }
 
     [self.activityIndicator stopAnimating];
-    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+    [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
     [self.view setUserInteractionEnabled:YES];
 
