@@ -13,6 +13,7 @@ class OEXFontsDataFactory {
     static let fonts = ["regular":"OpenSans",
                         "semiBold":"OpenSans-Semibold",
                         "bold":"OpenSans-Bold",
-                        "light":"OpenSans-Light"]
+                        "light":"OpenSans-Light",
+                        "irregular":"OpenSans-SemiboldItalic"]
     
 }

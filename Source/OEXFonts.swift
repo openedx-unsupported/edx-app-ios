@@ -44,8 +44,8 @@ public class OEXFonts: NSObject {
             return fontName
         }
         //Assert to crash on development, and return a regular OpenSans
-        assert(false, "Could not find the required font in fonts")
-        return OEXFontsDataFactory.fonts["regular"]!
+        assert(false, "Could not find the required font in fonts.json")
+        return OEXFontsDataFactory.fonts["irregular"]!
     }
     
 }
