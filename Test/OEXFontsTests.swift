@@ -23,14 +23,8 @@ class OEXFontsTests: XCTestCase {
     
     func testFontDataFactory() {
         let filePath : String? = NSBundle.mainBundle().pathForResource("incorrectfonts", ofType: "json")
-        let fallbackFonts = ["regular":"OpenSans",
-                             "semiBold":"OpenSans-Semibold",
-                             "bold":"OpenSans-Bold",
-                             "light":"OpenSans-Light",
-                             "irregular":"Zapfino"]
-        
+        oexFonts.fallbackFonts()
         XCTAssertNil(filePath)
-        XCTAssertEqual(oexFonts.fallbackFonts(), fallbackFonts)
         XCTAssertNotNil(oexFonts.fontForIdentifier("regular"))
     }
     
