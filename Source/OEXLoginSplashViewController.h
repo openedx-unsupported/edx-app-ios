@@ -10,19 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class OEXRouter;
-
-@interface OEXLoginSplashViewControllerEnvironment : NSObject
-
-- (id)initWithRouter:(OEXRouter*)router;
-
-@property (weak, nonatomic, nullable) OEXRouter* router;
-
-@end
+@class RouterEnvironment;
 
 @interface OEXLoginSplashViewController : UIViewController
 
-- (id)initWithEnvironment:(OEXLoginSplashViewControllerEnvironment*)environment;
+- (id)initWithEnvironment:(RouterEnvironment*)environment;
 
 @end
 

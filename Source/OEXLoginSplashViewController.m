@@ -15,30 +15,18 @@
 #import "OEXSession.h"
 #import "OEXStyles.h"
 
-@implementation OEXLoginSplashViewControllerEnvironment
-
-- (id)initWithRouter:(OEXRouter *)router {
-    self = [super init];
-    if(self != nil) {
-        _router = router;
-    }
-    return self;
-}
-
-@end
-
 @interface OEXLoginSplashViewController ()
 
 @property (strong, nonatomic) IBOutlet UIButton* signInButton;
 @property (strong, nonatomic) IBOutlet UIButton* signUpButton;
 
-@property (strong, nonatomic) OEXLoginSplashViewControllerEnvironment* environment;
+@property (strong, nonatomic) RouterEnvironment* environment;
 
 @end
 
 @implementation OEXLoginSplashViewController
 
-- (id)initWithEnvironment:(OEXLoginSplashViewControllerEnvironment*)environment {
+- (id)initWithEnvironment:(RouterEnvironment*)environment {
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
         self.environment = environment;
@@ -48,9 +36,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self.signInButton setTitle:[Strings loginSplashSignIn] forState:UIControlStateNormal];
-    [self.signUpButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings loginSplashSignUp]];
+    [self.signUpButton applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings loginSplashSignUp]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
