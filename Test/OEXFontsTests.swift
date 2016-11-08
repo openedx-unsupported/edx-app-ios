@@ -31,6 +31,7 @@ class OEXFontsTests: XCTestCase {
         
         XCTAssertNil(filePath)
         XCTAssertEqual(oexFonts.fallbackFonts(), fallbackFonts)
+        XCTAssertNotNil(oexFonts.fontForIdentifier("regular"))
     }
     
     func testColorParsing() {
