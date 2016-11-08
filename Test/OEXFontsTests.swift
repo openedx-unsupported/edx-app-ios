@@ -21,6 +21,18 @@ class OEXFontsTests: XCTestCase {
         XCTAssertTrue(NSFileManager.defaultManager().fileExistsAtPath(filePath ?? ""))
     }
     
+    func testFontDataFactory() {
+        let filePath : String? = NSBundle.mainBundle().pathForResource("incorrectfonts", ofType: "json")
+        let fallbackFonts = ["regular":"OpenSans",
+                             "semiBold":"OpenSans-Semibold",
+                             "bold":"OpenSans-Bold",
+                             "light":"OpenSans-Light",
+                             "irregular":"Zapfino"]
+        
+        XCTAssertNil(filePath)
+        XCTAssertEqual(oexFonts.fallbackFonts(), fallbackFonts)
+    }
+    
     func testColorParsing() {
         XCTAssertNotNil(oexFonts.fontForIdentifier("regular"))
         XCTAssertNotNil(oexFonts.fontForIdentifier("semiBold"))

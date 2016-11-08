@@ -20,9 +20,9 @@ public class OEXFonts: NSObject {
         fontsDictionary = initializeFontsDictionary()
     }
     
-    private func initializeFontsDictionary() -> [String: AnyObject] {
+    private func initializeFontsDictionary() -> [String: String] {
         guard let filePath = NSBundle.mainBundle().pathForResource("fonts", ofType: "json") else {
-            return fallbackFonts
+            return fallbackFonts()
         }
         if let data = NSData(contentsOfFile: filePath) {
             var error : NSError?
@@ -30,12 +30,16 @@ public class OEXFonts: NSObject {
             if let json = JSON(data: data, error: &error).dictionaryObject{
                 return json
             }
-            return fallbackFonts
+            return fallbackFonts()
         }
-        return fallbackFonts
+        return fallbackFonts()
     }
     
-    private var fallbackFonts: [String: AnyObject] {
+    public func fallbackFonts() -> [String: String] {
+        return getFallbackFonts
+    }
+    
+    private var getFallbackFonts: [String: String] {
         return OEXFontsDataFactory.fonts
     }
     
