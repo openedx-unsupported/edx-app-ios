@@ -43,7 +43,7 @@ public class OEXFonts: NSObject {
         if let fontName = fontsDictionary[identifier] as? String {
             return fontName
         }
-        //Assert to crash on development, and return a regular OpenSans
+        //Assert to crash on development, and return Zapfino font
         assert(false, "Could not find the required font in fonts.json")
         return OEXFontsDataFactory.fonts["irregular"]!
     }

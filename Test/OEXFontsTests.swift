@@ -26,7 +26,6 @@ class OEXFontsTests: XCTestCase {
         XCTAssertNotNil(oexFonts.fontForIdentifier("semiBold"))
         XCTAssertNotNil(oexFonts.fontForIdentifier("bold"))
         XCTAssertNotNil(oexFonts.fontForIdentifier("light"))
-        XCTAssertEqual(oexFonts.fontForIdentifier("regular"), oexFonts.fontForIdentifier("regular"))
         XCTAssertNotEqual(oexFonts.fontForIdentifier("regular"), oexFonts.fontForIdentifier("semiBold"))
     }
     
