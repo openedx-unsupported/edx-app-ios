@@ -14,6 +14,6 @@ class OEXFontsDataFactory {
                         "semiBold":"OpenSans-Semibold",
                         "bold":"OpenSans-Bold",
                         "light":"OpenSans-Light",
-                        "irregular":"OpenSans-SemiboldItalic"]
+                        "irregular":"Zapfino"]
     
 }
