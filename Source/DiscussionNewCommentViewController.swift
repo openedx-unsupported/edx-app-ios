@@ -244,11 +244,13 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             titleText = Strings.addAResponse
             navigationItemTitle = Strings.addResponse
             responseTitle.attributedText = responseTitleStyle.attributedStringWithText(thread.title)
+            contentTextView.accessibilityLabel = Strings.addAResponse
             self.isEndorsed = false
         case let .Comment(comment):
             buttonTitle = Strings.addComment
             titleText = Strings.addAComment
             navigationItemTitle = Strings.addComment
+            contentTextView.accessibilityLabel = Strings.addAComment
             responseTitle.snp_makeConstraints{ (make) -> Void in
                 make.height.equalTo(0)
             }
