@@ -98,133 +98,133 @@ static OEXStyles* sSharedStyles;
 #pragma mark Primary
 
 - (UIColor*)primaryXDarkColor {
-    return [self.oexColors colorForIdentifier:[OEXColors PrimaryXDarkColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryXDarkColor];
 }
 
 - (UIColor*)primaryDarkColor {
-    return [self.oexColors colorForIdentifier:[OEXColors PrimaryDarkColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryDarkColor];
 }
 
 - (UIColor*)primaryBaseColor {
-    return [self.oexColors colorForIdentifier:[OEXColors PrimaryBaseColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryBaseColor];
 }
 
 - (UIColor*)primaryLightColor {
-    return [self.oexColors colorForIdentifier:[OEXColors PrimaryLightColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryLightColor];
 }
 
 - (UIColor*)primaryXLightColor {
     // Note. This is not the color value from the mobile style guide.
     // iOS seems to have a darker color space than the desktop so this is
     // deliberately lightened from that.
-    return [self.oexColors colorForIdentifier:[OEXColors PrimaryXLightColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryXLightColor];
 }
 
 #pragma mark Secondary
 
 - (UIColor*)secondaryXDarkColor {
-    return [self.oexColors colorForIdentifier:[OEXColors SecondaryXDarkColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryXDarkColor];
 }
 
 - (nonnull UIColor*)secondaryDarkColor {
-    return [self.oexColors colorForIdentifier:[OEXColors SecondaryDarkColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryDarkColor];
 }
 
 - (nonnull UIColor*)secondaryBaseColor {
-    return [self.oexColors colorForIdentifier:[OEXColors SecondaryBaseColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryBaseColor];
 }
 
 - (nonnull UIColor*)secondaryLightColor {
-    return [self.oexColors colorForIdentifier:[OEXColors SecondaryLightColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryLightColor];
 }
 
 - (nonnull UIColor*)secondaryXLightColor {
-    return [self.oexColors colorForIdentifier:[OEXColors SecondaryXLightColor]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersSecondaryXLightColor];
 }
 
 #pragma mark Neutral
 
 - (UIColor*)neutralBlack {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralBlack]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralBlack];
 }
 
 - (UIColor*)neutralBlackT {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralBlackT]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralBlackT];
 }
 
 - (UIColor*)neutralXDark {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralXDark]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralXDark];
 }
 
 - (UIColor*)neutralDark {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralDark]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralDark];
 }
 
 - (UIColor*)neutralBase {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralBase]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralBase];
 }
 
 - (UIColor*)neutralLight {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralLight]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralLight];
 }
 
 - (UIColor*)neutralXLight {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralXLight]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralXLight];
 }
 
 - (UIColor*)neutralXXLight {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralXXLight]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralXXLight];
 }
 
 - (UIColor*)neutralWhite {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralWhite]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralWhite];
 }
 
 - (UIColor*)neutralWhiteT {
-    return [self.oexColors colorForIdentifier:[OEXColors NeutralWhiteT]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersNeutralWhiteT];
 }
 
 
 #pragma mark Utility
 
 - (UIColor*)utilitySuccessDark {
-    return [self.oexColors colorForIdentifier:[OEXColors UtilitySuccessDark]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersUtilitySuccessDark];
 }
 
 - (UIColor*)utilitySuccessBase {
-    return [self.oexColors colorForIdentifier:[OEXColors UtilitySuccessBase]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersUtilitySuccessBase];
 }
 
 - (UIColor*)utilitySuccessLight {
-    return [self.oexColors colorForIdentifier:[OEXColors UtilitySuccessLight]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersUtilitySuccessLight];
 }
 
 - (UIColor*)warningDark {
-    return [self.oexColors colorForIdentifier:[OEXColors WarningDark]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningDark];
 }
 
 - (UIColor*)warningBase {
-    return [self.oexColors colorForIdentifier:[OEXColors WarningBase]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningBase];
 }
 
 - (UIColor*)warningLight {
-    return [self.oexColors colorForIdentifier:[OEXColors WarningLight]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersWarningLight];
 }
 
 - (UIColor*)errorDark {
-    return [self.oexColors colorForIdentifier:[OEXColors ErrorDark]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorDark];
 }
 
 - (UIColor*)errorBase {
-    return [self.oexColors colorForIdentifier:[OEXColors ErrorBase]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorBase];
 }
 
 - (UIColor*)errorLight {
-    return [self.oexColors colorForIdentifier:[OEXColors ErrorLight]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersErrorLight];
 }
 
 - (UIColor*)banner {
-    return [self.oexColors colorForIdentifier:[OEXColors Banner]];
+    return [self.oexColors colorForIdentifier:ColorsIdentifiersBanner];
 }
 
 - (UIColor * __nonnull) disabledButtonColor
