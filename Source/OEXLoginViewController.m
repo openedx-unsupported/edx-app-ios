@@ -95,14 +95,6 @@
 
 @implementation OEXLoginViewController
 
-- (id)initWithEnvironment:(RouterEnvironment*)environment {
-    self = [super initWithNibName:nil bundle:nil];
-    if(self != nil) {
-        self.environment = environment;
-    }
-    return self;
-}
-
 - (void)layoutSubviews {
     if(!([self isFacebookEnabled] || [self isGoogleEnabled])) {
         self.lbl_OrSignIn.hidden = YES;
