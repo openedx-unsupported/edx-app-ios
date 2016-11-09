@@ -239,19 +239,19 @@ static OEXStyles* sSharedStyles;
 #pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {
-    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:[OEXFonts Regular]] size:size];
+    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:FontIdentifiersRegular] size:size];
 }
 
 - (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size {
-    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:[OEXFonts SemiBold]]  size:size];
+    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:FontIdentifiersSemiBold]  size:size];
 }
 
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size {
-    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:[OEXFonts Bold]] size:size];
+    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:FontIdentifiersBold] size:size];
 }
 
 - (UIFont*)lightSansSerifOfSize:(CGFloat)size {
-    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:[OEXFonts Light]] size:size];
+    return [UIFont fontWithName:[self.oexFonts fontForIdentifier:FontIdentifiersLight] size:size];
 }
 
 - (NSString*)styleHTMLContent:(NSString*)htmlString stylesheet:(NSString*)stylesheet {

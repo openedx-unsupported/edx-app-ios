@@ -12,31 +12,8 @@ public class OEXFonts: NSObject {
     
     //MARK: - Shared Instance
     public static let sharedInstance = OEXFonts()
-    enum FontIdentifiers: String {
-        case Regular = "regular"
-        case SemiBold = "semiBold"
-        case Bold = "bold"
-        case Light = "light"
-        
-        private func toString() -> String {
-            return self.rawValue
-        }
-    }
-    
-    class func Regular() -> NSString {
-        return FontIdentifiers.Regular.toString()
-    }
-    
-    class func SemiBold() -> NSString {
-        return FontIdentifiers.SemiBold.toString()
-    }
-    
-    class func Bold() -> NSString {
-        return FontIdentifiers.Bold.toString()
-    }
-    
-    class func Light() -> NSString {
-        return FontIdentifiers.Light.toString()
+    @objc enum FontIdentifiers: Int {
+        case Regular = 1, SemiBold, Bold, Light
     }
     
     public var fontsDictionary = [String: AnyObject]()
@@ -69,13 +46,28 @@ public class OEXFonts: NSObject {
         return OEXFontsDataFactory.fonts
     }
     
-    public func fontForIdentifier(identifier: String) -> String {
-        if let fontName = fontsDictionary[identifier] as? String {
+    public func fontForIdentifier(identifier: Int) -> String {
+        if let fontName = fontsDictionary[getIdentifier(identifier)] as? String {
             return fontName
         }
         //Assert to crash on development, and return Zapfino font
         assert(false, "Could not find the required font in fonts.json")
         return OEXFontsDataFactory.fonts["irregular"]!
+    }
+    
+    private func getIdentifier(identifier: Int) -> String {
+        switch identifier {
+        case FontIdentifiers.Regular.rawValue:
+            return "regular"
+        case FontIdentifiers.SemiBold.rawValue:
+            return "semiBold"
+        case FontIdentifiers.Bold.rawValue:
+            return "bold"
+        case FontIdentifiers.Light.rawValue:
+            return "light"
+        default:
+            return "regular"
+        }
     }
 }
 
