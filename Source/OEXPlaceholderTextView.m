@@ -7,6 +7,7 @@
 //
 
 #import "OEXPlaceholderTextView.h"
+#import "OEXStyles.h"
 
 @implementation OEXPlaceholderTextView
 #pragma mark - UIView
@@ -90,7 +91,7 @@
 - (void)initialize {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:self];
 
-    self.placeholderTextColor = [UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:0.9];
+    self.placeholderTextColor = [[OEXStyles sharedStyles] neutralDark];
 }
 
 - (void)textChanged:(NSNotification*)notification {
