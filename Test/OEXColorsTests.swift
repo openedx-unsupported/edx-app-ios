@@ -9,10 +9,6 @@
 import edX
 import XCTest
 
-enum ColorsIdentifiers: Int {
-    case PrimaryXDarkColor = 1, PrimaryDarkColor, PrimaryBaseColor, PrimaryLightColor, PrimaryXLightColor
-}
-
 class OEXColorsTests: XCTestCase {
     
     var oexColors : OEXColors {
@@ -26,11 +22,11 @@ class OEXColorsTests: XCTestCase {
     }
     
     func testColorParsing() {
-        XCTAssertNotNil(oexColors.colorForIdentifier(ColorsIdentifiers.PrimaryBaseColor.rawValue))
-        XCTAssertNotNil(oexColors.colorForIdentifier(ColorsIdentifiers.PrimaryLightColor.rawValue))
-        XCTAssertNotNil(oexColors.colorForIdentifier(ColorsIdentifiers.PrimaryBaseColor.rawValue, alpha: 0.5))
-        XCTAssertNotNil(oexColors.colorForIdentifier(ColorsIdentifiers.PrimaryLightColor.rawValue, alpha: 1.0))
-        XCTAssertEqual(oexColors.colorForIdentifier(ColorsIdentifiers.PrimaryBaseColor.rawValue), oexColors.colorForIdentifier(ColorsIdentifiers.PrimaryBaseColor.rawValue, alpha: 1.0))
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor))
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryLightColor))
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor, alpha: 0.5))
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryLightColor, alpha: 1.0))
+        XCTAssertEqual(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor), oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor, alpha: 1.0))
     }
 
 }

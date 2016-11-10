@@ -95,7 +95,7 @@ static OEXStyles* sSharedStyles;
     }
 }
 
-#pragma mark Primary
+#pragma mark Primary2
 
 - (UIColor*)primaryXDarkColor {
     return [self.oexColors colorForIdentifier:ColorsIdentifiersPrimaryXDarkColor];

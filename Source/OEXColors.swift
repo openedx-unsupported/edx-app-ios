@@ -12,7 +12,7 @@ public class OEXColors: NSObject {
 
     //MARK: - Shared Instance
     public static let sharedInstance = OEXColors()
-    @objc enum ColorsIdentifiers: Int {
+    @objc public enum ColorsIdentifiers: Int {
         case PrimaryXDarkColor = 1, PrimaryDarkColor, PrimaryBaseColor, PrimaryLightColor, PrimaryXLightColor,
         SecondaryXDarkColor, SecondaryDarkColor, SecondaryBaseColor, SecondaryLightColor, SecondaryXLightColor,
         NeutralBlack, NeutralBlackT, NeutralXDark, NeutralDark, NeutralBase,
@@ -49,11 +49,11 @@ public class OEXColors: NSObject {
         return OEXColorsDataFactory.colors
     }
     
-    public func colorForIdentifier(identifier: Int) -> UIColor {
+    public func colorForIdentifier(identifier: ColorsIdentifiers) -> UIColor {
         return colorForIdentifier(identifier, alpha: 1.0)
     }
     
-    public func colorForIdentifier(identifier: Int, alpha: CGFloat) -> UIColor {
+    public func colorForIdentifier(identifier: ColorsIdentifiers, alpha: CGFloat) -> UIColor {
         if let hexValue = colorsDictionary[getIdentifier(identifier)] as? String {
             let color = UIColor(hexString: hexValue, alpha: alpha)
             return color
@@ -63,70 +63,68 @@ public class OEXColors: NSObject {
         return UIColor(hexString: "#FABA12", alpha: 1.0)
     }
     
-    private func getIdentifier(identifier: Int) -> String {
+    private func getIdentifier(identifier: ColorsIdentifiers) -> String {
         switch identifier {
-        case ColorsIdentifiers.PrimaryXDarkColor.rawValue:
+        case .PrimaryXDarkColor:
             return "primaryXDarkColor"
-        case ColorsIdentifiers.PrimaryDarkColor.rawValue:
+        case .PrimaryDarkColor:
             return "primaryDarkColor"
-        case ColorsIdentifiers.PrimaryBaseColor.rawValue:
+        case .PrimaryBaseColor:
             return "primaryBaseColor"
-        case ColorsIdentifiers.PrimaryLightColor.rawValue:
+        case .PrimaryLightColor:
             return "primaryLightColor"
-        case ColorsIdentifiers.PrimaryXLightColor.rawValue:
+        case .PrimaryXLightColor:
             return "primaryXLightColor"
-        case ColorsIdentifiers.SecondaryXDarkColor.rawValue:
+        case .SecondaryXDarkColor:
             return "secondaryXDarkColor"
-        case ColorsIdentifiers.SecondaryDarkColor.rawValue:
+        case .SecondaryDarkColor:
             return "secondaryDarkColor"
-        case ColorsIdentifiers.SecondaryBaseColor.rawValue:
+        case .SecondaryBaseColor:
             return "secondaryBaseColor"
-        case ColorsIdentifiers.SecondaryLightColor.rawValue:
+        case .SecondaryLightColor:
             return "secondaryLightColor"
-        case ColorsIdentifiers.SecondaryXLightColor.rawValue:
+        case .SecondaryXLightColor:
             return "secondaryXLightColor"
-        case ColorsIdentifiers.NeutralBlack.rawValue:
+        case .NeutralBlack:
             return "neutralBlack"
-        case ColorsIdentifiers.NeutralBlackT.rawValue:
+        case .NeutralBlackT:
             return "neutralBlackT"
-        case ColorsIdentifiers.NeutralXDark.rawValue:
+        case .NeutralXDark:
             return "neutralXDark"
-        case ColorsIdentifiers.NeutralDark.rawValue:
+        case .NeutralDark:
             return "neutralDark"
-        case ColorsIdentifiers.NeutralBase.rawValue:
+        case .NeutralBase:
             return "neutralBase"
-        case ColorsIdentifiers.NeutralLight.rawValue:
+        case .NeutralLight:
             return "neutralLight"
-        case ColorsIdentifiers.NeutralXLight.rawValue:
+        case .NeutralXLight:
             return "neutralXLight"
-        case ColorsIdentifiers.NeutralXXLight.rawValue:
+        case .NeutralXXLight:
             return "neutralXXLight"
-        case ColorsIdentifiers.NeutralWhite.rawValue:
+        case .NeutralWhite:
             return "neutralWhite"
-        case ColorsIdentifiers.NeutralWhiteT.rawValue:
+        case .NeutralWhiteT:
             return "neutralWhiteT"
-        case ColorsIdentifiers.UtilitySuccessDark.rawValue:
+        case .UtilitySuccessDark:
             return "utilitySuccessDark"
-        case ColorsIdentifiers.UtilitySuccessBase.rawValue:
+        case .UtilitySuccessBase:
             return "utilitySuccessBase"
-        case ColorsIdentifiers.UtilitySuccessLight.rawValue:
+        case .UtilitySuccessLight:
             return "utilitySuccessLight"
-        case ColorsIdentifiers.WarningDark.rawValue:
+        case .WarningDark:
             return "warningDark"
-        case ColorsIdentifiers.WarningBase.rawValue:
+        case .WarningBase:
             return "warningBase"
-        case ColorsIdentifiers.WarningLight.rawValue:
+        case .WarningLight:
             return "warningLight"
-        case ColorsIdentifiers.ErrorDark.rawValue:
+        case .ErrorDark:
             return "errorDark"
-        case ColorsIdentifiers.ErrorBase.rawValue:
+        case .ErrorBase:
             return "errorBase"
-        case ColorsIdentifiers.ErrorLight.rawValue:
+        case .ErrorLight:
             return "errorLight"
-        case ColorsIdentifiers.Banner.rawValue:
+        case .Banner:
             return "banner"
-        default:
-            return "primaryBaseColor"
         }
     }
 }
