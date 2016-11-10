@@ -9,9 +9,6 @@
 import edX
 import XCTest
 
-enum FontIdentifiers: Int {
-    case Regular = 1, SemiBold, Bold, Light
-}
 
 class OEXFontsTests: XCTestCase {
     
@@ -29,15 +26,15 @@ class OEXFontsTests: XCTestCase {
         let filePath : String? = NSBundle.mainBundle().pathForResource("incorrectfonts", ofType: "json")
         oexFonts.fallbackFonts()
         XCTAssertNil(filePath)
-        XCTAssertNotNil(oexFonts.fontForIdentifier(FontIdentifiers.Regular.rawValue))
+        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12))
     }
     
     func testColorParsing() {
-        XCTAssertNotNil(oexFonts.fontForIdentifier(FontIdentifiers.Regular.rawValue))
-        XCTAssertNotNil(oexFonts.fontForIdentifier(FontIdentifiers.SemiBold.rawValue))
-        XCTAssertNotNil(oexFonts.fontForIdentifier(FontIdentifiers.Bold.rawValue))
-        XCTAssertNotNil(oexFonts.fontForIdentifier(FontIdentifiers.Light.rawValue))
-        XCTAssertNotEqual(oexFonts.fontForIdentifier(FontIdentifiers.Regular.rawValue), oexFonts.fontForIdentifier(FontIdentifiers.SemiBold.rawValue))
+        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12))
+        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.SemiBold, size: 12))
+        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Bold, size: 12))
+        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Light, size: 12))
+        XCTAssertNotEqual(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12), oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.SemiBold, size: 12))
     }
     
 }

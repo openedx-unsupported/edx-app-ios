@@ -12,7 +12,7 @@ public class OEXFonts: NSObject {
     
     //MARK: - Shared Instance
     public static let sharedInstance = OEXFonts()
-    @objc enum FontIdentifiers: Int {
+    @objc public enum FontIdentifiers: Int {
         case Regular = 1, SemiBold, Bold, Light
     }
     
@@ -46,27 +46,25 @@ public class OEXFonts: NSObject {
         return OEXFontsDataFactory.fonts
     }
     
-    public func fontForIdentifier(identifier: Int) -> String {
+    public func fontForIdentifier(identifier: FontIdentifiers, size: CGFloat) -> UIFont {
         if let fontName = fontsDictionary[getIdentifier(identifier)] as? String {
-            return fontName
+            return UIFont(name: fontName, size: size)!
         }
         //Assert to crash on development, and return Zapfino font
         assert(false, "Could not find the required font in fonts.json")
-        return OEXFontsDataFactory.fonts["irregular"]!
+        return UIFont(name:OEXFontsDataFactory.fonts["irregular"]!, size: size)!
     }
     
-    private func getIdentifier(identifier: Int) -> String {
+    private func getIdentifier(identifier: FontIdentifiers) -> String {
         switch identifier {
-        case FontIdentifiers.Regular.rawValue:
+        case .Regular:
             return "regular"
-        case FontIdentifiers.SemiBold.rawValue:
+        case .SemiBold:
             return "semiBold"
-        case FontIdentifiers.Bold.rawValue:
+        case .Bold:
             return "bold"
-        case FontIdentifiers.Light.rawValue:
+        case .Light:
             return "light"
-        default:
-            return "regular"
         }
     }
 }
