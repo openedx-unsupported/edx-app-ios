@@ -14,7 +14,7 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate, InterfaceOrientationOverriding {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, OEXStylesProvider>
     
     public enum Context {
         case Thread(DiscussionThread)
@@ -157,11 +157,11 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         setupContext()
         
         contentTextView.textContainer.lineFragmentPadding = 0
-        contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
-        contentTextView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
-        contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralBase()
-        contentTextView.textColor = OEXStyles.sharedStyles().neutralDark()
-        contentTextView.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
+        contentTextView.textContainerInset = environment.styles.standardTextViewInsets
+        contentTextView.typingAttributes = environment.styles.textAreaBodyStyle.attributes
+        contentTextView.placeholderTextColor = environment.styles.neutralBase()
+        contentTextView.textColor = environment.styles.neutralDark()
+        contentTextView.applyBorderStyle(environment.styles.entryFieldBorderStyle)
         contentTextView.delegate = self
         
         let tapGesture = UITapGestureRecognizer()
@@ -258,7 +258,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         responseTextView.attributedText = responseTextViewStyle.markdownStringWithText(context.renderedBody ?? "")
         
-        addCommentButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: buttonTitle)
+        addCommentButton.applyButtonStyle(environment.styles.filledPrimaryButtonStyle, withTitle: buttonTitle)
         self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([responseTextViewStyle.attributedStringWithText(titleText), responseTextViewStyle.attributedStringWithText(Strings.asteric)])
         self.navigationItem.title = navigationItemTitle
             

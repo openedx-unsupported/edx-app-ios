@@ -97,5 +97,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@protocol OEXStylesProvider <NSObject>
+
+@property (readonly, nonatomic) OEXStyles* styles;
+
+@end
+
 
 NS_ASSUME_NONNULL_END
