@@ -37,9 +37,9 @@
 }
 
 - (void)resetLabels {
-    self.lbl_Title.text = @"";
-    self.lbl_Time.text = @"";
-    self.lbl_Size.text = @"";
+    self.lbl_Title.text = nil;
+    self.lbl_Time.text = nil;
+    self.lbl_Size.text = nil;
 }
 
 - (NSString *)accessibilityLabel {

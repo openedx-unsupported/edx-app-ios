@@ -169,7 +169,7 @@
         cell.lbl_title.text = videoName;
 
         if(downloadingVideo.summary.duration < 0.01) {
-            cell.lbl_time.text = @"";
+            cell.lbl_time.text = nil;
         }
         else {
             cell.lbl_time.text = [OEXDateFormatting formatSecondsAsVideoLength: downloadingVideo.summary.duration];

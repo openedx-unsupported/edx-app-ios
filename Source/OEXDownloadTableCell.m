@@ -31,9 +31,9 @@
 }
 
 - (void)resetLabels {
-    self.lbl_title.text = @"";
-    self.lbl_time.text = @"";
-    self.lbl_totalSize.text = @"";
+    self.lbl_title.text = nil;
+    self.lbl_time.text = nil;
+    self.lbl_totalSize.text = nil;
 }
 
 - (void)tintCancelButton {
