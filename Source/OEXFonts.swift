@@ -13,7 +13,7 @@ public class OEXFonts: NSObject {
     //MARK: - Shared Instance
     public static let sharedInstance = OEXFonts()
     @objc public enum FontIdentifiers: Int {
-        case Regular = 1, SemiBold, Bold, Light
+        case Regular = 1, Italic, SemiBold, SemiBoldItalic, Bold, BoldItalic, Light, LightItalic, ExtraBold, ExtraBoldItalic, Irregular
     }
     
     public var fontsDictionary = [String: AnyObject]()
@@ -33,16 +33,11 @@ public class OEXFonts: NSObject {
             if let json = JSON(data: data, error: &error).dictionaryObject{
                 return json
             }
-            return fallbackFonts()
         }
         return fallbackFonts()
     }
     
     public func fallbackFonts() -> [String: AnyObject] {
-        return getFallbackFonts
-    }
-    
-    private var getFallbackFonts: [String: AnyObject] {
         return OEXFontsDataFactory.fonts
     }
     
@@ -52,19 +47,33 @@ public class OEXFonts: NSObject {
         }
         //Assert to crash on development, and return Zapfino font
         assert(false, "Could not find the required font in fonts.json")
-        return UIFont(name:OEXFontsDataFactory.fonts["irregular"]!, size: size)!
+        return UIFont(name:getIdentifier(FontIdentifiers.Irregular), size: size)!
     }
     
     private func getIdentifier(identifier: FontIdentifiers) -> String {
         switch identifier {
         case .Regular:
             return "regular"
+        case .Italic:
+            return "italic"
         case .SemiBold:
             return "semiBold"
+        case .SemiBoldItalic:
+            return "semiBoldItalic"
         case .Bold:
             return "bold"
+        case .BoldItalic:
+            return "boldItalic"
         case .Light:
             return "light"
+        case .LightItalic:
+            return "lightItalic"
+        case .ExtraBold:
+            return "extraBold"
+        case .ExtraBoldItalic:
+            return "extraBoldItalic"
+        case .Irregular:
+            return "Zapfino"
         }
     }
 }

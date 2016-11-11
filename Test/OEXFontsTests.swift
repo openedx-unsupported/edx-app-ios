@@ -23,13 +23,12 @@ class OEXFontsTests: XCTestCase {
     }
     
     func testFontDataFactory() {
-        let filePath : String? = NSBundle.mainBundle().pathForResource("incorrectfonts", ofType: "json")
         oexFonts.fallbackFonts()
-        XCTAssertNil(filePath)
         XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12))
+        XCTAssertNotEqual(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Irregular, size: 12), oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12))
     }
     
-    func testColorParsing() {
+    func testFontParsing() {
         XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12))
         XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.SemiBold, size: 12))
         XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Bold, size: 12))
