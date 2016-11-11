@@ -26,8 +26,6 @@
 #import "SWRevealViewController.h"
 #import "OEXCustomButton.h"
 
-#define RECENT_DOWNLOADEDVIEW_HEIGHT 76
-
 @interface OEXDownloadViewController ()
 
 @property(strong, nonatomic) NSMutableArray* arr_downloadingVideo;
@@ -43,7 +41,11 @@
     [[OEXRouter sharedRouter] showMyVideos];
 }
 
-#pragma mark - REACHABILITY
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+#pragma mark - View life cycle
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -58,7 +60,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self downloadCompleteNotification:nil];
 }
 
 - (void)viewDidLoad {
@@ -75,22 +76,18 @@
     }
 #endif
 
-    //Initialize Downloading arr
+    // Initialize Downloading arr
     self.arr_downloadingVideo = [[NSMutableArray alloc] init];
 
     _edxInterface = [OEXInterface sharedInterface];
 
     [self reloadDownloadingVideos];
 
-    // set the custom navigation view properties
+    // Set the custom navigation view properties
     self.title = [Strings downloads];
 
-    //Listen to notification
+    // Listen to notification
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressNotification:) name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(downloadCompleteNotification:)
-                                                 name:OEXDownloadEndedNotification object:nil];
     
     [self.btn_View setClipsToBounds:true];
     self.percentFormatter = [[NSNumberFormatter alloc] init];
@@ -98,41 +95,13 @@
     
 }
 
-- (void)reloadDownloadingVideos {
-    [self.arr_downloadingVideo removeAllObjects];
-
-    NSArray* array = [_edxInterface coursesAndVideosForDownloadState:OEXDownloadStatePartial];
-
-    NSMutableDictionary* duplicationAvoidingDict = [[NSMutableDictionary alloc] init];
-
-    for(NSDictionary* dict in array) {
-        NSArray* array = [dict objectForKey:CAV_KEY_VIDEOS];
-
-        for(OEXHelperVideoDownload* video in array) {
-            if(video.downloadProgress < OEXMaxDownloadProgress) {
-                [self.arr_downloadingVideo addObject:video];
-                if (video != nil && video.summary != nil) {
-                    NSString* key = video.summary.videoURL;
-                    if (key) {
-                        duplicationAvoidingDict[key] = @"object";
-                    }
-                }
-            }
-        }
-    }
-
-    [self.table_Downloads reloadData];
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
     return [self.arr_downloadingVideo count];
 }
 
@@ -148,6 +117,8 @@
 
     return cell;
 }
+
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -193,29 +164,19 @@
     [cell.progressView setProgress:progress];
 }
 
+#pragma mark - Update progress for visible rows
+
 - (void)downloadProgressNotification:(NSNotification*)notification {
     NSDictionary* progress = (NSDictionary*)notification.userInfo;
     NSURLSessionTask* task = [progress objectForKey:DOWNLOAD_PROGRESS_NOTIFICATION_TASK];
     NSString* url = [task.originalRequest.URL absoluteString];
     for(OEXHelperVideoDownload* video in _arr_downloadingVideo) {
         if([video.summary.videoURL isEqualToString:url]) {
-//            //NSLog(@"progress for video  %@   id  %@ download  %f", video.name , video.str_VideoTitle , video.DownloadProgress);
             [self updateProgressForVisibleRows];
             break;
         }
     }
 }
-
-- (void)downloadCompleteNotification:(NSNotification*)notification {
-//    [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-//
-////        self.edxInterface.numberOfRecentDownloads++;
-//
-//    } completion:^(BOOL finished) {
-//            }];
-}
-
-/// Update progress for visible rows
 
 - (NSString*)downloadStatusAccessibilityLabelForVideoName:(NSString*)video percentComplete:(double)percentage {
     NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
@@ -249,6 +210,32 @@
     }
 }
 
+- (void)reloadDownloadingVideos {
+    [self.arr_downloadingVideo removeAllObjects];
+    
+    NSArray* array = [_edxInterface coursesAndVideosForDownloadState:OEXDownloadStatePartial];
+    
+    NSMutableDictionary* duplicationAvoidingDict = [[NSMutableDictionary alloc] init];
+    
+    for(NSDictionary* dict in array) {
+        NSArray* array = [dict objectForKey:CAV_KEY_VIDEOS];
+        
+        for(OEXHelperVideoDownload* video in array) {
+            if(video.downloadProgress < OEXMaxDownloadProgress) {
+                [self.arr_downloadingVideo addObject:video];
+                if (video != nil && video.summary != nil) {
+                    NSString* key = video.summary.videoURL;
+                    if (key) {
+                        duplicationAvoidingDict[key] = @"object";
+                    }
+                }
+            }
+        }
+    }
+    
+    [self.table_Downloads reloadData];
+}
+
 - (IBAction)btnCancelPressed:(UIButton*)button {
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:button.tag inSection:0];
 
@@ -268,10 +255,6 @@
                 });
         }];
     }
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 @end
