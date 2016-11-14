@@ -74,6 +74,8 @@
 "ACCESSIBILITY_CLOSE_MENU" = "Close Navigation Menu";
 /* Accessibility label for hiding keyboard*/
 "ACCESSIBILITY_HIDE_KEYBOARD" = "Hide Keyboard";
+/* Accessibility Hint to view user profile*/
+"ACCESSIBILITY_SHOW_USER_PROFILE_HINT" = "Double tap to view user profile";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */

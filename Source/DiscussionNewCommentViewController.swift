@@ -212,12 +212,25 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         switch context {
         case let .Comment(commnet):
             DiscussionHelper.styleAuthorDetails(commnet.author, authorLabel: commnet.authorLabel, createdAt: commnet.createdAt, hasProfileImage: commnet.hasProfileImage, imageURL: commnet.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
+            setAuthorAccessibility(commnet.author, date: commnet.createdAt)
         case let .Thread(thread):
             DiscussionHelper.styleAuthorDetails(thread.author, authorLabel: thread.authorLabel, createdAt: thread.createdAt, hasProfileImage: thread.hasProfileImage, imageURL: thread.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
+            setAuthorAccessibility(thread.author, date: thread.createdAt)
         }
     }
     
+    private func setAuthorAccessibility(author: String?, date: NSDate?) {
+        if let author = author, date = date {
+            authorButton.accessibilityLabel = "\(Strings.byAuthor(authorName: author)), \(date.displayDate)"
+            authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
+        }
+        
+        dateLabel.isAccessibilityElement = false
+        authorNamelabel.isAccessibilityElement = false
+    }
+    
     public func textViewDidChange(textView: UITextView) {
+        
         self.validateAddButton()
         self.growingTextController.handleTextChange()
     }
