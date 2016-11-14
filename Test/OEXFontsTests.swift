@@ -22,12 +22,16 @@ class OEXFontsTests: XCTestCase {
         XCTAssertTrue(NSFileManager.defaultManager().fileExistsAtPath(filePath ?? ""))
     }
     
+    func testFontDataFactory() {
+        oexFonts.fallbackFonts()
+        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12))
+    }
+    
     func testFontParsing() {
         XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12))
         XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.SemiBold, size: 12))
         XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Bold, size: 12))
         XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Light, size: 12))
-        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Irregular, size: 12))
         XCTAssertNotEqual(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12), oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.SemiBold, size: 12))
     }
     
