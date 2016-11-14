@@ -45,8 +45,6 @@ public class OEXFonts: NSObject {
         if let fontName = fontsDictionary[getIdentifier(identifier)] as? String {
             return UIFont(name: fontName, size: size)!
         }
-        //Assert to crash on development, and return Zapfino font
-        assert(false, "Could not find the required font in fonts.json")
         return UIFont(name:getIdentifier(FontIdentifiers.Irregular), size: size)!
     }
     
@@ -73,6 +71,8 @@ public class OEXFonts: NSObject {
         case .ExtraBoldItalic:
             return "extraBoldItalic"
         case .Irregular:
+            //Assert to crash on development, and return Zapfino font
+            assert(false, "Could not find the required font in fonts.json")
             return "Zapfino"
         }
     }
