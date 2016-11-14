@@ -26,7 +26,7 @@ private class StatusMessageView : UIView {
         addSubview(messageLabel)
         
         self.backgroundColor = OEXStyles.sharedStyles().neutralDark().colorWithAlphaComponent(0.75)
-        messageLabel.attributedText = OEXStatusMessageViewController.statusMessageStyle().attributedStringWithText(message)
+        messageLabel.attributedText = statusMessageStyle.attributedStringWithText(message)
         messageLabel.snp_makeConstraints { make in
             make.top.equalTo(self).offset(margin)
             make.leading.equalTo(self).offset(margin)
@@ -37,6 +37,14 @@ private class StatusMessageView : UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private var statusMessageStyle: OEXMutableTextStyle {
+        let style = OEXMutableTextStyle(weight: .Normal, size: .Base, color: UIColor.whiteColor())
+        style.alignment = .Center;
+        style.lineBreakMode = NSLineBreakMode.ByWordWrapping;
+        return style;
+        
     }
 }
 
