@@ -71,6 +71,8 @@ public class OEXFonts: NSObject {
         case .ExtraBoldItalic:
             return "extraBoldItalic"
         case .Irregular:
+            fallthrough
+        default:
             //Assert to crash on development, and return Zapfino font
             assert(false, "Could not find the required font in fonts.json")
             return "Zapfino"
