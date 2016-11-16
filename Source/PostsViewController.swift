@@ -189,6 +189,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         updateHeaderViewVisibility()
         
         loadContent()
+        
+        setAccessibility()
+    }
+    
+    private func setAccessibility() {
+        if let searchBar = searchBar {
+            view.accessibilityElements = [searchBar, tableView]
+        }
+        else {
+            
+            view.accessibilityElements = [refineLabel, filterButton, sortButton, tableView, newPostButton]
+        }
+        
+        filterButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
+        sortButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
     }
     
     private func configureSearchBar() {
