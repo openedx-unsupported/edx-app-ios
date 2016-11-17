@@ -10,7 +10,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "DFBE7554-6847-4918-9C33-E5B8C2B38AFB",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "7AA8002DAD63F471CB785A4C7963DE94C23A4DD9" : "edx-app-ios",
+    "7AA8002DAD63F471CB785A4C7963DE94C23A4DD9" : "edx-app-ios\/",
     "3AF18F9C6F5D633BAA0B3F935459E0C777C82047" : "edx-app-iosLibraries\/SnapKit",
     "C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3" : "edx-app-iosLibraries\/SwiftyJSON"
   },

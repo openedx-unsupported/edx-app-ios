@@ -633,6 +633,10 @@
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
 		B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
+		BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */; };
+		BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */; };
+		BD7C6C401DCA329A0004D135 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = BD7C6C3F1DCA329A0004D135 /* fonts.json */; };
+		BD7C6C421DCA33540004D135 /* OEXFontsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C6C411DCA33540004D135 /* OEXFontsDataFactory.swift */; };
 		BD837BB81DC8D5D400341EFD /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = BD837BB61DC8D5D400341EFD /* Icon-76.png */; };
 		BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD837BB71DC8D5D400341EFD /* Icon-76@2x.png */; };
 		BD837BBB1DC8D5DF00341EFD /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = BD837BBA1DC8D5DF00341EFD /* Icon-40.png */; };
@@ -1517,6 +1521,10 @@
 		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
 		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
 		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
+		BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsTests.swift; sourceTree = "<group>"; };
+		BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFonts.swift; sourceTree = "<group>"; };
+		BD7C6C3F1DCA329A0004D135 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
+		BD7C6C411DCA33540004D135 /* OEXFontsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsDataFactory.swift; sourceTree = "<group>"; };
 		BD837BB61DC8D5D400341EFD /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
 		BD837BB71DC8D5D400341EFD /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
 		BD837BBA1DC8D5DF00341EFD /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
@@ -1721,6 +1729,7 @@
 			isa = PBXGroup;
 			children = (
 				6919F5FE1D65CD27006935C8 /* OEXColors.swift */,
+				BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */,
 				77C901A61BBDDD630016E468 /* TableCellStyle.swift */,
 				770848BB1B209EF4002FEEEE /* BorderStyle.swift */,
 				775EB3AD1B1FF1AD009526A8 /* ButtonStyle.swift */,
@@ -1948,6 +1957,7 @@
 		69ECC5A21D50D1170030CF87 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				BD7C6C3F1DCA329A0004D135 /* fonts.json */,
 				69ECC5A31D50D1170030CF87 /* FontAwesome.otf */,
 				69ECC5A41D50D1170030CF87 /* OpenSans-Bold.ttf */,
 				69ECC5A51D50D1170030CF87 /* OpenSans-BoldItalic.ttf */,
@@ -2953,6 +2963,7 @@
 				9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */,
 				775E5A801BE1C88A0046B26B /* LiveObjectCache.swift */,
 				697652251D9BA7C80031FF8B /* OEXColorsDataFactory.swift */,
+				BD7C6C411DCA33540004D135 /* OEXFontsDataFactory.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -3146,6 +3157,7 @@
 				7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */,
 				771273311BA9DF8F008BA397 /* OEXTextStyleTests.swift */,
 				6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */,
+				BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */,
 				77E00B721B83997E00573622 /* DiscussionNewCommentViewControllerTests.swift */,
 				773181431B7066E5000CC050 /* DiscussionNewPostViewControllerTests.swift */,
 				7731813C1B6C237F000CC050 /* DiscussionTopicTests.swift */,
@@ -3635,6 +3647,7 @@
 				9ED269CC1AF0E67200328A34 /* OEXMyVideosViewController.storyboard in Resources */,
 				69ECC6471D50D1170030CF87 /* separator3.png in Resources */,
 				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
+				BD7C6C401DCA329A0004D135 /* fonts.json in Resources */,
 				69ECC6021D50D1170030CF87 /* OpenSans-Italic.ttf in Resources */,
 				69ECC6481D50D1170030CF87 /* separator5.png in Resources */,
 				69ECC6141D50D1170030CF87 /* bt_blue2.png in Resources */,
@@ -3983,6 +3996,7 @@
 				773B1D441B1F77D400B861DF /* ViewController+SnapKit.swift in Sources */,
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */,
+				BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */,
 				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
@@ -4243,6 +4257,7 @@
 				7793764F1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift in Sources */,
 				77E648591C91235A00B6740D /* OEXConfig+AppFeatures.swift in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,
+				BD7C6C421DCA33540004D135 /* OEXFontsDataFactory.swift in Sources */,
 				771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */,
 				77E6487F1C9133C600B6740D /* SessionUsernameProvider.swift in Sources */,
 				E03E6A171D38EB9000944AAA /* SnackbarViews.swift in Sources */,
@@ -4367,6 +4382,7 @@
 				77F76A701B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift in Sources */,
 				7702A3731BF54D9E00D2A63F /* OEXMySettingsViewControllerTests.swift in Sources */,
 				773CC0271BEBCB0100DDC127 /* CourseCardViewModelTests.swift in Sources */,
+				BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */,
 				773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */,
 				77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
 				77C182A81CD299AE00AE1474 /* PaginationInfoTests.swift in Sources */,
