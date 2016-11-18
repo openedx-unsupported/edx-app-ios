@@ -21,6 +21,11 @@ class OEXColorsTests: XCTestCase {
         XCTAssertTrue(NSFileManager.defaultManager().fileExistsAtPath(filePath ?? ""))
     }
     
+    func testColorDataFactory() {
+        oexColors.fallbackColors()
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor))
+    }
+    
     func testColorParsing() {
         XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor))
         XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryLightColor))

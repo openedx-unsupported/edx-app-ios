@@ -20,7 +20,7 @@ public class OEXColors: NSObject {
         UtilitySuccessDark, UtilitySuccessBase, UtilitySuccessLight,
         WarningDark, WarningBase, WarningLight,
         ErrorDark, ErrorBase, ErrorLight,
-        Banner
+        Banner, Random
     }
     
     public var colorsDictionary = [String: AnyObject]()
@@ -32,7 +32,7 @@ public class OEXColors: NSObject {
     
     private func initializeColorsDictionary() -> [String: AnyObject] {
         guard let filePath = NSBundle.mainBundle().pathForResource("colors", ofType: "json") else {
-            return fallbackColors
+            return fallbackColors()
         }
         if let data = NSData(contentsOfFile: filePath) {
             var error : NSError?
@@ -40,12 +40,12 @@ public class OEXColors: NSObject {
             if let json = JSON(data: data, error: &error).dictionaryObject{
                 return json
             }
-            return fallbackColors
+            return fallbackColors()
         }
-        return fallbackColors
+        return fallbackColors()
     }
     
-    private var fallbackColors: [String: AnyObject] {
+    public func fallbackColors() -> [String: AnyObject] {
         return OEXColorsDataFactory.colors
     }
     
@@ -58,9 +58,8 @@ public class OEXColors: NSObject {
             let color = UIColor(hexString: hexValue, alpha: alpha)
             return color
         }
-        //Assert to crash on development, and return a random color for distribution
-        assert(false, "Could not find the required color in colors.json")
-        return UIColor(hexString: "#FABA12", alpha: 1.0)
+
+        return UIColor(hexString: getIdentifier(ColorsIdentifiers.Random), alpha: 1.0)
     }
     
     private func getIdentifier(identifier: ColorsIdentifiers) -> String {
@@ -125,6 +124,13 @@ public class OEXColors: NSObject {
             return "errorLight"
         case .Banner:
             return "banner"
+        case .Random:
+            fallthrough
+        default:
+            //Assert to crash on development, and return a random color for distribution
+            assert(false, "Could not find the required color in colors.json")
+            return "#FABA12"
+            
         }
     }
 }
