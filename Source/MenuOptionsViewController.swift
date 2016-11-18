@@ -128,6 +128,14 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         cell.depth = option.depth
         cell.optionLabel.attributedText = style.attributedStringWithText(option.label)
         cell.applyStandardSeparatorInsets()
+        
+        if delegate?.menuOptionsController(self, canSelectOptionAtIndex:indexPath.row) ?? false {
+            cell.accessibilityHint = Strings.accessibilitySelectValueHint
+        }
+        else {
+            cell.accessibilityHint = nil
+        }
+        
         return cell
     }
     

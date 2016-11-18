@@ -150,6 +150,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         setTopicsButtonTitle()
         let insets = OEXStyles.sharedStyles().standardTextViewInsets
         topicButton.titleEdgeInsets = UIEdgeInsetsMake(0, insets.left, 0, insets.right)
+        topicButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
         
         topicButton.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
         topicButton.localizedHorizontalContentAlignment = .Leading
@@ -342,11 +343,12 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         if let topic = selectedTopic where topic.id != nil {
             setTopicsButtonTitle()
+            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, titleTextField);
             UIView.animateWithDuration(0.3, animations: {
                 self.optionsViewController?.view.alpha = 0.0
-                }, completion: {(finished: Bool) in
-                    self.optionsViewController?.view.removeFromSuperview()
-                    self.optionsViewController = nil
+                }, completion: {[weak self](finished: Bool) in
+                    self?.optionsViewController?.view.removeFromSuperview()
+                    self?.optionsViewController = nil
             })
         }
     }

@@ -64,6 +64,8 @@
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Double tap to view course content.";
 /* Call to action for Opening Dropdown */
 "ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Double tap to open dropdown.";
+/* Call to action for Selecting Option */
+"ACCESSIBILITY_SELECT_VALUE_HINT" = "Double tap to select.";
 /* Accessibility label for Unknown Icon in the Courseware screens */
 "ACCESSIBILITY_UNKNOWN" = "Unknown";
 /* Accessibility label for Video Icon in the Courseware screens */
