@@ -212,12 +212,25 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         switch context {
         case let .Comment(commnet):
             DiscussionHelper.styleAuthorDetails(commnet.author, authorLabel: commnet.authorLabel, createdAt: commnet.createdAt, hasProfileImage: commnet.hasProfileImage, imageURL: commnet.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
+            setAuthorAccessibility(commnet.author, date: commnet.createdAt)
         case let .Thread(thread):
             DiscussionHelper.styleAuthorDetails(thread.author, authorLabel: thread.authorLabel, createdAt: thread.createdAt, hasProfileImage: thread.hasProfileImage, imageURL: thread.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
+            setAuthorAccessibility(thread.author, date: thread.createdAt)
         }
     }
     
+    private func setAuthorAccessibility(author: String?, date: NSDate?) {
+        if let author = author, date = date {
+            authorButton.accessibilityLabel = "\(Strings.byAuthor(authorName: author)), \(date.displayDate)"
+            authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
+        }
+        
+        dateLabel.isAccessibilityElement = false
+        authorNamelabel.isAccessibilityElement = false
+    }
+    
     public func textViewDidChange(textView: UITextView) {
+        
         self.validateAddButton()
         self.growingTextController.handleTextChange()
     }
@@ -244,11 +257,13 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             titleText = Strings.addAResponse
             navigationItemTitle = Strings.addResponse
             responseTitle.attributedText = responseTitleStyle.attributedStringWithText(thread.title)
+            contentTextView.accessibilityLabel = Strings.addAResponse
             self.isEndorsed = false
         case let .Comment(comment):
             buttonTitle = Strings.addComment
             titleText = Strings.addAComment
             navigationItemTitle = Strings.addComment
+            contentTextView.accessibilityLabel = Strings.addAComment
             responseTitle.snp_makeConstraints{ (make) -> Void in
                 make.height.equalTo(0)
             }
@@ -260,6 +275,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         addCommentButton.applyButtonStyle(environment.styles.filledPrimaryButtonStyle, withTitle: buttonTitle)
         self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([responseTextViewStyle.attributedStringWithText(titleText), responseTextViewStyle.attributedStringWithText(Strings.asteric)])
+        self.contentTitleLabel.isAccessibilityElement = false
         self.navigationItem.title = navigationItemTitle
             
         if case .Comment(_) = self.context, let thread = thread{
