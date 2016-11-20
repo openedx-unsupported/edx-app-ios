@@ -1,6 +1,8 @@
 language: objective-c  
 
 osx_image: xcode8
+before_script:
+        - rvm get head || true # https://github.com/travis-ci/travis-ci/issues/6307
 
 env:
     matrix:
@@ -11,7 +13,8 @@ env:
 
 script:
     - instruments -s devices | grep "iPhone 5s (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a "simulator" --args -CurrentDeviceUDID
-    - set -o pipefail && ./gradlew -q $TEST_TASK | xcpretty -c
+    - set -o pipefail
+    - travis_retry ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)

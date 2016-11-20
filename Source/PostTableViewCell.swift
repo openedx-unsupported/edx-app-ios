@@ -35,7 +35,7 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private var infoTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -90,7 +90,7 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private var inactiveCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralDark())
     }
     
     private var typeText : NSAttributedString? {

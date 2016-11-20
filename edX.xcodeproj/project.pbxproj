@@ -72,7 +72,6 @@
 		1A8172511C3C1F2E007262AA /* OEXConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8172501C3C1F2E007262AA /* OEXConfig.swift */; };
 		1A8172531C3C21DE007262AA /* TwitterConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8172521C3C21DE007262AA /* TwitterConfig.swift */; };
 		1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A81971A1C060FA50030254D /* ShareHelper.swift */; };
-		1A8936DB1BD1A1FD00F165FA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */; };
 		1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */; };
 		1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */; };
 		1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */; };
@@ -634,6 +633,9 @@
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
 		B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
+		BD837BB81DC8D5D400341EFD /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = BD837BB61DC8D5D400341EFD /* Icon-76.png */; };
+		BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD837BB71DC8D5D400341EFD /* Icon-76@2x.png */; };
+		BD837BBB1DC8D5DF00341EFD /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = BD837BBA1DC8D5DF00341EFD /* Icon-40.png */; };
 		BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */; };
 		BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0D4550192DE65200D720D6 /* OEXInterface.m */; };
 		BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0EE286192B78C400F9FF98 /* CoreTelephony.framework */; };
@@ -840,7 +842,6 @@
 		1A8172501C3C1F2E007262AA /* OEXConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXConfig.swift; sourceTree = "<group>"; };
 		1A8172521C3C21DE007262AA /* TwitterConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterConfig.swift; sourceTree = "<group>"; };
 		1A81971A1C060FA50030254D /* ShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareHelper.swift; sourceTree = "<group>"; };
-		1A8936DC1BD1A1FD00F165FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		1A9A1E471B8F3BB8005AE336 /* OEXCheckBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXCheckBox.swift; sourceTree = "<group>"; };
 		1AA79AB91BAC7F710011D381 /* ProfileAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAPI.swift; sourceTree = "<group>"; };
@@ -1516,6 +1517,9 @@
 		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
 		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
 		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
+		BD837BB61DC8D5D400341EFD /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
+		BD837BB71DC8D5D400341EFD /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
+		BD837BBA1DC8D5DF00341EFD /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
 		BE0D4547192DD16300D720D6 /* OEXNetworkConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXNetworkConstants.h; sourceTree = "<group>"; };
 		BE0D4548192DD4F800D720D6 /* OEXNetworkInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNetworkInterface.h; sourceTree = "<group>"; };
 		BE0D4549192DD4F800D720D6 /* OEXNetworkInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNetworkInterface.m; sourceTree = "<group>"; };
@@ -1965,10 +1969,13 @@
 				69ECC5AF1D50D1170030CF87 /* Icon-29.png */,
 				69ECC5B01D50D1170030CF87 /* Icon-29@2x.png */,
 				69ECC5B11D50D1170030CF87 /* Icon-29@3x.png */,
+				BD837BBA1DC8D5DF00341EFD /* Icon-40.png */,
 				69ECC5B21D50D1170030CF87 /* Icon-40@2x.png */,
 				69ECC5B31D50D1170030CF87 /* Icon-40@3x.png */,
 				69ECC5B41D50D1170030CF87 /* Icon-60@2x.png */,
 				69ECC5B51D50D1170030CF87 /* Icon-60@3x.png */,
+				BD837BB61DC8D5D400341EFD /* Icon-76.png */,
+				BD837BB71DC8D5D400341EFD /* Icon-76@2x.png */,
 			);
 			path = Icons;
 			sourceTree = "<group>";
@@ -3102,7 +3109,6 @@
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
 				B47780581AADA95400436DB4 /* Terms-and-Services.htm */,
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
-				1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */,
 				BECB7B1A1924C0C3009C77F1 /* main.m */,
 				BECB7B1C1924C0C3009C77F1 /* edX-Prefix.pch */,
 			);
@@ -3628,7 +3634,6 @@
 				69ECC61C1D50D1170030CF87 /* bt_logout_deactive.png in Resources */,
 				9ED269CC1AF0E67200328A34 /* OEXMyVideosViewController.storyboard in Resources */,
 				69ECC6471D50D1170030CF87 /* separator3.png in Resources */,
-				1A8936DB1BD1A1FD00F165FA /* InfoPlist.strings in Resources */,
 				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
 				69ECC6021D50D1170030CF87 /* OpenSans-Italic.ttf in Resources */,
 				69ECC6481D50D1170030CF87 /* separator5.png in Resources */,
@@ -3641,6 +3646,7 @@
 				1905BFF11A31B037001917FA /* COURSE_NOT_LISTED.htm in Resources */,
 				69ECC6291D50D1170030CF87 /* check@2x.png in Resources */,
 				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
+				BD837BB81DC8D5D400341EFD /* Icon-76.png in Resources */,
 				69ECC63E1D50D1170030CF87 /* icon_google_white.png in Resources */,
 				69ECC63D1D50D1170030CF87 /* icon_facebook_white@2x.png in Resources */,
 				69ECC6361D50D1170030CF87 /* ic_partiallywatched@2x.png in Resources */,
@@ -3678,6 +3684,8 @@
 				69ECC6351D50D1170030CF87 /* ic_next_default.png in Resources */,
 				69ECC6311D50D1170030CF87 /* ic_download.png in Resources */,
 				69ECC6001D50D1170030CF87 /* OpenSans-ExtraBold.ttf in Resources */,
+				BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */,
+				BD837BBB1DC8D5DF00341EFD /* Icon-40.png in Resources */,
 				69ECC60B1D50D1170030CF87 /* Icon-40@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4455,14 +4463,6 @@
 				1A55019D1BBA30C900D5F9DD /* en */,
 			);
 			name = profiles.json;
-			sourceTree = "<group>";
-		};
-		1A8936DD1BD1A1FD00F165FA /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1A8936DC1BD1A1FD00F165FA /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		1AFEB1BB1BBD88F3004C471D /* languages.json */ = {

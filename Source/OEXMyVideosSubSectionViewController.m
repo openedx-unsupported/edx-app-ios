@@ -156,6 +156,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     
     //Set Navigation Buttons
     self.selectAllButton = [[OEXCheckBox alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [self.selectAllButton addTarget:self action:@selector(selectAllChanged:) forControlEvents:UIControlEventTouchUpInside];
     self.progressController = [[ProgressController alloc] initWithOwner:self router:self.environment.router dataInterface:self.environment.interface];
     self.navigationItem.rightBarButtonItem = [self.progressController navigationItem];
     [self.progressController hideProgessView];

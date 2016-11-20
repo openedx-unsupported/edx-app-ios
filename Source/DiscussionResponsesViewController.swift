@@ -108,7 +108,6 @@ class DiscussionResponseCell: UITableViewCell {
         endorsedByButton.localizedHorizontalContentAlignment = .Leading
 
         containerView.applyBorderStyle(BorderStyle())
-        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
     
     var endorsed : Bool = false {
@@ -233,7 +232,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         tableView.estimatedRowHeight = 160.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        loadController?.setupInController(self, contentView: self.contentView)
+        loadController?.setupInController(self, contentView: contentView)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
         markThreadAsRead()
@@ -526,6 +525,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
         
         DiscussionHelper.styleAuthorDetails(response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: cell.authorNameLabel, dateLabel: cell.dateLabel, authorButton: cell.authorButton, imageView: cell.authorProfileImage, viewController: self, router: environment.router)
+        
+        DiscussionHelper.styleAuthorProfileImageView(cell.authorProfileImage)
         
         let profilesEnabled = self.environment.config.profilesEnabled
         

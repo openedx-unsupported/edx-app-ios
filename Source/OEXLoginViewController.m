@@ -173,7 +173,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setTitle:[Strings loginSignInToPlatformWithPlatformName:self.environment.config.platformName]];
+    [self setTitle:[Strings signInText]];
 
     NSMutableArray* providers = [[NSMutableArray alloc] init];
     if([self isGoogleEnabled]) {
@@ -283,12 +283,12 @@
 }
 
 - (NSString*)signInButtonText {
-    return [Strings signInButtonText];
+    return [Strings signInText];
 }
 
 - (void)handleActivationDuringLogin {
     if(self.authProvider != nil) {
-        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+        [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
         [self.activityIndicator stopAnimating];
         [self.view setUserInteractionEnabled:YES];
 
@@ -335,7 +335,7 @@
     self.btn_OpenEULA.accessibilityTraits = UIAccessibilityTraitLink;
     self.btn_OpenEULA.accessibilityLabel = [NSString stringWithFormat:@"%@,%@",[Strings redirectText], termsText];
     
-    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+    [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
     [self.activityIndicator stopAnimating];
 
     NSString* username = [[NSUserDefaults standardUserDefaults] objectForKey:USER_EMAIL];
@@ -358,7 +358,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.view setUserInteractionEnabled:YES];
         });
-        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+        [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
         [self.activityIndicator stopAnimating];
     }
@@ -446,7 +446,7 @@
 
         [self.view setUserInteractionEnabled:NO];
         [self.activityIndicator startAnimating];
-        [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
+        [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
     }
 }
 
@@ -510,7 +510,7 @@
 
     [self.view setUserInteractionEnabled:NO];
     [self.activityIndicator startAnimating];
-    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale]];
+    [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[[Strings signInButtonTextOnSignIn] oex_uppercaseStringInCurrentLocale]];
 }
 
 - (void)loginHandleLoginError:(NSError*)error {
@@ -555,7 +555,7 @@
     }
 
     [self.activityIndicator stopAnimating];
-    [self.btn_Login applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+    [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
     [self.view setUserInteractionEnabled:YES];
 
@@ -642,7 +642,7 @@
                          showAlertWithTitle:[Strings floatingErrorTitle]
                                     message:responseStr onViewController:self.navigationController];
                     }
-                    else if(httpResp.statusCode > 500) {
+                    else if(httpResp.statusCode >= 500) {
                         NSString* responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                         [[UIAlertController alloc] showAlertWithTitle:[Strings floatingErrorTitle] message:responseStr onViewController:self.navigationController];
                         

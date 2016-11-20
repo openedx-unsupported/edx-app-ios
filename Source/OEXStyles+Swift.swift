@@ -146,7 +146,7 @@ extension UISearchBar {
     func applyStandardStyles(withPlaceholder placeholder : String? = nil) {
         self.placeholder = placeholder
         self.showsCancelButton = false
-        self.searchBarStyle = .Minimal
+        self.searchBarStyle = .Default
         self.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         
     }
