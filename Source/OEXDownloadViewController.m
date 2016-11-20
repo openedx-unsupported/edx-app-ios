@@ -29,7 +29,6 @@
 @interface OEXDownloadViewController ()
 
 @property(strong, nonatomic) NSMutableArray* arr_downloadingVideo;
-@property(strong, nonatomic) OEXInterface* edxInterface;
 @property (strong, nonatomic) IBOutlet UITableView* table_Downloads;
 @property (strong, nonatomic) IBOutlet OEXCustomButton *btn_View;
 @property (strong, nonatomic) NSNumberFormatter* percentFormatter;
@@ -42,7 +41,7 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return [OEXStyles sharedStyles].standardStatusBarStyle;
+    return self.environment.styles.standardStatusBarStyle;
 }
 
 #pragma mark - View life cycle
@@ -67,7 +66,6 @@
     
     // Setup variables
     self.arr_downloadingVideo = [[NSMutableArray alloc] init];
-    _edxInterface = [OEXInterface sharedInterface];
     
     // Update layout
     self.title = [Strings downloads];
@@ -214,7 +212,7 @@
 - (void)reloadDownloadingVideos {
     [self.arr_downloadingVideo removeAllObjects];
     
-    NSArray* array = [_edxInterface coursesAndVideosForDownloadState:OEXDownloadStatePartial];
+    NSArray* array = [self.environment.interface coursesAndVideosForDownloadState:OEXDownloadStatePartial];
     
     NSMutableDictionary* duplicationAvoidingDict = [[NSMutableDictionary alloc] init];
     
@@ -240,7 +238,6 @@
 - (IBAction)btnCancelPressed:(UIButton*)button {
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:button.tag inSection:0];
 
-    OEXInterface* edxInterface = [OEXInterface sharedInterface];
     if(indexPath.row < [self.arr_downloadingVideo count]) {
         OEXHelperVideoDownload* video = [self.arr_downloadingVideo objectAtIndex:indexPath.row];
 
@@ -250,7 +247,7 @@
         [self.table_Downloads endUpdates];
         [self.table_Downloads reloadData];
 
-        [edxInterface cancelDownloadForVideo:video completionHandler:^(BOOL success){
+        [self.environment.interface cancelDownloadForVideo:video completionHandler:^(BOOL success){
             dispatch_async(dispatch_get_main_queue(), ^{
                     video.downloadState = OEXDownloadStateNew;
                 });
