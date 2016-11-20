@@ -16,7 +16,6 @@
 		1905BFF11A31B037001917FA /* COURSE_NOT_LISTED.htm in Resources */ = {isa = PBXBuildFile; fileRef = 1905BFF01A31B037001917FA /* COURSE_NOT_LISTED.htm */; };
 		1905BFF31A31B097001917FA /* NEW_USER.htm in Resources */ = {isa = PBXBuildFile; fileRef = 1905BFF21A31B097001917FA /* NEW_USER.htm */; };
 		190AF7951A4061950029E23E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 190AF7941A4061950029E23E /* Main.storyboard */; };
-		1913DD39194B0B7F00573977 /* OEXCustomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1913DD38194B0B7F00573977 /* OEXCustomNavigationView.m */; };
 		1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1913DD3C194B267000573977 /* OEXDownloadViewController.m */; };
 		1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1913DD4319502E5D00573977 /* OEXVideoSummary.m */; };
 		1918AFAE1948357700F40345 /* OEXLastAccessedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918AFAD1948357700F40345 /* OEXLastAccessedTableViewCell.m */; };
@@ -757,8 +756,6 @@
 		1905BFF01A31B037001917FA /* COURSE_NOT_LISTED.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = COURSE_NOT_LISTED.htm; sourceTree = "<group>"; };
 		1905BFF21A31B097001917FA /* NEW_USER.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = NEW_USER.htm; sourceTree = "<group>"; };
 		190AF7941A4061950029E23E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		1913DD37194B0B7F00573977 /* OEXCustomNavigationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXCustomNavigationView.h; sourceTree = "<group>"; };
-		1913DD38194B0B7F00573977 /* OEXCustomNavigationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCustomNavigationView.m; sourceTree = "<group>"; };
 		1913DD3B194B267000573977 /* OEXDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXDownloadViewController.h; sourceTree = "<group>"; };
 		1913DD3C194B267000573977 /* OEXDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDownloadViewController.m; sourceTree = "<group>"; };
 		1913DD4219502E5D00573977 /* OEXVideoSummary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXVideoSummary.h; sourceTree = "<group>"; };
@@ -2084,8 +2081,6 @@
 				193B50471945A0520038E11C /* OEXCustomLabel.m */,
 				199627811945AB5A0022C489 /* OEXCustomTextField.h */,
 				199627821945AB5A0022C489 /* OEXCustomTextField.m */,
-				1913DD37194B0B7F00573977 /* OEXCustomNavigationView.h */,
-				1913DD38194B0B7F00573977 /* OEXCustomNavigationView.m */,
 				19EA0F5B1965CB3700B684B0 /* OEXCustomEditingView.h */,
 				19EA0F5C1965CB3700B684B0 /* OEXCustomEditingView.m */,
 			);
@@ -3946,7 +3941,6 @@
 				7742F8DD1C3C979D009E555A /* EnrollmentConfig.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
 				1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */,
-				1913DD39194B0B7F00573977 /* OEXCustomNavigationView.m in Sources */,
 				1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
 				1A2CCDAB1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift in Sources */,
