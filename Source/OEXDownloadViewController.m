@@ -54,8 +54,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadEndedNotification object:nil];
+    [self removeObservers];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -64,10 +63,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
     
-    // Do any additional setup after loading the view.
+    // Setup variables
+    self.arr_downloadingVideo = [[NSMutableArray alloc] init];
+    _edxInterface = [OEXInterface sharedInterface];
+    
+    // Update layout
+    self.title = [Strings downloads];
     self.table_Downloads.estimatedRowHeight = 68.0;
     self.table_Downloads.rowHeight = UITableViewAutomaticDimension;
 #ifdef __IPHONE_8_0
@@ -75,24 +78,22 @@
         [self.table_Downloads setLayoutMargins:UIEdgeInsetsZero];
     }
 #endif
-
-    // Initialize Downloading arr
-    self.arr_downloadingVideo = [[NSMutableArray alloc] init];
-
-    _edxInterface = [OEXInterface sharedInterface];
-
-    [self reloadDownloadingVideos];
-
-    // Set the custom navigation view properties
-    self.title = [Strings downloads];
-
-    // Listen to notification
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressNotification:) name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
-    
     [self.btn_View setClipsToBounds:true];
     self.percentFormatter = [[NSNumberFormatter alloc] init];
     self.percentFormatter.numberStyle = NSNumberFormatterPercentStyle;
-    
+    [self reloadDownloadingVideos];
+    [self addObservers];
+}
+
+#pragma mark - Handle Notifications
+
+- (void)addObservers {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadProgressNotification:) name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
+}
+
+- (void)removeObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:DOWNLOAD_PROGRESS_NOTIFICATION object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:OEXDownloadEndedNotification object:nil];
 }
 
 #pragma mark - Table view data source
