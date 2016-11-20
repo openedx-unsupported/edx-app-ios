@@ -143,6 +143,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     [self setTitle:self.course.name];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack)];
 
+    self.dataInterface = self.environment.interface;
+    
     //Init video view and video player
     self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
     [self.videoPlayerInterface enableFullscreenAutorotation];
@@ -154,6 +156,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     
     //Set Navigation Buttons
     self.selectAllButton = [[OEXCheckBox alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [self.selectAllButton addTarget:self action:@selector(selectAllChanged:) forControlEvents:UIControlEventTouchUpInside];
     self.progressController = [[ProgressController alloc] initWithOwner:self router:self.environment.router dataInterface:self.environment.interface];
     self.navigationItem.rightBarButtonItem = [self.progressController navigationItem];
     [self.progressController hideProgessView];

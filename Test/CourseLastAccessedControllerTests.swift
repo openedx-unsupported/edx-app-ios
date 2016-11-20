@@ -71,7 +71,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         let delegate = MockLastAccessedDelegate()
         rootController?.delegate = delegate
         sectionController?.saveLastAccessed()
-        rootController?.loadLastAccessed(forMode: .Full)
+        rootController?.loadLastAccessed()
         let expectation = self.expectationWithDescription("Item Fetched")
         delegate.didFetchAction = { item in
             if item?.moduleName == "Unit 3" {
@@ -89,30 +89,12 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         
         sectionController?.saveLastAccessed()
         let expectation = self.expectationWithDescription("Set Last Accessed to Unit 3")
-        rootController?.loadLastAccessed(forMode: .Full)
+        rootController?.loadLastAccessed()
         delegate.didFetchAction = { item in
             if (item?.moduleName == "Unit 3") {
                 expectation.fulfill()
             }
         }
-        self.waitForExpectations()
-    }
-    
-    
-    func testModeVideo() {
-        let delegate = MockLastAccessedDelegate()
-        rootController?.delegate = delegate
-        
-        let expectation = self.expectationWithDescription("Unit 1 should return nil")
-        
-        self.lastAccessedItem = CourseLastAccessed(moduleId: "unit1", moduleName: "Unit 1")
-        nonVideoSectionController?.saveLastAccessed()
-        delegate.didFetchAction = { item in
-            if (item?.moduleName == nil) {
-                expectation.fulfill()
-            }
-        }
-        rootController?.loadLastAccessed(forMode: .Video)
         self.waitForExpectations()
     }
 }

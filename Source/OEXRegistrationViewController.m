@@ -88,7 +88,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     
     self.navigationController.navigationBarHidden = NO;
     
-    [self setTitle:[Strings registrationSignUpForPlatformWithPlatformName:self.environment.config.platformName]];
+    [self setTitle:[Strings registerText]];
     
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack:)];
     closeButton.accessibilityLabel = [Strings close];
@@ -140,7 +140,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [self createAccount:nil];
     } forEvents:UIControlEventTouchUpInside];
     
-    [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
+    [self.registerButton applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
     self.registerButton.accessibilityIdentifier = @"register";
 
     ////Create progrssIndicator as subview to btnCreateAccount
@@ -538,12 +538,12 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void)showProgress:(BOOL)status {
     if(status) {
         [self.progressIndicator startAnimating];
-        [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreatingAccount]];
+        [self.registerButton applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings registrationCreatingAccount]];
         [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     }
     else {
         [self.progressIndicator stopAnimating];
-        [self.registerButton applyButtonStyle:[[OEXStyles sharedStyles] filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
+        [self.registerButton applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
 }

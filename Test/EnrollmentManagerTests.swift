@@ -21,7 +21,7 @@ class EnrollmentManagerTests : XCTestCase {
             return (nil, enrollments)
         }
         
-        let manager = EnrollmentManager(interface: nil, networkManager: environment.networkManager)
+        let manager = EnrollmentManager(interface: nil, networkManager: environment.networkManager, config: environment.config)
         let feed = manager.feed
         // starts empty
         XCTAssertNil(feed.output.value)

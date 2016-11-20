@@ -219,7 +219,7 @@ extension CourseCatalogDetailView {
     }
     
     func applyCourse(course : OEXCourse) {
-        CourseCardViewModel.onCourseCatalog(course).apply(courseCard, networkManager: self.environment.networkManager)
+        CourseCardViewModel.onCourseCatalog(course, wrapTitle: true).apply(courseCard, networkManager: self.environment.networkManager)
         self.blurbText = course.short_description
         self.descriptionHTML = course.overview_html
         let fields = fieldsForCourse(course)

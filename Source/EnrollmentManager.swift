@@ -12,10 +12,12 @@ public class EnrollmentManager : NSObject {
     private let interface: OEXInterface?
     private let networkManager : NetworkManager
     private let enrollmentFeed = BackedFeed<[UserCourseEnrollment]?>()
+    private let config: OEXConfig
     
-    public init(interface: OEXInterface?, networkManager: NetworkManager) {
+    public init(interface: OEXInterface?, networkManager: NetworkManager, config: OEXConfig) {
         self.interface = interface
         self.networkManager = networkManager
+        self.config = config
         
         super.init()
         
@@ -83,13 +85,14 @@ public class EnrollmentManager : NSObject {
     
     private func setupFeedWithUserDetails(userDetails: OEXUserDetails) {
         guard let username = userDetails.username else { return }
-        let feed = freshFeedWithUsername(username)
+        let organizationCode = self.config.organizationCode()
+        let feed = freshFeedWithUsername(username, organizationCode: organizationCode)
         enrollmentFeed.backWithFeed(feed.map {x in x})
         enrollmentFeed.refresh()
     }
     
-    func freshFeedWithUsername(username: String) -> Feed<[UserCourseEnrollment]> {
-        let request = CoursesAPI.getUserEnrollments(username)
+    func freshFeedWithUsername(username: String, organizationCode: String?) -> Feed<[UserCourseEnrollment]> {
+        let request = CoursesAPI.getUserEnrollments(username, organizationCode: organizationCode)
         return Feed(request: request, manager: networkManager, persistResponse: true)
     }
 }

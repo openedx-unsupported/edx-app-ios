@@ -40,8 +40,6 @@
 "ACCESSIBILITY_EXIT_FULLSCREEN" = "Exit fullscreen";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
-/* Accessibility label for open on web button */
-"ACCESSIBILITY_OPEN_ON_WEB" = "View in Safari";
 /* Accessibility label for Pause Button in the Video Player */
 "ACCESSIBILITY_PAUSE" = "Pause";
 /* Accessibility label for Play Button in the Video Player */
@@ -74,6 +72,8 @@
 "ACCESSIBILITY_MENU" = "Navigation Menu";
 /* Accessibility label for close button when left drawer is open*/
 "ACCESSIBILITY_CLOSE_MENU" = "Close Navigation Menu";
+/* Accessibility label for hiding keyboard*/
+"ACCESSIBILITY_HIDE_KEYBOARD" = "Hide Keyboard";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
@@ -326,8 +326,6 @@
 "LARGE_DOWNLOAD_TITLE"="Large Download";
 /* Title for Course Item that was last accessed */
 "LAST_ACCESSED" = "Last Accessed";
-/* Button title to begin login */
-"LOGIN_SIGN_IN_TO_PLATFORM"="Sign in to {platform_name}";
 /* Prompt leading user to create account screen */
 "LOGIN_SPLASH_SIGN_UP"="Sign up and start learning";
 /* Prompt leading user to sign in screen */
@@ -498,8 +496,6 @@
 "REGISTRATION_SIGN_UP_PROMPT"="Sign up with";
 /* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
 "REGISTRATION_SIGN_UP_ALTERNATE_PROMPT"="or sign up with email";
-/* Registration screen title */
-"REGISTRATION_SIGN_UP_FOR_PLATFORM"="Sign up for {platform_name}";
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Reset Password";
 /* Alert dialog content prompting user to enter an email address to reset their password */
@@ -532,12 +528,12 @@
 "SETTINGS"="Settings";
 /* Text for a Twitter or Facebook post to a course about page */
 "SHARE_A_COURSE"="I'm taking a course on {platform_name}! Check it out:";
-/* Button initiating login process after user enters credentials like username and password */
-"SIGN_IN_BUTTON_TEXT"="Sign In";
+/* Sign in screen title and button initiating login process after user enters credentials like username and password */
+"SIGN_IN_TEXT"="Sign In";
 /* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Signing In";
-/* Button initiating sign up process on the main screen */
-"SIGN_UP_BUTTON_TEXT"="Register";
+/*Sign up screen title and button initiating sign up process on the main screen */
+"REGISTER_TEXT"="Register";
 /* Indicates a date in the near future */
 "SOON"="Soon";
 /* Label for posts pinned by Staff */
@@ -630,9 +626,7 @@
 "VOTE##{one}"="{count} Vote";
 /* Discussion vote - {count} is a number of votes */
 "VOTE##{other}"="{count} Votes";
-/*Title of upgrade button on fullscreen error*/
-"VERSION_UPGRADE.UPGRADE" = "Upgrade";
-/*Title of update button on SnackBar*/
+/*Title of update button on fullscreen error and SnackBar*/
 "VERSION_UPGRADE.UPDATE" = "Update";
 /*Title of dismiss button on SnackBar*/
 "VERSION_UPGRADE.DISMISS" = "Dismiss";

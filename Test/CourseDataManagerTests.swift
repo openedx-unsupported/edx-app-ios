@@ -66,28 +66,5 @@ class CourseDataManagerTests: XCTestCase {
         
         defaultsMockRemover.remove()
     }
-    
-    func testModeChangedAnalytics() {
-        let environment = TestRouterEnvironment()
-        // make a real course data manager instead of using the mock one from the environment
-        // since that's the thing we're actually testing here
-        let courseDataManager = CourseDataManager(analytics: environment.analytics, enrollmentManager: environment.mockEnrollmentManager, interface: nil, networkManager: environment.networkManager, session: environment.session)
-        let userDefaults = OEXMockUserDefaults()
-        let defaultsMock = userDefaults.installAsStandardUserDefaults()
-        
-        courseDataManager.currentOutlineMode = .Video
-        let videoEvent = environment.eventTracker.events.last!.asEvent!
-        XCTAssertEqual(videoEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
-        XCTAssertEqual(videoEvent.properties[OEXAnalyticsKeyNavigationMode] as? String, OEXAnalyticsValueNavigationModeVideo)
-        XCTAssertEqual(videoEvent.event.category, OEXAnalyticsCategoryNavigation)
-        
-        courseDataManager.currentOutlineMode = .Full
-        let fullEvent = environment.eventTracker.events.last!.asEvent!
-        XCTAssertEqual(fullEvent.event.name, OEXAnalyticsEventOutlineModeChanged)
-        XCTAssertEqual(fullEvent.properties[OEXAnalyticsKeyNavigationMode] as? String, OEXAnalyticsValueNavigationModeFull)
-        XCTAssertEqual(fullEvent.event.category, OEXAnalyticsCategoryNavigation)
-        
-        defaultsMock.remove()
-    }
 
 }
