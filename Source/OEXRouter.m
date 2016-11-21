@@ -189,6 +189,7 @@ OEXRegistrationViewControllerDelegate
 
 - (void)showDownloadsFromViewController:(UIViewController*)controller {
     OEXDownloadViewController* vc = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
+    vc.environment = self.environment;
     [controller.navigationController pushViewController:vc animated:YES];
 }
 

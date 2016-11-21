@@ -28,6 +28,18 @@
     [self.lbl_Time setTextAlignment:NSTextAlignmentNatural];
     [self.lbl_Size setTextAlignment:NSTextAlignmentNatural];
     self.btn_CheckboxDelete.accessibilityLabel = [Strings accessibilitySelect];
+    [self resetLabels];
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    [self resetLabels];
+}
+
+- (void)resetLabels {
+    self.lbl_Title.text = nil;
+    self.lbl_Time.text = nil;
+    self.lbl_Size.text = nil;
 }
 
 - (NSString *)accessibilityLabel {
