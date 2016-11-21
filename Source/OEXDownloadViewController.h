@@ -9,13 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "OEXCustomNavigationView.h"
 
-@class RouterEnvironment;
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXDownloadViewController : UIViewController <UITableViewDelegate>
-
-@property (strong, nonatomic) RouterEnvironment* environment;
 
 @end
 

@@ -443,10 +443,12 @@ typedef  enum OEXAlertType
 
         double size = [obj_video.summary.size doubleValue];
         float result = ((size / 1024) / 1024);
-        if (result > 0.01) {
-            cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB", result];
+        cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB", result];
+
+        if(!obj_video.summary.duration) {
+            cell.lbl_Time.text = @"NA";
         }
-        if(obj_video.summary.duration > 0.01) {
+        else {
             cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
         }
 
