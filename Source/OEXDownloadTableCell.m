@@ -18,25 +18,9 @@
     [self.lbl_totalSize setTextAlignment:NSTextAlignmentNatural];
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     [self tintCancelButton];
-    [self resetLabels];
-    
-    // Enable multi-line titles
-    _lbl_title.numberOfLines = 0;
-    _lbl_title.lineBreakMode = NSLineBreakByWordWrapping;
 }
 
-- (void)prepareForReuse {
-    [super prepareForReuse];
-    [self resetLabels];
-}
-
-- (void)resetLabels {
-    self.lbl_title.text = nil;
-    self.lbl_time.text = nil;
-    self.lbl_totalSize.text = nil;
-}
-
-- (void)tintCancelButton {
+-(void) tintCancelButton {
     UIImage *image = [_btn_cancel.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [_btn_cancel setImage:image forState:UIControlStateNormal];
     _btn_cancel.tintColor = [[OEXStyles sharedStyles] neutralBase];

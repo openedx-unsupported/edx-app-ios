@@ -38,6 +38,7 @@
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="502" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:45" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVM-DI-8yI" customClass="OEXCustomLabel">
                                                     <accessibility key="accessibilityConfiguration" label="btnVideoLength"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="height" constant="10" id="Ac7-sx-5Rh"/>
                                                         <constraint firstAttribute="width" constant="47" id="dnb-ba-UOv"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
