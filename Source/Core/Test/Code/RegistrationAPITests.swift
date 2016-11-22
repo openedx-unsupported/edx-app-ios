@@ -22,7 +22,7 @@ class RegistrationAPITests: XCTestCase {
         let response = NSHTTPURLResponse(URL: NSURL(string:"http://example.com/registration")!, statusCode:400, HTTPVersion:nil, headerFields:nil)!
         let result = RegistrationAPI.registrationDeserializer(response, json: ["username":[["user_message":"some message"]]])
         AssertFailure(result)
-        print("error is \(result.error)")
+        print("error is \(result.error ?? "")")
         let registrationError = result.error as? RegistrationAPIError
         XCTAssertNotNil(registrationError)
         XCTAssertEqual(registrationError!.fieldInfo["username"]?.userMessage, "some message")
