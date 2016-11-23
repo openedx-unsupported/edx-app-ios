@@ -1,1 +1,1 @@
-../../../GoogleAnalytics/Headers/Public/GAITrackedViewController.h
+../../../GoogleAnalytics/Sources/GAITrackedViewController.h

@@ -36,6 +36,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@class PFObjectSubclassingController;
+
+@protocol PFObjectSubclassingControllerProvider <NSObject>
+
+@property (null_resettable, nonatomic, strong) PFObjectSubclassingController *objectSubclassingController;
+
+@end
+
 @class PFObjectBatchController;
 
 @protocol PFObjectBatchController <NSObject>
@@ -48,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol PFObjectFilePersistenceControllerProvider <NSObject>
 
-@property (nonatomic, strong, readonly) PFObjectFilePersistenceController *objectFilePersistenceController;
+@property (null_resettable, nonatomic, strong, readonly) PFObjectFilePersistenceController *objectFilePersistenceController;
 
 @end
 

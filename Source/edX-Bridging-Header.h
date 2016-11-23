@@ -17,6 +17,7 @@
 #import "NSString+OEXCrypto.h"
 #import "UIColor+OEXHex.h"
 #import "OEXNetworkConstants.h"
+#import "Firebase.h"
 
 #import "OEXAccessToken.h"
 #import "OEXAnalytics.h"

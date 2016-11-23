@@ -18,6 +18,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <FBSDKCoreKit/FBSDKGraphRequestConnection.h>
+
 #import "FBSDKMacros.h"
 
 @class FBSDKAccessToken;
@@ -363,6 +365,28 @@ FBSDK_EXTERN NSString *const FBSDKAppEventParameterValueNo;
          parameters:(NSDictionary *)parameters
         accessToken:(FBSDKAccessToken *)accessToken;
 
+
+/*
+ * Push Notifications Logging
+ */
+
+/*!
+ @abstract
+ Log an app event that tracks that the application was open via Push Notification.
+
+ @param payload Notification payload received via `UIApplicationDelegate`.
+ */
++ (void)logPushNotificationOpen:(NSDictionary *)payload;
+
+/*!
+ @abstract
+ Log an app event that tracks that a custom action was taken from a push notification.
+
+ @param payload Notification payload received via `UIApplicationDelegate`.
+ @param action  Name of the action that was taken.
+ */
++ (void)logPushNotificationOpen:(NSDictionary *)payload action:(NSString *)action;
+
 /*!
 
  @abstract
@@ -380,6 +404,21 @@ FBSDK_EXTERN NSString *const FBSDKAppEventParameterValueNo;
  is all visible in your app's App Events Insights.
  */
 + (void)activateApp;
+
+/*
+ * Push Notifications Registration
+ */
+
+/*!
+ @abstract
+ Sets a device token to register the current application installation for push notifications.
+
+ @discussion
+ Sets a device token from `NSData` representation that you get from `UIApplicationDelegate.-application:didRegisterForRemoteNotificationsWithDeviceToken:`.
+
+ @param deviceToken Device token data.
+ */
++ (void)setPushNotificationsDeviceToken:(NSData *)deviceToken;
 
 /*
  * Control over event batching/flushing
@@ -459,4 +498,24 @@ FBSDK_EXTERN NSString *const FBSDKAppEventParameterValueNo;
  via the `[FBSDKSettings limitEventAndDataUsage]` flag, or a specific Facebook user cannot be identified.
  */
 + (FBSDKGraphRequest *)requestForCustomAudienceThirdPartyIDWithAccessToken:(FBSDKAccessToken *)accessToken;
+
+/*
+ @abstract Sets a custom user ID to associate with all app events.
+ @discussion The userID is persisted until it is cleared by passing nil.
+ */
++ (void)setUserID:(NSString *)userID;
+
+/*
+ @abstract Returns the set custom user ID.
+ */
++ (NSString *)userID;
+
+/*
+ @abstract Sends a request to update the properties for the current user, set by `setUserID:`
+ @discussion You must call `FBSDKAppEvents setUserID:` before making this call.
+ @param properties the custom user properties
+ @param handler the optional completion handler
+ */
++ (void)updateUserProperties:(NSDictionary *)properties handler:(FBSDKGraphRequestHandler)handler;
+
 @end

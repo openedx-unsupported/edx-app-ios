@@ -54,6 +54,7 @@ static ParseClientConfiguration *currentParseConfiguration_;
 ///--------------------------------------
 
 + (void)setApplicationId:(NSString *)applicationId clientKey:(NSString *)clientKey {
+    PFParameterAssert(clientKey.length, @"`clientKey` should not be nil.");
     currentParseConfiguration_.applicationId = applicationId;
     currentParseConfiguration_.clientKey = clientKey;
     currentParseConfiguration_.server = [PFInternalUtils parseServerURLString]; // TODO: (nlutsenko) Clean this up after tests are updated.
@@ -68,33 +69,16 @@ static ParseClientConfiguration *currentParseConfiguration_;
 + (void)initializeWithConfiguration:(ParseClientConfiguration *)configuration {
     PFConsistencyAssert(configuration.applicationId.length != 0,
                         @"You must set your configuration's `applicationId` before calling %s!", __PRETTY_FUNCTION__);
-    PFConsistencyAssert(configuration.clientKey.length != 0,
-                        @"You must set your configuration's `clientKey` before calling %s!", __PRETTY_FUNCTION__);
     PFConsistencyAssert(![PFApplication currentApplication].extensionEnvironment ||
                         configuration.applicationGroupIdentifier == nil ||
                         configuration.containingApplicationBundleIdentifier != nil,
                         @"'containingApplicationBundleIdentifier' must be non-nil in extension environment");
+    PFConsistencyAssert(![self currentConfiguration], @"Parse is already initialized.");
 
     ParseManager *manager = [[ParseManager alloc] initWithConfiguration:configuration];
     [manager startManaging];
 
     currentParseManager_ = manager;
-
-    PFObjectSubclassingController *subclassingController = [PFObjectSubclassingController defaultController];
-    // Register built-in subclasses of PFObject so they get used.
-    // We're forced to register subclasses directly this way, in order to prevent a deadlock.
-    // If we ever switch to bundle scanning, this code can go away.
-    [subclassingController registerSubclass:[PFUser class]];
-    [subclassingController registerSubclass:[PFSession class]];
-    [subclassingController registerSubclass:[PFRole class]];
-    [subclassingController registerSubclass:[PFPin class]];
-    [subclassingController registerSubclass:[PFEventuallyPin class]];
-#if !TARGET_OS_WATCH && !TARGET_OS_TV
-    [subclassingController registerSubclass:[PFInstallation class]];
-#endif
-#if TARGET_OS_IOS || TARGET_OS_TV
-    [subclassingController registerSubclass:[PFProduct class]];
-#endif
 
 #if TARGET_OS_IOS
     [PFNetworkActivityIndicatorManager sharedManager].enabled = YES;
@@ -105,7 +89,7 @@ static ParseClientConfiguration *currentParseConfiguration_;
     [[self parseModulesCollection] parseDidInitializeWithApplicationId:configuration.applicationId clientKey:configuration.clientKey];
 }
 
-+ (ParseClientConfiguration *)currentConfiguration {
++ (nullable ParseClientConfiguration *)currentConfiguration {
     return currentParseManager_.configuration;
 }
 
@@ -115,7 +99,7 @@ static ParseClientConfiguration *currentParseConfiguration_;
     return currentParseManager_.configuration.applicationId;
 }
 
-+ (NSString *)getClientKey {
++ (nullable NSString *)getClientKey {
     PFConsistencyAssert(currentParseManager_,
                         @"You have to call setApplicationId:clientKey: on Parse to configure Parse.");
     return currentParseManager_.configuration.clientKey;

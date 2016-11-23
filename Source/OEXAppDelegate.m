@@ -79,6 +79,8 @@
 
     [self.environment.router openInWindow:self.window];
 
+//    [FIRApp configure];
+    
     return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
