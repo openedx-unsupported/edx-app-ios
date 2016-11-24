@@ -184,15 +184,14 @@ class PostTableViewCell: UITableViewCell {
         
         accessibilityString = accessibilityString+","+Strings.Discussions.repliesCount(count: formatdCommentsCount(thread.commentCount))
         
-        if thread.unreadCommentCount > 0 {
-            accessibilityString = accessibilityString+","+Strings.Accessibility.discussionUnreadReplies(count: formatdCommentsCount(thread.unreadCommentCount));
-        }
         
         if let updatedAt = thread.updatedAt {
             accessibilityString = accessibilityString+","+Strings.Accessibility.discussionLastPostOn(date: updatedAt.displayDate)
         }
         
-        thread.read ? (accessibilityString = accessibilityString+","+Strings.Accessibility.discussionReadThread) : (accessibilityString = accessibilityString+","+Strings.Accessibility.discussionUnreadThread)
+        if thread.unreadCommentCount > 0 {
+            accessibilityString = accessibilityString+","+Strings.Accessibility.discussionUnreadReplies(count: formatdCommentsCount(thread.unreadCommentCount));
+        }
         
         accessibilityLabel = accessibilityString
         accessibilityHint = Strings.Accessibility.discussionThreadHint
