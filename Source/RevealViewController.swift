@@ -13,8 +13,6 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
 
     // Dims the front content when the side drawer is visible
     private var dimmingOverlay : UIButton!
-    // To prevent overridding of default accessibilityElements on initial load
-    private var isInitialLoad: Bool = true
     
     override init!(rearViewController: UIViewController!, frontViewController: UIViewController!) {
         super.init(rearViewController: rearViewController, frontViewController: frontViewController)
@@ -45,15 +43,6 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
             }, forEvents: .TouchUpInside)
         
         super.loadView()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        if isInitialLoad {
-           isInitialLoad = false
-            return
-        }
-        performSelector(#selector(RevealViewController.defaultMenuVOFocus), withObject: nil, afterDelay: 0.4)
     }
     
     private func postNavigationStateChanged(state : OEXSideNavigationState) {
