@@ -78,8 +78,6 @@
     [self.environment.session performMigrations];
 
     [self.environment.router openInWindow:self.window];
-
-//    [FIRApp configure];
     
     return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 }
@@ -190,6 +188,18 @@
     OEXFabricConfig* fabric = [config fabricConfig];
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
+    }
+    
+    //Initialize Firebase
+    if (config.isFirebaseEnabled) {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            [FIRApp configure];
+            [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
+        }
+        else {
+          NSAssert(NO, @"Firebase: Expecting GoogleService-Info.plist file");
+        }
     }
     
 }
