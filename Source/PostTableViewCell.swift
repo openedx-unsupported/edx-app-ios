@@ -129,6 +129,8 @@ class PostTableViewCell: UITableViewCell {
         let count = formatdCommentsCount(thread.unreadCommentCount)
         countLabel.attributedText = activeCountStyle.attributedStringWithText(count)
         countLabel.hidden = !Bool(thread.unreadCommentCount)
+        
+        setAccessibility(thread)
     }
     
     private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
@@ -154,6 +156,46 @@ class PostTableViewCell: UITableViewCell {
         case .Question:
             return thread.hasEndorsed ? Icon.Answered.attributedTextWithStyle(answerStyle) : Icon.Question.attributedTextWithStyle(questionStyle)
         }
+    }
+    
+    private func setAccessibility(thread : DiscussionThread) {
+        var accessibilityString = ""
+        
+        switch thread.type {
+        case .Discussion:
+            accessibilityString = Strings.discussion
+        case .Question:
+            thread.hasEndorsed ? (accessibilityString = Strings.answeredQuestion) : (accessibilityString = Strings.question)
+        }
+        
+        accessibilityString = accessibilityString+","+(thread.title ?? "")
+        
+        if thread.closed {
+            accessibilityString = accessibilityString+","+Strings.Accessibility.discussionClosed
+        }
+        
+        if thread.pinned {
+            accessibilityString = accessibilityString+","+Strings.Accessibility.discussionPinned
+        }
+        
+        if thread.following {
+            accessibilityString = accessibilityString+","+Strings.Accessibility.discussionFollowed
+        }
+        
+        accessibilityString = accessibilityString+","+Strings.Discussions.repliesCount(count: formatdCommentsCount(thread.commentCount))
+        
+        
+        if let updatedAt = thread.updatedAt {
+            accessibilityString = accessibilityString+","+Strings.Accessibility.discussionLastPostOn(date: updatedAt.displayDate)
+        }
+        
+        if thread.unreadCommentCount > 0 {
+            accessibilityString = accessibilityString+","+Strings.Accessibility.discussionUnreadReplies(count: formatdCommentsCount(thread.unreadCommentCount));
+        }
+        
+        accessibilityLabel = accessibilityString
+        accessibilityHint = Strings.Accessibility.discussionThreadHint
+        
     }
 }
 

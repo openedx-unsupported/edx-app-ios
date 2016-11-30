@@ -78,6 +78,26 @@
 "ACCESSIBILITY_HIDE_KEYBOARD" = "Hide Keyboard";
 /* Accessibility Hint to view user profile*/
 "ACCESSIBILITY_SHOW_USER_PROFILE_HINT" = "Double tap to view user profile";
+/*Accessibility text for pinned discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_PINNED" = "Pinned";
+/*Accessibility text for closed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_CLOSED" = "Closed";
+/*Accessibility text for followed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_FOLLOWED" = "Followed";
+/* Accessibility text for unread discussion comments count (Posts screen) - {count} is a number of unread comments */
+"ACCESSIBILITY.DISCUSSION_UNREAD_REPLIES"="{count} Unread replies";
+/*Accessibility text for unread discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_UNREAD_THREAD" = "Unread discussion thread";
+/*Accessibility text for read discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_READ_THREAD" = "Read discussion thread";
+/*Accessibility text for discussion thread last seen date(Posts screen) - {date} last updated thread date*/
+"ACCESSIBILITY.DISCUSSION_LAST_POST_ON" = "Last post on {date}";
+/*Accessibility hint for discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_THREAD_HINT" = "Double tap to view thread.";
+/*Accessibility hint for sort button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_SORT_BY" = "Sort by {sort_by}";
+/*Accessibility hint for filter button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_FILTER_BY" = "Filter by {filter_by}";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
