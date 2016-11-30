@@ -1,16 +1,16 @@
 # Smartling.i18n.framework
-iOS Plurals Localization Library
+iOS 6+ Plurals Localization Library
 
-> As of iOS 7 and Mac OS X 10.9 Mavericks, Foundation has the ability to specify localized strings according to pluralization and grammar rules. You can find more about this in the [Handling Noun Plurals and Units of Measurement](https://developer.apple.com/library/ios/documentation/MacOSX/Conceptual/BPInternational/LocalizingYourApp/LocalizingYourApp.html) section of the Internationalization and Localization Guide.
+iOS (pre-iOS 7) localization did not support plural functionality out of the box. The **ios-i18n** library was designed to bridge that gap and provide a means for developers to seamlessly integrate plurals into their localized apps across any number of locales.
 
-> **ios-i18n** is not compatible with Apple's implementation, and does not handle new ".stringsdict" resource files.
+As of iOS 7 and Mac OS X 10.9 Mavericks, Foundation has the ability to specify localized strings according to pluralization and grammar rules. You can find more about this in the [Handling Noun Plurals and Units of Measurement](https://developer.apple.com/library/ios/documentation/MacOSX/Conceptual/BPInternational/LocalizingYourApp/LocalizingYourApp.html) section of the Internationalization and Localization Guide.
 
-iOS (pre-iOS 7) localization does not support plural functionality out of the box. The **ios-i18n** library was designed to bridge that gap and provide a means for developers to seamlessly integrate plurals into their localized apps across any number of locales.
+**ios-i18n** is not compatible with Apple's implementation, and does not handle new ".stringsdict" resource files.
 
 
 ## Installation
 ### Via CocoaPods
-Update your podfile with
+Update your `Podfile` with
 
     pod 'Smartling.i18n', '~> 1.0'
 
@@ -22,6 +22,10 @@ Update your podfile with
 
 ### Carthage
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
+`Cartfile`
+
+    github "Smartling/ios-i18n"
 
 ## Usage
 

@@ -176,6 +176,18 @@
     if(segmentIO.apiKey && segmentIO.isEnabled) {
         [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey]];
     }
+    
+    //Initialize Firebase
+    if (config.isFirebaseEnabled) {
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            [FIRApp configure];
+            [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
+        }
+        else {
+            NSAssert(NO, @"Firebase: Expecting GoogleService-Info.plist file");
+        }
+    }
 
     //NewRelic Initialization with edx key
     OEXNewRelicConfig* newrelic = [config newRelicConfig];

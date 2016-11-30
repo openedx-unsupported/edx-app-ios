@@ -1,1 +1,1 @@
-../../../GoogleAnalytics/Headers/Public/GAILogger.h
+../../../GoogleAnalytics/Sources/GAILogger.h

@@ -3,6 +3,8 @@
 //
 
 #import <SEGAnalytics.h>
+#import <FirebaseCore/FirebaseCore.h>
+#import <FirebaseAnalytics/FirebaseAnalytics.h>
 
 #import "CLVideoPlayer.h"
 #import "CLButton.h"

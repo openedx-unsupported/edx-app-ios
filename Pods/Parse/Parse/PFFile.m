@@ -29,8 +29,6 @@
 #import "PFUserPrivate.h"
 #import "Parse_Private.h"
 
-static const unsigned long long PFFileMaxFileSize = 10 * 1024 * 1024; // 10 MB
-
 @interface PFFile () {
     dispatch_queue_t _synchronizationQueue;
 }
@@ -84,19 +82,6 @@ static const unsigned long long PFFileMaxFileSize = 10 * 1024 * 1024; // 10 MB
         return nil;
     }
 
-    NSDictionary *attributes = [fileManager attributesOfItemAtPath:path error:nil];
-    unsigned long long length = [attributes[NSFileSize] unsignedLongValue];
-    if (length > PFFileMaxFileSize) {
-        NSString *message = [NSString stringWithFormat:@"Failed to create PFFile at path '%@': file is larger than %lluMB.",
-                             path, (PFFileMaxFileSize >> 20)];
-        if (error) {
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain
-                                         code:NSFileReadTooLargeError
-                                     userInfo:@{ NSLocalizedDescriptionKey : message }];
-        }
-        return nil;
-    }
-
     PFFile *file = [self fileWithName:name url:nil];
     if (![file _stageWithPath:path error:error]) {
         return nil;
@@ -122,17 +107,6 @@ static const unsigned long long PFFileMaxFileSize = 10 * 1024 * 1024; // 10 MB
         if (error) {
             *error = [NSError errorWithDomain:NSCocoaErrorDomain
                                          code:NSFileNoSuchFileError
-                                     userInfo:@{ NSLocalizedDescriptionKey : message }];
-        }
-        return nil;
-    }
-
-    if (data.length > PFFileMaxFileSize) {
-        NSString *message = [NSString stringWithFormat:@"Failed to create PFFile with data: data is larger than %lluMB.",
-                             (PFFileMaxFileSize >> 20)];
-        if (error) {
-            *error = [NSError errorWithDomain:NSCocoaErrorDomain
-                                         code:NSFileReadTooLargeError
                                      userInfo:@{ NSLocalizedDescriptionKey : message }];
         }
         return nil;
@@ -241,6 +215,20 @@ static const unsigned long long PFFileMaxFileSize = 10 * 1024 * 1024; // 10 MB
         [self.cancellationTokenSource cancel];
         self.cancellationTokenSource = nil;
     }];
+}
+
+#pragma mark Cache
+
+- (BFTask *)clearCachedDataInBackground {
+    @weakify(self);
+    return [self.taskQueue enqueue:^id(BFTask *_) {
+        @strongify(self);
+        return [[[[self class] fileController] clearFileCacheAsyncForFileWithState:self.state] continueWithSuccessResult:nil];
+    }];
+}
+
++ (BFTask *)clearAllCachedDataInBackground {
+    return [[[self fileController] clearAllFileCacheAsync] continueWithSuccessResult:nil];
 }
 
 ///--------------------------------------
