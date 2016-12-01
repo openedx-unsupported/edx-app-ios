@@ -3,7 +3,7 @@
 
 source 'https://github.com/CocoaPods/Specs.git'
 
-xcodeproj 'edX.xcodeproj'
+project 'edX.xcodeproj'
 
 target 'edX' do
 pod 'Analytics', '~> 3.0.0'

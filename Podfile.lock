@@ -84,7 +84,7 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: bdb997ab2397495205f11156d4d444606daebd27
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppUtilities: c01c6a5671e9da8b9d690fdaec5959d6c2aac699
-  GoogleAuthUtilities: 049ffd3a297cdffd271451b82fd4e75304f15ef3
+  GoogleAuthUtilities: '049ffd3a297cdffd271451b82fd4e75304f15ef3'
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
   GoogleSignIn: 79929b51e6299c69f1197bbd9c7a1367d523ecd8
@@ -98,4 +98,6 @@ SPEC CHECKSUMS:
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 9d24e105ae674678e1ae4d1c78bcabf524f0636b
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: f0f77658c060480a5e512b9d7f1316a1d8844a05
+
+COCOAPODS: 1.1.1
