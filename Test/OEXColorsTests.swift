@@ -21,12 +21,17 @@ class OEXColorsTests: XCTestCase {
         XCTAssertTrue(NSFileManager.defaultManager().fileExistsAtPath(filePath ?? ""))
     }
     
+    func testColorDataFactory() {
+        oexColors.fallbackColors()
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor))
+    }
+    
     func testColorParsing() {
-        XCTAssertNotNil(oexColors.colorForIdentifier("primaryBaseColor"))
-        XCTAssertNotNil(oexColors.colorForIdentifier("primaryLightColor"))
-        XCTAssertNotNil(oexColors.colorForIdentifier("primaryBaseColor", alpha: 0.5))
-        XCTAssertNotNil(oexColors.colorForIdentifier("primaryLightColor", alpha: 1.0))
-        XCTAssertEqual(oexColors.colorForIdentifier("primaryBaseColor"), oexColors.colorForIdentifier("primaryBaseColor", alpha: 1.0))
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor))
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryLightColor))
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor, alpha: 0.5))
+        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryLightColor, alpha: 1.0))
+        XCTAssertEqual(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor), oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor, alpha: 1.0))
     }
 
 }
