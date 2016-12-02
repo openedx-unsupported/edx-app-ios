@@ -1,0 +1,10 @@
+{
+    "LoginSplashView":"secondaryBaseColor",
+    "LoginView":"secondaryBaseColor",
+    "RegistrationView":"secondaryBaseColor",
+    "StartupView":"secondaryBaseColor",
+    "EnrolledCoursesFooterView":"secondaryBaseColor",
+    "DiscussionNewPostView":"secondaryBaseColor",
+    "DiscussionNewCommentView":"secondaryBaseColor",
+    "CourseCertificateCell":"secondaryBaseColor",
+}

@@ -273,7 +273,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         responseTextView.attributedText = responseTextViewStyle.markdownStringWithText(context.renderedBody ?? "")
         
-        addCommentButton.applyButtonStyle(environment.styles.filledPrimaryButtonStyle, withTitle: buttonTitle)
+        addCommentButton.applyButtonStyle(environment.styles.filledButtonStyle(OEXColors.sharedInstance.filledButtonColorForIdentifier(.DiscussionNewCommentView)), withTitle: buttonTitle)
         self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([responseTextViewStyle.attributedStringWithText(titleText), responseTextViewStyle.attributedStringWithText(Strings.asteric)])
         self.contentTitleLabel.isAccessibilityElement = false
         self.navigationItem.title = navigationItemTitle

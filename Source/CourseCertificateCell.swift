@@ -78,7 +78,7 @@ class CourseCertificateCell: UITableViewCell {
 
         titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Certificates.courseCompletionTitle)
         subtitleLabel.attributedText = subtitleStyle.attributedStringWithText(Strings.Certificates.courseCompletionSubtitle)
-        getButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Certificates.getCertificate)
+        getButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXColors.sharedInstance.filledButtonColorForIdentifier(.CourseCertificateCell)), withTitle: Strings.Certificates.getCertificate)
 
         getButton.oex_addAction({ _ in
             item.action()

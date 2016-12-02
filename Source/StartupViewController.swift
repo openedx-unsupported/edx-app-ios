@@ -79,7 +79,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private func setupDiscoverButtons() {
 
         let discoverButton = UIButton()
-        discoverButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Startup.discovercourses)
+        discoverButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXColors.sharedInstance.filledButtonColorForIdentifier(.StartupView)), withTitle: Strings.Startup.discovercourses)
         let discoverEvent = OEXAnalytics.discoverCoursesEvent()
         discoverButton.oex_addAction({ [weak self] _ in
             self?.showCourses()
@@ -89,7 +89,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
 
         let exploreButton = UIButton()
-        exploreButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Startup.exploreSubjects)
+        exploreButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXColors.sharedInstance.filledButtonColorForIdentifier(.StartupView)), withTitle: Strings.Startup.exploreSubjects)
         let exploreEvent = OEXAnalytics.exploreSubjectsEvent()
         exploreButton.oex_addAction({ [weak self] _ in
             self?.exploreSubjects()
