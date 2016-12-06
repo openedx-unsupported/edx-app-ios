@@ -172,7 +172,7 @@ class DiscussionResponseCell: UITableViewCell {
     func setAccessibility(response: DiscussionComment) {
         
         var accessibilityString = ""
-        let sentenceSeparator = ". "
+        let sentenceSeparator = ", "
         
         let body = bodyTextView.attributedText.string
         accessibilityString.appendContentsOf(body + sentenceSeparator)

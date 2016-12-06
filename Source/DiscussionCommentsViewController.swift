@@ -149,6 +149,8 @@ class DiscussionCommentCell: UITableViewCell {
         layoutIfNeeded()
         
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
+        
+        setAccessiblity(commentCountOrReportIconButton.attributedTitleForState(.Normal)?.string)
     }
     
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, index: NSInteger) {
@@ -182,6 +184,8 @@ class DiscussionCommentCell: UITableViewCell {
         setNeedsLayout()
         layoutIfNeeded()
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
+        
+        setAccessiblity(nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -202,6 +206,38 @@ class DiscussionCommentCell: UITableViewCell {
             make.width.equalTo(buttonTitle.singleLineWidth() + StandardHorizontalMargin)
             make.trailing.equalTo(contentView).offset(-2*StandardHorizontalMargin)
         }
+        
+        button.accessibilityHint = report ? "Double tap to unreport." : "Double tap to report."
+    }
+    
+    func setAccessiblity(commentCount : String?) {
+        var accessibilityString = ""
+        let sentenceSeparator = ", "
+        
+        let body = bodyTextView.attributedText.string
+        accessibilityString.appendContentsOf(body + sentenceSeparator)
+            
+        if let date = dateLabel.text {
+            accessibilityString.appendContentsOf(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
+        }
+        
+        if let author = authorNameLabel.text {
+            accessibilityString.appendContentsOf(Strings.accessibilityBy + " " + author + sentenceSeparator)
+        }
+        
+        if let comments = commentCount {
+            accessibilityString.appendContentsOf(comments)
+        }
+        
+        accessibilityLabel = accessibilityString
+        
+        if let authorName = authorNameLabel.text {
+            self.authorButton.accessibilityLabel = authorName
+            self.authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
+        }
+        
+        self.bodyTextView.accessibilityTraits = UIAccessibilityTraitHeader
+        self.bodyTextView.isAccessibilityElement = true
     }
     
 }
@@ -390,6 +426,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                 self?.loadController.state = .Loaded
                 self?.comments = comments
                 self?.tableView.reloadData()
+                UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
             }, failure: { [weak self] (error) -> Void in
                 self?.loadController.state = LoadState.failed(error)
         })
