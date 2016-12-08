@@ -150,7 +150,7 @@ class DiscussionCommentCell: UITableViewCell {
         
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
         
-        setAccessiblity(commentCountOrReportIconButton.attributedTitleForState(.Normal)?.string)
+        setAccessiblity(commentCountOrReportIconButton.currentAttributedTitle?.string)
     }
     
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, index: NSInteger) {
@@ -207,7 +207,7 @@ class DiscussionCommentCell: UITableViewCell {
             make.trailing.equalTo(contentView).offset(-2*StandardHorizontalMargin)
         }
         
-        button.accessibilityHint = report ? "Double tap to unreport." : "Double tap to report."
+        button.accessibilityHint = report ? Strings.Accessibility.discussionUnreportHint : Strings.Accessibility.discussionReportHint
     }
     
     func setAccessiblity(commentCount : String?) {

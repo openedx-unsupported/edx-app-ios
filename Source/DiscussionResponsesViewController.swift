@@ -696,10 +696,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.setAccessibility(response)
         }
         
-        
-        
         return cell
-
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -724,7 +721,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             Icon.UpVote.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(Strings.vote(count: voteCount))])
         button.setAttributedTitle(buttonText, forState:.Normal)
-        button.accessibilityHint = voted ? "Double tap to un-vote." : "Double tap to vote."
+        button.accessibilityHint = voted ? Strings.Accessibility.discussionUnvoteHint : Strings.Accessibility.discussionVoteHint
     }
     
     private func updateFollowText(button: DiscussionCellButton, following: Bool) {
@@ -732,7 +729,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let buttonText = NSAttributedString.joinInNaturalLayout([Icon.FollowStar.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(following ? Strings.discussionUnfollow : Strings.discussionFollow )])
         button.setAttributedTitle(buttonText, forState:.Normal)
-        button.accessibilityHint = following ? "Double tap to unfollow." : "Double tap to follow."
+        button.accessibilityHint = following ? Strings.Accessibility.discussionUnfollowHint : Strings.Accessibility.discussionFollowHint
     }
     
     private func updateReportText(button: DiscussionCellButton, report: Bool) {
@@ -740,7 +737,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let buttonText = NSAttributedString.joinInNaturalLayout([Icon.ReportFlag.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(report ? Strings.discussionUnreport : Strings.discussionReport )])
         button.setAttributedTitle(buttonText, forState:.Normal)
-        button.accessibilityHint = report ? "Double tap to unreport." : "Double tap to report."
+        button.accessibilityHint = report ? Strings.Accessibility.discussionUnreportHint : Strings.Accessibility.discussionReportHint
     }
     
     func increaseResponseCount() {
