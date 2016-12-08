@@ -250,6 +250,7 @@
     else {
         [_moviePlayerController stop];
     }
+    [self resetPlayer];
     _shouldRotate = NO;
 }
 
