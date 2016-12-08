@@ -133,6 +133,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateViewConstraints()
+    }
+    
     override func updateViewConstraints() {
         
         if  self.isVerticallyCompact() {
