@@ -13,7 +13,7 @@ private let notificationLabelLeadingOffset = 20.0
 private let notificationLabelTrailingOffset = -10.0
 private let notificationBarHeight = 50.0
 
-@objc protocol CourseAnnouncementsViewControllerEnvironment : OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider {}
+@objc protocol CourseAnnouncementsViewControllerEnvironment : OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider, OEXAnalyticsProvider {}
 
 extension RouterEnvironment : CourseAnnouncementsViewControllerEnvironment {}
 
@@ -102,6 +102,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.loadContent()
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenAnnouncements, courseID: courseID, value: nil)
     }
     
     override func reloadViewData() {

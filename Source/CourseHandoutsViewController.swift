@@ -9,7 +9,7 @@
 import UIKit
 public class CourseHandoutsViewController: OfflineSupportViewController, UIWebViewDelegate {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, ReachabilityProvider>
+    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXAnalyticsProvider>
 
     let courseID : String
     let environment : Environment
@@ -41,6 +41,11 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
         setStyles()
         webView.delegate = self
         loadHandouts()
+    }
+    
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenHandouts, courseID: courseID, value: nil)
     }
     
     override func reloadViewData() {
