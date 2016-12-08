@@ -145,6 +145,9 @@ class DiscussionResponseCell: UITableViewCell {
         endorsedByButton.localizedHorizontalContentAlignment = .Leading
 
         containerView.applyBorderStyle(BorderStyle())
+        
+        accessibilityTraits = UIAccessibilityTraitHeader
+        bodyTextView.isAccessibilityElement = false
     }
     
     var endorsed : Bool = false {
@@ -201,11 +204,6 @@ class DiscussionResponseCell: UITableViewCell {
             self.authorButton.accessibilityLabel = authorName
             self.authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
         }
-        
-        self.bodyTextView.accessibilityTraits = UIAccessibilityTraitHeader
-        self.bodyTextView.isAccessibilityElement = true
-        
-        
     }
 }
 

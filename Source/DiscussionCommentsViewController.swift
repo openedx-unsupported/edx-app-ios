@@ -61,6 +61,8 @@ class DiscussionCommentCell: UITableViewCell {
         divider.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         containerView.applyBorderStyle(BorderStyle())
+        accessibilityTraits = UIAccessibilityTraitHeader
+        bodyTextView.isAccessibilityElement = false
     }
     
     private func addSubViews() {
@@ -235,11 +237,7 @@ class DiscussionCommentCell: UITableViewCell {
             self.authorButton.accessibilityLabel = authorName
             self.authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
         }
-        
-        self.bodyTextView.accessibilityTraits = UIAccessibilityTraitHeader
-        self.bodyTextView.isAccessibilityElement = true
     }
-    
 }
 
 protocol DiscussionCommentsViewControllerDelegate: class {
