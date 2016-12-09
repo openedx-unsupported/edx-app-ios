@@ -240,16 +240,6 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [_moviePlayerController setShouldAutoplay:NO];
     
-    // There appears to be an OS bug on iOS 8
-    // where if you don't call "stop" before a movie player view disappears
-    // it can cause a crash
-    // See http://stackoverflow.com/questions/31188035/overreleased-mpmovieplayercontroller-under-arc-in-ios-sdk-8-4-on-ipad
-    if([UIDevice isOSVersionAtLeast9]) {
-        [_moviePlayerController pause];
-    }
-    else {
-        [_moviePlayerController stop];
-    }
     [self resetPlayer];
     _shouldRotate = NO;
 }
