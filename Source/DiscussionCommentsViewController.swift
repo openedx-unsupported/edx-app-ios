@@ -227,8 +227,13 @@ class DiscussionCommentCell: UITableViewCell {
             accessibilityString.appendContentsOf(Strings.accessibilityBy + " " + author + sentenceSeparator)
         }
         
+        if let endorsed = endorsedLabel.text where !endorsedLabel.hidden {
+            accessibilityString.appendContentsOf(endorsed + sentenceSeparator)
+        }
+        
         if let comments = commentCount {
             accessibilityString.appendContentsOf(comments)
+            commentCountOrReportIconButton.isAccessibilityElement = false
         }
         
         accessibilityLabel = accessibilityString

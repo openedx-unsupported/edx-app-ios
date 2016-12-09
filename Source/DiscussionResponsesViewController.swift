@@ -148,6 +148,7 @@ class DiscussionResponseCell: UITableViewCell {
         
         accessibilityTraits = UIAccessibilityTraitHeader
         bodyTextView.isAccessibilityElement = false
+        endorsedByButton.isAccessibilityElement = false
     }
     
     var endorsed : Bool = false {
