@@ -271,10 +271,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     private func shouldShowHandouts(course: OEXCourse) -> Bool {
-        if let handouts = course.course_handouts {
-            return !handouts.isEmpty
-        }
-        return false
+        return !(course.course_handouts?.isEmpty ?? true)
     }
 
     private func getCertificateUrl(enrollment: UserCourseEnrollment) -> String? {
