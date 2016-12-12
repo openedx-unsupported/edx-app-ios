@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,14 +21,14 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="SIO-jm-HLG"/>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="KSL-zR-AIM">
-                    <constraints>
-                        <constraint firstAttribute="height" constant="74" id="VkP-rt-iAz"/>
-                        <constraint firstAttribute="width" constant="150" id="thr-UM-pMU"/>
-                    </constraints>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="SIO-jm-HLG">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="KSL-zR-AIM">
+                    <rect key="frame" x="117" y="46" width="141" height="65"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AEY-cT-K95">
+                    <rect key="frame" x="62.5" y="530" width="250" height="44"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="register"/>
                     <constraints>
@@ -42,6 +45,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dJC-c2-JVU">
+                    <rect key="frame" x="62.5" y="600" width="250" height="25"/>
                     <accessibility key="accessibilityConfiguration" identifier="login"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="250" id="cz8-9B-leE"/>
@@ -60,10 +64,13 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="splash-screen"/>
             <constraints>
+                <constraint firstItem="AEY-cT-K95" firstAttribute="top" relation="greaterThanOrEqual" secondItem="KSL-zR-AIM" secondAttribute="bottom" id="3V1-HQ-qtm"/>
                 <constraint firstAttribute="centerX" secondItem="AEY-cT-K95" secondAttribute="centerX" id="4Xu-hT-26y"/>
                 <constraint firstItem="KSL-zR-AIM" firstAttribute="top" secondItem="IfH-km-N4o" secondAttribute="top" constant="46" id="6sf-dG-AbH"/>
                 <constraint firstItem="SIO-jm-HLG" firstAttribute="leading" secondItem="IfH-km-N4o" secondAttribute="leading" id="Bsg-oC-pBY"/>
                 <constraint firstAttribute="bottom" secondItem="dJC-c2-JVU" secondAttribute="bottom" constant="42" id="C4S-jf-BpE"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KSL-zR-AIM" secondAttribute="trailing" id="EH1-hG-q2R"/>
+                <constraint firstItem="KSL-zR-AIM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IfH-km-N4o" secondAttribute="leading" id="Tch-Lw-XMn"/>
                 <constraint firstAttribute="centerX" secondItem="dJC-c2-JVU" secondAttribute="centerX" id="cab-Re-AdF"/>
                 <constraint firstAttribute="trailing" secondItem="SIO-jm-HLG" secondAttribute="trailing" id="eLh-Tn-tSv"/>
                 <constraint firstAttribute="centerX" secondItem="KSL-zR-AIM" secondAttribute="centerX" id="fNT-bT-cQp"/>
@@ -76,14 +83,14 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="i5X-EW-cXo"/>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="eOT-x6-9R0">
-                    <constraints>
-                        <constraint firstAttribute="height" constant="74" id="DUp-Zu-h2D"/>
-                        <constraint firstAttribute="width" constant="150" id="jgv-0i-pWO"/>
-                    </constraints>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="i5X-EW-cXo">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="eOT-x6-9R0">
+                    <rect key="frame" x="117" y="46" width="141" height="65"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8TK-pN-GGc">
+                    <rect key="frame" x="63" y="530" width="250" height="44"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" identifier="register"/>
                     <constraints>
@@ -100,6 +107,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPC-WR-1Zh">
+                    <rect key="frame" x="63" y="600" width="250" height="25"/>
                     <accessibility key="accessibilityConfiguration" identifier="login"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="VKK-wc-8WY"/>
@@ -118,12 +126,15 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="splash-screen"/>
             <constraints>
+                <constraint firstItem="eOT-x6-9R0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rUI-CX-Fgz" secondAttribute="leading" id="1JO-N8-Yqn"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="eOT-x6-9R0" secondAttribute="trailing" id="4Fq-iK-15e"/>
                 <constraint firstItem="i5X-EW-cXo" firstAttribute="top" secondItem="rUI-CX-Fgz" secondAttribute="top" id="4xk-Ta-Jtp"/>
                 <constraint firstAttribute="centerX" secondItem="8TK-pN-GGc" secondAttribute="centerX" id="7Cl-fd-Y8y"/>
                 <constraint firstItem="i5X-EW-cXo" firstAttribute="leading" secondItem="rUI-CX-Fgz" secondAttribute="leading" id="F6x-4h-x3S"/>
                 <constraint firstAttribute="centerX" secondItem="eOT-x6-9R0" secondAttribute="centerX" id="I1E-jc-SNe"/>
                 <constraint firstAttribute="trailing" secondItem="i5X-EW-cXo" secondAttribute="trailing" id="I9e-2a-ENY"/>
                 <constraint firstAttribute="centerX" secondItem="fPC-WR-1Zh" secondAttribute="centerX" id="Ox0-wN-P5U"/>
+                <constraint firstItem="8TK-pN-GGc" firstAttribute="top" relation="greaterThanOrEqual" secondItem="eOT-x6-9R0" secondAttribute="bottom" id="PaL-zb-CyX"/>
                 <constraint firstAttribute="bottom" secondItem="fPC-WR-1Zh" secondAttribute="bottom" constant="42" id="Wgi-H2-0cz"/>
                 <constraint firstAttribute="bottom" secondItem="i5X-EW-cXo" secondAttribute="bottom" id="dH0-mc-sTB"/>
                 <constraint firstItem="fPC-WR-1Zh" firstAttribute="top" secondItem="8TK-pN-GGc" secondAttribute="bottom" constant="26" id="kyX-HJ-cO7"/>
