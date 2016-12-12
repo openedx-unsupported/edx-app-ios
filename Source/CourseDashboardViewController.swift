@@ -341,6 +341,10 @@ extension CourseDashboardViewController {
     func t_canVisitDiscussions() -> Bool {
         return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Discussions }) != nil
     }
+    
+    func t_canVisitHandouts() -> Bool {
+        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Handouts }) != nil
+    }
 
     func t_canVisitCertificate() -> Bool {
         return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is CertificateDashboardItem)}) != nil

@@ -13,6 +13,7 @@ public extension OEXCourse {
     
     public static func testData(
         courseHasDiscussions hasDiscussions : Bool = true,
+        hasHandoutsUrl : Bool = true,
         accessible : Bool = true,
         overview: String? = nil,
         shortDescription : String? = nil,
@@ -38,6 +39,10 @@ public extension OEXCourse {
         }
         if hasDiscussions {
             courseDictionary["discussion_url"] = "http://www.url.com"
+        }
+        
+        if hasHandoutsUrl {
+            courseDictionary["course_handouts"] = "http://www.url.com"
         }
         
         var unparsedMediaInfos : [String:AnyObject] = [:]
@@ -67,6 +72,7 @@ public extension OEXCourse {
 
     public static func freshCourse(
         discussionsEnabled hasDiscussions: Bool = true,
+                           hasHandoutsUrl: Bool = true,
         accessible : Bool = true,
         shortDescription: String? = nil,
         overview: String? = nil,
@@ -78,6 +84,7 @@ public extension OEXCourse {
     {
         let courseData = OEXCourse.testData(
             courseHasDiscussions: hasDiscussions,
+            hasHandoutsUrl: hasHandoutsUrl,
             accessible: accessible,
             shortDescription: shortDescription,
             overview: overview,
