@@ -48,6 +48,27 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         }
     }
     
+    func testHandoutsEnabled() {
+        for hasHandoutsUrl in [true, false] {
+            let config = OEXConfig(discussionsEnabled: true)
+            let course = OEXCourse.freshCourse(discussionsEnabled: true, hasHandoutsUrl: hasHandoutsUrl)
+            let environment = TestRouterEnvironment(config: config)
+            environment.mockEnrollmentManager.courses = [course]
+            environment.logInTestUser()
+            let controller = CourseDashboardViewController(environment: environment,
+                                                           courseID: course.course_id!)
+            
+            inScreenDisplayContext(controller) {
+                waitForStream(controller.t_loaded)
+                
+                let enabled = controller.t_canVisitHandouts()
+                
+                let expected = hasHandoutsUrl
+                XCTAssertEqual(enabled, expected, "Expected handouts visiblity \(expected) when course_handouts_empty: \(hasHandoutsUrl)")
+            }
+        }
+    }
+    
     func testSnapshot() {
         let config = OEXConfig(discussionsEnabled: true, courseSharingEnabled: true)
         let course = OEXCourse.freshCourse()
