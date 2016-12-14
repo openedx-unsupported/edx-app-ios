@@ -61,6 +61,8 @@ class DiscussionCommentCell: UITableViewCell {
         divider.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
         containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
         containerView.applyBorderStyle(BorderStyle())
+        accessibilityTraits = UIAccessibilityTraitHeader
+        bodyTextView.isAccessibilityElement = false
     }
     
     private func addSubViews() {
@@ -149,6 +151,8 @@ class DiscussionCommentCell: UITableViewCell {
         layoutIfNeeded()
         
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
+        
+        setAccessiblity(commentCountOrReportIconButton.currentAttributedTitle?.string)
     }
     
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, index: NSInteger) {
@@ -182,6 +186,8 @@ class DiscussionCommentCell: UITableViewCell {
         setNeedsLayout()
         layoutIfNeeded()
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
+        
+        setAccessiblity(nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -202,8 +208,41 @@ class DiscussionCommentCell: UITableViewCell {
             make.width.equalTo(buttonTitle.singleLineWidth() + StandardHorizontalMargin)
             make.trailing.equalTo(contentView).offset(-2*StandardHorizontalMargin)
         }
+        
+        button.accessibilityHint = report ? Strings.Accessibility.discussionUnreportHint : Strings.Accessibility.discussionReportHint
     }
     
+    func setAccessiblity(commentCount : String?) {
+        var accessibilityString = ""
+        let sentenceSeparator = ", "
+        
+        let body = bodyTextView.attributedText.string
+        accessibilityString.appendContentsOf(body + sentenceSeparator)
+            
+        if let date = dateLabel.text {
+            accessibilityString.appendContentsOf(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
+        }
+        
+        if let author = authorNameLabel.text {
+            accessibilityString.appendContentsOf(Strings.accessibilityBy + " " + author + sentenceSeparator)
+        }
+        
+        if let endorsed = endorsedLabel.text where !endorsedLabel.hidden {
+            accessibilityString.appendContentsOf(endorsed + sentenceSeparator)
+        }
+        
+        if let comments = commentCount {
+            accessibilityString.appendContentsOf(comments)
+            commentCountOrReportIconButton.isAccessibilityElement = false
+        }
+        
+        accessibilityLabel = accessibilityString
+        
+        if let authorName = authorNameLabel.text {
+            self.authorButton.accessibilityLabel = authorName
+            self.authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
+        }
+    }
 }
 
 protocol DiscussionCommentsViewControllerDelegate: class {
@@ -390,6 +429,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                 self?.loadController.state = .Loaded
                 self?.comments = comments
                 self?.tableView.reloadData()
+                UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
             }, failure: { [weak self] (error) -> Void in
                 self?.loadController.state = LoadState.failed(error)
         })

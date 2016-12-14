@@ -20,6 +20,20 @@
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to select";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "By";
+/* Accessibility label for posted data of discussion responses*/
+"ACCESSIBILITY.DISCUSSION_POSTED_ON" = "Posted on {date}";
+/* Accessibility hint for Vote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_VOTE_HINT" = "Double tap to vote.";
+/* Accessibility hint for Unvote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNVOTE_HINT" = "Double tap to unvote.";
+/* Accessibility hint for Report button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_REPORT_HINT" = "Double tap to report.";
+/* Accessibility hint for Unreport button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "Double tap to unreport.";
+/* Accessibility hint for Follow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "Double tap to follow.";
+/* Accessibility hint for Unfollow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Double tap to unfollow.";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Downloads in progress: {percent_complete}";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
@@ -240,10 +254,14 @@
 "DELETE"="Delete";
 /* Discussion used in the segmented control Creating a new post */
 "DISCUSSION"="Discussion";
+/* Discussion comment overlay message when new comment added */
+"DISCUSSION_COMMENT_POSTED" = "Your comment has been added.";
 /* Title of button to allow user to follow a discussion post */
 "DISCUSSION_FOLLOW"="Follow";
 /* Title of action to report a discussion post/response/comment to the course staff */
 "DISCUSSION_REPORT"="Report";
+/* Discussion response overlay message when new response added */
+"DISCUSSION_THREAD_POSTED" = "Your response has been added.";
 /* Title of the navigation bar when entering the course discussion */
 "DISCUSSION_TOPICS"="Discussion topics";
 /* Title of button to allow user to unfollow a discussion post */
@@ -274,10 +292,6 @@
 "DOWNLOADS"="Downloads";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
-/* Discussion comment overlay message when new comment added */
-"DISCUSSION_COMMENT_POSTED" = "Your comment has been added.";
-/* Discussion response overlay message when new response added */
-"DISCUSSION_THREAD_POSTED" = "Your response has been added.";
 /* Title for Edit button on My Videos Screen */
 "EDIT" = "Edit";
 /* Alert message shown when user tries to send an email, but email isn't setup */

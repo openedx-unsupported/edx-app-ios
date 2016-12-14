@@ -61,6 +61,43 @@ class DiscussionPostCell: UITableViewCell {
         authorButton.localizedHorizontalContentAlignment = .Leading
         DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
     }
+    
+    func setAccessibility(thread: DiscussionThread) {
+        
+        var accessibilityString = ""
+        let sentenceSeparator = ", "
+        
+        if let title = thread.title {
+            accessibilityString.appendContentsOf(title + sentenceSeparator)
+        }
+        
+        if let body = thread.rawBody {
+            accessibilityString.appendContentsOf(body + sentenceSeparator)
+        }
+        
+        if let date = dateLabel.text {
+            accessibilityString.appendContentsOf(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
+        }
+        
+        if let author = authorNameLabel.text {
+            accessibilityString.appendContentsOf(Strings.accessibilityBy + " " + author + sentenceSeparator)
+        }
+        
+        if let visibility = visibilityLabel.text {
+            accessibilityString.appendContentsOf(visibility)
+        }
+        
+        if let responseCount = responseCountLabel.text {
+            accessibilityString.appendContentsOf(responseCount)
+        }
+        
+        self.accessibilityLabel = accessibilityString
+        
+        if let authorName = authorNameLabel.text {
+            self.authorButton.accessibilityLabel = authorName
+            self.authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
+        }
+    }
 }
 
 class DiscussionResponseCell: UITableViewCell {
@@ -108,6 +145,10 @@ class DiscussionResponseCell: UITableViewCell {
         endorsedByButton.localizedHorizontalContentAlignment = .Leading
 
         containerView.applyBorderStyle(BorderStyle())
+        
+        accessibilityTraits = UIAccessibilityTraitHeader
+        bodyTextView.isAccessibilityElement = false
+        endorsedByButton.isAccessibilityElement = false
     }
     
     var endorsed : Bool = false {
@@ -130,6 +171,40 @@ class DiscussionResponseCell: UITableViewCell {
         
         super.updateConstraints()
         
+    }
+    
+    func setAccessibility(response: DiscussionComment) {
+        
+        var accessibilityString = ""
+        let sentenceSeparator = ", "
+        
+        let body = bodyTextView.attributedText.string
+        accessibilityString.appendContentsOf(body + sentenceSeparator)
+        
+        if let date = dateLabel.text {
+            accessibilityString.appendContentsOf(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
+        }
+        
+        if let author = authorNameLabel.text {
+            accessibilityString.appendContentsOf(Strings.accessibilityBy + " " + author + sentenceSeparator)
+        }
+        
+        if endorsedByButton.hidden == false {
+            if let endorsed = endorsedByButton.attributedTitleForState(.Normal)?.string  {
+                accessibilityString.appendContentsOf(endorsed + sentenceSeparator)
+            }
+        }
+        
+        if response.childCount > 0 {
+            accessibilityString.appendContentsOf(Strings.commentsToResponse(count: response.childCount))
+        }
+        
+        self.accessibilityLabel = accessibilityString
+        
+        if let authorName = authorNameLabel.text {
+            self.authorButton.accessibilityLabel = authorName
+            self.authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
+        }
     }
 }
 
@@ -305,7 +380,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self?.loadController?.state = .Loaded
                 self?.responsesDataController.endorsedResponses = responses
                 self?.tableView.reloadData()
-                
+                UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
                 if self?.paginationController?.hasNext ?? false { }
                 else {
                     // load unanswered responses
@@ -335,6 +410,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self?.loadController?.state = .Loaded
                 self?.responsesDataController.responses = responses
                 self?.tableView.reloadData()
+                UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
+                
             }, failure: { [weak self] (error) -> Void in
                 // endorsed responses are loaded in separate request and also populated in different section
                 if self?.responsesDataController.endorsedResponses.count <= 0 {
@@ -455,6 +532,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     
                     if let thread: DiscussionThread = result.data {
                         self?.loadedThread(thread)
+                        owner.updateVoteText(cell.voteButton, voteCount: thread.voteCount, voted: thread.voted)
                     }
                     else {
                         self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
@@ -504,6 +582,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 }
             }
             }, forEvents: UIControlEvents.TouchUpInside)
+        
+        if let thread = self.thread {
+            cell.setAccessibility(thread)
+        }
+        
         
         return cell
 
@@ -609,10 +692,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         if let thread = thread {
             DiscussionHelper.updateEndorsedTitle(thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
+            cell.setAccessibility(response)
         }
         
         return cell
-
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -636,8 +719,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let buttonText = NSAttributedString.joinInNaturalLayout([
             Icon.UpVote.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(Strings.vote(count: voteCount))])
-        
         button.setAttributedTitle(buttonText, forState:.Normal)
+        button.accessibilityHint = voted ? Strings.Accessibility.discussionUnvoteHint : Strings.Accessibility.discussionVoteHint
     }
     
     private func updateFollowText(button: DiscussionCellButton, following: Bool) {
@@ -645,6 +728,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let buttonText = NSAttributedString.joinInNaturalLayout([Icon.FollowStar.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(following ? Strings.discussionUnfollow : Strings.discussionFollow )])
         button.setAttributedTitle(buttonText, forState:.Normal)
+        button.accessibilityHint = following ? Strings.Accessibility.discussionUnfollowHint : Strings.Accessibility.discussionFollowHint
     }
     
     private func updateReportText(button: DiscussionCellButton, report: Bool) {
@@ -652,6 +736,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let buttonText = NSAttributedString.joinInNaturalLayout([Icon.ReportFlag.attributedTextWithStyle(iconStyle, inline : true),
             cellButtonStyle.attributedStringWithText(report ? Strings.discussionUnreport : Strings.discussionReport )])
         button.setAttributedTitle(buttonText, forState:.Normal)
+        button.accessibilityHint = report ? Strings.Accessibility.discussionUnreportHint : Strings.Accessibility.discussionReportHint
     }
     
     func increaseResponseCount() {

@@ -503,6 +503,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.loadController.state = self.posts.isEmpty ? emptyState : .Loaded
         // set visibility of header view
         updateHeaderViewVisibility()
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
     }
 
     func titleForFilter(filter : DiscussionPostsFilter) -> String {

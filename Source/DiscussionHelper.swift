@@ -94,6 +94,7 @@ class DiscussionHelper: NSObject {
             // if post is by anonymous user then disable author button (navigating to user profile)
             authorButton.enabled = false
         }
+        authorButton.isAccessibilityElement = authorButton.enabled
         
         imageView.remoteImage = profileImage(hasProfileImage, imageURL: imageURL)
         
