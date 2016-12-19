@@ -28,6 +28,11 @@ extern NSString *const FBSDKLoginManagerLoggerAuthMethod_SFVC;
 @interface FBSDKLoginManagerLogger : NSObject
 + (FBSDKLoginManagerLogger *)loggerFromParameters:(NSDictionary *)parameters;
 
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)new NS_UNAVAILABLE;
+
+- (instancetype)initWithLoggingToken:(NSString *)loggingToken;
+
 // this must not retain loginManager - only used to conveniently grab various properties to log.
 - (void)startSessionForLoginManager:(FBSDKLoginManager *)loginManager;
 - (void)endSession;
@@ -38,4 +43,6 @@ extern NSString *const FBSDKLoginManagerLoggerAuthMethod_SFVC;
 - (NSDictionary *)parametersWithTimeStampAndClientState:(NSDictionary *)loginParams forAuthMethod:(NSString *)authMethod;
 - (void)willAttemptAppSwitchingBehavior;
 - (void)systemAuthDidShowDialog:(BOOL)didShowDialog isUnTOSedDevice:(BOOL)isUnTOSedDevice;
+
+- (void)logNativeAppDialogResult:(BOOL)result dialogDuration:(NSTimeInterval)dialogDuration;
 @end

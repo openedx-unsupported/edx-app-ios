@@ -77,7 +77,8 @@ NS_REQUIRES_PROPERTY_DEFINITIONS
 
  @return A `PFObject` instance without data.
  */
-+ (instancetype)objectWithoutDataWithClassName:(NSString *)className objectId:(nullable NSString *)objectId;
++ (instancetype)objectWithoutDataWithClassName:(NSString *)className
+                                      objectId:(nullable NSString *)objectId NS_SWIFT_NAME(init(withoutDataWithClassName:objectId:));
 
 ///--------------------------------------
 #pragma mark - Managing Object Properties
@@ -240,7 +241,7 @@ NS_REQUIRES_PROPERTY_DEFINITIONS
  Adds the objects contained in another array to the array associated with a given key,
  only adding elements which are not already present in the array.
 
- @dicsussion The position of the insert is not guaranteed.
+ @discussion The position of the insert is not guaranteed.
 
  @param objects The array of objects to add.
  @param key The key.

@@ -3,14 +3,6 @@
 #import <Analytics/SEGAnalyticsUtils.h>
 #import <Analytics/SEGAnalytics.h>
 #import "SEGGoogleAnalyticsIntegration.h"
-#import <GoogleAnalytics/GAI.h>
-
-
-@interface SEGGoogleAnalyticsIntegration ()
-
-@property (nonatomic, assign) id<GAITracker> tracker;
-
-@end
 
 
 @implementation SEGGoogleAnalyticsIntegration
