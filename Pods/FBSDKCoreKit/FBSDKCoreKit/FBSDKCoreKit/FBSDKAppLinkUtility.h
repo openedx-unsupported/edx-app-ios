@@ -28,6 +28,14 @@
  */
 typedef void (^FBSDKDeferredAppLinkHandler)(NSURL *url, NSError *error);
 
+
+/*!
+ @abstract Describes the callback for fetchOrganicDeferredAppLink.
+ @param url the url representing the deferred App Link
+ */
+typedef void (^FBSDKDeferredAppInviteHandler)(NSURL *url);
+
+
 /*!
  @abstract Class containing App Links related utility methods.
  */
@@ -51,5 +59,28 @@ typedef void (^FBSDKDeferredAppLinkHandler)(NSURL *url, NSError *error);
  applicationDidBecomeActive:).
  */
 + (void)fetchDeferredAppLink:(FBSDKDeferredAppLinkHandler)handler;
+
+/*!
+ @deprecated This method is no longer available and will always return NO.
+ */
++ (BOOL)fetchDeferredAppInvite:(FBSDKDeferredAppInviteHandler)handler
+__attribute__((deprecated("This method is no longer available.")));;
+
+/*
+ @abstract Call this method to fetch promotion code from the url, if it's present. This function
+ requires Bolts framework.
+
+ Note: This throws an exception if Bolts.framework is not linked. Add '[BFURL class]' in intialize method
+ of your AppDelegate.
+
+ @param url App Link url that was passed to the app.
+
+ @return Promotion code string.
+
+ @discussion Call this method to fetch App Invite Promotion Code from applink if present.
+ This can be used to fetch the promotion code that was associated with the invite when it
+ was created. This method should be called with the url from the openURL method.
+*/
++ (NSString*)appInvitePromotionCodeFromURL:(NSURL*)url;
 
 @end

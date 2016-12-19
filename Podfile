@@ -1,9 +1,9 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '7.0'
+#platform :ios, '7.0'
 
 source 'https://github.com/CocoaPods/Specs.git'
 
-xcodeproj 'edX.xcodeproj'
+project 'edX.xcodeproj'
 
 target 'edX' do
 pod 'Analytics', '~> 3.0.0'
@@ -18,6 +18,8 @@ pod 'FBSDKCoreKit', '~> 4.6'
 pod 'FBSDKLoginKit', '~> 4.6'
 pod 'Parse', '~> 1.7'
 pod 'Smartling.i18n', '~> 1.0'
+pod 'Firebase/Core'
+
 end
 
 target 'edXTests' do

@@ -26,8 +26,26 @@ extern NSInteger const kBFMultipleErrorsError;
 
 /*!
  An exception that is thrown if there was multiple exceptions on <BFTask taskForCompletionOfAllTasks:>.
+ 
+ @deprecated `BFTask` exception handling is deprecated and will be removed in a future release.
  */
-extern NSString *const BFTaskMultipleExceptionsException;
+extern NSString *const BFTaskMultipleExceptionsException
+__attribute__((deprecated("`BFTask` exception handling is deprecated and will be removed in a future release.")));
+
+/*!
+ An error userInfo key used if there were multiple errors on <BFTask taskForCompletionOfAllTasks:>.
+ Value type is `NSArray<NSError *> *`.
+ */
+extern NSString *const BFTaskMultipleErrorsUserInfoKey;
+
+/*!
+ An error userInfo key used if there were multiple exceptions on <BFTask taskForCompletionOfAllTasks:>.
+ Value type is `NSArray<NSException *> *`.
+ 
+ @deprecated `BFTask` exception handling is deprecated and will be removed in a future release.
+ */
+extern NSString *const BFTaskMultipleExceptionsUserInfoKey
+__attribute__((deprecated("`BFTask` exception handling is deprecated and will be removed in a future release.")));
 
 @class BFExecutor;
 @class BFTask;
@@ -42,7 +60,7 @@ extern NSString *const BFTaskMultipleExceptionsException;
 /*!
  A block that can act as a continuation for a task.
  */
-typedef __nullable id(^BFContinuationBlock)(BFTask<ResultType> *task);
+typedef __nullable id(^BFContinuationBlock)(BFTask<ResultType> *t);
 
 /*!
  Creates a task that is already completed with the given result.
@@ -59,8 +77,11 @@ typedef __nullable id(^BFContinuationBlock)(BFTask<ResultType> *task);
 /*!
  Creates a task that is already completed with the given exception.
  @param exception The exception for the task.
+ 
+ @deprecated `BFTask` exception handling is deprecated and will be removed in a future release.
  */
-+ (instancetype)taskWithException:(NSException *)exception;
++ (instancetype)taskWithException:(NSException *)exception
+__attribute__((deprecated("`BFTask` exception handling is deprecated and will be removed in a future release.")));
 
 /*!
  Creates a task that is already cancelled.
@@ -81,6 +102,14 @@ typedef __nullable id(^BFContinuationBlock)(BFTask<ResultType> *task);
  @param tasks An `NSArray` of the tasks to use as an input.
  */
 + (instancetype)taskForCompletionOfAllTasksWithResults:(nullable NSArray<BFTask *> *)tasks;
+
+/*!
+ Returns a task that will be completed once there is at least one successful task.
+ The first task to successuly complete will set the result, all other tasks results are 
+ ignored.
+ @param tasks An `NSArray` of the tasks to use as an input.
+ */
++ (instancetype)taskForCompletionOfAnyTask:(nullable NSArray<BFTask *> *)tasks;
 
 /*!
  Returns a task that will be completed a certain amount of time in the future.
@@ -123,8 +152,11 @@ typedef __nullable id(^BFContinuationBlock)(BFTask<ResultType> *task);
 
 /*!
  The exception of a failed task.
+
+ @deprecated `BFTask` exception handling is deprecated and will be removed in a future release.
  */
-@property (nullable, nonatomic, strong, readonly) NSException *exception;
+@property (nullable, nonatomic, strong, readonly) NSException *exception
+__attribute__((deprecated("`BFTask` exception handling is deprecated and will be removed in a future release.")));
 
 /*!
  Whether this task has been cancelled.

@@ -49,4 +49,7 @@ extension OEXConfig {
         return true
     }
     
+    var isFirebaseEnabled: Bool {
+        return boolForKey("FIREBASE_ENABLED")
+    }
 }
