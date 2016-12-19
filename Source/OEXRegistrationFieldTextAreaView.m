@@ -9,6 +9,7 @@
 #import "OEXRegistrationFieldTextAreaView.h"
 #import "OEXRegistrationFieldWrapperView.h"
 #import "OEXPlaceholderTextView.h"
+#import "OEXStyles.h"
 
 static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
 
@@ -28,7 +29,7 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
         self.textInputView = [[OEXPlaceholderTextView alloc] initWithFrame:CGRectZero];
         self.textInputView.textContainer.lineFragmentPadding = 0;
         self.textInputView.textContainerInset = UIEdgeInsetsMake(5, 10, 5, 10);
-        [self.textInputView setFont:[UIFont fontWithName:@"OpenSans" size:13.f]];
+        [self.textInputView setFont:[[OEXStyles sharedStyles] sansSerifOfSize:13.f]];
         [self.textInputView setTextColor:[UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:0.9]];
         [self.textInputView setPlaceholderTextColor:[UIColor colorWithRed:0.675 green:0.69 blue:0.614 alpha:0.9]];
         [self.textInputView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];

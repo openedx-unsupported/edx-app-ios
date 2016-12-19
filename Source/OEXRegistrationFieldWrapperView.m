@@ -7,6 +7,7 @@
 //
 
 #import "OEXRegistrationFieldWrapperView.h"
+#import "OEXStyles.h"
 
 @interface OEXRegistrationFieldWrapperView ()
 
@@ -23,14 +24,14 @@
         self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.errorLabel.numberOfLines = 0;
         self.errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.errorLabel.font = [UIFont fontWithName:@"OpenSans" size:10.f];
+        self.errorLabel.font = [[OEXStyles sharedStyles] sansSerifOfSize:10.f];
         self.errorLabel.textColor = [UIColor redColor];
         [self addSubview:self.errorLabel];
 
         self.instructionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.instructionLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.instructionLabel.numberOfLines = 0;
-        self.instructionLabel.font = [UIFont fontWithName:@"OpenSans" size:10.f];
+        self.instructionLabel.font = [[OEXStyles sharedStyles] sansSerifOfSize:10.f];
         self.instructionLabel.isAccessibilityElement = NO;
         [self addSubview:self.instructionLabel];
     }

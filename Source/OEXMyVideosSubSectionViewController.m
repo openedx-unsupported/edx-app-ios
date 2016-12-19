@@ -28,7 +28,6 @@
 #import "OEXVideoSummary.h"
 #import "OEXRouter.h"
 #import "Reachability.h"
-#import "OEXCustomNavigationView.h"
 #import "OEXCustomEditingView.h"
 
 
@@ -334,7 +333,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
         sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, mainViewWidth - 20, 30)];
         sectionTitle.text = headerTitle;
-        sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
+        sectionTitle.font = [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
         [viewMain addSubview:sectionTitle];
     }
@@ -356,13 +355,13 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         
         chapTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, mainViewWidth - 20, 50)];
         chapTitle.text = chapterName;
-        chapTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
+        chapTitle.font = [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:14.0f];
         chapTitle.textColor = [UIColor whiteColor];
         [viewMain addSubview:chapTitle];
 
         sectionTitle = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, mainViewWidth - 20, 30)];
         sectionTitle.text = headerTitle;
-        sectionTitle.font = [UIFont fontWithName:@"OpenSans-Semibold" size:14.0f];
+        sectionTitle.font = [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:14.0f];
         sectionTitle.textColor = [UIColor blackColor];
         [viewMain addSubview:sectionTitle];
     }

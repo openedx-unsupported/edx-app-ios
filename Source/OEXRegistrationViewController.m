@@ -129,10 +129,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 // This method will set default ui.
 
 - (void)initializeViews {
-    NSString* regularFont = @"OpenSans";
-    NSString* semiboldFont = @"OpenSans-Semibold";
 
     NSString* platform = self.environment.config.platformName;
+
     ////Create and initalize 'btnCreateAccount' button
     self.registerButton = [[UIButton alloc] init];
     
@@ -150,7 +149,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.optionalFieldsSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
     //Initialize label above agreement view
     self.agreementLabel = [[UILabel alloc] init];
-    self.agreementLabel.font = [UIFont fontWithName:regularFont size:10.f];
+    self.agreementLabel.font = [[OEXStyles sharedStyles] sansSerifOfSize:10.f];
     self.agreementLabel.textAlignment = NSTextAlignmentCenter;
     self.agreementLabel.numberOfLines = 0;
     self.agreementLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -158,7 +157,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.agreementLabel.text = [Strings registrationAgreementMessage];
     self.agreementLink = [[UIButton alloc] init];
     [self.agreementLink setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:platform] forState:UIControlStateNormal];
-    [self.agreementLink.titleLabel setFont:[UIFont fontWithName:semiboldFont size:10]];
+    [self.agreementLink.titleLabel setFont:[[OEXStyles sharedStyles] semiBoldSansSerifOfSize:10]];
     [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
     self.agreementLink.accessibilityTraits = UIAccessibilityTraitLink;
     self.agreementLink.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -174,7 +173,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
     [self.toggleOptionalFieldsButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton setTitle:[Strings registrationShowOptionalFields]  forState:UIControlStateNormal];
-    [self.toggleOptionalFieldsButton.titleLabel setFont:[UIFont fontWithName:semiboldFont size:14.0]];
+    [self.toggleOptionalFieldsButton.titleLabel setFont:[[OEXStyles sharedStyles] semiBoldSansSerifOfSize:14.0]];
 
     [self.toggleOptionalFieldsButton addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
 

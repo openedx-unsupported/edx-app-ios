@@ -7,7 +7,6 @@
 //
 
 #import "VideoData.h"
-#import "OEXHelperVideoDownload.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -8,8 +8,8 @@
 
 #import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationFieldWrapperView.h"
-#import "OEXTextStyle.h"
 #import "OEXStyles.h"
+#import "OEXTextStyle.h"
 
 @interface OEXRegistrationFormTextField () <UITextFieldDelegate>
 
@@ -29,7 +29,7 @@ static NSInteger const textFieldHeight = 40;
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.textInputView = [[UITextField alloc] initWithFrame:CGRectZero];
-        self.textInputView.font = [UIFont fontWithName:@"OpenSans" size:13.f];
+        self.textInputView.font = [[OEXStyles sharedStyles] sansSerifOfSize:13.f];
         self.textInputView.textColor = [UIColor colorWithRed:0.275 green:0.29 blue:0.314 alpha:1.0];
         self.textInputView.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.textInputView.autocorrectionType = UITextAutocorrectionTypeNo;
