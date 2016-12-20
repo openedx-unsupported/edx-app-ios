@@ -179,14 +179,8 @@
     
     //Initialize Firebase
     if (config.isFirebaseEnabled) {
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-            [FIRApp configure];
-            [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
-        }
-        else {
-            NSAssert(NO, @"Firebase: Expecting GoogleService-Info.plist file");
-        }
+        [FIRApp configure];
+        [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
     }
 
     //NewRelic Initialization with edx key

@@ -13,6 +13,7 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     private let GoogleCategoryKey = "category"
     private let GoogleLabelKey = "label"
     private let GoogleActionKey = "action"
+    private let firebaseTracker = FirebaseAnalyticsTracker.sharedTracker
     
     var currentOrientationValue : String {
         return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
@@ -60,9 +61,9 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         
         SEGAnalytics.sharedAnalytics().track(event.displayName, properties: info)
         
-        //WARNING: Check for info file and remove debug argument
+        // WARNING: add GoogleService-Info file to git ignore and remove debug argument
         if OEXConfig.sharedConfig().isFirebaseEnabled {
-            FIRAnalytics.logEventWithName(event.displayName.formattedNameForFirebase(), parameters: formatedFirebaseParameters(info as! [String : NSObject]))
+            firebaseTracker.trackEventWithName(event.displayName, parameters: info as! [String : NSObject])
         }
     }
     
@@ -79,9 +80,9 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         
         SEGAnalytics.sharedAnalytics().screen(screenName, properties: properties)
         
-        //WARNING: Check for info file and remove debug argument
+        // WARNING: Remove debug argument
         if OEXConfig.sharedConfig().isFirebaseEnabled {
-            FIRAnalytics.logEventWithName(screenName.formattedNameForFirebase(), parameters: formatedFirebaseParameters(properties))
+            firebaseTracker.trackEventWithName(screenName, parameters: properties)
         }
         
         // adding additional info to event
@@ -96,55 +97,5 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         event.name = OEXAnalyticsEventScreen;
         event.courseID = courseID
         trackEvent(event, forComponent: nil, withProperties: properties)
-    }
-    
-    private func formatedFirebaseParameters(params: [String : NSObject]) -> [String : NSObject] {
-        // Firebase only supports String or Number as value for event parameters
-        // For segment edX is using three level dictionary so need to iterate all to fetch all parameters
-        
-        var parameters: [String : NSObject] = [:]
-        for (key, value) in params {
-            if value.isKindOfClass(NSDictionary) {
-                if let innerDict = value as? [String: NSObject] {
-                    for (innerKey, innerValue) in innerDict {
-                        if let deepDict = innerValue as? [String: NSObject] {
-                            for (deepKey, deepValue) in deepDict {
-                                parameters[deepKey.formattedNameForFirebase()] = deepValue
-                            }
-                        }
-                        else {
-                            parameters[innerKey.formattedNameForFirebase()] = innerValue
-                        }
-                        
-                    }
-                }
-            }
-            else {
-                parameters[key.formattedNameForFirebase()] = value
-            }
-        }
-        
-        //WARNING: Remove these logs after implementation 
-//        print("properties: \(params)")
-//        print("\n\nparameters: \(parameters)")
-        
-        return parameters
-    }
-    
-}
-
-private extension String {
-    func formattedNameForFirebase()-> String {
-        var string = replace(" ", replacement: "_")
-        string = string.replace("-", replacement: "_")
-        string = string.replace(":", replacement: "_")
-        string = string.replace("__", replacement: "_")
-        
-        
-        return string
-    }
-    
-    private func replace(string:String, replacement:String) -> String {
-        return self.stringByReplacingOccurrencesOfString(string, withString: replacement, options: NSStringCompareOptions.LiteralSearch, range: nil)
     }
 }
