@@ -14,31 +14,29 @@ class FirebaseAnalyticsTracker: NSObject {
     
     func trackEventWithName(eventName: String, parameters: [String : NSObject]) {
         
-        var formattedParameters: [String: NSObject] = [:]
+        var formattedParameters = [String: NSObject]()
         
-        formatFirebaseParameters(parameters, formattedParams: &formattedParameters)
+        formatParamatersForFirebase(parameters, formattedParams: &formattedParameters)
         FIRAnalytics.logEventWithName(formattedKeyForFirebase(eventName), parameters: formattedParameters)
     }
     
-    private func formatFirebaseParameters(params: [String : NSObject], inout formattedParams: [String: NSObject]) {
+    private func formatParamatersForFirebase(params: [String : NSObject], inout formattedParams: [String: NSObject]) {
         // Firebase only supports String or Number as value for event parameters
         // For segment edX is using three level dictionary so need to iterate all to fetch all parameters
         
         for (key, value) in params {
             if value.isKindOfClass(NSDictionary) {
-                formatFirebaseParameters(value as! [String: NSObject], formattedParams: &formattedParams)
+                formatParamatersForFirebase(value as! [String: NSObject], formattedParams: &formattedParams)
             }
-            else {
-                if canAddParameter(key) {
-                    if isSplitingRequired(key) {
-                        let splitValues = splitParameterValue(key, value: value as! String)
-                        for (splitKey, splitValue) in splitValues {
-                            formattedParams[formattedKeyForFirebase(splitKey)] = formattedParamValue(splitValue)
-                        }
+            else if canAddParameter(key) {
+                if isSplittingRequired(key) {
+                    let splitParameters = splitParameterValue(key, value: value as! String)
+                    for (splitKey, splitValue) in splitParameters {
+                        formattedParams[formattedKeyForFirebase(splitKey)] = formattedParamValue(splitValue)
                     }
-                    else {
-                        formattedParams[formattedKeyForFirebase(key)] = formattedParamValue(value)
-                    }
+                }
+                else {
+                    formattedParams[formattedKeyForFirebase(key)] = formattedParamValue(value)
                 }
             }
         }
@@ -46,7 +44,7 @@ class FirebaseAnalyticsTracker: NSObject {
     
     private func formattedParamValue(value: NSObject)-> NSObject {
         if value.isKindOfClass(NSString) {
-            return formateParamValue(value as! String)
+            return formatParamValue(value as! String)
         }
         
         return value
@@ -56,7 +54,7 @@ class FirebaseAnalyticsTracker: NSObject {
         return (key != key_open_in_browser && key != "url")
     }
     
-    private func isSplitingRequired(key: String) -> Bool {
+    private func isSplittingRequired(key: String) -> Bool {
         return (key == key_course_id || key == OEXAnalyticsKeyCourseID || key == key_module_id || key == OEXAnalyticsKeyBlockID)
     }
     
@@ -82,7 +80,6 @@ class FirebaseAnalyticsTracker: NSObject {
             string = "download_module"
         }
         
-        
         let charSet = NSMutableCharacterSet(charactersInString: "_.")
         charSet.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
         string = string.componentsSeparatedByCharactersInSet(charSet.invertedSet).joinWithSeparator("_")
@@ -94,7 +91,7 @@ class FirebaseAnalyticsTracker: NSObject {
         return string
     }
     
-    private func formateParamValue(value: String)-> String {
+    private func formatParamValue(value: String)-> String {
         
         var formattedValue = formattedKeyForFirebase(value)
         
@@ -114,23 +111,21 @@ class FirebaseAnalyticsTracker: NSObject {
     func parseCourseID(courseID: String)-> [String: NSObject] {
         // CourseID can ge greater than 36 characters so parsing it to org, course and run
         var components = courseID.componentsSeparatedByString("+")
+        let componentsCount = 3
         var parts: [String: NSObject] = [:]
         let org = "org"
         let course = "course"
         let run = "run"
-        if components.count == 3 {
+        
+        if components.count <= 1 {
+            // In old mongo course id was combined by '/'
+            components = courseID.componentsSeparatedByString("/")
+        }
+        
+        if components.count == componentsCount {
             parts[org] = components[0]
             parts[course] = components[1]
             parts[run] = components[2]
-        }
-        else if components.count <= 1 {
-            // In old mongo course id was combined by '/'
-            components = courseID.componentsSeparatedByString("/")
-            if components.count == 3 {
-                parts[org] = components[0]
-                parts[course] = components[1]
-                parts[run] = components[2]
-            }
         }
         
         return parts
