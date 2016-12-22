@@ -8,6 +8,8 @@
 
 import Foundation
 
+private let MaxParameterValueCharacters = 36
+
 class FirebaseAnalyticsTracker: NSObject {
     
     static let sharedTracker = FirebaseAnalyticsTracker()
@@ -101,8 +103,8 @@ class FirebaseAnalyticsTracker: NSObject {
         }
         
         // Firebase only supports 36 characters for parameter value
-        if formattedValue.characters.count > 36 {
-            formattedValue = formattedValue.substringToIndex(formattedValue.startIndex.advancedBy(36))
+        if formattedValue.characters.count > MaxParameterValueCharacters {
+            formattedValue = formattedValue.substringToIndex(formattedValue.startIndex.advancedBy(MaxParameterValueCharacters))
         }
         
         return formattedValue
@@ -123,7 +125,8 @@ class FirebaseAnalyticsTracker: NSObject {
         }
         
         if components.count == componentsCount {
-            parts[org] = components[0]
+            // droping prefix
+            parts[org] = components[0].componentsSeparatedByString(":").last
             parts[course] = components[1]
             parts[run] = components[2]
         }
