@@ -8,7 +8,7 @@
 
 import Foundation
 
-private let MaxParameterValueCharacters = 36
+private let MaxParameterValueCharacters = 100
 
 class FirebaseAnalyticsTracker: NSObject {
     
@@ -30,20 +30,22 @@ class FirebaseAnalyticsTracker: NSObject {
             if value.isKindOfClass(NSDictionary) {
                 formatParamatersForFirebase(value as! [String: NSObject], formattedParams: &formattedParams)
             }
-            else if canAddParameter(key) {
-                if isSplittingRequired(key) {
-                    let splitParameters = splitParameterValue(key, value: value as! String)
-                    for (splitKey, splitValue) in splitParameters {
-                        formattedParams[formattedKeyForFirebase(splitKey)] = formattedParamValue(splitValue)
-                    }
+            else if !canAddParameter(key) {
+                continue
+            }
+            
+            if isSplittingRequired(key) {
+                let splitParameters = splitParameterValue(key, value: value as! String)
+                for (splitKey, splitValue) in splitParameters {
+                    formattedParams[formattedKeyForFirebase(splitKey)] = formattedParamValue(splitValue)
                 }
-                else {
-                    formattedParams[formattedKeyForFirebase(key)] = formattedParamValue(value)
-                }
+            }
+            else {
+                formattedParams[formattedKeyForFirebase(key)] = formattedParamValue(value)
             }
         }
     }
-    
+
     private func formattedParamValue(value: NSObject)-> NSObject {
         if value.isKindOfClass(NSString) {
             return formatParamValue(value as! String)
@@ -73,11 +75,7 @@ class FirebaseAnalyticsTracker: NSObject {
     
     private func formattedKeyForFirebase(key: String)-> String {
         var string = key
-        if string == key_fullscreen {
-            // Characters are more than 24, special case
-            string = "video_fullscreen"
-        }
-        else if string == value_downloadmodule {
+        if string == value_downloadmodule {
             // Special case: separate two words
             string = "download_module"
         }
@@ -97,12 +95,7 @@ class FirebaseAnalyticsTracker: NSObject {
         
         var formattedValue = formattedKeyForFirebase(value)
         
-        // removing edx.bi. from bi events
-        if value.contains("edx.bi.") {
-            formattedValue = formattedValue.replace("edx.bi.", replacement: "")
-        }
-        
-        // Firebase only supports 36 characters for parameter value
+        // Firebase only supports 100 characters for parameter value
         if formattedValue.characters.count > MaxParameterValueCharacters {
             formattedValue = formattedValue.substringToIndex(formattedValue.startIndex.advancedBy(MaxParameterValueCharacters))
         }

@@ -15,16 +15,16 @@ PODS:
   - FBSDKLoginKit (4.17.0):
     - FBSDKCoreKit
   - FBSnapshotTestCase/Core (2.0.1)
-  - Firebase/Core (3.9.0):
-    - FirebaseAnalytics (= 3.5.1)
-    - FirebaseCore (= 3.4.4)
-  - FirebaseAnalytics (3.5.1):
+  - Firebase/Core (3.11.0):
+    - FirebaseAnalytics (= 3.6.0)
+    - FirebaseCore (= 3.4.6)
+  - FirebaseAnalytics (3.6.0):
     - FirebaseCore (~> 3.4)
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
-  - FirebaseCore (3.4.4):
+  - FirebaseCore (3.4.6):
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleToolboxForMac/NSData+zlib (~> 2.1)
   - FirebaseInstanceID (1.0.8)
@@ -82,7 +82,7 @@ DEPENDENCIES:
   - FBSDKCoreKit (~> 4.6)
   - FBSDKLoginKit (~> 4.6)
   - FBSnapshotTestCase/Core (= 2.0.1)
-  - Firebase/Core (= 3.9.0)
+  - Firebase/Core (= 3.11.0)
   - GoogleSignIn (~> 2.4)
   - Masonry (~> 0.6)
   - NewRelicAgent (~> 4.1)
@@ -101,9 +101,9 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 30a21d2d7b92984b3d80497113433c00824c35e9
   FBSDKLoginKit: 42b7129ac0373ca99eaf4cbebf4d07bd42371f59
   FBSnapshotTestCase: bdb997ab2397495205f11156d4d444606daebd27
-  Firebase: ff77ffb77b317c3720fef57a60e9335cebf962e6
-  FirebaseAnalytics: 6e58fc9b397664369ac7617fb0ba93fab6ba7b5b
-  FirebaseCore: d0ed25f27b6f9158eccc439f1be6f92e81207e28
+  Firebase: b8134e285eb33201115bc688bc5d7f112923bc1f
+  FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
+  FirebaseCore: 03da1cb32615569bbc2830a22f9ad753d9a02ef5
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleAppUtilities: a8a552aa74f6597f805e45b5a3962766c3134973
@@ -123,6 +123,6 @@ SPEC CHECKSUMS:
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 03ef7a5643965212c6ca9ed7d65385950ca4a989
 
-PODFILE CHECKSUM: 8232c908399053fda5d74402131b427c150d9f60
+PODFILE CHECKSUM: 734d5b0fe4bbac0f66677de571e2448cc8dfde8d
 
 COCOAPODS: 1.1.1
