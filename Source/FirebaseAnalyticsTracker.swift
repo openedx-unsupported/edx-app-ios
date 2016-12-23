@@ -118,7 +118,7 @@ class FirebaseAnalyticsTracker: NSObject {
         }
         
         if components.count == componentsCount {
-            // droping prefix
+            // dropping prefix
             parts[org] = components[0].componentsSeparatedByString(":").last
             parts[course] = components[1]
             parts[run] = components[2]
