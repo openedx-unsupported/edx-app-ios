@@ -30,18 +30,18 @@ class FirebaseAnalyticsTracker: NSObject {
             if value.isKindOfClass(NSDictionary) {
                 formatParamatersForFirebase(value as! [String: NSObject], formattedParams: &formattedParams)
             }
-            else if !canAddParameter(key) {
-                continue
-            }
-            
-            if isSplittingRequired(key) {
-                let splitParameters = splitParameterValue(key, value: value as! String)
-                for (splitKey, splitValue) in splitParameters {
-                    formattedParams[formattedKeyForFirebase(splitKey)] = formattedParamValue(splitValue)
+            else{
+                if canAddParameter(key) {
+                    if isSplittingRequired(key) {
+                        let splitParameters = splitParameterValue(key, value: value as! String)
+                        for (splitKey, splitValue) in splitParameters {
+                            formattedParams[formattedKeyForFirebase(splitKey)] = formattedParamValue(splitValue)
+                        }
+                    }
+                    else {
+                        formattedParams[formattedKeyForFirebase(key)] = formattedParamValue(value)
+                    }
                 }
-            }
-            else {
-                formattedParams[formattedKeyForFirebase(key)] = formattedParamValue(value)
             }
         }
     }
