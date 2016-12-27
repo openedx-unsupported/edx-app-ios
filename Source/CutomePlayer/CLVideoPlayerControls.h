@@ -100,7 +100,7 @@ typedef enum
 @property (nonatomic, readonly, getter = isShowing) BOOL showing;
 
 /**
- Is the parent viewController at the top of the stack?
+ Checks if the parent viewController is at the top of the stack
  */
 @property (nonatomic) BOOL isVisibile;
 
