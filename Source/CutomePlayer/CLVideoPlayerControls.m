@@ -1486,6 +1486,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                 [self.moviePlayer setCurrentPlaybackTime:self.moviePlayer.lastPlayedTime];
                 self.moviePlayer.lastPlayedTime = 0;
             }
+            
+            if(!self.isVisibile) {
+                break;
+            }
 
             if(self.video.summary.videoID) {
                 [_dataInterface sendAnalyticsEvents:OEXVideoStateLoading withCurrentTime:0 forVideo:self.video];

@@ -251,12 +251,14 @@
         [_moviePlayerController stop];
     }
     _shouldRotate = NO;
+    _moviePlayerController.controls.isVisibile = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [_moviePlayerController setShouldAutoplay:YES];
     _shouldRotate = YES;
+    _moviePlayerController.controls.isVisibile = YES;
 }
 
 - (void)videoPlayerShouldRotate {
