@@ -406,8 +406,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     // Search for timeInterval
     @autoreleasepool {
         NSPredicate* initialPredicate = [NSPredicate predicateWithFormat:@"(%@ >= %K) AND (%@ <= %K)", @(self.moviePlayer.currentPlaybackTime), kStart, @(self.moviePlayer.currentPlaybackTime), kEnd];
-
-        NSArray* objectsFound = [[self.subtitlesParts allValues] filteredArrayUsingPredicate:initialPredicate];
+        NSArray *array = [[NSArray alloc] initWithArray:[self.subtitlesParts allValues]];
+        NSArray* objectsFound = [array filteredArrayUsingPredicate:initialPredicate];
         NSDictionary* lastFounded = (NSDictionary*)[objectsFound lastObject];
         // Show text
         if(lastFounded) {

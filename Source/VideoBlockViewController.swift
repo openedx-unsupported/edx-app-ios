@@ -24,6 +24,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     let loader = BackedStream<CourseBlock>()
     
     var rotateDeviceMessageView : IconMessageView?
+    var videoTranscriptView : OEXVideoTranscript?
     var contentView : UIView?
     
     let loadController : LoadStateViewController
@@ -90,6 +91,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
         contentView!.addSubview(rotateDeviceMessageView!)
+        
+        videoTranscriptView = OEXVideoTranscript()
+        contentView!.addSubview(videoTranscriptView!.transcriptTableView)
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
@@ -173,6 +177,20 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
         
         rotateDeviceMessageView?.snp_remakeConstraints {make in
+            make.top.equalTo(videoController.view.snp_bottom)
+            make.leading.equalTo(contentView!)
+            make.trailing.equalTo(contentView!)
+            // There's a weird OS bug where the bottom layout guide doesn't get set properly until
+            // the layout cycle after viewDidAppear, so use the parent in the mean time
+            if #available(iOS 9, *) {
+                make.bottom.equalTo(self.bottomLayoutGuide.topAnchor)
+            }
+            else {
+                make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
+            }
+        }
+        
+        videoTranscriptView?.transcriptTableView.snp_remakeConstraints { make in
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
