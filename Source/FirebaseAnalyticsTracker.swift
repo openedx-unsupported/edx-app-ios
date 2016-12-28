@@ -63,17 +63,6 @@ class FirebaseAnalyticsTracker: NSObject {
         return (key == key_module_id || key == OEXAnalyticsKeyBlockID)
     }
     
-    private func splitParameterValue(key: String, value: String) -> [String: NSObject] {
-        if key == key_course_id || key == OEXAnalyticsKeyCourseID {
-            return parseCourseID(value)
-        }
-        else if key == key_module_id || key == OEXAnalyticsKeyBlockID {
-            return parseModuleOrBlockID(key, value: value)
-        }
-        
-        return [:]
-    }
-    
     private func formattedKeyForFirebase(key: String)-> String {
         var string = key
         if string == value_downloadmodule {
@@ -93,7 +82,6 @@ class FirebaseAnalyticsTracker: NSObject {
     }
     
     private func formatParamValue(value: String)-> String {
-        
         var formattedValue = value
         
         // Firebase only supports 100 characters for parameter value
@@ -104,7 +92,7 @@ class FirebaseAnalyticsTracker: NSObject {
         return formattedValue
     }
     
-    func parseModuleOrBlockID(key: String, value: String)-> [String : NSObject]{
+    func splitParameterValue(key: String, value: String)-> [String : NSObject]{
         // Only using last identifier
         let components = value.componentsSeparatedByString("@")
         return [key: components.last!]
