@@ -56,11 +56,11 @@ class FirebaseAnalyticsTracker: NSObject {
     }
     
     private func canAddParameter(key: String) -> Bool {
-        return (key != key_open_in_browser && key != "url")
+        return (key != key_open_in_browser && key != "url" && key != key_target_url)
     }
     
     private func isSplittingRequired(key: String) -> Bool {
-        return (key == key_course_id || key == OEXAnalyticsKeyCourseID || key == key_module_id || key == OEXAnalyticsKeyBlockID)
+        return (key == key_module_id || key == OEXAnalyticsKeyBlockID)
     }
     
     private func splitParameterValue(key: String, value: String) -> [String: NSObject] {
@@ -94,7 +94,7 @@ class FirebaseAnalyticsTracker: NSObject {
     
     private func formatParamValue(value: String)-> String {
         
-        var formattedValue = formattedKeyForFirebase(value)
+        var formattedValue = value
         
         // Firebase only supports 100 characters for parameter value
         if formattedValue.characters.count > MaxParameterValueCharacters {
