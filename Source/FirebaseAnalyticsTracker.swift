@@ -104,30 +104,6 @@ class FirebaseAnalyticsTracker: NSObject {
         return formattedValue
     }
     
-    func parseCourseID(courseID: String)-> [String: NSObject] {
-        // CourseID can ge greater than 36 characters so parsing it to org, course and run
-        var components = courseID.componentsSeparatedByString("+")
-        let componentsCount = 3
-        var parts: [String: NSObject] = [:]
-        let org = "org"
-        let course = "course"
-        let run = "run"
-        
-        if components.count <= 1 {
-            // In old mongo course id was combined by '/'
-            components = courseID.componentsSeparatedByString("/")
-        }
-        
-        if components.count == componentsCount {
-            // dropping prefix
-            parts[org] = components[0].componentsSeparatedByString(":").last
-            parts[course] = components[1]
-            parts[run] = components[2]
-        }
-        
-        return parts
-    }
-    
     func parseModuleOrBlockID(key: String, value: String)-> [String : NSObject]{
         // Only using last identifier
         let components = value.componentsSeparatedByString("@")
