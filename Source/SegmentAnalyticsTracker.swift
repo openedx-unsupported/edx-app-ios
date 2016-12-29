@@ -61,7 +61,6 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         
         SEGAnalytics.sharedAnalytics().track(event.displayName, properties: info)
         
-        // WARNING: add GoogleService-Info file to git ignore and remove debug argument
         if OEXConfig.sharedConfig().isFirebaseEnabled {
             firebaseTracker.trackEventWithName(event.displayName, parameters: info as! [String : NSObject])
         }
@@ -80,7 +79,6 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         
         SEGAnalytics.sharedAnalytics().screen(screenName, properties: properties)
         
-        // WARNING: Remove debug argument
         if OEXConfig.sharedConfig().isFirebaseEnabled {
             firebaseTracker.trackEventWithName(screenName, parameters: properties)
         }
