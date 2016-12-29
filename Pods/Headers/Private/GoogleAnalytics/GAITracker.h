@@ -1,1 +1,1 @@
-../../../GoogleAnalytics/Headers/Public/GAITracker.h
+../../../GoogleAnalytics/Sources/GAITracker.h

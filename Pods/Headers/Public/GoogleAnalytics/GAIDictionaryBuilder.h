@@ -1,1 +1,1 @@
-../../../GoogleAnalytics/Headers/Public/GAIDictionaryBuilder.h
+../../../GoogleAnalytics/Sources/GAIDictionaryBuilder.h

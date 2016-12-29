@@ -1,0 +1,1 @@
+../../../../FirebaseCore/Frameworks/frameworks/FirebaseCore.framework/Headers/FIRConfiguration.h

@@ -23,9 +23,7 @@ NSString* const OEXAnalyticsEventAnnouncementNotificationTapped = @"edx.bi.app.n
 NSString* const OEXAnalyticsEventPictureSet = @"edx.bi.app.profile.view";
 NSString* const OEXAnalyticsEventProfileViewed = @"edx.bi.app.profile.setphoto";
 
-NSString* const OEXAnalyticsEventOpenInBrowser = @"edx.bi.app.navigation.open-in-browser";
 NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.component.viewed";
-NSString* const OEXAnalyticsEventOutlineModeChanged = @"edx.bi.app.navigation.switched-mode.clicked";
 NSString* const OEXAnalyticsEventScreen = @"edx.bi.app.navigation.screen";
 NSString* const OEXAnalyticsEventCertificateShared = @"edx.bi.app.certificate.shared";
 NSString* const OEXAnalyticsEventCourseShared = @"edx.bi.app.course.shared";

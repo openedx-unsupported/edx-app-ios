@@ -63,8 +63,6 @@ extern NSString* const OEXAnalyticsEventAnnouncementNotificationTapped;
 extern NSString* const OEXAnalyticsEventComponentViewed;
 extern NSString* const OEXAnalyticsEventPictureSet;
 extern NSString* const OEXAnalyticsEventProfileViewed;
-extern NSString* const OEXAnalyticsEventOpenInBrowser;
-extern NSString* const OEXAnalyticsEventOutlineModeChanged;
 extern NSString* const OEXAnalyticsEventScreen;
 extern NSString* const OEXAnalyticsEventCertificateShared;
 extern NSString* const OEXAnalyticsEventCourseShared;

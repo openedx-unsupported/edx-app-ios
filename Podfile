@@ -3,7 +3,7 @@
 
 source 'https://github.com/CocoaPods/Specs.git'
 
-xcodeproj 'edX.xcodeproj'
+project 'edX.xcodeproj'
 
 target 'edX' do
 pod 'Analytics', '~> 3.0.0'
@@ -18,6 +18,7 @@ pod 'FBSDKCoreKit', '~> 4.6'
 pod 'FBSDKLoginKit', '~> 4.6'
 pod 'Parse', '~> 1.7'
 pod 'Smartling.i18n', '~> 1.0'
+pod 'Firebase/Core', '= 3.11.0'
 end
 
 target 'edXTests' do

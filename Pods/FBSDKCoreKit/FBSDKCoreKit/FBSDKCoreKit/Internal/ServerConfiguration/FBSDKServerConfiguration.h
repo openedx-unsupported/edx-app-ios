@@ -34,6 +34,15 @@ extern NSString *const FBSDKDialogConfigurationNameLike;
 extern NSString *const FBSDKDialogConfigurationNameMessage;
 extern NSString *const FBSDKDialogConfigurationNameShare;
 
+extern const NSInteger FBSDKServerConfigurationVersion;
+
+typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationSmartLoginOptions)
+{
+  FBSDKServerConfigurationSmartLoginOptionsUnknown = 0,
+  FBSDKServerConfigurationSmartLoginOptionsEnabled = 1 << 0,
+  FBSDKServerConfigurationSmartLoginOptionsRequireConfirmation  = 1 << 1,
+};
+
 @interface FBSDKServerConfiguration : NSObject <FBSDKCopying, NSSecureCoding>
 
 - (instancetype)initWithAppID:(NSString *)appID
@@ -50,7 +59,12 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
                   dialogFlows:(NSDictionary *)dialogFlows
                     timestamp:(NSDate *)timestamp
            errorConfiguration:(FBSDKErrorConfiguration *)errorConfiguration
+       sessionTimeoutInterval:(NSTimeInterval) sessionTimeoutInterval
                      defaults:(BOOL)defaults
+                 loggingToken:(NSString *)loggingToken
+            smartLoginOptions:(FBSDKServerConfigurationSmartLoginOptions)smartLoginOptions
+    smartLoginBookmarkIconURL:(NSURL *)smartLoginBookmarkIconURL
+        smartLoginMenuIconURL:(NSURL *)smartLoginMenuIconURL
 NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, assign, readonly, getter=isAdvertisingIDEnabled) BOOL advertisingIDEnabled;
@@ -66,6 +80,12 @@ NS_DESIGNATED_INITIALIZER;
 @property (nonatomic, assign, readonly, getter=isSystemAuthenticationEnabled) BOOL systemAuthenticationEnabled;
 @property (nonatomic, copy, readonly) NSString *loginTooltipText;
 @property (nonatomic, copy, readonly) NSDate *timestamp;
+@property (nonatomic, assign) NSTimeInterval sessionTimoutInterval;
+@property (nonatomic, copy, readonly) NSString *loggingToken;
+@property (nonatomic, assign, readonly) FBSDKServerConfigurationSmartLoginOptions smartLoginOptions;
+@property (nonatomic, copy, readonly) NSURL *smartLoginBookmarkIconURL;
+@property (nonatomic, copy, readonly) NSURL *smartLoginMenuIconURL;
+@property (nonatomic, readonly) NSInteger version;
 
 - (FBSDKDialogConfiguration *)dialogConfigurationForDialogName:(NSString *)dialogName;
 - (BOOL)useNativeDialogForDialogName:(NSString *)dialogName;

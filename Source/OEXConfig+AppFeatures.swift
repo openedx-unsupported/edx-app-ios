@@ -49,4 +49,12 @@ extension OEXConfig {
         return true
     }
     
+    var isFirebaseEnabled: Bool {
+        let filePath = NSBundle.mainBundle().pathForResource("GoogleService-Info", ofType: "plist") ?? ""
+        if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
+            return boolForKey("FIREBASE_ENABLED")
+        }
+        
+        return false
+    }
 }

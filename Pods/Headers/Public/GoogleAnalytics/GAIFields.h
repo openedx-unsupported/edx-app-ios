@@ -1,1 +1,1 @@
-../../../GoogleAnalytics/Headers/Public/GAIFields.h
+../../../GoogleAnalytics/Sources/GAIFields.h
