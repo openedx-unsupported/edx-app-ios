@@ -94,6 +94,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         videoTranscriptView = OEXVideoTranscript()
         contentView!.addSubview(videoTranscriptView!.transcriptTableView)
+        videoTranscriptView?.transcriptTableView.hidden = true
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
@@ -302,5 +303,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         if self.isVerticallyCompact() && !videoPlayer.fullscreen{
             videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
         }
+    }
+    
+    func transcriptLoaded(transcript: [AnyObject]) {
+        self.videoTranscriptView?.updateTranscript(transcript)
     }
 }

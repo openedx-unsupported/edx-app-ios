@@ -40,6 +40,7 @@ typedef enum
 
 @protocol CLVideoPlayerControlsDelegate <NSObject>
 - (void) videoPlayerTapped:(id) sender;
+- (void) transcriptLoaded:(NSArray *)transcript;
 @end
 
 

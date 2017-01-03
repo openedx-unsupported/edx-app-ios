@@ -8,19 +8,18 @@
 
 import UIKit
 
-protocol OEXVideoTranscriptDelegate {
-    func didUpdateTranscript(transcript: [[String: AnyObject]])
-}
-
 private func setupTable(tableView: UITableView) {
-    tableView.separatorInset = UIEdgeInsetsZero
     tableView.registerClass(VideoTranscriptTableViewCell.self, forCellReuseIdentifier: VideoTranscriptTableViewCell.cellIdentifier)
+    
+    tableView.separatorInset = UIEdgeInsetsZero
+    tableView.estimatedRowHeight = 44
+    tableView.rowHeight = UITableViewAutomaticDimension
 }
 
-@objc class OEXVideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource, OEXVideoTranscriptDelegate {
+@objc class OEXVideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     let transcriptTableView = UITableView(frame: CGRectZero, style: .Plain)
-    var transcriptArray = [[String: AnyObject]]()
+    var transcriptArray = [AnyObject]()
     
     override init() {
         super.init()
@@ -46,8 +45,7 @@ private func setupTable(tableView: UITableView) {
         
         cell.layoutMargins = UIEdgeInsetsZero
         cell.backgroundColor = UIColor.whiteColor()
-        
-        cell.titleLabel.text = self.transcriptArray[indexPath.row]["kText"] as? String
+        cell.setTranscriptText(self.transcriptArray[indexPath.row]["kText"] as? String)
         return cell
     }
     
@@ -57,9 +55,13 @@ private func setupTable(tableView: UITableView) {
     
     //MARK: - OEXVideoTranscriptDelegate methods
     
-    func didUpdateTranscript(transcript: [[String : AnyObject]]) {
-        self.transcriptArray = transcript
-        self.transcriptTableView.reloadData()
+    func updateTranscript(transcript: [AnyObject]) {
+        if transcript.count > 0 {
+            self.transcriptArray = transcript
+            self.transcriptTableView.reloadData()
+            self.transcriptTableView.hidden = false
+//            self.transcriptTableView.layoutIfNeeded()
+        }
     }
 }
 
@@ -69,8 +71,15 @@ class VideoTranscriptTableViewCell: UITableViewCell {
     
     let titleLabel = UILabel(frame: CGRectZero)
     
+    internal var titleStyle : OEXTextStyle {
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+        titleLabel.lineBreakMode = .ByWordWrapping
+        return style
+    }
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        titleLabel.numberOfLines = 0
         self.addSubview(titleLabel)
     }
     
@@ -79,10 +88,11 @@ class VideoTranscriptTableViewCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-        
         self.titleLabel.snp_remakeConstraints { make in
-            make.centerY.equalTo(self.snp_centerY)
             make.left.equalTo(self.snp_leftMargin)
+            make.right.equalTo(self.snp_rightMargin)
+            make.top.equalTo(self.snp_topMargin)
+            make.bottom.equalTo(self.snp_bottomMargin)
         }
         super.layoutSubviews()
     }
@@ -98,5 +108,9 @@ class VideoTranscriptTableViewCell: UITableViewCell {
         else {
             self.backgroundColor = UIColor.whiteColor()
         }
+    }
+    
+    func setTranscriptText(text: String?) {
+        titleLabel.attributedText = titleStyle.attributedStringWithText(text)
     }
 }
