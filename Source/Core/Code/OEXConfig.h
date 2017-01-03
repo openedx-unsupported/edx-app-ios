@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXFabricConfig;
 @class OEXFacebookConfig;
 @class OEXGoogleConfig;
-@class OEXNewRelicConfig;
 @class OEXParseConfig;
 @class OEXSegmentConfig;
 @class OEXZeroRatingConfig;

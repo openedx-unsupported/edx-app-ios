@@ -592,7 +592,6 @@
 		B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */; };
 		B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */; };
 		B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */; };
-		B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */; };
 		B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E11A9A497A00DD603A /* OEXSegmentConfig.m */; };
 		B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E41A9A49FF00DD603A /* OEXFabricConfig.m */; };
 		B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */; };
@@ -1434,8 +1433,6 @@
 		B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXGoogleConfig.m; sourceTree = "<group>"; };
 		B4B285DA1A9A490400DD603A /* OEXFacebookConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFacebookConfig.h; sourceTree = "<group>"; };
 		B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFacebookConfig.m; sourceTree = "<group>"; };
-		B4B285DD1A9A493A00DD603A /* OEXNewRelicConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXNewRelicConfig.h; sourceTree = "<group>"; };
-		B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNewRelicConfig.m; sourceTree = "<group>"; };
 		B4B285E01A9A497A00DD603A /* OEXSegmentConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSegmentConfig.h; sourceTree = "<group>"; };
 		B4B285E11A9A497A00DD603A /* OEXSegmentConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentConfig.m; sourceTree = "<group>"; };
 		B4B285E31A9A49FF00DD603A /* OEXFabricConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFabricConfig.h; sourceTree = "<group>"; };
@@ -2802,8 +2799,6 @@
 				B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */,
 				B4B285DA1A9A490400DD603A /* OEXFacebookConfig.h */,
 				B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */,
-				B4B285DD1A9A493A00DD603A /* OEXNewRelicConfig.h */,
-				B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */,
 				B4B285E01A9A497A00DD603A /* OEXSegmentConfig.h */,
 				B4B285E11A9A497A00DD603A /* OEXSegmentConfig.m */,
 				B4B285E31A9A49FF00DD603A /* OEXFabricConfig.h */,
@@ -3985,7 +3980,6 @@
 				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
-				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
 				7772BEA71AFA68330081CA7A /* ConstraintRelation.swift in Sources */,
 				9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */,
 				7765025F1C7CEBC5007384E7 /* SingleChildContainingViewController.swift in Sources */,
@@ -4552,7 +4546,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
-				PODS_CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				PODS_CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
@@ -4595,8 +4589,6 @@
 					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
 					"\"${PODS_ROOT}/Headers/Public/GoogleIDFASupport\"",
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent\"",
-					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent/NewRelicAgent\"",
 					"\"${PODS_ROOT}/Headers/Public/OCMock\"",
 					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
 					"\"${PODS_ROOT}/Headers/Public/PSTAlertController\"",
@@ -4623,6 +4615,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -4654,6 +4647,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -4685,6 +4679,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -4961,7 +4956,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
-				PODS_CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				PODS_CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
@@ -4998,7 +4993,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
-				PODS_CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				PODS_CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
@@ -5042,8 +5037,6 @@
 					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
 					"\"${PODS_ROOT}/Headers/Public/GoogleIDFASupport\"",
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent\"",
-					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent/NewRelicAgent\"",
 					"\"${PODS_ROOT}/Headers/Public/OCMock\"",
 					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
 					"\"${PODS_ROOT}/Headers/Public/PSTAlertController\"",
@@ -5098,8 +5091,6 @@
 					"\"${PODS_ROOT}/Headers/Public/GoogleAnalytics\"",
 					"\"${PODS_ROOT}/Headers/Public/GoogleIDFASupport\"",
 					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
-					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent\"",
-					"\"${PODS_ROOT}/Headers/Public/NewRelicAgent/NewRelicAgent\"",
 					"\"${PODS_ROOT}/Headers/Public/OCMock\"",
 					"\"${PODS_ROOT}/Headers/Public/OHHTTPStubs\"",
 					"\"${PODS_ROOT}/Headers/Public/PSTAlertController\"",
