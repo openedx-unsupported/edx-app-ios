@@ -95,7 +95,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @property (nonatomic, strong) UITableView* tableSettings;
 @property (nonatomic, strong) CLButton* btnPrevious;
 @property (nonatomic, strong) CLButton* btnNext;
-@property (nonatomic, strong) CLButton* btnLMS;
 @property (nonatomic, weak, nullable) OEXInterface* dataInterface;
 @property (strong, nonatomic) OEXVideoPlayerSettings* settings;
 
@@ -137,7 +136,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _rewindButton.accessibilityHint = [Strings accessibilityRewindHint];
     [_playPauseButton setAccessibilityLabelsForStateNormalWithNormalStateLabel:[Strings accessibilityPause] selectedStateLabel:[Strings accessibilityPlay]];
     _btnSettings.accessibilityLabel = [Strings accessibilitySettings];
-    _btnLMS.accessibilityLabel = [Strings openInBrowser];
     _fullscreenButton.accessibilityLabel = [Strings accessibilityFullscreen];
     _tapButton.isAccessibilityElement = NO;
 }
@@ -772,12 +770,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_btnSettings addTarget:self action:@selector(settingsBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [_bottomBar addSubview:_btnSettings];
 
-    self.btnLMS = [[CLButton alloc] init];
-    [self.btnLMS setImage:[UIImage OpenURL] forState:UIControlStateNormal];
-    [self.btnLMS addTarget:self action:@selector(LMSBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    self.btnLMS.delegate = self;
-    [_topBar addSubview:self.btnLMS];
-
     _fullscreenButton = [[CLButton alloc] init];
     [_fullscreenButton setImage:[UIImage ExpandIcon] forState:UIControlStateNormal];
     [_fullscreenButton addTarget:self action:@selector(fullscreenPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -851,7 +843,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _btnSettings.delegate = nil;
     _btnPrevious.delegate = nil;
     _btnNext.delegate = nil;
-    _btnLMS.delegate = nil;
     _scaleButton.delegate = nil;
 }
 
@@ -1008,12 +999,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                                             CurrentTime:[self getMoviePlayerCurrentTime]
                                                CourseID:self.video.course_id
                                                 UnitURL:self.video.summary.unitURL];
-}
-
-#pragma CC methods
-
-- (void)LMSBtnClicked:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.video.summary.unitURL]];
 }
 
 # pragma mark - UIControl/Touch Events
@@ -1676,8 +1661,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
         self.btnNext.frame = CGRectMake(self.frame.size.width - paddingFromBezel - PrevNextButtonSize, (self.frame.size.height / 2) - (PrevNextButtonSize / 2), PrevNextButtonSize, PrevNextButtonSize);
 
-        self.btnLMS.frame = CGRectMake(self.frame.size.width - paddingFromBezel - LMSButtonSize, 18, LMSButtonSize, LMSButtonSize);
-
         self.timeRemainingLabel.frame = CGRectMake(self.btnSettings.frame.origin.x - labelWidth, 0, labelWidth, self.barHeight);
 
         CGFloat playWidth = 42.f;
@@ -1708,8 +1691,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         self.tableSettings.frame = CGRectMake(self.btnSettings.frame.origin.x - tableOptionWidth + (settingsbtnSize / 2), self.view_OptionsOverlay.frame.size.height - self.barHeight - tableOptionHeight, tableOptionWidth, tableOptionHeight);
 
         self.timeRemainingLabel.frame = CGRectMake(self.btnSettings.frame.origin.x - labelWidth, 0, labelWidth, self.barHeight);
-
-        self.btnLMS.frame = CGRectMake(self.frame.size.width - paddingFromBezel - LMSButtonSize, 18, LMSButtonSize, LMSButtonSize);
 
         CGFloat playWidth = 35.f;
         CGFloat playHeight = 35.f;
