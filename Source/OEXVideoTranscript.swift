@@ -8,18 +8,25 @@
 
 import UIKit
 
+protocol VideoTranscriptDelegate {
+    func didSelectSubtitleAtInterval(time: NSTimeInterval)
+}
+
 private func setupTable(tableView: UITableView) {
     tableView.registerClass(VideoTranscriptTableViewCell.self, forCellReuseIdentifier: VideoTranscriptTableViewCell.cellIdentifier)
-    
-    tableView.separatorInset = UIEdgeInsetsZero
-    tableView.estimatedRowHeight = 44
+    tableView.separatorColor = UIColor.clearColor()
+    tableView.separatorStyle = UITableViewCellSeparatorStyle.None
     tableView.rowHeight = UITableViewAutomaticDimension
+    tableView.estimatedRowHeight = 60
+    
 }
 
 @objc class OEXVideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     let transcriptTableView = UITableView(frame: CGRectZero, style: .Plain)
     var transcriptArray = [AnyObject]()
+    var selectedIndex = 0
+    var delegate : VideoTranscriptDelegate?
     
     override init() {
         super.init()
@@ -45,22 +52,33 @@ private func setupTable(tableView: UITableView) {
         
         cell.layoutMargins = UIEdgeInsetsZero
         cell.backgroundColor = UIColor.whiteColor()
-        cell.setTranscriptText(self.transcriptArray[indexPath.row]["kText"] as? String)
+        cell.setTranscriptText(self.transcriptArray[indexPath.row]["kText"] as? String, highlighted: indexPath.row == selectedIndex)
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        self.delegate?.didSelectSubtitleAtInterval(self.transcriptArray[indexPath.row]["kStart"] as! NSTimeInterval)
     }
     
     //MARK: - OEXVideoTranscriptDelegate methods
     
     func updateTranscript(transcript: [AnyObject]) {
         if transcript.count > 0 {
-            self.transcriptArray = transcript
-            self.transcriptTableView.reloadData()
-            self.transcriptTableView.hidden = false
-//            self.transcriptTableView.layoutIfNeeded()
+            dispatch_async(dispatch_get_main_queue(), { 
+                self.transcriptArray = transcript
+                self.transcriptTableView.reloadData()
+                self.transcriptTableView.hidden = false
+            })
+        }
+    }
+    
+    func highlightSubtitleForTime(time: NSTimeInterval?) {
+        if let index = self.transcriptArray.indexOf({ time >= $0["kStart"] as? Double && time <= $0["kEnd"] as? Double }) {
+            if index != self.selectedIndex {
+                self.selectedIndex = index
+                self.transcriptTableView.reloadData()
+                self.transcriptTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+            }
         }
     }
 }
@@ -71,8 +89,14 @@ class VideoTranscriptTableViewCell: UITableViewCell {
     
     let titleLabel = UILabel(frame: CGRectZero)
     
-    internal var titleStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+    internal var standardTitleStyle : OEXTextStyle {
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
+        titleLabel.lineBreakMode = .ByWordWrapping
+        return style
+    }
+    
+    internal var highlightedTitleStyle : OEXTextStyle {
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: OEXStyles.sharedStyles().neutralXDark())
         titleLabel.lineBreakMode = .ByWordWrapping
         return style
     }
@@ -80,21 +104,19 @@ class VideoTranscriptTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         titleLabel.numberOfLines = 0
+        titleLabel.preferredMaxLayoutWidth = CGRectGetWidth(self.bounds)
         self.addSubview(titleLabel)
+        self.titleLabel.snp_remakeConstraints { make in
+            make.left.equalTo(self.snp_left).offset(20.0)
+            make.right.equalTo(self.snp_right).offset(-20.0)
+            make.top.equalTo(self.snp_top).offset(10.0)
+            make.bottom.equalTo(self.snp_bottom).offset(-10.0)
+        }
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        self.titleLabel.snp_remakeConstraints { make in
-            make.left.equalTo(self.snp_leftMargin)
-            make.right.equalTo(self.snp_rightMargin)
-            make.top.equalTo(self.snp_topMargin)
-            make.bottom.equalTo(self.snp_bottomMargin)
-        }
-        super.layoutSubviews()
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
@@ -110,7 +132,12 @@ class VideoTranscriptTableViewCell: UITableViewCell {
         }
     }
     
-    func setTranscriptText(text: String?) {
-        titleLabel.attributedText = titleStyle.attributedStringWithText(text)
+    func setTranscriptText(text: String? , highlighted: Bool) {
+        if !highlighted {
+            titleLabel.attributedText = standardTitleStyle.attributedStringWithText(text)
+        }
+        else{
+            titleLabel.attributedText = highlightedTitleStyle.attributedStringWithText(text)
+        }
     }
 }

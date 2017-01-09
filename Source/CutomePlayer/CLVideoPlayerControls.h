@@ -117,6 +117,8 @@ typedef enum
 
 - (void)hideOptionsAndValues;
 
+- (void)setCurrentPlaybackTimeFromTranscript:(NSTimeInterval )time;
+
 // For Closed Captioning
 @property (nonatomic, weak, nullable) CLVideoPlayer* moviePlayer;
 

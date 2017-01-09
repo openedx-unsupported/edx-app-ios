@@ -12,7 +12,7 @@ import UIKit
 
 private let StandardVideoAspectRatio : CGFloat = 0.6
 
-class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding {
+class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate {
     
     typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider>
 
@@ -25,6 +25,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     var rotateDeviceMessageView : IconMessageView?
     var videoTranscriptView : OEXVideoTranscript?
+    var subtitleTimer = NSTimer()
     var contentView : UIView?
     
     let loadController : LoadStateViewController
@@ -93,6 +94,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         contentView!.addSubview(rotateDeviceMessageView!)
         
         videoTranscriptView = OEXVideoTranscript()
+        videoTranscriptView?.delegate = self
         contentView!.addSubview(videoTranscriptView!.transcriptTableView)
         videoTranscriptView?.transcriptTableView.hidden = true
         
@@ -307,5 +309,22 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     func transcriptLoaded(transcript: [AnyObject]) {
         self.videoTranscriptView?.updateTranscript(transcript)
+        
+        if !subtitleTimer.valid {
+            self.subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
+                                                                        target: self,
+                                                                        selector: #selector(highlightSubtitle),
+                                                                        userInfo: nil,
+                                                                        repeats: true)
+            self.subtitleTimer.fire()
+        }
+    }
+    
+    func highlightSubtitle() {
+        self.videoTranscriptView!.highlightSubtitleForTime(self.videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
+    }
+    
+    func didSelectSubtitleAtInterval(time: NSTimeInterval) {
+        self.videoController.moviePlayerController?.controls?.setCurrentPlaybackTimeFromTranscript(time)
     }
 }

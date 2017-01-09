@@ -416,8 +416,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     // Search for timeInterval
     @autoreleasepool {
         NSPredicate* initialPredicate = [NSPredicate predicateWithFormat:@"(%@ >= %K) AND (%@ <= %K)", @(self.moviePlayer.currentPlaybackTime), kStart, @(self.moviePlayer.currentPlaybackTime), kEnd];
-        NSArray *array = [[NSArray alloc] initWithArray:self.subtitlesParts];
-        NSArray* objectsFound = [array filteredArrayUsingPredicate:initialPredicate];
+        NSArray* objectsFound = [self.subtitlesParts filteredArrayUsingPredicate:initialPredicate];
         NSDictionary* lastFounded = (NSDictionary*)[objectsFound lastObject];
         // Show text
         if(lastFounded) {
@@ -1104,6 +1103,11 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     NSTimeInterval currentTime = (NSTimeInterval)slider.value;
     NSTimeInterval totalTime = (NSTimeInterval)self.moviePlayer.duration;
     [self setTimeLabelValues:currentTime totalTime:totalTime];
+}
+
+- (void)setCurrentPlaybackTimeFromTranscript:(NSTimeInterval )time {
+    [self hideOptionsAndValues];
+    [self.moviePlayer setCurrentPlaybackTime:time];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
