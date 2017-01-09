@@ -126,9 +126,9 @@ class CourseOutlineQuerierTests: XCTestCase {
         let outline = CourseOutline(root: "root", blocks:
             [
                 "root": CourseBlock(type: CourseBlockType.Section,
-                    children: ["found", "missing"], blockID: "root", name: "Root!", multiDevice: true),
+                    children: ["found", "missing"], blockID: "root", minifiedBlockID: "123456", name: "Root!", multiDevice: true),
                 "found": CourseBlock(type: CourseBlockType.Section,
-                    children: [], blockID: "found", name: "Child!", multiDevice: true)
+                    children: [], blockID: "found", minifiedBlockID: "123456", name: "Child!", multiDevice: true)
             ]
         )
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
