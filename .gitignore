@@ -4,6 +4,7 @@ xcuserdata
 *.xcuserstate
 *.xcbkptlist
 *.xccheckout
+*.xcscmblueprint
 
 .gradle
 build
