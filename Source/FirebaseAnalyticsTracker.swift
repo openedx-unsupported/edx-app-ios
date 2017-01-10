@@ -63,7 +63,7 @@ class FirebaseAnalyticsTracker: NSObject {
     }
     
     private func canAddParameter(key: String) -> Bool {
-        return (key != key_open_in_browser && key != "url" && key != key_target_url && key != OEXAnalyticsKeyBlockID)
+        return (key != key_open_in_browser && key != "url" && key != key_target_url && key != OEXAnalyticsKeyBlockID && key != "label" && key != "category")
     }
     
     private func isSplittingRequired(key: String) -> Bool {
