@@ -112,9 +112,9 @@ NS_ASSUME_NONNULL_BEGIN
                          Mode:(BOOL)isFullscreen
                       UnitURL:(NSString*)unitUrl;
 
-- (void)trackOpenInBrowserWithURL:(NSString*)URL courseID:(NSString*)courseID blockID:(NSString*)block supported:(BOOL)supported;
+- (void)trackOpenInBrowserWithURL:(NSString*)URL courseID:(NSString*)courseID blockID:(NSString*)blockID minifiedBlockID: (NSString*)minifiedBlockID supported:(BOOL)supported;
 
-- (void)trackViewedComponentForCourseWithID:(NSString*)courseID blockID:(NSString*)block;
+- (void)trackViewedComponentForCourseWithID:(NSString*)courseID blockID:(NSString*)blockID minifiedBlockID: (NSString*)minifiedBlockID;
 
 // Notification events
 - (void)trackAnnouncementNotificationReceivedWithCourseID:(NSString*)courseID;

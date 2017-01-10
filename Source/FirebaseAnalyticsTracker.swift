@@ -13,6 +13,7 @@ private let MaxParameterValueCharacters = 100
 class FirebaseAnalyticsTracker: NSObject {
     
     static let sharedTracker = FirebaseAnalyticsTracker()
+    static let minifiedBlockIDKey: NSString = "minifiedBlockID"
     
     func trackEventWithName(eventName: String, parameters: [String : NSObject]) {
         
@@ -42,7 +43,13 @@ class FirebaseAnalyticsTracker: NSObject {
                 }
             }
             else {
-                formattedParams[formattedKeyForFirebase(key)] = formattedParamValue(value)
+                // For firebase sending minifiedBlockID instead of blockID
+                if key == FirebaseAnalyticsTracker.minifiedBlockIDKey {
+                    formattedParams[formattedKeyForFirebase(OEXAnalyticsKeyBlockID)] = formattedParamValue(value)
+                }
+                else {
+                    formattedParams[formattedKeyForFirebase(key)] = formattedParamValue(value)
+                }
             }
         }
     }
@@ -56,11 +63,11 @@ class FirebaseAnalyticsTracker: NSObject {
     }
     
     private func canAddParameter(key: String) -> Bool {
-        return (key != key_open_in_browser && key != "url" && key != key_target_url)
+        return (key != key_open_in_browser && key != "url" && key != key_target_url && key != OEXAnalyticsKeyBlockID)
     }
     
     private func isSplittingRequired(key: String) -> Bool {
-        return (key == key_module_id || key == OEXAnalyticsKeyBlockID)
+        return (key == key_module_id)
     }
     
     private func formattedKeyForFirebase(key: String)-> String {

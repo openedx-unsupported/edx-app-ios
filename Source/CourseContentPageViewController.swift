@@ -221,7 +221,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             cursor.updateCurrentToItemMatching {
                 blockController.blockID == $0.block.blockID
             }
-            environment.analytics.trackViewedComponentForCourseWithID(courseID, blockID: cursor.current.block.blockID)
+            environment.analytics.trackViewedComponentForCourseWithID(courseID, blockID: cursor.current.block.blockID, minifiedBlockID: cursor.current.block.minifiedBlockID ?? "")
             self.navigationDelegate?.courseContentPageViewController(self, enteredBlockWithID: cursor.current.block.blockID, parentID: cursor.current.parent)
         }
         self.updateNavigationBars()

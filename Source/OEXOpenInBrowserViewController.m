@@ -73,7 +73,7 @@ static OEXOpenInBrowserViewController* _sharedInterface = nil;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnonnull"
         // Since we check right above this that _str_browserURL.length > 0
-        [[OEXAnalytics sharedAnalytics] trackOpenInBrowserWithURL:_str_browserURL courseID:nil blockID:nil supported:true];
+        [[OEXAnalytics sharedAnalytics] trackOpenInBrowserWithURL:_str_browserURL courseID:nil blockID:nil minifiedBlockID:nil supported:true];
 #pragma clang diagnostic pop
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_str_browserURL]];
     }

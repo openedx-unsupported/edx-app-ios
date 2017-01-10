@@ -414,10 +414,11 @@ static OEXAnalytics* sAnalytics;
 
 #pragma mark - Course Navigation
 
-- (void)trackViewedComponentForCourseWithID:(NSString*)courseID blockID:(NSString*)blockID {
+- (void)trackViewedComponentForCourseWithID:(NSString*)courseID blockID:(NSString*)blockID minifiedBlockID: (NSString*)minifiedBlockID {
     NSMutableDictionary* info = [[NSMutableDictionary alloc] init];
     [info safeSetObject:blockID forKey:OEXAnalyticsKeyBlockID];
     [info safeSetObject:courseID forKey:OEXAnalyticsKeyCourseID];
+    [info safeSetObject:minifiedBlockID forKey:FirebaseAnalyticsTracker.minifiedBlockIDKey];
     
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = OEXAnalyticsEventComponentViewed;
@@ -430,10 +431,11 @@ static OEXAnalytics* sAnalytics;
 
 #pragma mark - View on web
 
-- (void)trackOpenInBrowserWithURL:(NSString*)URL courseID:(NSString*)courseID blockID:(NSString*)blockID supported:(BOOL)supported {
+- (void)trackOpenInBrowserWithURL:(NSString*)URL courseID:(NSString*)courseID blockID:(NSString*)blockID minifiedBlockID: (NSString*)minifiedBlockID supported:(BOOL)supported {
     NSMutableDictionary* info = @{}.mutableCopy;
-    [info safeSetObject:blockID forKey:OEXAnalyticsKeyBlockID];
     [info safeSetObject:courseID forKey:OEXAnalyticsKeyCourseID];
+    [info safeSetObject:blockID forKey:OEXAnalyticsKeyBlockID];
+    [info safeSetObject:minifiedBlockID forKey:FirebaseAnalyticsTracker.minifiedBlockIDKey];
     [info safeSetObject:@(supported) forKey:OEXAnalyticsKeySupported];
     [info safeSetObject:URL forKey:key_target_url];
     
