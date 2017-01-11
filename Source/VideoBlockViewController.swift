@@ -299,7 +299,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     //MARK: - OEXVideoPlayerInterfaceDelegate methods
-    
     func videoPlayerTapped(sender: UIGestureRecognizer) {
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
@@ -322,13 +321,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     //MARK: -
-    
     func highlightSubtitle() {
         self.videoTranscriptView!.highlightSubtitleForTime(self.videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
     }
     
     //MARK: - VideoTranscriptDelegate methods
-    
     func didSelectSubtitleAtInterval(time: NSTimeInterval) {
         self.videoController.moviePlayerController?.controls?.setCurrentPlaybackTimeFromTranscript(time)
     }

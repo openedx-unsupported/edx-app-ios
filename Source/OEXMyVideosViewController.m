@@ -1163,10 +1163,6 @@ typedef  enum OEXAlertType
     // TODO: Handle player tap
 }
 
-- (void)transcriptLoaded:(NSArray *)transcript {
-    
-}
-
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView.tag == 1001) {
         if(buttonIndex == 1) {

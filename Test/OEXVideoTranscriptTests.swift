@@ -36,7 +36,6 @@ class OEXVideoTranscriptTests: XCTestCase {
         transcriptView.highlightSubtitleForTime(3.47)
         XCTAssertEqual(transcriptView.selectedIndex, 2)
     }
-    
 }
 
 class OEXVideoTranscriptDataFactory{
@@ -71,5 +70,4 @@ class OEXVideoTranscriptDataFactory{
         
         return transcript
     }
-    
 }

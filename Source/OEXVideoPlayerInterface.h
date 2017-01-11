@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)movieTimedOut;
 
+@optional
 - (void) videoPlayerTapped:(UIGestureRecognizer *) sender;
 - (void)transcriptLoaded:(NSArray *)transcript;
 
