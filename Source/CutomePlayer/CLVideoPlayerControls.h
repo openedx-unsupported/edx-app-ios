@@ -38,6 +38,11 @@ typedef enum
     CLVideoPlayerControlsStateReady,
 } CLVideoPlayerControlsState;
 
+extern NSString* const CLVideoPlayerkIndex;
+extern NSString* const CLVideoPlayerkStart;
+extern NSString* const CLVideoPlayerkEnd;
+extern NSString* const CLVideoPlayerkText;
+
 @protocol CLVideoPlayerControlsDelegate <NSObject>
 - (void) videoPlayerTapped:(id) sender;
 - (void) transcriptLoaded:(NSArray *)transcript;

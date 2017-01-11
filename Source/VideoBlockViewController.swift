@@ -96,7 +96,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         videoTranscriptView = OEXVideoTranscript()
         videoTranscriptView?.delegate = self
         contentView!.addSubview(videoTranscriptView!.transcriptTableView)
-        videoTranscriptView?.transcriptTableView.hidden = true
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
@@ -299,6 +298,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
+    //MARK: - OEXVideoPlayerInterfaceDelegate methods
+    
     func videoPlayerTapped(sender: UIGestureRecognizer) {
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
@@ -320,9 +321,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
+    //MARK: -
+    
     func highlightSubtitle() {
         self.videoTranscriptView!.highlightSubtitleForTime(self.videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
     }
+    
+    //MARK: - VideoTranscriptDelegate methods
     
     func didSelectSubtitleAtInterval(time: NSTimeInterval) {
         self.videoController.moviePlayerController?.controls?.setCurrentPlaybackTimeFromTranscript(time)

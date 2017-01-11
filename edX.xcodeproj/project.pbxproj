@@ -125,6 +125,7 @@
 		697B5A091D92DB3F002C3ABD /* RegistrationFormAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */; };
 		6987A86B1D6C57C100E9D183 /* OEXColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */; };
 		6987A86D1D6C67DB00E9D183 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 6987A86C1D6C67DB00E9D183 /* colors.json */; };
+		698C6D781E2619E4009156BB /* OEXVideoTranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698C6D771E2619E4009156BB /* OEXVideoTranscriptTests.swift */; };
 		69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */ = {isa = PBXBuildFile; fileRef = 69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */; };
 		69C12C661E07F5F8004E7261 /* OEXVideoTranscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C12C651E07F5F8004E7261 /* OEXVideoTranscript.swift */; };
 		69E1CD011D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */; };
@@ -896,6 +897,7 @@
 		697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationFormAPI.swift; path = Source/Core/Code/RegistrationFormAPI.swift; sourceTree = SOURCE_ROOT; };
 		6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsTests.swift; sourceTree = "<group>"; };
 		6987A86C1D6C67DB00E9D183 /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
+		698C6D771E2619E4009156BB /* OEXVideoTranscriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoTranscriptTests.swift; sourceTree = "<group>"; };
 		69C12C651E07F5F8004E7261 /* OEXVideoTranscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoTranscript.swift; sourceTree = "<group>"; };
 		69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RegistrationForm.json; sourceTree = "<group>"; };
 		69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXRegistrationViewController+Swift.swift"; sourceTree = "<group>"; };
@@ -3220,6 +3222,7 @@
 				E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */,
 				694D34A11D76B75F0047F3F4 /* UIAlertController+OEXBlockActionsTests.swift */,
 				E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */,
+				698C6D771E2619E4009156BB /* OEXVideoTranscriptTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				7772BE901AF90C8A0081CA7A /* Helpers */,
@@ -4392,6 +4395,7 @@
 				E09B9D6E1D06D79F0080BAE0 /* VersionUpgradeInfoControllerTests.swift in Sources */,
 				E03E6A201D38F2AF00944AAA /* UIView+UIViewControllerTests.swift in Sources */,
 				7754348C1AD83E4600635A40 /* OEXPushNotificationManagerTests.m in Sources */,
+				698C6D781E2619E4009156BB /* OEXVideoTranscriptTests.swift in Sources */,
 				E03402211C7F1FC9003EB9B7 /* DiscussionResponsesDataControllerTests.swift in Sources */,
 				778D53371B3D97CC00441A98 /* ListCursorTests.swift in Sources */,
 				77567B4C1AC5E8EC00877A7B /* OEXAnalyticsTests.m in Sources */,

@@ -27,10 +27,10 @@
 #import "OEXUserDetails.h"
 #import "OEXVideoSummary.h"
 
-static NSString* const kIndex = @"kIndex";
-static NSString* const kStart = @"kStart";
-static NSString* const kEnd = @"kEnd";
-static NSString* const kText = @"kText";
+NSString* const CLVideoPlayerkIndex = @"kIndex";
+NSString* const CLVideoPlayerkStart = @"kStart";
+NSString* const CLVideoPlayerkEnd = @"kEnd";
+NSString* const CLVideoPlayerkText = @"kText";
 
 static const NSTimeInterval CLVideoSkipBackwardsDuration = 30;
 static const NSTimeInterval OEXVideoControlsFadeDelay = 3.0;
@@ -377,10 +377,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         NSTimeInterval startInterval = [self getTimeFromString:startString];
         NSTimeInterval endInterval = [self getTimeFromString:endString];
         NSDictionary* tempInterval = @{
-            kIndex : indexString,
-            kStart : @(startInterval),
-            kEnd : @(endInterval),
-            kText : textString ? textString : @""
+            CLVideoPlayerkIndex : indexString,
+            CLVideoPlayerkStart : @(startInterval),
+            CLVideoPlayerkEnd : @(endInterval),
+            CLVideoPlayerkText : textString ? textString : @""
         };
         [self.subtitlesParts insertObject:tempInterval atIndex:[indexString integerValue]];
     }
@@ -415,20 +415,20 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     // Search for timeInterval
     @autoreleasepool {
-        NSPredicate* initialPredicate = [NSPredicate predicateWithFormat:@"(%@ >= %K) AND (%@ <= %K)", @(self.moviePlayer.currentPlaybackTime), kStart, @(self.moviePlayer.currentPlaybackTime), kEnd];
+        NSPredicate* initialPredicate = [NSPredicate predicateWithFormat:@"(%@ >= %K) AND (%@ <= %K)", @(self.moviePlayer.currentPlaybackTime), CLVideoPlayerkStart, @(self.moviePlayer.currentPlaybackTime), CLVideoPlayerkEnd];
         NSArray* objectsFound = [self.subtitlesParts filteredArrayUsingPredicate:initialPredicate];
         NSDictionary* lastFounded = (NSDictionary*)[objectsFound lastObject];
         // Show text
         if(lastFounded) {
             // If the text contains the --> this means the previous time slot has no text to it
             // so to resolve that check --> and make the string blank.
-            if([[lastFounded objectForKey:kText] rangeOfString:@"-->"].location != NSNotFound) {
+            if([[lastFounded objectForKey:CLVideoPlayerkText] rangeOfString:@"-->"].location != NSNotFound) {
                 self.subtitleLabel.text = @"";
                 self.subtitleLabel.hidden = YES;
             }
             else {
                 // Get text
-                self.subtitleLabel.text = [lastFounded objectForKey:kText];
+                self.subtitleLabel.text = [lastFounded objectForKey:CLVideoPlayerkText];
                 self.subtitleLabel.hidden = NO;
                 // Label position
                 [self setSubtitleLabelFrame];

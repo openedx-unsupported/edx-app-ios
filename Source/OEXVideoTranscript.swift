@@ -17,15 +17,17 @@ private func setupTable(tableView: UITableView) {
     tableView.separatorColor = UIColor.clearColor()
     tableView.separatorStyle = UITableViewCellSeparatorStyle.None
     tableView.rowHeight = UITableViewAutomaticDimension
-    tableView.estimatedRowHeight = 60
-    
+    tableView.estimatedRowHeight = 44
+    tableView.hidden = true
 }
 
-@objc class OEXVideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource {
+@objc class OEXVideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     
     let transcriptTableView = UITableView(frame: CGRectZero, style: .Plain)
     var transcriptArray = [AnyObject]()
     var selectedIndex = 0
+    var isTableDragged : Bool = false
+    var draggingTimer = NSTimer()
     var delegate : VideoTranscriptDelegate?
     
     override init() {
@@ -33,15 +35,9 @@ private func setupTable(tableView: UITableView) {
         setupTable(transcriptTableView)
         transcriptTableView.dataSource = self
         transcriptTableView.delegate = self
-        transcriptTableView.reloadData()
-        
     }
     
     //MARK: - UITableview methods
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return transcriptArray.count
@@ -52,34 +48,48 @@ private func setupTable(tableView: UITableView) {
         
         cell.layoutMargins = UIEdgeInsetsZero
         cell.backgroundColor = UIColor.whiteColor()
-        cell.setTranscriptText(self.transcriptArray[indexPath.row]["kText"] as? String, highlighted: indexPath.row == selectedIndex)
+        cell.setTranscriptText(self.transcriptArray[indexPath.row][CLVideoPlayerkText] as? String, highlighted: indexPath.row == selectedIndex)
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.delegate?.didSelectSubtitleAtInterval(self.transcriptArray[indexPath.row]["kStart"] as! NSTimeInterval)
+        self.delegate?.didSelectSubtitleAtInterval(self.transcriptArray[indexPath.row][CLVideoPlayerkStart] as! NSTimeInterval)
     }
     
-    //MARK: - OEXVideoTranscriptDelegate methods
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        isTableDragged = true
+        draggingTimer.invalidate()
+        draggingTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(invalidateDragging), userInfo: nil, repeats: false)
+    }
+    
+    //MARK: -
     
     func updateTranscript(transcript: [AnyObject]) {
         if transcript.count > 0 {
-            dispatch_async(dispatch_get_main_queue(), { 
                 self.transcriptArray = transcript
                 self.transcriptTableView.reloadData()
                 self.transcriptTableView.hidden = false
-            })
         }
     }
     
     func highlightSubtitleForTime(time: NSTimeInterval?) {
-        if let index = self.transcriptArray.indexOf({ time >= $0["kStart"] as? Double && time <= $0["kEnd"] as? Double }) {
+        if let index = getTranscriptIndexForTime(time) {
             if index != self.selectedIndex {
                 self.selectedIndex = index
                 self.transcriptTableView.reloadData()
-                self.transcriptTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                if !isTableDragged {
+                    self.transcriptTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                }
             }
         }
+    }
+    
+    func getTranscriptIndexForTime(time: NSTimeInterval?) -> Int? {
+        return self.transcriptArray.indexOf({ time >= $0[CLVideoPlayerkStart] as? Double && time <= $0[CLVideoPlayerkEnd] as? Double })
+    }
+    
+    func invalidateDragging(){
+        isTableDragged = false
     }
 }
 
@@ -112,7 +122,6 @@ class VideoTranscriptTableViewCell: UITableViewCell {
             make.top.equalTo(self.snp_top).offset(10.0)
             make.bottom.equalTo(self.snp_bottom).offset(-10.0)
         }
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
