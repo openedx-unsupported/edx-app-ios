@@ -15,7 +15,7 @@ class FirebaseAnalyticsTracker: NSObject {
     static let sharedTracker = FirebaseAnalyticsTracker()
     static let minifiedBlockIDKey: NSString = "minifiedBlockID"
     //Skipping these keys for Firebase analytics
-    private let KeysToSkip = [key_open_in_browser, key_target_url, OEXAnalyticsKeyBlockID, "url", "label", "category"]
+    private let keysToSkip = [key_open_in_browser, key_target_url, OEXAnalyticsKeyBlockID, "url", "label", "category"]
     
     func trackEventWithName(eventName: String, parameters: [String : NSObject]) {
         
@@ -34,7 +34,7 @@ class FirebaseAnalyticsTracker: NSObject {
                 formatParamatersForFirebase(value as! [String: NSObject], formattedParams: &formattedParams)
                 continue
             }
-            else if KeysToSkip.contains(key) {
+            else if keysToSkip.contains(key) {
                 continue
             }
             
