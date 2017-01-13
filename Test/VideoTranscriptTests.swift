@@ -24,7 +24,7 @@ class VideoTranscriptTests: XCTestCase {
         XCTAssertFalse(transcriptView.transcriptTableView.hidden)
     }
     
-    func testTransctipSeek() {
+    func testTranscriptSeek() {
         let environment = TestRouterEnvironment()
         let transcriptView = VideoTranscript(environment: environment)
         transcriptView.updateTranscript(VideoTranscriptDataFactory.transcriptArray())

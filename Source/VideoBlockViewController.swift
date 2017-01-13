@@ -86,16 +86,16 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         loadController.setupInController(self, contentView : contentView!)
         
-        contentView!.addSubview(videoController.view)
+        contentView?.addSubview(videoController.view)
         videoController.view.translatesAutoresizingMaskIntoConstraints = false
         videoController.fadeInOnLoad = false
         
         rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
-        contentView!.addSubview(rotateDeviceMessageView!)
+        contentView?.addSubview(rotateDeviceMessageView!)
         
         videoTranscriptView = VideoTranscript(environment: environment)
         videoTranscriptView?.delegate = self
-        contentView!.addSubview(videoTranscriptView!.transcriptTableView)
+        contentView?.addSubview(videoTranscriptView!.transcriptTableView)
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
@@ -118,6 +118,14 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.view.layoutIfNeeded()
         super.viewDidAppear(animated)
         
+        if !subtitleTimer.valid && videoController.moviePlayerController?.controls != nil {
+            subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
+                                                                   target: self,
+                                                                   selector: #selector(highlightSubtitle),
+                                                                   userInfo: nil,
+                                                                   repeats: true)
+        }
+        
         guard canDownloadVideo() else {
             guard let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where video.downloadState == .Complete else {
                 self.showOverlayMessage(Strings.noWifiMessage)
@@ -130,12 +138,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.subtitleTimer.invalidate()
+        
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         videoController.setAutoPlaying(false)
+        self.subtitleTimer.invalidate()
     }
     
     private func loadVideoIfNecessary() {
@@ -308,15 +317,15 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
         if self.isVerticallyCompact() && !videoPlayer.fullscreen{
-            videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
+            videoPlayer.setFullscreen(true, withOrientation: currentOrientation())
         }
     }
     
     func transcriptLoaded(transcript: [AnyObject]) {
-        self.videoTranscriptView?.updateTranscript(transcript)
+        videoTranscriptView?.updateTranscript(transcript)
         
         if !subtitleTimer.valid {
-            self.subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
+            subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
                                                                         target: self,
                                                                         selector: #selector(highlightSubtitle),
                                                                         userInfo: nil,
@@ -326,11 +335,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     //MARK: -
     func highlightSubtitle() {
-        self.videoTranscriptView!.highlightSubtitleForTime(self.videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
+        videoTranscriptView?.highlightSubtitleForTime(videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
     }
     
     //MARK: - VideoTranscriptDelegate methods
     func didSelectSubtitleAtInterval(time: NSTimeInterval) {
-        self.videoController.moviePlayerController?.controls?.setCurrentPlaybackTimeFromTranscript(time)
+        videoController.moviePlayerController?.controls?.setCurrentPlaybackTimeFromTranscript(time)
     }
 }

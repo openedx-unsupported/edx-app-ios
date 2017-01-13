@@ -102,7 +102,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     }
     
     func getTranscriptIndexForTime(time: NSTimeInterval?) -> Int? {
-        return transcriptArray.indexOf({ time >= $0[CLVideoPlayerkStart] as? Double && time < $0[CLVideoPlayerkEnd] as? Double })
+        return transcriptArray.indexOf({ time >= $0[CLVideoPlayerkStart] as? Double && time <= $0[CLVideoPlayerkEnd] as? Double })
     }
     
     func invalidateDragging(){
