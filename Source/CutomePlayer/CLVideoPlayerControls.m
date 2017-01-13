@@ -192,11 +192,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void) setCaption:(NSString*)language{
     [self hideTables];
+    [OEXInterface setCCSelectedLanguage:language];
     
     if ([language isEqualToString:@""]) {
-        //Cancel by selecting the same language again
         
-        [OEXInterface setCCSelectedLanguage:@""];
         // Analytics HIDE TRANSCRIPT
         if(self.video.summary.videoID) {
             [[OEXAnalytics sharedAnalytics] trackHideTranscript:self.video.summary.videoID
@@ -409,7 +408,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)searchAndDisplaySubtitle {
-    if(![OEXInterface getCCSelectedLanguage] || !self.subtitleActivated) {
+    if(!self.subtitleActivated || ![OEXInterface getCCSelectedLanguage]) {
         return;
     }
 
@@ -1106,8 +1105,17 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)setCurrentPlaybackTimeFromTranscript:(NSTimeInterval )time {
-    [self hideOptionsAndValues];
+    [self.moviePlayer pause];
     [self.moviePlayer setCurrentPlaybackTime:time];
+    self.durationSlider.value = time;
+    [self setTimeLabelValues:(double)time totalTime:(double)self.moviePlayer.duration];
+    
+    if(self.stateBeforeSeek == MPMoviePlaybackStatePlaying && self.moviePlayer
+       .loadState != MPMovieLoadStateStalled) {
+        [self.moviePlayer setCurrentPlaybackRate:_playbackRate];
+        [self.moviePlayer play];
+    }
+//    [self hideOptionsAndValues];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch

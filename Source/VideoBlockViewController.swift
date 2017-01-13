@@ -24,7 +24,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     let loader = BackedStream<CourseBlock>()
     
     var rotateDeviceMessageView : IconMessageView?
-    var videoTranscriptView : OEXVideoTranscript?
+    var videoTranscriptView : VideoTranscript?
     var subtitleTimer = NSTimer()
     var contentView : UIView?
     
@@ -93,7 +93,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
         contentView!.addSubview(rotateDeviceMessageView!)
         
-        videoTranscriptView = OEXVideoTranscript()
+        videoTranscriptView = VideoTranscript(environment: environment)
         videoTranscriptView?.delegate = self
         contentView!.addSubview(videoTranscriptView!.transcriptTableView)
         
@@ -126,6 +126,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             
             return
         }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.subtitleTimer.invalidate()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -316,7 +321,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                                                                         selector: #selector(highlightSubtitle),
                                                                         userInfo: nil,
                                                                         repeats: true)
-            self.subtitleTimer.fire()
         }
     }
     

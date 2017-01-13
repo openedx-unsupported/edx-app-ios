@@ -25,7 +25,6 @@ private struct OEXVideoPlayerSetting {
     func videoInfo() -> OEXVideoSummary
 }
 
-
 private func setupTable(table: UITableView) {
     table.layer.cornerRadius = 10
     table.layer.shadowColor = UIColor.blackColor().CGColor
