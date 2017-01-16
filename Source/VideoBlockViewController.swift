@@ -118,13 +118,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.view.layoutIfNeeded()
         super.viewDidAppear(animated)
         
-        if !subtitleTimer.valid && videoController.moviePlayerController?.controls != nil {
-            subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
-                                                                   target: self,
-                                                                   selector: #selector(highlightSubtitle),
-                                                                   userInfo: nil,
-                                                                   repeats: true)
-        }
+        validateSubtitleTimer()
         
         guard canDownloadVideo() else {
             guard let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where video.downloadState == .Complete else {
@@ -134,11 +128,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             
             return
         }
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -323,17 +312,21 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     func transcriptLoaded(transcript: [AnyObject]) {
         videoTranscriptView?.updateTranscript(transcript)
-        
-        if !subtitleTimer.valid {
-            subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
-                                                                        target: self,
-                                                                        selector: #selector(highlightSubtitle),
-                                                                        userInfo: nil,
-                                                                        repeats: true)
-        }
+        validateSubtitleTimer()
     }
     
     //MARK: -
+    
+    func validateSubtitleTimer() {
+        if !subtitleTimer.valid && videoController.moviePlayerController?.controls != nil {
+            subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
+                                                                   target: self,
+                                                                   selector: #selector(highlightSubtitle),
+                                                                   userInfo: nil,
+                                                                   repeats: true)
+        }
+    }
+    
     func highlightSubtitle() {
         videoTranscriptView?.highlightSubtitleForTime(videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
     }
