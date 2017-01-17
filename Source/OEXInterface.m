@@ -43,7 +43,7 @@ NSString* const OEXCourseListKey = @"OEXCourseListKey";
 NSString* const OEXVideoStateChangedNotification = @"OEXVideoStateChangedNotification";
 NSString* const OEXDownloadProgressChangedNotification = @"OEXDownloadProgressChangedNotification";
 NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
-NSString* const OEXAppSavedVersionKey = @"OEXAppSavedVersionKey";
+NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
 
 @interface OEXInterface () <OEXDownloadManagerProtocol>
 
@@ -1477,12 +1477,12 @@ static OEXInterface* _sharedInterface = nil;
 #pragma mark - App Version
 
 - (void) saveAppVersion {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSBundle mainBundle].oex_buildVersionString forKey:OEXAppSavedVersionKey];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSBundle mainBundle].oex_buildVersionString forKey:OEXSavedAppVersionKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (nullable NSString*) getSavedAppVersion {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:OEXAppSavedVersionKey];
+    return [[NSUserDefaults standardUserDefaults] objectForKey:OEXSavedAppVersionKey];
 }
 
 @end
