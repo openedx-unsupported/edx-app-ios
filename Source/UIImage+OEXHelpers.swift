@@ -26,7 +26,6 @@ extension UIImage {
     
     func rotateUp() -> UIImage {
         guard imageOrientation != .Up else { return self }
-        guard let context = UIGraphicsGetCurrentContext() else { return self }
         
         var transform:CGAffineTransform = CGAffineTransformIdentity
         switch imageOrientation {
@@ -49,6 +48,8 @@ extension UIImage {
 
         //Apply the transfrom to a graphics context and redraw the image
         UIGraphicsBeginImageContext(size)
+        
+        guard let context = UIGraphicsGetCurrentContext() else { return self }
         
         drawInRect(CGRect(origin: CGPointZero, size: size))
         CGContextConcatCTM(context, transform)
