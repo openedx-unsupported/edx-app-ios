@@ -73,6 +73,8 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     if ([[OEXSession sharedSession] currentUser]) {
         [self.webViewHelper.bottomBar removeFromSuperview];
     }
+    
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenCourseInfo];
 }
 
 - (BOOL)webViewHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {

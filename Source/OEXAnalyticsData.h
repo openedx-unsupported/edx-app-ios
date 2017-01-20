@@ -109,6 +109,7 @@ extern NSString* const OEXAnalyticsValuePhotoSourceCamera;
 extern NSString* const OEXAnalyticsValuePhotoSourceLibrary;
 
 // Screens
+extern NSString* const OEXAnalyticsScreenLaunch;
 extern NSString* const OEXAnalyticsScreenCourseDashboard;
 extern NSString* const OEXAnalyticsScreenMyCourses;
 extern NSString* const OEXAnalyticsScreenCourseOutline;
@@ -116,6 +117,11 @@ extern NSString* const OEXAnalyticsScreenSectionOutline;
 extern NSString* const OEXAnalyticsScreenUnitDetail;
 extern NSString* const OEXAnalyticsScreenHandouts;
 extern NSString* const OEXAnalyticsScreenAnnouncements;
+extern NSString* const OEXAnalyticsScreenFindCourses;
+extern NSString* const OEXAnalyticsScreenCourseInfo;
+extern NSString* const OEXAnalyticsScreenMyVideos;
+extern NSString* const OEXAnalyticsScreenMyVideosAllVideos;
+extern NSString* const OEXAnalyticsScreenMyVideosRecentVideos;
 extern NSString* const OEXAnalyticsScreenProfileView;
 extern NSString* const OEXAnalyticsScreenProfileEdit;
 extern NSString* const OEXAnalyticsScreenCropPhoto;
@@ -130,5 +136,7 @@ extern NSString* const OEXAnalyticsScreenViewThread;
 extern NSString* const OEXAnalyticsScreenAddThreadResponse;
 extern NSString* const OEXAnalyticsScreenAddResponseComment;
 extern NSString* const OEXAnalyticsScreenViewResponseComments;
+extern NSString* const OEXAnalyticsScreenDownloads;
+extern NSString* const OEXAnalyticsScreenSettings;
 
 NS_ASSUME_NONNULL_END

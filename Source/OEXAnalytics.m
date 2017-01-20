@@ -270,7 +270,7 @@ static OEXAnalytics* sAnalytics;
                     SkipType:(NSString*)skip_value {
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
-    event.displayName = @"Video Seeked";
+    event.displayName = @"Seeked Video";
     event.name = value_video_seeked;
     event.courseID = courseId;
     event.openInBrowserURL = unitUrl;

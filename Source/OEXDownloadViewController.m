@@ -48,6 +48,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:animated];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenDownloads];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

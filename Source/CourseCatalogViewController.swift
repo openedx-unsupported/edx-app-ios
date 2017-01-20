@@ -9,7 +9,7 @@
 import UIKit
 
 class CourseCatalogViewController: UIViewController, CoursesTableViewControllerDelegate {
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXSessionProvider, OEXConfigProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXSessionProvider, OEXConfigProvider, OEXAnalyticsProvider>
     
     private let environment : Environment
     private let tableController : CoursesTableViewController
@@ -72,6 +72,11 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
             // each course card
             ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
         )
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenFindCourses)
     }
     
     func coursesTableChoseCourse(course: OEXCourse) {

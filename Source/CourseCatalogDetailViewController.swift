@@ -51,6 +51,11 @@ class CourseCatalogDetailViewController: UIViewController {
         load()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenCourseInfo)
+    }
+    
     private func listen() {
         self.courseStream.listen(self,
             success: {[weak self] (course, enrolled) in
