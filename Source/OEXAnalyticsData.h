@@ -119,7 +119,6 @@ extern NSString* const OEXAnalyticsScreenHandouts;
 extern NSString* const OEXAnalyticsScreenAnnouncements;
 extern NSString* const OEXAnalyticsScreenFindCourses;
 extern NSString* const OEXAnalyticsScreenCourseInfo;
-extern NSString* const OEXAnalyticsScreenMyVideos;
 extern NSString* const OEXAnalyticsScreenMyVideosAllVideos;
 extern NSString* const OEXAnalyticsScreenMyVideosRecentVideos;
 extern NSString* const OEXAnalyticsScreenProfileView;

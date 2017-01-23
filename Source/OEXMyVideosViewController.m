@@ -105,7 +105,6 @@ typedef  enum OEXAlertType
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyVideos];
     [[OEXAnalytics sharedAnalytics] trackScreenWithName: OEXAnalyticsScreenMyVideosAllVideos];
 
     [self.navigationController setNavigationBarHidden:false animated:animated];
