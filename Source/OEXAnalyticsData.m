@@ -54,6 +54,7 @@ NSString* const OEXAnalyticsScreenFindCourses = @"Find Courses";
 NSString* const OEXAnalyticsScreenCourseInfo = @"Course Info";
 NSString* const OEXAnalyticsScreenMyVideosAllVideos = @"My Videos - All Videos";
 NSString* const OEXAnalyticsScreenMyVideosRecentVideos = @"My Videos - Recent Videos";
+NSString* const OEXAnalyticsScreenMyVideosCourseVideos = @"My Videos - Course Videos";
 NSString* const OEXAnalyticsScreenProfileView = @"Profile View";
 NSString* const OEXAnalyticsScreenProfileEdit = @"Profile Edit";
 NSString* const OEXAnalyticsScreenCropPhoto = @"Crop Photo";
