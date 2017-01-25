@@ -164,6 +164,10 @@ extern NSString* const OEXDownloadEndedNotification;
 /** Finds the user's enrollment for a course */
 - (nullable UserCourseEnrollment*)enrollmentForCourseWithID:(nullable NSString*)courseID;
 
+#pragma mark - App Version
+/* Return saved version of app */
+- (nullable NSString*) getSavedAppVersion;
+
 @end
 
 @protocol OEXInterfaceProvider <NSObject>
