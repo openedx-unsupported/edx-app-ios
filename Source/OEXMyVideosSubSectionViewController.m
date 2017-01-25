@@ -98,6 +98,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         [self.table_SubSectionVideos setLayoutMargins:UIEdgeInsetsZero];
     }
 #endif
+    
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenMyVideosCourseVideos courseID:self.course.course_id value:nil];
 }
 
 - (void)navigateBack {

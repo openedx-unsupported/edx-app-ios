@@ -10,12 +10,13 @@ import UIKit
 
 class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController {
     
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider>
+    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXAnalyticsProvider>
     
     let environment : Environment
 
     let blockID : CourseBlockID?
     let courseID : String
+    var block: CourseBlock?
     var messageView : IconMessageView?
     
     var loader : Stream<NSURL?>?
@@ -30,6 +31,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         courseQuerier.blockWithID(blockID).extendLifetimeUntilFirstResult (
             success:
             { [weak self] block in
+                self?.block = block
                 if let video = block.type.asVideo where video.isYoutubeVideo{
                     self?.showYoutubeMessage(Strings.Video.viewOnYoutube, message: Strings.Video.onlyOnYoutube, icon: Icon.CourseModeVideo, videoUrl: video.videoURL)
                 }
@@ -63,6 +65,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             self?.loader?.listen(self!, success : {url -> Void in
                 if let url = url {
                     UIApplication.sharedApplication().openURL(url)
+                    self?.logOpenInBrowserEvent()
                 }
                 }, failure : {_ in
             })
@@ -116,6 +119,13 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
                 return $0.webURL
             }.firstSuccess()
         }
+    }
+    
+    private func logOpenInBrowserEvent() {
+        guard let block = block else { return }
+        
+        environment.analytics.trackOpenInBrowserWithURL(block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: true)
+        
     }
     
 }
