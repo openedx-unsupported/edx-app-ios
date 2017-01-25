@@ -208,12 +208,8 @@
 "COURSE_DETAIL.ENROLL_NOW" = "Enroll now";
 /* Button title allowing user to view a course from the course's catalog detail page */
 "COURSE_DETAIL.VIEW_COURSE" = "View course";
-/* Back bar button title of course */
-"COURSE"="Course";
-/* Title of tab showing course content */
-"COURSEWARE_TAB_TITLE"="Courseware";
 /* Message shown when there is no course content */
-"COURSEWARE_UNAVAILABLE"="No courseware is currently available.";
+"COURSEWARE_UNAVAILABLE"="No course content is currently available.";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
 /* Title text for the Announcements section within the course dashboard */
@@ -221,7 +217,7 @@
 /* Text describing the Announcements section within the course dashboard */
 "COURSE_DASHBOARD_ANNOUNCEMENTS_DETAIL"="Keep up with the latest news";
 /* Title text for the Courseware section of the course dashboard */
-"COURSE_DASHBOARD_COURSEWARE"="Courseware";
+"COURSE_DASHBOARD_COURSEWARE"="Course";
 /* Text describing the Courseware section within the course dashboard */
 "COURSE_DASHBOARD_COURSE_DETAIL"="Access videos and assignments";
 /* Title text for the Discussions section of the course dashboard */
