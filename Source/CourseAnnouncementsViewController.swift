@@ -179,9 +179,9 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
         var html:String = String()
         
         for (index,announcement) in announcements.enumerate() {
-                html += "<div class=\"announcement-header\">\(announcement.heading == nil ? "" : announcement.heading!)</div>"
+                html += "<div class=\"announcement-header\">\(announcement.heading ?? "")</div>"
                 html += "<hr class=\"announcement\"/>"
-                html += announcement.content == nil ? "" : announcement.content!
+                html += announcement.content ?? ""
                 if(index + 1 < announcements.count)
                 {
                     html += "<div class=\"announcement-separator\"/></div>"
