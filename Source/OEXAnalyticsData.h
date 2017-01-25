@@ -110,6 +110,7 @@ extern NSString* const OEXAnalyticsValuePhotoSourceLibrary;
 
 // Screens
 extern NSString* const OEXAnalyticsScreenLaunch;
+extern NSString* const OEXAnalyticsScreenRegister;
 extern NSString* const OEXAnalyticsScreenCourseDashboard;
 extern NSString* const OEXAnalyticsScreenMyCourses;
 extern NSString* const OEXAnalyticsScreenCourseOutline;

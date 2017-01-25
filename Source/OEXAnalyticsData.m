@@ -43,6 +43,7 @@ NSString* const OEXAnalyticsValuePhotoSourceCamera = @"camera";
 NSString* const OEXAnalyticsValuePhotoSourceLibrary = @"library";
 
 NSString* const OEXAnalyticsScreenLaunch = @"Launch";
+NSString* const OEXAnalyticsScreenRegister = @"Register";
 NSString* const OEXAnalyticsScreenCourseDashboard = @"Course Dashboard";
 NSString* const OEXAnalyticsScreenMyCourses = @"My Courses";
 NSString* const OEXAnalyticsScreenCourseOutline = @"Course Outline";
