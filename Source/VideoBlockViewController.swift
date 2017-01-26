@@ -301,22 +301,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
-    //MARK: - OEXVideoPlayerInterfaceDelegate methods
-    func videoPlayerTapped(sender: UIGestureRecognizer) {
-        guard let videoPlayer = videoController.moviePlayerController else { return }
-        
-        if self.isVerticallyCompact() && !videoPlayer.fullscreen{
-            videoPlayer.setFullscreen(true, withOrientation: currentOrientation())
-        }
-    }
-    
-    func transcriptLoaded(transcript: [AnyObject]) {
-        videoTranscriptView?.updateTranscript(transcript)
-        validateSubtitleTimer()
-    }
-    
-    //MARK: -
-    
     func validateSubtitleTimer() {
         if !subtitleTimer.valid && videoController.moviePlayerController?.controls != nil {
             subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
@@ -329,6 +313,20 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     func highlightSubtitle() {
         videoTranscriptView?.highlightSubtitleForTime(videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
+    }
+    
+    //MARK: - OEXVideoPlayerInterfaceDelegate methods
+    func videoPlayerTapped(sender: UIGestureRecognizer) {
+        guard let videoPlayer = videoController.moviePlayerController else { return }
+        
+        if self.isVerticallyCompact() && !videoPlayer.fullscreen{
+            videoPlayer.setFullscreen(true, withOrientation: currentOrientation())
+        }
+    }
+    
+    func transcriptLoaded(transcript: [AnyObject]) {
+        videoTranscriptView?.updateTranscript(transcript)
+        validateSubtitleTimer()
     }
     
     //MARK: - VideoTranscriptDelegate methods
