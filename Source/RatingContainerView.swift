@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol RatingContainerDelegate {
+    func didSelectRating(rating: CGFloat)
+    func closeButtonPressed()
+}
+
 class RatingContainerView: UIView {
 
     typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXStylesProvider>
@@ -17,6 +22,7 @@ class RatingContainerView: UIView {
     let descriptionLabel = UILabel()
     let ratingView = RatingView()
     let closeButton = UIButton()
+    var delegate : RatingContainerDelegate?
     
     private var standardTextStyle : OEXTextStyle {
         let style = OEXMutableTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: environment.styles.neutralXDark())
@@ -41,13 +47,25 @@ class RatingContainerView: UIView {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.attributedText = standardTextStyle.attributedStringWithText("How would you rate the edX app?")
         
+        //Setup close button
+        closeButton.layer.cornerRadius = 15
+        closeButton.layer.borderColor = environment.styles.neutralDark().CGColor
+        closeButton.layer.borderWidth = 1.0
+        closeButton.layer.masksToBounds = true
+        closeButton.setImage(UIImage(named: "ic_cancel.png"), forState: UIControlState.Normal)
+        closeButton.backgroundColor = UIColor.whiteColor()
+        closeButton.oex_addAction({ (action) in
+            self.delegate?.closeButtonPressed()
+            }, forEvents: UIControlEvents.TouchUpInside)
+        
         //Setup ratingView action
         ratingView.oex_addAction({ (action) in
-            print(self.ratingView.value)
+            self.delegate?.didSelectRating(ratingView.value)
             }, forEvents: UIControlEvents.ValueChanged)
         
         addSubview(descriptionLabel)
         addSubview(ratingView)
+        addSubview(closeButton)
         
         setupConstraints()
     }
@@ -58,17 +76,24 @@ class RatingContainerView: UIView {
     
     func setupConstraints() {
         descriptionLabel.snp_remakeConstraints { (make) in
-            make.top.equalTo(self.snp_top).offset(35.0)
+            make.top.equalTo(self.snp_top).offset(30)
             make.left.equalTo(self.snp_left).offset(50)
             make.right.equalTo(self.snp_right).inset(50)
         }
         
         ratingView.snp_remakeConstraints { (make) in
-            make.top.equalTo(descriptionLabel.snp_bottom).offset(20.0)
+            make.top.equalTo(descriptionLabel.snp_bottom).offset(15)
             make.left.greaterThanOrEqualTo(self.snp_left).offset(50)
             make.right.greaterThanOrEqualTo(self.snp_right).inset(50)
             make.centerX.equalTo(self.snp_centerX)
-            make.bottom.equalTo(self.snp_bottom).inset(40)
+            make.bottom.equalTo(self.snp_bottom).inset(30)
+        }
+        
+        closeButton.snp_remakeConstraints { (make) in
+            make.height.equalTo(30)
+            make.width.equalTo(30)
+            make.right.equalTo(self.snp_right).offset(8)
+            make.top.equalTo(self.snp_top).offset(-8)
         }
     }
 }

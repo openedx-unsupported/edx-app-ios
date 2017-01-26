@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RatingViewController: UIViewController {
+class RatingViewController: UIViewController, RatingContainerDelegate {
 
     typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXStylesProvider>
     
@@ -44,5 +44,15 @@ class RatingViewController: UIViewController {
             make.centerY.equalTo(view.snp_centerY)
             make.width.equalTo(275)
         }
+    }
+    
+    //MARK: - RatingContainerDelegate methods
+    
+    func didSelectRating(rating: CGFloat) {
+        
+    }
+    
+    func closeButtonPressed() {
+        
     }
 }
