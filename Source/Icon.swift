@@ -130,6 +130,8 @@ public enum Icon {
     case Settings
     case Sort
     case Spinner
+    case StarEmpty
+    case StarFilled
     case Transcript
     case UnknownError
     case UpVote
@@ -229,6 +231,10 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Cog)
         case .Spinner:
             return FontAwesomeRenderer(icon: .Spinner)
+        case .StarEmpty:
+            return FontAwesomeRenderer(icon: .StarO)
+        case .StarFilled:
+            return FontAwesomeRenderer(icon: .Star)
         case .UnknownError:
             return FontAwesomeRenderer(icon: .ExclamationCircle)
         case .NoTopics:

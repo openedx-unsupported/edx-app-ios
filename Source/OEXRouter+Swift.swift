@@ -258,6 +258,16 @@ extension OEXRouter {
         let detailController = CourseCatalogDetailViewController(environment: environment, courseID: courseID)
         fromController.navigationController?.pushViewController(detailController, animated: true)
     }
+    
+    func showAppReviewFromController(controller: UIViewController) {
+        let reviewController = RatingViewController(environment: environment)
+        
+        reviewController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        reviewController.providesPresentationContextTransitionStyle = true
+        reviewController.definesPresentationContext = true
+        
+        controller.navigationController?.presentViewController(reviewController, animated: false, completion: nil)
+    }
 
     // MARK: - LOGIN / LOGOUT
 
