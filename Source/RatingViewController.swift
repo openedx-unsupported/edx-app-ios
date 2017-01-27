@@ -31,6 +31,8 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
         view.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
         view.addSubview(ratingContainerView)
         
+        ratingContainerView.delegate = self
+        
         setupConstraints()
     }
 
@@ -49,10 +51,44 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     //MARK: - RatingContainerDelegate methods
     
     func didSelectRating(rating: CGFloat) {
-        
+        switch rating {
+        case 1...3:
+            negativeRatingReceived()
+            break
+        case 4...5:
+            positiveRatingReceived()
+            break
+        default:
+            break
+        }
     }
     
     func closeButtonPressed() {
-        
+        self.dismissViewControllerAnimated(false, completion: nil)
+    }
+    
+    //MARK: - Positive Rating methods
+    func positiveRatingReceived() {
+        let alertController = UIAlertController().showAlertWithTitle("Rate the app", message: "Tell others what you think of the edX app by writing a quick review in the app store",cancelButtonTitle: nil, onViewController: self)
+        alertController.addButtonWithTitle("No Thanks") { (action) in
+            
+        }
+        alertController.addButtonWithTitle("Ask Me Later") { (action) in
+            
+        }
+        alertController.addButtonWithTitle("Rate The App") { (action) in
+            
+        }
+    }
+    
+    //MARK: - Negative Rating methods
+    func negativeRatingReceived() {
+        let alertController = UIAlertController().showAlertWithTitle("Send Feedback?", message: "Help us improve!",cancelButtonTitle: nil, onViewController: self)
+        alertController.addButtonWithTitle("Maybe Later") { (action) in
+            
+        }
+        alertController.addButtonWithTitle("Send Feedback") { (action) in
+            
+        }
     }
 }

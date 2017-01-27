@@ -60,7 +60,7 @@ class RatingContainerView: UIView {
         
         //Setup ratingView action
         ratingView.oex_addAction({ (action) in
-            self.delegate?.didSelectRating(ratingView.value)
+            self.delegate?.didSelectRating(self.ratingView.value)
             }, forEvents: UIControlEvents.ValueChanged)
         
         addSubview(descriptionLabel)
