@@ -381,7 +381,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
             CLVideoPlayerkEnd : @(endInterval),
             CLVideoPlayerkText : textString ? textString : @""
         };
-        [self.subtitlesParts insertObject:tempInterval atIndex:[indexString integerValue]];
+        
+        NSInteger index = self.subtitlesParts.count == [indexString integerValue] ? [indexString integerValue] : self.subtitlesParts.count;
+        [self.subtitlesParts insertObject:tempInterval atIndex:index];
     }
 
     if(completion != NULL) {
