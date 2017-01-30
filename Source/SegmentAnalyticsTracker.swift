@@ -13,7 +13,6 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     private let GoogleCategoryKey = "category"
     private let GoogleLabelKey = "label"
     private let GoogleActionKey = "action"
-    private let firebaseTracker = FirebaseAnalyticsTracker.sharedTracker
     
     var currentOrientationValue : String {
         return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
@@ -60,10 +59,6 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         info[GoogleLabelKey] = event.label
         
         SEGAnalytics.sharedAnalytics().track(event.displayName, properties: info)
-        
-        if OEXConfig.sharedConfig().isFirebaseEnabled {
-            firebaseTracker.trackEventWithName(event.displayName, parameters: info as! [String : NSObject])
-        }
     }
     
     func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
