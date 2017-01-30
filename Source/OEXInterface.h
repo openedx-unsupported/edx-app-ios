@@ -168,6 +168,16 @@ extern NSString* const OEXDownloadEndedNotification;
 /* Return saved version of app */
 - (nullable NSString*) getSavedAppVersion;
 
+#pragma mark - App Rating
+/* Save the rating given through app review */
+- (void)saveAppRating:(NSString *)rating;
+
+/* Save the app version when app review is done */
+- (void)saveAppVersionWhenLastRated:(nullable NSString*)version;
+
+- (nullable NSString*) getSavedAppRating;
+- (nullable NSString*) getSavedAppVersionWhenLastRated;
+
 @end
 
 @protocol OEXInterfaceProvider <NSObject>

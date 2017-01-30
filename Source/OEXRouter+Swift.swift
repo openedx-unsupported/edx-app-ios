@@ -260,13 +260,19 @@ extension OEXRouter {
     }
     
     func showAppReviewFromController(controller: UIViewController) {
-        let reviewController = RatingViewController(environment: environment)
         
-        reviewController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
-        reviewController.providesPresentationContextTransitionStyle = true
-        reviewController.definesPresentationContext = true
-        
-        controller.navigationController?.presentViewController(reviewController, animated: false, completion: nil)
+        guard let reachable = environment.interface?.reachable else { return }
+        let appRating = environment.interface?.getSavedAppRating()
+        let lastVersionForAppReview = environment.interface?.getSavedAppVersionWhenLastRated()
+        if reachable || appRating == nil {
+            let reviewController = RatingViewController(environment: environment)
+            
+            reviewController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+            reviewController.providesPresentationContextTransitionStyle = true
+            reviewController.definesPresentationContext = true
+            
+            controller.navigationController?.presentViewController(reviewController, animated: false, completion: nil)
+        }
     }
 
     // MARK: - LOGIN / LOGOUT

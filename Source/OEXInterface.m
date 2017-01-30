@@ -44,6 +44,8 @@ NSString* const OEXVideoStateChangedNotification = @"OEXVideoStateChangedNotific
 NSString* const OEXDownloadProgressChangedNotification = @"OEXDownloadProgressChangedNotification";
 NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
 NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
+NSString* const OEXSavedAppRating = @"OEXSavedAppRating";
+NSString* const OEXSavedAppVersionWhenLastRated = @"OEXSavedAppVersionWhenLastRated";
 
 @interface OEXInterface () <OEXDownloadManagerProtocol>
 
@@ -1483,6 +1485,26 @@ static OEXInterface* _sharedInterface = nil;
 
 - (nullable NSString*) getSavedAppVersion {
     return [[NSUserDefaults standardUserDefaults] objectForKey:OEXSavedAppVersionKey];
+}
+
+#pragma mark - App Rating
+
+- (void)saveAppRating:(NSString *)rating{
+    [[NSUserDefaults standardUserDefaults] setObject:rating forKey:OEXSavedAppRating];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)saveAppVersionWhenLastRated:(nullable NSString*)version{
+    NSString *versionString = version ? version : [NSBundle mainBundle].oex_buildVersionString;
+    [[NSUserDefaults standardUserDefaults] setObject:versionString forKey:OEXSavedAppVersionWhenLastRated];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (nullable NSString*) getSavedAppRating{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:OEXSavedAppRating];
+}
+- (nullable NSString*) getSavedAppVersionWhenLastRated{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:OEXSavedAppVersionWhenLastRated];
 }
 
 @end
