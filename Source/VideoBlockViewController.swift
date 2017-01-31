@@ -199,14 +199,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            // There's a weird OS bug where the bottom layout guide doesn't get set properly until
-            // the layout cycle after viewDidAppear, so use the parent in the mean time
-            if #available(iOS 9, *) {
-                make.bottom.equalTo(self.bottomLayoutGuide.topAnchor)
-            }
-            else {
-                make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
-            }
+            let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
+            make.bottom.equalTo(view.snp_bottom).offset(-barHeight)
         }
     }
     
