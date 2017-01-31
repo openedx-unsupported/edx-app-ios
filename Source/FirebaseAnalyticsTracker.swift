@@ -72,14 +72,6 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         trackEvent(event, forComponent: nil, withProperties: properties)
     }
     
-    func trackEventWithName(eventName: String, parameters: [String : NSObject]) {
-        
-        var formattedParameters = [String: NSObject]()
-        
-        formatParamatersForFirebase(parameters, formattedParams: &formattedParameters)
-        FIRAnalytics.logEventWithName(formattedKeyForFirebase(eventName), parameters: formattedParameters)
-    }
-    
     private func formatParamatersForFirebase(params: [String : NSObject], inout formattedParams: [String: NSObject]) {
         // Firebase only supports String or Number as value for event parameters
         
