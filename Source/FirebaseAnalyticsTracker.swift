@@ -65,8 +65,6 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         
         let event = OEXAnalyticsEvent()
         event.displayName = screenName
-        event.label = screenName
-        event.category = OEXAnalyticsCategoryScreen
         event.name = OEXAnalyticsEventScreen;
         event.courseID = courseID
         trackEvent(event, forComponent: nil, withProperties: properties)
