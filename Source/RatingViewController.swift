@@ -28,7 +28,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor(white: 0.0, alpha: 0.4)
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
         view.addSubview(ratingContainerView)
         
         ratingContainerView.delegate = self

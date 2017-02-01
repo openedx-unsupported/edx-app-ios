@@ -19,9 +19,11 @@ class RatingContainerView: UIView {
     
     let environment : Environment
     
+    let contentView = UIView()
     let descriptionLabel = UILabel()
     let ratingView = RatingView()
     let closeButton = UIButton()
+    let submitButton = UIButton()
     var delegate : RatingContainerDelegate?
     
     private var standardTextStyle : OEXTextStyle {
@@ -31,13 +33,22 @@ class RatingContainerView: UIView {
         return style
     }
     
+    private var disabledButtonStyle : ButtonStyle {
+        return ButtonStyle(textStyle: OEXTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: environment.styles.neutralWhite()), backgroundColor: environment.styles.neutralBase(), borderStyle: BorderStyle(cornerRadius: .Size(0), width: .Size(0), color: nil), contentInsets: nil, shadow: nil)
+    }
+    
+    private var enabledButtonStyle : ButtonStyle {
+        return ButtonStyle(textStyle: OEXTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: environment.styles.neutralWhite()), backgroundColor: environment.styles.primaryBaseColor(), borderStyle: BorderStyle(cornerRadius: .Size(0), width: .Size(0), color: nil), contentInsets: nil, shadow: nil)
+    }
+    
     init(environment : Environment) {
         self.environment = environment
         super.init(frame: CGRectZero)
         
         //Setup view properties
-        backgroundColor = UIColor.whiteColor()
-        layer.cornerRadius = 10
+        contentView.backgroundColor = UIColor.whiteColor()
+        contentView.layer.cornerRadius = 10
+        contentView.layer.masksToBounds = true
         layer.shadowColor = environment.styles.neutralBlack().CGColor;
         layer.shadowRadius = 1.0;
         layer.shadowOffset = CGSizeMake(1, 1);
@@ -46,6 +57,12 @@ class RatingContainerView: UIView {
         //Setup label properties
         descriptionLabel.numberOfLines = 0
         descriptionLabel.attributedText = standardTextStyle.attributedStringWithText("How would you rate the edX app?")
+        
+        //Setup Submit button
+        toggleSubmitButton(false)
+        submitButton.oex_addAction({ (action) in
+            self.delegate?.didSelectRating(self.ratingView.value)
+            }, forEvents: UIControlEvents.TouchUpInside)
         
         //Setup close button
         closeButton.layer.cornerRadius = 15
@@ -60,12 +77,14 @@ class RatingContainerView: UIView {
         
         //Setup ratingView action
         ratingView.oex_addAction({ (action) in
-            self.delegate?.didSelectRating(self.ratingView.value)
+            self.toggleSubmitButton(self.ratingView.value > 0)
             }, forEvents: UIControlEvents.ValueChanged)
         
-        addSubview(descriptionLabel)
-        addSubview(ratingView)
+        addSubview(contentView)
         addSubview(closeButton)
+        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(ratingView)
+        contentView.addSubview(submitButton)
         
         setupConstraints()
     }
@@ -75,25 +94,43 @@ class RatingContainerView: UIView {
     }
     
     func setupConstraints() {
+        
+        contentView.snp_remakeConstraints { (make) in
+            make.edges.equalTo(self.snp_edges)
+        }
+        
         descriptionLabel.snp_remakeConstraints { (make) in
-            make.top.equalTo(self.snp_top).offset(30)
-            make.left.equalTo(self.snp_left).offset(50)
-            make.right.equalTo(self.snp_right).inset(50)
+            make.top.equalTo(contentView.snp_top).offset(30)
+            make.left.equalTo(contentView.snp_left).offset(50)
+            make.right.equalTo(contentView.snp_right).inset(50)
         }
         
         ratingView.snp_remakeConstraints { (make) in
             make.top.equalTo(descriptionLabel.snp_bottom).offset(15)
-            make.left.greaterThanOrEqualTo(self.snp_left).offset(50)
-            make.right.greaterThanOrEqualTo(self.snp_right).inset(50)
-            make.centerX.equalTo(self.snp_centerX)
-            make.bottom.equalTo(self.snp_bottom).inset(30)
+            make.left.greaterThanOrEqualTo(contentView.snp_left).offset(50)
+            make.right.greaterThanOrEqualTo(contentView.snp_right).inset(50)
+            make.centerX.equalTo(contentView.snp_centerX)
+        }
+        
+        submitButton.snp_remakeConstraints { (make) in
+            make.left.equalTo(contentView.snp_left)
+            make.right.equalTo(contentView.snp_right)
+            make.bottom.equalTo(contentView.snp_bottom)
+            make.height.equalTo(35)
+            make.top.equalTo(ratingView.snp_bottom).offset(15)
         }
         
         closeButton.snp_remakeConstraints { (make) in
             make.height.equalTo(30)
             make.width.equalTo(30)
-            make.right.equalTo(self.snp_right).offset(8)
-            make.top.equalTo(self.snp_top).offset(-8)
+            make.right.equalTo(contentView.snp_right).offset(8)
+            make.top.equalTo(contentView.snp_top).offset(-8)
         }
+    }
+    
+    func toggleSubmitButton(enabled: Bool) {
+        let style = enabled ? enabledButtonStyle : disabledButtonStyle
+        submitButton.applyButtonStyle(style, withTitle: "Submit")
+        submitButton.userInteractionEnabled = enabled
     }
 }
