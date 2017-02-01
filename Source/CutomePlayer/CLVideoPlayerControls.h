@@ -131,6 +131,10 @@ extern NSString* const CLVideoPlayerkText;
 
 @property (nonatomic, weak) id <CLVideoPlayerControlsDelegate> delegate;
 
+//Expose for testcases
+- (NSMutableArray*)subtitlesParts;
+
+- (void)readClosedCaptioningString:(NSString*)srtString completion:(void (^)(BOOL finished))success failure:(void (^)(NSError* error))failure;
 
 @end
 

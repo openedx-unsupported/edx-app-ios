@@ -372,18 +372,21 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                                                         range:NSMakeRange(0, textString.length)
                                                  withTemplate:@""];
 
-        // Temp object
-        NSTimeInterval startInterval = [self getTimeFromString:startString];
-        NSTimeInterval endInterval = [self getTimeFromString:endString];
-        NSDictionary* tempInterval = @{
-            CLVideoPlayerkIndex : indexString,
-            CLVideoPlayerkStart : @(startInterval),
-            CLVideoPlayerkEnd : @(endInterval),
-            CLVideoPlayerkText : textString ? textString : @""
-        };
-        
-        NSInteger index = self.subtitlesParts.count == [indexString integerValue] ? [indexString integerValue] : self.subtitlesParts.count;
-        [self.subtitlesParts insertObject:tempInterval atIndex:index];
+        //To ensure that the object created is valid. Inconsistent objects tend to have nil start or end strings
+        if(startString || endString) {
+            // Temp object
+            NSTimeInterval startInterval = [self getTimeFromString:startString];
+            NSTimeInterval endInterval = [self getTimeFromString:endString];
+            NSDictionary* tempInterval = @{
+                                           CLVideoPlayerkIndex : indexString,
+                                           CLVideoPlayerkStart : @(startInterval),
+                                           CLVideoPlayerkEnd : @(endInterval),
+                                           CLVideoPlayerkText : textString ? textString : @""
+                                           };
+            
+            NSInteger index = self.subtitlesParts.count == [indexString integerValue] ? [indexString integerValue] : self.subtitlesParts.count;
+            [self.subtitlesParts insertObject:tempInterval atIndex:index];
+        }
     }
 
     if(completion != NULL) {
@@ -1117,7 +1120,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [self.moviePlayer setCurrentPlaybackRate:_playbackRate];
         [self.moviePlayer play];
     }
-//    [self hideOptionsAndValues];
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch

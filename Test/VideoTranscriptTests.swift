@@ -46,30 +46,30 @@ class VideoTranscriptDataFactory{
         var transcript = [[String: AnyObject]]()
         
         transcript.append(["kIndex":0,
-                           "kStart":0.0,
-                           "kText":">> Test transcript text",
-                           "kEnd":1.45])
+            "kStart":0.0,
+            "kText":">> Test transcript text",
+            "kEnd":1.45])
         
         transcript.append(["kIndex":1,
-                           "kStart":1.46,
-                           "kText":"Test transcript text",
-                           "kEnd":2.45])
+            "kStart":1.46,
+            "kText":"Test transcript text",
+            "kEnd":2.45])
         
         transcript.append(["kIndex":2,
-                           "kStart":2.46,
-                           "kText":"Test transcript text",
-                           "kEnd":3.45])
+            "kStart":2.46,
+            "kText":"Test transcript text",
+            "kEnd":3.45])
         
         transcript.append(["kIndex":3,
-                           "kStart":3.50,
-                           "kText":"Test transcript text",
-                           "kEnd":4.45])
+            "kStart":3.50,
+            "kText":"Test transcript text",
+            "kEnd":4.45])
         
         transcript.append(["kIndex":4,
-                           "kStart":4.46,
-                           "kText":"Test transcript text",
-                           "kEnd":5.45])
-        
+            "kStart":4.46,
+            "kText":"Test transcript text",
+            "kEnd":5.45])
+
         return transcript
     }
 }

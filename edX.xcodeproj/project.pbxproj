@@ -118,6 +118,7 @@
 		6960892B1D53935500EE66DD /* courseCertificate.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089281D53935500EE66DD /* courseCertificate.png */; };
 		6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089291D53935500EE66DD /* courseCertificate@2x.png */; };
 		6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6960892A1D53935500EE66DD /* courseCertificate@3x.png */; };
+		6975C4BD1E42085300AF014D /* CLVideoPlayerControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6975C4BC1E42085300AF014D /* CLVideoPlayerControlsTests.swift */; };
 		697652261D9BA7C80031FF8B /* OEXColorsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697652251D9BA7C80031FF8B /* OEXColorsDataFactory.swift */; };
 		697B5A011D92D9CD002C3ABD /* TestCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391321C973CEC00FA959C /* TestCredentials.swift */; };
 		697B5A021D92DA17002C3ABD /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391831CA0600700FA959C /* RegistrationAPITests.swift */; };
@@ -212,7 +213,6 @@
 		69ECC6511D50D1170030CF87 /* handouts-announcements.css in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5FB1D50D1170030CF87 /* handouts-announcements.css */; };
 		69ECC6521D50D1170030CF87 /* inline-content.css in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5FC1D50D1170030CF87 /* inline-content.css */; };
 		69F5FACB1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F5FACA1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift */; };
-		7320DDD1D50E661BE4E15CEE /* libPods-edXTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53124181654DAFE6683F8E45 /* libPods-edXTests.a */; };
 		77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A361A76EF8C007D306C /* NSString+OEXValidation.m */; };
 		77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */; };
 		77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */; };
@@ -895,6 +895,7 @@
 		696089281D53935500EE66DD /* courseCertificate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate.png; sourceTree = "<group>"; };
 		696089291D53935500EE66DD /* courseCertificate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@2x.png"; sourceTree = "<group>"; };
 		6960892A1D53935500EE66DD /* courseCertificate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@3x.png"; sourceTree = "<group>"; };
+		6975C4BC1E42085300AF014D /* CLVideoPlayerControlsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLVideoPlayerControlsTests.swift; sourceTree = "<group>"; };
 		697652251D9BA7C80031FF8B /* OEXColorsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsDataFactory.swift; sourceTree = "<group>"; };
 		697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationFormAPI.swift; path = Source/Core/Code/RegistrationFormAPI.swift; sourceTree = SOURCE_ROOT; };
 		6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsTests.swift; sourceTree = "<group>"; };
@@ -3227,6 +3228,7 @@
 				E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */,
 				698C6D771E2619E4009156BB /* OEXVideoTranscriptTests.swift */,
 				698C6D771E2619E4009156BB /* VideoTranscriptTests.swift */,
+				6975C4BC1E42085300AF014D /* CLVideoPlayerControlsTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				7772BE901AF90C8A0081CA7A /* Helpers */,
@@ -4352,6 +4354,7 @@
 				E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */,
 				775391461C9763D000FA959C /* Result+Assertions.swift in Sources */,
 				773CC0251BE42EAC00DDC127 /* UserProfileEditViewControllerTests.swift in Sources */,
+				6975C4BD1E42085300AF014D /* CLVideoPlayerControlsTests.swift in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
 				7CB46D271D58E567005110AB /* UserPreferenceManagerTests.swift in Sources */,

@@ -21,24 +21,16 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     let environment : Environment
     var delegate : VideoTranscriptDelegate?
     
-    /*
-     Maintain the cell index highlighted currently
-     */
+    //Maintain the cell index highlighted currently
     var highlightedIndex = 0
     
-    /*
-     Flag to toggle if tableview has been dragged in the last few seconds
-     */
+    //Flag to toggle if tableview has been dragged in the last few seconds
     var isTableDragged : Bool = false
     
-    /*
-     Timer to reset the isTableDragged flag so automatic scrolling can kick back in
-     */
+    //Timer to reset the isTableDragged flag so automatic scrolling can kick back in
     var draggingTimer = NSTimer()
     
-    /*
-     Delay after which automatic scrolling should kick back in
-     */
+    //Delay after which automatic scrolling should kick back in
     let dragDelay : NSTimeInterval = 5.0
     
     init(environment : Environment) {
@@ -80,8 +72,6 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
         draggingTimer.invalidate()
         draggingTimer = NSTimer.scheduledTimerWithTimeInterval(dragDelay, target: self, selector: #selector(invalidateDragging), userInfo: nil, repeats: false)
     }
-    
-    //MARK: -
     
     func updateTranscript(transcript: [AnyObject]) {
         if transcript.count > 0 {
