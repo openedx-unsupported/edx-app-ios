@@ -108,6 +108,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 @property (nonatomic, strong) UISwipeGestureRecognizer* leftSwipeGestureRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer* rightSwipeGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
 #pragma mark - Properties
 @property (strong, nonatomic) NSMutableDictionary* subtitlesParts;
@@ -152,7 +153,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     UIViewController* controller = [UIApplication sharedApplication].keyWindow.rootViewController;
     [controller presentViewController:chooser animated:true completion:nil];
 
-    self.tableSettings.hidden = YES;
+    [self hideOptionsAndValues];
 }
 
 #pragma mark Closed Captions
@@ -847,6 +848,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)hideOptionsAndValues {
+    [self.view_OptionsOverlay removeGestureRecognizer:self.tapGestureRecognizer];
+    
     self.btnSettings.selected = NO;
     self.view_OptionsOverlay.hidden = YES;
     self.tableSettings.hidden = YES;
@@ -985,6 +988,9 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)settingsBtnClicked:(id)sender {
+    // Add tap gesture to hide options window.
+    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsAndValues)];
+    [self.view_OptionsOverlay addGestureRecognizer:self.tapGestureRecognizer];
 
     // Hide unhide the option tableview
     self.view_OptionsOverlay.hidden = NO;
