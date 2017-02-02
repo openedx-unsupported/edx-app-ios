@@ -124,7 +124,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func logOpenInBrowserEvent() {
         guard let block = block else { return }
         
-        environment.analytics.trackOpenInBrowserWithURL(block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: true)
+        environment.analytics.trackOpenInBrowserWithURL(block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
         
     }
     
