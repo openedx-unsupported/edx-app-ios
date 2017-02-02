@@ -34,7 +34,7 @@
 #define HEADER_HEIGHT 80.0
 #define SHIFT_LEFT 40.0
 #define ORIGINAL_RIGHT_SPACE_PROGRESSBAR 8
-#define VIDEO_VIEW_HEIGHT  225
+#define STANDARD_VIDEO_ASPECT_RATIO  0.563
 
 typedef NS_ENUM (NSUInteger, OEXAlertType) {
     OEXAlertTypeNextVideoAlert,
@@ -510,7 +510,10 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 - (void)handleComponentsFrame {
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        self.videoViewHeight.constant = VIDEO_VIEW_HEIGHT;
+        self.videoViewHeight.constant = self.view.bounds.size.width * STANDARD_VIDEO_ASPECT_RATIO;
+        self.videoPlayerInterface.height = self.view.bounds.size.width * STANDARD_VIDEO_ASPECT_RATIO;
+        self.videoPlayerInterface.width = self.view.bounds.size.width;
+
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
     }];

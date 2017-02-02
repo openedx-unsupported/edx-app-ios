@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-private let StandardVideoAspectRatio : CGFloat = 0.6
+private let StandardVideoAspectRatio : CGFloat = 0.563
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding {
     
