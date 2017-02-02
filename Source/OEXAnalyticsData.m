@@ -20,8 +20,8 @@ NSString* const OEXAnalyticsKeyQueryString = @"query_string";
 
 NSString* const OEXAnalyticsEventAnnouncementNotificationReceived = @"edx.bi.app.notification.course.update.received";
 NSString* const OEXAnalyticsEventAnnouncementNotificationTapped = @"edx.bi.app.notification.course.update.tapped";
-NSString* const OEXAnalyticsEventPictureSet = @"edx.bi.app.profile.view";
-NSString* const OEXAnalyticsEventProfileViewed = @"edx.bi.app.profile.setphoto";
+NSString* const OEXAnalyticsEventPictureSet = @"edx.bi.app.profile.setphoto";
+NSString* const OEXAnalyticsEventProfileViewed = @"edx.bi.app.profile.view";
 
 NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.component.viewed";
 NSString* const OEXAnalyticsEventScreen = @"edx.bi.app.navigation.screen";
