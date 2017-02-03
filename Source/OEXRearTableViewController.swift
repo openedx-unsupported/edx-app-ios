@@ -89,8 +89,8 @@ class OEXRearTableViewController : UITableViewController {
         super.viewWillAppear(animated)
         
         if let profileCell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: OEXRearViewOptions.UserProfile.rawValue, inSection: 0)) {
-            profileCell.accessibilityLabel = Strings.Accessibility.LeftDrwer.profileLabel(userName: environment.session.currentUser?.name ?? "", userEmail: environment.session.currentUser?.email ?? "")
-            profileCell.accessibilityHint = Strings.Accessibility.LeftDrwer.profileHint
+            profileCell.accessibilityLabel = Strings.Accessibility.LeftDrawer.profileLabel(userName: environment.session.currentUser?.name ?? "", userEmail: environment.session.currentUser?.email ?? "")
+            profileCell.accessibilityHint = Strings.Accessibility.LeftDrawer.profileHint
         }
     }
     
