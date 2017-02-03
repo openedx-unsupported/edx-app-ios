@@ -14,7 +14,7 @@ private let StandardVideoAspectRatio : CGFloat = 0.6
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate {
     
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider>
+    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider, OEXConfigProvider>
 
     let environment : Environment
     let blockID : CourseBlockID?
@@ -93,9 +93,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
         contentView?.addSubview(rotateDeviceMessageView!)
         
-        videoTranscriptView = VideoTranscript(environment: environment)
-        videoTranscriptView?.delegate = self
-        contentView?.addSubview(videoTranscriptView!.transcriptTableView)
+        if environment.config.isVideoTranscriptEnabled {
+            videoTranscriptView = VideoTranscript(environment: environment)
+            videoTranscriptView?.delegate = self
+            contentView?.addSubview(videoTranscriptView!.transcriptTableView)
+        }
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
