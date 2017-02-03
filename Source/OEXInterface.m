@@ -1489,8 +1489,8 @@ static OEXInterface* _sharedInterface = nil;
 
 #pragma mark - App Rating
 
-- (void)saveAppRating:(NSString *)rating{
-    [[NSUserDefaults standardUserDefaults] setObject:rating forKey:OEXSavedAppRating];
+- (void)saveAppRating:(NSInteger)rating{
+    [[NSUserDefaults standardUserDefaults] setInteger:rating forKey:OEXSavedAppRating];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -1500,7 +1500,7 @@ static OEXInterface* _sharedInterface = nil;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (nullable NSString*) getSavedAppRating{
+- (NSInteger) getSavedAppRating{
     return [[NSUserDefaults standardUserDefaults] objectForKey:OEXSavedAppRating];
 }
 - (nullable NSString*) getSavedAppVersionWhenLastRated{

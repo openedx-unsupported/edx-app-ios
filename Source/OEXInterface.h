@@ -169,13 +169,13 @@ extern NSString* const OEXDownloadEndedNotification;
 - (nullable NSString*) getSavedAppVersion;
 
 #pragma mark - App Rating
-/* Save the rating given through app review */
-- (void)saveAppRating:(NSString *)rating;
+/// Save the rating given through app review
+- (void)saveAppRating:(NSInteger)rating;
 
-/* Save the app version when app review is done */
+/// Save the app version when app review is done
 - (void)saveAppVersionWhenLastRated:(nullable NSString*)version;
 
-- (nullable NSString*) getSavedAppRating;
+- (NSInteger) getSavedAppRating;
 - (nullable NSString*) getSavedAppVersionWhenLastRated;
 
 @end
