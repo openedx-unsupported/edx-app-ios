@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString* const OEXVideoEncodingYoutube;
 extern NSString* const OEXVideoEncodingFallback;
 extern NSString* const OEXVideoEncodingMobileHigh;
 extern NSString* const OEXVideoEncodingMobileLow;

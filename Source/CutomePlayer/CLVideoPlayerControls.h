@@ -38,8 +38,14 @@ typedef enum
     CLVideoPlayerControlsStateReady,
 } CLVideoPlayerControlsState;
 
+extern NSString* const CLVideoPlayerkIndex;
+extern NSString* const CLVideoPlayerkStart;
+extern NSString* const CLVideoPlayerkEnd;
+extern NSString* const CLVideoPlayerkText;
+
 @protocol CLVideoPlayerControlsDelegate <NSObject>
 - (void) videoPlayerTapped:(id) sender;
+- (void) transcriptLoaded:(NSArray *)transcript;
 @end
 
 
@@ -116,6 +122,8 @@ typedef enum
 
 - (void)hideOptionsAndValues;
 
+- (void)setCurrentPlaybackTimeFromTranscript:(NSTimeInterval )time;
+
 // For Closed Captioning
 @property (nonatomic, weak, nullable) CLVideoPlayer* moviePlayer;
 
@@ -123,6 +131,10 @@ typedef enum
 
 @property (nonatomic, weak) id <CLVideoPlayerControlsDelegate> delegate;
 
+//Expose for testcases
+- (NSMutableArray*)subtitlesParts;
+
+- (void)readClosedCaptioningString:(NSString*)srtString completion:(void (^)(BOOL finished))success failure:(void (^)(NSError* error))failure;
 
 @end
 
