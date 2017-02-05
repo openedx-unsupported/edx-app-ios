@@ -17,7 +17,7 @@ script:
     - travis_retry ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
-    - bash <(curl -s https://codecov.io/bash) -J 'edX'
+    - bash <(curl -s https://codecov.io/bash) -f Pods/
     - sleep 5 # https://github.com/travis-ci/travis-ci/issues/4725
 
 branches:
