@@ -1501,7 +1501,7 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (NSInteger) getSavedAppRating{
-    return [[NSUserDefaults standardUserDefaults] objectForKey:OEXSavedAppRating];
+    return [[NSUserDefaults standardUserDefaults] integerForKey:OEXSavedAppRating];
 }
 - (nullable NSString*) getSavedAppVersionWhenLastRated{
     return [[NSUserDefaults standardUserDefaults] objectForKey:OEXSavedAppVersionWhenLastRated];

@@ -56,7 +56,7 @@ class RatingContainerView: UIView {
         
         //Setup label properties
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.attributedText = standardTextStyle.attributedStringWithText("How would you rate the edX app?")
+        descriptionLabel.attributedText = standardTextStyle.attributedStringWithText(Strings.AppReview.rateTheAppQuestion)
         
         //Setup Submit button
         toggleSubmitButton(false)

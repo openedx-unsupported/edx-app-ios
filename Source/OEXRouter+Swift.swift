@@ -262,9 +262,14 @@ extension OEXRouter {
     func showAppReviewFromController(controller: UIViewController) {
         
         guard let reachable = environment.interface?.reachable else { return }
-        let appRating = environment.interface?.getSavedAppRating()
-        let lastVersionForAppReview = environment.interface?.getSavedAppVersionWhenLastRated()
-        if reachable || appRating == nil {
+        var showAppReview = true
+        if let appRating = environment.interface?.getSavedAppRating(), let lastVersionForAppReview = environment.interface?.getSavedAppVersionWhenLastRated(){
+            let versionDiff = (Float(NSBundle.mainBundle().oex_buildVersionString()) ?? 0.0) - (Float(lastVersionForAppReview) ?? 0.0)
+            if appRating >= 4 || versionDiff < 0.2 {
+                showAppReview = false
+            }
+        }
+        if reachable && showAppReview{
             let reviewController = RatingViewController(environment: environment)
             
             reviewController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext

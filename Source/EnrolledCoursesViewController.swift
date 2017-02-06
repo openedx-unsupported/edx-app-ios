@@ -79,11 +79,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         environment.analytics.trackScreenWithName(OEXAnalyticsScreenMyCourses)
         showVersionUpgradeSnackBarIfNecessary()
         super.viewWillAppear(animated)
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.0)), dispatch_get_main_queue()) {
-            self.environment.router?.showAppReviewFromController(self)
-        }
-        
     }
     
     override func reloadViewData() {
