@@ -105,7 +105,7 @@ typedef  enum OEXAlertType
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     //Analytics Screen record
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName: OEXAnalyticsScreenMyVideosAllVideos];
 
     [self.navigationController setNavigationBarHidden:false animated:animated];
 
@@ -841,7 +841,7 @@ typedef  enum OEXAlertType
             [self cancelTableClicked:nil];
 
             //Analytics Screen record
-            [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - All Videos"];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName: OEXAnalyticsScreenMyVideosAllVideos];
 
             break;
 
@@ -862,7 +862,7 @@ typedef  enum OEXAlertType
             }
             
             //Analytics Screen record
-            [[OEXAnalytics sharedAnalytics] trackScreenWithName: @"My Videos - Recent Videos"];
+            [[OEXAnalytics sharedAnalytics] trackScreenWithName: OEXAnalyticsScreenMyVideosRecentVideos];
 
             break;
 

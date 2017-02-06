@@ -10,7 +10,7 @@ import Foundation
 
 class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
-    typealias Environment = protocol<OEXRouterProvider, OEXConfigProvider>
+    typealias Environment = protocol<OEXRouterProvider, OEXConfigProvider, OEXAnalyticsProvider>
 
     private let logoImageView = UIImageView()
 
@@ -37,7 +37,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        OEXAnalytics.sharedAnalytics().trackScreenWithName("launch")
+        environment.analytics.trackScreenWithName(OEXAnalyticsScreenLaunch)
     }
 
     override func shouldAutorotate() -> Bool {
