@@ -115,6 +115,9 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 //Animation Speed
 #define ANIMATION_DURATION 0.35
 
+//Standard Video Aspect Ratio
+#define STANDARD_VIDEO_ASPECT_RATIO  0.563
+
 #define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 

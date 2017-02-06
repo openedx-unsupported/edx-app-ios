@@ -34,7 +34,6 @@
 #define HEADER_HEIGHT 80.0
 #define SHIFT_LEFT 40.0
 #define ORIGINAL_RIGHT_SPACE_PROGRESSBAR 8
-#define STANDARD_VIDEO_ASPECT_RATIO  0.563
 
 typedef NS_ENUM (NSUInteger, OEXAlertType) {
     OEXAlertTypeNextVideoAlert,

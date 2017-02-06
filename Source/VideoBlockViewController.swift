@@ -10,8 +10,6 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-private let StandardVideoAspectRatio : CGFloat = 0.563
-
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding {
     
     typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider>
@@ -156,7 +154,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.edges.equalTo(view)
         }
         
-        videoController.height = view.bounds.size.width * StandardVideoAspectRatio
+        videoController.height = view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO)
         videoController.width = view.bounds.size.width
         
         videoController.view.snp_remakeConstraints {make in
@@ -169,7 +167,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 make.top.equalTo(self.snp_topLayoutGuideBottom)
             }
             
-            make.height.equalTo(view.bounds.size.width * StandardVideoAspectRatio)
+            make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
         
         rotateDeviceMessageView?.snp_remakeConstraints {make in
