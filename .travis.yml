@@ -16,8 +16,10 @@ script:
     - set -o pipefail
     - travis_retry ./gradlew -q $TEST_TASK | xcpretty -c
 
+ignore:
+    - Pods/*
 after_success:
-    - bash <(curl -s https://codecov.io/bash) -f Pods/
+    - bash <(curl -s https://codecov.io/bash)
     - sleep 5 # https://github.com/travis-ci/travis-ci/issues/4725
 
 branches:
