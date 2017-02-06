@@ -1,0 +1,2 @@
+ignore:
+ - "Pods/.*"  # ignore folders and all its contents
