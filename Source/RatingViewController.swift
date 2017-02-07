@@ -90,7 +90,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     }
     
     func sendUserToAppStore() {
-        guard let url = NSURL(string: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=945480667&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software") else { return }
+        guard let url = NSURL(string: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=\(environment.config.appStoreID)&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software") where environment.config.appStoreID != nil else { return }
         UIApplication.sharedApplication().openURL(url)
     }
     

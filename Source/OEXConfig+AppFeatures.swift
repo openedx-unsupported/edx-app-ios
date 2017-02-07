@@ -61,4 +61,8 @@ extension OEXConfig {
     var isVideoTranscriptEnabled : Bool {
         return boolForKey("VIDEO_TRANSCRIPT_ENABLED")
     }
+    
+    var appStoreID : String? {
+        return stringForKey("APPSTORE_ID")
+    }
 }
