@@ -388,6 +388,12 @@
     }
 }
 
+- (void)videoFinished {
+    if([self.delegate respondsToSelector:@selector(videoFinished)]) {
+        [self.delegate videoFinished];
+    }
+}
+
 - (BOOL)prefersStatusBarHidden {
     return [self.moviePlayerController isFullscreen];
 }

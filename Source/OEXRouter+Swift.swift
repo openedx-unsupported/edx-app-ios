@@ -259,7 +259,7 @@ extension OEXRouter {
         fromController.navigationController?.pushViewController(detailController, animated: true)
     }
     
-    func showAppReviewFromController(controller: UIViewController) {
+    func showAppReviewIfNeeded(fromController: UIViewController) {
         
         guard let reachable = environment.interface?.reachable else { return }
         var showAppReview = true
@@ -276,7 +276,7 @@ extension OEXRouter {
             reviewController.providesPresentationContextTransitionStyle = true
             reviewController.definesPresentationContext = true
             
-            controller.navigationController?.presentViewController(reviewController, animated: false, completion: nil)
+            fromController.navigationController?.presentViewController(reviewController, animated: false, completion: nil)
         }
     }
 
