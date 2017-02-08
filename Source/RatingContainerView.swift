@@ -9,7 +9,7 @@
 import UIKit
 
 protocol RatingContainerDelegate {
-    func didSelectRating(rating: CGFloat)
+    func didSelectRating(rating: Int)
     func closeButtonPressed()
 }
 
@@ -19,11 +19,11 @@ class RatingContainerView: UIView {
     
     let environment : Environment
     
-    let contentView = UIView()
-    let descriptionLabel = UILabel()
-    let ratingView = RatingView()
-    let closeButton = UIButton()
-    let submitButton = UIButton()
+    private let contentView = UIView()
+    private let descriptionLabel = UILabel()
+    private let ratingView = RatingView()
+    private let closeButton = UIButton()
+    private let submitButton = UIButton()
     var delegate : RatingContainerDelegate?
     
     private var standardTextStyle : OEXTextStyle {
@@ -132,5 +132,9 @@ class RatingContainerView: UIView {
         let style = enabled ? enabledButtonStyle : disabledButtonStyle
         submitButton.applyButtonStyle(style, withTitle: "Submit")
         submitButton.userInteractionEnabled = enabled
+    }
+    
+    func setRating(rating: Int) {
+        ratingView.setRatingValue(rating)
     }
 }

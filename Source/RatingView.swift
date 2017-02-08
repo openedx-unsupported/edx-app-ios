@@ -14,7 +14,7 @@ class RatingView: UIControl {
     
     let maximumValue : CGFloat = 5
     let minimumValue : CGFloat = 0
-    var value : CGFloat = 0
+    var value : Int = 0
     let spacing : CGFloat = 5
     
     let emptyImage = Icon.StarEmpty.imageWithFontSize(40.0)
@@ -43,13 +43,11 @@ class RatingView: UIControl {
     }
     
     //MARK: - Action generators
-    func setValue(value: CGFloat, sendValueChangedAction sendAction: Bool) {
+    func setRatingValue(value: Int) {
         willChangeValueForKey("value")
-        if self.value != value && value >= minimumValue && value <= maximumValue {
+        if self.value != value && value >= Int(minimumValue) && value <= Int(maximumValue) {
             self.value = value
-            if sendAction {
-                sendActionsForControlEvents(UIControlEvents.ValueChanged)
-            }
+            sendActionsForControlEvents(UIControlEvents.ValueChanged)
             setNeedsDisplay()
         }
         didChangeValueForKey("value")
@@ -82,7 +80,7 @@ class RatingView: UIControl {
             pointX += (spacing * CGFloat(idx)) + 1
             let center = CGPointMake(pointX, rect.size.height/2)
             let frame = CGRectMake(center.x - starSide/2, center.y - starSide/2, starSide, starSide)
-            let highlighted = (idx + 1 <= Int(ceil(value)))
+            let highlighted = (idx + 1 <= value)
             drawImageWithFrame(frame, tintColor: tintColor, highlighted: highlighted)
         }
     }
@@ -115,7 +113,7 @@ class RatingView: UIControl {
         
         value = ceil(value)
         
-        setValue(value, sendValueChangedAction: true)
+        setRatingValue(Int(value))
     }
     
     //MARK: - Override behavorial methods

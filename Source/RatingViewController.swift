@@ -14,7 +14,8 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXStylesProvider, OEXConfigProvider>
     
     let environment : Environment
-    let ratingContainerView : RatingContainerView
+    private let ratingContainerView : RatingContainerView
+    var alertController : UIAlertController?
     var selectedRating : Int?
     
     init(environment : Environment) {
@@ -37,10 +38,6 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
         
         setupConstraints()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
     func setupConstraints() {
         ratingContainerView.snp_remakeConstraints { (make) in
@@ -52,7 +49,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     //MARK: - RatingContainerDelegate methods
     
-    func didSelectRating(rating: CGFloat) {
+    func didSelectRating(rating: Int) {
         selectedRating = Int(rating)
         switch rating {
         case 1...3:
@@ -74,15 +71,15 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     //MARK: - Positive Rating methods
     func positiveRatingReceived() {
-        let alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.rateTheApp, message: Strings.AppReview.positiveReviewMessage,cancelButtonTitle: nil, onViewController: self)
-        alertController.addButtonWithTitle(Strings.AppReview.noThanks) { (action) in
+        alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.rateTheApp, message: Strings.AppReview.positiveReviewMessage,cancelButtonTitle: nil, onViewController: self)
+        alertController!.addButtonWithTitle(Strings.AppReview.noThanks) { (action) in
             self.saveAppRating()
             self.dismissViewControllerAnimated(false, completion: nil)
         }
-        alertController.addButtonWithTitle(Strings.AppReview.askMeLater) { (action) in
+        alertController!.addButtonWithTitle(Strings.AppReview.askMeLater) { (action) in
             self.dismissViewControllerAnimated(false, completion: nil)
         }
-        alertController.addButtonWithTitle(Strings.AppReview.rateTheApp) { (action) in
+        alertController!.addButtonWithTitle(Strings.AppReview.rateTheApp) { (action) in
             self.saveAppRating()
             self.sendUserToAppStore()
             self.dismissViewControllerAnimated(false, completion: nil)
@@ -96,15 +93,14 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     //MARK: - Negative Rating methods
     func negativeRatingReceived() {
-        let alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
-        alertController.addButtonWithTitle(Strings.AppReview.maybeLater) { (action) in
+        alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
+        alertController!.addButtonWithTitle(Strings.AppReview.maybeLater) { (action) in
             self.dismissViewControllerAnimated(false, completion: nil)
         }
-        alertController.addButtonWithTitle(Strings.AppReview.sendFeedback) { (action) in
+        alertController!.addButtonWithTitle(Strings.AppReview.sendFeedback) { (action) in
             self.saveAppRating()
             self.launchEmailComposer()
         }
-        environment.interface
     }
     
     //MARK: - Persistence methods
@@ -112,6 +108,11 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
         guard let rating = selectedRating else { return }
         environment.interface?.saveAppRating(rating)
         environment.interface?.saveAppVersionWhenLastRated(nil)
+    }
+    
+    //MARK: - Expose for testcases
+    func setRating(rating: Int) {
+        ratingContainerView.setRating(rating)
     }
 }
 

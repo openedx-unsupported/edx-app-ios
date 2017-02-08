@@ -129,6 +129,7 @@
 		698C6D781E2619E4009156BB /* VideoTranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698C6D771E2619E4009156BB /* VideoTranscriptTests.swift */; };
 		698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698EE6E81E38A53600DF4FEA /* RatingView.swift */; };
 		69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */ = {isa = PBXBuildFile; fileRef = 69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */; };
+		69AD2B8D1E4B1CE500029B9B /* RatingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AD2B8B1E4B1CA000029B9B /* RatingViewControllerTests.swift */; };
 		69C12C661E07F5F8004E7261 /* VideoTranscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C12C651E07F5F8004E7261 /* VideoTranscript.swift */; };
 		69E1CD011D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */; };
 		69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5A31D50D1170030CF87 /* FontAwesome.otf */; };
@@ -213,10 +214,9 @@
 		69ECC6501D50D1170030CF87 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5F91D50D1170030CF87 /* Default@2x.png */; };
 		69ECC6511D50D1170030CF87 /* handouts-announcements.css in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5FB1D50D1170030CF87 /* handouts-announcements.css */; };
 		69ECC6521D50D1170030CF87 /* inline-content.css in Resources */ = {isa = PBXBuildFile; fileRef = 69ECC5FC1D50D1170030CF87 /* inline-content.css */; };
-		69F5FACB1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F5FACA1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift */; };
-		69EFBB091E36212100FF66C4 /* RateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69EFBB081E36212100FF66C4 /* RateView.m */; };
 		69EFBB0B1E36259D00FF66C4 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EFBB0A1E36259D00FF66C4 /* RatingViewController.swift */; };
 		69EFBB0D1E36270000FF66C4 /* RatingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EFBB0C1E36270000FF66C4 /* RatingContainerView.swift */; };
+		69F5FACB1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F5FACA1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift */; };
 		77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A361A76EF8C007D306C /* NSString+OEXValidation.m */; };
 		77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */; };
 		77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */; };
@@ -905,8 +905,9 @@
 		6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsTests.swift; sourceTree = "<group>"; };
 		6987A86C1D6C67DB00E9D183 /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
 		698C6D771E2619E4009156BB /* VideoTranscriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTranscriptTests.swift; sourceTree = "<group>"; };
-		69C12C651E07F5F8004E7261 /* VideoTranscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTranscript.swift; sourceTree = "<group>"; };
 		698EE6E81E38A53600DF4FEA /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
+		69AD2B8B1E4B1CA000029B9B /* RatingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViewControllerTests.swift; sourceTree = "<group>"; };
+		69C12C651E07F5F8004E7261 /* VideoTranscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTranscript.swift; sourceTree = "<group>"; };
 		69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RegistrationForm.json; sourceTree = "<group>"; };
 		69E1CD001D7D7BA300531449 /* OEXRegistrationViewController+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXRegistrationViewController+Swift.swift"; sourceTree = "<group>"; };
 		69ECC5A31D50D1170030CF87 /* FontAwesome.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.otf; sourceTree = "<group>"; };
@@ -991,11 +992,9 @@
 		69ECC5F91D50D1170030CF87 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		69ECC5FB1D50D1170030CF87 /* handouts-announcements.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "handouts-announcements.css"; sourceTree = "<group>"; };
 		69ECC5FC1D50D1170030CF87 /* inline-content.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "inline-content.css"; sourceTree = "<group>"; };
-		69F5FACA1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTranscriptTableViewCell.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		69EFBB071E36212100FF66C4 /* RateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RateView.h; sourceTree = "<group>"; };
-		69EFBB081E36212100FF66C4 /* RateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RateView.m; sourceTree = "<group>"; };
 		69EFBB0A1E36259D00FF66C4 /* RatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
 		69EFBB0C1E36270000FF66C4 /* RatingContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingContainerView.swift; sourceTree = "<group>"; };
+		69F5FACA1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTranscriptTableViewCell.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		6C5AB6D484316B1D809C5BC7 /* Pods-edX.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edX.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edX/Pods-edX.profile.xcconfig"; sourceTree = "<group>"; };
 		77000A351A76EF8C007D306C /* NSString+OEXValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXValidation.h"; sourceTree = "<group>"; };
 		77000A361A76EF8C007D306C /* NSString+OEXValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidation.m"; sourceTree = "<group>"; };
@@ -3248,6 +3247,7 @@
 				E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */,
 				698C6D771E2619E4009156BB /* VideoTranscriptTests.swift */,
 				6975C4BC1E42085300AF014D /* CLVideoPlayerControlsTests.swift */,
+				69AD2B8B1E4B1CA000029B9B /* RatingViewControllerTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
 				7772BE901AF90C8A0081CA7A /* Helpers */,
@@ -4461,6 +4461,7 @@
 				77691FB21B3C824E003922F2 /* CourseOutlineQuerierTests.swift in Sources */,
 				77691FB01B3C820B003922F2 /* CourseOutlineViewControllerTests.swift in Sources */,
 				E02165AF1E39D3040058D685 /* UIImage_OEXHelpersTests.swift in Sources */,
+				69AD2B8D1E4B1CE500029B9B /* RatingViewControllerTests.swift in Sources */,
 				770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */,
 				77F76A741B0CE01E00ED3E39 /* MockCourseDataManager.swift in Sources */,
 			);
