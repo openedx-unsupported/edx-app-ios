@@ -133,6 +133,7 @@ extension RatingViewController : MFMailComposeViewControllerDelegate {
                                     delegate: nil,
                                     cancelButtonTitle: Strings.ok)
             alert.show()
+            self.dismissViewControllerAnimated(false, completion: nil)
         } else {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self

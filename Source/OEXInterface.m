@@ -1495,7 +1495,7 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (void)saveAppVersionWhenLastRated:(nullable NSString*)version{
-    NSString *versionString = version ? version : [NSBundle mainBundle].oex_buildVersionString;
+    NSString *versionString = version ? version : [NSBundle mainBundle].oex_shortVersionString;
     [[NSUserDefaults standardUserDefaults] setObject:versionString forKey:OEXSavedAppVersionWhenLastRated];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
