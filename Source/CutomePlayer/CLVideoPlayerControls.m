@@ -83,6 +83,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @property (nonatomic, strong) AccessibilityCLButton* playPauseButton;
 @property (nonatomic, strong) MPVolumeView* volumeView;
 @property (nonatomic, strong) CLButton* fullscreenButton;
+@property (nonatomic, strong) CLButton* view_OptionsOverlayButton;
 @property (nonatomic, strong) UILabel* timeElapsedLabel;
 @property (nonatomic, strong) UILabel* timeRemainingLabel;
 @property (nonatomic, strong) UILabel* videoTitleLabel;
@@ -108,7 +109,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 @property (nonatomic, strong) UISwipeGestureRecognizer* leftSwipeGestureRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer* rightSwipeGestureRecognizer;
-@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
 #pragma mark - Properties
 @property (strong, nonatomic) NSMutableDictionary* subtitlesParts;
@@ -748,6 +748,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     self.view_OptionsOverlay.backgroundColor = [UIColor blackColor];
     self.view_OptionsOverlay.alpha = 0.5f;
     [self addSubview:self.view_OptionsOverlay];
+    
+    //Overlay button to remove options list
+    _view_OptionsOverlayButton = [[CLButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    [_view_OptionsOverlayButton addTarget:self action:@selector(hideOptionsAndValues) forControlEvents:UIControlEventTouchUpInside];
+    _view_OptionsOverlayButton.delegate = self;
+    _view_OptionsOverlayButton.backgroundColor = [UIColor clearColor];
+    [self.view_OptionsOverlay addSubview:_view_OptionsOverlayButton];
 
     self.view_OptionsInner = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     self.view_OptionsInner.backgroundColor = GREY_COLOR;
@@ -848,12 +855,14 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)hideOptionsAndValues {
-    [self.view_OptionsOverlay removeGestureRecognizer:self.tapGestureRecognizer];
-    
     self.btnSettings.selected = NO;
     self.view_OptionsOverlay.hidden = YES;
     self.tableSettings.hidden = YES;
     self.view_OptionsInner.hidden = YES;
+    if([self.delegate respondsToSelector:@selector(settingsButtonTapped:)]) {
+        //Hide button layer.
+        [self.delegate settingsButtonTapped:false];
+    }
 }
 
 # pragma mark - Setters
@@ -988,16 +997,16 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 }
 
 - (void)settingsBtnClicked:(id)sender {
-    // Add tap gesture to hide options window.
-    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideOptionsAndValues)];
-    [self.view_OptionsOverlay addGestureRecognizer:self.tapGestureRecognizer];
-
     // Hide unhide the option tableview
     self.view_OptionsOverlay.hidden = NO;
     self.tableSettings.hidden = NO;
     self.view_OptionsInner.hidden = YES;
 
     [self bringSubviewToFront:self.tableSettings];
+    if([self.delegate respondsToSelector:@selector(settingsButtonTapped:)]) {
+        //Show button layer.
+        [self.delegate settingsButtonTapped:true];
+    }
 }
 
 - (void)analyticsShowTranscript {
@@ -1161,6 +1170,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self updateComponentsOriginOnOrientation];
 
     [self performSelector:@selector(hideControls:) withObject:nil afterDelay:self.fadeDelay];
+    if([self.delegate respondsToSelector:@selector(settingsButtonTapped:)]) {
+        //Hide button layer.
+        [self.delegate settingsButtonTapped:false];
+    }
 }
 
 - (void)seekBackwardPressed:(UIButton*)button {
@@ -1724,6 +1737,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     [_activityBackgroundView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     [_activityIndicator setFrame:CGRectMake((self.frame.size.width / 2) - (activityIndicatorSize / 2), (self.frame.size.height / 2) - (activityIndicatorSize / 2), activityIndicatorSize, activityIndicatorSize)];
+    [_view_OptionsOverlayButton setFrame:CGRectMake(0, 0, self.view_OptionsOverlay.frame.size.width, self.view_OptionsOverlay.frame.size.height)];
 
     self.tapButton.frame = self.frame;
     [self didHidePrevNext];

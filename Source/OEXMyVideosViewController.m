@@ -34,6 +34,7 @@
 #import "OEXRouter.h"
 #import "SWRevealViewController.h"
 #import "OEXStyles.h"
+#import <Masonry/Masonry.h>
 
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
@@ -96,6 +97,7 @@ typedef  enum OEXAlertType
 
 @property (strong, nonatomic) OEXCheckBox* btn_SelectAllEditing;
 @property (strong, nonatomic) ProgressController *progressController;
+@property (strong, nonatomic) UIButton* settingsMenuRecognizerButton;
 @end
 
 @implementation OEXMyVideosViewController
@@ -226,6 +228,8 @@ typedef  enum OEXAlertType
     // set select all button color to white so it look prominent on blue navigation bar
     self.btn_SelectAllEditing.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
+    //Layer for recognize settings menu.
+    [self addSettingsMenuRecognizer];
 }
 
 - (void)reloadTable {
@@ -1163,6 +1167,10 @@ typedef  enum OEXAlertType
     // TODO: Handle player tap
 }
 
+- (void) settingsButtonTapped:(BOOL)isShowingOptions {
+    self.settingsMenuRecognizerButton.hidden = !isShowingOptions;
+}
+
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView.tag == 1001) {
         if(buttonIndex == 1) {
@@ -1326,6 +1334,24 @@ typedef  enum OEXAlertType
 
 - (BOOL)prefersStatusBarHidden {
     return self.videoPlayerInterface.moviePlayerController.fullscreen;
+}
+
+- (void)addSettingsMenuRecognizer {
+    self.settingsMenuRecognizerButton = [[UIButton alloc] initWithFrame:CGRectZero];
+    self.settingsMenuRecognizerButton.backgroundColor = [UIColor clearColor];
+    [self.settingsMenuRecognizerButton oex_addAction:^(id  _Nonnull control) {
+        self.settingsMenuRecognizerButton.hidden = YES;
+        [self.videoPlayerInterface.moviePlayerController.controls hideOptionsAndValues];
+    } forEvents:UIControlEventTouchUpInside];
+    [self.recentVideoView addSubview:self.settingsMenuRecognizerButton];
+    self.settingsMenuRecognizerButton.hidden = YES;
+    
+    [self.settingsMenuRecognizerButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.table_RecentVideos.mas_leading);
+        make.trailing.equalTo(self.table_RecentVideos.mas_trailing);
+        make.top.equalTo(self.table_RecentVideos.mas_top);
+        make.bottom.equalTo(self.table_RecentVideos.mas_bottom);
+    }];
 }
 
 @end

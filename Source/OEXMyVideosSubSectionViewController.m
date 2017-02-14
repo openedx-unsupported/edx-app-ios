@@ -29,7 +29,7 @@
 #import "OEXRouter.h"
 #import "Reachability.h"
 #import "OEXCustomEditingView.h"
-
+#import <Masonry/Masonry.h>
 
 #define HEADER_HEIGHT 80.0
 #define SHIFT_LEFT 40.0
@@ -45,7 +45,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     OEXAlertTypePlayBackContentUnAvailable
 };
 
-@interface OEXMyVideosSubSectionViewController () <UITableViewDelegate>
+@interface OEXMyVideosSubSectionViewController () <UITableViewDelegate, OEXVideoPlayerInterfaceDelegate>
 {
     NSIndexPath* clickedIndexpath;
 }
@@ -74,6 +74,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 @property (strong, nonatomic) OEXCheckBox* selectAllButton;
 @property (strong, nonatomic) ProgressController *progressController;
+@property (strong, nonatomic) UIButton* settingsMenuRecognizerButton;
 
 @end
 
@@ -136,6 +137,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     //Init video view and video player
     self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
     [self.videoPlayerInterface enableFullscreenAutorotation];
+    self.videoPlayerInterface.delegate = self;
     [self addChildViewController:self.videoPlayerInterface];
     [self.videoPlayerInterface didMoveToParentViewController:self];
     _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
@@ -171,6 +173,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     self.isTableEditing = NO;           // Check Edit button is clicked
     self.selectAll = NO;        // Check if all are selected
     
+    //Layer for recognize settings menu.
+    [self addSettingsMenuRecognizer];
 }
 
 - (void)addObservers {
@@ -915,6 +919,14 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     }
 }
 
+- (void) videoPlayerTapped:(UIGestureRecognizer *)sender {
+    // TODO: Handle player tap
+}
+
+- (void) settingsButtonTapped:(BOOL)isShowingOptions {
+    self.settingsMenuRecognizerButton.hidden = !isShowingOptions;
+}
+
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView.tag == 1001) {
         if(buttonIndex == 1) {
@@ -1054,6 +1066,24 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 - (BOOL) isRTL {
     return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
+}
+
+- (void)addSettingsMenuRecognizer {
+    self.settingsMenuRecognizerButton = [[UIButton alloc] initWithFrame:CGRectZero];
+    self.settingsMenuRecognizerButton.backgroundColor = [UIColor clearColor];
+    [self.settingsMenuRecognizerButton oex_addAction:^(id  _Nonnull control) {
+        self.settingsMenuRecognizerButton.hidden = YES;
+        [self.videoPlayerInterface.moviePlayerController.controls hideOptionsAndValues];
+    } forEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.settingsMenuRecognizerButton];
+    self.settingsMenuRecognizerButton.hidden = YES;
+    
+    [self.settingsMenuRecognizerButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self.table_SubSectionVideos.mas_leading);
+        make.trailing.equalTo(self.table_SubSectionVideos.mas_trailing);
+        make.top.equalTo(self.table_SubSectionVideos.mas_top);
+        make.bottom.equalTo(self.table_SubSectionVideos.mas_bottom);
+    }];
 }
 
 #pragma mark - Actions

@@ -25,7 +25,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     var rotateDeviceMessageView : IconMessageView?
     var contentView : UIView?
-    
+    let settingsMenuRecognizerButton:UIButton = UIButton(type: UIButtonType.Custom)
     let loadController : LoadStateViewController
     
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
@@ -90,6 +90,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
         contentView!.addSubview(rotateDeviceMessageView!)
+        
+        //Layer for recognize settings menu.
+        addSettingsMenuRecognizer()
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
@@ -185,6 +188,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
             }
         }
+        
+        settingsMenuRecognizerButton.snp_remakeConstraints(closure: { (make) in
+            make.leading.equalTo(rotateDeviceMessageView!)
+            make.trailing.equalTo(rotateDeviceMessageView!)
+            make.top.equalTo(rotateDeviceMessageView!)
+            make.bottom.equalTo(rotateDeviceMessageView!)
+        })
     }
     
     private func applyLandscapeConstraints() {
@@ -214,6 +224,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         rotateDeviceMessageView?.snp_remakeConstraints {make in
             make.height.equalTo(0.0)
         }
+        
+        settingsMenuRecognizerButton.snp_remakeConstraints(closure: { (make) in
+            make.height.equalTo(0.0)
+        })
     }
     
     func movieTimedOut() {
@@ -278,11 +292,26 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
+    func addSettingsMenuRecognizer() {
+        settingsMenuRecognizerButton.frame = CGRectZero
+        settingsMenuRecognizerButton.oex_addAction({ _ in
+            self.settingsMenuRecognizerButton.hidden = true
+            self.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
+            }, forEvents: .TouchUpInside)
+        settingsMenuRecognizerButton.backgroundColor = UIColor.clearColor()
+        rotateDeviceMessageView!.addSubview(settingsMenuRecognizerButton)
+        settingsMenuRecognizerButton.hidden = true
+    }
+    
     func videoPlayerTapped(sender: UIGestureRecognizer) {
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
         if self.isVerticallyCompact() && !videoPlayer.fullscreen{
             videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
         }
+    }
+    
+    func settingsButtonTapped(isShowingOptions: Bool) {
+        settingsMenuRecognizerButton.hidden = !isShowingOptions
     }
 }
