@@ -8,7 +8,7 @@
 
 #import "OEXVideoEncoding.h"
 
-static NSString* const OEXVideoEncodingYoutube = @"youtube";
+NSString* const OEXVideoEncodingYoutube = @"youtube";
 NSString* const OEXVideoEncodingMobileHigh = @"mobile_high";
 NSString* const OEXVideoEncodingMobileLow = @"mobile_low";
 NSString* const OEXVideoEncodingFallback = @"fallback";

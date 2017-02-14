@@ -42,6 +42,11 @@ typedef NS_ENUM(NSUInteger, OEXMySettingsAlertTag) {
     self.navigationItem.title = [Strings settings];
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenSettings];
+}
+
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section {
     return 1;
 }

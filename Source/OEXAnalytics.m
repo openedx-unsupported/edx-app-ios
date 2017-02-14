@@ -270,7 +270,7 @@ static OEXAnalytics* sAnalytics;
                     SkipType:(NSString*)skip_value {
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
-    event.displayName = @"Video Seeked";
+    event.displayName = @"Seeked Video";
     event.name = value_video_seeked;
     event.courseID = courseId;
     event.openInBrowserURL = unitUrl;
@@ -379,7 +379,7 @@ static OEXAnalytics* sAnalytics;
     [info safeSetObject:@(currentTime) forKey:key_current_time];
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
-    event.name = value_single_download;
+    event.name = value_fullscreen;
     event.displayName = @"Screen Toggled";
     event.courseID = courseId;
     event.openInBrowserURL = unitUrl;

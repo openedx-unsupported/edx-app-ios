@@ -12,9 +12,9 @@ import UIKit
 
 private let StandardVideoAspectRatio : CGFloat = 0.6
 
-class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding {
+class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate {
     
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider>
+    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider, OEXConfigProvider>
 
     let environment : Environment
     let blockID : CourseBlockID?
@@ -24,6 +24,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     let loader = BackedStream<CourseBlock>()
     
     var rotateDeviceMessageView : IconMessageView?
+    var videoTranscriptView : VideoTranscript?
+    var subtitleTimer = NSTimer()
     var contentView : UIView?
     let settingsMenuRecognizerButton:UIButton = UIButton(type: UIButtonType.Custom)
     let loadController : LoadStateViewController
@@ -84,12 +86,18 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         loadController.setupInController(self, contentView : contentView!)
         
-        contentView!.addSubview(videoController.view)
+        contentView?.addSubview(videoController.view)
         videoController.view.translatesAutoresizingMaskIntoConstraints = false
         videoController.fadeInOnLoad = false
         
         rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
-        contentView!.addSubview(rotateDeviceMessageView!)
+        contentView?.addSubview(rotateDeviceMessageView!)
+        
+        if environment.config.isVideoTranscriptEnabled {
+            videoTranscriptView = VideoTranscript(environment: environment)
+            videoTranscriptView?.delegate = self
+            contentView?.addSubview(videoTranscriptView!.transcriptTableView)
+        }
         
         //Layer for recognize settings menu.
         addSettingsMenuRecognizer()
@@ -115,6 +123,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.view.layoutIfNeeded()
         super.viewDidAppear(animated)
         
+        validateSubtitleTimer()
+        
         guard canDownloadVideo() else {
             guard let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where video.downloadState == .Complete else {
                 self.showOverlayMessage(Strings.noWifiMessage)
@@ -128,6 +138,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         videoController.setAutoPlaying(false)
+        self.subtitleTimer.invalidate()
     }
     
     private func loadVideoIfNecessary() {
@@ -189,6 +200,14 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             }
         }
         
+        videoTranscriptView?.transcriptTableView.snp_remakeConstraints { make in
+            make.top.equalTo(videoController.view.snp_bottom)
+            make.leading.equalTo(contentView!)
+            make.trailing.equalTo(contentView!)
+            let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
+            make.bottom.equalTo(view.snp_bottom).offset(-barHeight)
+            }
+
         settingsMenuRecognizerButton.snp_remakeConstraints(closure: { (make) in
             make.leading.equalTo(rotateDeviceMessageView!)
             make.trailing.equalTo(rotateDeviceMessageView!)
@@ -303,15 +322,40 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         settingsMenuRecognizerButton.hidden = true
     }
     
+    func validateSubtitleTimer() {
+        if !subtitleTimer.valid && videoController.moviePlayerController?.controls != nil {
+            subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
+                                                                   target: self,
+                                                                   selector: #selector(highlightSubtitle),
+                                                                   userInfo: nil,
+                                                                   repeats: true)
+        }
+    }
+    
+    func highlightSubtitle() {
+        videoTranscriptView?.highlightSubtitleForTime(videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
+    }
+    
+    //MARK: - OEXVideoPlayerInterfaceDelegate methods
     func videoPlayerTapped(sender: UIGestureRecognizer) {
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
         if self.isVerticallyCompact() && !videoPlayer.fullscreen{
-            videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
+            videoPlayer.setFullscreen(true, withOrientation: currentOrientation())
         }
     }
     
     func settingsButtonTapped(isShowingOptions: Bool) {
         settingsMenuRecognizerButton.hidden = !isShowingOptions
+    }
+    
+    func transcriptLoaded(transcript: [AnyObject]) {
+        videoTranscriptView?.updateTranscript(transcript)
+        validateSubtitleTimer()
+    }
+    
+    //MARK: - VideoTranscriptDelegate methods
+    func didSelectSubtitleAtInterval(time: NSTimeInterval) {
+        videoController.moviePlayerController?.controls?.setCurrentPlaybackTimeFromTranscript(time)
     }
 }

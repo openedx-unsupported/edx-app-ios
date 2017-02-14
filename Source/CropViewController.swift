@@ -160,8 +160,8 @@ class CropViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
         let scrollFrame = scrollView.frame
         let hole = circleView.circleBounds
