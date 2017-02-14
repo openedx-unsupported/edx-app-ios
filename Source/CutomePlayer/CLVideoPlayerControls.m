@@ -859,6 +859,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     self.view_OptionsOverlay.hidden = YES;
     self.tableSettings.hidden = YES;
     self.view_OptionsInner.hidden = YES;
+    if([self.delegate respondsToSelector:@selector(settingsButtonTapped:)]) {
+        //Hide button layer.
+        [self.delegate settingsButtonTapped:false];
+    }
 }
 
 # pragma mark - Setters
@@ -999,6 +1003,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     self.view_OptionsInner.hidden = YES;
 
     [self bringSubviewToFront:self.tableSettings];
+    if([self.delegate respondsToSelector:@selector(settingsButtonTapped:)]) {
+        //Show button layer.
+        [self.delegate settingsButtonTapped:true];
+    }
 }
 
 - (void)analyticsShowTranscript {
@@ -1162,6 +1170,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self updateComponentsOriginOnOrientation];
 
     [self performSelector:@selector(hideControls:) withObject:nil afterDelay:self.fadeDelay];
+    if([self.delegate respondsToSelector:@selector(settingsButtonTapped:)]) {
+        //Hide button layer.
+        [self.delegate settingsButtonTapped:false];
+    }
 }
 
 - (void)seekBackwardPressed:(UIButton*)button {

@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)movieTimedOut;
 
 - (void) videoPlayerTapped:(UIGestureRecognizer *) sender;
+- (void) settingsButtonTapped:(BOOL) isShowingOptions;
 
 @end
 

@@ -358,6 +358,12 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     }
 }
 
+- (void) settingsButtonTapped:(BOOL) isShowingOptions {
+    if([self.delegate respondsToSelector:@selector(settingsButtonTapped:)]) {
+        [self.delegate settingsButtonTapped:isShowingOptions];
+    }
+}
+
 - (void)resetMoviePlayer {
     [self.controls resetControls];
     self.controls = nil;

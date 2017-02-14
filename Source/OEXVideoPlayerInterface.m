@@ -382,6 +382,13 @@
     }
 }
 
+- (void) settingsButtonTapped:(BOOL) isShowingOptions
+{
+    if([self.delegate respondsToSelector:@selector(settingsButtonTapped:)]) {
+        [self.delegate settingsButtonTapped:isShowingOptions];
+    }
+}
+
 - (BOOL)prefersStatusBarHidden {
     return [self.moviePlayerController isFullscreen];
 }
