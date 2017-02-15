@@ -295,6 +295,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
             }
         }
+        else if videoController.shouldRotate {
+            if newCollection.verticalSizeClass == .Compact {
+                videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
+            }
+        }
     }
     
     func validateSubtitleTimer() {
