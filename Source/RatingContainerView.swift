@@ -125,6 +125,7 @@ class RatingContainerView: UIView {
             make.width.equalTo(30)
             make.right.equalTo(contentView.snp_right).offset(8)
             make.top.equalTo(contentView.snp_top).offset(-StandardVerticalMargin)
+            
         }
     }
     

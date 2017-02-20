@@ -1,0 +1,31 @@
+//
+//  OEXInterface+AppReviewsTests.swift
+//  edX
+//
+//  Created by Danial Zahid on 2/20/17.
+//  Copyright © 2017 edX. All rights reserved.
+//
+
+import XCTest
+@testable import edX
+
+class OEXInterface_AppReviewTests: XCTestCase {
+    
+    let interface = OEXInterface()
+    
+    func testAppRating() {
+        interface.saveAppRating(3)
+        XCTAssertEqual(interface.getSavedAppRating(), 3)
+    }
+    
+    func testDefaultAppVersion() {
+        interface.saveAppVersionWhenLastRated(nil)
+        XCTAssertEqual(interface.getSavedAppVersionWhenLastRated(), NSBundle.mainBundle().oex_shortVersionString())
+    }
+    
+    func testCustomAppVersion() {
+        interface.saveAppVersionWhenLastRated("2.6")
+        XCTAssertEqual(interface.getSavedAppVersionWhenLastRated(), "2.6")
+    }
+    
+}

@@ -141,7 +141,7 @@ extension RatingViewController : MFMailComposeViewControllerDelegate {
             mail.navigationBar.tintColor = OEXStyles.sharedStyles().navigationItemTintColor()
             mail.setSubject(Strings.AppReview.messageSubject)
             
-            mail.setMessageBody(EmailTemplateDataFactory.supportEmailMessageTemplate(), isHTML: false)
+            mail.setMessageBody(EmailTemplates.supportEmailMessageTemplate(), isHTML: false)
             if let fbAddress = environment.config.feedbackEmailAddress() {
                 mail.setToRecipients([fbAddress])
             }

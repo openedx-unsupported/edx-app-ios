@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EmailTemplateDataFactory {
+class EmailTemplates {
     
     static func supportEmailMessageTemplate() -> String {
         let osVersionText = Strings.SubmitFeedback.osVersion(version: UIDevice.currentDevice().systemVersion)
