@@ -460,6 +460,9 @@
         if(httpResp.statusCode == 200) {
             [self loginSuccessful];
         }
+        else if(httpResp.statusCode == OEXHTTPStatusCode426UpgradeRequired) {
+            [self showUpdateRequiredMessage];
+        }
         else if(httpResp.statusCode >= 400 && httpResp.statusCode <= 500) {
             NSString* errorStr = [Strings invalidUsernamePassword];
                 [self loginFailedWithErrorMessage:errorStr title:nil];
@@ -559,6 +562,14 @@
 
     [self.view setUserInteractionEnabled:YES];
 
+    [self tappedToDismiss];
+}
+
+- (void) showUpdateRequiredMessage {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self.activityIndicator stopAnimating];
+    [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
+    [self.view setUserInteractionEnabled:YES];
     [self tappedToDismiss];
 }
 
