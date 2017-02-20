@@ -325,7 +325,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         validateSubtitleTimer()
     }
     
-    func videoFinished() {
+    func didFinishVideoPlaying() {
         environment.router?.showAppReviewIfNeeded(self)
     }
     

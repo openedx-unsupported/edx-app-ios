@@ -22,26 +22,6 @@ class RatingView: UIControl {
     
     var shouldBeginGestureRecognizerBlock : RatingViewShouldBeginGestureRecognizerBlock?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupView()
-    }
-    
-    //MARK: - Setup methods
-    func setupView() {
-        backgroundColor = UIColor.whiteColor()
-    }
-    
-    override func setNeedsLayout() {
-        super.setNeedsLayout()
-        setNeedsDisplay()
-    }
-    
     //MARK: - Action generators
     func setRatingValue(value: Int) {
         willChangeValueForKey("value")
@@ -54,12 +34,12 @@ class RatingView: UIControl {
     }
     
     //MARK: - Draw methods
-    func drawImageWithFrame(frame: CGRect, tintColor: UIColor, highlighted: Bool) {
+    private func drawImageWithFrame(frame: CGRect, tintColor: UIColor, highlighted: Bool) {
         guard let image : UIImage = highlighted ? filledImage : emptyImage else { return }
         drawImage(image, frame: frame, tintColor: tintColor)
     }
     
-    func drawImage(image: UIImage, frame: CGRect, tintColor: UIColor) {
+    private func drawImage(image: UIImage, frame: CGRect, tintColor: UIColor) {
         if image.renderingMode == UIImageRenderingMode.AlwaysTemplate {
             tintColor.setFill()
         }
@@ -67,9 +47,10 @@ class RatingView: UIControl {
     }
     
     override func drawRect(rect: CGRect) {
-        let context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context!, backgroundColor?.CGColor ?? UIColor.whiteColor().CGColor)
-        CGContextFillRect(context!, rect)
+        if let context = UIGraphicsGetCurrentContext() {
+            CGContextSetFillColorWithColor(context, backgroundColor?.CGColor ?? UIColor.whiteColor().CGColor)
+            CGContextFillRect(context, rect)
+        }
         
         let availableWidth = rect.size.width - (spacing * (maximumValue - 1)) - 2
         let cellWidth = (availableWidth / maximumValue)
@@ -107,18 +88,13 @@ class RatingView: UIControl {
     }
     
     func handleTouch(touch: UITouch) {
-        let cellWidth = bounds.size.width / maximumValue
+        let width = bounds.size.width / maximumValue
         let location = touch.locationInView(self)
-        var value = location.x / cellWidth
+        var value = location.x / width
         
         value = ceil(value)
         
         setRatingValue(Int(value))
-    }
-    
-    //MARK: - Override behavorial methods
-    override func canBecomeFirstResponder() -> Bool {
-        return true
     }
     
     override func intrinsicContentSize() -> CGSize {

@@ -218,14 +218,6 @@ class OEXRearTableViewController : UITableViewController {
 
 extension OEXRearTableViewController : MFMailComposeViewControllerDelegate {
 
-    static func supportEmailMessageTemplate() -> String {
-        let osVersionText = Strings.SubmitFeedback.osVersion(version: UIDevice.currentDevice().systemVersion)
-        let appVersionText = Strings.SubmitFeedback.appVersion(version: NSBundle.mainBundle().oex_shortVersionString(), build: NSBundle.mainBundle().oex_buildVersionString())
-        let deviceModelText = Strings.SubmitFeedback.deviceModel(model: UIDevice.currentDevice().model)
-        let body = ["\n", Strings.SubmitFeedback.marker, osVersionText, appVersionText, deviceModelText].joinWithSeparator("\n")
-        return body
-    }
-
     func launchEmailComposer() {
         if !MFMailComposeViewController.canSendMail() {
             let alert = UIAlertView(title: Strings.emailAccountNotSetUpTitle,
@@ -239,7 +231,7 @@ extension OEXRearTableViewController : MFMailComposeViewControllerDelegate {
             mail.navigationBar.tintColor = OEXStyles.sharedStyles().navigationItemTintColor()
             mail.setSubject(Strings.SubmitFeedback.messageSubject)
 
-            mail.setMessageBody(OEXRearTableViewController.supportEmailMessageTemplate(), isHTML: false)
+            mail.setMessageBody(EmailTemplateDataFactory.supportEmailMessageTemplate(), isHTML: false)
             if let fbAddress = environment.config.feedbackEmailAddress() {
                 mail.setToRecipients([fbAddress])
             }

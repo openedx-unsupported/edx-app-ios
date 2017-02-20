@@ -128,6 +128,8 @@
 		6987A86D1D6C67DB00E9D183 /* colors.json in Resources */ = {isa = PBXBuildFile; fileRef = 6987A86C1D6C67DB00E9D183 /* colors.json */; };
 		698C6D781E2619E4009156BB /* VideoTranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698C6D771E2619E4009156BB /* VideoTranscriptTests.swift */; };
 		698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698EE6E81E38A53600DF4FEA /* RatingView.swift */; };
+		699FF8501E559E6B00AD98A5 /* OEXInterface+AppReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699FF84F1E559E6B00AD98A5 /* OEXInterface+AppReview.swift */; };
+		699FF8541E5AE74300AD98A5 /* EmailTemplateDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699FF8531E5AE74300AD98A5 /* EmailTemplateDataFactory.swift */; };
 		69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */ = {isa = PBXBuildFile; fileRef = 69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */; };
 		69AD2B8D1E4B1CE500029B9B /* RatingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AD2B8B1E4B1CA000029B9B /* RatingViewControllerTests.swift */; };
 		69C12C661E07F5F8004E7261 /* VideoTranscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C12C651E07F5F8004E7261 /* VideoTranscript.swift */; };
@@ -906,6 +908,8 @@
 		6987A86C1D6C67DB00E9D183 /* colors.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors.json; sourceTree = "<group>"; };
 		698C6D771E2619E4009156BB /* VideoTranscriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTranscriptTests.swift; sourceTree = "<group>"; };
 		698EE6E81E38A53600DF4FEA /* RatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingView.swift; sourceTree = "<group>"; };
+		699FF84F1E559E6B00AD98A5 /* OEXInterface+AppReview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXInterface+AppReview.swift"; sourceTree = "<group>"; };
+		699FF8531E5AE74300AD98A5 /* EmailTemplateDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailTemplateDataFactory.swift; sourceTree = "<group>"; };
 		69AD2B8B1E4B1CA000029B9B /* RatingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViewControllerTests.swift; sourceTree = "<group>"; };
 		69C12C651E07F5F8004E7261 /* VideoTranscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTranscript.swift; sourceTree = "<group>"; };
 		69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RegistrationForm.json; sourceTree = "<group>"; };
@@ -2100,6 +2104,7 @@
 				69EFBB0C1E36270000FF66C4 /* RatingContainerView.swift */,
 				69EFBB0A1E36259D00FF66C4 /* RatingViewController.swift */,
 				698EE6E81E38A53600DF4FEA /* RatingView.swift */,
+				699FF84F1E559E6B00AD98A5 /* OEXInterface+AppReview.swift */,
 			);
 			name = "App Review";
 			sourceTree = "<group>";
@@ -2980,6 +2985,7 @@
 				775E5A801BE1C88A0046B26B /* LiveObjectCache.swift */,
 				697652251D9BA7C80031FF8B /* OEXColorsDataFactory.swift */,
 				BD7C6C411DCA33540004D135 /* OEXFontsDataFactory.swift */,
+				699FF8531E5AE74300AD98A5 /* EmailTemplateDataFactory.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -4122,6 +4128,7 @@
 				778F176C1C0CF57F0099BF93 /* RouterEnvironment.swift in Sources */,
 				778C72F11B17C30000FC3F68 /* Dictionary+Functional.swift in Sources */,
 				69F5FACB1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift in Sources */,
+				699FF8501E559E6B00AD98A5 /* OEXInterface+AppReview.swift in Sources */,
 				773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */,
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
 				7C2DD5531D4A8669006148E0 /* UserPreferenceManager.swift in Sources */,
@@ -4204,6 +4211,7 @@
 				7712732E1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift in Sources */,
 				776459821A09650C008404CC /* NSDictionary+OEXEncoding.m in Sources */,
 				9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */,
+				699FF8541E5AE74300AD98A5 /* EmailTemplateDataFactory.swift in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
 				9EB9C5251BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift in Sources */,
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,

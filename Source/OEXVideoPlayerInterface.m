@@ -388,9 +388,9 @@
     }
 }
 
-- (void)videoFinished {
-    if([self.delegate respondsToSelector:@selector(videoFinished)]) {
-        [self.delegate videoFinished];
+- (void)didFinishVideoPlaying {
+    if([self.delegate respondsToSelector:@selector(didFinishVideoPlaying)]) {
+        [self.delegate didFinishVideoPlaying];
     }
 }
 

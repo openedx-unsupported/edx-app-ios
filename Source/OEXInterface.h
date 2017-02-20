@@ -27,7 +27,8 @@ extern NSString* const OEXCourseListKey;
 extern NSString* const OEXVideoStateChangedNotification;
 extern NSString* const OEXDownloadProgressChangedNotification;
 extern NSString* const OEXDownloadEndedNotification;
-
+extern NSString* const OEXSavedAppRating;
+extern NSString* const OEXSavedAppVersionWhenLastRated;
 
 // This class requires significant refactoring
 // Think very hard before adding anything to it
@@ -167,16 +168,6 @@ extern NSString* const OEXDownloadEndedNotification;
 #pragma mark - App Version
 /* Return saved version of app */
 - (nullable NSString*) getSavedAppVersion;
-
-#pragma mark - App Rating
-/// Save the rating given through app review
-- (void)saveAppRating:(NSInteger)rating;
-
-/// Save the app version when app review is done
-- (void)saveAppVersionWhenLastRated:(nullable NSString*)version;
-
-- (NSInteger) getSavedAppRating;
-- (nullable NSString*) getSavedAppVersionWhenLastRated;
 
 @end
 

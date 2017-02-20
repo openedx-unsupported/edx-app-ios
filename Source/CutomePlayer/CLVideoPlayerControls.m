@@ -1497,8 +1497,8 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         OEXLogInfo(@"VIDEO", @"Movie Finished Playing: Playback Error");
         [self.activityIndicator stopAnimating];
     }
-    if([self.delegate respondsToSelector:@selector(videoFinished)]) {
-        [self.delegate videoFinished];
+    if([self.delegate respondsToSelector:@selector(didFinishVideoPlaying)]) {
+        [self.delegate didFinishVideoPlaying];
     }
 }
 

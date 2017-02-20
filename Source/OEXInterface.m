@@ -1487,24 +1487,4 @@ static OEXInterface* _sharedInterface = nil;
     return [[NSUserDefaults standardUserDefaults] objectForKey:OEXSavedAppVersionKey];
 }
 
-#pragma mark - App Rating
-
-- (void)saveAppRating:(NSInteger)rating{
-    [[NSUserDefaults standardUserDefaults] setInteger:rating forKey:OEXSavedAppRating];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveAppVersionWhenLastRated:(nullable NSString*)version{
-    NSString *versionString = version ? version : [NSBundle mainBundle].oex_shortVersionString;
-    [[NSUserDefaults standardUserDefaults] setObject:versionString forKey:OEXSavedAppVersionWhenLastRated];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (NSInteger) getSavedAppRating{
-    return [[NSUserDefaults standardUserDefaults] integerForKey:OEXSavedAppRating];
-}
-- (nullable NSString*) getSavedAppVersionWhenLastRated{
-    return [[NSUserDefaults standardUserDefaults] objectForKey:OEXSavedAppVersionWhenLastRated];
-}
-
 @end

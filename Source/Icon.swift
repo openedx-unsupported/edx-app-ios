@@ -92,6 +92,7 @@ public enum Icon {
     case ArrowUp
     case ArrowDown
     case Camera
+    case Cancel
     case CircleO
     case CheckCircleO
     case Closed
@@ -155,6 +156,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .LongArrowDown)
         case .Camera:
             return FontAwesomeRenderer(icon: .Camera)
+        case .Cancel:
+            return FontAwesomeRenderer(icon: .Close)
         case .Comment:
             return FontAwesomeRenderer(icon: .Comment)
         case .Comments:
