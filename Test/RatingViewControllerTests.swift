@@ -31,7 +31,7 @@ class RatingViewControllerTests: SnapshotTestCase {
         let controller = RatingViewController(environment: environment)
         controller.setRating(5)
         controller.didSubmitRating(5)
-        XCTAssertEqual(controller.alertController?.actions.count, 3)
+        XCTAssertEqual(controller.alertController?.actions.count, 2)
     }
     
     func testNegativeRating() {

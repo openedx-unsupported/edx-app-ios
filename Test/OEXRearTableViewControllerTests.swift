@@ -10,7 +10,7 @@ import XCTest
 
 @testable import edX
 
-class EmailTemplateDataFactoryx Tests: XCTestCase {
+class EmailTemplateDataFactoryTests: XCTestCase {
 
     func testSubmitFeedbackContent() {
         let body = EmailTemplateDataFactory.supportEmailMessageTemplate()
