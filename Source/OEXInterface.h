@@ -27,8 +27,6 @@ extern NSString* const OEXCourseListKey;
 extern NSString* const OEXVideoStateChangedNotification;
 extern NSString* const OEXDownloadProgressChangedNotification;
 extern NSString* const OEXDownloadEndedNotification;
-extern NSString* const OEXSavedAppRating;
-extern NSString* const OEXSavedAppVersionWhenLastRated;
 
 // This class requires significant refactoring
 // Think very hard before adding anything to it

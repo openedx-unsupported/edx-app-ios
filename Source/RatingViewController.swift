@@ -18,8 +18,11 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     var alertController : UIAlertController?
     private var selectedRating : Int?
     
-    static func showAppReview(environment: Environment) -> Bool {
-        guard let appReviewsEnabled = environment.config.appReviewsEnabled, reachable = environment.interface?.reachable where appReviewsEnabled == true else { return false }
+    static func canShowAppReview(environment: Environment) -> Bool {
+        if !environment.config.isAppReviewsEnabled {
+            return false
+        }
+        guard let reachable = environment.interface?.reachable else { return false }
         var showAppReview = true
         if let appRating = environment.interface?.getSavedAppRating(), let lastVersionForAppReview = environment.interface?.getSavedAppVersionWhenLastRated(){
             let versionDiff = (Float(NSBundle.mainBundle().oex_shortVersionString()) ?? 0.0) - (Float(lastVersionForAppReview) ?? 0.0)

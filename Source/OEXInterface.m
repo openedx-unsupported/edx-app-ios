@@ -44,8 +44,6 @@ NSString* const OEXVideoStateChangedNotification = @"OEXVideoStateChangedNotific
 NSString* const OEXDownloadProgressChangedNotification = @"OEXDownloadProgressChangedNotification";
 NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
 NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
-NSString* const OEXSavedAppRating = @"OEXSavedAppRating";
-NSString* const OEXSavedAppVersionWhenLastRated = @"OEXSavedAppVersionWhenLastRated";
 
 @interface OEXInterface () <OEXDownloadManagerProtocol>
 

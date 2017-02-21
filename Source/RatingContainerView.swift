@@ -69,7 +69,7 @@ class RatingContainerView: UIView {
         closeButton.layer.borderColor = environment.styles.neutralDark().CGColor
         closeButton.layer.borderWidth = 1.0
         closeButton.layer.masksToBounds = true
-        closeButton.setAttributedTitle(Icon.Cancel.attributedTextWithStyle(closeButtonTextStyle), forState: UIControlState.Normal)
+        closeButton.setAttributedTitle(Icon.Close.attributedTextWithStyle(closeButtonTextStyle), forState: UIControlState.Normal)
         closeButton.backgroundColor = UIColor.whiteColor()
         closeButton.oex_addAction({[weak self] (action) in
             self?.delegate?.closeButtonPressed()

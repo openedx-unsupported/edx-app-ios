@@ -62,11 +62,8 @@ extension OEXConfig {
         return boolForKey("VIDEO_TRANSCRIPT_ENABLED")
     }
     
-    var appReviewsEnabled : Bool? {
+    var isAppReviewsEnabled : Bool {
         return boolForKey("APP_REVIEWS_ENABLED")
     }
     
-    var appReviewURI : String? {
-        return stringForKey("APP_REVIEW_URI")
-    }
 }

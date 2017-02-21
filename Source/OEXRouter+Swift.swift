@@ -260,7 +260,7 @@ extension OEXRouter {
     }
     
     func showAppReviewIfNeeded(fromController: UIViewController) {
-        if RatingViewController.showAppReview(environment){
+        if RatingViewController.canShowAppReview(environment){
             let reviewController = RatingViewController(environment: environment)
             
             reviewController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext

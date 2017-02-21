@@ -13,6 +13,14 @@ class OEXInterface_AppReviewTests: XCTestCase {
     
     let interface = OEXInterface()
     
+    func testUnassignedAppRating() {
+        XCTAssertEqual(interface.getSavedAppRating(), 0)
+    }
+    
+    func testUnassignedAppVersion() {
+        XCTAssertNil(interface.getSavedAppVersionWhenLastRated())
+    }
+    
     func testAppRating() {
         interface.saveAppRating(3)
         XCTAssertEqual(interface.getSavedAppRating(), 3)

@@ -8,6 +8,9 @@
 
 import UIKit
 
+private let OEXSavedAppRating = "OEXSavedAppRating"
+private let OEXSavedAppVersionWhenLastRated = "OEXSavedAppVersionWhenLastRated"
+
 extension OEXInterface {
     
     /// Save the rating given through app review
