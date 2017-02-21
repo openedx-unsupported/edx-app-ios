@@ -81,7 +81,6 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         }
     }
 
-
     private var courseInfoTemplate : String {
         return config?.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate ?? ""
     }
@@ -112,6 +111,40 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         self.loadController.state = .Loaded
+        
+        webView.evaluateJavaScript("document.getElementsByClassName('element-invisible element-focusable')[0].hidden = true",
+                                   completionHandler: { (result: AnyObject?, error: NSError?) in
+                                    
+                                    if (error == nil) {
+                                        self.webView.accessibilityValue = "anchorLinksDisabled"
+                                    }
+                                    else {
+                                        print("meow")
+                                    }
+        })
+        webView.evaluateJavaScript("document.getElementsByClassName('element-invisible element-focusable')[1].hidden = true",
+                                   completionHandler: { (result: AnyObject?, error: NSError?) in
+                                    
+                                    if (error == nil) {
+                                        self.webView.accessibilityValue = "anchorLinksDisabled"
+                                    }
+                                    else {
+                                        print("meow")
+                                    }
+        })
+
+        webView.evaluateJavaScript("document.getElementsByClassName('element-invisible element-focusable')[2].hidden = true",
+                                   completionHandler: { (result: AnyObject?, error: NSError?) in
+                                    
+                                    if (error == nil) {
+                                        self.webView.accessibilityValue = "anchorLinksDisabled"
+                                    }
+                                    else {
+                                        print("meow")
+                                    }
+        })
+
+
         
         //Setting webView accessibilityValue for testing
         webView.evaluateJavaScript("document.getElementsByClassName('course-card')[0].innerText",
