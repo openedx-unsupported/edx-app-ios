@@ -12,6 +12,15 @@ import XCTest
 class OEXInterface_AppReviewTests: XCTestCase {
     
     let interface = OEXInterface()
+    var defaultsMockRemover : OEXRemovable!
+    
+    override func setUp() {
+        defaultsMockRemover = OEXMockUserDefaults().installAsStandardUserDefaults()
+    }
+    
+    override func tearDown() {
+        defaultsMockRemover.remove()
+    }
     
     func testUnassignedAppRating() {
         XCTAssertEqual(interface.getSavedAppRating(), 0)

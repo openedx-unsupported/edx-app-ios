@@ -9,6 +9,9 @@
 import UIKit
 import MessageUI
 
+private let minimumPositiveRating = 4
+private let minimumVersionDifferenceForNegativeRating : Float = 0.2
+
 class RatingViewController: UIViewController, RatingContainerDelegate {
 
     typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXStylesProvider, OEXConfigProvider>
@@ -19,18 +22,15 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private var selectedRating : Int?
     
     static func canShowAppReview(environment: Environment) -> Bool {
-        if !environment.config.isAppReviewsEnabled || environment.config.appReviewURI == nil {
-            return false
-        }
-        guard let reachable = environment.interface?.reachable else { return false }
-        var showAppReview = true
+        guard let _ = environment.config.appReviewURI where environment.interface?.reachable ?? false && environment.config.isAppReviewsEnabled else { return false }
+        
         if let appRating = environment.interface?.getSavedAppRating(), let lastVersionForAppReview = environment.interface?.getSavedAppVersionWhenLastRated(){
             let versionDiff = (Float(NSBundle.mainBundle().oex_shortVersionString()) ?? 0.0) - (Float(lastVersionForAppReview) ?? 0.0)
-            if appRating >= 4 || versionDiff < 0.2 {
-                showAppReview = false
+            if appRating >= minimumPositiveRating || versionDiff < minimumVersionDifferenceForNegativeRating {
+                return false
             }
         }
-        return reachable && showAppReview
+        return true
     }
     
     init(environment : Environment) {

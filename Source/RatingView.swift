@@ -8,17 +8,19 @@
 
 import UIKit
 
+private let imageSize : CGFloat = 40.0
+
 class RatingView: UIControl {
 
     typealias RatingViewShouldBeginGestureRecognizerBlock = (UIGestureRecognizer) -> Bool
     
-    let maximumValue : CGFloat = 5
-    let minimumValue : CGFloat = 0
+    private let maximumValue : CGFloat = 5
+    private let minimumValue : CGFloat = 0
+    private let spacing : CGFloat = 5
     var value : Int = 0
-    let spacing : CGFloat = 5
     
-    let emptyImage = Icon.StarEmpty.imageWithFontSize(40.0)
-    let filledImage = Icon.StarFilled.imageWithFontSize(40.0)
+    let emptyImage = Icon.StarEmpty.imageWithFontSize(imageSize)
+    let filledImage = Icon.StarFilled.imageWithFontSize(imageSize)
     
     var shouldBeginGestureRecognizerBlock : RatingViewShouldBeginGestureRecognizerBlock?
     
