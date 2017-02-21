@@ -134,23 +134,13 @@
     if(!URL) {
         return;
     }
-    
+    self.currentUrl = URL;
     self.view = _videoPlayerVideoView;
     [self setViewFromVideoPlayerView:_videoPlayerVideoView];
     
     _moviePlayerController.videoTitle = title;
     self.lastPlayedTime = interval;
     [_moviePlayerController.view setBackgroundColor:[UIColor blackColor]];
-    [_moviePlayerController setContentURL:URL];
-    [_moviePlayerController prepareToPlay];
-    [_moviePlayerController setAutoPlaying:YES];
-    _moviePlayerController.lastPlayedTime = interval;
-    [_moviePlayerController play];
-    
-    float speed = [OEXInterface getOEXVideoSpeed:[OEXInterface getCCSelectedPlaybackSpeed]];
-    
-    _moviePlayerController.controls.playbackRate = speed;
-    [_moviePlayerController setCurrentPlaybackRate:speed];
     if(!_moviePlayerController.isFullscreen) {
         [_moviePlayerController.view setFrame:_videoPlayerVideoView.bounds];
         [self.view addSubview:_moviePlayerController.view];
@@ -173,6 +163,19 @@
 
 - (void)setAutoPlaying:(BOOL)playing {
     [self.moviePlayerController setAutoPlaying:playing];
+}
+
+- (void) playVideo {
+    [_moviePlayerController setContentURL:self.currentUrl];
+    [_moviePlayerController prepareToPlay];
+    [_moviePlayerController setAutoPlaying:YES];
+    _moviePlayerController.lastPlayedTime = self.lastPlayedTime;
+    [_moviePlayerController play];
+    
+    float speed = [OEXInterface getOEXVideoSpeed:[OEXInterface getCCSelectedPlaybackSpeed]];
+    
+    _moviePlayerController.controls.playbackRate = speed;
+    [_moviePlayerController setCurrentPlaybackRate:speed];
 }
 
 - (void)updateLastPlayedVideoWith:(OEXHelperVideoDownload*)video {
@@ -252,6 +255,7 @@
     }
     _shouldRotate = NO;
     _moviePlayerController.controls.isVisibile = NO;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -259,6 +263,17 @@
     [_moviePlayerController setShouldAutoplay:YES];
     _shouldRotate = YES;
     _moviePlayerController.controls.isVisibile = YES;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [_moviePlayerController.controls addNotifications];
+    [self playVideo];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+     [_moviePlayerController.controls removeNotifications];
 }
 
 - (void)videoPlayerShouldRotate {
