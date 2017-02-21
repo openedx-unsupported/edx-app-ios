@@ -137,9 +137,6 @@ extern NSString* const CLVideoPlayerkText;
 
 - (void)readClosedCaptioningString:(NSString*)srtString completion:(void (^)(BOOL finished))success failure:(void (^)(NSError* error))failure;
 
-- (void)removeNotifications;
-- (void)addNotifications;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -620,6 +620,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         _playbackRate = speed;
         
         [self setup];
+        [self addNotifications];
     }
     return self;
 }
@@ -1460,10 +1461,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(downloadedTranscript:) name:DL_COMPLETE object:nil];
-}
-
-- (void)removeNotifications {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)voiceOverStatusChanged {
