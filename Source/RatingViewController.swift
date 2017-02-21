@@ -19,7 +19,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private var selectedRating : Int?
     
     static func canShowAppReview(environment: Environment) -> Bool {
-        if !environment.config.isAppReviewsEnabled {
+        if !environment.config.isAppReviewsEnabled || environment.config.appReviewURI == nil {
             return false
         }
         guard let reachable = environment.interface?.reachable else { return false }
