@@ -9,12 +9,12 @@
 import UIKit
 import MessageUI
 
-private let minimumPositiveRating = 4
-private let minimumVersionDifferenceForNegativeRating : Float = 0.2
-
 class RatingViewController: UIViewController, RatingContainerDelegate {
 
     typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXStylesProvider, OEXConfigProvider>
+    
+    static let minimumPositiveRating : Int = 4
+    static let minimumVersionDifferenceForNegativeRating : Float = 0.2
     
     let environment : Environment
     private let ratingContainerView : RatingContainerView
