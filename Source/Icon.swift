@@ -92,6 +92,7 @@ public enum Icon {
     case ArrowUp
     case ArrowDown
     case Camera
+    case Close
     case CircleO
     case CheckCircleO
     case Closed
@@ -130,6 +131,8 @@ public enum Icon {
     case Settings
     case Sort
     case Spinner
+    case StarEmpty
+    case StarFilled
     case Transcript
     case UnknownError
     case UpVote
@@ -153,6 +156,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .LongArrowDown)
         case .Camera:
             return FontAwesomeRenderer(icon: .Camera)
+        case .Close:
+            return FontAwesomeRenderer(icon: .Close)
         case .Comment:
             return FontAwesomeRenderer(icon: .Comment)
         case .Comments:
@@ -229,6 +234,10 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Cog)
         case .Spinner:
             return FontAwesomeRenderer(icon: .Spinner)
+        case .StarEmpty:
+            return FontAwesomeRenderer(icon: .StarO)
+        case .StarFilled:
+            return FontAwesomeRenderer(icon: .Star)
         case .UnknownError:
             return FontAwesomeRenderer(icon: .ExclamationCircle)
         case .NoTopics:

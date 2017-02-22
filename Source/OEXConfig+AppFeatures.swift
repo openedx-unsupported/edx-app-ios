@@ -61,4 +61,9 @@ extension OEXConfig {
     var isVideoTranscriptEnabled : Bool {
         return boolForKey("VIDEO_TRANSCRIPT_ENABLED")
     }
+    
+    var isAppReviewsEnabled : Bool {
+        return boolForKey("APP_REVIEWS_ENABLED")
+    }
+    
 }

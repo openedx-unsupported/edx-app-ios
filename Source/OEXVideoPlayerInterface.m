@@ -68,7 +68,6 @@
     //create a player
     self.moviePlayerController = [[CLVideoPlayer alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     self.moviePlayerController.view.alpha = 0.f;
-    self.moviePlayerController.delegate = self; //IMPORTANT!
     
     //create the controls
     CLVideoPlayerControls* movieControls = [[CLVideoPlayerControls alloc] initWithMoviePlayer:self.moviePlayerController style:CLVideoPlayerControlsStyleDefault];
@@ -134,7 +133,6 @@
     if(!URL) {
         return;
     }
-    
     self.view = _videoPlayerVideoView;
     [self setViewFromVideoPlayerView:_videoPlayerVideoView];
     
@@ -252,6 +250,7 @@
     }
     _shouldRotate = NO;
     _moviePlayerController.controls.isVisibile = NO;
+    self.moviePlayerController.delegate = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -259,6 +258,7 @@
     [_moviePlayerController setShouldAutoplay:YES];
     _shouldRotate = YES;
     _moviePlayerController.controls.isVisibile = YES;
+    self.moviePlayerController.delegate = self; //IMPORTANT!
 }
 
 - (void)videoPlayerShouldRotate {
@@ -385,6 +385,12 @@
 - (void)transcriptLoaded:(NSArray *)transcript {
     if([self.delegate respondsToSelector:@selector(transcriptLoaded:)]) {
         [self.delegate transcriptLoaded:transcript];
+    }
+}
+
+- (void)didFinishVideoPlaying {
+    if([self.delegate respondsToSelector:@selector(didFinishVideoPlaying)]) {
+        [self.delegate didFinishVideoPlaying];
     }
 }
 

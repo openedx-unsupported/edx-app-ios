@@ -1489,6 +1489,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         if(self.video.summary.videoID) {
             [_dataInterface sendAnalyticsEvents:OEXVideoStateStop withCurrentTime:[weakSelf getMoviePlayerCurrentTime] forVideo:self.video];
         }
+        
+        if([self.delegate respondsToSelector:@selector(didFinishVideoPlaying)]) {
+            [self.delegate didFinishVideoPlaying];
+        }
     }
     else if(reason == MPMovieFinishReasonUserExited) {
         OEXLogInfo(@"VIDEO", @"Movie Finished Playing: User Exited");
@@ -1497,6 +1501,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         OEXLogInfo(@"VIDEO", @"Movie Finished Playing: Playback Error");
         [self.activityIndicator stopAnimating];
     }
+    
 }
 
 - (void)movieLoadStateDidChange:(NSNotification*)note {

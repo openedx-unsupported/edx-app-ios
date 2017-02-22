@@ -14,7 +14,7 @@ private let StandardVideoAspectRatio : CGFloat = 0.6
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate {
     
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider, OEXConfigProvider>
+    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider, OEXConfigProvider, OEXRouterProvider>
 
     let environment : Environment
     let blockID : CourseBlockID?
@@ -323,6 +323,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     func transcriptLoaded(transcript: [AnyObject]) {
         videoTranscriptView?.updateTranscript(transcript)
         validateSubtitleTimer()
+    }
+    
+    func didFinishVideoPlaying() {
+        environment.router?.showAppReviewIfNeeded(self)
     }
     
     //MARK: - VideoTranscriptDelegate methods

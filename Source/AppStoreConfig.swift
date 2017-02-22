@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AppUpgradeConfig : NSObject {
+class AppStoreConfig : NSObject {
     
     var URIS:NSArray = []
     
@@ -24,9 +24,16 @@ class AppUpgradeConfig : NSObject {
     }
 }
 
-private let key = "APP_UPDATE_URIS"
+private let appUpdateURIKey = "APP_UPDATE_URIS"
+private let appReviewURIKey = "APP_REVIEW_URI"
+
 extension OEXConfig {
-    var appUpgradeConfig : AppUpgradeConfig {
-        return AppUpgradeConfig(uris: self[key] as? NSArray ?? [])
+    
+    var appUpgradeConfig : AppStoreConfig {
+        return AppStoreConfig(uris: self[appUpdateURIKey] as? NSArray ?? [])
+    }
+    
+    var appReviewURI : String? {
+        return stringForKey(appReviewURIKey)
     }
 }

@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 - (void) videoPlayerTapped:(UIGestureRecognizer *) sender;
 - (void)transcriptLoaded:(NSArray *)transcript;
+- (void)didFinishVideoPlaying;
 
 @end
 
