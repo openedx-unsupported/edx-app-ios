@@ -571,6 +571,15 @@
     [self.btn_Login applyButtonStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
     [self.view setUserInteractionEnabled:YES];
     [self tappedToDismiss];
+    
+    UIAlertController *alertController = [[UIAlertController alloc] showAlertWithTitle:nil message:[VersionUpgrade outDatedMessage] cancelButtonTitle:[Strings cancel] onViewController:self];
+    
+    [alertController addButtonWithTitle:[VersionUpgrade update] actionBlock:^(UIAlertAction * _Nonnull action) {
+        NSURL *url = _environment.config.appUpgradeConfig.iOSAppStoreURL;
+        if (url && [[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }];
 }
 
 - (void)loginSuccessful {
