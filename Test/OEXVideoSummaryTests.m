@@ -104,4 +104,60 @@
     XCTAssertEqual(summary.displayPath.count, 0);
 }
 
+- (void)testWebOnlyVideo {
+    NSDictionary *info = @{@"summary": @{
+                                   @"only_on_web": @1,
+                                   }};
+    
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:info];
+    XCTAssertTrue(summary.onlyOnWeb);
+    XCTAssertFalse(summary.isSupportedVideo);
+}
+
+- (void)testSupportedFallbackEncoding {
+    NSDictionary *fallback = @{@"fallback": @{
+                                       @"file_size": @0,
+                                       @"url": @"https://www.example.com/video.mp4"
+                                       }};
+    NSDictionary *info = @{@"summary": @{
+                                   @"only_on_web": @0,
+                                   @"encoded_videos": fallback
+                                   }};
+    
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:info];
+    
+    XCTAssertTrue(summary.isSupportedVideo);
+}
+
+- (void)testUnSupportedFallbackEncoding {
+    NSDictionary *fallback = @{OEXVideoEncodingFallback: @{
+                                       @"file_size": @0,
+                                       @"url": @"https://www.example.com/video.webm"
+                                       }};
+    NSDictionary *info = @{@"summary": @{
+                                   @"only_on_web": @0,
+                                   @"encoded_videos": fallback
+                                   }};
+    
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:info];
+    
+    XCTAssertFalse(summary.isSupportedVideo);
+}
+
+- (void)testYoutubeEncoding {
+    NSDictionary *youtube = @{OEXVideoEncodingYoutube: @{
+                                       @"file_size": @0,
+                                       @"url": @"https://www.youtube.com/watch?v=abc123"
+                                       }};
+    NSDictionary *info = @{@"summary": @{
+                                   @"only_on_web": @0,
+                                   @"encoded_videos": youtube
+                                   }};
+    
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:info];
+    
+    XCTAssertFalse(summary.isSupportedVideo);
+    XCTAssertTrue(summary.isYoutubeVideo);
+}
+
 @end
