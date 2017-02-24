@@ -83,7 +83,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @property (nonatomic, strong) AccessibilityCLButton* playPauseButton;
 @property (nonatomic, strong) MPVolumeView* volumeView;
 @property (nonatomic, strong) CLButton* fullscreenButton;
-@property (nonatomic, strong) CLButton* view_OptionsOverlayButton;
+@property (nonatomic, strong) CLButton* dismissOptionsOverlayButton;
 @property (nonatomic, strong) UILabel* timeElapsedLabel;
 @property (nonatomic, strong) UILabel* timeRemainingLabel;
 @property (nonatomic, strong) UILabel* videoTitleLabel;
@@ -779,11 +779,14 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [self addSubview:self.view_OptionsOverlay];
     
     //Overlay button to remove options list
-    _view_OptionsOverlayButton = [[CLButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-    [_view_OptionsOverlayButton addTarget:self action:@selector(hideOptionsAndValues) forControlEvents:UIControlEventTouchUpInside];
-    _view_OptionsOverlayButton.delegate = self;
-    _view_OptionsOverlayButton.backgroundColor = [UIColor clearColor];
-    [self.view_OptionsOverlay addSubview:_view_OptionsOverlayButton];
+    _dismissOptionsOverlayButton = [[CLButton alloc] initWithFrame:CGRectZero];
+    [_dismissOptionsOverlayButton oex_addAction:^(id  _Nonnull control) {
+        [self hideOptionsAndValues];
+    } forEvents:UIControlEventTouchUpInside];
+    
+    _dismissOptionsOverlayButton.delegate = self;
+    _dismissOptionsOverlayButton.backgroundColor = [UIColor clearColor];
+    [self.view_OptionsOverlay addSubview:_dismissOptionsOverlayButton];
 
     self.view_OptionsInner = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     self.view_OptionsInner.backgroundColor = GREY_COLOR;
@@ -1784,7 +1787,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
     [_activityBackgroundView setFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     [_activityIndicator setFrame:CGRectMake((self.frame.size.width / 2) - (activityIndicatorSize / 2), (self.frame.size.height / 2) - (activityIndicatorSize / 2), activityIndicatorSize, activityIndicatorSize)];
-    [_view_OptionsOverlayButton setFrame:CGRectMake(0, 0, self.view_OptionsOverlay.frame.size.width, self.view_OptionsOverlay.frame.size.height)];
+    [_dismissOptionsOverlayButton setFrame:CGRectMake(0, 0, self.view_OptionsOverlay.frame.size.width, self.view_OptionsOverlay.frame.size.height)];
 
     self.tapButton.frame = self.frame;
     [self didHidePrevNext];
