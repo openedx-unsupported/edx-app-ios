@@ -26,6 +26,7 @@
 #import "OEXNetworkConstants.h"
 #import "OEXUserDetails.h"
 #import "OEXSession.h"
+#import "edX-Swift.h"
 
 NSString* const facebook_login_endpoint = @"facebook";
 NSString* const google_login_endpoint = @"google-oauth2";
@@ -55,6 +56,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 + (void)requestTokenWithUser:(NSString* )username password:(NSString* )password completionHandler:(OEXURLRequestHandler)completionBlock {
     NSString* body = [self plainTextAuthorizationHeaderForUserName:username password:password];
     NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    [sessionConfig setHTTPAdditionalHeaders:[sessionConfig defaultHTTPHeaders]];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, AUTHORIZATION_URL]]];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];

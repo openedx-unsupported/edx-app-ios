@@ -1699,3 +1699,9 @@ public func download(URLRequest: URLRequestConvertible, destination: Request.Dow
 public func download(resumeData data: NSData, destination: Request.DownloadFileDestination) -> Request {
     return Manager.sharedInstance.download(data, destination: destination)
 }
+
+extension NSURLSessionConfiguration {
+    public func defaultHTTPHeaders() -> NSDictionary {
+        return Manager.defaultHTTPHeaders
+    }
+}
