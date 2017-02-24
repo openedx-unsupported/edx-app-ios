@@ -141,6 +141,21 @@ extension OEXStyles {
     }
 }
 
+extension UIView {
+    func applyStandardContainerViewStyle() {
+        backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
+        layer.cornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
+        layer.masksToBounds = true
+    }
+    
+    func applyStandardContainerViewShadow() {
+        layer.shadowColor = OEXStyles.sharedStyles().neutralBlack().CGColor;
+        layer.shadowRadius = 1.0;
+        layer.shadowOffset = CGSizeMake(1, 1);
+        layer.shadowOpacity = 0.8;
+    }
+}
+
 //Standard Search Bar styles
 extension UISearchBar {
     func applyStandardStyles(withPlaceholder placeholder : String? = nil) {

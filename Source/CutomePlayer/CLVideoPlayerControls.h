@@ -47,6 +47,7 @@ extern NSString* const CLVideoPlayerkText;
 - (void) videoPlayerTapped:(id) sender;
 - (void) settingsButtonTapped:(BOOL) isShowingOptions;
 - (void) transcriptLoaded:(NSArray *)transcript;
+- (void) didFinishVideoPlaying;
 @end
 
 

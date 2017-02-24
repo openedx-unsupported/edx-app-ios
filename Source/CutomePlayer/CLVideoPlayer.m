@@ -370,6 +370,12 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     }
 }
 
+- (void)didFinishVideoPlaying {
+    if([self.delegate respondsToSelector:@selector(didFinishVideoPlaying)]) {
+        [self.delegate didFinishVideoPlaying];
+    }
+}
+
 - (void)resetMoviePlayer {
     [self.controls resetControls];
     self.controls = nil;
