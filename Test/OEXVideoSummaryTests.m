@@ -28,6 +28,24 @@
              };
 }
 
+- (NSDictionary*) summaryWithEncoding:(NSDictionary*) encoding andOnlyOnWeb:(BOOL) onlyOnWeb {
+    NSMutableDictionary *summary = [NSMutableDictionary new];
+    [summary setObject:[NSNumber numberWithBool:onlyOnWeb] forKey:@"only_on_web"];
+    
+    if (encoding) {
+        [summary setObject:encoding forKey:@"encoded_videos"];
+    }
+    
+    return @{@"summary": summary};
+}
+
+- (NSDictionary*) encodingWithName:(NSString*) name andUrl:(NSString*) url {
+    return @{name: @{
+                     @"file_size": @0,
+                     @"url": url
+                     }};
+}
+
 - (void)testParser {
     NSString* sectionURL = @"http://edx/some_section";
     NSString* category = @"video";
@@ -102,6 +120,34 @@
                            };
     OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info];
     XCTAssertEqual(summary.displayPath.count, 0);
+}
+
+- (void)testWebOnlyVideo {
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:nil andOnlyOnWeb:true]];
+    XCTAssertTrue(summary.onlyOnWeb);
+    XCTAssertFalse(summary.isSupportedVideo);
+}
+
+- (void)testSupportedFallbackEncoding {
+    NSDictionary *fallback = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.mp4"];
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
+    
+    XCTAssertTrue(summary.isSupportedVideo);
+}
+
+- (void)testUnSupportedFallbackEncoding {
+    NSDictionary *fallback = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.webm"];
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
+    
+    XCTAssertFalse(summary.isSupportedVideo);
+}
+
+- (void)testYoutubeEncoding {
+    NSDictionary *youtube = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.youtube.com/watch?v=abc123"];
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:youtube andOnlyOnWeb:false]];
+    
+    XCTAssertFalse(summary.isSupportedVideo);
+    XCTAssertTrue(summary.isYoutubeVideo);
 }
 
 @end

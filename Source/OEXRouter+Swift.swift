@@ -45,7 +45,7 @@ extension CourseBlock {
         case .Chapter: return .Outline
         case .Section: return .Outline
         case .Unit: return .Unit
-        case let .Video(summary): return (summary.onlyOnWeb || summary.isYoutubeVideo) ? .Unknown : .Video
+        case let .Video(summary): return (summary.isSupportedVideo) ? .Video : .Unknown
         case let .Discussion(discussionModel): return .Discussion(discussionModel)
         }
     }
