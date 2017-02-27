@@ -133,7 +133,7 @@
         OEXVideoEncoding* encoding = self.encodings[name];
         
         NSString *name = [encoding name];
-        if ([name isEqualToString:OEXVideoEncodingMobileHigh] || [name isEqualToString:OEXVideoEncodingMobileLow] || [name isEqualToString:OEXVideoEncodingFallback]) {
+        if ([name isEqualToString:OEXVideoEncodingMobileHigh] || [name isEqualToString:OEXVideoEncodingMobileLow]) {
             return false;
         }
         else if ([[encoding name] isEqualToString:OEXVideoEncodingYoutube]) {
@@ -150,7 +150,7 @@
         OEXVideoEncoding* encoding = self.encodings[name];
         NSString *name = [encoding name];
         // fallback encoding can be with unsupported type like webm
-        if (([encoding URL] && [OEXInterface isURLForVideo:[encoding URL]]) && ([name isEqualToString:OEXVideoEncodingMobileHigh] || [name isEqualToString:OEXVideoEncodingMobileLow] || [name isEqualToString:OEXVideoEncodingFallback])) {
+        if (([encoding URL] && [OEXInterface isURLForVideo:[encoding URL]]) && ([name isEqualToString:OEXVideoEncodingMobileHigh] || [name isEqualToString:OEXVideoEncodingMobileLow])) {
             isSupportedEncoding = true;
             break;
         }
