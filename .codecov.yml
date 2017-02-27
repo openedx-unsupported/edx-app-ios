@@ -1,0 +1,3 @@
+ignore:
+ - "Pods/.*" # ignore pods from code coverage
+ - "Libraries/.*" # ignore third party libraries from code coverage
