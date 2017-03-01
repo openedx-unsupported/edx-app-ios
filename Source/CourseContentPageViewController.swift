@@ -86,11 +86,13 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         )
 
         loadIfNecessary()
+        addNotificationObservers()
     }
     
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setToolbarHidden(true, animated: animated)
+        navigationController?.setToolbarHidden(true, animated: animated)
+        removeNotificationObservers()
     }
     
     public override func viewDidLoad() {
@@ -128,6 +130,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
              self?.initialLoadController.state = LoadState.failed(NSError.oex_courseContentLoadError())
             }
         )
+    }
+    
+    private func addNotificationObservers() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CourseContentPageViewController.t_goForward), name: NOTIFICATION_NEXT_VIDEO, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CourseContentPageViewController.t_goBackward), name: NOTIFICATION_PREVIOUS_VIDEO, object: nil)
+    }
+    
+    private func removeNotificationObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_NEXT_VIDEO, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_PREVIOUS_VIDEO, object: nil)
     }
     
     private func loadIfNecessary() {

@@ -102,7 +102,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
         
-        videoController.hidesNextPrev = true
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -130,6 +129,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             
             return
         }
+        
+        guard let videoPlayer = videoController.moviePlayerController else { return }
+        if self.currentOrientation() == UIInterfaceOrientation.LandscapeLeft || self.currentOrientation() == UIInterfaceOrientation.LandscapeRight {
+            videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
+        }
+        
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -297,6 +302,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
         else if videoController.shouldRotate {
             if newCollection.verticalSizeClass == .Compact {
+                videoPlayer.controls?.style = CLVideoPlayerControlsStyleFullscreen
                 videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
             }
         }
@@ -321,6 +327,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
         if self.isVerticallyCompact() && !videoPlayer.fullscreen{
+            videoPlayer.controls?.style = CLVideoPlayerControlsStyleFullscreen
             videoPlayer.setFullscreen(true, withOrientation: currentOrientation())
         }
     }
