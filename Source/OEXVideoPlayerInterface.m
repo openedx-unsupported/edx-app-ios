@@ -296,7 +296,6 @@
         UIInterfaceOrientation interfaceOrientation = (deviceOrientation == UIDeviceOrientationLandscapeLeft) ? UIInterfaceOrientationLandscapeLeft : UIInterfaceOrientationLandscapeRight;
         [_moviePlayerController setFullscreen:YES withOrientation:interfaceOrientation animated:YES forceRotate:YES];
         _moviePlayerController.controlStyle = MPMovieControlStyleNone;
-        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
     }
     
     [self setNeedsStatusBarAppearanceUpdate];

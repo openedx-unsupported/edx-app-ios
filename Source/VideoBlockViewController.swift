@@ -108,7 +108,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         super.viewWillAppear(animated)
         self.loadVideoIfNecessary()
     }
-
+    
     override func viewDidAppear(animated : Bool) {
         
         // There's a weird OS bug where the bottom layout guide doesn't get set properly until
@@ -121,17 +121,15 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         validateSubtitleTimer()
         
-        guard canDownloadVideo() else {
+        if !canDownloadVideo() {
             guard let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where video.downloadState == .Complete else {
                 self.showOverlayMessage(Strings.noWifiMessage)
                 return
             }
-            
-            return
         }
         
         guard let videoPlayer = videoController.moviePlayerController else { return }
-        if self.currentOrientation() == UIInterfaceOrientation.LandscapeLeft || self.currentOrientation() == UIInterfaceOrientation.LandscapeRight {
+        if currentOrientation() == .LandscapeLeft || currentOrientation() == .LandscapeRight {
             videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
         }
         
@@ -252,7 +250,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     private func showError(error : NSError?) {
         loadController.state = LoadState.failed(error, icon: .UnknownError, message: Strings.videoContentNotAvailable)
     }
-
+    
     private func showYoutubeMessage(url: NSURL) {
         let buttonInfo = MessageButtonInfo(title: Strings.Video.viewOnYoutube) {
             if UIApplication.sharedApplication().canOpenURL(url){
@@ -264,14 +262,14 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload) {
         navigationItem.title = block.displayName
-
+        
         dispatch_async(dispatch_get_main_queue()) {
             self.loadController.state = .Loaded
         }
-
+        
         videoController.playVideoFor(video)
     }
-
+    
     private func canDownloadVideo() -> Bool {
         let hasWifi = environment.reachability.isReachableViaWiFi() ?? false
         let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
@@ -300,11 +298,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
             }
         }
-        else if videoController.shouldRotate {
-            if newCollection.verticalSizeClass == .Compact {
-                videoPlayer.controls?.style = CLVideoPlayerControlsStyleFullscreen
-                videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
-            }
+        else if videoController.shouldRotate && newCollection.verticalSizeClass == .Compact {
+            videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
         }
     }
     
@@ -327,7 +322,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
         if self.isVerticallyCompact() && !videoPlayer.fullscreen{
-            videoPlayer.controls?.style = CLVideoPlayerControlsStyleFullscreen
             videoPlayer.setFullscreen(true, withOrientation: currentOrientation())
         }
     }

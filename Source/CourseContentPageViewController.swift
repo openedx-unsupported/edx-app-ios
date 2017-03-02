@@ -86,13 +86,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         )
 
         loadIfNecessary()
-        addNotificationObservers()
     }
     
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setToolbarHidden(true, animated: animated)
-        removeNotificationObservers()
+        removeObservers()
     }
     
     public override func viewDidLoad() {
@@ -109,6 +108,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let scrollView = (self.view.subviews.flatMap { return $0 as? UIScrollView }).first {
             scrollView.delaysContentTouches = false
         }
+        addObservers()
     }
     
     private func addStreamListeners() {
@@ -132,14 +132,18 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         )
     }
     
-    private func addNotificationObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CourseContentPageViewController.t_goForward), name: NOTIFICATION_NEXT_VIDEO, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CourseContentPageViewController.t_goBackward), name: NOTIFICATION_PREVIOUS_VIDEO, object: nil)
+    private func addObservers() {
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_PLAYER_NEXT) { (notification, observer, removable) in
+            self.t_goForward()
+        }
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_PLAYER_PREVIOUS) { (notification, observer, removable) in
+            self.t_goBackward()
+        }
     }
     
-    private func removeNotificationObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_NEXT_VIDEO, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_PREVIOUS_VIDEO, object: nil)
+    private func removeObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_PLAYER_NEXT, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_PLAYER_PREVIOUS, object: nil)
     }
     
     private func loadIfNecessary() {

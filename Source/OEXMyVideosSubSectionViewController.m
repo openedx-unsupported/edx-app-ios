@@ -116,8 +116,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 }
 
 - (void)removePlayerObserver {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_NEXT_VIDEO object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_PLAYER_NEXT object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_PLAYER_PREVIOUS object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:_videoPlayerInterface.moviePlayerController];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:_videoPlayerInterface.moviePlayerController];
 }
@@ -176,8 +176,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 }
 
 - (void)addObservers {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextVideo) name:NOTIFICATION_NEXT_VIDEO object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playPreviousVideo) name:NOTIFICATION_PREVIOUS_VIDEO object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextVideo) name:NOTIFICATION_PLAYER_NEXT object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playPreviousVideo) name:NOTIFICATION_PLAYER_PREVIOUS object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTotalDownloadProgress:) name:OEXDownloadProgressChangedNotification object:nil];
 

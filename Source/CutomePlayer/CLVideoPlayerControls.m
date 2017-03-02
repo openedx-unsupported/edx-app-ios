@@ -1039,7 +1039,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _dataInterface.selectedVideoSpeedIndex = -1;
     [self hideSubtitles];
     [self.moviePlayer setFullscreen:NO];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PREVIOUS_VIDEO object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PLAYER_PREVIOUS object:self userInfo:nil];
 }
 
 - (void)nextBtnClicked:(id)sender {
@@ -1054,7 +1054,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _dataInterface.selectedVideoSpeedIndex = -1;
     [self hideSubtitles];
     [self.moviePlayer setFullscreen:NO];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEXT_VIDEO object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PLAYER_NEXT object:self userInfo:nil];
 }
 
 - (void)durationSliderTouchBegan:(UISlider*)slider {
