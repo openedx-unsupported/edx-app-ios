@@ -59,11 +59,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             switch selectedThreadType {
             case .Discussion:
                 self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.courseDashboardDiscussion), titleTextStyle.attributedStringWithText(Strings.asteric)])
-                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: Strings.postDiscussion)
+                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXColors.sharedInstance.filledButtonColorForIdentifier(.DiscussionNewPostView)),withTitle: Strings.postDiscussion)
                 contentTextView.accessibilityLabel = Strings.courseDashboardDiscussion
             case .Question:
                 self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.question), titleTextStyle.attributedStringWithText(Strings.asteric)])
-                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.postQuestion)
+                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledButtonStyle(OEXColors.sharedInstance.filledButtonColorForIdentifier(.DiscussionNewPostView)), withTitle: Strings.postQuestion)
                 contentTextView.accessibilityLabel = Strings.question
             }
         }

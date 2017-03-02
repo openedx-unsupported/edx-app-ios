@@ -44,4 +44,13 @@ class OEXColorsDataFactory {
                          "errorLight":"#CB585E",
                          "banner":"#7DC88F"]
     
+    static let filledButtoncolors = ["LoginSplashView":"primaryBaseColor",
+                                    "LoginView":"primaryBaseColor",
+                                    "RegistrationView":"primaryBaseColor",
+                                    "StartupView":"#primaryBaseColor",
+                                    "EnrolledCoursesFooterView":"primaryBaseColor",
+                                    "DiscussionNewPostView":"primaryBaseColor",
+                                    "DiscussionNewCommentView":"primaryBaseColor",
+                                    "CourseCertificateCell":"primaryBaseColor"]
+    
 }
