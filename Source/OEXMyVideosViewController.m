@@ -748,7 +748,10 @@ typedef  enum OEXAlertType
 
 - (void)handleComponentsFrame {
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
-        self.videoViewHeight.constant = 225;
+        self.videoViewHeight.constant = self.view.bounds.size.width * STANDARD_VIDEO_ASPECT_RATIO;
+        self.videoPlayerInterface.height = self.view.bounds.size.width * STANDARD_VIDEO_ASPECT_RATIO;
+        self.videoPlayerInterface.width = self.view.bounds.size.width;
+        
         [self.recentEditViewHeight setConstant:0.0f];
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
