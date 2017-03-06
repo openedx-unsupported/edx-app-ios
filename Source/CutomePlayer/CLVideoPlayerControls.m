@@ -1038,7 +1038,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _dataInterface.selectedCCIndex = -1;
     _dataInterface.selectedVideoSpeedIndex = -1;
     [self hideSubtitles];
-    [self.moviePlayer setFullscreen:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PLAYER_PREVIOUS object:self userInfo:nil];
 }
 
@@ -1053,7 +1052,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _dataInterface.selectedCCIndex = -1;
     _dataInterface.selectedVideoSpeedIndex = -1;
     [self hideSubtitles];
-    [self.moviePlayer setFullscreen:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PLAYER_NEXT object:self userInfo:nil];
 }
 

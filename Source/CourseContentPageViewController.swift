@@ -134,10 +134,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func addObservers() {
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_PLAYER_NEXT) { (notification, observer, removable) in
-            self.t_goForward()
+            if let controls = notification.object as? CLVideoPlayerControls{
+                controls.moviePlayer?.fullscreen = false
+            }
+            observer.moveInDirection(.Forward)
         }
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_PLAYER_PREVIOUS) { (notification, observer, removable) in
-            self.t_goBackward()
+            if let controls = notification.object as? CLVideoPlayerControls{
+                controls.moviePlayer?.fullscreen = false
+            }
+            observer.moveInDirection(.Reverse)
         }
     }
     
