@@ -90,7 +90,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setToolbarHidden(true, animated: animated)
+        navigationController?.setToolbarHidden(true, animated: animated)
+        removeObservers()
     }
     
     public override func viewDidLoad() {
@@ -107,6 +108,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let scrollView = (self.view.subviews.flatMap { return $0 as? UIScrollView }).first {
             scrollView.delaysContentTouches = false
         }
+        addObservers()
     }
     
     private func addStreamListeners() {
@@ -128,6 +130,20 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
              self?.initialLoadController.state = LoadState.failed(NSError.oex_courseContentLoadError())
             }
         )
+    }
+    
+    private func addObservers() {
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_VIDEO_PLAYER_NEXT) { (notification, observer, removable) in
+            observer.moveInDirection(.Forward)
+        }
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_VIDEO_PLAYER_PREVIOUS) { (notification, observer, removable) in
+            observer.moveInDirection(.Reverse)
+        }
+    }
+    
+    private func removeObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_VIDEO_PLAYER_NEXT, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_VIDEO_PLAYER_PREVIOUS, object: nil)
     }
     
     private func loadIfNecessary() {

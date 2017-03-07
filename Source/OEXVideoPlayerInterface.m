@@ -284,19 +284,18 @@
         return;
     }
 
-    UIInterfaceOrientation deviceOrientation = [self currentOrientation];
-
-    if(deviceOrientation == UIInterfaceOrientationPortrait) {      // PORTRAIT MODE
+    UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
+    if(deviceOrientation == UIDeviceOrientationPortrait) {      // PORTRAIT MODE
         if(self.moviePlayerController.fullscreen) {
             [_moviePlayerController setFullscreen:NO withOrientation:UIInterfaceOrientationPortrait];
             _moviePlayerController.controlStyle = MPMovieControlStyleNone;
             [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleEmbedded];
         }
     }   //LANDSCAPE MODE
-    else if(deviceOrientation == UIDeviceOrientationLandscapeLeft || deviceOrientation == UIInterfaceOrientationLandscapeRight) {
-        [_moviePlayerController setFullscreen:YES withOrientation:deviceOrientation animated:YES forceRotate:YES];
+    else if(deviceOrientation == UIDeviceOrientationLandscapeLeft || deviceOrientation == UIDeviceOrientationLandscapeRight) {
+        UIInterfaceOrientation interfaceOrientation = (deviceOrientation == UIDeviceOrientationLandscapeLeft) ? UIInterfaceOrientationLandscapeLeft : UIInterfaceOrientationLandscapeRight;
+        [_moviePlayerController setFullscreen:YES withOrientation:interfaceOrientation animated:YES forceRotate:YES];
         _moviePlayerController.controlStyle = MPMovieControlStyleNone;
-        [_moviePlayerController.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
     }
     
     [self setNeedsStatusBarAppearanceUpdate];

@@ -610,9 +610,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         _seekRate = 3.f;
         _state = CLVideoPlayerControlsStateIdle;
 
-        _hideNext = YES;
-        _hidePrevious = YES;
-        
         _stateBeforeSeek = MPMoviePlaybackStatePlaying;
         
         float speed = [OEXInterface getOEXVideoSpeed:[OEXInterface getCCSelectedPlaybackSpeed]];
@@ -1041,7 +1038,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _dataInterface.selectedCCIndex = -1;
     _dataInterface.selectedVideoSpeedIndex = -1;
     [self hideSubtitles];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_PREVIOUS_VIDEO object:self userInfo:nil];
+    if (!_isShownOnMyVideos) {
+        [self.moviePlayer setFullscreen:NO];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_VIDEO_PLAYER_PREVIOUS object:self userInfo:nil];
 }
 
 - (void)nextBtnClicked:(id)sender {
@@ -1055,7 +1055,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _dataInterface.selectedCCIndex = -1;
     _dataInterface.selectedVideoSpeedIndex = -1;
     [self hideSubtitles];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEXT_VIDEO object:self userInfo:nil];
+    if (!_isShownOnMyVideos) {
+        [self.moviePlayer setFullscreen:NO];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_VIDEO_PLAYER_NEXT object:self userInfo:nil];
 }
 
 - (void)durationSliderTouchBegan:(UISlider*)slider {
@@ -1746,6 +1749,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [_fullscreenButton setImage:[UIImage ExpandIcon] forState:UIControlStateNormal];
         _fullscreenButton.accessibilityLabel = [Strings accessibilityFullscreen];
         [self voiceOverOnSettings];
+        [self didHidePrevNext];
     }
 
     self.rewindButton.frame = CGRectMake(paddingFromBezel, self.barHeight / 2 - rewindHeightWidth / 2 + 1.f, rewindHeightWidth, rewindHeightWidth);
@@ -1767,7 +1771,6 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     [_activityIndicator setFrame:CGRectMake((self.frame.size.width / 2) - (activityIndicatorSize / 2), (self.frame.size.height / 2) - (activityIndicatorSize / 2), activityIndicatorSize, activityIndicatorSize)];
 
     self.tapButton.frame = self.frame;
-    [self didHidePrevNext];
 }
 
 - (void) voiceOverOnSettings {

@@ -79,8 +79,8 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 #define KEY_SET_PLAYBACKSPEED @"PlaybackSpeed"
 
 // Video player Prev/Next button
-#define NOTIFICATION_NEXT_VIDEO @"NextVideo"
-#define NOTIFICATION_PREVIOUS_VIDEO @"PreviousVideo"
+#define NOTIFICATION_VIDEO_PLAYER_NEXT @"VideoPlayerNext"
+#define NOTIFICATION_VIDEO_PLAYER_PREVIOUS @"VideoPlayerPrevious"
 
 #define NOTIFICATION_HIDE_PREV_NEXT @"hidePrevNext"
 //#define KEY_ONE_VIDEO @"OneVideo"
