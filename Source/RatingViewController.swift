@@ -80,6 +80,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     }
     
     func closeButtonPressed() {
+        saveAppRating(nil)
         dismissViewControllerAnimated(false, completion: nil)
     }
     
@@ -87,10 +88,11 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private func positiveRatingReceived() {
         alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.rateTheApp, message: Strings.AppReview.positiveReviewMessage,cancelButtonTitle: nil, onViewController: self)
         alertController?.addButtonWithTitle(Strings.AppReview.maybeLater) {[weak self] (action) in
+            self?.saveAppRating(nil)
             self?.dismissViewControllerAnimated(false, completion: nil)
         }
         alertController?.addButtonWithTitle(Strings.AppReview.rateTheApp) {[weak self] (action) in
-            self?.saveAppRating()
+            self?.saveAppRating(self?.selectedRating)
             self?.sendUserToAppStore()
             self?.dismissViewControllerAnimated(false, completion: nil)
         }
@@ -107,17 +109,18 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private func negativeRatingReceived() {
         alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
         alertController?.addButtonWithTitle(Strings.AppReview.maybeLater) {[weak self] (action) in
+            self?.saveAppRating(nil)
             self?.dismissViewControllerAnimated(false, completion: nil)
         }
         alertController?.addButtonWithTitle(Strings.AppReview.sendFeedback) {[weak self] (action) in
-            self?.saveAppRating()
+            self?.saveAppRating(self?.selectedRating)
             self?.launchEmailComposer()
         }
     }
     
     //MARK: - Persistence methods
-    func saveAppRating() {
-        guard let rating = selectedRating else { return }
+    func saveAppRating(selectedRating: Int?) {
+        let rating = selectedRating ?? 0
         environment.interface?.saveAppRating(rating)
         environment.interface?.saveAppVersionWhenLastRated(nil)
     }
