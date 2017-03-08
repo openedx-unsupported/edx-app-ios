@@ -220,6 +220,7 @@
 		69EFBB0B1E36259D00FF66C4 /* RatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EFBB0A1E36259D00FF66C4 /* RatingViewController.swift */; };
 		69EFBB0D1E36270000FF66C4 /* RatingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69EFBB0C1E36270000FF66C4 /* RatingContainerView.swift */; };
 		69F5FACB1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F5FACA1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift */; };
+		69F998571E6FEB2400CDFA9C /* OEXAnalytics+AppReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F998561E6FEB2400CDFA9C /* OEXAnalytics+AppReview.swift */; };
 		77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A361A76EF8C007D306C /* NSString+OEXValidation.m */; };
 		77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */; };
 		77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */ = {isa = PBXBuildFile; fileRef = 77000A491A7757E0007D306C /* NSDate+OEXComparisons.m */; };
@@ -1001,6 +1002,7 @@
 		69EFBB0A1E36259D00FF66C4 /* RatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingViewController.swift; sourceTree = "<group>"; };
 		69EFBB0C1E36270000FF66C4 /* RatingContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingContainerView.swift; sourceTree = "<group>"; };
 		69F5FACA1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoTranscriptTableViewCell.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		69F998561E6FEB2400CDFA9C /* OEXAnalytics+AppReview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+AppReview.swift"; sourceTree = "<group>"; };
 		6C5AB6D484316B1D809C5BC7 /* Pods-edX.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edX.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edX/Pods-edX.profile.xcconfig"; sourceTree = "<group>"; };
 		77000A351A76EF8C007D306C /* NSString+OEXValidation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OEXValidation.h"; sourceTree = "<group>"; };
 		77000A361A76EF8C007D306C /* NSString+OEXValidation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEXValidation.m"; sourceTree = "<group>"; };
@@ -2107,6 +2109,7 @@
 				69EFBB0A1E36259D00FF66C4 /* RatingViewController.swift */,
 				698EE6E81E38A53600DF4FEA /* RatingView.swift */,
 				699FF84F1E559E6B00AD98A5 /* OEXInterface+AppReview.swift */,
+				69F998561E6FEB2400CDFA9C /* OEXAnalytics+AppReview.swift */,
 			);
 			name = "App Review";
 			sourceTree = "<group>";
@@ -4200,6 +4203,7 @@
 				0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */,
 				77DCD2391C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift in Sources */,
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
+				69F998571E6FEB2400CDFA9C /* OEXAnalytics+AppReview.swift in Sources */,
 				77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */,
 				770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */,
 				77503E8C1B278B9A00C47229 /* RegistrationFieldSelectView.swift in Sources */,
