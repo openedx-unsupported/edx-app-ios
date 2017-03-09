@@ -90,7 +90,7 @@ class RatingViewControllerTests: SnapshotTestCase {
             ])
         let interface = OEXInterface()
         interface.reachable = true
-        interface.saveAppVersionWhenLastRated(nil)
+        interface.saveAppVersionWhenLastRated()
         interface.saveAppRating(RatingViewController.minimumPositiveRating)
         let testEnvironment = TestRouterEnvironment(config: config, interface: interface)
         

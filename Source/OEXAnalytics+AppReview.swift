@@ -17,9 +17,9 @@ private let rateTheAppDisplayName = "AppReviews: Rate The App"
 
 extension OEXAnalytics {
     
-    private func additionalParams(rating: Int?) -> [String: String] {
+    private func additionalParams(selectedRating: Int? = nil) -> [String: String] {
         var params = [key_app_version : NSBundle.mainBundle().oex_buildVersionString()]
-        if rating != nil{
+        if let rating = selectedRating{
             params[key_rating] = String(rating)
         }
         return params
@@ -29,33 +29,33 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.name = name
         event.displayName = displayName
-        event.category = OEXAnalyticsCategoryAppReviews
+        event.category = AnalyticsCategory.AppReviews.rawValue
         return event
     }
 
     func trackAppReviewScreen() {
-        self.trackScreenWithName(OEXAnalyticsScreenAppReviews, courseID: nil, value: nil, additionalInfo: additionalParams(nil))
+        self.trackScreenWithName(AnalyticsScreenName.AppReviews.rawValue, courseID: nil, value: nil, additionalInfo: additionalParams(nil))
         
-        self.trackEvent(appReviewEvent(OEXAnalyticsScreenAppReviews, displayName: viewRatingDisplayName), forComponent: nil, withInfo: additionalParams(nil))
+        self.trackEvent(appReviewEvent(AnalyticsEventName.ViewRating.rawValue, displayName: viewRatingDisplayName), forComponent: nil, withInfo: additionalParams())
     }
     
     func trackDismissRating() {
-        self.trackEvent(appReviewEvent(OEXAnalyticsEventDismissRating, displayName: dismissRatingDisplayName), forComponent: nil, withInfo: additionalParams(nil))
+        self.trackEvent(appReviewEvent(AnalyticsEventName.DismissRating.rawValue, displayName: dismissRatingDisplayName), forComponent: nil, withInfo: additionalParams())
     }
     
     func trackSubmitRating(rating: Int) {
-        self.trackEvent(appReviewEvent(OEXAnalyticsEventSubmitRating, displayName: submitRatingDisplayName), forComponent: nil, withInfo: additionalParams(rating))
+        self.trackEvent(appReviewEvent(AnalyticsEventName.SubmitRating.rawValue, displayName: submitRatingDisplayName), forComponent: nil, withInfo: additionalParams(rating))
     }
     
     func trackSendFeedback(rating: Int) {
-        self.trackEvent(appReviewEvent(OEXAnalyticsEventSendFeedback, displayName: sendFeedbackDisplayName), forComponent: nil, withInfo: additionalParams(rating))
+        self.trackEvent(appReviewEvent(AnalyticsEventName.SendFeedback.rawValue, displayName: sendFeedbackDisplayName), forComponent: nil, withInfo: additionalParams(rating))
     }
     
     func trackMaybeLater(rating: Int) {
-        self.trackEvent(appReviewEvent(OEXAnalyticsEventMaybeLater, displayName: maybeLaterDisplayName), forComponent: nil, withInfo: additionalParams(rating))
+        self.trackEvent(appReviewEvent(AnalyticsEventName.MaybeLater.rawValue, displayName: maybeLaterDisplayName), forComponent: nil, withInfo: additionalParams(rating))
     }
     
     func trackRateTheApp(rating: Int) {
-        self.trackEvent(appReviewEvent(OEXAnalyticsEventRateTheApp, displayName: rateTheAppDisplayName), forComponent: nil, withInfo: additionalParams(rating))
+        self.trackEvent(appReviewEvent(AnalyticsEventName.RateTheApp.rawValue, displayName: rateTheAppDisplayName), forComponent: nil, withInfo: additionalParams(rating))
     }
 }

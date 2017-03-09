@@ -27,12 +27,6 @@ NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.compo
 NSString* const OEXAnalyticsEventScreen = @"edx.bi.app.navigation.screen";
 NSString* const OEXAnalyticsEventCertificateShared = @"edx.bi.app.certificate.shared";
 NSString* const OEXAnalyticsEventCourseShared = @"edx.bi.app.course.shared";
-NSString* const OEXAnalyticsEventViewRating = @"edx.bi.app.app_reviews.view_rating";
-NSString* const OEXAnalyticsEventDismissRating = @"edx.bi.app.app_reviews.dismiss_rating";
-NSString* const OEXAnalyticsEventSubmitRating = @"edx.bi.app.app_reviews.submit_rating";
-NSString* const OEXAnalyticsEventSendFeedback = @"edx.bi.app.app_reviews.send_feedback";
-NSString* const OEXAnalyticsEventMaybeLater = @"edx.bi.app.app_reviews.maybe_later";
-NSString* const OEXAnalyticsEventRateTheApp = @"edx.bi.app.app_reviews.rate_the_app";
 
 NSString* const OEXAnalyticsCategoryNavigation = @"navigation";
 NSString* const OEXAnalyticsCategoryNotifications = @"notifications";
@@ -40,7 +34,6 @@ NSString* const OEXAnalyticsCategoryProfile = @"profiles";
 NSString* const OEXAnalyticsCategoryScreen = @"screen";
 NSString* const OEXAnalyticsCategoryUserEngagement = @"user-engagement";
 NSString* const OEXAnalyticsCategorySocialSharing = @"social-sharing";
-NSString* const OEXAnalyticsCategoryAppReviews = @"app-reviews";
 
 NSString* const OEXAnalyticsValueNavigationModeFull = @"full";
 NSString* const OEXAnalyticsValueNavigationModeVideo = @"video";
@@ -79,4 +72,3 @@ NSString* const OEXAnalyticsScreenAddResponseComment = @"Forum: Add Response Com
 NSString* const OEXAnalyticsScreenViewResponseComments = @"Forum: View Response Comments";
 NSString* const OEXAnalyticsScreenDownloads = @"Downloads";
 NSString* const OEXAnalyticsScreenSettings = @"Settings";
-NSString* const OEXAnalyticsScreenAppReviews = @"AppReviews: View Rating";

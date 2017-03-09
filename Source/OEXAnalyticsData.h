@@ -67,13 +67,6 @@ extern NSString* const OEXAnalyticsEventProfileViewed;
 extern NSString* const OEXAnalyticsEventScreen;
 extern NSString* const OEXAnalyticsEventCertificateShared;
 extern NSString* const OEXAnalyticsEventCourseShared;
-extern NSString* const OEXAnalyticsEventViewRating;
-extern NSString* const OEXAnalyticsEventDismissRating;
-extern NSString* const OEXAnalyticsEventSubmitRating;
-extern NSString* const OEXAnalyticsEventSendFeedback;
-extern NSString* const OEXAnalyticsEventMaybeLater;
-extern NSString* const OEXAnalyticsEventRateTheApp;
-
 
 // TODO rename these to be more like the above
 #define value_video_loaded @"edx.video.loaded"
@@ -105,7 +98,6 @@ extern NSString* const OEXAnalyticsCategoryProfile;
 extern NSString* const OEXAnalyticsCategoryScreen;
 extern NSString* const OEXAnalyticsCategoryUserEngagement;
 extern NSString* const OEXAnalyticsCategorySocialSharing;
-extern NSString* const OEXAnalyticsCategoryAppReviews;
 
 // Values
 extern NSString* const OEXAnalyticsValueNavigationModeVideo;
@@ -147,6 +139,5 @@ extern NSString* const OEXAnalyticsScreenAddResponseComment;
 extern NSString* const OEXAnalyticsScreenViewResponseComments;
 extern NSString* const OEXAnalyticsScreenDownloads;
 extern NSString* const OEXAnalyticsScreenSettings;
-extern NSString* const OEXAnalyticsScreenAppReviews;
 
 NS_ASSUME_NONNULL_END

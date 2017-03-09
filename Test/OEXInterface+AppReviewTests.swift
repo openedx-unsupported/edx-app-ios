@@ -36,7 +36,7 @@ class OEXInterface_AppReviewTests: XCTestCase {
     }
     
     func testDefaultAppVersion() {
-        interface.saveAppVersionWhenLastRated(nil)
+        interface.saveAppVersionWhenLastRated()
         XCTAssertEqual(interface.getSavedAppVersionWhenLastRated(), NSBundle.mainBundle().oex_shortVersionString())
     }
     

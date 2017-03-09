@@ -86,7 +86,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     }
     
     func closeButtonPressed() {
-        saveAppRating(nil)
+        saveAppRating()
         environment.analytics.trackDismissRating()
         dismissViewControllerAnimated(false, completion: nil)
     }
@@ -95,7 +95,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private func positiveRatingReceived() {
         alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.rateTheApp, message: Strings.AppReview.positiveReviewMessage,cancelButtonTitle: nil, onViewController: self)
         alertController?.addButtonWithTitle(Strings.AppReview.maybeLater) {[weak self] (action) in
-            self?.saveAppRating(nil)
+            self?.saveAppRating()
             if let rating = self?.selectedRating {
                 self?.environment.analytics.trackMaybeLater(rating)
             }
@@ -122,7 +122,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private func negativeRatingReceived() {
         alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
         alertController?.addButtonWithTitle(Strings.AppReview.maybeLater) {[weak self] (action) in
-            self?.saveAppRating(nil)
+            self?.saveAppRating()
             if let rating = self?.selectedRating {
                 self?.environment.analytics.trackMaybeLater(rating)
             }
@@ -138,10 +138,9 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     }
     
     //MARK: - Persistence methods
-    func saveAppRating(selectedRating: Int?) {
-        let rating = selectedRating ?? 0
-        environment.interface?.saveAppRating(rating)
-        environment.interface?.saveAppVersionWhenLastRated(nil)
+    func saveAppRating(rating: Int? = 0) {
+        environment.interface?.saveAppRating(rating ?? 0)
+        environment.interface?.saveAppVersionWhenLastRated()
     }
     
     //MARK: - Expose for testcases
