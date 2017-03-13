@@ -27,7 +27,7 @@ private func announcementsDeserializer(response: NSHTTPURLResponse, json: JSON) 
 }
 
 
-class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebViewDelegate {
+class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebViewDelegate, LoadStateViewReloadSupport {
     private let environment: CourseAnnouncementsViewControllerEnvironment
     
     let courseID: String
@@ -210,6 +210,11 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
         self.loadController.state = LoadState.failed(error)
+    }
+    
+    //MARK:- LoadStateViewReloadSupport method
+    func loadStateViewReload() {
+        loadContent()
     }
 }
 

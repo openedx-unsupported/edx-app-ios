@@ -129,7 +129,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             }
             else {
                 self?.addCommentButton.enabled = true
-                self?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
+                DiscussionHelper.showErrorMessageOn(self, error: result.error)
             }
         }
     }

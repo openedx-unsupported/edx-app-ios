@@ -21,7 +21,6 @@
 #import "OEXExternalRegistrationOptionsView.h"
 #import "OEXFacebookAuthProvider.h"
 #import "OEXFacebookConfig.h"
-#import "OEXFlowErrorViewController.h"
 #import "OEXGoogleAuthProvider.h"
 #import "OEXGoogleConfig.h"
 #import "OEXHTTPStatusCodes.h"
@@ -384,7 +383,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         }
         else if([error oex_isNoInternetConnectionError]){
             [view endIndicatingActivity];
-            [[OEXFlowErrorViewController sharedInstance] showNoConnectionErrorOnView:self.view];
+            [self showNoNetwrokError];
         }
         else {
             [view endIndicatingActivity];
@@ -436,7 +435,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                     [self.delegate registrationViewControllerDidRegister:weakSelf completion:nil];
                 }
                 else if([error oex_isNoInternetConnectionError]) {
-                    [[OEXFlowErrorViewController sharedInstance] showNoConnectionErrorOnView:self.view];
+                    [self showNoNetwrokError];
                 }
                 [self showProgress:NO];
             };
@@ -473,9 +472,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         }
         else {
             if([error oex_isNoInternetConnectionError]) {
-                NSString* title = [Strings networkNotAvailableTitle];
-                NSString* message = [Strings networkNotAvailableMessage];
-                [[OEXFlowErrorViewController sharedInstance] showErrorWithTitle:title message:message onViewController:self.view shouldHide:YES];
+                [self showNoNetwrokError];
             }
             [self showProgress:NO];
         }
@@ -519,6 +516,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
     [self registerWithParameters:parameters];
 
+}
+
+- (void) showNoNetwrokError {
+    [[UIAlertController alloc] showAlertWithTitle:[Strings networkNotAvailableTitle] message:[Strings networkNotAvailableMessage] onViewController:self];
 }
 
 - (void)scrollViewTapped:(id)sender {

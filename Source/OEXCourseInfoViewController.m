@@ -17,7 +17,6 @@
 #import "OEXConstants.h"
 #import "OEXCourse.h"
 #import "OEXFindCoursesViewController.h"
-#import "OEXFlowErrorViewController.h"
 #import "OEXInterface.h"
 #import "OEXNetworkManager.h"
 #import "OEXNetworkConstants.h"

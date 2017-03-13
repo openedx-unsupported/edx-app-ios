@@ -10,7 +10,7 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport {
     
     typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
     
@@ -203,6 +203,11 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableController.tableView.autolayoutFooter()
+    }
+    
+    //MARK:- LoadStateViewReloadSupport method 
+    func loadStateViewReload() {
+        refreshIfNecessary()
     }
 }
 

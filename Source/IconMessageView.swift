@@ -178,6 +178,23 @@ class IconMessageView : UIView {
         }
     }
     
+    func setupForUnknownNetworkError(message: NSAttributedString?, icon: Icon?) {
+        attributedMessage = message
+        self.icon = icon ?? .UnknownError
+        
+        if let controller = self.container.firstAvailableUIViewController() as? LoadStateViewController where controller.isSupportingUnknowError() {
+            buttonInfo = MessageButtonInfo(title : Strings.reload)
+            {
+                controller.loadStateViewReload()
+            }
+        }
+    }
+    
+    func setupForUnknownNetworkError(message: String?, icon: Icon?) {
+        let attributedMessage = messageStyle.attributedStringWithText(message)
+        setupForUnknownNetworkError(attributedMessage, icon: icon)
+    }
+    
     var buttonInfo : MessageButtonInfo? {
         didSet {
             bottomButton.oex_removeAllActions()

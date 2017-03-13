@@ -26,7 +26,6 @@
 #import "OEXExternalAuthOptionsView.h"
 #import "OEXFacebookAuthProvider.h"
 #import "OEXFacebookConfig.h"
-#import "OEXFlowErrorViewController.h"
 #import "OEXGoogleAuthProvider.h"
 #import "OEXGoogleConfig.h"
 #import "OEXGoogleSocial.h"
@@ -643,7 +642,6 @@
     {
         dispatch_async(dispatch_get_main_queue(), ^{
                 [self.view setUserInteractionEnabled:YES];
-                [[OEXFlowErrorViewController sharedInstance] animationUp];
 
                 if(!error) {
                     NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
