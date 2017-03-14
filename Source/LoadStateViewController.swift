@@ -118,18 +118,18 @@ class LoadStateViewController : UIViewController {
         controller.view.addSubview(messageView)
         controller.view.addSubview(self.view)
         
-        if isSupportingUnknowError() {
+        if isSupportingReload() {
             delegate = controller as? LoadStateViewReloadSupport
         }
     }
     
     func loadStateViewReload() {
-        if isSupportingUnknowError() {
+        if isSupportingReload() {
             delegate?.loadStateViewReload()
         }
     }
     
-    func isSupportingUnknowError() -> Bool {
+    func isSupportingReload() -> Bool {
         if let _ = self.parentViewController as? LoadStateViewReloadSupport as? UIViewController {
             return true
         }
@@ -197,26 +197,25 @@ class LoadStateViewController : UIViewController {
                 self.messageView.buttonInfo = info.buttonInfo
                 UIView.performWithoutAnimation {
                     if let error = info.error where error.oex_isNoInternetConnectionError {
-                        //self.messageView.showNoConnectionError()
-                        self.messageView.setupForUnknownNetworkError(Strings.networkNotAvailableMessageTrouble, icon: .InternetError)
+                        self.messageView.showError(Strings.networkNotAvailableMessageTrouble, icon: .InternetError)
                     }
                     else if let error = info.error as? OEXAttributedErrorMessageCarrying {
-                        self.messageView.setupForUnknownNetworkError(error.attributedDescriptionWithBaseStyle(self.messageStyle), icon: info.icon)
+                        self.messageView.showError(error.attributedDescriptionWithBaseStyle(self.messageStyle), icon: info.icon)
                     }
                     else if let message = info.attributedMessage {
-                        self.messageView.setupForUnknownNetworkError(message, icon: info.icon)
+                        self.messageView.showError(message, icon: info.icon)
                     }
                     else if let message = info.message {
-                        self.messageView.setupForUnknownNetworkError(message, icon: info.icon)
+                        self.messageView.showError(message, icon: info.icon)
                     }
                     else if let error = info.error where error.errorIsThisType(NSError.oex_unknownNetworkError()) {
-                        self.messageView.setupForUnknownNetworkError(Strings.unknownError, icon: info.icon)
+                        self.messageView.showError(Strings.unknownError, icon: info.icon)
                     }
                     else if let error = info.error where error.errorIsThisType(NSError.oex_outdatedVersionError()) {
                         self.messageView.setupForOutdatedVersionError()
                     }
                     else {
-                        self.messageView.setupForUnknownNetworkError(info.error?.localizedDescription, icon: info.icon)
+                        self.messageView.showError(info.error?.localizedDescription, icon: info.icon)
                     }
                 }
                 alphas = (loading : 0, message : 1, content : 0, touchable : true)

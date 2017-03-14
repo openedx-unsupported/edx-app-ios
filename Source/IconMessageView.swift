@@ -161,11 +161,6 @@ class IconMessageView : UIView {
         super.updateConstraints()
     }
     
-    func showNoConnectionError() {
-        self.message = Strings.networkNotAvailableMessageTrouble
-        self.icon = .InternetError
-    }
-    
     func setupForOutdatedVersionError() {
         message = Strings.VersionUpgrade.outDatedMessage
         icon = .Warning
@@ -178,11 +173,11 @@ class IconMessageView : UIView {
         }
     }
     
-    func setupForUnknownNetworkError(message: NSAttributedString?, icon: Icon?) {
+    func showError(message: NSAttributedString?, icon: Icon?) {
         attributedMessage = message
         self.icon = icon ?? .UnknownError
         
-        if let controller = self.container.firstAvailableUIViewController() as? LoadStateViewController where controller.isSupportingUnknowError() {
+        if let controller = self.container.firstAvailableUIViewController() as? LoadStateViewController where controller.isSupportingReload() {
             buttonInfo = MessageButtonInfo(title : Strings.reload)
             {
                 controller.loadStateViewReload()
@@ -190,9 +185,9 @@ class IconMessageView : UIView {
         }
     }
     
-    func setupForUnknownNetworkError(message: String?, icon: Icon?) {
+    func showError(message: String?, icon: Icon?) {
         let attributedMessage = messageStyle.attributedStringWithText(message)
-        setupForUnknownNetworkError(attributedMessage, icon: icon)
+        showError(attributedMessage, icon: icon)
     }
     
     var buttonInfo : MessageButtonInfo? {
