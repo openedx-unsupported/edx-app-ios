@@ -119,9 +119,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             footer.findCoursesAction = {[weak self] in
                 self?.environment.router?.showCourseCatalog(nil)
             }
-            footer.missingCoursesAction = {[weak self] in
-                self?.showCourseNotListedAlert()
-            }
             
             footer.sizeToFit()
             self.tableController.tableView.tableFooterView = footer
@@ -159,15 +156,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                 loadController.state = .Initial
             }
         }
-    }
-    
-    private func showCourseNotListedAlert() {
-        let alertController = UIAlertController().showAlertWithTitle(nil, message: Strings.courseNotListed, cancelButtonTitle: nil, onViewController: self)
-        alertController.addButtonWithTitle(Strings.ok, actionBlock: { (action) in
-            dispatch_async(dispatch_get_main_queue(), { 
-                UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.navigationItem.leftBarButtonItem)
-            })
-        })
     }
     
     private func showVersionUpgradeSnackBarIfNecessary() {
