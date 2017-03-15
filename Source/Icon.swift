@@ -223,7 +223,7 @@ public enum Icon {
         case .Dropdown:
             return FontAwesomeRenderer(icon: .CaretDown)
         case .Graded:
-            return FontAwesomeRenderer(icon: .Check)
+            return FontAwesomeRenderer(icon: .Edit)
         case .Handouts:
             return FontAwesomeRenderer(icon: .FileTextO)
         case .InternetError:

@@ -72,7 +72,7 @@ public class CourseOutlineItemView: UIView {
         leadingImageButton.accessibilityTraits = UIAccessibilityTraitImage
         titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
         
-        checkmark.image = Icon.Graded.imageWithFontSize(15)
+        checkmark.image = Icon.Graded.imageWithFontSize(10)
         checkmark.tintColor = OEXStyles.sharedStyles().neutralBase()
         
         isGraded = false
