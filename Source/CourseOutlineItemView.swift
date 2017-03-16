@@ -73,7 +73,7 @@ public class CourseOutlineItemView: UIView {
         titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
         
         checkmark.image = Icon.Graded.imageWithFontSize(10)
-        checkmark.tintColor = OEXStyles.sharedStyles().neutralBase()
+        checkmark.tintColor = OEXStyles.sharedStyles().primaryBaseColor()
         
         isGraded = false
         addSubviews()
