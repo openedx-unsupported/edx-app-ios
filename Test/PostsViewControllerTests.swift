@@ -9,7 +9,7 @@
 @testable import edX
 
 class PostsViewControllerTests: SnapshotTestCase {
-    func testContent() {
+    func testActiveDiscussion() {
         let course = OEXCourse.freshCourse()
         let environment = TestRouterEnvironment().logInTestUser()
         let topic = DiscussionTopic.testTopics()[0]
@@ -21,7 +21,29 @@ class PostsViewControllerTests: SnapshotTestCase {
             return (nil, result)
         }
         
-        let controller = PostsViewController(environment: environment, courseID: course.course_id!, topic: topic)
+        let controller = PostsViewController(environment: environment, courseID: course.course_id!, topic: topic, isDiscussionBlackedOut: false)
+        controller.view.setNeedsDisplay()
+        
+        inScreenNavigationContext(controller) {
+            waitForStream(controller.t_loaded)
+            assertSnapshotValidWithContent(controller.navigationController!)
+        }
+        
+    }
+    
+    func testBlackedOutDiscussion() {
+        let course = OEXCourse.freshCourse()
+        let environment = TestRouterEnvironment().logInTestUser()
+        let topic = DiscussionTopic.testTopics()[0]
+        let threads = [DiscussionTestsDataFactory.thread, DiscussionTestsDataFactory.unreadThread]
+        
+        environment.mockNetworkManager.interceptWhenMatching({(_ : NetworkRequest<Paginated<[DiscussionThread]>>) in true }) {
+            let pagination = PaginationInfo(totalCount : threads.count, pageCount : 1)
+            let result = Paginated<[DiscussionThread]>(pagination: pagination, value: threads)
+            return (nil, result)
+        }
+        
+        let controller = PostsViewController(environment: environment, courseID: course.course_id!, topic: topic, isDiscussionBlackedOut: true)
         controller.view.setNeedsDisplay()
         
         inScreenNavigationContext(controller) {

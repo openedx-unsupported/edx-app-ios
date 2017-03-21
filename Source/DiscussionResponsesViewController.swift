@@ -13,6 +13,7 @@ private let GeneralPadding: CGFloat = 8.0
 private let cellButtonStyle = OEXTextStyle(weight:.Normal, size:.Base, color: OEXStyles.sharedStyles().neutralDark())
 private let cellIconSelectedStyle = cellButtonStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
 private let responseMessageStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+private let disabledCommentStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBase())
 
 class DiscussionCellButton: UIButton {
     var indexPath: NSIndexPath?
@@ -221,6 +222,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var environment: Environment!
     var courseID: String!
     var threadID: String!
+    var isDiscussionBlackedOut: Bool = false
     
     var loadController : LoadStateViewController?
     var paginationController : PaginationController<DiscussionComment>?
@@ -250,8 +252,14 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             footerStyle.attributedStringWithText(text)])
         
         addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        addResponseButton.backgroundColor = postClosed ? styles.neutralBase() : styles.primaryXDarkColor()
-        addResponseButton.enabled = !postClosed
+        if postClosed || isDiscussionBlackedOut {
+            addResponseButton.backgroundColor = styles.neutralBase()
+            addResponseButton.enabled = false
+        }
+        else{
+            addResponseButton.backgroundColor = styles.primaryXDarkColor()
+            addResponseButton.enabled = true
+        }
         
         addResponseButton.oex_removeAllActions()
         if !thread.closed {
@@ -635,10 +643,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             icon = Icon.Comment
         }
         
-        let iconText = icon.attributedTextWithStyle(responseMessageStyle, inline : true)
-        let styledPrompt = responseMessageStyle.attributedStringWithText(prompt)
-        let title =
-        NSAttributedString.joinInNaturalLayout([iconText,styledPrompt])
+        let commentStyle = isDiscussionBlackedOut ? disabledCommentStyle : responseMessageStyle
+        
+        let iconText = icon.attributedTextWithStyle(commentStyle, inline : true)
+        let styledPrompt = commentStyle.attributedStringWithText(prompt)
+        let title = NSAttributedString.joinInNaturalLayout([iconText,styledPrompt])
         UIView.performWithoutAnimation {
             cell.commentButton.setAttributedTitle(title, forState: .Normal)
         }
@@ -646,6 +655,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let voteCount = response.voteCount
         let voted = response.voted
         cell.commentButton.indexPath = indexPath
+        cell.commentButton.enabled = !isDiscussionBlackedOut
+    
 
         updateVoteText(cell.voteButton, voteCount: voteCount, voted: voted)
         updateReportText(cell.reportButton, report: response.abuseFlagged)

@@ -121,12 +121,13 @@ extension OEXRouter {
         }
     }
     
-    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, threadID : String) {
+    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, threadID : String, isDiscussionBlackedOut: Bool) {
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
         responsesViewController.courseID = courseID
         responsesViewController.threadID = threadID
+        responsesViewController.isDiscussionBlackedOut = isDiscussionBlackedOut
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
@@ -151,18 +152,18 @@ extension OEXRouter {
         controller.presentViewController(navigationController, animated: true, completion: nil)
     }
     
-    func showPostsFromController(controller : UIViewController, courseID : String, topic: DiscussionTopic) {
-        let postsController = PostsViewController(environment: environment, courseID: courseID, topic: topic)
+    func showPostsFromController(controller : UIViewController, courseID : String, topic: DiscussionTopic, isDiscussionBlackedOut: Bool) {
+        let postsController = PostsViewController(environment: environment, courseID: courseID, topic: topic, isDiscussionBlackedOut: isDiscussionBlackedOut)
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
-    func showAllPostsFromController(controller : UIViewController, courseID : String, followedOnly following : Bool) {
-        let postsController = PostsViewController(environment: environment, courseID: courseID, following : following)
+    func showAllPostsFromController(controller : UIViewController, courseID : String, followedOnly following : Bool, isDiscussionBlackedOut: Bool) {
+        let postsController = PostsViewController(environment: environment, courseID: courseID, following : following, isDiscussionBlackedOut: isDiscussionBlackedOut)
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
-    func showPostsFromController(controller : UIViewController, courseID : String, queryString : String) {
-        let postsController = PostsViewController(environment: environment, courseID: courseID, queryString : queryString)
+    func showPostsFromController(controller : UIViewController, courseID : String, queryString : String, isDiscussionBlackedOut: Bool) {
+        let postsController = PostsViewController(environment: environment, courseID: courseID, queryString : queryString, isDiscussionBlackedOut: isDiscussionBlackedOut)
         
         controller.navigationController?.pushViewController(postsController, animated: true)
     }

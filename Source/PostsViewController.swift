@@ -92,6 +92,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let sortButton = PressableCustomButton()
     private let newPostButton = UIButton(type: .System)
     private let courseID: String
+    private let isDiscussionBlackedOut: Bool
     
     private let contentView = UIView()
     
@@ -115,32 +116,32 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var hasResults:Bool = false
     
-    required init(environment: Environment, courseID: String, topicID: String?, context: Context?) {
+    required init(environment: Environment, courseID: String, topicID: String?, isDiscussionBlackedOut: Bool, context: Context?) {
         self.courseID = courseID
         self.environment = environment
         self.topicID = topicID
         self.context = context
-        
+        self.isDiscussionBlackedOut = isDiscussionBlackedOut
         super.init(nibName: nil, bundle: nil)
         
         configureSearchBar()
     }
     
-    convenience init(environment: Environment, courseID: String, topicID: String?) {
-        self.init(environment: environment, courseID : courseID, topicID: topicID, context: nil)
+    convenience init(environment: Environment, courseID: String, topicID: String?, isDiscussionBlackedOut: Bool) {
+        self.init(environment: environment, courseID : courseID, topicID: topicID, isDiscussionBlackedOut: isDiscussionBlackedOut, context: nil)
     }
     
-    convenience init(environment: Environment, courseID: String, topic: DiscussionTopic) {
-        self.init(environment: environment, courseID : courseID, topicID: nil, context: .Topic(topic))
+    convenience init(environment: Environment, courseID: String, topic: DiscussionTopic, isDiscussionBlackedOut: Bool) {
+        self.init(environment: environment, courseID : courseID, topicID: nil, isDiscussionBlackedOut: isDiscussionBlackedOut, context: .Topic(topic))
     }
     
-    convenience init(environment: Environment,courseID: String, queryString : String) {
-        self.init(environment: environment, courseID : courseID, topicID: nil, context : .Search(queryString))
+    convenience init(environment: Environment,courseID: String, queryString : String, isDiscussionBlackedOut: Bool) {
+        self.init(environment: environment, courseID : courseID, topicID: nil, isDiscussionBlackedOut: isDiscussionBlackedOut, context : .Search(queryString))
     }
     
     ///Convenience initializer for All Posts and Followed posts
-    convenience init(environment: Environment, courseID: String, following : Bool) {
-        self.init(environment: environment, courseID : courseID, topicID: nil, context : following ? .Following : .AllPosts)
+    convenience init(environment: Environment, courseID: String, following : Bool, isDiscussionBlackedOut: Bool) {
+        self.init(environment: environment, courseID : courseID, topicID: nil, isDiscussionBlackedOut: isDiscussionBlackedOut, context : following ? .Following : .AllPosts)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -333,7 +334,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             filterTextStyle.attributedStringWithText(Strings.recentActivity)])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         
-        newPostButton.backgroundColor = styles.primaryXDarkColor()
+        if isDiscussionBlackedOut {
+            newPostButton.enabled = false
+            newPostButton.backgroundColor = styles.neutralBase()
+        }
+        else{
+            newPostButton.enabled = true
+            newPostButton.backgroundColor = styles.primaryXDarkColor()
+        }
         
         let style = OEXTextStyle(weight : .Normal, size: .Base, color: styles.neutralWhite())
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
@@ -641,7 +649,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         updateSelectedPostAttributes(indexPath)
-        environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, threadID: posts[indexPath.row].threadID)
+        environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, threadID: posts[indexPath.row].threadID, isDiscussionBlackedOut: isDiscussionBlackedOut)
     }
 }
 

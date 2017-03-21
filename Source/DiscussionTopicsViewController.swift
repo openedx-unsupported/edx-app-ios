@@ -11,7 +11,7 @@ import UIKit
 
 public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding, LoadStateViewReloadSupport  {
     
-    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider>
+    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider, NetworkManagerProvider>
     
     private enum TableSection : Int {
         case AllPosts
@@ -22,6 +22,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     private let topics = BackedStream<[DiscussionTopic]>()
     private let environment: Environment
     private let courseID : String
+    private var isDiscussionBlackedOut : Bool = false
     
     private let searchBar = UISearchBar()
     private var searchBarDelegate : DiscussionSearchBarDelegate?
@@ -36,13 +37,15 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         self.courseID = courseID
         self.loadController = LoadStateViewController()
         
-       super.init(env: environment)
+        super.init(env: environment)
         
         let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
         topics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }
         )
+        
+        getDiscussionInfo()
         
         tableView.estimatedRowHeight = 80.0
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -80,7 +83,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
             if let owner = self {
-                owner.environment.router?.showPostsFromController(owner, courseID: owner.courseID, queryString : text)
+                owner.environment.router?.showPostsFromController(owner, courseID: owner.courseID, queryString : text, isDiscussionBlackedOut: owner.isDiscussionBlackedOut)
             }
         }
         
@@ -169,6 +172,15 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         refreshTopics()
     }
     
+    func getDiscussionInfo() {
+        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID)
+        self.environment.networkManager.taskForRequest(apiRequest) { [weak self] result in
+            if let thread = result.data {
+                self?.isDiscussionBlackedOut = thread.isBlackedOut
+            }
+        }
+    }
+    
     // MARK: - TableView Data and Delegate
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -214,12 +226,12 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         switch (indexPath.section) {
         case TableSection.AllPosts.rawValue:
-            environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: false)
+            environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: false, isDiscussionBlackedOut: isDiscussionBlackedOut)
         case TableSection.Following.rawValue:
-            environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: true)
+            environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: true, isDiscussionBlackedOut: isDiscussionBlackedOut)
         case TableSection.CourseTopics.rawValue:
             if let topic = self.topics.value?[indexPath.row] {
-                    environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
+                    environment.router?.showPostsFromController(self, courseID: courseID, topic: topic, isDiscussionBlackedOut: isDiscussionBlackedOut)
             }
         default: ()
         }

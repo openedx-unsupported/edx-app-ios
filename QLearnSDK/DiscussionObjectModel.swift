@@ -186,3 +186,42 @@ extension DiscussionThread {
         }
     }
 }
+
+public struct DiscussionInfo {
+    var id: String?
+    var discussionsEnabled: Bool?
+    var blackouts: [DiscussionBlackout]?
+    var isBlackedOut = false
+}
+
+extension DiscussionInfo {
+    public init?(json: JSON) {
+        guard let discussionId = json["id"].string, let blackoutsArray = json.dictionaryValue["blackouts"]?.arrayValue else { return nil }
+        
+        self.id = discussionId
+        self.blackouts = [DiscussionBlackout]()
+        for blackout in blackoutsArray {
+            if let discussionBlackout = DiscussionBlackout(json: blackout) {
+                self.blackouts!.append(discussionBlackout)
+                if NSDate().isEarlierThan(discussionBlackout.end) && NSDate().isLaterThan(discussionBlackout.start) {
+                    isBlackedOut = true
+                }
+            }
+        }
+    }
+}
+
+public struct DiscussionBlackout {
+    var start: NSDate?
+    var end: NSDate?
+}
+
+extension DiscussionBlackout {
+    public init?(json: JSON) {
+        guard let startDate = json["start"].string, let endDate = json["end"].string else { return nil }
+        
+        self.start = OEXDateFormatting.dateWithServerString(startDate)
+        self.end = OEXDateFormatting.dateWithServerString(endDate)
+    }
+}
+
