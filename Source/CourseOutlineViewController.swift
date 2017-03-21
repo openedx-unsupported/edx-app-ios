@@ -15,7 +15,8 @@ public class CourseOutlineViewController :
     CourseOutlineTableControllerDelegate,
     CourseContentPageViewControllerDelegate,
     CourseLastAccessedControllerDelegate,
-    PullRefreshControllerDelegate
+    PullRefreshControllerDelegate,
+    LoadStateViewReloadSupport
 {
     public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, OEXInterfaceProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
 
@@ -275,6 +276,11 @@ public class CourseOutlineViewController :
             self.tableController.hideLastAccessed()
         }
         
+    }
+    
+    //MARK:- LoadStateViewReloadSupport method
+    func loadStateViewReload() {
+        reload()
     }
 }
 

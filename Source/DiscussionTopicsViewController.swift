@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding  {
+public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding, LoadStateViewReloadSupport  {
     
     public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider>
     
@@ -162,6 +162,11 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     
     override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return .AllButUpsideDown
+    }
+    
+    //MARK:- LoadStateViewReloadSupport method
+    func loadStateViewReload() {
+        refreshTopics()
     }
     
     // MARK: - TableView Data and Delegate

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserProfileViewController: OfflineSupportViewController, UserProfilePresenterDelegate {
+class UserProfileViewController: OfflineSupportViewController, UserProfilePresenterDelegate, LoadStateViewReloadSupport {
     
     typealias Environment = protocol<
         OEXAnalyticsProvider,
@@ -106,6 +106,11 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
             applicationActivities: nil
         )
         self.presentViewController(controller, animated: true, completion: nil)
+    }
+    
+    //MARK:- LoadStateViewReloadSupport method
+    func loadStateViewReload() {
+        presenter.refresh()
     }
 }
 

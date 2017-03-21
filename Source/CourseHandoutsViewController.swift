@@ -7,7 +7,7 @@
 //
 
 import UIKit
-public class CourseHandoutsViewController: OfflineSupportViewController, UIWebViewDelegate {
+public class CourseHandoutsViewController: OfflineSupportViewController, UIWebViewDelegate, LoadStateViewReloadSupport {
     
     public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXAnalyticsProvider>
 
@@ -122,6 +122,11 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
             }
         }
         return true
+    }
+    
+    //MARK:- LoadStateViewReloadSupport method
+    func loadStateViewReload() {
+        loadHandouts()
     }
     
 }
