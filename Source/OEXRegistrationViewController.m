@@ -383,7 +383,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         }
         else if([error oex_isNoInternetConnectionError]){
             [view endIndicatingActivity];
-            [self showNoNetwrokError];
+            [self showNoNetworkError];
         }
         else {
             [view endIndicatingActivity];
@@ -435,7 +435,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                     [self.delegate registrationViewControllerDidRegister:weakSelf completion:nil];
                 }
                 else if([error oex_isNoInternetConnectionError]) {
-                    [self showNoNetwrokError];
+                    [self showNoNetworkError];
                 }
                 [self showProgress:NO];
             };
@@ -472,7 +472,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         }
         else {
             if([error oex_isNoInternetConnectionError]) {
-                [self showNoNetwrokError];
+                [self showNoNetworkError];
             }
             [self showProgress:NO];
         }
@@ -518,7 +518,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 }
 
-- (void) showNoNetwrokError {
+- (void) showNoNetworkError {
     [[UIAlertController alloc] showAlertWithTitle:[Strings networkNotAvailableTitle] message:[Strings networkNotAvailableMessage] onViewController:self];
 }
 
