@@ -116,7 +116,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var hasResults:Bool = false
     
-    required init(environment: Environment, courseID: String, topicID: String?, isDiscussionBlackedOut: Bool, context: Context?) {
+    required init(environment: Environment, courseID: String, topicID: String?, isDiscussionBlackedOut: Bool = false, context: Context?) {
         self.courseID = courseID
         self.environment = environment
         self.topicID = topicID
@@ -127,20 +127,20 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         configureSearchBar()
     }
     
-    convenience init(environment: Environment, courseID: String, topicID: String?, isDiscussionBlackedOut: Bool) {
+    convenience init(environment: Environment, courseID: String, topicID: String?, isDiscussionBlackedOut: Bool = false) {
         self.init(environment: environment, courseID : courseID, topicID: topicID, isDiscussionBlackedOut: isDiscussionBlackedOut, context: nil)
     }
     
-    convenience init(environment: Environment, courseID: String, topic: DiscussionTopic, isDiscussionBlackedOut: Bool) {
+    convenience init(environment: Environment, courseID: String, topic: DiscussionTopic, isDiscussionBlackedOut: Bool = false) {
         self.init(environment: environment, courseID : courseID, topicID: nil, isDiscussionBlackedOut: isDiscussionBlackedOut, context: .Topic(topic))
     }
     
-    convenience init(environment: Environment,courseID: String, queryString : String, isDiscussionBlackedOut: Bool) {
+    convenience init(environment: Environment,courseID: String, queryString : String, isDiscussionBlackedOut: Bool = false) {
         self.init(environment: environment, courseID : courseID, topicID: nil, isDiscussionBlackedOut: isDiscussionBlackedOut, context : .Search(queryString))
     }
     
     ///Convenience initializer for All Posts and Followed posts
-    convenience init(environment: Environment, courseID: String, following : Bool, isDiscussionBlackedOut: Bool) {
+    convenience init(environment: Environment, courseID: String, following : Bool, isDiscussionBlackedOut: Bool = false) {
         self.init(environment: environment, courseID : courseID, topicID: nil, isDiscussionBlackedOut: isDiscussionBlackedOut, context : following ? .Following : .AllPosts)
     }
     
@@ -334,14 +334,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             filterTextStyle.attributedStringWithText(Strings.recentActivity)])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         
-        if isDiscussionBlackedOut {
-            newPostButton.enabled = false
-            newPostButton.backgroundColor = styles.neutralBase()
-        }
-        else{
-            newPostButton.enabled = true
-            newPostButton.backgroundColor = styles.primaryXDarkColor()
-        }
+        newPostButton.backgroundColor = isDiscussionBlackedOut ? styles.neutralBase() : styles.primaryXDarkColor()
+        newPostButton.enabled = !isDiscussionBlackedOut
         
         let style = OEXTextStyle(weight : .Normal, size: .Base, color: styles.neutralWhite())
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),

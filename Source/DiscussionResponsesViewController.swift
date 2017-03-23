@@ -252,14 +252,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             footerStyle.attributedStringWithText(text)])
         
         addResponseButton.setAttributedTitle(buttonTitle, forState: .Normal)
-        if postClosed || isDiscussionBlackedOut {
-            addResponseButton.backgroundColor = styles.neutralBase()
-            addResponseButton.enabled = false
-        }
-        else{
-            addResponseButton.backgroundColor = styles.primaryXDarkColor()
-            addResponseButton.enabled = true
-        }
+        
+        let postingEnabled = (postClosed || isDiscussionBlackedOut)
+        addResponseButton.backgroundColor = postingEnabled ? styles.neutralBase() : styles.primaryXDarkColor()
+        addResponseButton.enabled = !postingEnabled
         
         addResponseButton.oex_removeAllActions()
         if !thread.closed {
@@ -457,7 +453,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 } else {
                     guard let thread = thread else { return }
                     
-                    environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed, thread: thread)
+                    environment.router?.showDiscussionCommentsFromViewController(self, courseID : courseID, response: response, closed : postClosed, thread: thread, isDiscussionBlackedOut: isDiscussionBlackedOut)
                 }
             }
         }
@@ -633,17 +629,19 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
         let prompt : String
         let icon : Icon
+        let commentStyle : OEXTextStyle
         
         if response.childCount == 0 {
             prompt = postClosed ? Strings.commentsClosed : Strings.addAComment
             icon = postClosed ? Icon.Closed : Icon.Comment
+            commentStyle = isDiscussionBlackedOut ? disabledCommentStyle : responseMessageStyle
+            cell.commentButton.enabled = !isDiscussionBlackedOut
         }
         else {
             prompt = Strings.commentsToResponse(count: response.childCount)
             icon = Icon.Comment
+            commentStyle = responseMessageStyle
         }
-        
-        let commentStyle = isDiscussionBlackedOut ? disabledCommentStyle : responseMessageStyle
         
         let iconText = icon.attributedTextWithStyle(commentStyle, inline : true)
         let styledPrompt = commentStyle.attributedStringWithText(prompt)
@@ -655,9 +653,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let voteCount = response.voteCount
         let voted = response.voted
         cell.commentButton.indexPath = indexPath
-        cell.commentButton.enabled = !isDiscussionBlackedOut
     
-
         updateVoteText(cell.voteButton, voteCount: voteCount, voted: voted)
         updateReportText(cell.reportButton, report: response.abuseFlagged)
         

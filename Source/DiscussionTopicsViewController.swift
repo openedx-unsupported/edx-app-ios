@@ -175,8 +175,8 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     func getDiscussionInfo() {
         let apiRequest = DiscussionAPI.getDiscussionInfo(courseID)
         self.environment.networkManager.taskForRequest(apiRequest) { [weak self] result in
-            if let thread = result.data {
-                self?.isDiscussionBlackedOut = thread.isBlackedOut
+            if let discussionInfo = result.data {
+                self?.isDiscussionBlackedOut = discussionInfo.isBlackedOut
             }
         }
     }

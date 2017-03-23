@@ -188,22 +188,21 @@ extension DiscussionThread {
 }
 
 public struct DiscussionInfo {
-    var id: String?
-    var discussionsEnabled: Bool?
+    var discussionID: String?
     var blackouts: [DiscussionBlackout]?
     var isBlackedOut = false
 }
 
 extension DiscussionInfo {
     public init?(json: JSON) {
-        guard let discussionId = json["id"].string, let blackoutsArray = json.dictionaryValue["blackouts"]?.arrayValue else { return nil }
+        guard let discussionID = json["id"].string, let blackouts = json.dictionaryValue["blackouts"]?.arrayValue where blackouts.count > 0 else { return nil }
         
-        self.id = discussionId
+        self.discussionID = discussionID
         self.blackouts = [DiscussionBlackout]()
-        for blackout in blackoutsArray {
+        for blackout in blackouts {
             if let discussionBlackout = DiscussionBlackout(json: blackout) {
-                self.blackouts!.append(discussionBlackout)
-                if NSDate().isEarlierThan(discussionBlackout.end) && NSDate().isLaterThan(discussionBlackout.start) {
+                self.blackouts?.append(discussionBlackout)
+                if NSDate().isEarlierThanOrEqualTo(discussionBlackout.end) && NSDate().isLaterThanOrEqualTo(discussionBlackout.start) {
                     isBlackedOut = true
                 }
             }

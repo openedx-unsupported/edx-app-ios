@@ -24,7 +24,7 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
         self.topicID = topicID
         self.environment = environment
         
-        self.postsController = PostsViewController(environment: self.environment, courseID: self.courseID, topicID: self.topicID, isDiscussionBlackedOut: false)
+        self.postsController = PostsViewController(environment: self.environment, courseID: self.courseID, topicID: self.topicID)
         
         super.init(nibName: nil, bundle: nil)
     }
