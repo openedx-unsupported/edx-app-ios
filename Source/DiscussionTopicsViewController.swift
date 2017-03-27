@@ -39,13 +39,20 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         super.init(env: environment)
         
-        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
-        topics.backWithStream(stream.map {
-            return DiscussionTopic.linearizeTopics($0)
+        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID)
+        self.environment.networkManager.taskForRequest(apiRequest) { [weak self] result in
+            if let discussionInfo = result.data {
+                self?.isDiscussionBlackedOut = discussionInfo.isBlackedOut
             }
-        )
-        
-        getDiscussionInfo()
+            
+            if let owner = self {
+                let stream = owner.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
+                owner.topics.backWithStream(stream.map {
+                    return DiscussionTopic.linearizeTopics($0)
+                    }
+                )
+            }
+        }
         
         tableView.estimatedRowHeight = 80.0
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -170,15 +177,6 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     //MARK:- LoadStateViewReloadSupport method
     func loadStateViewReload() {
         refreshTopics()
-    }
-    
-    func getDiscussionInfo() {
-        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID)
-        self.environment.networkManager.taskForRequest(apiRequest) { [weak self] result in
-            if let discussionInfo = result.data {
-                self?.isDiscussionBlackedOut = discussionInfo.isBlackedOut
-            }
-        }
     }
     
     // MARK: - TableView Data and Delegate
