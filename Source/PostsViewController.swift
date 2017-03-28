@@ -10,7 +10,7 @@ import UIKit
 
 class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding, DiscussionNewPostViewControllerDelegate {
 
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, OEXStylesProvider>
     
     enum Context {
         case Topic(DiscussionTopic)
@@ -92,7 +92,12 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let sortButton = PressableCustomButton()
     private let newPostButton = UIButton(type: .System)
     private let courseID: String
-    private let isDiscussionBlackedOut: Bool
+    private var isDiscussionBlackedOut: Bool = true {
+        didSet {
+            updateNewPostButtonStyle()
+        }
+    }
+    private var stream: Stream<(DiscussionInfo)>?
     
     private let contentView = UIView()
     
@@ -116,32 +121,31 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var hasResults:Bool = false
     
-    required init(environment: Environment, courseID: String, topicID: String?, isDiscussionBlackedOut: Bool = false, context: Context?) {
+    required init(environment: Environment, courseID: String, topicID: String?, context: Context?) {
         self.courseID = courseID
         self.environment = environment
         self.topicID = topicID
         self.context = context
-        self.isDiscussionBlackedOut = isDiscussionBlackedOut
         super.init(nibName: nil, bundle: nil)
         
         configureSearchBar()
     }
     
-    convenience init(environment: Environment, courseID: String, topicID: String?, isDiscussionBlackedOut: Bool = false) {
-        self.init(environment: environment, courseID : courseID, topicID: topicID, isDiscussionBlackedOut: isDiscussionBlackedOut, context: nil)
+    convenience init(environment: Environment, courseID: String, topicID: String?) {
+        self.init(environment: environment, courseID : courseID, topicID: topicID, context: nil)
     }
     
-    convenience init(environment: Environment, courseID: String, topic: DiscussionTopic, isDiscussionBlackedOut: Bool = false) {
-        self.init(environment: environment, courseID : courseID, topicID: nil, isDiscussionBlackedOut: isDiscussionBlackedOut, context: .Topic(topic))
+    convenience init(environment: Environment, courseID: String, topic: DiscussionTopic) {
+        self.init(environment: environment, courseID : courseID, topicID: nil, context: .Topic(topic))
     }
     
-    convenience init(environment: Environment,courseID: String, queryString : String, isDiscussionBlackedOut: Bool = false) {
-        self.init(environment: environment, courseID : courseID, topicID: nil, isDiscussionBlackedOut: isDiscussionBlackedOut, context : .Search(queryString))
+    convenience init(environment: Environment,courseID: String, queryString : String) {
+        self.init(environment: environment, courseID : courseID, topicID: nil, context : .Search(queryString))
     }
     
     ///Convenience initializer for All Posts and Followed posts
-    convenience init(environment: Environment, courseID: String, following : Bool, isDiscussionBlackedOut: Bool = false) {
-        self.init(environment: environment, courseID : courseID, topicID: nil, isDiscussionBlackedOut: isDiscussionBlackedOut, context : following ? .Following : .AllPosts)
+    convenience init(environment: Environment, courseID: String, following : Bool) {
+        self.init(environment: environment, courseID : courseID, topicID: nil, context : following ? .Following : .AllPosts)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -189,7 +193,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         //set visibility of header view
         updateHeaderViewVisibility()
         
-        loadContent()
+        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID)
+        stream = environment.networkManager.streamForRequest(apiRequest)
+        stream?.listen(self) { [weak self] (result) in
+            if let discussionInfo = result.value {
+                self?.isDiscussionBlackedOut = discussionInfo.isBlackedOut
+            }
+            self?.loadContent()
+        }
         
         setAccessibility()
     }
@@ -319,9 +330,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     private func setStyles() {
         
-        let styles = OEXStyles.sharedStyles()
-        
-        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         
         self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(Strings.refine)
         
@@ -334,10 +343,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             filterTextStyle.attributedStringWithText(Strings.recentActivity)])
         sortButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
         
-        newPostButton.backgroundColor = isDiscussionBlackedOut ? styles.neutralBase() : styles.primaryXDarkColor()
-        newPostButton.enabled = !isDiscussionBlackedOut
+        updateNewPostButtonStyle()
         
-        let style = OEXTextStyle(weight : .Normal, size: .Base, color: styles.neutralWhite())
+        let style = OEXTextStyle(weight : .Normal, size: .Base, color: environment.styles.neutralWhite())
         buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
             style.attributedStringWithText(Strings.createANewPost)])
         newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
@@ -347,8 +355,16 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.navigationItem.title = context?.navigationItemTitle
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
         
-        viewSeparator.backgroundColor = styles.neutralXLight()
-        
+        viewSeparator.backgroundColor = environment.styles.neutralXLight()
+    }
+    
+    private func updateNewPostButtonStyle() {
+        newPostButton.backgroundColor = isDiscussionBlackedOut ? environment.styles.neutralBase() : environment.styles.primaryXDarkColor()
+        newPostButton.enabled = !isDiscussionBlackedOut
+    }
+    
+    func setIsDiscussionBlackedOut(value : Bool){
+        isDiscussionBlackedOut = value
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -674,7 +690,12 @@ extension UITableView {
 
 // Testing only
 extension PostsViewController {
+    
     var t_loaded : Stream<()> {
+        return self.stream!.map {_ in () }
+    }
+    
+    var t_loaded_pagination : Stream<()> {
         return self.paginationController!.stream.map {_ in
             return
         }

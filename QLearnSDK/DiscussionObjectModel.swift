@@ -195,7 +195,7 @@ public struct DiscussionInfo {
 
 extension DiscussionInfo {
     public init?(json: JSON) {
-        guard let discussionID = json["id"].string, let blackouts = json.dictionaryValue["blackouts"]?.arrayValue where blackouts.count > 0 else { return nil }
+        guard let discussionID = json["id"].string, let blackouts = json.dictionaryValue["blackouts"]?.arrayValue where blackouts.count > 0 else { return }
         
         self.discussionID = discussionID
         self.blackouts = [DiscussionBlackout]()

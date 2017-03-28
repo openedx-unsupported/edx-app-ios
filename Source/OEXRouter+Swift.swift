@@ -152,18 +152,18 @@ extension OEXRouter {
         controller.presentViewController(navigationController, animated: true, completion: nil)
     }
     
-    func showPostsFromController(controller : UIViewController, courseID : String, topic: DiscussionTopic, isDiscussionBlackedOut: Bool) {
-        let postsController = PostsViewController(environment: environment, courseID: courseID, topic: topic, isDiscussionBlackedOut: isDiscussionBlackedOut)
+    func showPostsFromController(controller : UIViewController, courseID : String, topic: DiscussionTopic) {
+        let postsController = PostsViewController(environment: environment, courseID: courseID, topic: topic)
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
-    func showAllPostsFromController(controller : UIViewController, courseID : String, followedOnly following : Bool, isDiscussionBlackedOut: Bool) {
-        let postsController = PostsViewController(environment: environment, courseID: courseID, following : following, isDiscussionBlackedOut: isDiscussionBlackedOut)
+    func showAllPostsFromController(controller : UIViewController, courseID : String, followedOnly following : Bool) {
+        let postsController = PostsViewController(environment: environment, courseID: courseID, following : following)
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
-    func showPostsFromController(controller : UIViewController, courseID : String, queryString : String, isDiscussionBlackedOut: Bool) {
-        let postsController = PostsViewController(environment: environment, courseID: courseID, queryString : queryString, isDiscussionBlackedOut: isDiscussionBlackedOut)
+    func showPostsFromController(controller : UIViewController, courseID : String, queryString : String) {
+        let postsController = PostsViewController(environment: environment, courseID: courseID, queryString : queryString)
         
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
