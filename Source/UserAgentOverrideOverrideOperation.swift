@@ -17,7 +17,7 @@ class UserAgentGenerationOperation : Operation {
     private var resultStream = Sink<String>()
     
     override init() {
-        if NSThread.isMainThread() {
+        if Thread.isMainThread {
             webView = WKWebView()
         }
         else {
@@ -28,13 +28,13 @@ class UserAgentGenerationOperation : Operation {
     }
     
     static var appVersionDescriptor : String {
-        let bundle = NSBundle.mainBundle()
+        let bundle = Bundle.main
         let components = [bundle.oex_appName(), bundle.bundleIdentifier, bundle.oex_buildVersionString()].flatMap{ return $0 }
-        return components.joinWithSeparator("/")
+        return components.joined(separator: "/")
     }
     
-    override func performWithDoneAction(doneAction: () -> Void) {
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+    override func performWithDoneAction(doneAction: @escaping () -> Void) {
+        DispatchQueue.main.async { () -> Void in
             guard let webView = self.webView else {
                 doneAction()
                 return
@@ -43,7 +43,7 @@ class UserAgentGenerationOperation : Operation {
             webView.evaluateJavaScript("navigator.userAgent") { (value, error) -> Void in
                 let base = value as? String
                 let appPart = UserAgentGenerationOperation.appVersionDescriptor
-                let userAgent = (base.map { NSString(format: "%@ %@", $0, appPart) } ?? appPart) as String
+                let userAgent = (base.map { (NSString(format: "%@ %@", $0, appPart) as String) } ?? appPart) as String
                 self.resultStream.send(userAgent)
                 doneAction()
             }
@@ -53,8 +53,8 @@ class UserAgentGenerationOperation : Operation {
 
 class UserAgentOverrideOperation : Operation {
     
-    override func performWithDoneAction(doneAction: () -> Void) {
-        dispatch_async(dispatch_get_main_queue()) {
+    override func performWithDoneAction(doneAction: @escaping () -> Void) {
+        DispatchQueue.main.async {
             let operation = UserAgentGenerationOperation()
             operation.resultStream.extendLifetimeUntilFirstResult(success:
                 { agent in
@@ -65,13 +65,13 @@ class UserAgentOverrideOperation : Operation {
                     doneAction()
                 }
             )
-            NSOperationQueue.currentQueue()?.addOperation(operation)
+            OperationQueue.currentQueue?.addOperation(operation)
         }
         
     }
     
     @objc static func overrideUserAgent(completion : (() -> Void)? = nil) {
-        let queue = NSOperationQueue()
+        let queue = OperationQueue()
         let operation = UserAgentOverrideOperation()
         operation.completionBlock = {
             dispatch_async(dispatch_get_main_queue()) {

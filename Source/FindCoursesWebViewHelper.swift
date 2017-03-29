@@ -38,8 +38,8 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
         webView.accessibilityIdentifier = "find-courses-webview"
 
-        if let container = delegate?.containingControllerForWebViewHelper(self) {
-            loadController.setupInController(container, contentView: webView)
+        if let container = delegate?.containingControllerForWebViewHelper(helper: self) {
+            loadController.setupInController(controller: container, contentView: webView)
 
             let searchbarEnabled = (config?.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false) && showSearch
 
@@ -47,7 +47,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
             if searchbarEnabled {
                 searchBar.delegate = self
 
-                container.view.insertSubview(searchBar, atIndex: 0)
+                container.view.insertSubview(searchBar, at: 0)
 
                 searchBar.snp_makeConstraints{ make in
                     make.leading.equalTo(container.view)
@@ -60,7 +60,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
             }
 
 
-            container.view.insertSubview(webView, atIndex: 0)
+            container.view.insertSubview(webView, at: 0)
 
             webView.snp_makeConstraints { make in
                 make.leading.equalTo(container.view)
@@ -70,7 +70,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
             }
 
             if let bar = bottomBar {
-                container.view.insertSubview(bar, atIndex: 0)
+                container.view.insertSubview(bar, at: 0)
                 bar.snp_makeConstraints(closure: { (make) in
                     make.height.equalTo(50)
                     make.leading.equalTo(container.view)
@@ -91,80 +91,80 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     }
     
     func loadRequestWithURL(url : NSURL) {
-        let request = NSURLRequest(URL: url)
-        self.webView.loadRequest(request)
+        let request = NSURLRequest(url: url as URL)
+        self.webView.load(request as URLRequest)
         self.request = request
     }
     
-    func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
+    @nonobjc func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
         let request = navigationAction.request
-        let capturedLink = navigationAction.navigationType == .LinkActivated && (self.delegate?.webViewHelper(self, shouldLoadLinkWithRequest: request) ?? true)
+        let capturedLink = navigationAction.navigationType == .linkActivated && (self.delegate?.webViewHelper(helper: self, shouldLoadLinkWithRequest: request as NSURLRequest) ?? true)
 
-        let outsideLink = (request.mainDocumentURL?.host != self.request?.URL?.host)
-        if let URL = request.URL where outsideLink || capturedLink {
-            UIApplication.sharedApplication().openURL(URL)
-            decisionHandler(.Cancel)
+        let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
+        if let URL = request.url, outsideLink || capturedLink {
+            UIApplication.shared.openURL(URL)
+            decisionHandler(.cancel)
             return
         }
         
-        decisionHandler(.Allow)
+        decisionHandler(.allow)
     }
     
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+    @nonobjc func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         self.loadController.state = .Loaded
         
         //Setting webView accessibilityValue for testing
         webView.evaluateJavaScript("document.getElementsByClassName('course-card')[0].innerText",
-                                   completionHandler: { (result: AnyObject?, error: NSError?) in
+                                   completionHandler: { (result: Any?, error: Error?) in
                                     
                                     if (error == nil) {
                                         self.webView.accessibilityValue = "findCoursesLoaded"
                                     }
         })
         if let bar = bottomBar {
-            bar.superview?.bringSubviewToFront(bar)
+            bar.superview?.bringSubview(toFront: bar)
         }
     }
     
     func showError(error : NSError) {
         let buttonInfo = MessageButtonInfo(title: Strings.reload) {[weak self] _ in
             if let request = self?.request {
-                self?.webView.loadRequest(request)
+                self?.webView.load(request as URLRequest)
                 self?.loadController.state = .Initial
             }
         }
-        self.loadController.state = LoadState.failed(error, buttonInfo: buttonInfo)
+        self.loadController.state = LoadState.failed(error: error, buttonInfo: buttonInfo)
     }
     
-    func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
-        showError(error)
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        showError(error: error as NSError)
     }
     
-    func webView(webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: NSError) {
-        showError(error)
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        showError(error: error as NSError)
     }
     
-    func webView(webView: WKWebView, didReceiveAuthenticationChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+    func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if let credential = config?.URLCredentialForHost(challenge.protectionSpace.host) {
             completionHandler(.UseCredential, credential)
         }
         else {
-            completionHandler(.PerformDefaultHandling, nil)
+            completionHandler(.performDefaultHandling, nil)
         }
     }
 
 }
 
 extension FindCoursesWebViewHelper: UISearchBarDelegate {
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         return true
     }
 
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
 
-        guard let searchTerms = searchBar.text, searchURL = searchBaseURL else { return }
-        if let URL = FindCoursesWebViewHelper.buildQuery(searchURL.URLString, toolbarString: searchTerms) {
+        guard let searchTerms = searchBar.text, let searchURL = searchBaseURL else { return }
+        if let URL = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, toolbarString: searchTerms) {
             loadRequestWithURL(URL)
         }
     }

@@ -32,12 +32,12 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         }
 
         downloadView.downloadAction = {[weak self] _ in
-            if let owner = self, block = owner.block, videos = self?.videosStream.value {
-                owner.delegate?.sectionCellChoseDownload(owner, videos: videos, forBlock: block)
+            if let owner = self, let block = owner.block, let videos = self?.videosStream.value {
+                owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
             }
         }
         videosStream.listen(self) {[weak self] downloads in
-            if let downloads = downloads.value, state = self?.downloadStateForDownloads(downloads) {
+            if let downloads = downloads.value, let state = self?.downloadStateForDownloads(videos: downloads) {
                 self?.downloadView.state = state
                 self?.content.trailingView = self?.downloadView
                 self?.downloadView.itemCount = downloads.count
@@ -47,8 +47,8 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
             }
         }
         
-        for notification in [OEXDownloadProgressChangedNotification, OEXDownloadEndedNotification, OEXVideoStateChangedNotification] {
-            NSNotificationCenter.defaultCenter().oex_addObserver(self, name: notification) { (_, observer, _) -> Void in
+        for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
+            NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: notification.rawValue) { (_, observer, _) -> Void in
                 if let state = observer.downloadStateForDownloads(observer.videosStream.value) {
                     observer.downloadView.state = state
                 }
@@ -59,14 +59,14 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         }
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self]_ in
-            if let owner = self where owner.downloadView.state == .Downloading {
-                owner.delegate?.sectionCellChoseShowDownloads(owner)
+            if let owner = self, owner.downloadView.state == .Downloading {
+                owner.delegate?.sectionCellChoseShowDownloads(cell: owner)
             }
         }
         downloadView.addGestureRecognizer(tapGesture)
     }
     
-    var videos : Stream<[OEXHelperVideoDownload]> = Stream() {
+    var videos : Stream = Stream() {
         didSet {
             videosStream.backWithStream(videos)
         }
@@ -78,13 +78,13 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     }
     
     func downloadStateForDownloads(videos : [OEXHelperVideoDownload]?) -> DownloadsAccessoryView.State? {
-        if let videos = videos where videos.count > 0 {
+        if let videos = videos, videos.count > 0 {
             let allDownloading = videos.reduce(true) {(acc, video) in
-                return acc && video.downloadState == .Partial
+                return acc && video.downloadState == .partial
             }
             
             let allCompleted = videos.reduce(true) {(acc, video) in
-                return acc && video.downloadState == .Complete
+                return acc && video.downloadState == .complete
             }
             
             if allDownloading {
@@ -104,9 +104,9 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     var block : CourseBlock? = nil {
         didSet {
-            content.setTitleText(block?.displayName)
+            content.setTitleText(title: block?.displayName)
             content.isGraded = block?.graded
-            content.setDetailText(block?.format ?? "")
+            content.setDetailText(title: block?.format ?? "")
         }
     }
     

@@ -22,10 +22,10 @@ class SessionUsernameProviderTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         let path = OEXFileUtility.t_pathForUserName(user.username!)
-        try! NSFileManager.defaultManager().removeItemAtPath(path)
+        try! FileManager.defaultManager().removeItemAtPath(path)
     }
 
-    func providerForUsername(user : OEXUserDetails) -> SessionUsernameProvider {
+    func providerForUsername(_ user : OEXUserDetails) -> SessionUsernameProvider {
         let storage = OEXMockCredentialStorage()
         storage.storedAccessToken = OEXAccessToken.fakeToken()
         storage.storedUserDetails = user
@@ -44,13 +44,13 @@ class SessionUsernameProviderTests: XCTestCase {
     func testWorksWithResponseCache() {
         let provider = providerForUsername(user)
         let cache = PersistentResponseCache(provider: provider)
-        let URL = NSURL(string:"http://example.com")!
-        let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: nil)!
-        let request = NSURLRequest(URL: URL)
-        let responseData = ("test" as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+        let URL = Foundation.URL(string:"http://example.com")!
+        let response = HTTPURLResponse(url: URL, statusCode: 200, httpVersion: nil, headerFields: nil)!
+        let request = URLRequest(url: URL)
+        let responseData = ("test" as NSString).data(using: String.Encoding.utf8.rawValue)
         cache.setCacheResponse(response, withData: responseData, forRequest: request)
 
-        let expectation = expectationWithDescription("cache fulfilled")
+        let expectation = self.expectation(description: "cache fulfilled")
         cache.fetchCacheEntryWithRequest(request) { (entry) -> Void in
             XCTAssertEqual(entry?.statusCode, 200)
             XCTAssertEqual(entry?.data, responseData)

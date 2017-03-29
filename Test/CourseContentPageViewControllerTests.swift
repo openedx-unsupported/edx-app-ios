@@ -15,7 +15,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : TestRouterEnvironment!
-    let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
+    let networkManager = MockNetworkManager(baseURL: URL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
@@ -25,7 +25,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         router = OEXRouter(environment: environment)
     }
     
-    func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> (XCTestExpectation -> Void)?)? = nil) -> CourseContentPageViewController {
+    func loadAndVerifyControllerWithInitialChild(_ initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> ((XCTestExpectation) -> Void)?)? = nil) -> CourseContentPageViewController {
         
         let controller = CourseContentPageViewController(environment: environment, courseID: outline.root, rootID: parentID, initialChildID: initialChildID)
         
@@ -140,7 +140,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) {_ in
             return { expectation -> Void in
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.environment.eventTracker.eventStream.listenOnce(self) {_ in
                         let events = self.environment.eventTracker.events.flatMap { return $0.asScreen }
                         
@@ -181,7 +181,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
         
         let pageEvents = environment.eventTracker.events.flatMap {(e : MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
-            if let event = e.asEvent where event.event.name == OEXAnalyticsEventComponentViewed {
+            if let event = e.asEvent, event.event.name == OEXAnalyticsEventComponentViewed {
                 return event
             }
             else {

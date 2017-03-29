@@ -227,7 +227,7 @@ class StreamTests: XCTestCase {
         let sink = Sink<String>()
         
         // Cache has no value so it will never fire
-        let cache = Stream<String>()
+        let cache = Stream()
         
         let backedStream = sink.cachedByStream(cache)
         sink.send("success")

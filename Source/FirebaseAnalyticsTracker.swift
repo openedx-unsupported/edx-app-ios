@@ -15,13 +15,13 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     static let minifiedBlockIDKey: NSString = "minifiedBlockID"
     
     var currentOrientationValue : String {
-        return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication().statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
+        return UIInterfaceOrientationIsLandscape(UIApplication.shared.statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
     
     //Skipping these keys for Firebase analytics
     private let keysToSkip = [key_target_url, OEXAnalyticsKeyBlockID, "url"]
     
-    func identifyUser(user : OEXUserDetails?) {
+    func identifyUser(_ user : OEXUserDetails?) {
         FIRAnalytics.setUserID(user?.userId?.stringValue)
     }
     
@@ -29,38 +29,39 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         FIRAnalytics.setUserID(nil)
     }
     
-    func trackEvent(event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : AnyObject]) {
+    func trackEvent(_ event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : Any]) {
+        
         // track event
-        var parameters: [String: NSObject] = [key_app_name : value_app_name]
-        parameters[OEXAnalyticsKeyOrientation] =  currentOrientationValue
+        var parameters: [String: NSObject] = [key_app_name : value_app_name as NSObject]
+        parameters[OEXAnalyticsKeyOrientation] =  currentOrientationValue as NSObject
         
         if properties.count > 0 {
-            parameters = parameters.concat(properties as! [String : NSObject])
+            parameters = parameters.concat(dictionary: properties as! [String : NSObject])
         }
         if let component = component {
-            parameters[key_component] = component
+            parameters[key_component] = component as NSObject
         }
         if let courseID = event.courseID {
-            parameters[key_course_id] = courseID
+            parameters[key_course_id] = courseID as NSObject
         }
         
-        parameters[key_name] =  event.name
+        parameters[key_name] =  event.name as NSObject
         
         var formattedParameters = [String: NSObject]()
-        formatParamatersForFirebase(parameters, formattedParams: &formattedParameters)
-        FIRAnalytics.logEventWithName(formattedKeyForFirebase(event.displayName), parameters: formattedParameters)
+        formatParamatersForFirebase(params: parameters, formattedParams: &formattedParameters)
+        FIRAnalytics.logEvent(withName: formattedKeyForFirebase(key: event.displayName), parameters: formattedParameters)
         
     }
     
-    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
+    func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
         var properties: [String:NSObject] = [:]
         if let value = value {
-            properties["action"] = value
+            properties["action"] = value as NSObject
         }
         
         // adding additional info to event
-        if let info = info where info.count > 0 {
-            properties = properties.concat(info)
+        if let info = info, info.count > 0 {
+            properties = properties.concat(dictionary: info as [String : NSObject])
         }
         
         let event = OEXAnalyticsEvent()
@@ -70,7 +71,7 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         trackEvent(event, forComponent: nil, withProperties: properties)
     }
     
-    private func formatParamatersForFirebase(params: [String : NSObject], inout formattedParams: [String: NSObject]) {
+    private func formatParamatersForFirebase(params: [String : NSObject], formattedParams: inout [String: NSObject]) {
         // Firebase only supports String or Number as value for event parameters
         
         for (key, value) in params {
@@ -78,27 +79,27 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
                 continue
             }
             
-            if isSplittingRequired(key) {
-                let splitParameters = splitParameterValue(key, value: value as! String)
+            if isSplittingRequired(key: key) {
+                let splitParameters = splitParameterValue(key: key, value: value as! String)
                 for (splitKey, splitValue) in splitParameters {
-                    formattedParams[formattedKeyForFirebase(splitKey)] = formattedParamValue(splitValue)
+                    formattedParams[formattedKeyForFirebase(key: splitKey)] = formattedParamValue(value: splitValue)
                 }
             }
             else {
                 // For firebase sending minifiedBlockID instead of blockID
-                if key == FirebaseAnalyticsTracker.minifiedBlockIDKey {
-                    formattedParams[formattedKeyForFirebase(OEXAnalyticsKeyBlockID)] = formattedParamValue(value)
+                if key == FirebaseAnalyticsTracker.minifiedBlockIDKey as String {
+                    formattedParams[formattedKeyForFirebase(key: OEXAnalyticsKeyBlockID)] = formattedParamValue(value: value)
                 }
                 else {
-                    formattedParams[formattedKeyForFirebase(key)] = formattedParamValue(value)
+                    formattedParams[formattedKeyForFirebase(key: key)] = formattedParamValue(value: value)
                 }
             }
         }
     }
 
     private func formattedParamValue(value: NSObject)-> NSObject {
-        if value.isKindOfClass(NSString) {
-            return formatParamValue(value as! String)
+        if value is NSString {
+            return self.formatParamValue(value: value as! String) as NSObject
         }
         
         return value
@@ -115,12 +116,12 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
             string = "download_module"
         }
         
-        let charSet = NSMutableCharacterSet(charactersInString: "_.")
-        charSet.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
-        string = string.componentsSeparatedByCharactersInSet(charSet.invertedSet).joinWithSeparator("_")
+        let charSet = NSMutableCharacterSet(charactersIn: "_.")
+        charSet.formUnion(with: NSCharacterSet.alphanumerics)
+        string = string.components(separatedBy: (charSet.inverted)).joined(separator: "_")
         while string.contains("__")
         {
-            string = string.replace("__", replacement: "_")
+            string = string.replace(string: "__", replacement: "_")
         }
         
         return string
@@ -131,7 +132,8 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         
         // Firebase only supports 100 characters for parameter value
         if formattedValue.characters.count > MaxParameterValueCharacters {
-            formattedValue = formattedValue.substringToIndex(formattedValue.startIndex.advancedBy(MaxParameterValueCharacters))
+            formattedValue = formattedValue.substring(from: formattedValue.characters.index(after: formattedValue.characters.startIndex))
+//            formattedValue = formattedValue.substring(to: formattedValue.startIndex.advancedBy(MaxParameterValueCharacters))
         }
         
         return formattedValue
@@ -139,18 +141,18 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     
     func splitParameterValue(key: String, value: String)-> [String : NSObject]{
         // Only using last identifier
-        let components = value.componentsSeparatedByString("@")
-        return [key: components.last!]
+        let components = value.components(separatedBy:"@")
+        return [key: components.last! as NSObject]
     }
 }
 
 extension String {
     
     func replace(string:String, replacement:String) -> String {
-        return self.stringByReplacingOccurrencesOfString(string, withString: replacement, options: NSStringCompareOptions.LiteralSearch, range: nil)
+        return self.replacingOccurrences(of: string, with: replacement, options: NSString.CompareOptions.literal, range: nil)
     }
     
     func contains(find: String) -> Bool{
-        return self.rangeOfString(find) != nil
+        return self.range(of: find) != nil
     }
 }

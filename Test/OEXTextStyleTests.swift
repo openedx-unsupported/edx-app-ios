@@ -9,7 +9,7 @@
 import edX
 import XCTest
 
-func verifyEqualityWithNewValue<A>(style : OEXTextStyle, _ copy : OEXMutableTextStyle, _ testValue : A, _ setter : (OEXMutableTextStyle, A) -> Void, _ getter : OEXTextStyle -> A) {
+func verifyEqualityWithNewValue<A>(_ style : OEXTextStyle, _ copy : OEXMutableTextStyle, _ testValue : A, _ setter : (OEXMutableTextStyle, A) -> Void, _ getter : (OEXTextStyle) -> A) {
     XCTAssertEqual(style, copy)
     setter(copy, testValue)
     XCTAssertNotEqual(style, copy)

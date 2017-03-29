@@ -16,17 +16,17 @@ class UserProfileNetworkPresenterTests: XCTestCase {
         return UserProfile(username: "some person", bio: "Test bio")
     }
 
-    private func presenterWithProfile(profile: UserProfile, badges: [BadgeAssertion]) -> UserProfilePresenter {
+    fileprivate func presenterWithProfile(_ profile: UserProfile, badges: [BadgeAssertion]) -> UserProfilePresenter {
         let config = OEXConfig(dictionary: ["BADGES_ENABLED": true])
         let environment = TestRouterEnvironment(config: config)
         let accomplishments = badges.map {
             return Accomplishment(badge: $0, networkManager: environment.networkManager)
         }
-        environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (NSData?, Paginated<[Accomplishment]>) in
+        environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (Data?, Paginated<[Accomplishment]>) in
             let paginatedAccomplishments = Paginated(pagination: PaginationInfo(totalCount: accomplishments.count, pageCount: 1), value: accomplishments)
             return (nil, paginatedAccomplishments)
         }
-        environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (NSData?, UserProfile) in
+        environment.mockNetworkManager.interceptWhenMatching({_ in true}) { () -> (Data?, UserProfile) in
             (nil, profile)
         }
         return UserProfileNetworkPresenter(environment: environment, username: "test")
@@ -42,8 +42,8 @@ class UserProfileNetworkPresenterTests: XCTestCase {
     func testAchievementsTabExistsWhenBadges() {
         let presenter = presenterWithProfile(sampleProfile, badges:
             [
-                BadgeAssertion(assertionURL: NSURL(string:"http://somebadge.com")!, imageURL: "http://example.com/image", badgeClass: BadgeClass(name: "Good job!")),
-                BadgeAssertion(assertionURL: NSURL(string:"http://somebadge.com")!, imageURL: "http://example.com/image", badgeClass: BadgeClass(name: "Good job!"))
+                BadgeAssertion(assertionURL: URL(string:"http://somebadge.com")!, imageURL: "http://example.com/image", badgeClass: BadgeClass(name: "Good job!")),
+                BadgeAssertion(assertionURL: URL(string:"http://somebadge.com")!, imageURL: "http://example.com/image", badgeClass: BadgeClass(name: "Good job!"))
             ]
         )
         waitForStream(presenter.tabStream) {tabs in

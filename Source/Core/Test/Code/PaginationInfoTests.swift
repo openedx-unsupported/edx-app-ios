@@ -22,8 +22,8 @@ class PaginationInfoTests: XCTestCase {
         let info = PaginationInfo(json: json)
         XCTAssertEqual(info!.pageCount, 3)
         XCTAssertEqual(info!.totalCount, 25)
-        XCTAssertEqual(info!.next, NSURL(string: "http://example.com/next")!)
-        XCTAssertEqual(info!.previous, NSURL(string: "http://example.com/previous")!)
+        XCTAssertEqual(info!.next, URL(string: "http://example.com/next")!)
+        XCTAssertEqual(info!.previous, URL(string: "http://example.com/previous")!)
     }
     
     func testParseFailure() {
@@ -67,7 +67,7 @@ class PaginationInfoTests: XCTestCase {
         XCTAssertEqual(paginated.query[PaginationDefaults.pageSizeParam], JSON(PaginationDefaults.pageSize))
         XCTAssertEqual(paginated.query["A"], JSON("B"))
         
-        let response = NSHTTPURLResponse(URL: NSURL(string: "http://example.com/")!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!
+        let response = HTTPURLResponse(url: URL(string: "http://example.com/")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
         switch paginated.deserializer {
         case let .JSONResponse(parser):
             let parse = parser(response, JSON([

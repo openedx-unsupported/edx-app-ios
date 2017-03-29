@@ -9,15 +9,15 @@
 
 public struct BadgesAPI {
 
-    private static func badgeAssertionsDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[BadgeAssertion]> {
+    fileprivate static func badgeAssertionsDeserializer(_ response : HTTPURLResponse, json : JSON) -> Result<[BadgeAssertion]> {
         return (json.array?.mapSkippingNils { BadgeAssertion(json: $0) }).toResult(NetworkManager.unknownError)
     }
 
-    public static func requestBadgesForUser(username : String, page: Int = 1) -> NetworkRequest<Paginated<[BadgeAssertion]>> {
+    public static func requestBadgesForUser(_ username : String, page: Int = 1) -> NetworkRequest<Paginated<[BadgeAssertion]>> {
         return NetworkRequest(
             method: .GET,
-            path: "api/badges/v1/assertions/user/{username}".oex_formatWithParameters(["username": username]),
-            deserializer: .JSONResponse(badgeAssertionsDeserializer)
+            path: "api/badges/v1/assertions/user/{username}".oex_format(withParameters: ["username": username]),
+            deserializer: .jsonResponse(badgeAssertionsDeserializer)
         ).paginated(page: page)
     }
 

@@ -13,13 +13,13 @@ import XCTest
 class RegistrationAPITests: XCTestCase {
 
     func testRegistrationDeserializationSuccess() {
-        let response = NSHTTPURLResponse(URL: NSURL(string:"http://example.com/registration")!, statusCode:200, HTTPVersion:nil, headerFields:nil)!
+        let response = HTTPURLResponse(url: URL(string:"http://example.com/registration")!, statusCode:200, httpVersion:nil, headerFields:nil)!
         let result = RegistrationAPI.registrationDeserializer(response, json: [])
         AssertSuccess(result)
     }
 
     func testRegistrationDeserializationFailure() {
-        let response = NSHTTPURLResponse(URL: NSURL(string:"http://example.com/registration")!, statusCode:400, HTTPVersion:nil, headerFields:nil)!
+        let response = HTTPURLResponse(url: URL(string:"http://example.com/registration")!, statusCode:400, httpVersion:nil, headerFields:nil)!
         let result = RegistrationAPI.registrationDeserializer(response, json: ["username":[["user_message":"some message"]]])
         AssertFailure(result)
         print("error is \(result.error ?? "")")

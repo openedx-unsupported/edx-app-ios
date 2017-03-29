@@ -20,7 +20,7 @@ class NetworkManagerTests: XCTestCase {
     }
     
     let authProvider = AuthProvider()
-    let baseURL = NSURL(string:"http://example.com")!
+    let baseURL = URL(string:"http://example.com")!
     let cache = MockResponseCache()
     
     override func tearDown() {
@@ -34,7 +34,7 @@ class NetworkManagerTests: XCTestCase {
             method: HTTPMethod.GET,
             path: "/something",
             requiresAuth: true,
-            body: RequestBody.DataBody(data: "test".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)!, contentType: "edx/content"),
+            body: RequestBody.DataBody(data: "test".dataUsingEncoding(String.Encoding.utf8, allowLossyConversion: false)!, contentType: "edx/content"),
             query: ["a" : JSON("b"), "c":JSON("d")],
             deserializer : .DataResponse({ (response, data) -> Result<Void> in
                 XCTFail("Shouldn't send request")
@@ -115,8 +115,8 @@ class NetworkManagerTests: XCTestCase {
     }
     
     func requestEnvironment() -> (MockNetworkManager, NetworkRequest<NSData>, NSURLRequest) {
-        let manager = MockNetworkManager(authorizationHeaderProvider: authProvider, baseURL: NSURL(string:"http://example.com")!)
-        let request = NetworkRequest<NSData> (
+        let manager = MockNetworkManager(authorizationHeaderProvider: authProvider, baseURL: URL(string:"http://example.com")!)
+        let request = NetworkRequest<Data> (
             method: HTTPMethod.GET,
             path: "path",
             deserializer: .DataResponse({(_, data) in .Success(data)}))
@@ -128,17 +128,17 @@ class NetworkManagerTests: XCTestCase {
         // Tests that if a request is in cache, we will send it and then the actual value from the network
         
         let (manager, request, URLRequest) = requestEnvironment()
-        let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])!
-        let originalData = "original".dataUsingEncoding(NSUTF8StringEncoding)!
+        let response = HTTPURLResponse(URL: URLRequest.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])!
+        let originalData = "original".data(using: String.Encoding.utf8)!
         // first warm the cache
-        let cacheExpectation = expectationWithDescription("Cache Store Completed")
+        let cacheExpectation = expectation(description: "Cache Store Completed")
         manager.responseCache.setCacheResponse(response, withData: originalData, forRequest: URLRequest, completion: {
             cacheExpectation.fulfill()
         })
         waitForExpectations()
         
         // make a request
-        let networkData = "network".dataUsingEncoding(NSUTF8StringEncoding)!
+        let networkData = "network".data(using: String.Encoding.utf8)!
         manager.interceptWhenMatching({_ -> Bool in return true },
                                       afterDelay : 0.1,
                                       withResponse: {_ in
@@ -147,9 +147,9 @@ class NetworkManagerTests: XCTestCase {
         )
         
         // save the results
-        let results = MutableBox<[NSData]>([])
+        let results = MutableBox<[Data]>([])
         let stream = manager.streamForRequest(request, persistResponse: true)
-        let loadedExpectation = expectationWithDescription("Request loaded from cache and regular")
+        let loadedExpectation = expectation(description: "Request loaded from cache and regular")
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
             stream.listen(owner, action: {
                 var found = results.value
@@ -171,11 +171,11 @@ class NetworkManagerTests: XCTestCase {
         let (manager, request, URLRequest) = requestEnvironment()
         manager.interceptWhenMatching({_ -> Bool in return true },
                                       withResponse: {_ in
-                                        return NetworkResult<NSData>(request: URLRequest, response: nil, data: nil, baseData: nil, error: NetworkManager.unknownError)
+                                        return NetworkResult<Data>(request: URLRequest, response: nil, data: nil, baseData: nil, error: NetworkManager.unknownError)
             }
         )
         let stream = manager.streamForRequest(request, persistResponse: true)
-        let loadedExpectation = expectationWithDescription("Request finished")
+        let loadedExpectation = expectation(description: "Request finished")
         
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
             stream.listen(owner) {_ in
@@ -190,7 +190,7 @@ class NetworkManagerTests: XCTestCase {
     func testStreamSettlesInactive() {
         let (manager, request, _) = requestEnvironment()
         let stream = manager.streamForRequest(request)
-        let expectation = expectationWithDescription("stream settles")
+        let expectation = self.expectation(description: "stream settles")
         stream.listen(self) {[weak stream] result in
             if !(stream?.active ?? false) {
                 expectation.fulfill()
@@ -205,23 +205,23 @@ class NetworkManagerTests: XCTestCase {
         // Test that the cache gets an entry when the underlying request succeeds (e.g. network failure, not a 404
         
         let (manager, request, URLRequest) = requestEnvironment()
-        let testData = "testData".dataUsingEncoding(NSUTF8StringEncoding)!
+        let testData = "testData".data(using: String.Encoding.utf8)!
         let headers = ["a" : "b"]
-        let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 404, HTTPVersion: nil, headerFields: headers)!
+        let response = HTTPURLResponse(URL: URLRequest.URL!, statusCode: 404, HTTPVersion: nil, headerFields: headers)!
         manager.interceptWhenMatching({_ -> Bool in return true },
                                       withResponse: {_ in
-                                        return NetworkResult<NSData>(request: URLRequest, response: response, data: testData, baseData: testData, error: nil)
+                                        return NetworkResult<Data>(request: URLRequest, response: response, data: testData, baseData: testData, error: nil)
             }
         )
         let stream = manager.streamForRequest(request, persistResponse: true)
-        let loadedExpectation = expectationWithDescription("Request finished")
+        let loadedExpectation = expectation(description: "Request finished")
         
         stream.listenOnce(self) {_ in
             loadedExpectation.fulfill()
         }
         waitForExpectations()
         
-        let cacheExpectation = expectationWithDescription("Cache Load finished")
+        let cacheExpectation = expectation(description: "Cache Load finished")
         manager.responseCache.fetchCacheEntryWithRequest(URLRequest) {
             XCTAssertEqual($0!.data!, testData)
             XCTAssertEqual($0!.statusCode, response.statusCode)
@@ -234,7 +234,7 @@ class NetworkManagerTests: XCTestCase {
     func testAuthenticationActionAuthenticateSuccess() {
         let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: baseURL, cache : cache)
         
-        let expectation = expectationWithDescription("Request Completes")
+        let expectation = self.expectation(description: "Request Completes")
         let request = NetworkRequest<JSON> (
             method: HTTPMethod.GET,
             path: "path",
@@ -278,7 +278,7 @@ class NetworkManagerTests: XCTestCase {
     func testAuthenticationActionAuthenticateFailure() {
         let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: baseURL, cache : cache)
        
-        let expectation = expectationWithDescription("Request Completes")
+        let expectation = self.expectation(description: "Request Completes")
         let request = NetworkRequest<JSON> (
             method: HTTPMethod.GET,
             path: "path",
@@ -306,7 +306,7 @@ class NetworkManagerTests: XCTestCase {
         waitForExpectations()
     }
     
-    func simpleStubResponseBuilder(statusCode: Int32, data: String) -> OHHTTPStubsResponse{
+    func simpleStubResponseBuilder(_ statusCode: Int32, data: String) -> OHHTTPStubsResponse{
         return OHHTTPStubsResponse(
             data: data.dataUsingEncoding(NSUTF8StringEncoding)!,
             statusCode: statusCode,

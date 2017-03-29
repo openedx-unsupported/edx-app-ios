@@ -41,8 +41,8 @@ extension DiscussionComment {
     init?(json: JSON) {
         guard let
             threadID = json["thread_id"].string,
-            commentID = json["id"].string,
-            author = json["author"].string else
+            let commentID = json["id"].string,
+            let author = json["author"].string else
         {
                 return nil
         }
@@ -57,16 +57,16 @@ extension DiscussionComment {
         self.voted = json["voted"].boolValue
         self.voteCount = json["vote_count"].intValue
         if let dateStr = json["created_at"].string {
-            self.createdAt = OEXDateFormatting.dateWithServerString(dateStr)
+            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = OEXDateFormatting.dateWithServerString(dateStr)
+            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
         }
         self.endorsed = json["endorsed"].boolValue
         self.endorsedBy = json["endorsed_by"].string
         self.endorsedByLabel = json["endorsed_by_label"].string
         if let dateStr = json["endorsed_at"].string {
-            self.endorsedAt = OEXDateFormatting.dateWithServerString(dateStr)
+            self.endorsedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
         }
         self.flagged = json["flagged"].boolValue
         self.abuseFlagged = json["abuse_flagged"].boolValue
@@ -130,7 +130,7 @@ extension DiscussionThread {
     public init?(json: JSON) {
         guard let
             topicId = json["topic_id"].string,
-            identifier = json["id"].string
+            let identifier = json["id"].string
             else
         {
             return nil
@@ -162,10 +162,10 @@ extension DiscussionThread {
         self.unreadCommentCount = json["unread_comment_count"].intValue
         
         if let dateStr = json["created_at"].string {
-            self.createdAt = OEXDateFormatting.dateWithServerString(dateStr)
+            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = OEXDateFormatting.dateWithServerString(dateStr)
+            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
         }
         self.editableFields = json["editable_fields"].string
         if let numberOfResponses = json["response_count"].int {
@@ -173,7 +173,7 @@ extension DiscussionThread {
         }
         
         let users = json["users"].dictionary
-        if let users = users where author != nil {
+        if let users = users, author != nil {
             let user = users[author!]?.dictionary
             if let user = user {
                 let profile = user["profile"]

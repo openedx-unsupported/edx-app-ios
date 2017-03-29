@@ -28,29 +28,29 @@ class RegistrationAPIError : NSError {
 
 public struct RegistrationAPI {
     
-    static func registrationDeserializer(response : NSHTTPURLResponse, json: JSON) -> Result<()> {
+    static func registrationDeserializer(_ response : HTTPURLResponse, json: JSON) -> Result<()> {
         if response.httpStatusCode.is2xx {
-            return .Success(())
+            return .success(())
         }
-        else if response.httpStatusCode == OEXHTTPStatusCode.Code400BadRequest {
+        else if response.httpStatusCode == OEXHTTPStatusCode.code400BadRequest {
             var fields: [String:RegistrationAPIError.Field] = [:]
-            for (key, value) in json.dictionaryValue ?? [:] {
+            for (key, value) in json.dictionaryValue {
                 if let message = value.array?.first?["user_message"].string {
                     fields[key] = RegistrationAPIError.Field(userMessage: message)
                 }
             }
-            return .Failure(RegistrationAPIError(fields: fields))
+            return .failure(RegistrationAPIError(fields: fields))
         }
-        return .Failure(NetworkManager.unknownError)
+        return .failure(NetworkManager.unknownError)
     }
 
     // Registers a new user
-    public static func registrationRequest(fields fields: [String:String]) -> NetworkRequest<()> {
+    public static func registrationRequest(fields: [String:String]) -> NetworkRequest<()> {
         return NetworkRequest(
             method: .POST,
             path: "/user_api/v1/account/registration/",
-            body: .FormEncoded(fields),
-            deserializer: .JSONResponse(registrationDeserializer))
+            body: .formEncoded(fields),
+            deserializer: .jsonResponse(registrationDeserializer))
     }
     
 }

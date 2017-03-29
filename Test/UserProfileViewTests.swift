@@ -41,11 +41,11 @@ class MockPaginator<A>: Paginator {
 
 class UserProfileViewTests: SnapshotTestCase {
 
-    func profileWithPrivacy(privacy : UserProfile.ProfilePrivacy) -> UserProfile {
+    func profileWithPrivacy(_ privacy : UserProfile.ProfilePrivacy) -> UserProfile {
         return UserProfile(username: "Test Person", bio: "Hello I am a lorem ipsum dolor sit amet", parentalConsent: false, countryCode: "de", accountPrivacy: privacy)
     }
     
-    func snapshotContentWithPrivacy(privacy : UserProfile.ProfilePrivacy) {
+    func snapshotContentWithPrivacy(_ privacy : UserProfile.ProfilePrivacy) {
         let presenter = MockProfilePresenter(profile: profileWithPrivacy(privacy), tabs: [])
         let controller = UserProfileViewController(environment: TestRouterEnvironment(), presenter: presenter, editable: true)
         inScreenNavigationContext(controller, action: { () -> () in

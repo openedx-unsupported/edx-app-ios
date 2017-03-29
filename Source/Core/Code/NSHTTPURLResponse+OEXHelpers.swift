@@ -8,12 +8,12 @@
 
 import Foundation
 
-extension NSHTTPURLResponse {
+extension HTTPURLResponse {
     public func hasErrorResponseCode() -> Bool {
         return statusCode >= 400
     }
     
     public var httpStatusCode : OEXHTTPStatusCode {
-        return OEXHTTPStatusCode(rawValue: self.statusCode) ?? .Code500InternalServerError
+        return OEXHTTPStatusCode(rawValue: self.statusCode) ?? .code500InternalServerError
     }
 }

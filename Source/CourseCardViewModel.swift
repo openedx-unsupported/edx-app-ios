@@ -60,7 +60,7 @@ class CourseCardViewModel : NSObject {
         let remoteImage : RemoteImage
         let placeholder = UIImage(named: "placeholderCourseCardImage")
         if let relativeImageURL = courseImageURL,
-            imageURL = NSURL(string: relativeImageURL, relativeToURL: networkManager.baseURL)
+            let imageURL = NSURL(string: relativeImageURL, relativeToURL: networkManager.baseURL)
         {
             remoteImage = RemoteImageImpl(
                 url: imageURL.absoluteString!,

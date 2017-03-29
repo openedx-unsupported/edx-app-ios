@@ -10,7 +10,7 @@
 
 class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     
-    func setupWithCourse(course: OEXCourse, interface: OEXInterface? = nil) -> (TestRouterEnvironment, CourseCatalogDetailViewController) {
+    func setupWithCourse(_ course: OEXCourse, interface: OEXInterface? = nil) -> (TestRouterEnvironment, CourseCatalogDetailViewController) {
         let environment = TestRouterEnvironment(interface: interface).logInTestUser()
         environment.mockEnrollmentManager.enrollments = []
         environment.mockNetworkManager.interceptWhenMatching({_ in true}) {
@@ -45,14 +45,14 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     // MARK: Course Content
     
     func verifyField(
-        effort effort : String? = nil,
+        effort : String? = nil,
         shortDescription: String? = nil,
         overview: String? = nil,
         startInfo: OEXCourseStartDisplayInfo? = nil,
         mediaInfo: [String:CourseMediaInfo] = [:],
         endDate: NSDate? = nil,
         file : StaticString = #file, line : UInt = #line,
-        verifier : CourseCatalogDetailView -> Bool)
+        verifier : (CourseCatalogDetailView) -> Bool)
     {
         let course = OEXCourse.freshCourse(
             shortDescription: shortDescription,
@@ -131,7 +131,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
         }
     }
     
-    func verifyEnrollmentSuccessWithCourse(course: OEXCourse, message: String, setupEnvironment: (TestRouterEnvironment -> Void)? = nil) -> TestRouterEnvironment {
+    func verifyEnrollmentSuccessWithCourse(_ course: OEXCourse, message: String, setupEnvironment: ((TestRouterEnvironment) -> Void)? = nil) -> TestRouterEnvironment {
         let (environment, controller) = setupWithCourse(course)
         environment.mockEnrollmentManager.enrollments = []
         setupEnvironment?(environment)

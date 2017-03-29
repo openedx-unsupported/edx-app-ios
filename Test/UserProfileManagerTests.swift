@@ -17,7 +17,7 @@ class UserProfileManagerTests : XCTestCase {
         let session = OEXSession(credentialStore: credentialStorage)
         session.loadTokenFromStore()
         
-        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string:"http://example.com")!)
+        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string:"http://example.com")!)
         networkManager.interceptWhenMatching({ $0.method == .GET}, successResponse: {
             return (nil, UserProfile(username: credentialStorage.storedUserDetails!.username!))
         })
@@ -84,7 +84,7 @@ class UserProfileManagerTests : XCTestCase {
         let newBio = "Test Passed"
         profile.updateDictionary = ["bio" : newBio]
         
-        networkManager.interceptWhenMatching({ $0.method == .PATCH}) { () -> (NSData?, UserProfile) in
+        networkManager.interceptWhenMatching({ $0.method == .PATCH}) { () -> (Data?, UserProfile) in
             let newProfile = profile
             newProfile.bio = newBio
             return (nil, newProfile)

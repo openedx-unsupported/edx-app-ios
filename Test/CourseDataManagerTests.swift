@@ -14,9 +14,9 @@ class CourseDataManagerTests: XCTestCase {
     
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     
-    func checkOutlineLoadsWithQuerier(querier : CourseOutlineQuerier, rootID : CourseBlockID, line : UInt = #line, file : StaticString = #file) {
+    func checkOutlineLoadsWithQuerier(_ querier : CourseOutlineQuerier, rootID : CourseBlockID, line : UInt = #line, file : StaticString = #file) {
         let rootStream = querier.blockWithID(nil)
-        let expectation = self.expectationWithDescription("Outline loads from network")
+        let expectation = self.expectation(description: "Outline loads from network")
         rootStream.listenOnce(self) {rootBlock in
             XCTAssertEqual(rootBlock.value!.blockID, rootID, file : file, line : line)
             expectation.fulfill()
@@ -24,9 +24,9 @@ class CourseDataManagerTests: XCTestCase {
         waitForExpectations()
     }
     
-    func addInterceptorForOutline(networkManager: MockNetworkManager, outline : CourseOutline) {
+    func addInterceptorForOutline(_ networkManager: MockNetworkManager, outline : CourseOutline) {
         networkManager.interceptWhenMatching({_ in true}, successResponse: {
-            return (NSData(), outline)
+            return (Data(), outline)
         })
     }
     

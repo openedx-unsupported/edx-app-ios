@@ -30,17 +30,17 @@ class FeatureTestCase : XCTestCase {
 /// Requires the current test to be a subclass of FeatureTestCase
 protocol FeatureInteractor {}
 extension FeatureInteractor {
-    func waitForElement(element: XCUIElement, predicate: NSPredicate = NSPredicate(format: "exists == true"), file: String = #file, line: UInt = #line) {
+    func waitForElement(_ element: XCUIElement, predicate: NSPredicate = NSPredicate(format: "exists == true"), file: String = #file, line: UInt = #line) {
         
-        FeatureTestCase.activeTest.expectationForPredicate(predicate, evaluatedWithObject: element, handler: nil)
+        FeatureTestCase.activeTest.expectation(for: predicate, evaluatedWith: element, handler: nil)
         FeatureTestCase.activeTest.waitForExpectations { (error) -> Void in
             if error != nil {
-                FeatureTestCase.activeTest.recordFailureWithDescription("Timeout waiting for element: \(element)", inFile: file, atLine: line, expected: true)
+                FeatureTestCase.activeTest.recordFailure(withDescription: "Timeout waiting for element: \(element)", inFile: file, atLine: line, expected: true)
             }
         }
     }
     
-    func waitForElementNonNullValue(element: XCUIElement, file: String = #file, line: UInt = #line) {
+    func waitForElementNonNullValue(_ element: XCUIElement, file: String = #file, line: UInt = #line) {
         waitForElement(element, predicate: NSPredicate(format: "value != nil"), file: file, line: line)
     }
 
@@ -50,14 +50,14 @@ extension FeatureInteractor {
     var textFields: XCUIElementQuery { return XCUIApplication().textFields }
     var secureTextFields: XCUIElementQuery { return XCUIApplication().secureTextFields }
 
-    func find(identifier identifier: String, type: XCUIElementType = .Any) -> XCUIElement {
-        return XCUIApplication().descendantsMatchingType(type)[identifier]
+    func find(identifier: String, type: XCUIElementType = .any) -> XCUIElement {
+        return XCUIApplication().descendants(matching: type)[identifier]
     }
 
-    func pickerWheel(identifier identifier: String, index: UInt = 0) -> XCUIElement {
+    func pickerWheel(identifier: String, index: UInt = 0) -> XCUIElement {
         // You can't actually manipulate the "picker" itself. You have to manipulate the individual wheel. 
         // However, the wheel doesn't have a direct name, so you have to access it by index, even if there's only one wheel.
-        return find(identifier: identifier, type: .Picker).descendantsMatchingType(.PickerWheel).elementBoundByIndex(index)
+        return find(identifier: identifier, type: .picker).descendants(matching: .pickerWheel).element(boundBy: index)
     }
 }
 

@@ -12,7 +12,7 @@ import Foundation
 
 class MockEnrollmentManager: EnrollmentManager {
     
-    private lazy var enrollmentSink : Sink<[UserCourseEnrollment]> = {
+    fileprivate lazy var enrollmentSink : Sink<[UserCourseEnrollment]> = {
         let sink = Sink<[UserCourseEnrollment]>()
         sink.close()
         return sink
@@ -36,7 +36,7 @@ class MockEnrollmentManager: EnrollmentManager {
         }
     }
     
-    override func freshFeedWithUsername(username: String, organizationCode: String?) -> Feed<[UserCourseEnrollment]> {
+    override func freshFeedWithUsername(_ username: String, organizationCode: String?) -> Feed<[UserCourseEnrollment]> {
         return Feed {[unowned self] in
             $0.backWithStream(self.enrollmentSink)
             return

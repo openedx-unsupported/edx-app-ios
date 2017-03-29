@@ -13,7 +13,7 @@ import edX
 class OEXCourseTests: XCTestCase {
 
     func testStartOld() {
-        let date = NSDate().dateByAddingTimeInterval(-1000)
+        let date = Date().addingTimeInterval(-1000)
         let course = OEXCourse(dictionary: [
             "start" : OEXDateFormatting.serverStringWithDate(date)
             ])
@@ -21,7 +21,7 @@ class OEXCourseTests: XCTestCase {
     }
     
     func testStartNotOld() {
-        let date = NSDate().dateByAddingTimeInterval(1000)
+        let date = Date().addingTimeInterval(1000)
         let course = OEXCourse(dictionary: [
             "start" : OEXDateFormatting.serverStringWithDate(date)
             ])
@@ -29,7 +29,7 @@ class OEXCourseTests: XCTestCase {
     }
     
     func testEndOld() {
-        let date = NSDate().dateByAddingTimeInterval(-1000)
+        let date = Date().addingTimeInterval(-1000)
         let course = OEXCourse(dictionary: [
             "end" : OEXDateFormatting.serverStringWithDate(date)
             ])
@@ -37,7 +37,7 @@ class OEXCourseTests: XCTestCase {
     }
     
     func testEndNotOld() {
-        let date = NSDate().dateByAddingTimeInterval(1000)
+        let date = Date().addingTimeInterval(1000)
         let course = OEXCourse(dictionary: [
             "end" : OEXDateFormatting.serverStringWithDate(date)
             ])

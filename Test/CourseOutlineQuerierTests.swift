@@ -16,7 +16,7 @@ class CourseOutlineQuerierTests: XCTestCase {
     
     func testBlockLoadsFromNetwork() {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
-        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://www.example.com")!)
+        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://www.example.com")!)
         networkManager.interceptWhenMatching({_ in true}, successResponse: {
             return (nil, outline)
         })
@@ -24,7 +24,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         
         let blockID = CourseOutlineTestDataFactory.knownSection()
         let blockStream = querier.blockWithID(blockID)
-        let expectation = expectationWithDescription("block loads")
+        let expectation = self.expectation(description: "block loads")
         let removable = blockStream.listen(self) {block in
             XCTAssertEqual(block.value!.blockID, blockID)
             expectation.fulfill()
@@ -43,7 +43,7 @@ class CourseOutlineQuerierTests: XCTestCase {
             default: return nil
             }
         }
-        let expectation = expectationWithDescription("Map Finished")
+        let expectation = self.expectation(description: "Map Finished")
         let removable = htmlNodeStream.listen(self) {blocks in
             XCTAssertEqual(Set(blocks.value!), Set(knownNodes))
             expectation.fulfill()
@@ -85,13 +85,13 @@ class CourseOutlineQuerierTests: XCTestCase {
     }
     
     func testReloadsAfterFailure() {
-        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://www.example.com")!)
+        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://www.example.com")!)
         let querier = CourseOutlineQuerier(courseID: courseID, interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil)
         let blockID = CourseOutlineTestDataFactory.knownSection()
         
         // attempt to load a block but there's no outline in network or cache so it should fail
         var blockStream = querier.blockWithID(blockID)
-        var expectation = expectationWithDescription("block fails to load")
+        var expectation = self.expectation(description: "block fails to load")
         var removable = blockStream.listen(self) {[weak blockStream] result in
             XCTAssertTrue(result.isFailure)
             if !(blockStream?.active ?? false) {
@@ -107,7 +107,7 @@ class CourseOutlineQuerierTests: XCTestCase {
             return (nil, outline)
         }
         
-        expectation = expectationWithDescription("block loads")
+        expectation = self.expectation(description: "block loads")
         
         // the stream should now have the newly available outline so a fresh request should succeed
         blockStream = querier.blockWithID(blockID)

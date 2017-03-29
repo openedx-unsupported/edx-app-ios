@@ -10,8 +10,8 @@ import Foundation
 import XCTest
 
 enum FormItem {
-    case Text(String)
-    case Picker(String)
+    case text(String)
+    case picker(String)
 }
 
 class RegistrationScreenInteractor : FeatureInteractor {
@@ -27,16 +27,16 @@ class RegistrationScreenInteractor : FeatureInteractor {
         return buttons["register"]
     }
 
-    func enterValues(values values: [String:FormItem]) -> RegistrationScreenInteractor {
+    func enterValues(values: [String:FormItem]) -> RegistrationScreenInteractor {
         for (key, value) in values {
             let element = find(identifier: "field-" + key)
             switch value {
-            case let .Text(content):
+            case let .text(content):
                 element.clearAndEnterText(content)
-            case let .Picker(content):
+            case let .picker(content):
                 element.tap()
                 let picker = pickerWheel(identifier: "picker-field-" + key)
-                picker.adjustToPickerWheelValue(content)
+                picker.adjust(toPickerWheelValue: content)
             }
         }
         return self

@@ -16,7 +16,7 @@ class OEXRegistrationViewControllerTests: SnapshotTestCase {
         
         let controller = OEXRegistrationViewController(environment: environment)
         OHHTTPStubs.stubRequestsPassingTest({ _ in true}) {request in
-            OHHTTPStubsResponse(data: NSData(), statusCode: 404, headers: [:])
+            OHHTTPStubsResponse(data: Data(), statusCode: 404, headers: [:])
         }
         controller.t_registerWithParameters([:])
 

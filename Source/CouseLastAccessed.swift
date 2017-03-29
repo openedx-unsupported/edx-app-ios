@@ -16,7 +16,7 @@ public struct CourseLastAccessed {
     public var moduleName : String?
     
     public init?(json:JSON) {
-        if let module_id = json["last_visited_module_id"].string, modulePathArray = json["last_visited_module_path"].array?.mapOrFailIfNil({$0.string})  {
+        if let module_id = json["last_visited_module_id"].string, let modulePathArray = json["last_visited_module_path"].array?.mapOrFailIfNil({$0.string})  {
             self.moduleId = module_id
             self.modulePath = modulePathArray
         }

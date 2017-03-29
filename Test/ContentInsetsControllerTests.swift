@@ -32,7 +32,7 @@ class ContentInsetsControllerTests: XCTestCase {
         
         insetsController.updateInsets()
         XCTAssertEqual(scrollView.contentInset, insets)
-        XCTAssertEqual(scrollView.scrollIndicatorInsets, UIEdgeInsetsZero)
+        XCTAssertEqual(scrollView.scrollIndicatorInsets, UIEdgeInsets.zero)
     }
     
     func testSourcesSum() {
@@ -56,13 +56,13 @@ class ContentInsetsControllerTests: XCTestCase {
         // now fire the keyboard
         let keyboardHeight : CGFloat = 100
         let intersectionHeight : CGFloat = 20
-        var keyboardFrame = CGRectMake(0, viewController.view.bounds.size.height - keyboardHeight + intersectionHeight, viewController.view.bounds.size.width, keyboardHeight)
-        var info : [NSObject:AnyObject] = [
-            UIKeyboardAnimationCurveUserInfoKey : UIViewAnimationCurve.EaseInOut.rawValue as NSNumber,
+        var keyboardFrame = CGRect(x: 0, y: viewController.view.bounds.size.height - keyboardHeight + intersectionHeight, width: viewController.view.bounds.size.width, height: keyboardHeight)
+        var info : [AnyHashable: Any] = [
+            UIKeyboardAnimationCurveUserInfoKey : UIViewAnimationCurve.easeInOut.rawValue as NSNumber,
             UIKeyboardAnimationDurationUserInfoKey : 0 as NSNumber,
-            UIKeyboardFrameEndUserInfoKey : NSValue(CGRect : keyboardFrame)
+            UIKeyboardFrameEndUserInfoKey : NSValue(cgRect : keyboardFrame)
         ]
-        NSNotificationCenter.defaultCenter().postNotificationName(UIKeyboardDidChangeFrameNotification, object: nil, userInfo: info)
+        NotificationCenter.default.post(name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil, userInfo: info)
         
         // keyboard height should be used instead of insets bottom
         XCTAssertEqual(scrollView.contentInset, UIEdgeInsetsMake(insets.top, 0, keyboardHeight - intersectionHeight, 0))
@@ -70,13 +70,13 @@ class ContentInsetsControllerTests: XCTestCase {
         
         // now lower the keyboard.
         
-        keyboardFrame = CGRectMake(0, viewController.view.bounds.size.height, viewController.view.bounds.size.width, keyboardHeight)
+        keyboardFrame = CGRect(x: 0, y: viewController.view.bounds.size.height, width: viewController.view.bounds.size.width, height: keyboardHeight)
         info = [
-            UIKeyboardAnimationCurveUserInfoKey : UIViewAnimationCurve.EaseInOut.rawValue as NSNumber,
+            UIKeyboardAnimationCurveUserInfoKey : UIViewAnimationCurve.easeInOut.rawValue as NSNumber,
             UIKeyboardAnimationDurationUserInfoKey : 0 as NSNumber,
-            UIKeyboardFrameEndUserInfoKey : NSValue(CGRect : keyboardFrame)
+            UIKeyboardFrameEndUserInfoKey : NSValue(cgRect : keyboardFrame)
         ]
-        NSNotificationCenter.defaultCenter().postNotificationName(UIKeyboardDidChangeFrameNotification, object: nil, userInfo: info)
+        NotificationCenter.default.post(name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil, userInfo: info)
         
         // insets.bottom should be back
         XCTAssertEqual(scrollView.contentInset, insets)

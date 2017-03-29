@@ -13,11 +13,11 @@ class MockCourseDataManager : CourseDataManager {
     var querier : CourseOutlineQuerier?
     var topicsManager : DiscussionDataManager?
     
-    override func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
+    override func querierForCourseWithID(_ courseID : String) -> CourseOutlineQuerier {
         return querier ?? super.querierForCourseWithID(courseID)
     }
     
-    override func discussionManagerForCourseWithID(courseID: String) -> DiscussionDataManager {
+    override func discussionManagerForCourseWithID(_ courseID: String) -> DiscussionDataManager {
         return topicsManager ?? super.discussionManagerForCourseWithID(courseID)
     }
 }

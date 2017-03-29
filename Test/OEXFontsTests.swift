@@ -17,9 +17,9 @@ class OEXFontsTests: XCTestCase {
     }
     
     func testFontFileExistence() {
-        let filePath : String? = NSBundle.mainBundle().pathForResource("fonts", ofType: "json")
+        let filePath : String? = Bundle.main.path(forResource: "fonts", ofType: "json")
         XCTAssertNotNil(filePath)
-        XCTAssertTrue(NSFileManager.defaultManager().fileExistsAtPath(filePath ?? ""))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: filePath ?? ""))
     }
     
     func testFontDataFactory() {

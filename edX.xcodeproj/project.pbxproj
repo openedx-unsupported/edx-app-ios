@@ -667,6 +667,9 @@
 		E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */; };
 		E01F45671E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */; };
 		E02165AF1E39D3040058D685 /* UIImage_OEXHelpersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */; };
+		E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02F65651E8B94CC000D1C4E /* TZSpacerView.swift */; };
+		E02F65691E8B94CC000D1C4E /* TZStackViewAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02F65661E8B94CC000D1C4E /* TZStackViewAlignment.swift */; };
+		E02F656A1E8B94CC000D1C4E /* TZStackViewDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = E02F65671E8B94CC000D1C4E /* TZStackViewDistribution.swift */; };
 		E03402211C7F1FC9003EB9B7 /* DiscussionResponsesDataControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */; };
 		E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */; };
 		E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A141D38C91F00944AAA /* OfflineSupportViewController.swift */; };
@@ -1563,6 +1566,9 @@
 		E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsTracker.swift; sourceTree = "<group>"; };
 		E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage_OEXHelpersTests.swift; sourceTree = "<group>"; };
 		E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DiscussionPosts.json; sourceTree = "<group>"; };
+		E02F65651E8B94CC000D1C4E /* TZSpacerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TZSpacerView.swift; sourceTree = "<group>"; };
+		E02F65661E8B94CC000D1C4E /* TZStackViewAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TZStackViewAlignment.swift; sourceTree = "<group>"; };
+		E02F65671E8B94CC000D1C4E /* TZStackViewDistribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TZStackViewDistribution.swift; sourceTree = "<group>"; };
 		E034021F1C7F1F92003EB9B7 /* DiscussionResponsesDataControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataControllerTests.swift; sourceTree = "<group>"; };
 		E03402221C7F2173003EB9B7 /* DiscussionTestsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTestsDataFactory.swift; sourceTree = "<group>"; };
 		E03E6A141D38C91F00944AAA /* OfflineSupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineSupportViewController.swift; sourceTree = "<group>"; };
@@ -2117,6 +2123,9 @@
 		77509D8B1BE1710200B10CD3 /* TZStackView */ = {
 			isa = PBXGroup;
 			children = (
+				E02F65651E8B94CC000D1C4E /* TZSpacerView.swift */,
+				E02F65661E8B94CC000D1C4E /* TZStackViewAlignment.swift */,
+				E02F65671E8B94CC000D1C4E /* TZStackViewDistribution.swift */,
 				77509D8F1BE1710200B10CD3 /* TZStackView.swift */,
 			);
 			name = TZStackView;
@@ -3497,22 +3506,22 @@
 				TargetAttributes = {
 					77E6478D1C90C10300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 					};
 					77E647961C90C10300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Manual;
 					};
 					77E6482F1C91016300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Manual;
 						TestTargetID = BECB7B0A1924C0C3009C77F1;
 					};
 					BECB7B0A1924C0C3009C77F1 = {
 						DevelopmentTeam = 57UCUYGPA2;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3528,7 +3537,7 @@
 					};
 					BECB7B2B1924C0C3009C77F1 = {
 						DevelopmentTeam = 57UCUYGPA2;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = BECB7B0A1924C0C3009C77F1;
 					};
@@ -3989,6 +3998,7 @@
 				E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */,
 				BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */,
 				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
+				E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */,
 				7772BEA61AFA68330081CA7A /* ConstraintMaker.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
@@ -4045,6 +4055,7 @@
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
 				1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */,
 				9EA4788B1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift in Sources */,
+				E02F656A1E8B94CC000D1C4E /* TZStackViewDistribution.swift in Sources */,
 				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
 				778F17781C0D123F0099BF93 /* CourseCatalogViewController.swift in Sources */,
 				1AB539E41BFA24DC0065501F /* CertificateViewController.swift in Sources */,
@@ -4076,6 +4087,7 @@
 				77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */,
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
 				770848BA1B200C76002FEEEE /* ViewTopMessageController.swift in Sources */,
+				E02F65691E8B94CC000D1C4E /* TZStackViewAlignment.swift in Sources */,
 				778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */,
 				9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */,
 				77503E8A1B275F4500C47229 /* UIDevice+OSVersion.swift in Sources */,
@@ -4574,7 +4586,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Profile;
@@ -4628,7 +4640,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edXTests;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/edX";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -4658,7 +4670,7 @@
 				PRODUCT_NAME = edXCore;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -4689,7 +4701,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
 				PRODUCT_NAME = edXCore;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -4720,7 +4732,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
 				PRODUCT_NAME = edXCore;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -4745,7 +4757,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -4767,7 +4779,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -4789,7 +4801,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Profile;
 		};
@@ -4810,7 +4822,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = edX;
 				USES_XCTRUNNER = YES;
 			};
@@ -4833,7 +4845,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = edX;
 				USES_XCTRUNNER = YES;
 			};
@@ -4856,7 +4868,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = edX;
 				USES_XCTRUNNER = YES;
 			};
@@ -4986,7 +4998,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -5021,7 +5033,7 @@
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -5076,7 +5088,7 @@
 				PRODUCT_NAME = edXTests;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/edX";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -5131,7 +5143,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edXTests;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/edX";
 				WRAPPER_EXTENSION = xctest;
 			};

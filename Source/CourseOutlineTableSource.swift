@@ -17,13 +17,13 @@ protocol CourseOutlineTableControllerDelegate : class {
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
     
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider>
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider
     
     weak var delegate : CourseOutlineTableControllerDelegate?
     private let environment : Environment
     private let courseQuerier : CourseOutlineQuerier
     
-    private let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 44))
+    private let headerContainer = UIView(frame: CGRectMake(0, 0, UIScreen.main.bounds.size.width, 44))
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRectZero, styles: OEXStyles.sharedStyles(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
     
@@ -48,7 +48,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.registerClass(CourseVideoTableViewCell.self, forCellReuseIdentifier: CourseVideoTableViewCell.identifier)
         tableView.registerClass(CourseHTMLTableViewCell.self, forCellReuseIdentifier: CourseHTMLTableViewCell.identifier)
         tableView.registerClass(CourseProblemTableViewCell.self, forCellReuseIdentifier: CourseProblemTableViewCell.identifier)
-        tableView.registerClass(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
+        tableView.register(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.registerClass(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         tableView.registerClass(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
         
@@ -77,7 +77,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         if let path = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRowAtIndexPath(path, animated: false)
         }
-        if let highlightID = highlightedBlockID, indexPath = indexPathForBlockWithID(highlightID)
+        if let highlightID = highlightedBlockID, let indexPath = indexPathForBlockWithID(highlightID)
         {
             tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Middle, animated: false)
         }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension NSUUID {
+extension UUID {
 
     // We want to generate random usernames for tests, so ideally we would just generate a UUID.
     // But regular UUIDs are too long to be an edX username.
@@ -21,7 +21,7 @@ extension NSUUID {
         /// For example, hexValue("F") = 15, hexValue("7") = 7.
         /// *Crashes* if given a character outside [0-9A-F].
         /// As such, it should be used carefully and is not suitable for use outside of test code.
-        func hexValue(scalar : UnicodeScalar) -> UInt32 {
+        func hexValue(_ scalar : UnicodeScalar) -> UInt32 {
             enum Sentinal : String {
                 case A = "A"
                 case F = "F"
@@ -44,7 +44,7 @@ extension NSUUID {
             }
         }
 
-        let hex = self.UUIDString.componentsSeparatedByString("-").joinWithSeparator("")
+        let hex = self.uuidString.components(separatedBy: "-").joined(separator: "")
         var accumulator : [UInt32] = []
 
         // Create a buffer that will be our UUID hex string as actual hex bytes
@@ -57,21 +57,21 @@ extension NSUUID {
             accumulator.append(hexValue(character))
             if(accumulator.count == 2) {
                 var value = accumulator[0] + (accumulator[1] << 4)
-                data.appendBytes(&value, length: 1)
+                data.append(&value, length: 1)
                 accumulator.removeAll()
             }
         }
 
-        var result = data.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+        var result = data.base64EncodedString(options: .lineLength64Characters)
         for remaining in accumulator {
-            result.append(UnicodeScalar(remaining))
+            result.append(String(describing: UnicodeScalar(remaining)))
         }
         // Replace characters not allowed in usernames and remove the unnecessary tail of "=" from base64.
         // It doesn't matter how we do this exactly, since we never decode this out of base64.
         // Our goal is just to get a unique token that only users username safe characters
         return result
-            .stringByReplacingOccurrencesOfString("/", withString: "-")
-            .stringByReplacingOccurrencesOfString("+", withString: "_")
-            .stringByReplacingOccurrencesOfString("=", withString: "")
+            .replacingOccurrences(of: "/", with: "-")
+            .replacingOccurrences(of: "+", with: "_")
+            .replacingOccurrences(of: "=", with: "")
     }
 }

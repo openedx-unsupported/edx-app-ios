@@ -11,7 +11,7 @@ import XCTest
 
 class UserAgentGenerationOperationTests : XCTestCase {
     func testLoadBasic() {
-        let queue = NSOperationQueue()
+        let queue = OperationQueue()
         let operation = UserAgentGenerationOperation()
         queue.addOperation(operation)
         waitForStream(operation.t_resultStream) {
@@ -24,13 +24,13 @@ class UserAgentGenerationOperationTests : XCTestCase {
     func testOverride() {
         let userDefaults = OEXMockUserDefaults()
         let userDefaultsMock = userDefaults.installAsStandardUserDefaults()
-        let expectation = expectationWithDescription("User agent overriden")
+        let expectation = self.expectation(description: "User agent overriden")
         UserAgentOverrideOperation.overrideUserAgent {
             expectation.fulfill()
         }
         waitForExpectations()
         
-        let queue = NSOperationQueue()
+        let queue = OperationQueue()
         let operation = UserAgentGenerationOperation()
         queue.addOperation(operation)
         waitForStream(operation.t_resultStream) {

@@ -16,9 +16,9 @@ class OEXColorsTests: XCTestCase {
     }
     
     func testColorFileExistence() {
-        let filePath : String? = NSBundle.mainBundle().pathForResource("colors", ofType: "json")
+        let filePath : String? = Bundle.main.path(forResource: "colors", ofType: "json")
         XCTAssertNotNil(filePath)
-        XCTAssertTrue(NSFileManager.defaultManager().fileExistsAtPath(filePath ?? ""))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: filePath ?? ""))
     }
     
     func testColorDataFactory() {

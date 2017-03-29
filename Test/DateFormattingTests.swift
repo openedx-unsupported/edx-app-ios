@@ -14,7 +14,7 @@ class DateFormattingTests: XCTestCase {
     
     func testConvertAndRevertTime() {
         
-        let testDate = NSDate()
+        let testDate = Date()
         let convertedDate = OEXDateFormatting.serverStringWithDate(testDate)
         let revertedDate = OEXDateFormatting.dateWithServerString(convertedDate)
         
@@ -25,10 +25,10 @@ class DateFormattingTests: XCTestCase {
     }
 
     func testUserFacingTimeForPosts() {
-        let currentDate = NSDate()
+        let currentDate = Date()
 
-        let dateLesserThanSevenDaysOld = NSDate(timeInterval: -(60*60*24*3), sinceDate: currentDate)
-        let dateMoreThanSevenDaysOld = NSDate(timeInterval: -(60*60*24*8), sinceDate: currentDate)
+        let dateLesserThanSevenDaysOld = Date(timeInterval: -(60*60*24*3), since: currentDate)
+        let dateMoreThanSevenDaysOld = Date(timeInterval: -(60*60*24*8), since: currentDate)
         
         let localizedStringForSpan = dateLesserThanSevenDaysOld.timeAgoSinceDate(currentDate)
         

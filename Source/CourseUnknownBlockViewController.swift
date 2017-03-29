@@ -10,7 +10,7 @@ import UIKit
 
 class CourseUnknownBlockViewController: UIViewController, CourseBlockViewController {
     
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXAnalyticsProvider>
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXAnalyticsProvider
     
     let environment : Environment
 
@@ -19,7 +19,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     var block: CourseBlock?
     var messageView : IconMessageView?
     
-    var loader : Stream<NSURL?>?
+    var loader : Stream<URL?>?
     init(blockID : CourseBlockID?, courseID : String, environment : Environment) {
         self.blockID = blockID
         self.courseID = courseID
@@ -27,12 +27,12 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         super.init(nibName: nil, bundle: nil)
         
-        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(self.courseID)
+        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID)
         courseQuerier.blockWithID(blockID).extendLifetimeUntilFirstResult (
             success:
             { [weak self] block in
                 self?.block = block
-                if let video = block.type.asVideo where video.isYoutubeVideo{
+                if let video = block.type.asVideo, video.isYoutubeVideo{
                     self?.showYoutubeMessage(Strings.Video.viewOnYoutube, message: Strings.Video.onlyOnYoutube, icon: Icon.CourseModeVideo, videoUrl: video.videoURL)
                 }
                 else {
@@ -49,8 +49,8 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         messageView = IconMessageView(icon: icon, message: message)
         messageView?.buttonInfo = MessageButtonInfo(title : buttonTitle)
         {
-            if let videoURL = videoUrl, url =  NSURL(string: videoURL) {
-                UIApplication.sharedApplication().openURL(url)
+            if let videoURL = videoUrl, let url =  URL(string: videoURL) {
+                UIApplication.shared.openURL(url as URL)
             }
         }
         
@@ -81,7 +81,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
     }
     
@@ -111,7 +111,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if loader?.value == nil {
@@ -124,7 +124,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     private func logOpenInBrowserEvent() {
         guard let block = block else { return }
         
-        environment.analytics.trackOpenInBrowserWithURL(block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
+        environment.analytics.trackOpenInBrowser(withURL: block.blockURL?.absoluteString ?? "", courseID: courseID, blockID: block.blockID, minifiedBlockID: block.minifiedBlockID ?? "", supported: block.multiDevice)
         
     }
     

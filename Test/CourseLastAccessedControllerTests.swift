@@ -12,8 +12,8 @@ import edX
 
 
 class MockLastAccessedDelegate : CourseLastAccessedControllerDelegate {
-    var didFetchAction : (CourseLastAccessed? -> Void)?
-    func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
+    var didFetchAction : ((CourseLastAccessed?) -> Void)?
+    func courseLastAccessedControllerDidFetchLastAccessedItem(_ item: CourseLastAccessed?) {
         didFetchAction?(item)
     }
 }
@@ -37,7 +37,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         environment = TestRouterEnvironment()
         environment.mockCourseDataManager.querier = querier
         
-        environment.mockNetworkManager.interceptWhenMatching({_ in return true}, successResponse: { () -> (NSData?,CourseLastAccessed) in
+        environment.mockNetworkManager.interceptWhenMatching({_ in return true}, successResponse: { () -> (Data?,CourseLastAccessed) in
             return (nil, self.lastAccessedItem)
         })
         

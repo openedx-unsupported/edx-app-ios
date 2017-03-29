@@ -16,8 +16,8 @@ class ChoiceLabel : UIView {
     private let iconView = UIImageView()
     private let titleLabel = UILabel()
     private let valueLabel = UILabel()
-    private let titleTextStyle = OEXMutableTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlackT())
-    private let valueTextStyle = OEXTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralDark())
+    private let titleTextStyle = OEXMutableTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralBlackT())
+    private let valueTextStyle = OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralDark())
     
     override init(frame : CGRect) {
         super.init(frame : frame)
@@ -31,12 +31,12 @@ class ChoiceLabel : UIView {
     
     private func setup() {
         let titleStack = TZStackView(arrangedSubviews: [iconView, titleLabel])
-        titleStack.alignment = .Center
+        titleStack.alignment = .center
         titleStack.spacing = StandardHorizontalMargin / 2
-        titleStack.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        titleStack.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         
         let stack = TZStackView(arrangedSubviews: [titleStack, valueLabel])
-        stack.alignment = .Center
+        stack.alignment = .center
         stack.spacing = StandardHorizontalMargin
         self.addSubview(stack)
         stack.snp_makeConstraints {make in
@@ -46,32 +46,32 @@ class ChoiceLabel : UIView {
             make.trailing.lessThanOrEqualTo(self)
         }
         
-        iconView.contentMode = iconView.isRightToLeft ? .Right : .Left
-        iconView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+        iconView.contentMode = iconView.isRightToLeft ? .right : .left
+        iconView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
         iconView.tintColor = titleTextStyle.color
         iconView.snp_makeConstraints { make in
-            make.width.equalTo(self.dynamicType.minIconSize).priorityMedium()
+            make.width.equalTo(type(of: self).minIconSize).priorityMedium()
         }
-        iconView.hidden = true
+        iconView.isHidden = true
         
-        valueLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
+        valueLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
     }
     
     var titleText : String? {
         didSet {
-            self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(titleText)
+            self.titleLabel.attributedText = titleTextStyle.attributedString(withText: titleText)
         }
     }
     var valueText: String? {
         didSet {
-            self.valueLabel.attributedText = valueTextStyle.attributedStringWithText(valueText)
+            self.valueLabel.attributedText = valueTextStyle.attributedString(withText: valueText)
         }
     }
     
     var icon: Icon? {
         didSet {
-            iconView.image = icon?.imageWithFontSize(self.dynamicType.iconSize)
-            iconView.hidden = icon == nil
+            iconView.image = icon?.imageWithFontSize(size: type(of: self).iconSize)
+            iconView.isHidden = icon == nil
         }
     }
 }

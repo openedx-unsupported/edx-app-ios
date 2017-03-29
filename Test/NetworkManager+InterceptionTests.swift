@@ -9,16 +9,16 @@
 import Foundation
 class NetworkManager_InterceptionTests : XCTestCase {
 
-    func checkJSONInterceptionWithStubResponse(router: OEXRouter, stubResponse : OHHTTPStubsResponse, verifier : Result<JSON> -> Void) {
+    func checkJSONInterceptionWithStubResponse(_ router: OEXRouter, stubResponse : OHHTTPStubsResponse, verifier : (Result<JSON>) -> Void) {
 
-        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string:"http://example.com")!, cache : MockResponseCache())
+        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string:"http://example.com")!, cache : MockResponseCache())
         manager.addStandardInterceptors()
         let request = NetworkRequest<JSON> (
             method: HTTPMethod.GET,
             path: "path",
             deserializer: .JSONResponse({(_, json) in .Success(json)}))
 
-        manager.addJSONInterceptor {(response : NSHTTPURLResponse?, json : JSON) in
+        manager.addJSONInterceptor {(response : HTTPURLResponse?, json : JSON) in
             if response?.statusCode ?? 0 == 401 {
                 return .Failure(NSError(domain: "{}", code: -100, userInfo: [:]))
             }
@@ -48,7 +48,7 @@ class NetworkManager_InterceptionTests : XCTestCase {
 
     func testJSONInterceptionPassthrough() {
         let router = MockRouter()
-        checkJSONInterceptionWithStubResponse(router, stubResponse:OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 404, headers: nil), verifier: {
+        checkJSONInterceptionWithStubResponse(router, stubResponse:OHHTTPStubsResponse(data: "{}".dataUsingEncoding(String.Encoding.utf8)!, statusCode: 404, headers: nil), verifier: {
             XCTAssertTrue($0.value != nil)
             XCTAssertFalse(router.logoutCalled)
         })
@@ -56,7 +56,7 @@ class NetworkManager_InterceptionTests : XCTestCase {
 
     // When running tests, we don't want network requests to actually work
     func testNetworkNotLive() {
-        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string:"https://google.com")!, cache : MockResponseCache())
+        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string:"https://google.com")!, cache : MockResponseCache())
 
         let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : .DataResponse({_ -> Result<NSObject> in
             XCTFail("Shouldn't receive data")

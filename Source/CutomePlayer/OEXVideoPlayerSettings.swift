@@ -14,8 +14,8 @@ private typealias RowType = (title: String, value: Any)
 private struct OEXVideoPlayerSetting {
     let title: String
     let rows: [RowType]
-    let isSelected: (row: Int) -> Bool
-    let callback: (value: Any)->()
+    let isSelected: (_ row: Int) -> Bool
+    let callback: (_ value: Any)->()
 }
 
 @objc protocol OEXVideoPlayerSettingsDelegate {
@@ -27,22 +27,22 @@ private struct OEXVideoPlayerSetting {
 
 private func setupTable(table: UITableView) {
     table.layer.cornerRadius = 10
-    table.layer.shadowColor = UIColor.blackColor().CGColor
+    table.layer.shadowColor = UIColor.black.cgColor
     table.layer.shadowRadius = 1.0
     table.layer.shadowOffset = CGSize(width: 1, height: 1)
     table.layer.shadowOpacity = 0.8
-    table.separatorInset = UIEdgeInsetsZero
+    table.separatorInset = EdgeInsets.zero
     
-    table.registerNib(UINib(nibName: "OEXClosedCaptionTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
+    table.register(UINib(nibName: "OEXClosedCaptionTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
 }
 
 @objc class OEXVideoPlayerSettings : NSObject {
     
-    let optionsTable: UITableView = UITableView(frame: CGRectZero, style: .Plain)
-    private lazy var settings: [OEXVideoPlayerSetting] = {
+    let optionsTable: UITableView = UITableView(frame: CGRect.zero, style: .plain)
+    public lazy var settings: [OEXVideoPlayerSetting] = {
         self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
         
-        let rows:[RowType] = [("0.5x",  OEXVideoSpeed.Slow), ("1.0x", OEXVideoSpeed.Default), ("1.5x", OEXVideoSpeed.Fast), ("2.0x", OEXVideoSpeed.XFast)]
+        let rows:[RowType] = [("0.5x",  OEXVideoSpeed.slow), ("1.0x", OEXVideoSpeed.default), ("1.5x", OEXVideoSpeed.fast), ("2.0x", OEXVideoSpeed.xFast)]
         let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows:rows , isSelected: { (row) -> Bool in
             var selected = false
             let savedSpeed = OEXInterface.getCCSelectedPlaybackSpeed()
@@ -54,14 +54,14 @@ private func setupTable(table: UITableView) {
             return selected
             }) {[weak self] value in
                 let speed = value as! OEXVideoSpeed
-                self?.delegate?.setPlaybackSpeed(speed)
+                self?.delegate?.setPlaybackSpeed(speed: speed)
         }
         
         if let transcripts: [String: String] = self.delegate?.videoInfo().transcripts as? [String: String] {
             var rows = [RowType]()
             for lang: String in transcripts.keys {
                 let locale = NSLocale(localeIdentifier: lang)
-                let displayLang: String = locale.displayNameForKey(NSLocaleLanguageCode, value: lang)!
+                let displayLang: String = locale.displayName(forKey: NSLocale.Key.languageCode, value: lang)!
                 let item: RowType = (title: displayLang, value: lang)
                 rows.append(item)
             }
@@ -78,7 +78,7 @@ private func setupTable(table: UITableView) {
                 if language == OEXInterface.getCCSelectedLanguage() && language != "" {
                     language = ""
                 }
-                self?.delegate?.setCaption(language)
+                self?.delegate?.setCaption(language: language)
             }
             return [cc, speeds]
         } else {
@@ -88,7 +88,7 @@ private func setupTable(table: UITableView) {
     weak var delegate: OEXVideoPlayerSettingsDelegate?
 
     func updateMargins() {
-        optionsTable.layoutMargins = UIEdgeInsetsZero
+        optionsTable.layoutMargins = EdgeInsets.zero
     }
     
     init(delegate: OEXVideoPlayerSettingsDelegate, videoInfo: OEXVideoSummary) {
@@ -98,7 +98,7 @@ private func setupTable(table: UITableView) {
         
         optionsTable.dataSource = self
         optionsTable.delegate = self
-        setupTable(optionsTable)
+        setupTable(table: optionsTable)
     }
 }
 
@@ -107,11 +107,11 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return settings.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! OEXClosedCaptionTableViewCell
         cell.selectionStyle = .None
         

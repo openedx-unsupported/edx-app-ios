@@ -48,7 +48,7 @@ public struct CourseOutline {
     }
     
     public init?(json : JSON) {
-        if let root = json[Fields.Root].string, blocks = json[Fields.Blocks].dictionaryObject {
+        if let root = json[Fields.Root].string, let blocks = json[Fields.Blocks].dictionaryObject {
             var validBlocks : [CourseBlockID:CourseBlock] = [:]
             for (blockID, blockBody) in blocks {
                 let body = JSON(blockBody)
@@ -88,7 +88,7 @@ public struct CourseOutline {
                         // Inline discussion is in progress feature. Will remove this code when it's ready to ship
                         type = .Unknown(typeName)
                         
-                        if OEXConfig.sharedConfig().discussionsEnabled {
+                        if OEXConfig.shared().discussionsEnabled {
                             let bodyData = body[Fields.StudentViewData].object as? NSDictionary
                             let discussionModel = DiscussionModel(dictionary: bodyData ?? [:])
                             type = .Discussion(discussionModel)
@@ -180,7 +180,7 @@ public class CourseBlock {
     
     /// User visible name of the block.
     public var displayName : String {
-        guard let name = name where !name.isEmpty else {
+        guard let name = name, !name.isEmpty else {
             return Strings.untitled
         }
         return name

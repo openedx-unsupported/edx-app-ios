@@ -13,14 +13,14 @@ import XCTest
 class KeyboardInsetsSourceTests: XCTestCase {
     
     var window : UIWindow?
-    let scrollView = UIScrollView(frame : CGRectZero)
+    let scrollView = UIScrollView(frame : CGRect.zero)
     let keyboardHeight : CGFloat = 200
     
     override func setUp() {
         super.setUp()
         window = UIWindow()
-        window?.frame = UIScreen.mainScreen().bounds
-        scrollView.frame = UIScreen.mainScreen().bounds
+        window?.frame = UIScreen.main.bounds
+        scrollView.frame = UIScreen.main.bounds
         window?.addSubview(scrollView)
     }
     
@@ -28,14 +28,14 @@ class KeyboardInsetsSourceTests: XCTestCase {
         window?.removeFromSuperview()
     }
     
-    func changeKeyboardLocation(height : CGFloat) {
+    func changeKeyboardLocation(_ height : CGFloat) {
         let y = scrollView.bounds.size.height - height
         let userInfo = [
-            UIKeyboardFrameEndUserInfoKey : NSValue(CGRect : CGRectMake(0, y, scrollView.bounds.size.width, keyboardHeight)),
+            UIKeyboardFrameEndUserInfoKey : NSValue(cgRect : CGRect(x: 0, y: y, width: scrollView.bounds.size.width, height: keyboardHeight)),
             UIKeyboardAnimationDurationUserInfoKey : 0.3 as NSNumber,
-            UIKeyboardAnimationCurveUserInfoKey : UIViewAnimationCurve.EaseInOut.rawValue as NSNumber
+            UIKeyboardAnimationCurveUserInfoKey : UIViewAnimationCurve.easeInOut.rawValue as NSNumber
         ]
-        NSNotificationCenter.defaultCenter().postNotificationName(UIKeyboardDidChangeFrameNotification, object: nil, userInfo: userInfo)
+        NotificationCenter.default.post(name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil, userInfo: userInfo)
     }
     
     func raiseKeyboard() {

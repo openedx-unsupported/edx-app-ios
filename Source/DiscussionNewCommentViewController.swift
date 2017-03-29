@@ -14,7 +14,7 @@ protocol DiscussionNewCommentViewControllerDelegate : class {
 
 public class DiscussionNewCommentViewController: UIViewController, UITextViewDelegate, InterfaceOrientationOverriding {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, OEXStylesProvider>
+    public typealias Environment = DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     public enum Context {
         case Thread(DiscussionThread)
@@ -77,20 +77,20 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     private let insetsController = ContentInsetsController()
     private let growingTextController = GrowingTextViewController()
     
-    private let context: Context
+    fileprivate let context: Context
     private let courseID : String
     private let thread: DiscussionThread?
     
     private var editingStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: OEXTextWeight.Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
-        style.lineBreakMode = .ByWordWrapping
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: .base, color: OEXStyles.shared().neutralDark())
+        style.lineBreakMode = .byWordWrapping
         return style
     }
     
     private var isEndorsed : Bool = false {
         didSet {
-            containerView.applyBorderStyle(BorderStyle())
-            answerLabel.hidden = !isEndorsed
+            containerView.applyBorderStyle(style: BorderStyle())
+            answerLabel.isHidden = !isEndorsed
             responseTitle.snp_updateConstraints { (make) -> Void in
                 make.top.equalTo(authorProfileImage.snp_bottom).offset(StandardVerticalMargin)
             }
@@ -112,47 +112,47 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     
     @IBAction func addCommentTapped(sender: AnyObject) {
         // TODO convert to a spinner
-        addCommentButton.enabled = false
+        addCommentButton.isEnabled = false
         addCommentButton.showProgress = true
         // create new response or comment
         
-        let apiRequest = DiscussionAPI.createNewComment(context.threadID, text: contentTextView.text, parentID: context.newCommentParentID)
+        let apiRequest = DiscussionAPI.createNewComment(threadID: context.threadID, text: contentTextView.text, parentID: context.newCommentParentID)
         
         environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             self?.addCommentButton.showProgress = false
             if let comment = result.data,
-                courseID = self?.courseID {
-                    let dataManager = self?.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID)
+                let courseID = self?.courseID {
+                    let dataManager = self?.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: courseID)
                     dataManager?.commentAddedStream.send((threadID: comment.threadID, comment: comment))
-                    self?.delegate?.newCommentController(self!, addedComment: comment)
-                    self?.dismissViewControllerAnimated(true, completion: nil)
+                    self?.delegate?.newCommentController(controller: self!, addedComment: comment)
+                    self?.dismiss(animated: true, completion: nil)
             }
             else {
-                self?.addCommentButton.enabled = true
-                DiscussionHelper.showErrorMessage(self, error: result.error)
+                self?.addCommentButton.isEnabled = true
+                DiscussionHelper.showErrorMessage(controller: self, error: result.error)
             }
         }
     }
     
     private var responseTitleStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size : .Large, color : OEXStyles.sharedStyles().neutralXDark())
+        return OEXTextStyle(weight : .normal, size : .large, color : OEXStyles.shared().neutralXDark())
     }
     
     private var answerLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().utilitySuccessBase())
     }
     
     private var responseTextViewStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
     }
     
     private var personTimeLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XXSmall, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().neutralBase())
     }
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
+        self.view.backgroundColor = OEXStyles.shared().discussionsBackgroundColor
         
         setupContext()
         
@@ -161,7 +161,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         contentTextView.typingAttributes = environment.styles.textAreaBodyStyle.attributes
         contentTextView.placeholderTextColor = environment.styles.neutralBase()
         contentTextView.textColor = environment.styles.neutralDark()
-        contentTextView.applyBorderStyle(environment.styles.entryFieldBorderStyle)
+        contentTextView.applyBorderStyle(style: environment.styles.entryFieldBorderStyle)
         contentTextView.delegate = self
         
         let tapGesture = UITapGestureRecognizer()
@@ -170,40 +170,40 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
         self.view.addGestureRecognizer(tapGesture)
         
-        let cancelItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
+        let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
         cancelItem.oex_setAction { [weak self]() -> Void in
-            self?.dismissViewControllerAnimated(true, completion: nil)
+            self?.dismiss(animated: true, completion: nil)
         }
         self.navigationItem.leftBarButtonItem = cancelItem
 
-        self.addCommentButton.enabled = false
+        self.addCommentButton.isEnabled = false
         
-        self.insetsController.setupInController(self, scrollView: scrollView)
-        self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: addCommentButton)
+        self.insetsController.setupInController(owner: self, scrollView: scrollView)
+        self.growingTextController.setupWithScrollView(scrollView: scrollView, textView: contentTextView, bottomView: addCommentButton)
         
-        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
+        DiscussionHelper.styleAuthorProfileImageView(imageView: authorProfileImage)
     }
     
-    override public func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         logScreenEvent()
         authorDetails()
     }
     
-    override public func shouldAutorotate() -> Bool {
+    override public var shouldAutorotate: Bool {
         return true
     }
     
-    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .AllButUpsideDown
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
     
     private func logScreenEvent(){
         switch context {
         case let .Thread(thread):
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddThreadResponse, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, responseID: nil)
+            self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenAddThreadResponse, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, responseID: nil)
         case let .Comment(comment):
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenAddResponseComment, courseId: self.courseID, value: thread?.title, threadId: comment.threadID, topicId: nil, responseID: comment.commentID)
+            self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenAddResponseComment, courseId: self.courseID, value: thread?.title, threadId: comment.threadID, topicId: nil, responseID: comment.commentID)
         }
         
     }
@@ -211,16 +211,16 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     private func authorDetails() {
         switch context {
         case let .Comment(comment):
-            DiscussionHelper.styleAuthorDetails(comment.author, authorLabel: comment.authorLabel, createdAt: comment.createdAt, hasProfileImage: comment.hasProfileImage, imageURL: comment.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
-            setAuthorAccessibility(comment.author, date: comment.createdAt)
+            DiscussionHelper.styleAuthorDetails(author: comment.author, authorLabel: comment.authorLabel, createdAt: comment.createdAt, hasProfileImage: comment.hasProfileImage, imageURL: comment.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
+            setAuthorAccessibility(author: comment.author, date: comment.createdAt)
         case let .Thread(thread):
-            DiscussionHelper.styleAuthorDetails(thread.author, authorLabel: thread.authorLabel, createdAt: thread.createdAt, hasProfileImage: thread.hasProfileImage, imageURL: thread.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
-            setAuthorAccessibility(thread.author, date: thread.createdAt)
+            DiscussionHelper.styleAuthorDetails(author: thread.author, authorLabel: thread.authorLabel, createdAt: thread.createdAt, hasProfileImage: thread.hasProfileImage, imageURL: thread.imageURL, authoNameLabel: authorNamelabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: self, router: environment.router)
+            setAuthorAccessibility(author: thread.author, date: thread.createdAt)
         }
     }
     
     private func setAuthorAccessibility(author: String?, date: NSDate?) {
-        if let author = author, date = date {
+        if let author = author, let date = date {
             authorButton.accessibilityLabel = "\(Strings.byAuthor(authorName: author)), \(date.displayDate)"
             authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
         }
@@ -229,7 +229,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         authorNamelabel.isAccessibilityElement = false
     }
     
-    public func textViewDidChange(textView: UITextView) {
+    public func textViewDidChange(_ textView: UITextView) {
         
         self.validateAddButton()
         self.growingTextController.handleTextChange()
@@ -242,7 +242,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
     }
     
     private func validateAddButton() {
-        addCommentButton.enabled = !contentTextView.text.isEmpty
+        addCommentButton.isEnabled = !contentTextView.text.isEmpty
     }
     
     // For determining the context of the screen and also manipulating the relevant elements on screen
@@ -256,7 +256,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             buttonTitle = Strings.addResponse
             titleText = Strings.addAResponse
             navigationItemTitle = Strings.addResponse
-            responseTitle.attributedText = responseTitleStyle.attributedStringWithText(thread.title)
+            responseTitle.attributedText = responseTitleStyle.attributedString(withText: thread.title)
             contentTextView.accessibilityLabel = Strings.addAResponse
             self.isEndorsed = false
         case let .Comment(comment):
@@ -271,15 +271,15 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         }
         
         
-        responseTextView.attributedText = responseTextViewStyle.markdownStringWithText(context.renderedBody ?? "")
+        responseTextView.attributedText = responseTextViewStyle.markdownString(withText: context.renderedBody ?? "")
         
-        addCommentButton.applyButtonStyle(environment.styles.filledPrimaryButtonStyle, withTitle: buttonTitle)
-        self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([responseTextViewStyle.attributedStringWithText(titleText), responseTextViewStyle.attributedStringWithText(Strings.asteric)])
+        addCommentButton.applyButtonStyle(style: environment.styles.filledPrimaryButtonStyle, withTitle: buttonTitle)
+        self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [responseTextViewStyle.attributedString(withText: titleText), responseTextViewStyle.attributedString(withText: Strings.asteric)])
         self.contentTitleLabel.isAccessibilityElement = false
         self.navigationItem.title = navigationItemTitle
             
         if case .Comment(_) = self.context, let thread = thread{
-            DiscussionHelper.updateEndorsedTitle(thread, label: answerLabel, textStyle: answerLabelStyle)
+            DiscussionHelper.updateEndorsedTitle(thread: thread, label: answerLabel, textStyle: answerLabelStyle)
         }
     }
 

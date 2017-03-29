@@ -30,7 +30,7 @@ public class GrowingTextViewController {
 
     /// Call from viewDidLoad
     public func setupWithScrollView(scrollView : UIScrollView, textView : UITextView, bottomView : UIView) {
-        textView.scrollEnabled = false
+        textView.isScrollEnabled = false
         self.scrollView = scrollView
         self.textView = textView
         self.bottomView = bottomView
@@ -47,21 +47,21 @@ public class GrowingTextViewController {
     /// Call from viewDidLayoutSubviews in your view controller
     public func scrollToVisible() {
         if let scrollView = self.scrollView,
-            textView = self.textView,
-            range = textView.selectedTextRange
+            let textView = self.textView,
+            let range = textView.selectedTextRange
         {
-            let rect = textView.caretRectForPosition(range.end)
-            let scrollRect = scrollView.convertRect(rect, fromView:textView)
-            let offsetRect = CGRectOffset(scrollRect, 0, 10) // add a little margin for the text
+            let rect = textView.caretRect(for: range.end)
+            let scrollRect = scrollView.convert(rect, from:textView)
+            let offsetRect = scrollRect.offsetBy(dx: 0, dy: 10) // add a little margin for the text
             scrollView.scrollRectToVisible(offsetRect, animated: true)
             
             if let bottomView = self.bottomView {
                 // If we just made a new line of text, the bottom position might not actually be updated
                 // yet when we get here
                 // So, wait until the next run loop to update the contentSize.
-                dispatch_async(dispatch_get_main_queue()) {
-                    let buttonFrame = scrollView.convertRect(bottomView.bounds, fromView:bottomView)
-                    scrollView.contentSize = CGSizeMake(scrollView.bounds.size.width, buttonFrame.maxY + StandardHorizontalMargin)
+                DispatchQueue.main.async {
+                    let buttonFrame = scrollView.convert(bottomView.bounds, from:bottomView)
+                    scrollView.contentSize = CGSize(width:scrollView.bounds.size.width, height: buttonFrame.maxY + StandardHorizontalMargin)
                 }
             }
 
