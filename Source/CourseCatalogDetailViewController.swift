@@ -14,7 +14,7 @@ import edXCore
 class CourseCatalogDetailViewController: UIViewController {
     private let courseID: String
     
-    typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider, OEXRouterProvider>
+    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider
     
     private let environment: Environment
     private lazy var loadController = LoadStateViewController()
@@ -92,7 +92,7 @@ class CourseCatalogDetailViewController: UIViewController {
         self.courseStream.backWithStream(stream)
     }
     
-    private func showCourseScreen(message message: String? = nil) {
+    private func showCourseScreen(message: String? = nil) {
         self.environment.router?.showMyCourses(animated: true, pushingCourseWithID:courseID)
         
         if let message = message {

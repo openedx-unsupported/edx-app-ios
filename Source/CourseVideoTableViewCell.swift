@@ -55,8 +55,8 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
         }
         
         for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
-            NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: notification.rawValue) { (_, observer, _) -> Void in
-                self.updateDownloadViewForVideoState()
+            NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (_, observer, _) -> Void in
+                observer.updateDownloadViewForVideoState()
             }
         }
         let tapGesture = UITapGestureRecognizer()

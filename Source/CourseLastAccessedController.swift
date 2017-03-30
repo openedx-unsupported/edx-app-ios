@@ -57,12 +57,12 @@ public class CourseLastAccessedController: NSObject {
             return
         }
         
-        if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(self.courseID) {
+        if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(courseID: self.courseID) {
             let blockStream = expandAccessStream(Stream(value : firstLoad))
             lastAccessedLoader.backWithStream(blockStream)
         }
         
-        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
+        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID)
         let lastAccessed = self.networkManager.streamForRequest(request)
         lastAccessedLoader.backWithStream(expandAccessStream(lastAccessed))
     }
@@ -74,7 +74,7 @@ public class CourseLastAccessedController: NSObject {
         
         if let currentCourseBlockID = self.blockID {
             t_hasTriggeredSetLastAccessed = true
-            let request = UserAPI.setLastVisitedModuleForBlockID(self.courseID, module_id: currentCourseBlockID)
+            let request = UserAPI.setLastVisitedModuleForBlockID(blockID: self.courseID, module_id: currentCourseBlockID)
             let courseID = self.courseID
             expandAccessStream(self.networkManager.streamForRequest(request)).extendLifetimeUntilFirstResult {[weak self] result in
                 result.ifSuccess() {info in
@@ -99,12 +99,12 @@ public class CourseLastAccessedController: NSObject {
                 var item = $0.1
                 item.moduleName = block.displayName
                 
-                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
-                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item)
+                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item: item)
             }
             
             info.ifFailure { [weak self] error in
-                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(nil)
+                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item: nil)
             }
         }
         

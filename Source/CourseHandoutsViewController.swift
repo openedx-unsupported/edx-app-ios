@@ -72,7 +72,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
             return Stream<String>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info))
         }
         else {
-            let request = CourseInfoAPI.getHandoutsForCourseWithID(courseID, overrideURL: course.course_handouts)
+            let request = CourseInfoAPI.getHandoutsForCourseWithID(courseID: courseID, overrideURL: course.course_handouts)
             let loader = self.environment.networkManager.streamForRequest(request, persistResponse: true)
             return loader
         }

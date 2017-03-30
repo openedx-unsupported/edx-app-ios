@@ -27,10 +27,10 @@ protocol FormCell  {
 
 private func loadJSON(jsonFile: String) throws -> JSON {
     var js: JSON
-    if let filePath = Bundle.mainBundle.pathForResource(jsonFile, ofType: "json") {
+    if let filePath = Bundle.main.path(forResource: jsonFile, ofType: "json") {
         if let data = NSData(contentsOfFile: filePath) {
             var error: NSError?
-            js = JSON(data: data, error: &error)
+            js = JSON(data: data as Data, error: &error)
             if error != nil { throw error! }
         } else {
             js = JSON(NSNull())
@@ -313,19 +313,19 @@ class JSONFormBuilder {
             }
             
             if dataType == .CountryType {
-                if let id = NSLocale.currentLocale.objectForKey(NSLocaleCountryCode) as? String {
-                    let countryName = NSLocale.currentLocale().displayNameForKey(NSLocaleCountryCode, value: id)
-                    let title = attributedChooserRow(Icon.Country, title: Strings.Profile.currentLocationLabel, value: countryName)
+                if let id = (Locale.current as NSLocale).object(forKey: .countryCode) as? String {
+                    let countryName = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: id)
+                    let title = attributedChooserRow(icon: Icon.Country, title: Strings.Profile.currentLocationLabel, value: countryName)
                     
-                    tableData.insert(ChooserDatum(value: id, title: nil, attributedTitle: title), atIndex: 0)
+                    tableData.insert(ChooserDatum(value: id, title: nil, attributedTitle: title), at: 0)
                     if defaultRow >= 0 { defaultRow += 1 }
                 }
             } else if dataType == .LanguageType {
-                if let id = NSLocale.currentLocale.objectForKey(NSLocaleLanguageCode) as? String {
-                    let languageName = NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: id)
-                    let title = attributedChooserRow(Icon.Comment, title: Strings.Profile.currentLanguageLabel, value: languageName)
+                if let id = (Locale.current as NSLocale).object(forKey: .languageCode) as? String {
+                    let languageName = (Locale.current as NSLocale).displayName(forKey: .languageCode, value: id)
+                    let title = attributedChooserRow(icon: Icon.Comment, title: Strings.Profile.currentLanguageLabel, value: languageName)
                     
-                    tableData.insert(ChooserDatum(value: id, title: nil, attributedTitle: title), atIndex: 0)
+                    tableData.insert(ChooserDatum(value: id, title: nil, attributedTitle: title), at: 0)
                     if defaultRow >= 0 { defaultRow += 1 }
                 }
             }

@@ -15,21 +15,21 @@ extension OEXInterface {
     
     /// Save the rating given through app review
     func saveAppRating(rating: Int) {
-        NSUserDefaults.standardUserDefaults().setInteger(rating, forKey: OEXSavedAppRating)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(rating, forKey: OEXSavedAppRating)
+        UserDefaults.standard.synchronize()
     }
     
     /// Save the app version when app review is done
-    func saveAppVersionWhenLastRated(version: String? = NSBundle.mainBundle().oex_shortVersionString()) {
-        NSUserDefaults.standardUserDefaults().setObject(version ?? NSBundle.mainBundle().oex_shortVersionString(), forKey: OEXSavedAppVersionWhenLastRated)
-        NSUserDefaults.standardUserDefaults().synchronize()
+    func saveAppVersionWhenLastRated(version: String? = Bundle.main.oex_shortVersionString()) {
+        UserDefaults.standard.set(version ?? Bundle.main.oex_shortVersionString(), forKey: OEXSavedAppVersionWhenLastRated)
+        UserDefaults.standard.synchronize()
     }
     
     func getSavedAppRating() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(OEXSavedAppRating)
+        return UserDefaults.standard.integer(forKey: OEXSavedAppRating)
     }
     
     func getSavedAppVersionWhenLastRated() -> String? {
-        return NSUserDefaults.standardUserDefaults().stringForKey(OEXSavedAppVersionWhenLastRated)
+        return UserDefaults.standard.string(forKey: OEXSavedAppVersionWhenLastRated)
     }
 }

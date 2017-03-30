@@ -12,7 +12,7 @@ import UIKit
 /// Standard stub subclass of NSOperation.
 /// Needed to give an indirection for classes that use features that prevent them from exposing methods
 /// to Objective-C, like generics.
-open class Operation : Foundation.Operation {
+open class OEXOperation : Foundation.Operation {
     fileprivate var _executing : Bool = false
     fileprivate var _finished : Bool = false
     

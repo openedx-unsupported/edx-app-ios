@@ -9,20 +9,20 @@
 import Foundation
 
 class SingleChildContainingViewController : UIViewController {
-    override func childViewControllerForStatusBarStyle() -> UIViewController? {
+    override var childViewControllerForStatusBarStyle: UIViewController? {
         return self.childViewControllers.last
     }
 
-    override func childViewControllerForStatusBarHidden() -> UIViewController? {
+    override var childViewControllerForStatusBarHidden: UIViewController? {
         return self.childViewControllers.last
     }
 
-    override func shouldAutorotate() -> Bool {
-        return self.childViewControllers.last?.shouldAutorotate() ?? super.shouldAutorotate()
+    override var shouldAutorotate: Bool {
+        return self.childViewControllers.last?.shouldAutorotate ?? super.shouldAutorotate
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return self.childViewControllers.last?.supportedInterfaceOrientations() ?? super.supportedInterfaceOrientations()
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return self.childViewControllers.last?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
     }
 
 }

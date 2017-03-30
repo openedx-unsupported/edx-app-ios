@@ -17,7 +17,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     static let identifier = "CourseSectionTableViewCellIdentifier"
     
-    private let content = CourseOutlineItemView()
+    fileprivate let content = CourseOutlineItemView()
     private let downloadView = DownloadsAccessoryView()
 
     weak var delegate : CourseSectionTableViewCellDelegate?
@@ -49,11 +49,11 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         
         for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
             NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: notification.rawValue) { (_, observer, _) -> Void in
-                if let state = observer.downloadStateForDownloads(observer.videosStream.value) {
-                    observer.downloadView.state = state
+                if let state = self.downloadStateForDownloads(videos: self.videosStream.value) {
+                    self.downloadView.state = state
                 }
                 else {
-                    observer.content.trailingView = nil
+                    self.content.trailingView = nil
                 }
             }
         }

@@ -11,10 +11,10 @@ import UIKit
 extension UIViewAnimationCurve {
     var asAnimationOptions : UIViewAnimationOptions {
         switch(self) {
-        case .EaseIn: return UIViewAnimationOptions.CurveEaseIn
-        case .EaseOut: return UIViewAnimationOptions.CurveEaseOut
-        case .EaseInOut: return UIViewAnimationOptions.CurveEaseInOut
-        case .Linear: return UIViewAnimationOptions.CurveLinear
+        case .easeIn: return UIViewAnimationOptions.curveEaseIn
+        case .easeOut: return UIViewAnimationOptions.curveEaseOut
+        case .easeInOut: return UIViewAnimationOptions.curveEaseInOut
+        case .linear: return UIViewAnimationOptions.curveLinear
         }
     }
 }
@@ -32,23 +32,23 @@ public class KeyboardInsetsSource : NSObject, ContentInsetsSource {
         
         super.init()
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: UIKeyboardDidChangeFrameNotification) { (notification, observer, _) -> Void in
-            let globalFrame : CGRect = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardDidChangeFrame.rawValue) { (notification, observer, _) -> Void in
+            let globalFrame : CGRect = (notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
             
             // Don't want to convert to the scroll view's coordinates since they're always moving so use the superview
             if let container = scrollView.superview {
-                let localFrame = container.convertRect(globalFrame, fromView: nil)
+                let localFrame = container.convert(globalFrame, from: nil)
                 
-                let intersection = CGRectIntersection(localFrame, container.bounds);
+                let intersection = localFrame.intersection(container.bounds);
                 let keyboardHeight = intersection.size.height;
                 observer.keyboardHeight = keyboardHeight
                 
                 let duration = (notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).doubleValue
-                let curveValue = (notification.userInfo![UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).integerValue
+                let curveValue = (notification.userInfo![UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).intValue
                 let curve = UIViewAnimationCurve(rawValue: curveValue)
                 let curveOptions = curve?.asAnimationOptions ?? UIViewAnimationOptions()
-                UIView.animateWithDuration(duration, delay: 0, options: curveOptions, animations: {
-                    observer.insetsDelegate?.contentInsetsSourceChanged(observer)
+                UIView.animate(withDuration: duration, delay: 0, options: curveOptions, animations: {
+                    observer.insetsDelegate?.contentInsetsSourceChanged(source: observer)
                 }, completion: nil)
             }
         }

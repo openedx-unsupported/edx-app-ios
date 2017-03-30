@@ -24,7 +24,7 @@ class AnyPaginator<A> : Paginator {
     private var _hasNext: () -> Bool
     let _loadMore: () -> Void
     
-    init<P: Paginator where P.Element == A>(_ paginator : P) {
+    init<P: Paginator>(_ paginator : P) where P.Element == A {
         self.stream = paginator.stream
         self._loadMore = paginator.loadMore
         self._hasNext = { paginator.hasNext }

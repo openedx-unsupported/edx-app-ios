@@ -22,7 +22,7 @@ public protocol ContentInsetsSource : class {
 public class ConstantInsetsSource : ContentInsetsSource {
     public var currentInsets : UIEdgeInsets {
         didSet {
-            self.insetsDelegate?.contentInsetsSourceChanged(self)
+            self.insetsDelegate?.contentInsetsSourceChanged(source: self)
         }
     }
     
@@ -82,11 +82,11 @@ public class ContentInsetsController: NSObject, ContentInsetsSourceDelegate {
     public func updateInsets() {
         var regularInsets = insetSources
             .map { $0.currentInsets }
-            .reduce(controllerInsets, combine: +)
+            .reduce(controllerInsets, +)
         let indicatorSources = insetSources
             .filter { $0.affectsScrollIndicators }
             .map { $0.currentInsets }
-        var indicatorInsets = indicatorSources.reduce(controllerInsets, combine: +)
+        var indicatorInsets = indicatorSources.reduce(controllerInsets, +)
         
         if let keyboardHeight = keyboardSource?.currentInsets.bottom {
             regularInsets.bottom = max(keyboardHeight, regularInsets.bottom)

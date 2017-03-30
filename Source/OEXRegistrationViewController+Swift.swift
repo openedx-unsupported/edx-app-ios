@@ -10,7 +10,7 @@ import Foundation
 
 extension OEXRegistrationViewController {
     
-    func getRegistrationFormDescription(success: (response: OEXRegistrationDescription) -> ()) {
+    func getRegistrationFormDescription(success: @escaping (_ response: OEXRegistrationDescription) -> ()) {
         let networkManager = self.environment.networkManager
         let networkRequest = RegistrationFormAPI.registrationFormRequest()
         

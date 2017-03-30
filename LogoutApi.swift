@@ -10,7 +10,7 @@ import Foundation
 
 public struct LogoutApi {
     
-    private static func invalidateTokenDeserializer(response : NSHTTPURLResponse) -> Result<()> {
+    private static func invalidateTokenDeserializer(response : HTTPURLResponse) -> Result<()> {
         guard response.httpStatusCode.is2xx else {
             return Failure()
         }
@@ -23,8 +23,8 @@ public struct LogoutApi {
         return NetworkRequest(
             method: .POST,
             path: "/oauth2/revoke_token/",
-            body: RequestBody.FormEncoded(body),
-            deserializer: .NoContent(invalidateTokenDeserializer)
+            body: RequestBody.formEncoded(body),
+            deserializer: .noContent(invalidateTokenDeserializer)
         )
     }
 }

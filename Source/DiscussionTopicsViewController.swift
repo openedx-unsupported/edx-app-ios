@@ -11,9 +11,9 @@ import UIKit
 
 public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding, LoadStateViewReloadSupport  {
     
-    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider, NetworkManagerProvider>
+    public typealias Environment = DataManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & ReachabilityProvider & NetworkManagerProvider
     
-    private enum TableSection : Int {
+    fileprivate enum TableSection : Int {
         case AllPosts
         case Following
         case CourseTopics
@@ -37,16 +37,16 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         self.loadController = LoadStateViewController()
         
         super.init(env: environment)
-        
-        let stream = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
-        self.topics.backWithStream(stream.map {
+       
+        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: courseID).topics
+        topics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }
         )
         
         tableView.estimatedRowHeight = 80.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -59,10 +59,10 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         super.viewDidLoad()
         
         self.navigationItem.title = Strings.discussionTopics
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         
-        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
-        searchBarSeparator.backgroundColor = OEXStyles.sharedStyles().neutralLight()
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        searchBarSeparator.backgroundColor = OEXStyles.shared().neutralLight()
         
         self.view.addSubview(contentView)
         self.contentView.addSubview(tableView)
@@ -80,7 +80,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
             if let owner = self {
-                owner.environment.router?.showPostsFromController(owner, courseID: owner.courseID, queryString : text)
+                owner.environment.router?.showPostsFromController(controller: owner, courseID: owner.courseID, queryString : text)
             }
         }
         
@@ -111,9 +111,9 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         }
         
         // Register tableViewCell
-        tableView.registerClass(DiscussionTopicCell.classForCoder(), forCellReuseIdentifier: DiscussionTopicCell.identifier)
+        tableView.register(DiscussionTopicCell.classForCoder(), forCellReuseIdentifier: DiscussionTopicCell.identifier)
         
-        loadController.setupInController(self, contentView: contentView)
+        loadController.setupInController(controller: self, contentView: contentView)
         loadTopics()
     }
     
@@ -122,13 +122,13 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         topics.listen(self, success : {[weak self]_ in
             self?.loadedData()
             }, failure : {[weak self] error in
-                self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error: error)
             })
     }
     
     private func refreshTopics() {
         loadController.state = .Initial
-        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
+        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: courseID).topics
         topics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }
@@ -142,12 +142,12 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     }
     
     public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewWillAppear(animated: animated)
         if let indexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRowAtIndexPath(indexPath, animated: false)
+            tableView.deselectRow(at: indexPath, animated: false)
         }
         
-        self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
+        self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
@@ -156,12 +156,12 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         refreshTopics()
     }
     
-    override public func shouldAutorotate() -> Bool {
+    override public var shouldAutorotate: Bool {
         return true
     }
     
-    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .AllButUpsideDown
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
     
     //MARK:- LoadStateViewReloadSupport method
@@ -171,7 +171,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
     
     // MARK: - TableView Data and Delegate
     
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch (section) {
         case TableSection.AllPosts.rawValue:
             return 1
@@ -184,9 +184,9 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         }
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(DiscussionTopicCell.identifier, forIndexPath: indexPath) as! DiscussionTopicCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionTopicCell.identifier, for: indexPath) as! DiscussionTopicCell
         
         var topic : DiscussionTopic? = nil
         

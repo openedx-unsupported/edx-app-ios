@@ -10,17 +10,17 @@ import edXCore
 
 public struct CourseCatalogAPI {
     
-    static func coursesDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[OEXCourse]> {
+    static func coursesDeserializer(response : HTTPURLResponse, json : JSON) -> Result<[OEXCourse]> {
         return (json.array?.flatMap {item in
             item.dictionaryObject.map { OEXCourse(dictionary: $0) }
         }).toResult()
     }
     
-    static func courseDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<OEXCourse> {
+    static func courseDeserializer(response : HTTPURLResponse, json : JSON) -> Result<OEXCourse> {
         return json.dictionaryObject.map { OEXCourse(dictionary: $0) }.toResult()
     }
     
-    static func enrollmentDeserializer(response: NSHTTPURLResponse, json: JSON) -> Result<UserCourseEnrollment> {
+    static func enrollmentDeserializer(response: HTTPURLResponse, json: JSON) -> Result<UserCourseEnrollment> {
         return UserCourseEnrollment(json: json).toResult()
     }
     
@@ -43,17 +43,17 @@ public struct CourseCatalogAPI {
         return NetworkRequest(
             method: .GET,
             path : "api/courses/v1/courses/",
-            query : query,
             requiresAuth : true,
-            deserializer: .JSONResponse(coursesDeserializer)
+            query : query,
+            deserializer: .jsonResponse(coursesDeserializer)
         ).paginated(page: page)
     }
     
     public static func getCourse(courseID: String) -> NetworkRequest<OEXCourse> {
         return NetworkRequest(
             method: .GET,
-            path: "api/courses/v1/courses/{courseID}".oex_formatWithParameters(["courseID" : courseID]),
-            deserializer: .JSONResponse(courseDeserializer))
+            path: "api/courses/v1/courses/{courseID}".oex_format(withParameters: ["courseID" : courseID]),
+            deserializer: .jsonResponse(courseDeserializer))
     }
     
     public static func enroll(courseID: String, emailOptIn: Bool = true) -> NetworkRequest<UserCourseEnrollment> {
@@ -62,13 +62,13 @@ public struct CourseCatalogAPI {
             path: "api/enrollment/v1/enrollment",
             requiresAuth: true,
 
-            body: .JSONBody(JSON([
+            body: .jsonBody(JSON([
                 "course_details" : [
                     "course_id": courseID,
                     "email_opt_in": emailOptIn
                 ]
             ])),
-            deserializer: .JSONResponse(enrollmentDeserializer)
+            deserializer: .jsonResponse(enrollmentDeserializer)
         )
     }
 }

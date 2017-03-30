@@ -13,7 +13,7 @@ class CourseDashboardCell: UITableViewCell {
     static let identifier = "CourseDashboardCellIdentifier"
     
     //TODO: all these should be adjusted once the final UI is ready
-    private let ICON_SIZE : CGFloat = OEXTextStyle.pointSizeForTextSize(OEXTextSize.XXLarge)
+    private let ICON_SIZE : CGFloat = OEXTextStyle.pointSize(for: OEXTextSize.xxLarge)
     private let ICON_MARGIN : CGFloat = 30.0
     private let LABEL_MARGIN : CGFloat = 75.0
     private let LABEL_SIZE_HEIGHT = 20.0
@@ -28,10 +28,10 @@ class CourseDashboardCell: UITableViewCell {
     private let bottomLine = UIView()
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralXDark())
+        return OEXTextStyle(weight : .normal, size: .base, color : OEXStyles.shared().neutralXDark())
     }
     private var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XXSmall, color : OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight : .normal, size: .xxSmall, color : OEXStyles.shared().neutralBase())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -41,9 +41,9 @@ class CourseDashboardCell: UITableViewCell {
     }
 
     func useItem(item : StandardCourseDashboardItem) {
-        self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(item.title)
-        self.detailLabel.attributedText = detailTextStyle.attributedStringWithText(item.detail)
-        self.iconView.image = item.icon.imageWithFontSize(ICON_SIZE)
+        self.titleLabel.attributedText = titleTextStyle.attributedString(withText: item.title)
+        self.detailLabel.attributedText = detailTextStyle.attributedString(withText: item.detail)
+        self.iconView.image = item.icon.imageWithFontSize(size: ICON_SIZE)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,7 +51,7 @@ class CourseDashboardCell: UITableViewCell {
     }
     
     private func configureViews() {
-        self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.bottomLine.backgroundColor = OEXStyles.shared().neutralXLight()
         
         applyStandardSeparatorInsets()
         
@@ -61,9 +61,9 @@ class CourseDashboardCell: UITableViewCell {
         
         self.contentView.addSubview(container)
         
-        self.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        self.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
-        iconView.tintColor = OEXStyles.sharedStyles().neutralLight()
+        iconView.tintColor = OEXStyles.shared().neutralLight()
         
         container.snp_makeConstraints { make -> Void in
             make.edges.equalTo(contentView)

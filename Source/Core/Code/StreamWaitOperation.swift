@@ -8,7 +8,7 @@
 
 
 /// Operation that just waits for a stream to fire, extending the lifetime of the stream.
-class StreamWaitOperation<A> : Operation {
+class StreamWaitOperation<A> : OEXOperation {
     fileprivate let completion : ((Result<A>) -> Void)?
     fileprivate let stream : Stream<A>
     fileprivate let fireIfAlreadyLoaded : Bool

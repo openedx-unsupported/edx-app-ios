@@ -325,7 +325,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
     }
     
-    public func textViewDidChange(textView: UITextView) {
+    public func textViewDidChange(_ textView: UITextView) {
         validatePostButton()
         growingTextController.handleTextChange()
     }
@@ -358,19 +358,19 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         growingTextController.scrollToVisible()
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    private func textFieldDidBeginEditing(textField: UITextField) {
         tapButton.isAccessibilityElement = true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    private func textFieldDidEndEditing(textField: UITextField) {
         tapButton.isAccessibilityElement = false
     }
     
-    public func textViewDidBeginEditing(textView: UITextView) {
+    @nonobjc public func textViewDidBeginEditing(textView: UITextView) {
         tapButton.isAccessibilityElement = true
     }
     
-    public func textViewDidEndEditing(textView: UITextView) {
+    @nonobjc public func textViewDidEndEditing(textView: UITextView) {
         tapButton.isAccessibilityElement = false
     }
 }

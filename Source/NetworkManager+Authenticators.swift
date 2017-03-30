@@ -26,7 +26,7 @@ extension NetworkManager {
     public static func invalidAccessAuthenticator(router: OEXRouter?, session:OEXSession, clientId:String, response: HTTPURLResponse?, data: NSData?) -> AuthenticationAction {
         if let data = data,
             let response = response,
-            let raw : AnyObject = try? JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions()) as AnyObject?
+            let raw : AnyObject = try! JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions()) as AnyObject?
         {
             let json = JSON(raw)
             
@@ -66,7 +66,7 @@ private func logout(router:OEXRouter?) -> AuthenticationAction {
  new access token is saved and a successful AuthenticationAction is returned.
  */
 private func refreshAccessToken(clientId:String, refreshToken:String, session: OEXSession) -> AuthenticationAction {
-    return AuthenticationAction.authenticate({ (networkManager, completion) in
+    return AuthenticationAction.authenticate( { (networkManager, completion) in
         let networkRequest = LoginAPI.requestTokenWithRefreshToken(
             refreshToken: refreshToken,
             clientId: clientId,

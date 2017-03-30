@@ -11,10 +11,10 @@ import WebKit
 
 import edXCore
 
-class UserAgentGenerationOperation : Operation {
+class UserAgentGenerationOperation : OEXOperation {
     
     private let webView : WKWebView?
-    private var resultStream = Sink<String>()
+    fileprivate var resultStream = Sink<String>()
     
     override init() {
         if Thread.isMainThread {
@@ -33,7 +33,7 @@ class UserAgentGenerationOperation : Operation {
         return components.joined(separator: "/")
     }
     
-    override func performWithDoneAction(doneAction: @escaping () -> Void) {
+    override func performWithDoneAction(_ doneAction: @escaping () -> Void) {
         DispatchQueue.main.async { () -> Void in
             guard let webView = self.webView else {
                 doneAction()
@@ -51,21 +51,21 @@ class UserAgentGenerationOperation : Operation {
     }
 }
 
-class UserAgentOverrideOperation : Operation {
+class UserAgentOverrideOperation : OEXOperation {
     
-    override func performWithDoneAction(doneAction: @escaping () -> Void) {
+    override func performWithDoneAction(_ doneAction: @escaping () -> Void) {
         DispatchQueue.main.async {
             let operation = UserAgentGenerationOperation()
             operation.resultStream.extendLifetimeUntilFirstResult(success:
                 { agent in
-                    NSUserDefaults.standardUserDefaults().registerDefaults(["UserAgent": agent])
+                    UserDefaults.standard.register(defaults: ["UserAgent": agent])
                     doneAction()
                 }, failure: {error in
                     Logger.logError(NetworkManager.NETWORK, "Unable to load user agent: \(error.localizedDescription)")
                     doneAction()
                 }
             )
-            OperationQueue.currentQueue?.addOperation(operation)
+            OperationQueue.current?.addOperation(operation)
         }
         
     }
@@ -74,7 +74,7 @@ class UserAgentOverrideOperation : Operation {
         let queue = OperationQueue()
         let operation = UserAgentOverrideOperation()
         operation.completionBlock = {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 completion?()
             }
         }

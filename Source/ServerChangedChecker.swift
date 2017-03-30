@@ -14,24 +14,24 @@ import Foundation
 
     private var lastUsedAPIHostURL : NSURL? {
         get {
-            return NSUserDefaults.standardUserDefaults().URLForKey(defaultsKey)
+            return UserDefaults.standard.url(forKey: defaultsKey) as NSURL?
         }
         set {
-            NSUserDefaults.standardUserDefaults().setURL(newValue, forKey: defaultsKey)
+            UserDefaults.standard.set(newValue as URL?, forKey: defaultsKey)
         }
     }
 
-    func logoutIfServerChanged(config config: OEXConfig, logoutAction : Void -> Void) {
-        if let lastURL = lastUsedAPIHostURL, currentURL = config.apiHostURL() where lastURL != currentURL {
+    func logoutIfServerChanged(config: OEXConfig, logoutAction : (Void) -> Void) {
+        if let lastURL = lastUsedAPIHostURL, let currentURL = config.apiHostURL(), lastURL as URL != currentURL {
             logoutAction()
             OEXFileUtility.nukeUserData()
         }
-        lastUsedAPIHostURL = config.apiHostURL()
+        lastUsedAPIHostURL = config.apiHostURL()! as NSURL
     }
 
     func logoutIfServerChanged() {
         logoutIfServerChanged(config: OEXConfig(appBundleData: ())) {
-            OEXSession().closeAndClearSession()
+            OEXSession().closeAndClear()
         }
     }
 }

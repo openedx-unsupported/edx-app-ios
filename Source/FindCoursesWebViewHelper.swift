@@ -23,7 +23,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     private var loadController = LoadStateViewController()
     
     private var request : NSURLRequest? = nil
-    var searchBaseURL: NSURL?
+    var searchBaseURL: URL?
 
     let bottomBar: UIView?
     
@@ -165,16 +165,16 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
 
         guard let searchTerms = searchBar.text, let searchURL = searchBaseURL else { return }
         if let URL = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, toolbarString: searchTerms) {
-            loadRequestWithURL(URL)
+            loadRequestWithURL(url: URL)
         }
     }
 
     @objc static func buildQuery(baseURL: String, toolbarString: String) -> NSURL? {
-        let items = toolbarString.componentsSeparatedByString(" ")
-        let escapedItems = items.flatMap { $0.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()) }
-        let searchTerm = "search_query=" + escapedItems.joinWithSeparator("+")
+        let items = toolbarString.components(separatedBy: " ")
+        let escapedItems = items.flatMap { $0.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)  }
+        let searchTerm = "search_query=" + escapedItems.joined(separator: "+")
         let newQuery: String
-        if baseURL.containsString("?") {
+        if baseURL.contains("?") {
             newQuery = baseURL + "&" + searchTerm
         } else {
             newQuery = baseURL + "?" + searchTerm
