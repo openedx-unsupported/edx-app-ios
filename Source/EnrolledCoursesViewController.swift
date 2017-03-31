@@ -79,6 +79,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         environment.analytics.trackScreenWithName(OEXAnalyticsScreenMyCourses)
         showVersionUpgradeSnackBarIfNecessary()
         super.viewWillAppear(animated)
+        hideSnackBarForFullScreenError()
     }
     
     override func reloadViewData() {
@@ -170,6 +171,12 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             }
         }
         else {
+            hideSnackBar()
+        }
+    }
+    
+    private func hideSnackBarForFullScreenError() {
+        if tableController.courses.count <= 0 {
             hideSnackBar()
         }
     }
