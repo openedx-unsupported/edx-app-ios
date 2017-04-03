@@ -20,6 +20,6 @@ import edXCore
     }
 
     public func pathForRequestKey(_ key: String?) -> URL? {
-        return OEXFileUtility.filePath(forRequestKey: key, username: self.currentUsername).flatMap {NSURL(fileURLWithPath: $0)}
+        return OEXFileUtility.filePath(forRequestKey: key, username: self.currentUsername).flatMap {URL(fileURLWithPath: $0)}
     }
 }

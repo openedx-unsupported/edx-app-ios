@@ -16,14 +16,14 @@ private enum Rows: Int {
     func decorateCell(config: OEXConfig, cell: UITableViewCell) {
         switch self {
         case .AppVersion:
-            let appVersion = NSBundle.mainBundle().oex_shortVersionString()
+            let appVersion = Bundle.main.oex_shortVersionString()
             cell.textLabel?.text = "Version: \(appVersion)"
         case .Environment:
             let environmentName = config.environmentName()
             cell.textLabel?.text = "Environment: \(environmentName)"
         case .Console:
             cell.textLabel?.text = "Debug Console"
-            cell.accessoryType = .DisclosureIndicator
+            cell.accessoryType = .disclosureIndicator
         case .Count:
             fatalError("should not get here")
         }
@@ -32,13 +32,13 @@ private enum Rows: Int {
 
 
 class DebugMenuViewController: UITableViewController {
-    typealias Environment = protocol<OEXConfigProvider>
+    typealias Environment = OEXConfigProvider
 
     let environment: Environment
 
     init(environment: Environment) {
         self.environment = environment
-        super.init(style: .Plain)
+        super.init(style: .plain)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -48,27 +48,27 @@ class DebugMenuViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Debug"
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return Rows.rowCount
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath as IndexPath)
 
         let row = Rows(rawValue: indexPath.row)
-        row?.decorateCell(environment.config, cell: cell)
+        row?.decorateCell(config: environment.config, cell: cell)
 
         return cell
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let console = DebugLogViewController()
         navigationController?.pushViewController(console, animated: true)
     }

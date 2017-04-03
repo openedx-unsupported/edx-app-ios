@@ -209,17 +209,17 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         return cell
     }
     
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         self.view.endEditing(true)
         
         switch (indexPath.section) {
         case TableSection.AllPosts.rawValue:
-            environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: false)
+            environment.router?.showAllPostsFromController(controller: self, courseID: courseID, followedOnly: false)
         case TableSection.Following.rawValue:
-            environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: true)
+            environment.router?.showAllPostsFromController(controller: self, courseID: courseID, followedOnly: true)
         case TableSection.CourseTopics.rawValue:
             if let topic = self.topics.value?[indexPath.row] {
-                environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
+                environment.router?.showPostsFromController(controller: self, courseID: courseID, topic: topic)
             }
         default: ()
         }

@@ -89,7 +89,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
 
         let exploreButton = UIButton()
-        exploreButton.applyButtonStyle(style: OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Startup.exploreSubjects)
+        exploreButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle, withTitle: Strings.Startup.exploreSubjects)
         let exploreEvent = OEXAnalytics.exploreSubjectsEvent()
         exploreButton.oex_addAction({ [weak self] _ in
             self?.exploreSubjects()

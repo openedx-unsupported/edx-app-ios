@@ -50,7 +50,7 @@ class WrappedPaginator<A> : NSObject, Paginator {
         self.generator = generator
     }
     
-    convenience init(networkManager : NetworkManager, requestGenerator : Int -> NetworkRequest<Paginated<[A]>>) {
+    convenience init(networkManager : NetworkManager, requestGenerator : (Int) -> NetworkRequest<Paginated<[A]>>) {
         self.init {page in
             let request = requestGenerator(page)
             return networkManager.streamForRequest(request)

@@ -277,7 +277,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private func setTopicsButtonTitle() {
         if let topic = selectedTopic, let name = topic.name {
             let title = Strings.topic(topic: name)
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.shared().neutralDark()).attributedString(withText: title), for: .normal)
         }
     }
     

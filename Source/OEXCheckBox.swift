@@ -42,7 +42,7 @@ public class OEXCheckBox: UIButton {
         let newIcon = checked ? Icon.CheckCircleO : Icon.CircleO
         let size = min(bounds.width, bounds.height)
         let image = newIcon.imageWithFontSize(size: size)
-        setImage(image, forState: .Normal)
+        setImage(image, for: .normal)
         accessibilityLabel = checked ? Strings.accessibilityCheckboxChecked : Strings.accessibilityCheckboxUnchecked
         accessibilityHint = checked ? Strings.accessibilityCheckboxHintChecked : Strings.accessibilityCheckboxHintUnchecked
     }

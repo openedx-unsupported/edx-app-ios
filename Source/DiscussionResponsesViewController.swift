@@ -42,7 +42,7 @@ class DiscussionPostCell: UITableViewCell {
         self.selectionStyle = .none
         
         for (button, icon, text) in [
-            (voteButton, Icon.UpVote, nil as String?),
+            (voteButton, Icon.UpVote, nil as? String),
             (followButton, Icon.FollowStar, Strings.discussionFollow),
             (reportButton, Icon.ReportFlag, Strings.discussionReport)
             ]
@@ -77,7 +77,7 @@ class DiscussionPostCell: UITableViewCell {
         }
         
         if let date = dateLabel.text {
-            accessibilityString.appendContentsOf(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
+            accessibilityString.append(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
         }
         
         if let author = authorNameLabel.text {
@@ -183,7 +183,7 @@ class DiscussionResponseCell: UITableViewCell {
         accessibilityString.append(body + sentenceSeparator)
         
         if let date = dateLabel.text {
-            accessibilityString.appendContentsOf(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
+            accessibilityString.append(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
         }
         
         if let author = authorNameLabel.text {
@@ -350,7 +350,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             if let thread = result.data {
                 self?.loadedThread(thread: thread)
-                self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
+                self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) as IndexSet , with: .fade)
             }
         }
     }
@@ -510,9 +510,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
             if let responseCount = thread.responseCount {
                 let icon = Icon.Comment.attributedTextWithStyle(style: infoTextStyle)
-                let countLabelText = infoTextStyle.attributedStringWithText(Strings.response(count: responseCount))
+                let countLabelText = infoTextStyle.attributedString(withText: Strings.response(count: responseCount))
                 
-                let labelText = NSAttributedString.joinInNaturalLayout([icon,countLabelText])
+                let labelText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon,countLabelText])
                 cell.responseCountLabel.attributedText = labelText
             }
             else {
@@ -726,8 +726,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         let iconStyle = voted ? cellIconSelectedStyle : cellButtonStyle
         let buttonText = NSAttributedString.joinInNaturalLayout(attributedStrings: [
             Icon.UpVote.attributedTextWithStyle(style: iconStyle, inline : true),
-            cellButtonStyle.attributedStringWithText(Strings.vote(count: voteCount))])
-        button.setAttributedTitle(buttonText, forState:.Normal)
+            cellButtonStyle.attributedString(withText: Strings.vote(count: voteCount))])
+        button.setAttributedTitle(buttonText, for:.normal)
         button.accessibilityHint = voted ? Strings.Accessibility.discussionUnvoteHint : Strings.Accessibility.discussionVoteHint
     }
     
@@ -850,7 +850,7 @@ extension AuthorLabelProtocol {
         attributedStrings.append(byAuthor)
         
         if let authorLabel = label {
-            attributedStrings.append(textStyle.attributedStringWithText(Strings.parenthesis(text: authorLabel)))
+            attributedStrings.append(textStyle.attributedString(withText: Strings.parenthesis(text: authorLabel)))
         }
         
         return NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)

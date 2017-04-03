@@ -15,7 +15,7 @@ class SpinnerButton: UIButton {
     private let VerticalContentMargin : CGFloat = 5
     private let SpinnerHorizontalMargin : CGFloat = 10
     private var SpinnerViewWidthWithMargins : CGFloat {
-        return spinnerView.intrinsicContentSize().width + 2 * SpinnerHorizontalMargin
+        return spinnerView.intrinsicContentSize.width + 2 * SpinnerHorizontalMargin
     }
     
     private let spinnerView = SpinnerView(size: .Large, color: .White)
@@ -38,23 +38,23 @@ class SpinnerButton: UIButton {
             make.trailing.equalTo(self.snp_trailing).offset(-SpinnerHorizontalMargin).priorityHigh()
         }
         self.setNeedsUpdateConstraints()
-        if !showProgress { spinnerView.hidden = true }
+        if !showProgress { spinnerView.isHidden = true }
     }
     
-    override func intrinsicContentSize() -> CGSize {
-        let width = self.titleLabel?.intrinsicContentSize().width ?? 0 + SpinnerViewTrailingMargin + self.spinnerView.intrinsicContentSize().width
-        let height = max(super.intrinsicContentSize().height, spinnerView.intrinsicContentSize().height + 2 * VerticalContentMargin)
-        return CGSizeMake(width, height)
+    override var intrinsicContentSize: CGSize {
+        let width = self.titleLabel?.intrinsicContentSize.width ?? 0 + SpinnerViewTrailingMargin + self.spinnerView.intrinsicContentSize.width
+        let height = max(super.intrinsicContentSize.height, spinnerView.intrinsicContentSize.height + 2 * VerticalContentMargin)
+        return CGSize(width: width, height: height)
     }
     
     var showProgress : Bool = false {
         didSet {
             if showProgress {
-                spinnerView.hidden = false
+                spinnerView.isHidden = false
                 spinnerView.startAnimating()
             }
             else {
-                spinnerView.hidden = true
+                spinnerView.isHidden = true
                 spinnerView.stopAnimating()
             }
         }

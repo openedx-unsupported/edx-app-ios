@@ -10,8 +10,8 @@ import Foundation
 
 private let cellId = "CustomCell"
 
-private typealias RowType = (title: String, value: Any)
-private struct OEXVideoPlayerSetting {
+public typealias RowType = (title: String, value: Any)
+public struct OEXVideoPlayerSetting {
     let title: String
     let rows: [RowType]
     let isSelected: (_ row: Int) -> Bool
@@ -111,14 +111,14 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         return settings.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellId, forIndexPath: indexPath) as! OEXClosedCaptionTableViewCell
-        cell.selectionStyle = .None
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OEXClosedCaptionTableViewCell
+        cell.selectionStyle = .none
         
         cell.lbl_Title?.font = UIFont(name: "OpenSans", size: 12)
-        cell.viewDisable?.backgroundColor = UIColor.whiteColor()
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.backgroundColor = UIColor.whiteColor()
+        cell.viewDisable?.backgroundColor = UIColor.white
+        cell.layoutMargins = UIEdgeInsets.zero
+        cell.backgroundColor = UIColor.white
      
         let setting = settings[indexPath.row]
         cell.lbl_Title?.text = setting.title
@@ -126,25 +126,25 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedSetting = settings[indexPath.row]
         
-        let alert = UIAlertController(title: selectedSetting.title, message: nil, preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: selectedSetting.title, message: nil, preferredStyle: .actionSheet)
         
-        for (i, row) in selectedSetting.rows.enumerate() {
+        for (i, row) in selectedSetting.rows.enumerated() {
             var title = row.title
-            if selectedSetting.isSelected(row: i) {
+            if selectedSetting.isSelected(i) {
                 //Can't use font awesome here
                 title = NSString(format: Strings.videoSettingSelected, row.title) as String
 
             }
 
-            alert.addAction(UIAlertAction(title: title, style:.Default, handler: { _ in
+            alert.addAction(UIAlertAction(title: title, style:.default, handler: { _ in
                 selectedSetting.callback(value: row.value)
             }))
         }
         alert.addCancelAction()
-        delegate?.showSubSettings(alert)
+        delegate?.showSubSettings(chooser: alert)
     }
 }
 

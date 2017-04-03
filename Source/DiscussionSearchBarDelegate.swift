@@ -16,9 +16,9 @@ class DiscussionSearchBarDelegate: NSObject, UISearchBarDelegate {
         self.callback = callback
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let text = searchBar.text ?? ""
-        if text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
+        if text.trimmingCharacters(in: NSCharacterSet.whitespaces).isEmpty {
             return
         }
         searchBar.resignFirstResponder()
@@ -26,12 +26,12 @@ class DiscussionSearchBarDelegate: NSObject, UISearchBarDelegate {
         callback?(text)
     }
     
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)
     }
     
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.setShowsCancelButton(false, animated: true)
     }

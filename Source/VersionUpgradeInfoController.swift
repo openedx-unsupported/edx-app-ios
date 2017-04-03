@@ -21,7 +21,7 @@ class VersionUpgradeInfoController: NSObject {
         lastSupportedDateString = nil
     }
     
-    func populateFromHeaders(httpResponseHeaders headers: [NSObject : AnyObject]?) {
+    func populateFromHeaders(httpResponseHeaders headers: [String : Any]?) {
         
         guard let responseHeaders = headers else {
             if let _ = latestVersion {
@@ -56,8 +56,8 @@ class VersionUpgradeInfoController: NSObject {
     }
     
     private func postVersionUpgradeNotification() {
-        dispatch_async(dispatch_get_main_queue()) {
-            NSNotificationCenter.defaultCenter().postNotificationName(AppNewVersionAvailableNotification, object: self)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: AppNewVersionAvailableNotification), object: self)
         }
     }
 }

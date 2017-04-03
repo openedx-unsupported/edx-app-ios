@@ -38,7 +38,7 @@ class BasicAuthCredential: NSObject {
         super.init()
     }
     
-    var URLCredential : URLCredential {
+    var credential : URLCredential {
         // Return .ForSession since credentials may change between runs
         return URLCredential(user: username, password: password, persistence: .forSession)
     }

@@ -199,14 +199,14 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     
     private func loadOAuthRefreshRequest() {
         if let hostURL = environment.config.apiHostURL() {
-            guard let URL = hostURL.URLByAppendingPathComponent(OAuthExchangePath) else { return }
-            let exchangeRequest = NSMutableURLRequest(URL: URL)
-            exchangeRequest.HTTPMethod = HTTPMethod.POST.rawValue
+            let URL = hostURL.appendingPathComponent(OAuthExchangePath)
+            let exchangeRequest = NSMutableURLRequest(url: URL)
+            exchangeRequest.httpMethod = HTTPMethod.POST.rawValue
             
             for (key, value) in self.environment.session.authorizationHeaders {
                 exchangeRequest.addValue(value, forHTTPHeaderField: key)
             }
-            self.webController.loadURLRequest(exchangeRequest)
+            self.webController.loadURLRequest(request: exchangeRequest)
         }
     }
     
@@ -247,9 +247,9 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         let errorGroup = statusCode.errorGroup, state == .LoadingContent
         {
             switch errorGroup {
-            case .Http4xx:
+            case HttpErrorGroup.http4xx:
                 self.state = .NeedingSession
-            case .Http5xx:
+            case HttpErrorGroup.http5xx:
                 self.loadController.state = LoadState.failed()
                 decisionHandler(.cancel)
             }
@@ -290,8 +290,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         if let URL = webView.url, ((URL.absoluteString.hasSuffix(OAuthExchangePath)) != false) {
             completionHandler(.performDefaultHandling, nil)
         }
-        else if let credential = environment.config.URLCredentialForHost(challenge.protectionSpace.host)  {
-            completionHandler(.UseCredential, credential)
+        else if let credential = environment.config.URLCredentialForHost(challenge.protectionSpace.host as NSString)  {
+            completionHandler(.useCredential, credential)
         }
         else {
             completionHandler(.performDefaultHandling, nil)

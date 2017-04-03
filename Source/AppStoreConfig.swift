@@ -34,6 +34,6 @@ extension OEXConfig {
     }
     
     var appReviewURI : String? {
-        return stringForKey(appReviewURIKey)
+        return string(forKey: appReviewURIKey)
     }
 }

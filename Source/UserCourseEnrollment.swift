@@ -19,7 +19,7 @@ public class UserCourseEnrollment : NSObject {
     /** Url if the user has completed a certificate */
     let certificateUrl: String?
 
-    init?(dictionary: [String: AnyObject]) {
+    init?(dictionary: [String: Any]) {
         created = dictionary["created"] as? String
         mode = dictionary["mode"] as? String
         isActive = (dictionary["is_active"] as? NSNumber)?.boolValue ?? false

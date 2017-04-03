@@ -293,7 +293,7 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, transform : CourseBlock -> [A], accumulator : inout [A]) {
+    private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, transform : (CourseBlock) -> [A], accumulator : inout [A]) {
         if let block = self.blockWithID(id, inOutline: outline) {
             accumulator.appendContentsOf(transform(block))
             for child in block.children {
@@ -303,7 +303,7 @@ public class CourseOutlineQuerier : NSObject {
     }
     
 
-    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, transform : @escaping CourseBlock -> [A]) -> Stream<[A]> {
+    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, transform : @escaping (CourseBlock) -> [A]) -> Stream<[A]> {
         loadOutlineIfNecessary()
         return courseOutline.map {[weak self] outline -> [A] in
             var result : [A] = []

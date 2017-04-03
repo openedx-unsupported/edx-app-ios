@@ -82,7 +82,9 @@ public class UserProfile {
                 preferredLanguages = [["code": code]]
                 return
             }
-            preferredLanguages!.replaceRange(0...0, with: [["code": code]])
+            let cRange = 0...0
+            let range = Range(cRange)
+            preferredLanguages!.replaceSubrange(range, with: [["code": code]])
         }
     }
 }
@@ -104,7 +106,7 @@ extension UserProfile { //ViewModel
     }
     
     var language: String? {
-        return languageCode.flatMap { _ in return (Locale.current as NSLocale).displayName(forKey: .currencySymbol, value: countryCode) ?? "" }
+        return languageCode.flatMap { _ in return (Locale.current as NSLocale).displayName(forKey: .currencySymbol, value: countryCode ?? "") }
     }
     
     var sharingLimitedProfile: Bool {

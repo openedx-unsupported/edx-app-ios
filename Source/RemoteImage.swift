@@ -149,7 +149,7 @@ extension UIImageView {
             if let oldTask = objc_getAssociatedObject(self, &AssociatedKeys.LastRemoteTask) as? Removable {
                 oldTask.remove()
             }
-            if let newTask = newValue as? AnyObject {
+            if let newTask = newValue {
                 objc_setAssociatedObject(self, &AssociatedKeys.LastRemoteTask, newTask, .OBJC_ASSOCIATION_RETAIN)
             }
         }

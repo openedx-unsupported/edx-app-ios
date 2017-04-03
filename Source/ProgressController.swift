@@ -70,7 +70,7 @@ public class ProgressController: NSObject {
         //Assuming there wouldn't be a situation where we'd want to force-hide the views. Also, this will automatically show the View when reachability is back on or any other situation where we hid it unwillingly.
         showProgessView()
         circularProgressView.setProgress(downloadProgress, animated: true)
-        let percentStr = percentFormatter.string(from: NSNumber(value: downloadProgress))!
+        let percentStr = percentFormatter.string(from: NSNumber(value: Float(downloadProgress)))!
         let numeric = Int(downloadProgress * 100)
         downloadButton.accessibilityLabel = Strings.accessibilityDownloadProgressButton(percentComplete: numeric, formatted: percentStr)
     }

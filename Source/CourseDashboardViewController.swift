@@ -143,7 +143,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         
         NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: EnrollmentShared.successNotification) { (notification, observer, _) -> Void in
-            if let message = notification.object as? String {
+            if let message = (notification as NotificationCenter).object as? String {
                 observer.showOverlayMessage(message)
             }
         }
@@ -151,12 +151,12 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     private func resultLoaded(result : Result<UserCourseEnrollment>) {
         switch result {
-        case let .Success(enrollment): self.loadedCourseWithEnrollment(enrollment)
-        case let .Failure(error):
+        case let Result.success(enrollment): self.loadedCourseWithEnrollment(enrollment: enrollment)
+        case let Result.failure(error):
             if !courseStream.active {
                 // enrollment list is cached locally, so if the stream is still active we may yet load the course
                 // don't show failure until the stream is done
-                self.loadController.state = LoadState.failed(error)
+                self.loadController.state = LoadState.failed(error: error)
             }
         }
 
@@ -184,7 +184,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
                 }, url: url, analyticsCallback: { analyticsType in
                 analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
             })
-            self.presentViewController(controller, animated: true, completion: nil)
+            self.present(controller, animated: true, completion: nil)
         }
     }
 

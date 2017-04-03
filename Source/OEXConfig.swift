@@ -12,11 +12,11 @@ import Foundation
 extension OEXConfig {
 
     subscript(value : RawStringExtractable) -> Any? {
-        return self.objectForKey(value.rawValue)
+        return self.object(forKey: value.rawValue)
     }
 
     subscript(value : String) -> Any? {
-        return self.objectForKey(value)
+        return self.object(forKey: value)
     }
 
 }

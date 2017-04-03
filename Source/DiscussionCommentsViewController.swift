@@ -31,12 +31,12 @@ class DiscussionCommentCell: UITableViewCell {
     private let commentCountOrReportIconButton = UIButton(type: .system)
     private let divider = UIView()
     private let containerView = UIView()
-    private let endorsedLabel = UILabel()
+    fileprivate let endorsedLabel = UILabel()
     private let authorProfileImage = UIImageView()
     private let authorNameLabel = UILabel()
     private let dateLabel = UILabel()
     
-    private var endorsedTextStyle : OEXTextStyle {
+    fileprivate var endorsedTextStyle : OEXTextStyle {
         return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().utilitySuccessBase())
     }
     
@@ -140,7 +140,7 @@ class DiscussionCommentCell: UITableViewCell {
         bodyTextView.attributedText = commentTextStyle.markdownString(withText: response.renderedBody)
         DiscussionHelper.styleAuthorDetails(author: response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
-        let message = Strings.comment(formatted: String(response.childCount))
+        let message = Strings.comment(count: response.childCount)
         let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [
             Icon.Comment.attributedTextWithStyle(style: smallIconStyle),
             smallTextStyle.attributedString(withText: message)])
@@ -220,7 +220,7 @@ class DiscussionCommentCell: UITableViewCell {
         accessibilityString.append(body + sentenceSeparator)
             
         if let date = dateLabel.text {
-            accessibilityString.appendContentsOf(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
+            accessibilityString.append(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
         }
         
         if let author = authorNameLabel.text {

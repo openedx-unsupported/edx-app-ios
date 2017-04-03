@@ -43,7 +43,7 @@ public struct UserAPI {
         
         return NetworkRequest(
             method: HTTPMethod.PATCH,
-            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : blockID, "username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
+            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_format(withParameters: ["course_id" : blockID, "username":OEXSession.shared()?.currentUser?.username ?? ""]),
             requiresAuth : true,
             body : RequestBody.jsonBody(requestParams.jsonBody),
             deserializer: .jsonResponse(lastAccessedDeserializer))

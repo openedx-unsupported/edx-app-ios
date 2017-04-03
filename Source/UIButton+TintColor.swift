@@ -11,8 +11,8 @@ import UIKit
 extension UIButton {
     
     public func tintColor(color: UIColor) {
-        if let image = self.imageView?.image?.imageWithRenderingMode(.AlwaysTemplate) {
-            self.setImage(image, forState: .Normal)
+        if let image = self.imageView?.image?.withRenderingMode(.alwaysTemplate) {
+            self.setImage(image, for: .normal)
             self.tintColor  = color
         }
     }

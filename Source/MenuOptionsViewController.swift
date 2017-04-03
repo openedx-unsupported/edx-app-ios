@@ -154,7 +154,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
 
     // MARK: - Table view delegate
     
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 30
     }
     

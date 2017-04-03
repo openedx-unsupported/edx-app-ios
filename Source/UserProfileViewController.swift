@@ -10,23 +10,17 @@ import UIKit
 
 class UserProfileViewController: OfflineSupportViewController, UserProfilePresenterDelegate, LoadStateViewReloadSupport {
     
-    typealias Environment = protocol<
-        OEXAnalyticsProvider,
-        OEXConfigProvider,
-        NetworkManagerProvider,
-        OEXRouterProvider,
-        ReachabilityProvider
-    >
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & OEXRouterProvider & ReachabilityProvider
     
     private let environment : Environment
 
     private let editable: Bool
 
     private let loadController = LoadStateViewController()
-    private let contentView = UserProfileView(frame: CGRectZero)
+    private let contentView = UserProfileView(frame: CGRect.zero)
     private let presenter : UserProfilePresenter
     
-    convenience init(environment : protocol<UserProfileNetworkPresenter.Environment, Environment>, username : String, editable: Bool) {
+    convenience init(environment : UserProfileNetworkPresenter.Environment & Environment, username : String, editable: Bool) {
 
         let presenter = UserProfileNetworkPresenter(environment: environment, username: username)
         self.init(environment: environment, presenter: presenter, editable: editable)
@@ -52,24 +46,24 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         }
         
         if editable {
-            let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: nil, action: nil)
+            let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: nil)
             editButton.oex_setAction() { [weak self] in
-                self?.environment.router?.showProfileEditorFromController(self!)
+                self?.environment.router?.showProfileEditorFromController(controller: self!)
             }
             editButton.accessibilityLabel = Strings.Profile.editAccessibility
             navigationItem.rightBarButtonItem = editButton
         }
 
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
 
         addProfileListener()
         addExtraTabsListener()
 
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics.trackScreenWithName(OEXAnalyticsScreenProfileView)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenProfileView)
 
         presenter.refresh()
     }

@@ -69,7 +69,7 @@ class DownloadsAccessoryView : UIView {
     }
     
     private func useIcon(icon : Icon?) {
-        downloadButton.setImage(icon?.imageWithFontSize(size: iconFontSize), for:.Normal)
+        downloadButton.setImage(icon?.imageWithFontSize(size: iconFontSize), for:.normal)
     }
     
     var downloadAction : (() -> Void)? = nil {

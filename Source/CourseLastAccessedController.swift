@@ -99,7 +99,7 @@ public class CourseLastAccessedController: NSObject {
                 var item = $0.1
                 item.moduleName = block.displayName
                 
-                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverString(with: NSDate() as Date))
                 self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item: item)
             }
             

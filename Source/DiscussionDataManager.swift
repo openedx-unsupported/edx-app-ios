@@ -26,7 +26,7 @@ public class DiscussionDataManager : NSObject {
     
     public var topics : Stream<[DiscussionTopic]> {
         if topicStream.value == nil && !topicStream.active {
-            let request = DiscussionAPI.getCourseTopics(courseID)
+            let request = DiscussionAPI.getCourseTopics(courseID: courseID)
             if let stream = networkManager?.streamForRequest(request, persistResponse: true, autoCancel: false) {
                 topicStream.backWithStream(stream)
             }

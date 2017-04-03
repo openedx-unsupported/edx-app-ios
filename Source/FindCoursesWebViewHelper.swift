@@ -145,8 +145,8 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if let credential = config?.URLCredentialForHost(challenge.protectionSpace.host) {
-            completionHandler(.UseCredential, credential)
+        if let credential = config?.URLCredentialForHost(challenge.protectionSpace.host as NSString) {
+            completionHandler(.useCredential, credential)
         }
         else {
             completionHandler(.performDefaultHandling, nil)

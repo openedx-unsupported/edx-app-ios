@@ -66,7 +66,7 @@ private func logout(router:OEXRouter?) -> AuthenticationAction {
  new access token is saved and a successful AuthenticationAction is returned.
  */
 private func refreshAccessToken(clientId:String, refreshToken:String, session: OEXSession) -> AuthenticationAction {
-    return AuthenticationAction.authenticate( { (networkManager, completion) in
+    return AuthenticationAction.authenticate( { (networkManager,  completion) in
         let networkRequest = LoginAPI.requestTokenWithRefreshToken(
             refreshToken: refreshToken,
             clientId: clientId,

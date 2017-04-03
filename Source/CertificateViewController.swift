@@ -73,10 +73,10 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
     func share() {
         guard let url = request?.url else { return }
         let text = Strings.Certificates.shareText(platformName: environment.config.platformName())
-        let controller = shareTextAndALink(text, url: url) { analyticsType in
-            self.environment.analytics.trackCertificateShared(url.absoluteString!, type: analyticsType)
+        let controller = shareTextAndALink(text: text, url: url as NSURL) { analyticsType in
+            self.environment.analytics.trackCertificateShared(url: url.absoluteString, type: analyticsType)
         }
-        presentViewController(controller, animated: true, completion: nil)
+        present(controller, animated: true, completion: nil)
     }
 
     // MARK: - Request Loading

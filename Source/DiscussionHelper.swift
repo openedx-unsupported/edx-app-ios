@@ -83,7 +83,7 @@ class DiscussionHelper: NSObject {
         var attributedStrings = [NSAttributedString]()
         attributedStrings.append(authorName)
         if let authorLabel = authorLabel {
-            attributedStrings.append(textStyle.attributedStringWithText(Strings.parenthesis(text: authorLabel)))
+            attributedStrings.append(textStyle.attributedString(withText: Strings.parenthesis(text: authorLabel)))
         }
         
         let formattedAuthorName = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)

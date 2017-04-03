@@ -117,11 +117,11 @@ class PostTableViewCell: UITableViewCell {
         if thread.pinned { options.append(Icon.Pinned.attributedTextWithStyle(style: infoTextStyle, inline : true)) }
         if thread.following { options.append(Icon.FollowStar.attributedTextWithStyle(style: infoTextStyle)) }
         if options.count > 0 { options.append(infoTextStyle.attributedString(withText: Strings.pipeSign)) }
-        options.append(infoTextStyle.attributedStringWithText(Strings.Discussions.repliesCount(count: formatdCommentsCount(count: thread.commentCount))))
+        options.append(infoTextStyle.attributedString(withText: Strings.Discussions.repliesCount(count: formatdCommentsCount(count: thread.commentCount))))
         
         if let updatedAt = thread.updatedAt {
             options.append(infoTextStyle.attributedString(withText: Strings.pipeSign))
-            options.append(infoTextStyle.attributedStringWithText(Strings.Discussions.lastPost(date: updatedAt.displayDate)))
+            options.append(infoTextStyle.attributedString(withText: Strings.Discussions.lastPost(date: updatedAt.displayDate)))
         }
         
         infoLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: options)

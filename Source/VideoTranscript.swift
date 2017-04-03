@@ -86,7 +86,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
             highlightedIndex = index
             transcriptTableView.reloadData()
             if !isTableDragged {
-                transcriptTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: UITableViewScrollPosition.Middle, animated: true)
+                transcriptTableView.scrollToRow(at: IndexPath(row: index, section: 0), at: UITableViewScrollPosition.middle, animated: true)
             }
         }
     }

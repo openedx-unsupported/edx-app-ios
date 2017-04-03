@@ -11,8 +11,8 @@ import Foundation
 extension OEXDateFormatting {
     
     public class func formatAsDateMonthYearStringWithDate(date: NSDate) -> String {
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = .MediumStyle
-        return formatter.stringFromDate(date)
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter.string(from: date as Date)
     }
 }

@@ -84,7 +84,7 @@ public class VersionUpgradeView: UIView {
         }
         
         UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
-            self.transform = CGAffineTransformIdentity
+            self.transform = .identity
             }, completion: { _ in
                 container?.removeFromSuperview()
                 isActionTakenOnUpgradeSnackBar = true
@@ -106,13 +106,13 @@ public class OfflineView: UIView {
     }
     
     init(message: String, selector: Selector?) {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         self.selector = selector
         self.backgroundColor = OEXStyles.shared().warningBase()
         messageLabel.numberOfLines = 0
-        messageLabel.attributedText = messageLabelStyle.attributedStringWithText(message)
-        reloadButton.setAttributedTitle(buttonLabelStyle.attributedStringWithText(Strings.reload), forState: .Normal)
-        dismissButton.setAttributedTitle(buttonLabelStyle.attributedStringWithText(Strings.VersionUpgrade.dismiss), forState: .Normal)
+        messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
+        reloadButton.setAttributedTitle(buttonLabelStyle.attributedString(withText: Strings.reload), for: .normal)
+        dismissButton.setAttributedTitle(buttonLabelStyle.attributedString(withText: Strings.VersionUpgrade.dismiss), for: .normal)
         addSubview(messageLabel)
         addSubview(dismissButton)
         addSubview(reloadButton)
@@ -155,8 +155,8 @@ public class OfflineView: UIView {
         reloadButton.oex_addAction({[weak self] _ in
             let controller = self?.firstAvailableUIViewController()
             if let controller = controller, let selector = self?.selector {
-                if controller.respondsToSelector(selector) && OEXRouter.sharedRouter().environment.reachability.isReachable() {
-                    controller.performSelector(selector)
+                if controller.responds(to: selector) && OEXRouter.shared().environment.reachability.isReachable() {
+                    controller.perform(selector)
                     self?.dismissView()
                 }
             }
@@ -172,8 +172,8 @@ public class OfflineView: UIView {
             container = self
         }
         
-        UIView.animateWithDuration(animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseOut, animations: {
-            self.transform = CGAffineTransformIdentity
+        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
+            self.transform = .identity
             }, completion: { _ in
                 container!.removeFromSuperview()
         })
