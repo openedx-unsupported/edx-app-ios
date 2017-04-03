@@ -131,9 +131,9 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
-    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, response : DiscussionComment, closed : Bool, thread: DiscussionThread, isDiscussionBlackedOut: Bool) {
-        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed, thread: thread, isDiscussionBlackedOut: isDiscussionBlackedOut)
-       
+    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, response : DiscussionComment, closed : Bool, thread: DiscussionThread) {
+        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed, thread: thread)
+        
         if let delegate = controller as? DiscussionCommentsViewControllerDelegate {
             commentsVC.delegate = delegate
         }
@@ -267,6 +267,10 @@ extension OEXRouter {
             reviewController.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
             reviewController.providesPresentationContextTransitionStyle = true
             reviewController.definesPresentationContext = true
+            
+            if let controller = fromController as? VideoBlockViewController {
+                reviewController.delegate = controller
+            }
             
             fromController.presentViewController(reviewController, animated: false, completion: nil)
         }

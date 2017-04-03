@@ -24,6 +24,17 @@ class RatingView: UIControl {
     
     var shouldBeginGestureRecognizerBlock : RatingViewShouldBeginGestureRecognizerBlock?
     
+    init() {
+        super.init(frame: CGRectZero)
+        isAccessibilityElement = true
+        accessibilityLabel = Strings.AppReview.ratingControlAccessibilityLabel
+        accessibilityHint = Strings.AppReview.ratingControlAccessibilityHint
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //MARK: - Action generators
     func setRatingValue(value: Int) {
         willChangeValueForKey("value")

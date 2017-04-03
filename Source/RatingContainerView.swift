@@ -71,6 +71,8 @@ class RatingContainerView: UIView {
         closeButton.layer.masksToBounds = true
         closeButton.setAttributedTitle(Icon.Close.attributedTextWithStyle(closeButtonTextStyle), forState: UIControlState.Normal)
         closeButton.backgroundColor = UIColor.whiteColor()
+        closeButton.accessibilityLabel = Strings.close
+        closeButton.accessibilityHint = Strings.Accessibility.closeHint
         closeButton.oex_addAction({[weak self] (action) in
             self?.delegate?.closeButtonPressed()
             }, forEvents: UIControlEvents.TouchUpInside)
@@ -87,6 +89,8 @@ class RatingContainerView: UIView {
         contentView.addSubview(submitButton)
         
         setupConstraints()
+        
+        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, descriptionLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
