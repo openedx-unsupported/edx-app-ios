@@ -193,14 +193,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         //set visibility of header view
         updateHeaderViewVisibility()
         
-        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID)
-        stream = environment.networkManager.streamForRequest(apiRequest)
-        stream?.listen(self) { [weak self] (result) in
-            if let discussionInfo = result.value {
-                self?.isDiscussionBlackedOut = discussionInfo.isBlackedOut
-            }
-            self?.loadContent()
-        }
+        loadContent()
         
         setAccessibility()
     }
@@ -399,6 +392,39 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    private func loadContent() {
+        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID)
+        stream = environment.networkManager.streamForRequest(apiRequest)
+        stream?.listen(self, success: { [weak self] (discussionInfo) in
+            self?.isDiscussionBlackedOut = discussionInfo.isBlackedOut
+            self?.loadPostContent()
+            }
+            ,failure: { [weak self] (error) in
+                self?.loadController.state = LoadState.failed(NSError.oex_unknownError())
+            })
+    }
+    
+    private func loadPostContent() {
+        guard let context = context else {
+            // context is only nil in case if topic is selected
+            loadTopic()
+            return
+        }
+        
+        logScreenEvent()
+        
+        switch context {
+        case let .Topic(topic):
+            loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
+        case let .Search(query):
+            searchThreads(query)
+        case .Following:
+            loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
+        case .AllPosts:
+            loadPostsForTopic(nil, filter: selectedFilter, orderBy: selectedOrderBy)
+        }
+    }
+    
     private func loadTopic() {
         guard let topicID = topicID else {
             loadController.state = LoadState.failed(NSError.oex_unknownError())
@@ -417,27 +443,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             else {
                 self?.loadController.state = LoadState.failed(NSError.oex_unknownError())
             }
-        }
-    }
-    
-    private func loadContent() {
-        guard let context = context else {
-            // context is only nil in case if topic is selected
-            loadTopic()
-            return
-        }
-        
-        logScreenEvent()
-        
-        switch context {
-        case let .Topic(topic):
-            loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
-        case let .Search(query):
-            searchThreads(query)
-        case .Following:
-            loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
-        case .AllPosts:
-            loadPostsForTopic(nil, filter: selectedFilter, orderBy: selectedOrderBy)
         }
     }
 
