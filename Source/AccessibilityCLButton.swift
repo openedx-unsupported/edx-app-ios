@@ -33,9 +33,9 @@ public class AccessibilityCLButton: CLButton {
         self.normalAccessibilityLabel = normalLabel
     }
     
-    public override func drawRect(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         let r = UIBezierPath(ovalIn: rect)
-        UIColor.blackColor.colorWithAlphaComponent(0.65).setFill()
+        UIColor.black.withAlphaComponent(0.65).setFill()
         r.fill()
         super.draw(rect)
     }
