@@ -28,7 +28,6 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private var selectedRating : Int?
     
     static func canShowAppReview(environment: Environment) -> Bool {
-        return true
         guard let _ = environment.config.appReviewURI where environment.interface?.reachable ?? false && environment.config.isAppReviewsEnabled else { return false }
         
         if let appRating = environment.interface?.getSavedAppRating(), let lastVersionForAppReview = environment.interface?.getSavedAppVersionWhenLastRated(){
