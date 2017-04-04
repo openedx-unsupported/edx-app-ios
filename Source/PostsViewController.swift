@@ -400,7 +400,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self?.loadPostContent()
             }
             ,failure: { [weak self] (error) in
-                self?.loadController.state = LoadState.failed(NSError.oex_unknownError())
+                self?.loadController.state = LoadState.failed(error)
             })
     }
     
@@ -441,7 +441,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self?.loadContent()
             }
             else {
-                self?.loadController.state = LoadState.failed(NSError.oex_unknownError())
+                self?.loadController.state = LoadState.failed(response.error)
             }
         }
     }
