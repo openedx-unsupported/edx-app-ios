@@ -266,7 +266,7 @@ open class NetworkManager : NSObject {
                         return .success(bodyRequest)
                     }
                 case let .jsonBody(json):
-                    let (bodyRequest, error) = ParameterEncoding.json.encode(mutableURLRequest as! URLRequestConvertible, parameters: json.dictionaryObject as [String : AnyObject]?? ?? [:])
+                    let (bodyRequest, error) = ParameterEncoding.json.encode(mutableURLRequest as! URLRequestConvertible, parameters: json.dictionaryObject as [String : AnyObject]? ?? [:] )
                     if let error = error {
                         return .failure(error)
                     }

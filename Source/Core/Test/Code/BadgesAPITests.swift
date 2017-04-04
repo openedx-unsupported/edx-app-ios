@@ -26,7 +26,7 @@ class BadgesAPITests : XCTestCase {
         return [
             "assertion_url": "http://example.com/evidence",
             "image_url": "http://example.com/image.jpg",
-            "created": OEXDateFormatting.serverStringWithDate(NSDate()),
+            "created": OEXDateFormatting.serverString(with: NSDate() as Date),
             "badge_class": [
                 "description" : "Some cool badge!",
                 "slug": "someslug",
@@ -40,14 +40,14 @@ class BadgesAPITests : XCTestCase {
 
     func testRequest() {
         let request = BadgesAPI.requestBadgesForUser("someuser")
-        XCTAssertTrue(request.path.containsString("someuser"))
+        XCTAssertTrue(request.path.contains("someuser"))
         XCTAssertEqual(request.method, HTTPMethod.GET)
     }
 
     func testParsingBadInput() {
         let request = BadgesAPI.requestBadgesForUser("someuser")
         switch request.deserializer {
-        case let .JSONResponse(deserializer):
+        case let .jsonResponse(deserializer):
             let response = HTTPURLResponse(url: URL(string: "http://example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             let result = deserializer(response, JSON("not a list"))
             AssertFailure(result)
@@ -59,7 +59,7 @@ class BadgesAPITests : XCTestCase {
     func testParsingSuccess() {
         let request = BadgesAPI.requestBadgesForUser("someuser")
         switch request.deserializer {
-        case let .JSONResponse(deserializer):
+        case let .jsonResponse(deserializer):
             let response = HTTPURLResponse(url: URL(string: "http://example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             let result = deserializer(response, paginate(results: JSON([sampleBadgeJSON, sampleBadgeJSON])))
             AssertSuccess(result)
@@ -72,7 +72,7 @@ class BadgesAPITests : XCTestCase {
     func testParsingSkipsFailure() {
         let request = BadgesAPI.requestBadgesForUser("someuser")
         switch request.deserializer {
-        case let .JSONResponse(deserializer):
+        case let .jsonResponse(deserializer):
             let response = HTTPURLResponse(url: URL(string: "http://example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
 
             let result = deserializer(response, paginate(results: JSON([sampleBadgeJSON, ["foo":"bar"]])))

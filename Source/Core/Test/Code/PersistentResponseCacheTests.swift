@@ -25,7 +25,7 @@ class PersistentResponseCacheTests: XCTestCase {
                     .appendingPathComponent(self.username, isDirectory: true)
                 try! FileManager.default.createDirectory(at: path, withIntermediateDirectories: true, attributes: [:])
 
-                return path.URLByAppendingPathComponent($0.oex_md5)!
+                return path.appendingPathComponent($0.oex_md5)
             }
         }
     }
@@ -94,7 +94,7 @@ class PersistentResponseCacheTests: XCTestCase {
         let postRequest = (getRequest as NSURLRequest).mutableCopy() as! NSMutableURLRequest
         postRequest.httpMethod = "POST"
         
-        cache.setCacheResponse(response, withData: postData, forRequest: postRequest) {
+        cache.setCacheResponse(response, withData: postData, forRequest: postRequest as URLRequest) {
             postStoreExpectation.fulfill()
         }
         waitForExpectations()
@@ -107,7 +107,7 @@ class PersistentResponseCacheTests: XCTestCase {
         waitForExpectations()
         
         let postLoadExpectation = expectation(description: "Cache loaded POST")
-        cache.fetchCacheEntryWithRequest(postRequest) {
+        cache.fetchCacheEntryWithRequest(postRequest as URLRequest) {
             XCTAssertEqual($0!.data!, postData)
             postLoadExpectation.fulfill()
         }
@@ -165,7 +165,7 @@ class PersistentResponseCacheTests: XCTestCase {
         objc_registerClassPair(klass)
         autoreleasepool {
             let object = OEXMetaClassHelpers.instance(ofClassNamed: "FakeClass")
-            NSKeyedArchiver.archiveRootObject(object, toFile: path!.path!)
+            NSKeyedArchiver.archiveRootObject(object!, toFile: path!.path)
         }
         objc_disposeClassPair(klass)
 
@@ -195,9 +195,9 @@ class PersistentResponseCacheTests: XCTestCase {
         let klass: AnyClass = objc_allocateClassPair(ResponseCacheEntry.self, "FakeEntryClass", 0)
         objc_registerClassPair(klass)
         autoreleasepool {
-            let entry = ResponseCacheEntry(data: "test".dataUsingEncoding(String.Encoding.utf8), response: HTTPURLResponse(URL: request.URL!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!)
+            let entry = ResponseCacheEntry(data: "test".data(using: String.Encoding.utf8), response: HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
             object_setClass(entry, klass)
-            NSKeyedArchiver.archiveRootObject(entry, toFile: path!.path!)
+            NSKeyedArchiver.archiveRootObject(entry, toFile: path!.path)
         }
         objc_disposeClassPair(klass)
 
@@ -206,8 +206,8 @@ class PersistentResponseCacheTests: XCTestCase {
         let expectation = self.expectation(description: "cache loads")
         cache.fetchCacheEntryWithRequest(request) { (entry) in
             XCTAssertEqual(entry?.statusCode, 200)
-            XCTAssertEqual(entry?.URL, request.URL)
-            XCTAssertEqual(entry?.data, "test".dataUsingEncoding(NSUTF8StringEncoding))
+            XCTAssertEqual(entry?.URL, request.url)
+            XCTAssertEqual(entry?.data, "test".data(using: String.Encoding.utf8))
             expectation.fulfill()
         }
         waitForExpectations()

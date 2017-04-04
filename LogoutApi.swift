@@ -15,7 +15,7 @@ public struct LogoutApi {
             return Failure()
         }
         
-        return Success()
+        return Success(v: ())
     }
     
     public static func invalidateToken(refreshToken: String, clientID: String) -> NetworkRequest<()> {

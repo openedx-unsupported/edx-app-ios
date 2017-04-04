@@ -63,7 +63,7 @@ import UIKit
 public func responseCacheKeyForRequest(_ request : URLRequest) -> String? {
     if let urlString = request.url?.absoluteString,
         let method = request.httpMethod {
-            return "\(urlString)_\(method)"
+        return "\(urlString)_\(method)"
     }
     return nil
 }
@@ -89,7 +89,7 @@ open class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverD
         @objc required init?(coder aDecoder: NSCoder) {
             return nil
         }
-
+        
         @objc fileprivate func encode(with aCoder: NSCoder) {
             // do nothing
         }
@@ -102,17 +102,17 @@ open class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverD
         queue = DispatchQueue(label: "org.edx.request-cache", attributes: [])
         self.pathProvider = provider
     }
-
+    
     // When you move a class between modules it gets a different class name from the perspective of
     // unarchiving. This catches that case and reroutes the unarchiver to the correct class
     open func unarchiver(_ unarchiver: NSKeyedUnarchiver, cannotDecodeObjectOfClassName name: String, originalClasses classNames: [String]) -> AnyClass? {
         if name.contains("Entry") {
             return ResponseCacheEntry.classForKeyedUnarchiver()
         }
-
+        
         return DummyCodeableObject.classForKeyedUnarchiver()
     }
-
+    
     fileprivate func unarchiveEntryWithData(_ data : Data) -> ResponseCacheEntry? {
         let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
         unarchiver.delegate = self
@@ -126,9 +126,9 @@ open class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverD
             if let path = path,
                 let data = try? Data(contentsOf: path, options: NSData.ReadingOptions()),
                 let entry = self.unarchiveEntryWithData(data) {
-                    DispatchQueue.main.async {
-                        completion(entry)
-                    }
+                DispatchQueue.main.async {
+                    completion(entry)
+                }
             }
             else {
                 DispatchQueue.main.async {

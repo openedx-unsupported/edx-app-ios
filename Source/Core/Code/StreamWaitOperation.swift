@@ -33,4 +33,3 @@ class StreamWaitOperation<A> : OEXOperation {
         }
     }
 }
-
