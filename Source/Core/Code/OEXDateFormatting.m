@@ -11,6 +11,7 @@
 /// Time zone set by UserPreferenceAPI
 /// The standard date format used all across the edX Platform. Standard ISO 8601
 static NSString* const OEXStandardDateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+static NSString* const OEXSecondaryDateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZ";
 static NSString* const OEXStandardDateFormatMicroseconds = @"yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'";
 
 @implementation OEXDateFormatting
@@ -40,6 +41,10 @@ static NSString* const OEXStandardDateFormatMicroseconds = @"yyyy-MM-dd'T'HH:mm:
     // Some APIs return fractional microseconds instead of seconds
     if(result == nil) {
         [formatter setDateFormat:OEXStandardDateFormatMicroseconds];
+        result = [formatter dateFromString:dateString];
+    }
+    if(result == nil) {
+        [formatter setDateFormat:OEXSecondaryDateFormat];
         result = [formatter dateFromString:dateString];
     }
     return result;

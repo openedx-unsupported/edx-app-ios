@@ -10,7 +10,7 @@ import Foundation
 
 class DiscussionBlockViewController: UIViewController,CourseBlockViewController {
     
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, OEXStylesProvider>
     
     let courseID: String
     let blockID : CourseBlockID?

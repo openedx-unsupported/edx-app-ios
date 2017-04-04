@@ -90,6 +90,10 @@ public class DiscussionAPI {
             return Failure(NSError.oex_courseContentLoadError())
         }
     }
+    
+    private static func discussionInfoDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionInfo> {
+        return DiscussionInfo(json : json).toResult(NSError.oex_courseContentLoadError())
+    }
 
     //MA-1378 - Automatically follow posts when creating a new post
     static func createNewThread(newThread: DiscussionNewThread, follow : Bool = true) -> NetworkRequest<DiscussionThread> {
@@ -320,6 +324,16 @@ public class DiscussionAPI {
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
         ).paginated(page: pageNumber)
+    }
+    
+    static func getDiscussionInfo(courseID: String) -> NetworkRequest<(DiscussionInfo)> {
+        return NetworkRequest(
+            method : HTTPMethod.GET,
+            path : "/api/discussion/v1/courses/\(courseID)",
+            query: [:],
+            requiresAuth : true,
+            deserializer : .JSONResponse(discussionInfoDeserializer)
+        )
     }
 
 }
