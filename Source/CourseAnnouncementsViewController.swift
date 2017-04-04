@@ -99,8 +99,8 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
         )
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated: animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.loadContent()
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenAnnouncements, courseID: courseID, value: nil)
     }
@@ -113,8 +113,8 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
         if !announcementsLoader.active {
             let networkManager = environment.networkManager
             announcementsLoader.backWithStream(
-                environment.dataManager.enrollmentManager.streamForCourseWithID(courseID).transform {
-                    let request = CourseAnnouncementsViewController.requestForCourse($0.course)
+                environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID).transform {
+                    let request = CourseAnnouncementsViewController.requestForCourse(course: $0.course)
                     return networkManager.streamForRequest(request, persistResponse: true)
                 }
             )

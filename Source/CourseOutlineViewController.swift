@@ -92,18 +92,18 @@ public class CourseOutlineViewController :
         addListeners()
     }
     
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated: animated)
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         lastAccessedController.loadLastAccessed()
         lastAccessedController.saveLastAccessed()
-        let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(blockID))
+        let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
         stream.extendLifetimeUntilFirstResult (success :
             { (rootID, block) in
                 if self.blockID == rootID || self.blockID == nil {
-                    self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenCourseOutline, courseID: self.courseID, value: nil)
+                    self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self.courseID, value: nil)
                 }
                 else {
-                    self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.internalName)
+                    self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.internalName)
                 }
             },
             failure: {
@@ -143,7 +143,7 @@ public class CourseOutlineViewController :
     }
     
     private func reload() {
-        self.blockIDStream.backWithStream(Stream(value : self.blockID))
+        self.blockIDStream.backWithStream(OEXStream(value : self.blockID))
     }
     
     private func emptyState() -> LoadState {
@@ -159,7 +159,7 @@ public class CourseOutlineViewController :
     private func addListeners() {
         headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
             if let owner = self {
-                return owner.courseQuerier.childrenOfBlockWithID(blockID)
+                return owner.courseQuerier.childrenOfBlockWithID(blockID: blockID)
             }
             else {
                 return OEXStream<CourseOutlineQuerier.BlockGroup>(error: NSError.oex_courseContentLoadError())
@@ -168,7 +168,7 @@ public class CourseOutlineViewController :
         rowsLoader.backWithStream(headersLoader.transform {[weak self] headers in
             if let owner = self {
                 let children = headers.children.map {header in
-                    return owner.courseQuerier.childrenOfBlockWithID(header.blockID)
+                    return owner.courseQuerier.childrenOfBlockWithID(blockID: header.blockID)
                 }
                 return joinStreams(children)
             }
@@ -177,7 +177,7 @@ public class CourseOutlineViewController :
             }}
         )
         
-        self.blockIDStream.backWithStream(Stream(value: rootID))
+        self.blockIDStream.backWithStream(OEXStream(value: rootID))
         
         headersLoader.listen(self,
             success: {[weak self] headers in
@@ -230,7 +230,7 @@ public class CourseOutlineViewController :
         let courseID = self.courseID
         let analytics = environment.analytics
         
-        courseQuerier.parentOfBlockWithID(block.blockID).listenOnce(self, success:
+        courseQuerier.parentOfBlockWithID(blockID: block.blockID).listenOnce(self, success:
             { parentID in
                 analytics.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
             },
@@ -263,7 +263,7 @@ public class CourseOutlineViewController :
     
     //MARK: CourseContentPageViewControllerDelegate
     public func courseContentPageViewController(controller: CourseContentPageViewController, enteredBlockWithID blockID: CourseBlockID, parentID: CourseBlockID) {
-        self.blockIDStream.backWithStream(courseQuerier.parentOfBlockWithID(parentID))
+        self.blockIDStream.backWithStream(courseQuerier.parentOfBlockWithID(blockID: parentID))
         self.tableController.highlightedBlockID = blockID
     }
     
