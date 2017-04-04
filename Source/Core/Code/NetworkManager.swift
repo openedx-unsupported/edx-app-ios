@@ -322,7 +322,7 @@ open class NetworkManager : NSObject {
         }
     }
     
-    open func taskForRequest<Out>(_ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
+    @discardableResult open func taskForRequest<Out>(_ networkRequest : NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
         let URLRequest = URLRequestWithRequest(networkRequest)
         
         let authenticator = self.authenticator

@@ -211,9 +211,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func updateAccessibility() {
         
-        filterButton.accessibilityLabel = Strings.Accessibility.discussionFilterBy(filterBy: titleForFilter(selectedFilter))
+        filterButton.accessibilityLabel = Strings.Accessibility.discussionFilterBy(filterBy: titleForFilter(filter: selectedFilter))
         filterButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
-        sortButton.accessibilityLabel = Strings.Accessibility.discussionSortBy(sortBy: titleForSort(selectedOrderBy))
+        sortButton.accessibilityLabel = Strings.Accessibility.discussionSortBy(sortBy: titleForSort(filter: selectedOrderBy))
         sortButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
     }
     
@@ -301,7 +301,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.snp_remakeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(context?.allowsPosting ?? false ? OEXStyles.sharedStyles().standardFooterHeight : 0)
+            make.height.equalTo(context?.allowsPosting ?? false ? OEXStyles.shared().standardFooterHeight : 0)
             make.top.equalTo(contentView.snp_bottom)
             make.bottom.equalTo(view)
         }

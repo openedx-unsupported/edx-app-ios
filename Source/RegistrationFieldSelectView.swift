@@ -79,11 +79,11 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
         return 1
     }
 
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return self.options[row].name
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selected = self.options[row]
         if let selected = self.selected, !selected.value.isEmpty {
             self.textInputView.text = selected.name

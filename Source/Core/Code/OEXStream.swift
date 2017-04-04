@@ -125,7 +125,7 @@ open class OEXStream<A> : StreamDependency {
     /// - parameter owner: The listener will automatically be removed when owner gets deallocated.
     /// - parameter fireIfLoaded: If true then this will fire the listener immediately if the signal has already received a value.
     /// - parameter action: The action to fire when the stream receives a result.
-    open func listen(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, action : @escaping (Result<A>) -> Void) -> Removable {
+    @discardableResult open func listen(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, action : @escaping (Result<A>) -> Void) -> Removable {
         let listener = Listener(action: action) {[weak self] (listener : Listener<A>) in
             if let listeners = self?.listeners, let index = listeners.index(of: listener) {
                 self?.listeners.remove(at: index)
@@ -157,7 +157,7 @@ open class OEXStream<A> : StreamDependency {
     /// - parameter success: The action to fire when the stream receives a Success result.
     /// - parameter failure: The action to fire when the stream receives a Failure result.
     /// - parameter finally: An action that will be executed after both the success and failure actions
-    open func listen(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : ((Void) -> Void)? = nil) -> Removable {
+    @discardableResult  open func listen(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : ((Void) -> Void)? = nil) -> Removable {
         return listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action: joinHandlers(success:success, failure:failure, finally:finally))
     }
     
@@ -168,12 +168,12 @@ open class OEXStream<A> : StreamDependency {
     /// - parameter success: The action to fire when the stream receives a Success result.
     /// - parameter success: The action to fire when the stream receives a Failure result.
     /// - parameter finally: An action that will be executed after both the success and failure actions
-    open func listenOnce(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : ((Void) -> Void)? = nil) -> Removable {
+    @discardableResult open func listenOnce(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : ((Void) -> Void)? = nil) -> Removable {
 
         return listenOnce(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action : joinHandlers(success:success, failure:failure, finally:finally))
     }
     
-    open func listenOnce(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, action : @escaping (Result<A>) -> Void) -> Removable {
+    @discardableResult open func listenOnce(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, action : @escaping (Result<A>) -> Void) -> Removable {
         let removable = listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action : action)
         let followup = listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded,
             action: {_ in
@@ -398,7 +398,7 @@ open class BackedStream<A> : OEXStream<A> {
     
     /// Removes the old backing and adds a new one. When the backing stream fires so will this one.
     /// Think of this as rewiring a pipe from an old source to a new one.
-    open func backWithStream(_ stream : OEXStream<A>) -> Removable {
+    @discardableResult open func backWithStream(_ stream : OEXStream<A>) -> Removable {
         removeAllBackings()
         return addBackingStream(stream)
     }

@@ -98,8 +98,8 @@ class CourseCatalogDetailViewController: UIViewController {
         if let message = message {
             
             let after = DispatchTime.now() + Double(Int64(EnrollmentShared.overlayMessageDelay * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-            DispatchQueue.main.asyncAfter(deadline: time) {
-                NotificationCenter.defaultCenter.postNotificationName(NSNotification.Name(rawValue: EnrollmentShared.successNotification), object: message)
+            DispatchQueue.main.asyncAfter(deadline: after) {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: EnrollmentShared.successNotification), object: message)
             }
         }
     }
