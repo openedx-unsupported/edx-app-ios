@@ -98,7 +98,7 @@ class OEXRearTableViewController : UITableViewController {
         guard environment.config.profilesEnabled else { return }
         profileFeed = self.environment.userProfileManager.feedForCurrentUser()
         profileFeed?.output.listen(self,  success: { profile in
-            self.userProfilePicture.remoteImage = profile.image(self.environment.networkManager)
+            self.userProfilePicture.remoteImage = profile.image(networkManager: self.environment.networkManager)
             }, failure : { _ in
                 Logger.logError("Profiles", "Unable to fetch profile")
         })

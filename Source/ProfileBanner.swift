@@ -59,7 +59,7 @@ class ProfileBanner: UIView {
             isUserInteractionEnabled = true
             addSubview(changeButton)
 
-            changeButton.setIconAndTitle(Icon.Camera, title: Strings.Profile.changePictureButton)
+            changeButton.setIconAndTitle(icon: Icon.Camera, title: Strings.Profile.changePictureButton)
             changeButton.accessibilityHint = Strings.Profile.changePictureAccessibilityHint
             
             changeButton.snp_makeConstraints(closure: { (make) -> Void in

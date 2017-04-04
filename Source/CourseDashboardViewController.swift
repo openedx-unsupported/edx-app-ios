@@ -66,7 +66,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     fileprivate var cellItems: [CourseDashboardItem] = []
     
     fileprivate let loadController = LoadStateViewController()
-    private let courseStream = BackedStream<UserCourseEnrollment>()
+    fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
@@ -137,13 +137,13 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         self.progressController.hideProgessView()
         
-        courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID))
+        courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
         courseStream.listen(self) {[weak self] in
             self?.resultLoaded(result: $0)
         }
         
         NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: EnrollmentShared.successNotification) { (notification, observer, _) -> Void in
-            if let message = (notification as NotificationCenter).object as? String {
+            if let message = notification.object as? String {
                 observer.showOverlayMessage(message)
             }
         }

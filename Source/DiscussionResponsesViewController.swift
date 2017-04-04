@@ -197,7 +197,7 @@ class DiscussionResponseCell: UITableViewCell {
         }
         
         if response.childCount > 0 {
-            accessibilityString.appendContentsOf(Strings.commentsToResponse(formatted: response.childCount))
+            accessibilityString.append(Strings.commentsToResponse(count: response.childCount))
         }
         
         self.accessibilityLabel = accessibilityString
@@ -303,7 +303,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(OEXStyles.sharedStyles().standardFooterHeight)
+            make.height.equalTo(OEXStyles.shared().standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
             make.top.equalTo(tableView.snp_bottom)
         }
@@ -392,7 +392,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 }
                 
             }, failure: { [weak self] (error) -> Void in
-                self?.loadController?.state = LoadState.failed(error)
+                self?.loadController?.state = LoadState.failed(error: error)
                 
             })
         
@@ -418,8 +418,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 
             }, failure: { [weak self] (error) -> Void in
                 // endorsed responses are loaded in separate request and also populated in different section
-                if self?.responsesDataController.endorsedResponses.count <= 0 {
-                    self?.loadController?.state = LoadState.failed(error)
+                if self?.responsesDataController.endorsedResponses.count ?? 0 <= 0 {
+                    self?.loadController?.state = LoadState.failed(error: error)
                 }
                 else {
                     self?.loadController?.state = .Loaded
@@ -638,7 +638,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             cell.commentButton.enabled = !isDiscussionBlackedOut
         }
         else {
-            prompt = Strings.commentsToResponse(formatted: String(response.childCount))
+            prompt = Strings.commentsToResponse(count: response.childCount)
             icon = Icon.Comment
             commentStyle = responseMessageStyle
         }

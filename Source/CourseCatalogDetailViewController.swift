@@ -85,8 +85,8 @@ class CourseCatalogDetailViewController: UIViewController {
     private func load() {
         let request = CourseCatalogAPI.getCourse(courseID: courseID)
         let courseStream = environment.networkManager.streamForRequest(request)
-        let enrolledStream = environment.dataManager.enrollmentManager.streamForCourseWithID(courseID).resultMap {
-            return .Success($0.isSuccess)
+        let enrolledStream = environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID).resultMap {
+            return Result.success($0.isSuccess)
         }
         let stream = joinStreams(courseStream, enrolledStream).map{($0, enrolled: $1) }
         self.courseStream.backWithStream(stream)
@@ -96,9 +96,10 @@ class CourseCatalogDetailViewController: UIViewController {
         self.environment.router?.showMyCourses(animated: true, pushingCourseWithID:courseID)
         
         if let message = message {
-            let after = dispatch_time(dispatch_time_t(DISPATCH_TIME_NOW), Int64(EnrollmentShared.overlayMessageDelay * TimeInterval(NSEC_PER_SEC)))
-            dispatch_after(after, dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(EnrollmentShared.successNotification, object: message, userInfo: nil)
+            
+            let after = DispatchTime.now() + Double(Int64(EnrollmentShared.overlayMessageDelay * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                NotificationCenter.defaultCenter.postNotificationName(NSNotification.Name(rawValue: EnrollmentShared.successNotification), object: message)
             }
         }
     }
@@ -139,7 +140,7 @@ extension CourseCatalogDetailViewController {
         return self.aboutView.actionText
     }
     
-    func t_enrollInCourse(completion : () -> Void) {
+    func t_enrollInCourse(completion : @escaping () -> Void) {
         enrollInCourse(completion: completion)
     }
     

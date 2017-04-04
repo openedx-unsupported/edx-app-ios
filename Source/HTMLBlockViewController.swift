@@ -49,7 +49,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
     
     private func loadData() {
         if !loader.hasBacking {
-            loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
+            loader.backWithStream(courseQuerier.blockWithID(id: self.blockID).firstSuccess())
             loader.listen (self, success : {[weak self] block in
                 if let url = block.blockURL {
                     let request = NSURLRequest(url: url as URL)

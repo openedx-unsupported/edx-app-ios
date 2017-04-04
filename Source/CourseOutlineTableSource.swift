@@ -134,12 +134,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         case .Outline, .Unit:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
             cell.block = nodes[indexPath.row]
-            let videoStream = courseQuerier.flatMapRootedAtBlockWithID(block.blockID) { block in
+            let videoStream = courseQuerier.flatMapRootedAtBlockWithID(id: block.blockID) { block in
                 (block.type.asVideo != nil) ? block.blockID : nil
             }
             let courseID = courseQuerier.courseID
             cell.videos = videoStream.map({[weak self] videoIDs in
-                let videos = self?.environment.dataManager.interface?.statesForVideosWithIDs(videoIDs, courseID: courseID) ?? []
+                let videos = self?.environment.dataManager.interface?.statesForVideos(withIDs: videoIDs, courseID: courseID) ?? []
                 return videos.filter { video in (video.summary?.isSupportedVideo ?? false)}
             })
             cell.delegate = self

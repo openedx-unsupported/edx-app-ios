@@ -43,14 +43,14 @@ class WrappedPaginator<A> : NSObject, Paginator {
     typealias Element = A
     
     private var itemStream = BackedStream<Paginated<[A]>>()
-    private var generator : Int -> OEXStream<Paginated<[A]>>
+    private var generator : (Int) -> OEXStream<Paginated<[A]>>
     private var currentPage : Int = PaginationDefaults.startPage
     
-    init(generator : Int -> OEXStream<Paginated<[A]>>) {
+    init(generator : @escaping (Int) -> OEXStream<Paginated<[A]>>) {
         self.generator = generator
     }
     
-    convenience init(networkManager : NetworkManager, requestGenerator : (Int) -> NetworkRequest<Paginated<[A]>>) {
+    convenience init(networkManager : NetworkManager, requestGenerator : @escaping (Int) -> NetworkRequest<Paginated<[A]>>) {
         self.init {page in
             let request = requestGenerator(page)
             return networkManager.streamForRequest(request)

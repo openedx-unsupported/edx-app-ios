@@ -42,7 +42,7 @@ class TabContainerView : UIView {
 
         control.oex_addAction({[weak self] control in
             let index = (control as! UISegmentedControl).selectedSegmentIndex
-            self?.showTabAtIndex(index)
+            self?.showTabAtIndex(index: index)
             }, for: .valueChanged)
     }
 

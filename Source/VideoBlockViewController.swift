@@ -140,7 +140,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     private func loadVideoIfNecessary() {
         if !loader.hasBacking {
-            loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
+            loader.backWithStream(courseQuerier.blockWithID(id: self.blockID).firstSuccess())
         }
     }
     
@@ -221,7 +221,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
             if #available(iOS 9, *) {
-                make.top.equalTo(self.topLayoutGuide.bottomAnchor)
+                make.top.equalTo(self.topLayoutGuide.bottomAnchor as! ConstraintRelatableTarget)
             }
             else {
                 make.top.equalTo(self.snp_topLayoutGuideBottom)

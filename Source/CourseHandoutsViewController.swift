@@ -43,8 +43,8 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
         loadHandouts()
     }
     
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated: animated)
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenHandouts, courseID: courseID, value: nil)
     }
     
@@ -81,9 +81,9 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
     private func loadHandouts() {
         if !handouts.active {
             loadController.state = .Initial
-            let courseStream = self.environment.dataManager.enrollmentManager.streamForCourseWithID(courseID)
+            let courseStream = self.environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID)
             let handoutStream = courseStream.transform {[weak self] enrollment in
-                return self?.streamForCourse(enrollment.course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
+                return self?.streamForCourse(course: enrollment.course) ?? OEXStream<String>(error : NSError.oex_courseContentLoadError())
             }
             self.handouts.backWithStream(handoutStream)
         }

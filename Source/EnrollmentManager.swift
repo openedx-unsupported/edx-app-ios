@@ -49,7 +49,7 @@ public class EnrollmentManager : NSObject {
     }
     
     public func enrolledCourseWithID(courseID: String) -> UserCourseEnrollment? {
-        return self.streamForCourseWithID(courseID).value
+        return self.streamForCourseWithID(courseID: courseID).value
     }
     
     public func streamForCourseWithID(courseID: String) -> OEXStream<UserCourseEnrollment> {

@@ -346,7 +346,7 @@ open class NetworkManager : NSObject {
                 switch parsed {
                 case let .some(.deserializedResult(value, original)):
                     let result = NetworkResult<Out>(request: request, response: response, data: value.value, baseData: original, error: error)
-                    Logger.logInfo(NetworkManager.NETWORK, "Response is \(response)")
+                    Logger.logInfo(NetworkManager.NETWORK, "Response is \(String(describing: response))")
                     handler(result)
                 case let .some(.reauthenticationRequest(authHandler, originalData)):
                     authHandler(self, {success in

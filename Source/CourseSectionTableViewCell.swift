@@ -66,7 +66,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         downloadView.addGestureRecognizer(tapGesture)
     }
     
-    var videos : OEXStream = OEXStream() {
+    var videos : OEXStream<[OEXHelperVideoDownload]> = OEXStream() {
         didSet {
             videosStream.backWithStream(videos)
         }

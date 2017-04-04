@@ -28,12 +28,12 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         super.init(nibName: nil, bundle: nil)
         
         let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID)
-        courseQuerier.blockWithID(blockID).extendLifetimeUntilFirstResult (
+        courseQuerier.blockWithID(id: blockID).extendLifetimeUntilFirstResult (
             success:
             { [weak self] block in
                 self?.block = block
                 if let video = block.type.asVideo, video.isYoutubeVideo{
-                    self?.showYoutubeMessage(Strings.Video.viewOnYoutube, message: Strings.Video.onlyOnYoutube, icon: Icon.CourseModeVideo, videoUrl: video.videoURL)
+                    self?.showYoutubeMessage(buttonTitle: Strings.Video.viewOnYoutube, message: Strings.Video.onlyOnYoutube, icon: Icon.CourseModeVideo, videoUrl: video.videoURL)
                 }
                 else {
                     self?.showError()
@@ -64,7 +64,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             [weak self] in
             self?.loader?.listen(self!, success : {url -> Void in
                 if let url = url {
-                    UIApplication.sharedApplication().openURL(url)
+                    UIApplication.shared.openURL(url)
                     self?.logOpenInBrowserEvent()
                 }
                 }, failure : {_ in
@@ -115,7 +115,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         super.viewWillAppear(animated)
         
         if loader?.value == nil {
-            loader = environment.dataManager.courseDataManager.querierForCourseWithID(self.courseID).blockWithID(self.blockID).map {
+            loader = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID).blockWithID(id: self.blockID).map {
                 return $0.webURL
             }.firstSuccess()
         }

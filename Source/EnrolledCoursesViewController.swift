@@ -19,7 +19,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     private let loadController = LoadStateViewController()
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
-    private let enrollmentFeed: Feed<[UserCourseEnrollment]?>
+    fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
 
     init(environment: Environment) {
@@ -75,11 +75,13 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         setupObservers()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
         showVersionUpgradeSnackBarIfNecessary()
-        super.viewWillAppear(animated: animated)
+
+        super.viewWillAppear(animated)
         hideSnackBarForFullScreenError()
+
     }
     
     override func reloadViewData() {
@@ -93,7 +95,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             }
             
             switch result {
-            case let .Success(enrollments):
+            case let Result.success(enrollments):
                 if let enrollments = enrollments {
                     self?.tableController.courses = enrollments.flatMap { $0.course } ?? []
                     self?.tableController.tableView.reloadData()
@@ -105,8 +107,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                 else {
                     self?.loadController.state = .Initial
                 }
-            case let .Failure(error):
-                self?.loadController.state = LoadState.failed(error)
+            case let Result.failure(error):
+                self?.loadController.state = LoadState.failed(error: error)
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
                     self?.hideSnackBar()
                 }

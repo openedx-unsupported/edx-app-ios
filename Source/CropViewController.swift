@@ -79,7 +79,7 @@ class CropViewController: UIViewController {
         view.addSubview(toolbar)
         
         let titleStyle = OEXStyles.shared().navigationTitleTextStyle
-        titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Profile.cropAndResizePicture)
+        titleLabel.attributedText = titleStyle.attributedString(withText: Strings.Profile.cropAndResizePicture)
         view.addSubview(titleLabel)
         
         titleLabel.snp_makeConstraints { (make) -> Void in
@@ -119,7 +119,7 @@ class CropViewController: UIViewController {
        
         let cancelButton = UIButton(type:.system)
         cancelButton.frame = CGRect(x: 0,y: 0, width: 100, height: 44)
-        cancelButton.setTitle(Strings.cancel, forState: .Normal)
+        cancelButton.setTitle(Strings.cancel, for: .normal)
         cancelButton.setTitleColor(OEXStyles.shared().neutralWhiteT(), for: .normal)
         cancelButton.sizeToFit()
 
@@ -130,15 +130,15 @@ class CropViewController: UIViewController {
 
         let chooseButton = UIButton(type:.system)
         chooseButton.frame = CGRect(x: 0,y: 0, width: 100, height: 44)
-        chooseButton.setTitle(Strings.choose, forState: .normal)
+        chooseButton.setTitle(Strings.choose, for: .normal)
         chooseButton.setTitleColor(OEXStyles.shared().neutralWhiteT(), for: .normal)
         chooseButton.sizeToFit()
 
         let choose = UIBarButtonItem(customView: chooseButton)
         chooseButton.oex_addAction({ [weak self] _ in
             let rect = self!.circleView.circleBounds
-            let shift = rect.applying(CGAffineTransformMakeTranslation(self!.scrollView.contentOffset.x, self!.scrollView.contentOffset.y))
-            let scaled = shift.applying(CGAffineTransformMakeScale(1.0 / self!.scrollView.zoomScale, 1.0 / self!.scrollView.zoomScale))
+            let shift = rect.applying(CGAffineTransform(translationX: self!.scrollView.contentOffset.x, y: self!.scrollView.contentOffset.y))
+            let scaled = shift.applying(CGAffineTransform(scaleX: 1.0 / self!.scrollView.zoomScale, y: 1.0 / self!.scrollView.zoomScale))
             let newImage = self?.image.imageCroppedToRect(rect: scaled)
             self?.completion(newImage)
             }, for: .touchUpInside)

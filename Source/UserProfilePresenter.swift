@@ -11,7 +11,7 @@ import Foundation
 extension Accomplishment {
     init(badge: BadgeAssertion, networkManager: NetworkManager) {
         let image = RemoteImageImpl(url: badge.imageURL, networkManager: networkManager, placeholder: nil, persist: false)
-        self.init(image: image, title: badge.badgeClass.name, detail: badge.badgeClass.detail, date: badge.created as! NSDate, shareURL: badge.assertionURL)
+        self.init(image: image, title: badge.badgeClass.name, detail: badge.badgeClass.detail, date: badge.created as! NSDate, shareURL: badge.assertionURL as NSURL)
     }
 }
 
@@ -84,7 +84,7 @@ class UserProfileNetworkPresenter : NSObject, UserProfilePresenter {
             }
 
             let accomplishmentsTab = sink.map {accomplishments -> ProfileTabItem? in
-                    return self.tabWithAccomplishments(accomplishments, paginator: AnyPaginator(paginator))
+                    return self.tabWithAccomplishments(accomplishments: accomplishments, paginator: AnyPaginator(paginator))
             }
             return joinStreams([accomplishmentsTab]).map { $0.flatMap { $0 }}
         }

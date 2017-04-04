@@ -78,7 +78,7 @@ private extension String {
 
 extension UITableViewCell {
     
-    private func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
+    fileprivate func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
         return CGFloat(depth + 1) * StandardHorizontalMargin
     }
 }

@@ -30,19 +30,19 @@ class ProfilePictureTaker : NSObject {
     func start(alreadyHasImage: Bool) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let action = UIAlertAction(title: Strings.Profile.takePicture, style: .Default) { _ in
-                self.showImagePicker(.Camera)
+            let action = UIAlertAction(title: Strings.Profile.takePicture, style: .default) { _ in
+                self.showImagePicker(sourceType: .camera)
             }
             alert.addAction(action)
         }
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            let action = UIAlertAction(title: Strings.Profile.chooseExisting, style: .Default) { _ in
-                self.showImagePicker(.PhotoLibrary)
+            let action = UIAlertAction(title: Strings.Profile.chooseExisting, style: .default) { _ in
+                self.showImagePicker(sourceType: .photoLibrary)
             }
             alert.addAction(action)
         }
         if alreadyHasImage {
-            let action = UIAlertAction(title: Strings.Profile.removeImage, style: .Destructive) { _ in
+            let action = UIAlertAction(title: Strings.Profile.removeImage, style: .destructive) { _ in
                 self.delegate?.deleteImage()
             }
             alert.addAction(action)

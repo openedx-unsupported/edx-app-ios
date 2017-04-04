@@ -44,7 +44,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     private let loadController = LoadStateViewController()
     private let courseID: String
-    private let topics = BackedStream<[DiscussionTopic]>()
+    fileprivate let topics = BackedStream<[DiscussionTopic]>()
     private var selectedTopic: DiscussionTopic?
     private var optionsViewController: MenuOptionsViewController?
     weak var delegate: DiscussionNewPostViewControllerDelegate?
@@ -77,7 +77,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: courseID).topics
         topics.backWithStream(stream.map {
-            return DiscussionTopic.linearizeTopics($0)
+            return DiscussionTopic.linearizeTopics(topics: $0)
             }
         )
         
@@ -277,7 +277,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     private func setTopicsButtonTitle() {
         if let topic = selectedTopic, let name = topic.name {
             let title = Strings.topic(topic: name)
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.shared().neutralDark()).attributedString(withText: title), for: .normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralDark()).attributedString(withText: title), for: .normal)
         }
     }
     

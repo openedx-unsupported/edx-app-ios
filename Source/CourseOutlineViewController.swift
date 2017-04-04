@@ -29,7 +29,7 @@ public class CourseOutlineViewController :
     
     private let blockIDStream = BackedStream<CourseBlockID?>()
     private let headersLoader = BackedStream<CourseOutlineQuerier.BlockGroup>()
-    private let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
+    fileprivate let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
     
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController

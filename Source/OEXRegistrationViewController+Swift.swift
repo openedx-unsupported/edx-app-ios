@@ -18,10 +18,10 @@ extension OEXRegistrationViewController {
         (self.stream as! OEXStream<OEXRegistrationDescription>).listen(self) {[weak self] (result) in
             if let data = result.value {
                 self?.loadController.state = .Loaded
-                success(response: data)
+                success(data)
             }
             else{
-                self?.loadController.state = LoadState.failed(result.error)
+                self?.loadController.state = LoadState.failed(error: result.error)
             }
         }
     }

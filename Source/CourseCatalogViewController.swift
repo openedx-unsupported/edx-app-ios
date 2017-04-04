@@ -28,7 +28,7 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var paginationController : PaginationController<OEXCourse> = {
+    fileprivate lazy var paginationController : PaginationController<OEXCourse> = {
         let username = self.environment.session.currentUser?.username ?? ""
         precondition(username != "", "Shouldn't be showing course catalog without a logged in user")
         let organizationCode =  self.environment.config.organizationCode()
@@ -61,7 +61,7 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
                 self?.tableController.courses = courses
                 self?.tableController.tableView.reloadData()
             }, failure: {[weak self] error in
-                self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error: error)
             }
         )
         paginationController.loadMore()
