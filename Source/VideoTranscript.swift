@@ -59,12 +59,12 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VideoTranscriptTableViewCell.cellIdentifier) as! VideoTranscriptTableViewCell
         cell.applyStandardSeparatorInsets()
-        cell.setTranscriptText(text: transcriptArray[indexPath.row][CLVideoPlayerkText] as? String, highlighted: indexPath.row == highlightedIndex)
+        cell.setTranscriptText(text: (transcriptArray[indexPath.row] as? [String: AnyObject])?[CLVideoPlayerkText] as? String, highlighted: indexPath.row == highlightedIndex)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didSelectSubtitleAtInterval(time: transcriptArray[indexPath.row][CLVideoPlayerkStart] as! TimeInterval)
+        delegate?.didSelectSubtitleAtInterval(time: (transcriptArray[indexPath.row] as? [String: AnyObject])?[CLVideoPlayerkStart] as! TimeInterval)
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -92,7 +92,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     }
     
     func getTranscriptIndexForTime(time: TimeInterval?) -> Int? {
-        return transcriptArray.indexOf({ time >= $0[CLVideoPlayerkStart] as? Double && time <= $0[CLVideoPlayerkEnd] as? Double })
+        return transcriptArray.index(where: { time ?? 0 >= ($0 as? [String: AnyObject])?[CLVideoPlayerkStart] as? Double ?? 0 && time ?? 0 <= ($0 as? [String: AnyObject])?[CLVideoPlayerkEnd] as? Double ?? 0 })
     }
     
     func invalidateDragging(){

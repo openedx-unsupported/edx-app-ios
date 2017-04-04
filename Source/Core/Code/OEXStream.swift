@@ -403,7 +403,7 @@ open class BackedStream<A> : OEXStream<A> {
         return addBackingStream(stream)
     }
     
-    open func addBackingStream(_ stream : OEXStream<A>) -> Removable {
+    @discardableResult open func addBackingStream(_ stream : OEXStream<A>) -> Removable {
         let remover = stream.listen(self.token) {[weak self] result in
             self?.send(result)
         }

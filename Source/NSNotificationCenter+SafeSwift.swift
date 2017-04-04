@@ -30,7 +30,7 @@ private class NotificationListener : NSObject, Removable {
 
 
 extension NotificationCenter {
-    func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
+    @discardableResult func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
         let listener = NotificationListener()
         listener.action = {[weak observer] (notification, removable) in
             if let observer = observer {
