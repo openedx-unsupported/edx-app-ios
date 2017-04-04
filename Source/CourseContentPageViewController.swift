@@ -39,7 +39,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private var openURLButtonItem : UIBarButtonItem?
     
-    private var contentLoader = BackedStream<ListCursor<CourseOutlineQuerier.GroupItem>>()
+    fileprivate var contentLoader = BackedStream<ListCursor<CourseOutlineQuerier.GroupItem>>()
     
     private let courseQuerier : CourseOutlineQuerier
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
@@ -76,9 +76,9 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     public override func viewWillAppear(_ animated : Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(false, animated: animated)
-        courseQuerier.blockWithID(blockID).extendLifetimeUntilFirstResult (success:
+        courseQuerier.blockWithID(id: blockID).extendLifetimeUntilFirstResult (success:
             { block in
-                self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenUnitDetail, courseID: self.courseID, value: block.internalName)
+                self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenUnitDetail, courseID: self.courseID, value: block.internalName)
             },
             failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
@@ -132,11 +132,13 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func addObservers() {
-        NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: NOTIFICATION_VIDEO_PLAYER_NEXT) { (notification, observer, removable) in
-            self.moveInDirection(direction: .forward)
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_VIDEO_PLAYER_PREVIOUS) { (notification, observer, removable) in
+            observer.moveInDirection(direction: .reverse)
         }
-        NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: NOTIFICATION_VIDEO_PLAYER_PREVIOUS) { (notification, observer, removable) in
-            self.moveInDirection(direction: .reverse)
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_VIDEO_PLAYER_NEXT) { (_, observer, _) in
+            observer.moveInDirection(direction: .forward)
         }
     }
     
@@ -147,7 +149,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func loadIfNecessary() {
         if !contentLoader.hasBacking {
-            let stream = courseQuerier.spanningCursorForBlockWithID(blockID, initialChildID: initialChildID)
+            let stream = courseQuerier.spanningCursorForBlockWithID(blockID: blockID, initialChildID: initialChildID)
             contentLoader.backWithStream(stream.firstSuccess())
         }
     }

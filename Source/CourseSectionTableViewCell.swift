@@ -48,7 +48,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         }
         
         for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
-            NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: notification.rawValue) { (_, observer, _) -> Void in
+            NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: notification.rawValue) { (_, observer, _) in
                 if let state = self.downloadStateForDownloads(videos: self.videosStream.value) {
                     self.downloadView.state = state
                 }

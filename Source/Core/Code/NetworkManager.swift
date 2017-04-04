@@ -29,7 +29,7 @@ private enum DeserializationResult<Out> {
     case reauthenticationRequest(AuthenticateRequestCreator, original: Data?)
 }
 
-public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager, _ _completion: (_ _success : Bool) -> Void) -> Void
+public typealias AuthenticateRequestCreator = (_ _networkManager: NetworkManager, _ _completion: @escaping (_ _success : Bool) -> Void) -> Void
 
 public enum AuthenticationAction {
     case proceed

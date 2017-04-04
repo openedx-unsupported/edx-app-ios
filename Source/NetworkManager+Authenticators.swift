@@ -17,13 +17,14 @@ extension NetworkManager {
             NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId:clientId, response: response, data: data)
         }
         self.authenticator = invalidAccessAuthenticator
+        
     }
     
     /** Checks if the response's status code is 401. Then checks the error
      message for an expired access token. If so, a new network request to
      refresh the access token is made and this new access token is saved.
      */
-    public static func invalidAccessAuthenticator(router: OEXRouter?, session:OEXSession, clientId:String, response: HTTPURLResponse?, data: NSData?) -> AuthenticationAction {
+    public static func invalidAccessAuthenticator(router: OEXRouter?, session:OEXSession, clientId:String, response: HTTPURLResponse?, data: Data?) -> AuthenticationAction {
         if let data = data,
             let response = response,
             let raw : AnyObject = try! JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions()) as AnyObject?

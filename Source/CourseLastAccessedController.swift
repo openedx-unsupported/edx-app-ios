@@ -58,13 +58,13 @@ public class CourseLastAccessedController: NSObject {
         }
         
         if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(courseID: self.courseID) {
-            let blockStream = expandAccessStream(Stream(value : firstLoad))
+            let blockStream = expandAccessStream(stream: Stream(value : firstLoad))
             lastAccessedLoader.backWithStream(blockStream)
         }
         
         let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID)
         let lastAccessed = self.networkManager.streamForRequest(request)
-        lastAccessedLoader.backWithStream(expandAccessStream(lastAccessed))
+        lastAccessedLoader.backWithStream(expandAccessStream(stream: lastAccessed))
     }
     
     public func saveLastAccessed() {
@@ -76,7 +76,7 @@ public class CourseLastAccessedController: NSObject {
             t_hasTriggeredSetLastAccessed = true
             let request = UserAPI.setLastVisitedModuleForBlockID(blockID: self.courseID, module_id: currentCourseBlockID)
             let courseID = self.courseID
-            expandAccessStream(self.networkManager.streamForRequest(request)).extendLifetimeUntilFirstResult {[weak self] result in
+            expandAccessStream(stream: self.networkManager.streamForRequest(request)).extendLifetimeUntilFirstResult {[weak self] result in
                 result.ifSuccess() {info in
                     let block = info.0
                     let lastAccessedItem = info.1
@@ -112,7 +112,7 @@ public class CourseLastAccessedController: NSObject {
     
     private func expandAccessStream(stream : OEXStream<CourseLastAccessed>) -> OEXStream<(CourseBlock, CourseLastAccessed)> {
         return stream.transform {[weak self] lastAccessed in
-            return joinStreams(self?.courseQuerier.blockWithID(lastAccessed.moduleId) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
+            return joinStreams(self?.courseQuerier.blockWithID(id: lastAccessed.moduleId) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
         }
     }
 }

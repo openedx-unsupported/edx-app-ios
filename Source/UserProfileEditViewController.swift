@@ -203,7 +203,7 @@ class UserProfileEditViewController: UITableViewController {
                     self?.reloadViews()
                 } else {
                     let message = Strings.Profile.unableToSend(fieldName: fieldDescription)
-                    self?.showToast(message)
+                    self?.showToast(message: message)
                 }
             }
         }
@@ -276,7 +276,7 @@ class UserProfileEditViewController: UITableViewController {
     }
     
     private func disableLimitedProfileCells(disabled: Bool) {
-        banner.changeButton.enabled = true
+        banner.changeButton.isEnabled = true
         if disabled {
             disabledFields = [UserProfile.ProfileFields.Country.rawValue,
                 UserProfile.ProfileFields.LanguagePreferences.rawValue,
@@ -284,7 +284,7 @@ class UserProfileEditViewController: UITableViewController {
             if profile.parentalConsent ?? false {
                 //If the user needs parental consent, they can only share a limited profile, so disable this field as well */
                 disabledFields.append(UserProfile.ProfileFields.AccountPrivacy.rawValue)
-                banner.changeButton.enabled = false 
+                banner.changeButton.isEnabled = false 
             }
             footer.backgroundColor = OEXStyles.shared().neutralXLight()
         } else {
@@ -428,9 +428,9 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
             if let newProf = result.value {
                 self.profile = newProf
                 self.reloadViews()
-                self.banner.showProfile(newProf, networkManager: self.environment.networkManager)
+                self.banner.showProfile(profile: newProf, networkManager: self.environment.networkManager)
             } else {
-                self.showToast(Strings.Profile.unableToGet)
+                self.showToast(message: Strings.Profile.unableToGet)
             }
         }
         

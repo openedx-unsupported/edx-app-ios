@@ -31,7 +31,7 @@ class SpinnerButton: UIButton {
         
         spinnerView.snp_updateConstraints { (make) -> Void in
             make.centerY.equalTo(self)
-            make.width.equalTo(spinnerView.intrinsicContentSize().width)
+            make.width.equalTo(spinnerView.intrinsicContentSize.width)
             if let label = titleLabel {
                 make.leading.equalTo(label.snp_trailing).offset(SpinnerHorizontalMargin).priorityLow()
             }

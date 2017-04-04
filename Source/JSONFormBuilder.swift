@@ -304,7 +304,7 @@ class JSONFormBuilder {
             let allowsNone = options?["allows_none"]?.bool ?? false
             if allowsNone {
                 let noneTitle = Strings.Profile.noField(fieldName: title!.oex_lowercaseStringInCurrentLocale())
-                tableData.insert(ChooserDatum(value: "--", title: noneTitle, attributedTitle: nil), atIndex: 0)
+                tableData.insert(ChooserDatum(value: "--", title: noneTitle, attributedTitle: nil), at: 0)
                 defaultRow = 0
             }
             

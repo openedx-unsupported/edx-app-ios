@@ -25,7 +25,7 @@ import CoreText
 
 private class FontLoader {
   class func loadFont(name: String) {
-    let bundle = NSBundle.mainBundle()
+    let bundle = Bundle.mainBundle()
     let fontURL = bundle.URLForResource(name, withExtension: "otf")
     
     let data = NSData(contentsOfURL: fontURL!)!
@@ -35,7 +35,7 @@ private class FontLoader {
     
     var error: Unmanaged<CFError>?
     if !CTFontManagerRegisterGraphicsFont(font, &error) {
-      let errorDescription: CFStringRef = CFErrorCopyDescription(error!.takeUnretainedValue())
+      let errorDescription: CFString = CFErrorCopyDescription(error!.takeUnretainedValue())
       let nsError = error!.takeUnretainedValue() as AnyObject as! NSError
       NSException(name: NSInternalInconsistencyException, reason: errorDescription as String, userInfo: [NSUnderlyingErrorKey: nsError]).raise()
     }
@@ -49,7 +49,7 @@ public extension UIFont {
     }
     
     let name = "FontAwesome"
-    if (UIFont.fontNamesForFamilyName(name).count == 0) {
+    if (UIFont.fontNames(forFamilyName: name).count == 0) {
       dispatch_once(&Static.onceToken) {
         FontLoader.loadFont(name)
       }

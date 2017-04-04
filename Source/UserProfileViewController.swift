@@ -17,7 +17,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     private let editable: Bool
 
     private let loadController = LoadStateViewController()
-    private let contentView = UserProfileView(frame: CGRect.zero)
+    fileprivate let contentView = UserProfileView(frame: CGRect.zero)
     private let presenter : UserProfilePresenter
     
     convenience init(environment : UserProfileNetworkPresenter.Environment & Environment, username : String, editable: Bool) {
@@ -77,10 +77,10 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         let networkManager = environment.networkManager
         presenter.profileStream.listen(self, success: { [weak self] profile in
             // TODO: Refactor UserProfileView to take a dumb model so we don't need to pass it a network manager
-            self?.contentView.populateFields(profile, editable: editable, networkManager: networkManager)
+            self?.contentView.populateFields(profile: profile, editable: editable, networkManager: networkManager)
             self?.loadController.state = .Loaded
             }, failure : { [weak self] error in
-                self?.loadController.state = LoadState.failed(error, message: Strings.Profile.unableToGet)
+                self?.loadController.state = LoadState.failed(error: error, message: Strings.Profile.unableToGet)
             })
     }
 
@@ -99,7 +99,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
             activityItems: [message, url],
             applicationActivities: nil
         )
-        self.presentViewController(controller, animated: true, completion: nil)
+        self.present(controller, animated: true, completion: nil)
     }
     
     //MARK:- LoadStateViewReloadSupport method
@@ -111,6 +111,6 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
 
 extension UserProfileViewController {
     func t_chooseTab(identifier: String) {
-        self.contentView.chooseTab(identifier)
+        self.contentView.chooseTab(identifier: identifier)
     }
 }

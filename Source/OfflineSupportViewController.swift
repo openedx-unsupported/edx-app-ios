@@ -34,14 +34,14 @@ public class OfflineSupportViewController: UIViewController {
     }
     
     private func setupObservers() {
-        NotificationCenter.defaultCenter.oex_addObserver(observer: self, name: kReachabilityChangedNotification.rawValue) { (notification, observer, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.reachabilityChanged.rawValue) { (notification, observer, _) in
             observer.showOfflineSnackBarIfNecessary()
         }
     }
     
     private func showOfflineSnackBarIfNecessary() {
         if !environment.reachability.isReachable() {
-            showOfflineSnackBar(Strings.offline, selector: #selector(reloadViewData))
+            showOfflineSnackBar(message: Strings.offline, selector: #selector(reloadViewData))
         }
     }
     
