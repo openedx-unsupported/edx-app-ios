@@ -182,8 +182,9 @@ func getArguments(_ string : String) throws -> [String] {
     while current < string.endIndex {
         if let start = string.range(of: "{", options:NSString.CompareOptions(), range:current ..< string.endIndex) {
             if let end = string.range(of: "}", options:NSString.CompareOptions(), range:start.lowerBound ..< string.endIndex) {
-                let argument = string[start.lowerBound..<end.upperBound]
-//                let argument = string[index(after: start.lowerBound)..<index(before: end.upperBound)]
+                
+                let argument = string[string.index(after: start.lowerBound)..<string.index(before: end.upperBound)]
+                
                 arguments.append(argument)
                 current = end.upperBound
             }

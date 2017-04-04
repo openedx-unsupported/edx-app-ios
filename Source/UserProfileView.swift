@@ -11,10 +11,10 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     private let margin = 4
 
     private class SystemLabel: UILabel {
-        private override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
+        override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
             return super.textRect(forBounds: bounds, limitedToNumberOfLines: numberOfLines).insetBy(dx: 10, dy: 0)
         }
-        private override func drawText(in rect: CGRect) {
+        override func drawText(in rect: CGRect) {
             let newRect = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
             super.drawText(in: UIEdgeInsetsInsetRect(rect, newRect))
         }
@@ -182,7 +182,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
     private func messageForProfile(profile : UserProfile, editable : Bool) -> String? {
         if profile.sharingLimitedProfile {
-            return editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.sharedConfig().platformName())
+            return editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.shared().platformName())
         }
         else {
             return nil
@@ -210,7 +210,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
         if profile.sharingLimitedProfile {
             if (profile.parentalConsent ?? false) && editable {
-                let message = NSMutableAttributedString(attributedString: messageStyle.attributedStringWithText(Strings.Profile.ageLimit))
+                let message = NSMutableAttributedString(attributedString: messageStyle.attributedString(withText: Strings.Profile.ageLimit))
 
                 bioSystemMessage.attributedText = message
                 bioSystemMessage.isHidden = false
@@ -230,7 +230,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             if let bio = profile.bio {
                 bioText.attributedText = bioStyle.attributedString(withText: bio)
             } else {
-                let message = messageStyle.attributedStringWithText(Strings.Profile.noBio)
+                let message = messageStyle.attributedString(withText: Strings.Profile.noBio)
                 bioSystemMessage.attributedText = message
                 bioSystemMessage.isHidden = false
             }

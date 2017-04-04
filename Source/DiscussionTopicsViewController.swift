@@ -130,7 +130,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         loadController.state = .Initial
         let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: courseID).topics
         topics.backWithStream(stream.map {
-            return DiscussionTopic.linearizeTopics($0)
+            return DiscussionTopic.linearizeTopics(topics: $0)
             }
         )
         loadTopics()
@@ -141,8 +141,8 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         self.tableView.reloadData()
     }
     
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated: animated)
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: false)
         }
