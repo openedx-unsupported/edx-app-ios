@@ -45,12 +45,7 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
         containerView.snp_makeConstraints {make in
             make.leading.equalTo(controller.view)
             make.trailing.equalTo(controller.view)
-            if #available(iOS 9, *) {
-                make.top.equalTo(controller.topLayoutGuide.bottomAnchor)
-            }
-            else {
-                make.top.equalTo(controller.snp_topLayoutGuideBottom)
-            }
+            make.top.equalTo(controller.snp_topLayoutGuideBottom)
             make.height.equalTo(messageView)
         }
     }
