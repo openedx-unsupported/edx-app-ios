@@ -40,7 +40,7 @@ public enum Result<A> {
         }
     }
     
-    public func ifSuccess(_ f : (A) -> Void) -> Result<A> {
+    @discardableResult public func ifSuccess(_ f : (A) -> Void) -> Result<A> {
         switch self {
         case .success(let v): f(v)
         case .failure(_): break
@@ -48,7 +48,7 @@ public enum Result<A> {
         return self
     }
     
-    public func ifFailure(_ f : (NSError) -> Void) -> Result<A> {
+   @discardableResult public func ifFailure(_ f : (NSError) -> Void) -> Result<A> {
         switch self {
         case .success(_): break
         case .failure(let message): f(message)

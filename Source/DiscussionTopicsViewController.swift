@@ -19,7 +19,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         case CourseTopics
     }
     
-    private let topics = BackedStream<[DiscussionTopic]>()
+    fileprivate let topics = BackedStream<[DiscussionTopic]>()
     private let environment: Environment
     private let courseID : String
     
@@ -40,7 +40,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
        
         let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: courseID).topics
         topics.backWithStream(stream.map {
-            return DiscussionTopic.linearizeTopics($0)
+            return DiscussionTopic.linearizeTopics(topics: $0)
             }
         )
         

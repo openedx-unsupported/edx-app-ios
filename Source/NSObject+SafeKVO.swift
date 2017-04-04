@@ -45,7 +45,7 @@ extension NSObjectExtensions where Self : NSObject {
     // We have to do this retain because the KVO system will crash if you don't remove an observer
     // before deallocating the observed object.
     // There's no cycle here though, since the observed object only retains the observer weakly
-    func oex_addObserver<Observer : NSObject>(observer : Observer, forKeyPath keyPath: String, action: @escaping (Observer, Self, AnyObject) -> Void) -> Removable {
+    @discardableResult func oex_addObserver<Observer : NSObject>(observer : Observer, forKeyPath keyPath: String, action: @escaping (Observer, Self, AnyObject) -> Void) -> Removable {
         let listener = KVOListener{[weak observer] v in
             if let observer = observer {
                 action(observer, self, v)

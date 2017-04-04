@@ -221,7 +221,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
             if #available(iOS 9, *) {
-                make.top.equalTo(self.topLayoutGuide.bottomAnchor as! ConstraintRelatableTarget)
+                make.top.equalTo(self.topLayoutGuide.bottomAnchor)
             }
             else {
                 make.top.equalTo(self.snp_topLayoutGuideBottom)

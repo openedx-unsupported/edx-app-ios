@@ -12,7 +12,7 @@ struct Accomplishment {
     let image: RemoteImage
     let title: String?
     let detail: String?
-    let date: NSDate?
+    let date: Date?
     let shareURL: NSURL
 }
 
@@ -133,8 +133,8 @@ class AccomplishmentsView : UIView {
             make.edges.equalTo(self)
         }
         paginator.stream.listen(self, success: {[weak self] accomplishments in
-            let newAccomplishments = accomplishments.suffixFrom(self?.accomplishments.count ?? 0)
-            self?.addAccomplishments(newAccomplishments)
+            let newAccomplishments = accomplishments.suffix(self?.accomplishments.count ?? 0)
+            self?.addAccomplishments(newAccomplishments: newAccomplishments)
             }, failure: {_ in
                 // We should only get here if we already have accomplishments and the paginator will try to
                 // load again if it fails, so just do nothing

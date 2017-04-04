@@ -12,9 +12,9 @@ class EmailTemplates {
     
     static func supportEmailMessageTemplate() -> String {
         let osVersionText = Strings.SubmitFeedback.osVersion(version: UIDevice.current.systemVersion)
-        let appVersionText = Strings.SubmitFeedback.appVersion(version: Bundle.main.oex_shortVersionString(), build: Bundle.mainBundle().oex_buildVersionString())
+        let appVersionText = Strings.SubmitFeedback.appVersion(version: Bundle.main.oex_shortVersionString(), build: Bundle.main.oex_buildVersionString())
         let deviceModelText = Strings.SubmitFeedback.deviceModel(model: UIDevice.current.model)
-        let body = ["\n", Strings.SubmitFeedback.marker, osVersionText, appVersionText, deviceModelText].joinWithSeparator("\n")
+        let body = ["\n", Strings.SubmitFeedback.marker, osVersionText, appVersionText, deviceModelText].joined(separator: "\n")
         return body
     }
     

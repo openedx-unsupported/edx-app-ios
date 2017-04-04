@@ -120,7 +120,7 @@ class DiscussionCommentCell: UITableViewCell {
         }
         
         commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(containerView).offset(-OEXStyles.sharedStyles().standardHorizontalMargin())
+            make.trailing.equalTo(containerView).offset(-OEXStyles.shared().standardHorizontalMargin())
             make.top.equalTo(authorNameLabel)
         }
         
@@ -408,7 +408,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         addCommentButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(OEXStyles.sharedStyles().standardFooterHeight)
+            make.height.equalTo(OEXStyles.shared().standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
         }
         
@@ -440,7 +440,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                 self?.tableView.reloadData()
                 UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
             }, failure: { [weak self] (error) -> Void in
-                self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error: error)
         })
         
         paginationController?.loadMore()

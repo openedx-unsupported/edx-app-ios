@@ -11,7 +11,7 @@ import Foundation
 extension Accomplishment {
     init(badge: BadgeAssertion, networkManager: NetworkManager) {
         let image = RemoteImageImpl(url: badge.imageURL, networkManager: networkManager, placeholder: nil, persist: false)
-        self.init(image: image, title: badge.badgeClass.name, detail: badge.badgeClass.detail, date: badge.created as! NSDate, shareURL: badge.assertionURL as NSURL)
+        self.init(image: image, title: badge.badgeClass.name, detail: badge.badgeClass.detail, date: badge.created, shareURL: badge.assertionURL as NSURL)
     }
 }
 

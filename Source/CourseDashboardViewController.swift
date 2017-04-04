@@ -142,9 +142,9 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             self?.resultLoaded(result: $0)
         }
         
-        NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: EnrollmentShared.successNotification) { (notification, observer, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: EnrollmentShared.successNotification) { (notification, observer, _) in
             if let message = notification.object as? String {
-                observer.showOverlayMessage(message)
+                observer.showOverlayMessage(string: message)
             }
         }
     }
@@ -300,7 +300,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         return cell
     }
     
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let dashboardItem = cellItems[indexPath.row]
         dashboardItem.action()
     }

@@ -43,7 +43,7 @@ extension GestureActionable where Self : UIGestureRecognizer {
         self.init(target: nil, action: nil)
     }
     
-    func addAction(action : @escaping (Self) -> Void) -> Removable {
+    @discardableResult func addAction(action : @escaping (Self) -> Void) -> Removable {
         let listener = GestureListener()
         listener.action = {(gesture : UIGestureRecognizer) in
             if let gesture = gesture as? Self {

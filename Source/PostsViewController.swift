@@ -75,7 +75,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
     }
     var environment: Environment!
-    private var paginationController : PaginationController<DiscussionThread>?
+    fileprivate var paginationController : PaginationController<DiscussionThread>?
     
     private lazy var tableView = UITableView(frame: CGRect.zero, style: .plain)
 
@@ -507,10 +507,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         paginationController?.stream.listen(self, success:
             { [weak self] threads in
                 self?.posts.removeAll()
-                self?.updatePostsFromThreads(threads)
+                self?.updatePostsFromThreads(threads: threads)
                 self?.refreshController.endRefreshing()
             }, failure: { [weak self] (error) -> Void in
-                self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error: error)
             })
         
         paginationController?.loadMore()
