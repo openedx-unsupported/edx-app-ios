@@ -400,7 +400,7 @@ extension UILabel {
 
 // For use in testing only
 extension DiscussionNewPostViewController {
-    public func t_topicsLoaded() -> Stream<[DiscussionTopic]> {
+    public func t_topicsLoaded() -> OEXStream<[DiscussionTopic]> {
         return topics
     }
 }

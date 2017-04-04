@@ -358,7 +358,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
 
 // MARK: Testing
 extension CourseContentPageViewController {
-    public func t_blockIDForCurrentViewController() -> Stream<CourseBlockID> {
+    public func t_blockIDForCurrentViewController() -> OEXStream<CourseBlockID> {
         return contentLoader.flatMap {blocks in
             let controller = (self.viewControllers?.first as? CourseBlockViewController)
             let blockID = controller?.blockID

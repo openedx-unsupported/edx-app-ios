@@ -22,7 +22,7 @@ class PaginationControllerTests: XCTestCase {
             let info = PaginationInfo(totalCount: 10, pageCount: 5)
             // Add a slight delay to make sure we get proper async behavior
             // to better match actual cases
-            return Stream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
+            return OEXStream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
         }
         let paginationController = PaginationController(paginator: paginator, tableView: tableView)
         
@@ -66,7 +66,7 @@ class PaginationControllerTests: XCTestCase {
             let info = PaginationInfo(totalCount: 60, pageCount: 20)
             // Add a slight delay to make sure we get proper async behavior
             // to better match actual cases
-            return Stream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
+            return OEXStream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
         }
 
         func connectPaginator() {

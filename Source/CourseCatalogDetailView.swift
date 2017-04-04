@@ -39,7 +39,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     var action: ((_ completion : () -> Void) -> Void)?
     
     private var _loaded = Sink<()>()
-    var loaded : Stream<()> {
+    var loaded : OEXStream<()> {
         return _loaded
     }
     

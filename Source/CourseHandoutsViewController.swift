@@ -67,9 +67,9 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
         self.navigationItem.title = Strings.courseHandouts
     }
     
-    private func streamForCourse(course : OEXCourse) -> Stream<String>? {
+    private func streamForCourse(course : OEXCourse) -> OEXStream<String>? {
         if let access = course.courseware_access, !access.has_access {
-            return Stream<String>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info))
+            return OEXStream<String>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info))
         }
         else {
             let request = CourseInfoAPI.getHandoutsForCourseWithID(courseID: courseID, overrideURL: course.course_handouts)

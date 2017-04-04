@@ -249,7 +249,7 @@
 		771D65C71C922E6700112B7E /* OEXRemovable.m in Sources */ = {isa = PBXBuildFile; fileRef = 771D65C51C922E6700112B7E /* OEXRemovable.m */; };
 		771D65C91C922EE600112B7E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65C81C922EE600112B7E /* NetworkManager.swift */; };
 		771D65CC1C922FB800112B7E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65CA1C922FB800112B7E /* Result.swift */; };
-		771D65CD1C922FB800112B7E /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65CB1C922FB800112B7E /* Stream.swift */; };
+		771D65CD1C922FB800112B7E /* OEXStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65CB1C922FB800112B7E /* OEXStream.swift */; };
 		771D65D01C922FC800112B7E /* Removable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65CE1C922FC800112B7E /* Removable.swift */; };
 		771D65D11C922FC800112B7E /* StreamWaitOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65CF1C922FC800112B7E /* StreamWaitOperation.swift */; };
 		771D65D31C922FD400112B7E /* Operation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771D65D21C922FD400112B7E /* Operation.swift */; };
@@ -1036,7 +1036,7 @@
 		771D65C51C922E6700112B7E /* OEXRemovable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXRemovable.m; path = Source/Core/Code/OEXRemovable.m; sourceTree = SOURCE_ROOT; };
 		771D65C81C922EE600112B7E /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkManager.swift; path = Source/Core/Code/NetworkManager.swift; sourceTree = SOURCE_ROOT; };
 		771D65CA1C922FB800112B7E /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Source/Core/Code/Result.swift; sourceTree = SOURCE_ROOT; };
-		771D65CB1C922FB800112B7E /* Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stream.swift; path = Source/Core/Code/Stream.swift; sourceTree = SOURCE_ROOT; };
+		771D65CB1C922FB800112B7E /* OEXStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OEXStream.swift; path = Source/Core/Code/OEXStream.swift; sourceTree = SOURCE_ROOT; };
 		771D65CE1C922FC800112B7E /* Removable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Removable.swift; path = Source/Core/Code/Removable.swift; sourceTree = SOURCE_ROOT; };
 		771D65CF1C922FC800112B7E /* StreamWaitOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StreamWaitOperation.swift; path = Source/Core/Code/StreamWaitOperation.swift; sourceTree = SOURCE_ROOT; };
 		771D65D21C922FD400112B7E /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Operation.swift; path = Source/Core/Code/Operation.swift; sourceTree = SOURCE_ROOT; };
@@ -2142,7 +2142,7 @@
 				77C182A51CD2997C00AE1474 /* PaginationInfo.swift */,
 				771D65CA1C922FB800112B7E /* Result.swift */,
 				771D65CE1C922FC800112B7E /* Removable.swift */,
-				771D65CB1C922FB800112B7E /* Stream.swift */,
+				771D65CB1C922FB800112B7E /* OEXStream.swift */,
 			);
 			name = "Base Structures";
 			sourceTree = "<group>";
@@ -3891,7 +3891,7 @@
 				771D65D31C922FD400112B7E /* Operation.swift in Sources */,
 				771D65D91C92300000112B7E /* Box.swift in Sources */,
 				77E647D11C90CB0700B6740D /* SwiftyJSON.swift in Sources */,
-				771D65CD1C922FB800112B7E /* Stream.swift in Sources */,
+				771D65CD1C922FB800112B7E /* OEXStream.swift in Sources */,
 				77E648271C90DE0200B6740D /* NSBundle+OEXConveniences.m in Sources */,
 				771D65D51C922FE500112B7E /* PersistentResponseCache.swift in Sources */,
 				771D65D71C922FF400112B7E /* NSHTTPURLResponse+OEXHelpers.swift in Sources */,

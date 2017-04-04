@@ -47,7 +47,7 @@ public protocol StreamDependency : class, CustomStringConvertible {
 private let backgroundQueue = OperationQueue()
 
 /// A stream of values and errors. Note that, like all objects, a stream will get deallocated if it has no references.
-open class Stream<A> : StreamDependency {
+open class OEXStream<A> : StreamDependency {
     
     
     fileprivate let dependencies : [StreamDependency]
@@ -187,7 +187,7 @@ open class Stream<A> : StreamDependency {
     }
     
     /// - returns: A filtered stream based on the receiver that will only fire the first time a success value is sent. Use this if you want to capture a value and *not* update when the next one comes in.
-    open func firstSuccess() -> Stream<A> {
+    open func firstSuccess() -> OEXStream<A> {
         let sink = Sink<A>(dependencies: [self])
         let _ = listen(sink.token) {[weak sink] result in
             if sink?.lastResult?.isFailure ?? true {
@@ -199,7 +199,7 @@ open class Stream<A> : StreamDependency {
     
     
     /// - returns: A filtered stream based on the receiver that won't fire on errors after a value is loaded. It will fire if a new value comes through after a value is already loaded.
-    open func dropFailuresAfterSuccess() -> Stream<A> {
+    open func dropFailuresAfterSuccess() -> OEXStream<A> {
         let sink = Sink<A>(dependencies: [self])
         let _ = listen(sink.token) {[weak sink] result in
             if sink?.lastResult == nil || result.isSuccess {
@@ -210,12 +210,12 @@ open class Stream<A> : StreamDependency {
     }
     
     /// Transforms a stream into a new stream. Failure results will pass through untouched.
-    open func map<B>(_ f : @escaping (A) -> B) -> Stream<B> {
+    open func map<B>(_ f : @escaping (A) -> B) -> OEXStream<B> {
         return resultMap { $0.map(f) }
     }
     
     /// Transforms a stream into a new stream.
-    open func resultMap<B>(_ f : @escaping (Result<A>) -> Result<B>) -> Stream<B> {
+    open func resultMap<B>(_ f : @escaping (Result<A>) -> Result<B>) -> OEXStream<B> {
         let sink = Sink<B>(dependencies: [self])
         let _ = listen(sink.token) {[weak sink] result in
             sink?.send(f(result))
@@ -224,7 +224,7 @@ open class Stream<A> : StreamDependency {
     }
     
     /// Transforms a stream into a new stream.
-    open func flatMap<B>(fireIfAlreadyLoaded: Bool = true, f : @escaping (A) -> Result<B>) -> Stream<B> {
+    open func flatMap<B>(fireIfAlreadyLoaded: Bool = true, f : @escaping (A) -> Result<B>) -> OEXStream<B> {
         let sink = Sink<B>(dependencies: [self])
         let _ = listen(sink.token, fireIfAlreadyLoaded: fireIfAlreadyLoaded) {[weak sink] current in
             let next = current.flatMap(f)
@@ -234,7 +234,7 @@ open class Stream<A> : StreamDependency {
     }
     
     /// - returns: A stream that is automatically backed by a new stream whenever the receiver fires.
-    open func transform<B>(_ f : @escaping (A) -> Stream<B>) -> Stream<B> {
+    open func transform<B>(_ f : @escaping (A) -> OEXStream<B>) -> OEXStream<B> {
         let backed = BackedStream<B>(dependencies: [self])
         let _ = listen(backed.token) {[weak backed] current in
             let _ = current.ifSuccess {
@@ -248,7 +248,7 @@ open class Stream<A> : StreamDependency {
     /// Use if you want to perform an action once no one is listening to a stream
     /// for example, an expensive operation or a network request
     /// - parameter cancel: The action to perform when this stream gets deallocated.
-    open func autoCancel(_ cancelAction : Removable) -> Stream<A> {
+    open func autoCancel(_ cancelAction : Removable) -> OEXStream<A> {
         let sink = CancellingSink<A>(dependencies : [self], removable: cancelAction)
         let _ = listen(sink.token) {[weak sink] current in
             sink?.send(current)
@@ -275,7 +275,7 @@ open class Stream<A> : StreamDependency {
     /// Constructs a stream that returns values from the receiver, but will return any values from *stream* until
     /// the first value is sent to the receiver. For example, if you're implementing a network cache, you want to
     /// return the value saved to disk, but only if the network request hasn't finished yet.
-    open func cachedByStream(_ cacheStream : Stream<A>) -> Stream<A> {
+    open func cachedByStream(_ cacheStream : OEXStream<A>) -> OEXStream<A> {
         let sink = Sink<A>(dependencies: [cacheStream, self])
         let _ = listen(sink.token) {[weak sink] current in
             if !(current.error?.oex_isNoInternetConnectionError ?? false) || (sink?.lastResult == nil && !cacheStream.active) {
@@ -293,7 +293,7 @@ open class Stream<A> : StreamDependency {
     
     /// Same stream as the receiver, but delayed by duration seconds
     /// parameter duration: The time to delay results (in seconds)
-    open func delay(_ duration : TimeInterval) -> Stream<A> {
+    open func delay(_ duration : TimeInterval) -> OEXStream<A> {
         var numberInFlight = 0
         let sink = Sink<A>(dependencies: [self])
         let _ = self.listen(sink.token) {(result : Result<A>) in
@@ -315,7 +315,7 @@ open class Stream<A> : StreamDependency {
 /// Sink is a separate type from stream to make it easy to control who can write to the stream.
 /// If you need a writeble stream, typically you'll use a Sink internally, 
 /// but upcast to stream outside of the relevant abstraction boundary
-open class Sink<A> : Stream<A> {
+open class Sink<A> : OEXStream<A> {
     
     // This gives us an NSObject with the same lifetime as our
     // sink so that we can associate a removal action for when the sink gets deallocated
@@ -383,7 +383,7 @@ private class BackingRecord {
 /// representing an optional stream that is imperatively updated.
 /// Using a BackedStream lets you set listeners once and always have a
 /// non-optional value to pass around that others can receive values from.
-open class BackedStream<A> : Stream<A> {
+open class BackedStream<A> : OEXStream<A> {
 
     fileprivate var backingRecords : [BackingRecord] = []
     fileprivate let token = NSObject()
@@ -398,12 +398,12 @@ open class BackedStream<A> : Stream<A> {
     
     /// Removes the old backing and adds a new one. When the backing stream fires so will this one.
     /// Think of this as rewiring a pipe from an old source to a new one.
-    open func backWithStream(_ stream : Stream<A>) -> Removable {
+    open func backWithStream(_ stream : OEXStream<A>) -> Removable {
         removeAllBackings()
         return addBackingStream(stream)
     }
     
-    open func addBackingStream(_ stream : Stream<A>) -> Removable {
+    open func addBackingStream(_ stream : OEXStream<A>) -> Removable {
         let remover = stream.listen(self.token) {[weak self] result in
             self?.send(result)
         }
@@ -453,7 +453,7 @@ private enum Resolution<A> {
 /// Combine a pair of streams into a stream of pairs.
 /// The stream will both substreams have fired.
 /// After the initial load, the stream will update whenever either of the substreams updates
-public func joinStreams<T, U>(_ t : Stream<T>, _ u: Stream<U>) -> Stream<(T, U)> {
+public func joinStreams<T, U>(_ t : OEXStream<T>, _ u: OEXStream<U>) -> OEXStream<(T, U)> {
     let sink = Sink<(T, U)>(dependencies: [t, u])
     let tBox = MutableBox<Resolution<T>>(.unresolved)
     let uBox = MutableBox<Resolution<U>>(.unresolved)
@@ -486,13 +486,13 @@ public func joinStreams<T, U>(_ t : Stream<T>, _ u: Stream<U>) -> Stream<(T, U)>
 /// Combine an array of streams into a stream of arrays.
 /// The stream will not fire until all substreams have fired.
 /// After the initial load, the stream will update whenever any of the substreams updates.
-public func joinStreams<T>(_ streams : [Stream<T>]) -> Stream<[T]> {
+public func joinStreams<T>(_ streams : [OEXStream<T>]) -> OEXStream<[T]> {
     // This should be unnecesary since [Stream<T>] safely upcasts to [StreamDependency]
     // but in practice it causes a runtime crash as of Swift 1.2.
     // Explicitly mapping it prevents the crash
     let dependencies = streams.map {x -> StreamDependency in x }
     let sink = Sink<[T]>(dependencies : dependencies)
-    let pairs = streams.map {(stream : Stream<T>) -> (box : MutableBox<Resolution<T>>, stream : Stream<T>) in
+    let pairs = streams.map {(stream : OEXStream<T>) -> (box : MutableBox<Resolution<T>>, stream : OEXStream<T>) in
         let box = MutableBox<Resolution<T>>(.unresolved)
         return (box : box, stream : stream)
     }
@@ -528,7 +528,7 @@ public func joinStreams<T>(_ streams : [Stream<T>]) -> Stream<[T]> {
 /// drop the error on the floor and just send the current value again.
 /// - parameter source: The stream to accumulate values from
 /// returns: A new stream that accumulates the results of source
-public func accumulate<A>(_ source : Stream<[A]>) -> Stream<[A]> {
+public func accumulate<A>(_ source : OEXStream<[A]>) -> OEXStream<[A]> {
     let sink = Sink<[A]>(dependencies: [source])
     let _ = source.listen(sink.token) {[weak sink] in
         switch $0 {

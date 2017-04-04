@@ -10,7 +10,7 @@ import Foundation
 import edX
 
 extension XCTestCase {
-    func waitForStream<A>(_ stream : Stream, fireIfAlreadyLoaded: Bool = true, verifier : ((Result<A>) -> Void)? = nil) {
+    func waitForStream<A>(_ stream : OEXStream, fireIfAlreadyLoaded: Bool = true, verifier : ((Result<A>) -> Void)? = nil) {
         let expectation = expectationWithDescription("stream fires")
         stream.extendLifetimeUntilFirstResult(fireIfAlreadyLoaded: fireIfAlreadyLoaded) {
             verifier?($0)

@@ -95,7 +95,7 @@ public class CourseOutlineQuerier : NSObject {
             if let enrollment = self.enrollmentManager?.enrolledCourseWithID(courseID: courseID),
                 let access = enrollment.course.courseware_access, !access.has_access
             {
-                let stream = Stream<CourseOutline>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: enrollment.course.start_display_info))
+                let stream = OEXStream<CourseOutline>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: enrollment.course.start_display_info))
                 courseOutline.backWithStream(stream)
             }
             else {
@@ -107,12 +107,12 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    public var rootID : Stream<Any> {
+    public var rootID : OEXStream<CourseBlockID> {
         loadOutlineIfNecessary()
         return courseOutline.map { return $0.root }
     }
     
-    public func spanningCursorForBlockWithID(blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> Stream<Any> {
+    public func spanningCursorForBlockWithID(blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> OEXStream<ListCursor<GroupItem>> {
         loadOutlineIfNecessary()
         return courseOutline.flatMap {[weak self] outline in
             if let blockID = blockID,
@@ -251,7 +251,7 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    public func parentOfBlockWithID(blockID : CourseBlockID) -> Stream<CourseBlockID?> {
+    public func parentOfBlockWithID(blockID : CourseBlockID) -> OEXStream<CourseBlockID?> {
         loadOutlineIfNecessary()
         
         return courseOutline.flatMap {(outline : CourseOutline) -> Result<CourseBlockID?> in
@@ -272,7 +272,7 @@ public class CourseOutlineQuerier : NSObject {
     
     /// Loads all the children of the given block.
     /// nil means use the course root.
-    public func childrenOfBlockWithID(blockID : CourseBlockID?) -> Stream<BlockGroup> {
+    public func childrenOfBlockWithID(blockID : CourseBlockID?) -> OEXStream<BlockGroup> {
         
         loadOutlineIfNecessary()
         
@@ -303,7 +303,7 @@ public class CourseOutlineQuerier : NSObject {
     }
     
 
-    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, transform : @escaping (CourseBlock) -> [A]) -> Stream<[A]> {
+    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, transform : @escaping (CourseBlock) -> [A]) -> OEXStream<[A]> {
         loadOutlineIfNecessary()
         return courseOutline.map {[weak self] outline -> [A] in
             var result : [A] = []
@@ -313,7 +313,7 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, transform : @escaping (CourseBlock) -> A?) -> Stream<[A]> {
+    public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, transform : @escaping (CourseBlock) -> A?) -> OEXStream<[A]> {
         return flatMapRootedAtBlockWithID(id, transform: { block in
             return transform(block).map { [$0] } ?? []
         })
@@ -321,7 +321,7 @@ public class CourseOutlineQuerier : NSObject {
     
     /// Loads the given block.
     /// nil means use the course root.
-    public func blockWithID(id : CourseBlockID?) -> Stream<CourseBlock> {
+    public func blockWithID(id : CourseBlockID?) -> OEXStream<CourseBlock> {
         loadOutlineIfNecessary()
         return courseOutline.flatMap {outline in
             let blockID = id ?? outline.root

@@ -14,7 +14,7 @@ public class Feed<A> : LifetimeTrackable {
     fileprivate let backing = BackedStream<A>()
     private let refreshTrigger : (BackedStream<A>) -> Void
     
-    public var output : Stream<A> {
+    public var output : OEXStream<A> {
         return backing
     }
     

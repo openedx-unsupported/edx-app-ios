@@ -84,7 +84,7 @@ class UserAgentOverrideOperation : OEXOperation {
 
 
 extension UserAgentGenerationOperation {
-    var t_resultStream : Stream<String> {
+    var t_resultStream : OEXStream<String> {
         return resultStream
     }
 }

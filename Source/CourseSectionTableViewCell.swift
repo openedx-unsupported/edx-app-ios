@@ -66,7 +66,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         downloadView.addGestureRecognizer(tapGesture)
     }
     
-    var videos : Stream = Stream() {
+    var videos : OEXStream = OEXStream() {
         didSet {
             videosStream.backWithStream(videos)
         }
@@ -74,7 +74,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        videosStream.backWithStream(Stream(value:[]))
+        videosStream.backWithStream(OEXStream(value:[]))
     }
     
     func downloadStateForDownloads(videos : [OEXHelperVideoDownload]?) -> DownloadsAccessoryView.State? {

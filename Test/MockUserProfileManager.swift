@@ -18,7 +18,7 @@ class MockUserProfileManager : UserProfileManager {
     
     init(profile : UserProfile) {
         self.feed = Feed(refreshTrigger: { (stream) -> Void in
-            stream.backWithStream(Stream(value: profile))
+            stream.backWithStream(OEXStream(value: profile))
         })
         super.init(networkManager : MockNetworkManager(), session : OEXSession(credentialStore: OEXMockCredentialStorage()))
     }

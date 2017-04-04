@@ -354,7 +354,7 @@ extension CourseDashboardViewController {
         return self.loadController.state
     }
     
-    var t_loaded : Stream<()> {
+    var t_loaded : OEXStream<()> {
         return self.courseStream.map {_ in () }
     }
     

@@ -33,7 +33,7 @@ extension NetworkManager {
     
     static func deprecatedVersionInterceptor(response: HTTPURLResponse, json: JSON) -> Result<JSON> {
         let versionController = VersionUpgradeInfoController.sharedController
-        versionController.populateFromHeaders(httpResponseHeaders: response.allHeaderFields as [NSObject : AnyObject]?)
+        versionController.populateFromHeaders(httpResponseHeaders: response.allHeaderFields as [AnyHashable : Any] as? [String : Any])
         return Success(v: json)
     }
 }

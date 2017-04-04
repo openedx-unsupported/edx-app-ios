@@ -23,8 +23,8 @@ typealias ProfileTabItem = (UIScrollView) -> TabItem
 
 protocol UserProfilePresenter: class {
 
-    var profileStream: Stream<UserProfile> { get }
-    var tabStream: Stream<[ProfileTabItem]> { get }
+    var profileStream: OEXStream<UserProfile> { get }
+    var tabStream: OEXStream<[ProfileTabItem]> { get }
     func refresh() -> Void
 
     weak var delegate: UserProfilePresenterDelegate? { get }
@@ -38,7 +38,7 @@ class UserProfileNetworkPresenter : NSObject, UserProfilePresenter {
     private let environment: Environment
     private let username: String
 
-    var profileStream: Stream<UserProfile> {
+    var profileStream: OEXStream<UserProfile> {
         return profileFeed.output
     }
 
@@ -62,7 +62,7 @@ class UserProfileNetworkPresenter : NSObject, UserProfilePresenter {
         return self.username == self.environment.session.currentUser?.username
     }
 
-    lazy var tabStream: Stream<[ProfileTabItem]> = {
+    lazy var tabStream: OEXStream<[ProfileTabItem]> = {
         if self.environment.config.badgesEnabled {
             // turn badges into accomplishments
             let networkManager = self.environment.networkManager
@@ -89,7 +89,7 @@ class UserProfileNetworkPresenter : NSObject, UserProfilePresenter {
             return joinStreams([accomplishmentsTab]).map { $0.flatMap { $0 }}
         }
         else {
-            return Stream(value: [])
+            return OEXStream(value: [])
         }
     }()
 

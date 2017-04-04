@@ -52,7 +52,7 @@ public class EnrollmentManager : NSObject {
         return self.streamForCourseWithID(courseID).value
     }
     
-    public func streamForCourseWithID(courseID: String) -> Stream<UserCourseEnrollment> {
+    public func streamForCourseWithID(courseID: String) -> OEXStream<UserCourseEnrollment> {
         let hasCourse = enrollmentFeed.output.value??.contains {
             $0.course.course_id == courseID
             } ?? false

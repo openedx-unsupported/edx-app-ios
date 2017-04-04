@@ -162,7 +162,7 @@ public class CourseOutlineViewController :
                 return owner.courseQuerier.childrenOfBlockWithID(blockID)
             }
             else {
-                return Stream<CourseOutlineQuerier.BlockGroup>(error: NSError.oex_courseContentLoadError())
+                return OEXStream<CourseOutlineQuerier.BlockGroup>(error: NSError.oex_courseContentLoadError())
             }}
         )
         rowsLoader.backWithStream(headersLoader.transform {[weak self] headers in
@@ -173,7 +173,7 @@ public class CourseOutlineViewController :
                 return joinStreams(children)
             }
             else {
-                return Stream(error: NSError.oex_courseContentLoadError())
+                return OEXStream(error: NSError.oex_courseContentLoadError())
             }}
         )
         
@@ -286,7 +286,7 @@ public class CourseOutlineViewController :
 
 extension CourseOutlineViewController {
     
-    public func t_setup() -> Stream<Void> {
+    public func t_setup() -> OEXStream<Void> {
         return rowsLoader.map { _ in
         }
     }

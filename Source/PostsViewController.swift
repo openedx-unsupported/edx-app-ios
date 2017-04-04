@@ -697,11 +697,11 @@ extension UITableView {
 // Testing only
 extension PostsViewController {
     
-    var t_loaded : Stream<()> {
+    var t_loaded : OEXStream<()> {
         return self.stream!.map {_ in () }
     }
     
-    var t_loaded_pagination : Stream<()> {
+    var t_loaded_pagination : OEXStream<()> {
         return self.paginationController!.stream.map {_ in
             return
         }

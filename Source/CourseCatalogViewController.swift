@@ -90,7 +90,7 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
 // Testing only
 extension CourseCatalogViewController {
     
-    var t_loaded : Stream<()> {
+    var t_loaded : OEXStream<()> {
         return self.paginationController.stream.map {_ in
             return
         }

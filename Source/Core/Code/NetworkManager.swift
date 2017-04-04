@@ -384,7 +384,7 @@ open class NetworkManager : NSObject {
         
     }
     
-    fileprivate func combineWithPersistentCacheFetch<Out>(_ stream : Stream<Out>, request : NetworkRequest<Out>) -> Stream<Out> {
+    fileprivate func combineWithPersistentCacheFetch<Out>(_ stream : OEXStream<Out>, request : NetworkRequest<Out>) -> OEXStream<Out> {
         if let URLRequest = URLRequestWithRequest(request).value {
             let cacheStream = Sink<Out>()
             let interceptors = jsonInterceptors
@@ -413,7 +413,7 @@ open class NetworkManager : NSObject {
         }
     }
     
-    open func streamForRequest<Out>(_ request : NetworkRequest<Out>, persistResponse : Bool = false, autoCancel : Bool = true) -> Stream<Out> {
+    open func streamForRequest<Out>(_ request : NetworkRequest<Out>, persistResponse : Bool = false, autoCancel : Bool = true) -> OEXStream<Out> {
         let stream = Sink<NetworkResult<Out>>()
         let task = self.taskForRequest(request) {[weak stream, weak self] result in
             if let response = result.response, let request = result.request, let data = result.baseData, (persistResponse && data.count > 0) {
@@ -422,7 +422,7 @@ open class NetworkManager : NSObject {
             stream?.close()
             stream?.send(result)
         }
-        var result : Stream<Out> = stream.flatMap {(result : NetworkResult<Out>) -> Result<Out> in
+        var result : OEXStream<Out> = stream.flatMap {(result : NetworkResult<Out>) -> Result<Out> in
             return self.handleResponse(result)
         }
         

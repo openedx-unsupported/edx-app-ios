@@ -506,7 +506,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
 
 // Testing only
 extension DiscussionCommentsViewController {
-    var t_loaded : Stream<()> {
+    var t_loaded : OEXStream<()> {
         return self.paginationController!.stream.map {_ in
             return
         }

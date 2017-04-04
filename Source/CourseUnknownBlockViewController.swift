@@ -19,7 +19,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     var block: CourseBlock?
     var messageView : IconMessageView?
     
-    var loader : Stream<URL?>?
+    var loader : OEXStream<URL?>?
     init(blockID : CourseBlockID?, courseID : String, environment : Environment) {
         self.blockID = blockID
         self.courseID = courseID

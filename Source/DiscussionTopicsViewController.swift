@@ -233,7 +233,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
 }
 
 extension DiscussionTopicsViewController {
-    public func t_topicsLoaded() -> Stream<[DiscussionTopic]> {
+    public func t_topicsLoaded() -> OEXStream<[DiscussionTopic]> {
         return topics
     }
 }

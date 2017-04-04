@@ -208,7 +208,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
 
 // For testing use only
 extension EnrolledCoursesViewController {
-    var t_loaded: Stream<()> {
+    var t_loaded: OEXStream<()> {
         return self.enrollmentFeed.output.map {_ in
             return ()
         }

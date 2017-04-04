@@ -9,14 +9,14 @@
 @testable import edX
 
 class MockProfilePresenter: UserProfilePresenter {
-    let profileStream: Stream<UserProfile>
-    let tabStream: Stream<[ProfileTabItem]>
+    let profileStream: OEXStream<UserProfile>
+    let tabStream: OEXStream<[ProfileTabItem]>
 
     weak var delegate: UserProfilePresenterDelegate?
 
     init(profile: UserProfile, tabs: [ProfileTabItem]) {
-        profileStream = Stream(value: profile)
-        tabStream = Stream(value: tabs)
+        profileStream = OEXStream(value: profile)
+        tabStream = OEXStream(value: tabs)
     }
 
     func refresh() {
@@ -27,9 +27,9 @@ class MockProfilePresenter: UserProfilePresenter {
 class MockPaginator<A>: Paginator {
     typealias Element = A
 
-    let stream: Stream<[A]>
+    let stream: OEXStream<[A]>
     init(values : [A]) {
-        self.stream = Stream(value: values)
+        self.stream = OEXStream(value: values)
     }
 
     let hasNext: Bool = false

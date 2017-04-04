@@ -38,7 +38,7 @@ public class ProfileAPI: NSObject {
         networkManager.taskForRequest(request, handler: handler)
     }
 
-    class func getProfile(username: String, networkManager: NetworkManager) -> Stream<UserProfile> {
+    class func getProfile(username: String, networkManager: NetworkManager) -> OEXStream<UserProfile> {
         let request = profileRequest(username: username)
         return networkManager.streamForRequest(request)
     }

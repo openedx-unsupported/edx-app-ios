@@ -50,7 +50,7 @@ public class PaginationController<A> : NSObject, Paginator {
         }
     }
 
-    var stream : Stream<[A]> {
+    var stream : OEXStream<[A]> {
         return paginator.stream
     }
 

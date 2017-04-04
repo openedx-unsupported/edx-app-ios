@@ -131,7 +131,7 @@ class CourseCatalogDetailViewController: UIViewController {
 // Testing only
 extension CourseCatalogDetailViewController {
     
-    var t_loaded : Stream<()> {
+    var t_loaded : OEXStream<()> {
         return self.aboutView.loaded
     }
     
