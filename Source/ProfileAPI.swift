@@ -18,7 +18,7 @@ public class ProfileAPI: NSObject {
     }
 
     private static func imageResponseDeserializer(response : HTTPURLResponse) -> Result<()> {
-        return Success()
+        return Success(v: ())
     }
     
     private class func path(username:String) -> String {

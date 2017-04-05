@@ -52,7 +52,7 @@ public enum AuthenticationAction {
 
 public enum ResponseDeserializer<Out> {
     case jsonResponse((HTTPURLResponse, JSON) -> Result<Out>)
-    case dataResponse((HTTPURLResponse, Data) -> Result<Out>)
+    case dataResponse((HTTPURLResponse, NSData) -> Result<Out>)
     case noContent((HTTPURLResponse) -> Result<Out>)
     
     func map<A>(_ f: @escaping (Out) -> A) -> ResponseDeserializer<A> {
@@ -303,7 +303,7 @@ open class NetworkManager : NSObject {
                     return .failure(error)
                 }
             case let .dataResponse(f):
-                return data.toResult(error).flatMap { f(response, $0) }
+                return data.toResult(error).flatMap { f(response, $0 as NSData) }
             case let .noContent(f):
                 if response.hasErrorResponseCode() { // server error
                     guard let data = data,

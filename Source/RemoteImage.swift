@@ -63,16 +63,16 @@ class RemoteImageImpl: RemoteImage {
         }
     }
     
-    private func imageDeserializer(response: HTTPURLResponse, data: Data) -> Result<RemoteImage> {
+    private func imageDeserializer(response: HTTPURLResponse, data: NSData) -> Result<RemoteImage> {
         if let newImage = UIImage(data: data as Data) {
             let result = self
             result.localImage = newImage
             
-            let cost = data.count
+            let cost = data.length
             imageCache.setObject(newImage, forKey: filename as AnyObject, cost: cost)
             
             if persist {
-                data.write(to: localFile, options: false)
+                data.write(toFile: localFile, atomically: false)
             }
             return Success(v: result)
         }
