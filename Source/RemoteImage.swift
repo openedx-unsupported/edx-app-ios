@@ -63,16 +63,16 @@ class RemoteImageImpl: RemoteImage {
         }
     }
     
-    private func imageDeserializer(response: HTTPURLResponse, data: NSData) -> Result<RemoteImage> {
+    private func imageDeserializer(response: HTTPURLResponse, data: Data) -> Result<RemoteImage> {
         if let newImage = UIImage(data: data as Data) {
             let result = self
             result.localImage = newImage
             
-            let cost = data.length
+            let cost = data.count
             imageCache.setObject(newImage, forKey: filename as AnyObject, cost: cost)
             
             if persist {
-                data.write(toFile: localFile, atomically: false)
+                data.write(to: localFile, options: false)
             }
             return Success(v: result)
         }
@@ -80,7 +80,7 @@ class RemoteImageImpl: RemoteImage {
         return Failure(e: NSError.oex_unknownError())
     }
     
-    func fetchImage(completion: (_ remoteImage : NetworkResult<RemoteImage>) -> ()) -> Removable {
+    func fetchImage(completion: @escaping (_ remoteImage : NetworkResult<RemoteImage>) -> ()) -> Removable {
         // Only authorize requests to the API host
         // This is necessary for two reasons:
         // 1. We don't want to leak credentials by loading random images

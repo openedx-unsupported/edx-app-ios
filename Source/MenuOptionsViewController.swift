@@ -16,7 +16,7 @@ protocol MenuOptionsViewControllerDelegate : class {
 //TODO: Remove this (duplicate) when swift compiler recognizes this extension from DiscussionTopicCell.swift
 extension UITableViewCell {
     
-    private func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
+    fileprivate func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
         return CGFloat(depth + 1) * StandardHorizontalMargin
     }
 }
@@ -33,6 +33,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
             didSet {
                 optionLabel.snp_updateConstraints { (make) -> Void in
                     make.leading.equalTo(contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
+                    
                 }
             }
         }

@@ -25,7 +25,7 @@ public class UserCourseEnrollment : NSObject {
         isActive = (dictionary["is_active"] as? NSNumber)?.boolValue ?? false
 
 
-        if let certificatesInfo = dictionary["certificate"] as? [NSObject: AnyObject] {
+        if let certificatesInfo = dictionary["certificate"] as? [String: Any] {
             certificateUrl = certificatesInfo["url"] as? String
         } else {
             certificateUrl = nil

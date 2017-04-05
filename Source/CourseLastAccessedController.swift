@@ -58,7 +58,7 @@ public class CourseLastAccessedController: NSObject {
         }
         
         if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(courseID: self.courseID) {
-            let blockStream = expandAccessStream(stream: Stream(value : firstLoad))
+            let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad))
             lastAccessedLoader.backWithStream(blockStream)
         }
         
@@ -82,10 +82,10 @@ public class CourseLastAccessedController: NSObject {
                     let lastAccessedItem = info.1
                     
                     if let owner = self {
-                        owner.lastAccessedProvider?.setLastAccessedSubSectionWithID(lastAccessedItem.moduleId,
+                        owner.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: lastAccessedItem.moduleId,
                             subsectionName: block.displayName,
                             courseID: courseID,
-                            timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                            timeStamp: OEXDateFormatting.serverString(with: Date()))
                     }
                 }
             }

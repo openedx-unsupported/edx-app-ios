@@ -42,15 +42,15 @@ class DiscussionPostCell: UITableViewCell {
         self.selectionStyle = .none
         
         for (button, icon, text) in [
-            (voteButton, Icon.UpVote, nil as? String),
-            (followButton, Icon.FollowStar, Strings.discussionFollow),
-            (reportButton, Icon.ReportFlag, Strings.discussionReport)
+            (voteButton!, Icon.UpVote, ""),
+            (followButton!, Icon.FollowStar, Strings.discussionFollow),
+            (reportButton!, Icon.ReportFlag, Strings.discussionReport)
             ]
            
         {
-            let buttonText = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(cellButtonStyle, inline: true),
-                cellButtonStyle.attributedStringWithText(text ?? "")])
-            button.setAttributedTitle(buttonText, forState:.Normal)
+            let buttonText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedTextWithStyle(style: cellButtonStyle, inline: true),
+                cellButtonStyle.attributedString(withText: text ?? "")])
+            button.setAttributedTitle(buttonText, for:.normal)
         }
         
         separatorLine.backgroundColor = OEXStyles.shared().standardDividerColor
@@ -127,12 +127,12 @@ class DiscussionResponseCell: UITableViewCell {
         self.selectionStyle = .none
         
         for (button, icon, text) in [
-            (reportButton, Icon.ReportFlag, Strings.discussionReport)]
+            (reportButton!, Icon.ReportFlag, Strings.discussionReport)]
         {
-            let iconString = icon.attributedTextWithStyle(cellButtonStyle, inline: true)
-            let buttonText = NSAttributedString.joinInNaturalLayout([iconString,
-                cellButtonStyle.attributedStringWithText(text)])
-            button.setAttributedTitle(buttonText, forState:.Normal)
+            let iconString = icon.attributedTextWithStyle(style: cellButtonStyle, inline: true)
+            let buttonText = NSAttributedString.joinInNaturalLayout(attributedStrings: [iconString,
+                cellButtonStyle.attributedString(withText: text)])
+            button.setAttributedTitle(buttonText, for:.normal)
         }
         
         commentBox.backgroundColor = OEXStyles.shared().neutralXXLight()
