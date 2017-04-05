@@ -144,7 +144,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             let platform = config.platformName()
             let service = notification.object as? String ?? ""
             let message = Strings.externalRegistrationBecameLogin(platformName: platform, service: service)
-            observer.showOverlayMessage(string: message)
+            observer.showOverlay(withMessage: message)
         }
         
         NotificationCenter.default.oex_addObserver(observer: self, name: AppNewVersionAvailableNotification) { (notification, observer, _) -> Void in

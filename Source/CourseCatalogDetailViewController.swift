@@ -122,7 +122,7 @@ class CourseCatalogDetailViewController: UIViewController {
                 self?.showCourseScreen(message: Strings.findCoursesEnrollmentSuccessfulMessage)
             }
             else {
-                self?.showOverlayMessage(string: Strings.findCoursesEnrollmentErrorDescription)
+                self?.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
             }
             completion()
         }

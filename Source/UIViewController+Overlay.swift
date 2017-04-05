@@ -100,10 +100,10 @@ extension UIViewController {
         objc_setAssociatedObject(self, &StatusMessageHideActionKey, Box(info), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     
-    func showOverlayMessage(string : String) {
+    func showOverlay(withMessage message : String) {
         let hideInfo = objc_getAssociatedObject(self, &StatusMessageHideActionKey) as? Box<StatusMessageRemovalInfo>
         hideInfo?.value.action()
-        let view = StatusMessageView(message: string)
+        let view = StatusMessageView(message: message)
         showOverlayMessageView(messageView: view)
     }
     

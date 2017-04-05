@@ -16,7 +16,7 @@ extension UIAlertController {
     
     //MARK:- Init Methods
     
-    func showInViewController(viewController: UIViewController,
+    func showIn(viewController pController: UIViewController,
                               title: String?,
                               message: String?,
                               preferredStyle: UIAlertControllerStyle,
@@ -56,18 +56,18 @@ extension UIAlertController {
             }
         }
         
-        viewController.present(controller, animated: true, completion: nil)
+        pController.present(controller, animated: true, completion: nil)
         
         return controller
         
     }
     
-    func showAlertWithTitle(title: String?,
+    @discardableResult func showAlert(withTitle title: String?,
                             message: String?,
                             cancelButtonTitle: String?,
                             onViewController viewController: UIViewController) -> UIAlertController{
 
-        return self.showInViewController(viewController: viewController,
+        return self.showIn(viewController: viewController,
                                          title: title,
                                          message: message,
                                          preferredStyle: UIAlertControllerStyle.alert,
@@ -78,11 +78,11 @@ extension UIAlertController {
         
     }
     
-    func showAlertWithTitle(title: String?,
+    @discardableResult func showAlert(withTitle title: String?,
                             message: String?,
                             onViewController viewController: UIViewController) -> UIAlertController{
         
-        return self.showAlertWithTitle(title: title,
+        return self.showAlert(withTitle: title,
                                        message: message,
                                        cancelButtonTitle: Strings.ok,
                                        onViewController: viewController)
@@ -91,7 +91,7 @@ extension UIAlertController {
     
     //MARK:- Add Action Methods
     
-    func addButtonWithTitle(title: String,
+    func addButton(withTitle title: String,
                                   style: UIAlertActionStyle,
                                   actionBlock: ((_ action: UIAlertAction) -> ())?) {
         let alertAction = UIAlertAction(title: title, style: style, handler: { (action) in
@@ -102,7 +102,7 @@ extension UIAlertController {
         self.addAction(alertAction)
     }
     
-    func addButtonWithTitle(title: String,
+    func addButton(withTitle title: String,
                             actionBlock: ((_ action: UIAlertAction) -> ())?) {
         let alertAction = UIAlertAction(title: title, style: UIAlertActionStyle.default, handler: { (action) in
             if let tap = actionBlock {

@@ -144,7 +144,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         NotificationCenter.default.oex_addObserver(observer: self, name: EnrollmentShared.successNotification) { (notification, observer, _) in
             if let message = notification.object as? String {
-                observer.showOverlayMessage(string: message)
+                observer.showOverlay(withMessage: message)
             }
         }
     }

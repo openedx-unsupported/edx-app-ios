@@ -99,15 +99,15 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     //MARK: - Positive Rating methods
     private func positiveRatingReceived() {
-        alertController = UIAlertController().showAlertWithTitle(title: Strings.AppReview.rateTheApp, message: Strings.AppReview.positiveReviewMessage,cancelButtonTitle: nil, onViewController: self)
-        alertController?.addButtonWithTitle(title: Strings.AppReview.maybeLater) {[weak self] (action) in
+        alertController = UIAlertController().showAlert(withTitle: Strings.AppReview.rateTheApp, message: Strings.AppReview.positiveReviewMessage,cancelButtonTitle: nil, onViewController: self)
+        alertController?.addButton(withTitle: Strings.AppReview.maybeLater) {[weak self] (action) in
             self?.saveAppRating()
             if let rating = self?.selectedRating {
                 self?.environment.analytics.trackMaybeLater(rating: rating)
             }
             self?.dismissViewController()
         }
-        alertController?.addButtonWithTitle(title: Strings.AppReview.rateTheApp) {[weak self] (action) in
+        alertController?.addButton(withTitle: Strings.AppReview.rateTheApp) {[weak self] (action) in
             self?.saveAppRating(rating: self?.selectedRating)
             if let rating = self?.selectedRating {
                 self?.environment.analytics.trackRateTheApp(rating: rating)
@@ -126,15 +126,15 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     //MARK: - Negative Rating methods
     private func negativeRatingReceived() {
-        alertController = UIAlertController().showAlertWithTitle(title: Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
-        alertController?.addButtonWithTitle(title: Strings.AppReview.maybeLater) {[weak self] (action) in
+        alertController = UIAlertController().showAlert(withTitle: Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
+        alertController?.addButton(withTitle: Strings.AppReview.maybeLater) {[weak self] (action) in
             self?.saveAppRating()
             if let rating = self?.selectedRating {
                 self?.environment.analytics.trackMaybeLater(rating: rating)
             }
             self?.dismissViewController()
         }
-        alertController?.addButtonWithTitle(title: Strings.AppReview.sendFeedback) {[weak self] (action) in
+        alertController?.addButton(withTitle: Strings.AppReview.sendFeedback) {[weak self] (action) in
             self?.saveAppRating(rating: self?.selectedRating)
             if let rating = self?.selectedRating {
                 self?.environment.analytics.trackSendFeedback(rating: rating)

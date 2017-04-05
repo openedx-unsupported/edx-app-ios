@@ -15,7 +15,7 @@
 #import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXSession.h"
-#import "edx-Swift.h"
+#import "edX-Swift.h"
 
 @implementation OEXAnalyticsEvent
 
@@ -488,7 +488,7 @@ static OEXAnalytics* sAnalytics;
 }
 
 - (void)trackUserEnrolledInCourse:(NSString*)courseID {
-    OEXAnalyticsEvent* event = [OEXAnalytics enrollEvent:courseID];
+    OEXAnalyticsEvent* event = [OEXAnalytics enrollEventWithCourseId:courseID];
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 

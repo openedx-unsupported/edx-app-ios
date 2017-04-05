@@ -176,7 +176,7 @@ class DiscussionCommentCell: UITableViewCell {
                     }
                 }
                 else {
-                    viewController?.showOverlayMessage(string: DiscussionHelper.messageForError(error: result.error))
+                    viewController?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                 }
             }
             }, for: UIControlEvents.touchUpInside)
@@ -500,7 +500,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         }
         
         delegate?.discussionCommentsView(controller: self, updatedComment: responseItem)
-        showOverlayMessage(string: Strings.discussionCommentPosted)
+        showOverlay(withMessage: Strings.discussionCommentPosted)
     }
 }
 

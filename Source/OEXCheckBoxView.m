@@ -7,7 +7,7 @@
 //
 
 #import "OEXCheckBoxView.h"
-#import "Edx-Swift.h"
+#import "edX-Swift.h"
 
 @interface OEXCheckBoxView ()
 {

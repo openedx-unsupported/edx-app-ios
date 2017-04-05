@@ -32,7 +32,7 @@ extension OEXCourseInfoViewController {
                 self?.showMainScreen(withMessage: Strings.findCoursesEnrollmentSuccessfulMessage, courseID: courseID)
             }
             else {
-                self?.showOverlayMessage(string: Strings.findCoursesEnrollmentErrorDescription)
+                self?.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
             }
         }
     }

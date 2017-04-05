@@ -1306,7 +1306,7 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)setLastAccessedDataToDB:(NSString*)subsectionID withTimeStamp:(NSString*)timestamp forCourseID:(NSString*)courseID {
     OEXHelperVideoDownload* video = [self getSubsectionNameForSubsectionID:subsectionID];
-    [self setLastAccessedSubSectionWithID:subsectionID subsectionName: video.summary.sectionPathEntry.entryID courseID:courseID timeStamp:timestamp];
+    [self setLastAccessedSubSectionWithIDWithSubsectionID:subsectionID subsectionName: video.summary.sectionPathEntry.entryID courseID:courseID timeStamp:timestamp];
 }
 
 - (void)getLastVisitedModuleForCourseID:(NSString*)courseID {

@@ -90,7 +90,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         return self.loadController.state.isLoaded
     }
     
-    func loadRequestWithURL(url : NSURL) {
+    func loadRequest(withURL url : NSURL) {
         let request = NSURLRequest(url: url as URL)
         self.webView.load(request as URLRequest)
         self.request = request
@@ -165,7 +165,7 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
 
         guard let searchTerms = searchBar.text, let searchURL = searchBaseURL else { return }
         if let URL = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, toolbarString: searchTerms) {
-            loadRequestWithURL(url: URL)
+            loadRequest(withURL: URL)
         }
     }
 

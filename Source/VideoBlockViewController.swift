@@ -120,7 +120,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         if !canDownloadVideo() {
             guard let video = self.environment.interface?.stateForVideo(withID: self.blockID, courseID : self.courseID), video.downloadState == .complete else {
-                self.showOverlayMessage(string: Strings.noWifiMessage)
+                self.showOverlay(withMessage: Strings.noWifiMessage)
                 return
             }
         }
@@ -221,7 +221,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             UIAlertView(title: Strings.videoContentNotAvailable, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
         }
         else {
-            self.showOverlayMessage(string: Strings.timeoutCheckInternetConnection)
+            self.showOverlay(withMessage: Strings.timeoutCheckInternetConnection)
         }
     }
     

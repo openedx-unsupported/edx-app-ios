@@ -41,7 +41,7 @@ public class OEXFonts: NSObject {
         return OEXFontsDataFactory.fonts as [String : AnyObject]
     }
     
-    public func fontForIdentifier(identifier: FontIdentifiers, size: CGFloat) -> UIFont {
+    public func font(forIdentifier identifier: FontIdentifiers, size: CGFloat) -> UIFont {
         if let fontName = fontsDictionary[getIdentifier(identifier: identifier)] as? String {
             return UIFont(name: fontName, size: size)!
         }

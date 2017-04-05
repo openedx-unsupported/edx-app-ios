@@ -221,7 +221,7 @@ public class CourseOutlineViewController :
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
         guard canDownloadVideo() else {
-            self.showOverlayMessage(string: Strings.noWifiMessage)
+            self.showOverlay(withMessage: Strings.noWifiMessage)
             return
         }
         
@@ -243,7 +243,7 @@ public class CourseOutlineViewController :
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
         
         guard canDownloadVideo() else {
-            self.showOverlayMessage(string: Strings.noWifiMessage)
+            self.showOverlay(withMessage: Strings.noWifiMessage)
             return
         }
         

@@ -114,11 +114,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if loader?.value == nil {
-            loader = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID).blockWithID(id: self.blockID).map {
-                return $0.webURL
+        environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID).blockWithID(id: self.blockID).map {
+            return $0.webURL
             }.firstSuccess()
-        }
     }
     
     private func logOpenInBrowserEvent() {

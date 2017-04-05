@@ -222,7 +222,7 @@
     NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
     formatter.numberStyle = NSNumberFormatterPercentStyle;
     NSString* formatted = [formatter stringFromNumber:@(percentage)];
-    return [Strings accessibilityDownloadViewCell:video percentComplete:formatted](percentage);
+    return [Strings accessibilityDownloadViewCellWithVideoName:video percentComplete:formatted](percentage);
 }
 
 - (void)updateProgressForVisibleRows {

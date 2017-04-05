@@ -49,11 +49,11 @@ public class OEXColors: NSObject {
         return OEXColorsDataFactory.colors as [String : AnyObject]
     }
     
-    public func colorForIdentifier(identifier: ColorsIdentifiers) -> UIColor {
-        return colorForIdentifier(identifier: identifier, alpha: 1.0)
+    public func color(forIdentifier identifier: ColorsIdentifiers) -> UIColor {
+        return color(forIdentifier: identifier, alpha: 1.0)
     }
     
-    public func colorForIdentifier(identifier: ColorsIdentifiers, alpha: CGFloat) -> UIColor {
+    public func color(forIdentifier identifier: ColorsIdentifiers, alpha: CGFloat) -> UIColor {
         if let hexValue = colorsDictionary[getIdentifier(identifier: identifier)] as? String {
             let color = UIColor(hexString: hexValue, alpha: alpha)
             return color

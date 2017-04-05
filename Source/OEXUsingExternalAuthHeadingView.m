@@ -103,7 +103,7 @@ static const UIEdgeInsets OEXUsingExternalAuthMessageInsets = {.top = 10, .left 
 - (NSAttributedString*)messageTextWithProvider:(NSString*)provider {
     OEXTextStyle* style = self.styles.headingMessageProviderStyle;
     NSString* platform = [[OEXConfig sharedConfig] platformName];
-    NSAttributedString*(^template)(NSAttributedString*) = [style apply:^(NSString* service) {
+    NSAttributedString*(^template)(NSAttributedString*) = [style applyWithF:^(NSString* service) {
         return [Strings completeRegistrationInfoWithService:service platformName:platform];
     }];
     NSAttributedString* serviceString = [self.styles.headingMessageProviderStyle attributedStringWithText:provider];

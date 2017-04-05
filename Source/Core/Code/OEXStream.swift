@@ -187,7 +187,7 @@ open class OEXStream<A> : StreamDependency {
     }
     
     /// - returns: A filtered stream based on the receiver that will only fire the first time a success value is sent. Use this if you want to capture a value and *not* update when the next one comes in.
-    open func firstSuccess() -> OEXStream<A> {
+    @discardableResult open func firstSuccess() -> OEXStream<A> {
         let sink = Sink<A>(dependencies: [self])
         let _ = listen(sink.token) {[weak sink] result in
             if sink?.lastResult?.isFailure ?? true {

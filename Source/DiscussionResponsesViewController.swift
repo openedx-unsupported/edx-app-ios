@@ -539,7 +539,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                         owner.updateVoteText(button: cell.voteButton, voteCount: thread.voteCount, voted: thread.voted)
                     }
                     else {
-                        self?.showOverlayMessage(string: DiscussionHelper.messageForError(error: result.error))
+                        self?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                     }
                 }
             }
@@ -557,7 +557,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                         owner.postFollowing = thread.following
                     }
                     else {
-                        self?.showOverlayMessage(string: DiscussionHelper.messageForError(error: result.error))
+                        self?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                     }
                 }
             }
@@ -581,7 +581,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                         owner.updateReportText(button: cell.reportButton, report: thread.abuseFlagged)
                     }
                     else {
-                        self?.showOverlayMessage(string: DiscussionHelper.messageForError(error: result.error))
+                        self?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                     }
                 }
             }
@@ -672,7 +672,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.tableView.reloadData()
                 }
                 else {
-                    self?.showOverlayMessage(string: DiscussionHelper.messageForError(error: result.error))
+                    self?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                 }
             }
             } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
@@ -691,7 +691,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.tableView.reloadData()
                 }
                 else {
-                    self?.showOverlayMessage(string: DiscussionHelper.messageForError(error: result.error))
+                    self?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                 }
             }
             } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
@@ -770,10 +770,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
             
             increaseResponseCount()
-            showOverlayMessage(string: Strings.discussionThreadPosted)
+            showOverlay(withMessage: Strings.discussionThreadPosted)
         case .Comment(_):
             responsesDataController.addedChildComment(comment: comment)
-            self.showOverlayMessage(string: Strings.discussionCommentPosted)
+            self.showOverlay(withMessage:Strings.discussionCommentPosted)
         }
         
         self.tableView.reloadData()
@@ -845,7 +845,7 @@ extension AuthorLabelProtocol {
             
         let formattedUserName = highlightStyle.attributedString(withText: name ?? Strings.anonymous.oex_lowercaseStringInCurrentLocale())
         
-        let byAuthor =  textStyle.apply(Strings.byAuthorLowerCase) (formattedUserName)
+        let byAuthor =  textStyle.attributedString(withText: Strings.byAuthorLowerCase(authorName: formattedUserName.string))
         
         attributedStrings.append(byAuthor)
         
