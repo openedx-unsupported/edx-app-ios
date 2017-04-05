@@ -26,7 +26,7 @@ public class VersionUpgradeView: UIView {
         self.backgroundColor = OEXStyles.shared().warningBase()
         messageLabel.numberOfLines = 0
         messageLabel.attributedText = messageLabelStyle.attributedString(withText: message)
-        upgradeButton.setAttributedTitle(buttonLabelStyle.attributedString(withText: Strings.VersionUpgrade.update), for: .normal)
+        upgradeButton.setAttributedTitle(buttonLabelStyle.attributedString(withText: Strings.versionUpgradeUpdate), for: .normal)
         dismissButton.setAttributedTitle(buttonLabelStyle.attributedString(withText: Strings.VersionUpgrade.dismiss), for: .normal)
         
         addSubview(messageLabel)

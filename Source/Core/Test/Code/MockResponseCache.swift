@@ -9,9 +9,10 @@
 import edXCore
 
 class MockResponseCache: NSObject, ResponseCache {
+    
     fileprivate var backing : [String: ResponseCacheEntry] = [:]
     
-    func fetchCacheEntryWithRequest(_ request: URLRequest, completion: (ResponseCacheEntry?) -> Void) {
+    func fetchCacheEntryWithRequest(_ request: URLRequest, completion: @escaping (ResponseCacheEntry?) -> Void) {
         let key = responseCacheKeyForRequest(request)
         completion(key.flatMap{ backing[$0] })
     }

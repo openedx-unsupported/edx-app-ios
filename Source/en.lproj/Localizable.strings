@@ -601,9 +601,9 @@
 /* Label for date when course starts */
 "STARTING"="Starting - {start_date}";
 /* Discover Courses button text on the first screen */
-"STARTUP.DISCOVERCOURSES"="Discover Courses";
+"STARTUP.DISCOVER_COURSES"="Discover Courses";
 /* Explore Subjects button text on the first screen */
-"STARTUP.EXPLORE_SUBJECTS"="Explore Subjects";
+"STARTUP_EXPLORE_SUBJECTS"="Explore Subjects";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK.OPTION_TITLE" = "Submit Feedback";
 /* Support message email title */
@@ -687,7 +687,7 @@
 /* Discussion vote - {count} is a number of votes */
 "VOTE##{other}"="{count} Votes";
 /*Title of update button on fullscreen error and SnackBar*/
-"VERSION_UPGRADE.UPDATE" = "Update";
+"VERSION_UPGRADE_UPDATE" = "Update";
 /*Title of dismiss button on SnackBar*/
 "VERSION_UPGRADE.DISMISS" = "Dismiss";
 /*Deprecated version detail message*/
@@ -695,7 +695,7 @@
 /*Outdated version detail message*/
 "VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Your version of the app is no longer supported.";
 /*Outdated version alert message for login screen*/
-"VERSION_UPGRADE.OUT_DATED_LOGIN_MESSAGE" = "Your version of the app is no longer supported. Update to the latest version to login.";
+"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Your version of the app is no longer supported. Update to the latest version to login.";
 /*New version available without deadline message*/
 "VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "A new version of the app is available.";
 /* Overlay shown after a network request has started, telling the user to wait for the response */

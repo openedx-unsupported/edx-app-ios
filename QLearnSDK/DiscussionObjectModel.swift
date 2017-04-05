@@ -57,16 +57,16 @@ extension DiscussionComment {
         self.voted = json["voted"].boolValue
         self.voteCount = json["vote_count"].intValue
         if let dateStr = json["created_at"].string {
-            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
+            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
+            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
         }
         self.endorsed = json["endorsed"].boolValue
         self.endorsedBy = json["endorsed_by"].string
         self.endorsedByLabel = json["endorsed_by_label"].string
         if let dateStr = json["endorsed_at"].string {
-            self.endorsedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
+            self.endorsedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
         }
         self.flagged = json["flagged"].boolValue
         self.abuseFlagged = json["abuse_flagged"].boolValue
@@ -162,10 +162,10 @@ extension DiscussionThread {
         self.unreadCommentCount = json["unread_comment_count"].intValue
         
         if let dateStr = json["created_at"].string {
-            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
+            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate?
+            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
         }
         self.editableFields = json["editable_fields"].string
         if let numberOfResponses = json["response_count"].int {

@@ -29,7 +29,7 @@ class KVOListenerTests: XCTestCase {
     func testListening() {
         let observed = ListenableObject()
         let expectation = self.expectation(description: "kvo change is observed")
-        let remover = observed.oex_addObserver(self, forKeyPath: "value") { (observer, object, value) -> Void in
+        let remover = observed.oex_addObserver(observer: self, forKeyPath: "value") { (observer, object, value) -> Void in
             let newValue : String = value as! String
             XCTAssertEqual(newValue, "new")
             expectation.fulfill()
@@ -41,7 +41,7 @@ class KVOListenerTests: XCTestCase {
     
     func testRemoval() {
         let observed = ListenableObject()
-        let remover = observed.oex_addObserver(self, forKeyPath: "value") { (observer, object, value) -> Void in
+        let remover = observed.oex_addObserver(observer: self, forKeyPath: "value") { (observer, object, value) -> Void in
             XCTFail("Already removed")
         }
         remover.remove()
@@ -58,11 +58,11 @@ class KVOListenerTests: XCTestCase {
             let observer = NSObject()
             
             // ensure the observer is actually deallocated
-            observer.oex_performActionOnDealloc { () -> Void in
+            observer.oex_performAction { () -> Void in
                 updated.value = true
             }
 
-            observed.oex_addObserver(observer, forKeyPath: "value") { (observer, object, value) -> Void in
+            observed.oex_addObserver(observer: observer, forKeyPath: "value") { (observer, object, value) -> Void in
                 XCTFail("Already removed")
             }
         }
@@ -78,8 +78,8 @@ class KVOListenerTests: XCTestCase {
         let cleared = MutableBox(false)
         func scope() {
             let observed = ListenableObject()
-            observed.oex_addObserver(self, forKeyPath: "value") { (observer, object, value) -> Void in }
-            observed.oex_performActionOnDealloc { () -> Void in
+            observed.oex_addObserver(observer: self, forKeyPath: "value") { (observer, object, value) -> Void in }
+            observed.oex_performAction { () -> Void in
                 cleared.value = true
             }
         }

@@ -36,7 +36,7 @@ class EnrollmentManagerTests : XCTestCase {
         XCTAssertEqual(feed.output.value!!.count, enrollments.count)
         
         // Log out. Now enrollments should be cleared
-        environment.session.closeAndClearSession()
+        environment.session.closeAndClear()
         XCTAssertNil(feed.output.value!)
     }
     

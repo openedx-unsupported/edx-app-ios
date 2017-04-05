@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class CourseDataManager: NSObject {
+open class CourseDataManager: NSObject {
     
     private let analytics : OEXAnalytics
     private let interface : OEXInterface?
@@ -33,14 +33,14 @@ public class CourseDataManager: NSObject {
         }
     }
     
-    public func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
+    open func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
         return outlineQueriers.objectForKey(key: courseID) {
             let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, enrollmentManager: enrollmentManager, networkManager : networkManager, session : session)
             return querier
         }
     }
     
-    public func discussionManagerForCourseWithID(courseID : String) -> DiscussionDataManager {
+    open func discussionManagerForCourseWithID(courseID : String) -> DiscussionDataManager {
         return discussionDataManagers.objectForKey(key: courseID) {
             let manager = DiscussionDataManager(courseID: courseID, networkManager: self.networkManager)
             return manager

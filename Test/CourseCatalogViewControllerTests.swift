@@ -12,7 +12,7 @@ import XCTest
 class CourseCatalogViewControllerTests: SnapshotTestCase {
     
     func testSnapshotList() {
-        let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse(startInfo:OEXCourseStartDisplayInfo(date: nil, displayDate: "Eventually", type: .String)), OEXCourse.freshCourse()]
+        let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse(startInfo:OEXCourseStartDisplayInfo(date: nil, displayDate: "Eventually", type: .string)), OEXCourse.freshCourse()]
         let environment = TestRouterEnvironment().logInTestUser()
         environment.mockNetworkManager.interceptWhenMatching({(_ : NetworkRequest<Paginated<[OEXCourse]>>) in true }) {
             let pagination = PaginationInfo(totalCount : courses.count, pageCount : 1)

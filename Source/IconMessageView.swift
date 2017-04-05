@@ -165,7 +165,7 @@ class IconMessageView : UIView {
         message = Strings.VersionUpgrade.outDatedMessage
         icon = .Warning
         
-        buttonInfo = MessageButtonInfo(title : Strings.VersionUpgrade.update)
+        buttonInfo = MessageButtonInfo(title : Strings.versionUpgradeUpdate)
         {
             if let URL = OEXConfig.shared().appUpgradeConfig.iOSAppStoreURL() {
                 UIApplication.shared.openURL(URL as URL)

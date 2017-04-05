@@ -25,7 +25,7 @@ class MockNetworkManager: NetworkManager {
         let response : Any
         let delay : TimeInterval
         
-        init<Out>(matcher : (NetworkRequest<Out>) -> Bool, delay : TimeInterval, response : (NetworkRequest<Out>) -> NetworkResult<Out>) {
+        init<Out>(matcher : @escaping (NetworkRequest<Out>) -> Bool, delay : TimeInterval, response : @escaping (NetworkRequest<Out>) -> NetworkResult<Out>) {
             self.matcher = matcher as Any
             self.response = response as Any
             self.delay = delay
@@ -36,11 +36,11 @@ class MockNetworkManager: NetworkManager {
     
     let responseCache = MockResponseCache()
     
-    init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL: URL = NSURL(string:"http://example.com")!) {
+    init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL: URL = NSURL(string:"http://example.com")! as URL) {
         super.init(authorizationHeaderProvider: authorizationHeaderProvider, baseURL: baseURL, cache: responseCache)
     }
     
-    func interceptWhenMatching<Out>(_ matcher: (NetworkRequest<Out>) -> Bool, afterDelay delay : TimeInterval = 0, withResponse response : (NetworkRequest<Out>) -> NetworkResult<Out>) -> Removable {
+    @discardableResult func interceptWhenMatching<Out>(_ matcher: @escaping (NetworkRequest<Out>) -> Bool, afterDelay delay : TimeInterval = 0, withResponse response : @escaping (NetworkRequest<Out>) -> NetworkResult<Out>) -> Removable {
         let interceptor = Interceptor(
             matcher : matcher,
             delay : delay,
@@ -53,20 +53,21 @@ class MockNetworkManager: NetworkManager {
     }
     
     /// Returns success with the given value
-    func interceptWhenMatching<Out>(_ matcher : (NetworkRequest<Out>) -> Bool, afterDelay delay : TimeInterval = 0, successResponse : @escaping () -> (Data?, Out)) -> Removable {
+    @discardableResult func interceptWhenMatching<Out>(_ matcher : @escaping (NetworkRequest<Out>) -> Bool, afterDelay delay : TimeInterval = 0, successResponse : @escaping () -> (Data?, Out)) -> Removable {
         return interceptWhenMatching(matcher, afterDelay: delay, withResponse: {[weak self] request in
-            let URLRequest = self!.URLRequestWithRequest(request).value!
+            let request = self!.URLRequestWithRequest(request).value!
             let (data, value) = successResponse()
-            let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])
-            return NetworkResult(request: URLRequest, response: response, data: value, baseData: data, error: nil)
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: [:])
+            return NetworkResult(request: request, response: response, data: value, baseData: data, error: nil)
         })
     }
     /// Returns failure with the given value
-    func interceptWhenMatching<Out>(_ matcher : ((NetworkRequest<Out>) -> Bool), afterDelay delay : TimeInterval = 0, statusCode : Int = 400, error : NSError = NetworkManager.unknownError) -> Removable {
+    func interceptWhenMatching<Out>(_ matcher : @escaping ((NetworkRequest<Out>) -> Bool), afterDelay delay : TimeInterval = 0, statusCode : Int = 400, error : NSError = NetworkManager.unknownError) -> Removable {
         return interceptWhenMatching(matcher, afterDelay: delay, withResponse: {[weak self] request in
-            let URLRequest = self!.URLRequestWithRequest(request).value!
-            let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: statusCode, HTTPVersion: nil, headerFields: [:])
-            return NetworkResult(request: URLRequest, response: response, data: nil, baseData: nil, error: error)
+            let request = self!.URLRequestWithRequest(request).value!
+            
+            let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: nil, headerFields: [:])
+            return NetworkResult(request: request, response: response, data: nil, baseData: nil, error: error)
             })
     }
     
@@ -76,7 +77,7 @@ class MockNetworkManager: NetworkManager {
         }
     }
     
-    override func taskForRequest<Out>(_ request: NetworkRequest<Out>, handler: (NetworkResult<Out>) -> Void) -> Removable {
+    @discardableResult override func taskForRequest<Out>(_ request: NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
         DispatchQueue.main.async {
             
             for interceptor in self.interceptors {
@@ -114,9 +115,9 @@ class MockNetworkManagerTests : XCTestCase {
         })
         
         let expectation = self.expectation(description: "Request sent")
-        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .DataResponse({ _ -> Result<String> in
+        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .dataResponse({ _ -> Result<String> in
             XCTFail("Should not get here")
-            return .Failure(NetworkManager.unknownError)
+            return .failure(NetworkManager.unknownError)
         }))
         manager.taskForRequest(request) {result in
             XCTAssertEqual(result.data!, "Success")
@@ -129,9 +130,9 @@ class MockNetworkManagerTests : XCTestCase {
         let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://example.com")!)
         
         let expectation = self.expectation(description: "Request sent")
-        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .DataResponse({ _ -> Result<String> in
+        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .dataResponse({ _ -> Result<String> in
             XCTFail("Should not get here")
-            return .Failure(NetworkManager.unknownError)
+            return .failure(NetworkManager.unknownError)
         }))
         
         manager.taskForRequest(request) {result in

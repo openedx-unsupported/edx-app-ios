@@ -571,9 +571,9 @@
     [self.view setUserInteractionEnabled:YES];
     [self tappedToDismiss];
     
-    UIAlertController *alertController = [[UIAlertController alloc] showAlertWithTitle:nil message:[VersionUpgrade outDatedLoginMessage] cancelButtonTitle:[Strings cancel] onViewController:self];
+    UIAlertController *alertController = [[UIAlertController alloc] showAlertWithTitle:nil message:[Strings versionUpgradeOutDatedLoginMessage] cancelButtonTitle:[Strings cancel] onViewController:self];
     
-    [alertController addButtonWithTitle:[VersionUpgrade update] actionBlock:^(UIAlertAction * _Nonnull action) {
+    [alertController addButtonWithTitle:[Strings versionUpgradeUpdate] actionBlock:^(UIAlertAction * _Nonnull action) {
         NSURL *url = _environment.config.appUpgradeConfig.iOSAppStoreURL;
         if (url && [[UIApplication sharedApplication] canOpenURL:url]) {
             [[UIApplication sharedApplication] openURL:url];
