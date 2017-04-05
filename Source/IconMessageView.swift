@@ -210,6 +210,6 @@ class IconMessageView : UIView {
     }
     
     func rotateImageViewClockwise(imageView : UIImageView) {
-        imageView.transform = CGAffineTransform(rotationAngle: CGFloat(M_PI_2))
+        imageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
     }
 }

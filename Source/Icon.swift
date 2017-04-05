@@ -73,7 +73,7 @@ private class RotatedIconRenderer : IconRenderer {
         // Draw rotated
         context.translateBy(x: -bounds.midX, y: -bounds.midY)
         context.scaleBy(x: 1.0, y: -1.0);
-        context.rotate(by: CGFloat(-M_PI_2));
+        context.rotate(by: CGFloat(-Double.pi/2));
         context.translateBy(x: bounds.midY, y: bounds.midX)
         backing.drawWithAttributes(attributes: attributes, inContext: context)
     }
