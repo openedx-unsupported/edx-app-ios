@@ -151,12 +151,12 @@ extension Item {
             
             switch plurality {
             case .single:
-                return "static func \(variableName(key.name))(\(variableName(arguments[0])) \(args)) -> String { return OEXLocalizedString(\"\(key.original)\", nil).oex_format(withParameters: [\(formatParams)]) }"
+                return "static func \(variableName(key.name))(\(args)) -> String { return OEXLocalizedString(\"\(key.original)\", nil).oex_format(withParameters: [\(formatParams)]) }"
             case .multi:
                 if arguments.count == 1 {
                     let arg = arguments[0]
                     let name = variableName(arg)
-                    return "static func \(variableName(key.name))(\(name) \(name) : Int, formatted : String? = nil) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", \(name), nil).oex_format(withParameters: [\"\(arg)\": formatted ?? \(name).description]) }"
+                    return "static func \(variableName(key.name))(\(name) : Int, formatted : String? = nil) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", \(name), nil).oex_format(withParameters: [\"\(arg)\": formatted ?? \(name).description]) }"
                     
                 }
                 else {

@@ -261,7 +261,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         return siblingWithDirection(direction: .forward, fromController: viewController)
     }
     
-    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         self.updateNavigationForEnteredController(controller: pageViewController.viewControllers?.first)
     }
     

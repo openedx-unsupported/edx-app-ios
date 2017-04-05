@@ -209,7 +209,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         return cell
     }
     
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.view.endEditing(true)
         
         switch (indexPath.section) {
