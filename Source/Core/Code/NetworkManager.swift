@@ -391,13 +391,14 @@ open class NetworkManager : NSObject {
             cache.fetchCacheEntryWithRequest(URLRequest, completion: {(entry : ResponseCacheEntry?) -> Void in
                 
                 if let entry = entry {
-                    DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {[weak cacheStream] in
+                    DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
+                        [weak cacheStream] in
                         let result = NetworkManager.deserialize(request.deserializer, interceptors: interceptors, response: entry.response, data: entry.data, error: NetworkManager.unknownError)
                         DispatchQueue.main.async {[weak cacheStream] in
                             cacheStream?.close()
                             cacheStream?.send(result)
                         }
-                        })
+                    }
                 }
                 else {
                     cacheStream.close()

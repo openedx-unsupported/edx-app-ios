@@ -30,7 +30,7 @@
 /**
  Used to assist in building a constraint
  */
-open class ConstraintItem {
+public class ConstraintItem {
     
     internal init(object: AnyObject?, attributes: ConstraintAttributes) {
         self.object = object

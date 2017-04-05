@@ -138,7 +138,7 @@ public class CourseOutlineItemView: UIView {
         
         // For performance only add the static constraints once
         subtitleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             make.leading.equalTo(titleLabel)
             make.trailing.lessThanOrEqualTo(trailingContainer.snp_leading).offset(TitleOffsetTrailing)
         }

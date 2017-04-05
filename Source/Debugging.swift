@@ -57,12 +57,12 @@ public extension LayoutConstraint {
         }
     }
     
-    override open var description: String {
+    override public var description: String {
         var description = "<"
         
         description += descriptionForObject(self)
         
-        if let firstItem: AnyObject = self.firstItem {
+        if let firstItem = conditionalOptional(from: self.firstItem) {
             description += " \(descriptionForObject(firstItem))"
         }
         
@@ -111,6 +111,14 @@ public extension LayoutConstraint {
         return self.snp_constraint?.makerLine
     }
     
+}
+
+private func conditionalOptional<T>(from object: Optional<T>) -> Optional<T> {
+    return object
+}
+
+private func conditionalOptional<T>(from object: T) -> Optional<T> {
+    return Optional.some(object)
 }
 
 private var labelKey = ""

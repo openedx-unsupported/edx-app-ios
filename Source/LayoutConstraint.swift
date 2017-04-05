@@ -30,7 +30,7 @@
 /**
  Used to add extra information to the actual `NSLayoutConstraint`'s that will UIKit/AppKit will utilize
  */
-open class LayoutConstraint: NSLayoutConstraint {
+public class LayoutConstraint: NSLayoutConstraint {
     
     internal var snp_constraint: Constraint? = nil
     
