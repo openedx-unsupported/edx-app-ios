@@ -54,23 +54,23 @@ extension UserProfile : FormData {
         case .YearOfBirth:
             let newValue = value.flatMap { Int($0) }
             if newValue != birthYear {
-                updateDictionary[key] = newValue as AnyObject?? ?? NSNull()
+                updateDictionary[key] = newValue as AnyObject?
             }
             birthYear = newValue
         case .LanguagePreferences:
             let changed =  value != languageCode
             languageCode = value
             if changed {
-                updateDictionary[key] = preferredLanguages as AnyObject?? ?? NSNull()
+                updateDictionary[key] = preferredLanguages as AnyObject
             }
         case .Country:
             if value != countryCode {
-                updateDictionary[key] = value as AnyObject?? ?? NSNull()
+                updateDictionary[key] = value as AnyObject
             }
             countryCode = value
         case .Bio:
             if value != bio {
-                updateDictionary[key] = value as AnyObject?? ?? NSNull()
+                updateDictionary[key] = value as AnyObject 
             }
             bio = value
         case .AccountPrivacy:
