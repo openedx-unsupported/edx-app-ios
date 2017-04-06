@@ -57,12 +57,17 @@ public enum LoadState {
     }
 }
 
+/// A controller should implement this protocol to support reloading with fullscreen errors for unknownErrors
+@objc protocol LoadStateViewReloadSupport {
+    func loadStateViewReload()
+}
+
 class LoadStateViewController : UIViewController {
     
     private let loadingView : UIView
     private var contentView : UIView?
     private let messageView : IconMessageView
-    
+    private var delegate: LoadStateViewReloadSupport?
     private var madeInitialAppearance : Bool = false
     
     var state : LoadState = .Initial {
@@ -112,6 +117,24 @@ class LoadStateViewController : UIViewController {
         controller.view.addSubview(loadingView)
         controller.view.addSubview(messageView)
         controller.view.addSubview(self.view)
+        
+        if isSupportingReload() {
+            delegate = controller as? LoadStateViewReloadSupport
+        }
+    }
+    
+    func loadStateViewReload() {
+        if isSupportingReload() {
+            delegate?.loadStateViewReload()
+        }
+    }
+    
+    func isSupportingReload() -> Bool {
+        if let _ = self.parentViewController as? LoadStateViewReloadSupport as? UIViewController {
+            return true
+        }
+        
+        return false
     }
     
     override func viewDidLoad() {
@@ -174,33 +197,32 @@ class LoadStateViewController : UIViewController {
                 self.messageView.buttonInfo = info.buttonInfo
                 UIView.performWithoutAnimation {
                     if let error = info.error where error.oex_isNoInternetConnectionError {
-                        self.messageView.showNoConnectionError()
+                        self.messageView.showError(Strings.networkNotAvailableMessageTrouble, icon: .InternetError)
                     }
                     else if let error = info.error as? OEXAttributedErrorMessageCarrying {
-                        self.messageView.attributedMessage = error.attributedDescriptionWithBaseStyle(self.messageStyle)
-                        self.messageView.icon = info.icon ?? .UnknownError
+                        self.messageView.showError(error.attributedDescriptionWithBaseStyle(self.messageStyle), icon: info.icon)
                     }
                     else if let message = info.attributedMessage {
-                        self.messageView.attributedMessage = message
-                        self.messageView.icon = info.icon ?? .UnknownError
+                        self.messageView.showError(message, icon: info.icon)
                     }
                     else if let message = info.message {
-                        self.messageView.message = message
-                        self.messageView.icon = info.icon ?? .UnknownError
+                        self.messageView.showError(message, icon: info.icon)
                     }
                     else if let error = info.error where error.errorIsThisType(NSError.oex_unknownNetworkError()) {
-                        self.messageView.message = Strings.unknownError
-                        self.messageView.icon = info.icon ?? .UnknownError
+                        self.messageView.showError(Strings.unknownError, icon: info.icon)
                     }
                     else if let error = info.error where error.errorIsThisType(NSError.oex_outdatedVersionError()) {
                         self.messageView.setupForOutdatedVersionError()
                     }
                     else {
-                        self.messageView.message = info.error?.localizedDescription
-                        self.messageView.icon = info.icon ?? .UnknownError
+                        self.messageView.showError(info.error?.localizedDescription, icon: info.icon)
                     }
                 }
                 alphas = (loading : 0, message : 1, content : 0, touchable : true)
+                
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.parentViewController?.hideSnackBar()
+                }
             }
             
             self.messageView.accessibilityMessage = self.state.accessibilityMessage

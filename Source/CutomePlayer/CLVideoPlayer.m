@@ -151,6 +151,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 - (void)setFullscreen:(BOOL)fullscreen animated:(BOOL)animated withOrientation:(UIInterfaceOrientation)deviceOrientation forceRotate:(BOOL)rotate {
     _movieFullscreen = fullscreen;
     if(fullscreen) {
+        [self.controls setStyle:CLVideoPlayerControlsStyleFullscreen];
         [[NSNotificationCenter defaultCenter] postNotificationName:MPMoviePlayerWillEnterFullscreenNotification object:nil];
 
         UIWindow* keyWindow = [[UIApplication sharedApplication] keyWindow];

@@ -121,17 +121,18 @@ extension OEXRouter {
         }
     }
     
-    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, threadID : String) {
+    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, threadID : String, isDiscussionBlackedOut: Bool) {
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
         responsesViewController.courseID = courseID
         responsesViewController.threadID = threadID
+        responsesViewController.isDiscussionBlackedOut = isDiscussionBlackedOut
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
-    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, response : DiscussionComment, closed : Bool, thread: DiscussionThread) {
-        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed, thread: thread)
+    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, response : DiscussionComment, closed : Bool, thread: DiscussionThread, isDiscussionBlackedOut: Bool) {
+        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed, thread: thread, isDiscussionBlackedOut: isDiscussionBlackedOut)
        
         if let delegate = controller as? DiscussionCommentsViewControllerDelegate {
             commentsVC.delegate = delegate

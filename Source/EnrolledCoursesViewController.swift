@@ -10,7 +10,7 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport {
     
     typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
     
@@ -79,6 +79,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         environment.analytics.trackScreenWithName(OEXAnalyticsScreenMyCourses)
         showVersionUpgradeSnackBarIfNecessary()
         super.viewWillAppear(animated)
+        hideSnackBarForFullScreenError()
     }
     
     override func reloadViewData() {
@@ -119,9 +120,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             footer.findCoursesAction = {[weak self] in
                 self?.environment.router?.showCourseCatalog(nil)
             }
-            footer.missingCoursesAction = {[weak self] in
-                self?.showCourseNotListedAlert()
-            }
             
             footer.sizeToFit()
             self.tableController.tableView.tableFooterView = footer
@@ -161,15 +159,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         }
     }
     
-    private func showCourseNotListedAlert() {
-        let alertController = UIAlertController().showAlertWithTitle(nil, message: Strings.courseNotListed, cancelButtonTitle: nil, onViewController: self)
-        alertController.addButtonWithTitle(Strings.ok, actionBlock: { (action) in
-            dispatch_async(dispatch_get_main_queue(), { 
-                UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.navigationItem.leftBarButtonItem)
-            })
-        })
-    }
-    
     private func showVersionUpgradeSnackBarIfNecessary() {
         if let _ = VersionUpgradeInfoController.sharedController.latestVersion {
             var infoString = Strings.VersionUpgrade.newVersionAvailable
@@ -182,6 +171,12 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             }
         }
         else {
+            hideSnackBar()
+        }
+    }
+    
+    private func hideSnackBarForFullScreenError() {
+        if tableController.courses.count <= 0 {
             hideSnackBar()
         }
     }
@@ -203,6 +198,11 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableController.tableView.autolayoutFooter()
+    }
+    
+    //MARK:- LoadStateViewReloadSupport method 
+    func loadStateViewReload() {
+        refreshIfNecessary()
     }
 }
 

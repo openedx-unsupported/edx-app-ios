@@ -11,7 +11,7 @@ import MessageUI
 
 class RatingViewController: UIViewController, RatingContainerDelegate {
 
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXStylesProvider, OEXConfigProvider>
+    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXStylesProvider, OEXConfigProvider, OEXAnalyticsProvider>
     
     static let minimumPositiveRating : Int = 4
     static let minimumVersionDifferenceForNegativeRating : Float = 0.2
@@ -54,6 +54,11 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
         setupConstraints()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        environment.analytics.trackAppReviewScreen()
+    }
+    
     private func setupConstraints() {
         ratingContainerView.snp_remakeConstraints { (make) in
             make.centerX.equalTo(view.snp_centerX)
@@ -67,6 +72,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     func didSubmitRating(rating: Int) {
         selectedRating = Int(rating)
         ratingContainerView.removeFromSuperview()
+        environment.analytics.trackSubmitRating(rating)
         switch rating {
         case 1...3:
             negativeRatingReceived()
@@ -80,6 +86,8 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     }
     
     func closeButtonPressed() {
+        saveAppRating()
+        environment.analytics.trackDismissRating()
         dismissViewControllerAnimated(false, completion: nil)
     }
     
@@ -87,10 +95,17 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private func positiveRatingReceived() {
         alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.rateTheApp, message: Strings.AppReview.positiveReviewMessage,cancelButtonTitle: nil, onViewController: self)
         alertController?.addButtonWithTitle(Strings.AppReview.maybeLater) {[weak self] (action) in
+            self?.saveAppRating()
+            if let rating = self?.selectedRating {
+                self?.environment.analytics.trackMaybeLater(rating)
+            }
             self?.dismissViewControllerAnimated(false, completion: nil)
         }
         alertController?.addButtonWithTitle(Strings.AppReview.rateTheApp) {[weak self] (action) in
-            self?.saveAppRating()
+            self?.saveAppRating(self?.selectedRating)
+            if let rating = self?.selectedRating {
+                self?.environment.analytics.trackRateTheApp(rating)
+            }
             self?.sendUserToAppStore()
             self?.dismissViewControllerAnimated(false, completion: nil)
         }
@@ -107,19 +122,25 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private func negativeRatingReceived() {
         alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
         alertController?.addButtonWithTitle(Strings.AppReview.maybeLater) {[weak self] (action) in
+            self?.saveAppRating()
+            if let rating = self?.selectedRating {
+                self?.environment.analytics.trackMaybeLater(rating)
+            }
             self?.dismissViewControllerAnimated(false, completion: nil)
         }
         alertController?.addButtonWithTitle(Strings.AppReview.sendFeedback) {[weak self] (action) in
-            self?.saveAppRating()
+            self?.saveAppRating(self?.selectedRating)
+            if let rating = self?.selectedRating {
+                self?.environment.analytics.trackSendFeedback(rating)
+            }
             self?.launchEmailComposer()
         }
     }
     
     //MARK: - Persistence methods
-    func saveAppRating() {
-        guard let rating = selectedRating else { return }
-        environment.interface?.saveAppRating(rating)
-        environment.interface?.saveAppVersionWhenLastRated(nil)
+    func saveAppRating(rating: Int? = 0) {
+        environment.interface?.saveAppRating(rating ?? 0)
+        environment.interface?.saveAppVersionWhenLastRated()
     }
     
     //MARK: - Expose for testcases

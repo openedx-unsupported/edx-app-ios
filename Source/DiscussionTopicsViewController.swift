@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding  {
+public class DiscussionTopicsViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate, InterfaceOrientationOverriding, LoadStateViewReloadSupport  {
     
-    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider>
+    public typealias Environment = protocol<DataManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, ReachabilityProvider, NetworkManagerProvider>
     
     private enum TableSection : Int {
         case AllPosts
@@ -36,10 +36,10 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         self.courseID = courseID
         self.loadController = LoadStateViewController()
         
-       super.init(env: environment)
+        super.init(env: environment)
         
-        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
-        topics.backWithStream(stream.map {
+        let stream = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
+        self.topics.backWithStream(stream.map {
             return DiscussionTopic.linearizeTopics($0)
             }
         )
@@ -164,6 +164,11 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         return .AllButUpsideDown
     }
     
+    //MARK:- LoadStateViewReloadSupport method
+    func loadStateViewReload() {
+        refreshTopics()
+    }
+    
     // MARK: - TableView Data and Delegate
     
     public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -214,7 +219,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
             environment.router?.showAllPostsFromController(self, courseID: courseID, followedOnly: true)
         case TableSection.CourseTopics.rawValue:
             if let topic = self.topics.value?[indexPath.row] {
-                    environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
+                environment.router?.showPostsFromController(self, courseID: courseID, topic: topic)
             }
         default: ()
         }

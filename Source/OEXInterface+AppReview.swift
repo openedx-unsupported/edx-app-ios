@@ -20,9 +20,8 @@ extension OEXInterface {
     }
     
     /// Save the app version when app review is done
-    func saveAppVersionWhenLastRated(version: String?) {
-        let versionString = (version != nil) ? version : NSBundle.mainBundle().oex_shortVersionString()
-        NSUserDefaults.standardUserDefaults().setObject(versionString, forKey: OEXSavedAppVersionWhenLastRated)
+    func saveAppVersionWhenLastRated(version: String? = NSBundle.mainBundle().oex_shortVersionString()) {
+        NSUserDefaults.standardUserDefaults().setObject(version ?? NSBundle.mainBundle().oex_shortVersionString(), forKey: OEXSavedAppVersionWhenLastRated)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     

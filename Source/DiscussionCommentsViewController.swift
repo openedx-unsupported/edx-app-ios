@@ -252,7 +252,7 @@ protocol DiscussionCommentsViewControllerDelegate: class {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, InterfaceOrientationOverriding {
     
-    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, OEXStylesProvider>
     
     private enum TableSection : Int {
         case Response = 0
@@ -274,9 +274,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
         didSet {
-            let styles = OEXStyles.sharedStyles()
-            
-            addCommentButton.backgroundColor = commentsClosed ? styles.neutralBase() : styles.primaryXDarkColor()
             
             let textStyle = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
             let icon = commentsClosed ? Icon.Closed : Icon.Create
@@ -284,7 +281,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(textStyle.withSize(.XSmall)), textStyle.attributedStringWithText(buttonText)])
             
             addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
-            addCommentButton.enabled = !commentsClosed
             
             if (!commentsClosed) {
                 addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
@@ -309,14 +305,16 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     //TODO: Get rid of this variable when Swift improves
     private var closed : Bool = false
     private let thread: DiscussionThread?
+    private var isDiscussionBlackedOut: Bool
     
-    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool, thread: DiscussionThread?) {
+    init(environment: Environment, courseID : String, responseItem: DiscussionComment, closed : Bool, thread: DiscussionThread?,isDiscussionBlackedOut: Bool = false) {
         self.courseID = courseID
         self.environment = environment
         self.responseItem = responseItem
         self.thread = thread
         self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
         self.closed = closed
+        self.isDiscussionBlackedOut = isDiscussionBlackedOut
         self.loadController = LoadStateViewController()
         super.init(nibName: nil, bundle: nil)
     }
@@ -384,7 +382,15 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         addCommentButton.contentVerticalAlignment = .Center
         
+        addCommentButton.backgroundColor = isDiscussionBlackedOut || commentsClosed ? environment.styles.neutralBase() : environment.styles.primaryXDarkColor()
+        addCommentButton.enabled = !(isDiscussionBlackedOut || commentsClosed)
+        
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+    }
+    
+    func toggleAddCommentButton(enabled: Bool){
+        addCommentButton.backgroundColor = enabled ? environment.styles.primaryXDarkColor() : environment.styles.neutralBase()
+        addCommentButton.enabled = enabled
     }
     
     func setConstraints() {
@@ -408,7 +414,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             make.trailing.equalTo(view.snp_trailing)
             make.bottom.equalTo(addCommentButton.snp_top)
         }
-        
         
     }
     
