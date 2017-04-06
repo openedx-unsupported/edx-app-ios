@@ -10,7 +10,7 @@ private class ClassInTestBundle {}
 
 extension UIImage {
     convenience init?(testImageNamed name: String) {
-        if let path = NSBundle(forClass: ClassInTestBundle.self).pathForResource(name, ofType: "png") {
+        if let path = Bundle(for: ClassInTestBundle.self).path(forResource: name, ofType: "png") {
             self.init(contentsOfFile: path)
         }
         else {

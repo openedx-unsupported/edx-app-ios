@@ -97,7 +97,7 @@ class TabContainerView : UIView {
 
 // Only used for testing
 extension TabContainerView {
-    func t_isShowingViewForItem(item : TabItem) -> Bool {
+    func t_isShowingView(forItem item : TabItem) -> Bool {
         let viewsMatch = stackView.arrangedSubviews == [control, item.view]
         let indexMatches = indexOfItemWithIdentifier(identifier: item.identifier) == control.selectedSegmentIndex
         let identifierMatches = currentIdentifier == item.identifier

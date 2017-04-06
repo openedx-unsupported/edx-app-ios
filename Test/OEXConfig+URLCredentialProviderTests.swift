@@ -28,11 +28,11 @@ class OEXConfig_URLCredentialProviderTests: XCTestCase {
     func testHit() {
         for group in type(of: self).credentials {
             let host = URL(string:group["HOST"]!)!.host!
-            let credential = config.URLCredentialForHost(host)
+            let credential = config.URLCredentialForHost(host as NSString)
             XCTAssertNotNil(credential)
             XCTAssertEqual(credential!.user, group["USERNAME"]!)
             XCTAssertEqual(credential!.password, group["PASSWORD"]!)
-            XCTAssertEqual(credential!.persistence, URLCredential.Persistence.ForSession)
+            XCTAssertEqual(credential!.persistence, URLCredential.Persistence.forSession)
         }
     }
     

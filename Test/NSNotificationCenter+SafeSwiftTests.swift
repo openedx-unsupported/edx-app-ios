@@ -16,7 +16,7 @@ class NSNotificationCenter_SafeSwiftTests: XCTestCase {
     
     func testActionFires() {
         let fired = MutableBox<Bool>(false)
-        let removable = addNotificationObserver(self, name: TestNotificationName) { (notification, observer, removable) -> Void in
+        let removable = addNotificationObserver(observer: self, name: TestNotificationName) { (notification, observer, removable) -> Void in
             fired.value = true
         }
         NotificationCenter.default.post(name: Notification.Name(rawValue: TestNotificationName), object: nil)
@@ -28,7 +28,7 @@ class NSNotificationCenter_SafeSwiftTests: XCTestCase {
         let fired = MutableBox<Bool>(false)
         func make() {
             let object = NSObject()
-            addNotificationObserver(object, name: TestNotificationName) { (_, _, _) -> Void in
+            addNotificationObserver(observer: object, name: TestNotificationName) { (_, _, _) -> Void in
                 fired.value = true
             }
         }
@@ -40,7 +40,7 @@ class NSNotificationCenter_SafeSwiftTests: XCTestCase {
     
     func testManualRemove() {
         let fired = MutableBox<Bool>(false)
-        let removable = addNotificationObserver(self, name: TestNotificationName) { (notification, observer, removable) -> Void in
+        let removable = addNotificationObserver(observer: self, name: TestNotificationName) { (notification, observer, removable) -> Void in
             fired.value = true
         }
         removable.remove()

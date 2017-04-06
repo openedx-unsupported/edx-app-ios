@@ -13,14 +13,14 @@ import edXCore
 
 func AssertSuccess<A>(_ result : Result<A> , file : StaticString = #file, line : UInt = #line, assertions : ((A) -> Void)? = nil) {
     switch result {
-    case let .Success(r): assertions?(r)
-    case let .Failure(e): XCTFail("Unexpected failure: \(e.localizedDescription)", file : file, line : line)
+    case let .success(r): assertions?(r)
+    case let .failure(e): XCTFail("Unexpected failure: \(e.localizedDescription)", file : file, line : line)
     }
 }
 
 func AssertFailure<A>(_ result : Result<A> , file : StaticString = #file, line : UInt = #line, assertions : ((NSError) -> Void)? = nil) {
     switch result {
-    case let .Success(r): XCTFail("Unexpected success: \(r)", file : file, line : line)
-    case let .Failure(e): assertions?(e)
+    case let .success(r): XCTFail("Unexpected success: \(r)", file : file, line : line)
+    case let .failure(e): assertions?(e)
     }
 }

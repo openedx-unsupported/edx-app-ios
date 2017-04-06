@@ -66,8 +66,8 @@ class UserProfileViewTests: SnapshotTestCase {
         let image = RemoteImageJustImage(image: UIImage(testImageNamed: "sample-badge"))
 
         let accomplishments = [
-            Accomplishment(image: image, title: "Some Cool Thing I did", detail: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", date: NSDate.stableTestDate(), shareURL: NSURL(string:"https://whatever")!),
-            Accomplishment(image: image, title: "Some Other Thing I did", detail: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", date: NSDate.stableTestDate(), shareURL: NSURL(string:"https://whatever")!)
+            Accomplishment(image: image, title: "Some Cool Thing I did", detail: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", date: Date.stableTestDate(), shareURL: NSURL(string:"https://whatever")!),
+            Accomplishment(image: image, title: "Some Other Thing I did", detail: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", date: Date.stableTestDate(), shareURL: NSURL(string:"https://whatever")!)
         ]
 
         let tabs = [{(scrollView: UIScrollView) -> TabItem in
@@ -78,7 +78,7 @@ class UserProfileViewTests: SnapshotTestCase {
         let controller = UserProfileViewController(environment: TestRouterEnvironment(), presenter: testPresenter, editable: false)
         
         inScreenNavigationContext(controller) {
-            controller.t_chooseTab("accomplishments")
+            controller.t_chooseTab(identifier: "accomplishments")
             assertSnapshotValidWithContent(controller.navigationController!)
         }
     }

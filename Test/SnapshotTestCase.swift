@@ -18,7 +18,7 @@ protocol SnapshotTestable {
 
 extension UIView : SnapshotTestable {
     func snapshotTestWithCase(_ testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
-        try testCase.compareSnapshotOfView(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
+        try testCase.compareSnapshot(of: self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
     }
     
     var snapshotSize : CGSize {
@@ -28,7 +28,7 @@ extension UIView : SnapshotTestable {
 
 extension CALayer : SnapshotTestable {
     func snapshotTestWithCase(_ testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws  {
-        try testCase.compareSnapshotOfLayer(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
+        try testCase.compareSnapshot(of: self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
     }
     
     var snapshotSize : CGSize {
@@ -39,14 +39,14 @@ extension CALayer : SnapshotTestable {
 extension UIViewController : SnapshotTestable {
     
     func prepareForSnapshot() {
-        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = self
         window.makeKeyAndVisible()
     }
     
     func snapshotTestWithCase(_ testCase: FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
 
-        try testCase.compareSnapshotOfView(self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
+        try testCase.compareSnapshot(of: self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
     }
     
     func finishSnapshot() {
@@ -72,7 +72,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
         // Standardize on a size so we don't have to worry about different simulators
         // etc.
         // Pick a non standard width so we can catch width assumptions.
-        return CGSizeMake(380, 568)
+        return CGSize(width: 380, height: 568)
     }
     
     fileprivate var majorVersion : Int {
@@ -80,7 +80,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
     }
 
     fileprivate final func qualifyIdentifier(_ identifier : String?, content : SnapshotTestable) -> String {
-        let rtl = UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft ? "_rtl" : ""
+        let rtl = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? "_rtl" : ""
         let suffix = "ios\(majorVersion)\(rtl)_\(Int(content.snapshotSize.width))x\(Int(content.snapshotSize.height))"
         if let identifier = identifier {
             return identifier + suffix
@@ -123,7 +123,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
     /// Otherwise, sometimes viewWillAppear: type methods don't get called
     func inScreenDisplayContext(_ controller : UIViewController, action : () -> ()) {
         
-        let window = UIWindow(frame: CGRectZero)
+        let window = UIWindow(frame: CGRect.zero)
         window.rootViewController = controller
         window.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
         window.makeKeyAndVisible()

@@ -17,7 +17,7 @@ extension UIBarButtonItem {
         }
         
         if let button = self.customView as? UIButton {
-            return (button.allControlEvents().rawValue & UIControlEvents.TouchUpInside.rawValue) != 0
+            return (button.allControlEvents.rawValue & UIControlEvents.touchUpInside.rawValue) != 0
         }
         
         return false

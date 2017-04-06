@@ -24,15 +24,15 @@ class OEXFontsTests: XCTestCase {
     
     func testFontDataFactory() {
         oexFonts.fallbackFonts()
-        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12))
+        XCTAssertNotNil(oexFonts.font(forIdentifier: OEXFonts.FontIdentifiers.Regular, size: 12))
     }
     
     func testFontParsing() {
-        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12))
-        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.SemiBold, size: 12))
-        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Bold, size: 12))
-        XCTAssertNotNil(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Light, size: 12))
-        XCTAssertNotEqual(oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.Regular, size: 12), oexFonts.fontForIdentifier(OEXFonts.FontIdentifiers.SemiBold, size: 12))
+        XCTAssertNotNil(oexFonts.font(forIdentifier: OEXFonts.FontIdentifiers.Regular, size: 12))
+        XCTAssertNotNil(oexFonts.font(forIdentifier: OEXFonts.FontIdentifiers.SemiBold, size: 12))
+        XCTAssertNotNil(oexFonts.font(forIdentifier: OEXFonts.FontIdentifiers.Bold, size: 12))
+        XCTAssertNotNil(oexFonts.font(forIdentifier: OEXFonts.FontIdentifiers.Light, size: 12))
+        XCTAssertNotEqual(oexFonts.font(forIdentifier: OEXFonts.FontIdentifiers.Regular, size: 12), oexFonts.font(forIdentifier: OEXFonts.FontIdentifiers.SemiBold, size: 12))
     }
     
 }

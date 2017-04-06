@@ -19,9 +19,9 @@ class DiscussionTopicsViewControllerTests: SnapshotTestCase {
         let environment = TestRouterEnvironment()
         environment.mockCourseDataManager.topicsManager = topicsManager
         let controller = DiscussionTopicsViewController(environment: environment, courseID: course.course_id!)
-        let expectation = expectationWithDescription("Topics loaded")
+        let expectations = expectation(description: "Topics loaded")
         controller.t_topicsLoaded().listenOnce(self) {_ in
-            expectation.fulfill()
+            expectations.fulfill()
         }
         waitForExpectations()
         

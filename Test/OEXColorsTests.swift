@@ -23,15 +23,15 @@ class OEXColorsTests: XCTestCase {
     
     func testColorDataFactory() {
         oexColors.fallbackColors()
-        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor))
+        XCTAssertNotNil(oexColors.color(forIdentifier: OEXColors.ColorsIdentifiers.PrimaryBaseColor))
     }
     
     func testColorParsing() {
-        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor))
-        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryLightColor))
-        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor, alpha: 0.5))
-        XCTAssertNotNil(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryLightColor, alpha: 1.0))
-        XCTAssertEqual(oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor), oexColors.colorForIdentifier(OEXColors.ColorsIdentifiers.PrimaryBaseColor, alpha: 1.0))
+        XCTAssertNotNil(oexColors.color(forIdentifier: OEXColors.ColorsIdentifiers.PrimaryBaseColor))
+        XCTAssertNotNil(oexColors.color(forIdentifier: OEXColors.ColorsIdentifiers.PrimaryLightColor))
+        XCTAssertNotNil(oexColors.color(forIdentifier: OEXColors.ColorsIdentifiers.PrimaryBaseColor, alpha: 0.5))
+        XCTAssertNotNil(oexColors.color(forIdentifier: OEXColors.ColorsIdentifiers.PrimaryLightColor, alpha: 1.0))
+        XCTAssertEqual(oexColors.color(forIdentifier: OEXColors.ColorsIdentifiers.PrimaryBaseColor), oexColors.color(forIdentifier: OEXColors.ColorsIdentifiers.PrimaryBaseColor, alpha: 1.0))
     }
 
 }

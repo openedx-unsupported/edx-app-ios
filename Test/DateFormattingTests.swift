@@ -15,8 +15,8 @@ class DateFormattingTests: XCTestCase {
     func testConvertAndRevertTime() {
         
         let testDate = Date()
-        let convertedDate = OEXDateFormatting.serverStringWithDate(testDate)
-        let revertedDate = OEXDateFormatting.dateWithServerString(convertedDate)
+        let convertedDate = OEXDateFormatting.serverString(with: testDate)
+        let revertedDate = OEXDateFormatting.date(withServerString: convertedDate)
         
         //Using description explicitly as a hack for invalid NSDate comparison
         let isRevertedSuccesfully = revertedDate.description == testDate.description
@@ -27,13 +27,13 @@ class DateFormattingTests: XCTestCase {
     func testUserFacingTimeForPosts() {
         let currentDate = Date()
 
-        let dateLesserThanSevenDaysOld = Date(timeInterval: -(60*60*24*3), since: currentDate)
-        let dateMoreThanSevenDaysOld = Date(timeInterval: -(60*60*24*8), since: currentDate)
+        let dateLesserThanSevenDaysOld = NSDate(timeInterval: -(60*60*24*3), since: currentDate)
+        let dateMoreThanSevenDaysOld = NSDate(timeInterval: -(60*60*24*8), since: currentDate)
         
-        let localizedStringForSpan = dateLesserThanSevenDaysOld.timeAgoSinceDate(currentDate)
+        let localizedStringForSpan = dateLesserThanSevenDaysOld.timeAgo(since: currentDate)
         
         XCTAssertTrue(dateLesserThanSevenDaysOld.displayDate == localizedStringForSpan, "The dates \(dateLesserThanSevenDaysOld.displayDate),\(localizedStringForSpan) AND/OR format doesn't match")
-        XCTAssertTrue(dateMoreThanSevenDaysOld.displayDate == OEXDateFormatting.formatAsDateMonthYearStringWithDate(dateMoreThanSevenDaysOld), "The dates \(dateLesserThanSevenDaysOld.displayDate), \(OEXDateFormatting.formatAsDateMonthYearStringWithDate(dateMoreThanSevenDaysOld)) AND/OR the formats don't match ")
+        XCTAssertTrue(dateMoreThanSevenDaysOld.displayDate == OEXDateFormatting.formatAsDateMonthYearStringWithDate(date: dateMoreThanSevenDaysOld), "The dates \(dateLesserThanSevenDaysOld.displayDate), \(OEXDateFormatting.formatAsDateMonthYearStringWithDate(date: dateMoreThanSevenDaysOld)) AND/OR the formats don't match ")
         
     }
 }

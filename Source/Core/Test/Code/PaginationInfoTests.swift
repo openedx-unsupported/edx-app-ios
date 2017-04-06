@@ -41,10 +41,10 @@ class PaginationInfoTests: XCTestCase {
             method: .POST,
             path: "fake-path",
             requiresAuth: true,
-            body: RequestBody.JSONBody(JSON("test")),
+            body: RequestBody.jsonBody(JSON("test")),
             query: ["A": "B"],
             headers: ["header": "value"],
-            deserializer: ResponseDeserializer.JSONResponse { (_, json) in
+            deserializer: ResponseDeserializer.jsonResponse { (_, json) in
                 return (json.array?.flatMap{ $0.number }).toResult(NetworkManager.unknownError)
             }
         )
@@ -56,7 +56,7 @@ class PaginationInfoTests: XCTestCase {
         XCTAssertEqual(paginated.requiresAuth, request.requiresAuth)
 
         switch paginated.body {
-        case let .JSONBody(json):
+        case let .jsonBody(json):
             XCTAssertEqual(json, JSON("test"))
         default:
             XCTFail()
@@ -69,7 +69,7 @@ class PaginationInfoTests: XCTestCase {
         
         let response = HTTPURLResponse(url: URL(string: "http://example.com/")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
         switch paginated.deserializer {
-        case let .JSONResponse(parser):
+        case let .jsonResponse(parser):
             let parse = parser(response, JSON([
                 "pagination" : [
                     "count": 50,

@@ -45,7 +45,7 @@ public class OEXColors: NSObject {
         return fallbackColors()
     }
     
-    public func fallbackColors() -> [String: AnyObject] {
+    @discardableResult public func fallbackColors() -> [String: AnyObject] {
         return OEXColorsDataFactory.colors as [String : AnyObject]
     }
     
