@@ -16,7 +16,7 @@ private class StubHeaderProvider : AuthorizationHeaderProvider {
 class RemoteImageTests: XCTestCase {
 
     func makeFailingRequestWithURL(_ url: String) -> NetworkResult<RemoteImage> {
-        let stub = OHHTTPStubs.stubRequestsPassingTest({ _ in true }) {request in
+        let stub = OHHTTPStubs.stubRequests(passingTest: { _ in true }) {request in
             return OHHTTPStubsResponse(error: NetworkManager.unknownError)
         }
 

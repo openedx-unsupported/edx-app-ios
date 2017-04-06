@@ -29,11 +29,11 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
         let startInfo = OEXCourseStartDisplayInfo(date: nil, displayDate: "Eventually", type: .string)
         let course = OEXCourse.freshCourse(
             shortDescription: "This is a course that teaches you completely amazing things that you have always wanted to learn!",
-            overview: NSString.oex_longTestString(),
+            overview: NSString.oex_longTest(),
             effort : "Four to six weeks",
             mediaInfo: mediaInfo,
             startInfo: startInfo,
-            end: endDate)
+            end: endDate as NSDate)
         let (_, controller) = setupWithCourse(course)
         inScreenNavigationContext(controller) {
             self.waitForStream(controller.t_loaded)
