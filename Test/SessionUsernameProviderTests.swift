@@ -21,13 +21,13 @@ class SessionUsernameProviderTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        let path = OEXFileUtility.t_pathForUserName(user.username!)
-        try! FileManager.defaultManager().removeItemAtPath(path)
+        let path = OEXFileUtility.t_path(forUserName: user.username!)
+        try! FileManager.default.removeItem(atPath: path)
     }
 
     func providerForUsername(_ user : OEXUserDetails) -> SessionUsernameProvider {
         let storage = OEXMockCredentialStorage()
-        storage.storedAccessToken = OEXAccessToken.fakeToken()
+        storage.storedAccessToken = OEXAccessToken.fake()
         storage.storedUserDetails = user
         let session  = OEXSession(credentialStore: storage)
         session.loadTokenFromStore()
@@ -38,7 +38,7 @@ class SessionUsernameProviderTests: XCTestCase {
     func testReturnsUserAppropriatePath() {
         let provider = providerForUsername(user)
         let path = provider.pathForRequestKey("123")
-        XCTAssertTrue(path?.absoluteString?.containsString(user.username!.oex_md5) ?? false)
+        XCTAssertTrue(path?.absoluteString.contains(user.username!.oex_md5) ?? false)
     }
 
     func testWorksWithResponseCache() {

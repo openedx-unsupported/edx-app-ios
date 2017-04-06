@@ -27,13 +27,13 @@ class MockReachability: NSObject, Reachability {
         didSet {
             if notifierEnabled {
                 DispatchQueue.main.async {
-                    NotificationCenter.defaultCenter().postNotificationName(kReachabilityChangedNotification, object: self)
+                    NotificationCenter.default.post(name: NSNotification.Name.reachabilityChanged, object: self)
                 }
             }
         }
     }
     
-    func startNotifier() -> Bool {
+    @discardableResult func startNotifier() -> Bool {
         notifierEnabled = true
         return true
     }

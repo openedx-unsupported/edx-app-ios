@@ -38,7 +38,7 @@ class UserPreferenceManagerTests : XCTestCase {
         XCTAssertEqual(feed.output.value??.timeZone, preferences.timeZone)
         
         // Log out. Now preferences should be cleared
-        environment.session.closeAndClearSession()
+        environment.session.closeAndClear()
         XCTAssertNil(feed.output.value!)
     }
     

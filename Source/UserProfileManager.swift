@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class UserProfileManager : NSObject {
+open class UserProfileManager : NSObject {
     
     private let networkManager : NetworkManager
     private let session: OEXSession
@@ -34,7 +34,7 @@ public class UserProfileManager : NSObject {
         self.sessionChanged()
     }
     
-    public func feedForUser(username : String) -> Feed<UserProfile> {
+    open func feedForUser(username : String) -> Feed<UserProfile> {
         return self.cache.objectForKey(key: username) {
             let request = ProfileAPI.profileRequest(username: username)
             return Feed(request: request, manager: self.networkManager)

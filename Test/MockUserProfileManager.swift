@@ -22,7 +22,7 @@ class MockUserProfileManager : UserProfileManager {
         })
         super.init(networkManager : MockNetworkManager(), session : OEXSession(credentialStore: OEXMockCredentialStorage()))
     }
-    override func feedForUser(_ username: String) -> Feed<UserProfile> {
+    override func feedForUser(username: String) -> Feed<UserProfile> {
         return self.feed
     }
 }

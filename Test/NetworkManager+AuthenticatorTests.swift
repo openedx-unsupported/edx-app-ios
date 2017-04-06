@@ -11,12 +11,12 @@ import Foundation
 class NetworkManager_AuthenticationTests : XCTestCase {
     
     func authenticatorResponseForRequest(
-        _ response: NSHTTPURLResponse, data: NSData, session: OEXSession, router: MockRouter, waitForLogout: Bool) -> AuthenticationAction {
+        _ response: HTTPURLResponse, data: NSData, session: OEXSession, router: MockRouter, waitForLogout: Bool) -> AuthenticationAction {
         let clientId = "dummy client_id"
         let result = NetworkManager.invalidAccessAuthenticator(router, session: session, clientId: clientId, response: response, data: data)
         
         if waitForLogout {
-            expectationForPredicate(NSPredicate(format:"self.logoutCalled == true"), evaluatedWithObject: router, handler: nil)
+            expectation(for: NSPredicate(format:"self.logoutCalled == true"), evaluatedWith: router, handler: nil)
             waitForExpectations()
         }
         return result
@@ -68,7 +68,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"token_expired\"}".data(using: String.Encoding.utf8)!
-        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: false)
+        let result = authenticatorResponseForRequest(response!, data: data as NSData, session: session, router: router, waitForLogout: false)
         XCTAssertTrue(result.isAuthenticate)
     }
     
@@ -96,6 +96,6 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         return NetworkRequest<JSON> (
             method: HTTPMethod.GET,
             path: "path",
-            deserializer: .JSONResponse({(_, json) in .Success(json)}))
+            deserializer: .jsonResponse({(_, json) in .success(json)}))
     }
 }
