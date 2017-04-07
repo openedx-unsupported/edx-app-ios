@@ -105,7 +105,7 @@ extension OEXCourse {
             }
         }
         else {  // Start date is newer than current date
-            switch self.start_display_info.type ?? .none {
+            switch self.start_display_info.type {
             case .string where self.start_display_info.displayDate != nil:
                 return Strings.starting(startDate: self.start_display_info.displayDate!)
             case .timestamp where self.start_display_info.date != nil:

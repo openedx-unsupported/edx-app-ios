@@ -47,7 +47,7 @@ class EnrollmentConfig : NSObject {
         self.webviewConfig = EnrollmentWebviewConfig(dictionary: dictionary[EnrollmentKeys.Webview] as? [String: AnyObject] ?? [:])
     }
     
-    func isCourseDiscoveryEnabled()-> Bool {
+    @discardableResult func isCourseDiscoveryEnabled()-> Bool {
         return self.type != .None
     }
 }

@@ -74,12 +74,12 @@ public enum ParameterEncoding {
 
         :returns: A tuple containing the constructed request and the error that occurred during parameter encoding, if any.
     */
-    public func encode(_ URLRequest: URLRequestConvertible, parameters: [String: AnyObject]?) -> (Foundation.URLRequest, NSError?) {
+    public func encode(_ urlRequest: URLRequestConvertible, parameters: [String: Any]?) -> (Foundation.URLRequest, NSError?) {
         if parameters == nil {
-            return (URLRequest.URLRequest, nil)
+            return (urlRequest.urlRequest, nil)
         }
 
-        var mutableURLRequest: NSMutableURLRequest! = (URLRequest.URLRequest as NSURLRequest).mutableCopy() as! NSMutableURLRequest
+        var mutableURLRequest: NSMutableURLRequest! = (urlRequest.urlRequest as NSURLRequest).mutableCopy() as! NSMutableURLRequest
         var error: NSError? = nil
 
         switch self {
@@ -106,7 +106,7 @@ public enum ParameterEncoding {
             let method = Method(rawValue: mutableURLRequest.httpMethod)
             if method != nil && encodesParametersInURL(method!) {
                 if var URLComponents = URLComponents(url: mutableURLRequest.url!, resolvingAgainstBaseURL: false) {
-                    URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(parameters!)
+                    URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(parameters! as [String : AnyObject])
                     mutableURLRequest.url = URLComponents.url
                 }
             } else {
@@ -114,7 +114,7 @@ public enum ParameterEncoding {
                     mutableURLRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 }
 
-                mutableURLRequest.httpBody = query(parameters!).data(using: String.Encoding.utf8, allowLossyConversion: false)
+                mutableURLRequest.httpBody = query(parameters! as [String : AnyObject]).data(using: String.Encoding.utf8, allowLossyConversion: false)
             }
         case .json:
             let options = JSONSerialization.WritingOptions()
@@ -136,7 +136,7 @@ public enum ParameterEncoding {
                 error = e
             }
         case .custom(let closure):
-            return closure(mutableURLRequest as! URLRequestConvertible, parameters)
+            return closure(mutableURLRequest as! URLRequestConvertible, parameters as [String : AnyObject]?)
         }
 
         return (mutableURLRequest as URLRequest, error)
@@ -206,11 +206,11 @@ extension Foundation.URLRequest: URLStringConvertible {
 */
 public protocol URLRequestConvertible {
     /// The URL request.
-    var URLRequest: Foundation.URLRequest { get }
+    var urlRequest: Foundation.URLRequest { get }
 }
 
 extension Foundation.URLRequest: URLRequestConvertible {
-    public var URLRequest: Foundation.URLRequest {
+    public var urlRequest: Foundation.URLRequest {
         return self
     }
 }
@@ -263,7 +263,7 @@ open class Manager {
                 let executable: AnyObject = info[kCFBundleExecutableKey as String] as AnyObject? ?? "Unknown" as AnyObject
                 let bundle: AnyObject = info[kCFBundleIdentifierKey as String] as AnyObject? ?? "Unknown" as AnyObject
                 let version: AnyObject = info[kCFBundleVersionKey as String] as AnyObject? ?? "Unknown" as AnyObject
-                let os: AnyObject = ProcessInfo.processInfo.operatingSystemVersionString as AnyObject? ?? "Unknown" as AnyObject
+                let os: AnyObject = ProcessInfo.processInfo.operatingSystemVersionString as AnyObject
 
                 var mutableUserAgent = NSMutableString(string: "\(executable)/\(bundle) (\(version); OS \(os))") as CFMutableString
                 let transform = NSString(string: "Any-Latin; Latin-ASCII; [:^ASCII:] Remove") as CFString
@@ -337,7 +337,7 @@ open class Manager {
     open func request(_ URLRequest: URLRequestConvertible) -> Request {
         var dataTask: URLSessionDataTask?
         queue.sync {
-            dataTask = self.session.dataTask(with: URLRequest.URLRequest)
+            dataTask = self.session.dataTask(with: URLRequest.urlRequest)
         }
 
         let request = Request(session: session, task: dataTask!)
@@ -1061,8 +1061,8 @@ extension Manager {
 
         :returns: The created upload request.
     */
-    public func upload(_ URLRequest: URLRequestConvertible, file: URL) -> Request {
-        return upload(.file(URLRequest.URLRequest, file))
+    public func upload(_ urlRequest: URLRequestConvertible, file: URL) -> Request {
+        return upload(.file(urlRequest.urlRequest, file))
     }
 
     /**
@@ -1092,8 +1092,8 @@ extension Manager {
 
         :returns: The created upload request.
     */
-    public func upload(_ URLRequest: URLRequestConvertible, data: Data) -> Request {
-        return upload(.data(URLRequest.URLRequest, data))
+    public func upload(_ urlRequest: URLRequestConvertible, data: Data) -> Request {
+        return upload(.data(urlRequest.urlRequest, data))
     }
 
     /**
@@ -1123,8 +1123,8 @@ extension Manager {
 
         :returns: The created upload request.
     */
-    public func upload(_ URLRequest: URLRequestConvertible, stream: InputStream) -> Request {
-        return upload(.stream(URLRequest.URLRequest, stream))
+    public func upload(_ urlRequest: URLRequestConvertible, stream: InputStream) -> Request {
+        return upload(.stream(urlRequest.urlRequest, stream))
     }
 
     /**
@@ -1221,8 +1221,8 @@ extension Manager {
 
         :returns: The created download request.
     */
-    public func download(_ URLRequest: URLRequestConvertible, destination: @escaping Request.DownloadFileDestination) -> Request {
-        return download(.request(URLRequest.URLRequest), destination: destination)
+    public func download(_ urlRequest: URLRequestConvertible, destination: @escaping Request.DownloadFileDestination) -> Request {
+        return download(.request(urlRequest.urlRequest), destination: destination)
     }
 
     // MARK: Resume Data
@@ -1569,8 +1569,8 @@ public func request(_ method: Method, URLString: URLStringConvertible, parameter
 
     :returns: The created request.
 */
-public func request(_ URLRequest: URLRequestConvertible) -> Request {
-    return Manager.sharedInstance.request(URLRequest.URLRequest)
+public func request(_ urlRequest: URLRequestConvertible) -> Request {
+    return Manager.sharedInstance.request(urlRequest.urlRequest)
 }
 
 // MARK: - Upload

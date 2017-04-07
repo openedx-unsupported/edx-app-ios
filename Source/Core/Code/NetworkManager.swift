@@ -210,9 +210,9 @@ open class NetworkManager : NSObject {
     open func URLRequestWithRequest<Out>(_ request : NetworkRequest<Out>) -> Result<URLRequest> {
         return URL(string: request.path, relativeTo: baseURL).toResult(NetworkManager.unknownError).flatMap { url -> Result<Foundation.URLRequest> in
             
-            let URLRequest = Foundation.URLRequest(url: url)
+            let urlRequest = Foundation.URLRequest(url: url)
             if request.query.count == 0 {
-                return .success(URLRequest)
+                return .success(urlRequest)
             }
             
             var queryParams : [String:String] = [:]
@@ -226,7 +226,7 @@ open class NetworkManager : NSObject {
             // or through the POST body, but you can't do both at the same time.
             //
             // So first we encode the get parameters
-            let (paramRequest, error) = ParameterEncoding.url.encode(URLRequest, parameters: queryParams as [String : AnyObject]?)
+            let (paramRequest, error) = ParameterEncoding.url.encode(urlRequest, parameters: queryParams as [String : AnyObject]?)
             if let error = error {
                 return .failure(error)
             }
@@ -234,8 +234,8 @@ open class NetworkManager : NSObject {
                 return .success(paramRequest)
             }
             }
-            .flatMap { URLRequest in
-                let mutableURLRequest = (URLRequest as NSURLRequest).mutableCopy() as! NSMutableURLRequest
+            .flatMap { urlRequest in
+                let mutableURLRequest = (urlRequest as NSURLRequest).mutableCopy() as! NSMutableURLRequest
                 if request.requiresAuth {
                     for (key, value) in self.authorizationHeaderProvider?.authorizationHeaders ?? [:] {
                         mutableURLRequest.setValue(value, forHTTPHeaderField: key)
@@ -258,7 +258,7 @@ open class NetworkManager : NSObject {
                     mutableURLRequest.setValue(contentType, forHTTPHeaderField: "Content-Type")
                     return .success(mutableURLRequest as URLRequest)
                 case let .formEncoded(dict):
-                    let (bodyRequest, error) = ParameterEncoding.url.encode(mutableURLRequest as! URLRequestConvertible, parameters: dict as [String : AnyObject]?)
+                    let (bodyRequest, error) = ParameterEncoding.url.encode(mutableURLRequest as URLRequest, parameters: dict as [String : AnyObject]?)
                     if let error = error {
                         return .failure(error)
                     }
@@ -266,7 +266,7 @@ open class NetworkManager : NSObject {
                         return .success(bodyRequest)
                     }
                 case let .jsonBody(json):
-                    let (bodyRequest, error) = ParameterEncoding.json.encode(mutableURLRequest as! URLRequestConvertible, parameters: json.dictionaryObject as [String : AnyObject]? ?? [:] )
+                    let (bodyRequest, error) = ParameterEncoding.json.encode(mutableURLRequest as URLRequest, parameters: json.dictionaryObject ?? [:] )
                     if let error = error {
                         return .failure(error)
                     }

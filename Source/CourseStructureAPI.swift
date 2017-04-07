@@ -20,8 +20,8 @@ public struct CourseOutlineAPI {
         var query : [String:JSON] {
             var result =
             [
-                "requested_fields" : JSON(fields.joined(separator: ",")),
-                "block_counts" : JSON(blockCount.joined(separator: ",")),
+                "requested_fields" : JSON(fields.joined(separator: ",") as AnyObject),
+                "block_counts" : JSON(blockCount.joined(separator: ",") as AnyObject),
                 "student_view_data" : JSON(studentViewData.map({ $0.rawValue }).joined(separator: ",")),
                 "depth": "all",
                 "nav_depth": 3,

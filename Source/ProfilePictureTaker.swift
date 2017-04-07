@@ -75,7 +75,7 @@ class ProfilePictureTaker : NSObject {
 
 extension ProfilePictureTaker : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    private func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             let rotatedImage = image.rotateUp()
             let cropper = CropViewController(image: rotatedImage) { [weak self] maybeImage in

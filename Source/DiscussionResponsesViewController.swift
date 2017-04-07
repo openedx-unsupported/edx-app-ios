@@ -16,7 +16,7 @@ private let responseMessageStyle = OEXTextStyle(weight: .normal, size: .base, co
 private let disabledCommentStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBase())
 
 class DiscussionCellButton: UIButton {
-    var indexPath: NSIndexPath?
+    var indexPath: IndexPath?
     
 }
 
@@ -49,7 +49,7 @@ class DiscussionPostCell: UITableViewCell {
            
         {
             let buttonText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedTextWithStyle(style: cellButtonStyle, inline: true),
-                cellButtonStyle.attributedString(withText: text ?? "")])
+                cellButtonStyle.attributedString(withText: text )])
             button.setAttributedTitle(buttonText, for:.normal)
         }
         
@@ -263,7 +263,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 if let owner = self, let thread = owner.thread {
                     owner.environment.router?.showDiscussionNewCommentFromController(controller: owner, courseID: owner.courseID, thread: thread, context: .Thread(thread))
                 }
-                } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
+                }, for: UIControlEvents.touchUpInside)
         }
         
         self.navigationItem.title = navigationItemTitleForThread(thread: thread)
@@ -543,7 +543,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     }
                 }
             }
-            } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
+            }, for: UIControlEvents.touchUpInside)
         
         // follow a post (thread) - User can only follow original post, not response or comment.
         cell.followButton.oex_removeAllActions()
@@ -561,7 +561,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     }
                 }
             }
-            } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
+            }, for: UIControlEvents.touchUpInside)
         
         if let item = self.thread {
             updateVoteText(button: cell.voteButton, voteCount: item.voteCount, voted: item.voted)
@@ -585,7 +585,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     }
                 }
             }
-            } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
+            }, for: UIControlEvents.touchUpInside)
         
         if let thread = self.thread {
             cell.setAccessibility(thread: thread)
@@ -596,8 +596,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
 
     }
     
-    func cellForResponseAtIndexPath(indexPath : NSIndexPath, response: DiscussionComment) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionResponseCell.identifier, for: indexPath as IndexPath) as! DiscussionResponseCell
+    func cellForResponseAtIndexPath(indexPath : IndexPath, response: DiscussionComment) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionResponseCell.identifier, for: indexPath) as! DiscussionResponseCell
         
         cell.bodyTextView.attributedText = detailTextStyle.markdownString(withText: response.renderedBody)
         
@@ -675,7 +675,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                 }
             }
-            } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
+            }, for: UIControlEvents.touchUpInside)
         
         cell.reportButton.indexPath = indexPath
         // report (flag)/unflag a response - User can report on post, response, or comment.
@@ -694,7 +694,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                 }
             }
-            } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
+            }, for: UIControlEvents.touchUpInside)
         
         cell.endorsed = response.endorsed
         
@@ -712,9 +712,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionPostCell.identifier, for: indexPath as IndexPath) as! DiscussionPostCell
             return applyThreadToCell(cell: cell)
         case .some(.EndorsedResponses):
-            return cellForResponseAtIndexPath(indexPath: indexPath as NSIndexPath, response: responsesDataController.endorsedResponses[indexPath.row])
+            return cellForResponseAtIndexPath(indexPath: indexPath, response: responsesDataController.endorsedResponses[indexPath.row])
         case .some(.Responses):
-            return cellForResponseAtIndexPath(indexPath: indexPath as NSIndexPath, response: responsesDataController.responses[indexPath.row])
+            return cellForResponseAtIndexPath(indexPath: indexPath, response: responsesDataController.responses[indexPath.row])
         case .none:
             assert(false, "Unknown table section")
             return UITableViewCell()

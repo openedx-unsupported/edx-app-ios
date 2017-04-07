@@ -97,7 +97,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             switch result {
             case let Result.success(enrollments):
                 if let enrollments = enrollments {
-                    self?.tableController.courses = enrollments.flatMap { $0.course } ?? []
+                    self?.tableController.courses = enrollments.flatMap { $0.course } 
                     self?.tableController.tableView.reloadData()
                     self?.loadController.state = .Loaded
                     if enrollments.count <= 0 {

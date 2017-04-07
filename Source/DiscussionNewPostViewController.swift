@@ -106,7 +106,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         // create new thread (post)
 
         if let topic = selectedTopic, let topicID = topic.id {
-            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text ?? "", rawBody: contentTextView.text)
+            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType , title: titleTextField.text ?? "", rawBody: contentTextView.text)
             let apiRequest = DiscussionAPI.createNewThread(newThread: newThread)
             environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
                 self?.postButton.isEnabled = true
@@ -165,7 +165,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         topicButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
             self?.showTopicPicker()
-            } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
+            }, for: UIControlEvents.touchUpInside)
         
         postButton.isEnabled = false
         
@@ -228,7 +228,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             else {
                 assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
             }
-            } as! (Any) -> Void, for: UIControlEvents.valueChanged)
+            }, for: UIControlEvents.valueChanged)
         discussionQuestionSegmentedControl.tintColor = OEXStyles.shared().neutralDark()
         discussionQuestionSegmentedControl.setTitleTextAttributes([NSForegroundColorAttributeName: OEXStyles.shared().neutralWhite()], for: UIControlState.selected)
         discussionQuestionSegmentedControl.selectedSegmentIndex = 0

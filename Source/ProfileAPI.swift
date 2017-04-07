@@ -44,7 +44,7 @@ public class ProfileAPI: NSObject {
     }
 
     class func profileUpdateRequest(profile: UserProfile) -> NetworkRequest<UserProfile> {
-        let json = JSON(profile.updateDictionary)
+        let json = JSON(profile.updateDictionary as AnyObject)
         let request = NetworkRequest(method: HTTPMethod.PATCH,
             path: path(username: profile.username!),
             requiresAuth: true,

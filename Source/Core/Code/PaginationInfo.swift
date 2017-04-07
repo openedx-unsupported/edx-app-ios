@@ -93,8 +93,8 @@ extension NetworkRequest {
         }
         
         var paginatedQuery = query
-        paginatedQuery[PaginationDefaults.pageSizeParam] = JSON(pageSize)
-        paginatedQuery[PaginationDefaults.pageParam] = JSON(page)
+        paginatedQuery[PaginationDefaults.pageSizeParam] = JSON(pageSize as AnyObject)
+        paginatedQuery[PaginationDefaults.pageParam] = JSON(page as AnyObject)
         
         return NetworkRequest<Paginated<Out>> (
             method: method,

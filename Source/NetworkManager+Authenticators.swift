@@ -26,30 +26,36 @@ extension NetworkManager {
      */
     public static func invalidAccessAuthenticator(router: OEXRouter?, session:OEXSession, clientId:String, response: HTTPURLResponse?, data: Data?) -> AuthenticationAction {
         if let data = data,
-            let response = response,
-            let raw : AnyObject = try! JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions()) as AnyObject?
+            let response = response
         {
-            let json = JSON(raw)
-            
-            guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode),
-                let error = NSError(json: json, code: response.statusCode), statusCode == .code401Unauthorised else
-            {
-                return AuthenticationAction.proceed
+            do {
+                let raw = try JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions())
+                let json = JSON(raw)
+                
+                guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode),
+                    let error = NSError(json: json, code: response.statusCode), statusCode == .code401Unauthorised else
+                {
+                    return AuthenticationAction.proceed
+                }
+                
+                guard let refreshToken = session.token?.refreshToken else {
+                    return logout(router: router)
+                }
+                
+                if error.isAPIError(code: .OAuth2Expired) {
+                    return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
+                }
+                
+                // This case should not happen on production. It is useful for devs
+                // when switching between development environments.
+                if error.isAPIError(code: .OAuth2Nonexistent) {
+                    return logout(router: router)
+                }
+            }
+            catch  let error as NSError {
+                print("Failed to load: \(error.localizedDescription)")
             }
             
-            guard let refreshToken = session.token?.refreshToken else {
-                return logout(router: router)
-            }
-            
-            if error.isAPIError(code: .OAuth2Expired) {
-                return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
-            }
-            
-            // This case should not happen on production. It is useful for devs
-            // when switching between development environments.
-            if error.isAPIError(code: .OAuth2Nonexistent) {
-                return logout(router: router)
-            }
         }
         Logger.logError("Network Authenticator", "Request failed: " + response.debugDescription)
         return AuthenticationAction.proceed
