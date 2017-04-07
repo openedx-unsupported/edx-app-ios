@@ -100,8 +100,8 @@ public class CourseOutlineHeaderView: UIView {
     }
     
     public func setViewButtonAction(action: @escaping (AnyObject) -> Void) {
-        self.viewButton.oex_removeAllActions()
-        self.viewButton.oex_addAction(action as! (Any) -> Void, for: UIControlEvents.touchUpInside)
+        viewButton.oex_removeAllActions()
+        viewButton.oex_addAction(action, for: UIControlEvents.touchUpInside)
     }
 
     required public init?(coder aDecoder: NSCoder) {

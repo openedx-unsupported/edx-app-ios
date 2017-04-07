@@ -53,12 +53,12 @@ static NSString* const OEXControlActionListenersKey = @"OEXControlActionListener
     return listeners;
 }
 
-- (id <OEXRemovable>)oex_addAction:(void (^)(id))action forEvents:(UIControlEvents)events {
+- (id <OEXRemovable>)oex_addAction:(void (^)(NSObject*))action forEvents:(UIControlEvents)events {
     return [self oex_addAction:action forEvents:events analyticsEvent:nil];
 }
 
 
-- (id <OEXRemovable>)oex_addAction:(void (^)(id))action forEvents:(UIControlEvents)events analyticsEvent:(OEXAnalyticsEvent* _Nullable) event {
+- (id <OEXRemovable>)oex_addAction:(void (^)(NSObject*))action forEvents:(UIControlEvents)events analyticsEvent:(OEXAnalyticsEvent* _Nullable) event {
 
     NSMutableArray* listeners = [self oex_actionListeners];
     OEXControlActionListener* listener = [[OEXControlActionListener alloc] init];

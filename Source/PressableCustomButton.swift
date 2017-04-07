@@ -32,8 +32,8 @@ class PressableCustomButton: UIButton {
     }
     
     private func addFadingActions() {
-        self.oex_addAction(pressedAction as! (Any) -> Void, for: [.touchDown, .touchDragEnter])
-        self.oex_addAction(unpressedAction as! (Any) -> Void, for: [.touchUpInside, .touchUpOutside, .touchDragOutside])
+        oex_addAction(pressedAction, for: [.touchDown, .touchDragEnter])
+        oex_addAction(unpressedAction, for: [.touchUpInside, .touchUpOutside, .touchDragOutside])
     }
     
     convenience init() {
