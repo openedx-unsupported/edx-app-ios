@@ -45,10 +45,10 @@ class TabContainerViewTests : XCTestCase {
         tabView.items = [firstItem, secondItem]
         XCTAssertTrue(tabView.t_isShowingView(forItem: firstItem))
 
-        tabView.showTabWithIdentifier(secondItem.identifier)
+        tabView.showTab(withIdentifier: secondItem.identifier)
         XCTAssertTrue(tabView.t_isShowingView(forItem: secondItem))
 
-        tabView.showTabWithIdentifier(firstItem.identifier)
+        tabView.showTab(withIdentifier: firstItem.identifier)
         XCTAssertTrue(tabView.t_isShowingView(forItem: firstItem))
     }
 }

@@ -25,25 +25,25 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         router = OEXRouter(environment: environment)
     }
     
-    func loadAndVerifyControllerWithBlockID(_ blockID : CourseBlockID, verifier : (CourseOutlineViewController) -> ((XCTestExpectation) -> Void)?) {
+    func loadAndVerifyControllerWithBlockID(_ blockID : CourseBlockID, verifier : @escaping (CourseOutlineViewController) -> ((XCTestExpectation) -> Void)?) {
         
         let blockIdOrNilIfRoot : CourseBlockID? = blockID == outline.root ? nil : blockID
         let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot)
         
-        let expectation = self.expectationWithDescription("course loaded")
+        let expectations = self.expectation(description: "course loaded")
         let updateStream = BackedStream<Void>()
         
         inScreenNavigationContext(controller) {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 let blockLoadedStream = controller.t_setup()
                 updateStream.backWithStream(blockLoadedStream)
                 updateStream.listen(controller) {[weak controller] _ in
                     updateStream.removeAllBackings()
                     if let next = controller.flatMap({ verifier($0) }) {
-                        next(expectation)
+                        next(expectations)
                     }
                     else {
-                        expectation.fulfill()
+                        expectations.fulfill()
                     }
                 }
             }

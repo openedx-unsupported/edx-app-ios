@@ -253,6 +253,6 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     }
 
     func chooseTab(identifier: String) {
-        tabs.showTabWithIdentifier(identifier: identifier)
+        tabs.showTab(withIdentifier: identifier)
     }
 }

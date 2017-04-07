@@ -17,7 +17,7 @@ class UserAgentGenerationOperationTests : XCTestCase {
         waitForStream(operation.t_resultStream) {
             let agent = $0.value!
             // Random part of the standard user agent string, to make sure we got something
-            XCTAssertTrue(agent.containsString("KHTML, like Gecko"))
+            XCTAssertTrue(agent.contains("KHTML, like Gecko"))
         }
     }
     
@@ -36,7 +36,7 @@ class UserAgentGenerationOperationTests : XCTestCase {
         waitForStream(operation.t_resultStream) {
             let agent = $0.value!
             // Random part of the standard user agent string, to make sure we got something
-            XCTAssertTrue(agent.containsString(UserAgentGenerationOperation.appVersionDescriptor))
+            XCTAssertTrue(agent.contains(UserAgentGenerationOperation.appVersionDescriptor))
         }
 
         userDefaultsMock.remove()

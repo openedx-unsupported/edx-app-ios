@@ -12,7 +12,7 @@ class SnackbarViewsTests: SnapshotTestCase {
     func testVersionUpgradeView() {
         let upgradeView = VersionUpgradeView(message: Strings.VersionUpgrade.newVersionAvailable)
         
-        let size = upgradeView.systemLayoutSizeFittingSize(screenSize)
+        let size = upgradeView.systemLayoutSizeFitting(screenSize)
         upgradeView.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         
         upgradeView.layoutIfNeeded()
@@ -22,7 +22,7 @@ class SnackbarViewsTests: SnapshotTestCase {
     func testOfflineView() {
         let offlineView = OfflineView(message: Strings.offline, selector: nil)
         
-        let size = offlineView.systemLayoutSizeFittingSize(screenSize)
+        let size = offlineView.systemLayoutSizeFitting(screenSize)
         offlineView.bounds = CGRect(x: 0, y: 0, width: size.width, height: size.height)
         
         offlineView.layoutIfNeeded()

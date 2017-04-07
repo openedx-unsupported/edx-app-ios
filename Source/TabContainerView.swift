@@ -84,12 +84,12 @@ class TabContainerView : UIView {
         activeTabBodyView = item.view
     }
 
-    fileprivate func indexOfItemWithIdentifier(identifier : String) -> Int? {
+    fileprivate func indexOfItem(withIdentifier identifier : String) -> Int? {
         return items.firstIndexMatching {$0.identifier == identifier }
     }
 
-    func showTabWithIdentifier(identifier : String) {
-        if let index = indexOfItemWithIdentifier(identifier: identifier) {
+    func showTab(withIdentifier identifier : String) {
+        if let index = indexOfItem(withIdentifier: identifier) {
             showTabAtIndex(index: index)
         }
     }
@@ -99,7 +99,7 @@ class TabContainerView : UIView {
 extension TabContainerView {
     func t_isShowingView(forItem item : TabItem) -> Bool {
         let viewsMatch = stackView.arrangedSubviews == [control, item.view]
-        let indexMatches = indexOfItemWithIdentifier(identifier: item.identifier) == control.selectedSegmentIndex
+        let indexMatches = indexOfItem(withIdentifier: item.identifier) == control.selectedSegmentIndex
         let identifierMatches = currentIdentifier == item.identifier
         return viewsMatch && indexMatches && identifierMatches
     }

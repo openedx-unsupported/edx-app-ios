@@ -9,7 +9,7 @@
 import Foundation
 
 extension UIImage {
-    func imageCroppedToRect(rect: CGRect) -> UIImage {
+    func imageCropped(toRect rect: CGRect) -> UIImage {
         guard let cgImage = self.cgImage else { return self }
         let imageRef = cgImage.cropping(to: rect)
         let cropped = UIImage(cgImage: imageRef!)

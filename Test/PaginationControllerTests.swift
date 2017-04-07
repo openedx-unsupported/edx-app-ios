@@ -40,8 +40,8 @@ class PaginationControllerTests: XCTestCase {
         XCTAssertEqual(tableView.contentSize.height, CGFloat(initialCount) * dataSource.rowHeight)
         
         // Now scroll to the bottom
-        var bottomIndexPath = IndexPath(forRow: initialCount - 1, inSection: 0)
-        tableView.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
+        var bottomIndexPath = IndexPath(row: initialCount - 1, section: 0)
+        tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: false)
         XCTAssertNotNil(tableView.tableFooterView) // Should be showing spinner
 
         // and see if we get more content
@@ -50,8 +50,8 @@ class PaginationControllerTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(newCount, initialCount)
         
         //Scrolling to the bottom second time to confirm that results are loaded
-        bottomIndexPath = IndexPath(forRow: newCount - 1, inSection: 0)
-        tableView.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
+        bottomIndexPath = IndexPath(row: newCount - 1, section: 0)
+        tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: false)
         XCTAssertNil(tableView.tableFooterView) // Should not be showing spinner
         
     }

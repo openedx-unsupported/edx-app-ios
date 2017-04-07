@@ -22,13 +22,13 @@ class ContentInsetsControllerTests: XCTestCase {
         viewController = UIViewController()
         scrollView = UIScrollView(frame: viewController.view.bounds)
         viewController.view.addSubview(scrollView)
-        insetsController.setupInController(viewController, scrollView: scrollView)
+        insetsController.setupInController(owner: viewController, scrollView: scrollView)
     }
     
     func testExtraSource() {
         let insets = UIEdgeInsetsMake(20, 0, 20, 0)
         let source = ConstantInsetsSource(insets: insets, affectsScrollIndicators: false)
-        insetsController.addSource(source)
+        insetsController.addSource(source: source)
         
         insetsController.updateInsets()
         XCTAssertEqual(scrollView.contentInset, insets)
@@ -37,9 +37,9 @@ class ContentInsetsControllerTests: XCTestCase {
     
     func testSourcesSum() {
         var insets = UIEdgeInsetsMake(20, 0, 20, 0)
-        insetsController.addSource(ConstantInsetsSource(insets: insets, affectsScrollIndicators: false))
+        insetsController.addSource(source: ConstantInsetsSource(insets: insets, affectsScrollIndicators: false))
         insets = UIEdgeInsetsMake(30, 0, 40, 0)
-        insetsController.addSource(ConstantInsetsSource(insets: insets, affectsScrollIndicators: true))
+        insetsController.addSource(source: ConstantInsetsSource(insets: insets, affectsScrollIndicators: true))
         insetsController.updateInsets()
         XCTAssertEqual(scrollView.contentInset, UIEdgeInsetsMake(50, 0, 60, 0))
         XCTAssertEqual(scrollView.scrollIndicatorInsets, insets)
@@ -48,7 +48,7 @@ class ContentInsetsControllerTests: XCTestCase {
     func testKeyboardOverridesBottom() {
         // Set up a normal insets
         let insets = UIEdgeInsetsMake(44, 0, 44, 0)
-        insetsController.addSource(ConstantInsetsSource(insets: insets, affectsScrollIndicators: true))
+        insetsController.addSource(source: ConstantInsetsSource(insets: insets, affectsScrollIndicators: true))
         insetsController.updateInsets()
         XCTAssertEqual(scrollView.contentInset, insets)
         XCTAssertEqual(scrollView.scrollIndicatorInsets, insets)

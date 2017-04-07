@@ -14,7 +14,7 @@ class UIImage_OEXHelpersTests : XCTestCase {
     
     func testImageCropper() {
         let rect = CGRect(x: 0, y: 0, width: 10, height: 10)
-        let processedImage = image?.imageCroppedToRect(rect)
+        let processedImage = image?.imageCropped(toRect: rect)
         
         XCTAssertNotEqual(processedImage?.size.width, image?.size.width)
         XCTAssertNotEqual(processedImage?.size.height, image?.size.height)
@@ -25,7 +25,7 @@ class UIImage_OEXHelpersTests : XCTestCase {
     
     func testImageResizing() {
         let size = CGSize(width: 10, height: 10)
-        let processedImage = image?.resizedTo(size)
+        let processedImage = image?.resizedTo(size: size)
         
         XCTAssertNotEqual(processedImage?.size.width, image?.size.width)
         XCTAssertNotEqual(processedImage?.size.height, image?.size.height)
@@ -56,7 +56,7 @@ class UIImage_OEXHelpersTests : XCTestCase {
         
         let processedImage = mirroredImage.rotateUp()
         
-        XCTAssertTrue(processedImage.imageOrientation == .Up)
+        XCTAssertTrue(processedImage.imageOrientation == .up)
         XCTAssertEqual(image?.imageOrientation, processedImage.imageOrientation)
     }
     

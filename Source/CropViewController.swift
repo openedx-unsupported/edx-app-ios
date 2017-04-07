@@ -139,7 +139,7 @@ class CropViewController: UIViewController {
             let rect = self!.circleView.circleBounds
             let shift = rect.applying(CGAffineTransform(translationX: self!.scrollView.contentOffset.x, y: self!.scrollView.contentOffset.y))
             let scaled = shift.applying(CGAffineTransform(scaleX: 1.0 / self!.scrollView.zoomScale, y: 1.0 / self!.scrollView.zoomScale))
-            let newImage = self?.image.imageCroppedToRect(rect: scaled)
+            let newImage = self?.image.imageCropped(toRect: scaled)
             self?.completion(newImage)
             }, for: .touchUpInside)
         
