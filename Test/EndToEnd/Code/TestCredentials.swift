@@ -19,12 +19,12 @@ private class TestCredentialManager {
 
     fileprivate static let shared = TestCredentialManager()
 
-    fileprivate let config = OEXConfig(bundle: Bundle(forClass: TestCredentialManager.self))
+    fileprivate let config = OEXConfig(bundle: Bundle(for: TestCredentialManager.self))
 
     fileprivate func freshCredentials() -> Credentials {
         let password = UUID().uuidString
-        let email = config.endToEndConfig.emailTemplate.oex_formatWithParameters(["unique_id": UUID().asUsername])
-        let username = email.componentsSeparatedByString("@").first!
+        let email = config.endToEndConfig.emailTemplate.oex_format(withParameters: ["unique_id": UUID().asUsername])
+        let username = email.components(separatedBy: "@").first!
         return Credentials(username : username, password: password, email: email)
     }
 
@@ -53,7 +53,7 @@ private class TestCredentialManager {
 class TestCredentials {
     fileprivate let credentials : Credentials
 
-    enum Type {
+    enum `Type` {
         case fresh // Credentials without an existing account
         case `default` // Standard test credentials. Have an account and registered for at least one course
     }

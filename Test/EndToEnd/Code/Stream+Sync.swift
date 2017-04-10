@@ -12,7 +12,7 @@ import edXCore
 extension OEXStream {
     func waitForValue(_ timeout: TimeInterval = 10) -> OEXStream {
         let expirationDate = NSDate(timeIntervalSinceNow: timeout)
-        while self.value == nil && NSDate().compare(expirationDate as Date) == .OrderedAscending {
+        while self.value == nil && NSDate().compare(expirationDate as Date) == .orderedAscending {
             let nextCheck = NSDate().addingTimeInterval(0.1)
             RunLoop.main.run(until: nextCheck as Date)
         }

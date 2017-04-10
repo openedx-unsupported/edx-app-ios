@@ -30,7 +30,7 @@ class FindCoursesInteractor: FeatureInteractor {
     
     func verifyFindCoursesLoaded () {
         
-        let config = OEXConfig(bundle: Bundle(forClass: FindCoursesInteractor.self))
+        let config = OEXConfig(bundle: Bundle(for: FindCoursesInteractor.self))
      
         switch config.courseEnrollmentConfig.type {
         case .Native, .None:
