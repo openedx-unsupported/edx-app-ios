@@ -461,7 +461,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     // Mark - tableview delegate methods
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
     

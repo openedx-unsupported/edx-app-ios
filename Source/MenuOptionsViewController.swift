@@ -96,7 +96,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
 
     // MARK: - Table view data source
 
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 

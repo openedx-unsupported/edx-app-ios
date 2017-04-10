@@ -95,7 +95,7 @@ public class SpinnerView : UIView {
                 return (Double($0) / Double(dots)) as NSNumber
             }
             animation.values = Array(count: dots) {
-                return (direction * Double($0) / Double(dots)) * 2.0 * (.pi/2) as NSNumber
+                return (direction * Double($0) / Double(dots)) * 2.0 * .pi as NSNumber
             }
             animation.repeatCount = Float.infinity
             animation.duration = 0.6

@@ -19,7 +19,7 @@ struct ShadowStyle {
     var shadow: NSShadow {
         let shadow = NSShadow()
         shadow.shadowColor = color.withAlphaComponent(opacity)
-        shadow.shadowOffset = CGSize(width: cos(CGFloat(angle) / 180.0 * CGFloat(Double.pi/2)), height: sin(CGFloat(angle) / 180.0 * CGFloat(Double.pi/2)))
+        shadow.shadowOffset = CGSize(width: cos(CGFloat(angle) / 180.0 * CGFloat(Double.pi)), height: sin(CGFloat(angle) / 180.0 * CGFloat(Double.pi)))
         shadow.shadowBlurRadius = size
         return shadow
     }

@@ -294,7 +294,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                         
                         owner.environment.router?.showDiscussionNewCommentFromController(controller: owner, courseID: owner.courseID, thread: thread, context: .Comment(owner.responseItem))
                     }
-                    } as! (Any) -> Void, for: UIControlEvents.touchUpInside)
+                    }, for: UIControlEvents.touchUpInside)
             }
         }
     }
@@ -456,7 +456,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     // MARK - tableview delegate methods
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 

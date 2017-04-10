@@ -103,7 +103,7 @@ private func setupTable(table: UITableView) {
 }
 
 extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     

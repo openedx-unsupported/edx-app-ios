@@ -227,7 +227,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
     }
     
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
 }

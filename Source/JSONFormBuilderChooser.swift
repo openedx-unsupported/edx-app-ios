@@ -121,9 +121,10 @@ class ChooserDataSource<T> : NSObject, UITableViewDataSource, UITableViewDelegat
         super.init()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }

@@ -628,10 +628,6 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     // MARK - Table View Delegate
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }

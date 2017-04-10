@@ -33,7 +33,7 @@ public class PullRefreshView : UIView {
     
     public var percentage : CGFloat = 1 {
         didSet {
-            let totalAngle = CGFloat(2 * (Double.pi/2) * 2) // two full rotations
+            let totalAngle = CGFloat(2 * Double.pi * 2) // two full rotations
             let scale = (percentage * 0.9) + 0.1 // don't start from 0 scale because it looks weird
             spinner.transform = CGAffineTransform(rotationAngle: percentage * totalAngle).concatenating(CGAffineTransform(scaleX: scale, y: scale))
         }

@@ -26,7 +26,7 @@ class UserPreferenceManagerTests : XCTestCase {
         let manager = UserPreferenceManager(networkManager: environment.networkManager)
         let feed = manager.feed
         // starts empty
-        XCTAssertNil(feed.output.value)
+        XCTAssertNil(feed.output.value ?? nil)
         
         // Log in. Preferences should load
         environment.logInTestUser()
