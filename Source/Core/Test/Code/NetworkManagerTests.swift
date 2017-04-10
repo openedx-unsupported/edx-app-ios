@@ -110,7 +110,7 @@ class NetworkManagerTests: XCTestCase {
             // Sort since the fields are in arbitrary order
             let sortedPairs = pairs.sorted(by: { return $0.first! < $1.first! })
             print("pairs are \(sortedPairs)")
-            XCTAssertEqual(sortedPairs, [["Some%20field", "true"], ["Some%20other%20field", "some%20value"]])
+            XCTAssertEqual(NSArray(array: sortedPairs), NSArray(array: [["Some%20field", "true"], ["Some%20other%20field", "some%20value"]]))
         }
     }
     
