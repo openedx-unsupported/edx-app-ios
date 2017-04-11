@@ -268,7 +268,7 @@ extension OEXRouter {
             reviewController.providesPresentationContextTransitionStyle = true
             reviewController.definesPresentationContext = true
             
-            if let controller = fromController as? VideoBlockViewController {
+            if let controller = fromController as? RatingViewControllerDelegate {
                 reviewController.delegate = controller
             }
             
