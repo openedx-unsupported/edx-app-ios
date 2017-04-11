@@ -131,8 +131,8 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
-    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, response : DiscussionComment, closed : Bool, thread: DiscussionThread) {
-        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed, thread: thread)
+    func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, response : DiscussionComment, closed : Bool, thread: DiscussionThread, isDiscussionBlackedOut: Bool) {
+        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed, thread: thread, isDiscussionBlackedOut: isDiscussionBlackedOut)
         
         if let delegate = controller as? DiscussionCommentsViewControllerDelegate {
             commentsVC.delegate = delegate
