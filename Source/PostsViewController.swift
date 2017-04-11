@@ -97,7 +97,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             updateNewPostButtonStyle()
         }
     }
-    private var stream: Stream<(DiscussionInfo)>?
+    fileprivate var stream: OEXStream<(DiscussionInfo)>?
     
     private let contentView = UIView()
     
@@ -353,7 +353,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func updateNewPostButtonStyle() {
         newPostButton.backgroundColor = isDiscussionBlackedOut ? environment.styles.neutralBase() : environment.styles.primaryXDarkColor()
-        newPostButton.enabled = !isDiscussionBlackedOut
+        newPostButton.isEnabled = !isDiscussionBlackedOut
     }
     
     func setIsDiscussionBlackedOut(value : Bool){
@@ -394,14 +394,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     private func loadContent() {
-        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID)
+        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID: courseID)
         stream = environment.networkManager.streamForRequest(apiRequest)
         stream?.listen(self, success: { [weak self] (discussionInfo) in
             self?.isDiscussionBlackedOut = discussionInfo.isBlackedOut
             self?.loadPostContent()
             }
             ,failure: { [weak self] (error) in
-                self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error: error)
         })
     }
     

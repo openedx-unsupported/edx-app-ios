@@ -255,7 +255,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         let postingEnabled = (postClosed || isDiscussionBlackedOut)
         addResponseButton.backgroundColor = postingEnabled ? styles.neutralBase() : styles.primaryXDarkColor()
-        addResponseButton.enabled = !postingEnabled
+        addResponseButton.isEnabled = !postingEnabled
 
         addResponseButton.oex_removeAllActions()
         if !thread.closed {
@@ -635,7 +635,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             prompt = postClosed ? Strings.commentsClosed : Strings.addAComment
             icon = postClosed ? Icon.Closed : Icon.Comment
             commentStyle = isDiscussionBlackedOut ? disabledCommentStyle : responseMessageStyle
-            cell.commentButton.enabled = !isDiscussionBlackedOut
+            cell.commentButton.isEnabled = !isDiscussionBlackedOut
         }
         else {
             prompt = Strings.commentsToResponse(count: response.childCount)

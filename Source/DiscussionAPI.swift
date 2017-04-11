@@ -91,7 +91,7 @@ public class DiscussionAPI {
         }
     }
     
-    private static func discussionInfoDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionInfo> {
+    private static func discussionInfoDeserializer(response : HTTPURLResponse, json : JSON) -> Result<DiscussionInfo> {
         return DiscussionInfo(json : json).toResult(NSError.oex_courseContentLoadError())
     }
 
@@ -330,9 +330,9 @@ public class DiscussionAPI {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/courses/\(courseID)",
-            query: [:],
             requiresAuth : true,
-            deserializer : .JSONResponse(discussionInfoDeserializer)
+            query: [:],
+            deserializer : .jsonResponse(discussionInfoDeserializer)
         )
     }
 

@@ -195,14 +195,14 @@ public struct DiscussionInfo {
 
 extension DiscussionInfo {
     public init?(json: JSON) {
-        guard let discussionID = json["id"].string, let blackouts = json.dictionaryValue["blackouts"]?.arrayValue where blackouts.count > 0 else { return }
+        guard let discussionID = json["id"].string, let blackouts = json.dictionaryValue["blackouts"]?.arrayValue, blackouts.count > 0 else { return }
         
         self.discussionID = discussionID
         self.blackouts = [DiscussionBlackout]()
         for blackout in blackouts {
             if let discussionBlackout = DiscussionBlackout(json: blackout) {
                 self.blackouts?.append(discussionBlackout)
-                if NSDate().isEarlierThanOrEqualTo(discussionBlackout.end) && NSDate().isLaterThanOrEqualTo(discussionBlackout.start) {
+                if NSDate().isEarlierThanOrEqual(to: discussionBlackout.end as Date) && NSDate().isLaterThanOrEqual(to: discussionBlackout.start as Date) {
                     isBlackedOut = true
                 }
             }
@@ -211,16 +211,16 @@ extension DiscussionInfo {
 }
 
 public struct DiscussionBlackout {
-    var start: NSDate?
-    var end: NSDate?
+    var start: NSDate
+    var end: NSDate
 }
 
 extension DiscussionBlackout {
     public init?(json: JSON) {
         guard let startDate = json["start"].string, let endDate = json["end"].string else { return nil }
         
-        self.start = OEXDateFormatting.dateWithServerString(startDate)
-        self.end = OEXDateFormatting.dateWithServerString(endDate)
+        self.start = OEXDateFormatting.date(withServerString: startDate) as NSDate
+        self.end = OEXDateFormatting.date(withServerString: endDate) as NSDate
     }
 }
 

@@ -387,14 +387,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         addCommentButton.contentVerticalAlignment = .center
         
         addCommentButton.backgroundColor = isDiscussionBlackedOut || commentsClosed ? environment.styles.neutralBase() : environment.styles.primaryXDarkColor()
-        addCommentButton.enabled = !(isDiscussionBlackedOut || commentsClosed)
+        addCommentButton.isEnabled = !(isDiscussionBlackedOut || commentsClosed)
        
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
     
     func toggleAddCommentButton(enabled: Bool){
         addCommentButton.backgroundColor = enabled ? environment.styles.primaryXDarkColor() : environment.styles.neutralBase()
-        addCommentButton.enabled = enabled
+        addCommentButton.isEnabled = enabled
     }
     
     func setConstraints() {
