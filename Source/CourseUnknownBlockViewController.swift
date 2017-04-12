@@ -19,7 +19,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     var block: CourseBlock?
     var messageView : IconMessageView?
     
-    var loader : OEXStream<URL?>?
+    var loader : OEXStream<NSURL?>?
     init(blockID : CourseBlockID?, courseID : String, environment : Environment) {
         self.blockID = blockID
         self.courseID = courseID
@@ -64,7 +64,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             [weak self] in
             self?.loader?.listen(self!, success : {url -> Void in
                 if let url = url {
-                    UIApplication.shared.openURL(url)
+                    UIApplication.shared.openURL(url as URL)
                     self?.logOpenInBrowserEvent()
                 }
                 }, failure : {_ in
@@ -114,7 +114,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID).blockWithID(id: self.blockID).map {
+        loader = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID).blockWithID(id: self.blockID).map {
             return $0.webURL
             }.firstSuccess()
     }

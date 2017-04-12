@@ -295,7 +295,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     //MARK: - OEXVideoPlayerInterfaceDelegate methods
-    func videoPlayerTapped(sender: UIGestureRecognizer) {
+    func videoPlayerTapped(_ sender: UIGestureRecognizer) {
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
         if self.isVerticallyCompact() && !videoPlayer.isFullscreen{
@@ -303,8 +303,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
-    func transcriptLoaded(transcript: [AnyObject]) {
-        videoTranscriptView?.updateTranscript(transcript: transcript)
+    func transcriptLoaded(_ transcript: [Any]) {
+        videoTranscriptView?.updateTranscript(transcript: transcript as [AnyObject])
         validateSubtitleTimer()
     }
     

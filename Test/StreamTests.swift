@@ -154,7 +154,7 @@ class StreamTests: XCTestCase {
         let joined = joinStreams(sinks)
         let fired = MutableBox(false)
         
-        withExtendedLifetime(NSObject(), {owner in
+        let _ = withExtendedLifetime(NSObject(), {owner in
             joined.listen(owner) { items in
                 fired.value = true
             }
