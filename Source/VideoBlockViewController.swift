@@ -339,7 +339,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     //MARK: - RatingDelegate
-    func didDissmissRatingViewController() {
+    func didDismissRatingViewController() {
         UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.navigationItem.backBarButtonItem)
     }
 }

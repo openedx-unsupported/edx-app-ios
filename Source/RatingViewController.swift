@@ -10,7 +10,7 @@ import UIKit
 import MessageUI
 
 protocol RatingViewControllerDelegate {
-    func didDissmissRatingViewController()
+    func didDismissRatingViewController()
 }
 
 class RatingViewController: UIViewController, RatingContainerDelegate {
@@ -94,7 +94,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     func closeButtonPressed() {
         saveAppRating()
         environment.analytics.trackDismissRating()
-        dissmissViewController()
+        dismissViewController()
     }
     
     //MARK: - Positive Rating methods
@@ -105,7 +105,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
             if let rating = self?.selectedRating {
                 self?.environment.analytics.trackMaybeLater(rating)
             }
-            self?.dissmissViewController()
+            self?.dismissViewController()
         }
         alertController?.addButtonWithTitle(Strings.AppReview.rateTheApp) {[weak self] (action) in
             self?.saveAppRating(self?.selectedRating)
@@ -113,7 +113,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
                 self?.environment.analytics.trackRateTheApp(rating)
             }
             self?.sendUserToAppStore()
-            self?.dissmissViewController()
+            self?.dismissViewController()
         }
     }
     
@@ -132,7 +132,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
             if let rating = self?.selectedRating {
                 self?.environment.analytics.trackMaybeLater(rating)
             }
-            self?.dissmissViewController()
+            self?.dismissViewController()
         }
         alertController?.addButtonWithTitle(Strings.AppReview.sendFeedback) {[weak self] (action) in
             self?.saveAppRating(self?.selectedRating)
@@ -154,9 +154,9 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
         ratingContainerView.setRating(rating)
     }
     
-    func dissmissViewController() {
+    func dismissViewController() {
         dismissViewControllerAnimated(false, completion: nil)
-        delegate?.didDissmissRatingViewController()
+        delegate?.didDismissRatingViewController()
     }
 }
 
@@ -169,7 +169,7 @@ extension RatingViewController : MFMailComposeViewControllerDelegate {
                                     delegate: nil,
                                     cancelButtonTitle: Strings.ok)
             alert.show()
-            dissmissViewController()
+            dismissViewController()
         } else {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
@@ -186,6 +186,6 @@ extension RatingViewController : MFMailComposeViewControllerDelegate {
     
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
-        dissmissViewController()
+        dismissViewController()
     }
 }
