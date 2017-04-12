@@ -35,7 +35,7 @@ public class ButtonStyle : NSObject {
             button.layer.shadowColor = shadowStyle.color.cgColor
             button.layer.shadowRadius = shadowStyle.size
             button.layer.shadowOpacity = Float(shadowStyle.opacity)
-            button.layer.shadowOffset = CGSize(width: cos(CGFloat(shadowStyle.angle) / 180.0 * CGFloat(M_PI_2)), height: sin(CGFloat(shadowStyle.angle) / 180.0 * CGFloat(M_PI_2)))
+            button.layer.shadowOffset = CGSize(width: cos(CGFloat(shadowStyle.angle) / 180.0 * CGFloat(Double.pi/2)), height: sin(CGFloat(shadowStyle.angle) / 180.0 * CGFloat(Double.pi/2)))
         }
     }
 }
