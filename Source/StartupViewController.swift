@@ -102,7 +102,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             make.centerY.equalTo(view.snp_centerY)
             make.leading.equalTo(view.snp_leading).offset(30)
             make.trailing.equalTo(view.snp_trailing).inset(30)
-            environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() ? make.height.equalTo(40) : make.height.equalTo(0)
+            let _ =  environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() ? make.height.equalTo(40) : make.height.equalTo(0)
         }
 
         exploreButton.snp_makeConstraints { (make) in

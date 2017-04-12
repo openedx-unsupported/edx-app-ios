@@ -198,7 +198,7 @@ extension CropViewController: UIScrollViewDelegate {
         scrollView.setZoomScale(newScale, animated: true)
     }
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
