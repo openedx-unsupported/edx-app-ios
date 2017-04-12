@@ -341,7 +341,7 @@ open class NetworkManager : NSObject {
                     return (result, nil)
                 }
             }
-            let _ = task.response(serializer: serializer) { (request, response, object, error) in
+            task.response(serializer: serializer) { (request, response, object, error) in
                 let parsed = (object as? Box<DeserializationResult<Out>>)?.value
                 switch parsed {
                 case let .some(.deserializedResult(value, original)):
@@ -352,7 +352,7 @@ open class NetworkManager : NSObject {
                     authHandler(self, {success in
                         if success {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication, reattempting original request")
-                            let _ = self.taskForRequest(networkRequest, handler: handler)
+                            self.taskForRequest(networkRequest, handler: handler)
                         }
                         else {
                             Logger.logInfo(NetworkManager.NETWORK, "Reauthentication unsuccessful")
@@ -368,7 +368,7 @@ open class NetworkManager : NSObject {
                 host = URLRequest.url?.host,
                 let credential = self.credentialProvider?.URLCredentialForHost(host as NSString)
             {
-                let _ = task.authenticate(usingCredential: credential)
+                task.authenticate(usingCredential: credential)
             }
             task.resume()
             return NetworkTask(request: task)

@@ -622,7 +622,7 @@ open class Request {
 
         :returns: The request.
     */
-    open func authenticate(user: String, password: String) -> Self {
+    @discardableResult open func authenticate(user: String, password: String) -> Self {
         let credential = URLCredential(user: user, password: password, persistence: .forSession)
 
         return authenticate(usingCredential: credential)
@@ -635,7 +635,7 @@ open class Request {
 
         :returns: The request.
     */
-    open func authenticate(usingCredential credential: URLCredential) -> Self {
+    @discardableResult open func authenticate(usingCredential credential: URLCredential) -> Self {
         delegate.credential = credential
 
         return self
@@ -690,7 +690,7 @@ open class Request {
 
         :returns: The request.
     */
-    open func response(_ completionHandler: @escaping (Foundation.URLRequest, HTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Self {
+    @discardableResult open func response(_ completionHandler: @escaping (Foundation.URLRequest, HTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Self {
         return response(serializer: Request.responseDataSerializer(), completionHandler:  completionHandler)
     }
 
@@ -703,7 +703,7 @@ open class Request {
 
         :returns: The request.
     */
-    open func response(_ queue: DispatchQueue? = nil, serializer: @escaping Serializer, completionHandler: @escaping (Foundation.URLRequest, HTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Self {
+    @discardableResult open func response(_ queue: DispatchQueue? = nil, serializer: @escaping Serializer, completionHandler: @escaping (Foundation.URLRequest, HTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Self {
         delegate.queue.async {
             let (responseObject, serializationError) = serializer(self.request, self.response, self.delegate.data)
 

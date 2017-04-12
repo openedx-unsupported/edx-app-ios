@@ -189,7 +189,7 @@ open class OEXStream<A> : StreamDependency {
     /// - returns: A filtered stream based on the receiver that will only fire the first time a success value is sent. Use this if you want to capture a value and *not* update when the next one comes in.
     @discardableResult open func firstSuccess() -> OEXStream<A> {
         let sink = Sink<A>(dependencies: [self])
-        let _ = listen(sink.token) {[weak sink] result in
+        listen(sink.token) {[weak sink] result in
             if sink?.lastResult?.isFailure ?? true {
                 sink?.send(result)
             }
@@ -201,7 +201,7 @@ open class OEXStream<A> : StreamDependency {
     /// - returns: A filtered stream based on the receiver that won't fire on errors after a value is loaded. It will fire if a new value comes through after a value is already loaded.
     open func dropFailuresAfterSuccess() -> OEXStream<A> {
         let sink = Sink<A>(dependencies: [self])
-        let _ = listen(sink.token) {[weak sink] result in
+        listen(sink.token) {[weak sink] result in
             if sink?.lastResult == nil || result.isSuccess {
                 sink?.send(result)
             }
@@ -217,7 +217,7 @@ open class OEXStream<A> : StreamDependency {
     /// Transforms a stream into a new stream.
     open func resultMap<B>(_ f : @escaping (Result<A>) -> Result<B>) -> OEXStream<B> {
         let sink = Sink<B>(dependencies: [self])
-        let _ = listen(sink.token) {[weak sink] result in
+        listen(sink.token) {[weak sink] result in
             sink?.send(f(result))
         }
         return sink
@@ -226,7 +226,7 @@ open class OEXStream<A> : StreamDependency {
     /// Transforms a stream into a new stream.
     open func flatMap<B>(fireIfAlreadyLoaded: Bool = true, f : @escaping (A) -> Result<B>) -> OEXStream<B> {
         let sink = Sink<B>(dependencies: [self])
-        let _ = listen(sink.token, fireIfAlreadyLoaded: fireIfAlreadyLoaded) {[weak sink] current in
+        listen(sink.token, fireIfAlreadyLoaded: fireIfAlreadyLoaded) {[weak sink] current in
             let next = current.flatMap(f)
             sink?.send(next)
         }
@@ -236,9 +236,9 @@ open class OEXStream<A> : StreamDependency {
     /// - returns: A stream that is automatically backed by a new stream whenever the receiver fires.
     open func transform<B>(_ f : @escaping (A) -> OEXStream<B>) -> OEXStream<B> {
         let backed = BackedStream<B>(dependencies: [self])
-        let _ = listen(backed.token) {[weak backed] current in
-            let _ = current.ifSuccess {
-               let _ =  backed?.backWithStream(f($0))
+        listen(backed.token) {[weak backed] current in
+            current.ifSuccess {
+               backed?.backWithStream(f($0))
             }
         }
         return backed
@@ -250,7 +250,7 @@ open class OEXStream<A> : StreamDependency {
     /// - parameter cancel: The action to perform when this stream gets deallocated.
     open func autoCancel(_ cancelAction : Removable) -> OEXStream<A> {
         let sink = CancellingSink<A>(dependencies : [self], removable: cancelAction)
-        let _ = listen(sink.token) {[weak sink] current in
+        listen(sink.token) {[weak sink] current in
             sink?.send(current)
         }
         return sink
@@ -277,13 +277,13 @@ open class OEXStream<A> : StreamDependency {
     /// return the value saved to disk, but only if the network request hasn't finished yet.
     open func cachedByStream(_ cacheStream : OEXStream<A>) -> OEXStream<A> {
         let sink = Sink<A>(dependencies: [cacheStream, self])
-        let _ = listen(sink.token) {[weak sink] current in
+        listen(sink.token) {[weak sink] current in
             if !(current.error?.oex_isNoInternetConnectionError ?? false) || (sink?.lastResult == nil && !cacheStream.active) {
                 sink?.send(current)
             }
         }
         
-        let _ = cacheStream.listen(sink.token) {[weak sink] current in
+        cacheStream.listen(sink.token) {[weak sink] current in
             if sink?.lastResult == nil {
                 sink?.send(current)
             }
@@ -296,7 +296,7 @@ open class OEXStream<A> : StreamDependency {
     open func delay(_ duration : TimeInterval) -> OEXStream<A> {
         var numberInFlight = 0
         let sink = Sink<A>(dependencies: [self])
-        let _ = self.listen(sink.token) {(result : Result<A>) in
+        self.listen(sink.token) {(result : Result<A>) in
             let time = DispatchTime.now() + Double(Int64(duration * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
             numberInFlight = numberInFlight + 1
             sink.open = true
@@ -458,7 +458,7 @@ public func joinStreams<T, U>(_ t : OEXStream<T>, _ u: OEXStream<U>) -> OEXStrea
     let tBox = MutableBox<Resolution<T>>(.unresolved)
     let uBox = MutableBox<Resolution<U>>(.unresolved)
     
-    let _ = t.listen(sink.token) {[weak sink] tValue in
+    t.listen(sink.token) {[weak sink] tValue in
         tBox.value = .resolved(tValue)
         
         switch uBox.value {
@@ -469,7 +469,7 @@ public func joinStreams<T, U>(_ t : OEXStream<T>, _ u: OEXStream<U>) -> OEXStrea
         }
     }
     
-    let _ = u.listen(sink.token) {[weak sink] uValue in
+    u.listen(sink.token) {[weak sink] uValue in
         uBox.value = .resolved(uValue)
         
         switch tBox.value {
@@ -499,7 +499,7 @@ public func joinStreams<T>(_ streams : [OEXStream<T>]) -> OEXStream<[T]> {
     
     let boxes = pairs.map { return $0.box }
     for (box, stream) in pairs {
-        let _ = stream.listen(sink.token) {[weak sink] value in
+        stream.listen(sink.token) {[weak sink] value in
             box.value = .resolved(value)
             let results = boxes.mapOrFailIfNil {(box : MutableBox<Resolution<T>>) -> Result<T>? in
                 switch box.value {
@@ -530,7 +530,7 @@ public func joinStreams<T>(_ streams : [OEXStream<T>]) -> OEXStream<[T]> {
 /// returns: A new stream that accumulates the results of source
 public func accumulate<A>(_ source : OEXStream<[A]>) -> OEXStream<[A]> {
     let sink = Sink<[A]>(dependencies: [source])
-    let _ = source.listen(sink.token) {[weak sink] in
+    source.listen(sink.token) {[weak sink] in
         switch $0 {
         case let .success(v):
             let total = (sink?.value ?? []) + v

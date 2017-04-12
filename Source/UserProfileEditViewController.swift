@@ -376,7 +376,7 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
         let endBlurimate = banner.shortProfView.blurimate()
         
         let networkRequest = ProfileAPI.deleteProfilePhotoRequest(username: profile.username!)
-        let _ = environment.networkManager.taskForRequest(networkRequest) { result in
+        environment.networkManager.taskForRequest(networkRequest) { result in
             if let _ = result.error {
                 endBlurimate.remove()
                 self.showToast(message: Strings.Profile.unableToRemovePhoto)

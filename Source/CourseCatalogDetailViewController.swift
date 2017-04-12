@@ -56,7 +56,7 @@ class CourseCatalogDetailViewController: UIViewController {
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseInfo)
     }
     
-    private func listen() {
+    @discardableResult private func listen() {
         self.courseStream.listen(self,
             success: {[weak self] (course, enrolled) in
                 self?.aboutView.applyCourse(course: course)

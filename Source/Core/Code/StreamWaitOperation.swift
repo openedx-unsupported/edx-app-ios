@@ -23,7 +23,7 @@ class StreamWaitOperation<A> : OEXOperation {
         DispatchQueue.main.async {[weak self] _ in
             if let owner = self {
                 // We should just be able to do this with weak self, but the compiler crashes as of Swift 1.2
-                let _ = owner.stream.listenOnce(owner, fireIfAlreadyLoaded: owner.fireIfAlreadyLoaded) {[weak owner] result in
+                owner.stream.listenOnce(owner, fireIfAlreadyLoaded: owner.fireIfAlreadyLoaded) {[weak owner] result in
                     if !(owner?.isCancelled ?? false) {
                         owner?.completion?(result)
                     }

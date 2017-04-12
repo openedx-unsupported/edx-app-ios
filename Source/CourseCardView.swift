@@ -172,7 +172,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
         set {
             self.titleLabel.attributedText = titleTextStyle.attributedString(withText: newValue)
-            let _ = updateAcessibilityLabel()
+            updateAcessibilityLabel()
         }
     }
     
@@ -182,7 +182,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
         set {
             self.detailLabel.attributedText = detailTextStyle.attributedString(withText: newValue)
-            let _ = updateAcessibilityLabel()
+            updateAcessibilityLabel()
         }
     }
     
@@ -194,7 +194,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         set {
             self.bottomTrailingLabel.attributedText = detailTextStyle.attributedString(withText: newValue)
             self.bottomTrailingLabel.isHidden = !(newValue != nil && !newValue!.isEmpty)
-            let _ = updateAcessibilityLabel()
+            updateAcessibilityLabel()
         }
     }
     
@@ -219,7 +219,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         self.layoutIfNeeded()
     }
     
-    func updateAcessibilityLabel()-> String {
+    @discardableResult func updateAcessibilityLabel()-> String {
         var accessibilityString = ""
         
         if let title = titleText {

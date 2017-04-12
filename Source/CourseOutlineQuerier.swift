@@ -55,7 +55,7 @@ public class CourseOutlineQuerier : NSObject {
     /// Use this to create a querier with an existing outline.
     /// Typically used for tests
     public init(courseID : String, outline : CourseOutline) {
-        let _ = self.courseOutline.backWithStream(OEXStream(value : outline))
+        self.courseOutline.backWithStream(OEXStream(value : outline))
         self.courseID = courseID
         self.enrollmentManager = nil
         self.interface = nil
@@ -67,7 +67,7 @@ public class CourseOutlineQuerier : NSObject {
     }
     
     private func addListener() {
-       let _ = courseOutline.listen(self,
+       courseOutline.listen(self,
             success : {[weak self] outline in
                 self?.loadedNodes(blocks: outline.blocks)
             }, failure : { _ in
@@ -101,7 +101,7 @@ public class CourseOutlineQuerier : NSObject {
             else {
                 let request = CourseOutlineAPI.requestWithCourseID(courseID: courseID, username : session?.currentUser?.username)
                 if let loader = networkManager?.streamForRequest(request, persistResponse: true) {
-                    let _ = courseOutline.backWithStream(loader)
+                    courseOutline.backWithStream(loader)
                 }
             }
         }
