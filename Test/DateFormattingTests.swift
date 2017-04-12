@@ -32,7 +32,7 @@ class DateFormattingTests: XCTestCase {
         
         let localizedStringForSpan = dateLesserThanSevenDaysOld.timeAgo(since: currentDate)
         
-        XCTAssertTrue(dateLesserThanSevenDaysOld.displayDate == localizedStringForSpan, "The dates \(dateLesserThanSevenDaysOld.displayDate),\(localizedStringForSpan) AND/OR format doesn't match")
+        XCTAssertTrue(dateLesserThanSevenDaysOld.displayDate == localizedStringForSpan, "The dates \(dateLesserThanSevenDaysOld.displayDate),\(localizedStringForSpan ?? "") AND/OR format doesn't match")
         XCTAssertTrue(dateMoreThanSevenDaysOld.displayDate == OEXDateFormatting.formatAsDateMonthYearStringWithDate(date: dateMoreThanSevenDaysOld), "The dates \(dateLesserThanSevenDaysOld.displayDate), \(OEXDateFormatting.formatAsDateMonthYearStringWithDate(date: dateMoreThanSevenDaysOld)) AND/OR the formats don't match ")
         
     }

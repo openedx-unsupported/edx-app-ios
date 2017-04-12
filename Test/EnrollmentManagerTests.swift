@@ -24,7 +24,7 @@ class EnrollmentManagerTests : XCTestCase {
         let manager = EnrollmentManager(interface: nil, networkManager: environment.networkManager, config: environment.config)
         let feed = manager.feed
         // starts empty
-        XCTAssertNil(feed.output.value)
+        XCTAssertNil(feed.output.value ?? nil)
         
         // Log in. Enrollments should load
         environment.logInTestUser()

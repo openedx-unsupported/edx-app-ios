@@ -101,8 +101,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
             try content.snapshotTestWithCase(self, referenceImagesDirectory: SNAPSHOT_TEST_DIR, identifier: qualifiedIdentifier)
         }
         catch let error as NSError {
-            let unknownError = "Unknown Error"
-            XCTFail("Snapshot comparison failed (\(qualifiedIdentifier)): \(error.localizedDescription ?? unknownError)", file : file, line : line)
+            XCTFail("Snapshot comparison failed (\(qualifiedIdentifier)): \(error.localizedDescription )", file : file, line : line)
             if let message = message {
                 XCTFail(message, file : file, line : line)
             }

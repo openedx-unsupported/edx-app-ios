@@ -38,7 +38,7 @@
     FindCoursesWebViewHelper* helper = [[FindCoursesWebViewHelper alloc] initWithConfig:nil delegate:nil bottomBar:nil showSearch:YES];
     OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
     NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
-    BOOL successCorrect = [findCoursesViewController webViewHelperWithHelper:helper shouldLoadLinkWithRequest:testURLRequestCorrect];
+    BOOL successCorrect = ![findCoursesViewController webViewHelperWithHelper:helper shouldLoadLinkWithRequest:testURLRequestCorrect];
     
     XCTAssert(successCorrect, @"Correct URL not recognized");
     

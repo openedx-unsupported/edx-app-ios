@@ -46,6 +46,6 @@ extension NotificationCenter {
     }
 }
 
-public func addNotificationObserver<Observer : NSObject>(observer : Observer, name : String, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
+@discardableResult public func addNotificationObserver<Observer : NSObject>(observer : Observer, name : String, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
     return NotificationCenter.default.oex_addObserver(observer: observer, name: name, action: action)
 }

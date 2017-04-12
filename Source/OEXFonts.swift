@@ -37,7 +37,7 @@ public class OEXFonts: NSObject {
         return fallbackFonts()
     }
     
-    public func fallbackFonts() -> [String: AnyObject] {
+    @discardableResult public func fallbackFonts() -> [String: AnyObject] {
         return OEXFontsDataFactory.fonts as [String : AnyObject]
     }
     

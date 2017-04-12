@@ -667,6 +667,7 @@
 		E03E6A221D38F77C00944AAA /* OfflineSupportViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A211D38F77C00944AAA /* OfflineSupportViewControllerTests.swift */; };
 		E04848321CFDA10600BE00E1 /* DiscussionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */; };
 		E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */; };
+		E04F56861E9E0A5B0088C65E /* EnrollmentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742F8DC1C3C979D009E555A /* EnrollmentConfig.swift */; };
 		E055D53D1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */; };
 		E07107931C7591360004B76C /* DiscussionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07107921C7591360004B76C /* DiscussionHelper.swift */; };
 		E076A5C21C7DB624008A99C6 /* DiscussionResponsesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */; };
@@ -3942,6 +3943,7 @@
 				77E6484E1C91024C00B6740D /* FeatureTestCase.swift in Sources */,
 				7753912F1C973ADA00FA959C /* NSUUID+Username.swift in Sources */,
 				77E6484D1C91024C00B6740D /* EnrolledCoursesInteractor.swift in Sources */,
+				E04F56861E9E0A5B0088C65E /* EnrollmentConfig.swift in Sources */,
 				77E648511C91024C00B6740D /* SplashScreenInteractor.swift in Sources */,
 				77E648501C91024C00B6740D /* LoginScreenInteractor.swift in Sources */,
 				77E6484B1C91024C00B6740D /* AppLaunchInteractor.swift in Sources */,

@@ -62,7 +62,7 @@ class MockNetworkManager: NetworkManager {
         })
     }
     /// Returns failure with the given value
-    func interceptWhenMatching<Out>(_ matcher : @escaping ((NetworkRequest<Out>) -> Bool), afterDelay delay : TimeInterval = 0, statusCode : Int = 400, error : NSError = NetworkManager.unknownError) -> Removable {
+    @discardableResult func interceptWhenMatching<Out>(_ matcher : @escaping ((NetworkRequest<Out>) -> Bool), afterDelay delay : TimeInterval = 0, statusCode : Int = 400, error : NSError = NetworkManager.unknownError) -> Removable {
         return interceptWhenMatching(matcher, afterDelay: delay, withResponse: {[weak self] request in
             let request = self!.URLRequestWithRequest(request).value!
             
