@@ -32,7 +32,7 @@ public class UserProfile {
     let hasProfileImage: Bool
     let imageURL: String?
     let username: String?
-    var preferredLanguages: [NSDictionary]?
+    var preferredLanguages: [[String: Any]]?
     var countryCode: String?
     var bio: String?
     var birthYear: Int?
@@ -53,7 +53,7 @@ public class UserProfile {
             imageURL = nil
         }
         username = json[ProfileFields.Username].string
-        preferredLanguages = json[ProfileFields.LanguagePreferences].arrayObject as? [NSDictionary]
+        preferredLanguages = json[ProfileFields.LanguagePreferences].arrayObject as? [[String: Any]]
         countryCode = json[ProfileFields.Country].string
         bio = json[ProfileFields.Bio].string
         birthYear = json[ProfileFields.YearOfBirth].int
