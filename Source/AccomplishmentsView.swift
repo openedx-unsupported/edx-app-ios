@@ -12,7 +12,7 @@ struct Accomplishment {
     let image: RemoteImage
     let title: String?
     let detail: String?
-    let date: Date?
+    let date: NSDate?
     let shareURL: NSURL
 }
 

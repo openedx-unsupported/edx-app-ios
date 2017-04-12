@@ -49,7 +49,7 @@ public struct BadgeClass {
 public struct BadgeAssertion {
     public let assertionURL : URL
     public let imageURL : String
-    public let created : Date?
+    public let created : NSDate?
     public let badgeClass : BadgeClass
 
     fileprivate enum Fields : String, RawStringExtractable {
@@ -60,7 +60,7 @@ public struct BadgeAssertion {
         case BadgeClass = "badge_class"
     }
 
-    public init(assertionURL: URL, imageURL: String, created: Date? = nil, badgeClass: BadgeClass) {
+    public init(assertionURL: URL, imageURL: String, created: NSDate? = nil, badgeClass: BadgeClass) {
         self.assertionURL = assertionURL
         self.imageURL = imageURL
         self.created = created
@@ -77,7 +77,7 @@ public struct BadgeAssertion {
         }
         self.assertionURL = assertionURL as URL
         self.imageURL = imageURL
-        self.created = json[Fields.Created].serverDate as Date?
+        self.created = json[Fields.Created].serverDate as NSDate?
         self.badgeClass = badgeClass
     }
 }

@@ -8,20 +8,20 @@
 
 import Foundation
 
-extension Date {
+extension NSDate {
 
     // Returns a canned date in the *current* time zone
     // Such a date can be used in snapshot tests without worrying about the tester's time zone
-    static func stableTestDate() -> Date {
-        var components = DateComponents()
+    static func stableTestDate() -> NSDate {
+        let components = NSDateComponents()
         components.year = 2015
         components.month = 1
         components.day = 2
         components.hour = 3
         components.minute = 12
-        (components as NSDateComponents).calendar = Calendar(identifier:Calendar.Identifier.gregorian)
-        (components as NSDateComponents).timeZone = TimeZone.autoupdatingCurrent
+        components.calendar = Calendar(identifier:Calendar.Identifier.gregorian)
+        components.timeZone = TimeZone.autoupdatingCurrent
 
-        return (components as NSDateComponents).date!
+        return components.date! as NSDate
     }
 }
