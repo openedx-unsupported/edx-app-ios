@@ -84,7 +84,7 @@ public class UserProfile {
             }
             let cRange = 0...0
             let range = Range(cRange)
-            preferredLanguages!.replaceSubrange(range, with: [["code": code]])
+            preferredLanguages?.replaceSubrange(range, with: [["code": code]])
         }
     }
 }
