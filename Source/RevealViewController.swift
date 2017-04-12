@@ -81,7 +81,7 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
         UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,  dimmingOverlay)
     }
     
-    func revealController(revealController: SWRevealViewController!, didMoveToPosition position: FrontViewPosition) {
+    func revealController(_ revealController: SWRevealViewController!, didMoveTo position: FrontViewPosition) {
         guard let state = self.sideNavigationStateForPosition(position: position) else {
             return
         }
