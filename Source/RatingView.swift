@@ -25,7 +25,7 @@ class RatingView: UIControl {
     var shouldBeginGestureRecognizerBlock : RatingViewShouldBeginGestureRecognizerBlock?
     
     init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         isAccessibilityElement = true
         accessibilityLabel = Strings.AppReview.ratingControlAccessibilityLabel
         accessibilityHint = Strings.AppReview.ratingControlAccessibilityHint
