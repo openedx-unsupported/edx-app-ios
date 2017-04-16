@@ -1,0 +1,276 @@
+Welcome to the edX Objective-C Style Guide.
+
+* Principles *
+
+- Favor clarity and simplicity. Remember the principle of least surprise.
+
+- Build strong interface boundaries. Sometimes this results in a little more code. This is okay. For example, don't expose a whole object just to expose one of its properties. Instead add a trampoline method.
+
+- Work with the compiler and type system not around it. If you’re trying to solve and there’s a way to get the compiler to check it, do that. Once again, the shortest way to do something isn't necessarily the best way to do something.
+
+- Break functionality into unit testable pieces.
+
+- Avoid inheritance. Inheriting from some system classes, like UIViewController and UIView is necessary. Sometimes a class hierarchy is the right pattern, but we strongly prefer composition and delegation to inheritance.
+
+** General Objective-C **
+
+** Syntax and Organization **
+
+- Follow the rules in <a href = "https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Conventions/Conventions.html#//apple_ref/doc/uid/TP40011210-CH10-SW1">Apple’s guidelines</a>) except where they directly contradicts what follows.
+
+- Method names in Cocoa have a grammar. Compare ``NSArray``'s ``-getObject:atIndex:`` to a hypothetical ``-get:index``. Note that this is not just an english sentence. For example, as described in Apple’s documentation, the word ``and`` preceding an argument isn’t necessary.
+
+- When in doubt think about how something would look like if it were in UIKit.
+
+- ``#import``s should be in the following groups, ordered alphabetically within each group:
+
+1. System headers (including third party libraries)
+1. Header for current file (only if in a .m file)
+1. Project headers
+
+```
+// MyClass.m
+
+#import <FacebookSDK/FacebookSDK.h>
+#import <QuartzCore/QuartzCore.h>
+
+#import "MyClass.h”
+
+
+#import “OEXomething.h”
+#import “OEXWhatever.h”
+
+```
+
+• Avoid ``#import`` in headers where possible. This makes dependencies more explicit and results in fewer headers included overall, improving compilation speeds. Instead use the ``@class`` and ``@protocol`` forward declarations.
+
+
+```
+// Good
+@class SomeClass;
+
+@interface OtherClass
+- (instancetype)initWithSomeClass:(SomeClass*)object;
+@end
+
+
+// Bad
+#import "SomeClass.h"
+
+@interface OtherClass
+- (instancetype)initWithSomeClass:(SomeClass*)object;
+@end
+
+```
+
+- Avoid ``#define``. Instead use constant declarations. They’re more accessible to the compiler e.g. quick open doesn’t work with macros. More macro functions are error prone and hard to debug.
+``
+extern NSString* const OEXExampleKey = @"OEXExampleKey";
+extern CGFloat const OEXExampleConstant = 3;
+``
+
+For C macros with logic, consider if you can just use a regular function.
+
+- Constants local to a single file should be declared ``static``.
+
+- Use spaces for indentation not tabs. This is the Xcode default.
+
+- Prefer properties over bare instance variables. In general, you should only mention ivars in the setter for that property.
+
+```
+// Good
+
+@interface SomeClass {
+
+@property (strong, nonatomic) NSString* foo;
+
+@end
+
+// Bad
+@interface SomeClass {
+	NSString* _foo;
+}
+@end
+
+// Worse
+@interface SomeClass {
+	NSString* foo;
+}
+@end
+```
+
+- Use a leading underscore to name ivars. However, you should favor properties and auto synthesis and almost never refer to ivars explicitly. Sometimes you need to synthesize ivars explicitly, e.g. when implementing a protocol. Again, those should use leading underscores.
+
+```
+@synthesize something = _something;
+```
+
+- Don't bother with ``@synthesize`` for autosynthesized properties.
+
+- Private methods do not need a leading prefix like ``_`` or ``p_``. Their private nature is implied by their absence from a class's header file.
+
+- Methods added in categories to system libraries should be prefixed ``oex_``.
+
+- Follow the standard Cocoa file naming conventions.
+	- Class ``Example``: ``OEXExample.[hm]``
+	- Category ``SomethingAdditions`` on class ``OEXExample`` : ``OEXExample+SomethingAdditions.[hm]``
+	- ViewController for the ``Example`` screen: ``OEXExampleViewController.[hm]``
+	- View that displays an ``Example``: ``OEXExampleView.[hm]``
+
+- Categories should be named for the functionality they provide.
+```
+// Good
+@interface NSString (OEXFormattingAdditions)
+... functions that control formatting
+@end
+
+// Bad
+@interface NSString (OEXHelpers)
+... functions that do all sort of things
+@end
+```
+
+- Delegate methods should include a sender as the first argument. This allows the owner to distinguish which object is sending the message and sometimes to avoid having an extra ivar.
+
+```
+// Good
+@interface SomeClassDelegate <NSObject>
+- (void)tabView:(TabView*)tabView choseTabAtIndex:(NSUInteger)index
+@end
+
+// Bad
+
+@interface SomeClassDelegate <NSObject>
+- (void)choseTabAtIndex:(NSUInteger)index
+@end
+
+```
+
+
+- Only put properties and methods in headers that need to be part of a class's interface. Everything else should be declared in a class continuation in the implementation file.
+
+- Avoid lazy initialization of properties. Otherwise, every property access is potentially a minefield and even read only objects have less obvious threading behavior.
+
+```
+// Bad
+@interface SomeClass
+@property (strong, nonatomic) OtherClass* field;
+@end
+
+@implementation SomeClass
+- (OtherClass*)field {
+	if(_field == nil) {
+		_field = [[OtherClass alloc] init];
+	}
+	return _field;
+}
+@end
+```
+
+Instead, add an explicit creation function like ``makeFieldIfNecessary`` or just instantiate it in ``-init``. For expensive things, the caller should have control anyway, and for cheap things you're not gaining any performance advantage for the decreased determinism.
+
+- Avoid Key Value Observing. It's occasionally the only way to observe something, but don't design interfaces that use it. It has a <a href = "http://khanlou.com/2013/12/kvo-considered-harmful/">wealth of problems</a>. 
+
+- Do not use exceptions for control flow. They should only be for top level failure conditions indicating programmer error. ARC isn't thread safe by default.
+
+- Use line comments (``//``) instead of block comments (``/* */``). They're easier to stack and Xcode has a keyboard shortcut for them (``&#8984;-/``).
+
+- Use triple slash comments (`///`) to create inline documentation. For example:
+```
+/// Method that does a thing
+- (void)someMethod {
+}
+
+```
+
+
+- Comparisons should be explicit for everything except BOOLs
+
+```
+// Good
+BOOL isOkay = ...;
+if(isOkay) {
+
+// Good
+SomeObject* object = …;
+if(object == null) {
+
+
+// Bad
+SomeObject* object = …;
+if(!object) {
+```
+
+- Separate binary operands with a single space, but unary operands and casts with none
+```
+1 + 2 // good
+1+1 // bad
+1+ 1 // bad
+-3 // good
+- 3 // bad
+```
+
+- Always use braces on control structures, even if they're optional. For example:
+```
+// Good
+if(someCondition) {
+	aSingleLine();
+}
+
+// Bad
+if(someCondition)
+	aSingleLine();
+```
+
+- Properties should be ``nonatomic`` unless there's a very good reason otherwise. Marking a property ``atomic`` should signal that you have thought hard about the threading behavior of this property and very intentionally decided that it should work through atomic properties and not by isolating access to a queue.
+ 
+- Declare memory semantics. i.e. strong, weak, assign. There are defaults for different types that are usually right, but making it explicit forces you to think about whether you're creating cycles.
+
+```
+// Good
+@property (strong, nonatomic) SomeObject* foo;
+
+// Bad
+@property SomeObject* foo;
+```
+
+
+** Writing Tests **
+
+Unit test files are typically oriented around testing a single file. The name of a test file should be the name of that file but with the word ``Tests`` at the end. Thus the test file for ``OEXSomeClass.m`` would be ``OEXSomeClassTests.m``
+
+- Tests should run against test data, not a current user's. This means that after the tests are over, it should be as if they never ran.
+
+- Network data should be mocked.
+
+- If you need to expose a method just for testing prefix it t_. This indicates that it should only be used by test code. Don't redeclare the method as public inside the test. This is fragile.
+
+```
+/// Good
+// SomeClass.h
+@interface SomeClass
+@end
+
+@interface SomeClass (Testing)
+- (BOOL)t_isVisible;
+@end
+
+// SomeClass.m
+@implementation SomeClass (Testing)
+@end
+
+/// Bad
+// SomeClass.h
+@interface SomeClass
+@end
+
+// SomeClass.m
+@implementation SomeClass
+- (void)isVisible;
+@end
+
+// SomeClassTests.m
+@interface SomeClass (Testing)
+- (void)isVisible;
+@end
+```
