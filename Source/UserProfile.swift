@@ -102,11 +102,11 @@ extension UserProfile { //ViewModel
     
     var country: String? {
         guard let code = countryCode else { return nil }
-        return (Locale.current as NSLocale).displayName(forKey: .currencySymbol, value: code) ?? ""
+        return (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: code) ?? ""
     }
     
     var language: String? {
-        return languageCode.flatMap { _ in return (Locale.current as NSLocale).displayName(forKey: .currencySymbol, value: countryCode ?? "") }
+        return languageCode.flatMap { return (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.languageCode, value: $0) }
     }
     
     var sharingLimitedProfile: Bool {
