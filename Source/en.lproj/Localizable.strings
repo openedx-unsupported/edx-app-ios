@@ -20,6 +20,8 @@
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to select";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "By";
+/* Accessibility hint for close button*/
+"ACCESSIBILITY.CLOSE_HINT" = "Double tap to close.";
 /* Accessibility label for posted data of discussion responses*/
 "ACCESSIBILITY.DISCUSSION_POSTED_ON" = "Posted on {date}";
 /* Accessibility hint for Vote button for discussion responses*/
@@ -144,6 +146,10 @@
 "ANSWER"="Answer";
 /* Navigation title for a Question Post which has endorsed answers */
 "ANSWERED_QUESTION"="Answered Question";
+/* Accessibility label for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "Rating control.";
+/* Accessibility hint for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_HINT" = "Double tap and hold to change value.";
 /* Alert title for positive app review */
 "APP_REVIEW.RATE_THE_APP" = "Rate The App";
 /* Positive review message */
