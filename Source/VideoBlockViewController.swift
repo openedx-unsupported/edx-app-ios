@@ -340,6 +340,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     //MARK: - RatingDelegate
     func didDismissRatingViewController() {
-        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.navigationItem.backBarButtonItem)
+        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * NSTimeInterval(NSEC_PER_SEC)))
+        dispatch_after(delay, dispatch_get_main_queue()) {
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.navigationItem.backBarButtonItem)
+        }
     }
 }
