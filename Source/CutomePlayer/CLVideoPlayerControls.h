@@ -45,7 +45,6 @@ extern NSString* const CLVideoPlayerkText;
 
 @protocol CLVideoPlayerControlsDelegate <NSObject>
 - (void) videoPlayerTapped:(id) sender;
-- (void) settingsButtonTapped:(BOOL) isShowingOptions;
 - (void) transcriptLoaded:(NSArray *)transcript;
 - (void) didFinishVideoPlaying;
 @end
@@ -117,6 +116,11 @@ extern NSString* const CLVideoPlayerkText;
 
 /// Are the controls presented on My Videos?
 @property (assign, nonatomic) BOOL isShownOnMyVideos;
+
+/**
+ Checks if sub menu options are visible or not
+ */
+@property (nonatomic) BOOL isShowingOptions;
 
 /**
  The default initializer method. The parameter may not be nil.

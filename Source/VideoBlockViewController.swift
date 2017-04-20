@@ -91,14 +91,17 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
         contentView?.addSubview(rotateDeviceMessageView!)
         
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction {[weak self] _ in
+            self!.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
+        }
+        rotateDeviceMessageView!.addGestureRecognizer(tapGesture)
+
         if environment.config.isVideoTranscriptEnabled {
             videoTranscriptView = VideoTranscript(environment: environment)
             videoTranscriptView?.delegate = self
             contentView?.addSubview(videoTranscriptView!.transcriptTableView)
         }
-        
-        //Layer for recognize settings menu.
-        addSettingsMenuRecognizer()
         
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
@@ -208,13 +211,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
             make.bottom.equalTo(view.snp_bottom).offset(-barHeight)
             }
-
-        settingsMenuRecognizerButton.snp_remakeConstraints(closure: { (make) in
-            make.leading.equalTo(rotateDeviceMessageView!)
-            make.trailing.equalTo(rotateDeviceMessageView!)
-            make.top.equalTo(rotateDeviceMessageView!)
-            make.bottom.equalTo(rotateDeviceMessageView!)
-        })
     }
     
     private func applyLandscapeConstraints() {
@@ -244,10 +240,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         rotateDeviceMessageView?.snp_remakeConstraints {make in
             make.height.equalTo(0.0)
         }
-        
-        settingsMenuRecognizerButton.snp_remakeConstraints(closure: { (make) in
-            make.height.equalTo(0.0)
-        })
     }
     
     func movieTimedOut() {
@@ -315,17 +307,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
-    func addSettingsMenuRecognizer() {
-        settingsMenuRecognizerButton.frame = CGRectZero
-        settingsMenuRecognizerButton.oex_addAction({ _ in
-            self.settingsMenuRecognizerButton.hidden = true
-            self.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
-            }, forEvents: .TouchUpInside)
-        settingsMenuRecognizerButton.backgroundColor = UIColor.clearColor()
-        rotateDeviceMessageView!.addSubview(settingsMenuRecognizerButton)
-        settingsMenuRecognizerButton.hidden = true
-    }
-    
     func validateSubtitleTimer() {
         if !subtitleTimer.valid && videoController.moviePlayerController?.controls != nil {
             subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
@@ -349,10 +330,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
-    func settingsButtonTapped(isShowingOptions: Bool) {
-        settingsMenuRecognizerButton.hidden = !isShowingOptions
-    }
-    
     func transcriptLoaded(transcript: [AnyObject]) {
         videoTranscriptView?.updateTranscript(transcript)
         validateSubtitleTimer()
@@ -364,6 +341,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     //MARK: - VideoTranscriptDelegate methods
     func didSelectSubtitleAtInterval(time: NSTimeInterval) {
+        self.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
         videoController.moviePlayerController?.controls?.setCurrentPlaybackTimeFromTranscript(time)
     }
     

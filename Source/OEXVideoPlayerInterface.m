@@ -381,13 +381,6 @@
     }
 }
 
-- (void) settingsButtonTapped:(BOOL) isShowingOptions
-{
-    if([self.delegate respondsToSelector:@selector(settingsButtonTapped:)]) {
-        [self.delegate settingsButtonTapped:isShowingOptions];
-    }
-}
-
 - (void)transcriptLoaded:(NSArray *)transcript {
     if([self.delegate respondsToSelector:@selector(transcriptLoaded:)]) {
         [self.delegate transcriptLoaded:transcript];

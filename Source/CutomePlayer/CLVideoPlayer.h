@@ -20,7 +20,6 @@ static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoP
 - (void)videoPlayerTapped:(id) sender;
 - (void)transcriptLoaded:(NSArray *)transcript;
 - (void)didFinishVideoPlaying;
-- (void)settingsButtonTapped:(BOOL)isShowingOptions;
 @required
 - (void)moviePlayerWillMoveFromWindow;
 @end
