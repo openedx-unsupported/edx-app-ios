@@ -703,7 +703,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             self?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let comment = result.data {
                     self?.responsesDataController.updateResponsesWithComment(comment)
-                    
                     self?.updateReportText(cell.reportButton, report: comment.abuseFlagged)
                     self?.tableView.reloadData()
                 }
