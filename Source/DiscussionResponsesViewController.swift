@@ -221,7 +221,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     var environment: Environment!
     var courseID: String!
-    var threadID: String!
     var isDiscussionBlackedOut: Bool = false
     
     var loadController : LoadStateViewController?
@@ -235,13 +234,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var thread: DiscussionThread?
     var postFollowing = false
 
-    func loadedThread(thread : DiscussionThread) {
-        let hadThread = self.thread != nil
-        self.thread = thread
-        if !hadThread {
-            loadResponses()
-            logScreenEvent()
-        }
+    func loadContent() {
+        loadResponses()
+        
         let styles = OEXStyles.sharedStyles()
         let footerStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
         
@@ -258,15 +253,18 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.enabled = !postingEnabled
         
         addResponseButton.oex_removeAllActions()
-        if !thread.closed {
+        if !(thread?.closed ?? true){
             addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
-                if let owner = self, thread = owner.thread {
+                if let owner = self, let thread = owner.thread {
                     owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, thread: thread, context: .Thread(thread))
                 }
                 }, forEvents: UIControlEvents.TouchUpInside)
         }
         
-        self.navigationItem.title = navigationItemTitleForThread(thread)
+        if let thread = thread {
+            navigationItem.title = navigationItemTitleForThread(thread)
+        }
+        
         
         tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
     }
@@ -317,6 +315,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         markThreadAsRead()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        logScreenEvent()
+    }
+    
     override func shouldAutorotate() -> Bool {
         return true
     }
@@ -346,13 +349,28 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     private func markThreadAsRead() {
-        let apiRequest = DiscussionAPI.readThread(true, threadID: threadID)
+        let apiRequest = DiscussionAPI.readThread(true, threadID: thread?.threadID ?? "")
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             if let thread = result.data {
-                self?.loadedThread(thread)
-                self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
+                self?.patchThread(thread)
+                self?.loadContent()
+            }
+            else {
+                self?.loadController?.state = LoadState.failed(result.error)
             }
         }
+    }
+    
+    private func refreshTableData() {
+        tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
+    }
+    
+    private func patchThread(thread: DiscussionThread) {
+        var injectedThread = thread
+        injectedThread.hasProfileImage = self.thread?.hasProfileImage ?? false
+        injectedThread.imageURL = self.thread?.imageURL ?? ""
+        self.thread = injectedThread
+        refreshTableData()
     }
     
     private func loadResponses() {
@@ -535,7 +553,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     button.enabled = true
                     
                     if let thread: DiscussionThread = result.data {
-                        self?.loadedThread(thread)
+                        owner.patchThread(thread)
                         owner.updateVoteText(cell.voteButton, voteCount: thread.voteCount, voted: thread.voted)
                     }
                     else {
@@ -685,7 +703,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             self?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let comment = result.data {
                     self?.responsesDataController.updateResponsesWithComment(comment)
-                    
                     self?.updateReportText(cell.reportButton, report: comment.abuseFlagged)
                     self?.tableView.reloadData()
                 }

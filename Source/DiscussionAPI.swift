@@ -212,8 +212,9 @@ public class DiscussionAPI {
     }
     
     // Pass nil in place of topicIDs if we need to fetch all threads
-    static func getThreads(courseID courseID: String, topicIDs: [String]?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<Paginated<[DiscussionThread]>> {
+    static func getThreads(environment: RouterEnvironment?, courseID: String, topicIDs: [String]?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<Paginated<[DiscussionThread]>> {
         var query = ["course_id" : JSON(courseID)]
+        addRequestedFields(environment, query: &query)
         if let identifiers = topicIDs {
             //TODO: Replace the comma separated strings when the API improves
             query["topic_id"] = JSON(identifiers.joinWithSeparator(","))
@@ -234,8 +235,9 @@ public class DiscussionAPI {
         ).paginated(page: pageNumber)
     }
     
-    static func getFollowedThreads(courseID courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionThread]>> {
+    static func getFollowedThreads(environment: RouterEnvironment?, courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionThread]>> {
         var query = ["course_id" : JSON(courseID), "following" : JSON(true)]
+        addRequestedFields(environment, query: &query)
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
         }
@@ -253,14 +255,15 @@ public class DiscussionAPI {
 
     }
     
-    static func searchThreads(courseID courseID: String, searchText: String, pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionThread]>> {
+    static func searchThreads(environment: RouterEnvironment?, courseID: String, searchText: String, pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionThread]>> {
+        var query = ["course_id": JSON(courseID)]
+        addRequestedFields(environment, query: &query)
+        query["text_search"] = JSON(searchText)
+        
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
-            query: [
-                "course_id" : JSON(courseID),
-                "text_search": JSON(searchText)
-            ],
+            query: ["text_search": JSON(searchText)],
             requiresAuth : true,
             deserializer : .JSONResponse(threadListDeserializer)
         ).paginated(page: pageNumber)
@@ -271,9 +274,7 @@ public class DiscussionAPI {
     static func getResponses(environment:RouterEnvironment?, threadID: String,  threadType : DiscussionThreadType, endorsedOnly endorsed : Bool =  false,pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionComment]>> {
         
         var query = ["thread_id": JSON(threadID)]
-        if let environment = environment where environment.config.discussionsEnabledProfilePictureParam {
-            query["requested_fields"] = JSON("profile_image")
-        }
+        addRequestedFields(environment, query: &query)
         
         //Only set the endorsed flag if the post is a question
         if threadType == .Question {
@@ -287,6 +288,12 @@ public class DiscussionAPI {
             requiresAuth : true,
             deserializer : .JSONResponse(commentListDeserializer)
         ).paginated(page: pageNumber)
+    }
+    
+    private static func addRequestedFields(environment: RouterEnvironment?, inout query: [String : JSON]) {
+        if let environment = environment where environment.config.discussionsEnabledProfilePictureParam {
+            query["requested_fields"] = JSON("profile_image")
+        }
     }
     
     static func getCourseTopics(courseID: String) -> NetworkRequest<[DiscussionTopic]> {
