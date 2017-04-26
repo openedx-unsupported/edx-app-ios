@@ -63,12 +63,13 @@
 }
 
 - (void)updateConstraints {
+    
     [self.signUpHeading mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_top).offset(self.styles.headingPromptMarginTop);
         make.leading.equalTo(self.mas_leading);
     }];
     [self.authOptionsView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.signUpHeading.mas_bottom).offset(self.styles.headingPromptMarginBottom);
+        make.top.equalTo(self.signUpHeading.mas_bottom).offset(self.styles.headingPromptMarginTop);
         make.leading.equalTo(self.mas_leading);
         make.trailing.equalTo(self.mas_trailing);
     }];
