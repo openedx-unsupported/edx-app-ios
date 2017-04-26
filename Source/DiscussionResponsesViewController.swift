@@ -221,7 +221,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     var environment: Environment!
     var courseID: String!
-    var threadID: String!
     var isDiscussionBlackedOut: Bool = false
     
     var loadController : LoadStateViewController?
@@ -258,7 +257,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.isEnabled = !postingEnabled
 
         addResponseButton.oex_removeAllActions()
-        if !thread.closed {
+        if !(thread?.closed ?? true){
             addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
                 if let owner = self, let thread = owner.thread {
                     owner.environment.router?.showDiscussionNewCommentFromController(controller: owner, courseID: owner.courseID, thread: thread, context: .Thread(thread))
@@ -353,6 +352,18 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) as IndexSet , with: .fade)
             }
         }
+    }
+    
+    private func refreshTableData() {
+        tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) , withRowAnimation: .Fade)
+    }
+    
+    private func patchThread(thread: DiscussionThread) {
+        var injectedThread = thread
+        injectedThread.hasProfileImage = self.thread?.hasProfileImage ?? false
+        injectedThread.imageURL = self.thread?.imageURL ?? ""
+        self.thread = injectedThread
+        refreshTableData()
     }
     
     private func loadResponses() {

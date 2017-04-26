@@ -90,8 +90,6 @@ class RatingContainerView: UIView {
         contentView.addSubview(submitButton)
         
         setupConstraints()
-        
-        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, descriptionLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {

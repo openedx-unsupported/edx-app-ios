@@ -99,6 +99,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
         
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: UIAccessibilityVoiceOverStatusChanged) { (_, observer, _) in
+            observer.setAccessibility()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -319,6 +322,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     //MARK: - RatingDelegate
     func didDismissRatingViewController() {
-        UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.navigationItem.backBarButtonItem)
+        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * NSTimeInterval(NSEC_PER_SEC)))
+        dispatch_after(delay, dispatch_get_main_queue()) {[weak self] in
+            self?.setAccessibility()
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self?.navigationItem.backBarButtonItem)
+        }
     }
 }

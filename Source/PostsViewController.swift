@@ -463,7 +463,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func loadFollowedPostsForFilter(filter : DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.getFollowedThreads(courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: page)
+            return DiscussionAPI.getFollowedThreads(self.environment.router?.environment, courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
@@ -474,7 +474,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func searchThreads(query : String) {
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.searchThreads(courseID: self.courseID, searchText: query, pageNumber: page)
+            return DiscussionAPI.searchThreads(self.environment.router?.environment, courseID: self.courseID, searchText: query, pageNumber: page)
         }
         
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
@@ -494,7 +494,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.getThreads(courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: page)
+            return DiscussionAPI.getThreads(self.environment.router?.environment, courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)

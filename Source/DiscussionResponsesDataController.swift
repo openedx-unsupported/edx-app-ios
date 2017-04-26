@@ -34,15 +34,22 @@ class DiscussionResponsesDataController: NSObject {
     func updateResponsesWithComment(comment : DiscussionComment) {
         for i in 0 ..< responses.count {
             if responses[i].commentID == comment.commentID {
-                responses[i] = comment
+                responses[i] = injectComment(responses[i], newComment: comment)
             }
         }
         
         for i in 0..<endorsedResponses.count {
             
             if endorsedResponses[i].commentID == comment.commentID {
-                endorsedResponses[i] = comment
+                endorsedResponses[i] = injectComment(endorsedResponses[i], newComment: comment)
             }
         }
+    }
+    
+    func injectComment(comment: DiscussionComment, newComment: DiscussionComment) -> DiscussionComment {
+        var injectedComment = newComment
+        injectedComment.hasProfileImage = comment.hasProfileImage
+        injectedComment.imageURL = comment.imageURL
+        return injectedComment
     }
 }
