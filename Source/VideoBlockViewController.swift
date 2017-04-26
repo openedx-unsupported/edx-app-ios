@@ -99,7 +99,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: UIAccessibilityVoiceOverStatusChanged) { (_, observer, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibilityVoiceOverStatusChanged) { (_, observer, _) in
             observer.setAccessibility()
         }
     }
@@ -141,6 +141,29 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         self.subtitleTimer.invalidate()
     }
     
+    func setAccessibility() {
+        if let ratingController = self.presentedViewController as? RatingViewController, UIAccessibilityIsVoiceOverRunning() {
+            // If Timely App Reviews popup is showing then set popup elements as accessibilityElements
+            view.accessibilityElements = [ratingController.ratingContainerView.subviews]
+            setParentAccessibility(ratingController: ratingController)
+        }
+        else {
+            view.accessibilityElements = [view.subviews]
+            setParentAccessibility()
+        }
+    }
+
+    func setParentAccessibility(ratingController: RatingViewController? = nil) {
+        if let parentController = self.parent as? CourseContentPageViewController {
+            if let ratingController = ratingController {
+                parentController.setAccessibility(elements: ratingController.ratingContainerView.subviews, isShowingRating: true)
+            }
+            else {
+                parentController.setAccessibility(elements: parentController.view.subviews)
+            }
+        }
+    }
+
     private func loadVideoIfNecessary() {
         if !loader.hasBacking {
             loader.backWithStream(courseQuerier.blockWithID(id: self.blockID).firstSuccess())
@@ -322,8 +345,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     //MARK: - RatingDelegate
     func didDismissRatingViewController() {
-        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * NSTimeInterval(NSEC_PER_SEC)))
-        dispatch_after(delay, dispatch_get_main_queue()) {[weak self] in
+        let after = DispatchTime.now() + Double(Int64(1.0 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: after) { [weak self] in
             self?.setAccessibility()
             UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self?.navigationItem.backBarButtonItem)
         }
