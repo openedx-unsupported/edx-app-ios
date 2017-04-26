@@ -100,8 +100,34 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
         
+        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: UIAccessibilityVoiceOverStatusChanged) { (_, observer, _) in
+            observer.setAccessibility()
+        }
     }
     
+    func setAccessibility() {
+        if let ratingController = self.presentedViewController as? RatingViewController where UIAccessibilityIsVoiceOverRunning() {
+            // If Timely App Reviews popup is showing then set popup elements as accessibilityElements
+            view.accessibilityElements = [ratingController.ratingContainerView.subviews]
+            setParentAccessibility(ratingController)
+        }
+        else {
+            view.accessibilityElements = [view.subviews]
+            setParentAccessibility()
+        }
+    }
+    
+    func setParentAccessibility(ratingController: RatingViewController? = nil) {
+        if let parentController = self.parentViewController as? CourseContentPageViewController {
+            if let ratingController = ratingController {
+                parentController.setAccessibility(ratingController.ratingContainerView.subviews, isShowingRating: true)
+            }
+            else {
+                parentController.setAccessibility(parentController.view.subviews)
+            }
+        }
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.loadVideoIfNecessary()
@@ -341,8 +367,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     //MARK: - RatingDelegate
     func didDismissRatingViewController() {
         let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * NSTimeInterval(NSEC_PER_SEC)))
-        dispatch_after(delay, dispatch_get_main_queue()) {
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.navigationItem.backBarButtonItem)
+        dispatch_after(delay, dispatch_get_main_queue()) {[weak self] in
+            self?.setAccessibility()
+            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self?.navigationItem.backBarButtonItem)
         }
     }
 }
