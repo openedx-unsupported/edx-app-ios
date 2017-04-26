@@ -33,7 +33,7 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
         self.optionButtons = [providers oex_map:^id(id <OEXExternalAuthProvider> provider) {
             self.itemsPerRow += 1;
             UIButton* button = [provider freshAuthButton];
-            button.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationSignUpPrompt],button.titleLabel.text];
+            button.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationRegisterPrompt],button.titleLabel.text];
             [button oex_addAction:^(id  _Nonnull control) {
                 tapAction(provider);
             } forEvents:UIControlEventTouchUpInside];

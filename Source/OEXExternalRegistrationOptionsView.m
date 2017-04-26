@@ -50,13 +50,13 @@
         [self addSubview:self.authOptionsView];
         
         self.signUpHeading = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.signUpHeading.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationSignUpPrompt]];
+        self.signUpHeading.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationRegisterPrompt]];
         self.signUpHeading.isAccessibilityElement = NO;
         
         [self addSubview:self.signUpHeading];
         
         self.emailSuggestion = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.emailSuggestion.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationSignUpAlternatePrompt]];
+        self.emailSuggestion.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationRegisterAlternatePrompt]];
         [self addSubview:self.emailSuggestion];
     }
     return self;
