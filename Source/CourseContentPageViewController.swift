@@ -155,7 +155,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     // Accessibility elements can be set from child. This was required for only enable VO for Timely App Reviews
     func setAccessibility(elements: [UIView]?, isShowingRating: Bool? = false) {
-        
         // Setting toolbarItems empty because isAccessibiltyElement false was not working for toolbarItems.
         //TODO: Needs to revist this approch and find a way to disable accessibility for toolbarItems
         if isShowingRating ?? false {
@@ -171,7 +170,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         else {
             view.accessibilityElements = [view.subviews]
         }
-        
     }
     
     private func toolbarItemWithGroupItem(item : CourseOutlineQuerier.GroupItem, adjacentGroup : CourseBlock?, direction : DetailToolbarButton.Direction, enabled : Bool) -> UIBarButtonItem {

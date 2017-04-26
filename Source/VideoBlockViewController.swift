@@ -103,7 +103,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         NSNotificationCenter.defaultCenter().oex_addObserver(self, name: UIAccessibilityVoiceOverStatusChanged) { (_, observer, _) in
             observer.setAccessibility()
         }
-        
     }
     
     func setAccessibility() {
