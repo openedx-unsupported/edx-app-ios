@@ -50,25 +50,26 @@
         [self addSubview:self.authOptionsView];
         
         self.signUpHeading = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.signUpHeading.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationSignUpPrompt]];
+        self.signUpHeading.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationRegisterPrompt]];
         self.signUpHeading.isAccessibilityElement = NO;
         
         [self addSubview:self.signUpHeading];
         
         self.emailSuggestion = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.emailSuggestion.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationSignUpAlternatePrompt]];
+        self.emailSuggestion.attributedText = [self.styles.headingMessagePromptStyle attributedStringWithText:[Strings registrationRegisterAlternatePrompt]];
         [self addSubview:self.emailSuggestion];
     }
     return self;
 }
 
 - (void)updateConstraints {
+    
     [self.signUpHeading mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_top).offset(self.styles.headingPromptMarginTop);
         make.leading.equalTo(self.mas_leading);
     }];
     [self.authOptionsView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.signUpHeading.mas_bottom).offset(self.styles.headingPromptMarginBottom);
+        make.top.equalTo(self.signUpHeading.mas_bottom).offset(self.styles.headingPromptMarginTop);
         make.leading.equalTo(self.mas_leading);
         make.trailing.equalTo(self.mas_trailing);
     }];
