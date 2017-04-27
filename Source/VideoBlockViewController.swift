@@ -25,7 +25,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     var videoTranscriptView : VideoTranscript?
     var subtitleTimer = Timer()
     var contentView : UIView?
-    
     let loadController : LoadStateViewController
     
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
@@ -90,6 +89,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
         contentView?.addSubview(rotateDeviceMessageView!)
         
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction {[weak self] _ in
+            self?.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
+        }
+        rotateDeviceMessageView?.addGestureRecognizer(tapGesture)
+
         if environment.config.isVideoTranscriptEnabled {
             videoTranscriptView = VideoTranscript(environment: environment)
             videoTranscriptView?.delegate = self
@@ -216,7 +221,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.trailing.equalTo(contentView!)
             let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
             make.bottom.equalTo(view.snp_bottom).offset(-barHeight)
-        }
+            }
     }
     
     private func applyLandscapeConstraints() {
