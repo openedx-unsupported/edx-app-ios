@@ -34,6 +34,7 @@
 #import "OEXRouter.h"
 #import "SWRevealViewController.h"
 #import "OEXStyles.h"
+#import <Masonry/Masonry.h>
 
 #define RECENT_HEADER_HEIGHT 30.0
 #define ALL_HEADER_HEIGHT 8.0
@@ -226,6 +227,11 @@ typedef  enum OEXAlertType
     // set select all button color to white so it look prominent on blue navigation bar
     self.btn_SelectAllEditing.tintColor = [[OEXStyles sharedStyles] navigationItemTintColor];
     [self performSelector:@selector(reloadTable) withObject:self afterDelay:5.0];
+    
+    //Apply Tap Gesture to remove settings menu options
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] init];
+    [tapGesture addTarget:self action:@selector(tableViewTapped:)];
+    [self.table_RecentVideos addGestureRecognizer:tapGesture];
 }
 
 - (void)reloadTable {
@@ -1330,6 +1336,20 @@ typedef  enum OEXAlertType
 
 - (BOOL)prefersStatusBarHidden {
     return self.videoPlayerInterface.moviePlayerController.fullscreen;
+}
+
+- (void)tableViewTapped:(UITapGestureRecognizer *)tap {
+    CGPoint location = [tap locationInView:self.table_RecentVideos];
+    NSIndexPath *path = [self.table_RecentVideos indexPathForRowAtPoint:location];
+    
+    if(path) {
+        // tap was on existing row, so pass it to the delegate method
+        [self tableView:self.table_RecentVideos didSelectRowAtIndexPath:path];
+    }
+    else {
+        // handle tap on empty space below existing rows
+        [self.videoPlayerInterface.moviePlayerController.controls hideOptionsAndValues];
+    }
 }
 
 @end

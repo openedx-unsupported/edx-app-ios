@@ -29,7 +29,7 @@
 #import "OEXRouter.h"
 #import "Reachability.h"
 #import "OEXCustomEditingView.h"
-
+#import <Masonry/Masonry.h>
 
 #define HEADER_HEIGHT 80.0
 #define SHIFT_LEFT 40.0
@@ -44,7 +44,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     OEXAlertTypePlayBackContentUnAvailable
 };
 
-@interface OEXMyVideosSubSectionViewController () <UITableViewDelegate>
+@interface OEXMyVideosSubSectionViewController () <UITableViewDelegate, OEXVideoPlayerInterfaceDelegate>
 {
     NSIndexPath* clickedIndexpath;
 }
@@ -137,6 +137,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     //Init video view and video player
     self.videoPlayerInterface = [[OEXVideoPlayerInterface alloc] init];
     [self.videoPlayerInterface enableFullscreenAutorotation];
+    self.videoPlayerInterface.delegate = self;
     [self addChildViewController:self.videoPlayerInterface];
     [self.videoPlayerInterface didMoveToParentViewController:self];
     _videoPlayerInterface.videoPlayerVideoView = self.videoVideo;
@@ -173,6 +174,10 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     self.isTableEditing = NO;           // Check Edit button is clicked
     self.selectAll = NO;        // Check if all are selected
     
+    //Apply Tap Gesture to remove settings menu options
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] init];
+    [tapGesture addTarget:self action:@selector(tableViewTapped:)];
+    [self.table_SubSectionVideos addGestureRecognizer:tapGesture];
 }
 
 - (void)addObservers {
@@ -920,6 +925,10 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     }
 }
 
+- (void) videoPlayerTapped:(UIGestureRecognizer *)sender {
+    // TODO: Handle player tap
+}
+
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView.tag == 1001) {
         if(buttonIndex == 1) {
@@ -1069,6 +1078,20 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
 
 - (BOOL)prefersStatusBarHidden {
     return self.videoPlayerInterface.moviePlayerController.fullscreen;
+}
+
+- (void)tableViewTapped:(UITapGestureRecognizer *)tap {
+    CGPoint location = [tap locationInView:self.table_SubSectionVideos];
+    NSIndexPath *path = [self.table_SubSectionVideos indexPathForRowAtPoint:location];
+    
+    if(path) {
+        // tap was on existing row, so pass it to the delegate method
+        [self tableView:self.table_SubSectionVideos didSelectRowAtIndexPath:path];
+    }
+    else {
+        // handle tap on empty space below existing rows
+        [self.videoPlayerInterface.moviePlayerController.controls hideOptionsAndValues];
+    }
 }
 
 @end
