@@ -41,6 +41,7 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 @property (nonatomic, strong) UIView* movieBackgroundView;
 @property (nonatomic, readwrite) BOOL movieFullscreen;
 @property(nonatomic, strong) NSURL* currentContentUrl;
+@property (nonatomic, readwrite) NSArray *transcript;
 @end
 
 @implementation CLVideoPlayer
@@ -360,6 +361,8 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 }
 
 - (void)transcriptLoaded:(NSArray *)transcript {
+    //Saving transcript for callback on complete parent view rendering.
+    self.transcript = transcript;
     if([self.delegate respondsToSelector:@selector(transcriptLoaded:)]) {
         [self.delegate transcriptLoaded:transcript];
     }

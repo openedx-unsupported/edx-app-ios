@@ -259,6 +259,12 @@
     _shouldRotate = YES;
     _moviePlayerController.controls.isVisibile = YES;
     self.moviePlayerController.delegate = self; //IMPORTANT!
+    
+    // If video has transcript then pass to parent.
+    NSArray *transcript = self.moviePlayerController.transcript;
+    if (transcript.count > 0) {
+        [self transcriptLoaded:transcript];
+    }
 }
 
 - (void)videoPlayerShouldRotate {
