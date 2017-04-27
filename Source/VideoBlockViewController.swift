@@ -345,6 +345,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     //MARK: - VideoTranscriptDelegate methods
     func didSelectSubtitleAtInterval(time: TimeInterval) {
+        self.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
         videoController.moviePlayerController?.controls?.setCurrentPlaybackTimeFromTranscript(time)
     }
     
