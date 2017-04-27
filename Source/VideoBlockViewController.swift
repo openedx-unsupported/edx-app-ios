@@ -25,7 +25,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     var videoTranscriptView : VideoTranscript?
     var subtitleTimer = NSTimer()
     var contentView : UIView?
-    let settingsMenuRecognizerButton:UIButton = UIButton(type: UIButtonType.Custom)
     let loadController : LoadStateViewController
     
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
@@ -95,7 +94,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         tapGesture.addAction {[weak self] _ in
             self?.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
         }
-        rotateDeviceMessageView!.addGestureRecognizer(tapGesture)
+        rotateDeviceMessageView?.addGestureRecognizer(tapGesture)
 
         if environment.config.isVideoTranscriptEnabled {
             videoTranscriptView = VideoTranscript(environment: environment)
