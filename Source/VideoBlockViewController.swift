@@ -93,7 +93,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self] _ in
-            self!.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
+            self?.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
         }
         rotateDeviceMessageView!.addGestureRecognizer(tapGesture)
 

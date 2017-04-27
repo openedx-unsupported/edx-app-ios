@@ -118,11 +118,6 @@ extern NSString* const CLVideoPlayerkText;
 @property (assign, nonatomic) BOOL isShownOnMyVideos;
 
 /**
- Checks if sub menu options are visible or not
- */
-@property (nonatomic) BOOL isShowingOptions;
-
-/**
  The default initializer method. The parameter may not be nil.
  */
 - (id)initWithMoviePlayer:(CLVideoPlayer*)moviePlayer style:(CLVideoPlayerControlsStyle)style;
