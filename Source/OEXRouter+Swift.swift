@@ -121,12 +121,12 @@ extension OEXRouter {
         }
     }
     
-    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, threadID : String, isDiscussionBlackedOut: Bool) {
+    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, thread : DiscussionThread, isDiscussionBlackedOut: Bool) {
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
         responsesViewController.courseID = courseID
-        responsesViewController.threadID = threadID
+        responsesViewController.thread = thread
         responsesViewController.isDiscussionBlackedOut = isDiscussionBlackedOut
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
