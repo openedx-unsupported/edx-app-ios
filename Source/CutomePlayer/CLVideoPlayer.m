@@ -337,19 +337,21 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     [super pause];
 }
 
+- (void)saveLastPlayedTime {
+    if(_currentContentUrl) {
+        if([self.delegate respondsToSelector:@selector(playerDidStopPlaying:atPlayBackTime:)]) {
+            [self.delegate playerDidStopPlaying:_currentContentUrl atPlayBackTime:self.currentPlaybackTime];
+        }
+    }
+}
+
+#pragma mark- CLVideoPlayerControllerDelegate methods
+
 - (void)movieTimedOut {
     if(!(self.loadState & MPMovieLoadStatePlayable) || !(self.loadState & MPMovieLoadStatePlaythroughOK)) {
         [self stop];
         if([self.delegate respondsToSelector:@selector(movieTimedOut)]) {
             [self.delegate performSelector:@selector(movieTimedOut)];
-        }
-    }
-}
-
-- (void)saveLastPlayedTime {
-    if(_currentContentUrl) {
-        if([self.delegate respondsToSelector:@selector(playerDidStopPlaying:atPlayBackTime:)]) {
-            [self.delegate playerDidStopPlaying:_currentContentUrl atPlayBackTime:self.currentPlaybackTime];
         }
     }
 }
@@ -373,6 +375,8 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
         [self.delegate didFinishVideoPlaying];
     }
 }
+
+#pragma mark-
 
 - (void)resetMoviePlayer {
     [self.controls resetControls];
