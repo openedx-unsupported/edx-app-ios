@@ -170,7 +170,8 @@ class DiscussionCommentCell: UITableViewCell {
             viewController?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let response = result.data {
                     if (viewController?.comments.count)! > index && viewController?.comments[index].commentID == response.commentID {
-                        viewController?.comments[index] = response
+                        let patchedCOmment = self.patchComment(oldComment: viewController?.comments[index], newComment: response)
+                        viewController?.comments[index] = patchedCOmment
                         self.updateReportText(button: self.commentCountOrReportIconButton, report: response.abuseFlagged)
                         viewController?.tableView.reloadData()
                     }
@@ -188,6 +189,13 @@ class DiscussionCommentCell: UITableViewCell {
         DiscussionHelper.styleAuthorProfileImageView(imageView: authorProfileImage)
         
         setAccessiblity(commentCount: nil)
+    }
+    
+    private func patchComment(oldComment: DiscussionComment?, newComment: DiscussionComment)-> DiscussionComment {
+        var patchComment = newComment
+        patchComment.hasProfileImage = oldComment?.hasProfileImage ?? false
+        patchComment.imageURL = oldComment?.imageURL ?? ""
+        return patchComment
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -461,12 +469,11 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         guard environment.config.profilesEnabled else { return }
         profileFeed = self.environment.dataManager.userProfileManager.feedForCurrentUser()
         profileFeed?.output.listen(self,  success: { [weak self] profile in
-            if let imageURL = profile.imageURL, let _ = self?.tempComment {
-                self?.tempComment?.hasProfileImage = true
-                self?.tempComment?.imageURL = imageURL
-                if let comment = self?.tempComment {
-                    self?.showAddedComment(comment: comment)
-                }
+            if var comment = self?.tempComment {
+                comment.hasProfileImage = !((profile.imageURL?.isEmpty) ?? true )
+                comment.imageURL = profile.imageURL ?? ""
+                self?.showAddedComment(comment: comment)
+                self?.tempComment = nil
             }
             }, failure : { _ in
                 Logger.logError("Profiles", "Unable to fetch profile")
