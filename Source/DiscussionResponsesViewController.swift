@@ -211,7 +211,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, DiscussionCommentsViewControllerDelegate, InterfaceOrientationOverriding {
-    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXAnalyticsProvider
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXAnalyticsProvider & DataManagerProvider
 
     enum TableSection : Int {
         case Post = 0
@@ -233,6 +233,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private let responsesDataController = DiscussionResponsesDataController()
     var thread: DiscussionThread?
     var postFollowing = false
+    var profileFeed: Feed<UserProfile>?
+    var tempComment: DiscussionComment? // this will be used for injecting user info to added comment
 
     func loadContent() {
         loadResponses()
@@ -312,6 +314,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         
         markThreadAsRead()
+        setupProfileLoader()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -773,6 +776,23 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         tableView.scrollToRow(at: indexPath, at: .top, animated: false)
     }
     
+    private func setupProfileLoader() {
+        guard environment.config.profilesEnabled else { return }
+        profileFeed = self.environment.dataManager.userProfileManager.feedForCurrentUser()
+        profileFeed?.output.listen(self,  success: { [weak self] profile in
+            if let imageURL = profile.imageURL, let _ = self?.tempComment {
+                self?.tempComment?.hasProfileImage = true
+                self?.tempComment?.imageURL = imageURL
+                if let comment = self?.tempComment {
+                    self?.showAddedResponse(comment: comment)
+                    self?.tempComment = nil
+                }
+            }
+        }, failure : { _ in
+            Logger.logError("Profiles", "Unable to fetch profile")
+        })
+    }
+    
     // MARK:- DiscussionNewCommentViewControllerDelegate method
     
     func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
@@ -780,7 +800,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         switch controller.currentContext() {
         case .Thread(_):
             if !(paginationController?.hasNext ?? false) {
-                showAddedResponse(comment: comment)
+                self.tempComment = comment
+                profileFeed?.refresh()
             }
             
             increaseResponseCount()

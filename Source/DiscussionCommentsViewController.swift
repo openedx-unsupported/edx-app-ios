@@ -252,7 +252,7 @@ protocol DiscussionCommentsViewControllerDelegate: class {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, InterfaceOrientationOverriding {
     
-    typealias Environment = DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
+    typealias Environment = DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXConfigProvider
     
     private enum TableSection : Int {
         case Response = 0
@@ -270,6 +270,8 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     fileprivate var comments : [DiscussionComment]  = []
     private var responseItem: DiscussionComment
     weak var delegate: DiscussionCommentsViewControllerDelegate?
+    var profileFeed: Feed<UserProfile>?
+    var tempComment: DiscussionComment? // This will be used for injecting user info to added comment
     
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
@@ -347,6 +349,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         initializePaginator()
         loadContent()
+        setupProfileLoader()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -454,6 +457,22 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         tableView.scrollToRow(at: indexPath, at: .top, animated: false)
     }
     
+    private func setupProfileLoader() {
+        guard environment.config.profilesEnabled else { return }
+        profileFeed = self.environment.dataManager.userProfileManager.feedForCurrentUser()
+        profileFeed?.output.listen(self,  success: { [weak self] profile in
+            if let imageURL = profile.imageURL, let _ = self?.tempComment {
+                self?.tempComment?.hasProfileImage = true
+                self?.tempComment?.imageURL = imageURL
+                if let comment = self?.tempComment {
+                    self?.showAddedComment(comment: comment)
+                }
+            }
+            }, failure : { _ in
+                Logger.logError("Profiles", "Unable to fetch profile")
+        })
+    }
+    
     // MARK - tableview delegate methods
     
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -496,7 +515,8 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         responseItem.childCount += 1
         
         if !(paginationController?.hasNext ?? false) {
-            showAddedComment(comment: comment)
+            tempComment = comment
+            profileFeed?.refresh()
         }
         
         delegate?.discussionCommentsView(controller: self, updatedComment: responseItem)
