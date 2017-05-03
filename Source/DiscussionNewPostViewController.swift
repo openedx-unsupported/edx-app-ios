@@ -366,11 +366,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         tapButton.isAccessibilityElement = false
     }
     
-    @nonobjc public func textViewDidBeginEditing(textView: UITextView) {
+    public func textViewDidBeginEditing(_ textView: UITextView) {
         tapButton.isAccessibilityElement = true
     }
     
-    @nonobjc public func textViewDidEndEditing(textView: UITextView) {
+    public func textViewDidEndEditing(_ textView: UITextView) {
         tapButton.isAccessibilityElement = false
     }
 }
