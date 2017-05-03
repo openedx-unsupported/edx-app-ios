@@ -221,7 +221,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     var environment: Environment!
     var courseID: String!
-    var threadID: String!
     var isDiscussionBlackedOut: Bool = false
     
     var loadController : LoadStateViewController?
@@ -235,13 +234,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     var thread: DiscussionThread?
     var postFollowing = false
 
-    func loadedThread(thread : DiscussionThread) {
-        let hadThread = self.thread != nil
-        self.thread = thread
-        if !hadThread {
-            loadResponses()
-            logScreenEvent()
-        }
+    func loadContent() {
+        loadResponses()
+        
         let styles = OEXStyles.shared()
         let footerStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhite())
         
@@ -258,7 +253,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.isEnabled = !postingEnabled
 
         addResponseButton.oex_removeAllActions()
-        if !thread.closed {
+        if !(thread?.closed ?? true){
             addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
                 if let owner = self, let thread = owner.thread {
                     owner.environment.router?.showDiscussionNewCommentFromController(controller: owner, courseID: owner.courseID, thread: thread, context: .Thread(thread))
@@ -266,7 +261,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 }, for: UIControlEvents.touchUpInside)
         }
         
-        self.navigationItem.title = navigationItemTitleForThread(thread: thread)
+        if let thread = thread {
+            self.navigationItem.title = navigationItemTitleForThread(thread: thread)
+        }
         
         tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) as IndexSet , with: .fade)
     }
@@ -317,6 +314,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         markThreadAsRead()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        logScreenEvent()
+    }
+    
     override var shouldAutorotate: Bool {
         return true
     }
@@ -346,13 +348,25 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     private func markThreadAsRead() {
-        let apiRequest = DiscussionAPI.readThread(read: true, threadID: threadID)
+        let apiRequest = DiscussionAPI.readThread(read: true, threadID: thread?.threadID ?? "")
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             if let thread = result.data {
-                self?.loadedThread(thread: thread)
-                self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) as IndexSet , with: .fade)
+                self?.patchThread(thread: thread)
+                self?.loadContent()
             }
         }
+    }
+    
+    private func refreshTableData() {
+        tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) as IndexSet , with: .fade)
+    }
+    
+    private func patchThread(thread: DiscussionThread) {
+        var injectedThread = thread
+        injectedThread.hasProfileImage = self.thread?.hasProfileImage ?? false
+        injectedThread.imageURL = self.thread?.imageURL ?? ""
+        self.thread = injectedThread
+        refreshTableData()
     }
     
     private func loadResponses() {
@@ -535,7 +549,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     button.isEnabled = true
                     
                     if let thread: DiscussionThread = result.data {
-                        self?.loadedThread(thread: thread)
+                        self?.patchThread(thread: thread)
                         owner.updateVoteText(button: cell.voteButton, voteCount: thread.voteCount, voted: thread.voted)
                     }
                     else {
