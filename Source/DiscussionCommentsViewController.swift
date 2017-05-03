@@ -170,7 +170,7 @@ class DiscussionCommentCell: UITableViewCell {
             viewController?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let response = result.data {
                     if (viewController?.comments.count)! > index && viewController?.comments[index].commentID == response.commentID {
-                        let patchedCOmment = self.patchComment(oldComment: viewController?.comments[index], newComment: response)
+                        let patchedComment = self.patchComment(oldComment: viewController?.comments[index], newComment: response)
                         viewController?.comments[index] = patchedCOmment
                         self.updateReportText(button: self.commentCountOrReportIconButton, report: response.abuseFlagged)
                         viewController?.tableView.reloadData()
