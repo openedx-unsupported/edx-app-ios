@@ -700,5 +700,9 @@
 "VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "A new version of the app is available.";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Please wait...";
+/* Header of 'whats new screen'*/
+"WHATS_NEW.HEADER_TEXT"="Version {app_version} New Features";
+/*Whats new screen done button title*/
+"WHATS_NEW.DONE"="Done";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";

@@ -81,6 +81,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
 
         super.viewWillAppear(animated)
         hideSnackBarForFullScreenError()
+        showWhatsNewIfNeeded()
 
     }
     
@@ -192,14 +193,21 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         }
     }
     
-    func refreshControllerActivated(controller: PullRefreshController) {
-        self.enrollmentFeed.refresh()
-        self.userPreferencesFeed.refresh()
+    private func showWhatsNewIfNeeded() {
+        if WhatsNewViewController.canShowWhatsNew(environment: environment as? RouterEnvironment) {
+            environment.router?.showWhatsNew(fromController: self)
+        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableController.tableView.autolayoutFooter()
+    }
+    
+    //MARK:- PullRefreshControllerDelegate method
+    func refreshControllerActivated(controller: PullRefreshController) {
+        self.enrollmentFeed.refresh()
+        self.userPreferencesFeed.refresh()
     }
     
     //MARK:- LoadStateViewReloadSupport method 
