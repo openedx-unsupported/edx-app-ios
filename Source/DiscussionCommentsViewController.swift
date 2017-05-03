@@ -171,7 +171,7 @@ class DiscussionCommentCell: UITableViewCell {
                 if let response = result.data {
                     if (viewController?.comments.count)! > index && viewController?.comments[index].commentID == response.commentID {
                         let patchedComment = self.patchComment(oldComment: viewController?.comments[index], newComment: response)
-                        viewController?.comments[index] = patchedCOmment
+                        viewController?.comments[index] = patchedComment
                         self.updateReportText(button: self.commentCountOrReportIconButton, report: response.abuseFlagged)
                         viewController?.tableView.reloadData()
                     }
