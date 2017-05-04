@@ -191,7 +191,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     private func addShareButton(courseView: CourseCardView) {
         if environment.config.courseSharingEnabled {
             shareButton.setImage(UIImage(named: "shareCourse.png"), for: .normal)
-            shareButton.accessibilityLabel = Strings.Accessibility.shareCourseText
+            shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
             shareButton.tintColor = OEXStyles.shared().neutralDark()
             courseView.titleAccessoryView = shareButton
             shareButton.snp_makeConstraints(closure: { (make) -> Void in

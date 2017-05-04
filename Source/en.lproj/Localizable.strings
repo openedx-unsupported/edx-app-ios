@@ -119,7 +119,7 @@
 /*Accessibility hint for user profile in left drawer*/
 "ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "Double tap to open your profile";
 /*Accessibility text for course share button on course dashboard*/
-"ACCESSIBILITY.SHARE_COURSE_TEXT"="Share a course";
+"ACCESSIBILITY.SHARE_A_COURSE"="Share a course";
 
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
