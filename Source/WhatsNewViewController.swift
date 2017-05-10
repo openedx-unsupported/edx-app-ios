@@ -61,10 +61,6 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         setConstraints()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     private func configurePageViewController() {
         pageController.setViewControllers([initialItem()], direction: .forward, animated: false, completion: nil)
         pageController.delegate = self
@@ -78,14 +74,16 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         view.backgroundColor = environment.styles.primaryBaseColor()
         doneButton.setAttributedTitle(doneButtonStyle.attributedString(withText: Strings.WhatsNew.done), for: .normal)
         doneButton.isHidden = true
+        headerLabel.accessibilityLabel = Strings.Accessibility.Whatsnew.headerLabel(appVersion: Bundle.main.oex_buildVersionString())
+        closeButton.accessibilityLabel = Strings.Accessibility.Whatsnew.closeLabel
+        closeButton.accessibilityHint = Strings.Accessibility.closeHint
         
         view.addSubview(containerView)
         containerView.addSubview(headerLabel)
         containerView.addSubview(closeButton)
         containerView.addSubview(doneButton)
         
-        let appVersion = Bundle.main.oex_buildVersionString()
-        headerLabel.attributedText = headerStyle.attributedString(withText: Strings.WhatsNew.headerText(appVersion: appVersion))
+        headerLabel.attributedText = headerStyle.attributedString(withText: Strings.WhatsNew.headerText(appVersion: Bundle.main.oex_buildVersionString()))
         
         let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [
             Icon.Close.attributedTextWithStyle(style: closeTextStyle)])

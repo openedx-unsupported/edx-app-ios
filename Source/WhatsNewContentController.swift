@@ -8,6 +8,9 @@
 
 import Foundation
 
+private let ScreenDivider: CGFloat = 1.65
+private let LeftRightMargin: CGFloat = 25
+
 class WhatsNewContentController: UIViewController {
     private let containerView = UIView()
     private let imageContainer = UIView()
@@ -17,13 +20,12 @@ class WhatsNewContentController: UIViewController {
     private let titleLabel = UILabel()
     private let messageLabel = UILabel()
     
-    
     private var titleStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .xxLarge, color: OEXStyles.shared().neutralWhite())
+        return OEXTextStyle(weight: .semiBold, size: .xLarge, color: OEXStyles.shared().neutralWhite())
     }
     
     private var messageStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .xxLarge, color: OEXStyles.shared().neutralWhite())
+        return OEXTextStyle(weight: .normal, size: .xLarge, color: OEXStyles.shared().neutralWhite())
     }
     
     typealias Environment = OEXStylesProvider
@@ -53,7 +55,10 @@ class WhatsNewContentController: UIViewController {
     private func configureViews() {
         containerView.backgroundColor = environment.styles.primaryBaseColor()
         screenImageView.contentMode = .scaleAspectFit
+        titleLabel.textAlignment = .center
+        titleLabel.adjustsFontSizeToFitWidth = true
         messageLabel.numberOfLines = 0
+        messageLabel.adjustsFontSizeToFitWidth = true
         
         view.addSubview(containerView)
         containerView.addSubview(imageContainer)
@@ -66,7 +71,7 @@ class WhatsNewContentController: UIViewController {
     
     private func applyGradient() {
         gradientLayer.colors = [environment.styles.primaryDarkColor().cgColor, environment.styles.primaryBaseColor().cgColor]
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height/2)
+        gradientLayer.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height/ScreenDivider )
         gradientLayer.startPoint = CGPoint(x: 0, y: 1)
         gradientLayer.endPoint = CGPoint(x: 0, y: 0)
         imageContainer.layer.insertSublayer(gradientLayer, at: 0)
@@ -81,7 +86,7 @@ class WhatsNewContentController: UIViewController {
             make.top.equalTo(containerView)
             make.trailing.equalTo(containerView)
             make.leading.equalTo(containerView)
-            let height = view.bounds.size.height / 2
+            let height = view.bounds.size.height / ScreenDivider
             make.height.equalTo(height)
         }
         
@@ -95,21 +100,23 @@ class WhatsNewContentController: UIViewController {
         screenImageView.snp_makeConstraints { make in
             make.top.equalTo(imageContainer).offset(2*StandardVerticalMargin)
             make.bottom.equalTo(imageContainer)
-            make.trailing.equalTo(imageContainer).offset(-25)
-            make.leading.equalTo(imageContainer).offset(25)
+            make.trailing.equalTo(imageContainer).offset(-LeftRightMargin)
+            make.leading.equalTo(imageContainer).offset(LeftRightMargin)
         }
         
         titleLabel.snp_makeConstraints { make in
             make.top.equalTo(infoContainer).offset(2*StandardVerticalMargin)
             make.centerX.equalTo(infoContainer)
+            make.trailing.lessThanOrEqualTo(infoContainer).offset(-LeftRightMargin)
+            make.leading.lessThanOrEqualTo(infoContainer).offset(LeftRightMargin)
         }
         
         messageLabel.snp_makeConstraints { make in
             make.top.equalTo(titleLabel.snp_bottom).offset(StandardVerticalMargin)
-            make.bottom.lessThanOrEqualTo(infoContainer).offset(StandardVerticalMargin)
+            make.bottom.lessThanOrEqualTo(infoContainer).offset(-StandardVerticalMargin)
             make.centerX.equalTo(infoContainer)
-            make.trailing.lessThanOrEqualTo(infoContainer).offset(-25)
-            make.leading.lessThanOrEqualTo(infoContainer).offset(25)
+            make.trailing.lessThanOrEqualTo(infoContainer).offset(-LeftRightMargin)
+            make.leading.lessThanOrEqualTo(infoContainer).offset(LeftRightMargin)
         }
         
         

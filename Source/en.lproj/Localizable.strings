@@ -118,6 +118,10 @@
 "ACCESSIBILITY.LEFT_DRAWER.PROFILE_LABEL" = "Currently signed in as {user_name}, {user_email}";
 /*Accessibility hint for user profile in left drawer*/
 "ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "Double tap to open your profile";
+/*Accessibility text for close button on whats new screen*/
+"ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="Close";
+/*Accessibility label for header on new screen*/
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Version {app_version}, New Features";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
