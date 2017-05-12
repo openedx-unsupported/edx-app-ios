@@ -33,10 +33,17 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     typealias Environment = OEXStylesProvider & OEXInterfaceProvider
     private let environment : Environment
     private let dataModel: WhatsNewDataModel
+    private var titleString: String
     
-    init(environment: Environment) {
+    init(environment: Environment, dataModel: WhatsNewDataModel? = nil, title: String? = nil) {
         self.environment = environment
-        dataModel = WhatsNewDataModel(environment: environment as! RouterEnvironment)
+        if let dataModel = dataModel {
+            self.dataModel = dataModel
+        }
+        else {
+            self.dataModel = WhatsNewDataModel(environment: environment as? RouterEnvironment)
+        }
+        titleString = title ?? Strings.WhatsNew.headerText(appVersion: Bundle.main.oex_buildVersionString())
         pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         environment.interface?.saveWhatsNewShown()
         super.init(nibName: nil, bundle: nil)
@@ -83,7 +90,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         containerView.addSubview(closeButton)
         containerView.addSubview(doneButton)
         
-        headerLabel.attributedText = headerStyle.attributedString(withText: Strings.WhatsNew.headerText(appVersion: Bundle.main.oex_buildVersionString()))
+        headerLabel.attributedText = headerStyle.attributedString(withText: titleString)
         
         let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [
             Icon.Close.attributedTextWithStyle(style: closeTextStyle)])

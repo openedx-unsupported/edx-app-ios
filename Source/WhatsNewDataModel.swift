@@ -14,9 +14,9 @@ class WhatsNewDataModel {
     
     private var json: JSON = JSON(NSNull())
     private(set) var fields: [WhatsNew]? = []
-    private let environment: RouterEnvironment
+    private let environment: RouterEnvironment?
     
-    init(fileName name: String? = FileName, environment: RouterEnvironment) {
+    init(fileName name: String? = FileName, environment: RouterEnvironment?) {
         self.environment = environment
         
         do {
@@ -41,7 +41,7 @@ class WhatsNewDataModel {
         for object in objects {
             if var item = WhatsNew(json: object) {
                 if item.message.contains("platform_name") {
-                    let message = item.message.replacingOccurrences(of: "platform_name", with: environment.config.platformName())
+                    let message = item.message.replacingOccurrences(of: "platform_name", with: environment?.config.platformName() ?? "")
                     item.message = message
                 }
                 fields?.append(item)

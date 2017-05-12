@@ -118,8 +118,6 @@ class WhatsNewContentController: UIViewController {
             make.trailing.lessThanOrEqualTo(infoContainer).offset(-LeftRightMargin)
             make.leading.lessThanOrEqualTo(infoContainer).offset(LeftRightMargin)
         }
-        
-        
     }
     
     private func popupateView() {
