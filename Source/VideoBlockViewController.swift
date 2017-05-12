@@ -26,6 +26,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     var subtitleTimer = Timer()
     var contentView : UIView?
     let loadController : LoadStateViewController
+    private var VOEnabledOnScreen = false
     
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
         self.blockID = blockID
@@ -151,6 +152,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             // If Timely App Reviews popup is showing then set popup elements as accessibilityElements
             view.accessibilityElements = [ratingController.ratingContainerView.subviews]
             setParentAccessibility(ratingController: ratingController)
+            VOEnabledOnScreen = true
         }
         else {
             view.accessibilityElements = [view.subviews]
@@ -351,10 +353,14 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     //MARK: - RatingDelegate
     func didDismissRatingViewController() {
-        let after = DispatchTime.now() + Double(Int64(1.0 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        let after = DispatchTime.now() + Double(Int64(1.2 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: after) { [weak self] in
             self?.setAccessibility()
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self?.navigationItem.backBarButtonItem)
+            //VO behave weirdly. If Rating view appears while VO is on then then VO consider it as screen otherwise it will treat as layout
+            // Will revisit this logic when VO behaves same in all cases.
+            self?.VOEnabledOnScreen ?? false ? UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self?.navigationItem.backBarButtonItem) : UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self?.navigationItem.backBarButtonItem)
+            
+            self?.VOEnabledOnScreen = false
         }
     }
 }

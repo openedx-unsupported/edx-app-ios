@@ -157,8 +157,9 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     }
     
     func dismissViewController() {
-        dismiss(animated: false, completion: nil)
-        delegate?.didDismissRatingViewController()
+        dismiss(animated: false) {[weak self] in
+            self?.delegate?.didDismissRatingViewController()
+        }
     }
 }
 

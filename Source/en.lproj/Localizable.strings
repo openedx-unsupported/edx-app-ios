@@ -122,6 +122,8 @@
 "ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="Close";
 /*Accessibility label for header on new screen*/
 "ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Version {app_version}, New Features";
+/*Accessibility text for course share button on course dashboard*/
+"ACCESSIBILITY.SHARE_A_COURSE"="Share a course";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */

@@ -96,7 +96,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         self.request = request
     }
     
-    @nonobjc func webView(webView: WKWebView, decidePolicyForNavigationAction navigationAction: WKNavigationAction, decisionHandler: (WKNavigationActionPolicy) -> Void) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         let request = navigationAction.request
         let capturedLink = navigationAction.navigationType == .linkActivated && (self.delegate?.webViewHelper(helper: self, shouldLoadLinkWithRequest: request as NSURLRequest) ?? true)
 
@@ -110,7 +110,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         decisionHandler(.allow)
     }
     
-    @nonobjc func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         self.loadController.state = .Loaded
         
         //Setting webView accessibilityValue for testing

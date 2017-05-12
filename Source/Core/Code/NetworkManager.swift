@@ -280,7 +280,6 @@ open class NetworkManager : NSObject {
                         return .success(mutableURLRequest as URLRequest)
                     }
                 }
-                
         }
     }
     
