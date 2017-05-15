@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate, AlwaysRequireAuthenticationOverriding {
+class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate, AuthenticatedWebViewControllerRequireAuthentication {
     
     public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider
     private var webController: AuthenticatedWebViewController
@@ -56,8 +56,8 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         }
     }
     
-    // MARK: AuthenticatedWebViewController Delegate     
-    func webViewDidFinishLoad(webview: WKWebView, authenticatedWebViewController :AuthenticatedWebViewController) {
+    // MARK: AuthenticatedWebViewController Delegate
+    func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView) {
         let javascript = "var text=''; var divs = document.getElementsByClassName('date-summary-container'); for (i = 0; i< divs.length; i ++ ){ text  += divs[i].outerHTML;} document.getElementsByTagName('body')[0].innerHTML = text; var style = document.createElement('style'); style.innerHTML = 'body { padding-left: 20px; padding-top: 30px;}'; document.head.appendChild(style)";
         webview.evaluateJavaScript(javascript, completionHandler: nil)
     }
