@@ -191,7 +191,7 @@
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
 "COURSE_HANDOUTS"="Handouts";
-/* Title of course important dates section */
+/* Title of course important dates screen */
 "COURSE_IMPORTANT_DATES_TITLE"="Course Dates and Deadlines";
 /* Button text for cancelling any action */
 "CANCEL"="Cancel";

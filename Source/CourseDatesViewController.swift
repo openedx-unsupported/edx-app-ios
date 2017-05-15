@@ -9,19 +9,19 @@
 import UIKit
 import WebKit
 
-class CourseDatesViewController: UIViewController,UIWebViewDelegate, AuthenticatedWebViewControllerDelegate, AlwaysRequireAuthenticationOverriding {
+class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate, AlwaysRequireAuthenticationOverriding {
     
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider
-    private var webview: AuthenticatedWebViewController
+    public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider
+    private var webController: AuthenticatedWebViewController
     private let courseID: String
     private let environment: Environment
     
     init(environment: Environment, courseID: String) {
-        self.webview = AuthenticatedWebViewController(environment: environment)
+        self.webController = AuthenticatedWebViewController(environment: environment)
         self.courseID = courseID
         self.environment = environment
         super.init(nibName: nil, bundle :nil)
-        self.webview.delegate = self
+        self.webController.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,24 +31,18 @@ class CourseDatesViewController: UIViewController,UIWebViewDelegate, Authenticat
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        addChildViewController(self.webview)
-        webview.didMove(toParentViewController: self)
-        self.view.addSubview(self.webview.view)
+        addChildViewController(webController)
+        webController.didMove(toParentViewController: self)
+        self.view.addSubview(webController.view)
         self.navigationItem.title = Strings.courseImportantDatesTitle
         self.setConstraints()
+        self.loadCourseDates()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.loadCourseDateView()
-    }
-    
-    func loadCourseDateView() {
-        let courseDateURL = String(format: "%@/courses/%@/info", (self.environment.config.apiHostURL()?.absoluteString)!, self.courseID)
-        print("\(courseDateURL)")
-        let request = NSURLRequest(url: URL(string: courseDateURL)!)
-        self.webview.loadRequest(request: request)
+   private func loadCourseDates() {
+        let courseDateURLString = String(format: "%@/courses/%@/info", (self.environment.config.apiHostURL()?.absoluteString)!, self.courseID)
+        let request = NSURLRequest(url: URL(string: courseDateURLString)!)
+        webController.loadRequest(request: request)
     }
 
     override func didReceiveMemoryWarning() {
@@ -57,11 +51,8 @@ class CourseDatesViewController: UIViewController,UIWebViewDelegate, Authenticat
     }
     
     private func setConstraints() {
-        webview.view.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(self.view)
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
-            make.bottom.equalTo(self.view)
+        webController.view.snp_makeConstraints { (make) -> Void in
+            make.edges.equalTo(view)
         }
     }
     

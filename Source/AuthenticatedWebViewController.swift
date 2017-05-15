@@ -37,6 +37,7 @@ private protocol WebContentController {
     func resetState()
 }
 
+// A class should implement AlwaysRequireAuthenticationOverriding protocol if it require authentication always.
 protocol AlwaysRequireAuthenticationOverriding {
 }
 
@@ -215,13 +216,11 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     // MARK: Request Loading
     
     public func loadRequest(request : NSURLRequest) {
-    
         contentRequest = request
         loadController.state = .Initial
         state = webController.initialContentState
         
-        // A class should implement AlwaysRequireAuthenticationOverriding protocol if it require authentication always.
-        let isAuthRequestRequire = ((self.parent as? AlwaysRequireAuthenticationOverriding) != nil) ? true: webController.alwaysRequiresOAuthUpdate
+        let isAuthRequestRequire = ((parent as? AlwaysRequireAuthenticationOverriding) != nil) ? true: webController.alwaysRequiresOAuthUpdate
 
         if isAuthRequestRequire {
             self.state = State.CreatingSession

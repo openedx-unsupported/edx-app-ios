@@ -329,7 +329,6 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     private func showCourseDates() {
-        // showing important dates here
         self.environment.router?.showCourseDates(controller: self, courseID: courseID)
     }
     
