@@ -62,12 +62,20 @@
             self.name = [Strings untitled];
         }
         
+        // The new course outline API sends the video info as encodings instead of as a single video_url.
+        // Once finish the transition to the new API we can remove setting the video url from the top level
+        NSString* videoURL = [summary objectForKey:@"video_url"];
+        NSNumber* videoSize = [summary objectForKey:@"size"];
+        
         NSDictionary* rawEncodings = OEXSafeCastAsClass(summary[@"encoded_videos"], NSDictionary);
         NSMutableDictionary* encodings = [[NSMutableDictionary alloc] init];
         [rawEncodings enumerateKeysAndObjectsUsingBlock:^(NSString* name, NSDictionary* encodingInfo, BOOL *stop) {
             OEXVideoEncoding* encoding = [[OEXVideoEncoding alloc] initWithDictionary:encodingInfo name:name];
             [encodings safeSetObject:encoding forKey:name];
         }];
+        if(!encodings[OEXVideoEncodingFallback] && videoURL.length > 0) {
+            [encodings safeSetObject:[[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:videoURL size:videoSize] forKey:OEXVideoEncodingFallback];
+        }
         self.encodings = encodings;
 
         self.videoThumbnailURL = [summary objectForKey:@"video_thumbnail_url"];
