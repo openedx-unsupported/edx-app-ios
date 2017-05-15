@@ -211,7 +211,7 @@ class DiscussionResponseCell: UITableViewCell {
 
 
 class DiscussionResponsesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, DiscussionCommentsViewControllerDelegate, InterfaceOrientationOverriding {
-    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXAnalyticsProvider
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider & OEXAnalyticsProvider & DataManagerProvider
 
     enum TableSection : Int {
         case Post = 0
@@ -221,7 +221,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     var environment: Environment!
     var courseID: String!
-    var threadID: String!
     var isDiscussionBlackedOut: Bool = false
     
     var loadController : LoadStateViewController?
@@ -234,14 +233,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private let responsesDataController = DiscussionResponsesDataController()
     var thread: DiscussionThread?
     var postFollowing = false
+    var profileFeed: Feed<UserProfile>?
+    var tempComment: DiscussionComment? // this will be used for injecting user info to added comment
 
-    func loadedThread(thread : DiscussionThread) {
-        let hadThread = self.thread != nil
-        self.thread = thread
-        if !hadThread {
-            loadResponses()
-            logScreenEvent()
-        }
+    func loadContent() {
+        loadResponses()
+        
         let styles = OEXStyles.shared()
         let footerStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhite())
         
@@ -258,7 +255,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.isEnabled = !postingEnabled
 
         addResponseButton.oex_removeAllActions()
-        if !thread.closed {
+        if !(thread?.closed ?? true){
             addResponseButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
                 if let owner = self, let thread = owner.thread {
                     owner.environment.router?.showDiscussionNewCommentFromController(controller: owner, courseID: owner.courseID, thread: thread, context: .Thread(thread))
@@ -266,7 +263,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 }, for: UIControlEvents.touchUpInside)
         }
         
-        self.navigationItem.title = navigationItemTitleForThread(thread: thread)
+        if let thread = thread {
+            self.navigationItem.title = navigationItemTitleForThread(thread: thread)
+        }
         
         tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) as IndexSet , with: .fade)
     }
@@ -315,6 +314,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         
         markThreadAsRead()
+        setupProfileLoader()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        logScreenEvent()
     }
     
     override var shouldAutorotate: Bool {
@@ -346,13 +351,25 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     private func markThreadAsRead() {
-        let apiRequest = DiscussionAPI.readThread(read: true, threadID: threadID)
+        let apiRequest = DiscussionAPI.readThread(read: true, threadID: thread?.threadID ?? "")
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             if let thread = result.data {
-                self?.loadedThread(thread: thread)
-                self?.tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) as IndexSet , with: .fade)
+                self?.patchThread(thread: thread)
+                self?.loadContent()
             }
         }
+    }
+    
+    private func refreshTableData() {
+        tableView.reloadSections(NSIndexSet(index: TableSection.Post.rawValue) as IndexSet , with: .fade)
+    }
+    
+    private func patchThread(thread: DiscussionThread) {
+        var injectedThread = thread
+        injectedThread.hasProfileImage = self.thread?.hasProfileImage ?? false
+        injectedThread.imageURL = self.thread?.imageURL ?? ""
+        self.thread = injectedThread
+        refreshTableData()
     }
     
     private func loadResponses() {
@@ -535,7 +552,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     button.isEnabled = true
                     
                     if let thread: DiscussionThread = result.data {
-                        self?.loadedThread(thread: thread)
+                        self?.patchThread(thread: thread)
                         owner.updateVoteText(button: cell.voteButton, voteCount: thread.voteCount, voted: thread.voted)
                     }
                     else {
@@ -759,6 +776,21 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         tableView.scrollToRow(at: indexPath, at: .top, animated: false)
     }
     
+    private func setupProfileLoader() {
+        guard environment.config.profilesEnabled else { return }
+        profileFeed = self.environment.dataManager.userProfileManager.feedForCurrentUser()
+        profileFeed?.output.listen(self,  success: { [weak self] profile in
+            if var comment = self?.tempComment {
+                comment.hasProfileImage = !((profile.imageURL?.isEmpty) ?? true )
+                comment.imageURL = profile.imageURL ?? ""
+                self?.showAddedResponse(comment: comment)
+                self?.tempComment = nil
+            }
+        }, failure : { _ in
+            Logger.logError("Profiles", "Unable to fetch profile")
+        })
+    }
+    
     // MARK:- DiscussionNewCommentViewControllerDelegate method
     
     func newCommentController(controller: DiscussionNewCommentViewController, addedComment comment: DiscussionComment) {
@@ -766,7 +798,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         switch controller.currentContext() {
         case .Thread(_):
             if !(paginationController?.hasNext ?? false) {
-                showAddedResponse(comment: comment)
+                self.tempComment = comment
+                profileFeed?.refresh()
             }
             
             increaseResponseCount()

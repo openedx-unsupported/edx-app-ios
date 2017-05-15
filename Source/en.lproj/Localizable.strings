@@ -118,6 +118,9 @@
 "ACCESSIBILITY.LEFT_DRAWER.PROFILE_LABEL" = "Currently signed in as {user_name}, {user_email}";
 /*Accessibility hint for user profile in left drawer*/
 "ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "Double tap to open your profile";
+/*Accessibility text for course share button on course dashboard*/
+"ACCESSIBILITY.SHARE_A_COURSE"="Share a course";
+
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
@@ -560,9 +563,9 @@
 /* Button text allowing user to show hidden optional registration fields */
 "REGISTRATION_SHOW_OPTIONAL_FIELDS"="Show optional fields";
 /* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be followed by text "or sign up with an email". */
-"REGISTRATION_SIGN_UP_PROMPT"="Sign up with";
+"REGISTRATION_REGISTER_PROMPT"="Register with";
 /* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
-"REGISTRATION_SIGN_UP_ALTERNATE_PROMPT"="or sign up with email";
+"REGISTRATION_REGISTER_ALTERNATE_PROMPT"="or register with email";
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Reset Password";
 /* Alert dialog content prompting user to enter an email address to reset their password */

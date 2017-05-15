@@ -23,7 +23,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     static let minimumVersionDifferenceForNegativeRating : Float = 0.2
     
     let environment : Environment
-    private let ratingContainerView : RatingContainerView
+    let ratingContainerView : RatingContainerView
     var alertController : UIAlertController?
     private var selectedRating : Int?
     
@@ -58,6 +58,8 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
         ratingContainerView.delegate = self
         
         setupConstraints()
+        
+        view.accessibilityElements = [ratingContainerView.subviews]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -155,8 +157,9 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     }
     
     func dismissViewController() {
-        dismiss(animated: false, completion: nil)
-        delegate?.didDismissRatingViewController()
+        dismiss(animated: false) {[weak self] in
+            self?.delegate?.didDismissRatingViewController()
+        }
     }
 }
 

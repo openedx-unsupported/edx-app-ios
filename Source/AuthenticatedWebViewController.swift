@@ -219,6 +219,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         contentRequest = request
         loadController.state = .Initial
         state = webController.initialContentState
+        
+        // A class should implement AlwaysRequireAuthenticationOverriding protocol if it require authentication always.
         let isAuthRequestRequire = ((self.parent as? AlwaysRequireAuthenticationOverriding) != nil) ? true: webController.alwaysRequiresOAuthUpdate
 
         if isAuthRequestRequire {

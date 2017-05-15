@@ -48,15 +48,16 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         }
         
         for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
-            NotificationCenter.default.oex_addObserver(observer: self, forKeyPath: notification.rawValue) { (_, observer, _) in
-                if let state = self.downloadStateForDownloads(videos: self.videosStream.value) {
-                    self.downloadView.state = state
+            NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (_, observer, _) -> Void in
+                if let state = observer.downloadStateForDownloads(videos: observer.videosStream.value) {
+                    observer.downloadView.state = state
                 }
                 else {
-                    self.content.trailingView = nil
+                    observer.content.trailingView = nil
                 }
             }
         }
+        
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self]_ in
             if let owner = self, owner.downloadView.state == .Downloading {
