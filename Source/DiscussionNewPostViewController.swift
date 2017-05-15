@@ -58,9 +58,9 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         didSet {
             switch selectedThreadType {
             case .Discussion:
-                self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [titleTextStyle.attributedString(withText: Strings.courseDashboardDiscussion), titleTextStyle.attributedString(withText: Strings.asteric)])
+                self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [titleTextStyle.attributedString(withText: Strings.Dashboard.courseDiscussion), titleTextStyle.attributedString(withText: Strings.asteric)])
                 postButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle,withTitle: Strings.postDiscussion)
-                contentTextView.accessibilityLabel = Strings.courseDashboardDiscussion
+                contentTextView.accessibilityLabel = Strings.Dashboard.courseDiscussion
             case .Question:
                 self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [titleTextStyle.attributedString(withText: Strings.question), titleTextStyle.attributedString(withText: Strings.asteric)])
                 postButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle, withTitle: Strings.postQuestion)

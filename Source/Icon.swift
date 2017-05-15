@@ -112,6 +112,7 @@ public enum Icon {
     case CourseVideoContent
     case CourseVideoPlay
     case Create
+    case Calendar
     case Discussions
     case Dropdown
     case Filter
@@ -162,6 +163,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Comment)
         case .Comments:
             return FontAwesomeRenderer(icon: .Comments)
+        case .Calendar:
+            return FontAwesomeRenderer(icon: .Calendar)
         case .Question:
             return FontAwesomeRenderer(icon: .Question)
         case .Answered:
