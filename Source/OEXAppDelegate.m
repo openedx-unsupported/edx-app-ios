@@ -11,7 +11,6 @@
 #import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <GoogleSignIn/GoogleSignIn.h>
-#import <NewRelicAgent/NewRelic.h>
 #import <SEGAnalytics.h>
 
 #import "OEXAppDelegate.h"
@@ -28,7 +27,6 @@
 #import "OEXGoogleConfig.h"
 #import "OEXGoogleSocial.h"
 #import "OEXInterface.h"
-#import "OEXNewRelicConfig.h"
 #import "OEXPushProvider.h"
 #import "OEXPushNotificationManager.h"
 #import "OEXPushSettingsManager.h"
@@ -181,13 +179,6 @@
     if (config.isFirebaseEnabled) {
         [FIRApp configure];
         [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
-    }
-
-    //NewRelic Initialization with edx key
-    OEXNewRelicConfig* newrelic = [config newRelicConfig];
-    if(newrelic.apiKey && newrelic.isEnabled) {
-        [NewRelicAgent enableCrashReporting:NO];
-        [NewRelicAgent startWithApplicationToken:newrelic.apiKey];
     }
 
     //Initialize Fabric

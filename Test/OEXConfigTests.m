@@ -15,7 +15,6 @@
 #import "OEXFabricConfig.h"
 #import "OEXFacebookConfig.h"
 #import "OEXGoogleConfig.h"
-#import "OEXNewRelicConfig.h"
 #import "OEXParseConfig.h"
 #import "OEXSegmentConfig.h"
 #import "OEXZeroRatingConfig.h"
@@ -115,38 +114,6 @@
     XCTAssert(googleConfig.enabled,@"Google config should be enabled");
     XCTAssertNotNil(googleConfig.apiKey,@"Google_plus_key should not be nil");
 }
-
-
-
-//NewRelic Config tests
-
-
--(void)testNewRelicNoConfig{
-    NSDictionary *configDictionary=@{};
-    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXNewRelicConfig *newRelicConfig=[config newRelicConfig];
-    XCTAssert(!newRelicConfig.enabled,@"New Relic config should not be enabled");
-    XCTAssertNil(newRelicConfig.apiKey,@"New Relic config api key should be nil");
-}
-
--(void)testNewRelicEmptyConfig{
-    NSDictionary *configDictionary=@{@"NEW_RELIC":@{}};
-    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXNewRelicConfig *newRelicConfig=[config newRelicConfig];
-    XCTAssert(!newRelicConfig.enabled,@"New Relic config should not be enabled");
-    XCTAssertNil(newRelicConfig.apiKey,@"New Relic config api key should be nil");
-}
-
--(void)testNewRelicConfigEnabled{
-    NSDictionary *configDictionary=@{@"NEW_RELIC":@{@"ENABLED":@YES ,
-                                                         @"NEW_RELIC_KEY":@"New_Relic_key"}
-                                             };
-    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXNewRelicConfig *newRelicConfig=[config newRelicConfig];
-    XCTAssert(newRelicConfig.enabled,@"New Relic config should be enabled");
-    XCTAssertNotNil(newRelicConfig.apiKey,@"New Relic config api key should not be nil");
-}
-
 
 // Parse
 
