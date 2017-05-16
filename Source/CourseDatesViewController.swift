@@ -40,9 +40,10 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     }
     
    private func loadCourseDates() {
-        let courseDateURLString = String(format: "%@/courses/%@/info", (self.environment.config.apiHostURL()?.absoluteString)!, self.courseID)
+        let courseDateURLString = String(format: "%@/courses/%@/info", self.environment.config.apiHostURL()?.absoluteString ?? "", self.courseID)
         let request = NSURLRequest(url: URL(string: courseDateURLString)!)
         webController.loadRequest(request: request)
+    
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,7 +59,13 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     
     // MARK: AuthenticatedWebViewController Delegate
     func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView) {
-        let javascript = "var text=''; var divs = document.getElementsByClassName('date-summary-container'); for (i = 0; i< divs.length; i ++ ){ text  += divs[i].outerHTML;} document.getElementsByTagName('body')[0].innerHTML = text; var style = document.createElement('style'); style.innerHTML = 'body { padding-left: 20px; padding-top: 30px;}'; document.head.appendChild(style)";
-        webview.evaluateJavaScript(javascript, completionHandler: nil)
+        webview.evaluateJavaScriptWithClass(classname: "date-summary-container", paddingLeft: 20, paddingTop: 30, paddingRight: 0)
+    }
+}
+
+extension WKWebView {
+    func evaluateJavaScriptWithClass(classname: String, paddingLeft: Int, paddingTop: Int, paddingRight: Int) {
+        let javascriptString = "var text=''; var divs = document.getElementsByClassName('%@'); for (i = 0; i< divs.length; i ++ ){ text  += divs[i].outerHTML;} document.getElementsByTagName('body')[0].innerHTML = text; var style = document.createElement('style'); style.innerHTML = 'body { padding-left: %dpx; padding-top: %dpx; padding-right:%dpx}'; document.head.appendChild(style);"
+        evaluateJavaScript(String(format: javascriptString, classname, paddingLeft, paddingTop, paddingRight), completionHandler: nil)
     }
 }
