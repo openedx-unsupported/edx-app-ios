@@ -12,13 +12,13 @@ private let WhatsNewShownFor = "whats_new_show_for"
 
 extension OEXInterface {
     // save current version of app on whatsNew appearance
-    func saveWhatsNewShown() {
+    func saveAppVersionOnWhatsNewAppear() {
         UserDefaults.standard.set(Bundle.main.oex_shortVersionString(), forKey: WhatsNewShownFor)
         UserDefaults.standard.synchronize()
     }
     
     // Get the saved app version when whatsNew presented to user
-    func getSaveWhatsNewAppVersion() -> String? {
+    func getSavedAppVersionForWhatsNew() -> String? {
         return UserDefaults.standard.string(forKey: WhatsNewShownFor)
     }
 }

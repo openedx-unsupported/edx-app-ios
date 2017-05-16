@@ -17,6 +17,7 @@ class WhatsNewViewControllerTests: SnapshotTestCase {
         let dataModel = WhatsNewDataModel(fileName: "WhatsNew", environment: mockEnv)
         let controller = WhatsNewViewController(environment: mockEnv, dataModel: dataModel, title: "2.8.1")
         controller.view.setNeedsDisplay()
+        
         return controller
     }
     

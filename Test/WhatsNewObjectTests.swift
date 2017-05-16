@@ -15,7 +15,7 @@ private let message = "Test Message"
 class WhatsNewObjectTests: XCTestCase {
     
     func testParser() {
-        let validJson = whatsnewRawItem(imageName: imageName, title: title, message: message)
+        let validJson = whatsNewRawItem(imageName: imageName, title: title, message: message)
         let whatsnewItem = WhatsNew(json: JSON(validJson))
         XCTAssertNotNil(whatsnewItem)
         XCTAssertNotNil(whatsnewItem?.image)
@@ -25,25 +25,24 @@ class WhatsNewObjectTests: XCTestCase {
         XCTAssertEqual(whatsnewItem?.title, title)
         XCTAssertEqual(whatsnewItem?.message, message)
         
-        let missingImageName = whatsnewRawItem(imageName: nil, title: title, message: message)
+        let missingImageName = whatsNewRawItem(imageName: nil, title: title, message: message)
         let whatsnewItem1  = WhatsNew(json: JSON(missingImageName))
         XCTAssertNil(whatsnewItem1)
         
-        let missingTitle = whatsnewRawItem(imageName: imageName, title: nil, message: message)
+        let missingTitle = whatsNewRawItem(imageName: imageName, title: nil, message: message)
         let whatsnewItem2  = WhatsNew(json: JSON(missingTitle))
         XCTAssertNil(whatsnewItem2)
         
-        let missingMessage = whatsnewRawItem(imageName: imageName, title: title, message: nil)
+        let missingMessage = whatsNewRawItem(imageName: imageName, title: title, message: nil)
         let whatsnewItem3  = WhatsNew(json: JSON(missingMessage))
         XCTAssertNil(whatsnewItem3)
         
-        let invalidImageName = whatsnewRawItem(imageName: "test_screen_100.png", title: title, message: message)
+        let invalidImageName = whatsNewRawItem(imageName: "test_screen_100.png", title: title, message: message)
         let whatsnewItem4  = WhatsNew(json: JSON(invalidImageName))
         XCTAssertNil(whatsnewItem4)
-   
     }
     
-    func whatsnewRawItem(imageName: String?, title: String?, message: String?) -> NSMutableDictionary {
+    func whatsNewRawItem(imageName: String?, title: String?, message: String?) -> NSMutableDictionary {
         let dictionary = NSMutableDictionary()
         if let imageName = imageName {
             dictionary.setObject(imageName, forKey: "image" as NSCopying)
