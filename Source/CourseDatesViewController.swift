@@ -40,7 +40,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     }
     
    private func loadCourseDates() {
-        let courseDateURLString = String(format: "%@/courses/%@/info", self.environment.config.apiHostURL()?.absoluteString ?? "", self.courseID)
+        let courseDateURLString = String(format: "%@/courses/%@/info", environment.config.apiHostURL()?.absoluteString ?? "", self.courseID)
         let request = NSURLRequest(url: URL(string: courseDateURLString)!)
         webController.loadRequest(request: request)
     
