@@ -17,11 +17,11 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     private let environment: Environment
     
     init(environment: Environment, courseID: String) {
-        self.webController = AuthenticatedWebViewController(environment: environment)
+        webController = AuthenticatedWebViewController(environment: environment)
         self.courseID = courseID
         self.environment = environment
         super.init(nibName: nil, bundle :nil)
-        self.webController.delegate = self
+        webController.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,13 +34,13 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         addChildViewController(webController)
         webController.didMove(toParentViewController: self)
         view.addSubview(webController.view)
-        self.navigationItem.title = Strings.courseImportantDatesTitle
+        navigationItem.title = Strings.courseImportantDatesTitle
         self.setConstraints()
         self.loadCourseDates()
     }
     
    private func loadCourseDates() {
-        let courseDateURLString = String(format: "%@/courses/%@/info", environment.config.apiHostURL()?.absoluteString ?? "", self.courseID)
+        let courseDateURLString = String(format: "%@/courses/%@/info", environment.config.apiHostURL()?.absoluteString ?? "", courseID)
         let request = NSURLRequest(url: URL(string: courseDateURLString)!)
         webController.loadRequest(request: request)
     
