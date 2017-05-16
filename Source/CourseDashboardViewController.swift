@@ -262,13 +262,13 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         cellItems.append(item)
         
-        item = StandardCourseDashboardItem(title: Strings.Dashboard.courseImportantDates, detail:Strings.Dashboard.courseImportantDatesDetail, icon:.Calendar, action: {[weak self] () -> Void in
-            self?.showCourseDates();
-        })
-        cellItems.append(item)
-        
+        if shouldShowCourseDates(course: enrollment.course) {
+            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseImportantDates, detail:Strings.Dashboard.courseImportantDatesDetail, icon:.Calendar, action: {[weak self] () -> Void in
+                self?.showCourseDates();
+            })
+            cellItems.append(item)
+        }
     }
-    
     
     private func shouldShowDiscussions(course: OEXCourse) -> Bool {
         let canShowDiscussions = self.environment.config.discussionsEnabled 
@@ -278,6 +278,10 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     private func shouldShowHandouts(course: OEXCourse) -> Bool {
         return !(course.course_handouts?.isEmpty ?? true)
+    }
+    
+    private func shouldShowCourseDates(course: OEXCourse) -> Bool {
+        return self.environment.config.courseDatesEnabled
     }
 
     private func getCertificateUrl(enrollment: UserCourseEnrollment) -> String? {
