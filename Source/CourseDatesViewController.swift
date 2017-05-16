@@ -35,8 +35,8 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         webController.didMove(toParentViewController: self)
         view.addSubview(webController.view)
         navigationItem.title = Strings.courseImportantDatesTitle
-        self.setConstraints()
-        self.loadCourseDates()
+        setConstraints()
+        loadCourseDates()
     }
     
    private func loadCourseDates() {
