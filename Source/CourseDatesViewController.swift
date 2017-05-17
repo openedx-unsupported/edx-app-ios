@@ -59,12 +59,12 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     
     // MARK: AuthenticatedWebViewController Delegate
     func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView) {
-        webview.evaluateJavaScriptWithClass(classname: "date-summary-container", paddingLeft: 20, paddingTop: 30, paddingRight: 0)
+        webview.filterHTML(forClass: "date-summary-container", paddingLeft: 20, paddingTop: 30, paddingRight: 0)
     }
 }
 
 extension WKWebView {
-    func evaluateJavaScriptWithClass(classname: String, paddingLeft: Int, paddingTop: Int, paddingRight: Int) {
+    func filterHTML(forClass name: String, paddingLeft: Int, paddingTop: Int, paddingRight: Int) {
         let javascriptString = "var text=''; var divs = document.getElementsByClassName('%@'); for (i = 0; i< divs.length; i ++ ){ text  += divs[i].outerHTML;} document.getElementsByTagName('body')[0].innerHTML = text; var style = document.createElement('style'); style.innerHTML = 'body { padding-left: %dpx; padding-top: %dpx; padding-right:%dpx}'; document.head.appendChild(style);"
         evaluateJavaScript(String(format: javascriptString, classname, paddingLeft, paddingTop, paddingRight), completionHandler: nil)
     }
