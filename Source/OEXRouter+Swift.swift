@@ -275,6 +275,11 @@ extension OEXRouter {
             fromController.present(reviewController, animated: false, completion: nil)
         }
     }
+    
+    func showWhatsNew(fromController controller : UIViewController) {
+        let whatsNewController = WhatsNewViewController(environment: environment)
+        controller.present(whatsNewController, animated: true, completion: nil)
+    }
 
     // MARK: - LOGIN / LOGOUT
 

@@ -66,4 +66,7 @@ extension OEXConfig {
         return bool(forKey: "APP_REVIEWS_ENABLED")
     }
     
+    var isWhatsNewEnabled: Bool {
+        return bool(forKey: "WHATS_NEW_ENABLED")
+    }
 }
