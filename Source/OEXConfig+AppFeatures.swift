@@ -16,6 +16,10 @@ extension OEXConfig {
     var discussionsEnabled : Bool {
         return bool(forKey: "DISCUSSIONS_ENABLED")
     }
+    
+    var courseDatesEnabled : Bool {
+        return bool(forKey: "COURSE_DATES_ENABLED")
+    }
 
     var certificatesEnabled : Bool {
         return bool(forKey: "CERTIFICATES_ENABLED")

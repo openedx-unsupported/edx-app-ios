@@ -37,6 +37,14 @@ private protocol WebContentController {
     func resetState()
 }
 
+// A class should implement AlwaysRequireAuthenticationOverriding protocol if it always require authentication.
+protocol AuthenticatedWebViewControllerRequireAuthentication {
+}
+
+protocol AuthenticatedWebViewControllerDelegate {
+    func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView)
+}
+
 private class WKWebViewContentController : WebContentController {
     fileprivate let webView = WKWebView(frame: CGRect.zero)
     
@@ -83,7 +91,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
 
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider
-    
+    var delegate: AuthenticatedWebViewControllerDelegate?
     internal let environment : Environment
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
@@ -212,7 +220,10 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         loadController.state = .Initial
         state = webController.initialContentState
         
-        if webController.alwaysRequiresOAuthUpdate {
+        let isAuthRequestRequire = ((parent as? AuthenticatedWebViewControllerRequireAuthentication) != nil) ? true: webController.alwaysRequiresOAuthUpdate
+
+        if isAuthRequestRequire {
+            self.state = State.CreatingSession
             loadOAuthRefreshRequest()
         }
         else {
@@ -236,11 +247,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     
     public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         
-        if let
-        httpResponse = navigationResponse.response as? HTTPURLResponse,
-        let statusCode = OEXHTTPStatusCode(rawValue: httpResponse.statusCode),
-        let errorGroup = statusCode.errorGroup, state == .LoadingContent
-        {
+        if let httpResponse = navigationResponse.response as? HTTPURLResponse, let statusCode = OEXHTTPStatusCode(rawValue: httpResponse.statusCode), let errorGroup = statusCode.errorGroup, state == .LoadingContent {
+            
             switch errorGroup {
             case HttpErrorGroup.http4xx:
                 self.state = .NeedingSession
@@ -265,6 +273,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             }
         case .LoadingContent:
             loadController.state = .Loaded
+            delegate?.authenticatedWebViewController(authenticatedController: self, didFinishLoading: webView)
+    
         case .NeedingSession:
             state = .CreatingSession
             loadOAuthRefreshRequest()

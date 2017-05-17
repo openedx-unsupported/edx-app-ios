@@ -237,32 +237,38 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             cellItems.append(item)
         }
 
-        var item = StandardCourseDashboardItem(title: Strings.courseDashboardCourseware, detail: Strings.courseDashboardCourseDetail, icon : .Courseware) {[weak self] () -> Void in
+        var item = StandardCourseDashboardItem(title: Strings.Dashboard.courseCourseware, detail: Strings.Dashboard.courseCourseDetail, icon : .Courseware) {[weak self] () -> Void in
             self?.showCourseware()
         }
         cellItems.append(item)
         
         if shouldShowDiscussions(course: enrollment.course) {
             let courseID = self.courseID
-            item = StandardCourseDashboardItem(title: Strings.courseDashboardDiscussion, detail: Strings.courseDashboardDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
+            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseDiscussion, detail: Strings.Dashboard.courseDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
                 self?.showDiscussionsForCourseID(courseID: courseID)
             }
             cellItems.append(item)
         }
         
         if shouldShowHandouts(course: enrollment.course) {
-            item = StandardCourseDashboardItem(title: Strings.courseDashboardHandouts, detail: Strings.courseDashboardHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
+            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseHandouts, detail: Strings.Dashboard.courseHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
                 self?.showHandouts()
             }
             cellItems.append(item)
         }
         
-        item = StandardCourseDashboardItem(title: Strings.courseDashboardAnnouncements, detail: Strings.courseDashboardAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
+        item = StandardCourseDashboardItem(title: Strings.Dashboard.courseAnnouncements, detail: Strings.Dashboard.courseAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
             self?.showAnnouncements()
         }
         cellItems.append(item)
+        
+        if environment.config.courseDatesEnabled {
+            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseImportantDates, detail:Strings.Dashboard.courseImportantDatesDetail, icon:.Calendar, action: {[weak self] () -> Void in
+                self?.showCourseDates();
+            })
+            cellItems.append(item)
+        }
     }
-    
     
     private func shouldShowDiscussions(course: OEXCourse) -> Bool {
         let canShowDiscussions = self.environment.config.discussionsEnabled 
@@ -306,20 +312,24 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     private func showCourseware() {
-        self.environment.router?.showCoursewareForCourseWithID(courseID: courseID, fromController: self)
+        environment.router?.showCoursewareForCourseWithID(courseID: courseID, fromController: self)
     }
     
     private func showDiscussionsForCourseID(courseID: String) {
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        self.environment.router?.showDiscussionTopicsFromController(controller: self, courseID: courseID)
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        environment.router?.showDiscussionTopicsFromController(controller: self, courseID: courseID)
     }
     
     private func showHandouts() {
-        self.environment.router?.showHandoutsFromController(controller: self, courseID: courseID)
+        environment.router?.showHandoutsFromController(controller: self, courseID: courseID)
     }
     
     private func showAnnouncements() {
-        self.environment.router?.showAnnouncementsForCourse(withID: courseID)
+        environment.router?.showAnnouncementsForCourse(withID: courseID)
+    }
+    
+    private func showCourseDates() {
+        environment.router?.showCourseDates(controller: self, courseID: courseID)
     }
     
     override public func viewDidLayoutSubviews() {

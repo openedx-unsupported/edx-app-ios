@@ -121,6 +121,11 @@ extension OEXRouter {
         }
     }
     
+    func showCourseDates(controller:UIViewController, courseID: String) {
+        let courseDates = CourseDatesViewController(environment: environment, courseID: courseID)
+        controller.navigationController?.pushViewController(courseDates, animated: true)
+    }
+    
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, thread : DiscussionThread, isDiscussionBlackedOut: Bool) {
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
