@@ -66,6 +66,6 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
 extension WKWebView {
     func filterHTML(forClass name: String, paddingLeft: Int, paddingTop: Int, paddingRight: Int) {
         let javascriptString = "var text=''; var divs = document.getElementsByClassName('%@'); for (i = 0; i< divs.length; i ++ ){ text  += divs[i].outerHTML;} document.getElementsByTagName('body')[0].innerHTML = text; var style = document.createElement('style'); style.innerHTML = 'body { padding-left: %dpx; padding-top: %dpx; padding-right:%dpx}'; document.head.appendChild(style);"
-        evaluateJavaScript(String(format: javascriptString, classname, paddingLeft, paddingTop, paddingRight), completionHandler: nil)
+        evaluateJavaScript(String(format: javascriptString, name, paddingLeft, paddingTop, paddingRight), completionHandler: nil)
     }
 }
