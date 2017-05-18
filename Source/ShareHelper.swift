@@ -14,7 +14,6 @@ func shareTextAndALink(text: String, url: NSURL, analyticsCallback:((String) -> 
 }
 
 func shareHashtaggedTextAndALink(textBuilder: @escaping (_ hashtagOrPlatform: String) -> String, url: NSURL, courseShareUtmParameters:CourseShareUtmParameter, analyticsCallback:((String) -> Void)?) -> UIActivityViewController {
-
     let items = [PlatformHashTag(textBuilder: textBuilder), CourseShareURL(url: url, courseShareUtmParameters: courseShareUtmParameters)]
     return controllerWithItems(items: items, analyticsCallback: analyticsCallback)
 }
