@@ -15,7 +15,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var router : OEXRouter!
     var environment : TestRouterEnvironment!
-    let networkManager = MockNetworkManager(baseURL: NSURL(string: "www.example.com")!)
+    let networkManager = MockNetworkManager(baseURL: URL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
@@ -25,13 +25,13 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         router = OEXRouter(environment: environment)
     }
     
-    func loadAndVerifyControllerWithInitialChild(initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> (XCTestExpectation -> Void)?)? = nil) -> CourseContentPageViewController {
+    @discardableResult func loadAndVerifyControllerWithInitialChild(_ initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> ((XCTestExpectation) -> Void)?)? = nil) -> CourseContentPageViewController {
         
         let controller = CourseContentPageViewController(environment: environment, courseID: outline.root, rootID: parentID, initialChildID: initialChildID)
         
         inScreenNavigationContext(controller) {
-            let expectation = self.expectationWithDescription("course loaded")
-            dispatch_async(dispatch_get_main_queue()) {
+            let expectation = self.expectation(description: "course loaded")
+            DispatchQueue.main.async() {
                 let blockLoadedStream = controller.t_blockIDForCurrentViewController()
                 blockLoadedStream.listen(controller) {blockID in
                     if let next = verifier?(blockID.value, controller) {
@@ -98,9 +98,9 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         for childID in childIDs[1 ..< childIDs.count] {
             controller.t_goForward()
             
-            let expectation = expectationWithDescription("controller went forward")
+            let testExpectation = expectation(description: "controller went forward")
             controller.t_blockIDForCurrentViewController().listen(controller) {
-                expectation.fulfill()
+                testExpectation.fulfill()
                 XCTAssertEqual($0.value!, childID)
             }
             self.waitForExpectations()
@@ -122,12 +122,12 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         // Traverse through the entire child list going backward
         // verifying that we're viewing the right thing
-        for _ in Array(childIDs.reverse())[1 ..< childIDs.count] {
+        for _ in Array(childIDs.reversed())[1 ..< childIDs.count] {
             controller.t_goBackward()
             
-            let expectation = expectationWithDescription("controller went backward")
+            let testExpectation = expectation(description: "controller went backward")
             controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
-                expectation.fulfill()
+                testExpectation.fulfill()
             }
             self.waitForExpectations()
         }
@@ -140,7 +140,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) {_ in
             return { expectation -> Void in
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.environment.eventTracker.eventStream.listenOnce(self) {_ in
                         let events = self.environment.eventTracker.events.flatMap { return $0.asScreen }
                         
@@ -173,15 +173,15 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         for _ in childIDs[1 ..< childIDs.count] {
             controller.t_goForward()
             
-            let expectation = expectationWithDescription("controller went backward")
+            let testExpectation = expectation(description: "controller went backward")
             controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
-                expectation.fulfill()
+                testExpectation.fulfill()
             }
             self.waitForExpectations()
         }
         
         let pageEvents = environment.eventTracker.events.flatMap {(e : MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
-            if let event = e.asEvent where event.event.name == OEXAnalyticsEventComponentViewed {
+            if let event = e.asEvent, event.event.name == OEXAnalyticsEventComponentViewed {
                 return event
             }
             else {

@@ -12,12 +12,12 @@ extension UIButton {
     func setAttributedTitle(title : NSAttributedString, forState state: UIControlState, animated : Bool) {
         if !animated {
             UIView.performWithoutAnimation({ () -> Void in
-                self.setAttributedTitle(title, forState: state)
+                self.setAttributedTitle(title, for: state)
                 self.layoutIfNeeded()
             })
         }
         else {
-            self.setAttributedTitle(title, forState: state)
+            self.setAttributedTitle(title, for: state)
         }
     }
 }

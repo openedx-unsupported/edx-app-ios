@@ -21,17 +21,17 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS)
-import UIKit
-public typealias View = UIView
+#if os(iOS) || os(tvOS)
+    import UIKit
+    public typealias View = UIView
 #else
-import AppKit
-public typealias View = NSView
+    import AppKit
+    public typealias View = NSView
 #endif
 
 /**
-    Used to expose public API on views
-*/
+ Used to expose public API on views
+ */
 public extension View {
     
     /// left edge
@@ -121,48 +121,48 @@ public extension View {
     public var snp_centerWithinMargins: ConstraintItem { return ConstraintItem(object: self, attributes: ConstraintAttributes.CenterWithinMargins) }
     
     /**
-        Prepares constraints with a `ConstraintMaker` and returns the made constraints but does not install them.
-
-        :param: closure that will be passed the `ConstraintMaker` to make the constraints with
-        
-        :returns: the constraints made
-    */
-    public func snp_prepareConstraints(file: String = #file, line: UInt = #line, @noescape closure: (make: ConstraintMaker) -> Void) -> [Constraint] {
+     Prepares constraints with a `ConstraintMaker` and returns the made constraints but does not install them.
+     
+     - parameter closure that will be passed the `ConstraintMaker` to make the constraints with
+     
+     - returns: the constraints made
+     */
+    public func snp_prepareConstraints(_ file: String = #file, line: UInt = #line, closure: (_ make: ConstraintMaker) -> Void) -> [Constraint] {
         return ConstraintMaker.prepareConstraints(view: self, file: file, line: line, closure: closure)
     }
     
     /**
-        Makes constraints with a `ConstraintMaker` and installs them along side any previous made constraints.
-        
-        :param: closure that will be passed the `ConstraintMaker` to make the constraints with
-    */
-    public func snp_makeConstraints(file: String = #file, line: UInt = #line, @noescape closure: (make: ConstraintMaker) -> Void) -> Void {
+     Makes constraints with a `ConstraintMaker` and installs them along side any previous made constraints.
+     
+     - parameter closure that will be passed the `ConstraintMaker` to make the constraints with
+     */
+    public func snp_makeConstraints(_ file: String = #file, line: UInt = #line, closure: (_ make: ConstraintMaker) -> Void) -> Void {
         ConstraintMaker.makeConstraints(view: self, file: file, line: line, closure: closure)
     }
     
     /**
-        Updates constraints with a `ConstraintMaker` that will replace existing constraints that match and install new ones.
-    
-        For constraints to match only the constant can be updated.
-    
-        :param: closure that will be passed the `ConstraintMaker` to update the constraints with
-    */
-    public func snp_updateConstraints(file: String = #file, line: UInt = #line, @noescape closure: (make: ConstraintMaker) -> Void) -> Void {
+     Updates constraints with a `ConstraintMaker` that will replace existing constraints that match and install new ones.
+     
+     For constraints to match only the constant can be updated.
+     
+     - parameter closure that will be passed the `ConstraintMaker` to update the constraints with
+     */
+    public func snp_updateConstraints(_ file: String = #file, line: UInt = #line, closure: (_ make: ConstraintMaker) -> Void) -> Void {
         ConstraintMaker.updateConstraints(view: self, file: file, line: line, closure: closure)
     }
     
     /**
-        Remakes constraints with a `ConstraintMaker` that will first remove all previously made constraints and make and install new ones.
-    
-        :param: closure that will be passed the `ConstraintMaker` to remake the constraints with
-    */
-    public func snp_remakeConstraints(file: String = #file, line: UInt = #line, @noescape closure: (make: ConstraintMaker) -> Void) -> Void {
+     Remakes constraints with a `ConstraintMaker` that will first remove all previously made constraints and make and install new ones.
+     
+     - parameter closure that will be passed the `ConstraintMaker` to remake the constraints with
+     */
+    public func snp_remakeConstraints(_ file: String = #file, line: UInt = #line, closure: (_ make: ConstraintMaker) -> Void) -> Void {
         ConstraintMaker.remakeConstraints(view: self, file: file, line: line, closure: closure)
     }
     
     /**
-        Removes all previously made constraints.
-    */
+     Removes all previously made constraints.
+     */
     public func snp_removeConstraints() {
         ConstraintMaker.removeConstraints(view: self)
     }

@@ -23,46 +23,23 @@
 
 #if os(iOS)
 import UIKit
-#else
-import AppKit
-#endif
 
 /**
-    Used to assist in building a constraint
+    Used to expose public API on view controllers
 */
-public class ConstraintItem {
+public extension UIViewController {
     
-    internal init(object: AnyObject?, attributes: ConstraintAttributes) {
-        self.object = object
-        self.attributes = attributes
-    }
+    /// top layout guide top
+    public var snp_topLayoutGuideTop: ConstraintItem { return ConstraintItem(object: self.topLayoutGuide, attributes: ConstraintAttributes.Top) }
     
-    internal weak var object: AnyObject?
-    internal var attributes: ConstraintAttributes
+    /// top layout guide bottom
+    public var snp_topLayoutGuideBottom: ConstraintItem { return ConstraintItem(object: self.topLayoutGuide, attributes: ConstraintAttributes.Bottom) }
     
-    internal var view: View? {
-        return self.object as? View
-    }
+    /// bottom layout guide top
+    public var snp_bottomLayoutGuideTop: ConstraintItem { return ConstraintItem(object: self.bottomLayoutGuide, attributes: ConstraintAttributes.Top) }
     
-    @available(iOS 7.0, *)
-    internal var layoutSupport: LayoutSupport? {
-        return self.object as? LayoutSupport
-    }
+    /// bottom layout guide bottom
+    public var snp_bottomLayoutGuideBottom: ConstraintItem { return ConstraintItem(object: self.bottomLayoutGuide, attributes: ConstraintAttributes.Bottom) }
+    
 }
-
-
-internal func ==(left: ConstraintItem, right: ConstraintItem) -> Bool {
-    if left.object == nil {
-        return false
-    }
-    if right.object == nil {
-        return false
-    }
-    if left.object !== right.object {
-        return false
-    }
-    if left.attributes != right.attributes {
-        return false
-    }
-    return true
-}
+#endif

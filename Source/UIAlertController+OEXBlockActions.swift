@@ -16,30 +16,30 @@ extension UIAlertController {
     
     //MARK:- Init Methods
     
-    func showInViewController(viewController: UIViewController,
+    func showIn(viewController pController: UIViewController,
                               title: String?,
                               message: String?,
                               preferredStyle: UIAlertControllerStyle,
                               cancelButtonTitle: String?,
                               destructiveButtonTitle: String?,
                               otherButtonsTitle: [String]?,
-                              tapBlock: ((controller: UIAlertController, action: UIAlertAction, buttonIndex: Int) -> ())?) -> UIAlertController{
+                              tapBlock: ((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?) -> UIAlertController{
         
         let controller = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
         
         if let cancelText = cancelButtonTitle {
-            let cancelAction = UIAlertAction(title: cancelText, style: UIAlertActionStyle.Cancel, handler: { (action) in
+            let cancelAction = UIAlertAction(title: cancelText, style: UIAlertActionStyle.cancel, handler: { (action) in
                 if let tap = tapBlock {
-                    tap(controller: controller, action: action, buttonIndex: UIAlertControllerBlocksCancelButtonIndex)
+                    tap(controller, action, UIAlertControllerBlocksCancelButtonIndex)
                 }
             })
             controller.addAction(cancelAction)
         }
         
         if let destructiveText = destructiveButtonTitle {
-            let destructiveAction = UIAlertAction(title: destructiveText, style: UIAlertActionStyle.Destructive, handler: { (action) in
+            let destructiveAction = UIAlertAction(title: destructiveText, style: UIAlertActionStyle.destructive, handler: { (action) in
                 if let tap = tapBlock {
-                    tap(controller: controller, action: action, buttonIndex: UIAlertControllerBlocksDestructiveButtonIndex)
+                    tap(controller, action, UIAlertControllerBlocksDestructiveButtonIndex)
                 }
             })
             controller.addAction(destructiveAction)
@@ -47,30 +47,30 @@ extension UIAlertController {
         
         if let otherButtonsText = otherButtonsTitle {
             for otherTitle in otherButtonsText {
-                let otherAction = UIAlertAction(title: otherTitle, style: UIAlertActionStyle.Default, handler: { (action) in
+                let otherAction = UIAlertAction(title: otherTitle, style: UIAlertActionStyle.default, handler: { (action) in
                     if let tap = tapBlock {
-                        tap(controller: controller, action: action, buttonIndex: UIAlertControllerBlocksDestructiveButtonIndex)
+                        tap(controller, action, UIAlertControllerBlocksDestructiveButtonIndex)
                     }
                 })
                 controller.addAction(otherAction)
             }
         }
         
-        viewController.presentViewController(controller, animated: true, completion: nil)
+        pController.present(controller, animated: true, completion: nil)
         
         return controller
         
     }
     
-    func showAlertWithTitle(title: String?,
+    @discardableResult func showAlert(withTitle title: String?,
                             message: String?,
                             cancelButtonTitle: String?,
                             onViewController viewController: UIViewController) -> UIAlertController{
 
-        return self.showInViewController(viewController,
+        return self.showIn(viewController: viewController,
                                          title: title,
                                          message: message,
-                                         preferredStyle: UIAlertControllerStyle.Alert,
+                                         preferredStyle: UIAlertControllerStyle.alert,
                                          cancelButtonTitle: cancelButtonTitle,
                                          destructiveButtonTitle: nil,
                                          otherButtonsTitle: nil,
@@ -78,11 +78,11 @@ extension UIAlertController {
         
     }
     
-    func showAlertWithTitle(title: String?,
+    @discardableResult func showAlert(withTitle title: String?,
                             message: String?,
                             onViewController viewController: UIViewController) -> UIAlertController{
         
-        return self.showAlertWithTitle(title,
+        return self.showAlert(withTitle: title,
                                        message: message,
                                        cancelButtonTitle: Strings.ok,
                                        onViewController: viewController)
@@ -91,22 +91,22 @@ extension UIAlertController {
     
     //MARK:- Add Action Methods
     
-    func addButtonWithTitle(title: String,
+    func addButton(withTitle title: String,
                                   style: UIAlertActionStyle,
-                                  actionBlock: ((action: UIAlertAction) -> ())?) {
+                                  actionBlock: ((_ action: UIAlertAction) -> ())?) {
         let alertAction = UIAlertAction(title: title, style: style, handler: { (action) in
             if let tap = actionBlock {
-                tap(action: action)
+                tap(action)
             }
         })
         self.addAction(alertAction)
     }
     
-    func addButtonWithTitle(title: String,
-                            actionBlock: ((action: UIAlertAction) -> ())?) {
-        let alertAction = UIAlertAction(title: title, style: UIAlertActionStyle.Default, handler: { (action) in
+    func addButton(withTitle title: String,
+                            actionBlock: ((_ action: UIAlertAction) -> ())?) {
+        let alertAction = UIAlertAction(title: title, style: UIAlertActionStyle.default, handler: { (action) in
             if let tap = actionBlock {
-                tap(action: action)
+                tap(action)
             }
         })
         self.addAction(alertAction)

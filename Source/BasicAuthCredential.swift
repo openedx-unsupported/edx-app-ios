@@ -22,9 +22,9 @@ class BasicAuthCredential: NSObject {
     init?(dictionary : [String:AnyObject]) {
         guard let
             host = dictionary["HOST"] as? String,
-            hostURL = NSURL(string:host),
-            username = dictionary["USERNAME"] as? String,
-            password = dictionary["PASSWORD"] as? String else
+            let hostURL = NSURL(string:host),
+            let username = dictionary["USERNAME"] as? String,
+            let password = dictionary["PASSWORD"] as? String else
         {
             self.host = NSURL()
             self.username = ""
@@ -38,9 +38,9 @@ class BasicAuthCredential: NSObject {
         super.init()
     }
     
-    var URLCredential : NSURLCredential {
+    var credential : URLCredential {
         // Return .ForSession since credentials may change between runs
-        return NSURLCredential(user: username, password: password, persistence: .ForSession)
+        return URLCredential(user: username, password: password, persistence: .forSession)
     }
 }
 

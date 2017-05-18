@@ -9,40 +9,40 @@
 import Foundation
 
 extension UIImage {
-    func imageCroppedToRect(rect: CGRect) -> UIImage {
-        guard let cgImage = self.CGImage else { return self }
-        let imageRef = CGImageCreateWithImageInRect(cgImage, rect)
-        let cropped = UIImage(CGImage: imageRef!)
+    func imageCropped(toRect rect: CGRect) -> UIImage {
+        guard let cgImage = self.cgImage else { return self }
+        let imageRef = cgImage.cropping(to: rect)
+        let cropped = UIImage(cgImage: imageRef!)
         return cropped
     }
     
     func resizedTo(size: CGSize) -> UIImage {
         UIGraphicsBeginImageContext(size)
-        self.drawInRect(CGRect(origin: CGPointZero, size: size))
+        self.draw(in: CGRect(origin: CGPoint.zero, size: size))
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage ?? self
     }
     
     func rotateUp() -> UIImage {
-        guard imageOrientation != .Up else { return self }
+        guard imageOrientation != .up else { return self }
         
-        var transform:CGAffineTransform = CGAffineTransformIdentity
+        var transform:CGAffineTransform = .identity
         switch imageOrientation {
-        case .Down, .DownMirrored:
-            transform = CGAffineTransformTranslate(transform, size.width, size.height)
-            transform = CGAffineTransformRotate(transform, CGFloat(M_PI))
-        case .Left, .LeftMirrored:
-            transform = CGAffineTransformTranslate(transform, size.width, 0)
-            transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
-        case .Right, .RightMirrored:
-            transform = CGAffineTransformTranslate(transform, 0, size.height)
-            transform = CGAffineTransformRotate(transform,  CGFloat(-M_PI_2))
-        case .UpMirrored:
-            transform = CGAffineTransformTranslate(transform, size.width, 0)
-            transform = CGAffineTransformScale(transform, -1, 1)
+        case .down, .downMirrored:
+            transform = transform.translatedBy(x: size.width, y: size.height)
+            transform = transform.rotated(by: CGFloat(Double.pi))
+        case .left, .leftMirrored:
+            transform = transform.translatedBy(x: size.width, y: 0)
+            transform = transform.rotated(by: CGFloat(Double.pi/2))
+        case .right, .rightMirrored:
+            transform = transform.translatedBy(x: 0, y: size.height)
+            transform = transform.rotated(by: CGFloat(-Double.pi/2))
+        case .upMirrored:
+            transform = transform.translatedBy(x: size.width, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
         default:
-            transform = CGAffineTransformIdentity
+            transform = .identity
         }
         
 
@@ -51,8 +51,8 @@ extension UIImage {
         
         guard let context = UIGraphicsGetCurrentContext() else { return self }
         
-        drawInRect(CGRect(origin: CGPointZero, size: size))
-        CGContextConcatCTM(context, transform)
+        draw(in: CGRect(origin: CGPoint.zero, size: size))
+        context.concatenate(transform)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return image ?? self

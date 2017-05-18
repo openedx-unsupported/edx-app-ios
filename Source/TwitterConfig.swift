@@ -11,7 +11,7 @@ import Foundation
 
 struct TwitterConfiguration {
 
-    private enum Fields: String, RawStringExtractable {
+    fileprivate enum Fields: String, RawStringExtractable {
         case Root = "TWITTER"
         case HashTag = "HASHTAG"
     }

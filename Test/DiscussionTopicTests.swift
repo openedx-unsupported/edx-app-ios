@@ -15,7 +15,7 @@ class DiscussionTopicTests: XCTestCase {
     func testLinearization() {
         let topics = DiscussionTopic.testTopics()
         let expectedIDs = DiscussionTopic.testTopicIDsLinearized()
-        let foundIDs = DiscussionTopic.linearizeTopics(topics).map {
+        let foundIDs = DiscussionTopic.linearizeTopics(topics: topics).map {
             return $0.id
         }
         

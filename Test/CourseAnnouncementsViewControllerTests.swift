@@ -12,7 +12,7 @@ import XCTest
 
 class CourseAnnouncementsViewControllerTests: XCTestCase {
     
-    func assertNotificationVisibility(visible : Bool) {
+    func assertNotificationVisibility(_ visible : Bool) {
         let course = OEXCourse.freshCourse()
         let config = OEXConfig(dictionary: ["PUSH_NOTIFICATIONS" : visible])
         let environment = TestRouterEnvironment(config: config)

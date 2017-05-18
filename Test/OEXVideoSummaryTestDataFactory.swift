@@ -14,9 +14,9 @@ import Foundation
 class OEXVideoSummaryTestDataFactory {
     
     /// A video that can be accessed from the file system
-    static func localVideoWithID(videoID : String, pathIDs: [String]) -> OEXVideoSummary {
-        let videoPath : String = NSBundle(forClass: self).URLForResource("test-movie", withExtension: "m4v")!.absoluteString!
-        let info : [NSObject:AnyObject] = [
+    static func localVideoWithID(_ videoID : String, pathIDs: [String]) -> OEXVideoSummary {
+        let videoPath : String = Bundle(for: self).url(forResource: "test-movie", withExtension: "m4v")!.absoluteString
+        let info : [AnyHashable: Any] = [
             "section_url": "url://to/nowhere",
             "path": [
                 [

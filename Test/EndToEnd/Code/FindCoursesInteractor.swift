@@ -30,11 +30,11 @@ class FindCoursesInteractor: FeatureInteractor {
     
     func verifyFindCoursesLoaded () {
         
-        let config = OEXConfig(bundle: NSBundle(forClass: FindCoursesInteractor.self))
+        let config = OEXConfig(bundle: Bundle(for: FindCoursesInteractor.self))
      
         switch config.courseEnrollmentConfig.type {
         case .Native, .None:
-            waitForElement(coursesTableView.cells.elementBoundByIndex(0))
+            waitForElement(coursesTableView.cells.element(boundBy: 0))
             
         case .Webview:
             waitForElementNonNullValue(coursesWebView)

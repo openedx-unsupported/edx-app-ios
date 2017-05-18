@@ -27,7 +27,7 @@
     NSInteger length = [currentValue length];
     if(length < field.restriction.minLength) {
         if(!field.errorMessage.minLength) {
-            return [Strings registrationFieldMinLengthError:field.label count:@(field.restriction.minLength).description](field.restriction.minLength);
+            return [Strings registrationFieldMinLengthErrorWithFieldName:field.label count:@(field.restriction.minLength).description](field.restriction.minLength);
         }
         else {
             return field.errorMessage.minLength;
@@ -35,7 +35,7 @@
     }
     if(length > field.restriction.maxLength && field.restriction.maxLength != 0) {
         if(!field.errorMessage.maxLength) {
-            NSString* errorMessage = [Strings registrationFieldMaxLengthError:field.label count:@(field.restriction.maxLength).description](field.restriction.maxLength);
+            NSString* errorMessage = [Strings registrationFieldMaxLengthErrorWithFieldName:field.label count:@(field.restriction.maxLength).description](field.restriction.maxLength);
             return errorMessage;
         }
         else {

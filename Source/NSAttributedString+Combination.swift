@@ -13,22 +13,22 @@ extension NSAttributedString {
     class func joinInNaturalLayout(attributedStrings : [NSAttributedString]) -> NSAttributedString {
         var attributedStrings = attributedStrings
         
-        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
-            attributedStrings = Array(attributedStrings.reverse())
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+            attributedStrings = Array(attributedStrings.reversed())
         }
         
         let blankSpace = NSAttributedString(string : " ")
         let resultString = NSMutableAttributedString()
         
-        for (index,attrString) in attributedStrings.enumerate() {
-            if index != 0 { resultString.appendAttributedString(blankSpace) }
-            resultString.appendAttributedString(attrString)
+        for (index,attrString) in attributedStrings.enumerated() {
+            if index != 0 { resultString.append(blankSpace) }
+            resultString.append(attrString)
         }
         return resultString
     }
     
     func singleLineWidth() -> CGFloat {
-        let boundingRect = self.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: [.UsesLineFragmentOrigin, .UsesFontLeading], context: nil)
+        let boundingRect = self.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: [.usesLineFragmentOrigin, .usesFontLeading], context: nil)
         
         return boundingRect.width
     }
@@ -38,9 +38,9 @@ extension String {
     
     static func joinInNaturalLayout(nullableStrings : [String?], separator : String = " ") -> String {
         var  strings = nullableStrings.mapSkippingNils({return $0})
-        if UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft {
-            strings = strings.reverse()
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+            strings = strings.reversed()
         }
-        return strings.joinWithSeparator(separator)
+        return strings.joined(separator: separator)
     }
 }

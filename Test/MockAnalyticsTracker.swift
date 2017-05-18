@@ -9,10 +9,10 @@
 import Foundation
 import edX
 
-public class MockAnalyticsEventRecord : NSObject {
-    public let event: OEXAnalyticsEvent
-    public let component: String?
-    public let properties: [String : AnyObject]
+open class MockAnalyticsEventRecord : NSObject {
+    open let event: OEXAnalyticsEvent
+    open let component: String?
+    open let properties: [String : AnyObject]
     
     init(event : OEXAnalyticsEvent, component: String?, properties: [String:AnyObject]) {
         self.event = event
@@ -21,11 +21,11 @@ public class MockAnalyticsEventRecord : NSObject {
     }
 }
 
-public class MockAnalyticsScreenRecord : NSObject {
-    public let screenName: String
-    public let value: String?
-    public let courseID: String?
-    public let additionalInfo: NSDictionary?
+open class MockAnalyticsScreenRecord : NSObject {
+    open let screenName: String
+    open let value: String?
+    open let courseID: String?
+    open let additionalInfo: NSDictionary?
     
     init(screenName : String, courseID: String?, value: String?, additionalInfo: NSDictionary?) {
         self.screenName = screenName
@@ -36,32 +36,32 @@ public class MockAnalyticsScreenRecord : NSObject {
 }
 
 enum MockAnalyticsRecord {
-    case Screen(MockAnalyticsScreenRecord)
-    case Event(MockAnalyticsEventRecord)
+    case screen(MockAnalyticsScreenRecord)
+    case event(MockAnalyticsEventRecord)
     
     var asEvent : MockAnalyticsEventRecord? {
         switch self {
-        case .Screen(_): return nil
-        case let .Event(e): return e
+        case .screen(_): return nil
+        case let .event(e): return e
         }
     }
     
     var asScreen : MockAnalyticsScreenRecord? {
         switch self {
-        case let .Screen(s): return s
-        case .Event(_): return nil
+        case let .screen(s): return s
+        case .event(_): return nil
         }
     }
 }
 
 class MockAnalyticsTracker : NSObject, OEXAnalyticsTracker {
     
-    private(set) var currentUser: OEXUserDetails? = nil
-    private(set) var events: [MockAnalyticsRecord] = []
+    fileprivate(set) var currentUser: OEXUserDetails? = nil
+    fileprivate(set) var events: [MockAnalyticsRecord] = []
     
     let eventStream = Sink<MockAnalyticsRecord>()
     
-    func identifyUser(user: OEXUserDetails?) {
+    func identifyUser(_ user: OEXUserDetails?) {
         currentUser = user
     }
     
@@ -69,15 +69,15 @@ class MockAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         currentUser = nil
     }
     
-    func trackEvent(event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : AnyObject]) {
-        let record = MockAnalyticsRecord.Event(MockAnalyticsEventRecord(event: event, component: component, properties: properties))
+    func trackEvent(_ event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : Any]) {
+        let record = MockAnalyticsRecord.event(MockAnalyticsEventRecord(event: event, component: component, properties: properties as [String : AnyObject]))
         events.append(record)
         eventStream.send(record)
     }
     
-    func trackScreenWithName(screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
+    func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
         
-        let record = MockAnalyticsRecord.Screen(MockAnalyticsScreenRecord(screenName: screenName, courseID: courseID, value: value, additionalInfo: info))
+        let record = MockAnalyticsRecord.screen(MockAnalyticsScreenRecord(screenName: screenName, courseID: courseID, value: value, additionalInfo: info as NSDictionary?))
         events.append(record)
         eventStream.send(record)
     }

@@ -21,7 +21,7 @@
 - (void)testAddAction {
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     __block BOOL fired = NO;
-    [button oex_addAction:^(UIButton* control) {
+    [button oex_addAction:^(NSObject* control) {
         fired = YES;
     } forEvents:UIControlEventTouchUpInside];
     
@@ -32,9 +32,10 @@
 - (void)testRemoveAction {
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     __block BOOL fired = NO;
-    id <OEXRemovable> action = [button oex_addAction:^(UIButton* control) {
+    id <OEXRemovable> action = [button oex_addAction:^(NSObject* control) {
         fired = YES;
     } forEvents:UIControlEventTouchUpInside];
+    
     [action remove];
     
     [button sendActionsForControlEvents:UIControlEventTouchUpInside];

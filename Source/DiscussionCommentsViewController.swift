@@ -9,58 +9,58 @@
 import UIKit
 
 private var commentTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralDark())
 }
 
 private var smallTextStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralDark())
 }
 
 private var smallIconStyle : OEXTextStyle {
-    return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+    return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
 }
 
-private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.sharedStyles().primaryBaseColor())
+private let smallIconSelectedStyle = smallIconStyle.withColor(OEXStyles.shared().primaryBaseColor())
 
-private let UserProfileImageSize = CGSizeMake(40.0,40.0)
+private let UserProfileImageSize = CGSize(width: 40, height: 40)
 
 class DiscussionCommentCell: UITableViewCell {
     
     private let bodyTextView = UITextView()
-    private let authorButton = UIButton(type: .System)
-    private let commentCountOrReportIconButton = UIButton(type: .System)
+    private let authorButton = UIButton(type: .system)
+    private let commentCountOrReportIconButton = UIButton(type: .system)
     private let divider = UIView()
     private let containerView = UIView()
-    private let endorsedLabel = UILabel()
+    fileprivate let endorsedLabel = UILabel()
     private let authorProfileImage = UIImageView()
     private let authorNameLabel = UILabel()
     private let dateLabel = UILabel()
     
-    private var endorsedTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().utilitySuccessBase())
+    fileprivate var endorsedTextStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().utilitySuccessBase())
     }
     
     private func setEndorsed(endorsed : Bool) {
-        endorsedLabel.hidden = !endorsed
+        endorsedLabel.isHidden = !endorsed
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         
         applyStandardSeparatorInsets()
         addSubViews()
         setConstraints()
-        bodyTextView.editable = false
-        bodyTextView.dataDetectorTypes = UIDataDetectorTypes.All
-        bodyTextView.scrollEnabled = false
-        bodyTextView.backgroundColor = UIColor.clearColor()
-        containerView.userInteractionEnabled = true
+        bodyTextView.isEditable = false
+        bodyTextView.dataDetectorTypes = UIDataDetectorTypes.all
+        bodyTextView.isScrollEnabled = false
+        bodyTextView.backgroundColor = UIColor.clear
+        containerView.isUserInteractionEnabled = true
         commentCountOrReportIconButton.localizedHorizontalContentAlignment = .Trailing
-        contentView.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
-        divider.backgroundColor = OEXStyles.sharedStyles().discussionsBackgroundColor
-        containerView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-        containerView.applyBorderStyle(BorderStyle())
+        contentView.backgroundColor = OEXStyles.shared().discussionsBackgroundColor
+        divider.backgroundColor = OEXStyles.shared().discussionsBackgroundColor
+        containerView.backgroundColor = OEXStyles.shared().neutralWhiteT()
+        containerView.applyBorderStyle(style: BorderStyle())
         accessibilityTraits = UIAccessibilityTraitHeader
         bodyTextView.isAccessibilityElement = false
     }
@@ -120,7 +120,7 @@ class DiscussionCommentCell: UITableViewCell {
         }
         
         commentCountOrReportIconButton.snp_makeConstraints { (make) -> Void in
-            make.trailing.equalTo(containerView).offset(-OEXStyles.sharedStyles().standardHorizontalMargin())
+            make.trailing.equalTo(containerView).offset(-OEXStyles.shared().standardHorizontalMargin())
             make.top.equalTo(authorNameLabel)
         }
         
@@ -137,57 +137,65 @@ class DiscussionCommentCell: UITableViewCell {
         divider.snp_updateConstraints { (make) in
             make.height.equalTo(StandardVerticalMargin)
         }
-        bodyTextView.attributedText = commentTextStyle.markdownStringWithText(response.renderedBody)
-        DiscussionHelper.styleAuthorDetails(response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
+        bodyTextView.attributedText = commentTextStyle.markdownString(withText: response.renderedBody)
+        DiscussionHelper.styleAuthorDetails(author: response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
         let message = Strings.comment(count: response.childCount)
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([
-            Icon.Comment.attributedTextWithStyle(smallIconStyle),
-            smallTextStyle.attributedStringWithText(message)])
-        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [
+            Icon.Comment.attributedTextWithStyle(style: smallIconStyle),
+            smallTextStyle.attributedString(withText: message)])
+        commentCountOrReportIconButton.setAttributedTitle(buttonTitle, for: .normal)
         
-        setEndorsed(response.endorsed)
+        setEndorsed(endorsed: response.endorsed)
         setNeedsLayout()
         layoutIfNeeded()
         
-        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
+        DiscussionHelper.styleAuthorProfileImageView(imageView: authorProfileImage)
         
-        setAccessiblity(commentCountOrReportIconButton.currentAttributedTitle?.string)
+        setAccessiblity(commentCount: commentCountOrReportIconButton.currentAttributedTitle?.string)
     }
     
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, index: NSInteger) {
         divider.snp_updateConstraints { (make) in
             make.height.equalTo(2)
         }
-        bodyTextView.attributedText = commentTextStyle.markdownStringWithText(comment.renderedBody)
-        updateReportText(commentCountOrReportIconButton, report: comment.abuseFlagged)
-        DiscussionHelper.styleAuthorDetails(comment.author, authorLabel: comment.authorLabel, createdAt: comment.createdAt, hasProfileImage: comment.hasProfileImage, imageURL: comment.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
+        bodyTextView.attributedText = commentTextStyle.markdownString(withText: comment.renderedBody)
+        updateReportText(button: commentCountOrReportIconButton, report: comment.abuseFlagged)
+        DiscussionHelper.styleAuthorDetails(author: comment.author, authorLabel: comment.authorLabel, createdAt: comment.createdAt, hasProfileImage: comment.hasProfileImage, imageURL: comment.imageURL, authoNameLabel: authorNameLabel, dateLabel: dateLabel, authorButton: authorButton, imageView: authorProfileImage, viewController: viewController, router: viewController.environment.router)
         
         commentCountOrReportIconButton.oex_removeAllActions()
         commentCountOrReportIconButton.oex_addAction({[weak viewController] _ -> Void in
             
-            let apiRequest = DiscussionAPI.flagComment(!comment.abuseFlagged, commentID: comment.commentID)
+            let apiRequest = DiscussionAPI.flagComment(abuseFlagged: !comment.abuseFlagged, commentID: comment.commentID)
             viewController?.environment.networkManager.taskForRequest(apiRequest) { result in
                 if let response = result.data {
-                    if viewController?.comments.count > index && viewController?.comments[index].commentID == response.commentID {
-                        viewController?.comments[index] = response
-                        self.updateReportText(self.commentCountOrReportIconButton, report: response.abuseFlagged)
+                    if (viewController?.comments.count)! > index && viewController?.comments[index].commentID == response.commentID {
+                        let patchedComment = self.patchComment(oldComment: viewController?.comments[index], newComment: response)
+                        viewController?.comments[index] = patchedComment
+                        self.updateReportText(button: self.commentCountOrReportIconButton, report: response.abuseFlagged)
                         viewController?.tableView.reloadData()
                     }
                 }
                 else {
-                    viewController?.showOverlayMessage(DiscussionHelper.messageForError(result.error))
+                    viewController?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                 }
             }
-            }, forEvents: UIControlEvents.TouchUpInside)
+            }, for: UIControlEvents.touchUpInside)
         
         
-        setEndorsed(false)
+        setEndorsed(endorsed: false)
         setNeedsLayout()
         layoutIfNeeded()
-        DiscussionHelper.styleAuthorProfileImageView(authorProfileImage)
+        DiscussionHelper.styleAuthorProfileImageView(imageView: authorProfileImage)
         
-        setAccessiblity(nil)
+        setAccessiblity(commentCount: nil)
+    }
+    
+    private func patchComment(oldComment: DiscussionComment?, newComment: DiscussionComment)-> DiscussionComment {
+        var patchComment = newComment
+        patchComment.hasProfileImage = oldComment?.hasProfileImage ?? false
+        patchComment.imageURL = oldComment?.imageURL ?? ""
+        return patchComment
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -197,11 +205,11 @@ class DiscussionCommentCell: UITableViewCell {
     private func updateReportText(button: UIButton, report: Bool) {
         
         let iconStyle = report ? smallIconSelectedStyle : smallIconStyle
-        let reportIcon = Icon.ReportFlag.attributedTextWithStyle(iconStyle)
-        let reportTitle = smallTextStyle.attributedStringWithText((report ? Strings.discussionUnreport : Strings.discussionReport ))
+        let reportIcon = Icon.ReportFlag.attributedTextWithStyle(style: iconStyle)
+        let reportTitle = smallTextStyle.attributedString(withText: (report ? Strings.discussionUnreport : Strings.discussionReport ))
         
-        let buttonTitle = NSAttributedString.joinInNaturalLayout([reportIcon, reportTitle])
-        button.setAttributedTitle(buttonTitle, forState: .Normal)
+        let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [reportIcon, reportTitle])
+        button.setAttributedTitle(buttonTitle, for: .normal)
         
         button.snp_remakeConstraints { (make) in
             make.top.equalTo(contentView).offset(StandardVerticalMargin)
@@ -217,22 +225,22 @@ class DiscussionCommentCell: UITableViewCell {
         let sentenceSeparator = ", "
         
         let body = bodyTextView.attributedText.string
-        accessibilityString.appendContentsOf(body + sentenceSeparator)
+        accessibilityString.append(body + sentenceSeparator)
             
         if let date = dateLabel.text {
-            accessibilityString.appendContentsOf(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
+            accessibilityString.append(Strings.Accessibility.discussionPostedOn(date: date) + sentenceSeparator)
         }
         
         if let author = authorNameLabel.text {
-            accessibilityString.appendContentsOf(Strings.accessibilityBy + " " + author + sentenceSeparator)
+            accessibilityString.append(Strings.accessibilityBy + " " + author + sentenceSeparator)
         }
         
-        if let endorsed = endorsedLabel.text where !endorsedLabel.hidden {
-            accessibilityString.appendContentsOf(endorsed + sentenceSeparator)
+        if let endorsed = endorsedLabel.text, !endorsedLabel.isHidden {
+            accessibilityString.append(endorsed + sentenceSeparator)
         }
         
         if let comments = commentCount {
-            accessibilityString.appendContentsOf(comments)
+            accessibilityString.append(comments)
             commentCountOrReportIconButton.isAccessibilityElement = false
         }
         
@@ -252,7 +260,7 @@ protocol DiscussionCommentsViewControllerDelegate: class {
 
 class DiscussionCommentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DiscussionNewCommentViewControllerDelegate, InterfaceOrientationOverriding {
     
-    typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, OEXStylesProvider>
+    typealias Environment = DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXConfigProvider
     
     private enum TableSection : Int {
         case Response = 0
@@ -260,27 +268,33 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private let identifierCommentCell = "CommentCell"
-    private let environment: Environment
+    fileprivate let environment: Environment
     private let courseID: String
     private let discussionManager : DiscussionDataManager
     private var loadController : LoadStateViewController
     private let contentView = UIView()
-    private let addCommentButton = UIButton(type: .System)
-    private var tableView: UITableView!
-    private var comments : [DiscussionComment]  = []
+    private let addCommentButton = UIButton(type: .system)
+    fileprivate var tableView: UITableView!
+    fileprivate var comments : [DiscussionComment]  = []
     private var responseItem: DiscussionComment
     weak var delegate: DiscussionCommentsViewControllerDelegate?
+    var profileFeed: Feed<UserProfile>?
+    var tempComment: DiscussionComment? // This will be used for injecting user info to added comment
     
     //Since didSet doesn't get called from within initialization context, we need to set it with another variable.
     private var commentsClosed : Bool = false {
         didSet {
+            let styles = OEXStyles.shared()
             
-            let textStyle = OEXTextStyle(weight : .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralWhite())
+            addCommentButton.backgroundColor = commentsClosed ? styles.neutralBase() : styles.primaryXDarkColor()
+            
+            let textStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralWhite())
             let icon = commentsClosed ? Icon.Closed : Icon.Create
             let buttonText = commentsClosed ? Strings.commentsClosed : Strings.addAComment
-            let buttonTitle = NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(textStyle.withSize(.XSmall)), textStyle.attributedStringWithText(buttonText)])
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedTextWithStyle(style: textStyle.withSize(.xSmall)), textStyle.attributedString(withText: buttonText)])
             
-            addCommentButton.setAttributedTitle(buttonTitle, forState: .Normal)
+            addCommentButton.setAttributedTitle(buttonTitle, for: .normal)
+            addCommentButton.isEnabled = !commentsClosed
             
             if (!commentsClosed) {
                 addCommentButton.oex_addAction({[weak self] (action : AnyObject!) -> Void in
@@ -288,9 +302,9 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                         
                         guard let thread = owner.thread else { return }
                         
-                        owner.environment.router?.showDiscussionNewCommentFromController(owner, courseID: owner.courseID, thread: thread, context: .Comment(owner.responseItem))
+                        owner.environment.router?.showDiscussionNewCommentFromController(controller: owner, courseID: owner.courseID, thread: thread, context: .Comment(owner.responseItem))
                     }
-                    }, forEvents: UIControlEvents.TouchUpInside)
+                    }, for: UIControlEvents.touchUpInside)
             }
         }
     }
@@ -312,7 +326,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         self.environment = environment
         self.responseItem = responseItem
         self.thread = thread
-        self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(self.courseID)
+        self.discussionManager = self.environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: self.courseID)
         self.closed = closed
         self.isDiscussionBlackedOut = isDiscussionBlackedOut
         self.loadController = LoadStateViewController()
@@ -326,8 +340,8 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView = UITableView(frame: view.bounds, style: .Plain)
-        tableView.registerClass(DiscussionCommentCell.classForCoder(), forCellReuseIdentifier: identifierCommentCell)
+        tableView = UITableView(frame: view.bounds, style: .plain)
+        tableView.register(DiscussionCommentCell.classForCoder(), forCellReuseIdentifier: identifierCommentCell)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.estimatedRowHeight = 100
@@ -337,29 +351,30 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         setStyles()
         setConstraints()
         
-        loadController.setupInController(self, contentView: self.contentView)
+        loadController.setupInController(controller: self, contentView: self.contentView)
         
         self.commentsClosed = self.closed
         
         initializePaginator()
         loadContent()
+        setupProfileLoader()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         logScreenEvent()
     }
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate: Bool {
         return true
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .AllButUpsideDown
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
     
     private func logScreenEvent() {
-        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem.threadID, topicId: nil, responseID: responseItem.commentID)
+        self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem.threadID, topicId: nil, responseID: responseItem.commentID)
     }
     
     func addSubviews() {
@@ -370,27 +385,27 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     func setStyles() {
         
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
         tableView.applyStandardSeparatorInsets()
-        tableView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        tableView.backgroundColor = OEXStyles.shared().neutralXLight()
         tableView.contentInset = UIEdgeInsetsMake(10.0, 0, 0, 0)
         tableView.clipsToBounds = true
         
         self.navigationItem.title = Strings.comments
-        view.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
-        self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        view.backgroundColor = OEXStyles.shared().neutralXLight()
+        self.contentView.backgroundColor = OEXStyles.shared().neutralXLight()
         
-        addCommentButton.contentVerticalAlignment = .Center
+        addCommentButton.contentVerticalAlignment = .center
         
         addCommentButton.backgroundColor = isDiscussionBlackedOut || commentsClosed ? environment.styles.neutralBase() : environment.styles.primaryXDarkColor()
-        addCommentButton.enabled = !(isDiscussionBlackedOut || commentsClosed)
-        
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+        addCommentButton.isEnabled = !(isDiscussionBlackedOut || commentsClosed)
+       
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
     
     func toggleAddCommentButton(enabled: Bool){
         addCommentButton.backgroundColor = enabled ? environment.styles.primaryXDarkColor() : environment.styles.neutralBase()
-        addCommentButton.enabled = enabled
+        addCommentButton.isEnabled = enabled
     }
     
     func setConstraints() {
@@ -404,7 +419,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         addCommentButton.snp_makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(OEXStyles.sharedStyles().standardFooterHeight)
+            make.height.equalTo(OEXStyles.shared().standardFooterHeight)
             make.bottom.equalTo(view.snp_bottom)
         }
         
@@ -423,7 +438,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         precondition(!commentID.isEmpty, "Shouldn't be showing comments for empty commentID")
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.getComments(self.environment.router?.environment, commentID: commentID, pageNumber: page)
+            return DiscussionAPI.getComments(environment: self.environment.router?.environment, commentID: commentID, pageNumber: page)
         }
         paginationController = PaginationController(paginator: paginator, tableView: self.tableView)
     }
@@ -436,7 +451,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                 self?.tableView.reloadData()
                 UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
             }, failure: { [weak self] (error) -> Void in
-                self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error: error)
         })
         
         paginationController?.loadMore()
@@ -445,41 +460,57 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private func showAddedComment(comment: DiscussionComment) {
         comments.append(comment)
         tableView.reloadData()
-        let indexPath = NSIndexPath(forRow: comments.count - 1, inSection: TableSection.Comments.rawValue)
-        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: false)
+        
+        let indexPath = IndexPath(row: comments.count - 1, section: TableSection.Comments.rawValue)
+        tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+    }
+    
+    private func setupProfileLoader() {
+        guard environment.config.profilesEnabled else { return }
+        profileFeed = self.environment.dataManager.userProfileManager.feedForCurrentUser()
+        profileFeed?.output.listen(self,  success: { [weak self] profile in
+            if var comment = self?.tempComment {
+                comment.hasProfileImage = !((profile.imageURL?.isEmpty) ?? true )
+                comment.imageURL = profile.imageURL ?? ""
+                self?.showAddedComment(comment: comment)
+                self?.tempComment = nil
+            }
+            }, failure : { _ in
+                Logger.logError("Profiles", "Unable to fetch profile")
+        })
     }
     
     // MARK - tableview delegate methods
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch TableSection(rawValue:section) {
-        case .Some(.Response): return 1
-        case .Some(.Comments): return comments.count
-        case .None:
+        case .some(.Response): return 1
+        case .some(.Comments): return comments.count
+        case .none:
             assert(true, "Unexepcted table section")
             return 0
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifierCommentCell, forIndexPath: indexPath) as! DiscussionCommentCell
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifierCommentCell, for: indexPath) as! DiscussionCommentCell
         
         switch TableSection(rawValue: indexPath.section) {
-        case .Some(.Response):
-            cell.useResponse(responseItem, viewController: self)
+        case .some(.Response):
+            cell.useResponse(response: responseItem, viewController: self)
             if let thread = thread {
-                DiscussionHelper.updateEndorsedTitle(thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
+                DiscussionHelper.updateEndorsedTitle(thread: thread, label: cell.endorsedLabel, textStyle: cell.endorsedTextStyle)
             }
             
             return cell
-        case .Some(.Comments):
-            cell.useComment(comments[indexPath.row], inViewController: self, index: indexPath.row)
+        case .some(.Comments):
+            cell.useComment(comment: comments[indexPath.row], inViewController: self, index: indexPath.row)
             return cell
-        case .None:
+        case .none:
             assert(false, "Unknown table section")
             return UITableViewCell()
         }
@@ -491,17 +522,18 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         responseItem.childCount += 1
         
         if !(paginationController?.hasNext ?? false) {
-            showAddedComment(comment)
+            tempComment = comment
+            profileFeed?.refresh()
         }
         
-        delegate?.discussionCommentsView(self, updatedComment: responseItem)
-        showOverlayMessage(Strings.discussionCommentPosted)
+        delegate?.discussionCommentsView(controller: self, updatedComment: responseItem)
+        showOverlay(withMessage: Strings.discussionCommentPosted)
     }
 }
 
 // Testing only
 extension DiscussionCommentsViewController {
-    var t_loaded : Stream<()> {
+    var t_loaded : OEXStream<()> {
         return self.paginationController!.stream.map {_ in
             return
         }

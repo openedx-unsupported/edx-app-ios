@@ -35,7 +35,7 @@ class ListCursorTests: XCTestCase {
             acc.append(value)
             XCTAssertEqual(value, cursor.current)
         }
-        XCTAssertEqual(Array(acc.reverse()), list)
+        XCTAssertEqual(Array(acc.reversed()), list)
         XCTAssertTrue(cursor.hasNext)
         XCTAssertFalse(cursor.hasPrev)
         XCTAssertNil(cursor.prev())
@@ -77,7 +77,7 @@ class ListCursorTests: XCTestCase {
         var acc : [Int] = []
         let cursor = ListCursor(before: [1, 2], current: 3, after: [4, 5])
         cursor.loopToStart {(cursor, _) in
-            acc.insert(cursor.current, atIndex: 0)
+            acc.insert(cursor.current, at: 0)
         }
         XCTAssertEqual(acc, [1, 2, 3])
     }
@@ -86,7 +86,7 @@ class ListCursorTests: XCTestCase {
         var acc : [Int] = []
         let cursor = ListCursor(before: [1, 2], current: 3, after: [4, 5])
         cursor.loopToStartExcludingCurrent {(cursor, _) in
-            acc.insert(cursor.current, atIndex: 0)
+            acc.insert(cursor.current, at: 0)
         }
         XCTAssertEqual(acc, [1, 2])
     }

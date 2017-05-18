@@ -21,8 +21,8 @@ public class UserPreference {
         timeZone = json[PreferenceKeys.TimeZone].string ?? "UTC"
         
         //Set all dates to convert to user time zone chosen on web platform
-        if let timeZoneName = timeZone, validTimeZone = NSTimeZone(name: timeZoneName) {
-            NSTimeZone.setDefaultTimeZone(validTimeZone)
+        if let timeZoneName = timeZone, let validTimeZone = NSTimeZone(name: timeZoneName) {
+            NSTimeZone.default = validTimeZone as TimeZone
         }
     }
     

@@ -54,27 +54,27 @@ extension UserProfile : FormData {
         case .YearOfBirth:
             let newValue = value.flatMap { Int($0) }
             if newValue != birthYear {
-                updateDictionary[key] = newValue ?? NSNull()
+                updateDictionary[key] = newValue as AnyObject?
             }
             birthYear = newValue
         case .LanguagePreferences:
             let changed =  value != languageCode
             languageCode = value
             if changed {
-                updateDictionary[key] = preferredLanguages ?? NSNull()
+                updateDictionary[key] = preferredLanguages as AnyObject
             }
         case .Country:
             if value != countryCode {
-                updateDictionary[key] = value ?? NSNull()
+                updateDictionary[key] = value as AnyObject
             }
             countryCode = value
         case .Bio:
             if value != bio {
-                updateDictionary[key] = value ?? NSNull()
+                updateDictionary[key] = value as AnyObject 
             }
             bio = value
         case .AccountPrivacy:
-            setLimitedProfile(NSString(string: value!).boolValue)
+            setLimitedProfile(newValue: NSString(string: value!).boolValue)
         default: break
             
         }
@@ -84,7 +84,7 @@ extension UserProfile : FormData {
 
 class UserProfileEditViewController: UITableViewController {
     
-    typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, NetworkManagerProvider>
+    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider
     
     var profile: UserProfile
     let environment: Environment
@@ -112,14 +112,14 @@ class UserProfileEditViewController: UITableViewController {
     private func makeHeader() -> UIView {
         banner = ProfileBanner(editable: true) { [weak self] in
             self?.imagePicker = ProfilePictureTaker(delegate: self!)
-            self?.imagePicker?.start(self!.profile.hasProfileImage)
+            self?.imagePicker?.start(alreadyHasImage: self!.profile.hasProfileImage)
         }
         banner.style = .DarkContent
-        banner.shortProfView.borderColor = OEXStyles.sharedStyles().neutralLight()
+        banner.shortProfView.borderColor = OEXStyles.shared().neutralLight()
         banner.backgroundColor = tableView.backgroundColor
         
         let networkManager = environment.networkManager
-        banner.showProfile(profile, networkManager: networkManager)
+        banner.showProfile(profile: profile, networkManager: networkManager)
         
         
         let bannerWrapper = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: headerHeight))
@@ -141,7 +141,7 @@ class UserProfileEditViewController: UITableViewController {
         }
         
         let bottomLine = UIView()
-        bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralLight()
+        bottomLine.backgroundColor = OEXStyles.shared().neutralLight()
         bannerWrapper.addSubview(bottomLine)
         bottomLine.snp_makeConstraints { (make) -> Void in
             make.left.equalTo(bannerWrapper)
@@ -171,7 +171,7 @@ class UserProfileEditViewController: UITableViewController {
         }
         
         if let form = JSONFormBuilder(jsonFile: "profiles") {
-            JSONFormBuilder.registerCells(tableView)
+            JSONFormBuilder.registerCells(tableView: tableView)
             fields = form.fields!
         }
     }
@@ -180,8 +180,8 @@ class UserProfileEditViewController: UITableViewController {
         super.viewWillLayoutSubviews()
         let viewHeight = view.bounds.height
         var footerFrame = footer.frame
-        let footerViewRect = footer.superview!.convertRect(footerFrame, toView: view)
-        footerFrame.size.height = viewHeight - CGRectGetMinY(footerViewRect)
+        let footerViewRect = footer.superview!.convert(footerFrame, to: view)
+        footerFrame.size.height = viewHeight - footerViewRect.minY
         footer.frame = footerFrame
     }
     
@@ -196,22 +196,22 @@ class UserProfileEditViewController: UITableViewController {
                 make.center.equalTo(view)
             }
             
-            environment.dataManager.userProfileManager.updateCurrentUserProfile(profile) {[weak self] result in
+            environment.dataManager.userProfileManager.updateCurrentUserProfile(profile: profile) {[weak self] result in
                 self?.spinner.removeFromSuperview()
                 if let newProf = result.value {
                     self?.profile = newProf
                     self?.reloadViews()
                 } else {
                     let message = Strings.Profile.unableToSend(fieldName: fieldDescription)
-                    self?.showToast(message)
+                    self?.showToast(message: message)
                 }
             }
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics.trackScreenWithName(OEXAnalyticsScreenProfileEdit)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenProfileEdit)
 
         hideToast()
         updateProfile()
@@ -219,26 +219,26 @@ class UserProfileEditViewController: UITableViewController {
     }
     
     func reloadViews() {
-        disableLimitedProfileCells(profile.sharingLimitedProfile)
+        disableLimitedProfileCells(disabled: profile.sharingLimitedProfile)
         self.tableView.reloadData()
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fields.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let field = fields[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier(field.cellIdentifier, forIndexPath: indexPath)
-        cell.selectionStyle = UITableViewCellSelectionStyle.None
+        let cell = tableView.dequeueReusableCell(withIdentifier: field.cellIdentifier, for: indexPath as IndexPath)
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         cell.applyStandardSeparatorInsets()
 
         guard let formCell = cell as? FormCell else { return cell }
-        formCell.applyData(field, data: profile)
+        formCell.applyData(field: field, data: profile)
         
         guard let segmentCell = formCell as? JSONFormBuilder.SegmentCell else { return cell }
         //if it's a segmentCell add the callback directly to the control. When we add other types of controls, this should be made more re-usable
@@ -250,33 +250,33 @@ class UserProfileEditViewController: UITableViewController {
             let limitedProfile = control.selectedSegmentIndex == 1
             let newValue = String(limitedProfile)
             
-            self?.profile.setValue(newValue, key: field.name)
+            self?.profile.setValue(value: newValue, key: field.name)
             self?.updateProfile()
-            self?.disableLimitedProfileCells(limitedProfile)
+            self?.disableLimitedProfileCells(disabled: limitedProfile)
             self?.tableView.reloadData()
-            }, forEvents: .ValueChanged)
-        if let under13 = profile.parentalConsent where under13 == true {
-            let descriptionStyle = OEXMutableTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
-            segmentCell.descriptionLabel.attributedText = descriptionStyle.attributedStringWithText(Strings.Profile.ageLimit)
+            }, for: .valueChanged)
+        if let under13 = profile.parentalConsent, under13 == true {
+            let descriptionStyle = OEXMutableTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().neutralDark())
+            segmentCell.descriptionLabel.attributedText = descriptionStyle.attributedString(withText: Strings.Profile.ageLimit)
         }
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let field = fields[indexPath.row]
-        field.takeAction(profile, controller: self)
+        field.takeAction(data: profile, controller: self)
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let field = fields[indexPath.row]
         let enabled = !disabledFields.contains(field.name)
-        cell.userInteractionEnabled = enabled
-        cell.backgroundColor = enabled ? UIColor.clearColor() : OEXStyles.sharedStyles().neutralXLight()
+        cell.isUserInteractionEnabled = enabled
+        cell.backgroundColor = enabled ? UIColor.clear : OEXStyles.shared().neutralXLight()
     }
     
     private func disableLimitedProfileCells(disabled: Bool) {
-        banner.changeButton.enabled = true
+        banner.changeButton.isEnabled = true
         if disabled {
             disabledFields = [UserProfile.ProfileFields.Country.rawValue,
                 UserProfile.ProfileFields.LanguagePreferences.rawValue,
@@ -284,28 +284,28 @@ class UserProfileEditViewController: UITableViewController {
             if profile.parentalConsent ?? false {
                 //If the user needs parental consent, they can only share a limited profile, so disable this field as well */
                 disabledFields.append(UserProfile.ProfileFields.AccountPrivacy.rawValue)
-                banner.changeButton.enabled = false 
+                banner.changeButton.isEnabled = false 
             }
-            footer.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+            footer.backgroundColor = OEXStyles.shared().neutralXLight()
         } else {
-            footer.backgroundColor = UIColor.clearColor()
+            footer.backgroundColor = UIColor.clear
             disabledFields.removeAll()
         }
     }
   
     //MARK: - Update the toast view
     
-    private func showToast(message: String) {
-        toast.setMessage(message)
-        setToastHeight(50)
+    public func showToast(message: String) {
+        toast.setMessage(message: message)
+        setToastHeight(toastHeight: 50)
     }
     
     private func hideToast() {
-        setToastHeight(0)
+        setToastHeight(toastHeight: 0)
     }
     
     private func setToastHeight(toastHeight: CGFloat) {
-        toast.hidden = toastHeight <= 1
+        toast.isHidden = toastHeight <= 1
         toast.snp_updateConstraints(closure: { (make) -> Void in
             make.height.equalTo(toastHeight)
         })
@@ -323,18 +323,18 @@ private class ErrorToastView : UIView {
     let messageLabel = UILabel()
     
     init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
-        backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        backgroundColor = OEXStyles.shared().neutralXLight()
         
         addSubview(errorLabel)
         addSubview(messageLabel)
         
-        errorLabel.backgroundColor = OEXStyles.sharedStyles().errorBase()
-        let errorStyle = OEXMutableTextStyle(weight: .Light, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
-        errorStyle.alignment = .Center
-        errorLabel.attributedText = Icon.Warning.attributedTextWithStyle(errorStyle)
-        errorLabel.textAlignment = .Center
+        errorLabel.backgroundColor = OEXStyles.shared().errorBase()
+        let errorStyle = OEXMutableTextStyle(weight: .light, size: .xxLarge, color: OEXStyles.shared().neutralWhiteT())
+        errorStyle.alignment = .center
+        errorLabel.attributedText = Icon.Warning.attributedTextWithStyle(style: errorStyle)
+        errorLabel.textAlignment = .center
         
         messageLabel.adjustsFontSizeToFitWidth = true
         
@@ -356,8 +356,8 @@ private class ErrorToastView : UIView {
     }
     
     func setMessage(message: String) {
-        let messageStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
-        messageLabel.attributedText = messageStyle.attributedStringWithText(message)
+        let messageStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlackT())
+        messageLabel.attributedText = messageStyle.attributedString(withText: message)
     }
 
 }
@@ -365,36 +365,36 @@ private class ErrorToastView : UIView {
 extension UserProfileEditViewController : ProfilePictureTakerDelegate {
 
     func showImagePickerController(picker: UIImagePickerController) {
-        self.presentViewController(picker, animated: true, completion: nil)
+        self.present(picker, animated: true, completion: nil)
     }
     
     func showChooserAlert(alert: UIAlertController) {
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func deleteImage() {
         let endBlurimate = banner.shortProfView.blurimate()
         
-        let networkRequest = ProfileAPI.deleteProfilePhotoRequest(profile.username!)
+        let networkRequest = ProfileAPI.deleteProfilePhotoRequest(username: profile.username!)
         environment.networkManager.taskForRequest(networkRequest) { result in
             if let _ = result.error {
                 endBlurimate.remove()
-                self.showToast(Strings.Profile.unableToRemovePhoto)
+                self.showToast(message: Strings.Profile.unableToRemovePhoto)
             } else {
                 //Was sucessful upload
-                self.reloadProfileFromImageChange(endBlurimate)
+                self.reloadProfileFromImageChange(completionRemovable: endBlurimate)
             }
         }
     }
     
     func imagePicked(image: UIImage, picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
-        let resizedImage = image.resizedTo(CGSize(width: 500, height: 500))
+        let resizedImage = image.resizedTo(size: CGSize(width: 500, height: 500))
         
         var quality: CGFloat = 1.0
         var data = UIImageJPEGRepresentation(resizedImage, quality)!
-        while data.length > MiB && quality > 0 {
+        while data.count > MiB && quality > 0 {
             quality -= 0.1
             data = UIImageJPEGRepresentation(resizedImage, quality)!
         }
@@ -402,22 +402,22 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
         banner.shortProfView.image = image
         let endBlurimate = banner.shortProfView.blurimate()
 
-        let networkRequest = ProfileAPI.uploadProfilePhotoRequest(profile.username!, imageData: data)
+        let networkRequest = ProfileAPI.uploadProfilePhotoRequest(username: profile.username!, imageData: data as NSData)
         environment.networkManager.taskForRequest(networkRequest) { result in
-            let anaylticsSource = picker.sourceType == .Camera ? AnaylticsPhotoSource.Camera : AnaylticsPhotoSource.PhotoLibrary
-            OEXAnalytics.sharedAnalytics().trackSetProfilePhoto(anaylticsSource)
+            let anaylticsSource = picker.sourceType == .camera ? AnaylticsPhotoSource.Camera : AnaylticsPhotoSource.PhotoLibrary
+            OEXAnalytics.shared().trackSetProfilePhoto(photoSource: anaylticsSource)
             if let _ = result.error {
                 endBlurimate.remove()
-                self.showToast(Strings.Profile.unableToSetPhoto)
+                self.showToast(message: Strings.Profile.unableToSetPhoto)
             } else {
                 //Was successful delete
-                self.reloadProfileFromImageChange(endBlurimate)
+                self.reloadProfileFromImageChange(completionRemovable: endBlurimate)
             }
         }
     }
     
     func cancelPicker(picker: UIImagePickerController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 
     private func reloadProfileFromImageChange(completionRemovable: Removable) {
@@ -428,9 +428,9 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
             if let newProf = result.value {
                 self.profile = newProf
                 self.reloadViews()
-                self.banner.showProfile(newProf, networkManager: self.environment.networkManager)
+                self.banner.showProfile(profile: newProf, networkManager: self.environment.networkManager)
             } else {
-                self.showToast(Strings.Profile.unableToGet)
+                self.showToast(message: Strings.Profile.unableToGet)
             }
         }
         

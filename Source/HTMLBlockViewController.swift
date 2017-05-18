@@ -10,7 +10,7 @@ import UIKit
 
 public class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
     
-    public typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, OEXSessionProvider>
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider
     
     public let courseID : String
     public let blockID : CourseBlockID?
@@ -25,12 +25,12 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         self.blockID = blockID
         
         webController = AuthenticatedWebViewController(environment: environment)
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
         
         super.init(nibName : nil, bundle : nil)
         
         addChildViewController(webController)
-        webController.didMoveToParentViewController(self)
+        webController.didMove(toParentViewController: self)
     }
 
     required public init?(coder aDecoder: NSCoder) {
@@ -42,24 +42,24 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         view.addSubview(webController.view)
     }
     
-    public override func viewWillAppear(animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadData()
     }
     
     private func loadData() {
         if !loader.hasBacking {
-            loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
+            loader.backWithStream(courseQuerier.blockWithID(id: self.blockID).firstSuccess())
             loader.listen (self, success : {[weak self] block in
                 if let url = block.blockURL {
-                    let request = NSURLRequest(URL: url)
-                    self?.webController.loadRequest(request)
+                    let request = NSURLRequest(url: url as URL)
+                    self?.webController.loadRequest(request: request)
                 }
                 else {
-                    self?.webController.showError(nil)
+                    self?.webController.showError(error: nil)
                 }
             }, failure : {[weak self] error in
-                self?.webController.showError(error)
+                self?.webController.showError(error: error)
             })
         }
     }

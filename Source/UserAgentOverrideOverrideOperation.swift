@@ -11,13 +11,13 @@ import WebKit
 
 import edXCore
 
-class UserAgentGenerationOperation : Operation {
+class UserAgentGenerationOperation : OEXOperation {
     
     private let webView : WKWebView?
-    private var resultStream = Sink<String>()
+    fileprivate var resultStream = Sink<String>()
     
     override init() {
-        if NSThread.isMainThread() {
+        if Thread.isMainThread {
             webView = WKWebView()
         }
         else {
@@ -28,13 +28,13 @@ class UserAgentGenerationOperation : Operation {
     }
     
     static var appVersionDescriptor : String {
-        let bundle = NSBundle.mainBundle()
+        let bundle = Bundle.main
         let components = [bundle.oex_appName(), bundle.bundleIdentifier, bundle.oex_buildVersionString()].flatMap{ return $0 }
-        return components.joinWithSeparator("/")
+        return components.joined(separator: "/")
     }
     
-    override func performWithDoneAction(doneAction: () -> Void) {
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+    override func performWithDoneAction(_ doneAction: @escaping () -> Void) {
+        DispatchQueue.main.async { () -> Void in
             guard let webView = self.webView else {
                 doneAction()
                 return
@@ -43,7 +43,7 @@ class UserAgentGenerationOperation : Operation {
             webView.evaluateJavaScript("navigator.userAgent") { (value, error) -> Void in
                 let base = value as? String
                 let appPart = UserAgentGenerationOperation.appVersionDescriptor
-                let userAgent = (base.map { NSString(format: "%@ %@", $0, appPart) } ?? appPart) as String
+                let userAgent = (base.map { (NSString(format: "%@ %@", $0, appPart) as String) } ?? appPart) as String
                 self.resultStream.send(userAgent)
                 doneAction()
             }
@@ -51,30 +51,30 @@ class UserAgentGenerationOperation : Operation {
     }
 }
 
-class UserAgentOverrideOperation : Operation {
+class UserAgentOverrideOperation : OEXOperation {
     
-    override func performWithDoneAction(doneAction: () -> Void) {
-        dispatch_async(dispatch_get_main_queue()) {
+    override func performWithDoneAction(_ doneAction: @escaping () -> Void) {
+        DispatchQueue.main.async {
             let operation = UserAgentGenerationOperation()
             operation.resultStream.extendLifetimeUntilFirstResult(success:
                 { agent in
-                    NSUserDefaults.standardUserDefaults().registerDefaults(["UserAgent": agent])
+                    UserDefaults.standard.register(defaults: ["UserAgent": agent])
                     doneAction()
                 }, failure: {error in
                     Logger.logError(NetworkManager.NETWORK, "Unable to load user agent: \(error.localizedDescription)")
                     doneAction()
                 }
             )
-            NSOperationQueue.currentQueue()?.addOperation(operation)
+            OperationQueue.current?.addOperation(operation)
         }
         
     }
     
     @objc static func overrideUserAgent(completion : (() -> Void)? = nil) {
-        let queue = NSOperationQueue()
+        let queue = OperationQueue()
         let operation = UserAgentOverrideOperation()
         operation.completionBlock = {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 completion?()
             }
         }
@@ -84,7 +84,7 @@ class UserAgentOverrideOperation : Operation {
 
 
 extension UserAgentGenerationOperation {
-    var t_resultStream : Stream<String> {
+    var t_resultStream : OEXStream<String> {
         return resultStream
     }
 }

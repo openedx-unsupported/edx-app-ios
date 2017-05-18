@@ -63,7 +63,7 @@ extension OEXAnalytics {
         event.name = AnalyticsEventName.UserRegistration.rawValue
         event.displayName = "Create Account Clicked"
         event.category = AnalyticsCategory.Conversion.rawValue
-        event.label = "iOS v\(NSBundle.mainBundle().oex_shortVersionString())"
+        event.label = "iOS v\(Bundle.main.oex_shortVersionString())"
         return event
     }
 

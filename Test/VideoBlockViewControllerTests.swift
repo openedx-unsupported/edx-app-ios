@@ -15,10 +15,10 @@ class VideoBlockViewControllerTests : SnapshotTestCase {
     func testSnapshotYoutubeOnly() {
         // Create a course with a youtube video
         let summary = OEXVideoSummary(videoID: "some-video", name: "Youtube Video", encodings: [
-            OEXVideoEncodingYoutube: OEXVideoEncoding(name: OEXVideoEncodingYoutube, URL: "https://some-youtube-url", size: 12)])
+            OEXVideoEncodingYoutube: OEXVideoEncoding(name: OEXVideoEncodingYoutube, url: "https://some-youtube-url", size: 12)])
         let outline = CourseOutline(root: "root", blocks: [
             "root" : CourseBlock(type: CourseBlockType.Course, children: ["video"], blockID: "root", minifiedBlockID: "123456", name: "Root", multiDevice: true, graded: false),
-            "video" : CourseBlock(type: CourseBlockType.Video(summary), children: [], blockID: "video", minifiedBlockID: "123456", name: "Youtube Video", blockURL: NSURL(string: "www.example.com"), multiDevice: true, graded: false)
+            "video" : CourseBlock(type: CourseBlockType.Video(summary), children: [], blockID: "video", minifiedBlockID: "123456", name: "Youtube Video", blockURL: URL(string: "www.example.com") as NSURL?, multiDevice: true, graded: false)
             ])
 
         let environment = TestRouterEnvironment()

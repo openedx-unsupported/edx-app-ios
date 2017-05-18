@@ -12,7 +12,7 @@ import Foundation
 
 class MockEnrollmentManager: EnrollmentManager {
     
-    private lazy var enrollmentSink : Sink<[UserCourseEnrollment]> = {
+    fileprivate lazy var enrollmentSink : Sink<[UserCourseEnrollment]> = {
         let sink = Sink<[UserCourseEnrollment]>()
         sink.close()
         return sink

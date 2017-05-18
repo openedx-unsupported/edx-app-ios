@@ -24,7 +24,7 @@ class TabContainerViewTests : XCTestCase {
         let (firstItem, secondItem) = testItems
         tabView.items = [firstItem, secondItem]
 
-        XCTAssertTrue(tabView.t_isShowingViewForItem(firstItem))
+        XCTAssertTrue(tabView.t_isShowingView(forItem: firstItem))
     }
 
     func testSettingEmptyItemsClears() {
@@ -32,10 +32,10 @@ class TabContainerViewTests : XCTestCase {
 
         let (firstItem, secondItem) = testItems
         tabView.items = [firstItem, secondItem]
-        XCTAssertTrue(tabView.t_isShowingViewForItem(firstItem))
+        XCTAssertTrue(tabView.t_isShowingView(forItem: firstItem))
 
         tabView.items = []
-        XCTAssertTrue(!tabView.t_isShowingViewForItem(firstItem))
+        XCTAssertTrue(!tabView.t_isShowingView(forItem: firstItem))
     }
 
     func testSwitchingTabs() {
@@ -43,12 +43,12 @@ class TabContainerViewTests : XCTestCase {
 
         let (firstItem, secondItem) = testItems
         tabView.items = [firstItem, secondItem]
-        XCTAssertTrue(tabView.t_isShowingViewForItem(firstItem))
+        XCTAssertTrue(tabView.t_isShowingView(forItem: firstItem))
 
-        tabView.showTabWithIdentifier(secondItem.identifier)
-        XCTAssertTrue(tabView.t_isShowingViewForItem(secondItem))
+        tabView.showTab(withIdentifier: secondItem.identifier)
+        XCTAssertTrue(tabView.t_isShowingView(forItem: secondItem))
 
-        tabView.showTabWithIdentifier(firstItem.identifier)
-        XCTAssertTrue(tabView.t_isShowingViewForItem(firstItem))
+        tabView.showTab(withIdentifier: firstItem.identifier)
+        XCTAssertTrue(tabView.t_isShowingView(forItem: firstItem))
     }
 }

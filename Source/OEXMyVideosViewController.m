@@ -170,7 +170,7 @@ typedef  enum OEXAlertType
 }
 
 - (void)toggleReveal {
-    [self.revealViewController toggleDrawerAnimated:YES];
+    [self.revealViewController toggleDrawerAnimatedWithAnimated:YES];
 }
 
 - (void)viewDidLoad {
@@ -433,7 +433,7 @@ typedef  enum OEXAlertType
         }
         NSString* videoDetails = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
         
-        [[CourseCardViewModel onMyVideos:obj_course collectionInfo:videoDetails] apply:infoView networkManager:self.environment.networkManager];
+        [[CourseCardViewModel onMyVideosWithCourse:obj_course collectionInfo:videoDetails] applyWithCard:infoView networkManager:self.environment.networkManager];
         
         return cell;
     }
@@ -1161,7 +1161,7 @@ typedef  enum OEXAlertType
 
 - (void)movieTimedOut {
     if(!_videoPlayerInterface.moviePlayerController.isFullscreen) {
-        [self showOverlayMessage:[Strings timeoutCheckInternetConnection]];
+        [self showOverlayWithMessage:[Strings timeoutCheckInternetConnection]];
         [_videoPlayerInterface.moviePlayerController stop];
     }
     else {
@@ -1262,7 +1262,7 @@ typedef  enum OEXAlertType
 
     switch(OEXAlertType) {
         case OEXAlertTypeDeleteConfirmationAlert: {
-            NSString* message = [Strings confirmDeleteMessage:_arr_SelectedObjects.count];
+            NSString* message = [Strings confirmDeleteMessageWithCount:_arr_SelectedObjects.count];
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[Strings confirmDeleteTitle]
                                                             message:[NSString stringWithFormat:message, _arr_SelectedObjects.count]
                                                            delegate:self

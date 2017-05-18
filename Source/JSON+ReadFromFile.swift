@@ -18,20 +18,20 @@ public extension JSON {
     
     public init(resourceNamed fileName: String) {
         guard let
-            URL = NSBundle(forClass: BundleClass().dynamicType).URLForResource(fileName, withExtension: "json"),
-            data = try? NSData(contentsOfURL: URL, options: NSDataReadingOptions.DataReadingMappedIfSafe) else
+        url = Bundle(for: type(of: BundleClass())).url(forResource: fileName, withExtension: "json"),
+            let data = try? NSData(contentsOf: url, options: NSData.ReadingOptions.mappedIfSafe) else
         {
             assertionFailure("Couldn't load data from file")
             self.init([:])
             return
         }
-        self.init(data:data)
+        self.init(data:data as Data)
     }
 
     public init(plistResourceNamed fileName: String) {
         guard let
-            URL = NSBundle(forClass: BundleClass().dynamicType).URLForResource(fileName, withExtension: "plist"),
-            data = NSDictionary(contentsOfURL: URL) else
+            url = Bundle(for: type(of: BundleClass())).url(forResource: fileName, withExtension: "plist"),
+            let data = NSDictionary(contentsOf: url) else
         {
             assertionFailure("Couldn't load data from file")
             self.init([:])

@@ -12,14 +12,14 @@ import XCTest
 
 class NSNotificationCenter_SafeSwiftTests: XCTestCase {
     
-    private let TestNotificationName = "NSNotificationCenter_SafeSwiftTests"
+    fileprivate let TestNotificationName = "NSNotificationCenter_SafeSwiftTests"
     
     func testActionFires() {
         let fired = MutableBox<Bool>(false)
-        let removable = addNotificationObserver(self, name: TestNotificationName) { (notification, observer, removable) -> Void in
+        let removable = addNotificationObserver(observer: self, name: TestNotificationName) { (notification, observer, removable) -> Void in
             fired.value = true
         }
-        NSNotificationCenter.defaultCenter().postNotificationName(TestNotificationName, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: TestNotificationName), object: nil)
         XCTAssertTrue(fired.value)
         removable.remove()
     }
@@ -28,23 +28,23 @@ class NSNotificationCenter_SafeSwiftTests: XCTestCase {
         let fired = MutableBox<Bool>(false)
         func make() {
             let object = NSObject()
-            addNotificationObserver(object, name: TestNotificationName) { (_, _, _) -> Void in
+            addNotificationObserver(observer: object, name: TestNotificationName) { (_, _, _) -> Void in
                 fired.value = true
             }
         }
         
         make()
-        NSNotificationCenter.defaultCenter().postNotificationName(TestNotificationName, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: TestNotificationName), object: nil)
         XCTAssertFalse(fired.value)
     }
     
     func testManualRemove() {
         let fired = MutableBox<Bool>(false)
-        let removable = addNotificationObserver(self, name: TestNotificationName) { (notification, observer, removable) -> Void in
+        let removable = addNotificationObserver(observer: self, name: TestNotificationName) { (notification, observer, removable) -> Void in
             fired.value = true
         }
         removable.remove()
-        NSNotificationCenter.defaultCenter().postNotificationName(TestNotificationName, object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: TestNotificationName), object: nil)
         XCTAssertFalse(fired.value)
     }
     

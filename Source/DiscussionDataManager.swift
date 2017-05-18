@@ -21,12 +21,12 @@ public class DiscussionDataManager : NSObject {
     public init(courseID : String, topics : [DiscussionTopic]) {
         self.courseID = courseID
         self.networkManager = nil
-        self.topicStream.backWithStream(Stream(value: topics))
+        self.topicStream.backWithStream(OEXStream(value: topics))
     }
     
-    public var topics : Stream<[DiscussionTopic]> {
+    public var topics : OEXStream<[DiscussionTopic]> {
         if topicStream.value == nil && !topicStream.active {
-            let request = DiscussionAPI.getCourseTopics(courseID)
+            let request = DiscussionAPI.getCourseTopics(courseID: courseID)
             if let stream = networkManager?.streamForRequest(request, persistResponse: true, autoCancel: false) {
                 topicStream.backWithStream(stream)
             }

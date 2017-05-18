@@ -16,15 +16,15 @@ class CourseOutlineQuerierTests: XCTestCase {
     
     func testBlockLoadsFromNetwork() {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
-        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://www.example.com")!)
+        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://www.example.com")!)
         networkManager.interceptWhenMatching({_ in true}, successResponse: {
             return (nil, outline)
         })
         let querier = CourseOutlineQuerier(courseID: "course", interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil)
         
         let blockID = CourseOutlineTestDataFactory.knownSection()
-        let blockStream = querier.blockWithID(blockID)
-        let expectation = expectationWithDescription("block loads")
+        let blockStream = querier.blockWithID(id: blockID)
+        let expectation = self.expectation(description: "block loads")
         let removable = blockStream.listen(self) {block in
             XCTAssertEqual(block.value!.blockID, blockID)
             expectation.fulfill()
@@ -37,13 +37,13 @@ class CourseOutlineQuerierTests: XCTestCase {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let knownNodes = CourseOutlineTestDataFactory.knownHTMLBlockIDs()
-        let htmlNodeStream = querier.flatMapRootedAtBlockWithID(outline.root) {block -> CourseBlockID? in
+        let htmlNodeStream = querier.flatMapRootedAtBlockWithID(id: outline.root) { block -> CourseBlockID? in
             switch block.type {
             case .HTML: return block.blockID
             default: return nil
             }
         }
-        let expectation = expectationWithDescription("Map Finished")
+        let expectation = self.expectation(description: "Map Finished")
         let removable = htmlNodeStream.listen(self) {blocks in
             XCTAssertEqual(Set(blocks.value!), Set(knownNodes))
             expectation.fulfill()
@@ -57,7 +57,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let root = outline.blocks[outline.root]!
         let child = root.children[1]
-        let cursor = querier.spanningCursorForBlockWithID(outline.root, initialChildID : child).value!
+        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID : child).value!
         
         let block = cursor.prev()!.block
         XCTAssertEqual(root.children[0], block.blockID)
@@ -72,7 +72,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let root = outline.blocks[outline.root]!
-        let cursor = querier.spanningCursorForBlockWithID(outline.root, initialChildID: nil).value!
+        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID: nil).value!
         
         XCTAssertFalse(cursor.hasPrev)
         let block = cursor.next()!.block
@@ -85,13 +85,13 @@ class CourseOutlineQuerierTests: XCTestCase {
     }
     
     func testReloadsAfterFailure() {
-        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://www.example.com")!)
+        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://www.example.com")!)
         let querier = CourseOutlineQuerier(courseID: courseID, interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil)
         let blockID = CourseOutlineTestDataFactory.knownSection()
         
         // attempt to load a block but there's no outline in network or cache so it should fail
-        var blockStream = querier.blockWithID(blockID)
-        var expectation = expectationWithDescription("block fails to load")
+        var blockStream = querier.blockWithID(id: blockID)
+        var expectation = self.expectation(description: "block fails to load")
         var removable = blockStream.listen(self) {[weak blockStream] result in
             XCTAssertTrue(result.isFailure)
             if !(blockStream?.active ?? false) {
@@ -107,10 +107,10 @@ class CourseOutlineQuerierTests: XCTestCase {
             return (nil, outline)
         }
         
-        expectation = expectationWithDescription("block loads")
+        expectation = self.expectation(description: "block loads")
         
         // the stream should now have the newly available outline so a fresh request should succeed
-        blockStream = querier.blockWithID(blockID)
+        blockStream = querier.blockWithID(id: blockID)
         removable = blockStream.listen(self) {
             if let value = $0.value {
                 XCTAssertEqual(value.blockID, blockID)
@@ -132,7 +132,7 @@ class CourseOutlineQuerierTests: XCTestCase {
             ]
         )
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
-        let childStream = querier.childrenOfBlockWithID(nil)
+        let childStream = querier.childrenOfBlockWithID(blockID: nil)
         childStream.listenOnce(self) {
             XCTAssertEqual($0.value!.children.count, 1)
             XCTAssertEqual($0.value!.children[0].blockID, "found")

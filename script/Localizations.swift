@@ -5,33 +5,34 @@ import Foundation
 //MARK: Helpers
 
 // Stream that writes to stderr.
-class StandardErrorOutputStream: OutputStreamType {
-    func write(string: String) {
+class StandardErrorOutputStream: TextOutputStream {
+    func write(_ string: String) {
         fputs(string, stderr)
     }
+    
 }
 
 var errorStream = StandardErrorOutputStream()
 
 // This makes it easy to ``print`` to a file
-class FileOutputStream : OutputStreamType {
-    let handle : NSFileHandle
+class FileOutputStream : TextOutputStream {
+    let handle : FileHandle
     init?(path : String) {
-        if !NSFileManager.defaultManager().createFileAtPath(path, contents:nil, attributes:nil) {
-            self.handle = NSFileHandle.fileHandleWithNullDevice()
+        if !FileManager.default.createFile(atPath: path, contents:nil, attributes:nil) {
+            self.handle = FileHandle.nullDevice
             return nil
         }
-        if let handle = NSFileHandle(forWritingAtPath:path) {
+        if let handle = FileHandle(forWritingAtPath:path) {
             self.handle = handle
         }
         else {
-            self.handle = NSFileHandle.fileHandleWithNullDevice()
+            self.handle = FileHandle.nullDevice
             return nil
         }
     }
     
-    func write(string: String) {
-        handle.writeData(string.dataUsingEncoding(NSUTF8StringEncoding)!)
+    func write(_ string: String) {
+        handle.write(string.data(using: String.Encoding.utf8)!)
     }
     
     deinit {
@@ -41,7 +42,7 @@ class FileOutputStream : OutputStreamType {
 
 // MARK: Load
 
-let arguments = Process.arguments
+let arguments = CommandLine.arguments
 guard arguments.count > 2 else {
     print("error: Not enough arguments. Aborting")
     print("Usage: ")
@@ -54,7 +55,7 @@ let dest = arguments[2]
 print("Loading \(source) into \(dest)")
 
 guard let pairs = NSDictionary(contentsOfFile: source) else {
-    print("error: Unable to load strings file: \(source)", toStream: &errorStream)
+    print("error: Unable to load strings file: \(source)", to: &errorStream)
     exit(1)
 }
 
@@ -62,8 +63,8 @@ guard let pairs = NSDictionary(contentsOfFile: source) else {
 
 // Whether the string needs multiple representations based on a numeric parameter
 enum Plurality {
-    case Single
-    case Multi
+    case single
+    case multi
 }
 
 func == (left : Key, right : Key) -> Bool {
@@ -103,37 +104,37 @@ class Item {
         self.arguments = arguments
         self.plurality = plurality
     }
-
+    
     var arrayItem: Bool { return Int(key.name) != nil }
 }
 
-enum ArgumentError : ErrorType {
-    case Unterminated
+enum ArgumentError : Error {
+    case unterminated
 }
 
 // MARK: Formatting
 
-func symbolName(string : String, leadingCapital: Bool) -> String {
-    let parts = string.componentsSeparatedByString("_")
+func symbolName(_ string : String, leadingCapital: Bool) -> String {
+    let parts = string.components(separatedBy: "_")
     var formattedParts : [String] = []
     var first = true
     for part in parts {
         if first && !leadingCapital {
-            formattedParts.append(part.lowercaseString)
+            formattedParts.append(part.lowercased())
         }
         else {
-            formattedParts.append(part.capitalizedString)
+            formattedParts.append(part.capitalized)
         }
         first = false
     }
-    return formattedParts.joinWithSeparator("")
+    return formattedParts.joined(separator: "")
 }
 
-func variableName(string : String) -> String {
+func variableName(_ string : String) -> String {
     return symbolName(string, leadingCapital: false)
 }
 
-func className(string : String) -> String {
+func className(_ string : String) -> String {
     return symbolName(string, leadingCapital: true)
 }
 
@@ -143,50 +144,52 @@ extension Item {
         if arguments.count > 0 {
             let args = arguments.map {
                 return "\(variableName($0)) : String"
-                }.joinWithSeparator(", ")
+                }.joined(separator: ", ")
             let formatParams = arguments.map {
                 return "\"\($0)\" : \(variableName($0))"
-                }.joinWithSeparator(", ")
+                }.joined(separator: ", ")
             
             switch plurality {
-            case .Single:
-                return "static func \(variableName(key.name))(\(variableName(arguments[0])) \(args)) -> String { return OEXLocalizedString(\"\(key.original)\", nil).oex_formatWithParameters([\(formatParams)]) }"
-            case .Multi:
+            case .single:
+                return "static func \(variableName(key.name))(\(args)) -> String { return OEXLocalizedString(\"\(key.original)\", nil).oex_format(withParameters: [\(formatParams)]) }"
+            case .multi:
                 if arguments.count == 1 {
                     let arg = arguments[0]
                     let name = variableName(arg)
-                    return "static func \(variableName(key.name))(\(name) \(name) : Int, formatted : String? = nil) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", \(name), nil).oex_formatWithParameters([\"\(arg)\": formatted ?? \(name).description]) }"
+                    return "static func \(variableName(key.name))(\(name) : Int, formatted : String? = nil) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", \(name), nil).oex_format(withParameters: [\"\(arg)\": formatted ?? \(name).description]) }"
                     
                 }
                 else {
-                    return "static func \(variableName(key.name))(\(args)) -> (Int -> String) { return {pluralizingCount in OEXLocalizedStringPlural(\"\(key.name)\", pluralizingCount, nil).oex_formatWithParameters([\(formatParams)]) }}"
+                    return "static func \(variableName(key.name))(\(args)) -> ((Int) -> String) { return {pluralizingCount in OEXLocalizedStringPlural(\"\(key.name)\", pluralizingCount, nil).oex_format(withParameters: [\(formatParams)]) }}"
                 }
             }
         }
         else {
             switch plurality {
-            case .Single:
+            case .single:
                 return "static var \(variableName(key.name)) = OEXLocalizedString(\"\(key.original)\", nil)"
-            case .Multi:
+            case .multi:
                 return "static func \(variableName(key.name))(count : Int) -> String { return OEXLocalizedStringPlural(\"\(key.name)\", count, nil) } "
             }
         }
     }
 }
 
-func getArguments(string : String) throws -> [String] {
+func getArguments(_ string : String) throws -> [String] {
     var arguments : [String] = []
     var current = string.startIndex
-
+    
     while current < string.endIndex {
-        if let start = string.rangeOfString("{", options:NSStringCompareOptions(), range:current ..< string.endIndex) {
-            if let end = string.rangeOfString("}", options:NSStringCompareOptions(), range:start.startIndex ..< string.endIndex) {
-                let argument = string[start.startIndex.successor()..<end.endIndex.predecessor()]
+        if let start = string.range(of: "{", options:NSString.CompareOptions(), range:current ..< string.endIndex) {
+            if let end = string.range(of: "}", options:NSString.CompareOptions(), range:start.lowerBound ..< string.endIndex) {
+                
+                let argument = string[string.index(after: start.lowerBound)..<string.index(before: end.upperBound)]
+                
                 arguments.append(argument)
-                current = end.endIndex
+                current = end.upperBound
             }
             else {
-                throw ArgumentError.Unterminated
+                throw ArgumentError.unterminated
             }
         }
         else {
@@ -199,41 +202,41 @@ func getArguments(string : String) throws -> [String] {
 
 /// Takes a string key of the form A.B.C##count and returns a parsed Key and the plurality
 /// For example, FOO.BAR.BAZ##other would return (Key(path:[FOO, BAR], name:BAZ), .Multi)
-func parseKey(key : String) -> (Key, Plurality) {
-    let components = key.componentsSeparatedByString(".")
+func parseKey(_ key : String) -> (Key, Plurality) {
+    let components = key.components(separatedBy: ".")
     let path = Array(components[0 ..< components.count - 1])
-
+    
     guard let base = components.last else {
-        print("error: Invalid Key \(key)", toStream:&errorStream)
+        print("error: Invalid Key \(key)", to:&errorStream)
         exit(1)
     }
-    let parts = base.componentsSeparatedByString("##")
+    let parts = base.components(separatedBy: "##")
     if parts.count > 1 {
-        return (Key(path: path, name: parts[0], original:key), .Multi)
+        return (Key(path: path, name: parts[0], original:key), .multi)
     }
     else {
-        return (Key(path:path, name: base, original:key), .Single)
+        return (Key(path:path, name: base, original:key), .single)
     }
 }
 
 //MARK: Process Items
 
 // Check that all items have a comment
-func verifyItems(items : [Item]) {
+func verifyItems(_ items : [Item]) {
     var foundError = false
-    guard let content = try? NSString(contentsOfFile: source, encoding: NSUTF8StringEncoding) else {
-        print("error: Could not open file \(source).", toStream: &errorStream)
+    guard let content = try? NSString(contentsOfFile: source, encoding: String.Encoding.utf8.rawValue) else {
+        print("error: Could not open file \(source).", to: &errorStream)
         exit(1)
     }
     for item in items {
         let key = "\"\(item.key.original)\""
-        let range = content.rangeOfString(key)
+        let range = content.range(of: key)
         guard range.location != NSNotFound else {
-            print("error: Couldn't find key: \(key)", toStream:&errorStream)
+            print("error: Couldn't find key: \(key)", to:&errorStream)
             continue
         }
         // This is super hacky. Just look for the original key and make sure there's a comment close marker a little bit before it.
-        let commentClose = content.rangeOfString("*/", options:NSStringCompareOptions(), range:NSRange(location: max(range.location, 20) - 20, length:20))
+        let commentClose = content.range(of: "*/", options:NSString.CompareOptions(), range:NSRange(location: max(range.location, 20) - 20, length:20))
         if commentClose.location == NSNotFound {
             print("error: Missing comment for string \(item.key.original). This information is needed by translators.")
             foundError = true
@@ -256,7 +259,7 @@ for pair in pairs {
         let arguments = try getArguments(value)
         if let existing = items[key] {
             if Set(existing.arguments) != Set(arguments) {
-                print("error: Plural cases have different arguments. Key: \(key.name). Arguments: \(existing.arguments) & \(arguments)", toStream: &errorStream)
+                print("error: Plural cases have different arguments. Key: \(key.name). Arguments: \(existing.arguments) & \(arguments)", to: &errorStream)
                 exit(1)
             }
             existing.values.append(value)
@@ -267,7 +270,7 @@ for pair in pairs {
         }
     }
     catch {
-        print("error: Invalid string \(value)", toStream: &errorStream)
+        print("error: Invalid string \(value)", to: &errorStream)
         exit(1)
     }
 }
@@ -293,7 +296,7 @@ for item in items.values {
 
 //MARK: Output
 
-func tabs(number : UInt) -> String {
+func tabs(_ number : UInt) -> String {
     var result : String = ""
     for _ in 0..<number {
         result += "\t"
@@ -302,50 +305,50 @@ func tabs(number : UInt) -> String {
 }
 
 guard var output = FileOutputStream(path:dest) else {
-    print("error: Couldn't open file \(dest) for writing", toStream: &errorStream)
+    print("error: Couldn't open file \(dest) for writing", to: &errorStream)
     exit(1)
 }
 
-func printArray(group : Group, indent: String) {
+func printArray(_ group : Group, indent: String) {
     var values = [String]()
-    let sortedItems = group.items.sort { return $0.key.name.compare($1.key.name) == .OrderedAscending }
+    let sortedItems = group.items.sorted { return $0.key.name.compare($1.key.name) == .orderedAscending }
     for item in sortedItems {
         values.append("OEXLocalizedString(\"\(item.key.original)\", nil)")
     }
-    print("\(indent)static var \(variableName(group.name)) = [\(values.joinWithSeparator(", "))]", toStream: &output)
+    print("\(indent)static var \(variableName(group.name)) = [\(values.joined(separator: ", "))]", to: &output)
 }
 
-func printGroup(group : Group, depth : UInt = 0) {
+func printGroup(_ group : Group, depth : UInt = 0) {
     let indent = tabs(depth)
     guard !(group.items.first?.arrayItem ?? false) else {
         printArray(group, indent: indent)
         return
     }
-
-    print("\(indent)@objc class \(className(group.name)) : NSObject {", toStream: &output)
+    
+    print("\(indent)@objc class \(className(group.name)) : NSObject {", to: &output)
     if group.children.count > 0 {
-        print("", toStream: &output)
-        for name in group.children.keys.sort() {
+        print("", to: &output)
+        for name in group.children.keys.sorted() {
             let child = group.children[name]!
             printGroup(child, depth: depth + 1)
         }
-        print("", toStream: &output)
+        print("", to: &output)
     }
     
     if group.items.count > 0 {
         let childIndent = tabs(depth + 1)
-        print("", toStream: &output)
-        for item in (group.items.sort {$0.key.name < $1.key.name}) {
-            print("\(childIndent)\(item.code)", toStream: &output)
+        print("", to: &output)
+        for item in (group.items.sorted {$0.key.name < $1.key.name}) {
+            print("\(childIndent)\(item.code)", to: &output)
         }
-        print("", toStream: &output)
+        print("", to: &output)
     }
-    print("\(indent)}", toStream: &output)
+    print("\(indent)}", to: &output)
 }
 
-print("// This file is autogenerated. Do not modify.", toStream: &output)
-print("\n", toStream: &output)
+print("// This file is autogenerated. Do not modify.", to: &output)
+print("\n", to: &output)
 
 printGroup(topLevel)
 
-print("", toStream: &output)
+print("", to: &output)

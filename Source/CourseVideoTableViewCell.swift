@@ -26,9 +26,9 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
     
     var block : CourseBlock? = nil {
         didSet {
-            content.setTitleText(block?.displayName)
+            content.setTitleText(title: block?.displayName)
             if let video = block?.type.asVideo {
-                video.isSupportedVideo ? (downloadView.hidden = false) : (downloadView.hidden = true)
+                video.isSupportedVideo ? (downloadView.isHidden = false) : (downloadView.isHidden = true)
             }
         }
     }
@@ -36,7 +36,7 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
     var localState : OEXHelperVideoDownload? {
         didSet {
             updateDownloadViewForVideoState()
-            content.setDetailText(OEXDateFormatting.formatSecondsAsVideoLength(localState?.summary?.duration ?? 0))
+            content.setDetailText(title: OEXDateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0))
         }
     }
     
@@ -46,29 +46,29 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
         content.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(contentView)
         }
-        content.setContentIcon(Icon.CourseVideoContent)
+        content.setContentIcon(icon: Icon.CourseVideoContent)
         
         downloadView.downloadAction = {[weak self] _ in
-            if let owner = self, block = owner.block {
-                owner.delegate?.videoCellChoseDownload(owner, block : block)
+            if let owner = self, let block = owner.block {
+                owner.delegate?.videoCellChoseDownload(cell: owner, block : block)
             }
         }
         
-        for notification in [OEXDownloadProgressChangedNotification, OEXDownloadEndedNotification, OEXVideoStateChangedNotification] {
-            NSNotificationCenter.defaultCenter().oex_addObserver(self, name: notification) { (_, observer, _) -> Void in
+        for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXVideoStateChanged] {
+            NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (_, observer, _) -> Void in
                 observer.updateDownloadViewForVideoState()
             }
         }
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self]_ in
-            if let owner = self where owner.downloadState == .Downloading {
-                owner.delegate?.videoCellChoseShowDownloads(owner)
+            if let owner = self, owner.downloadState == .Downloading {
+                owner.delegate?.videoCellChoseShowDownloads(cell: owner)
             }
         }
         downloadView.addGestureRecognizer(tapGesture)
         
         content.trailingView = downloadView
-        downloadView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+        downloadView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -87,11 +87,11 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
     }
     
     private func updateDownloadViewForVideoState() {
-        switch localState?.watchedState ?? .Unwatched {
-        case .Unwatched, .PartiallyWatched:
-            content.leadingIconColor = OEXStyles.sharedStyles().primaryBaseColor()
-        case .Watched:
-            content.leadingIconColor = OEXStyles.sharedStyles().neutralDark()
+        switch localState?.watchedState ?? .unwatched {
+        case .unwatched, .partiallyWatched:
+            content.leadingIconColor = OEXStyles.shared().primaryBaseColor()
+        case .watched:
+            content.leadingIconColor = OEXStyles.shared().neutralDark()
         }
         
         guard !(self.localState?.summary?.onlyOnWeb ?? false) else {

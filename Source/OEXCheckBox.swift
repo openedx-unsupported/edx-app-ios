@@ -17,9 +17,9 @@ public class OEXCheckBox: UIButton {
     }
     
     private func _setup() {
-        imageView?.contentMode = .ScaleAspectFit
+        imageView?.contentMode = .scaleAspectFit
         
-        addTarget(self, action: #selector(OEXCheckBox.tapped), forControlEvents: .TouchUpInside)
+        addTarget(self, action: #selector(OEXCheckBox.tapped), for: .touchUpInside)
         updateState()
     }
     
@@ -41,14 +41,14 @@ public class OEXCheckBox: UIButton {
     private func updateState() {
         let newIcon = checked ? Icon.CheckCircleO : Icon.CircleO
         let size = min(bounds.width, bounds.height)
-        let image = newIcon.imageWithFontSize(size)
-        setImage(image, forState: .Normal)
+        let image = newIcon.imageWithFontSize(size: size)
+        setImage(image, for: .normal)
         accessibilityLabel = checked ? Strings.accessibilityCheckboxChecked : Strings.accessibilityCheckboxUnchecked
         accessibilityHint = checked ? Strings.accessibilityCheckboxHintChecked : Strings.accessibilityCheckboxHintUnchecked
     }
     
     func tapped() {
         checked = !checked
-        sendActionsForControlEvents(.ValueChanged)
+        sendActions(for: .valueChanged)
     }
 }

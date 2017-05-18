@@ -17,42 +17,42 @@ extension UIImage { //OEXIcon
     }
     
     class func RewindIcon() -> UIImage {
-        return Icon.VideoRewind.imageWithFontSize(videoIconSize)
+        return Icon.VideoRewind.imageWithFontSize(size: videoIconSize)
     }
     
     class func ExpandIcon() -> UIImage {
-        return Icon.VideoFullscreen.imageWithFontSize(videoIconSize)
+        return Icon.VideoFullscreen.imageWithFontSize(size: videoIconSize)
     }
     
     class func ShrinkIcon() -> UIImage {
-        return Icon.VideoShrink.imageWithFontSize(videoIconSize)
+        return Icon.VideoShrink.imageWithFontSize(size: videoIconSize)
     }
     
     class func OpenURL() -> UIImage {
-        return Icon.OpenURL.imageWithFontSize(videoIconSize)
+        return Icon.OpenURL.imageWithFontSize(size: videoIconSize)
     }
     
     class func PauseIcon() -> UIImage {
-        return Icon.VideoPause.imageWithFontSize(videoIconSize)
+        return Icon.VideoPause.imageWithFontSize(size: videoIconSize)
     }
 
     class func PlayIcon() -> UIImage {
-        return Icon.VideoPlay.imageWithFontSize(videoIconSize)
+        return Icon.VideoPlay.imageWithFontSize(size: videoIconSize)
     }
     
     class func SettingsIcon() -> UIImage {
-        return Icon.Settings.imageWithFontSize(videoIconSize)
+        return Icon.Settings.imageWithFontSize(size: videoIconSize)
     }
     
     class func PlayTitle() -> NSAttributedString {
-        let style = OEXMutableTextStyle(weight: .Normal, size: .XXLarge, color: UIColor.whiteColor())
-        style.alignment = .Center
-        return Icon.VideoPlay.attributedTextWithStyle(style, inline: true)
+        let style = OEXMutableTextStyle(weight: .normal, size: .xxLarge, color: UIColor.white)
+        style.alignment = .center
+        return Icon.VideoPlay.attributedTextWithStyle(style: style, inline: true)
     }
     
     class func PauseTitle() -> NSAttributedString {
-        let style = OEXMutableTextStyle(weight: .Normal, size: .XXLarge, color: UIColor.whiteColor())
-        style.alignment = .Center
-        return Icon.VideoPause.attributedTextWithStyle(style, inline: true)
+        let style = OEXMutableTextStyle(weight: .normal, size: .xxLarge, color: UIColor.white)
+        style.alignment = .center
+        return Icon.VideoPause.attributedTextWithStyle(style: style, inline: true)
     }
 }

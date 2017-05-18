@@ -16,7 +16,7 @@ class OEXRouterTests: XCTestCase {
             "REGISTRATION_ENABLED": true])
         let environment = TestRouterEnvironment(config: config, interface: nil)
         let router = OEXRouter(environment: environment)
-        router.openInWindow(nil)
+        router.open(in: nil)
         XCTAssertTrue(router.t_showingLogin())
         XCTAssertEqual(router.t_navigationHierarchy().count, 0)
     }
@@ -24,7 +24,7 @@ class OEXRouterTests: XCTestCase {
     func testShowContentWhenLoggedIn() {
         let environment = TestRouterEnvironment().logInTestUser()
         let router = OEXRouter(environment: environment)
-        router.openInWindow(nil)
+        router.open(in: nil)
         XCTAssertFalse(router.t_showingLogin())
         XCTAssertNotNil(router.t_navigationHierarchy())
     }
@@ -32,7 +32,7 @@ class OEXRouterTests: XCTestCase {
     func testDrawerViewExists() {
         let environment = TestRouterEnvironment().logInTestUser()
         let router = OEXRouter(environment: environment)
-        router.openInWindow(nil)
+        router.open(in: nil)
         XCTAssertTrue(router.t_hasDrawerController())
     }
     
@@ -41,10 +41,10 @@ class OEXRouterTests: XCTestCase {
         let environment = TestRouterEnvironment().logInTestUser()
         environment.mockEnrollmentManager.enrollments = [UserCourseEnrollment(course: course)]
         let router = OEXRouter(environment: environment)
-        router.openInWindow(nil)
+        router.open(in: nil)
         
         let stackLength = router.t_navigationHierarchy().count
-        router.showAnnouncementsForCourseWithID(course.course_id!)
+        router.showAnnouncementsForCourse(withID: course.course_id!)
         
         // Make sure the navigation controller actions happened
         stepRunLoop()
@@ -59,11 +59,11 @@ class OEXRouterTests: XCTestCase {
         let environment = TestRouterEnvironment().logInTestUser()
         environment.mockEnrollmentManager.enrollments = [UserCourseEnrollment(course: course)]
         let router = OEXRouter(environment: environment)
-        router.openInWindow(nil)
+        router.open(in: nil)
         
         // First show the announcement
         var stackLength = router.t_navigationHierarchy().count
-        router.showAnnouncementsForCourseWithID(course.course_id!)
+        router.showAnnouncementsForCourse(withID: course.course_id!)
         
         // Make sure the navigation controller actions happened
         stepRunLoop()
@@ -71,7 +71,7 @@ class OEXRouterTests: XCTestCase {
         
         // Now try to show it again
         stackLength = router.t_navigationHierarchy().count
-        router.showAnnouncementsForCourseWithID(course.course_id!)
+        router.showAnnouncementsForCourse(withID: course.course_id!)
         
         
         // Make sure the navigation controller actions happened
@@ -87,11 +87,11 @@ class OEXRouterTests: XCTestCase {
         let environment = TestRouterEnvironment().logInTestUser()
         environment.mockEnrollmentManager.enrollments = [UserCourseEnrollment(course: course), UserCourseEnrollment(course: otherCourse)]
         let router = OEXRouter(environment: environment)
-        router.openInWindow(nil)
+        router.open(in: nil)
         
         // First show the announcement
         var stackLength = router.t_navigationHierarchy().count
-        router.showAnnouncementsForCourseWithID(course.course_id!)
+        router.showAnnouncementsForCourse(withID: course.course_id!)
         
         // Make sure the navigation controller actions happened
         stepRunLoop()
@@ -99,7 +99,7 @@ class OEXRouterTests: XCTestCase {
         
         // Now try to show the next course's announcements
         stackLength = router.t_navigationHierarchy().count
-        router.showAnnouncementsForCourseWithID(otherCourse.course_id!)
+        router.showAnnouncementsForCourse(withID: otherCourse.course_id!)
         
         // Make sure the navigation controller actions happened
         stepRunLoop()

@@ -24,39 +24,41 @@ import UIKit
 import CoreText
 
 private class FontLoader {
-  class func loadFont(name: String) {
-    let bundle = NSBundle.mainBundle()
-    let fontURL = bundle.URLForResource(name, withExtension: "otf")
-    
-    let data = NSData(contentsOfURL: fontURL!)!
-    
-    guard let provider = CGDataProviderCreateWithCFData(data) else { return }
-    let font = CGFontCreateWithDataProvider(provider)
-    
-    var error: Unmanaged<CFError>?
-    if !CTFontManagerRegisterGraphicsFont(font, &error) {
-      let errorDescription: CFStringRef = CFErrorCopyDescription(error!.takeUnretainedValue())
-      let nsError = error!.takeUnretainedValue() as AnyObject as! NSError
-      NSException(name: NSInternalInconsistencyException, reason: errorDescription as String, userInfo: [NSUnderlyingErrorKey: nsError]).raise()
+    class func loadFont(_ name: String) {
+        let bundle = Bundle(for: FontLoader.self)
+        let identifier = bundle.bundleIdentifier
+        
+        var fontURL: URL
+        if identifier?.hasPrefix("org.cocoapods") == true {
+            // If this framework is added using CocoaPods, resources is placed under a subdirectory
+            fontURL = bundle.url(forResource: name, withExtension: "otf", subdirectory: "FontAwesome.swift.bundle")!
+        } else {
+            fontURL = bundle.url(forResource: name, withExtension: "otf")!
+        }
+        
+        let data = try! Data(contentsOf: fontURL)
+        
+        let provider = CGDataProvider(data: data as CFData)
+        let font = CGFont(provider!)
+        
+        var error: Unmanaged<CFError>?
+        if !CTFontManagerRegisterGraphicsFont(font, &error) {
+            let errorDescription: CFString = CFErrorCopyDescription(error!.takeUnretainedValue())
+            let nsError = error!.takeUnretainedValue() as AnyObject as! NSError
+            NSException(name: NSExceptionName.internalInconsistencyException, reason: errorDescription as String, userInfo: [NSUnderlyingErrorKey: nsError]).raise()
+        }
     }
-  }
 }
 
 public extension UIFont {
-  public class func fontAwesomeOfSize(fontSize: CGFloat) -> UIFont {
-    struct Static {
-      static var onceToken : dispatch_once_t = 0
+    public class func fontAwesomeOfSize(fontSize: CGFloat) -> UIFont {
+        let name = "FontAwesome"
+        if UIFont.fontNames(forFamilyName: name).isEmpty {
+            FontLoader.loadFont(name)
+        }
+        
+        return UIFont(name: name, size: fontSize)!
     }
-    
-    let name = "FontAwesome"
-    if (UIFont.fontNamesForFamilyName(name).count == 0) {
-      dispatch_once(&Static.onceToken) {
-        FontLoader.loadFont(name)
-      }
-    }
-
-    return UIFont(name: name, size: fontSize)!
-  }
 }
 
 public enum FontAwesome: String {
@@ -656,6 +658,6 @@ public enum FontAwesome: String {
 
 public extension String {
   public static func fontAwesomeIconWithName(name: FontAwesome) -> String {
-    return name.rawValue.substringToIndex(name.rawValue.startIndex.advancedBy(1))
+    return name.rawValue.substring(to: name.rawValue.characters.index(name.rawValue.startIndex, offsetBy: 1))
   }
 }

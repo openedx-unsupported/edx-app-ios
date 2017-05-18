@@ -26,13 +26,13 @@ class OEXConfig_URLCredentialProviderTests: XCTestCase {
     let config = OEXConfig(dictionary:["BASIC_AUTH_CREDENTIALS" : credentials])
     
     func testHit() {
-        for group in self.dynamicType.credentials {
-            let host = NSURL(string:group["HOST"]!)!.host!
-            let credential = config.URLCredentialForHost(host)
+        for group in type(of: self).credentials {
+            let host = URL(string:group["HOST"]!)!.host!
+            let credential = config.URLCredentialForHost(host as NSString)
             XCTAssertNotNil(credential)
             XCTAssertEqual(credential!.user, group["USERNAME"]!)
             XCTAssertEqual(credential!.password, group["PASSWORD"]!)
-            XCTAssertEqual(credential!.persistence, NSURLCredentialPersistence.ForSession)
+            XCTAssertEqual(credential!.persistence, URLCredential.Persistence.forSession)
         }
     }
     

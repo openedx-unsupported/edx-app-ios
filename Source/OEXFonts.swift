@@ -24,28 +24,28 @@ public class OEXFonts: NSObject {
     }
     
     private func initializeFontsDictionary() -> [String: AnyObject] {
-        guard let filePath = NSBundle.mainBundle().pathForResource("fonts", ofType: "json") else {
+        guard let filePath = Bundle.main.path(forResource: "fonts", ofType: "json") else {
             return fallbackFonts()
         }
         if let data = NSData(contentsOfFile: filePath) {
             var error : NSError?
             
-            if let json = JSON(data: data, error: &error).dictionaryObject{
-                return json
+            if let json = JSON(data: data as Data, error: &error).dictionaryObject{
+                return json as [String : AnyObject]
             }
         }
         return fallbackFonts()
     }
     
-    public func fallbackFonts() -> [String: AnyObject] {
-        return OEXFontsDataFactory.fonts
+    @discardableResult public func fallbackFonts() -> [String: AnyObject] {
+        return OEXFontsDataFactory.fonts as [String : AnyObject]
     }
     
-    public func fontForIdentifier(identifier: FontIdentifiers, size: CGFloat) -> UIFont {
-        if let fontName = fontsDictionary[getIdentifier(identifier)] as? String {
+    public func font(forIdentifier identifier: FontIdentifiers, size: CGFloat) -> UIFont {
+        if let fontName = fontsDictionary[getIdentifier(identifier: identifier)] as? String {
             return UIFont(name: fontName, size: size)!
         }
-        return UIFont(name:getIdentifier(FontIdentifiers.Irregular), size: size)!
+        return UIFont(name:getIdentifier(identifier: FontIdentifiers.Irregular), size: size)!
     }
     
     private func getIdentifier(identifier: FontIdentifiers) -> String {

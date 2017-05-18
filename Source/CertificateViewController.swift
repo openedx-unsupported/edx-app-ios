@@ -10,7 +10,7 @@ import Foundation
 
 class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceOrientationOverriding {
 
-    typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider>
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider
     private let environment: Environment
 
     private let loadController = LoadStateViewController()
@@ -40,30 +40,30 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
 
         webView.delegate = self
 
-        loadController.setupInController(self, contentView: webView)
-        webView.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        loadController.setupInController(controller: self, contentView: webView)
+        webView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
 
         title = Strings.Certificates.viewCertTitle
         loadController.state = .Initial
 
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics.trackScreenWithName(OEXAnalyticsScreenCertificate)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenCertificate)
         addShareButton()
         if let request = self.request {
-            webView.loadRequest(request)
+            webView.loadRequest(request as URLRequest)
         }
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         webView.stopLoading()
     }
 
     func addShareButton() {
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: nil, action: nil)
+        let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: nil, action: nil)
         shareButton.oex_setAction { [weak self] in
             self?.share()
         }
@@ -71,12 +71,12 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
     }
 
     func share() {
-        guard let url = request?.URL else { return }
+        guard let url = request?.url else { return }
         let text = Strings.Certificates.shareText(platformName: environment.config.platformName())
-        let controller = shareTextAndALink(text, url: url) { analyticsType in
-            self.environment.analytics.trackCertificateShared(url.absoluteString!, type: analyticsType)
+        let controller = shareTextAndALink(text: text, url: url as NSURL) { analyticsType in
+            self.environment.analytics.trackCertificateShared(url: url.absoluteString, type: analyticsType)
         }
-        presentViewController(controller, animated: true, completion: nil)
+        present(controller, animated: true, completion: nil)
     }
 
     // MARK: - Request Loading
@@ -84,22 +84,22 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
     func loadRequest(request : NSURLRequest) {
 
         let mutableRequest: NSMutableURLRequest = request.mutableCopy() as! NSMutableURLRequest
-        mutableRequest.HTTPShouldHandleCookies = false
+        mutableRequest.httpShouldHandleCookies = false
         self.request = mutableRequest
     }
 
 
     // MARK: - Web view delegate
 
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
-        loadController.state = LoadState.failed(error)
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        loadController.state = LoadState.failed(error: error as NSError)
     }
 
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         loadController.state = .Loaded
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.AllButUpsideDown
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.allButUpsideDown
     }
 }

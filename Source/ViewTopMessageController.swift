@@ -12,14 +12,14 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
 
     weak public var insetsDelegate : ContentInsetsSourceDelegate?
     
-    private let containerView = UIView(frame: CGRectZero)
-    private let messageView : UIView
+    private let containerView = UIView(frame: CGRect.zero)
+    fileprivate let messageView : UIView
     
     private var wasActive : Bool = false
     
-    private let active : Void -> Bool
+    private let active : (Void) -> Bool
     
-    public init(messageView: UIView, active : Void -> Bool) {
+    public init(messageView: UIView, active : @escaping (Void) -> Bool) {
         self.active = active
         self.messageView = messageView
         
@@ -45,12 +45,7 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
         containerView.snp_makeConstraints {make in
             make.leading.equalTo(controller.view)
             make.trailing.equalTo(controller.view)
-            if #available(iOS 9, *) {
-                make.top.equalTo(controller.topLayoutGuide.bottomAnchor)
-            }
-            else {
-                make.top.equalTo(controller.snp_topLayoutGuideBottom)
-            }
+            make.top.equalTo(controller.snp_topLayoutGuideBottom)
             make.height.equalTo(messageView)
         }
     }
@@ -61,11 +56,11 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
             make.trailing.equalTo(containerView)
             
             if active() {
-                containerView.userInteractionEnabled = true
+                containerView.isUserInteractionEnabled = true
                 make.top.equalTo(containerView.snp_top)
             }
             else {
-                containerView.userInteractionEnabled = false
+                containerView.isUserInteractionEnabled = false
                 make.bottom.equalTo(containerView.snp_top)
             }
         }
@@ -73,16 +68,16 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
         messageView.layoutIfNeeded()
         
         if(!wasActive && active()) {
-            containerView.superview?.bringSubviewToFront(containerView)
+            containerView.superview?.bringSubview(toFront: containerView)
         }
         wasActive = active()
         
-        self.insetsDelegate?.contentInsetsSourceChanged(self)
+        self.insetsDelegate?.contentInsetsSourceChanged(source: self)
     }
     
     
     final func updateAnimated() {
-        UIView.animateWithDuration(0.4, delay: 0.0,
+        UIView.animate(withDuration: 0.4, delay: 0.0,
             usingSpringWithDamping: 1, initialSpringVelocity: 0.1,
             options: UIViewAnimationOptions(),
             animations: {
@@ -95,6 +90,6 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
 
 extension ViewTopMessageController {
     public var t_messageHidden : Bool {
-        return CGRectGetMaxY(messageView.frame) <= 0
+        return messageView.frame.maxY <= 0
     }
 }

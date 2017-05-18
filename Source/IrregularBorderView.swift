@@ -9,7 +9,7 @@
 import UIKit
 
 
-struct CellPosition : OptionSetType {
+struct CellPosition : OptionSet {
     let rawValue : UInt
     static let Top = CellPosition(rawValue: 1 << 0)
     static let Bottom = CellPosition(rawValue: 1 << 1)
@@ -17,10 +17,10 @@ struct CellPosition : OptionSetType {
     var roundedCorners : UIRectCorner {
         var result = UIRectCorner()
         if self.contains(CellPosition.Top) {
-            result = result.union([.TopLeft, .TopRight])
+            result = result.union([.topLeft, .topRight])
         }
         if self.contains(CellPosition.Bottom) {
-            result = result.union([.BottomLeft, .BottomRight])
+            result = result.union([.bottomLeft, .bottomRight])
         }
         return result
     }
@@ -46,7 +46,7 @@ class IrregularBorderView : UIImageView {
     let cornerMaskView = UIImageView()
     
     init() {
-        super.init(frame : CGRectZero)
+        super.init(frame : CGRect.zero)
         self.addSubview(cornerMaskView)
     }
 
@@ -57,33 +57,33 @@ class IrregularBorderView : UIImageView {
     var style : IrregularBorderStyle? {
         didSet {
             if let style = style {
-                let radius = style.base.cornerRadius.value(self)
-                self.cornerMaskView.image = renderMaskWithCorners(style.corners, cornerRadii: CGSizeMake(radius, radius))
-                self.maskView = cornerMaskView
-                self.image = renderBorderWithEdges(style.corners, style : style.base)
+                let radius = style.base.cornerRadius.value(view: self)
+                self.cornerMaskView.image = renderMaskWithCorners(corners: style.corners, cornerRadii: CGSize(width: radius, height: radius))
+                self.mask = cornerMaskView
+                self.image = renderBorderWithEdges(corners: style.corners, style : style.base)
             }
             else {
-                self.maskView = nil
+                self.mask = nil
                 self.image = nil
             }
         }
     }
     
     private func renderMaskWithCorners(corners : UIRectCorner, cornerRadii : CGSize) -> UIImage {
-        let size = CGSizeMake(cornerRadii.width * 2 + 1, cornerRadii.height * 2 + 1)
+        let size = CGSize(width: cornerRadii.width * 2 + 1, height: cornerRadii.height * 2 + 1)
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        UIColor.blackColor().setFill()
-        let path = UIBezierPath(roundedRect: CGRect(origin: CGPointZero, size: size), byRoundingCorners: corners, cornerRadii: cornerRadii)
+        UIColor.black.setFill()
+        let path = UIBezierPath(roundedRect: CGRect(origin: CGPoint.zero, size: size), byRoundingCorners: corners, cornerRadii: cornerRadii)
         path.fill()
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return result!.resizableImageWithCapInsets(UIEdgeInsets(top: cornerRadii.height, left: cornerRadii.width, bottom: cornerRadii.height, right: cornerRadii.width))
+        return result!.resizableImage(withCapInsets: UIEdgeInsets(top: cornerRadii.height, left: cornerRadii.width, bottom: cornerRadii.height, right: cornerRadii.width))
     }
     
     private func renderBorderWithEdges(corners : UIRectCorner, style : BorderStyle) -> UIImage? {
-        let radius = style.cornerRadius.value(self)
-        let size = CGSizeMake(radius * 2 + 1, radius * 2 + 1)
+        let radius = style.cornerRadius.value(view: self)
+        let size = CGSize(width: radius * 2 + 1, height: radius * 2 + 1)
         guard let color = style.color else {
             return nil
         }
@@ -92,17 +92,17 @@ class IrregularBorderView : UIImageView {
         
         color.setStroke()
         
-        let path = UIBezierPath(roundedRect: CGRect(origin: CGPointZero, size: size), byRoundingCorners: corners, cornerRadii: CGSizeMake(radius, radius))
+        let path = UIBezierPath(roundedRect: CGRect(origin: CGPoint.zero, size: size), byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         path.lineWidth = style.width.value
         path.stroke()
         
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return result!.resizableImageWithCapInsets(UIEdgeInsets(top: radius, left: radius, bottom: radius, right: radius))
+        return result!.resizableImage(withCapInsets: UIEdgeInsets(top: radius, left: radius, bottom: radius, right: radius))
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.maskView?.frame = self.bounds
+        self.mask?.frame = self.bounds
     }
 }

@@ -17,7 +17,7 @@ public struct BadgeClass {
     public let imageURL : String?
     public let courseID : String?
 
-    private enum Fields : String, RawStringExtractable {
+    fileprivate enum Fields : String, RawStringExtractable {
         case Slug = "slug"
         case IssuingComponent = "issuing_component"
         case DisplayName = "display_name"
@@ -47,12 +47,12 @@ public struct BadgeClass {
 }
 
 public struct BadgeAssertion {
-    public let assertionURL : NSURL
+    public let assertionURL : URL
     public let imageURL : String
     public let created : NSDate?
     public let badgeClass : BadgeClass
 
-    private enum Fields : String, RawStringExtractable {
+    fileprivate enum Fields : String, RawStringExtractable {
         case Username = "username"
         case AssertionURL = "assertion_url"
         case ImageURL = "image_url"
@@ -60,7 +60,7 @@ public struct BadgeAssertion {
         case BadgeClass = "badge_class"
     }
 
-    public init(assertionURL: NSURL, imageURL: String, created: NSDate? = nil, badgeClass: BadgeClass) {
+    public init(assertionURL: URL, imageURL: String, created: NSDate? = nil, badgeClass: BadgeClass) {
         self.assertionURL = assertionURL
         self.imageURL = imageURL
         self.created = created
@@ -70,14 +70,14 @@ public struct BadgeAssertion {
     public init?(json : JSON) {
         guard let
             badgeClass = BadgeClass(json: json[Fields.BadgeClass]),
-            assertionURL = json[Fields.AssertionURL].URL,
-            imageURL = json[Fields.ImageURL].string ?? badgeClass.imageURL
+            let assertionURL = json[Fields.AssertionURL].url,
+            let imageURL = json[Fields.ImageURL].string ?? badgeClass.imageURL
         else {
                 return nil
         }
-        self.assertionURL = assertionURL
+        self.assertionURL = assertionURL as URL
         self.imageURL = imageURL
-        self.created = json[Fields.Created].serverDate
+        self.created = json[Fields.Created].serverDate as NSDate?
         self.badgeClass = badgeClass
     }
 }

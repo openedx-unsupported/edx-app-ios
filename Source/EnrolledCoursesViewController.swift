@@ -12,14 +12,14 @@ var isActionTakenOnUpgradeSnackBar: Bool = false
 
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport {
     
-    typealias Environment = protocol<OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider>
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider
     
     private let environment : Environment
     private let tableController : CoursesTableViewController
     private let loadController = LoadStateViewController()
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
-    private let enrollmentFeed: Feed<[UserCourseEnrollment]?>
+    fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
 
     init(environment: Environment) {
@@ -30,7 +30,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         
         super.init(env: environment)
         self.navigationItem.title = Strings.myCourses
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,8 +43,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         self.view.accessibilityIdentifier = "enrolled-courses-screen"
 
         addChildViewController(tableController)
-        tableController.didMoveToParentViewController(self)
-        self.loadController.setupInController(self, contentView: tableController.view)
+        tableController.didMove(toParentViewController: self)
+        self.loadController.setupInController(controller: self, contentView: tableController.view)
         
         self.view.addSubview(tableController.view)
         tableController.view.snp_makeConstraints {make in
@@ -53,18 +53,18 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         
         tableController.delegate = self
         
-        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
-        refreshController.setupInScrollView(self.tableController.tableView)
+        refreshController.setupInScrollView(scrollView: self.tableController.tableView)
         refreshController.delegate = self
         
-        insetsController.setupInController(self, scrollView: tableController.tableView)
-        insetsController.addSource(self.refreshController)
+        insetsController.setupInController(owner: self, scrollView: tableController.tableView)
+        insetsController.addSource(source: self.refreshController)
 
         // We visually separate each course card so we also need a little padding
         // at the bottom to match
         insetsController.addSource(
-            ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
+            source: ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
         )
         
         self.enrollmentFeed.refresh()
@@ -75,11 +75,14 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         setupObservers()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        environment.analytics.trackScreenWithName(OEXAnalyticsScreenMyCourses)
+    override func viewWillAppear(_ animated: Bool) {
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
         showVersionUpgradeSnackBarIfNecessary()
+
         super.viewWillAppear(animated)
         hideSnackBarForFullScreenError()
+        showWhatsNewIfNeeded()
+
     }
     
     override func reloadViewData() {
@@ -93,9 +96,9 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             }
             
             switch result {
-            case let .Success(enrollments):
+            case let Result.success(enrollments):
                 if let enrollments = enrollments {
-                    self?.tableController.courses = enrollments.flatMap { $0.course } ?? []
+                    self?.tableController.courses = enrollments.flatMap { $0.course } 
                     self?.tableController.tableView.reloadData()
                     self?.loadController.state = .Loaded
                     if enrollments.count <= 0 {
@@ -105,8 +108,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                 else {
                     self?.loadController.state = .Initial
                 }
-            case let .Failure(error):
-                self?.loadController.state = LoadState.failed(error)
+            case let Result.failure(error):
+                self?.loadController.state = LoadState.failed(error: error)
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
                     self?.hideSnackBar()
                 }
@@ -118,7 +121,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
             let footer = EnrolledCoursesFooterView()
             footer.findCoursesAction = {[weak self] in
-                self?.environment.router?.showCourseCatalog(nil)
+                self?.environment.router?.showCourseCatalog(bottomBar: nil)
             }
             
             footer.sizeToFit()
@@ -131,21 +134,21 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     
     private func enrollmentsEmptyState() {
         if !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
-            let error = NSError.oex_errorWithCode(.Unknown, message: Strings.EnrollmentList.noEnrollment)
-            loadController.state = LoadState.failed(error, icon: Icon.UnknownError)
+            let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
+            loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
         }
     }
     
     private func setupObservers() {
         let config = environment.config
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXExternalRegistrationWithExistingAccountNotification) { (notification, observer, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXExternalRegistrationWithExistingAccount.rawValue) { (notification, observer, _) -> Void in
             let platform = config.platformName()
             let service = notification.object as? String ?? ""
             let message = Strings.externalRegistrationBecameLogin(platformName: platform, service: service)
-            observer.showOverlayMessage(message)
+            observer.showOverlay(withMessage: message)
         }
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: AppNewVersionAvailableNotification) { (notification, observer, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: AppNewVersionAvailableNotification) { (notification, observer, _) -> Void in
             observer.showVersionUpgradeSnackBarIfNecessary()
         }
     }
@@ -167,7 +170,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             }
             
             if !isActionTakenOnUpgradeSnackBar {
-                showVersionUpgradeSnackBar(infoString)
+                showVersionUpgradeSnackBar(string: infoString)
             }
         }
         else {
@@ -183,21 +186,28 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     
     func coursesTableChoseCourse(course: OEXCourse) {
         if let course_id = course.course_id {
-            self.environment.router?.showCourseWithID(course_id, fromController: self, animated: true)
+            self.environment.router?.showCourseWithID(courseID: course_id, fromController: self, animated: true)
         }
         else {
             preconditionFailure("course without a course id")
         }
     }
     
-    func refreshControllerActivated(controller: PullRefreshController) {
-        self.enrollmentFeed.refresh()
-        self.userPreferencesFeed.refresh()
+    private func showWhatsNewIfNeeded() {
+        if WhatsNewViewController.canShowWhatsNew(environment: environment as? RouterEnvironment) {
+            environment.router?.showWhatsNew(fromController: self)
+        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableController.tableView.autolayoutFooter()
+    }
+    
+    //MARK:- PullRefreshControllerDelegate method
+    func refreshControllerActivated(controller: PullRefreshController) {
+        self.enrollmentFeed.refresh()
+        self.userPreferencesFeed.refresh()
     }
     
     //MARK:- LoadStateViewReloadSupport method 
@@ -208,7 +218,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
 
 // For testing use only
 extension EnrolledCoursesViewController {
-    var t_loaded: Stream<()> {
+    var t_loaded: OEXStream<()> {
         return self.enrollmentFeed.output.map {_ in
             return ()
         }

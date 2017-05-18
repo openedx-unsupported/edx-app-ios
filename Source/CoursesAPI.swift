@@ -11,20 +11,20 @@ import edXCore
 
 struct CoursesAPI {
     
-    static func enrollmentsDeserializer(response: NSHTTPURLResponse, json: JSON) -> Result<[UserCourseEnrollment]> {
+    static func enrollmentsDeserializer(response: HTTPURLResponse, json: JSON) -> Result<[UserCourseEnrollment]> {
         return (json.array?.flatMap { UserCourseEnrollment(json: $0) }).toResult()
     }
     
     static func getUserEnrollments(username: String, organizationCode: String?) -> NetworkRequest<[UserCourseEnrollment]> {
-        var path = "api/mobile/v0.5/users/{username}/course_enrollments/".oex_formatWithParameters(["username": username])
+        var path = "api/mobile/v0.5/users/{username}/course_enrollments/".oex_format(withParameters: ["username": username])
         if let orgCode = organizationCode {
-            path = "api/mobile/v0.5/users/{username}/course_enrollments/?org={org}".oex_formatWithParameters(["username": username, "org": orgCode])
+            path = "api/mobile/v0.5/users/{username}/course_enrollments/?org={org}".oex_format(withParameters: ["username": username, "org": orgCode])
         }
         return NetworkRequest(
             method: .GET,
             path: path,
             requiresAuth: true,
-            deserializer: .JSONResponse(enrollmentsDeserializer)
+            deserializer: .jsonResponse(enrollmentsDeserializer)
         )
     }
 }

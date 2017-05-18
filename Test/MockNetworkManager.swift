@@ -16,31 +16,31 @@ struct MockSuccessResult<Out> {
 
 class MockNetworkManager: NetworkManager {
     
-    private class Interceptor : NSObject {
+    fileprivate class Interceptor : NSObject {
         
         // Storing these as Any types is kind of ridiculous, but getting swift to contain a list
         // of values with different type parameters doesn't work. One would think you could wrap it
         // with a protocol and associated type, but that doesn't compile. We should revisit this as Swift improves
         let matcher : Any
         let response : Any
-        let delay : NSTimeInterval
+        let delay : TimeInterval
         
-        init<Out>(matcher : NetworkRequest<Out> -> Bool, delay : NSTimeInterval, response : NetworkRequest<Out> -> NetworkResult<Out>) {
+        init<Out>(matcher : @escaping (NetworkRequest<Out>) -> Bool, delay : TimeInterval, response : @escaping (NetworkRequest<Out>) -> NetworkResult<Out>) {
             self.matcher = matcher as Any
             self.response = response as Any
             self.delay = delay
         }
     }
     
-    private var interceptors : [Interceptor] = []
+    fileprivate var interceptors : [Interceptor] = []
     
     let responseCache = MockResponseCache()
     
-    init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL: NSURL = NSURL(string:"http://example.com")!) {
+    init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, baseURL: URL = NSURL(string:"http://example.com")! as URL) {
         super.init(authorizationHeaderProvider: authorizationHeaderProvider, baseURL: baseURL, cache: responseCache)
     }
     
-    func interceptWhenMatching<Out>(matcher: NetworkRequest<Out> -> Bool, afterDelay delay : NSTimeInterval = 0, withResponse response : NetworkRequest<Out> -> NetworkResult<Out>) -> Removable {
+    @discardableResult func interceptWhenMatching<Out>(_ matcher: @escaping (NetworkRequest<Out>) -> Bool, afterDelay delay : TimeInterval = 0, withResponse response : @escaping (NetworkRequest<Out>) -> NetworkResult<Out>) -> Removable {
         let interceptor = Interceptor(
             matcher : matcher,
             delay : delay,
@@ -53,39 +53,39 @@ class MockNetworkManager: NetworkManager {
     }
     
     /// Returns success with the given value
-    func interceptWhenMatching<Out>(matcher : NetworkRequest<Out> -> Bool, afterDelay delay : NSTimeInterval = 0, successResponse : () -> (NSData?, Out)) -> Removable {
+    @discardableResult func interceptWhenMatching<Out>(_ matcher : @escaping (NetworkRequest<Out>) -> Bool, afterDelay delay : TimeInterval = 0, successResponse : @escaping () -> (Data?, Out)) -> Removable {
         return interceptWhenMatching(matcher, afterDelay: delay, withResponse: {[weak self] request in
-            let URLRequest = self!.URLRequestWithRequest(request).value!
+            let request = self!.URLRequestWithRequest(request).value!
             let (data, value) = successResponse()
-            let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])
-            return NetworkResult(request: URLRequest, response: response, data: value, baseData: data, error: nil)
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: [:])
+            return NetworkResult(request: request, response: response, data: value, baseData: data, error: nil)
         })
     }
     /// Returns failure with the given value
-    func interceptWhenMatching<Out>(matcher : (NetworkRequest<Out> -> Bool), afterDelay delay : NSTimeInterval = 0, statusCode : Int = 400, error : NSError = NetworkManager.unknownError) -> Removable {
+    @discardableResult func interceptWhenMatching<Out>(_ matcher : @escaping ((NetworkRequest<Out>) -> Bool), afterDelay delay : TimeInterval = 0, statusCode : Int = 400, error : NSError = NetworkManager.unknownError) -> Removable {
         return interceptWhenMatching(matcher, afterDelay: delay, withResponse: {[weak self] request in
-            let URLRequest = self!.URLRequestWithRequest(request).value!
-            let response = NSHTTPURLResponse(URL: URLRequest.URL!, statusCode: statusCode, HTTPVersion: nil, headerFields: [:])
-            return NetworkResult(request: URLRequest, response: response, data: nil, baseData: nil, error: error)
+            let request = self!.URLRequestWithRequest(request).value!
+            
+            let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: nil, headerFields: [:])
+            return NetworkResult(request: request, response: response, data: nil, baseData: nil, error: error)
             })
     }
     
-    private func removeInterceptor(interceptor : Interceptor) {
-        if let index = interceptors.indexOf(interceptor) {
-            self.interceptors.removeAtIndex(index)
+    fileprivate func removeInterceptor(_ interceptor : Interceptor) {
+        if let index = interceptors.index(of: interceptor) {
+            self.interceptors.remove(at: index)
         }
     }
     
-    override func taskForRequest<Out>(request: NetworkRequest<Out>, handler: NetworkResult<Out> -> Void) -> Removable {
-        dispatch_async(dispatch_get_main_queue()) {
+    @discardableResult override func taskForRequest<Out>(_ request: NetworkRequest<Out>, handler: @escaping (NetworkResult<Out>) -> Void) -> Removable {
+        DispatchQueue.main.async {
             
             for interceptor in self.interceptors {
-                if let matcher = interceptor.matcher as? NetworkRequest<Out> -> Bool,
-                    response = interceptor.response as? NetworkRequest<Out> -> NetworkResult<Out>
-                    where matcher(request)
+                if let matcher = interceptor.matcher as? (NetworkRequest<Out>) -> Bool,
+                    let response = interceptor.response as? (NetworkRequest<Out>) -> NetworkResult<Out>, matcher(request)
                 {
-                    let time = dispatch_time(DISPATCH_TIME_NOW, Int64(interceptor.delay * NSTimeInterval(NSEC_PER_SEC)))
-                    dispatch_after(time, dispatch_get_main_queue()) {
+                    let time = DispatchTime.now() + Double(Int64(interceptor.delay * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                    DispatchQueue.main.asyncAfter(deadline: time) {
                         handler(response(request))
                     }
                     return
@@ -109,15 +109,15 @@ class MockNetworkManager: NetworkManager {
 class MockNetworkManagerTests : XCTestCase {
     
     func testInterception() {
-        let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://example.com")!)
+        let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://example.com")!)
         manager.interceptWhenMatching({ _ in true}, withResponse: { _ -> NetworkResult<String> in
             NetworkResult(request : nil, response : nil, data : "Success", baseData : nil, error : nil)
         })
         
-        let expectation = expectationWithDescription("Request sent")
-        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .DataResponse({ _ -> Result<String> in
+        let expectation = self.expectation(description: "Request sent")
+        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .dataResponse({ _ -> Result<String> in
             XCTFail("Should not get here")
-            return .Failure(NetworkManager.unknownError)
+            return .failure(NetworkManager.unknownError)
         }))
         manager.taskForRequest(request) {result in
             XCTAssertEqual(result.data!, "Success")
@@ -127,12 +127,12 @@ class MockNetworkManagerTests : XCTestCase {
     }
     
     func testNoInterceptorsFails() {
-        let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string : "http://example.com")!)
+        let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://example.com")!)
         
-        let expectation = expectationWithDescription("Request sent")
-        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .DataResponse({ _ -> Result<String> in
+        let expectation = self.expectation(description: "Request sent")
+        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .dataResponse({ _ -> Result<String> in
             XCTFail("Should not get here")
-            return .Failure(NetworkManager.unknownError)
+            return .failure(NetworkManager.unknownError)
         }))
         
         manager.taskForRequest(request) {result in

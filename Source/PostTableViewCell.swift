@@ -19,29 +19,29 @@ class PostTableViewCell: UITableViewCell {
     private let countLabel = UILabel()
     
     private var postReadStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralXDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralXDark())
     }
     
     private var postUnreadStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Bold, size: .Base, color: OEXStyles.sharedStyles().neutralXDark())
+        return OEXTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().neutralXDark())
     }
     
     private var questionStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().secondaryDarkColor())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().secondaryDarkColor())
     }
     
     private var answerStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().utilitySuccessDark())
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().utilitySuccessDark())
     }
     
     private var infoTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
+        contentView.backgroundColor = OEXStyles.shared().neutralWhite()
         
         contentView.addSubview(typeLabel)
         contentView.addSubview(titleLabel)
@@ -82,15 +82,15 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralXDark())
+        return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralXDark())
     }
     
     private var activeCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Bold, size: .Base, color : OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight: .bold, size: .base, color : OEXStyles.shared().primaryBaseColor())
     }
     
     private var inactiveCountStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralDark())
     }
     
     private var typeText : NSAttributedString? {
@@ -103,41 +103,41 @@ class PostTableViewCell: UITableViewCell {
     }
 
     private func updateThreadCount(count : String) {
-        countLabel.attributedText = activeCountStyle.attributedStringWithText(count)
+        countLabel.attributedText = activeCountStyle.attributedString(withText: count)
     }
     
     func useThread(thread : DiscussionThread, selectedOrderBy : DiscussionPostsSort) {
-        self.typeText = threadTypeText(thread)
+        self.typeText = threadTypeText(thread: thread)
         
-        titleLabel.attributedText = thread.read ? postReadStyle.attributedStringWithText(thread.title) : postUnreadStyle.attributedStringWithText(thread.title)
+        titleLabel.attributedText = thread.read ? postReadStyle.attributedString(withText: thread.title) : postUnreadStyle.attributedString(withText: thread.title)
         
         var options = [NSAttributedString]()
         
-        if thread.closed { options.append(Icon.Closed.attributedTextWithStyle(infoTextStyle, inline : true)) }
-        if thread.pinned { options.append(Icon.Pinned.attributedTextWithStyle(infoTextStyle, inline : true)) }
-        if thread.following { options.append(Icon.FollowStar.attributedTextWithStyle(infoTextStyle)) }
-        if options.count > 0 { options.append(infoTextStyle.attributedStringWithText(Strings.pipeSign)) }
-        options.append(infoTextStyle.attributedStringWithText(Strings.Discussions.repliesCount(count: formatdCommentsCount(thread.commentCount))))
+        if thread.closed { options.append(Icon.Closed.attributedTextWithStyle(style: infoTextStyle, inline : true)) }
+        if thread.pinned { options.append(Icon.Pinned.attributedTextWithStyle(style: infoTextStyle, inline : true)) }
+        if thread.following { options.append(Icon.FollowStar.attributedTextWithStyle(style: infoTextStyle)) }
+        if options.count > 0 { options.append(infoTextStyle.attributedString(withText: Strings.pipeSign)) }
+        options.append(infoTextStyle.attributedString(withText: Strings.Discussions.repliesCount(count: formatdCommentsCount(count: thread.commentCount))))
         
         if let updatedAt = thread.updatedAt {
-            options.append(infoTextStyle.attributedStringWithText(Strings.pipeSign))
-            options.append(infoTextStyle.attributedStringWithText(Strings.Discussions.lastPost(date: updatedAt.displayDate)))
+            options.append(infoTextStyle.attributedString(withText: Strings.pipeSign))
+            options.append(infoTextStyle.attributedString(withText: Strings.Discussions.lastPost(date: updatedAt.displayDate)))
         }
         
-        infoLabel.attributedText = NSAttributedString.joinInNaturalLayout(options)
+        infoLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: options)
         
-        let count = formatdCommentsCount(thread.unreadCommentCount)
-        countLabel.attributedText = activeCountStyle.attributedStringWithText(count)
-        countLabel.hidden = !Bool(thread.unreadCommentCount)
+        let count = formatdCommentsCount(count: thread.unreadCommentCount)
+        countLabel.attributedText = activeCountStyle.attributedString(withText: count)
+        countLabel.isHidden = !NSNumber(value: thread.unreadCommentCount).boolValue
         
-        setAccessibility(thread)
+        setAccessibility(thread: thread)
     }
     
     private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
         return text.map {text in
             let style = infoTextStyle
-            return NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(style),
-                style.attributedStringWithText(text)])
+            return NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedTextWithStyle(style: style),
+                style.attributedString(withText: text)])
         }
     }
     
@@ -152,9 +152,9 @@ class PostTableViewCell: UITableViewCell {
     private func threadTypeText(thread : DiscussionThread) -> NSAttributedString {
         switch thread.type {
         case .Discussion:
-            return (thread.unreadCommentCount > 0) ? Icon.Comments.attributedTextWithStyle(activeCountStyle) : Icon.Comments.attributedTextWithStyle(inactiveCountStyle)
+            return (thread.unreadCommentCount > 0) ? Icon.Comments.attributedTextWithStyle(style: activeCountStyle) : Icon.Comments.attributedTextWithStyle(style: inactiveCountStyle)
         case .Question:
-            return thread.hasEndorsed ? Icon.Answered.attributedTextWithStyle(answerStyle) : Icon.Question.attributedTextWithStyle(questionStyle)
+            return thread.hasEndorsed ? Icon.Answered.attributedTextWithStyle(style: answerStyle) : Icon.Question.attributedTextWithStyle(style: questionStyle)
         }
     }
     
@@ -182,7 +182,7 @@ class PostTableViewCell: UITableViewCell {
             accessibilityString = accessibilityString+","+Strings.Accessibility.discussionFollowed
         }
         
-        accessibilityString = accessibilityString+","+Strings.Discussions.repliesCount(count: formatdCommentsCount(thread.commentCount))
+        accessibilityString = accessibilityString+","+Strings.Discussions.repliesCount(count: formatdCommentsCount(count: thread.commentCount))
         
         
         if let updatedAt = thread.updatedAt {
@@ -190,7 +190,7 @@ class PostTableViewCell: UITableViewCell {
         }
         
         if thread.unreadCommentCount > 0 {
-            accessibilityString = accessibilityString+","+Strings.Accessibility.discussionUnreadReplies(count: formatdCommentsCount(thread.unreadCommentCount));
+            accessibilityString = accessibilityString+","+Strings.Accessibility.discussionUnreadReplies(count: formatdCommentsCount(count: thread.unreadCommentCount));
         }
         
         accessibilityLabel = accessibilityString

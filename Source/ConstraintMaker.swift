@@ -21,15 +21,15 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS)
-import UIKit
+#if os(iOS) || os(tvOS)
+    import UIKit
 #else
-import AppKit
+    import AppKit
 #endif
 
 /**
-    Used to make constraints
-*/
+ Used to make constraints
+ */
 public class ConstraintMaker {
     
     /// left edge
@@ -129,16 +129,16 @@ public class ConstraintMaker {
     internal let view: View
     internal var constraintDescriptions = [ConstraintDescription]()
     
-    internal func makeConstraintDescription(attributes: ConstraintAttributes) -> ConstraintDescription {
+    internal func makeConstraintDescription(_ attributes: ConstraintAttributes) -> ConstraintDescription {
         let item = ConstraintItem(object: self.view, attributes: attributes)
         let constraintDescription = ConstraintDescription(fromItem: item)
         self.constraintDescriptions.append(constraintDescription)
         return constraintDescription
     }
     
-    internal class func prepareConstraints(view view: View, file: String = "Unknown", line: UInt = 0, @noescape closure: (make: ConstraintMaker) -> Void) -> [Constraint] {
+    internal class func prepareConstraints(view: View, file: String = "Unknown", line: UInt = 0, closure: (_ make: ConstraintMaker) -> Void) -> [Constraint] {
         let maker = ConstraintMaker(view: view, file: file, line: line)
-        closure(make: maker)
+        closure(maker)
         
         let constraints = maker.constraintDescriptions.map { $0.constraint }
         for constraint in constraints {
@@ -148,10 +148,10 @@ public class ConstraintMaker {
         return constraints
     }
     
-    internal class func makeConstraints(view view: View, file: String = "Unknown", line: UInt = 0, @noescape closure: (make: ConstraintMaker) -> Void) {
+    internal class func makeConstraints(view: View, file: String = "Unknown", line: UInt = 0, closure: (_ make: ConstraintMaker) -> Void) {
         view.translatesAutoresizingMaskIntoConstraints = false
         let maker = ConstraintMaker(view: view, file: file, line: line)
-        closure(make: maker)
+        closure(maker)
         
         let constraints = maker.constraintDescriptions.map { $0.constraint as! ConcreteConstraint }
         for constraint in constraints {
@@ -161,10 +161,10 @@ public class ConstraintMaker {
         }
     }
     
-    internal class func remakeConstraints(view view: View, file: String = "Unknown", line: UInt = 0, @noescape closure: (make: ConstraintMaker) -> Void) {
+    internal class func remakeConstraints(view: View, file: String = "Unknown", line: UInt = 0, closure: (_ make: ConstraintMaker) -> Void) {
         view.translatesAutoresizingMaskIntoConstraints = false
         let maker = ConstraintMaker(view: view, file: file, line: line)
-        closure(make: maker)
+        closure(maker)
         
         self.removeConstraints(view: view)
         let constraints = maker.constraintDescriptions.map { $0.constraint as! ConcreteConstraint }
@@ -175,10 +175,10 @@ public class ConstraintMaker {
         }
     }
     
-    internal class func updateConstraints(view view: View, file: String = "Unknown", line: UInt = 0, @noescape closure: (make: ConstraintMaker) -> Void) {
+    internal class func updateConstraints(view: View, file: String = "Unknown", line: UInt = 0, closure: (_ make: ConstraintMaker) -> Void) {
         view.translatesAutoresizingMaskIntoConstraints = false
         let maker = ConstraintMaker(view: view, file: file, line: line)
-        closure(make: maker)
+        closure(maker)
         
         let constraints = maker.constraintDescriptions.map { $0.constraint as! ConcreteConstraint}
         for constraint in constraints {
@@ -188,7 +188,7 @@ public class ConstraintMaker {
         }
     }
     
-    internal class func removeConstraints(view view: View) {
+    internal class func removeConstraints(view: View) {
         for existingLayoutConstraint in view.snp_installedLayoutConstraints {
             existingLayoutConstraint.snp_constraint?.uninstall()
         }

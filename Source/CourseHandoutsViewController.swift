@@ -9,7 +9,7 @@
 import UIKit
 public class CourseHandoutsViewController: OfflineSupportViewController, UIWebViewDelegate, LoadStateViewReloadSupport {
     
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, ReachabilityProvider, OEXAnalyticsProvider>
+    public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider
 
     let courseID : String
     let environment : Environment
@@ -35,7 +35,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
     override public func viewDidLoad() {
         super.viewDidLoad()
         
-        loadController.setupInController(self, contentView: webView)
+        loadController.setupInController(controller: self, contentView: webView)
         addSubviews()
         setConstraints()
         setStyles()
@@ -43,9 +43,9 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
         loadHandouts()
     }
     
-    public override func viewWillAppear(animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        environment.analytics.trackScreenWithName(OEXAnalyticsScreenHandouts, courseID: courseID, value: nil)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenHandouts, courseID: courseID, value: nil)
     }
     
     override func reloadViewData() {
@@ -63,16 +63,16 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
     }
     
     private func setStyles() {
-        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         self.navigationItem.title = Strings.courseHandouts
     }
     
-    private func streamForCourse(course : OEXCourse) -> Stream<String>? {
-        if let access = course.courseware_access where !access.has_access {
-            return Stream<String>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info))
+    private func streamForCourse(course : OEXCourse) -> OEXStream<String>? {
+        if let access = course.courseware_access, !access.has_access {
+            return OEXStream<String>(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info))
         }
         else {
-            let request = CourseInfoAPI.getHandoutsForCourseWithID(courseID, overrideURL: course.course_handouts)
+            let request = CourseInfoAPI.getHandoutsForCourseWithID(courseID: courseID, overrideURL: course.course_handouts)
             let loader = self.environment.networkManager.streamForRequest(request, persistResponse: true)
             return loader
         }
@@ -81,9 +81,9 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
     private func loadHandouts() {
         if !handouts.active {
             loadController.state = .Initial
-            let courseStream = self.environment.dataManager.enrollmentManager.streamForCourseWithID(courseID)
+            let courseStream = self.environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID)
             let handoutStream = courseStream.transform {[weak self] enrollment in
-                return self?.streamForCourse(enrollment.course) ?? Stream<String>(error : NSError.oex_courseContentLoadError())
+                return self?.streamForCourse(course: enrollment.course) ?? OEXStream<String>(error : NSError.oex_courseContentLoadError())
             }
             self.handouts.backWithStream(handoutStream)
         }
@@ -92,8 +92,8 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
     private func addListener() {
         handouts.listen(self, success: { [weak self] courseHandouts in
             if let
-                displayHTML = OEXStyles.sharedStyles().styleHTMLContent(courseHandouts, stylesheet: "handouts-announcements"),
-                apiHostUrl = OEXConfig.sharedConfig().apiHostURL()
+                displayHTML = OEXStyles.shared().styleHTMLContent(courseHandouts, stylesheet: "handouts-announcements"),
+                let apiHostUrl = OEXConfig.shared().apiHostURL()
             {
                 self?.webView.loadHTMLString(displayHTML, baseURL: apiHostUrl)
                 self?.loadController.state = .Loaded
@@ -103,7 +103,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
             }
             
             }, failure: {[weak self] error in
-                self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error: error)
         } )
     }
     
@@ -114,10 +114,10 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
     
     //MARK: UIWebView delegate
 
-    public func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        if (navigationType != UIWebViewNavigationType.Other) {
-            if let URL = request.URL {
-                 UIApplication.sharedApplication().openURL(URL)
+    public func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        if (navigationType != UIWebViewNavigationType.other) {
+            if let URL = request.url {
+                 UIApplication.shared.openURL(URL)
                 return false
             }
         }

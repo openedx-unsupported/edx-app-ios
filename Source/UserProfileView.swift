@@ -11,12 +11,12 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     private let margin = 4
 
     private class SystemLabel: UILabel {
-        private override func textRectForBounds(bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
-            return CGRectInset(super.textRectForBounds(bounds, limitedToNumberOfLines: numberOfLines), 10, 0)
+        override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
+            return super.textRect(forBounds: bounds, limitedToNumberOfLines: numberOfLines).insetBy(dx: 10, dy: 0)
         }
-        private override func drawTextInRect(rect: CGRect) {
+        override func drawText(in rect: CGRect) {
             let newRect = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-            super.drawTextInRect(UIEdgeInsetsInsetRect(rect, newRect))
+            super.drawText(in: UIEdgeInsetsInsetRect(rect, newRect))
         }
     }
 
@@ -42,34 +42,34 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     }
 
     private func setupViews() {
-        scrollView.backgroundColor = OEXStyles.sharedStyles().primaryBaseColor()
+        scrollView.backgroundColor = OEXStyles.shared().primaryBaseColor()
         scrollView.delegate = self
 
         avatarImage.borderWidth = 3.0
         scrollView.addSubview(avatarImage)
 
-        usernameLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
+        usernameLabel.setContentHuggingPriority(1000, for: .vertical)
         scrollView.addSubview(usernameLabel)
 
-        messageLabel.hidden = true
+        messageLabel.isHidden = true
         messageLabel.numberOfLines = 0
-        messageLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
+        messageLabel.setContentHuggingPriority(1000, for: .vertical)
         scrollView.addSubview(messageLabel)
 
         languageLabel.accessibilityHint = Strings.Profile.languageAccessibilityHint
-        languageLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
+        languageLabel.setContentHuggingPriority(1000, for: .vertical)
         scrollView.addSubview(languageLabel)
 
         countryLabel.accessibilityHint = Strings.Profile.countryAccessibilityHint
-        countryLabel.setContentHuggingPriority(1000, forAxis: .Vertical)
+        countryLabel.setContentHuggingPriority(1000, for: .vertical)
         scrollView.addSubview(countryLabel)
 
-        bioText.backgroundColor = UIColor.clearColor()
-        bioText.textAlignment = .Natural
-        bioText.scrollEnabled = false
-        bioText.editable = false
+        bioText.backgroundColor = UIColor.clear
+        bioText.textAlignment = .natural
+        bioText.isScrollEnabled = false
+        bioText.isEditable = false
         bioText.textContainer.lineFragmentPadding = 0;
-        bioText.textContainerInset = UIEdgeInsetsZero
+        bioText.textContainerInset = UIEdgeInsets.zero
 
         tabs.layoutMargins = UIEdgeInsets(top: StandardHorizontalMargin, left: StandardHorizontalMargin, bottom: StandardHorizontalMargin, right: StandardHorizontalMargin)
 
@@ -79,17 +79,17 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         bottomBackground.backgroundColor = bioText.backgroundColor
         scrollView.insertSubview(bottomBackground, belowSubview: tabs)
 
-        bioSystemMessage.hidden = true
+        bioSystemMessage.isHidden = true
         bioSystemMessage.numberOfLines = 0
-        bioSystemMessage.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        bioSystemMessage.backgroundColor = OEXStyles.shared().neutralXLight()
         scrollView.insertSubview(bioSystemMessage, aboveSubview: tabs)
 
         header.style = .LightContent
         header.backgroundColor = scrollView.backgroundColor
-        header.hidden = true
+        header.isHidden = true
         self.addSubview(header)
 
-        bottomBackground.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        bottomBackground.backgroundColor = OEXStyles.shared().standardBackgroundColor()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -157,32 +157,32 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
     private func setMessage(message: String?) {
         if let message = message {
-            let messageStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
+            let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
 
-            messageLabel.hidden = false
+            messageLabel.isHidden = false
             messageLabel.snp_remakeConstraints { (make) -> Void in
                 make.top.equalTo(usernameLabel.snp_bottom).offset(margin).priorityHigh()
                 make.centerX.equalTo(scrollView)
             }
-            countryLabel.hidden = true
-            languageLabel.hidden = true
+            countryLabel.isHidden = true
+            languageLabel.isHidden = true
 
-            messageLabel.attributedText = messageStyle.attributedStringWithText(message)
+            messageLabel.attributedText = messageStyle.attributedString(withText: message)
         } else {
-            messageLabel.hidden = true
+            messageLabel.isHidden = true
             messageLabel.snp_updateConstraints(closure: { (make) -> Void in
                 make.height.equalTo(0)
             })
 
-            countryLabel.hidden = false
-            languageLabel.hidden = false
+            countryLabel.isHidden = false
+            languageLabel.isHidden = false
 
         }
     }
 
     private func messageForProfile(profile : UserProfile, editable : Bool) -> String? {
         if profile.sharingLimitedProfile {
-            return editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.sharedConfig().platformName())
+            return editable ? Strings.Profile.showingLimited : Strings.Profile.learnerHasLimitedProfile(platformName: OEXConfig.shared().platformName())
         }
         else {
             return nil
@@ -194,49 +194,49 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     }
 
     func populateFields(profile: UserProfile, editable : Bool, networkManager : NetworkManager) {
-        let usernameStyle = OEXTextStyle(weight : .Normal, size: .XXLarge, color: OEXStyles.sharedStyles().neutralWhiteT())
-        let infoStyle = OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().primaryXLightColor())
-        let bioStyle = OEXStyles.sharedStyles().textAreaBodyStyle
-        let messageStyle = OEXMutableTextStyle(weight: .Bold, size: .Large, color: OEXStyles.sharedStyles().neutralDark())
-        messageStyle.alignment = .Center
+        let usernameStyle = OEXTextStyle(weight : .normal, size: .xxLarge, color: OEXStyles.shared().neutralWhiteT())
+        let infoStyle = OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
+        let bioStyle = OEXStyles.shared().textAreaBodyStyle
+        let messageStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: OEXStyles.shared().neutralDark())
+        messageStyle.alignment = .center
 
 
-        usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
-        bioSystemMessage.hidden = true
+        usernameLabel.attributedText = usernameStyle.attributedString(withText: profile.username)
+        bioSystemMessage.isHidden = true
 
-        avatarImage.remoteImage = profile.image(networkManager)
+        avatarImage.remoteImage = profile.image(networkManager: networkManager)
 
-        setMessage(messageForProfile(profile, editable: editable))
+        setMessage(message: messageForProfile(profile: profile, editable: editable))
 
         if profile.sharingLimitedProfile {
             if (profile.parentalConsent ?? false) && editable {
-                let message = NSMutableAttributedString(attributedString: messageStyle.attributedStringWithText(Strings.Profile.ageLimit))
+                let message = NSMutableAttributedString(attributedString: messageStyle.attributedString(withText: Strings.Profile.ageLimit))
 
                 bioSystemMessage.attributedText = message
-                bioSystemMessage.hidden = false
+                bioSystemMessage.isHidden = false
             }
         } else {
             self.bioText.text = ""
             if let language = profile.language {
-                let icon = Icon.Comment.attributedTextWithStyle(infoStyle)
-                let langText = infoStyle.attributedStringWithText(language)
-                languageLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, langText])
+                let icon = Icon.Comment.attributedTextWithStyle(style: infoStyle)
+                let langText = infoStyle.attributedString(withText: language)
+                languageLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon, langText])
             }
             if let country = profile.country {
-                let icon = Icon.Country.attributedTextWithStyle(infoStyle)
-                let countryText = infoStyle.attributedStringWithText(country)
-                countryLabel.attributedText = NSAttributedString.joinInNaturalLayout([icon, countryText])
+                let icon = Icon.Country.attributedTextWithStyle(style: infoStyle)
+                let countryText = infoStyle.attributedString(withText: country)
+                countryLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [icon, countryText])
             }
             if let bio = profile.bio {
-                bioText.attributedText = bioStyle.attributedStringWithText(bio)
+                bioText.attributedText = bioStyle.attributedString(withText: bio)
             } else {
-                let message = messageStyle.attributedStringWithText(Strings.Profile.noBio)
+                let message = messageStyle.attributedString(withText: Strings.Profile.noBio)
                 bioSystemMessage.attributedText = message
-                bioSystemMessage.hidden = false
+                bioSystemMessage.isHidden = false
             }
         }
 
-        header.showProfile(profile, networkManager: networkManager)
+        header.showProfile(profile: profile, networkManager: networkManager)
     }
 
     var extraTabs : [ProfileTabItem] = [] {
@@ -246,13 +246,13 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         }
     }
     
-    @objc func scrollViewDidScroll(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.25) {
-            self.header.hidden = scrollView.contentOffset.y < CGRectGetMaxY(self.avatarImage.frame)
+    @objc func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        UIView.animate(withDuration: 0.25) {
+            self.header.isHidden = scrollView.contentOffset.y < self.avatarImage.frame.maxY
         }
     }
 
     func chooseTab(identifier: String) {
-        tabs.showTabWithIdentifier(identifier)
+        tabs.showTab(withIdentifier: identifier)
     }
 }

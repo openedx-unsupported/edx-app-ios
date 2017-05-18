@@ -17,13 +17,13 @@ public class CourseMediaInfo: NSObject {
         self.uri = uri
     }
     
-    public init(dict : [NSObject:AnyObject]?) {
+    public init(dict : [String : AnyObject]?) {
         self.name = dict?["name"] as? String
         self.uri = dict?["uri"] as? String
         super.init()
     }
     
     public var dictionary : [String:AnyObject] {
-        return stripNullsFrom(["name" : name, "uri" : uri])
+        return stripNullsFrom(dict: ["name" : name as AnyObject, "uri" : uri as AnyObject])
     }
 }

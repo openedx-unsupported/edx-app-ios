@@ -14,12 +14,12 @@ class TestEnvironmentBuilder: NSObject {
     override init() {
         super.init()
         
-        OEXStyles.setSharedStyles(OEXStyles())
-        OEXStyles.sharedStyles().applyGlobalAppearance()
+        OEXStyles.setShared(OEXStyles())
+        OEXStyles.shared().applyGlobalAppearance()
 
         OEXFileUtility.routeUserDataToTempPath()
         
-        OHHTTPStubs.stubRequestsPassingTest({ (request) -> Bool in
+        OHHTTPStubs.stubRequests(passingTest: { (request) -> Bool in
             return true
         }, withStubResponse: { (request) -> OHHTTPStubsResponse in
             assert(true, "Attempting network request during test")

@@ -14,11 +14,11 @@ public enum DiscussionPostsFilter {
     case Unread
     case Unanswered
     
-    private var apiRepresentation : String? {
+    fileprivate var apiRepresentation : String? {
         switch self {
-        case AllPosts: return nil // default
-        case Unread: return "unread"
-        case Unanswered: return "unanswered"
+        case .AllPosts: return nil // default
+        case .Unread: return "unread"
+        case .Unanswered: return "unanswered"
         }
     }
 }
@@ -28,11 +28,11 @@ public enum DiscussionPostsSort {
     case MostActivity
     case VoteCount
     
-    private var apiRepresentation : String? {
+    fileprivate var apiRepresentation : String? {
         switch self {
-        case RecentActivity: return "last_activity_at"
-        case MostActivity: return "comment_count"
-        case VoteCount: return "vote_count"
+        case .RecentActivity: return "last_activity_at"
+        case .MostActivity: return "comment_count"
+        case .VoteCount: return "vote_count"
         }
     }
 }
@@ -40,15 +40,15 @@ public enum DiscussionPostsSort {
 
 public class DiscussionAPI {
 
-    private static func threadDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionThread> {
+    private static func threadDeserializer(response : HTTPURLResponse, json : JSON) -> Result<DiscussionThread> {
         return DiscussionThread(json : json).toResult(NSError.oex_courseContentLoadError())
     }
     
-    private static func commentDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionComment> {
+    private static func commentDeserializer(response : HTTPURLResponse, json : JSON) -> Result<DiscussionComment> {
         return DiscussionComment(json : json).toResult(NSError.oex_courseContentLoadError())
     }
     
-    private static func listDeserializer<A>(response : NSHTTPURLResponse, items : [JSON]?, constructor : (JSON -> A?)) -> Result<[A]> {
+    private static func listDeserializer<A>(response : HTTPURLResponse, items : [JSON]?, constructor : ((JSON) -> A?)) -> Result<[A]> {
         
         if let items = items {
             var result: [A] = []
@@ -57,24 +57,24 @@ public class DiscussionAPI {
                     result.append(item)
                 }
             }
-            return Success(result)
+            return Success(v: result)
         }
         else {
-            return Failure(NSError.oex_courseContentLoadError())
+            return Failure(e: NSError.oex_courseContentLoadError())
         }
     }
     
-    private static func threadListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionThread]> {
-        return listDeserializer(response, items: json.array, constructor: { DiscussionThread(json : $0) } )
+    private static func threadListDeserializer(response : HTTPURLResponse, json : JSON) -> Result<[DiscussionThread]> {
+        return listDeserializer(response: response, items: json.array, constructor: { DiscussionThread(json : $0) } )
     }
     
-    private static func commentListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionComment]> {
-        return listDeserializer(response, items: json.array, constructor: { DiscussionComment(json : $0) } )
+    private static func commentListDeserializer(response : HTTPURLResponse, json : JSON) -> Result<[DiscussionComment]> {
+        return listDeserializer(response: response, items: json.array, constructor: { DiscussionComment(json : $0) } )
     }
 
-    private static func topicListDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<[DiscussionTopic]> {
+    private static func topicListDeserializer(response : HTTPURLResponse, json : JSON) -> Result<[DiscussionTopic]> {
         if let coursewareTopics = json["courseware_topics"].array,
-            nonCoursewareTopics = json["non_courseware_topics"].array
+            let nonCoursewareTopics = json["non_courseware_topics"].array
         {
             var result: [DiscussionTopic] = []
             for topics in [nonCoursewareTopics, coursewareTopics] {
@@ -84,14 +84,14 @@ public class DiscussionAPI {
                     }
                 }
             }
-            return Success(result)
+            return Success(v: result)
         }
         else {
-            return Failure(NSError.oex_courseContentLoadError())
+            return Failure(e: NSError.oex_courseContentLoadError())
         }
     }
     
-    private static func discussionInfoDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<DiscussionInfo> {
+    private static func discussionInfoDeserializer(response : HTTPURLResponse, json : JSON) -> Result<DiscussionInfo> {
         return DiscussionInfo(json : json).toResult(NSError.oex_courseContentLoadError())
     }
 
@@ -109,8 +109,8 @@ public class DiscussionAPI {
             method : HTTPMethod.POST,
             path : "/api/discussion/v1/threads/",
             requiresAuth : true,
-            body: RequestBody.JSONBody(json),
-            deserializer : .JSONResponse(threadDeserializer)
+            body: RequestBody.jsonBody(json),
+            deserializer : .jsonResponse(threadDeserializer)
         )
     }
     
@@ -129,8 +129,8 @@ public class DiscussionAPI {
             method : HTTPMethod.POST,
             path : "/api/discussion/v1/comments/",
             requiresAuth : true,
-            body: RequestBody.JSONBody(json),
-            deserializer : .JSONResponse(commentDeserializer)
+            body: RequestBody.jsonBody(json),
+            deserializer : .jsonResponse(commentDeserializer)
         )
     }
     
@@ -142,9 +142,9 @@ public class DiscussionAPI {
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
-            body: RequestBody.JSONBody(json),
+            body: RequestBody.jsonBody(json),
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
-            deserializer : .JSONResponse(threadDeserializer)
+            deserializer : .jsonResponse(threadDeserializer)
         )
     }
     
@@ -154,9 +154,9 @@ public class DiscussionAPI {
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/comments/\(responseID)/",
             requiresAuth : true,
-            body: RequestBody.JSONBody(json),
+            body: RequestBody.jsonBody(json),
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
-            deserializer : .JSONResponse(commentDeserializer)
+            deserializer : .jsonResponse(commentDeserializer)
         )
     }
     
@@ -167,9 +167,9 @@ public class DiscussionAPI {
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
-            body: RequestBody.JSONBody(json),
+            body: RequestBody.jsonBody(json),
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
-            deserializer : .JSONResponse(threadDeserializer)
+            deserializer : .jsonResponse(threadDeserializer)
         )
     }
     
@@ -179,9 +179,9 @@ public class DiscussionAPI {
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/comments/\(commentID)/",
             requiresAuth : true,
-            body: RequestBody.JSONBody(json),
+            body: RequestBody.jsonBody(json),
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
-            deserializer : .JSONResponse(commentDeserializer)
+            deserializer : .jsonResponse(commentDeserializer)
         )
     }
    
@@ -192,9 +192,9 @@ public class DiscussionAPI {
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
-            body: RequestBody.JSONBody(json),
+            body: RequestBody.jsonBody(json),
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
-            deserializer : .JSONResponse(threadDeserializer)
+            deserializer : .jsonResponse(threadDeserializer)
         )
     }    
     
@@ -205,19 +205,19 @@ public class DiscussionAPI {
             method : HTTPMethod.PATCH,
             path : "/api/discussion/v1/threads/\(threadID)/",
             requiresAuth : true,
-            body: RequestBody.JSONBody(json),
+            body: RequestBody.jsonBody(json),
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
-            deserializer : .JSONResponse(threadDeserializer)
+            deserializer : .jsonResponse(threadDeserializer)
         )
     }
     
     // Pass nil in place of topicIDs if we need to fetch all threads
     static func getThreads(environment: RouterEnvironment?, courseID: String, topicIDs: [String]?, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int) -> NetworkRequest<Paginated<[DiscussionThread]>> {
         var query = ["course_id" : JSON(courseID)]
-        addRequestedFields(environment, query: &query)
+        addRequestedFields(environment: environment, query: &query)
         if let identifiers = topicIDs {
             //TODO: Replace the comma separated strings when the API improves
-            query["topic_id"] = JSON(identifiers.joinWithSeparator(","))
+            query["topic_id"] = JSON(identifiers.joined(separator: ","))
         }
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
@@ -229,15 +229,15 @@ public class DiscussionAPI {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
-            query: query,
             requiresAuth : true,
-            deserializer : .JSONResponse(threadListDeserializer)
+            query: query,
+            deserializer : .jsonResponse(threadListDeserializer)
         ).paginated(page: pageNumber)
     }
     
     static func getFollowedThreads(environment: RouterEnvironment?, courseID : String, filter: DiscussionPostsFilter, orderBy: DiscussionPostsSort, pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionThread]>> {
         var query = ["course_id" : JSON(courseID), "following" : JSON(true)]
-        addRequestedFields(environment, query: &query)
+        addRequestedFields(environment: environment, query: &query)
         if let view = filter.apiRepresentation {
             query["view"] = JSON(view)
         }
@@ -248,24 +248,23 @@ public class DiscussionAPI {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
-            query: query,
             requiresAuth : true,
-            deserializer : .JSONResponse(threadListDeserializer)
+            query: query,
+            deserializer : .jsonResponse(threadListDeserializer)
         ).paginated(page: pageNumber)
 
     }
     
     static func searchThreads(environment: RouterEnvironment?, courseID: String, searchText: String, pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionThread]>> {
-        var query = ["course_id": JSON(courseID)]
-        addRequestedFields(environment, query: &query)
-        query["text_search"] = JSON(searchText)
-        
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/threads/",
-            query: ["text_search": JSON(searchText)],
             requiresAuth : true,
-            deserializer : .JSONResponse(threadListDeserializer)
+            query: [
+                "course_id" : JSON(courseID),
+                "text_search": JSON(searchText)
+            ],
+            deserializer : .jsonResponse(threadListDeserializer)
         ).paginated(page: pageNumber)
     }
     
@@ -274,7 +273,9 @@ public class DiscussionAPI {
     static func getResponses(environment:RouterEnvironment?, threadID: String,  threadType : DiscussionThreadType, endorsedOnly endorsed : Bool =  false,pageNumber : Int = 1) -> NetworkRequest<Paginated<[DiscussionComment]>> {
         
         var query = ["thread_id": JSON(threadID)]
-        addRequestedFields(environment, query: &query)
+        if let environment = environment, environment.config.discussionsEnabledProfilePictureParam {
+            query["requested_fields"] = JSON("profile_image")
+        }
         
         //Only set the endorsed flag if the post is a question
         if threadType == .Question {
@@ -284,14 +285,14 @@ public class DiscussionAPI {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
-            query: query,
             requiresAuth : true,
-            deserializer : .JSONResponse(commentListDeserializer)
+            query: query,
+            deserializer : .jsonResponse(commentListDeserializer)
         ).paginated(page: pageNumber)
     }
     
-    private static func addRequestedFields(environment: RouterEnvironment?, inout query: [String : JSON]) {
-        if let environment = environment where environment.config.discussionsEnabledProfilePictureParam {
+    private static func addRequestedFields(environment: RouterEnvironment?, query: inout [String : JSON]) {
+        if let environment = environment, environment.config.discussionsEnabledProfilePictureParam {
             query["requested_fields"] = JSON("profile_image")
         }
     }
@@ -301,7 +302,7 @@ public class DiscussionAPI {
                 method : HTTPMethod.GET,
                 path : "/api/discussion/v1/course_topics/\(courseID)",
                 requiresAuth : true,
-                deserializer : .JSONResponse(topicListDeserializer)
+                deserializer : .jsonResponse(topicListDeserializer)
         )
     }
     
@@ -310,9 +311,9 @@ public class DiscussionAPI {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/course_topics/\(courseID)",
-            query: query,
             requiresAuth : true,
-            deserializer : .JSONResponse(topicListDeserializer)
+            query: query,
+            deserializer : .jsonResponse(topicListDeserializer)
         )
     }
     
@@ -320,16 +321,16 @@ public class DiscussionAPI {
     static func getComments(environment:RouterEnvironment?, commentID: String, pageNumber: Int) -> NetworkRequest<Paginated<[DiscussionComment]>> {
         
         var query: [String: JSON] = [:]
-        if let environment = environment where environment.config.discussionsEnabledProfilePictureParam {
+        if let environment = environment, environment.config.discussionsEnabledProfilePictureParam {
             query["requested_fields"] = JSON("profile_image")
         }
         
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/comments/\(commentID)/",
-            query: query,
             requiresAuth : true,
-            deserializer : .JSONResponse(commentListDeserializer)
+            query: query,
+            deserializer : .jsonResponse(commentListDeserializer)
         ).paginated(page: pageNumber)
     }
     
@@ -337,9 +338,9 @@ public class DiscussionAPI {
         return NetworkRequest(
             method : HTTPMethod.GET,
             path : "/api/discussion/v1/courses/\(courseID)",
-            query: [:],
             requiresAuth : true,
-            deserializer : .JSONResponse(discussionInfoDeserializer)
+            query: [:],
+            deserializer : .jsonResponse(discussionInfoDeserializer)
         )
     }
 

@@ -22,7 +22,7 @@ class PaginationControllerTests: XCTestCase {
             let info = PaginationInfo(totalCount: 10, pageCount: 5)
             // Add a slight delay to make sure we get proper async behavior
             // to better match actual cases
-            return Stream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
+            return OEXStream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
         }
         let paginationController = PaginationController(paginator: paginator, tableView: tableView)
         
@@ -40,8 +40,8 @@ class PaginationControllerTests: XCTestCase {
         XCTAssertEqual(tableView.contentSize.height, CGFloat(initialCount) * dataSource.rowHeight)
         
         // Now scroll to the bottom
-        var bottomIndexPath = NSIndexPath(forRow: initialCount - 1, inSection: 0)
-        tableView.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
+        var bottomIndexPath = IndexPath(row: initialCount - 1, section: 0)
+        tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: false)
         XCTAssertNotNil(tableView.tableFooterView) // Should be showing spinner
 
         // and see if we get more content
@@ -50,8 +50,8 @@ class PaginationControllerTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(newCount, initialCount)
         
         //Scrolling to the bottom second time to confirm that results are loaded
-        bottomIndexPath = NSIndexPath(forRow: newCount - 1, inSection: 0)
-        tableView.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
+        bottomIndexPath = IndexPath(row: newCount - 1, section: 0)
+        tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: false)
         XCTAssertNil(tableView.tableFooterView) // Should not be showing spinner
         
     }
@@ -66,7 +66,7 @@ class PaginationControllerTests: XCTestCase {
             let info = PaginationInfo(totalCount: 60, pageCount: 20)
             // Add a slight delay to make sure we get proper async behavior
             // to better match actual cases
-            return Stream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
+            return OEXStream(value: Paginated(pagination: info, value: [1, 2, 3, 4, 5])).delay(0.1)
         }
 
         func connectPaginator() {
@@ -93,8 +93,8 @@ class PaginationControllerTests: XCTestCase {
         }
         
         // Now scroll to the bottom
-        let bottomIndexPath = NSIndexPath(forRow: tableView.numberOfRowsInSection(0) - 1, inSection: 0)
-        tableView.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
+        let bottomIndexPath = IndexPath(row: tableView.numberOfRows(inSection: 0) - 1, section: 0)
+        tableView.scrollToRow(at: bottomIndexPath, at: .bottom, animated: false)
     }
 
 }

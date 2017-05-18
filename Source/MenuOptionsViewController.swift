@@ -16,7 +16,7 @@ protocol MenuOptionsViewControllerDelegate : class {
 //TODO: Remove this (duplicate) when swift compiler recognizes this extension from DiscussionTopicCell.swift
 extension UITableViewCell {
     
-    private func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
+    fileprivate func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
         return CGFloat(depth + 1) * StandardHorizontalMargin
     }
 }
@@ -27,12 +27,13 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         
         static let identifier = "MenuOptionTableViewCellIdentifier"
         
-        private let optionLabel = UILabel()
+        fileprivate let optionLabel = UILabel()
         
         var depth : UInt = 0 {
             didSet {
                 optionLabel.snp_updateConstraints { (make) -> Void in
                     make.leading.equalTo(contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
+                    
                 }
             }
         }
@@ -64,18 +65,18 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
     weak var delegate : MenuOptionsViewControllerDelegate?
     
     private var titleTextStyle : OEXTextStyle {
-        let style = OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        let style = OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralDark())
         return style
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView = UITableView(frame: CGRectZero, style: .Plain)
-        tableView?.registerClass(MenuOptionTableViewCell.classForCoder(), forCellReuseIdentifier: MenuOptionTableViewCell.identifier)
+        tableView = UITableView(frame: CGRect.zero, style: .plain)
+        tableView?.register(MenuOptionTableViewCell.classForCoder(), forCellReuseIdentifier: MenuOptionTableViewCell.identifier)
         tableView?.dataSource = self
         tableView?.delegate = self
-        tableView?.layer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
+        tableView?.layer.borderColor = OEXStyles.shared().neutralLight().cgColor
         tableView?.layer.borderWidth = 1.0
         tableView?.applyStandardSeparatorInsets()
         if #available(iOS 9.0, *) {
@@ -95,41 +96,41 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
 
     // MARK: - Table view data source
 
-    public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return options.count
     }
 
-    public func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.applyStandardSeparatorInsets()
     }
     
-    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(MenuOptionTableViewCell.identifier, forIndexPath: indexPath) as! MenuOptionTableViewCell
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: MenuOptionTableViewCell.identifier, for: indexPath as IndexPath) as! MenuOptionTableViewCell
         
         // Configure the cell...
         let style : OEXTextStyle
         let option = options[indexPath.row]
         
-        cell.selectionStyle = option.depth == 0 ? .None : .Default
+        cell.selectionStyle = option.depth == 0 ? .none : .default
         
-        if let optionIndex = selectedOptionIndex where indexPath.row == optionIndex {
-            cell.backgroundColor = OEXStyles.sharedStyles().neutralLight()
-            style = titleTextStyle.withColor(OEXStyles.sharedStyles().neutralBlack())
+        if let optionIndex = selectedOptionIndex, indexPath.row == optionIndex {
+            cell.backgroundColor = OEXStyles.shared().neutralLight()
+            style = titleTextStyle.withColor(OEXStyles.shared().neutralBlack())
         }
         else {
-            cell.backgroundColor = OEXStyles.sharedStyles().neutralWhite()
+            cell.backgroundColor = OEXStyles.shared().neutralWhite()
             style = titleTextStyle
         }
 
         cell.depth = option.depth
-        cell.optionLabel.attributedText = style.attributedStringWithText(option.label)
+        cell.optionLabel.attributedText = style.attributedString(withText: option.label)
         cell.applyStandardSeparatorInsets()
         
-        if delegate?.menuOptionsController(self, canSelectOptionAtIndex:indexPath.row) ?? false {
+        if delegate?.menuOptionsController(controller: self, canSelectOptionAtIndex:indexPath.row) ?? false {
             cell.accessibilityHint = Strings.accessibilitySelectValueHint
         }
         else {
@@ -139,8 +140,8 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         return cell
     }
     
-    public func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
-        if delegate?.menuOptionsController(self, canSelectOptionAtIndex:indexPath.row) ?? false {
+    public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if delegate?.menuOptionsController(controller: self, canSelectOptionAtIndex:indexPath.row) ?? false {
             return indexPath
         }
         else {
@@ -148,13 +149,13 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         }
     }
     
-    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        delegate?.menuOptionsController(self, selectedOptionAtIndex: indexPath.row)
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.menuOptionsController(controller: self, selectedOptionAtIndex: indexPath.row)
     }
 
     // MARK: - Table view delegate
     
-    public func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 30
     }
     

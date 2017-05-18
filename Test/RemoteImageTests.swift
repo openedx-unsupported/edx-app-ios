@@ -15,16 +15,16 @@ private class StubHeaderProvider : AuthorizationHeaderProvider {
 
 class RemoteImageTests: XCTestCase {
 
-    func makeFailingRequestWithURL(url: String) -> NetworkResult<RemoteImage> {
-        let stub = OHHTTPStubs.stubRequestsPassingTest({ _ in true }) {request in
+    func makeFailingRequestWithURL(_ url: String) -> NetworkResult<RemoteImage> {
+        let stub = OHHTTPStubs.stubRequests(passingTest: { _ in true }) {request in
             return OHHTTPStubsResponse(error: NetworkManager.unknownError)
         }
 
-        let networkManager = NetworkManager(authorizationHeaderProvider: StubHeaderProvider(), credentialProvider: nil, baseURL: NSURL(string:"http://example.com")!, cache: MockResponseCache())
+        let networkManager = NetworkManager(authorizationHeaderProvider: StubHeaderProvider(), credentialProvider: nil, baseURL: URL(string:"http://example.com")!, cache: MockResponseCache())
 
         let remoteImage = RemoteImageImpl(url: url, networkManager: networkManager, placeholder: nil, persist: false)
 
-        let expectation = expectationWithDescription("image loaded")
+        let expectation = self.expectation(description: "image loaded")
         let box = MutableBox<NetworkResult<RemoteImage>?>(nil)
         remoteImage.fetchImage { response in
             box.value = response

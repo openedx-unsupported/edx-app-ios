@@ -21,15 +21,15 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS)
-import UIKit
+#if os(iOS) || os(tvOS)
+    import UIKit
 #else
-import AppKit
+    import AppKit
 #endif
 
 /**
-    Used to allow adding a snp_label to a View for debugging purposes
-*/
+ Used to allow adding a snp_label to a View for debugging purposes
+ */
 public extension View {
     
     public var snp_label: String? {
@@ -44,8 +44,8 @@ public extension View {
 }
 
 /**
-    Used to allow adding a snp_label to a LayoutConstraint for debugging purposes
-*/
+ Used to allow adding a snp_label to a LayoutConstraint for debugging purposes
+ */
 public extension LayoutConstraint {
     
     public var snp_label: String? {
@@ -56,14 +56,17 @@ public extension LayoutConstraint {
             objc_setAssociatedObject(self, &labelKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_COPY_NONATOMIC)
         }
     }
-
+    
     override public var description: String {
         var description = "<"
         
         description += descriptionForObject(self)
         
-        description += " \(descriptionForObject(self.firstItem))"
-        if self.firstAttribute != .NotAnAttribute {
+        if let firstItem = conditionalOptional(from: self.firstItem) {
+            description += " \(descriptionForObject(firstItem))"
+        }
+        
+        if self.firstAttribute != .notAnAttribute {
             description += ".\(self.firstAttribute.snp_description)"
         }
         
@@ -73,7 +76,7 @@ public extension LayoutConstraint {
             description += " \(descriptionForObject(secondItem))"
         }
         
-        if self.secondAttribute != .NotAnAttribute {
+        if self.secondAttribute != .notAnAttribute {
             description += ".\(self.secondAttribute.snp_description)"
         }
         
@@ -81,13 +84,13 @@ public extension LayoutConstraint {
             description += " * \(self.multiplier)"
         }
         
-        if self.secondAttribute == .NotAnAttribute {
+        if self.secondAttribute == .notAnAttribute {
             description += " \(self.constant)"
         } else {
             if self.constant > 0.0 {
                 description += " + \(self.constant)"
             } else if self.constant < 0.0 {
-                description += " - \(CGFloat.abs(self.constant))"
+                description += " - \(abs(self.constant))"
             }
         }
         
@@ -110,18 +113,26 @@ public extension LayoutConstraint {
     
 }
 
+private func conditionalOptional<T>(from object: Optional<T>) -> Optional<T> {
+    return object
+}
+
+private func conditionalOptional<T>(from object: T) -> Optional<T> {
+    return Optional.some(object)
+}
+
 private var labelKey = ""
 
-private func descriptionForObject(object: AnyObject) -> String {
-    let pointerDescription = NSString(format: "%p", ObjectIdentifier(object).uintValue)
+private func descriptionForObject(_ object: AnyObject) -> String {
+    let pointerDescription = NSString(format: "%p", UInt(bitPattern: ObjectIdentifier(object)))
     var desc = ""
     
-    desc += object.dynamicType.description()
+    desc += type(of: object).description()
     
     if let object = object as? View {
-        desc += ":\(object.snp_label ?? pointerDescription)"
+        desc += ":\(object.snp_label ?? pointerDescription as String)"
     } else if let object = object as? LayoutConstraint {
-        desc += ":\(object.snp_label ?? pointerDescription)"
+        desc += ":\(object.snp_label ?? pointerDescription as String)"
     } else {
         desc += ":\(pointerDescription)"
     }
@@ -136,11 +147,11 @@ private func descriptionForObject(object: AnyObject) -> String {
 
 private extension NSLayoutRelation {
     
-    private var snp_description: String {
+    var snp_description: String {
         switch self {
-        case .Equal:                return "=="
-        case .GreaterThanOrEqual:   return ">="
-        case .LessThanOrEqual:      return "<="
+        case .equal:                return "=="
+        case .greaterThanOrEqual:   return ">="
+        case .lessThanOrEqual:      return "<="
         }
     }
     
@@ -148,47 +159,47 @@ private extension NSLayoutRelation {
 
 private extension NSLayoutAttribute {
     
-    private var snp_description: String {
-        #if os(iOS)
-        switch self {
-        case .NotAnAttribute:       return "notAnAttribute"
-        case .Top:                  return "top"
-        case .Left:                 return "left"
-        case .Bottom:               return "bottom"
-        case .Right:                return "right"
-        case .Leading:              return "leading"
-        case .Trailing:             return "trailing"
-        case .Width:                return "width"
-        case .Height:               return "height"
-        case .CenterX:              return "centerX"
-        case .CenterY:              return "centerY"
-        case .Baseline:             return "baseline"
-        case .FirstBaseline:        return "firstBaseline"
-        case .TopMargin:            return "topMargin"
-        case .LeftMargin:           return "leftMargin"
-        case .BottomMargin:         return "bottomMargin"
-        case .RightMargin:          return "rightMargin"
-        case .LeadingMargin:        return "leadingMargin"
-        case .TrailingMargin:       return "trailingMargin"
-        case .CenterXWithinMargins: return "centerXWithinMargins"
-        case .CenterYWithinMargins: return "centerYWithinMargins"
-        }
+    var snp_description: String {
+        #if os(iOS) || os(tvOS)
+            switch self {
+            case .notAnAttribute:       return "notAnAttribute"
+            case .top:                  return "top"
+            case .left:                 return "left"
+            case .bottom:               return "bottom"
+            case .right:                return "right"
+            case .leading:              return "leading"
+            case .trailing:             return "trailing"
+            case .width:                return "width"
+            case .height:               return "height"
+            case .centerX:              return "centerX"
+            case .centerY:              return "centerY"
+            case .lastBaseline:             return "baseline"
+            case .firstBaseline:        return "firstBaseline"
+            case .topMargin:            return "topMargin"
+            case .leftMargin:           return "leftMargin"
+            case .bottomMargin:         return "bottomMargin"
+            case .rightMargin:          return "rightMargin"
+            case .leadingMargin:        return "leadingMargin"
+            case .trailingMargin:       return "trailingMargin"
+            case .centerXWithinMargins: return "centerXWithinMargins"
+            case .centerYWithinMargins: return "centerYWithinMargins"
+            }
         #else
-        switch self {
-        case .NotAnAttribute:       return "notAnAttribute"
-        case .Top:                  return "top"
-        case .Left:                 return "left"
-        case .Bottom:               return "bottom"
-        case .Right:                return "right"
-        case .Leading:              return "leading"
-        case .Trailing:             return "trailing"
-        case .Width:                return "width"
-        case .Height:               return "height"
-        case .CenterX:              return "centerX"
-        case .CenterY:              return "centerY"
-        case .Baseline:             return "baseline"
-        default:                    return "default"
-        }
+            switch self {
+            case .NotAnAttribute:       return "notAnAttribute"
+            case .Top:                  return "top"
+            case .Left:                 return "left"
+            case .Bottom:               return "bottom"
+            case .Right:                return "right"
+            case .Leading:              return "leading"
+            case .Trailing:             return "trailing"
+            case .Width:                return "width"
+            case .Height:               return "height"
+            case .CenterX:              return "centerX"
+            case .CenterY:              return "centerY"
+            case .LastBaseline:             return "baseline"
+            default:                    return "default"
+            }
         #endif
         
     }

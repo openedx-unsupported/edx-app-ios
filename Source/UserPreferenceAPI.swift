@@ -11,20 +11,20 @@ import edXCore
 
 public class UserPreferenceAPI: NSObject {
     
-    private static func preferenceDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<UserPreference> {
+    private static func preferenceDeserializer(response : HTTPURLResponse, json : JSON) -> Result<UserPreference> {
         return UserPreference(json: json).toResult()
     }
     
     private class func path(username:String) -> String {
-        return "/api/user/v1/preferences/{username}".oex_formatWithParameters(["username": username])
+        return "/api/user/v1/preferences/{username}".oex_format(withParameters: ["username": username])
     }
     
     class func preferenceRequest(username: String) -> NetworkRequest<UserPreference> {
         return NetworkRequest(
             method: HTTPMethod.GET,
-            path : path(username),
+            path : path(username: username),
             requiresAuth : true,
-            deserializer: .JSONResponse(preferenceDeserializer))
+            deserializer: .jsonResponse(preferenceDeserializer))
     }
     
 }

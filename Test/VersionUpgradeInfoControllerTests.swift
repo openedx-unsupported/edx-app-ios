@@ -18,12 +18,12 @@ class VersionUpgradeInfoControllerTests: XCTestCase {
         XCTAssertNil(versionInfoController.latestVersion)
         
         // test version upgrade available without deadline
-        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
+        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo as? [String : Any])
         XCTAssertNotNil(versionInfoController.latestVersion)
         XCTAssertNil(versionInfoController.lastSupportedDateString)
         
         // test version upgrade available with deadline
-        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfoWithDeadline)
+        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfoWithDeadline as? [String : Any])
         XCTAssertNotNil(versionInfoController.latestVersion)
         XCTAssertNotNil(versionInfoController.lastSupportedDateString)
     }

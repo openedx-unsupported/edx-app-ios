@@ -13,38 +13,38 @@ class PersistentResponseCacheTests: XCTestCase {
     
     class Provider : NSObject, PathProvider {
         let username : String
-        let basePath: NSURL
-        init(username : String, basePath: NSURL) {
+        let basePath: URL
+        init(username : String, basePath: URL) {
             self.username = username
             self.basePath = basePath
         }
         
-        func pathForRequestKey(key: String?) -> NSURL? {
+        func pathForRequestKey(_ key: String?) -> URL? {
             return key.map {
                 let path = basePath
-                    .URLByAppendingPathComponent(self.username, isDirectory: true)
-                try! NSFileManager.defaultManager().createDirectoryAtURL(path!, withIntermediateDirectories: true, attributes: [:])
+                    .appendingPathComponent(self.username, isDirectory: true)
+                try! FileManager.default.createDirectory(at: path, withIntermediateDirectories: true, attributes: [:])
 
-                return path!.URLByAppendingPathComponent($0.oex_md5)!
+                return path.appendingPathComponent($0.oex_md5)
             }
         }
     }
 
     var username: String!
-    var basePath: NSURL!
+    var basePath: URL!
     
     override func setUp() {
         super.setUp()
 
-        basePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).URLByAppendingPathComponent("persistent-cache-tests", isDirectory: true)
-        username = NSUUID().UUIDString
+        basePath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("persistent-cache-tests", isDirectory: true)
+        username = UUID().uuidString
     }
     
     override func tearDown() {
         super.tearDown()
 
         do {
-            try NSFileManager.defaultManager().removeItemAtURL(basePath)
+            try FileManager.default.removeItem(at: basePath)
         }
         catch {
             XCTFail()
@@ -53,19 +53,19 @@ class PersistentResponseCacheTests: XCTestCase {
     
     func testStoreLoad() {
         let cache = PersistentResponseCache(provider : Provider(username: username, basePath: basePath))
-        let storeExpectation = expectationWithDescription("Cache stored")
-        let request = NSURLRequest(URL: NSURL(string: "http://example.com")!)
+        let storeExpectation = expectation(description: "Cache stored")
+        let request = URLRequest(url: URL(string: "http://example.com")!)
         let statusCode = 200
         let headers = ["Something" : "Value"]
-        let response = NSHTTPURLResponse(URL: request.URL!, statusCode: statusCode, HTTPVersion: nil, headerFields: headers)!
-        let data = "test data".dataUsingEncoding(NSUTF8StringEncoding)
+        let response = HTTPURLResponse(url: request.url!, statusCode: statusCode, httpVersion: nil, headerFields: headers)!
+        let data = "test data".data(using: String.Encoding.utf8)
         
         cache.setCacheResponse(response, withData: data, forRequest: request) {
             storeExpectation.fulfill()
         }
         waitForExpectations()
         
-        let loadExpectation = expectationWithDescription("Cache loaded")
+        let loadExpectation = expectation(description: "Cache loaded")
         cache.fetchCacheEntryWithRequest(request) {entry in
             loadExpectation.fulfill()
             XCTAssertEqual(entry!.data!, data!)
@@ -79,35 +79,35 @@ class PersistentResponseCacheTests: XCTestCase {
         // Store different data with the same URL but different HTTP methods
         // and make sure we get the different data out
         let cache = PersistentResponseCache(provider : Provider(username: username, basePath: basePath))
-        let getRequest = NSURLRequest(URL: NSURL(string: "http://example.com")!)
-        let response = NSHTTPURLResponse(URL: getRequest.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])!
+        let getRequest = URLRequest(url: URL(string: "http://example.com")!)
+        let response = HTTPURLResponse(url: getRequest.url!, statusCode: 200, httpVersion: nil, headerFields: [:])!
         
-        let getData = "test data".dataUsingEncoding(NSUTF8StringEncoding)!
-        let getStoreExpectation = expectationWithDescription("Cache stored GET")
+        let getData = "test data".data(using: String.Encoding.utf8)!
+        let getStoreExpectation = expectation(description: "Cache stored GET")
         cache.setCacheResponse(response, withData: getData, forRequest: getRequest) {
             getStoreExpectation.fulfill()
         }
         waitForExpectations()
         
-        let postStoreExpectation = expectationWithDescription("Cache stored POST")
-        let postData = "test data".dataUsingEncoding(NSUTF8StringEncoding)!
-        let postRequest = getRequest.mutableCopy() as! NSMutableURLRequest
-        postRequest.HTTPMethod = "POST"
+        let postStoreExpectation = expectation(description: "Cache stored POST")
+        let postData = "test data".data(using: String.Encoding.utf8)!
+        let postRequest = (getRequest as NSURLRequest).mutableCopy() as! NSMutableURLRequest
+        postRequest.httpMethod = "POST"
         
-        cache.setCacheResponse(response, withData: postData, forRequest: postRequest) {
+        cache.setCacheResponse(response, withData: postData, forRequest: postRequest as URLRequest) {
             postStoreExpectation.fulfill()
         }
         waitForExpectations()
         
-        let getLoadExpectation = expectationWithDescription("Cache loaded GET")
+        let getLoadExpectation = expectation(description: "Cache loaded GET")
         cache.fetchCacheEntryWithRequest(getRequest) {
             XCTAssertEqual($0!.data!, getData)
             getLoadExpectation.fulfill()
         }
         waitForExpectations()
         
-        let postLoadExpectation = expectationWithDescription("Cache loaded POST")
-        cache.fetchCacheEntryWithRequest(postRequest) {
+        let postLoadExpectation = expectation(description: "Cache loaded POST")
+        cache.fetchCacheEntryWithRequest(postRequest as URLRequest) {
             XCTAssertEqual($0!.data!, postData)
             postLoadExpectation.fulfill()
         }
@@ -116,17 +116,17 @@ class PersistentResponseCacheTests: XCTestCase {
     
     func testMiss() {
         let cache = PersistentResponseCache(provider : Provider(username: username, basePath: basePath))
-        let request = NSURLRequest(URL: NSURL(string: "http://example.com")!)
+        let request = URLRequest(url: URL(string: "http://example.com")!)
         // Just shove something in the cache to make sure we don't get that
-        let storeExpectation = expectationWithDescription("Cache stored")
-        let response = NSHTTPURLResponse(URL: request.URL!, statusCode: 200, HTTPVersion: nil, headerFields: [:])!
+        let storeExpectation = expectation(description: "Cache stored")
+        let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: [:])!
         cache.setCacheResponse(response, withData: nil, forRequest: request) {
             storeExpectation.fulfill()
         }
         waitForExpectations()
         
-        let loadExpectation = expectationWithDescription("Cache loaded")
-        let otherRequest = NSURLRequest(URL: NSURL(string : "http://edx.org")!)
+        let loadExpectation = expectation(description: "Cache loaded")
+        let otherRequest = URLRequest(url: URL(string : "http://edx.org")!)
         cache.fetchCacheEntryWithRequest(otherRequest) {
             XCTAssertNil($0)
             loadExpectation.fulfill()
@@ -144,7 +144,7 @@ class PersistentResponseCacheTests: XCTestCase {
         required init?(coder aDecoder: NSCoder) {
         }
 
-        func encodeWithCoder(aCoder: NSCoder) {
+        func encode(with aCoder: NSCoder) {
             // no representation
         }
     }
@@ -156,7 +156,7 @@ class PersistentResponseCacheTests: XCTestCase {
     func testInvalidObjectNoCrash() {
 
         let url = "http://example.com/url"
-        let request = NSURLRequest(URL: NSURL(string: url)!)
+        let request = URLRequest(url: URL(string: url)!)
         let key = responseCacheKeyForRequest(request)
         let provider = Provider(username: username, basePath: basePath)
         let path = provider.pathForRequestKey(key)
@@ -164,14 +164,14 @@ class PersistentResponseCacheTests: XCTestCase {
         let klass: AnyClass = objc_allocateClassPair(CodeableObject.self, "FakeClass", 0)
         objc_registerClassPair(klass)
         autoreleasepool {
-            let object = OEXMetaClassHelpers.instanceOfClassNamed("FakeClass")
-            NSKeyedArchiver.archiveRootObject(object, toFile: path!.path!)
+            let object = OEXMetaClassHelpers.instance(ofClassNamed: "FakeClass")
+            NSKeyedArchiver.archiveRootObject(object!, toFile: path!.path)
         }
         objc_disposeClassPair(klass)
 
         let cache = PersistentResponseCache(provider: provider)
 
-        let expectation = expectationWithDescription("cache loads")
+        let expectation = self.expectation(description: "cache loads")
         cache.fetchCacheEntryWithRequest(request) { (entry) in
             XCTAssertNil(entry)
             expectation.fulfill()
@@ -187,7 +187,7 @@ class PersistentResponseCacheTests: XCTestCase {
     // to a different module which is hard to fake.
     func testCacheEntryClassRenamed() {
         let url = "http://example.com/url"
-        let request = NSURLRequest(URL: NSURL(string: url)!)
+        let request = URLRequest(url: URL(string: url)!)
         let key = responseCacheKeyForRequest(request)
         let provider = Provider(username: username, basePath: basePath)
         let path = provider.pathForRequestKey(key)
@@ -195,19 +195,19 @@ class PersistentResponseCacheTests: XCTestCase {
         let klass: AnyClass = objc_allocateClassPair(ResponseCacheEntry.self, "FakeEntryClass", 0)
         objc_registerClassPair(klass)
         autoreleasepool {
-            let entry = ResponseCacheEntry(data: "test".dataUsingEncoding(NSUTF8StringEncoding), response: NSHTTPURLResponse(URL: request.URL!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!)
+            let entry = ResponseCacheEntry(data: "test".data(using: String.Encoding.utf8), response: HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
             object_setClass(entry, klass)
-            NSKeyedArchiver.archiveRootObject(entry, toFile: path!.path!)
+            NSKeyedArchiver.archiveRootObject(entry, toFile: path!.path)
         }
         objc_disposeClassPair(klass)
 
         let cache = PersistentResponseCache(provider: provider)
 
-        let expectation = expectationWithDescription("cache loads")
+        let expectation = self.expectation(description: "cache loads")
         cache.fetchCacheEntryWithRequest(request) { (entry) in
             XCTAssertEqual(entry?.statusCode, 200)
-            XCTAssertEqual(entry?.URL, request.URL)
-            XCTAssertEqual(entry?.data, "test".dataUsingEncoding(NSUTF8StringEncoding))
+            XCTAssertEqual(entry?.URL, request.url)
+            XCTAssertEqual(entry?.data, "test".data(using: String.Encoding.utf8))
             expectation.fulfill()
         }
         waitForExpectations()

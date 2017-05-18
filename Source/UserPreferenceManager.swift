@@ -26,13 +26,13 @@ public class UserPreferenceManager : NSObject {
     }
     
     private func addObservers() {
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXSessionEndedNotification) { (_, observer, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionEnded.rawValue) { (_, observer, _) in
             observer.clearFeed()
         }
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXSessionStartedNotification) { (notification, observer, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionStarted.rawValue) { (notification, observer, _) -> Void in
             if let userDetails = notification.userInfo?[OEXSessionStartedUserDetailsKey] as? OEXUserDetails {
-                observer.setupFeedWithUserDetails(userDetails)
+                observer.setupFeedWithUserDetails(userDetails: userDetails)
             }
         }
     }
@@ -40,22 +40,22 @@ public class UserPreferenceManager : NSObject {
     private func clearFeed() {
         let feed = Feed<UserPreference?> { stream in
             stream.removeAllBackings()
-            stream.send(Success(nil))
+            stream.send(Success(v: nil))
         }
         
-        preferencesFeed.backWithFeed(feed)
+        preferencesFeed.backWithFeed(feed: feed)
         preferencesFeed.refresh()
     }
     
     private func setupFeedWithUserDetails(userDetails: OEXUserDetails) {
         guard let username = userDetails.username else { return }
-        let feed = freshFeedWithUsername(username)
-        preferencesFeed.backWithFeed(feed.map{x in x})
+        let feed = freshFeedWithUsername(username: username)
+        preferencesFeed.backWithFeed(feed: feed.map{x in x})
         preferencesFeed.refresh()
     }
     
     private func freshFeedWithUsername(username: String) -> Feed<UserPreference> {
-        let request = UserPreferenceAPI.preferenceRequest(username)
+        let request = UserPreferenceAPI.preferenceRequest(username: username)
         return Feed(request: request, manager: networkManager, persistResponse: true)
     }
     

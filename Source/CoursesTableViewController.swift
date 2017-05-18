@@ -11,9 +11,9 @@ import UIKit
 class CourseCardCell : UITableViewCell {
     static let margin = StandardVerticalMargin
     
-    private static let cellIdentifier = "CourseCardCell"
-    private let courseView = CourseCardView(frame: CGRectZero)
-    private var course : OEXCourse?
+    fileprivate static let cellIdentifier = "CourseCardCell"
+    fileprivate let courseView = CourseCardView(frame: CGRect.zero)
+    fileprivate var course : OEXCourse?
     private let courseCardBorderStyle = BorderStyle()
     
     override init(style : UITableViewCellStyle, reuseIdentifier : String?) {
@@ -28,11 +28,11 @@ class CourseCardCell : UITableViewCell {
             make.trailing.equalTo(self.contentView).offset(-CourseCardCell.margin)
         }
         
-        courseView.applyBorderStyle(courseCardBorderStyle)
+        courseView.applyBorderStyle(style: courseCardBorderStyle)
         
-        self.contentView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.contentView.backgroundColor = OEXStyles.shared().neutralXLight()
         
-        self.selectionStyle = .None
+        self.selectionStyle = .none
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -51,7 +51,7 @@ class CoursesTableViewController: UITableViewController {
         case EnrollmentList
     }
     
-    typealias Environment = protocol<NetworkManagerProvider>
+    typealias Environment = NetworkManagerProvider
     
     private let environment : Environment
     private let context: Context
@@ -74,8 +74,8 @@ class CoursesTableViewController: UITableViewController {
         super.viewDidLoad()
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.separatorStyle = .None
-        self.tableView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.tableView.separatorStyle = .none
+        self.tableView.backgroundColor = OEXStyles.shared().neutralXLight()
         self.tableView.accessibilityIdentifier = "courses-table-view"
         
         self.tableView.snp_makeConstraints {make in
@@ -84,33 +84,34 @@ class CoursesTableViewController: UITableViewController {
         
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.registerClass(CourseCardCell.self, forCellReuseIdentifier: CourseCardCell.cellIdentifier)
+        tableView.register(CourseCardCell.self, forCellReuseIdentifier: CourseCardCell.cellIdentifier)
         
         self.insetsController.addSource(
-            ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
+            source: ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
         )
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.courses.count ?? 0
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.courses.count 
     }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+ 
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let course = self.courses[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(CourseCardCell.cellIdentifier, forIndexPath: indexPath) as! CourseCardCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CourseCardCell.cellIdentifier, for: indexPath as IndexPath) as! CourseCardCell
         cell.accessibilityLabel = cell.courseView.updateAcessibilityLabel()
         cell.accessibilityHint = Strings.accessibilityShowsCourseContent
         
         cell.courseView.tapAction = {[weak self] card in
-            self?.delegate?.coursesTableChoseCourse(course)
+            self?.delegate?.coursesTableChoseCourse(course: course)
         }
         
         switch context {
         case .CourseCatalog:
-            CourseCardViewModel.onCourseCatalog(course).apply(cell.courseView, networkManager: self.environment.networkManager)
+            CourseCardViewModel.onCourseCatalog(course: course).apply(card: cell.courseView, networkManager: self.environment.networkManager)
         case .EnrollmentList:
-            CourseCardViewModel.onHome(course).apply(cell.courseView, networkManager: self.environment.networkManager)
+            CourseCardViewModel.onHome(course: course).apply(card: cell.courseView, networkManager: self.environment.networkManager)
         }
         cell.course = course
 

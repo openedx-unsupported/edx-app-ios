@@ -24,7 +24,7 @@ extension CourseBlockDisplayType {
 // Container for scrolling horizontally between different screens of course content
 public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding {
     
-    public typealias Environment = protocol<OEXAnalyticsProvider, DataManagerProvider, OEXRouterProvider>
+    public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXRouterProvider
     
     private let initialLoadController : LoadStateViewController
     private let environment : Environment
@@ -39,7 +39,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private var openURLButtonItem : UIBarButtonItem?
     
-    private var contentLoader = BackedStream<ListCursor<CourseOutlineQuerier.GroupItem>>()
+    fileprivate var contentLoader = BackedStream<ListCursor<CourseOutlineQuerier.GroupItem>>()
     
     private let courseQuerier : CourseOutlineQuerier
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
@@ -53,13 +53,13 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.blockID = rootID
         self.initialChildID = initialChildID
         
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
         initialLoadController = LoadStateViewController()
         
         cacheManager = BlockViewControllerCacheManager()
         
-        super.init(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
-        self.setViewControllers([initialLoadController], direction: .Forward, animated: false, completion: nil)
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        self.setViewControllers([initialLoadController], direction: .forward, animated: false, completion: nil)
         
         self.dataSource = self
         self.delegate = self
@@ -73,12 +73,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewWillAppear(animated : Bool) {
+    public override func viewWillAppear(_ animated : Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(false, animated: animated)
-        courseQuerier.blockWithID(blockID).extendLifetimeUntilFirstResult (success:
+        courseQuerier.blockWithID(id: blockID).extendLifetimeUntilFirstResult (success:
             { block in
-                self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenUnitDetail, courseID: self.courseID, value: block.internalName)
+                self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenUnitDetail, courseID: self.courseID, value: block.internalName)
             },
             failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
@@ -88,7 +88,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         loadIfNecessary()
     }
     
-    public override func viewWillDisappear(animated: Bool) {
+    public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setToolbarHidden(true, animated: animated)
         removeObservers()
@@ -97,7 +97,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
         
         // This is super hacky. Controls like sliders - that depend on pan gestures were getting intercepted
@@ -114,41 +114,42 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private func addStreamListeners() {
         contentLoader.listen(self,
             success : {[weak self] cursor -> Void in
-                if let owner = self,
-                     controller = owner.controllerForBlock(cursor.current.block)
+                if let owner = self, let controller = owner.controllerForBlock(block: cursor.current.block)
                 {
-                    owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
-                    self?.updateNavigationForEnteredController(controller)
+                    owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+                    self?.updateNavigationForEnteredController(controller: controller)
                 }
                 else {
-                    self?.initialLoadController.state = LoadState.failed(NSError.oex_courseContentLoadError())
+                    self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
                     self?.updateNavigationBars()
                 }
                 
                 return
             }, failure : {[weak self] error in
-             self?.initialLoadController.state = LoadState.failed(NSError.oex_courseContentLoadError())
+             self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
             }
         )
     }
     
     private func addObservers() {
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_VIDEO_PLAYER_NEXT) { (notification, observer, removable) in
-            observer.moveInDirection(.Forward)
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_VIDEO_PLAYER_PREVIOUS) { (notification, observer, removable) in
+            observer.moveInDirection(direction: .reverse)
         }
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: NOTIFICATION_VIDEO_PLAYER_PREVIOUS) { (notification, observer, removable) in
-            observer.moveInDirection(.Reverse)
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_VIDEO_PLAYER_NEXT) { (_, observer, _) in
+            observer.moveInDirection(direction: .forward)
         }
     }
     
     private func removeObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_VIDEO_PLAYER_NEXT, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: NOTIFICATION_VIDEO_PLAYER_PREVIOUS, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NOTIFICATION_VIDEO_PLAYER_NEXT), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: NOTIFICATION_VIDEO_PLAYER_PREVIOUS), object: nil)
     }
     
     private func loadIfNecessary() {
         if !contentLoader.hasBacking {
-            let stream = courseQuerier.spanningCursorForBlockWithID(blockID, initialChildID: initialChildID)
+            let stream = courseQuerier.spanningCursorForBlockWithID(blockID: blockID, initialChildID: initialChildID)
             contentLoader.backWithStream(stream.firstSuccess())
         }
     }
@@ -180,22 +181,22 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         switch direction {
         case .Next:
             titleText = isGroup ? Strings.nextUnit : Strings.next
-            moveDirection = .Forward
+            moveDirection = .forward
         case .Prev:
             titleText = isGroup ? Strings.previousUnit : Strings.previous
-            moveDirection = .Reverse
+            moveDirection = .reverse
         }
         
         let destinationText = adjacentGroup?.displayName
         
         let view = DetailToolbarButton(direction: direction, titleText: titleText, destinationText: destinationText) {[weak self] in
-            self?.moveInDirection(moveDirection)
+            self?.moveInDirection(direction: moveDirection)
         }
         view.sizeToFit()
         
         let barButtonItem =  UIBarButtonItem(customView: view)
-        barButtonItem.enabled = enabled
-        view.button.enabled = enabled
+        barButtonItem.isEnabled = enabled
+        view.button.isEnabled = enabled
         return barButtonItem
     }
     
@@ -208,23 +209,23 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             let actions : () -> Void = {
                 self.navigationItem.title = item.block.displayName
             }
-            if let navigationBar = navigationController?.navigationBar where navigationItem.title != nil {
+            if let navigationBar = navigationController?.navigationBar, let _ = navigationItem.title {
                 let animated = navigationItem.title != nil
-                UIView.transitionWithView(navigationBar,
-                    duration: 0.3 * (animated ? 1.0 : 0.0), options: UIViewAnimationOptions.TransitionCrossDissolve,
+                UIView.transition(with: navigationBar,
+                    duration: 0.3 * (animated ? 1.0 : 0.0), options: UIViewAnimationOptions.transitionCrossDissolve,
                     animations: actions, completion: nil)
             }
             else {
                 actions()
             }
             
-            let prevItem = toolbarItemWithGroupItem(item, adjacentGroup: item.prevGroup, direction: .Prev, enabled: cursor.hasPrev)
-            let nextItem = toolbarItemWithGroupItem(item, adjacentGroup: item.nextGroup, direction: .Next, enabled: cursor.hasNext)
+            let prevItem = toolbarItemWithGroupItem(item: item, adjacentGroup: item.prevGroup, direction: .Prev, enabled: cursor.hasPrev)
+            let nextItem = toolbarItemWithGroupItem(item: item, adjacentGroup: item.nextGroup, direction: .Next, enabled: cursor.hasNext)
             
             self.setToolbarItems(
                 [
                     prevItem,
-                    UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil),
+                    UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
                     nextItem
                 ], animated : true)
         }
@@ -238,62 +239,62 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     private func siblingWithDirection(direction : UIPageViewControllerNavigationDirection, fromController viewController: UIViewController) -> UIViewController? {
         let item : CourseOutlineQuerier.GroupItem?
         switch direction {
-        case .Forward:
+        case .forward:
             item = contentLoader.value?.peekNext()
-        case .Reverse:
+        case .reverse:
             item = contentLoader.value?.peekPrev()
         }
         return item.flatMap {
-            controllerForBlock($0.block)
+            controllerForBlock(block: $0.block)
         }
     }
     
     private func updateNavigationForEnteredController(controller : UIViewController?) {
         
         if let blockController = controller as? CourseBlockViewController,
-            cursor = contentLoader.value
+            let cursor = contentLoader.value
         {
             cursor.updateCurrentToItemMatching {
                 blockController.blockID == $0.block.blockID
             }
-            environment.analytics.trackViewedComponentForCourseWithID(courseID, blockID: cursor.current.block.blockID, minifiedBlockID: cursor.current.block.minifiedBlockID ?? "")
-            self.navigationDelegate?.courseContentPageViewController(self, enteredBlockWithID: cursor.current.block.blockID, parentID: cursor.current.parent)
+            environment.analytics.trackViewedComponentForCourse(withID: courseID, blockID: cursor.current.block.blockID, minifiedBlockID: cursor.current.block.minifiedBlockID ?? "")
+            self.navigationDelegate?.courseContentPageViewController(controller: self, enteredBlockWithID: cursor.current.block.blockID, parentID: cursor.current.parent)
         }
         self.updateNavigationBars()
     }
     
-    private func moveInDirection(direction : UIPageViewControllerNavigationDirection) {
+    fileprivate func moveInDirection(direction : UIPageViewControllerNavigationDirection) {
         if let currentController = viewControllers?.first,
-            nextController = self.siblingWithDirection(direction, fromController: currentController)
+            let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
             self.setViewControllers([nextController], direction: direction, animated: true, completion: nil)
-            self.updateNavigationForEnteredController(nextController)
+            self.updateNavigationForEnteredController(controller: nextController)
         }
     }
     
-    public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-        return siblingWithDirection(.Reverse, fromController: viewController)
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        return siblingWithDirection(direction: .reverse, fromController: viewController)
     }
     
-    public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        return siblingWithDirection(.Forward, fromController: viewController)
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        return siblingWithDirection(direction: .forward, fromController: viewController)
     }
     
-    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        self.updateNavigationForEnteredController(pageViewController.viewControllers?.first)
+    public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        self.updateNavigationForEnteredController(controller: pageViewController.viewControllers?.first)
     }
     
     func controllerForBlock(block : CourseBlock) -> UIViewController? {
         let blockViewController : UIViewController?
         
-        if let cachedViewController = self.cacheManager.getCachedViewControllerForBlockID(block.blockID) {
+        if let cachedViewController = self.cacheManager.getCachedViewControllerForBlockID(blockID: block.blockID) {
             blockViewController = cachedViewController
         }
         else {
             // Instantiate a new VC from the router if not found in cache already
-            if let viewController = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) {
+            if let viewController = self.environment.router?.controllerForBlock(block: block, courseID: courseQuerier.courseID) {
                 if block.displayType.isCacheable {
-                    cacheManager.addToCache(viewController, blockID: block.blockID)
+                    cacheManager.addToCache(viewController: viewController, blockID: block.blockID)
                 }
                 blockViewController = viewController
             }
@@ -305,7 +306,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
         
         if let viewController = blockViewController {
-            preloadAdjacentViewControllersFromViewController(viewController)
+            preloadAdjacentViewControllersFromViewController(controller: viewController)
             return viewController
         }
         else {
@@ -317,48 +318,48 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
 
-    override public func preferredStatusBarStyle() -> UIStatusBarStyle {
+    override public var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle(barStyle : self.navigationController?.navigationBar.barStyle)
     }
     
-    override public func childViewControllerForStatusBarStyle() -> UIViewController? {
+    override public var childViewControllerForStatusBarStyle: UIViewController? {
         if let controller = viewControllers?.last as? StatusBarOverriding as? UIViewController {
             return controller
         }
         else {
-            return super.childViewControllerForStatusBarStyle()
+            return super.childViewControllerForStatusBarStyle
         }
     }
     
-    override public func childViewControllerForStatusBarHidden() -> UIViewController? {
+    override public var childViewControllerForStatusBarHidden: UIViewController? {
         if let controller = viewControllers?.last as? StatusBarOverriding as? UIViewController {
             return controller
         }
         else {
-            return super.childViewControllerForStatusBarHidden()
+            return super.childViewControllerForStatusBarHidden
         }
         
     }
     
-    override public func shouldAutorotate() -> Bool {
+    override public var shouldAutorotate: Bool {
         return true
     }
     
-    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return [.Portrait , .LandscapeLeft , .LandscapeRight]
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return [.portrait , .landscapeLeft , .landscapeRight]
     }
     
     private func preloadBlock(block : CourseBlock) {
-        guard !cacheManager.cacheHitForBlockID(block.blockID) else {
+        guard !cacheManager.cacheHitForBlockID(blockID: block.blockID) else {
             return
         }
         guard block.displayType.isCacheable else {
             return
         }
-        guard let controller = self.environment.router?.controllerForBlock(block, courseID: courseQuerier.courseID) else {
+        guard let controller = self.environment.router?.controllerForBlock(block: block, courseID: courseQuerier.courseID) else {
             return
         }
-        cacheManager.addToCache(controller, blockID: block.blockID)
+        cacheManager.addToCache(viewController: controller, blockID: block.blockID)
         
         if let preloadable = controller as? PreloadableBlockController {
             preloadable.preloadData()
@@ -367,18 +368,18 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
 
     private func preloadAdjacentViewControllersFromViewController(controller : UIViewController) {
         if let block = contentLoader.value?.peekNext()?.block {
-            preloadBlock(block)
+            preloadBlock(block: block)
         }
         
         if let block = contentLoader.value?.peekPrev()?.block {
-            preloadBlock(block)
+            preloadBlock(block: block)
         }
     }
 }
 
 // MARK: Testing
 extension CourseContentPageViewController {
-    public func t_blockIDForCurrentViewController() -> Stream<CourseBlockID> {
+    public func t_blockIDForCurrentViewController() -> OEXStream<CourseBlockID> {
         return contentLoader.flatMap {blocks in
             let controller = (self.viewControllers?.first as? CourseBlockViewController)
             let blockID = controller?.blockID
@@ -388,18 +389,18 @@ extension CourseContentPageViewController {
     }
     
     public var t_prevButtonEnabled : Bool {
-        return self.toolbarItems![0].enabled
+        return self.toolbarItems![0].isEnabled
     }
     
     public var t_nextButtonEnabled : Bool {
-        return self.toolbarItems![2].enabled
+        return self.toolbarItems![2].isEnabled
     }
     
     public func t_goForward() {
-        moveInDirection(.Forward)
+        moveInDirection(direction: .forward)
     }
     
     public func t_goBackward() {
-        moveInDirection(.Reverse)
+        moveInDirection(direction: .reverse)
     }
 }

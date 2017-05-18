@@ -24,7 +24,7 @@ class TestRouterEnvironment : RouterEnvironment {
     {
         mockStorage = OEXMockCredentialStorage()
         let session = OEXSession(credentialStore: mockStorage)
-        let mockNetworkManager = MockNetworkManager(authorizationHeaderProvider: session, baseURL: NSURL(string:"http://example.com")!)
+        let mockNetworkManager = MockNetworkManager(authorizationHeaderProvider: session, baseURL: NSURL(string:"http://example.com")! as URL)
         self.mockNetworkManager = mockNetworkManager
         eventTracker = MockAnalyticsTracker()
         mockReachability = MockReachability()
@@ -62,11 +62,11 @@ class TestRouterEnvironment : RouterEnvironment {
             session: session,
             styles: OEXStyles())
         
-        self.analytics.addTracker(eventTracker)
+        self.analytics.add(eventTracker)
     }
     
-    func logInTestUser() -> TestRouterEnvironment {
-        mockStorage.storedAccessToken = OEXAccessToken.fakeToken()
+    @discardableResult func logInTestUser() -> TestRouterEnvironment {
+        mockStorage.storedAccessToken = OEXAccessToken.fake()
         mockStorage.storedUserDetails = OEXUserDetails.freshUser()
         self.session.loadTokenFromStore()
         return self

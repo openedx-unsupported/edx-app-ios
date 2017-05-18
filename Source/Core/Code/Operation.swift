@@ -12,46 +12,46 @@ import UIKit
 /// Standard stub subclass of NSOperation.
 /// Needed to give an indirection for classes that use features that prevent them from exposing methods
 /// to Objective-C, like generics.
-public class Operation : NSOperation {
-    private var _executing : Bool = false
-    private var _finished : Bool = false
+open class OEXOperation : Foundation.Operation {
+    fileprivate var _executing : Bool = false
+    fileprivate var _finished : Bool = false
     
-    public override var executing:Bool {
+    open override var isExecuting:Bool {
         get { return _executing }
         set {
-            willChangeValueForKey("isExecuting")
+            willChangeValue(forKey: "isExecuting")
             _executing = newValue
-            didChangeValueForKey("isExecuting")
+            didChangeValue(forKey: "isExecuting")
         }
     }
-    public override var finished:Bool {
+    open override var isFinished:Bool {
         get { return _finished }
         set {
-            willChangeValueForKey("isFinished")
+            willChangeValue(forKey: "isFinished")
             _finished = newValue
-            didChangeValueForKey("isFinished")
+            didChangeValue(forKey: "isFinished")
         }
     }
     
     /// Subclasses with generic arguments can't have methods seen by Objective-C and hence NSOperation.
     /// This class doesn't have generic arguments, so it's safe for other things to subclass.
-    @objc public override func start() {
-        self.executing = true
-        self.finished = false
+    @objc open override func start() {
+        self.isExecuting = true
+        self.isFinished = false
         performWithDoneAction {[weak self] in
-            self?.executing = false
-            self?.finished = true
+            self?.isExecuting = false
+            self?.isFinished = true
         }
     }
     
-    public override func cancel() {
-        self.executing = false
-        self.finished = true
+    open override func cancel() {
+        self.isExecuting = false
+        self.isFinished = true
     }
     
     /// Subclasses should implement this since they might not be able to implement -start directly if they
     /// have generic arguments. Call doneAction when your task is done
-    public func performWithDoneAction(doneAction : () -> Void) {
+    open func performWithDoneAction(_ doneAction : @escaping() -> Void) {
         
     }
 }

@@ -28,7 +28,7 @@ class CourseCertificateCell: UITableViewCell {
     }
 
     private func configureViews() {
-        self.backgroundColor =  OEXStyles.sharedStyles().neutralXLight()
+        self.backgroundColor =  OEXStyles.shared().neutralXLight()
 
         applyStandardSeparatorInsets()
 
@@ -37,12 +37,12 @@ class CourseCertificateCell: UITableViewCell {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(getButton)
 
-        certificateImageView.contentMode = .ScaleAspectFit
-        certificateImageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        certificateImageView.contentMode = .scaleAspectFit
+        certificateImageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
 
-        getButton.backgroundColor = UIColor.greenColor()
+        getButton.backgroundColor = UIColor.green
 
-        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
+        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
         subtitleLabel.adjustsFontSizeToFitWidth = true
 
         certificateImageView.snp_makeConstraints(closure: { (make) -> Void in
@@ -73,15 +73,15 @@ class CourseCertificateCell: UITableViewCell {
     func useItem(item: CertificateDashboardItem) {
         certificateImageView.image = item.certificateImage
 
-        let titleStyle = OEXTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().primaryXDarkColor())
-        let subtitleStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralDark())
+        let titleStyle = OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().primaryXDarkColor())
+        let subtitleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
 
-        titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Certificates.courseCompletionTitle)
-        subtitleLabel.attributedText = subtitleStyle.attributedStringWithText(Strings.Certificates.courseCompletionSubtitle)
-        getButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.Certificates.getCertificate)
+        titleLabel.attributedText = titleStyle.attributedString(withText: Strings.Certificates.courseCompletionTitle)
+        subtitleLabel.attributedText = subtitleStyle.attributedString(withText: Strings.Certificates.courseCompletionSubtitle)
+        getButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle, withTitle: Strings.Certificates.getCertificate)
 
         getButton.oex_addAction({ _ in
             item.action()
-            }, forEvents: .TouchUpInside)
+        }, for: .touchUpInside)
     }
 }

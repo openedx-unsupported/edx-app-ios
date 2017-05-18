@@ -19,13 +19,13 @@ class RatingView: UIControl {
     private let spacing : CGFloat = 5
     var value : Int = 0
     
-    let emptyImage = Icon.StarEmpty.imageWithFontSize(imageSize)
-    let filledImage = Icon.StarFilled.imageWithFontSize(imageSize)
+    let emptyImage = Icon.StarEmpty.imageWithFontSize(size: imageSize)
+    let filledImage = Icon.StarFilled.imageWithFontSize(size: imageSize)
     
     var shouldBeginGestureRecognizerBlock : RatingViewShouldBeginGestureRecognizerBlock?
     
     init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         isAccessibilityElement = true
         accessibilityLabel = Strings.AppReview.ratingControlAccessibilityLabel
         accessibilityHint = Strings.AppReview.ratingControlAccessibilityHint
@@ -37,32 +37,32 @@ class RatingView: UIControl {
     
     //MARK: - Action generators
     func setRatingValue(value: Int) {
-        willChangeValueForKey("value")
+        willChangeValue(forKey: "value")
         if self.value != value && value >= Int(minimumValue) && value <= Int(maximumValue) {
             self.value = value
-            sendActionsForControlEvents(UIControlEvents.ValueChanged)
+            sendActions(for: UIControlEvents.valueChanged)
             setNeedsDisplay()
         }
-        didChangeValueForKey("value")
+        didChangeValue(forKey: "value")
     }
     
     //MARK: - Draw methods
     private func drawImageWithFrame(frame: CGRect, tintColor: UIColor, highlighted: Bool) {
-        guard let image : UIImage = highlighted ? filledImage : emptyImage else { return }
-        drawImage(image, frame: frame, tintColor: tintColor)
+        let image : UIImage = highlighted ? filledImage : emptyImage
+        drawImage(image: image, frame: frame, tintColor: tintColor)
     }
     
     private func drawImage(image: UIImage, frame: CGRect, tintColor: UIColor) {
-        if image.renderingMode == UIImageRenderingMode.AlwaysTemplate {
+        if image.renderingMode == UIImageRenderingMode.alwaysTemplate {
             tintColor.setFill()
         }
-        image.drawInRect(frame)
+        image.draw(in: frame)
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         if let context = UIGraphicsGetCurrentContext() {
-            CGContextSetFillColorWithColor(context, backgroundColor?.CGColor ?? UIColor.whiteColor().CGColor)
-            CGContextFillRect(context, rect)
+            context.setFillColor(backgroundColor?.cgColor ?? UIColor.white.cgColor)
+            context.fill(rect)
         }
         
         let availableWidth = rect.size.width - (spacing * (maximumValue - 1)) - 2
@@ -72,47 +72,47 @@ class RatingView: UIControl {
         for idx in 0 ..< Int(maximumValue) {
             var pointX = (cellWidth * CGFloat(idx)) + (cellWidth / 2)
             pointX += (spacing * CGFloat(idx)) + 1
-            let center = CGPointMake(pointX, rect.size.height/2)
-            let frame = CGRectMake(center.x - starSide/2, center.y - starSide/2, starSide, starSide)
+            let center = CGPoint(x: pointX, y: rect.size.height/2)
+            let frame = CGRect(x: center.x - starSide/2, y: center.y - starSide/2, width: starSide, height: starSide)
             let highlighted = (idx + 1 <= value)
-            drawImageWithFrame(frame, tintColor: tintColor, highlighted: highlighted)
+            drawImageWithFrame(frame: frame, tintColor: tintColor, highlighted: highlighted)
         }
     }
     
     //MARK: - Touch tracking methods
-    override func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
-        super.beginTrackingWithTouch(touch, withEvent: event)
+    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        super.beginTracking(touch, with: event)
         becomeFirstResponder()
-        handleTouch(touch)
+        handleTouch(touch: touch)
         return true
     }
     
-    override func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
-        super.continueTrackingWithTouch(touch, withEvent: event)
-        handleTouch(touch)
+    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        super.continueTracking(touch, with: event)
+        handleTouch(touch: touch)
         return true
     }
     
-    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer.view == self {
-            return !userInteractionEnabled
+            return !isUserInteractionEnabled
         }
         return self.shouldBeginGestureRecognizerBlock != nil ? shouldBeginGestureRecognizerBlock!(gestureRecognizer) : false
     }
     
     func handleTouch(touch: UITouch) {
         let width = bounds.size.width / maximumValue
-        let location = touch.locationInView(self)
+        let location = touch.location(in: self)
         var value = location.x / width
         
         value = ceil(value)
         
-        setRatingValue(Int(value))
+        setRatingValue(value: Int(value))
     }
     
-    override func intrinsicContentSize() -> CGSize {
+    override var intrinsicContentSize: CGSize {
         let height : CGFloat = 44
-        return CGSizeMake(maximumValue * height + (maximumValue - 1) * spacing, height)
+        return CGSize(width: maximumValue * height + (maximumValue - 1) * spacing, height: height)
     }
 
 }

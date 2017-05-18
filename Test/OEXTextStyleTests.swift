@@ -9,7 +9,7 @@
 import edX
 import XCTest
 
-func verifyEqualityWithNewValue<A>(style : OEXTextStyle, _ copy : OEXMutableTextStyle, _ testValue : A, _ setter : (OEXMutableTextStyle, A) -> Void, _ getter : OEXTextStyle -> A) {
+func verifyEqualityWithNewValue<A>(_ style : OEXTextStyle, _ copy : OEXMutableTextStyle, _ testValue : A, _ setter : (OEXMutableTextStyle, A) -> Void, _ getter : (OEXTextStyle) -> A) {
     XCTAssertEqual(style, copy)
     setter(copy, testValue)
     XCTAssertNotEqual(style, copy)
@@ -20,12 +20,12 @@ class OEXTextStyleTests: XCTestCase {
     
     // A text style sufficiently weird that none of its values will ever be the defaults
     var weirdStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: .Bold, size: .XXLarge, color: UIColor.greenColor())
-        style.lineBreakMode = NSLineBreakMode.ByClipping
+        let style = OEXMutableTextStyle(weight: .bold, size: .xxLarge, color: UIColor.green)
+        style.lineBreakMode = NSLineBreakMode.byClipping
         style.paragraphSpacing = 10
         style.paragraphSpacingBefore = 8
-        style.alignment = .Right
-        style.letterSpacing = .XXLoose
+        style.alignment = .right
+        style.letterSpacing = .xxLoose
         
         return style
     }
@@ -34,14 +34,14 @@ class OEXTextStyleTests: XCTestCase {
         let style = weirdStyle
         let copy = style.mutableCopy() as! OEXMutableTextStyle
         
-        verifyEqualityWithNewValue(style, copy, .Light, {$0.weight = $1}, {$0.weight})
-        verifyEqualityWithNewValue(style, copy, .XXSmall, {$0.size = $1}, {$0.size})
-        verifyEqualityWithNewValue(style, copy, UIColor.orangeColor() as UIColor?, {$0.color = $1}, {$0.color})
-        verifyEqualityWithNewValue(style, copy, .Left, {$0.alignment = $1}, {$0.alignment})
+        verifyEqualityWithNewValue(style, copy, .light, {$0.weight = $1}, {$0.weight})
+        verifyEqualityWithNewValue(style, copy, .xxSmall, {$0.size = $1}, {$0.size})
+        verifyEqualityWithNewValue(style, copy, UIColor.orange as UIColor?, {$0.color = $1}, {$0.color})
+        verifyEqualityWithNewValue(style, copy, .left, {$0.alignment = $1}, {$0.alignment})
         verifyEqualityWithNewValue(style, copy, 20, {$0.paragraphSpacing = $1}, {$0.paragraphSpacing})
         verifyEqualityWithNewValue(style, copy, 20, {$0.paragraphSpacingBefore = $1}, {$0.paragraphSpacingBefore})
-        verifyEqualityWithNewValue(style, copy, .ByCharWrapping, {$0.lineBreakMode = $1}, {$0.lineBreakMode})
-        verifyEqualityWithNewValue(style, copy, .XXTight, {$0.letterSpacing = $1}, {$0.letterSpacing})
+        verifyEqualityWithNewValue(style, copy, .byCharWrapping, {$0.lineBreakMode = $1}, {$0.lineBreakMode})
+        verifyEqualityWithNewValue(style, copy, .xxTight, {$0.letterSpacing = $1}, {$0.letterSpacing})
     }
     
     func testNilInequality() {
@@ -70,7 +70,7 @@ class OEXTextStyleTests: XCTestCase {
         let sampleResponse = "This is a sample response."
         let style = weirdStyle
         
-        XCTAssertEqual(style.attributedStringWithText(sampleResponse).string, sampleResponse)
+        XCTAssertEqual(style.attributedString(withText: sampleResponse).string, sampleResponse)
     }
     
     func testMarkdownString() {
@@ -78,7 +78,7 @@ class OEXTextStyleTests: XCTestCase {
         let expectedString = "This is a response with a link"
         let style = weirdStyle
         
-        XCTAssertEqual(style.markdownStringWithText(htmlString).string, expectedString)
+        XCTAssertEqual(style.markdownString(withText: htmlString).string, expectedString)
     }
     
 }

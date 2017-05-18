@@ -14,22 +14,22 @@ class DebugLogViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        textView.editable = false
+        textView.isEditable = false
 
         self.view = textView
 
         loadLog()
 
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(DebugLogViewController.share))
-        let clearButton = UIBarButtonItem(barButtonSystemItem: .Trash, target: self, action: #selector(DebugLogViewController.clear))
+        let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(DebugLogViewController.share))
+        let clearButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(DebugLogViewController.clear))
         navigationItem.rightBarButtonItems = [clearButton, shareButton]
     }
 
     private func loadLog() {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0)) {
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             if let textData = NSData(contentsOfFile: DebugMenuLogger.instance.filename) {
-                let text = String(data: textData, encoding:  NSUTF8StringEncoding)
-                dispatch_async(dispatch_get_main_queue()) {
+                let text = String(data: textData as Data, encoding:  String.Encoding.utf8)
+                DispatchQueue.main.async {
                     self.textView.text = text
                 }
             }
@@ -38,7 +38,7 @@ class DebugLogViewController : UIViewController {
 
     func share() {
         let c = UIActivityViewController(activityItems: [self.textView.text], applicationActivities: nil)
-        presentViewController(c, animated: true, completion: nil)
+        present(c, animated: true, completion: nil)
     }
 
     func clear() {

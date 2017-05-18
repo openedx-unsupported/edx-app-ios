@@ -10,18 +10,18 @@ import Foundation
 
 class RegisterFeatureTestCase : FeatureTestCase {
     func testRegisterUsernamePassword() {
-        let credentials = TestCredentials(type: .Fresh)
+        let credentials = TestCredentials(type: .fresh)
 
         AppInteractor()
             .launchApp()
             .observeSplashScreen()
             .navigateToRegisterScreen()
             .enterValues(values: [
-                "username": .Text(credentials.username),
-                "password": .Text(credentials.password),
-                "email": .Text(credentials.email),
-                "name": .Text("Test Person"),
-                "country": .Picker("Antarctica")
+                "username": .text(credentials.username),
+                "password": .text(credentials.password),
+                "email": .text(credentials.email),
+                "name": .text("Test Person"),
+                "country": .picker("Antarctica")
                 ])
             .register()
             .observeEnrolledCoursesScreen()

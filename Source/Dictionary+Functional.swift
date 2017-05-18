@@ -17,7 +17,7 @@ extension Dictionary {
         }
     }
     
-    func mapValues<T>(f : Value -> T) -> [Key:T] {
+    func mapValues<T>(f : (Value) -> T) -> [Key:T] {
         var result : [Key:T] = [:]
         for (key, value) in self {
             result[key] = f(value)
@@ -47,14 +47,14 @@ func stripNullsFrom<Key, Value>(dict : [Key:Value?]) -> [Key:Value] {
 
 
 extension NSDictionary {
-    func mapValues<Key, T>(f : AnyObject -> T) -> [Key:T] {
+    func mapValues<Key, T>(f : (AnyObject) -> T) -> [Key:T] {
         var result : [Key:T] = [:]
-        enumerateKeysAndObjectsUsingBlock { (key, value, _) -> Void in
+        enumerateKeysAndObjects({ (key, value, _) -> Void in
             if let key = key as? Key {
-                let value = f(value)
+                let value = f(value as AnyObject)
                 result[key] = value
             }
-        }
+        })
         return result
     }
 }

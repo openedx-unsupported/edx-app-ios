@@ -21,13 +21,13 @@ class SessionUsernameProviderTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        let path = OEXFileUtility.t_pathForUserName(user.username!)
-        try! NSFileManager.defaultManager().removeItemAtPath(path)
+        let path = OEXFileUtility.t_path(forUserName: user.username!)
+        try! FileManager.default.removeItem(atPath: path)
     }
 
-    func providerForUsername(user : OEXUserDetails) -> SessionUsernameProvider {
+    func providerForUsername(_ user : OEXUserDetails) -> SessionUsernameProvider {
         let storage = OEXMockCredentialStorage()
-        storage.storedAccessToken = OEXAccessToken.fakeToken()
+        storage.storedAccessToken = OEXAccessToken.fake()
         storage.storedUserDetails = user
         let session  = OEXSession(credentialStore: storage)
         session.loadTokenFromStore()
@@ -38,19 +38,19 @@ class SessionUsernameProviderTests: XCTestCase {
     func testReturnsUserAppropriatePath() {
         let provider = providerForUsername(user)
         let path = provider.pathForRequestKey("123")
-        XCTAssertTrue(path?.absoluteString?.containsString(user.username!.oex_md5) ?? false)
+        XCTAssertTrue(path?.absoluteString.contains(user.username!.oex_md5) ?? false)
     }
 
     func testWorksWithResponseCache() {
         let provider = providerForUsername(user)
         let cache = PersistentResponseCache(provider: provider)
-        let URL = NSURL(string:"http://example.com")!
-        let response = NSHTTPURLResponse(URL: URL, statusCode: 200, HTTPVersion: nil, headerFields: nil)!
-        let request = NSURLRequest(URL: URL)
-        let responseData = ("test" as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+        let URL = Foundation.URL(string:"http://example.com")!
+        let response = HTTPURLResponse(url: URL, statusCode: 200, httpVersion: nil, headerFields: nil)!
+        let request = URLRequest(url: URL)
+        let responseData = ("test" as NSString).data(using: String.Encoding.utf8.rawValue)
         cache.setCacheResponse(response, withData: responseData, forRequest: request)
 
-        let expectation = expectationWithDescription("cache fulfilled")
+        let expectation = self.expectation(description: "cache fulfilled")
         cache.fetchCacheEntryWithRequest(request) { (entry) -> Void in
             XCTAssertEqual(entry?.statusCode, 200)
             XCTAssertEqual(entry?.data, responseData)

@@ -13,14 +13,14 @@ public protocol Removable {
 }
 
 // Simple removable that just executes an action on remove
-public class BlockRemovable : Removable {
-    private var action : (Void -> Void)?
+open class BlockRemovable : Removable {
+    fileprivate var action : ((Void) -> Void)?
     
-    public init(action : Void -> Void) {
+    public init(action : @escaping (Void) -> Void) {
         self.action = action
     }
     
-    public func remove() {
+    open func remove() {
         self.action?()
         action = nil
     }

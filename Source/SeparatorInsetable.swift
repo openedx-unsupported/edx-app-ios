@@ -14,9 +14,9 @@ protocol SeparatorInsetable : class {
 
 extension SeparatorInsetable where Self : UIView {
     func applyStandardSeparatorInsets() {
-        self.separatorInset = UIEdgeInsetsZero
+        self.separatorInset = UIEdgeInsets.zero
         self.preservesSuperviewLayoutMargins = false
-        self.layoutMargins = UIEdgeInsetsZero
+        self.layoutMargins = UIEdgeInsets.zero
     }
     
     private var defaultEdgeInsets : UIEdgeInsets {

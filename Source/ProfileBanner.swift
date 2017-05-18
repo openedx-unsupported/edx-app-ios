@@ -18,9 +18,9 @@ class ProfileBanner: UIView {
         var textColor: UIColor {
             switch(self) {
             case .LightContent:
-                return OEXStyles.sharedStyles().neutralWhiteT()
+                return OEXStyles.shared().neutralWhiteT()
             case .DarkContent:
-                return OEXStyles.sharedStyles().neutralBlackT()
+                return OEXStyles.shared().neutralBlackT()
             }
         }
     }
@@ -33,7 +33,7 @@ class ProfileBanner: UIView {
 
     var style = Style.LightContent {
         didSet {
-            usernameLabel.attributedText = usernameStyle.attributedStringWithText(usernameLabel.attributedText?.string)
+            usernameLabel.attributedText = usernameStyle.attributedString(withText: usernameLabel.attributedText?.string)
         }
     }
   
@@ -41,7 +41,7 @@ class ProfileBanner: UIView {
         addSubview(shortProfView)
         addSubview(usernameLabel)
         
-        usernameLabel.setContentHuggingPriority(1, forAxis: .Horizontal)
+        usernameLabel.setContentHuggingPriority(1, for: .horizontal)
         
         shortProfView.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.snp_leadingMargin)
@@ -56,10 +56,10 @@ class ProfileBanner: UIView {
         }
         
         if editable {
-            userInteractionEnabled = true
+            isUserInteractionEnabled = true
             addSubview(changeButton)
 
-            changeButton.setIconAndTitle(Icon.Camera, title: Strings.Profile.changePictureButton)
+            changeButton.setIconAndTitle(icon: Icon.Camera, title: Strings.Profile.changePictureButton)
             changeButton.accessibilityHint = Strings.Profile.changePictureAccessibilityHint
             
             changeButton.snp_makeConstraints(closure: { (make) -> Void in
@@ -70,16 +70,16 @@ class ProfileBanner: UIView {
             
             changeButton.oex_addAction({ [weak self] _ in
                 self?.changeCallback?()
-            }, forEvents: .TouchUpInside)
+                }, for: .touchUpInside)
         }
       
 
     }
     
-    init(editable: Bool, didChange: (()->())) {
+    init(editable: Bool, didChange: @escaping (()->())) {
         self.editable = editable
         changeCallback = didChange
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         setupViews()
     }
     
@@ -96,11 +96,11 @@ class ProfileBanner: UIView {
     }
     
     func showProfile(profile: UserProfile, networkManager: NetworkManager) {
-        shortProfView.remoteImage = profile.image(networkManager)
-        usernameLabel.attributedText = usernameStyle.attributedStringWithText(profile.username)
+        shortProfView.remoteImage = profile.image(networkManager: networkManager)
+        usernameLabel.attributedText = usernameStyle.attributedString(withText: profile.username)
     }
 
     var usernameStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Large, color: style.textColor)
+        return OEXTextStyle(weight : .normal, size: .large, color: style.textColor)
     }
 }

@@ -11,11 +11,11 @@ import UIKit
 private let StandardRefreshHeight : CGFloat = 80
 
 public class PullRefreshView : UIView {
-    private let spinner = SpinnerView(size: .Large, color: .Primary)
+    fileprivate let spinner = SpinnerView(size: .Large, color: .Primary)
     
     public init() {
         spinner.stopAnimating()
-        super.init(frame : CGRectZero)
+        super.init(frame : CGRect.zero)
         addSubview(spinner)
         spinner.snp_makeConstraints {make in
             make.centerX.equalTo(self)
@@ -27,15 +27,15 @@ public class PullRefreshView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func intrinsicContentSize() -> CGSize {
-        return CGSizeMake(UIViewNoIntrinsicMetric, StandardRefreshHeight)
+    public override var intrinsicContentSize: CGSize {
+        return CGSize(width: UIViewNoIntrinsicMetric, height: StandardRefreshHeight)
     }
     
     public var percentage : CGFloat = 1 {
         didSet {
-            let totalAngle = CGFloat(2 * M_PI * 2) // two full rotations
+            let totalAngle = CGFloat(2 * Double.pi * 2) // two full rotations
             let scale = (percentage * 0.9) + 0.1 // don't start from 0 scale because it looks weird
-            spinner.transform = CGAffineTransformConcat(CGAffineTransformMakeRotation(percentage * totalAngle), CGAffineTransformMakeScale(scale, scale))
+            spinner.transform = CGAffineTransform(rotationAngle: percentage * totalAngle).concatenating(CGAffineTransform(scaleX: scale, y: scale))
         }
     }
 }
@@ -65,8 +65,8 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
             make.trailing.equalTo(scrollView)
             make.width.equalTo(scrollView)
         }
-        scrollView.oex_addObserver(self, forKeyPath: "bounds") { (observer, scrollView, _) -> Void in
-            observer.scrollViewDidScroll(scrollView)
+        scrollView.oex_addObserver(observer: self, forKeyPath: "bounds") { (observer, scrollView, _) -> Void in
+            self.scrollViewDidScroll(scrollView: scrollView)
         }
     }
     
@@ -74,8 +74,8 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
         if !refreshing {
             refreshing = true
             view.spinner.startAnimating()
-            self.insetsDelegate?.contentInsetsSourceChanged(self)
-            self.delegate?.refreshControllerActivated(self)
+            self.insetsDelegate?.contentInsetsSourceChanged(source: self)
+            self.delegate?.refreshControllerActivated(controller: self)
         }
     }
     
@@ -85,8 +85,8 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     
     public func endRefreshing() {
         refreshing = false
-        UIView.animateWithDuration(0.3) {
-            self.insetsDelegate?.contentInsetsSourceChanged(self)
+        UIView.animate(withDuration: 0.3) {
+            self.insetsDelegate?.contentInsetsSourceChanged(source: self)
         }
         view.spinner.stopAnimating()
     }
@@ -97,16 +97,16 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     
     public func scrollViewDidScroll(scrollView : UIScrollView) {
         let pct = max(0, min(1, -scrollView.bounds.minY / view.frame.height))
-        if !refreshing && scrollView.dragging {
+        if !refreshing && scrollView.isDragging {
             self.view.percentage = pct
         }
         else {
             self.view.percentage = 1
         }
-        if pct >= 1 && scrollView.dragging {
+        if pct >= 1 && scrollView.isDragging {
             shouldStartOnTouchRelease = true
         }
-        if shouldStartOnTouchRelease && !scrollView.dragging {
+        if shouldStartOnTouchRelease && !scrollView.isDragging {
             triggered()
             shouldStartOnTouchRelease = false
         }

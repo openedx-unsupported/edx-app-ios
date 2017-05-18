@@ -9,14 +9,14 @@
 @testable import edX
 
 class MockProfilePresenter: UserProfilePresenter {
-    let profileStream: Stream<UserProfile>
-    let tabStream: Stream<[ProfileTabItem]>
+    let profileStream: OEXStream<UserProfile>
+    let tabStream: OEXStream<[ProfileTabItem]>
 
     weak var delegate: UserProfilePresenterDelegate?
 
     init(profile: UserProfile, tabs: [ProfileTabItem]) {
-        profileStream = Stream(value: profile)
-        tabStream = Stream(value: tabs)
+        profileStream = OEXStream(value: profile)
+        tabStream = OEXStream(value: tabs)
     }
 
     func refresh() {
@@ -27,9 +27,9 @@ class MockProfilePresenter: UserProfilePresenter {
 class MockPaginator<A>: Paginator {
     typealias Element = A
 
-    let stream: Stream<[A]>
+    let stream: OEXStream<[A]>
     init(values : [A]) {
-        self.stream = Stream(value: values)
+        self.stream = OEXStream(value: values)
     }
 
     let hasNext: Bool = false
@@ -41,11 +41,11 @@ class MockPaginator<A>: Paginator {
 
 class UserProfileViewTests: SnapshotTestCase {
 
-    func profileWithPrivacy(privacy : UserProfile.ProfilePrivacy) -> UserProfile {
+    func profileWithPrivacy(_ privacy : UserProfile.ProfilePrivacy) -> UserProfile {
         return UserProfile(username: "Test Person", bio: "Hello I am a lorem ipsum dolor sit amet", parentalConsent: false, countryCode: "de", accountPrivacy: privacy)
     }
     
-    func snapshotContentWithPrivacy(privacy : UserProfile.ProfilePrivacy) {
+    func snapshotContentWithPrivacy(_ privacy : UserProfile.ProfilePrivacy) {
         let presenter = MockProfilePresenter(profile: profileWithPrivacy(privacy), tabs: [])
         let controller = UserProfileViewController(environment: TestRouterEnvironment(), presenter: presenter, editable: true)
         inScreenNavigationContext(controller, action: { () -> () in
@@ -78,7 +78,7 @@ class UserProfileViewTests: SnapshotTestCase {
         let controller = UserProfileViewController(environment: TestRouterEnvironment(), presenter: testPresenter, editable: false)
         
         inScreenNavigationContext(controller) {
-            controller.t_chooseTab("accomplishments")
+            controller.t_chooseTab(identifier: "accomplishments")
             assertSnapshotValidWithContent(controller.navigationController!)
         }
     }

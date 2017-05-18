@@ -9,7 +9,7 @@
 import UIKit
 
 class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCell {
-    private let content = CourseOutlineItemView()
+    fileprivate let content = CourseOutlineItemView()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -21,7 +21,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     
     var block : CourseBlock? = nil {
         didSet {
-            content.setTitleText(block?.displayName)
+            content.setTitleText(title: block?.displayName)
         }
     }
 
@@ -35,7 +35,7 @@ class CourseHTMLTableViewCell: CourseGenericBlockTableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style : style, reuseIdentifier : reuseIdentifier)
-        content.setContentIcon(Icon.CourseHTMLContent)
+        content.setContentIcon(icon: Icon.CourseHTMLContent)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -49,7 +49,7 @@ class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style : style, reuseIdentifier : reuseIdentifier)
-        content.setContentIcon(Icon.CourseProblemContent)
+        content.setContentIcon(icon: Icon.CourseProblemContent)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -64,8 +64,8 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        content.leadingIconColor = OEXStyles.sharedStyles().neutralBase()
-        content.setContentIcon(Icon.CourseUnknownContent)
+        content.leadingIconColor = OEXStyles.shared().neutralBase()
+        content.setContentIcon(icon: Icon.CourseUnknownContent)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -80,7 +80,7 @@ class DiscussionTableViewCell: CourseGenericBlockTableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        content.setContentIcon(Icon.Discussions)
+        content.setContentIcon(icon: Icon.Discussions)
     }
     
     required init?(coder aDecoder: NSCoder) {

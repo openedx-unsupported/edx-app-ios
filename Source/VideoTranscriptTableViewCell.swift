@@ -12,25 +12,25 @@ class VideoTranscriptTableViewCell: UITableViewCell {
     
     static let cellIdentifier = "VideoTranscriptCell"
     
-    let titleLabel = UILabel(frame: CGRectZero)
+    let titleLabel = UILabel(frame: CGRect.zero)
     
     private var standardTitleStyle : OEXTextStyle {
-        let style = OEXTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: OEXStyles.sharedStyles().primaryBaseColor())
-        titleLabel.lineBreakMode = .ByWordWrapping
+        let style = OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: OEXStyles.shared().primaryBaseColor())
+        titleLabel.lineBreakMode = .byWordWrapping
         return style
     }
     
     private var highlightedTitleStyle : OEXTextStyle {
-        let style = OEXTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: OEXStyles.sharedStyles().neutralXDark())
-        titleLabel.lineBreakMode = .ByWordWrapping
+        let style = OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: OEXStyles.shared().neutralXDark())
+        titleLabel.lineBreakMode = .byWordWrapping
         return style
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
         titleLabel.numberOfLines = 0
-        titleLabel.preferredMaxLayoutWidth = CGRectGetWidth(bounds)
+        titleLabel.preferredMaxLayoutWidth = bounds.width
         self.addSubview(titleLabel)
         titleLabel.snp_remakeConstraints { make in
             make.left.equalTo(self.snp_left).offset(20.0)
@@ -44,16 +44,16 @@ class VideoTranscriptTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
     
     func setTranscriptText(text: String? , highlighted: Bool) {
         if !highlighted {
-            titleLabel.attributedText = standardTitleStyle.attributedStringWithText(text)
+            titleLabel.attributedText = standardTitleStyle.attributedString(withText: text)
         }
         else{
-            titleLabel.attributedText = highlightedTitleStyle.attributedStringWithText(text)
+            titleLabel.attributedText = highlightedTitleStyle.attributedString(withText: text)
         }
     }
 }

@@ -12,13 +12,13 @@ extension UIView {
     var isRightToLeft : Bool {
         
         if #available(iOS 9.0, *) {
-            let direction = UIView.userInterfaceLayoutDirectionForSemanticContentAttribute(self.semanticContentAttribute)
+            let direction = UIView.userInterfaceLayoutDirection(for: self.semanticContentAttribute)
             switch direction {
-            case .LeftToRight: return false
-            case .RightToLeft: return true
+            case .leftToRight: return false
+            case .rightToLeft: return true
             }
         } else {
-            return UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft
+            return UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft
         }
     }
 }
@@ -34,26 +34,26 @@ extension UIControl {
     var localizedHorizontalContentAlignment : LocalizedHorizontalContentAlignment {
         get {
             switch self.contentHorizontalAlignment {
-            case .Left:
+            case .left:
                 return self.isRightToLeft ? .Trailing : .Leading
-            case .Right:
+            case .right:
                 return self.isRightToLeft ? .Leading : .Trailing
-            case .Center:
+            case .center:
                 return .Center
-            case .Fill:
+            case .fill:
                 return .Fill
             }
         }
         set {
             switch newValue {
             case .Leading:
-                self.contentHorizontalAlignment = self.isRightToLeft ? .Right : .Left
+                self.contentHorizontalAlignment = self.isRightToLeft ? .right : .left
             case .Trailing:
-                self.contentHorizontalAlignment = self.isRightToLeft ? .Left : .Right
+                self.contentHorizontalAlignment = self.isRightToLeft ? .left : .right
             case .Center:
-                self.contentHorizontalAlignment = .Center
+                self.contentHorizontalAlignment = .center
             case .Fill:
-                self.contentHorizontalAlignment = .Fill
+                self.contentHorizontalAlignment = .fill
             }
         }
     }

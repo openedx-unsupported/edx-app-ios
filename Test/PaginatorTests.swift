@@ -15,7 +15,7 @@ class PaginatorTests: XCTestCase {
     
     func testWrappedPaginatorStartsLoadable() {
         let paginator = WrappedPaginator { i in
-            return Stream<Paginated<[Int]>>()
+            return OEXStream<Paginated<[Int]>>()
         }
         XCTAssertTrue(paginator.hasNext)
     }
@@ -23,7 +23,7 @@ class PaginatorTests: XCTestCase {
     func testWrappedPaginatorContinuesLoadable() {
         let paginator = WrappedPaginator<Int> { _ in
             let info = PaginationInfo(totalCount: 100, pageCount: 4)
-            return Stream(value: Paginated(pagination: info, value: sampleResult))
+            return OEXStream(value: Paginated(pagination: info, value: sampleResult))
         }
         XCTAssertTrue(paginator.hasNext)
         paginator.loadMore()
@@ -35,7 +35,7 @@ class PaginatorTests: XCTestCase {
     func testWrappedPaginatorEnds() {
         let paginator = WrappedPaginator<Int> { _ in
             let info = PaginationInfo(totalCount: 100, pageCount: 4)
-            return Stream(value: Paginated(pagination: info, value: sampleResult))
+            return OEXStream(value: Paginated(pagination: info, value: sampleResult))
         }
         while paginator.hasNext {
             paginator.loadMore()
@@ -52,7 +52,7 @@ class PaginatorTests: XCTestCase {
             lastPage = page
             
             let info = PaginationInfo(totalCount: 100, pageCount: 4)
-            return Stream(value: Paginated(pagination: info, value: sampleResult))
+            return OEXStream(value: Paginated(pagination: info, value: sampleResult))
         }
         paginator.stream.listenOnce(self) {[weak paginator] _ in
             paginator?.loadMore()
@@ -71,9 +71,9 @@ class PaginatorTests: XCTestCase {
             let request = NetworkRequest<Paginated<[Int]>>(
                 method: .GET,
                 path: "fakepath",
-                deserializer: ResponseDeserializer.JSONResponse { _ in
+                deserializer: ResponseDeserializer.jsonResponse { _ in
                     let info = PaginationInfo(totalCount: 100, pageCount: 20)
-                    return Success(Paginated(pagination: info, value: sampleResult))
+                    return Success(v: Paginated(pagination: info, value: sampleResult))
                 }
             )
             return request

@@ -149,7 +149,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     return self.video.summary;
 }
 
-- (void)showSubSettings:(UIAlertController * __nonnull)chooser
+- (void)showSubSettingsWithChooser:(UIAlertController * __nonnull)chooser
 {
     UIViewController* controller = [UIApplication sharedApplication].keyWindow.rootViewController;
     [controller presentViewController:chooser animated:true completion:nil];
@@ -191,7 +191,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     }
 }
 
-- (void) setCaption:(NSString*)language{
+- (void) setCaptionWithLanguage:(NSString*)language{
     [self hideTables];
     [OEXInterface setCCSelectedLanguage:language];
     
@@ -229,7 +229,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 #pragma mark Playback Speed
 
-- (void)setPlaybackSpeed:(OEXVideoSpeed)speed {
+- (void)setPlaybackSpeedWithSpeed:(OEXVideoSpeed)speed {
     [self hideTables];
     
     NSString* oldSpeed = [NSString stringWithFormat:@"%.1f", self.playbackRate];
@@ -505,7 +505,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         NSString* captionURL = self.video.summary.transcripts[ccSelectedLanguage];
         if(ccSelectedLanguage && ![ccSelectedLanguage isEqualToString:@""] && captionURL) {
             self.subtitleActivated = YES;
-            [self setCaption:ccSelectedLanguage];
+            [self setCaptionWithLanguage:ccSelectedLanguage];
         }
         else{
             if (captionURL == nil) {

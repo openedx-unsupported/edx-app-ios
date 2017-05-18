@@ -12,7 +12,7 @@ import edX
 
 
 class MockLastAccessedDelegate : CourseLastAccessedControllerDelegate {
-    var didFetchAction : (CourseLastAccessed? -> Void)?
+    var didFetchAction : ((CourseLastAccessed?) -> Void)?
     func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
         didFetchAction?(item)
     }
@@ -37,7 +37,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         environment = TestRouterEnvironment()
         environment.mockCourseDataManager.querier = querier
         
-        environment.mockNetworkManager.interceptWhenMatching({_ in return true}, successResponse: { () -> (NSData?,CourseLastAccessed) in
+        environment.mockNetworkManager.interceptWhenMatching({_ in return true}, successResponse: { () -> (Data?,CourseLastAccessed) in
             return (nil, self.lastAccessedItem)
         })
         
@@ -72,12 +72,11 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         rootController?.delegate = delegate
         sectionController?.saveLastAccessed()
         rootController?.loadLastAccessed()
-        let expectation = self.expectationWithDescription("Item Fetched")
+        let expectations = self.expectation(description: "Item Fetched")
         delegate.didFetchAction = { item in
             if item?.moduleName == "Unit 3" {
-                expectation.fulfill()
-            }
-        }
+                expectations.fulfill()
+            }        }
         self.waitForExpectations()
     }
     
@@ -88,11 +87,11 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         self.lastAccessedItem = CourseLastAccessed(moduleId: "unit3", moduleName: "Unit 3")
         
         sectionController?.saveLastAccessed()
-        let expectation = self.expectationWithDescription("Set Last Accessed to Unit 3")
+        let expectations = self.expectation(description: "Set Last Accessed to Unit 3")
         rootController?.loadLastAccessed()
         delegate.didFetchAction = { item in
             if (item?.moduleName == "Unit 3") {
-                expectation.fulfill()
+                expectations.fulfill()
             }
         }
         self.waitForExpectations()

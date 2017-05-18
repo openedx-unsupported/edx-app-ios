@@ -28,27 +28,27 @@ class ProfilePictureTaker : NSObject {
     }
     
     func start(alreadyHasImage: Bool) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-            let action = UIAlertAction(title: Strings.Profile.takePicture, style: .Default) { _ in
-                self.showImagePicker(.Camera)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let action = UIAlertAction(title: Strings.Profile.takePicture, style: .default) { _ in
+                self.showImagePicker(sourceType: .camera)
             }
             alert.addAction(action)
         }
-        if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
-            let action = UIAlertAction(title: Strings.Profile.chooseExisting, style: .Default) { _ in
-                self.showImagePicker(.PhotoLibrary)
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            let action = UIAlertAction(title: Strings.Profile.chooseExisting, style: .default) { _ in
+                self.showImagePicker(sourceType: .photoLibrary)
             }
             alert.addAction(action)
         }
         if alreadyHasImage {
-            let action = UIAlertAction(title: Strings.Profile.removeImage, style: .Destructive) { _ in
+            let action = UIAlertAction(title: Strings.Profile.removeImage, style: .destructive) { _ in
                 self.delegate?.deleteImage()
             }
             alert.addAction(action)
         }
         alert.addCancelAction()
-        delegate?.showChooserAlert(alert)
+        delegate?.showChooserAlert(alert: alert)
         
     }
     
@@ -61,13 +61,13 @@ class ProfilePictureTaker : NSObject {
         imagePicker.sourceType = sourceType
         imagePicker.delegate = self
         
-        if sourceType == .Camera {
+        if sourceType == .camera {
             imagePicker.showsCameraControls = true
-            imagePicker.cameraCaptureMode = .Photo
-            imagePicker.cameraDevice = .Front
-            imagePicker.cameraFlashMode = .Auto
+            imagePicker.cameraCaptureMode = .photo
+            imagePicker.cameraDevice = .front
+            imagePicker.cameraFlashMode = .auto
         }
-        self.delegate?.showImagePickerController(imagePicker)
+        self.delegate?.showImagePickerController(picker: imagePicker)
     }
     
 }
@@ -75,14 +75,14 @@ class ProfilePictureTaker : NSObject {
 
 extension ProfilePictureTaker : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
             let rotatedImage = image.rotateUp()
             let cropper = CropViewController(image: rotatedImage) { [weak self] maybeImage in
                 if let newImage = maybeImage {
-                    self?.delegate?.imagePicked(newImage, picker: picker)
+                    self?.delegate?.imagePicked(image: newImage, picker: picker)
                 } else {
-                    self?.delegate?.cancelPicker(picker)
+                    self?.delegate?.cancelPicker(picker: picker)
                 }
             }
             picker.pushViewController(cropper, animated: true)

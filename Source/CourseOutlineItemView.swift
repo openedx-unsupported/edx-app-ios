@@ -15,7 +15,7 @@ protocol CourseBlockContainerCell {
 
 private let TitleOffsetTrailing = -10
 private let SubtitleOffsetTrailing = -10
-private let IconSize = CGSizeMake(25, 25)
+private let IconSize = CGSize(width: 25, height: 25)
 private let CellOffsetTrailing : CGFloat = -10
 private let TitleOffsetCenterY = -10
 private let TitleOffsetLeading = 40
@@ -26,25 +26,25 @@ private let SmallIconSize : CGFloat = 15
 private let IconFontSize : CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
-    static let detailFontStyle = OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBase())
+    static let detailFontStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBase())
     
-    private let fontStyle = OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralBlack())
+    private let fontStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
-    private let leadingImageButton = UIButton(type: UIButtonType.System)
+    private let leadingImageButton = UIButton(type: UIButtonType.system)
     private let checkmark = UIImageView()
     private let trailingContainer = UIView()
     
     var hasLeadingImageIcon :Bool {
-        return leadingImageButton.imageForState(.Normal) != nil
+        return leadingImageButton.image(for: .normal) != nil
     }
     
     public var isGraded : Bool? {
         get {
-            return !checkmark.hidden
+            return !checkmark.isHidden
         }
         set {
-            checkmark.hidden = !(newValue!)
+            checkmark.isHidden = !(newValue!)
             setNeedsUpdateConstraints()
         }
     }
@@ -59,21 +59,21 @@ public class CourseOutlineItemView: UIView {
     }
 
     func imageForIcon(icon : Icon?) -> UIImage? {
-        return icon?.imageWithFontSize(IconFontSize)
+        return icon?.imageWithFontSize(size: IconFontSize)
     }
     
     init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
-        leadingImageButton.tintColor = OEXStyles.sharedStyles().primaryBaseColor()
-        leadingImageButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
-        trailingContainer.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+        leadingImageButton.tintColor = OEXStyles.shared().primaryBaseColor()
+        leadingImageButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        trailingContainer.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
         
         leadingImageButton.accessibilityTraits = UIAccessibilityTraitImage
-        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
+        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
         
-        checkmark.image = Icon.Graded.imageWithFontSize(10)
-        checkmark.tintColor = OEXStyles.sharedStyles().primaryBaseColor()
+        checkmark.image = Icon.Graded.imageWithFontSize(size: 10)
+        checkmark.tintColor = OEXStyles.shared().primaryBaseColor()
         
         isGraded = false
         addSubviews()
@@ -85,16 +85,16 @@ public class CourseOutlineItemView: UIView {
     }
     
     func setTitleText(title : String?) {
-        titleLabel.attributedText = fontStyle.attributedStringWithText(title)
+        titleLabel.attributedText = fontStyle.attributedString(withText: title)
     }
     
     func setDetailText(title : String) {
-        subtitleLabel.attributedText = CourseOutlineItemView.detailFontStyle.attributedStringWithText(title)
+        subtitleLabel.attributedText = CourseOutlineItemView.detailFontStyle.attributedString(withText: title)
         setNeedsUpdateConstraints()
     }
     
     func setContentIcon(icon : Icon?) {
-        leadingImageButton.setImage(icon?.imageWithFontSize(IconFontSize), forState: .Normal)
+        leadingImageButton.setImage(icon?.imageWithFontSize(size: IconFontSize), for: .normal)
         setNeedsUpdateConstraints()
         if let accessibilityText = icon?.accessibilityText {
             leadingImageButton.accessibilityLabel = accessibilityText
@@ -138,7 +138,7 @@ public class CourseOutlineItemView: UIView {
         
         // For performance only add the static constraints once
         subtitleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY).constraint
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             make.leading.equalTo(titleLabel)
             make.trailing.lessThanOrEqualTo(trailingContainer.snp_leading).offset(TitleOffsetTrailing)
         }
@@ -146,7 +146,7 @@ public class CourseOutlineItemView: UIView {
         checkmark.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(subtitleLabel.snp_centerY)
             make.leading.equalTo(subtitleLabel.snp_trailing).offset(5)
-            make.size.equalTo(CGSizeMake(SmallIconSize, SmallIconSize))
+            make.size.equalTo(CGSize(width: SmallIconSize, height: SmallIconSize))
         }
         
         trailingContainer.snp_makeConstraints { (make) -> Void in
@@ -169,7 +169,7 @@ public class CourseOutlineItemView: UIView {
         }
     }
     
-    public override class func requiresConstraintBasedLayout() -> Bool {
+    public override class var requiresConstraintBasedLayout: Bool {
         return true
     }
     
