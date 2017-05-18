@@ -132,7 +132,8 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
             [parsedMediaInfo setObjectOrNil:info forKey:type];
         }];
         self.mediaInfo = parsedMediaInfo;
-
+        NSDictionary *courseShareUtmParametersDictionary = [info objectForKey:@"course_sharing_utm_parameters"];
+        self.courseShareUtmParams = [[CourseShareUtmParameter alloc] initWithDictionary:courseShareUtmParametersDictionary];
     }
     return self;
 }

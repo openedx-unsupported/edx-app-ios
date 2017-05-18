@@ -91,6 +91,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
 
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider
+
     var delegate: AuthenticatedWebViewControllerDelegate?
     internal let environment : Environment
     private let loadController : LoadStateViewController
