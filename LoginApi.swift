@@ -8,13 +8,13 @@
 
 public struct LoginAPI {
     
-    static func refreshTokenDeserializer(response : NSHTTPURLResponse, json: JSON) -> Result<OEXAccessToken> {
+    static func refreshTokenDeserializer(response : HTTPURLResponse, json: JSON) -> Result<OEXAccessToken> {
         guard response.httpStatusCode.is2xx,
             let dictionary = json.dictionaryObject else {
-                return .Failure(NetworkManager.unknownError)
+                return .failure(NetworkManager.unknownError)
         }
         let token = OEXAccessToken(tokenDetails: dictionary)
-        return .Success(token)
+        return .success(token)
     }
     
     // Retrieves a new access token by using the refresh token.
@@ -23,8 +23,8 @@ public struct LoginAPI {
         return NetworkRequest(
             method: .POST,
             path: "/oauth2/access_token/",
-            body: RequestBody.FormEncoded(body),
-            deserializer: .JSONResponse(refreshTokenDeserializer)
+            body: RequestBody.formEncoded(body),
+            deserializer: .jsonResponse(refreshTokenDeserializer)
         )
     }
 }

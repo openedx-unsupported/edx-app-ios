@@ -114,7 +114,7 @@ OEXRegistrationViewControllerDelegate
     [self showMyCoursesAnimated:NO pushingCourseWithID:nil];
     
     UIViewController* rearController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"RearViewController"];
-    [self.revealController setDrawerViewController:rearController animated:NO];
+    [self.revealController setDrawerViewControllerWithController:rearController animated:NO];
     [self makeContentControllerCurrent:self.revealController];
 }
 
@@ -175,7 +175,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showSidebar:(id)sender {
-    [self.revealController toggleDrawerAnimated:YES];
+    [self.revealController toggleDrawerAnimatedWithAnimated:YES];
 }
 
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated {

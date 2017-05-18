@@ -21,11 +21,11 @@ class OfflineSupportViewControllerTests: XCTestCase {
         reachability.networkStatus = (wifi : false, wwan : false)
         reachability.startNotifier()
         
-        let expectation = expectationWithDescription("reachability changed")
+        let testExpectation = expectation(description: "reachability changed")
         
-        let removable = addNotificationObserver(self, name: kReachabilityChangedNotification) { (_, _, removable) -> Void in
-            controller.showOfflineSnackBar(Strings.offline, selector: nil)
-            expectation.fulfill()
+        let removable = addNotificationObserver(observer: self, name: NSNotification.Name.reachabilityChanged.rawValue) { (_, _, removable) -> Void in
+            controller.showOfflineSnackBar(message: Strings.offline, selector: nil)
+            testExpectation.fulfill()
         }
         
         reachability.networkStatus = (wifi : false, wwan : false)

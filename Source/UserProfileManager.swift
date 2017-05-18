@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class UserProfileManager : NSObject {
+open class UserProfileManager : NSObject {
     
     private let networkManager : NetworkManager
     private let session: OEXSession
@@ -25,25 +25,25 @@ public class UserProfileManager : NSObject {
         
         self.currentUserFeed.backingStream.addBackingStream(currentUserUpdateStream)
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXSessionEndedNotification) { (_, owner, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionEnded.rawValue) { (_, owner, _) -> Void in
             owner.sessionChanged()
         }
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXSessionStartedNotification) { (_, owner, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionStarted.rawValue) { (_, owner, _) -> Void in
             owner.sessionChanged()
         }
         self.sessionChanged()
     }
     
-    public func feedForUser(username : String) -> Feed<UserProfile> {
-        return self.cache.objectForKey(username) {
-            let request = ProfileAPI.profileRequest(username)
+    open func feedForUser(username : String) -> Feed<UserProfile> {
+        return self.cache.objectForKey(key: username) {
+            let request = ProfileAPI.profileRequest(username: username)
             return Feed(request: request, manager: self.networkManager)
         }
     }
     
     private func sessionChanged() {
         if let username = self.session.currentUser?.username {
-            self.currentUserFeed.backWithFeed(self.feedForUser(username))
+            self.currentUserFeed.backWithFeed(feed: self.feedForUser(username: username))
         }
         else {
             self.currentUserFeed.removeBacking()
@@ -60,13 +60,13 @@ public class UserProfileManager : NSObject {
         return currentUserFeed
     }
     
-    public func updateCurrentUserProfile(profile : UserProfile, handler : Result<UserProfile> -> Void) {
-        let request = ProfileAPI.profileUpdateRequest(profile)
+    public func updateCurrentUserProfile(profile : UserProfile, handler : @escaping (Result<UserProfile>) -> Void) {
+        let request = ProfileAPI.profileUpdateRequest(profile: profile)
         self.networkManager.taskForRequest(request) { result -> Void in
             if let data = result.data {
-                self.currentUserUpdateStream.send(Success(data))
+                self.currentUserUpdateStream.send(Success(v: data))
             }
-            handler(result.data.toResult(result.error))
+            handler(result.data.toResult(result.error!))
         }
     }
 }

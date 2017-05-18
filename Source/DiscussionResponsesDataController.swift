@@ -34,14 +34,14 @@ class DiscussionResponsesDataController: NSObject {
     func updateResponsesWithComment(comment : DiscussionComment) {
         for i in 0 ..< responses.count {
             if responses[i].commentID == comment.commentID {
-                responses[i] = injectComment(responses[i], newComment: comment)
+                responses[i] = injectComment(comment: responses[i], newComment: comment)
             }
         }
         
         for i in 0..<endorsedResponses.count {
             
             if endorsedResponses[i].commentID == comment.commentID {
-                endorsedResponses[i] = injectComment(endorsedResponses[i], newComment: comment)
+                endorsedResponses[i] = injectComment(comment: endorsedResponses[i], newComment: comment)
             }
         }
     }

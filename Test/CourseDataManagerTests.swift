@@ -14,9 +14,9 @@ class CourseDataManagerTests: XCTestCase {
     
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     
-    func checkOutlineLoadsWithQuerier(querier : CourseOutlineQuerier, rootID : CourseBlockID, line : UInt = #line, file : StaticString = #file) {
-        let rootStream = querier.blockWithID(nil)
-        let expectation = self.expectationWithDescription("Outline loads from network")
+    func checkOutlineLoadsWithQuerier(_ querier : CourseOutlineQuerier, rootID : CourseBlockID, line : UInt = #line, file : StaticString = #file) {
+        let rootStream = querier.blockWithID(id: nil)
+        let expectation = self.expectation(description: "Outline loads from network")
         rootStream.listenOnce(self) {rootBlock in
             XCTAssertEqual(rootBlock.value!.blockID, rootID, file : file, line : line)
             expectation.fulfill()
@@ -24,16 +24,16 @@ class CourseDataManagerTests: XCTestCase {
         waitForExpectations()
     }
     
-    func addInterceptorForOutline(networkManager: MockNetworkManager, outline : CourseOutline) {
+    func addInterceptorForOutline(_ networkManager: MockNetworkManager, outline : CourseOutline) {
         networkManager.interceptWhenMatching({_ in true}, successResponse: {
-            return (NSData(), outline)
+            return (Data(), outline)
         })
     }
     
     func loadAndVerifyOutline() -> TestRouterEnvironment {
         let environment = TestRouterEnvironment()
         addInterceptorForOutline(environment.mockNetworkManager, outline: outline)
-        let querier = environment.dataManager.courseDataManager.querierForCourseWithID(outline.root)
+        let querier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: outline.root)
         checkOutlineLoadsWithQuerier(querier, rootID: outline.root)
         return environment
     }
@@ -45,7 +45,7 @@ class CourseDataManagerTests: XCTestCase {
         environment.mockNetworkManager.reset()
         
         // The course should still load since the querier saves it
-        let querier = environment.dataManager.courseDataManager.querierForCourseWithID(outline.root)
+        let querier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: outline.root)
         checkOutlineLoadsWithQuerier(querier, rootID: outline.root)
     }
     
@@ -55,10 +55,10 @@ class CourseDataManagerTests: XCTestCase {
         
         let session = OEXSession(credentialStore: OEXMockCredentialStorage())
         // Close session so the course data should be cleared
-        session.closeAndClearSession()
+        session.closeAndClear()
         environment.mockNetworkManager.reset()
         
-        let querier = environment.dataManager.courseDataManager.querierForCourseWithID(outline.root)
+        let querier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: outline.root)
         let newOutline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
         addInterceptorForOutline(environment.mockNetworkManager, outline: newOutline)
         checkOutlineLoadsWithQuerier(querier, rootID: newOutline.root)

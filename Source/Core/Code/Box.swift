@@ -10,15 +10,15 @@ import UIKit
 
 /// Simple container to package arbitrary types
 /// for things expecting classes
-public class Box<A> {
-    public let value : A
+open class Box<A> {
+    open let value : A
     public init(_ value : A) {
         self.value = value
     }
 }
 
-public class MutableBox<A> {
-    public var value : A
+open class MutableBox<A> {
+    open var value : A
     public init(_ value : A) {
         self.value = value
     }

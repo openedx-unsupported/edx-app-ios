@@ -11,10 +11,10 @@ import UIKit
 //Not conforming to GeneratorType protocol because next() returns -> A NOT ->A?
 class PaginatedFeed<A> {
    
-    private let generator : Int -> A
+    private let generator : (Int) -> A
     private var page = 0
     
-    init(f : Int -> A) {
+    init(f : @escaping (Int) -> A) {
         self.generator = f
     }
     

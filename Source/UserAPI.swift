@@ -12,7 +12,7 @@ import edXCore
 public struct UserAPI {
     public struct UserStatusParameters {
         let courseVisitedModuleId : String
-        let modificationDate = OEXDateFormatting.serverStringWithDate(NSDate())
+        let modificationDate = OEXDateFormatting.serverString(with: NSDate() as Date)
         var query : [String:String] {
             return [
                 "last_visited_module_id" : courseVisitedModuleId,
@@ -25,7 +25,7 @@ public struct UserAPI {
         }
 }
 
-    static func lastAccessedDeserializer(response : NSHTTPURLResponse, json : JSON) -> Result<CourseLastAccessed> {
+    static func lastAccessedDeserializer(response : HTTPURLResponse, json : JSON) -> Result<CourseLastAccessed> {
         return CourseLastAccessed(json: json).toResult()
     }
     
@@ -33,9 +33,9 @@ public struct UserAPI {
 
         return NetworkRequest(
             method: HTTPMethod.GET,
-            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : courseID, "username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
+            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_format(withParameters: ["course_id" : courseID, "username":OEXSession.shared()?.currentUser?.username ?? ""]),
             requiresAuth : true,
-            deserializer: .JSONResponse(lastAccessedDeserializer))
+            deserializer: .jsonResponse(lastAccessedDeserializer))
     }
     
     public static func setLastVisitedModuleForBlockID(blockID:String, module_id:String) -> NetworkRequest<CourseLastAccessed> {
@@ -43,10 +43,10 @@ public struct UserAPI {
         
         return NetworkRequest(
             method: HTTPMethod.PATCH,
-            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_formatWithParameters(["course_id" : blockID, "username":OEXSession.sharedSession()?.currentUser?.username ?? ""]),
+            path : "/api/mobile/v0.5/users/{username}/course_status_info/{course_id}".oex_format(withParameters: ["course_id" : blockID, "username":OEXSession.shared()?.currentUser?.username ?? ""]),
             requiresAuth : true,
-            body : RequestBody.JSONBody(requestParams.jsonBody),
-            deserializer: .JSONResponse(lastAccessedDeserializer))
+            body : RequestBody.jsonBody(requestParams.jsonBody),
+            deserializer: .jsonResponse(lastAccessedDeserializer))
     }
     
 

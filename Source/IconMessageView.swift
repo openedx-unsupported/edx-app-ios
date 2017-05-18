@@ -27,7 +27,7 @@ class IconMessageView : UIView {
     private var hasBottomButton = false
     
     private var buttonFontStyle : OEXTextStyle {
-        return OEXTextStyle(weight :.Normal, size : .Base, color : OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight :.normal, size : .base, color : OEXStyles.shared().neutralDark())
     }
     
     private let iconView : UIImageView
@@ -38,11 +38,11 @@ class IconMessageView : UIView {
     
     init(icon : Icon? = nil, message : String? = nil) {
         
-        container = UIView(frame: CGRectZero)
-        iconView = UIImageView(frame: CGRectZero)
-        messageView = UILabel(frame : CGRectZero)
-        bottomButton = UIButton(type: .System)
-        super.init(frame: CGRectZero)
+        container = UIView(frame: CGRect.zero)
+        iconView = UIImageView(frame: CGRect.zero)
+        messageView = UILabel(frame : CGRect.zero)
+        bottomButton = UIButton(type: .system)
+        super.init(frame: CGRect.zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -58,7 +58,7 @@ class IconMessageView : UIView {
             return messageView.text
         }
         set {
-            messageView.attributedText = newValue.map { messageStyle.attributedStringWithText($0) }
+            messageView.attributedText = newValue.map { messageStyle.attributedString(withText: $0) }
         }
     }
     
@@ -82,7 +82,7 @@ class IconMessageView : UIView {
     
     var icon : Icon? {
         didSet {
-            iconView.image = icon?.imageWithFontSize(IconMessageSize)
+            iconView.image = icon?.imageWithFontSize(size: IconMessageSize)
         }
     }
     
@@ -92,29 +92,29 @@ class IconMessageView : UIView {
         }
         set {
             if let title = newValue {
-                let attributedTitle = buttonFontStyle.withWeight(.SemiBold).attributedStringWithText(title)
-                bottomButton.setAttributedTitle(attributedTitle, forState: .Normal)
+                let attributedTitle = buttonFontStyle.withWeight(.semiBold).attributedString(withText: title)
+                bottomButton.setAttributedTitle(attributedTitle, for: .normal)
                 addButtonBorder()
             }
             else {
-                bottomButton.setAttributedTitle(nil, forState: .Normal)
+                bottomButton.setAttributedTitle(nil, for: .normal)
             }
             
         }
     }
     
     var messageStyle : OEXTextStyle  {
-        let style = OEXMutableTextStyle(weight: .SemiBold, size: .Base, color : OEXStyles.sharedStyles().neutralDark())
-        style.alignment = .Center
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .base, color : OEXStyles.shared().neutralDark())
+        style.alignment = .center
         
         return style
     }
     
-    private func setupViews(icon icon : Icon?, message : String?) {
+    private func setupViews(icon : Icon?, message : String?) {
         self.icon = icon
         self.message = message
         
-        iconView.tintColor = OEXStyles.sharedStyles().neutralLight()
+        iconView.tintColor = OEXStyles.shared().neutralLight()
         
         messageView.numberOfLines = 0
         
@@ -165,10 +165,10 @@ class IconMessageView : UIView {
         message = Strings.VersionUpgrade.outDatedMessage
         icon = .Warning
         
-        buttonInfo = MessageButtonInfo(title : Strings.VersionUpgrade.update)
+        buttonInfo = MessageButtonInfo(title : Strings.versionUpgradeUpdate)
         {
-            if let URL = OEXConfig.sharedConfig().appUpgradeConfig.iOSAppStoreURL() {
-                UIApplication.sharedApplication().openURL(URL)
+            if let URL = OEXConfig.shared().appUpgradeConfig.iOSAppStoreURL() {
+                UIApplication.shared.openURL(URL as URL)
             }
         }
     }
@@ -177,7 +177,7 @@ class IconMessageView : UIView {
         attributedMessage = message
         self.icon = icon ?? .UnknownError
         
-        if let controller = self.container.firstAvailableUIViewController() as? LoadStateViewController where controller.isSupportingReload() {
+        if let controller = self.container.firstAvailableUIViewController() as? LoadStateViewController, controller.isSupportingReload() {
             buttonInfo = MessageButtonInfo(title : Strings.reload)
             {
                 controller.loadStateViewReload()
@@ -186,8 +186,8 @@ class IconMessageView : UIView {
     }
     
     func showError(message: String?, icon: Icon?) {
-        let attributedMessage = messageStyle.attributedStringWithText(message)
-        showError(attributedMessage, icon: icon)
+        let attributedMessage = messageStyle.attributedString(withText: message)
+        showError(message: attributedMessage, icon: icon)
     }
     
     var buttonInfo : MessageButtonInfo? {
@@ -195,7 +195,7 @@ class IconMessageView : UIView {
             bottomButton.oex_removeAllActions()
             buttonTitle = buttonInfo?.title
             if let action = buttonInfo?.action {
-                bottomButton.oex_addAction({button in action() }, forEvents: .TouchUpInside)
+                bottomButton.oex_addAction({button in action() }, for: .touchUpInside)
             }
         }
     }
@@ -206,10 +206,10 @@ class IconMessageView : UIView {
         let bottomButtonLayer = bottomButton.layer
         bottomButtonLayer.cornerRadius = 4.0
         bottomButtonLayer.borderWidth = 1.0
-        bottomButtonLayer.borderColor = OEXStyles.sharedStyles().neutralLight().CGColor
+        bottomButtonLayer.borderColor = OEXStyles.shared().neutralLight().cgColor
     }
     
     func rotateImageViewClockwise(imageView : UIImageView) {
-        imageView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+        imageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
     }
 }

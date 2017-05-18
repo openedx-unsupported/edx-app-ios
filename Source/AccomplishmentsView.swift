@@ -25,8 +25,8 @@ class AccomplishmentView : UIView {
     private let textStack = TZStackView()
 
     init(accomplishment: Accomplishment, shareAction: (() -> Void)?) {
-        super.init(frame: CGRectZero)
-        textStack.axis = .Vertical
+        super.init(frame: CGRect.zero)
+        textStack.axis = .vertical
 
         // horizontal: imageView - textStack(stretches) - shareButton
         addSubview(imageView)
@@ -41,16 +41,16 @@ class AccomplishmentView : UIView {
         textStack.addArrangedSubview(detail)
         textStack.addArrangedSubview(date)
 
-        shareButton.setImage(UIImage(named: "share"), forState: .Normal)
-        shareButton.tintColor = OEXStyles.sharedStyles().neutralLight()
+        shareButton.setImage(UIImage(named: "share"), for: .normal)
+        shareButton.tintColor = OEXStyles.shared().neutralLight()
         shareButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        shareButton.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        shareButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         shareButton.oex_addAction({ _ in
             shareAction?()
-            }, forEvents: .TouchUpInside)
+        }, for: .touchUpInside)
 
         imageView.snp_makeConstraints {make in
-            make.size.equalTo(CGSizeMake(50, 50))
+            make.size.equalTo(CGSize(width: 50, height: 50))
             make.leading.equalTo(self)
             make.top.equalTo(self).offset(StandardVerticalMargin)
             make.bottom.lessThanOrEqualTo(self).offset(-StandardVerticalMargin)
@@ -80,7 +80,7 @@ class AccomplishmentView : UIView {
 
         imageView.remoteImage = accomplishment.image
 
-        let formattedDate = accomplishment.date.map { OEXDateFormatting.formatAsMonthDayYearString($0) }
+        let formattedDate = accomplishment.date.map { OEXDateFormatting.format(asMonthDayYearString: $0 as Date) }
 
         for (field, text, style) in [
             (title, accomplishment.title, titleStyle),
@@ -88,8 +88,8 @@ class AccomplishmentView : UIView {
             (date, formattedDate, dateStyle)
             ]
         {
-            field.attributedText = style.attributedStringWithText(text)
-            field.hidden = text?.isEmpty ?? true
+            field.attributedText = style.attributedString(withText: text)
+            field.isHidden = text?.isEmpty ?? true
         }
     }
     
@@ -98,57 +98,57 @@ class AccomplishmentView : UIView {
     }
 
     private var titleStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralDark())
     }
 
     private var detailStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralBase())
     }
 
     private var dateStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Light, size: .XSmall, color: OEXStyles.sharedStyles().neutralLight())
+        return OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().neutralLight())
     }
 }
 
 class AccomplishmentsView : UIView {
 
     private let stack = TZStackView()
-    private let shareAction: (Accomplishment -> Void)?
+    private let shareAction: ((Accomplishment) -> Void)?
 
     private var accomplishments: [Accomplishment] = []
     private let paginationController: PaginationController<Accomplishment>
 
     // If shareAction is nil then don't show sharing buttons
-    init(paginator: AnyPaginator<Accomplishment>, containingScrollView scrollView: UIScrollView, shareAction: (Accomplishment -> Void)?) {
+    init(paginator: AnyPaginator<Accomplishment>, containingScrollView scrollView: UIScrollView, shareAction: ((Accomplishment) -> Void)?) {
         self.shareAction = shareAction
         paginationController = PaginationController(paginator: paginator, stackView: stack, containingScrollView: scrollView)
 
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
 
         addSubview(stack)
-        stack.axis = .Vertical
-        stack.alignment = .Fill
+        stack.axis = .vertical
+        stack.alignment = .fill
         stack.spacing = StandardVerticalMargin
         stack.snp_makeConstraints {make in
             make.edges.equalTo(self)
         }
         paginator.stream.listen(self, success: {[weak self] accomplishments in
-            let newAccomplishments = accomplishments.suffixFrom(self?.accomplishments.count ?? 0)
-            self?.addAccomplishments(newAccomplishments)
+            let newAccomplishments = accomplishments.suffix(self?.accomplishments.count ?? 0)
+            self?.addAccomplishments(newAccomplishments: newAccomplishments)
             }, failure: {_ in
                 // We should only get here if we already have accomplishments and the paginator will try to
                 // load again if it fails, so just do nothing
         })
     }
 
-    func addAccomplishments<A: SequenceType where A.Generator.Element == Accomplishment>(newAccomplishments: A) {
+    func addAccomplishments<A: Sequence>(newAccomplishments: A) where A.Iterator.Element == Accomplishment {
         let action = shareAction
         for accomplishment in newAccomplishments {
             stack.addArrangedSubview(
                 AccomplishmentView(accomplishment: accomplishment, shareAction: action.map {f in { f(accomplishment) }})
             )
         }
-        accomplishments.appendContentsOf(newAccomplishments)
+        accomplishments.append(contentsOf: newAccomplishments)
     }
     
     required init?(coder aDecoder: NSCoder) {

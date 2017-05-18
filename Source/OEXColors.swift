@@ -31,35 +31,35 @@ public class OEXColors: NSObject {
     }
     
     private func initializeColorsDictionary() -> [String: AnyObject] {
-        guard let filePath = NSBundle.mainBundle().pathForResource("colors", ofType: "json") else {
+        guard let filePath = Bundle.main.path(forResource: "colors", ofType: "json") else {
             return fallbackColors()
         }
         if let data = NSData(contentsOfFile: filePath) {
             var error : NSError?
             
-            if let json = JSON(data: data, error: &error).dictionaryObject{
-                return json
+            if let json = JSON(data: data as Data, error: &error).dictionaryObject{
+                return json as [String : AnyObject]
             }
             return fallbackColors()
         }
         return fallbackColors()
     }
     
-    public func fallbackColors() -> [String: AnyObject] {
-        return OEXColorsDataFactory.colors
+    @discardableResult public func fallbackColors() -> [String: AnyObject] {
+        return OEXColorsDataFactory.colors as [String : AnyObject]
     }
     
-    public func colorForIdentifier(identifier: ColorsIdentifiers) -> UIColor {
-        return colorForIdentifier(identifier, alpha: 1.0)
+    public func color(forIdentifier identifier: ColorsIdentifiers) -> UIColor {
+        return color(forIdentifier: identifier, alpha: 1.0)
     }
     
-    public func colorForIdentifier(identifier: ColorsIdentifiers, alpha: CGFloat) -> UIColor {
-        if let hexValue = colorsDictionary[getIdentifier(identifier)] as? String {
+    public func color(forIdentifier identifier: ColorsIdentifiers, alpha: CGFloat) -> UIColor {
+        if let hexValue = colorsDictionary[getIdentifier(identifier: identifier)] as? String {
             let color = UIColor(hexString: hexValue, alpha: alpha)
             return color
         }
 
-        return UIColor(hexString: getIdentifier(ColorsIdentifiers.Random), alpha: 1.0)
+        return UIColor(hexString: getIdentifier(identifier: ColorsIdentifiers.Random), alpha: 1.0)
     }
     
     private func getIdentifier(identifier: ColorsIdentifiers) -> String {

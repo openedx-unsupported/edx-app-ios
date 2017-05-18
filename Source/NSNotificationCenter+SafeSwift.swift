@@ -10,42 +10,42 @@ import UIKit
 
 private class NotificationListener : NSObject, Removable {
     var action : ((NSNotification, Removable) -> Void)?
-    var removeAction : (NotificationListener -> Void)?
+    var removeAction : ((NotificationListener) -> Void)?
 
     @objc func notificationFired(notification : NSNotification) {
         self.action?(notification, self)
     }
     
     func remove() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         self.removeAction?(self)
         self.action = nil
         
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 
-extension NSNotificationCenter {
-    func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, action : (NSNotification, Observer, Removable) -> Void) -> Removable {
+extension NotificationCenter {
+    @discardableResult func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
         let listener = NotificationListener()
         listener.action = {[weak observer] (notification, removable) in
             if let observer = observer {
                 action(notification, observer, removable)
             }
         }
-        let removable = observer.oex_performActionOnDealloc {
+        let removable = observer.oex_performAction {
             listener.remove()
         }
-        self.addObserver(listener, selector: #selector(NotificationListener.notificationFired(_:)), name: name, object: nil)
+        self.addObserver(listener, selector: #selector(NotificationListener.notificationFired(notification:)), name: NSNotification.Name(rawValue: name), object: nil)
         
         return BlockRemovable { removable.remove() }
     }
 }
 
-public func addNotificationObserver<Observer : NSObject>(observer : Observer, name : String, action : (NSNotification, Observer, Removable) -> Void) -> Removable {
-    return NSNotificationCenter.defaultCenter().oex_addObserver(observer, name: name, action: action)
+@discardableResult public func addNotificationObserver<Observer : NSObject>(observer : Observer, name : String, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
+    return NotificationCenter.default.oex_addObserver(observer: observer, name: name, action: action)
 }

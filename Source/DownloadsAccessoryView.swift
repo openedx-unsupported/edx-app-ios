@@ -17,7 +17,7 @@ class DownloadsAccessoryView : UIView {
         case Done
     }
     
-    private let downloadButton = UIButton(type: .System)
+    private let downloadButton = UIButton(type: .system)
     private let downloadSpinner = SpinnerView(size: .Medium, color: .Primary)
     private let iconFontSize : CGFloat = 15
     private let countLabel : UILabel = UILabel()
@@ -28,11 +28,11 @@ class DownloadsAccessoryView : UIView {
         
         super.init(frame: frame)
         
-        downloadButton.tintColor = OEXStyles.sharedStyles().neutralBase()
+        downloadButton.tintColor = OEXStyles.shared().neutralBase()
         downloadButton.contentEdgeInsets = UIEdgeInsetsMake(15, 10, 15, 10)
-        downloadButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-        countLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-        downloadSpinner.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        downloadButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        countLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        downloadSpinner.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
         
         self.addSubview(downloadButton)
         self.addSubview(downloadSpinner)
@@ -69,13 +69,13 @@ class DownloadsAccessoryView : UIView {
     }
     
     private func useIcon(icon : Icon?) {
-        downloadButton.setImage(icon?.imageWithFontSize(iconFontSize), forState:.Normal)
+        downloadButton.setImage(icon?.imageWithFontSize(size: iconFontSize), for:.normal)
     }
     
     var downloadAction : (() -> Void)? = nil {
         didSet {
             downloadButton.oex_removeAllActions()
-            downloadButton.oex_addAction({ _ in self.downloadAction?() }, forEvents: .TouchUpInside)
+            downloadButton.oex_addAction({ _ in self.downloadAction?() }, for: .touchUpInside)
         }
     }
     
@@ -83,7 +83,7 @@ class DownloadsAccessoryView : UIView {
         didSet {
             let count = itemCount ?? 0
             let text = (count > 0 ? "\(count)" : "")
-            let styledText = CourseOutlineItemView.detailFontStyle.attributedStringWithText(text)
+            let styledText = CourseOutlineItemView.detailFontStyle.attributedString(withText: text)
             countLabel.attributedText = styledText
         }
     }
@@ -92,12 +92,12 @@ class DownloadsAccessoryView : UIView {
         didSet {
             switch state {
             case .Available:
-                useIcon(.ContentCanDownload)
-                downloadSpinner.hidden = true
-                downloadButton.userInteractionEnabled = true
-                downloadButton.hidden = false
-                self.userInteractionEnabled = true
-                countLabel.hidden = false
+                useIcon(icon: .ContentCanDownload)
+                downloadSpinner.isHidden = true
+                downloadButton.isUserInteractionEnabled = true
+                downloadButton.isHidden = false
+                self.isUserInteractionEnabled = true
+                countLabel.isHidden = false
                 
                 if let count = itemCount {
                     let message = Strings.downloadManyVideos(videoCount: count)
@@ -109,20 +109,20 @@ class DownloadsAccessoryView : UIView {
                 self.accessibilityTraits = UIAccessibilityTraitButton
             case .Downloading:
                 downloadSpinner.startAnimating()
-                downloadSpinner.hidden = false
-                downloadButton.userInteractionEnabled = true
-                self.userInteractionEnabled = true
-                downloadButton.hidden = true
-                countLabel.hidden = true
+                downloadSpinner.isHidden = false
+                downloadButton.isUserInteractionEnabled = true
+                self.isUserInteractionEnabled = true
+                downloadButton.isHidden = true
+                countLabel.isHidden = true
                 
                 self.accessibilityLabel = Strings.downloading
                 self.accessibilityTraits = UIAccessibilityTraitButton
             case .Done:
-                useIcon(.ContentDidDownload)
-                downloadSpinner.hidden = true
-                self.userInteractionEnabled = false
-                downloadButton.hidden = false
-                countLabel.hidden = false
+                useIcon(icon: .ContentDidDownload)
+                downloadSpinner.isHidden = true
+                self.isUserInteractionEnabled = false
+                downloadButton.isHidden = false
+                countLabel.isHidden = false
                 
                 if let count = itemCount {
                     let message = Strings.downloadManyVideos(videoCount: count)

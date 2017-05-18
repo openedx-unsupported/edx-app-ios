@@ -11,7 +11,7 @@ import UIKit
 protocol IconRenderer : class {
     var shouldFlip : Bool { get }
     func boundsWithAttributes(attributes : [String : AnyObject], inline : Bool) -> CGRect
-    func drawWithAttributes(attributes : [String : AnyObject], inContext context : CGContextRef)
+    func drawWithAttributes(attributes : [String : AnyObject], inContext context : CGContext)
 }
 
 class FontAwesomeRenderer : IconRenderer {
@@ -23,23 +23,23 @@ class FontAwesomeRenderer : IconRenderer {
     
     func boundsWithAttributes(attributes : [String : AnyObject], inline : Bool) -> CGRect {
         let string = NSAttributedString(string: icon.rawValue, attributes : attributes)
-        let drawingOptions = inline ? NSStringDrawingOptions() : .UsesLineFragmentOrigin
+        let drawingOptions = inline ? NSStringDrawingOptions() : .usesLineFragmentOrigin
         
-        return CGRectIntegral(string.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: drawingOptions, context: nil))
+        return string.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: drawingOptions, context: nil).integral
     }
     
-    func drawWithAttributes(attributes : [String : AnyObject], inContext context: CGContextRef) {
+    func drawWithAttributes(attributes : [String : AnyObject], inContext context: CGContext) {
         let string = NSAttributedString(string: icon.rawValue, attributes : attributes)
-        let bounds  = boundsWithAttributes(attributes, inline : false)
+        let bounds  = boundsWithAttributes(attributes: attributes, inline : false)
         
-        string.drawWithRect(bounds, options: .UsesLineFragmentOrigin, context: nil)
+        string.draw(with: bounds, options: .usesLineFragmentOrigin, context: nil)
     }
     
     var shouldFlip : Bool {
-        switch UIApplication.sharedApplication().userInterfaceLayoutDirection {
-        case .LeftToRight:
+        switch UIApplication.shared.userInterfaceLayoutDirection {
+        case .leftToRight:
             return false
-        case .RightToLeft:
+        case .rightToLeft:
             // Go through the font awesome representation since those don't change even if the
             // icon's image change and we may use the same icon with different meanings.
 
@@ -62,20 +62,20 @@ private class RotatedIconRenderer : IconRenderer {
         self.backing = backing
     }
     
-    private func boundsWithAttributes(attributes: [String : AnyObject], inline: Bool) -> CGRect {
-        let bounds = backing.boundsWithAttributes(attributes, inline: inline)
+    fileprivate func boundsWithAttributes(attributes: [String : AnyObject], inline: Bool) -> CGRect {
+        let bounds = backing.boundsWithAttributes(attributes: attributes, inline: inline)
         // Swap width + height
         return CGRect(x: bounds.minX, y: bounds.minY, width: bounds.height, height: bounds.width)
     }
     
-    func drawWithAttributes(attributes : [String : AnyObject], inContext context : CGContextRef) {
-        let bounds = self.boundsWithAttributes(attributes, inline: false)
+    func drawWithAttributes(attributes : [String : AnyObject], inContext context : CGContext) {
+        let bounds = self.boundsWithAttributes(attributes: attributes, inline: false)
         // Draw rotated
-        CGContextTranslateCTM(context, -bounds.midX, -bounds.midY)
-        CGContextScaleCTM(context, 1.0, -1.0);
-        CGContextRotateCTM(context, CGFloat(-M_PI_2));
-        CGContextTranslateCTM(context, bounds.midY, bounds.midX)
-        backing.drawWithAttributes(attributes, inContext: context)
+        context.translateBy(x: -bounds.midX, y: -bounds.midY)
+        context.scaleBy(x: 1.0, y: -1.0);
+        context.rotate(by: CGFloat(-Double.pi/2));
+        context.translateBy(x: bounds.midY, y: bounds.midX)
+        backing.drawWithAttributes(attributes: attributes, inContext: context)
     }
     
     var shouldFlip : Bool {
@@ -112,6 +112,7 @@ public enum Icon {
     case CourseVideoContent
     case CourseVideoPlay
     case Create
+    case Calendar
     case Discussions
     case Dropdown
     case Filter
@@ -162,6 +163,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Comment)
         case .Comments:
             return FontAwesomeRenderer(icon: .Comments)
+        case .Calendar:
+            return FontAwesomeRenderer(icon: .Calendar)
         case .Question:
             return FontAwesomeRenderer(icon: .Question)
         case .Answered:
@@ -281,56 +284,56 @@ public enum Icon {
     
     private func imageWithStyle(style : OEXTextStyle, sizeOverride : CGFloat? = nil, inline : Bool = false) -> UIImage {
         var attributes = style.attributes
-        let textSize = sizeOverride ?? OEXTextStyle.pointSizeForTextSize(style.size)
-        attributes[NSFontAttributeName] = Icon.fontWithSize(textSize)
+        let textSize = sizeOverride ?? OEXTextStyle.pointSize(for: style.size)
+        attributes[NSFontAttributeName] = Icon.fontWithSize(size: textSize)
         
-        let bounds = renderer.boundsWithAttributes(attributes, inline: inline)
+        let bounds = renderer.boundsWithAttributes(attributes: attributes as [String : AnyObject], inline: inline)
         let imageSize = bounds.size
         
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(imageSize.width, imageSize.height), false, 0)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: imageSize.width, height: imageSize.height), false, 0)
 
         if renderer.shouldFlip {
             let context = UIGraphicsGetCurrentContext()
-            CGContextTranslateCTM(context!, imageSize.width, 0)
-            CGContextScaleCTM(context!, -1, 1)
+            context!.translateBy(x: imageSize.width, y: 0)
+            context!.scaleBy(x: -1, y: 1)
         }
         
-        renderer.drawWithAttributes(attributes, inContext: UIGraphicsGetCurrentContext()!)
+        renderer.drawWithAttributes(attributes: attributes as [String : AnyObject], inContext: UIGraphicsGetCurrentContext()!)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return image!.imageWithRenderingMode(.AlwaysTemplate)
+        return image!.withRenderingMode(.alwaysTemplate)
     }
 
     public func attributedTextWithStyle(style : OEXTextStyle, inline : Bool = false) -> NSAttributedString {
         var attributes = style.attributes
-        attributes[NSFontAttributeName] = Icon.fontWithSize(style.size)
-        let bounds = renderer.boundsWithAttributes(attributes, inline : inline)
+        attributes[NSFontAttributeName] = Icon.fontWithSize(size: style.size)
+        let bounds = renderer.boundsWithAttributes(attributes: attributes as [String : AnyObject], inline : inline)
         
         let attachment = NSTextAttachment(data: nil, ofType: nil)
-        attachment.image = imageWithStyle(style).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        attachment.image = imageWithStyle(style: style).withRenderingMode(UIImageRenderingMode.alwaysOriginal)
         attachment.bounds = bounds
         return NSAttributedString(attachment: attachment)
     }
     
     /// Returns a template mask image at the given size
     public func imageWithFontSize(size : CGFloat) -> UIImage {
-        return imageWithStyle(OEXTextStyle(weight: .Normal, size: .Base, color: UIColor.blackColor()), sizeOverride:size)
+        return imageWithStyle(style: OEXTextStyle(weight: .normal, size: .base, color: UIColor.black), sizeOverride:size)
     }
     
     func barButtonImage(deltaFromDefault delta : CGFloat = 0) -> UIImage {
-        return imageWithFontSize(18 + delta)
+        return imageWithFontSize(size: 18 + delta)
     }
     
     private static func fontWithSize(size : CGFloat) -> UIFont {
-        return UIFont.fontAwesomeOfSize(size)
+        return UIFont.fontAwesomeOfSize(fontSize: size)
     }
     
     private static func fontWithSize(size : OEXTextSize) -> UIFont {
-        return fontWithSize(OEXTextStyle.pointSizeForTextSize(size))
+        return fontWithSize(size: OEXTextStyle.pointSize(for: size))
     }
     
     private static func fontWithTitleSize() -> UIFont {
-        return fontWithSize(17)
+        return fontWithSize(size: 17)
     }
 }

@@ -10,8 +10,8 @@ import Foundation
 
 private class JSONFormTableSelectionCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: .Default, reuseIdentifier: reuseIdentifier)
-        tintColor = OEXStyles.sharedStyles().utilitySuccessBase()
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        tintColor = OEXStyles.shared().utilitySuccessBase()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,24 +28,28 @@ class JSONFormTableViewController<T>: UITableViewController {
     var instructions: String?
     var subInstructions: String?
 
-    var doneChoosing: ((value:T?)->())?
+    var doneChoosing: ((_ value:T?)->())?
     
     init() {
         super.init(nibName: nil, bundle: nil)
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func makeAndInstallHeader() {
         if let instructions = instructions {
             let headerView = UIView()
-            headerView.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+            headerView.backgroundColor = OEXStyles.shared().neutralXLight()
             
-            let instructionStyle = OEXTextStyle(weight: .Normal, size: .Base, color: OEXStyles.sharedStyles().neutralBlackT())
-            let headerStr = instructionStyle.attributedStringWithText(instructions).mutableCopy() as! NSMutableAttributedString
+            let instructionStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlackT())
+            let headerStr = instructionStyle.attributedString(withText: instructions).mutableCopy() as! NSMutableAttributedString
             
             if let subInstructions = subInstructions {
-                let style = OEXTextStyle(weight: .Normal, size: .XSmall, color: OEXStyles.sharedStyles().neutralDark())
-                let subStr = style.attributedStringWithText("\n" + subInstructions)
-                headerStr.appendAttributedString(subStr)
+                let style = OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
+                let subStr = style.attributedString(withText: "\n" + subInstructions)
+                headerStr.append(subStr)
             }
             
             let label = UILabel()
@@ -60,8 +64,8 @@ class JSONFormTableViewController<T>: UITableViewController {
                 make.trailing.equalTo(headerView.snp_trailing).inset(20)
             })
             
-            let size = label.sizeThatFits(CGSizeMake(240, CGFloat.max))
-            headerView.frame = CGRect(origin: CGPointZero, size: size)
+            let size = label.sizeThatFits(CGSize(width: 240, height: CGFloat.greatestFiniteMagnitude))
+            headerView.frame = CGRect(origin: CGPoint.zero, size: size)
             
             tableView.tableHeaderView = headerView
         }
@@ -70,7 +74,7 @@ class JSONFormTableViewController<T>: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.registerClass(JSONFormTableSelectionCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(JSONFormTableSelectionCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
         if #available(iOS 9.0, *) {
@@ -79,21 +83,21 @@ class JSONFormTableViewController<T>: UITableViewController {
         makeAndInstallHeader()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenChooseFormValue + " " + (title ?? ""))
+        OEXAnalytics.shared().trackScreen(withName: OEXAnalyticsScreenChooseFormValue + " " + (title ?? ""))
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         guard let index = dataSource?.selectedIndex else { return }
-        tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: index, inSection: 0), atScrollPosition: .Middle, animated: false)
+        tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .middle, animated: false)
     }
     
-    override func willMoveToParentViewController(parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
         if parent == nil { //removing from the hierarchy
-            doneChoosing?(value: dataSource?.selectedItem)
+            doneChoosing?(dataSource?.selectedItem)
         }
     }
     
@@ -117,14 +121,15 @@ class ChooserDataSource<T> : NSObject, UITableViewDataSource, UITableViewDelegat
         super.init()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
         cell.applyStandardSeparatorInsets()
         let datum = data[indexPath.row]
         if let title = datum.attributedTitle {
@@ -134,20 +139,20 @@ class ChooserDataSource<T> : NSObject, UITableViewDataSource, UITableViewDelegat
         }
         return cell
     }
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
         
         let oldIndexPath = selectedIndex
         selectedIndex = indexPath.row
         
         var rowsToRefresh = [indexPath]
         if oldIndexPath != -1 {
-            rowsToRefresh.append(NSIndexPath(forRow: oldIndexPath, inSection: indexPath.section))
+            rowsToRefresh.append(IndexPath(row: oldIndexPath, section: indexPath.section))
         }
         
-        tableView.reloadRowsAtIndexPaths(rowsToRefresh, withRowAnimation: .Automatic)
+        tableView.reloadRows(at: rowsToRefresh, with: .automatic)
     }
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.accessoryType = indexPath.row == selectedIndex ? .Checkmark : .None
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessoryType = indexPath.row == selectedIndex ? .checkmark : .none
     }
 }

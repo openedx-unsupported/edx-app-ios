@@ -11,7 +11,7 @@ import Foundation
 extension OEXCourse {
     
     var hasDiscussionsEnabled : Bool {
-        guard let url = self.discussionUrl where !url.isEmpty else {
+        guard let url = self.discussionUrl, !url.isEmpty else {
             return false
         }
         return true

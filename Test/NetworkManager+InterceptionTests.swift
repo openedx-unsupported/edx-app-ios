@@ -9,36 +9,36 @@
 import Foundation
 class NetworkManager_InterceptionTests : XCTestCase {
 
-    func checkJSONInterceptionWithStubResponse(router: OEXRouter, stubResponse : OHHTTPStubsResponse, verifier : Result<JSON> -> Void) {
+    func checkJSONInterceptionWithStubResponse(_ router: OEXRouter, stubResponse : OHHTTPStubsResponse, verifier : @escaping (Result<JSON>) -> Void) {
 
-        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string:"http://example.com")!, cache : MockResponseCache())
+        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string:"http://example.com")!, cache : MockResponseCache())
         manager.addStandardInterceptors()
         let request = NetworkRequest<JSON> (
             method: HTTPMethod.GET,
             path: "path",
-            deserializer: .JSONResponse({(_, json) in .Success(json)}))
+            deserializer: .jsonResponse({(_, json) in .success(json)}))
 
-        manager.addJSONInterceptor {(response : NSHTTPURLResponse?, json : JSON) in
+        manager.addJSONInterceptor {(response : HTTPURLResponse?, json : JSON) in
             if response?.statusCode ?? 0 == 401 {
-                return .Failure(NSError(domain: "{}", code: -100, userInfo: [:]))
+                return .failure(NSError(domain: "{}", code: -100, userInfo: [:]))
             }
             else {
-                return .Success(json)
+                return .success(json)
             }
         }
 
-        let stub = OHHTTPStubs.stubRequestsPassingTest({ (_) -> Bool in
+        let stub = OHHTTPStubs.stubRequests(passingTest: { (_) -> Bool in
             return true
             }, withStubResponse: { (_) -> OHHTTPStubsResponse in
                 return stubResponse
         })
 
-        let expectation = expectationWithDescription("Request Completes")
+        let expectations = expectation(description: "Request Completes")
         let stream = manager.streamForRequest(request, autoCancel : false)
 
         stream.extendLifetimeUntilFirstResult {
             verifier($0)
-            expectation.fulfill()
+            expectations.fulfill()
         }
 
         waitForExpectations()
@@ -48,7 +48,7 @@ class NetworkManager_InterceptionTests : XCTestCase {
 
     func testJSONInterceptionPassthrough() {
         let router = MockRouter()
-        checkJSONInterceptionWithStubResponse(router, stubResponse:OHHTTPStubsResponse(data: "{}".dataUsingEncoding(NSUTF8StringEncoding)!, statusCode: 404, headers: nil), verifier: {
+        checkJSONInterceptionWithStubResponse(router, stubResponse:OHHTTPStubsResponse(data: "{}".data(using: String.Encoding.utf8)!, statusCode: 404, headers: nil), verifier: {
             XCTAssertTrue($0.value != nil)
             XCTAssertFalse(router.logoutCalled)
         })
@@ -56,19 +56,19 @@ class NetworkManager_InterceptionTests : XCTestCase {
 
     // When running tests, we don't want network requests to actually work
     func testNetworkNotLive() {
-        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string:"https://google.com")!, cache : MockResponseCache())
+        let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string:"https://google.com")!, cache : MockResponseCache())
 
-        let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : .DataResponse({_ -> Result<NSObject> in
+        let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : .dataResponse({_ -> Result<NSObject> in
             XCTFail("Shouldn't receive data")
-            return .Failure(NetworkManager.unknownError)
+            return .failure(NetworkManager.unknownError)
         }))
         // make sure this is a valid request
         AssertSuccess(manager.URLRequestWithRequest(apiRequest))
 
-        let expectation = expectationWithDescription("Request dispatched")
+        let expectations = expectation(description: "Request dispatched")
         manager.taskForRequest(apiRequest) { result in
             XCTAssertNil(result.data)
-            expectation.fulfill()
+            expectations.fulfill()
         }
         self.waitForExpectations()
     }

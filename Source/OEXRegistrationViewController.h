@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class RouterEnvironment;
 @class NetworkManager;
 @class LoadStateViewController;
-@class Stream;
+@class OEXStream;
 
 @protocol OEXRegistrationViewControllerDelegate <NSObject>
 

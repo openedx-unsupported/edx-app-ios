@@ -23,7 +23,7 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         
         // Test adding child comment in unendorsed response
         let unendorsedComment = unendorsedResponses[1]
-        responsesDataController.addedChildComment(unendorsedComment)
+        responsesDataController.addedChildComment(comment: unendorsedComment)
         let updatedComment = responsesDataController.responses[1]
         
         XCTAssertEqual(unendorsedComment.childCount + 1, updatedComment.childCount)
@@ -31,7 +31,7 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         
         // Test adding child comment in endorsed response
         let endorsedComment = endorsedResponses[0]
-        responsesDataController.addedChildComment(endorsedComment)
+        responsesDataController.addedChildComment(comment: endorsedComment)
         let updatedEndorsedComment = responsesDataController.endorsedResponses[0]
         
         XCTAssertEqual(endorsedComment.childCount + 1, updatedEndorsedComment.childCount)
@@ -48,7 +48,7 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         testResponse.voteCount += 1
         testResponse.voted = !testResponse.voted
         
-        responsesDataController.updateResponsesWithComment(testResponse)
+        responsesDataController.updateResponsesWithComment(comment: testResponse)
         
         XCTAssertEqual(responses[0].voteCount + 1, responsesDataController.endorsedResponses[0].voteCount)
         XCTAssertEqual(!responses[0].voted, responsesDataController.endorsedResponses[0].voted)
@@ -59,7 +59,7 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         votedResponse.voteCount -= 1
         votedResponse.voted = !votedResponse.voted
         
-        responsesDataController.updateResponsesWithComment(votedResponse)
+        responsesDataController.updateResponsesWithComment(comment: votedResponse)
         
         XCTAssertEqual(responses[0].voteCount, responsesDataController.endorsedResponses[0].voteCount)
         XCTAssertEqual(responses[0].voted, responsesDataController.endorsedResponses[0].voted)
@@ -77,7 +77,7 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         var testResponse = responses[0]
         testResponse.abuseFlagged = !testResponse.abuseFlagged
         
-        responsesDataController.updateResponsesWithComment(testResponse)
+        responsesDataController.updateResponsesWithComment(comment: testResponse)
         
         XCTAssertEqual(!responses[0].abuseFlagged, responsesDataController.endorsedResponses[0].abuseFlagged)
         XCTAssertTrue(responsesDataController.endorsedResponses[0].abuseFlagged)
@@ -86,7 +86,7 @@ class DiscussionResponsesDataControllerTests:  XCTestCase {
         var flaggedResponse = responsesDataController.endorsedResponses[0]
         flaggedResponse.abuseFlagged = !flaggedResponse.abuseFlagged
         
-        responsesDataController.updateResponsesWithComment(flaggedResponse)
+        responsesDataController.updateResponsesWithComment(comment: flaggedResponse)
     
         XCTAssertEqual(responses[0].abuseFlagged, responsesDataController.endorsedResponses[0].abuseFlagged)
         XCTAssertFalse(responsesDataController.endorsedResponses[0].abuseFlagged)

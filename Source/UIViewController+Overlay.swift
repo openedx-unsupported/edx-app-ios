@@ -20,13 +20,13 @@ private class StatusMessageView : UIView {
     private let margin = 20
     
     init(message: String) {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
 
         messageLabel.numberOfLines = 0
         addSubview(messageLabel)
         
-        self.backgroundColor = OEXStyles.sharedStyles().neutralDark().colorWithAlphaComponent(0.75)
-        messageLabel.attributedText = statusMessageStyle.attributedStringWithText(message)
+        self.backgroundColor = OEXStyles.shared().neutralDark().withAlphaComponent(0.75)
+        messageLabel.attributedText = statusMessageStyle.attributedString(withText: message)
         messageLabel.snp_makeConstraints { make in
             make.top.equalTo(self).offset(margin)
             make.leading.equalTo(self).offset(margin)
@@ -40,16 +40,16 @@ private class StatusMessageView : UIView {
     }
     
     private var statusMessageStyle: OEXMutableTextStyle {
-        let style = OEXMutableTextStyle(weight: .Normal, size: .Base, color: UIColor.whiteColor())
-        style.alignment = .Center;
-        style.lineBreakMode = NSLineBreakMode.ByWordWrapping;
+        let style = OEXMutableTextStyle(weight: .normal, size: .base, color: UIColor.white)
+        style.alignment = .center;
+        style.lineBreakMode = NSLineBreakMode.byWordWrapping;
         return style;
         
     }
 }
 
-private let visibleDuration: NSTimeInterval = 5.0
-private let animationDuration: NSTimeInterval = 1.0
+private let visibleDuration: TimeInterval = 5.0
+private let animationDuration: TimeInterval = 1.0
 
 extension UIViewController {
     
@@ -68,8 +68,8 @@ extension UIViewController {
             make.edges.equalTo(container)
         }
         
-        let size = messageView.systemLayoutSizeFittingSize(CGSizeMake(view.bounds.width, CGFloat.max))
-        messageView.transform = CGAffineTransformMakeTranslation(0, -size.height)
+        let size = messageView.systemLayoutSizeFitting(CGSize(width: view.bounds.width, height: CGFloat.greatestFiniteMagnitude))
+        messageView.transform = CGAffineTransform(translationX: 0, y: -size.height)
         container.layoutIfNeeded()
         
         let hideAction = {[weak self] in
@@ -78,19 +78,20 @@ extension UIViewController {
                 objc_setAssociatedObject(self, &StatusMessageHideActionKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
             
-            UIView.animateWithDuration(animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseOut, animations: {
-                messageView.transform = CGAffineTransformMakeTranslation(0, -size.height)
+            UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
+                messageView.transform = CGAffineTransform(translationX: 0, y: -size.height)
                 }, completion: { _ in
                     container.removeFromSuperview()
             })
         }
         
         // show
-        UIView.animateWithDuration(animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseIn, animations: { () -> Void in
-            messageView.transform = CGAffineTransformIdentity
+        UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseIn, animations: { () -> Void in
+            messageView.transform = .identity
             }, completion: {_ in
-                let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(visibleDuration * NSTimeInterval(NSEC_PER_SEC)))
-                dispatch_after(delay, dispatch_get_main_queue()) {
+                
+                let delay = DispatchTime.now() + Double(Int64(visibleDuration * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: delay) {
                     hideAction()
                 }
         })
@@ -99,11 +100,11 @@ extension UIViewController {
         objc_setAssociatedObject(self, &StatusMessageHideActionKey, Box(info), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
     
-    func showOverlayMessage(string : String) {
+    func showOverlay(withMessage message : String) {
         let hideInfo = objc_getAssociatedObject(self, &StatusMessageHideActionKey) as? Box<StatusMessageRemovalInfo>
         hideInfo?.value.action()
-        let view = StatusMessageView(message: string)
-        showOverlayMessageView(view)
+        let view = StatusMessageView(message: message)
+        showOverlayMessageView(messageView: view)
     }
     
     func showSnackBarView(snackBarView : UIView) {
@@ -127,16 +128,16 @@ extension UIViewController {
                 objc_setAssociatedObject(self, &SnackBarHideActionKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
             
-            UIView.animateWithDuration(animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseOut, animations: {
-                snackBarView.transform = CGAffineTransformIdentity
+            UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
+                snackBarView.transform = .identity
                 }, completion: { _ in
                     container.removeFromSuperview()
             })
         }
         
         // show
-        UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .CurveEaseIn, animations: { () -> Void in
-            snackBarView.transform = CGAffineTransformIdentity
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseIn, animations: { () -> Void in
+            snackBarView.transform = .identity
             }, completion: nil)
         
         let info : TemporaryViewRemovalInfo = (action: hideAction, container: container)
@@ -147,7 +148,7 @@ extension UIViewController {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
         let view = VersionUpgradeView(message: string)
-        showSnackBarView(view)
+        showSnackBarView(snackBarView: view)
     }
     
     
@@ -155,7 +156,7 @@ extension UIViewController {
         let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
         hideInfo?.value.action()
         let view = OfflineView(message: message, selector: selector)
-        showSnackBarView(view)
+        showSnackBarView(snackBarView: view)
     }
     
     func hideSnackBar() {

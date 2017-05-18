@@ -21,14 +21,14 @@ public class EnrollmentManager : NSObject {
         
         super.init()
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXSessionEndedNotification) { (_, observer, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionEnded.rawValue) { (_, observer, _) in
             observer.clearFeed()
         }
         
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: OEXSessionStartedNotification) { (notification, observer, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionStarted.rawValue) { (notification, observer, _) -> Void in
             
             if let userDetails = notification.userInfo?[OEXSessionStartedUserDetailsKey] as? OEXUserDetails {
-                observer.setupFeedWithUserDetails(userDetails)
+                observer.setupFeedWithUserDetails(userDetails: userDetails)
             }
         }
         
@@ -49,10 +49,10 @@ public class EnrollmentManager : NSObject {
     }
     
     public func enrolledCourseWithID(courseID: String) -> UserCourseEnrollment? {
-        return self.streamForCourseWithID(courseID).value
+        return self.streamForCourseWithID(courseID: courseID).value
     }
     
-    public func streamForCourseWithID(courseID: String) -> Stream<UserCourseEnrollment> {
+    public func streamForCourseWithID(courseID: String) -> OEXStream<UserCourseEnrollment> {
         let hasCourse = enrollmentFeed.output.value??.contains {
             $0.course.course_id == courseID
             } ?? false
@@ -76,9 +76,9 @@ public class EnrollmentManager : NSObject {
     private func clearFeed() {
         let feed = Feed<[UserCourseEnrollment]?> { stream in
             stream.removeAllBackings()
-            stream.send(Success(nil))
+            stream.send(Success(v: nil))
         }
-        self.enrollmentFeed.backWithFeed(feed)
+        self.enrollmentFeed.backWithFeed(feed: feed)
         
         self.enrollmentFeed.refresh()
     }
@@ -86,13 +86,13 @@ public class EnrollmentManager : NSObject {
     private func setupFeedWithUserDetails(userDetails: OEXUserDetails) {
         guard let username = userDetails.username else { return }
         let organizationCode = self.config.organizationCode()
-        let feed = freshFeedWithUsername(username, organizationCode: organizationCode)
-        enrollmentFeed.backWithFeed(feed.map {x in x})
+        let feed = freshFeedWithUsername(username: username, organizationCode: organizationCode)
+        enrollmentFeed.backWithFeed(feed: feed.map {x in x})
         enrollmentFeed.refresh()
     }
     
     func freshFeedWithUsername(username: String, organizationCode: String?) -> Feed<[UserCourseEnrollment]> {
-        let request = CoursesAPI.getUserEnrollments(username, organizationCode: organizationCode)
+        let request = CoursesAPI.getUserEnrollments(username: username, organizationCode: organizationCode)
         return Feed(request: request, manager: networkManager, persistResponse: true)
     }
 }

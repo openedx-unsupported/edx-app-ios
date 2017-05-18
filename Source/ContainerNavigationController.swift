@@ -24,49 +24,49 @@ protocol StatusBarOverriding {
 /// A simple UINavigationController subclass that can forward status bar
 /// queries to its children should they opt into that by implementing the ContainedNavigationController protocol
 class ForwardingNavigationController: UINavigationController {
-    override func childViewControllerForStatusBarStyle() -> UIViewController? {
+    override var childViewControllerForStatusBarStyle: UIViewController? {
         if let controller = viewControllers.last as? StatusBarOverriding as? UIViewController {
             return controller
         }
         else {
-            return super.childViewControllerForStatusBarStyle()
+            return super.childViewControllerForStatusBarStyle
         }
     }
     
-    override func childViewControllerForStatusBarHidden() -> UIViewController? {
+    override var childViewControllerForStatusBarHidden: UIViewController? {
         if let controller = viewControllers.last as? StatusBarOverriding as? UIViewController {
             return controller
         }
         else {
-            return super.childViewControllerForStatusBarHidden()
+            return super.childViewControllerForStatusBarHidden
         }
         
     }
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate: Bool {
         if let controller = viewControllers.last as? InterfaceOrientationOverriding as? UIViewController {
-            return controller.shouldAutorotate()
+            return controller.shouldAutorotate
         }
         else {
-            return super.shouldAutorotate()
+            return super.shouldAutorotate
         }
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if let controller = viewControllers.last as? InterfaceOrientationOverriding as? UIViewController {
-            return controller.supportedInterfaceOrientations()
+            return controller.supportedInterfaceOrientations
         }
         else {
-            return .Portrait
+            return .portrait
         }
     }
     
-    override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
+    override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
         if let controller = viewControllers.last as? InterfaceOrientationOverriding as? UIViewController {
-            return controller.preferredInterfaceOrientationForPresentation()
+            return controller.preferredInterfaceOrientationForPresentation
         }
         else {
-            return .Portrait
+            return .portrait
         }
     }
 }

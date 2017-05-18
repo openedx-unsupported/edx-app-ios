@@ -17,12 +17,12 @@ public class ListCursor<A> {
         self.index = before.count
         var list = before
         list.append(current)
-        list.appendContentsOf(after)
+        list.append(contentsOf: after)
         self.list = list
     }
     
     // Will fail if current is not in the list
-    public init?(list: [A], currentFinder : A -> Bool) {
+    public init?(list: [A], currentFinder : (A) -> Bool) {
         if let index = list.firstIndexMatching(currentFinder) {
             self.index = index
             self.list = list
@@ -63,7 +63,7 @@ public class ListCursor<A> {
         }
     }
     
-    public func updateCurrentToItemMatching(matcher : A -> Bool) {
+    public func updateCurrentToItemMatching(matcher : (A) -> Bool) {
         if let index = list.firstIndexMatching(matcher) {
             self.index = index
         }
@@ -128,28 +128,28 @@ public class ListCursor<A> {
         }
     }
     
-    public func loopToStartExcludingCurrent(@noescape f : (ListCursor<A>, Int) -> Void) {
+    public func loopToStartExcludingCurrent( f : (ListCursor<A>, Int) -> Void) {
         while let _ = prev() {
             f(self, self.index)
         }
     }
     
-    public func loopToEndExcludingCurrent(@noescape f : (ListCursor<A>, Int) -> Void) {
+    public func loopToEndExcludingCurrent( f : (ListCursor<A>, Int) -> Void) {
         while let _ = next() {
             f(self, self.index)
         }
     }
     
     /// Loops through all values backward to the beginning, including the current block
-    public func loopToStart(@noescape f : (ListCursor<A>, Int) -> Void) {
-        for i in Array((0 ... self.index).reverse()) {
+    public func loopToStart( f : (ListCursor<A>, Int) -> Void) {
+        for i in Array((0 ... self.index).reversed()) {
             self.index = i
             f(self, i)
         }
     }
     
     /// Loops through all values forward to the end, including the current block
-    public func loopToEnd(@noescape f : (ListCursor<A>, Int) -> Void) {
+    public func loopToEnd( f : (ListCursor<A>, Int) -> Void) {
         for i in self.index ..< self.list.count {
             self.index = i
             f(self, i)

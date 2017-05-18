@@ -12,7 +12,7 @@ import UIKit
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, OEXVideoPlayerInterfaceDelegate, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate {
     
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, ReachabilityProvider, OEXConfigProvider, OEXRouterProvider>
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider
 
     let environment : Environment
     let blockID : CourseBlockID?
@@ -23,22 +23,22 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     
     var rotateDeviceMessageView : IconMessageView?
     var videoTranscriptView : VideoTranscript?
-    var subtitleTimer = NSTimer()
+    var subtitleTimer = Timer()
     var contentView : UIView?
-    
     let loadController : LoadStateViewController
+    private var VOEnabledOnScreen = false
     
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
         self.blockID = blockID
         self.environment = environment
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
         videoController = OEXVideoPlayerInterface()
         loadController = LoadStateViewController()
         
         super.init(nibName: nil, bundle: nil)
         
         addChildViewController(videoController)
-        videoController.didMoveToParentViewController(self)
+        videoController.didMove(toParentViewController: self)
         videoController.delegate = self
         addLoadListener()
     }
@@ -56,22 +56,21 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     func addLoadListener() {
         loader.listen (self,
                        success : { [weak self] block in
-                        if let video = block.type.asVideo where video.isYoutubeVideo,
+                        if let video = block.type.asVideo, video.isYoutubeVideo,
                             let url = block.blockURL
                         {
-                            self?.showYoutubeMessage(url)
+                            self?.showYoutubeMessage(url: url)
                         }
                         else if
-                            let video = self?.environment.interface?.stateForVideoWithID(self?.blockID, courseID : self?.courseID)
-                            where block.type.asVideo?.preferredEncoding != nil
+                            let video = self?.environment.interface?.stateForVideo(withID: self?.blockID, courseID : self?.courseID), block.type.asVideo?.preferredEncoding != nil
                         {
-                            self?.showLoadedBlock(block, forVideo: video)
+                            self?.showLoadedBlock(block: block, forVideo: video)
                         }
                         else {
-                            self?.showError(nil)
+                            self?.showError(error: nil)
                         }
             }, failure : {[weak self] error in
-                self?.showError(error)
+                self?.showError(error: error)
             }
         )
     }
@@ -79,10 +78,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentView = UIView(frame: CGRectZero)
+        contentView = UIView(frame: CGRect.zero)
         view.addSubview(contentView!)
         
-        loadController.setupInController(self, contentView : contentView!)
+        loadController.setupInController(controller: self, contentView : contentView!)
         
         contentView?.addSubview(videoController.view)
         videoController.view.translatesAutoresizingMaskIntoConstraints = false
@@ -91,23 +90,32 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
         contentView?.addSubview(rotateDeviceMessageView!)
         
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction {[weak self] _ in
+            self?.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
+        }
+        rotateDeviceMessageView?.addGestureRecognizer(tapGesture)
+
         if environment.config.isVideoTranscriptEnabled {
             videoTranscriptView = VideoTranscript(environment: environment)
             videoTranscriptView?.delegate = self
             contentView?.addSubview(videoTranscriptView!.transcriptTableView)
         }
         
-        view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         view.setNeedsUpdateConstraints()
         
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibilityVoiceOverStatusChanged) { (_, observer, _) in
+            observer.setAccessibility()
+        }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loadVideoIfNecessary()
     }
     
-    override func viewDidAppear(animated : Bool) {
+    override func viewDidAppear(_ animated : Bool) {
         
         // There's a weird OS bug where the bottom layout guide doesn't get set properly until
         // the layout cycle after viewDidAppear so cause a layout cycle
@@ -120,28 +128,52 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         validateSubtitleTimer()
         
         if !canDownloadVideo() {
-            guard let video = self.environment.interface?.stateForVideoWithID(self.blockID, courseID : self.courseID) where video.downloadState == .Complete else {
-                self.showOverlayMessage(Strings.noWifiMessage)
+            guard let video = self.environment.interface?.stateForVideo(withID: self.blockID, courseID : self.courseID), video.downloadState == .complete else {
+                self.showOverlay(withMessage: Strings.noWifiMessage)
                 return
             }
         }
         
         guard let videoPlayer = videoController.moviePlayerController else { return }
-        if currentOrientation() == .LandscapeLeft || currentOrientation() == .LandscapeRight {
-            videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
+        if currentOrientation() == .landscapeLeft || currentOrientation() == .landscapeRight {
+            videoPlayer.setFullscreen(true, with: self.currentOrientation())
         }
         
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         videoController.setAutoPlaying(false)
         self.subtitleTimer.invalidate()
     }
     
+    func setAccessibility() {
+        if let ratingController = self.presentedViewController as? RatingViewController, UIAccessibilityIsVoiceOverRunning() {
+            // If Timely App Reviews popup is showing then set popup elements as accessibilityElements
+            view.accessibilityElements = [ratingController.ratingContainerView.subviews]
+            setParentAccessibility(ratingController: ratingController)
+            VOEnabledOnScreen = true
+        }
+        else {
+            view.accessibilityElements = [view.subviews]
+            setParentAccessibility()
+        }
+    }
+
+    func setParentAccessibility(ratingController: RatingViewController? = nil) {
+        if let parentController = self.parent as? CourseContentPageViewController {
+            if let ratingController = ratingController {
+                parentController.setAccessibility(elements: ratingController.ratingContainerView.subviews, isShowingRating: true)
+            }
+            else {
+                parentController.setAccessibility(elements: parentController.view.subviews)
+            }
+        }
+    }
+
     private func loadVideoIfNecessary() {
         if !loader.hasBacking {
-            loader.backWithStream(courseQuerier.blockWithID(self.blockID).firstSuccess())
+            loader.backWithStream(courseQuerier.blockWithID(id: self.blockID).firstSuccess())
         }
     }
     
@@ -174,13 +206,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            if #available(iOS 9, *) {
-                make.top.equalTo(self.topLayoutGuide.bottomAnchor)
-            }
-            else {
-                make.top.equalTo(self.snp_topLayoutGuideBottom)
-            }
-            
+            make.top.equalTo(self.snp_topLayoutGuideBottom)
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
         
@@ -188,14 +214,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            // There's a weird OS bug where the bottom layout guide doesn't get set properly until
-            // the layout cycle after viewDidAppear, so use the parent in the mean time
-            if #available(iOS 9, *) {
-                make.bottom.equalTo(self.bottomLayoutGuide.topAnchor)
-            }
-            else {
-                make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
-            }
+            make.bottom.equalTo(self.snp_bottomLayoutGuideTop)
         }
         
         videoTranscriptView?.transcriptTableView.snp_remakeConstraints { make in
@@ -204,7 +223,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
             make.trailing.equalTo(contentView!)
             let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
             make.bottom.equalTo(view.snp_bottom).offset(-barHeight)
-        }
+            }
     }
     
     private func applyLandscapeConstraints() {
@@ -221,13 +240,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            if #available(iOS 9, *) {
-                make.top.equalTo(self.topLayoutGuide.bottomAnchor)
-            }
-            else {
-                make.top.equalTo(self.snp_topLayoutGuideBottom)
-            }
-            
+            make.top.equalTo(self.snp_topLayoutGuideBottom)
             make.height.equalTo(playerHeight)
         }
         
@@ -237,22 +250,22 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     func movieTimedOut() {
-        if let controller = videoController.moviePlayerController where controller.fullscreen {
+        if let controller = videoController.moviePlayerController, controller.isFullscreen {
             UIAlertView(title: Strings.videoContentNotAvailable, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
         }
         else {
-            self.showOverlayMessage(Strings.timeoutCheckInternetConnection)
+            self.showOverlay(withMessage: Strings.timeoutCheckInternetConnection)
         }
     }
     
     private func showError(error : NSError?) {
-        loadController.state = LoadState.failed(error, icon: .UnknownError, message: Strings.videoContentNotAvailable)
+        loadController.state = LoadState.failed(error: error, icon: .UnknownError, message: Strings.videoContentNotAvailable)
     }
     
     private func showYoutubeMessage(url: NSURL) {
         let buttonInfo = MessageButtonInfo(title: Strings.Video.viewOnYoutube) {
-            if UIApplication.sharedApplication().canOpenURL(url){
-                UIApplication.sharedApplication().openURL(url)
+            if UIApplication.shared.canOpenURL(url as URL){
+                UIApplication.shared.openURL(url as URL)
             }
         }
         loadController.state = LoadState.empty(icon: .CourseModeVideo, message: Strings.Video.onlyOnYoutube, attributedMessage: nil, accessibilityMessage: nil, buttonInfo: buttonInfo)
@@ -261,49 +274,48 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload) {
         navigationItem.title = block.displayName
         
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             self.loadController.state = .Loaded
         }
         
-        videoController.playVideoFor(video)
+        videoController.playVideo(for: video)
     }
     
     private func canDownloadVideo() -> Bool {
-        let hasWifi = environment.reachability.isReachableViaWiFi() ?? false
+        let hasWifi = environment.reachability.isReachableViaWiFi() 
         let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
         return !onlyOnWifi || hasWifi
     }
     
-    override func childViewControllerForStatusBarStyle() -> UIViewController? {
+    override var childViewControllerForStatusBarStyle: UIViewController? {
         return videoController
     }
     
-    override func childViewControllerForStatusBarHidden() -> UIViewController? {
+    override var childViewControllerForStatusBarHidden: UIViewController? {
         return videoController
     }
     
-    override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        
-        
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
-        if videoPlayer.fullscreen {
+        if videoPlayer.isFullscreen {
             
-            if newCollection.verticalSizeClass == .Regular {
-                videoPlayer.setFullscreen(false, withOrientation: self.currentOrientation())
+            if newCollection.verticalSizeClass == .regular {
+                videoPlayer.setFullscreen(false, with: self.currentOrientation())
             }
             else {
-                videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
+                videoPlayer.setFullscreen(true, with: self.currentOrientation())
             }
         }
-        else if videoController.shouldRotate && newCollection.verticalSizeClass == .Compact {
-            videoPlayer.setFullscreen(true, withOrientation: self.currentOrientation())
+        else if videoController.shouldRotate && newCollection.verticalSizeClass == .compact {
+            videoPlayer.setFullscreen(true, with: self.currentOrientation())
         }
+
     }
     
     func validateSubtitleTimer() {
-        if !subtitleTimer.valid && videoController.moviePlayerController?.controls != nil {
-            subtitleTimer = NSTimer.scheduledTimerWithTimeInterval(1.0,
+        if !subtitleTimer.isValid && videoController.moviePlayerController?.controls != nil {
+            subtitleTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                                                    target: self,
                                                                    selector: #selector(highlightSubtitle),
                                                                    userInfo: nil,
@@ -312,37 +324,43 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
     }
     
     func highlightSubtitle() {
-        videoTranscriptView?.highlightSubtitleForTime(videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
+        videoTranscriptView?.highlightSubtitleForTime(time: videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
     }
     
     //MARK: - OEXVideoPlayerInterfaceDelegate methods
-    func videoPlayerTapped(sender: UIGestureRecognizer) {
+    func videoPlayerTapped(_ sender: UIGestureRecognizer) {
         guard let videoPlayer = videoController.moviePlayerController else { return }
         
-        if self.isVerticallyCompact() && !videoPlayer.fullscreen{
-            videoPlayer.setFullscreen(true, withOrientation: currentOrientation())
+        if self.isVerticallyCompact() && !videoPlayer.isFullscreen{
+            videoPlayer.setFullscreen(true, with: currentOrientation())
         }
     }
     
-    func transcriptLoaded(transcript: [AnyObject]) {
-        videoTranscriptView?.updateTranscript(transcript)
+    func transcriptLoaded(_ transcript: [Any]) {
+        videoTranscriptView?.updateTranscript(transcript: transcript as [AnyObject])
         validateSubtitleTimer()
     }
     
     func didFinishVideoPlaying() {
-        environment.router?.showAppReviewIfNeeded(self)
+        environment.router?.showAppReviewIfNeeded(fromController: self)
     }
     
     //MARK: - VideoTranscriptDelegate methods
-    func didSelectSubtitleAtInterval(time: NSTimeInterval) {
+    func didSelectSubtitleAtInterval(time: TimeInterval) {
+        self.videoController.moviePlayerController?.controls?.hideOptionsAndValues()
         videoController.moviePlayerController?.controls?.setCurrentPlaybackTimeFromTranscript(time)
     }
     
     //MARK: - RatingDelegate
     func didDismissRatingViewController() {
-        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * NSTimeInterval(NSEC_PER_SEC)))
-        dispatch_after(delay, dispatch_get_main_queue()) {
-            UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self.navigationItem.backBarButtonItem)
+        let after = DispatchTime.now() + Double(Int64(1.2 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: after) { [weak self] in
+            self?.setAccessibility()
+            //VO behave weirdly. If Rating view appears while VO is on then then VO consider it as screen otherwise it will treat as layout
+            // Will revisit this logic when VO behaves same in all cases.
+            self?.VOEnabledOnScreen ?? false ? UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self?.navigationItem.backBarButtonItem) : UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self?.navigationItem.backBarButtonItem)
+            
+            self?.VOEnabledOnScreen = false
         }
     }
 }

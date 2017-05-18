@@ -21,28 +21,22 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS)
-import UIKit
+#if os(iOS) || os(tvOS)
+    import UIKit
+    public typealias InterfaceLayoutDirection = UIUserInterfaceLayoutDirection
+    public typealias LayoutSupport = UILayoutSupport
 #else
-import AppKit
+    import AppKit
+    public typealias InterfaceLayoutDirection = NSUserInterfaceLayoutDirection
+    public class LayoutSupport {}
 #endif
 
 /**
-    Used to define `NSLayoutRelation`
-*/
-internal enum ConstraintRelation: Int {
-    case Equal = 1, LessThanOrEqualTo, GreaterThanOrEqualTo
+ Used to configure different parts of SnapKit
+ */
+public struct Config {
     
-    internal var layoutRelation: NSLayoutRelation {
-        get {
-            switch(self) {
-            case .LessThanOrEqualTo:
-                return .LessThanOrEqual
-            case .GreaterThanOrEqualTo:
-                return .GreaterThanOrEqual
-            default:
-                return .Equal
-            }
-        }
-    }
+    /// The interface layout direction
+    public static var interfaceLayoutDirection = InterfaceLayoutDirection.leftToRight
+    
 }

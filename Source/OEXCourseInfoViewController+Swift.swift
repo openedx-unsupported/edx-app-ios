@@ -11,28 +11,28 @@ import Foundation
 extension OEXCourseInfoViewController {
  
     func enrollInCourse(courseID: String, emailOpt: Bool) {
-        guard let _ = OEXSession.sharedSession()?.currentUser else {
-            OEXRouter.sharedRouter().showSignUpScreenFromController(self, completion: {
-                self.enrollInCourse(courseID, emailOpt: emailOpt)
+        guard let _ = OEXSession.shared()?.currentUser else {
+            OEXRouter.shared().showSignUpScreen(from: self, completion: {
+                self.enrollInCourse(courseID: courseID, emailOpt: emailOpt)
             })
             return;
         }
         
-        let environment = OEXRouter.sharedRouter().environment;
+        let environment = OEXRouter.shared().environment;
         
-        if let _ = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID) {
-            showMainScreenWithMessage(Strings.findCoursesAlreadyEnrolledMessage, courseID: courseID)
+        if let _ = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID) {
+            showMainScreen(withMessage: Strings.findCoursesAlreadyEnrolledMessage, courseID: courseID)
             return
         }
         
-        let request = CourseCatalogAPI.enroll(courseID)
+        let request = CourseCatalogAPI.enroll(courseID: courseID)
         environment.networkManager.taskForRequest(request) {[weak self] response in
             if response.response?.httpStatusCode.is2xx ?? false {
-                environment.analytics.trackUserEnrolledInCourse(courseID)
-                self?.showMainScreenWithMessage(Strings.findCoursesEnrollmentSuccessfulMessage, courseID: courseID)
+                environment.analytics.trackUserEnrolled(inCourse: courseID)
+                self?.showMainScreen(withMessage: Strings.findCoursesEnrollmentSuccessfulMessage, courseID: courseID)
             }
             else {
-                self?.showOverlayMessage(Strings.findCoursesEnrollmentErrorDescription)
+                self?.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
             }
         }
     }

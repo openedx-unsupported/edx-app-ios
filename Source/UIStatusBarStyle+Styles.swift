@@ -10,9 +10,9 @@ import UIKit
 
 extension UIStatusBarStyle {
     init(barStyle: UIBarStyle?) {
-        switch barStyle ?? OEXStyles.sharedStyles().standardNavigationBarStyle() {
-        case .Default: self = .Default
-        default: self = .LightContent
+        switch barStyle ?? OEXStyles.shared().standardNavigationBarStyle() {
+        case .default: self = .default
+        default: self = .lightContent
         }
     }
 }

@@ -38,7 +38,7 @@ public class StackPaginationManipulator: ScrollingPaginationViewManipulator {
 
 extension PaginationController {
 
-    convenience init<P: Paginator where P.Element == A>(paginator: P, stackView: TZStackView, containingScrollView: UIScrollView) {
+    convenience init<P: Paginator>(paginator: P, stackView: TZStackView, containingScrollView: UIScrollView) where P.Element == A {
         self.init(paginator: paginator, manipulator: StackPaginationManipulator(stackView: stackView, containingScrollView: containingScrollView))
     }
     

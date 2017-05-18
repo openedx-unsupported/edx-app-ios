@@ -17,24 +17,24 @@ private struct Credentials {
 
 private class TestCredentialManager {
 
-    private static let shared = TestCredentialManager()
+    fileprivate static let shared = TestCredentialManager()
 
-    private let config = OEXConfig(bundle: NSBundle(forClass: TestCredentialManager.self))
+    fileprivate let config = OEXConfig(bundle: Bundle(for: TestCredentialManager.self))
 
-    private func freshCredentials() -> Credentials {
-        let password = NSUUID().UUIDString
-        let email = config.endToEndConfig.emailTemplate.oex_formatWithParameters(["unique_id": NSUUID().asUsername])
-        let username = email.componentsSeparatedByString("@").first!
+    fileprivate func freshCredentials() -> Credentials {
+        let password = UUID().uuidString
+        let email = config.endToEndConfig.emailTemplate.oex_format(withParameters: ["unique_id": UUID().asUsername])
+        let username = email.components(separatedBy: "@").first!
         return Credentials(username : username, password: password, email: email)
     }
 
-    private lazy var defaultCredentials: Credentials = {
+    fileprivate lazy var defaultCredentials: Credentials = {
         let credentials = self.freshCredentials()
         self.registerUser(credentials)
         return credentials
     }()
 
-    func registerUser(credentials: Credentials) {
+    func registerUser(_ credentials: Credentials) {
         let networkManager = NetworkManager(authorizationHeaderProvider: nil, credentialProvider: nil, baseURL: config.apiHostURL()!, cache: MockResponseCache())
         let body = [
             "email": credentials.email,
@@ -51,18 +51,18 @@ private class TestCredentialManager {
 }
 
 class TestCredentials {
-    private let credentials : Credentials
+    fileprivate let credentials : Credentials
 
-    enum Type {
-        case Fresh // Credentials without an existing account
-        case Default // Standard test credentials. Have an account and registered for at least one course
+    enum `Type` {
+        case fresh // Credentials without an existing account
+        case `default` // Standard test credentials. Have an account and registered for at least one course
     }
 
-    init(type: Type = .Default) {
+    init(type: Type = .default) {
         switch type {
-        case .Fresh:
+        case .fresh:
             credentials = TestCredentialManager.shared.freshCredentials()
-        case .Default:
+        case .default:
             credentials = TestCredentialManager.shared.defaultCredentials
         }
     }

@@ -21,15 +21,15 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#if os(iOS)
-import UIKit
+#if os(iOS) || os(tvOS)
+    import UIKit
 #else
-import AppKit
+    import AppKit
 #endif
 
 /**
-    Used to add extra information to the actual `NSLayoutConstraint`'s that will UIKit/AppKit will utilize
-*/
+ Used to add extra information to the actual `NSLayoutConstraint`'s that will UIKit/AppKit will utilize
+ */
 public class LayoutConstraint: NSLayoutConstraint {
     
     internal var snp_constraint: Constraint? = nil

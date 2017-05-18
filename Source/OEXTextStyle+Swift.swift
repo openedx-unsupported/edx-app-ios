@@ -11,12 +11,12 @@ import Foundation
 class OEXTextStyleWithShadow: OEXTextStyle {
     var shadow: ShadowStyle?
 
-    override var attributes: [String : AnyObject] {
+    override var attributes: [String : Any] {
         var attr = super.attributes
         if let shadowStyle = shadow {
             attr[NSShadowAttributeName] = shadowStyle.shadow
         }
-        return attr
+        return attr as [String : AnyObject]
     }
     
 }

@@ -13,7 +13,7 @@ import edXCore
 
 class BadgesAPITests : XCTestCase {
 
-    private func paginate(results results: JSON) -> JSON {
+    fileprivate func paginate(results: JSON) -> JSON {
         var result = JSON([
             "count": 1,
             "num_pages": 1
@@ -22,11 +22,11 @@ class BadgesAPITests : XCTestCase {
         return result
     }
 
-    private var sampleBadgeJSON : JSON {
+    fileprivate var sampleBadgeJSON : JSON {
         return [
             "assertion_url": "http://example.com/evidence",
             "image_url": "http://example.com/image.jpg",
-            "created": OEXDateFormatting.serverStringWithDate(NSDate()),
+            "created": OEXDateFormatting.serverString(with: NSDate() as Date),
             "badge_class": [
                 "description" : "Some cool badge!",
                 "slug": "someslug",
@@ -40,15 +40,15 @@ class BadgesAPITests : XCTestCase {
 
     func testRequest() {
         let request = BadgesAPI.requestBadgesForUser("someuser")
-        XCTAssertTrue(request.path.containsString("someuser"))
+        XCTAssertTrue(request.path.contains("someuser"))
         XCTAssertEqual(request.method, HTTPMethod.GET)
     }
 
     func testParsingBadInput() {
         let request = BadgesAPI.requestBadgesForUser("someuser")
         switch request.deserializer {
-        case let .JSONResponse(deserializer):
-            let response = NSHTTPURLResponse(URL: NSURL(string: "http://example.com")!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!
+        case let .jsonResponse(deserializer):
+            let response = HTTPURLResponse(url: URL(string: "http://example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             let result = deserializer(response, JSON("not a list"))
             AssertFailure(result)
             default:
@@ -59,8 +59,8 @@ class BadgesAPITests : XCTestCase {
     func testParsingSuccess() {
         let request = BadgesAPI.requestBadgesForUser("someuser")
         switch request.deserializer {
-        case let .JSONResponse(deserializer):
-            let response = NSHTTPURLResponse(URL: NSURL(string: "http://example.com")!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!
+        case let .jsonResponse(deserializer):
+            let response = HTTPURLResponse(url: URL(string: "http://example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             let result = deserializer(response, paginate(results: JSON([sampleBadgeJSON, sampleBadgeJSON])))
             AssertSuccess(result)
             XCTAssertEqual(result.value!.value.count, 2)
@@ -72,8 +72,8 @@ class BadgesAPITests : XCTestCase {
     func testParsingSkipsFailure() {
         let request = BadgesAPI.requestBadgesForUser("someuser")
         switch request.deserializer {
-        case let .JSONResponse(deserializer):
-            let response = NSHTTPURLResponse(URL: NSURL(string: "http://example.com")!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!
+        case let .jsonResponse(deserializer):
+            let response = HTTPURLResponse(url: URL(string: "http://example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
 
             let result = deserializer(response, paginate(results: JSON([sampleBadgeJSON, ["foo":"bar"]])))
             AssertSuccess(result)

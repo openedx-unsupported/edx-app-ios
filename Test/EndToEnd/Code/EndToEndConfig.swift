@@ -19,6 +19,6 @@ class EndToEndConfig {
 
 extension OEXConfig {
     var endToEndConfig : EndToEndConfig {
-        return EndToEndConfig(info: (self.objectForKey("END_TO_END_TESTS") as? [String:AnyObject]) ?? [:])
+        return EndToEndConfig(info: (self.object(forKey: "END_TO_END_TESTS") as? [String:AnyObject]) ?? [:])
     }
 }

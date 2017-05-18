@@ -19,9 +19,9 @@ extension NSDate {
         components.day = 2
         components.hour = 3
         components.minute = 12
-        components.calendar = NSCalendar(identifier:NSCalendarIdentifierGregorian)
-        components.timeZone = NSTimeZone.localTimeZone()
+        components.calendar = Calendar(identifier:Calendar.Identifier.gregorian)
+        components.timeZone = TimeZone.autoupdatingCurrent
 
-        return components.date!
+        return components.date! as NSDate
     }
 }

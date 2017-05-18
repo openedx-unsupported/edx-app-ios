@@ -21,7 +21,7 @@ class RatingViewControllerTests: SnapshotTestCase {
     
     func testFilledStars() {
         let controller = RatingViewController(environment: environment)
-        controller.setRating(5)
+        controller.setRating(rating: 5)
         inScreenNavigationContext(controller) {
             assertSnapshotValidWithContent(controller.navigationController!)
         }
@@ -29,15 +29,15 @@ class RatingViewControllerTests: SnapshotTestCase {
     
     func testPositiveRating() {
         let controller = RatingViewController(environment: environment)
-        controller.setRating(RatingViewController.minimumPositiveRating)
-        controller.didSubmitRating(RatingViewController.minimumPositiveRating)
+        controller.setRating(rating: RatingViewController.minimumPositiveRating)
+        controller.didSubmitRating(rating: RatingViewController.minimumPositiveRating)
         XCTAssertEqual(controller.alertController?.actions.count, 2)
     }
     
     func testNegativeRating() {
         let controller = RatingViewController(environment: environment)
-        controller.setRating(RatingViewController.minimumPositiveRating-1)
-        controller.didSubmitRating(RatingViewController.minimumPositiveRating-1)
+        controller.setRating(rating: RatingViewController.minimumPositiveRating-1)
+        controller.didSubmitRating(rating: RatingViewController.minimumPositiveRating-1)
         XCTAssertEqual(controller.alertController?.actions.count, 2)
     }
     
@@ -51,7 +51,7 @@ class RatingViewControllerTests: SnapshotTestCase {
         interface.reachable = true
         let testEnvironment = TestRouterEnvironment(config: config, interface: interface)
         
-        XCTAssertTrue(RatingViewController.canShowAppReview(testEnvironment))
+        XCTAssertTrue(RatingViewController.canShowAppReview(environment: testEnvironment))
         defaultsMockRemover.remove()
     }
     
@@ -65,7 +65,7 @@ class RatingViewControllerTests: SnapshotTestCase {
         interface.reachable = true
         let testEnvironment = TestRouterEnvironment(config: config, interface: interface)
         
-        XCTAssertFalse(RatingViewController.canShowAppReview(testEnvironment))
+        XCTAssertFalse(RatingViewController.canShowAppReview(environment: testEnvironment))
         defaultsMockRemover.remove()
     }
     
@@ -78,7 +78,7 @@ class RatingViewControllerTests: SnapshotTestCase {
         interface.reachable = true
         let testEnvironment = TestRouterEnvironment(config: config, interface: interface)
         
-        XCTAssertFalse(RatingViewController.canShowAppReview(testEnvironment))
+        XCTAssertFalse(RatingViewController.canShowAppReview(environment: testEnvironment))
         defaultsMockRemover.remove()
     }
     
@@ -91,10 +91,10 @@ class RatingViewControllerTests: SnapshotTestCase {
         let interface = OEXInterface()
         interface.reachable = true
         interface.saveAppVersionWhenLastRated()
-        interface.saveAppRating(RatingViewController.minimumPositiveRating)
+        interface.saveAppRating(rating: RatingViewController.minimumPositiveRating)
         let testEnvironment = TestRouterEnvironment(config: config, interface: interface)
         
-        XCTAssertFalse(RatingViewController.canShowAppReview(testEnvironment))
+        XCTAssertFalse(RatingViewController.canShowAppReview(environment: testEnvironment))
         defaultsMockRemover.remove()
     }
     
@@ -106,11 +106,11 @@ class RatingViewControllerTests: SnapshotTestCase {
             ])
         let interface = OEXInterface()
         interface.reachable = true
-        interface.saveAppRating(RatingViewController.minimumPositiveRating-1)
-        interface.saveAppVersionWhenLastRated(nil)
+        interface.saveAppRating(rating: RatingViewController.minimumPositiveRating-1)
+        interface.saveAppVersionWhenLastRated(version: nil)
         let testEnvironment = TestRouterEnvironment(config: config, interface: interface)
         
-        XCTAssertFalse(RatingViewController.canShowAppReview(testEnvironment))
+        XCTAssertFalse(RatingViewController.canShowAppReview(environment: testEnvironment))
         defaultsMockRemover.remove()
     }
 }

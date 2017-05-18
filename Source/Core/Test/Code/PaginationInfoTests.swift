@@ -22,8 +22,8 @@ class PaginationInfoTests: XCTestCase {
         let info = PaginationInfo(json: json)
         XCTAssertEqual(info!.pageCount, 3)
         XCTAssertEqual(info!.totalCount, 25)
-        XCTAssertEqual(info!.next, NSURL(string: "http://example.com/next")!)
-        XCTAssertEqual(info!.previous, NSURL(string: "http://example.com/previous")!)
+        XCTAssertEqual(info!.next, URL(string: "http://example.com/next")!)
+        XCTAssertEqual(info!.previous, URL(string: "http://example.com/previous")!)
     }
     
     func testParseFailure() {
@@ -41,10 +41,10 @@ class PaginationInfoTests: XCTestCase {
             method: .POST,
             path: "fake-path",
             requiresAuth: true,
-            body: RequestBody.JSONBody(JSON("test")),
+            body: RequestBody.jsonBody(JSON("test")),
             query: ["A": "B"],
             headers: ["header": "value"],
-            deserializer: ResponseDeserializer.JSONResponse { (_, json) in
+            deserializer: ResponseDeserializer.jsonResponse { (_, json) in
                 return (json.array?.flatMap{ $0.number }).toResult(NetworkManager.unknownError)
             }
         )
@@ -56,7 +56,7 @@ class PaginationInfoTests: XCTestCase {
         XCTAssertEqual(paginated.requiresAuth, request.requiresAuth)
 
         switch paginated.body {
-        case let .JSONBody(json):
+        case let .jsonBody(json):
             XCTAssertEqual(json, JSON("test"))
         default:
             XCTFail()
@@ -67,9 +67,9 @@ class PaginationInfoTests: XCTestCase {
         XCTAssertEqual(paginated.query[PaginationDefaults.pageSizeParam], JSON(PaginationDefaults.pageSize))
         XCTAssertEqual(paginated.query["A"], JSON("B"))
         
-        let response = NSHTTPURLResponse(URL: NSURL(string: "http://example.com/")!, statusCode: 200, HTTPVersion: nil, headerFields: nil)!
+        let response = HTTPURLResponse(url: URL(string: "http://example.com/")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
         switch paginated.deserializer {
-        case let .JSONResponse(parser):
+        case let .jsonResponse(parser):
             let parse = parser(response, JSON([
                 "pagination" : [
                     "count": 50,

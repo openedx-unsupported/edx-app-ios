@@ -39,18 +39,18 @@ public class PaginationController<A> : NSObject, Paginator {
         return view
     }()
 
-    init<P: Paginator where P.Element == A>(paginator: P, manipulator: ScrollingPaginationViewManipulator) {
+    init<P: Paginator>(paginator: P, manipulator: ScrollingPaginationViewManipulator) where P.Element == A {
         self.paginator = AnyPaginator(paginator)
         self.viewManipulator = manipulator
         super.init()
-        manipulator.setFooter(self.footer, visible: false)
+        manipulator.setFooter(footer: self.footer, visible: false)
 
-        manipulator.scrollView?.oex_addObserver(self, forKeyPath: "bounds") { (controller, tableView, newValue) -> Void in
+        manipulator.scrollView?.oex_addObserver(observer: self, forKeyPath: "bounds") { (controller, tableView, newValue) -> Void in
             controller.viewScrolled()
         }
     }
 
-    var stream : Stream<[A]> {
+    var stream : OEXStream<[A]> {
         return paginator.stream
     }
 
@@ -63,7 +63,7 @@ public class PaginationController<A> : NSObject, Paginator {
     }
 
     private func updateVisibility() {
-        viewManipulator.setFooter(self.footer, visible: self.paginator.stream.active)
+        viewManipulator.setFooter(footer: self.footer, visible: self.paginator.stream.active)
     }
 
     private func viewScrolled() {

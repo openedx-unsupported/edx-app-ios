@@ -32,7 +32,7 @@ public class UserProfile {
     let hasProfileImage: Bool
     let imageURL: String?
     let username: String?
-    var preferredLanguages: [NSDictionary]?
+    var preferredLanguages: [[String: Any]]?
     var countryCode: String?
     var bio: String?
     var birthYear: Int?
@@ -45,7 +45,7 @@ public class UserProfile {
     
     public init?(json: JSON) {
         let profileImage = json[ProfileFields.Image]
-        if let hasImage = profileImage[ProfileFields.HasImage].bool where hasImage {
+        if let hasImage = profileImage[ProfileFields.HasImage].bool, hasImage {
             hasProfileImage = true
             imageURL = profileImage[ProfileFields.ImageURL].string
         } else {
@@ -53,7 +53,7 @@ public class UserProfile {
             imageURL = nil
         }
         username = json[ProfileFields.Username].string
-        preferredLanguages = json[ProfileFields.LanguagePreferences].arrayObject as? [NSDictionary]
+        preferredLanguages = json[ProfileFields.LanguagePreferences].arrayObject as? [[String: Any]]
         countryCode = json[ProfileFields.Country].string
         bio = json[ProfileFields.Bio].string
         birthYear = json[ProfileFields.YearOfBirth].int
@@ -73,7 +73,7 @@ public class UserProfile {
     
     var languageCode: String? {
         get {
-            guard let languages = preferredLanguages where languages.count > 0 else { return nil }
+            guard let languages = preferredLanguages, languages.count > 0 else { return nil }
             return languages[0]["code"] as? String
         }
         set {
@@ -82,7 +82,9 @@ public class UserProfile {
                 preferredLanguages = [["code": code]]
                 return
             }
-            preferredLanguages!.replaceRange(0...0, with: [["code": code]])
+            let cRange = 0...0
+            let range = Range(cRange)
+            preferredLanguages?.replaceSubrange(range, with: [["code": code]])
         }
     }
 }
@@ -90,7 +92,7 @@ public class UserProfile {
 extension UserProfile { //ViewModel
     func image(networkManager: NetworkManager) -> RemoteImage {
         let placeholder = UIImage(named: "profilePhotoPlaceholder")
-        if let url = imageURL where hasProfileImage {
+        if let url = imageURL, hasProfileImage {
             return RemoteImageImpl(url: url, networkManager: networkManager, placeholder: placeholder, persist: true)
         }
         else {
@@ -100,11 +102,11 @@ extension UserProfile { //ViewModel
     
     var country: String? {
         guard let code = countryCode else { return nil }
-        return NSLocale.currentLocale().displayNameForKey(NSLocaleCountryCode, value: code)
+        return (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: code) ?? ""
     }
     
     var language: String? {
-        return languageCode.flatMap { return NSLocale.currentLocale().displayNameForKey(NSLocaleLanguageCode, value: $0) }
+        return languageCode.flatMap { return (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.languageCode, value: $0) }
     }
     
     var sharingLimitedProfile: Bool {
@@ -115,7 +117,7 @@ extension UserProfile { //ViewModel
     func setLimitedProfile(newValue:Bool) {
         let newStatus: ProfilePrivacy = newValue ? .Private: .Public
         if newStatus != accountPrivacy {
-            updateDictionary[ProfileFields.AccountPrivacy.rawValue] = newStatus.rawValue
+            updateDictionary[ProfileFields.AccountPrivacy.rawValue] = newStatus.rawValue as AnyObject?
         }
         accountPrivacy = newStatus
     }

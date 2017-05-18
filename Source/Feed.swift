@@ -11,14 +11,14 @@ import Foundation
 public class Feed<A> : LifetimeTrackable {
     public let lifetimeToken = NSObject()
     
-    private let backing = BackedStream<A>()
-    private let refreshTrigger : BackedStream<A> -> Void
+    fileprivate let backing = BackedStream<A>()
+    private let refreshTrigger : (BackedStream<A>) -> Void
     
-    public var output : Stream<A> {
+    public var output : OEXStream<A> {
         return backing
     }
     
-    public init(refreshTrigger : BackedStream<A> -> Void) {
+    public init(refreshTrigger : @escaping (BackedStream<A>) -> Void) {
         self.refreshTrigger = refreshTrigger
     }
     
@@ -26,7 +26,7 @@ public class Feed<A> : LifetimeTrackable {
         self.refreshTrigger(backing)
     }
     
-    public func map<B>(f : A -> B) -> Feed<B> {
+    public func map<B>(f : @escaping (A) -> B) -> Feed<B> {
         let backing = BackedStream<A>()
         let result = Feed<B> { stream in
             self.refreshTrigger(backing)

@@ -15,7 +15,7 @@ class DiscussionTopicCell: UITableViewCell {
     private let titleLabel = UILabel()
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Base, color : OEXStyles.sharedStyles().neutralXDark())
+        return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralXDark())
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -34,20 +34,20 @@ class DiscussionTopicCell: UITableViewCell {
             
             var titleAttributedStrings = [NSAttributedString]()
             if let topicIcon = topic?.icon {
-                titleAttributedStrings.append(topicIcon.attributedTextWithStyle(titleTextStyle, inline: true))
+                titleAttributedStrings.append(topicIcon.attributedTextWithStyle(style: titleTextStyle, inline: true))
             }
             if let discussionTopic = topic {
-                titleAttributedStrings.append(titleTextStyle.attributedStringWithText(discussionTopic.name?.userFacingString))
+                titleAttributedStrings.append(titleTextStyle.attributedString(withText: discussionTopic.name?.userFacingString))
             }
             
-            self.titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(titleAttributedStrings)
+            self.titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: titleAttributedStrings)
         }
     }
     
     func configureViews() {
         applyStandardSeparatorInsets()
         
-        self.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        self.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         self.contentView.addSubview(titleLabel)
 
         self.titleLabel.snp_makeConstraints { (make) -> Void in
@@ -78,7 +78,7 @@ private extension String {
 
 extension UITableViewCell {
     
-    private func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
+    fileprivate func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
         return CGFloat(depth + 1) * StandardHorizontalMargin
     }
 }

@@ -9,14 +9,15 @@
 import edXCore
 
 class MockResponseCache: NSObject, ResponseCache {
-    private var backing : [String: ResponseCacheEntry] = [:]
     
-    func fetchCacheEntryWithRequest(request: NSURLRequest, completion: ResponseCacheEntry? -> Void) {
+    fileprivate var backing : [String: ResponseCacheEntry] = [:]
+    
+    func fetchCacheEntryWithRequest(_ request: URLRequest, completion: @escaping (ResponseCacheEntry?) -> Void) {
         let key = responseCacheKeyForRequest(request)
         completion(key.flatMap{ backing[$0] })
     }
     
-    func setCacheResponse(response: NSHTTPURLResponse, withData data: NSData?, forRequest request: NSURLRequest, completion: (Void -> Void)?) {
+    func setCacheResponse(_ response: HTTPURLResponse, withData data: Data?, forRequest request: URLRequest, completion: ((Void) -> Void)?) {
         if let key = responseCacheKeyForRequest(request) {
             backing[key] = ResponseCacheEntry(data : data, response : response)
         }

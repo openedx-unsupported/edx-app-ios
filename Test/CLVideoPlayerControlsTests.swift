@@ -13,7 +13,7 @@ class CLVideoPlayerControlsTests: XCTestCase {
     
     func testValidCaptions() {
         
-        let expectation = expectationWithDescription("Parsing Transcript")
+        let expectation = self.expectation(description: "Parsing Transcript")
         
         let control = CLVideoPlayerControls()
         control.readClosedCaptioningString(TranscriptDataFactory.validTranscriptString, completion: { (success: Bool) in
@@ -33,7 +33,7 @@ class CLVideoPlayerControlsTests: XCTestCase {
     
     func testPartialCaptions() {
         
-        let expectation = expectationWithDescription("Parsing Transcript")
+        let expectation = self.expectation(description: "Parsing Transcript")
         
         let control = CLVideoPlayerControls()
         control.readClosedCaptioningString(TranscriptDataFactory.partialTranscriptString, completion: { (success: Bool) in
@@ -53,7 +53,7 @@ class CLVideoPlayerControlsTests: XCTestCase {
     
     func testInvalidCaptions() {
         
-        let expectation = expectationWithDescription("Parsing Transcript")
+        let expectation = self.expectation(description: "Parsing Transcript")
         
         let control = CLVideoPlayerControls()
         control.readClosedCaptioningString(TranscriptDataFactory.invalidTranscriptString, completion: { (success: Bool) in
@@ -73,7 +73,7 @@ class CLVideoPlayerControlsTests: XCTestCase {
     
     func testEmptyCaptions() {
         
-        let expectation = expectationWithDescription("Parsing Transcript")
+        let expectation = self.expectation(description: "Parsing Transcript")
         
         let control = CLVideoPlayerControls()
         control.readClosedCaptioningString(TranscriptDataFactory.emptyTranscriptString, completion: { (success: Bool) in

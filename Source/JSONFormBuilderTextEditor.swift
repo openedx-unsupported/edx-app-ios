@@ -12,19 +12,19 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
     let textView = OEXPlaceholderTextView()
     var text: String { return textView.text }
     
-    var doneEditing: ((value: String)->())?
+    var doneEditing: ((_ value: String)->())?
     
     init(text: String?, placeholder: String?) {
         super.init(nibName: nil, bundle: nil)
         
         self.view = UIView()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         textView.textContainer.lineFragmentPadding = 0
-        textView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
-        textView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
-        textView.placeholderTextColor = OEXStyles.sharedStyles().neutralBase()
-        textView.textColor = OEXStyles.sharedStyles().neutralBlackT()
+        textView.textContainerInset = OEXStyles.shared().standardTextViewInsets
+        textView.typingAttributes = OEXStyles.shared().textAreaBodyStyle.attributes
+        textView.placeholderTextColor = OEXStyles.shared().neutralBase()
+        textView.textColor = OEXStyles.shared().neutralBlackT()
 
         textView.placeholder = placeholder ?? ""
         textView.text = text ?? ""
@@ -37,9 +37,9 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenEditTextFormValue)
+        OEXAnalytics.shared().trackScreen(withName: OEXAnalyticsScreenEditTextFormValue)
     }
 
     private func setupViews() {
@@ -53,15 +53,15 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         }
     }
     
-    override func willMoveToParentViewController(parent: UIViewController?) {
+    override func willMove(toParentViewController parent: UIViewController?) {
         if parent == nil { //removing from the hierarchy
-            doneEditing?(value: textView.text)
+            doneEditing?(textView.text)
         }
     }
 }
 
 extension JSONFormBuilderTextEditorViewController : UITextViewDelegate {
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.resignFirstResponder()
         return true
     }

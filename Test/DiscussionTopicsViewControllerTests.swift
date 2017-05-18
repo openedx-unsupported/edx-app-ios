@@ -14,14 +14,14 @@ class DiscussionTopicsViewControllerTests: SnapshotTestCase {
     
     let course = OEXCourse.freshCourse()
     
-    func recordWithTopics(topics : [DiscussionTopic]) {
+    func recordWithTopics(_ topics : [DiscussionTopic]) {
         let topicsManager = DiscussionDataManager(courseID : course.course_id!, topics : topics)
         let environment = TestRouterEnvironment()
         environment.mockCourseDataManager.topicsManager = topicsManager
         let controller = DiscussionTopicsViewController(environment: environment, courseID: course.course_id!)
-        let expectation = expectationWithDescription("Topics loaded")
+        let expectations = expectation(description: "Topics loaded")
         controller.t_topicsLoaded().listenOnce(self) {_ in
-            expectation.fulfill()
+            expectations.fulfill()
         }
         waitForExpectations()
         

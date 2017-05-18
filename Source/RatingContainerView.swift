@@ -15,7 +15,7 @@ protocol RatingContainerDelegate {
 
 class RatingContainerView: UIView {
 
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXStylesProvider>
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXStylesProvider
     
     let environment : Environment
     private let viewHorizontalMargin = 50
@@ -28,27 +28,27 @@ class RatingContainerView: UIView {
     var delegate : RatingContainerDelegate?
     
     private var standardTextStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: environment.styles.neutralXDark())
-        style.alignment = NSTextAlignment.Center
-        descriptionLabel.lineBreakMode = .ByWordWrapping
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: environment.styles.neutralXDark())
+        style.alignment = NSTextAlignment.center
+        descriptionLabel.lineBreakMode = .byWordWrapping
         return style
     }
     
     private var disabledButtonStyle : ButtonStyle {
-        return ButtonStyle(textStyle: OEXTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: environment.styles.neutralWhite()), backgroundColor: environment.styles.neutralBase(), borderStyle: BorderStyle(cornerRadius: .Size(0), width: .Size(0), color: nil), contentInsets: nil, shadow: nil)
+        return ButtonStyle(textStyle: OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: environment.styles.neutralWhite()), backgroundColor: environment.styles.neutralBase(), borderStyle: BorderStyle(cornerRadius: .Size(0), width: .Size(0), color: nil), contentInsets: nil, shadow: nil)
     }
     
     private var enabledButtonStyle : ButtonStyle {
-        return ButtonStyle(textStyle: OEXTextStyle(weight: OEXTextWeight.SemiBold, size: .Base, color: environment.styles.neutralWhite()), backgroundColor: environment.styles.primaryBaseColor(), borderStyle: BorderStyle(cornerRadius: .Size(0), width: .Size(0), color: nil), contentInsets: nil, shadow: nil)
+        return ButtonStyle(textStyle: OEXTextStyle(weight: OEXTextWeight.semiBold, size: .base, color: environment.styles.neutralWhite()), backgroundColor: environment.styles.primaryBaseColor(), borderStyle: BorderStyle(cornerRadius: .Size(0), width: .Size(0), color: nil), contentInsets: nil, shadow: nil)
     }
     
     private var closeButtonTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .XLarge, color: environment.styles.neutralDark())
+        return OEXTextStyle(weight: .normal, size: .xLarge, color: environment.styles.neutralDark())
     }
     
     init(environment : Environment) {
         self.environment = environment
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
         //Setup view properties
         contentView.applyStandardContainerViewStyle()
@@ -56,31 +56,32 @@ class RatingContainerView: UIView {
         
         //Setup label properties
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.attributedText = standardTextStyle.attributedStringWithText(Strings.AppReview.rateTheAppQuestion)
+        descriptionLabel.attributedText = standardTextStyle.attributedString(withText: Strings.AppReview.rateTheAppQuestion)
         
         //Setup Submit button
-        toggleSubmitButton(false)
+        toggleSubmitButton(enabled: false)
         submitButton.oex_addAction({[weak self] (action) in
-            self?.delegate?.didSubmitRating(self!.ratingView.value)
-            }, forEvents: UIControlEvents.TouchUpInside)
+            self?.delegate?.didSubmitRating(rating: self!.ratingView.value)
+            }, for: UIControlEvents.touchUpInside)
         
         //Setup close button
         closeButton.layer.cornerRadius = 15
-        closeButton.layer.borderColor = environment.styles.neutralDark().CGColor
+        closeButton.layer.borderColor = environment.styles.neutralDark().cgColor
         closeButton.layer.borderWidth = 1.0
         closeButton.layer.masksToBounds = true
-        closeButton.setAttributedTitle(Icon.Close.attributedTextWithStyle(closeButtonTextStyle), forState: UIControlState.Normal)
-        closeButton.backgroundColor = UIColor.whiteColor()
+        closeButton.setAttributedTitle(Icon.Close.attributedTextWithStyle(style: closeButtonTextStyle), for: UIControlState.normal)
+        closeButton.backgroundColor = UIColor.white
         closeButton.accessibilityLabel = Strings.close
         closeButton.accessibilityHint = Strings.Accessibility.closeHint
+
         closeButton.oex_addAction({[weak self] (action) in
             self?.delegate?.closeButtonPressed()
-            }, forEvents: UIControlEvents.TouchUpInside)
+            }, for: UIControlEvents.touchUpInside)
         
         //Setup ratingView action
         ratingView.oex_addAction({[weak self] (action) in
-            self?.toggleSubmitButton(self?.ratingView.value > 0)
-            }, forEvents: UIControlEvents.ValueChanged)
+            self?.toggleSubmitButton(enabled: (self?.ratingView.value)! > 0)
+            }, for: UIControlEvents.valueChanged)
         
         addSubview(contentView)
         addSubview(closeButton)
@@ -89,8 +90,6 @@ class RatingContainerView: UIView {
         contentView.addSubview(submitButton)
         
         setupConstraints()
-        
-        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, descriptionLabel)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -135,11 +134,11 @@ class RatingContainerView: UIView {
     
     private func toggleSubmitButton(enabled: Bool) {
         let style = enabled ? enabledButtonStyle : disabledButtonStyle
-        submitButton.applyButtonStyle(style, withTitle: Strings.AppReview.submit)
-        submitButton.userInteractionEnabled = enabled
+        submitButton.applyButtonStyle(style: style, withTitle: Strings.AppReview.submit)
+        submitButton.isUserInteractionEnabled = enabled
     }
     
     func setRating(rating: Int) {
-        ratingView.setRatingValue(rating)
+        ratingView.setRatingValue(value: rating)
     }
 }

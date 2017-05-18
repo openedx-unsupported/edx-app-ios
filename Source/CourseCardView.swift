@@ -23,13 +23,13 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     private let bottomTrailingLabel = UILabel()
     private let overlayContainer = UIView()
     
-    var tapAction : (CourseCardView -> ())?
+    var tapAction : ((CourseCardView) -> ())?
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBlack())
+        return OEXTextStyle(weight : .normal, size: .large, color: OEXStyles.shared().neutralBlack())
     }
     private var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .XXXSmall, color: OEXStyles.sharedStyles().neutralXDark())
+        return OEXTextStyle(weight : .normal, size: .xxxSmall, color: OEXStyles.shared().neutralXDark())
     }
     
     private func setup() {
@@ -53,21 +53,21 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         
-        let bundle = NSBundle(forClass: self.dynamicType)
-        coverImageView.image = UIImage(named:"placeholderCourseCardImage", inBundle: bundle, compatibleWithTraitCollection: self.traitCollection)
-        titleLabel.attributedText = titleTextStyle.attributedStringWithText("Demo Course")
-        detailLabel.attributedText = detailTextStyle.attributedStringWithText("edx | DemoX")
-        bottomTrailingLabel.attributedText = detailTextStyle.attributedStringWithText("X Videos, 1.23 MB")
+        let bundle = Bundle(for: type(of: self))
+        coverImageView.image = UIImage(named:"placeholderCourseCardImage", in: bundle, compatibleWith: self.traitCollection)
+        titleLabel.attributedText = titleTextStyle.attributedString(withText: "Demo Course")
+        detailLabel.attributedText = detailTextStyle.attributedString(withText: "edx | DemoX")
+        bottomTrailingLabel.attributedText = detailTextStyle.attributedString(withText: "X Videos, 1.23 MB")
     }
     
     func configureViews() {
-        self.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.backgroundColor = OEXStyles.shared().neutralXLight()
         self.clipsToBounds = true
-        self.bottomLine.backgroundColor = OEXStyles.sharedStyles().neutralXLight()
+        self.bottomLine.backgroundColor = OEXStyles.shared().neutralXLight()
         
-        self.container.backgroundColor = OEXStyles.sharedStyles().neutralWhite().colorWithAlphaComponent(0.85)
-        self.coverImageView.backgroundColor = OEXStyles.sharedStyles().neutralWhiteT()
-        self.coverImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        self.container.backgroundColor = OEXStyles.shared().neutralWhite().withAlphaComponent(0.85)
+        self.coverImageView.backgroundColor = OEXStyles.shared().neutralWhiteT()
+        self.coverImageView.contentMode = UIViewContentMode.scaleAspectFill
         self.coverImageView.clipsToBounds = true
         self.coverImageView.hidesLoadingSpinner = true
         
@@ -81,10 +81,10 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         self.insertSubview(bottomLine, aboveSubview: coverImageView)
         self.addSubview(overlayContainer)
         
-        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Horizontal)
-        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: .Vertical)
-        detailLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Horizontal)
-        detailLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: UILayoutConstraintAxis.Horizontal)
+        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
+        detailLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
+        detailLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
         
         self.container.snp_makeConstraints { make -> Void in
             make.leading.equalTo(self)
@@ -162,7 +162,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return tapAction != nil
     }
     
@@ -171,7 +171,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             return self.titleLabel.text
         }
         set {
-            self.titleLabel.attributedText = titleTextStyle.attributedStringWithText(newValue)
+            self.titleLabel.attributedText = titleTextStyle.attributedString(withText: newValue)
             updateAcessibilityLabel()
         }
     }
@@ -181,7 +181,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             return self.detailLabel.text
         }
         set {
-            self.detailLabel.attributedText = detailTextStyle.attributedStringWithText(newValue)
+            self.detailLabel.attributedText = detailTextStyle.attributedString(withText: newValue)
             updateAcessibilityLabel()
         }
     }
@@ -192,8 +192,8 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
         
         set {
-            self.bottomTrailingLabel.attributedText = detailTextStyle.attributedStringWithText(newValue)
-            self.bottomTrailingLabel.hidden = !(newValue != nil && !newValue!.isEmpty)
+            self.bottomTrailingLabel.attributedText = detailTextStyle.attributedString(withText: newValue)
+            self.bottomTrailingLabel.isHidden = !(newValue != nil && !newValue!.isEmpty)
             updateAcessibilityLabel()
         }
     }
@@ -213,13 +213,13 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     
     func wrapTitleLabel() {
         self.titleLabel.numberOfLines = 3
-        self.titleLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        self.titleLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
         self.titleLabel.minimumScaleFactor = 0.5
         self.titleLabel.adjustsFontSizeToFitWidth = true
         self.layoutIfNeeded()
     }
     
-    func updateAcessibilityLabel()-> String {
+    @discardableResult func updateAcessibilityLabel()-> String {
         var accessibilityString = ""
         
         if let title = titleText {
@@ -227,7 +227,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
         
         if let text = detailText {
-         let formatedDetailText = text.stringByReplacingOccurrencesOfString("|", withString: "")
+         let formatedDetailText = text.replacingOccurrences(of: "|", with: "")
             accessibilityString = "\(accessibilityString),\(Strings.accessibilityBy) \(formatedDetailText)"
         }
         

@@ -32,7 +32,7 @@ class LoginScreenInteractor : FeatureInteractor {
         waitForElement(container)
     }
 
-    func login(credentials: TestCredentials) -> EnrolledCoursesInteractor {
+    func login(_ credentials: TestCredentials) -> EnrolledCoursesInteractor {
         usernameField.clearAndEnterText(credentials.username)
         passwordField.clearAndEnterText(credentials.password)
         signInButton.tap()

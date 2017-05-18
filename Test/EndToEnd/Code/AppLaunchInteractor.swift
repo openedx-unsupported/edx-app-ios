@@ -9,7 +9,7 @@
 import Foundation
 import XCTest
 
-public class AppLaunchInteractor {
+open class AppLaunchInteractor {
 
     // Anonymous users should land here
     func observeSplashScreen() -> SplashScreenInteractor {

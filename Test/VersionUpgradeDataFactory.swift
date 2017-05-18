@@ -9,6 +9,6 @@
 import XCTest
 
 class VersionUpgradeDataFactory: NSObject {
-    static let versionUpgradeInfo: [NSObject : AnyObject] = ["EDX-APP-LATEST-VERSION":"3.0.0"]
-    static let versionUpgradeInfoWithDeadline: [NSObject : AnyObject] = ["EDX-APP-LATEST-VERSION":"3.0.0", "EDX-APP-VERSION-LAST-SUPPORTED-DATE": "30-June-2016"]
+    static let versionUpgradeInfo: [AnyHashable: Any] = ["EDX-APP-LATEST-VERSION":"3.0.0"]
+    static let versionUpgradeInfoWithDeadline: [AnyHashable: Any] = ["EDX-APP-LATEST-VERSION":"3.0.0", "EDX-APP-VERSION-LAST-SUPPORTED-DATE": "30-June-2016"]
 }

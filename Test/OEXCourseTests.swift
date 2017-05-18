@@ -13,33 +13,33 @@ import edX
 class OEXCourseTests: XCTestCase {
 
     func testStartOld() {
-        let date = NSDate().dateByAddingTimeInterval(-1000)
+        let date = Date().addingTimeInterval(-1000)
         let course = OEXCourse(dictionary: [
-            "start" : OEXDateFormatting.serverStringWithDate(date)
+            "start" : OEXDateFormatting.serverString(with: date)
             ])
         XCTAssertTrue(course.isStartDateOld)
     }
     
     func testStartNotOld() {
-        let date = NSDate().dateByAddingTimeInterval(1000)
+        let date = Date().addingTimeInterval(1000)
         let course = OEXCourse(dictionary: [
-            "start" : OEXDateFormatting.serverStringWithDate(date)
+            "start" : OEXDateFormatting.serverString(with: date)
             ])
         XCTAssertFalse(course.isStartDateOld)
     }
     
     func testEndOld() {
-        let date = NSDate().dateByAddingTimeInterval(-1000)
+        let date = Date().addingTimeInterval(-1000)
         let course = OEXCourse(dictionary: [
-            "end" : OEXDateFormatting.serverStringWithDate(date)
+            "end" : OEXDateFormatting.serverString(with: date)
             ])
         XCTAssertTrue(course.isEndDateOld)
     }
     
     func testEndNotOld() {
-        let date = NSDate().dateByAddingTimeInterval(1000)
+        let date = Date().addingTimeInterval(1000)
         let course = OEXCourse(dictionary: [
-            "end" : OEXDateFormatting.serverStringWithDate(date)
+            "end" : OEXDateFormatting.serverString(with: date)
             ])
         XCTAssertFalse(course.isEndDateOld)
     }

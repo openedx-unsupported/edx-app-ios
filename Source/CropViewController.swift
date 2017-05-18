@@ -11,8 +11,8 @@ import Foundation
 private class CircleView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = OEXStyles.sharedStyles().neutralBlack().colorWithAlphaComponent(0.8)
-        userInteractionEnabled = false
+        self.backgroundColor = OEXStyles.shared().neutralBlack().withAlphaComponent(0.8)
+        isUserInteractionEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -22,23 +22,23 @@ private class CircleView: UIView {
     var circleBounds: CGRect {
         let rect = bounds
         let minSize = min(rect.width, rect.height)
-        let hole = CGRectInset(CGRect(x: (rect.width - minSize) / 2, y: (rect.height - minSize) / 2, width: minSize, height: minSize), 6, 6)
+        let hole = CGRect(x: (rect.width - minSize) / 2, y: (rect.height - minSize) / 2, width: minSize, height: minSize).insetBy(dx: 6, dy: 6)
         return hole
     }
     
-    private override func drawRect(rect: CGRect) {
+     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        CGContextSaveGState(context)
+        context.saveGState()
         
         let hole = circleBounds
-        CGContextAddEllipseInRect(context, hole);
-        CGContextClip(context);
-        CGContextClearRect(context, hole);
-        CGContextSetFillColorWithColor( context, UIColor.clearColor().CGColor);
-        CGContextFillRect( context, hole);
-        CGContextSetStrokeColorWithColor(context, OEXStyles.sharedStyles().neutralLight().CGColor)
-        CGContextStrokeEllipseInRect(context, hole)
-        CGContextRestoreGState(context)
+        context.addEllipse(in: hole);
+        context.clip();
+        context.clear(hole);
+        context.setFillColor( UIColor.clear.cgColor);
+        context.fill( hole);
+        context.setStrokeColor(OEXStyles.shared().neutralLight().cgColor)
+        context.strokeEllipse(in: hole)
+        context.restoreGState()
     }
 }
 
@@ -49,10 +49,10 @@ class CropViewController: UIViewController {
     let imageView: UIImageView
     let scrollView: UIScrollView
     let titleLabel: UILabel
-    let completion: UIImage? -> Void
+    let completion: (UIImage?) -> Void
     private let circleView: CircleView
     
-    init(image: UIImage, completion: UIImage? -> Void) {
+    init(image: UIImage, completion: @escaping (UIImage?) -> Void) {
         self.image = image
         self.completion = completion
         imageView = UIImageView(image: image)
@@ -72,14 +72,14 @@ class CropViewController: UIViewController {
         scrollView.delegate = self
         
         view.addSubview(scrollView)
-        view.backgroundColor = OEXStyles.sharedStyles().neutralBlack()
+        view.backgroundColor = OEXStyles.shared().neutralBlack()
         
         let toolbar = buildToolbar()
         view.addSubview(circleView)
         view.addSubview(toolbar)
         
-        let titleStyle = OEXStyles.sharedStyles().navigationTitleTextStyle
-        titleLabel.attributedText = titleStyle.attributedStringWithText(Strings.Profile.cropAndResizePicture)
+        let titleStyle = OEXStyles.shared().navigationTitleTextStyle
+        titleLabel.attributedText = titleStyle.attributedString(withText: Strings.Profile.cropAndResizePicture)
         view.addSubview(titleLabel)
         
         titleLabel.snp_makeConstraints { (make) -> Void in
@@ -109,53 +109,53 @@ class CropViewController: UIViewController {
         tap.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(tap)
         
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: false)
+        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: false)
     }
   
     private func buildToolbar() -> UIToolbar {
         let toolbar = UIToolbar()
-        toolbar.barTintColor = UIColor.clearColor()
-        toolbar.tintColor = OEXStyles.sharedStyles().neutralWhiteT()
+        toolbar.barTintColor = UIColor.clear
+        toolbar.tintColor = OEXStyles.shared().neutralWhiteT()
        
-        let cancelButton = UIButton(type:.System)
+        let cancelButton = UIButton(type:.system)
         cancelButton.frame = CGRect(x: 0,y: 0, width: 100, height: 44)
-        cancelButton.setTitle(Strings.cancel, forState: .Normal)
-        cancelButton.setTitleColor(OEXStyles.sharedStyles().neutralWhiteT(), forState: .Normal)
+        cancelButton.setTitle(Strings.cancel, for: .normal)
+        cancelButton.setTitleColor(OEXStyles.shared().neutralWhiteT(), for: .normal)
         cancelButton.sizeToFit()
 
         let cancel = UIBarButtonItem(customView: cancelButton)
         cancelButton.oex_addAction({ [weak self] _ in
             self?.completion(nil)
-        }, forEvents: .TouchUpInside)
+            }, for: .touchUpInside)
 
-        let chooseButton = UIButton(type:.System)
+        let chooseButton = UIButton(type:.system)
         chooseButton.frame = CGRect(x: 0,y: 0, width: 100, height: 44)
-        chooseButton.setTitle(Strings.choose, forState: .Normal)
-        chooseButton.setTitleColor(OEXStyles.sharedStyles().neutralWhiteT(), forState: .Normal)
+        chooseButton.setTitle(Strings.choose, for: .normal)
+        chooseButton.setTitleColor(OEXStyles.shared().neutralWhiteT(), for: .normal)
         chooseButton.sizeToFit()
 
         let choose = UIBarButtonItem(customView: chooseButton)
         chooseButton.oex_addAction({ [weak self] _ in
             let rect = self!.circleView.circleBounds
-            let shift = CGRectApplyAffineTransform(rect, CGAffineTransformMakeTranslation(self!.scrollView.contentOffset.x, self!.scrollView.contentOffset.y))
-            let scaled = CGRectApplyAffineTransform(shift, CGAffineTransformMakeScale(1.0 / self!.scrollView.zoomScale, 1.0 / self!.scrollView.zoomScale))
-            let newImage = self?.image.imageCroppedToRect(scaled)
+            let shift = rect.applying(CGAffineTransform(translationX: self!.scrollView.contentOffset.x, y: self!.scrollView.contentOffset.y))
+            let scaled = shift.applying(CGAffineTransform(scaleX: 1.0 / self!.scrollView.zoomScale, y: 1.0 / self!.scrollView.zoomScale))
+            let newImage = self?.image.imageCropped(toRect: scaled)
             self?.completion(newImage)
-        }, forEvents: .TouchUpInside)
+            }, for: .touchUpInside)
         
-        let flex = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         var items = [cancel, flex, choose]
         if toolbar.isRightToLeft {
-            items = items.reverse()
+            items = items.reversed()
         }
         toolbar.items = items
         
         return toolbar
     }
   
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        OEXAnalytics.sharedAnalytics().trackScreenWithName(OEXAnalyticsScreenCropPhoto)
+        OEXAnalytics.shared().trackScreen(withName: OEXAnalyticsScreenCropPhoto)
 
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
@@ -181,7 +181,7 @@ class CropViewController: UIViewController {
         scrollView.contentInset = UIEdgeInsetsMake(insetHeight, insetWidth, insetHeight, insetWidth)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
@@ -198,11 +198,11 @@ extension CropViewController: UIScrollViewDelegate {
         scrollView.setZoomScale(newScale, animated: true)
     }
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
-    func scrollViewDidEndZooming(scrollView: UIScrollView, withView view: UIView?, atScale scale: CGFloat) {
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         //need empty implementation for zooming
     }
 }

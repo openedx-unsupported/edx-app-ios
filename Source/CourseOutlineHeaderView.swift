@@ -16,26 +16,26 @@ public class CourseOutlineHeaderView: UIView {
     
     private let verticalMargin = 3
     
-    private let bottomDivider : UIView = UIView(frame: CGRectZero)
+    private let bottomDivider : UIView = UIView(frame: CGRect.zero)
     
-    private let viewButton = UIButton(type: .System)
-    private let messageView = UILabel(frame: CGRectZero)
-    private let subtitleLabel = UILabel(frame: CGRectZero)
+    private let viewButton = UIButton(type: .system)
+    private let messageView = UILabel(frame: CGRect.zero)
+    private let subtitleLabel = UILabel(frame: CGRect.zero)
     
     private var contrastColor : UIColor {
         return styles.primaryBaseColor()
     }
     
     private var labelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .SemiBold, size: .XSmall, color: contrastColor)
+        return OEXTextStyle(weight: .semiBold, size: .xSmall, color: contrastColor)
     }
     
     private var subtitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color : OEXStyles.sharedStyles().neutralBlack())
+        return OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBlack())
     }
     
     private var viewButtonStyle : ButtonStyle {
-        let textStyle = OEXTextStyle(weight: .SemiBold, size: .Small, color : contrastColor)
+        let textStyle = OEXTextStyle(weight: .semiBold, size: .small, color : contrastColor)
         return ButtonStyle(textStyle: textStyle, backgroundColor: nil, borderStyle: nil)
     }
     
@@ -48,7 +48,7 @@ public class CourseOutlineHeaderView: UIView {
             return subtitleLabel.text
         }
         set {
-            subtitleLabel.attributedText = subtitleLabelStyle.attributedStringWithText(newValue)
+            subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: newValue)
         }
     }
     
@@ -61,10 +61,10 @@ public class CourseOutlineHeaderView: UIView {
         addSubview(bottomDivider)
         addSubview(subtitleLabel)
         
-        viewButton.applyButtonStyle(viewButtonStyle, withTitle : Strings.view)
+        viewButton.applyButtonStyle(style: viewButtonStyle, withTitle : Strings.view)
         
-        messageView.attributedText = labelStyle.attributedStringWithText(titleText)
-        subtitleLabel.attributedText = subtitleLabelStyle.attributedStringWithText(subtitleText)
+        messageView.attributedText = labelStyle.attributedString(withText: titleText)
+        subtitleLabel.attributedText = subtitleLabelStyle.attributedString(withText: subtitleText)
         
         backgroundColor = styles.primaryXLightColor()
         bottomDivider.backgroundColor = contrastColor
@@ -83,7 +83,7 @@ public class CourseOutlineHeaderView: UIView {
             make.bottom.equalTo(self).offset(-5)
         }
 
-        viewButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: UILayoutConstraintAxis.Horizontal)
+        viewButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
         
         messageView.snp_makeConstraints { make in
             let situationalCenterYOffset = hasSubtitle ? titleLabelCenterYOffset : 0
@@ -96,12 +96,12 @@ public class CourseOutlineHeaderView: UIView {
             make.leading.equalTo(messageView)
             make.trailing.lessThanOrEqualTo(viewButton.snp_leading).offset(-10)
         }
-        subtitleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, forAxis: UILayoutConstraintAxis.Horizontal)
+        subtitleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
     }
     
-    public func setViewButtonAction(action: (AnyObject) -> Void) {
-        self.viewButton.oex_removeAllActions()
-        self.viewButton.oex_addAction(action, forEvents: UIControlEvents.TouchUpInside)
+    public func setViewButtonAction(action: @escaping (AnyObject) -> Void) {
+        viewButton.oex_removeAllActions()
+        viewButton.oex_addAction(action, for: UIControlEvents.touchUpInside)
     }
 
     required public init?(coder aDecoder: NSCoder) {

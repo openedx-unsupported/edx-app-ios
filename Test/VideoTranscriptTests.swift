@@ -15,27 +15,27 @@ class VideoTranscriptTests: XCTestCase {
         let environment = TestRouterEnvironment()
         let transcriptView = VideoTranscript(environment: environment)
         
-        XCTAssertEqual(transcriptView.transcriptTableView.numberOfRowsInSection(0), 0)
-        XCTAssertTrue(transcriptView.transcriptTableView.hidden)
+        XCTAssertEqual(transcriptView.transcriptTableView.numberOfRows(inSection: 0), 0)
+        XCTAssertTrue(transcriptView.transcriptTableView.isHidden)
         
-        transcriptView.updateTranscript(VideoTranscriptDataFactory.transcriptArray())
+        transcriptView.updateTranscript(transcript: VideoTranscriptDataFactory.transcriptArray())
         
-        XCTAssertEqual(transcriptView.transcriptTableView.numberOfRowsInSection(0), 5)
-        XCTAssertFalse(transcriptView.transcriptTableView.hidden)
+        XCTAssertEqual(transcriptView.transcriptTableView.numberOfRows(inSection: 0), 5)
+        XCTAssertFalse(transcriptView.transcriptTableView.isHidden)
     }
     
     func testTranscriptSeek() {
         let environment = TestRouterEnvironment()
         let transcriptView = VideoTranscript(environment: environment)
-        transcriptView.updateTranscript(VideoTranscriptDataFactory.transcriptArray())
+        transcriptView.updateTranscript(transcript: VideoTranscriptDataFactory.transcriptArray())
         
-        transcriptView.highlightSubtitleForTime(1.75)
+        transcriptView.highlightSubtitleForTime(time: 1.75)
         XCTAssertEqual(transcriptView.highlightedIndex, 1)
         
-        transcriptView.highlightSubtitleForTime(3.45)
+        transcriptView.highlightSubtitleForTime(time: 3.45)
         XCTAssertEqual(transcriptView.highlightedIndex, 2)
         
-        transcriptView.highlightSubtitleForTime(3.47)
+        transcriptView.highlightSubtitleForTime(time: 3.47)
         XCTAssertEqual(transcriptView.highlightedIndex, 2)
     }
 }
@@ -45,31 +45,31 @@ class VideoTranscriptDataFactory{
     static func transcriptArray() -> [AnyObject] {
         var transcript = [[String: AnyObject]]()
         
-        transcript.append(["kIndex":0,
-            "kStart":0.0,
-            "kText":">> Test transcript text",
-            "kEnd":1.45])
+        transcript.append(["kIndex":0 as AnyObject,
+            "kStart":0.0 as AnyObject,
+            "kText":">> Test transcript text" as AnyObject,
+            "kEnd":1.45 as AnyObject])
         
-        transcript.append(["kIndex":1,
-            "kStart":1.46,
-            "kText":"Test transcript text",
-            "kEnd":2.45])
+        transcript.append(["kIndex":1 as AnyObject,
+            "kStart":1.46 as AnyObject,
+            "kText":"Test transcript text" as AnyObject,
+            "kEnd":2.45 as AnyObject])
         
-        transcript.append(["kIndex":2,
-            "kStart":2.46,
-            "kText":"Test transcript text",
-            "kEnd":3.45])
+        transcript.append(["kIndex":2 as AnyObject,
+            "kStart":2.46 as AnyObject,
+            "kText":"Test transcript text" as AnyObject,
+            "kEnd":3.45 as AnyObject])
         
-        transcript.append(["kIndex":3,
-            "kStart":3.50,
-            "kText":"Test transcript text",
-            "kEnd":4.45])
+        transcript.append(["kIndex":3 as AnyObject,
+            "kStart":3.50 as AnyObject,
+            "kText":"Test transcript text" as AnyObject,
+            "kEnd":4.45 as AnyObject])
         
-        transcript.append(["kIndex":4,
-            "kStart":4.46,
-            "kText":"Test transcript text",
-            "kEnd":5.45])
+        transcript.append(["kIndex":4 as AnyObject,
+            "kStart":4.46 as AnyObject,
+            "kText":"Test transcript text" as AnyObject,
+            "kEnd":5.45 as AnyObject])
 
-        return transcript
+        return transcript as [AnyObject]
     }
 }

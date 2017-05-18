@@ -60,10 +60,10 @@ class CourseCardViewModel : NSObject {
         let remoteImage : RemoteImage
         let placeholder = UIImage(named: "placeholderCourseCardImage")
         if let relativeImageURL = courseImageURL,
-            imageURL = NSURL(string: relativeImageURL, relativeToURL: networkManager.baseURL)
+            let imageURL = URL(string: relativeImageURL, relativeTo: networkManager.baseURL)
         {
             remoteImage = RemoteImageImpl(
-                url: imageURL.absoluteString!,
+                url: imageURL.absoluteString,
                 networkManager: networkManager,
                 placeholder: placeholder,
                 persist: persistImage)
@@ -80,11 +80,11 @@ class CourseCardViewModel : NSObject {
 extension OEXCourse {
     
     var courseRun : String {
-        return String.joinInNaturalLayout([self.org, self.number], separator : " | ")
+        return String.joinInNaturalLayout(nullableStrings: [self.org, self.number], separator : " | ")
     }
     
     var courseRunIncludingNextDate : String {
-        return String.joinInNaturalLayout([self.org, self.number, self.nextRelevantDateUpperCaseString], separator : " | ")
+        return String.joinInNaturalLayout(nullableStrings: [self.org, self.number, self.nextRelevantDateUpperCaseString], separator : " | ")
     }
     
     var nextRelevantDate : String?  {
@@ -94,7 +94,7 @@ extension OEXCourse {
                 return nil
             }
             
-            let formattedEndDate = OEXDateFormatting.formatAsMonthDayString(end)
+            let formattedEndDate = OEXDateFormatting.format(asMonthDayString: end)
             
             // If Old date is older than current date
             if self.isEndDateOld {
@@ -105,19 +105,19 @@ extension OEXCourse {
             }
         }
         else {  // Start date is newer than current date
-            switch self.start_display_info.type ?? .None {
-            case .String where self.start_display_info.displayDate != nil:
+            switch self.start_display_info.type {
+            case .string where self.start_display_info.displayDate != nil:
                 return Strings.starting(startDate: self.start_display_info.displayDate!)
-            case .Timestamp where self.start_display_info.date != nil:
-                let formattedStartDate = OEXDateFormatting.formatAsMonthDayString(self.start_display_info.date!)
+            case .timestamp where self.start_display_info.date != nil:
+                let formattedStartDate = OEXDateFormatting.format(asMonthDayString: self.start_display_info.date!)
                 return Strings.starting(startDate: formattedStartDate)
-            case .None, .Timestamp, .String:
+            case .none, .timestamp, .string:
                 return Strings.starting(startDate: Strings.soon)
             }
         }
     }
     
-    private var nextRelevantDateUpperCaseString : String? {
+    fileprivate var nextRelevantDateUpperCaseString : String? {
         return nextRelevantDate?.oex_uppercaseStringInCurrentLocale()
     }
 }

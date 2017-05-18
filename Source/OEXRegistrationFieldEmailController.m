@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import "OEXRegistrationFieldEmailController.H"
+#import "OEXRegistrationFieldEmailController.h"
 #import "OEXRegistrationFormField.h"
 #import "NSString+OEXValidation.h"
 #import "OEXRegistrationFieldValidator.h"

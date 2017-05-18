@@ -13,8 +13,8 @@ class UIImage_OEXHelpersTests : XCTestCase {
     let image = UIImage(named: "Icon-29")
     
     func testImageCropper() {
-        let rect = CGRectMake(0, 0, 10, 10)
-        let processedImage = image?.imageCroppedToRect(rect)
+        let rect = CGRect(x: 0, y: 0, width: 10, height: 10)
+        let processedImage = image?.imageCropped(toRect: rect)
         
         XCTAssertNotEqual(processedImage?.size.width, image?.size.width)
         XCTAssertNotEqual(processedImage?.size.height, image?.size.height)
@@ -24,8 +24,8 @@ class UIImage_OEXHelpersTests : XCTestCase {
     }
     
     func testImageResizing() {
-        let size = CGSizeMake(10, 10)
-        let processedImage = image?.resizedTo(size)
+        let size = CGSize(width: 10, height: 10)
+        let processedImage = image?.resizedTo(size: size)
         
         XCTAssertNotEqual(processedImage?.size.width, image?.size.width)
         XCTAssertNotEqual(processedImage?.size.height, image?.size.height)
@@ -36,27 +36,27 @@ class UIImage_OEXHelpersTests : XCTestCase {
     
     func testDefaultOrientation() {
         
-        XCTAssertTrue(image?.imageOrientation == .Up)
+        XCTAssertTrue(image?.imageOrientation == .up)
         let processedImage = image?.rotateUp()
         
-        XCTAssertTrue(image?.imageOrientation == .Up)
+        XCTAssertTrue(image?.imageOrientation == .up)
         XCTAssertEqual(image?.imageOrientation, processedImage?.imageOrientation)
     }
     
     func testImageRotation() {
         // Default orientation 'Up'
-        XCTAssertTrue(image?.imageOrientation == .Up)
+        XCTAssertTrue(image?.imageOrientation == .up)
         
         // Mirrored image
-        let mirroredImage = UIImage(CGImage: (image?.CGImage)!, scale: 1.0, orientation: .RightMirrored)
+        let mirroredImage = UIImage(cgImage: (image?.cgImage)!, scale: 1.0, orientation: .rightMirrored)
         
         
-        XCTAssertFalse(mirroredImage.imageOrientation == .Up)
-        XCTAssertTrue(mirroredImage.imageOrientation == .RightMirrored)
+        XCTAssertFalse(mirroredImage.imageOrientation == .up)
+        XCTAssertTrue(mirroredImage.imageOrientation == .rightMirrored)
         
         let processedImage = mirroredImage.rotateUp()
         
-        XCTAssertTrue(processedImage.imageOrientation == .Up)
+        XCTAssertTrue(processedImage.imageOrientation == .up)
         XCTAssertEqual(image?.imageOrientation, processedImage.imageOrientation)
     }
     

@@ -13,7 +13,7 @@ class FeedTests : XCTestCase {
     func testMap() {
         var counter = 0
         let feed = Feed<Int> {stream in
-            let source = Stream(value:counter)
+            let source = OEXStream(value:counter)
             stream.backWithStream(source)
             counter = counter + 1
         }

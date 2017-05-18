@@ -14,8 +14,8 @@ protocol RatingViewControllerDelegate {
 }
 
 class RatingViewController: UIViewController, RatingContainerDelegate {
-
-    typealias Environment = protocol<DataManagerProvider, OEXInterfaceProvider, OEXStylesProvider, OEXConfigProvider, OEXAnalyticsProvider>
+    
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & OEXStylesProvider & OEXConfigProvider & OEXAnalyticsProvider
     
     var delegate : RatingViewControllerDelegate?
     
@@ -23,15 +23,15 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     static let minimumVersionDifferenceForNegativeRating : Float = 0.2
     
     let environment : Environment
-    private let ratingContainerView : RatingContainerView
+    let ratingContainerView : RatingContainerView
     var alertController : UIAlertController?
     private var selectedRating : Int?
     
     static func canShowAppReview(environment: Environment) -> Bool {
-        guard let _ = environment.config.appReviewURI where environment.interface?.reachable ?? false && environment.config.isAppReviewsEnabled else { return false }
+        guard let _ = environment.config.appReviewURI, environment.interface?.reachable ?? false && environment.config.isAppReviewsEnabled else { return false }
         
         if let appRating = environment.interface?.getSavedAppRating(), let lastVersionForAppReview = environment.interface?.getSavedAppVersionWhenLastRated(){
-            let versionDiff = (Float(NSBundle.mainBundle().oex_shortVersionString()) ?? 0.0) - (Float(lastVersionForAppReview) ?? 0.0)
+            let versionDiff = (Float(Bundle.main.oex_shortVersionString()) ?? 0.0) - (Float(lastVersionForAppReview) ?? 0.0)
             if appRating >= minimumPositiveRating || versionDiff < minimumVersionDifferenceForNegativeRating {
                 return false
             }
@@ -51,16 +51,18 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = UIColor(white: 0.0, alpha: 0.3)
         view.addSubview(ratingContainerView)
         
         ratingContainerView.delegate = self
         
         setupConstraints()
+        
+        view.accessibilityElements = [ratingContainerView.subviews]
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackAppReviewScreen()
     }
@@ -78,7 +80,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     func didSubmitRating(rating: Int) {
         selectedRating = Int(rating)
         ratingContainerView.removeFromSuperview()
-        environment.analytics.trackSubmitRating(rating)
+        environment.analytics.trackSubmitRating(rating: rating)
         switch rating {
         case 1...3:
             negativeRatingReceived()
@@ -99,18 +101,18 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     //MARK: - Positive Rating methods
     private func positiveRatingReceived() {
-        alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.rateTheApp, message: Strings.AppReview.positiveReviewMessage,cancelButtonTitle: nil, onViewController: self)
-        alertController?.addButtonWithTitle(Strings.AppReview.maybeLater) {[weak self] (action) in
+        alertController = UIAlertController().showAlert(withTitle: Strings.AppReview.rateTheApp, message: Strings.AppReview.positiveReviewMessage,cancelButtonTitle: nil, onViewController: self)
+        alertController?.addButton(withTitle: Strings.AppReview.maybeLater) {[weak self] (action) in
             self?.saveAppRating()
             if let rating = self?.selectedRating {
-                self?.environment.analytics.trackMaybeLater(rating)
+                self?.environment.analytics.trackMaybeLater(rating: rating)
             }
             self?.dismissViewController()
         }
-        alertController?.addButtonWithTitle(Strings.AppReview.rateTheApp) {[weak self] (action) in
-            self?.saveAppRating(self?.selectedRating)
+        alertController?.addButton(withTitle: Strings.AppReview.rateTheApp) {[weak self] (action) in
+            self?.saveAppRating(rating: self?.selectedRating)
             if let rating = self?.selectedRating {
-                self?.environment.analytics.trackRateTheApp(rating)
+                self?.environment.analytics.trackRateTheApp(rating: rating)
             }
             self?.sendUserToAppStore()
             self?.dismissViewController()
@@ -119,25 +121,25 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     private func sendUserToAppStore() {
         guard let url = NSURL(string: environment.config.appReviewURI ?? "") else { return }
-        if UIApplication.sharedApplication().canOpenURL(url) {
-            UIApplication.sharedApplication().openURL(url)
+        if UIApplication.shared.canOpenURL(url as URL) {
+            UIApplication.shared.openURL(url as URL)
         }
     }
     
     //MARK: - Negative Rating methods
     private func negativeRatingReceived() {
-        alertController = UIAlertController().showAlertWithTitle(Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
-        alertController?.addButtonWithTitle(Strings.AppReview.maybeLater) {[weak self] (action) in
+        alertController = UIAlertController().showAlert(withTitle: Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
+        alertController?.addButton(withTitle: Strings.AppReview.maybeLater) {[weak self] (action) in
             self?.saveAppRating()
             if let rating = self?.selectedRating {
-                self?.environment.analytics.trackMaybeLater(rating)
+                self?.environment.analytics.trackMaybeLater(rating: rating)
             }
             self?.dismissViewController()
         }
-        alertController?.addButtonWithTitle(Strings.AppReview.sendFeedback) {[weak self] (action) in
-            self?.saveAppRating(self?.selectedRating)
+        alertController?.addButton(withTitle: Strings.AppReview.sendFeedback) {[weak self] (action) in
+            self?.saveAppRating(rating: self?.selectedRating)
             if let rating = self?.selectedRating {
-                self?.environment.analytics.trackSendFeedback(rating)
+                self?.environment.analytics.trackSendFeedback(rating: rating)
             }
             self?.launchEmailComposer()
         }
@@ -145,18 +147,19 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     //MARK: - Persistence methods
     func saveAppRating(rating: Int? = 0) {
-        environment.interface?.saveAppRating(rating ?? 0)
+        environment.interface?.saveAppRating(rating: rating ?? 0)
         environment.interface?.saveAppVersionWhenLastRated()
     }
     
     //MARK: - Expose for testcases
     func setRating(rating: Int) {
-        ratingContainerView.setRating(rating)
+        ratingContainerView.setRating(rating: rating)
     }
     
     func dismissViewController() {
-        dismissViewControllerAnimated(false, completion: nil)
-        delegate?.didDismissRatingViewController()
+        dismiss(animated: false) {[weak self] in
+            self?.delegate?.didDismissRatingViewController()
+        }
     }
 }
 
@@ -173,19 +176,19 @@ extension RatingViewController : MFMailComposeViewControllerDelegate {
         } else {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self
-            mail.navigationBar.tintColor = OEXStyles.sharedStyles().navigationItemTintColor()
+            mail.navigationBar.tintColor = OEXStyles.shared().navigationItemTintColor()
             mail.setSubject(Strings.AppReview.messageSubject)
             
             mail.setMessageBody(EmailTemplates.supportEmailMessageTemplate(), isHTML: false)
             if let fbAddress = environment.config.feedbackEmailAddress() {
                 mail.setToRecipients([fbAddress])
             }
-            presentViewController(mail, animated: true, completion: nil)
+            present(mail, animated: true, completion: nil)
         }
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
         dismissViewController()
     }
 }

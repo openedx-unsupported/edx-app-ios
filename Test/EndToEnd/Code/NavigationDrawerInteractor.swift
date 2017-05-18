@@ -11,11 +11,11 @@ import XCTest
 
 class NavigationDrawerInteractor: FeatureInteractor {
 
-    private var container: XCUIElement {
+    fileprivate var container: XCUIElement {
         return find(identifier: "navigation-drawer")
     }
     
-    private var findCoursesItem: XCUIElement {
+    fileprivate var findCoursesItem: XCUIElement {
         return find(identifier: "find-courses-cell")
     }
     

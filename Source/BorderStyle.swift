@@ -15,8 +15,8 @@ public class BorderStyle {
         
         var value : CGFloat {
             switch self {
-            case Hairline: return OEXStyles.dividerSize()
-            case let Size(s): return s
+            case .Hairline: return OEXStyles.dividerSize()
+            case let .Size(s): return s
             }
         }
     }
@@ -27,13 +27,13 @@ public class BorderStyle {
         
         func value(view: UIView) -> CGFloat {
             switch self {
-            case Circle: return view.frame.size.height / 2.0
-            case let Size(s): return s
+            case .Circle: return view.frame.size.height / 2.0
+            case let .Size(s): return s
             }
         }
     }
     
-    static let defaultCornerRadius = OEXStyles.sharedStyles().boxCornerRadius()
+    static let defaultCornerRadius = OEXStyles.shared().boxCornerRadius()
     
     let cornerRadius : Radius
     let width : Width
@@ -45,11 +45,11 @@ public class BorderStyle {
         self.color = color
     }
     
-    private func applyToView(view : UIView) {
-        let radius = cornerRadius.value(view)
+    fileprivate func applyToView(view : UIView) {
+        let radius = cornerRadius.value(view: view)
         view.layer.cornerRadius = radius
         view.layer.borderWidth = width.value
-        view.layer.borderColor = color?.CGColor
+        view.layer.borderColor = color?.cgColor
         if radius != 0 {
             view.clipsToBounds = true
         }
@@ -62,6 +62,6 @@ public class BorderStyle {
 
 extension UIView {
     func applyBorderStyle(style : BorderStyle) {
-        style.applyToView(self)
+        style.applyToView(view: self)
     }
 }

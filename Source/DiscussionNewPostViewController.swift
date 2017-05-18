@@ -22,7 +22,7 @@ protocol DiscussionNewPostViewControllerDelegate : class {
 
 public class DiscussionNewPostViewController: UIViewController, UITextViewDelegate, MenuOptionsViewControllerDelegate, InterfaceOrientationOverriding {
  
-    public typealias Environment = protocol<DataManagerProvider, NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider>
+    public typealias Environment = DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider
     
     private let minBodyTextHeight : CGFloat = 66 // height for 3 lines of text
 
@@ -44,26 +44,26 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     private let loadController = LoadStateViewController()
     private let courseID: String
-    private let topics = BackedStream<[DiscussionTopic]>()
+    fileprivate let topics = BackedStream<[DiscussionTopic]>()
     private var selectedTopic: DiscussionTopic?
     private var optionsViewController: MenuOptionsViewController?
     weak var delegate: DiscussionNewPostViewControllerDelegate?
     private let tapButton = UIButton()
     
     var titleTextStyle : OEXTextStyle{
-        return OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralDark())
     }
     
     private var selectedThreadType: DiscussionThreadType = .Discussion {
         didSet {
             switch selectedThreadType {
             case .Discussion:
-                self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.courseDashboardDiscussion), titleTextStyle.attributedStringWithText(Strings.asteric)])
-                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle,withTitle: Strings.postDiscussion)
-                contentTextView.accessibilityLabel = Strings.courseDashboardDiscussion
+                self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [titleTextStyle.attributedString(withText: Strings.Dashboard.courseDiscussion), titleTextStyle.attributedString(withText: Strings.asteric)])
+                postButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle,withTitle: Strings.postDiscussion)
+                contentTextView.accessibilityLabel = Strings.Dashboard.courseDiscussion
             case .Question:
-                self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.question), titleTextStyle.attributedStringWithText(Strings.asteric)])
-                postButton.applyButtonStyle(OEXStyles.sharedStyles().filledPrimaryButtonStyle, withTitle: Strings.postQuestion)
+                self.contentTitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [titleTextStyle.attributedString(withText: Strings.question), titleTextStyle.attributedString(withText: Strings.asteric)])
+                postButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle, withTitle: Strings.postQuestion)
                 contentTextView.accessibilityLabel = Strings.question
             }
         }
@@ -75,9 +75,9 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         super.init(nibName: "DiscussionNewPostViewController", bundle: nil)
         
-        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID).topics
+        let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: courseID).topics
         topics.backWithStream(stream.map {
-            return DiscussionTopic.linearizeTopics($0)
+            return DiscussionTopic.linearizeTopics(topics: $0)
             }
         )
         
@@ -90,7 +90,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             topic.isSelectable
         }
         
-        guard let topics = self.topics.value, selectableTopicIndex = topics.firstIndexMatching(selectablePredicate) else {
+        guard let topics = self.topics.value, let selectableTopicIndex = topics.firstIndexMatching(selectablePredicate) else {
             return nil
         }
         return topics[selectableTopicIndex]
@@ -101,23 +101,23 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     @IBAction func postTapped(sender: AnyObject) {
-        postButton.enabled = false
+        postButton.isEnabled = false
         postButton.showProgress = true
         // create new thread (post)
 
-        if let topic = selectedTopic, topicID = topic.id {
-            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType ?? .Discussion, title: titleTextField.text ?? "", rawBody: contentTextView.text)
-            let apiRequest = DiscussionAPI.createNewThread(newThread)
+        if let topic = selectedTopic, let topicID = topic.id {
+            let newThread = DiscussionNewThread(courseID: courseID, topicID: topicID, type: selectedThreadType , title: titleTextField.text ?? "", rawBody: contentTextView.text)
+            let apiRequest = DiscussionAPI.createNewThread(newThread: newThread)
             environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
-                self?.postButton.enabled = true
+                self?.postButton.isEnabled = true
                 self?.postButton.showProgress = false
                 
                 if let post = result.data {
-                    self?.delegate?.newPostController(self!, addedPost: post)
-                    self?.dismissViewControllerAnimated(true, completion: nil)
+                    self?.delegate?.newPostController(controller: self!, addedPost: post)
+                    self?.dismiss(animated: true, completion: nil)
                 }
                 else {
-                    DiscussionHelper.showErrorMessage(self, error: result.error)
+                    DiscussionHelper.showErrorMessage(controller: self, error: result.error)
                 }
             }
         }
@@ -127,36 +127,36 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         super.viewDidLoad()
         
         self.navigationItem.title = Strings.post
-        let cancelItem = UIBarButtonItem(barButtonSystemItem: .Cancel, target: nil, action: nil)
+        let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
         cancelItem.oex_setAction { [weak self]() -> Void in
-            self?.dismissViewControllerAnimated(true, completion: nil)
+            self?.dismiss(animated: true, completion: nil)
         }
         self.navigationItem.leftBarButtonItem = cancelItem
         contentTitleLabel.isAccessibilityElement = false
         titleLabel.isAccessibilityElement = false
-        titleLabel.attributedText = NSAttributedString.joinInNaturalLayout([titleTextStyle.attributedStringWithText(Strings.title), titleTextStyle.attributedStringWithText(Strings.asteric)])
+        titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [titleTextStyle.attributedString(withText: Strings.title), titleTextStyle.attributedString(withText: Strings.asteric)])
         contentTextView.textContainer.lineFragmentPadding = 0
-        contentTextView.textContainerInset = OEXStyles.sharedStyles().standardTextViewInsets
-        contentTextView.typingAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
-        contentTextView.placeholderTextColor = OEXStyles.sharedStyles().neutralLight()
-        contentTextView.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
+        contentTextView.textContainerInset = OEXStyles.shared().standardTextViewInsets
+        contentTextView.typingAttributes = OEXStyles.shared().textAreaBodyStyle.attributes
+        contentTextView.placeholderTextColor = OEXStyles.shared().neutralLight()
+        contentTextView.applyBorderStyle(style: OEXStyles.shared().entryFieldBorderStyle)
         contentTextView.delegate = self
         titleTextField.accessibilityLabel = Strings.title
         
-        self.view.backgroundColor = OEXStyles.sharedStyles().neutralXXLight()
+        self.view.backgroundColor = OEXStyles.shared().neutralXXLight()
         
         configureSegmentControl()
-        titleTextField.defaultTextAttributes = OEXStyles.sharedStyles().textAreaBodyStyle.attributes
+        titleTextField.defaultTextAttributes = OEXStyles.shared().textAreaBodyStyle.attributes
         setTopicsButtonTitle()
-        let insets = OEXStyles.sharedStyles().standardTextViewInsets
+        let insets = OEXStyles.shared().standardTextViewInsets
         topicButton.titleEdgeInsets = UIEdgeInsetsMake(0, insets.left, 0, insets.right)
         topicButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
         
-        topicButton.applyBorderStyle(OEXStyles.sharedStyles().entryFieldBorderStyle)
+        topicButton.applyBorderStyle(style: OEXStyles.shared().entryFieldBorderStyle)
         topicButton.localizedHorizontalContentAlignment = .Leading
         
         let dropdownLabel = UILabel()
-        dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(titleTextStyle)
+        dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style: titleTextStyle)
         topicButton.addSubview(dropdownLabel)
         dropdownLabel.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(topicButton).offset(-insets.right)
@@ -165,48 +165,48 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         topicButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
             self?.showTopicPicker()
-        }, forEvents: UIControlEvents.TouchUpInside)
+            }, for: UIControlEvents.touchUpInside)
         
-        postButton.enabled = false
+        postButton.isEnabled = false
         
         titleTextField.oex_addAction({[weak self] _ in
             self?.validatePostButton()
-            }, forEvents: .EditingChanged)
+            }, for: .editingChanged)
 
-        self.growingTextController.setupWithScrollView(scrollView, textView: contentTextView, bottomView: postButton)
-        self.insetsController.setupInController(self, scrollView: scrollView)
+        self.growingTextController.setupWithScrollView(scrollView: scrollView, textView: contentTextView, bottomView: postButton)
+        self.insetsController.setupInController(owner: self, scrollView: scrollView)
         
         // Force setting it to call didSet which is only called out of initialization context
         self.selectedThreadType = .Question
         
-        loadController.setupInController(self, contentView: self.scrollView)
+        loadController.setupInController(controller: self, contentView: self.scrollView)
         
         topics.listen(self, success : {[weak self]_ in
             self?.loadedData()
             }, failure : {[weak self] error in
-                self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error: error)
             })
         
         backgroundView.addSubview(tapButton)
-        backgroundView.sendSubviewToBack(tapButton)
-        tapButton.backgroundColor = UIColor.clearColor()
-        tapButton.frame = CGRectMake(0, 0, backgroundView.frame.size.width, backgroundView.frame.size.height)
+        backgroundView.sendSubview(toBack: tapButton)
+        tapButton.backgroundColor = UIColor.clear
+        tapButton.frame = CGRect(x: 0, y: 0, width: backgroundView.frame.size.width, height: backgroundView.frame.size.height)
         tapButton.isAccessibilityElement = false
         tapButton.accessibilityLabel = Strings.accessibilityHideKeyboard
         tapButton.oex_addAction({[weak self] (sender) in
             self?.view.endEditing(true)
-            }, forEvents: .TouchUpInside)
+            }, for: .touchUpInside)
     }
     
     private func configureSegmentControl() {
         discussionQuestionSegmentedControl.removeAllSegments()
-        let questionIcon = Icon.Question.attributedTextWithStyle(titleTextStyle)
-        let questionTitle = NSAttributedString.joinInNaturalLayout([questionIcon,
-            titleTextStyle.attributedStringWithText(Strings.question)])
+        let questionIcon = Icon.Question.attributedTextWithStyle(style: titleTextStyle)
+        let questionTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [questionIcon,
+            titleTextStyle.attributedString(withText: Strings.question)])
         
-        let discussionIcon = Icon.Comments.attributedTextWithStyle(titleTextStyle)
-        let discussionTitle = NSAttributedString.joinInNaturalLayout([discussionIcon,
-            titleTextStyle.attributedStringWithText(Strings.discussion)])
+        let discussionIcon = Icon.Comments.attributedTextWithStyle(style: titleTextStyle)
+        let discussionTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [discussionIcon,
+            titleTextStyle.attributedString(withText: Strings.discussion)])
         
         let segmentOptions : [(title : NSAttributedString, value : DiscussionThreadType)] = [
             (title : questionTitle, value : .Question),
@@ -214,7 +214,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             ]
         
         for i in 0..<segmentOptions.count {
-            discussionQuestionSegmentedControl.insertSegmentWithAttributedTitle(segmentOptions[i].title, index: i, animated: false)
+            discussionQuestionSegmentedControl.insertSegmentWithAttributedTitle(title: segmentOptions[i].title, index: i, animated: false)
             discussionQuestionSegmentedControl.subviews[i].accessibilityLabel = segmentOptions[i].title.string
         }
         
@@ -228,9 +228,9 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             else {
                 assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
             }
-            }, forEvents: UIControlEvents.ValueChanged)
-        discussionQuestionSegmentedControl.tintColor = OEXStyles.sharedStyles().neutralDark()
-        discussionQuestionSegmentedControl.setTitleTextAttributes([NSForegroundColorAttributeName: OEXStyles.sharedStyles().neutralWhite()], forState: UIControlState.Selected)
+            }, for: UIControlEvents.valueChanged)
+        discussionQuestionSegmentedControl.tintColor = OEXStyles.shared().neutralDark()
+        discussionQuestionSegmentedControl.setTitleTextAttributes([NSForegroundColorAttributeName: OEXStyles.shared().neutralWhite()], for: UIControlState.selected)
         discussionQuestionSegmentedControl.selectedSegmentIndex = 0
         
         updateSelectedTabColor()
@@ -238,30 +238,30 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     private func updateSelectedTabColor() {
         // //UIsegmentControl don't Multiple tint color so updating tint color of subviews to match desired behaviour
-        let subViews:NSArray = discussionQuestionSegmentedControl.subviews
+        let subViews:NSArray = discussionQuestionSegmentedControl.subviews as NSArray
         for i in 0..<subViews.count {
-            if subViews.objectAtIndex(i).isSelected ?? false {
-                let view = subViews.objectAtIndex(i) as! UIView
-                view.tintColor = OEXStyles.sharedStyles().primaryBaseColor()
+            if (subViews.object(at: i) as AnyObject).isSelected ?? false {
+                let view = subViews.object(at: i) as! UIView
+                view.tintColor = OEXStyles.shared().primaryBaseColor()
             }
             else {
-                let view = subViews.objectAtIndex(i) as! UIView
-                view.tintColor = OEXStyles.sharedStyles().neutralDark()
+                let view = subViews.object(at: i) as! UIView
+                view.tintColor = OEXStyles.shared().neutralDark()
             }
         }
     }
     
-    override public func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenCreateTopicThread, courseId: self.courseID, value: selectedTopic?.name, threadId: nil, topicId: selectedTopic?.id, responseID: nil)
+        self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenCreateTopicThread, courseId: self.courseID, value: selectedTopic?.name, threadId: nil, topicId: selectedTopic?.id, responseID: nil)
     }
     
-    override public func shouldAutorotate() -> Bool {
+    override public var shouldAutorotate: Bool {
         return true
     }
     
-    override public func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .AllButUpsideDown
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
     
     private func loadedData() {
@@ -275,9 +275,9 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     private func setTopicsButtonTitle() {
-        if let topic = selectedTopic, name = topic.name {
+        if let topic = selectedTopic, let name = topic.name {
             let title = Strings.topic(topic: name)
-            topicButton.setAttributedTitle(OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark()).attributedStringWithText(title), forState: .Normal)
+            topicButton.setAttributedTitle(OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralDark()).attributedString(withText: title), for: .normal)
         }
     }
     
@@ -311,7 +311,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
         
         self.optionsViewController?.view.alpha = 0.0
-        UIView.animateWithDuration(0.3) {
+        UIView.animate(withDuration: 0.3) {
             self.optionsViewController?.view.alpha = 1.0
         }
     }
@@ -325,7 +325,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         }
     }
     
-    public func textViewDidChange(textView: UITextView) {
+    public func textViewDidChange(_ textView: UITextView) {
         validatePostButton()
         growingTextController.handleTextChange()
     }
@@ -335,16 +335,16 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     }
     
     private func validatePostButton() {
-        self.postButton.enabled = !(titleTextField.text ?? "").isEmpty && !contentTextView.text.isEmpty && self.selectedTopic != nil
+        self.postButton.isEnabled = !(titleTextField.text ?? "").isEmpty && !contentTextView.text.isEmpty && self.selectedTopic != nil
     }
 
     func menuOptionsController(controller : MenuOptionsViewController, selectedOptionAtIndex index: Int) {
         selectedTopic = self.topics.value?[index]
         
-        if let topic = selectedTopic where topic.id != nil {
+        if let topic = selectedTopic, topic.id != nil {
             setTopicsButtonTitle()
             UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, titleTextField);
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animate(withDuration: 0.3, animations: {
                 self.optionsViewController?.view.alpha = 0.0
                 }, completion: {[weak self](finished: Bool) in
                     self?.optionsViewController?.view.removeFromSuperview()
@@ -358,19 +358,19 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         growingTextController.scrollToVisible()
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+    private func textFieldDidBeginEditing(textField: UITextField) {
         tapButton.isAccessibilityElement = true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    private func textFieldDidEndEditing(textField: UITextField) {
         tapButton.isAccessibilityElement = false
     }
     
-    public func textViewDidBeginEditing(textView: UITextView) {
+    public func textViewDidBeginEditing(_ textView: UITextView) {
         tapButton.isAccessibilityElement = true
     }
     
-    public func textViewDidEndEditing(textView: UITextView) {
+    public func textViewDidEndEditing(_ textView: UITextView) {
         tapButton.isAccessibilityElement = false
     }
 }
@@ -379,18 +379,18 @@ extension UISegmentedControl {
     //UIsegmentControl didn't support attributedTitle by default
     func insertSegmentWithAttributedTitle(title: NSAttributedString, index: NSInteger, animated: Bool) {
         let segmentLabel = UILabel()
-        segmentLabel.backgroundColor = UIColor.clearColor()
-        segmentLabel.textAlignment = .Center
+        segmentLabel.backgroundColor = UIColor.clear
+        segmentLabel.textAlignment = .center
         segmentLabel.attributedText = title
         segmentLabel.sizeToFit()
-        self.insertSegmentWithImage(segmentLabel.toImage(), atIndex: 1, animated: false)
+        self.insertSegment(with: segmentLabel.toImage(), at: 1, animated: false)
     }
 }
 
 extension UILabel {
     func toImage()-> UIImage? {
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, 0)
-        self.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        self.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext();
@@ -400,7 +400,7 @@ extension UILabel {
 
 // For use in testing only
 extension DiscussionNewPostViewController {
-    public func t_topicsLoaded() -> Stream<[DiscussionTopic]> {
+    public func t_topicsLoaded() -> OEXStream<[DiscussionTopic]> {
         return topics
     }
 }

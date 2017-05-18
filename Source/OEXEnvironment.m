@@ -138,7 +138,7 @@
             [env.postSetupActions addObject:^(OEXEnvironment* env) {
                 [manager addStandardInterceptors];
                 [manager addResponseInterceptors];
-                [manager addRefreshTokenAuthenticator:env.router session:env.session clientId:env.config.oauthClientID];
+                [manager addRefreshTokenAuthenticatorWithRouter:env.router session:env.session clientId:env.config.oauthClientID];
             }];
             return manager;
         };

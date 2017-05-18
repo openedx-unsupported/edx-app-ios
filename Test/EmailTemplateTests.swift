@@ -14,9 +14,9 @@ class EmailTemplateTests: XCTestCase {
 
     func testSubmitFeedbackContent() {
         let body = EmailTemplates.supportEmailMessageTemplate()
-        XCTAssertTrue(body.containsString(Strings.SubmitFeedback.deviceModel(model: UIDevice.currentDevice().model)))
-        XCTAssertTrue(body.containsString(Strings.SubmitFeedback.osVersion(version: UIDevice.currentDevice().systemVersion)))
-        XCTAssertTrue(body.containsString(Strings.SubmitFeedback.appVersion(version: NSBundle.mainBundle().oex_shortVersionString(), build: NSBundle.mainBundle().oex_buildVersionString())))
+        XCTAssertTrue(body.contains(Strings.SubmitFeedback.deviceModel(model: UIDevice.current.model)))
+        XCTAssertTrue(body.contains(Strings.SubmitFeedback.osVersion(version: UIDevice.current.systemVersion)))
+        XCTAssertTrue(body.contains(Strings.SubmitFeedback.appVersion(version: Bundle.main.oex_shortVersionString(), build: Bundle.main.oex_buildVersionString())))
     }
 
 }

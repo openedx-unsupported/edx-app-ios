@@ -67,7 +67,8 @@ NSString* const OEXErrorDomain = @"org.edx.error";
     switch (self.access.error_code) {
         case OEXStartDateError: {
             
-            NSAttributedString*(^template)(NSAttributedString*) = [style apply:^(NSString* s){ return [Strings courseWillStartAtDate:s]; }];
+            NSAttributedString*(^template)(NSAttributedString*) =
+            [style applyWithF:^(NSString* s){ return [Strings courseWillStartAtDate:s]; }];
             if(self.displayInfo.type == OEXStartTypeString && self.displayInfo.displayDate.length > 0) {
                 NSAttributedString* styledDate = [style.withWeight(OEXTextWeightBold) attributedStringWithText:self.displayInfo.displayDate];
                 NSAttributedString* message = template(styledDate);

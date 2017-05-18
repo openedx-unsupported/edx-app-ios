@@ -10,7 +10,7 @@ import UIKit
 
 class PostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PullRefreshControllerDelegate, InterfaceOrientationOverriding, DiscussionNewPostViewControllerDelegate {
 
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, OEXStylesProvider>
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     enum Context {
         case Topic(DiscussionTopic)
@@ -20,64 +20,64 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         var allowsPosting : Bool {
             switch self {
-            case Topic: return true
-            case Following: return true
-            case Search: return false
-            case AllPosts: return true
+            case .Topic: return true
+            case .Following: return true
+            case .Search: return false
+            case .AllPosts: return true
             }
         }
         
         var topic : DiscussionTopic? {
             switch self {
-            case let Topic(topic): return topic
-            case Search(_): return nil
-            case Following(_): return nil
-            case AllPosts(_): return nil
+            case let .Topic(topic): return topic
+            case .Search(_): return nil
+            case .Following(_): return nil
+            case .AllPosts(_): return nil
             }
         }
         
         var navigationItemTitle : String? {
             switch self {
-            case let Topic(topic): return topic.name
-            case Search(_): return Strings.searchResults
-            case Following(_): return Strings.postsImFollowing
-            case AllPosts(_): return Strings.allPosts
+            case let .Topic(topic): return topic.name
+            case .Search(_): return Strings.searchResults
+            case .Following(_): return Strings.postsImFollowing
+            case .AllPosts(_): return Strings.allPosts
             }
         }
 
         //Strictly to be used to pass on to DiscussionNewPostViewController.
         var selectedTopic : DiscussionTopic? {
             switch self {
-            case let Topic(topic): return topic.isSelectable ? topic : topic.firstSelectableChild()
-            case Search(_): return nil
-            case Following(_): return nil
-            case AllPosts(_): return nil
+            case let .Topic(topic): return topic.isSelectable ? topic : topic.firstSelectableChild()
+            case .Search(_): return nil
+            case .Following(_): return nil
+            case .AllPosts(_): return nil
             }
         }
         
         var noResultsMessage : String {
             switch self {
-            case Topic(_): return Strings.noResultsFound
-            case AllPosts: return Strings.noCourseResults
-            case Following: return Strings.noFollowingResults
+            case .Topic(_): return Strings.noResultsFound
+            case .AllPosts: return Strings.noCourseResults
+            case .Following: return Strings.noFollowingResults
             case let .Search(string) : return Strings.emptyResultset(queryString: string)
             }
         }
         
-        private var queryString: String? {
+        fileprivate var queryString: String? {
             switch self {
-            case Topic(_): return nil
-            case AllPosts: return nil
-            case Following: return nil
+            case .Topic(_): return nil
+            case .AllPosts: return nil
+            case .Following: return nil
             case let .Search(string) : return string
             }
         }
         
     }
     var environment: Environment!
-    private var paginationController : PaginationController<DiscussionThread>?
+    fileprivate var paginationController : PaginationController<DiscussionThread>?
     
-    private lazy var tableView = UITableView(frame: CGRectZero, style: .Plain)
+    private lazy var tableView = UITableView(frame: CGRect.zero, style: .plain)
 
     private let viewSeparator = UIView()
     private let loadController = LoadStateViewController()
@@ -90,14 +90,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var searchBar : UISearchBar?
     private let filterButton = PressableCustomButton()
     private let sortButton = PressableCustomButton()
-    private let newPostButton = UIButton(type: .System)
+    private let newPostButton = UIButton(type: .system)
     private let courseID: String
     private var isDiscussionBlackedOut: Bool = true {
         didSet {
             updateNewPostButtonStyle()
         }
     }
-    private var stream: Stream<(DiscussionInfo)>?
+    fileprivate var stream: OEXStream<(DiscussionInfo)>?
     
     private let contentView = UIView()
     
@@ -112,11 +112,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private var queryString : String?
     private var refineTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Small, color: OEXStyles.sharedStyles().neutralDark())
+        return OEXTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralDark())
     }
 
     private var filterTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Small, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().primaryBaseColor())
     }
     
     private var hasResults:Bool = false
@@ -158,10 +158,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         setConstraints()
         setStyles()
         
-        tableView.registerClass(PostTableViewCell.classForCoder(), forCellReuseIdentifier: PostTableViewCell.identifier)
+        tableView.register(PostTableViewCell.classForCoder(), forCellReuseIdentifier: PostTableViewCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.estimatedRowHeight = 150
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.applyStandardSeparatorInsets()
@@ -172,22 +172,22 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         filterButton.oex_addAction(
             {[weak self] _ in
                 self?.showFilterPicker()
-            }, forEvents: .TouchUpInside)
+            }, for: .touchUpInside)
         sortButton.oex_addAction(
             {[weak self] _ in
                 self?.showSortPicker()
-            }, forEvents: .TouchUpInside)
+            }, for: .touchUpInside)
         newPostButton.oex_addAction(
             {[weak self] _ in
                 if let owner = self {
-                    owner.environment.router?.showDiscussionNewPostFromController(owner, courseID: owner.courseID, selectedTopic : owner.context?.selectedTopic)
+                    owner.environment.router?.showDiscussionNewPostFromController(controller: owner, courseID: owner.courseID, selectedTopic : owner.context?.selectedTopic)
                 }
-            }, forEvents: .TouchUpInside)
+            }, for: .touchUpInside)
 
-        loadController.setupInController(self, contentView: contentView)
-        insetsController.setupInController(self, scrollView: tableView)
-        refreshController.setupInScrollView(tableView)
-        insetsController.addSource(refreshController)
+        loadController.setupInController(controller: self, contentView: contentView)
+        insetsController.setupInController(owner: self, scrollView: tableView)
+        refreshController.setupInScrollView(scrollView: tableView)
+        insetsController.addSource(source: refreshController)
         refreshController.delegate = self
         
         //set visibility of header view
@@ -211,14 +211,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     private func updateAccessibility() {
         
-        filterButton.accessibilityLabel = Strings.Accessibility.discussionFilterBy(filterBy: titleForFilter(selectedFilter))
+        filterButton.accessibilityLabel = Strings.Accessibility.discussionFilterBy(filterBy: titleForFilter(filter: selectedFilter))
         filterButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
-        sortButton.accessibilityLabel = Strings.Accessibility.discussionSortBy(sortBy: titleForSort(selectedOrderBy))
+        sortButton.accessibilityLabel = Strings.Accessibility.discussionSortBy(sortBy: titleForSort(filter: selectedOrderBy))
         sortButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
     }
     
     private func configureSearchBar() {
-        guard let context = context where !context.allowsPosting else {
+        guard let context = context, !context.allowsPosting else {
             return
         }
         
@@ -228,7 +228,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         searchBarDelegate = DiscussionSearchBarDelegate() { [weak self] text in
             self?.context = Context.Search(text)
             self?.loadController.state = .Initial
-            self?.searchThreads(text)
+            self?.searchThreads(query: text)
             self?.searchBar?.delegate = self?.searchBarDelegate
         }
     }
@@ -277,7 +277,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.leadingMargin.equalTo(headerView).offset(StandardHorizontalMargin)
             make.centerY.equalTo(headerView)
         }
-        refineLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        refineLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         
         headerButtonHolderView.snp_remakeConstraints { (make) -> Void in
             make.leading.equalTo(refineLabel.snp_trailing)
@@ -301,7 +301,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         newPostButton.snp_remakeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
-            make.height.equalTo(context?.allowsPosting ?? false ? OEXStyles.sharedStyles().standardFooterHeight : 0)
+            make.height.equalTo(context?.allowsPosting ?? false ? OEXStyles.shared().standardFooterHeight : 0)
             make.top.equalTo(contentView.snp_bottom)
             make.bottom.equalTo(view)
         }
@@ -325,54 +325,54 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         view.backgroundColor = environment.styles.standardBackgroundColor()
         
-        self.refineLabel.attributedText = self.refineTextStyle.attributedStringWithText(Strings.refine)
+        self.refineLabel.attributedText = self.refineTextStyle.attributedString(withText: Strings.refine)
         
         var buttonTitle = NSAttributedString.joinInNaturalLayout(
-            [Icon.Filter.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
-                filterTextStyle.attributedStringWithText(self.titleForFilter(self.selectedFilter))])
-        filterButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
+            attributedStrings: [Icon.Filter.attributedTextWithStyle(style: filterTextStyle.withSize(.xSmall)),
+                filterTextStyle.attributedString(withText: self.titleForFilter(filter: self.selectedFilter))])
+        filterButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated : false)
         
-        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(filterTextStyle.withSize(.XSmall)),
-            filterTextStyle.attributedStringWithText(Strings.recentActivity)])
-        sortButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
+        buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Sort.attributedTextWithStyle(style: filterTextStyle.withSize(.xSmall)),
+            filterTextStyle.attributedString(withText: Strings.recentActivity)])
+        sortButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated : false)
         
         updateNewPostButtonStyle()
         
-        let style = OEXTextStyle(weight : .Normal, size: .Base, color: environment.styles.neutralWhite())
-        buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Create.attributedTextWithStyle(style.withSize(.XSmall)),
-            style.attributedStringWithText(Strings.createANewPost)])
-        newPostButton.setAttributedTitle(buttonTitle, forState: .Normal)
+        let style = OEXTextStyle(weight : .normal, size: .base, color: environment.styles.neutralWhite())
+        buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Create.attributedTextWithStyle(style: style.withSize(.xSmall)),
+            style.attributedString(withText: Strings.createANewPost)])
+        newPostButton.setAttributedTitle(buttonTitle, for: .normal)
         
-        newPostButton.contentVerticalAlignment = .Center
+        newPostButton.contentVerticalAlignment = .center
         
         self.navigationItem.title = context?.navigationItemTitle
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         
         viewSeparator.backgroundColor = environment.styles.neutralXLight()
     }
     
     private func updateNewPostButtonStyle() {
         newPostButton.backgroundColor = isDiscussionBlackedOut ? environment.styles.neutralBase() : environment.styles.primaryXDarkColor()
-        newPostButton.enabled = !isDiscussionBlackedOut
+        newPostButton.isEnabled = !isDiscussionBlackedOut
     }
     
     func setIsDiscussionBlackedOut(value : Bool){
         isDiscussionBlackedOut = value
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let selectedIndex = tableView.indexPathForSelectedRow {
-            tableView.deselectRowAtIndexPath(selectedIndex, animated: false)
+            tableView.deselectRow(at: selectedIndex, animated: false)
         }
     }
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate: Bool {
         return true
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .AllButUpsideDown
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
     
     private func logScreenEvent() {
@@ -382,26 +382,27 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         switch context {
         case let .Topic(topic):
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, responseID: nil)
+            self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: topic.name, threadId: nil, topicId: topic.id, responseID: nil)
         case let .Search(query):
-            self.environment.analytics.trackScreenWithName(OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
+            self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSearchThreads, courseID: self.courseID, value: query, additionalInfo:["search_string":query])
         case .Following:
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", responseID: nil)
+            self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", responseID: nil)
         case .AllPosts:
-            self.environment.analytics.trackDiscussionScreenWithName(OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
+            self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
         }
     }
     
+    
     private func loadContent() {
-        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID)
+        let apiRequest = DiscussionAPI.getDiscussionInfo(courseID: courseID)
         stream = environment.networkManager.streamForRequest(apiRequest)
         stream?.listen(self, success: { [weak self] (discussionInfo) in
             self?.isDiscussionBlackedOut = discussionInfo.isBlackedOut
             self?.loadPostContent()
             }
             ,failure: { [weak self] (error) in
-                self?.loadController.state = LoadState.failed(error)
-            })
+                self?.loadController.state = LoadState.failed(error: error)
+        })
     }
     
     private func loadPostContent() {
@@ -415,23 +416,23 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         switch context {
         case let .Topic(topic):
-            loadPostsForTopic(topic, filter: selectedFilter, orderBy: selectedOrderBy)
+            loadPostsForTopic(topic: topic, filter: selectedFilter, orderBy: selectedOrderBy)
         case let .Search(query):
-            searchThreads(query)
+            searchThreads(query: query)
         case .Following:
-            loadFollowedPostsForFilter(selectedFilter, orderBy: selectedOrderBy)
+            loadFollowedPostsForFilter(filter: selectedFilter, orderBy: selectedOrderBy)
         case .AllPosts:
-            loadPostsForTopic(nil, filter: selectedFilter, orderBy: selectedOrderBy)
+            loadPostsForTopic(topic: nil, filter: selectedFilter, orderBy: selectedOrderBy)
         }
     }
     
     private func loadTopic() {
         guard let topicID = topicID else {
-            loadController.state = LoadState.failed(NSError.oex_unknownError())
+            loadController.state = LoadState.failed(error: NSError.oex_unknownError())
             return
         }
         
-        let apiRequest = DiscussionAPI.getTopicByID(courseID, topicID: topicID)
+        let apiRequest = DiscussionAPI.getTopicByID(courseID: courseID, topicID: topicID)
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] response in
             if let topics = response.data {
                 //Sending signle topic id so always get a single topic
@@ -441,7 +442,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
                 self?.loadContent()
             }
             else {
-                self?.loadController.state = LoadState.failed(response.error)
+                self?.loadController.state = LoadState.failed(error: response.error)
             }
         }
     }
@@ -456,13 +457,13 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         // if post has results then set hasResults yes
         hasResults = context?.allowsPosting ?? false && self.posts.count > 0
         
-        headerView.hidden = !hasResults
+        headerView.isHidden = !hasResults
     }
     
     private func loadFollowedPostsForFilter(filter : DiscussionPostsFilter, orderBy: DiscussionPostsSort) {
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.getFollowedThreads(self.environment.router?.environment, courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: page)
+            return DiscussionAPI.getFollowedThreads(environment: self.environment.router?.environment, courseID: self.courseID, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
@@ -473,7 +474,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func searchThreads(query : String) {
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.searchThreads(self.environment.router?.environment, courseID: self.courseID, searchText: query, pageNumber: page)
+            return DiscussionAPI.searchThreads(environment: self.environment.router?.environment, courseID: self.courseID, searchText: query, pageNumber: page)
         }
         
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
@@ -493,7 +494,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
-            return DiscussionAPI.getThreads(self.environment.router?.environment, courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: page)
+            return DiscussionAPI.getThreads(environment: self.environment.router?.environment, courseID: self.courseID, topicIDs: topicIDApiRepresentation, filter: filter, orderBy: orderBy, pageNumber: page)
         }
         
         paginationController = PaginationController (paginator: paginator, tableView: self.tableView)
@@ -506,10 +507,10 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         paginationController?.stream.listen(self, success:
             { [weak self] threads in
                 self?.posts.removeAll()
-                self?.updatePostsFromThreads(threads)
+                self?.updatePostsFromThreads(threads: threads)
                 self?.refreshController.endRefreshing()
             }, failure: { [weak self] (error) -> Void in
-                self?.loadController.state = LoadState.failed(error)
+                self?.loadController.state = LoadState.failed(error: error)
             })
         
         paginationController?.loadMore()
@@ -567,47 +568,47 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func showFilterPicker() {
-        let options = [.AllPosts, .Unread, .Unanswered].map {
-            return (title : self.titleForFilter($0), value : $0)
+        let options = [DiscussionPostsFilter.AllPosts, DiscussionPostsFilter.Unread, DiscussionPostsFilter.Unanswered].map {
+            return (title : self.titleForFilter(filter: $0), value : $0)
         }
 
-        let controller = UIAlertController.actionSheetWithItems(options, currentSelection : self.selectedFilter) {filter in
+        let controller = UIAlertController.actionSheetWithItems(items: options, currentSelection : self.selectedFilter) {filter in
             self.selectedFilter = filter
             self.loadController.state = .Initial
             self.loadContent()
             
-            let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Filter.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
-                self.filterTextStyle.attributedStringWithText(self.titleForFilter(filter))])
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Filter.attributedTextWithStyle(style: self.filterTextStyle.withSize(.xSmall)),
+                self.filterTextStyle.attributedString(withText: self.titleForFilter(filter: filter))])
             
-            self.filterButton.setAttributedTitle(buttonTitle, forState: .Normal, animated : false)
+            self.filterButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated : false)
             self.updateAccessibility()
         }
         controller.addCancelAction()
-        self.presentViewController(controller, animated: true, completion:nil)
+        self.present(controller, animated: true, completion:nil)
     }
     
     func showSortPicker() {
-        let options = [.RecentActivity, .MostActivity, .VoteCount].map {
-            return (title : self.titleForSort($0), value : $0)
+        let options = [DiscussionPostsSort.RecentActivity, DiscussionPostsSort.MostActivity, DiscussionPostsSort.VoteCount].map {
+            return (title : self.titleForSort(filter: $0), value : $0)
         }
         
-        let controller = UIAlertController.actionSheetWithItems(options, currentSelection : self.selectedOrderBy) {sort in
+        let controller = UIAlertController.actionSheetWithItems(items: options, currentSelection : self.selectedOrderBy) {sort in
             self.selectedOrderBy = sort
             self.loadController.state = .Initial
             self.loadContent()
             
-            let buttonTitle = NSAttributedString.joinInNaturalLayout([Icon.Sort.attributedTextWithStyle(self.filterTextStyle.withSize(.XSmall)),
-                self.filterTextStyle.attributedStringWithText(self.titleForSort(sort))])
+            let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [Icon.Sort.attributedTextWithStyle(style: self.filterTextStyle.withSize(.xSmall)),
+                self.filterTextStyle.attributedString(withText: self.titleForSort(filter: sort))])
             
-            self.sortButton.setAttributedTitle(buttonTitle, forState: .Normal, animated: false)
+            self.sortButton.setAttributedTitle(title: buttonTitle, forState: .normal, animated: false)
             self.updateAccessibility()
         }
         
         controller.addCancelAction()
-        self.presentViewController(controller, animated: true, completion:nil)
+        self.present(controller, animated: true, completion:nil)
     }
     
-    private func updateSelectedPostAttributes(indexPath: NSIndexPath) {
+    private func updateSelectedPostAttributes(indexPath: IndexPath) {
         posts[indexPath.row].read = true
         posts[indexPath.row].unreadCommentCount = 0
         tableView.reloadData()
@@ -627,44 +628,40 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     // MARK - Table View Delegate
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
     
     var cellTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight : .normal, size: .large, color: OEXStyles.shared().primaryBaseColor())
     }
     
     var unreadIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .Normal, size: .Large, color: OEXStyles.sharedStyles().primaryBaseColor())
+        return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().primaryBaseColor())
     }
     
     var readIconTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .Normal, size: .Large, color: OEXStyles.sharedStyles().neutralBase())
+        return OEXTextStyle(weight : .normal, size: .large, color: OEXStyles.shared().neutralBase())
     }
     
     func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
-        let style = cellTextStyle.withSize(.Small)
+        let style = cellTextStyle.withSize(.small)
         return text.map {text in
-            return NSAttributedString.joinInNaturalLayout([icon.attributedTextWithStyle(style),
-                style.attributedStringWithText(text)])
+            return NSAttributedString.joinInNaturalLayout(attributedStrings: [icon.attributedTextWithStyle(style: style),
+                style.attributedString(withText: text)])
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(PostTableViewCell.identifier, forIndexPath: indexPath) as! PostTableViewCell
-        cell.useThread(posts[indexPath.row], selectedOrderBy : selectedOrderBy)
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.identifier, for: indexPath) as! PostTableViewCell
+        cell.useThread(thread: posts[indexPath.row], selectedOrderBy : selectedOrderBy)
         cell.applyStandardSeparatorInsets()
             return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        updateSelectedPostAttributes(indexPath)
-        environment.router?.showDiscussionResponsesFromViewController(self, courseID : courseID, thread: posts[indexPath.row], isDiscussionBlackedOut: isDiscussionBlackedOut)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        updateSelectedPostAttributes(indexPath: indexPath as IndexPath)
+        environment.router?.showDiscussionResponsesFromViewController(controller: self, courseID : courseID, thread: posts[indexPath.row], isDiscussionBlackedOut: isDiscussionBlackedOut)
     }
 }
 
@@ -688,19 +685,19 @@ public extension DiscussionTopic {
 
 extension UITableView {
     //Might be worth adding a section argument in the future
-    func isLastRow(indexPath indexPath : NSIndexPath) -> Bool {
-        return indexPath.row == self.numberOfRowsInSection(indexPath.section) - 1 && indexPath.section == self.numberOfSections - 1
+    func isLastRow(indexPath : IndexPath) -> Bool {
+        return indexPath.row == self.numberOfRows(inSection: indexPath.section) - 1 && indexPath.section == self.numberOfSections - 1
     }
 }
 
 // Testing only
 extension PostsViewController {
     
-    var t_loaded : Stream<()> {
+    var t_loaded : OEXStream<()> {
         return self.stream!.map {_ in () }
     }
     
-    var t_loaded_pagination : Stream<()> {
+    var t_loaded_pagination : OEXStream<()> {
         return self.paginationController!.stream.map {_ in
             return
         }

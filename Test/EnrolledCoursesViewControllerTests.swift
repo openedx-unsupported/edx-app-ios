@@ -79,14 +79,14 @@ class EnrolledCoursesViewControllerTests: SnapshotTestCase {
         XCTAssertFalse(controller.t_isShowingSnackBar)
         
         //test new version available
-        let expectation = expectationWithDescription("new app version available")
-        let removable = addNotificationObserver(self, name: AppNewVersionAvailableNotification) { (_, _, removable) -> Void in
-            controller.showVersionUpgradeSnackBar("new app version available")
-            expectation.fulfill()
+        let expectations = expectation(description: "new app version available")
+        let removable = addNotificationObserver(observer: self, name: AppNewVersionAvailableNotification) { (_, _, removable) -> Void in
+            controller.showVersionUpgradeSnackBar(string: "new app version available")
+            expectations.fulfill()
         }
         
         let versionInfoController = VersionUpgradeInfoController.sharedController
-        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo)
+        versionInfoController.populateFromHeaders(httpResponseHeaders: VersionUpgradeDataFactory.versionUpgradeInfo as? [String : Any])
         self.waitForExpectations()
         removable.remove()
         XCTAssertTrue(controller.t_isShowingSnackBar)

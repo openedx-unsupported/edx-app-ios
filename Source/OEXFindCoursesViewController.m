@@ -55,11 +55,11 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
             urlToLoad = [self enrollmentConfig].webviewConfig.searchURL;
             break;
         case OEXFindCoursesBaseTypeExploreSubjects:
-            self.navigationItem.title = [Startup exploreSubjects];
+            self.navigationItem.title = [Strings startupExploreSubjects];
             urlToLoad = [self enrollmentConfig].webviewConfig.exploreSubjectsURL;
             break;
     }
-    [self.webViewHelper loadRequestWithURL:urlToLoad];
+    [self.webViewHelper loadRequestWithURL: urlToLoad];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -83,7 +83,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [self.navigationController pushViewController:courseInfoViewController animated:YES];
 }
 
-- (BOOL)webViewHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
+- (BOOL) webViewHelperWithHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
     NSString* coursePathID = [self getCoursePathIDFromURL:request.URL];
     if(coursePathID != nil) {
         [self showCourseInfoWithPathID:coursePathID];
@@ -92,7 +92,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     return YES;
 }
 
-- (UIViewController*)containingControllerForWebViewHelper:(FindCoursesWebViewHelper *)helper {
+- (UIViewController*)containingControllerForWebViewHelperWithHelper:(FindCoursesWebViewHelper *)helper {
     return self;
 }
 

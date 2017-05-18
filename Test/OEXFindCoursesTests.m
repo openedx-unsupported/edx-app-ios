@@ -38,11 +38,12 @@
     FindCoursesWebViewHelper* helper = [[FindCoursesWebViewHelper alloc] initWithConfig:nil delegate:nil bottomBar:nil showSearch:YES];
     OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
     NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
-    BOOL successCorrect = ![findCoursesViewController webViewHelper:helper shouldLoadLinkWithRequest:testURLRequestCorrect];
+    BOOL successCorrect = ![findCoursesViewController webViewHelperWithHelper:helper shouldLoadLinkWithRequest:testURLRequestCorrect];
+    
     XCTAssert(successCorrect, @"Correct URL not recognized");
     
     NSURLRequest *testURLRequestWrong = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapps://course_infos?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
-    BOOL successWrong = [findCoursesViewController webViewHelper:helper shouldLoadLinkWithRequest:testURLRequestWrong];
+    BOOL successWrong = [findCoursesViewController webViewHelperWithHelper:helper shouldLoadLinkWithRequest:testURLRequestWrong];
     XCTAssert(successWrong, @"Wrong URL not recognized");
 }
 
@@ -81,7 +82,7 @@
 
     NSString* expected = @"http://www.fakex.com/course?search_query=mobile+linux";
     NSURL* expectedURL = [NSURL URLWithString:expected];
-    NSURL* output = [FindCoursesWebViewHelper buildQuery:baseURL toolbarString:queryString];
+    NSURL* output = [FindCoursesWebViewHelper buildQueryWithBaseURL:baseURL toolbarString:queryString];
     XCTAssertEqualObjects(output, expectedURL);
 }
 
@@ -91,7 +92,7 @@
 
     NSString* expected = @"http://www.fakex.com/course?type=mobile&search_query=mobile+linux";
     NSURL* expectedURL = [NSURL URLWithString:expected];
-    NSURL* output = [FindCoursesWebViewHelper buildQuery:baseURL toolbarString:queryString];
+    NSURL* output = [FindCoursesWebViewHelper buildQueryWithBaseURL:baseURL toolbarString:queryString];
     XCTAssertEqualObjects(output, expectedURL);
 }
 

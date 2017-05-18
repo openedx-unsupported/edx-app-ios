@@ -13,11 +13,11 @@ class UserProfileManagerTests : XCTestCase {
     
     func loggedInContext() -> (OEXMockCredentialStorage, OEXSession, UserProfileManager, MockNetworkManager) {
         
-        let credentialStorage = OEXMockCredentialStorage.freshStorage()
+        let credentialStorage = OEXMockCredentialStorage.fresh()
         let session = OEXSession(credentialStore: credentialStorage)
         session.loadTokenFromStore()
         
-        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: NSURL(string:"http://example.com")!)
+        let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string:"http://example.com")!)
         networkManager.interceptWhenMatching({ $0.method == .GET}, successResponse: {
             return (nil, UserProfile(username: credentialStorage.storedUserDetails!.username!))
         })
@@ -31,39 +31,39 @@ class UserProfileManagerTests : XCTestCase {
         let (credentialStorage, session, profileManager, _) = loggedInContext()
         let feed = profileManager.feedForCurrentUser()
         
-        var expectation = expectationWithDescription("Profile populated")
+        var testExpectation = expectation(description: "Profile populated")
         feed.refresh()
         
         // Initial log in should include user
         var removable = feed.output.listen(self) {
             if let value = $0.value {
                 XCTAssertEqual(value.username!, credentialStorage.storedUserDetails!.username!)
-                expectation.fulfill()
+                testExpectation.fulfill()
             }
         }
         waitForExpectations()
         removable.remove()
         
-        session.closeAndClearSession()
-        credentialStorage.storedAccessToken = OEXAccessToken.fakeToken()
+        session.closeAndClear()
+        credentialStorage.storedAccessToken = OEXAccessToken.fake()
         credentialStorage.storedUserDetails = OEXUserDetails.freshUser()
         
         // Log out should remove user
-        expectation = expectationWithDescription("Profile removed")
+        testExpectation = expectation(description: "Profile removed")
         feed.output.listenOnce(self) {
             XCTAssertNil($0.value)
-            expectation.fulfill()
+            testExpectation.fulfill()
         }
         
         session.loadTokenFromStore()
         
         // Log in back in should update user
-        expectation = expectationWithDescription("Profile populated again")
+        testExpectation = expectation(description: "Profile populated again")
         feed.refresh()
         removable = feed.output.listen(self) {
             if let value = $0.value {
                 XCTAssertEqual(value.username!, credentialStorage.storedUserDetails!.username!)
-                expectation.fulfill()
+                testExpectation.fulfill()
             }
         }
         waitForExpectations()
@@ -74,53 +74,53 @@ class UserProfileManagerTests : XCTestCase {
         let (_, _, profileManager, networkManager) = loggedInContext()
         let profileFeed = profileManager.feedForCurrentUser()
         var profile : UserProfile!
-        var expectation = expectationWithDescription("Profile populated")
+        var testExpectation = expectation(description: "Profile populated")
         profileFeed.refresh()
         profileFeed.output.listenOnce(self) {
             profile = $0.value
-            expectation.fulfill()
+            testExpectation.fulfill()
         }
         waitForExpectations()
         let newBio = "Test Passed"
-        profile.updateDictionary = ["bio" : newBio]
+        profile.updateDictionary = ["bio" : newBio as AnyObject]
         
-        networkManager.interceptWhenMatching({ $0.method == .PATCH}) { () -> (NSData?, UserProfile) in
+        networkManager.interceptWhenMatching({ $0.method == .PATCH}) { () -> (Data?, UserProfile) in
             let newProfile = profile
-            newProfile.bio = newBio
-            return (nil, newProfile)
+            newProfile?.bio = newBio
+            return (nil, newProfile!)
         }
         
-        expectation = expectationWithDescription("Profile updated")
-        profileManager.updateCurrentUserProfile(profile) { result -> Void in
+        testExpectation = expectation(description: "Profile updated")
+        profileManager.updateCurrentUserProfile(profile: profile) { result -> Void in
             XCTAssertEqual(result.value!.bio, newBio)
-            expectation.fulfill()
+            testExpectation.fulfill()
         }
         waitForExpectations()
         
         // We updated the profile so the current user feed should also fire
-        expectation = expectationWithDescription("Profile feed update")
+        testExpectation = expectation(description: "Profile feed update")
         profileFeed.output.listenOnce(self) {
             XCTAssertEqual($0.value!.bio!, newBio)
-            expectation.fulfill()
+            testExpectation.fulfill()
         }
         waitForExpectations()
     }
     
     func testClearsOnLogOut() {
         let (_, session, profileManager, _) = loggedInContext()
-        var feed = profileManager.feedForUser("some_test_person")
+        var feed = profileManager.feedForUser(username: "some_test_person")
         feed.refresh()
         
-        let expectation = expectationWithDescription("Profile loaded")
+        let testExpectation = expectation(description: "Profile loaded")
         feed.output.listenOnce(self) {_ in
-            expectation.fulfill()
+            testExpectation.fulfill()
         }
         
         waitForExpectations()
         XCTAssertNotNil(feed.output.value!.username)
-        session.closeAndClearSession()
+        session.closeAndClear()
         
-        feed = profileManager.feedForUser("some_test_person")
+        feed = profileManager.feedForUser(username: "some_test_person")
         XCTAssertNil(feed.output.value)
         
     }

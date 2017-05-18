@@ -57,14 +57,14 @@ public class CourseLastAccessedController: NSObject {
             return
         }
         
-        if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(self.courseID) {
-            let blockStream = expandAccessStream(Stream(value : firstLoad))
+        if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(courseID: self.courseID) {
+            let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad))
             lastAccessedLoader.backWithStream(blockStream)
         }
         
-        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID)
+        let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID)
         let lastAccessed = self.networkManager.streamForRequest(request)
-        lastAccessedLoader.backWithStream(expandAccessStream(lastAccessed))
+        lastAccessedLoader.backWithStream(expandAccessStream(stream: lastAccessed))
     }
     
     public func saveLastAccessed() {
@@ -74,18 +74,18 @@ public class CourseLastAccessedController: NSObject {
         
         if let currentCourseBlockID = self.blockID {
             t_hasTriggeredSetLastAccessed = true
-            let request = UserAPI.setLastVisitedModuleForBlockID(self.courseID, module_id: currentCourseBlockID)
+            let request = UserAPI.setLastVisitedModuleForBlockID(blockID: self.courseID, module_id: currentCourseBlockID)
             let courseID = self.courseID
-            expandAccessStream(self.networkManager.streamForRequest(request)).extendLifetimeUntilFirstResult {[weak self] result in
+            expandAccessStream(stream: self.networkManager.streamForRequest(request)).extendLifetimeUntilFirstResult {[weak self] result in
                 result.ifSuccess() {info in
                     let block = info.0
                     let lastAccessedItem = info.1
                     
                     if let owner = self {
-                        owner.lastAccessedProvider?.setLastAccessedSubSectionWithID(lastAccessedItem.moduleId,
+                        owner.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: lastAccessedItem.moduleId,
                             subsectionName: block.displayName,
                             courseID: courseID,
-                            timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
+                            timeStamp: OEXDateFormatting.serverString(with: Date()))
                     }
                 }
             }
@@ -99,20 +99,20 @@ public class CourseLastAccessedController: NSObject {
                 var item = $0.1
                 item.moduleName = block.displayName
                 
-                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverStringWithDate(NSDate()))
-                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item)
+                self?.lastAccessedProvider?.setLastAccessedSubSectionWithID(subsectionID: item.moduleId, subsectionName: block.displayName, courseID: self?.courseID, timeStamp: OEXDateFormatting.serverString(with: NSDate() as Date))
+                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item: item)
             }
             
             info.ifFailure { [weak self] error in
-                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(nil)
+                self?.delegate?.courseLastAccessedControllerDidFetchLastAccessedItem(item: nil)
             }
         }
         
     }
     
-    private func expandAccessStream(stream : Stream<CourseLastAccessed>) -> Stream<(CourseBlock, CourseLastAccessed)> {
+    private func expandAccessStream(stream : OEXStream<CourseLastAccessed>) -> OEXStream<(CourseBlock, CourseLastAccessed)> {
         return stream.transform {[weak self] lastAccessed in
-            return joinStreams(self?.courseQuerier.blockWithID(lastAccessed.moduleId) ?? Stream<CourseBlock>(), Stream(value: lastAccessed))
+            return joinStreams(self?.courseQuerier.blockWithID(id: lastAccessed.moduleId) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
         }
     }
 }

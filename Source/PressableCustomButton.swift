@@ -13,10 +13,10 @@ import UIKit
 ///This is a UIButton subclass that mocks the fading in/out of a .System UIButton.
 class PressableCustomButton: UIButton {
 
-    static let DEFAULT_ANIMATION_DURATION : NSTimeInterval = 0.1
+    static let DEFAULT_ANIMATION_DURATION : TimeInterval = 0.1
     
     private let pressedAction = { (button : AnyObject) -> Void in
-        UIView.animateWithDuration( DEFAULT_ANIMATION_DURATION, animations: { () -> Void in
+        UIView.animate( withDuration: DEFAULT_ANIMATION_DURATION, animations: { () -> Void in
             if let pressableButton = button as? UIButton {
                 pressableButton.alpha = 0.3
             }
@@ -24,7 +24,7 @@ class PressableCustomButton: UIButton {
     }
     
     private let unpressedAction = { (button : AnyObject) -> Void in
-        UIView.animateWithDuration( DEFAULT_ANIMATION_DURATION, animations: { () -> Void in
+        UIView.animate( withDuration: DEFAULT_ANIMATION_DURATION, animations: { () -> Void in
             if let pressableButton = button as? UIButton {
                 pressableButton.alpha = 1.0
             }
@@ -32,12 +32,12 @@ class PressableCustomButton: UIButton {
     }
     
     private func addFadingActions() {
-        self.oex_addAction(pressedAction, forEvents: [.TouchDown, .TouchDragEnter])
-        self.oex_addAction(unpressedAction, forEvents: [.TouchUpInside, .TouchUpOutside, .TouchDragOutside])
+        oex_addAction(pressedAction, for: [.touchDown, .touchDragEnter])
+        oex_addAction(unpressedAction, for: [.touchUpInside, .touchUpOutside, .touchDragOutside])
     }
     
     convenience init() {
-        self.init(frame : CGRectZero)
+        self.init(frame : CGRect.zero)
     }
     
     override init(frame : CGRect) {

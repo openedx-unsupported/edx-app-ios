@@ -10,7 +10,7 @@ import Foundation
 
 class DiscussionBlockViewController: UIViewController,CourseBlockViewController {
     
-    typealias Environment = protocol<NetworkManagerProvider, OEXRouterProvider, OEXAnalyticsProvider, OEXStylesProvider>
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     let courseID: String
     let blockID : CourseBlockID?
@@ -35,10 +35,10 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = OEXStyles.sharedStyles().standardBackgroundColor()
+        self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
         addChildViewController(postsController)
-        postsController.didMoveToParentViewController(self)
+        postsController.didMove(toParentViewController: self)
         
         view.addSubview(postsController.view)
     }

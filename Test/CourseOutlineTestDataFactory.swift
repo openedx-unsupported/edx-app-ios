@@ -9,12 +9,12 @@
 import Foundation
 import edX
 
-public class CourseOutlineTestDataFactory {
+open class CourseOutlineTestDataFactory {
 
     // This is temporarily part of the edX target instead of the edXTests target so we can use it as a fixture
     // during development. When that is not being done any more we should hook it up to the test target only
     
-    public static func freshCourseOutline(courseID : String) -> CourseOutline {
+    open static func freshCourseOutline(_ courseID : String) -> CourseOutline {
         return CourseOutline(
             root : courseID,
             blocks : [
@@ -40,27 +40,27 @@ public class CourseOutlineTestDataFactory {
             ])
     }
     
-    public static func knownLastAccessedItem() -> CourseLastAccessed {
+    open static func knownLastAccessedItem() -> CourseLastAccessed {
         return CourseLastAccessed(moduleId: "unit2", moduleName: "unit2")
     }
     
-    public static func knownParentIDWithMultipleChildren() -> CourseBlockID {
+    open static func knownParentIDWithMultipleChildren() -> CourseBlockID {
         return "unit2"
     }
     
-    public static func knownSection() -> CourseBlockID {
+    open static func knownSection() -> CourseBlockID {
         return "section1.1"
     }
     
-    public static func knownEmptySection() -> CourseBlockID {
+    open static func knownEmptySection() -> CourseBlockID {
         return "section2.1"
     }
 
-    public static func knownVideoFilterableSection() -> CourseBlockID {
+    open static func knownVideoFilterableSection() -> CourseBlockID {
         return "unit2"
     }
     
-    public static func knownHTMLBlockIDs() -> [CourseBlockID] {
+    open static func knownHTMLBlockIDs() -> [CourseBlockID] {
         return ["block1", "block2"]
     }
 }

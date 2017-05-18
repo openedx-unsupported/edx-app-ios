@@ -12,7 +12,7 @@ import Foundation
 /// Override reloadViewData function
 
 public class OfflineSupportViewController: UIViewController {
-    typealias Env = protocol<ReachabilityProvider>
+    typealias Env = ReachabilityProvider
     private let environment : Env
     init(env: Env) {
         self.environment = env
@@ -28,20 +28,20 @@ public class OfflineSupportViewController: UIViewController {
         setupObservers()
     }
     
-    override public func viewWillAppear(animated: Bool) {
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showOfflineSnackBarIfNecessary()
     }
     
     private func setupObservers() {
-        NSNotificationCenter.defaultCenter().oex_addObserver(self, name: kReachabilityChangedNotification) { (notification, observer, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.reachabilityChanged.rawValue) { (notification, observer, _) in
             observer.showOfflineSnackBarIfNecessary()
         }
     }
     
     private func showOfflineSnackBarIfNecessary() {
         if !environment.reachability.isReachable() {
-            showOfflineSnackBar(Strings.offline, selector: #selector(reloadViewData))
+            showOfflineSnackBar(message: Strings.offline, selector: #selector(reloadViewData))
         }
     }
     

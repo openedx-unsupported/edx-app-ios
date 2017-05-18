@@ -11,14 +11,14 @@ import edXCore
 
 extension Result {
     
-    init(jsonData : NSData?, error : NSError? = nil, constructor: JSON -> A?) {
+    init(jsonData : NSData?, error : NSError? = nil, constructor: (JSON) -> A?) {
         if let data = jsonData,
-            json : AnyObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()),
-            result = constructor(JSON(json)) {
-                self = Success(result)
+            let json : AnyObject = try? JSONSerialization.jsonObject(with: data as Data, options: JSONSerialization.ReadingOptions()) as AnyObject,
+            let result = constructor(JSON(json)) {
+                self = Success(v: result)
         }
         else {
-            self = Failure(error ?? NSError.oex_unknownError())
+            self = Failure(e: error ?? NSError.oex_unknownError())
         }
     }
 }

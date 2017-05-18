@@ -21,9 +21,9 @@ class DiscussionNewPostViewControllerTests: SnapshotTestCase {
         
         let controller = DiscussionNewPostViewController(environment: environment, courseID: course.course_id!, selectedTopic : topics[0])
         
-        let expectation = expectationWithDescription("New post topics loaded")
+        let expectations = expectation(description: "New post topics loaded")
         controller.t_topicsLoaded().listenOnce(self) {_ in
-            expectation.fulfill()
+            expectations.fulfill()
         }
         waitForExpectations()
         

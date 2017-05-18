@@ -118,7 +118,7 @@ class StreamTests: XCTestCase {
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
             joined.listen(owner) {items in
                 fired.value = true
-                XCTAssertEqual((items.value!).joinWithSeparator(" "), "all messages received")
+                XCTAssertEqual((items.value!).joined(separator: " "), "all messages received")
             }
             sinks[0].send("all")
             XCTAssertFalse(fired.value)
@@ -143,7 +143,7 @@ class StreamTests: XCTestCase {
         withExtendedLifetime(NSObject()) {(owner : NSObject) -> Void in
             joined.listen(owner) {items in
                 fired.value = true
-                XCTAssertEqual((items.value!).joinWithSeparator(" "), "all messages received")
+                XCTAssertEqual((items.value!).joined(separator: " "), "all messages received")
             }
         }
         XCTAssertTrue(fired.value)
@@ -154,7 +154,7 @@ class StreamTests: XCTestCase {
         let joined = joinStreams(sinks)
         let fired = MutableBox(false)
         
-        withExtendedLifetime(NSObject(), {owner in
+        let _ = withExtendedLifetime(NSObject(), {owner in
             joined.listen(owner) { items in
                 fired.value = true
             }
@@ -169,13 +169,13 @@ class StreamTests: XCTestCase {
         sink.send(Failure())
         XCTAssertNotNil(filteredSink.error)
         
-        sink.send(Success("a"))
+        sink.send(Success(v: "a"))
         XCTAssertEqual(filteredSink.value!, "a")
         
         sink.send(Failure())
         XCTAssertEqual(filteredSink.value!, "a")
         
-        sink.send(Success("b"))
+        sink.send(Success(v: "b"))
         XCTAssertEqual(filteredSink.value!, "a")
     }
     
@@ -185,13 +185,13 @@ class StreamTests: XCTestCase {
         
         sink.send(Failure())
         
-        sink.send(Success("a"))
+        sink.send(Success(v: "a"))
         XCTAssertEqual(filteredSink.value!, "a")
         
         sink.send(Failure())
         XCTAssertEqual(filteredSink.value!, "a")
         
-        sink.send(Success("b"))
+        sink.send(Success(v: "b"))
         XCTAssertEqual(filteredSink.value!, "b")
     }
     
@@ -200,13 +200,13 @@ class StreamTests: XCTestCase {
         let sink = Sink<String>()
         let filteredSink = sink.dropFailuresAfterSuccess()
         
-        sink.send(Success("a"))
+        sink.send(Success(v: "a"))
         XCTAssertEqual(filteredSink.value!, "a")
         
         sink.send(Failure())
         XCTAssertEqual(filteredSink.value!, "a")
         
-        sink.send(Success("b"))
+        sink.send(Success(v: "b"))
         XCTAssertEqual(filteredSink.value!, "b")
     }
     
@@ -227,7 +227,7 @@ class StreamTests: XCTestCase {
         let sink = Sink<String>()
         
         // Cache has no value so it will never fire
-        let cache = Stream<String>()
+        let cache = OEXStream<String>()
         
         let backedStream = sink.cachedByStream(cache)
         sink.send("success")

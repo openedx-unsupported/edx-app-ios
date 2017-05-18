@@ -40,6 +40,7 @@ static NSString* const CLVideoPlayerContentURLDidChangeNotification = @"CLVideoP
 @property(nonatomic) float lastPlayedTime;
 @property(nonatomic) float startTime;
 @property(nonatomic, assign) BOOL autoPlaying;
+@property (nonatomic, readonly) NSArray *transcript;
 
 @end
 

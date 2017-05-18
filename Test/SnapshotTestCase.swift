@@ -11,14 +11,14 @@ import Foundation
 private let StandardTolerance : CGFloat = 0.005
 
 protocol SnapshotTestable {
-    func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws
+    func snapshotTestWithCase(_ testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws
     
     var snapshotSize : CGSize { get }
 }
 
 extension UIView : SnapshotTestable {
-    func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
-        try testCase.compareSnapshotOfView(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
+    func snapshotTestWithCase(_ testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
+        try testCase.compareSnapshot(of: self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
     }
     
     var snapshotSize : CGSize {
@@ -27,8 +27,8 @@ extension UIView : SnapshotTestable {
 }
 
 extension CALayer : SnapshotTestable {
-    func snapshotTestWithCase(testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws  {
-        try testCase.compareSnapshotOfLayer(self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
+    func snapshotTestWithCase(_ testCase : FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws  {
+        try testCase.compareSnapshot(of: self, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
     }
     
     var snapshotSize : CGSize {
@@ -39,14 +39,14 @@ extension CALayer : SnapshotTestable {
 extension UIViewController : SnapshotTestable {
     
     func prepareForSnapshot() {
-        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = self
         window.makeKeyAndVisible()
     }
     
-    func snapshotTestWithCase(testCase: FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
+    func snapshotTestWithCase(_ testCase: FBSnapshotTestCase, referenceImagesDirectory: String, identifier: String) throws {
 
-        try testCase.compareSnapshotOfView(self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
+        try testCase.compareSnapshot(of: self.view, referenceImagesDirectory: referenceImagesDirectory, identifier: identifier, tolerance : StandardTolerance)
     }
     
     func finishSnapshot() {
@@ -72,15 +72,15 @@ class SnapshotTestCase : FBSnapshotTestCase {
         // Standardize on a size so we don't have to worry about different simulators
         // etc.
         // Pick a non standard width so we can catch width assumptions.
-        return CGSizeMake(380, 568)
+        return CGSize(width: 380, height: 568)
     }
     
-    private var majorVersion : Int {
-        return NSProcessInfo.processInfo().operatingSystemVersion.majorVersion
+    fileprivate var majorVersion : Int {
+        return ProcessInfo.processInfo.operatingSystemVersion.majorVersion
     }
 
-    private final func qualifyIdentifier(identifier : String?, content : SnapshotTestable) -> String {
-        let rtl = UIApplication.sharedApplication().userInterfaceLayoutDirection == .RightToLeft ? "_rtl" : ""
+    fileprivate final func qualifyIdentifier(_ identifier : String?, content : SnapshotTestable) -> String {
+        let rtl = UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft ? "_rtl" : ""
         let suffix = "ios\(majorVersion)\(rtl)_\(Int(content.snapshotSize.width))x\(Int(content.snapshotSize.height))"
         if let identifier = identifier {
             return identifier + suffix
@@ -93,7 +93,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
     // Asserts that a snapshot matches expectations
     // This is similar to the objc only FBSnapshotTest macros
     // But works in swift
-    func assertSnapshotValidWithContent(content : SnapshotTestable, identifier : String? = nil, message : String? = nil, file : StaticString = #file, line : UInt = #line) {
+    func assertSnapshotValidWithContent(_ content : SnapshotTestable, identifier : String? = nil, message : String? = nil, file : StaticString = #file, line : UInt = #line) {
         
         let qualifiedIdentifier = qualifyIdentifier(identifier, content : content)
         
@@ -101,8 +101,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
             try content.snapshotTestWithCase(self, referenceImagesDirectory: SNAPSHOT_TEST_DIR, identifier: qualifiedIdentifier)
         }
         catch let error as NSError {
-            let unknownError = "Unknown Error"
-            XCTFail("Snapshot comparison failed (\(qualifiedIdentifier)): \(error.localizedDescription ?? unknownError)", file : file, line : line)
+            XCTFail("Snapshot comparison failed (\(qualifiedIdentifier)): \(error.localizedDescription )", file : file, line : line)
             if let message = message {
                 XCTFail(message, file : file, line : line)
             }
@@ -113,7 +112,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
         XCTAssertFalse(recordMode, "Test ran in record mode. Reference image is now saved. Disable record mode to perform an actual snapshot comparison!", file : file, line : line)
     }
     
-    func inScreenNavigationContext(controller : UIViewController, @noescape action : () -> ()) {
+    func inScreenNavigationContext(_ controller : UIViewController, action : () -> ()) {
         let container = UINavigationController(rootViewController: controller)
         inScreenDisplayContext(container, action: action)
     }
@@ -121,9 +120,9 @@ class SnapshotTestCase : FBSnapshotTestCase {
     /// Makes a window and adds the controller to it
     /// to ensure that our controller actually loads properly
     /// Otherwise, sometimes viewWillAppear: type methods don't get called
-    func inScreenDisplayContext(controller : UIViewController, @noescape action : () -> ()) {
+    func inScreenDisplayContext(_ controller : UIViewController, action : () -> ()) {
         
-        let window = UIWindow(frame: CGRectZero)
+        let window = UIWindow(frame: CGRect.zero)
         window.rootViewController = controller
         window.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
         window.makeKeyAndVisible()
