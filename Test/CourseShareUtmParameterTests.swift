@@ -11,34 +11,39 @@ import XCTest
 
 class CourseShareUtmParameterTests: XCTestCase {
  
+    let facebookUtmParamter = "utm_campaign=social-sharing&utm_medium=social-post&utm_source=facebook"
+    let twitterUtmParameter = "utm_campaign=social-sharing&utm_medium=social-post&utm_source=twitter"
     let courseSharingUtmParameters = ["facebook":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=facebook", "twitter":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=twitter"]
     
-    func testEmptyJsonForFacebook() {
-        let courseShareUtmParams = CourseShareUtmParameter(dictionary:[:])
+    func testNoCourseShareUtmParams() {
+        let courseShareUtmParams = CourseShareUtmParameters(Params:[:])
         XCTAssertNotNil(courseShareUtmParams)
         XCTAssertNil(courseShareUtmParams?.facebook)
         XCTAssertNil(courseShareUtmParams?.twitter)
     }
     
-    func testJsonForUtmParameter() {
+    func testCourseShareUtmParamsParsing() {
         
-        let courseShareUtmParams = CourseShareUtmParameter(dictionary:courseSharingUtmParameters)
+        let courseShareUtmParams = CourseShareUtmParameters(Params:courseSharingUtmParameters)
         XCTAssertNotNil(courseShareUtmParams)
         XCTAssertNotNil(courseShareUtmParams?.twitter)
         XCTAssertNotNil(courseShareUtmParams?.facebook)
-        XCTAssertEqual(courseShareUtmParams?.twitter, "utm_campaign=social-sharing&utm_medium=social-post&utm_source=twitter")
+        XCTAssertEqual(courseShareUtmParams?.twitter, twitterUtmParameter)
+        XCTAssertEqual(courseShareUtmParams?.facebook, facebookUtmParamter)
     }
     
-    func testJsonForMissingTwitterUtmParameter() {
+    func testOnlyTwitterUtmParameters() {
         let courseSharingUtmParameters = ["facebook":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=facebook"]
-        let courseShareUtmParams = CourseShareUtmParameter(dictionary:courseSharingUtmParameters)
+        let courseShareUtmParams = CourseShareUtmParameters(Params:courseSharingUtmParameters)
+        XCTAssertNotNil(courseShareUtmParams)
         XCTAssertNil(courseShareUtmParams?.twitter)
         XCTAssertNotNil(courseShareUtmParams?.facebook)
     }
     
-    func testJsonForMissingFacebookUtmParameter() {
+    func testOnlyFacebookUtmParameters() {
         let courseSharingUtmParameters = ["twitter":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=twitter"]
-        let courseShareUtmParams = CourseShareUtmParameter(dictionary:courseSharingUtmParameters)
+        let courseShareUtmParams = CourseShareUtmParameters(Params:courseSharingUtmParameters)
+        XCTAssertNotNil(courseShareUtmParams)
         XCTAssertNil(courseShareUtmParams?.facebook)
         XCTAssertNotNil(courseShareUtmParams?.twitter)
     }

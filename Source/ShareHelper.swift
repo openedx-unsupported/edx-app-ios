@@ -13,7 +13,7 @@ func shareTextAndALink(text: String, url: NSURL, analyticsCallback:((String) -> 
     return controllerWithItems(items: items as [AnyObject], analyticsCallback: analyticsCallback)
 }
 
-func shareHashtaggedTextAndALink(textBuilder: @escaping (_ hashtagOrPlatform: String) -> String, url: NSURL, courseShareUtmParameters:CourseShareUtmParameter, analyticsCallback:((String) -> Void)?) -> UIActivityViewController {
+func shareHashtaggedTextAndALink(textBuilder: @escaping (_ hashtagOrPlatform: String) -> String, url: NSURL, courseShareUtmParameters:CourseShareUtmParameters, analyticsCallback:((String) -> Void)?) -> UIActivityViewController {
     let items = [PlatformHashTag(textBuilder: textBuilder), CourseShareURL(url: url, courseShareUtmParameters: courseShareUtmParameters)]
     return controllerWithItems(items: items, analyticsCallback: analyticsCallback)
 }
@@ -65,12 +65,13 @@ private class PlatformHashTag: NSObject, UIActivityItemSource {
     }
 }
 
+// This class creates new course share url by adding utm parameters with it depending on activity type 
 private class CourseShareURL: NSObject, UIActivityItemSource {
     
     let courseShareURL: NSURL
-    let courseShareUtmParams: CourseShareUtmParameter
+    let courseShareUtmParams: CourseShareUtmParameters
     
-    init(url: NSURL, courseShareUtmParameters:CourseShareUtmParameter) {
+    init(url: NSURL, courseShareUtmParameters:CourseShareUtmParameters) {
         courseShareURL = url
         self.courseShareUtmParams = courseShareUtmParameters
     }
