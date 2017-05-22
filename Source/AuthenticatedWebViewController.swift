@@ -111,6 +111,10 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         return contentRequest?.url as NSURL?
     }
     
+    public func contentLoaded() {
+        loadController.state = .Loaded
+    }
+    
     public init(environment : Environment) {
         self.environment = environment
         
@@ -267,12 +271,14 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             if let request = contentRequest {
                 state = .LoadingContent
                 webController.loadURLRequest(request: request)
+                
             }
             else {
                 loadController.state = LoadState.failed()
             }
         case .LoadingContent:
-            loadController.state = .Loaded
+            //loadController.state = .Loaded
+            //webView.evaluateJavaScript("document.body.innerHTML = '';", completionHandler: nil)
             delegate?.authenticatedWebViewController(authenticatedController: self, didFinishLoading: webView)
     
         case .NeedingSession:

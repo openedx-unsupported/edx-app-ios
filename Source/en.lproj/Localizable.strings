@@ -267,7 +267,7 @@
 /* Title text for the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES"="Important dates";
 /* Text describing the Important dates section of the course dashboard  */
-"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Keep tracks of deadlines and stay on track";
+"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Keep track of deadlines and stay on track";
 
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Ended - {end_date}";
