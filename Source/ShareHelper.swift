@@ -13,8 +13,8 @@ func shareTextAndALink(text: String, url: NSURL, analyticsCallback:((String) -> 
     return controllerWithItems(items: items as [AnyObject], analyticsCallback: analyticsCallback)
 }
 
-func shareHashtaggedTextAndALink(textBuilder: @escaping (_ hashtagOrPlatform: String) -> String, url: NSURL, courseShareUtmParameters:CourseShareUtmParameters, analyticsCallback:((String) -> Void)?) -> UIActivityViewController {
-    let items = [PlatformHashTag(textBuilder: textBuilder), CourseShareURL(url: url, courseShareUtmParameters: courseShareUtmParameters)]
+func shareHashtaggedTextAndALink(textBuilder: @escaping (_ hashtagOrPlatform: String) -> String, url: NSURL, utmParams:CourseShareUtmParameters, analyticsCallback:((String) -> Void)?) -> UIActivityViewController {
+    let items = [PlatformHashTag(textBuilder: textBuilder), CourseShareURL(url: url, utmParams: utmParams)]
     return controllerWithItems(items: items, analyticsCallback: analyticsCallback)
 }
 
@@ -71,9 +71,9 @@ private class CourseShareURL: NSObject, UIActivityItemSource {
     let courseShareURL: NSURL
     let courseShareUtmParams: CourseShareUtmParameters
     
-    init(url: NSURL, courseShareUtmParameters:CourseShareUtmParameters) {
+    init(url: NSURL, utmParams:CourseShareUtmParameters) {
         courseShareURL = url
-        self.courseShareUtmParams = courseShareUtmParameters
+        self.courseShareUtmParams = utmParams
     }
     
     fileprivate func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {

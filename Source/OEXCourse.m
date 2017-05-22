@@ -136,7 +136,6 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         NSDictionary *courseShareUtmParametersDictionary = [info objectForKey:@"course_sharing_utm_parameters"];
         self.courseShareUtmParams = [[CourseShareUtmParameters alloc] initWithParams:courseShareUtmParametersDictionary];
         
-        
     }
     return self;
 }

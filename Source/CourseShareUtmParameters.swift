@@ -13,9 +13,9 @@ import UIKit
     let facebook: String?
     let twitter: String?
     
-    init?(Params: [String: Any]) {
-        facebook = Params["facebook"] as? String
-        twitter = Params["twitter"] as? String
+    init?(params: [String: Any]) {
+        facebook = params["facebook"] as? String
+        twitter = params["twitter"] as? String
         super.init()
     }
 }
