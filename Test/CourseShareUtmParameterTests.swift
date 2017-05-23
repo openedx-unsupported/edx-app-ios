@@ -11,7 +11,6 @@ import XCTest
 
 private let facebookUtmParamter = "utm_campaign=social-sharing&utm_medium=social-post&utm_source=facebook"
 private let twitterUtmParameter = "utm_campaign=social-sharing&utm_medium=social-post&utm_source=twitter"
-private let courseSharingUtmParameters = ["facebook":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=facebook", "twitter":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=twitter"]
 
 class CourseShareUtmParameterTests: XCTestCase {
  
@@ -24,7 +23,8 @@ class CourseShareUtmParameterTests: XCTestCase {
     
     func testCourseShareUtmParamsParsing() {
         
-        let courseShareUtmParams = CourseShareUtmParameters(params:courseSharingUtmParameters)
+        let utmParams = ["facebook":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=facebook", "twitter":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=twitter"]
+        let courseShareUtmParams = CourseShareUtmParameters(params:utmParams)
         XCTAssertNotNil(courseShareUtmParams)
         XCTAssertNotNil(courseShareUtmParams?.twitter)
         XCTAssertNotNil(courseShareUtmParams?.facebook)
@@ -33,8 +33,8 @@ class CourseShareUtmParameterTests: XCTestCase {
     }
     
     func testOnlyFacebookUtmParameters() {
-        let courseSharingUtmParameters = ["facebook":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=facebook"]
-        let courseShareUtmParams = CourseShareUtmParameters(params:courseSharingUtmParameters)
+        let utmParams = ["facebook":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=facebook"]
+        let courseShareUtmParams = CourseShareUtmParameters(params:utmParams)
         XCTAssertNotNil(courseShareUtmParams)
         XCTAssertNil(courseShareUtmParams?.twitter)
         XCTAssertNotNil(courseShareUtmParams?.facebook)
@@ -42,8 +42,8 @@ class CourseShareUtmParameterTests: XCTestCase {
     }
     
     func testOnlyTwitterUtmParameters() {
-        let courseSharingUtmParameters = ["twitter":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=twitter"]
-        let courseShareUtmParams = CourseShareUtmParameters(params:courseSharingUtmParameters)
+        let utmParams = ["twitter":"utm_campaign=social-sharing&utm_medium=social-post&utm_source=twitter"]
+        let courseShareUtmParams = CourseShareUtmParameters(params:utmParams)
         XCTAssertNotNil(courseShareUtmParams)
         XCTAssertNil(courseShareUtmParams?.facebook)
         XCTAssertNotNil(courseShareUtmParams?.twitter)
