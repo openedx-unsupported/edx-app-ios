@@ -79,28 +79,40 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     }
     
     func downloadStateForDownloads(videos : [OEXHelperVideoDownload]?) -> DownloadsAccessoryView.State? {
-        if let videos = videos, videos.count > 0 {
-            let allDownloading = videos.reduce(true) {(acc, video) in
-                return acc && video.downloadState == .partial
-            }
-            
-            let allCompleted = videos.reduce(true) {(acc, video) in
-                return acc && video.downloadState == .complete
-            }
-            
-            if allDownloading {
-                return .Downloading
-            }
-            else if allCompleted {
-                return .Done
-            }
-            else {
-                return .Available
-            }
+        guard let videos = videos, videos.count > 0 else { return nil }
+        
+        let allCompleted = videos.reduce(true) {(acc, video) in
+            return acc && video.downloadState == .complete
+        }
+        
+        if allCompleted {
+            return .Done
+        }
+        
+        let filteredVideos = filterVideos(videos: videos)
+        
+        let allDownloading = filteredVideos.reduce(true) {(acc, video) in
+            return acc && video.downloadState == .partial
+        }
+        
+        if allDownloading {
+            return .Downloading
         }
         else {
-            return nil
+            return .Available
         }
+    }
+    
+    private func filterVideos(videos: [OEXHelperVideoDownload])-> [OEXHelperVideoDownload]{
+        var incompleteVideos:[OEXHelperVideoDownload]  = []
+        for video in videos {
+            // only return incomplete videos
+            if video.downloadState != .complete {
+                incompleteVideos.append(video)
+            }
+        }
+        
+        return incompleteVideos
     }
     
     var block : CourseBlock? = nil {
