@@ -180,6 +180,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     
     public func showError(error : NSError?, icon : Icon? = nil, message : String? = nil) {
         loadController.state = LoadState.failed(error: error, icon : icon, message : message)
+        refreshAccessibility()
     }
     
     // MARK: Header View
@@ -214,6 +215,12 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
                 exchangeRequest.addValue(value, forHTTPHeaderField: key)
             }
             self.webController.loadURLRequest(request: exchangeRequest)
+        }
+    }
+    
+    private func refreshAccessibility() {
+        DispatchQueue.main.async {
+            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
         }
     }
     
@@ -277,14 +284,15 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
                 loadController.state = LoadState.failed()
             }
         case .LoadingContent:
-            //loadController.state = .Loaded
-            //webView.evaluateJavaScript("document.body.innerHTML = '';", completionHandler: nil)
-            delegate?.authenticatedWebViewController(authenticatedController: self, didFinishLoading: webView)
-    
+            if delegate?.authenticatedWebViewController(authenticatedController: self, didFinishLoading: webView) == nil {
+              loadController.state = .Loaded
+            }
         case .NeedingSession:
             state = .CreatingSession
             loadOAuthRefreshRequest()
         }
+        
+        refreshAccessibility()
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
