@@ -87,6 +87,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 @property (nonatomic, strong) OEXCoursewareAccess* courseware_access;
 @property (nonatomic, copy) NSString* discussionUrl;
 @property (nonatomic, copy) NSDictionary<NSString*, CourseMediaInfo*>* mediaInfo;
+@property (nonatomic, readwrite) CourseShareUtmParameters *courseShareUtmParams;
 
 @end
 
@@ -132,7 +133,9 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
             [parsedMediaInfo setObjectOrNil:info forKey:type];
         }];
         self.mediaInfo = parsedMediaInfo;
-
+        NSDictionary *courseShareUtmParametersDictionary = [info objectForKey:@"course_sharing_utm_parameters"];
+        self.courseShareUtmParams = [[CourseShareUtmParameters alloc] initWithParams:courseShareUtmParametersDictionary];
+        
     }
     return self;
 }

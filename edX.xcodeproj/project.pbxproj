@@ -89,10 +89,12 @@
 		1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */; };
 		1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */; };
 		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
+		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
-		22215E561ED44ED700CDA95D /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22215E551ED44ED700CDA95D /* course-dates.js */; };
+		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
+		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
 		46CECC3A1B041CDC0073C63A /* CourseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseCardView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
 		46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */; };
@@ -884,10 +886,12 @@
 		1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderTextEditor.swift; sourceTree = "<group>"; };
 		1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureTaker.swift; sourceTree = "<group>"; };
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
+		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
-		22215E551ED44ED700CDA95D /* course-dates.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "course-dates.js"; sourceTree = "<group>"; };
+		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
+		22D73B5C1ED575C000220280 /* course-dates.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "course-dates.js"; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicCell.swift; sourceTree = "<group>"; };
@@ -2121,7 +2125,7 @@
 		69ECC5FA1D50D1170030CF87 /* Stylesheets */ = {
 			isa = PBXGroup;
 			children = (
-				22215E551ED44ED700CDA95D /* course-dates.js */,
+				22D73B5C1ED575C000220280 /* course-dates.js */,
 				69ECC5FB1D50D1170030CF87 /* handouts-announcements.css */,
 				69ECC5FC1D50D1170030CF87 /* inline-content.css */,
 			);
@@ -2576,6 +2580,7 @@
 				9ED168AF1B29A9EF00AA7B5B /* CouseLastAccessed.swift */,
 				9EC6E0FF1BDE40E100729704 /* OEXCourse+Swift.swift */,
 				E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */,
+				228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */,
 			);
 			name = "Course Structure";
 			sourceTree = "<group>";
@@ -3300,6 +3305,7 @@
 				7772BE901AF90C8A0081CA7A /* Helpers */,
 				77567B501AC5EC0400877A7B /* Test Doubles */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
+				2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
@@ -3739,7 +3745,7 @@
 				9ED269CC1AF0E67200328A34 /* OEXMyVideosViewController.storyboard in Resources */,
 				69ECC6471D50D1170030CF87 /* separator3.png in Resources */,
 				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
-				22215E561ED44ED700CDA95D /* course-dates.js in Resources */,
+				22D73B5D1ED575C000220280 /* course-dates.js in Resources */,
 				BD7C6C401DCA329A0004D135 /* fonts.json in Resources */,
 				69ECC6021D50D1170030CF87 /* OpenSans-Italic.ttf in Resources */,
 				69ECC6481D50D1170030CF87 /* separator5.png in Resources */,
@@ -4276,6 +4282,7 @@
 				775434861AD73D1900635A40 /* OEXParseConfig.m in Sources */,
 				1AE0A6C81BF4F68A00E14917 /* CourseCertificateCell.swift in Sources */,
 				770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */,
+				228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */,
 				19A1339419CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m in Sources */,
 				B4B6D6051A949EFC000F44E8 /* OEXRegistrationAgreement.m in Sources */,
 				7712732E1BA8F5C7008BA397 /* SegmentAnalyticsTracker.swift in Sources */,
@@ -4437,6 +4444,7 @@
 				7768745B1CDCCB1E001DFB77 /* RemoteImageTests.swift in Sources */,
 				77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */,
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
+				2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */,
 				77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */,
 				775434911AD8594A00635A40 /* OEXParsePushProviderTests.m in Sources */,
 				7754348F1AD83FC100635A40 /* OEXMockCredentialStorage.m in Sources */,
