@@ -181,7 +181,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             let courseID = self.courseID
             let controller = shareHashtaggedTextAndALink(textBuilder: { hashtagOrPlatform in
                 Strings.shareACourse(platformName: hashtagOrPlatform)
-                }, url: url, analyticsCallback: { analyticsType in
+            }, url: url, utmParams: course.courseShareUtmParams, analyticsCallback: { analyticsType in
                 analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
             })
             self.present(controller, animated: true, completion: nil)
