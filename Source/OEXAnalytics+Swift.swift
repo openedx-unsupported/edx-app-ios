@@ -31,6 +31,7 @@ public enum AnalyticsEventName: String {
 
 public enum AnalyticsScreenName: String {
     case AppReviews = "AppReviews: View Rating"
+    case CoutseDates = "Course Dates"
 }
 
 extension OEXAnalytics {

@@ -38,6 +38,11 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         loadCourseDates()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+           environment.analytics.trackScreen(withName: AnalyticsScreenName.CoutseDates.rawValue, courseID: courseID, value: nil)
+    }
+    
     private func loadCourseDates() {
         let courseDateURLString = String(format: "%@/courses/%@/info", environment.config.apiHostURL()?.absoluteString ?? "", courseID)
         let request = NSURLRequest(url: URL(string: courseDateURLString)!)
