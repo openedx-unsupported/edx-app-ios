@@ -51,7 +51,6 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         usernameLabel.setContentHuggingPriority(1000, for: .vertical)
         scrollView.addSubview(usernameLabel)
 
-        messageLabel.isHidden = true
         messageLabel.numberOfLines = 0
         messageLabel.setContentHuggingPriority(1000, for: .vertical)
         scrollView.addSubview(messageLabel)
@@ -158,25 +157,9 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     private func setMessage(message: String?) {
         if let message = message {
             let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
-
-            messageLabel.isHidden = false
-            messageLabel.snp_remakeConstraints { (make) -> Void in
-                make.top.equalTo(usernameLabel.snp_bottom).offset(margin).priorityHigh()
-                make.centerX.equalTo(scrollView)
-            }
-            countryLabel.isHidden = true
-            languageLabel.isHidden = true
-
             messageLabel.attributedText = messageStyle.attributedString(withText: message)
         } else {
-            messageLabel.isHidden = true
-            messageLabel.snp_updateConstraints(closure: { (make) -> Void in
-                make.height.equalTo(0)
-            })
-
-            countryLabel.isHidden = false
-            languageLabel.isHidden = false
-
+            messageLabel.text = nil
         }
     }
 
@@ -205,9 +188,11 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         bioSystemMessage.isHidden = true
 
         avatarImage.remoteImage = profile.image(networkManager: networkManager)
-
+        bioText.text = nil
+        countryLabel.text = nil
+        languageLabel.text = nil
         setMessage(message: messageForProfile(profile: profile, editable: editable))
-
+        
         if profile.sharingLimitedProfile {
             if (profile.parentalConsent ?? false) && editable {
                 let message = NSMutableAttributedString(attributedString: messageStyle.attributedString(withText: Strings.Profile.ageLimit))
@@ -216,7 +201,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
                 bioSystemMessage.isHidden = false
             }
         } else {
-            self.bioText.text = ""
+            
             if let language = profile.language {
                 let icon = Icon.Comment.attributedTextWithStyle(style: infoStyle)
                 let langText = infoStyle.attributedString(withText: language)
