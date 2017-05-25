@@ -82,7 +82,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         super.viewWillAppear(animated)
         hideSnackBarForFullScreenError()
         showWhatsNewIfNeeded()
-
     }
     
     override func reloadViewData() {
