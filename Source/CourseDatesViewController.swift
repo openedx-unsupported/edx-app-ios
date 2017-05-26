@@ -30,10 +30,11 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.white
         addChildViewController(webController)
         webController.didMove(toParentViewController: self)
         view.addSubview(webController.view)
-        navigationItem.title = Strings.Course.courseImportantDatesTitle
+        navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         setConstraints()
         loadCourseDates()
     }
@@ -65,20 +66,20 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         
         let path = Bundle.main.path(forResource: "course-dates", ofType: "js") ?? ""
         let javaScriptString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8)
-        webview.filterHTML(withJavaScript: javaScriptString!, classname: "date-summary-container", paddingLeft: 20, paddingTop: 30, paddingRight: 0, completionHandler: {[weak self] (result, error) in
+        webview.filterHTML(withJavaScript: javaScriptString!, classname: "date-summary-containe", paddingLeft: 20, paddingTop: 30, paddingRight: 0, completionHandler: {[weak self] (result, error) in
             let isCourseDateAvailable = result as? Bool
             if isCourseDateAvailable == true
             {
-                self?.perform(#selector(self?.loadCourseDatesContent), with:nil, afterDelay: 0.4)
+                self?.perform(#selector(self?.showLoadedCourseDates), with:nil, afterDelay: 0.4)
             }
             else{
-                authenticatedController.showError(error: nil, icon: nil, message:Strings.Course.courseDateUnavailable)
+                authenticatedController.showError(error: nil, icon: nil, message:Strings.Coursedates.courseDateUnavailable)
             }
         })
     }
     
-    func loadCourseDatesContent() {
-        webController.updateLoadControllerState(loadState: LoadState.Loaded)
+    func showLoadedCourseDates() {
+        webController.setLoadControllerState(loadState: LoadState.Loaded)
     }
 }
 
