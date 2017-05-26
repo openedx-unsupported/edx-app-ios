@@ -15,9 +15,6 @@ function filterHTML(classname, padding_left, padding_top, padding_right) {
 
 		return true
 	}
-	else
-	{
 		return false
-	}
 }
 filterHTML('%@', '%d', '%d', '%d');

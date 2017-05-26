@@ -33,14 +33,14 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         addChildViewController(webController)
         webController.didMove(toParentViewController: self)
         view.addSubview(webController.view)
-        navigationItem.title = Strings.courseImportantDatesTitle
+        navigationItem.title = Strings.Course.courseImportantDatesTitle
         setConstraints()
         loadCourseDates()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-           environment.analytics.trackScreen(withName: AnalyticsScreenName.CoutseDates.rawValue, courseID: courseID, value: nil)
+           environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseDates.rawValue, courseID: courseID, value: nil)
     }
     
     private func loadCourseDates() {
@@ -65,20 +65,20 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         
         let path = Bundle.main.path(forResource: "course-dates", ofType: "js") ?? ""
         let javaScriptString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8)
-        webview.filterHTML(withJavaScript: javaScriptString!, classname: "date-summary-container", paddingLeft: 20, paddingTop: 30, paddingRight: 0, completionHandler: {(result, error) in
-            let isCourseDateAvailable = result as! Bool
+        webview.filterHTML(withJavaScript: javaScriptString!, classname: "date-summary-container", paddingLeft: 20, paddingTop: 30, paddingRight: 0, completionHandler: {[weak self] (result, error) in
+            let isCourseDateAvailable = result as? Bool
             if isCourseDateAvailable == true
             {
-                self.perform(#selector(self.showView), with:nil, afterDelay: 0.4)
+                self?.perform(#selector(self?.loadCourseDatesContent), with:nil, afterDelay: 0.4)
             }
             else{
-                authenticatedController.showError(error: nil, icon: nil, message:Strings.courseDateUnavailable)
+                authenticatedController.showError(error: nil, icon: nil, message:Strings.Course.courseDateUnavailable)
             }
         })
     }
     
-    func showView() {
-        webController.contentLoaded()
+    func loadCourseDatesContent() {
+        webController.updateLoadControllerState(loadState: LoadState.Loaded)
     }
 }
 

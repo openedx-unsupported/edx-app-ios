@@ -111,8 +111,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         return contentRequest?.url as NSURL?
     }
     
-    public func contentLoaded() {
-        loadController.state = .Loaded
+    public func updateLoadControllerState(loadState: LoadState) {
+        loadController.state = loadState
     }
     
     public init(environment : Environment) {
@@ -284,6 +284,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
                 loadController.state = LoadState.failed()
             }
         case .LoadingContent:
+            //The class will implement this protocol to evaluate the java script in loaded url,
+            //we actually set the loadController state as loaded after the evaluation of java script to prevent flickering effect.
             if delegate?.authenticatedWebViewController(authenticatedController: self, didFinishLoading: webView) == nil {
               loadController.state = .Loaded
             }
