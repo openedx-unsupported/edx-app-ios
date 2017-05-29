@@ -71,7 +71,7 @@ class CourseCatalogDetailViewController: UIViewController {
                     self?.aboutView.actionText = Strings.CourseDetail.enrollNow
                     self?.aboutView.action = {[weak self] completion in
                         self?.enrollInCourse(completion: completion)
-                    } as? ((() -> Void) -> Void)
+                    }
                 }
             }, failure: {[weak self] error in
                 self?.loadController.state = LoadState.failed(error: error)
