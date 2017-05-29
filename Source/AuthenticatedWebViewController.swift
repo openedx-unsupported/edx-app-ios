@@ -111,8 +111,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         return contentRequest?.url as NSURL?
     }
     
-    public func setLoadControllerState(loadState: LoadState) {
-        loadController.state = loadState
+    public func setLoadControllerState(withState state: LoadState) {
+        loadController.state = state
     }
     
     public init(environment : Environment) {

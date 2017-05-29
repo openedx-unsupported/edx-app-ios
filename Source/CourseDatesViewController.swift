@@ -11,7 +11,7 @@ import WebKit
 
 class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate, AuthenticatedWebViewControllerRequireAuthentication {
     
-    public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider
+    public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider
     private var webController: AuthenticatedWebViewController
     private let courseID: String
     private let environment: Environment
@@ -30,7 +30,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = environment.styles.neutralWhiteT()
         addChildViewController(webController)
         webController.didMove(toParentViewController: self)
         view.addSubview(webController.view)
@@ -66,7 +66,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         
         let path = Bundle.main.path(forResource: "course-dates", ofType: "js") ?? ""
         let javaScriptString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8)
-        webview.filterHTML(withJavaScript: javaScriptString!, classname: "date-summary-containe", paddingLeft: 20, paddingTop: 30, paddingRight: 0, completionHandler: {[weak self] (result, error) in
+        webview.filterHTML(withJavaScript: javaScriptString!, classname: "date-summary-container", paddingLeft: 20, paddingTop: 30, paddingRight: 0, completionHandler: {[weak self] (result, error) in
             let isCourseDateAvailable = result as? Bool
             if isCourseDateAvailable == true
             {
@@ -79,7 +79,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     }
     
     func showLoadedCourseDates() {
-        webController.setLoadControllerState(loadState: LoadState.Loaded)
+        webController.setLoadControllerState(withState: LoadState.Loaded)
     }
 }
 
