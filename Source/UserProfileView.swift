@@ -155,12 +155,14 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     }
 
     private func setMessage(message: String?) {
-        if let message = message {
-            let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
-            messageLabel.attributedText = messageStyle.attributedString(withText: message)
-        } else {
+        
+        guard let message = message else {
             messageLabel.text = nil
+            return
         }
+        
+        let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
+        messageLabel.attributedText = messageStyle.attributedString(withText: message)
     }
 
     private func messageForProfile(profile : UserProfile, editable : Bool) -> String? {
@@ -175,6 +177,12 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     private var bioTab : TabItem {
         return TabItem(name: "About", view: bioText, identifier: "bio")
     }
+    
+    private func setValuesToDefault() {
+        bioText.text = nil
+        countryLabel.text = nil
+        languageLabel.text = nil
+    }
 
     func populateFields(profile: UserProfile, editable : Bool, networkManager : NetworkManager) {
         let usernameStyle = OEXTextStyle(weight : .normal, size: .xxLarge, color: OEXStyles.shared().neutralWhiteT())
@@ -188,11 +196,8 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         bioSystemMessage.isHidden = true
 
         avatarImage.remoteImage = profile.image(networkManager: networkManager)
-        bioText.text = nil
-        countryLabel.text = nil
-        languageLabel.text = nil
+        self.setValuesToDefault()
         setMessage(message: messageForProfile(profile: profile, editable: editable))
-        
         if profile.sharingLimitedProfile {
             if (profile.parentalConsent ?? false) && editable {
                 let message = NSMutableAttributedString(attributedString: messageStyle.attributedString(withText: Strings.Profile.ageLimit))
