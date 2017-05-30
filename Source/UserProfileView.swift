@@ -178,7 +178,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         return TabItem(name: "About", view: bioText, identifier: "bio")
     }
     
-    private func setValuesToDefault() {
+    private func setDefaultValues() {
         bioText.text = nil
         countryLabel.text = nil
         languageLabel.text = nil
@@ -196,7 +196,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         bioSystemMessage.isHidden = true
 
         avatarImage.remoteImage = profile.image(networkManager: networkManager)
-        self.setValuesToDefault()
+        setDefaultValues()
         setMessage(message: messageForProfile(profile: profile, editable: editable))
         if profile.sharingLimitedProfile {
             if (profile.parentalConsent ?? false) && editable {
