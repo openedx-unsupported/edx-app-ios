@@ -36,7 +36,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     // below the rest of the content
     private let topContentInsets = ConstantInsetsSource(insets: EdgeInsets.zero, affectsScrollIndicators: false)
     
-    var action: ((_ completion : () -> Void) -> Void)?
+    var action: ((_ completion : @escaping () -> Void) -> Void)?
     
     private var _loaded = Sink<()>()
     var loaded : OEXStream<()> {
