@@ -17,6 +17,9 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     
     private let closeImageSize: CGFloat = 16
     private let topSpace: CGFloat = 22
+    private var pagesViewed: Int = 0 // This varibale will only be used for analytics
+    private var currentPage: Int = 0 // This varibale will only be used for analytics
+    private var pendingIndex: Int = 0// This varibale will only be used for cacluting value of currentPage
     
     private var headerStyle : OEXTextStyle {
         return OEXTextStyle(weight: .semiBold, size: .large, color: OEXStyles.shared().neutralWhite())
@@ -30,7 +33,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         return OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().neutralWhite())
     }
     
-    typealias Environment = OEXStylesProvider & OEXInterfaceProvider
+    typealias Environment = OEXStylesProvider & OEXInterfaceProvider & OEXAnalyticsProvider
     private let environment : Environment
     private let dataModel: WhatsNewDataModel
     private var titleString: String
@@ -68,6 +71,11 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         setConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        logScreenEvent()
+    }
+    
     private func configurePageViewController() {
         pageController.setViewControllers([initialItem()], direction: .forward, animated: false, completion: nil)
         pageController.delegate = self
@@ -97,10 +105,12 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         closeButton.setAttributedTitle(buttonTitle, for: .normal)
         
         closeButton.oex_addAction({[weak self] _ in
+            self?.logCloseEvent()
             self?.dismiss(animated: true, completion: nil)
             }, for: .touchUpInside)
         
         doneButton.oex_addAction({ [weak self] _ in
+            self?.logDoneEvent()
             self?.dismiss(animated: true, completion: nil)
             }, for: .touchUpInside)
     }
@@ -137,10 +147,19 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         return UIStatusBarStyle(barStyle : nil)
     }
     
-    private func contentController(withItem item: WhatsNew?)-> UIViewController {
+    private func contentController(withItem item: WhatsNew?, direction: UIPageViewControllerNavigationDirection)-> UIViewController {
         // UIPageController DataSource methods calling is different in voice over and in normal flow. 
         // In VO UIPageController didn't required viewControllerAfter but it does in normal flow.
         // TODO: revisit this functionality when UIPageController behaves same in all cases.
+        
+        switch direction {
+        case .forward:
+            let totalPages = dataModel.fields?.count ?? 0
+            (pagesViewed >= totalPages) ? (pagesViewed = totalPages + 1) : (pagesViewed += 1)
+        default:
+            break
+        }
+        
         UIAccessibilityIsVoiceOverRunning() ? (doneButton.isHidden = !(item?.isLast ?? false)) : (doneButton.isHidden = true)
         let controller = WhatsNewContentController(environment: environment)
         controller.whatsNew = item
@@ -148,7 +167,33 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     }
     
     private func initialItem()-> UIViewController {
-        return contentController(withItem: dataModel.fields?.first)
+        return contentController(withItem: dataModel.fields?.first, direction: .forward)
+    }
+    
+    //MARK:- Analytics 
+    
+    private func logScreenEvent() {
+        let params = [key_app_version : Bundle.main.oex_buildVersionString()]
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.WhatsNew.rawValue, courseID: nil, value: nil, additionalInfo: params)
+    }
+    
+    private func logCloseEvent() {
+        (pagesViewed == 1) ? (pagesViewed = pagesViewed) : (pagesViewed -= 1)
+        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_viewed": pagesViewed, "currently_viewed": currentPage + 1, "total_pages": dataModel.fields?.count ?? 0] as [String : Any]
+        environment.analytics.trackEvent(whatsNewEvent(name: AnalyticsEventName.WhatsNewClose.rawValue, displayName: "WhatsNew: Close"), forComponent: nil, withInfo: params)
+    }
+    
+    private func logDoneEvent() {
+        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_pages": dataModel.fields?.count ?? 0] as [String : Any]
+        environment.analytics.trackEvent(whatsNewEvent(name: AnalyticsEventName.WhatsNewDone.rawValue, displayName: "WhatsNew: Done"), forComponent: nil, withInfo: params)
+    }
+    
+    private func whatsNewEvent(name: String, displayName: String) -> OEXAnalyticsEvent {
+        let event = OEXAnalyticsEvent()
+        event.name = name
+        event.displayName = displayName
+        event.category = AnalyticsCategory.WhatsNew.rawValue
+        return event
     }
     
     //MARK:- UIPageViewControllerDelegate & UIPageViewControllerDataSource methods
@@ -156,7 +201,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         if let controller = viewController as? WhatsNewContentController {
             if let item = dataModel.prevItem(currentItem: controller.whatsNew) {
-                return contentController(withItem: item)
+                return contentController(withItem: item, direction: .reverse)
             }
         }
         
@@ -166,12 +211,24 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         if let controller = viewController as? WhatsNewContentController {
             if let item = dataModel.nextItem(currentItem: controller.whatsNew) {
-                return contentController(withItem: item)
+                return contentController(withItem: item, direction: .forward)
             }
         }
         
         doneButton.isHidden = false
         return nil
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        if let controller = pendingViewControllers[0] as? WhatsNewContentController {
+            pendingIndex = dataModel.itemIndex(item: controller.whatsNew)
+        }
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if finished {
+            currentPage = pendingIndex
+        }
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {

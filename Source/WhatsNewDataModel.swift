@@ -98,7 +98,7 @@ class WhatsNewDataModel {
         return fields?.index(of: item) != 0
     }
     
-    private func itemIndex(item: WhatsNew?)-> Int {
+    func itemIndex(item: WhatsNew?)-> Int {
         guard let item = item else { return 0 }
         return fields?.index(of: item) ?? -1
     }
