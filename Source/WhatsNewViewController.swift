@@ -18,8 +18,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     private let closeImageSize: CGFloat = 16
     private let topSpace: CGFloat = 22
     private var pagesViewed: Int = 0 // This varibale will only be used for analytics
-    private var currentPage: Int = 0 // This varibale will only be used for analytics
-    private var pendingIndex: Int = 0// This varibale will only be used for cacluting value of currentPage
+    private var currentPageIndex: Int = 0 // This varibale will only be used for analytics
     
     private var headerStyle : OEXTextStyle {
         return OEXTextStyle(weight: .semiBold, size: .large, color: OEXStyles.shared().neutralWhite())
@@ -179,7 +178,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     
     private func logCloseEvent() {
         (pagesViewed == 1) ? (pagesViewed = pagesViewed) : (pagesViewed -= 1)
-        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_viewed": pagesViewed, "currently_viewed": currentPage + 1, "total_pages": dataModel.fields?.count ?? 0] as [String : Any]
+        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_viewed": pagesViewed, "currently_viewed": currentPageIndex + 1, "total_pages": dataModel.fields?.count ?? 0] as [String : Any]
         environment.analytics.trackEvent(whatsNewEvent(name: AnalyticsEventName.WhatsNewClose.rawValue, displayName: "WhatsNew: Close"), forComponent: nil, withInfo: params)
     }
     
@@ -219,16 +218,12 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         return nil
     }
     
-    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        if let controller = pendingViewControllers[0] as? WhatsNewContentController {
-            pendingIndex = dataModel.itemIndex(item: controller.whatsNew)
-        }
-    }
-    
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        if finished {
-            currentPage = pendingIndex
+        
+        if let controller = pageViewController.viewControllers?.last as? WhatsNewContentController, finished == true {
+            currentPageIndex = dataModel.itemIndex(item: controller.whatsNew)
         }
+        
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
