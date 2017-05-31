@@ -111,6 +111,10 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         return contentRequest?.url as NSURL?
     }
     
+    public func setLoadControllerState(withState state: LoadState) {
+        loadController.state = state
+    }
+    
     public init(environment : Environment) {
         self.environment = environment
         
@@ -176,6 +180,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     
     public func showError(error : NSError?, icon : Icon? = nil, message : String? = nil) {
         loadController.state = LoadState.failed(error: error, icon : icon, message : message)
+        refreshAccessibility()
     }
     
     // MARK: Header View
@@ -210,6 +215,12 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
                 exchangeRequest.addValue(value, forHTTPHeaderField: key)
             }
             self.webController.loadURLRequest(request: exchangeRequest)
+        }
+    }
+    
+    private func refreshAccessibility() {
+        DispatchQueue.main.async {
+            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
         }
     }
     
@@ -267,18 +278,22 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             if let request = contentRequest {
                 state = .LoadingContent
                 webController.loadURLRequest(request: request)
+                
             }
             else {
                 loadController.state = LoadState.failed()
             }
         case .LoadingContent:
-            loadController.state = .Loaded
-            delegate?.authenticatedWebViewController(authenticatedController: self, didFinishLoading: webView)
-    
+            //The class which will implement this protocol method will be responsible to set the loadController state as Loaded
+            if delegate?.authenticatedWebViewController(authenticatedController: self, didFinishLoading: webView) == nil {
+              loadController.state = .Loaded
+            }
         case .NeedingSession:
             state = .CreatingSession
             loadOAuthRefreshRequest()
         }
+        
+        refreshAccessibility()
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {

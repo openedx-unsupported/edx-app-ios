@@ -34,6 +34,7 @@ public enum AnalyticsEventName: String {
 
 public enum AnalyticsScreenName: String {
     case AppReviews = "AppReviews: View Rating"
+    case CourseDates = "Course Dates"
     case WhatsNew = "WhatsNew: Whats New"
 }
 

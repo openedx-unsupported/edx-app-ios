@@ -195,7 +195,7 @@
 /* Title of course handouts section */
 "COURSE_HANDOUTS"="Handouts";
 /* Title of course important dates screen */
-"COURSE_IMPORTANT_DATES_TITLE"="Course Dates and Deadlines";
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Course Dates and Deadlines";
 /* Button text for cancelling any action */
 "CANCEL"="Cancel";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
@@ -248,6 +248,8 @@
 "COURSEWARE_UNAVAILABLE"="No course content is currently available.";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
+/* Message shown when there is no course dates */
+"COURSEDATES.COURSE_DATE_UNAVAILABLE"="Course dates are not currently available.";
 /* Title text for the Announcements section within the course dashboard */
 "DASHBOARD.COURSE_ANNOUNCEMENTS"="Announcements";
 /* Text describing the Announcements section within the course dashboard */
@@ -267,7 +269,7 @@
 /* Title text for the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES"="Important dates";
 /* Text describing the Important dates section of the course dashboard  */
-"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Keep tracks of deadlines and stay on track";
+"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Keep track of deadlines and stay on track";
 
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Ended - {end_date}";
