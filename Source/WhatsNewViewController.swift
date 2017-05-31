@@ -153,8 +153,8 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         
         switch direction {
         case .forward:
-            let totalPages = dataModel.fields?.count ?? 0
-            (pagesViewed >= totalPages) ? (pagesViewed = totalPages + 1) : (pagesViewed += 1)
+            let totalScreens = dataModel.fields?.count ?? 0
+            (pagesViewed >= totalScreens) ? (pagesViewed = totalScreens + 1) : (pagesViewed += 1)
         default:
             break
         }
@@ -178,12 +178,12 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     
     private func logCloseEvent() {
         (pagesViewed == 1) ? (pagesViewed = pagesViewed) : (pagesViewed -= 1)
-        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_viewed": pagesViewed, "currently_viewed": currentPageIndex + 1, "total_pages": dataModel.fields?.count ?? 0] as [String : Any]
+        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_viewed": pagesViewed, "currently_viewed": currentPageIndex + 1, "total_screens": dataModel.fields?.count ?? 0] as [String : Any]
         environment.analytics.trackEvent(whatsNewEvent(name: AnalyticsEventName.WhatsNewClose.rawValue, displayName: "WhatsNew: Close"), forComponent: nil, withInfo: params)
     }
     
     private func logDoneEvent() {
-        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_pages": dataModel.fields?.count ?? 0] as [String : Any]
+        let params = [key_app_version : Bundle.main.oex_buildVersionString(), "total_screens": dataModel.fields?.count ?? 0] as [String : Any]
         environment.analytics.trackEvent(whatsNewEvent(name: AnalyticsEventName.WhatsNewDone.rawValue, displayName: "WhatsNew: Done"), forComponent: nil, withInfo: params)
     }
     
