@@ -30,7 +30,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = environment.styles.neutralWhiteT()
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         addChildViewController(webController)
         webController.didMove(toParentViewController: self)
         view.addSubview(webController.view)
