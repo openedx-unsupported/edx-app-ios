@@ -13,6 +13,7 @@ public enum AnalyticsCategory : String {
     case Conversion = "conversion"
     case Discovery = "discovery"
     case AppReviews = "app-reviews"
+    case WhatsNew = "whats-new"
 }
 
 public enum AnalyticsEventName: String {
@@ -27,11 +28,14 @@ public enum AnalyticsEventName: String {
     case SendFeedback = "edx.bi.app.app_reviews.send_feedback"
     case MaybeLater = "edx.bi.app.app_reviews.maybe_later"
     case RateTheApp = "edx.bi.app.app_reviews.rate_the_app"
+    case WhatsNewClose = "edx.bi.app.whats_new.close"
+    case WhatsNewDone = "edx.bi.app.whats_new.done"
 }
 
 public enum AnalyticsScreenName: String {
     case AppReviews = "AppReviews: View Rating"
     case CourseDates = "Course Dates"
+    case WhatsNew = "WhatsNew: Whats New"
 }
 
 extension OEXAnalytics {
