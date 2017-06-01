@@ -244,6 +244,8 @@
 "COURSE_DETAIL.ENROLL_NOW" = "Enroll now";
 /* Button title allowing user to view a course from the course's catalog detail page */
 "COURSE_DETAIL.VIEW_COURSE" = "View course";
+/* Button title describing that the course is invitation only */
+"COURSE_DETAIL.INVITATION_ONLY" = "Invitation only";
 /* Message shown when there is no course content */
 "COURSEWARE_UNAVAILABLE"="No course content is currently available.";
 /* Message shown when attempting to display content not available on the app */

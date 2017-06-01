@@ -67,6 +67,9 @@ class CourseCatalogDetailViewController: UIViewController {
                         completion()
                     }
                 }
+                else if course.invitation_only {
+                    self?.aboutView.invitationOnlyText = Strings.CourseDetail.invitationOnly
+                }
                 else {
                     self?.aboutView.actionText = Strings.CourseDetail.enrollNow
                     self?.aboutView.action = {[weak self] completion in

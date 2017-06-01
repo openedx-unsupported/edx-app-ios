@@ -202,6 +202,16 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
             actionButton.applyButtonStyle(style: OEXStyles.shared().filledEmphasisButtonStyle, withTitle: newValue)
         }
     }
+    
+    var invitationOnlyText: String? {
+        get {
+            return self.actionButton.attributedTitle(for: .normal)?.string
+        }
+        set {
+            actionButton.applyButtonStyle(style: OEXStyles.shared().filledButtonStyle(color: OEXStyles.shared().neutralBase()), withTitle: newValue)
+            actionButton.isEnabled = false
+        }
+    }
 }
 
 extension CourseCatalogDetailView {
