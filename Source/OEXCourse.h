@@ -57,7 +57,7 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @property (readonly, nonatomic, copy, nullable) NSString* course_updates;         //  ANNOUNCEMENTS URL
 @property (readonly, nonatomic, copy, nullable) NSString* course_handouts;        //  HANDOUTS URL
 @property (readonly, nonatomic, copy, nullable) NSString* course_about;           // COURSE INFO URL
-@property (readonly, nonatomic) Boolean invitation_only;
+@property (readonly, nonatomic) Boolean invitationOnly;
 @property (readonly, nonatomic, strong, nullable) OEXCoursewareAccess* courseware_access;
 @property (readonly, nonatomic, copy, nullable) NSString* discussionUrl;
 @property (readonly, nonatomic, copy, nullable) NSDictionary<NSString*, CourseMediaInfo*>* mediaInfo;
