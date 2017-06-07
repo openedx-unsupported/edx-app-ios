@@ -28,7 +28,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     func loadAndVerifyControllerWithBlockID(_ blockID : CourseBlockID, verifier : @escaping (CourseOutlineViewController) -> ((XCTestExpectation) -> Void)?) {
         
         let blockIdOrNilIfRoot : CourseBlockID? = blockID == outline.root ? nil : blockID
-        let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot)
+        let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot, courseOutlineMode: CourseOutlineMode.Full)
         
         let expectations = self.expectation(description: "course loaded")
         let updateStream = BackedStream<Void>()

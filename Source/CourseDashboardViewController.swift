@@ -242,6 +242,12 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         cellItems.append(item)
         
+        item = StandardCourseDashboardItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseCourseDetail, icon : .CourseModeVideo) {[weak self] () -> Void in
+            self?.showVideos()
+        }
+        cellItems.append(item)
+        
+        
         if shouldShowDiscussions(course: enrollment.course) {
             let courseID = self.courseID
             item = StandardCourseDashboardItem(title: Strings.Dashboard.courseDiscussion, detail: Strings.Dashboard.courseDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
@@ -313,6 +319,10 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     
     private func showCourseware() {
         environment.router?.showCoursewareForCourseWithID(courseID: courseID, fromController: self)
+    }
+    
+    private func showVideos() {
+        environment.router?.showVideos(controller: self, courseID: courseID)
     }
     
     private func showDiscussionsForCourseID(courseID: String) {

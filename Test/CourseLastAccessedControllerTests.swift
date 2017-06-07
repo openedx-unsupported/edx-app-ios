@@ -71,7 +71,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         let delegate = MockLastAccessedDelegate()
         rootController?.delegate = delegate
         sectionController?.saveLastAccessed()
-        rootController?.loadLastAccessed()
+        rootController?.loadLastAccessed(forMode: .Full)
         let expectations = self.expectation(description: "Item Fetched")
         delegate.didFetchAction = { item in
             if item?.moduleName == "Unit 3" {
@@ -88,7 +88,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         
         sectionController?.saveLastAccessed()
         let expectations = self.expectation(description: "Set Last Accessed to Unit 3")
-        rootController?.loadLastAccessed()
+        rootController?.loadLastAccessed(forMode: .Full)
         delegate.didFetchAction = { item in
             if (item?.moduleName == "Unit 3") {
                 expectations.fulfill()
@@ -96,4 +96,5 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         }
         self.waitForExpectations()
     }
+ 
 }
