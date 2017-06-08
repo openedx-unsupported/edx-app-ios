@@ -295,13 +295,19 @@ public class CourseOutlineQuerier : NSObject {
     
     private func filterBlocks(blocks : [CourseBlock], forMode mode : CourseOutlineMode) -> [CourseBlock] {
         switch mode {
-            case .Full:
-                return blocks
-            case .Video:
-                return blocks.filter {(block : CourseBlock) -> Bool in
-                    return (block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0) > 0
+        case .Full:
+            return blocks
+        case .Video:
+            return blocks.filter {(block : CourseBlock) -> Bool in
+                let hasVideos = (block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0) > 0
+                if hasVideos {
+                    let blockVideos = supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
+                    return (blockVideos.value?.count ?? 0) > 0
                 }
+                
+                return hasVideos
             }
+        }
     }
 
 
@@ -329,6 +335,19 @@ public class CourseOutlineQuerier : NSObject {
         return flatMapRootedAtBlockWithID(id: id, transform: { block in
             return transform(block).map { [$0] } ?? []
         })
+    }
+    
+    public func supportedBlockVideos(forCourseID id: String, blockID: String) -> OEXStream<[OEXHelperVideoDownload]> {
+        let videoStream = flatMapRootedAtBlockWithID(id: blockID) { block in
+            (block.type.asVideo != nil) ? block.blockID : nil
+        }
+        
+        let blockVideos = videoStream.map({ videoIDs -> [OEXHelperVideoDownload] in
+            let videos = OEXInterface.shared().statesForVideos(withIDs: videoIDs, courseID: self.courseID)
+            return videos.filter { video in (video.summary?.isSupportedVideo ?? false)}
+        })
+        
+        return blockVideos
     }
     
     /// Loads the given block.
