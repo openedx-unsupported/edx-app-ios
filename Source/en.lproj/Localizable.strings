@@ -260,6 +260,8 @@
 "DASHBOARD.COURSE_COURSE_DETAIL"="Access videos and assignments";
 /* Title text for the videos section of the course dashboard */
 "DASHBOARD.COURSE_Videos"="Videos";
+/* Text describing the Videos section within the course dashboard */
+"DASHBOARD.COURSE_Videos_DETAIL"="Access Videos";
 /* Title text for the Discussions section of the course dashboard */
 "DASHBOARD.COURSE_DISCUSSION"="Discussion";
 /* Text describing the Discussions section within the course dashboard */

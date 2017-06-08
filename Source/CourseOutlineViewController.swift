@@ -101,7 +101,7 @@ public class CourseOutlineViewController :
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //change--
+        
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
         let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
@@ -163,11 +163,10 @@ public class CourseOutlineViewController :
             self.loadController.state = LoadState.failed(error: error)
         }
     }
-    //change--
+
     private func addListeners() {
         headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
             if let owner = self {
-                //change--
                 return owner.courseQuerier.childrenOfBlockWithID(blockID: blockID, forMode: owner.courseOutlineMode)
             }
             else {
@@ -177,7 +176,6 @@ public class CourseOutlineViewController :
         rowsLoader.backWithStream(headersLoader.transform {[weak self] headers in
             if let owner = self {
                 let children = headers.children.map {header in
-                    //change--
                     return owner.courseQuerier.childrenOfBlockWithID(blockID: header.blockID, forMode: owner.courseOutlineMode)
                 }
                 return joinStreams(children)

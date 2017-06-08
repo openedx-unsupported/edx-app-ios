@@ -269,7 +269,7 @@ public class CourseOutlineQuerier : NSObject {
             }
         }
     }
-    //change--
+
     /// Loads all the children of the given block.
     /// nil means use the course root.
     public func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode) -> OEXStream<BlockGroup> {
@@ -310,7 +310,6 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
 
-
     private func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, inOutline outline : CourseOutline, transform : (CourseBlock) -> [A], accumulator : inout [A]) {
         if let block = self.blockWithID(id: id, inOutline: outline) {
             accumulator.append(contentsOf: transform(block))
@@ -320,7 +319,6 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-
     public func flatMapRootedAtBlockWithID<A>(id : CourseBlockID, transform : @escaping (CourseBlock) -> [A]) -> OEXStream<[A]> {
         loadOutlineIfNecessary()
         return courseOutline.map {[weak self] outline -> [A] in

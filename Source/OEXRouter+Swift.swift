@@ -57,7 +57,7 @@ extension OEXRouter {
     }
     
     func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?, courseOutlineMode: CourseOutlineMode?) -> CourseContentPageViewController {
-        let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
+        let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID, courseOutlineMode: courseOutlineMode)
         return contentPageController
     }
     

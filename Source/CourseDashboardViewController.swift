@@ -242,7 +242,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         cellItems.append(item)
         
-        item = StandardCourseDashboardItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseCourseDetail, icon : .CourseModeVideo) {[weak self] () -> Void in
+        item = StandardCourseDashboardItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseVideosDetail, icon : .CourseModeVideo) {[weak self] () -> Void in
             self?.showVideos()
         }
         cellItems.append(item)

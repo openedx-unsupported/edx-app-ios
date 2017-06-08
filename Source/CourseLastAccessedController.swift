@@ -112,11 +112,9 @@ public class CourseLastAccessedController: NSObject {
         }
         
     }
-    //change--
-    //private func expandAccessStream(stream : OEXStream<CourseLastAccessed>) -> OEXStream<(CourseBlock, CourseLastAccessed)> {
+
     private func expandAccessStream(stream : OEXStream<CourseLastAccessed>, forMode mode : CourseOutlineMode = .Full) -> OEXStream<(CourseBlock, CourseLastAccessed)> {
         return stream.transform {[weak self] lastAccessed in
-            //return joinStreams(self?.courseQuerier.blockWithID(id: lastAccessed.moduleId) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
             return joinStreams((self?.courseQuerier.blockWithID(id: lastAccessed.moduleId, mode: mode)) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
         }
     }

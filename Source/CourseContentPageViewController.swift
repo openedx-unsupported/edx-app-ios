@@ -150,7 +150,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func loadIfNecessary() {
         if !contentLoader.hasBacking {
-            //change--
             let stream = courseQuerier.spanningCursorForBlockWithID(blockID: blockID, initialChildID: initialChildID, forMode: courseOutlineMode)
             contentLoader.backWithStream(stream.firstSuccess())
         }
