@@ -18,7 +18,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         let icon : Icon
     }
     
-    typealias Environment = NetworkManagerProvider
+    typealias Environment = NetworkManagerProvider & OEXStylesProvider
     
     fileprivate let environment : Environment
     
@@ -200,6 +200,16 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         }
         set {
             actionButton.applyButtonStyle(style: OEXStyles.shared().filledEmphasisButtonStyle, withTitle: newValue)
+        }
+    }
+    
+    var invitationOnlyText: String? {
+        get {
+            return actionButton.attributedTitle(for: .normal)?.string
+        }
+        set {
+            actionButton.applyButtonStyle(style: environment.styles.filledButtonStyle(color: environment.styles.neutralBase()), withTitle: newValue)
+            actionButton.isEnabled = false
         }
     }
 }
