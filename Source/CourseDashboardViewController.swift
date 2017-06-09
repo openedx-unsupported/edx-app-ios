@@ -242,11 +242,12 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         }
         cellItems.append(item)
         
-        item = StandardCourseDashboardItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseVideosDetail, icon : .CourseModeVideo) {[weak self] () -> Void in
-            self?.showVideos()
+        if environment.config.isCourseVideosEnabled {
+            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseVideosDetail, icon : .CourseModeVideo) {[weak self] () -> Void in
+                self?.showVideos()
+            }
+            cellItems.append(item)
         }
-        cellItems.append(item)
-        
         
         if shouldShowDiscussions(course: enrollment.course) {
             let courseID = self.courseID
