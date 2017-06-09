@@ -14,7 +14,7 @@ import edXCore
 class CourseCatalogDetailViewController: UIViewController {
     private let courseID: String
     
-    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider
+    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXStylesProvider
     
     private let environment: Environment
     private lazy var loadController = LoadStateViewController()
@@ -66,6 +66,9 @@ class CourseCatalogDetailViewController: UIViewController {
                         self?.showCourseScreen()
                         completion()
                     }
+                }
+                else if course.invitationOnly {
+                    self?.aboutView.invitationOnlyText = Strings.CourseDetail.invitationOnly
                 }
                 else {
                     self?.aboutView.actionText = Strings.CourseDetail.enrollNow

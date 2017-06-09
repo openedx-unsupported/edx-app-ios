@@ -73,4 +73,12 @@ extension OEXConfig {
     var isWhatsNewEnabled: Bool {
         return bool(forKey: "WHATS_NEW_ENABLED")
     }
+    
+    var isMyVideosEnabled: Bool {
+        return bool(forKey: "MY_VIDEOS_ENABLED")
+    }
+    
+    var isCourseVideosEnabled: Bool {
+        return bool(forKey: "COURSE_VIDEOS_ENABLED")
+    }
 }

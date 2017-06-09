@@ -189,7 +189,7 @@ class OEXRearTableViewController : UITableViewController {
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if indexPath.row == OEXRearViewOptions.Debug.rawValue && !environment.config.shouldShowDebug() {
+        if ((indexPath.row == OEXRearViewOptions.Debug.rawValue && !environment.config.shouldShowDebug()) || (indexPath.row == OEXRearViewOptions.MyVideos.rawValue && !environment.config.isMyVideosEnabled)) {
             return 0
         }
         else if indexPath.row == OEXRearViewOptions.FindCourses.rawValue && !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
