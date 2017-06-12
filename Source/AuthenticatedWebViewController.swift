@@ -79,6 +79,7 @@ private class WKWebViewContentController : WebContentController {
 }
 
 private let OAuthExchangePath = "/oauth2/login/"
+private let BlockingURL = "syndication.twitter.com"
 
 // Allows access to course content that requires authentication.
 // Forwarding our oauth token to the server so we can get a web based cookie
@@ -247,7 +248,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .linkActivated, .formSubmitted, .formResubmitted:
-            if let URL = navigationAction.request.url {
+            if let URL = navigationAction.request.url, !(URL.URLString.contains(BlockingURL)){
                 UIApplication.shared.openURL(URL)
             }
             decisionHandler(.cancel)
