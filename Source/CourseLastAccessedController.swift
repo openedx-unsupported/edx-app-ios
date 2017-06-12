@@ -52,21 +52,18 @@ public class CourseLastAccessedController: NSObject {
         return blockID != nil
     }
     
-    //public func loadLastAccessed() {
     public func loadLastAccessed(forMode mode : CourseOutlineMode) {
         if !canShowLastAccessed {
             return
         }
         
         if let firstLoad = lastAccessedProvider?.getLastAccessedSectionForCourseID(courseID: self.courseID) {
-            //let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad))
             let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad), forMode : mode)
             lastAccessedLoader.backWithStream(blockStream)
         }
         
         let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID)
         let lastAccessed = self.networkManager.streamForRequest(request)
-        //lastAccessedLoader.backWithStream(expandAccessStream(stream: lastAccessed))
         lastAccessedLoader.backWithStream(expandAccessStream(stream: lastAccessed, forMode : mode))
     }
     

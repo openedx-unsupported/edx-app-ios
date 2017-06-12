@@ -244,7 +244,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         if environment.config.isCourseVideosEnabled {
             item = StandardCourseDashboardItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseVideosDetail, icon : .CourseModeVideo) {[weak self] () -> Void in
-                self?.showVideos()
+                self?.showCourseVideos()
             }
             cellItems.append(item)
         }
@@ -322,7 +322,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         environment.router?.showCoursewareForCourseWithID(courseID: courseID, fromController: self)
     }
     
-    private func showVideos() {
+    private func showCourseVideos() {
         environment.router?.showVideos(controller: self, courseID: courseID)
     }
     

@@ -56,7 +56,7 @@ extension OEXRouter {
         showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
     }
     
-    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?, courseOutlineMode: CourseOutlineMode?) -> CourseContentPageViewController {
+    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?, courseOutlineMode: CourseOutlineMode? = .Full) -> CourseContentPageViewController {
         let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID, courseOutlineMode: courseOutlineMode)
         return contentPageController
     }
@@ -79,7 +79,7 @@ extension OEXRouter {
             }
             controller.navigationController?.pushViewController(pageController, animated: true)
         case .Discussion:
-            let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID, courseOutlineMode: courseOutlineMode)
+            let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID)
             if let delegate = controller as? CourseContentPageViewControllerDelegate {
                 pageController.navigationDelegate = delegate
             }
