@@ -91,6 +91,9 @@
 		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
+		227812B91EF2710D000D25EF /* OEXVideoSummaryTestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227812B81EF2710D000D25EF /* OEXVideoSummaryTestData.swift */; };
+		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
+		227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
@@ -335,7 +338,6 @@
 		77567B551AC5F06F00877A7B /* OEXSafeCastTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B541AC5F06F00877A7B /* OEXSafeCastTests.m */; };
 		77567B771AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B761AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m */; };
 		77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B781ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m */; };
-		775716B31CB7FF4B0091AB10 /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
 		775716B51CB7FF660091AB10 /* sample-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 775716B41CB7FF660091AB10 /* sample-badge.png */; };
 		775716B71CB803330091AB10 /* UIImage+TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775716B61CB803330091AB10 /* UIImage+TestData.swift */; };
 		775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775716B81CB804E40091AB10 /* UserProfilePresenter.swift */; };
@@ -430,7 +432,6 @@
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
 		77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */; };
 		77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */; };
-		77BC6F421CB82DFA00F0A8C1 /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		77BC6F431CB82E1D00F0A8C1 /* CourseOutlineTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */; };
 		77BC6F451CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */; };
 		77BECB041B0A5FDB00894276 /* ContentInsetsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */; };
@@ -888,6 +889,7 @@
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
+		227812B81EF2710D000D25EF /* OEXVideoSummaryTestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXVideoSummaryTestData.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
@@ -2781,6 +2783,7 @@
 				775434961AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m */,
 				770A27A51A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.h */,
 				770A27A61A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m */,
+				227812B81EF2710D000D25EF /* OEXVideoSummaryTestData.swift */,
 			);
 			name = "Data Factories";
 			sourceTree = "<group>";
@@ -3807,10 +3810,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				77E6489D1C91D92400B6740D /* CourseStatusInfo.json in Resources */,
-				775716B31CB7FF4B0091AB10 /* test-movie.m4v in Resources */,
 				69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */,
 				77E6489E1C91D92D00B6740D /* DiscussionPosts.json in Resources */,
 				775716B51CB7FF660091AB10 /* sample-badge.png in Resources */,
+				227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */,
 				B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4307,6 +4310,7 @@
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
 				1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */,
 				46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */,
+				227812B91EF2710D000D25EF /* OEXVideoSummaryTestData.swift in Sources */,
 				9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */,
 				779D1CE11B8E6FE000FCC847 /* PullRefreshController.swift in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
@@ -4488,7 +4492,6 @@
 				6987A86B1D6C57C100E9D183 /* OEXColorsTests.swift in Sources */,
 				E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */,
 				775E5A831BE1C91B0046B26B /* LiveObjectCacheTests.swift in Sources */,
-				77BC6F421CB82DFA00F0A8C1 /* OEXVideoSummaryTestDataFactory.swift in Sources */,
 				779998231C3C1EE00058E5FE /* EnrolledCoursesViewControllerTests.swift in Sources */,
 				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				F2C1F0D81CFDDC400051743C /* NetworkManagerTests.swift in Sources */,
@@ -4504,6 +4507,7 @@
 				773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */,
 				77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
 				77C182A81CD299AE00AE1474 /* PaginationInfoTests.swift in Sources */,
+				227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */,
 				9E35A2841B32D7090040B9A9 /* DateFormattingTests.swift in Sources */,
 				1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */,
 				7791C4ED1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift in Sources */,

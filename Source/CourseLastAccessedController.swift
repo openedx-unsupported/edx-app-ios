@@ -20,6 +20,7 @@ public class CourseLastAccessedController: NSObject {
     private let networkManager : NetworkManager
     private let courseQuerier : CourseOutlineQuerier
     private let lastAccessedProvider : LastAccessedProvider?
+    private let courseOutlineMode : CourseOutlineMode
     
     private var courseID : String {
         return courseQuerier.courseID
@@ -31,21 +32,21 @@ public class CourseLastAccessedController: NSObject {
     private var t_hasTriggeredSetLastAccessed = false
     
     
-    public init(blockID : CourseBlockID?, dataManager : DataManager, networkManager : NetworkManager, courseQuerier: CourseOutlineQuerier, lastAccessedProvider : LastAccessedProvider? = nil) {
+    public init(blockID : CourseBlockID?, dataManager : DataManager, networkManager : NetworkManager, courseQuerier: CourseOutlineQuerier, lastAccessedProvider : LastAccessedProvider? = nil, courseOutlineMode: CourseOutlineMode?) {
         self.blockID = blockID
         self.dataManager = dataManager
         self.networkManager = networkManager
         self.courseQuerier = courseQuerier
         self.lastAccessedProvider = lastAccessedProvider ?? dataManager.interface
-        
+        self.courseOutlineMode = courseOutlineMode ?? .Full
         super.init()
         
         addListener()
     }
     
-    private var canShowLastAccessed : Bool {
+    fileprivate var canShowLastAccessed : Bool {
         // We only show at the root level
-        return blockID == nil
+        return blockID == nil && courseOutlineMode == .Full
     }
     
     private var canUpdateLastAccessed : Bool {
@@ -61,7 +62,6 @@ public class CourseLastAccessedController: NSObject {
             let blockStream = expandAccessStream(stream: OEXStream(value : firstLoad), forMode : mode)
             lastAccessedLoader.backWithStream(blockStream)
         }
-        
         let request = UserAPI.requestLastVisitedModuleForCourseID(courseID: courseID)
         let lastAccessed = self.networkManager.streamForRequest(request)
         lastAccessedLoader.backWithStream(expandAccessStream(stream: lastAccessed, forMode : mode))
@@ -117,3 +117,10 @@ public class CourseLastAccessedController: NSObject {
     }
 }
 
+extension CourseLastAccessedController {
+
+    public func t_canShowLastAccessed() -> Bool{
+        
+        return canShowLastAccessed
+    }
+}

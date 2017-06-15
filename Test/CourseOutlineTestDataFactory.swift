@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import edX
+@testable import edX
 
 open class CourseOutlineTestDataFactory {
 
@@ -62,5 +62,9 @@ open class CourseOutlineTestDataFactory {
     
     open static func knownHTMLBlockIDs() -> [CourseBlockID] {
         return ["block1", "block2"]
+    }
+    
+    open static func knownLocalVideoID() -> CourseBlockID {
+        return "block4"
     }
 }

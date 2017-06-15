@@ -62,9 +62,9 @@ public class CourseOutlineViewController :
         insetsController = ContentInsetsController()
         
         tableController = CourseOutlineTableController(environment : self.environment, courseID: courseID)
-        
-        lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier)
         self.courseOutlineMode = courseOutlineMode ?? .Full
+        lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, courseOutlineMode: courseOutlineMode)
+        
         super.init(env: environment)
         
         lastAccessedController.delegate = self
