@@ -9,6 +9,7 @@
 import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
+fileprivate var isFirstLoad: Bool = true
 
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport {
     
@@ -108,11 +109,19 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                     self?.loadController.state = .Initial
                 }
             case let Result.failure(error):
+                //App is showing occasionally error on app launch, so skipping first error on app launch
+                //TODO: Find exact root cause of error and remove this patch
+                if isFirstLoad {
+                    isFirstLoad = false
+                    self?.enrollmentFeed.refresh()
+                    return
+                }
                 self?.loadController.state = LoadState.failed(error: error)
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
                     self?.hideSnackBar()
                 }
             }
+            isFirstLoad = false
         }
     }
     
