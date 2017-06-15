@@ -269,7 +269,7 @@
 /* Text describing the Handouts section within the course dashboard */
 "DASHBOARD.COURSE_HANDOUTS_DETAIL"="Find important course information";
 /* Title text for the Important dates section of the course dashboard  */
-"DASHBOARD.COURSE_IMPORTANT_DATES"="Important dates";
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Important Dates";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Keep track of deadlines and stay on track";
 
