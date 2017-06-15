@@ -19,6 +19,7 @@
 #import "NSString+OEXCrypto.h"
 #import "UIColor+OEXHex.h"
 #import "OEXNetworkConstants.h"
+#import "NSArray+OEXFunctional.h"
 
 #import "OEXAccessToken.h"
 #import "OEXAnalytics.h"
@@ -59,6 +60,7 @@
 #import "OEXVideoPlayerInterface.h"
 #import "UIAppearance+Swift.h"
 #import "OEXCourseInfoViewController.h"
+#import "OEXVideoPathEntry.h"
 
 #import "Reachability.h"
 #import "SWRevealViewController.h"
