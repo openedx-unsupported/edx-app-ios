@@ -1,5 +1,5 @@
 //
-//  OEXInterfaceTests_Swift.swift
+//  OEXInterfaceTests.swift
 //  edX
 //
 //  Created by Saeed Bashir on 6/15/17.
