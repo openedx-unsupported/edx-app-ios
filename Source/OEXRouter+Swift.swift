@@ -56,8 +56,8 @@ extension OEXRouter {
         showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
     }
     
-    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?, courseOutlineMode: CourseOutlineMode? = .Full) -> CourseContentPageViewController {
-        let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID, forMode: courseOutlineMode ?? .Full)
+    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?, forMode mode: CourseOutlineMode? = .Full) -> CourseContentPageViewController {
+        let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID, forMode: mode ?? .Full)
         return contentPageController
     }
     
@@ -73,7 +73,7 @@ extension OEXRouter {
         case .Video:
             fallthrough
         case .Unknown:
-            let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID, courseOutlineMode: mode)
+            let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID, forMode: mode)
             if let delegate = controller as? CourseContentPageViewControllerDelegate {
                 pageController.navigationDelegate = delegate
             }
@@ -93,7 +93,7 @@ extension OEXRouter {
                 let outlineController = CourseOutlineViewController(environment: self.environment, courseID: courseID, rootID: blockID, forMode: courseOutlineMode)
                 return outlineController
         case .Unit:
-            return unitControllerForCourseID(courseID: courseID, blockID: blockID, initialChildID: nil, courseOutlineMode: courseOutlineMode)
+            return unitControllerForCourseID(courseID: courseID, blockID: blockID, initialChildID: nil, forMode: courseOutlineMode)
         case .HTML:
             let controller = HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
