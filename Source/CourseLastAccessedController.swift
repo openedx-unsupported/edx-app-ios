@@ -32,13 +32,13 @@ public class CourseLastAccessedController: NSObject {
     private var t_hasTriggeredSetLastAccessed = false
     
     
-    public init(blockID : CourseBlockID?, dataManager : DataManager, networkManager : NetworkManager, courseQuerier: CourseOutlineQuerier, lastAccessedProvider : LastAccessedProvider? = nil, courseOutlineMode: CourseOutlineMode?) {
+    public init(blockID : CourseBlockID?, dataManager : DataManager, networkManager : NetworkManager, courseQuerier: CourseOutlineQuerier, lastAccessedProvider : LastAccessedProvider? = nil, forMode mode: CourseOutlineMode) {
         self.blockID = blockID
         self.dataManager = dataManager
         self.networkManager = networkManager
         self.courseQuerier = courseQuerier
         self.lastAccessedProvider = lastAccessedProvider ?? dataManager.interface
-        self.courseOutlineMode = courseOutlineMode ?? .Full
+        courseOutlineMode = mode
         super.init()
         
         addListener()
@@ -50,7 +50,7 @@ public class CourseLastAccessedController: NSObject {
     }
     
     private var canUpdateLastAccessed : Bool {
-        return blockID != nil
+        return blockID != nil && courseOutlineMode == .Full
     }
     
     public func loadLastAccessed(forMode mode : CourseOutlineMode) {

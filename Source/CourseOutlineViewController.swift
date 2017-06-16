@@ -53,7 +53,7 @@ public class CourseOutlineViewController :
         return courseQuerier.courseID
     }
     
-    public init(environment: Environment, courseID : String, rootID : CourseBlockID?, courseOutlineMode: CourseOutlineMode?) {
+    public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
         self.rootID = rootID
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
@@ -62,8 +62,8 @@ public class CourseOutlineViewController :
         insetsController = ContentInsetsController()
         
         tableController = CourseOutlineTableController(environment : self.environment, courseID: courseID)
-        self.courseOutlineMode = courseOutlineMode ?? .Full
-        lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, courseOutlineMode: courseOutlineMode)
+        courseOutlineMode = mode ?? .Full
+        lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment)
         
@@ -260,7 +260,7 @@ public class CourseOutlineViewController :
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
-        self.environment.router?.showContainerForBlockWithID(blockID: block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self, courseOutlineMode: courseOutlineMode)
+        self.environment.router?.showContainerForBlockWithID(blockID: block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self, forMode: courseOutlineMode)
     }
     
     //MARK: PullRefreshControllerDelegate

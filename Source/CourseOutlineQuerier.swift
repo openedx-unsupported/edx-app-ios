@@ -272,7 +272,7 @@ public class CourseOutlineQuerier : NSObject {
 
     /// Loads all the children of the given block.
     /// nil means use the course root.
-    public func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode) -> OEXStream<BlockGroup> {
+    public func childrenOfBlockWithID(blockID: CourseBlockID?, forMode mode: CourseOutlineMode) -> OEXStream<BlockGroup> {
         loadOutlineIfNecessary()
         
         return courseOutline.flatMap {[weak self] (outline : CourseOutline) -> Result<BlockGroup> in
@@ -281,7 +281,7 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    private func childrenOfBlockWithID(blockID : CourseBlockID?, forMode mode : CourseOutlineMode, inOutline outline : CourseOutline) -> BlockGroup? {
+    private func childrenOfBlockWithID(blockID: CourseBlockID?, forMode mode: CourseOutlineMode, inOutline outline: CourseOutline) -> BlockGroup? {
         if let block = blockWithID(id: blockID ?? outline.root, inOutline: outline)
         {
             let blocks = block.children.flatMap({ blockWithID(id: $0, inOutline: outline) })
@@ -293,7 +293,7 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    private func filterBlocks(blocks : [CourseBlock], forMode mode : CourseOutlineMode) -> [CourseBlock] {
+    private func filterBlocks(blocks: [CourseBlock], forMode mode: CourseOutlineMode) -> [CourseBlock] {
         switch mode {
         case .Full:
             return blocks
@@ -340,9 +340,9 @@ public class CourseOutlineQuerier : NSObject {
             (block.type.asVideo != nil) ? block.blockID : nil
         }
         
-        let blockVideos = videoStream.map({ videoIDs -> [OEXHelperVideoDownload] in
-            let videos = OEXInterface.shared().statesForVideos(withIDs: videoIDs, courseID: self.courseID)
-            return videos.filter { video in (video.summary?.isSupportedVideo ?? false)}
+        let blockVideos = videoStream.map({[weak self] videoIDs -> [OEXHelperVideoDownload] in
+            let videos = self?.interface?.statesForVideos(withIDs: videoIDs, courseID: self?.courseID ?? "")
+            return videos?.filter { video in (video.summary?.isSupportedVideo ?? false)} ?? []
         })
         
         return blockVideos
@@ -350,7 +350,7 @@ public class CourseOutlineQuerier : NSObject {
     
     /// Loads the given block.
     /// nil means use the course root.
-    public func blockWithID(id : CourseBlockID?, mode : CourseOutlineMode = .Full) -> OEXStream<CourseBlock> {
+    public func blockWithID(id: CourseBlockID?, mode: CourseOutlineMode = .Full) -> OEXStream<CourseBlock> {
         loadOutlineIfNecessary()
         return courseOutline.flatMap {outline in
             let blockID = id ?? outline.root
@@ -359,7 +359,7 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    private func blockWithID(id : CourseBlockID, inOutline outline : CourseOutline, forMode mode : CourseOutlineMode = .Full) -> CourseBlock? {
+    private func blockWithID(id: CourseBlockID, inOutline outline: CourseOutline, forMode mode: CourseOutlineMode = .Full) -> CourseBlock? {
         if let block = outline.blocks[id] {
             return block
         }

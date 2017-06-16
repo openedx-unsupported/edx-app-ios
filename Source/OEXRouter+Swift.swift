@@ -57,23 +57,23 @@ extension OEXRouter {
     }
     
     func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?, courseOutlineMode: CourseOutlineMode? = .Full) -> CourseContentPageViewController {
-        let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID, courseOutlineMode: courseOutlineMode)
+        let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID, forMode: courseOutlineMode ?? .Full)
         return contentPageController
     }
     
-    func showContainerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, parentID : CourseBlockID?, courseID : CourseBlockID, fromController controller: UIViewController, courseOutlineMode: CourseOutlineMode? = .Full) {
+    func showContainerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, parentID : CourseBlockID?, courseID : CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .Full) {
         switch type {
         case .Outline:
             fallthrough
         case .Unit:
-            let outlineController = controllerForBlockWithID(blockID: blockID, type: type, courseID: courseID, courseOutlineMode: courseOutlineMode)
+            let outlineController = controllerForBlockWithID(blockID: blockID, type: type, courseID: courseID, courseOutlineMode: mode)
             controller.navigationController?.pushViewController(outlineController, animated: true)
         case .HTML:
             fallthrough
         case .Video:
             fallthrough
         case .Unknown:
-            let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID, courseOutlineMode: courseOutlineMode)
+            let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID, courseOutlineMode: mode)
             if let delegate = controller as? CourseContentPageViewControllerDelegate {
                 pageController.navigationDelegate = delegate
             }
@@ -90,7 +90,7 @@ extension OEXRouter {
     private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String, courseOutlineMode: CourseOutlineMode? = .Full) -> UIViewController {
         switch type {
             case .Outline:
-                let outlineController = CourseOutlineViewController(environment: self.environment, courseID: courseID, rootID: blockID, courseOutlineMode: courseOutlineMode)
+                let outlineController = CourseOutlineViewController(environment: self.environment, courseID: courseID, rootID: blockID, forMode: courseOutlineMode)
                 return outlineController
         case .Unit:
             return unitControllerForCourseID(courseID: courseID, blockID: blockID, initialChildID: nil, courseOutlineMode: courseOutlineMode)
@@ -126,8 +126,8 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(courseDates, animated: true)
     }
     
-    func showVideos(controller:UIViewController, courseID: String) {
-        showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller, courseOutlineMode: .Video)
+    func showCourseVideos(controller:UIViewController, courseID: String) {
+        showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller, forMode: .Video)
     }
     
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, thread : DiscussionThread, isDiscussionBlackedOut: Bool) {

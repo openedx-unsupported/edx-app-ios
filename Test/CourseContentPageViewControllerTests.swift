@@ -27,7 +27,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     
     @discardableResult func loadAndVerifyControllerWithInitialChild(_ initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> ((XCTestExpectation) -> Void)?)? = nil) -> CourseContentPageViewController {
         
-        let controller = CourseContentPageViewController(environment: environment, courseID: outline.root, rootID: parentID, initialChildID: initialChildID)
+        let controller = CourseContentPageViewController(environment: environment, courseID: outline.root, rootID: parentID, initialChildID: initialChildID, forMode: .Full)
         
         inScreenNavigationContext(controller) {
             let expectation = self.expectation(description: "course loaded")

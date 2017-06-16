@@ -10,16 +10,6 @@ import UIKit
 import XCTest
 @testable import edX
 
-private extension OEXConfig {
-    
-    convenience init(courseVideoEnabled : Bool) {
-        self.init(dictionary: [
-            "COURSE_VIDEOS_ENABLED": courseVideoEnabled,
-            ]
-        )
-    }
-}
-
 class CourseOutlineViewControllerTests: SnapshotTestCase {
     
     let course = OEXCourse.freshCourse()
@@ -32,19 +22,19 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     override func setUp() {
         super.setUp()
         outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
-        let config = OEXConfig(courseVideoEnabled: true)
+        let config = OEXConfig(dictionary: ["COURSE_VIDEOS_ENABLED": true])
         let interface = OEXInterface.shared()
         environment = TestRouterEnvironment(config: config, interface: interface)
         environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, outline : outline)
-        environment.interface?.setCourseEnrollments([UserCourseEnrollment(course: course)])
-        environment.interface?.setVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID())])
+        environment.interface?.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
+        environment.interface?.t_setVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
         router = OEXRouter(environment: environment)
     }
     
     func loadAndVerifyControllerWithBlockID(_ blockID : CourseBlockID, courseOutlineMode: CourseOutlineMode? = CourseOutlineMode.Full, verifier : @escaping (CourseOutlineViewController) -> ((XCTestExpectation) -> Void)?) {
         
         let blockIdOrNilIfRoot : CourseBlockID? = blockID == outline.root ? nil : blockID
-        let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot, courseOutlineMode: courseOutlineMode)
+        let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot, forMode: courseOutlineMode)
         
         let expectations = self.expectation(description: "course loaded")
         let updateStream = BackedStream<Void>()

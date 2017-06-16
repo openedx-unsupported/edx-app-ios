@@ -61,7 +61,7 @@ NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
 @property(nonatomic, strong) NSTimer* timer;
 
 @property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
-@property (nullable, nonatomic, strong) NSMutableDictionary* courseVideos;
+@property (nonatomic, strong, nullable) NSMutableDictionary* courseVideos;
 
 @end
 
@@ -1176,12 +1176,12 @@ static OEXInterface* _sharedInterface = nil;
     [_downloadManger resumePausedDownloads];
 }
 
-- (void)setCourseEnrollments:(NSArray *)courses
+- (void)t_setCourseEnrollments:(NSArray *)courses
 {
     self.courses = courses;
 }
 
-- (void)setVideos:(NSDictionary *)courseVideos
+- (void)t_setVideos:(NSDictionary *)courseVideos
 {
     self.courseVideos = [courseVideos copy];
 }

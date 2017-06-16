@@ -64,7 +64,5 @@ open class CourseOutlineTestDataFactory {
         return ["block1", "block2"]
     }
     
-    open static func knownLocalVideoID() -> CourseBlockID {
-        return "block4"
-    }
+    static let knownLocalVideoID = "block4"
 }

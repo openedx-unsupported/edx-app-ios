@@ -58,8 +58,8 @@ extern NSString* const OEXDownloadEndedNotification;
 @property (nonatomic, assign) int numberOfRecentDownloads;
 
 // These two method are used to set the course enrolments and courseVideos for unit test cases
-- (void)setCourseEnrollments:(NSArray *)courses;
-- (void)setVideos:(NSDictionary *)courseVideos;
+- (void)t_setCourseEnrollments:(NSArray *)courses;
+- (void)t_setVideos:(NSDictionary *)courseVideos;
 
 
 #pragma Common Methods

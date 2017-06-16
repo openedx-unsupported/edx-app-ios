@@ -45,19 +45,19 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
             dataManager: environment.dataManager,
             networkManager: environment.networkManager,
             courseQuerier: querier,
-            lastAccessedProvider : lastAccessedProvider, courseOutlineMode: .Full)
+            lastAccessedProvider : lastAccessedProvider, forMode: .Full)
         
         sectionController = CourseLastAccessedController(blockID: "unit3",
             dataManager: environment.dataManager,
             networkManager: environment.networkManager,
             courseQuerier: querier,
-            lastAccessedProvider: lastAccessedProvider, courseOutlineMode: .Full)
+            lastAccessedProvider: lastAccessedProvider, forMode: .Full)
         
         nonVideoSectionController = CourseLastAccessedController(blockID: "unit1",
             dataManager: environment.dataManager,
             networkManager: environment.networkManager,
             courseQuerier: querier,
-            lastAccessedProvider: lastAccessedProvider, courseOutlineMode: .Full)
+            lastAccessedProvider: lastAccessedProvider, forMode: .Full)
     }
     
     override func tearDown() {
@@ -98,7 +98,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
     }
     
     func testVideoMode() {
-        let videoSectionController = CourseLastAccessedController(blockID: nil, dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: CourseOutlineQuerier(courseID: outline.root, outline : outline), lastAccessedProvider: lastAccessedProvider, courseOutlineMode: .Video)
+        let videoSectionController = CourseLastAccessedController(blockID: nil, dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: CourseOutlineQuerier(courseID: outline.root, outline : outline), lastAccessedProvider: lastAccessedProvider, forMode: .Video)
         
         XCTAssertFalse(videoSectionController.t_canShowLastAccessed())
     }

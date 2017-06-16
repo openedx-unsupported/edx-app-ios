@@ -323,7 +323,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     private func showCourseVideos() {
-        environment.router?.showVideos(controller: self, courseID: courseID)
+        environment.router?.showCourseVideos(controller: self, courseID: courseID)
     }
     
     private func showDiscussionsForCourseID(courseID: String) {
