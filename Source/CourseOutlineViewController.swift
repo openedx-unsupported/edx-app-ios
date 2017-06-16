@@ -155,7 +155,7 @@ public class CourseOutlineViewController :
     }
     
     private func emptyState() -> LoadState {
-        return LoadState.empty(icon: .UnknownError, message : Strings.coursewareUnavailable)
+        return LoadState.empty(icon: .UnknownError, message : (courseOutlineMode == .Video) ? Strings.courseVideoUnavailable : Strings.coursewareUnavailable)
     }
     
     private func showErrorIfNecessary(error : NSError) {
