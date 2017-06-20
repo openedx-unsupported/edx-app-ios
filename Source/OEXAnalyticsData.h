@@ -18,6 +18,13 @@ extern NSString* const OEXAnalyticsKeyTopicID;
 extern NSString* const OEXAnalyticsKeyResponseID;
 extern NSString* const OEXAnalyticsKeyQueryString;
 
+extern NSString* const OEXResearchAnalyticsKeyCourseID;
+extern NSString* const OEXResearchAnalyticsKeyTopicID;
+extern NSString* const OEXResearchAnalyticsKeyThreadID;
+extern NSString* const OEXResearchAnalyticsKeyAuthor;
+extern NSString* const OEXResearchAnalyticsKeyTitle;
+extern NSString* const OEXResearchAnalyticsKeyTeamID;
+
 // TODO rename these to be more like the above
 #define key_app_name @"app_name"
 #define key_app_version @"app_version"
@@ -67,6 +74,8 @@ extern NSString* const OEXAnalyticsEventProfileViewed;
 extern NSString* const OEXAnalyticsEventScreen;
 extern NSString* const OEXAnalyticsEventCertificateShared;
 extern NSString* const OEXAnalyticsEventCourseShared;
+
+extern NSString* const OEXResearchAnalyticsEventThreadViewed;
 
 // TODO rename these to be more like the above
 #define value_video_loaded @"edx.video.loaded"

@@ -146,6 +146,8 @@ NS_ASSUME_NONNULL_BEGIN
 //Discussion search screen event
 - (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query;
 
+- (void) trackDiscussionThreadViewed:(NSString *)threadId courseId:(nullable NSString *)courseId title:(nullable NSString *)title topicId:(NSString *)topicId author:(nullable NSString *)author teamId:(nullable NSString *)teamId;
+
 @end
 
 @protocol OEXAnalyticsProvider <NSObject>
