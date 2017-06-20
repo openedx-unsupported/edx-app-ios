@@ -24,7 +24,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
     let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
     var environment: TestRouterEnvironment!
     
-    var lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
+    var lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem
     let lastAccessedProvider = MockLastAccessedProvider()
     
     var rootController : CourseLastAccessedController?
@@ -101,6 +101,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         let videoSectionController = CourseLastAccessedController(blockID: nil, dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: CourseOutlineQuerier(courseID: outline.root, outline : outline), lastAccessedProvider: lastAccessedProvider, forMode: .Video)
         
         XCTAssertFalse(videoSectionController.t_canShowLastAccessed())
+        XCTAssertFalse(videoSectionController.t_canUpdateLastAccessed())
     }
     
 }

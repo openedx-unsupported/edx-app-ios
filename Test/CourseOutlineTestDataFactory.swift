@@ -40,29 +40,12 @@ open class CourseOutlineTestDataFactory {
             ])
     }
     
-    open static func knownLastAccessedItem() -> CourseLastAccessed {
-        return CourseLastAccessed(moduleId: "unit2", moduleName: "unit2")
-    }
-    
-    open static func knownParentIDWithMultipleChildren() -> CourseBlockID {
-        return "unit2"
-    }
-    
-    open static func knownSection() -> CourseBlockID {
-        return "section1.1"
-    }
-    
-    open static func knownEmptySection() -> CourseBlockID {
-        return "section2.1"
-    }
 
-    open static func knownVideoFilterableSection() -> CourseBlockID {
-        return "unit2"
-    }
-    
-    open static func knownHTMLBlockIDs() -> [CourseBlockID] {
-        return ["block1", "block2"]
-    }
-    
+    static let knownLastAccessedItem = CourseLastAccessed(moduleId: "unit2", moduleName: "unit2")
+    static let knownParentIDWithMultipleChildren = "unit2"
+    static let knownSection = "section1.1"
+    static let knownEmptySection = "section2.1"
+    static let knownVideoFilterableSection = "unit2"
+    static let knownHTMLBlockIDs = ["block1", "block2"]
     static let knownLocalVideoID = "block4"
 }

@@ -49,11 +49,11 @@ public class CourseLastAccessedController: NSObject {
         return blockID == nil && courseOutlineMode == .Full
     }
     
-    private var canUpdateLastAccessed : Bool {
+    fileprivate var canUpdateLastAccessed : Bool {
         return blockID != nil && courseOutlineMode == .Full
     }
     
-    public func loadLastAccessed(forMode mode : CourseOutlineMode) {
+    public func loadLastAccessed(forMode mode: CourseOutlineMode) {
         if !canShowLastAccessed {
             return
         }
@@ -110,7 +110,7 @@ public class CourseLastAccessedController: NSObject {
         
     }
 
-    private func expandAccessStream(stream : OEXStream<CourseLastAccessed>, forMode mode : CourseOutlineMode = .Full) -> OEXStream<(CourseBlock, CourseLastAccessed)> {
+    private func expandAccessStream(stream: OEXStream<CourseLastAccessed>, forMode mode: CourseOutlineMode = .Full) -> OEXStream<(CourseBlock, CourseLastAccessed)> {
         return stream.transform {[weak self] lastAccessed in
             return joinStreams((self?.courseQuerier.blockWithID(id: lastAccessed.moduleId, mode: mode)) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
         }
@@ -120,7 +120,10 @@ public class CourseLastAccessedController: NSObject {
 extension CourseLastAccessedController {
 
     public func t_canShowLastAccessed() -> Bool{
-        
         return canShowLastAccessed
+    }
+    
+    public func t_canUpdateLastAccessed() -> Bool{
+        return canUpdateLastAccessed
     }
 }

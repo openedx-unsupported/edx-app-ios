@@ -16,7 +16,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     var outline : CourseOutline!
     var router : OEXRouter!
     var environment : TestRouterEnvironment!
-    let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
+    let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem
     let networkManager = MockNetworkManager(baseURL: URL(string: "www.example.com")!)
     
     override func setUp() {
@@ -25,9 +25,9 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         let config = OEXConfig(dictionary: ["COURSE_VIDEOS_ENABLED": true])
         let interface = OEXInterface.shared()
         environment = TestRouterEnvironment(config: config, interface: interface)
-        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, outline : outline)
+        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)
         environment.interface?.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
-        environment.interface?.t_setVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        environment.interface?.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
         router = OEXRouter(environment: environment)
     }
     
@@ -90,7 +90,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     }
     
     func testScreenAnalyticsChild() {
-        let sectionID = CourseOutlineTestDataFactory.knownSection()
+        let sectionID = CourseOutlineTestDataFactory.knownSection
         let section = outline.blocks[sectionID]!
         loadAndVerifyControllerWithBlockID(section.blockID) {_ in
             return {expectation -> Void in
@@ -115,7 +115,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     
     
     func testSnapshotContentChapter() {
-        loadAndVerifyControllerWithBlockID(CourseOutlineTestDataFactory.knownSection()) {
+        loadAndVerifyControllerWithBlockID(CourseOutlineTestDataFactory.knownSection) {
             self.assertSnapshotValidWithContent($0.navigationController!)
             return nil
         }

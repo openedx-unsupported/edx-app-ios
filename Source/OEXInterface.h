@@ -59,7 +59,7 @@ extern NSString* const OEXDownloadEndedNotification;
 
 // These two method are used to set the course enrolments and courseVideos for unit test cases
 - (void)t_setCourseEnrollments:(NSArray *)courses;
-- (void)t_setVideos:(NSDictionary *)courseVideos;
+- (void)t_setCourseVideos:(NSDictionary *)courseVideos;
 
 
 #pragma Common Methods

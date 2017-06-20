@@ -243,7 +243,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         cellItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
-            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseVideosDetail, icon : .CourseModeVideo) {[weak self] () -> Void in
+            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseVideosDetail, icon : .CourseVideos) {[weak self] () -> Void in
                 self?.showCourseVideos()
             }
             cellItems.append(item)

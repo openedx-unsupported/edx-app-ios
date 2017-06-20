@@ -268,7 +268,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
                 UIApplication.shared.openURL(url as URL)
             }
         }
-        loadController.state = LoadState.empty(icon: .CourseModeVideo, message: Strings.Video.onlyOnYoutube, attributedMessage: nil, accessibilityMessage: nil, buttonInfo: buttonInfo)
+        loadController.state = LoadState.empty(icon: .CourseVideos, message: Strings.Video.onlyOnYoutube, attributedMessage: nil, accessibilityMessage: nil, buttonInfo: buttonInfo)
     }
     
     private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload) {
