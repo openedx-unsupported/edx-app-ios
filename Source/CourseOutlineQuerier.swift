@@ -66,8 +66,8 @@ public class CourseOutlineQuerier : NSObject {
         addListener()
     }
     
-    /// Use this to create a querier with interface and outline.
-    /// Typically used for tests
+    // Use this to create a querier with interface and outline.
+    // Typically used for tests
     convenience public init(courseID : String, interface : OEXInterface?, outline : CourseOutline) {
         self.init(courseID: courseID, outline: outline)
         self.interface = interface
