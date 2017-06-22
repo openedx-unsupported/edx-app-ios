@@ -346,8 +346,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 courseId: thread.courseId,
                 title: thread.title,
                 topicId: thread.topicId,
-                author: thread.author,
-                teamId: nil
+                author: thread.author
             )
         }
     }

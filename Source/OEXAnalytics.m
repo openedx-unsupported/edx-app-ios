@@ -518,18 +518,17 @@ static OEXAnalytics* sAnalytics;
     [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:@{OEXAnalyticsKeyQueryString:query}];
 }
 
-- (void) trackDiscussionThreadViewed:(nonnull NSString *)threadId courseId:(nullable NSString *)courseId title:(nullable NSString *)title topicId:(nonnull NSString *)topicId author:(nullable NSString *)author teamId:(nullable NSString *)teamId {
+- (void) trackDiscussionThreadViewed:(nonnull NSString *)threadId courseId:(nullable NSString *)courseId title:(nullable NSString *)title topicId:(nonnull NSString *)topicId author:(nullable NSString *)author {
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = OEXResearchAnalyticsEventThreadViewed;
     event.displayName = @"Forum: View Thread (Research Event)";
 
     NSMutableDictionary* info = [[NSMutableDictionary alloc] init];
-    [info setObject:threadId forKey:OEXResearchAnalyticsKeyThreadID];
+    [info safeSetObject:threadId forKey:OEXResearchAnalyticsKeyThreadID];
     [info setObjectOrNil:courseId forKey:OEXResearchAnalyticsKeyCourseID];
     [info setObjectOrNil:title forKey:OEXResearchAnalyticsKeyTitle];
-    [info setObjectOrNil:topicId forKey:OEXResearchAnalyticsKeyTopicID];
+    [info safeSetObject:topicId forKey:OEXResearchAnalyticsKeyTopicID];
     [info setObjectOrNil:author forKey:OEXResearchAnalyticsKeyAuthor];
-    [info setObjectOrNil:teamId forKey:OEXResearchAnalyticsKeyTeamID];
 
     [self trackEvent:event forComponent:nil withInfo:info];
 }
