@@ -18,6 +18,13 @@ NSString* const OEXAnalyticsKeyTopicID = @"topic_id";
 NSString* const OEXAnalyticsKeyResponseID = @"response_id";
 NSString* const OEXAnalyticsKeyQueryString = @"query_string";
 
+NSString* const OEXResearchAnalyticsKeyCourseID = @"course_id";
+NSString* const OEXResearchAnalyticsKeyTopicID = @"commentable_id";
+NSString* const OEXResearchAnalyticsKeyThreadID = @"id";
+NSString* const OEXResearchAnalyticsKeyAuthor = @"target_username";
+NSString* const OEXResearchAnalyticsKeyTitle = @"title";
+NSString* const OEXResearchAnalyticsKeyTeamID = @"team_id";
+
 NSString* const OEXAnalyticsEventAnnouncementNotificationReceived = @"edx.bi.app.notification.course.update.received";
 NSString* const OEXAnalyticsEventAnnouncementNotificationTapped = @"edx.bi.app.notification.course.update.tapped";
 NSString* const OEXAnalyticsEventPictureSet = @"edx.bi.app.profile.setphoto";
@@ -27,6 +34,8 @@ NSString* const OEXAnalyticsEventComponentViewed = @"edx.bi.app.navigation.compo
 NSString* const OEXAnalyticsEventScreen = @"edx.bi.app.navigation.screen";
 NSString* const OEXAnalyticsEventCertificateShared = @"edx.bi.app.certificate.shared";
 NSString* const OEXAnalyticsEventCourseShared = @"edx.bi.app.course.shared";
+
+NSString* const OEXResearchAnalyticsEventThreadViewed = @"edx.forum.thread.viewed";
 
 NSString* const OEXAnalyticsCategoryNavigation = @"navigation";
 NSString* const OEXAnalyticsCategoryNotifications = @"notifications";

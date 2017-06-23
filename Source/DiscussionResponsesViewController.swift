@@ -320,6 +320,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         logScreenEvent()
+        logTrackingEvent()
     }
     
     override var shouldAutorotate: Bool {
@@ -337,6 +338,19 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
     }
     
+    private func logTrackingEvent() {
+        if let thread = thread {
+
+            self.environment.analytics.trackDiscussionThreadViewed(
+                thread.threadID,
+                courseId: thread.courseId,
+                title: thread.title,
+                topicId: thread.topicId,
+                author: thread.author
+            )
+        }
+    }
+
     func navigationItemTitleForThread(thread : DiscussionThread) -> String {
         switch thread.type {
         case .Discussion:
