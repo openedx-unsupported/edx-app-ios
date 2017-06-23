@@ -13,10 +13,11 @@ import edXCore
 
 private extension OEXConfig {
 
-    convenience init(discussionsEnabled : Bool, courseSharingEnabled: Bool = false) {
+    convenience init(discussionsEnabled : Bool, courseSharingEnabled: Bool = false, courseVideosEnabled: Bool = false) {
         self.init(dictionary: [
             "DISCUSSIONS_ENABLED": discussionsEnabled,
-            "COURSE_SHARING_ENABLED": courseSharingEnabled
+            "COURSE_SHARING_ENABLED": courseSharingEnabled,
+            "COURSE_VIDEOS_ENABLED": courseVideosEnabled
             ]
         )
     }
@@ -70,7 +71,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testSnapshot() {
-        let config = OEXConfig(discussionsEnabled: true, courseSharingEnabled: true)
+        let config = OEXConfig(discussionsEnabled: true, courseSharingEnabled: true, courseVideosEnabled: true)
         let course = OEXCourse.freshCourse()
         let environment = TestRouterEnvironment(config: config)
         environment.mockEnrollmentManager.courses = [course]
