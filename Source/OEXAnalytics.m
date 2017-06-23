@@ -522,10 +522,10 @@ static OEXAnalytics* sAnalytics;
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = OEXResearchAnalyticsEventThreadViewed;
     event.displayName = @"Forum: View Thread (Research Event)";
+    event.courseID = courseId;
 
     NSMutableDictionary* info = [[NSMutableDictionary alloc] init];
     [info safeSetObject:threadId forKey:OEXResearchAnalyticsKeyThreadID];
-    [info setObjectOrNil:courseId forKey:OEXResearchAnalyticsKeyCourseID];
     [info setObjectOrNil:title forKey:OEXResearchAnalyticsKeyTitle];
     [info safeSetObject:topicId forKey:OEXResearchAnalyticsKeyTopicID];
     [info setObjectOrNil:author forKey:OEXResearchAnalyticsKeyAuthor];
