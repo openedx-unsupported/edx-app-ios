@@ -67,7 +67,9 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         if editable {
             let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: nil)
             editButton.oex_setAction() { [weak self] in
-                self?.environment.router?.showProfileEditorFromController(controller: self!)
+                if let owner = self {
+                    owner.environment.router?.showProfileEditorFromController(controller: owner)
+                }
             }
             editButton.accessibilityLabel = Strings.Profile.editAccessibility
             navigationItem.rightBarButtonItem = editButton
