@@ -26,7 +26,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44))
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
-    
+    var buttonDisplayMode: ButtonDisplayMode = .titleAndImage
     init(environment : Environment, courseID : String) {
         self.environment = environment
         self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
@@ -51,13 +51,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.register(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.register(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
-        
+        tableView.setGestureEnabled(true)
         headerContainer.addSubview(lastAccessedView)
         lastAccessedView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(self.headerContainer)
         }
         
         refreshController.setupInScrollView(scrollView: self.tableView)
+        
+        
     }
     
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
@@ -201,3 +203,23 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.tableHeaderView = nil
     }
 }
+
+extension CourseOutlineTableController: SwipeTableViewCellDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        
+            let delete = SwipeAction(style: .destructive, title: nil) { action, indexPath in
+             // delete action implementation
+            }
+            delete.title = "Trash"
+            delete.image = UIImage(named: "Trash")
+            delete.backgroundColor = UIColor.red
+            return [delete]
+    }
+}
+
+
+
+enum ButtonDisplayMode {
+    case titleAndImage, titleOnly, imageOnly
+}
+

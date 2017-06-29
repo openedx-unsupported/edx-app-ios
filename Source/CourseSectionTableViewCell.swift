@@ -13,17 +13,22 @@ protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
 }
 
-class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
+class CourseSectionTableViewCell: SwipeTableViewCell, CourseBlockContainerCell {
     
     static let identifier = "CourseSectionTableViewCellIdentifier"
     
     fileprivate let content = CourseOutlineItemView()
     private let downloadView = DownloadsAccessoryView()
 
-    weak var delegate : CourseSectionTableViewCellDelegate?
+    //weak var delegate : CourseSectionTableViewCellDelegate?
     
     private let videosStream = BackedStream<[OEXHelperVideoDownload]>()
 
+    var indicatorView = IndicatorView(frame: .zero)
+    
+    override func awakeFromNib() {
+        setupIndicatorView()
+    }
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
@@ -33,7 +38,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
 
         downloadView.downloadAction = {[weak self] _ in
             if let owner = self, let block = owner.block, let videos = self?.videosStream.value {
-                owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
+                //owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
             }
         }
         videosStream.listen(self) {[weak self] downloads in
@@ -61,7 +66,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self]_ in
             if let owner = self, owner.downloadView.state == .Downloading {
-                owner.delegate?.sectionCellChoseShowDownloads(cell: owner)
+                //owner.delegate?.sectionCellChoseShowDownloads(cell: owner)
             }
         }
         downloadView.addGestureRecognizer(tapGesture)
@@ -126,5 +131,29 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func setupIndicatorView() {
+        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+        indicatorView.color = tintColor
+        indicatorView.backgroundColor = .clear
+        contentView.addSubview(indicatorView)
+        
+//        let size: CGFloat = 12
+//        indicatorView.widthAnchor.constraint(equalToConstant: size).isActive = true
+//        indicatorView.heightAnchor.constraint(equalTo: indicatorView.widthAnchor).isActive = true
+//        indicatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12).isActive = true
+//        indicatorView.centerYAnchor.constraint(equalTo: fromLabel.centerYAnchor).isActive = true
+    }
 
+}
+
+class IndicatorView: UIView {
+    var color = UIColor.clear {
+        didSet { setNeedsDisplay() }
+    }
+    
+    override func draw(_ rect: CGRect) {
+        color.set()
+        UIBezierPath(ovalIn: rect).fill()
+    }
 }
