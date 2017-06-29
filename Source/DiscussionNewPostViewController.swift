@@ -253,7 +253,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenCreateTopicThread, courseId: self.courseID, value: selectedTopic?.name, threadId: nil, topicId: selectedTopic?.id, responseID: nil)
+        self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.CreateTopicThread, courseId: self.courseID, value: selectedTopic?.name, threadId: nil, topicId: selectedTopic?.id, responseID: nil)
     }
     
     override public var shouldAutorotate: Bool {

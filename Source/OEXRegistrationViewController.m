@@ -6,16 +6,12 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 #import "OEXRegistrationViewController.h"
-
 #import <Masonry/Masonry.h>
-
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
-
 #import "NSArray+OEXFunctional.h"
 #import "NSError+OEXKnownErrors.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
-#import "NSMutableDictionary+OEXSafeAccess.h"
 #import "OEXAuthentication.h"
 #import "OEXExternalAuthProvider.h"
 #import "OEXExternalRegistrationOptionsView.h"
@@ -454,7 +450,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             else {
                 NSMutableDictionary* controllers = [[NSMutableDictionary alloc] init];
                 for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
-                    [controllers safeSetObject:controller forKey:controller.field.name];
+                    [controllers setSafeObject:controller forKey:controller.field.name];
                     [controller handleError:nil];
                 }
                 [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString* fieldName, NSArray* errorInfos, BOOL* stop) {
@@ -489,7 +485,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
         if([controller isValidInput]) {
             if([controller hasValue]) {
-                [parameters safeSetObject:[controller currentValue] forKey:[controller field].name];
+                [parameters setSafeObject:[controller currentValue] forKey:[controller field].name];
             }
         }
         else if(![self shouldFilterField:controller.field]){
@@ -509,9 +505,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [parameters setObject:@"true" forKey:@"terms_of_service"];
     
     if(self.externalProvider != nil) {
-        [parameters safeSetObject:self.externalAccessToken forKey: @"access_token"];
-        [parameters safeSetObject:self.externalProvider.backendName forKey:@"provider"];
-        [parameters safeSetObject:self.environment.config.oauthClientID forKey:@"client_id"];
+        [parameters setSafeObject:self.externalAccessToken forKey: @"access_token"];
+        [parameters setSafeObject:self.externalProvider.backendName forKey:@"provider"];
+        [parameters setSafeObject:self.environment.config.oauthClientID forKey:@"client_id"];
     }
 
     [self registerWithParameters:parameters];

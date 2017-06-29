@@ -11,10 +11,8 @@
 #import "edX-Swift.h"
 #import "OEXVideoEncoding.h"
 #import "OEXVideoPathEntry.h"
-#import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSArray+OEXFunctional.h"
 #import "NSArray+OEXSafeAccess.h"
-#import "NSMutableDictionary+OEXSafeAccess.h"
 
 @interface OEXVideoSummary ()
 
@@ -66,7 +64,7 @@
         NSMutableDictionary* encodings = [[NSMutableDictionary alloc] init];
         [rawEncodings enumerateKeysAndObjectsUsingBlock:^(NSString* name, NSDictionary* encodingInfo, BOOL *stop) {
             OEXVideoEncoding* encoding = [[OEXVideoEncoding alloc] initWithDictionary:encodingInfo name:name];
-            [encodings safeSetObject:encoding forKey:name];
+            [encodings setSafeObject:encoding forKey:name];
         }];
         self.encodings = encodings;
 

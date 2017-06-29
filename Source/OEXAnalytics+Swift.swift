@@ -36,7 +36,21 @@ public enum AnalyticsScreenName: String {
     case AppReviews = "AppReviews: View Rating"
     case CourseDates = "Course Dates"
     case WhatsNew = "WhatsNew: Whats New"
+    case ViewTopicThreads = "Forum: View Topic Threads"
+    case CreateTopicThread = "Forum: Create Topic Thread"
+    case ViewThread = "Forum: View Thread"
+    case AddThreadResponse = "Forum: Add Thread Response"
+    case AddResponseComment = "Forum: Add Response Comment"
+    case ViewResponseComments = "Forum: View Response Comments"
 }
+
+public enum AnalyticsEventDataKey: String {
+    case ThreadID = "thread_id"
+    case TopicID = "topic_id"
+    case ResponseID = "response_id"
+    case Author = "author"
+}
+
 
 extension OEXAnalytics {
 
@@ -79,5 +93,22 @@ extension OEXAnalytics {
         event.category = AnalyticsCategory.Conversion.rawValue
         event.label = courseId
         return event
+    }
+
+    func trackDiscussionScreen(
+            withName: AnalyticsScreenName,
+            courseId: String,
+            value: String?,
+            threadId: String?,
+            topicId: String?,
+            responseID: String?,
+            author: String? = String?.none) {
+        
+        var info: [String:String] = [:]
+        info.setObjectOrNil(threadId, forKey: AnalyticsEventDataKey.ThreadID.rawValue)
+        info.setObjectOrNil(topicId, forKey: AnalyticsEventDataKey.TopicID.rawValue)
+        info.setObjectOrNil(responseID, forKey: AnalyticsEventDataKey.ResponseID.rawValue)
+        info.setObjectOrNil(author, forKey: AnalyticsEventDataKey.Author.rawValue)
+        self.trackScreen(withName: withName.rawValue, courseID: courseId, value: value, additionalInfo: info)
     }
 }

@@ -12,7 +12,6 @@
 
 #import "NSDate+OEXComparisons.h"
 #import "NSObject+OEXReplaceNull.h"
-#import "NSMutableDictionary+OEXSafeAccess.h"
 #import "OEXDateFormatting.h"
 #import "OEXLatestUpdates.h"
 #import "OEXCoursewareAccess.h"

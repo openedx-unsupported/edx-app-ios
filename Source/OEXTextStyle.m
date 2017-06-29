@@ -7,10 +7,9 @@
 //
 
 #import "OEXTextStyle.h"
-
-#import "NSMutableDictionary+OEXSafeAccess.h"
 #import "OEXStyles.h"
 #import "UIColor+OEXHex.h"
+#import "edX-Swift.h"
 
 @interface OEXMutableTextStyle ()
 

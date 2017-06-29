@@ -9,10 +9,8 @@
 @import edXCore;
 
 #import "OEXAnalytics.h"
-
 #import "OEXAnalyticsData.h"
 #import "OEXAnalyticsTracker.h"
-#import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXSession.h"
 #import "edX-Swift.h"
@@ -248,8 +246,8 @@ static OEXAnalytics* sAnalytics;
 
 - (void)trackTranscriptLanguage:(NSString*)videoID CurrentTime:(NSTimeInterval)currentTime Language:(NSString*)language CourseID:(NSString*)courseid UnitURL:(NSString*)unitURL {
     NSMutableDictionary* info = @{}.mutableCopy;
-    [info safeSetObject:language forKey:key_language];
-    [info safeSetObject:@(currentTime) forKey:key_current_time];
+    [info setSafeObject:language forKey:key_language];
+    [info setSafeObject:@(currentTime) forKey:key_current_time];
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Language Clicked";
@@ -292,9 +290,9 @@ static OEXAnalytics* sAnalytics;
                OldSpeed:(NSString*)oldSpeed
                NewSpeed:(NSString*)newSpeed {
     NSMutableDictionary* info = @{}.mutableCopy;
-    [info safeSetObject:oldSpeed forKey:key_old_speed];
-    [info safeSetObject:newSpeed forKey:key_new_speed];
-    [info safeSetObject:@(currentTime) forKey:key_current_time];
+    [info setSafeObject:oldSpeed forKey:key_old_speed];
+    [info setSafeObject:newSpeed forKey:key_new_speed];
+    [info setSafeObject:@(currentTime) forKey:key_current_time];
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Speed Change Video";
@@ -332,8 +330,8 @@ static OEXAnalytics* sAnalytics;
                                 CourseID:(NSString*)courseId
                               VideoCount:(long)count {
     NSMutableDictionary* info = @{}.mutableCopy;
-    [info safeSetObject:section forKey:key_courseSection];
-    [info safeSetObject:@(count) forKey:key_No_Of_Videos];
+    [info setSafeObject:section forKey:key_courseSection];
+    [info setSafeObject:@(count) forKey:key_No_Of_Videos];
 
     // can be nil
     [info setObjectOrNil:subsection forKey:key_courseSubsection];
@@ -375,8 +373,8 @@ static OEXAnalytics* sAnalytics;
                          Mode:(BOOL)isFullscreen
                       UnitURL:(NSString*)unitUrl {
     NSMutableDictionary* info = @{}.mutableCopy;
-    [info safeSetObject:@(isFullscreen) forKey:key_fullscreen];
-    [info safeSetObject:@(currentTime) forKey:key_current_time];
+    [info setSafeObject:@(isFullscreen) forKey:key_fullscreen];
+    [info setSafeObject:@(currentTime) forKey:key_current_time];
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.name = value_fullscreen;
@@ -390,7 +388,7 @@ static OEXAnalytics* sAnalytics;
 
 - (void)trackUserLogin:(NSString*)method {
     NSMutableDictionary* info = @{}.mutableCopy;
-    [info safeSetObject:method forKey:key_method];
+    [info setSafeObject:method forKey:key_method];
 
     OEXAnalyticsEvent* event = [OEXAnalytics loginEvent];
     [self trackEvent:event forComponent:nil withInfo:info];
@@ -416,9 +414,9 @@ static OEXAnalytics* sAnalytics;
 
 - (void)trackViewedComponentForCourseWithID:(NSString*)courseID blockID:(NSString*)blockID minifiedBlockID: (NSString*)minifiedBlockID {
     NSMutableDictionary* info = [[NSMutableDictionary alloc] init];
-    [info safeSetObject:blockID forKey:OEXAnalyticsKeyBlockID];
-    [info safeSetObject:courseID forKey:OEXAnalyticsKeyCourseID];
-    [info safeSetObject:minifiedBlockID forKey:FirebaseAnalyticsTracker.minifiedBlockIDKey];
+    [info setSafeObject:blockID forKey:OEXAnalyticsKeyBlockID];
+    [info setSafeObject:courseID forKey:OEXAnalyticsKeyCourseID];
+    [info setSafeObject:minifiedBlockID forKey:FirebaseAnalyticsTracker.minifiedBlockIDKey];
     
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = OEXAnalyticsEventComponentViewed;
@@ -433,11 +431,11 @@ static OEXAnalytics* sAnalytics;
 
 - (void)trackOpenInBrowserWithURL:(NSString*)URL courseID:(NSString*)courseID blockID:(NSString*)blockID minifiedBlockID: (NSString*)minifiedBlockID supported:(BOOL)supported {
     NSMutableDictionary* info = @{}.mutableCopy;
-    [info safeSetObject:courseID forKey:OEXAnalyticsKeyCourseID];
-    [info safeSetObject:blockID forKey:OEXAnalyticsKeyBlockID];
-    [info safeSetObject:minifiedBlockID forKey:FirebaseAnalyticsTracker.minifiedBlockIDKey];
-    [info safeSetObject:@(supported) forKey:OEXAnalyticsKeySupported];
-    [info safeSetObject:URL forKey:key_target_url];
+    [info setSafeObject:courseID forKey:OEXAnalyticsKeyCourseID];
+    [info setSafeObject:blockID forKey:OEXAnalyticsKeyBlockID];
+    [info setSafeObject:minifiedBlockID forKey:FirebaseAnalyticsTracker.minifiedBlockIDKey];
+    [info setSafeObject:@(supported) forKey:OEXAnalyticsKeySupported];
+    [info setSafeObject:URL forKey:key_target_url];
     
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
     event.name = value_browser_launched;
@@ -502,17 +500,6 @@ static OEXAnalytics* sAnalytics;
 }
 
 #pragma mark- Discussion
-
-- (void) trackDiscussionScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value threadId:(nullable NSString *) threadID topicId:(nullable NSString *) topicID responseID:(nullable NSString *) responseID {
-
-    NSMutableDictionary *additionInfo = [NSMutableDictionary dictionary];
-    
-    [additionInfo setObjectOrNil:threadID forKey:OEXAnalyticsKeyThreadID];
-    [additionInfo setObjectOrNil:topicID forKey:OEXAnalyticsKeyTopicID];
-    [additionInfo setObjectOrNil:responseID forKey:OEXAnalyticsKeyResponseID];
-    
-    [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:additionInfo];
-}
 
 - (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query {
     [self trackScreenWithName:screenName courseID:courseID value:value additionalInfo:@{OEXAnalyticsKeyQueryString:query}];

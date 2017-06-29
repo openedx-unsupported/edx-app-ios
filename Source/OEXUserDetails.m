@@ -8,7 +8,8 @@
 
 #import "OEXUserDetails.h"
 #import "OEXSession.h"
-#import "NSMutableDictionary+OEXSafeAccess.h"
+#import "edX-Swift.h"
+
 static OEXUserDetails* user = nil;
 
 static NSString* const OEXUserDetailsEmailKey = @"email";
@@ -67,9 +68,9 @@ static NSString* const OEXUserDetailsUrlKey = @"url";
 - (NSData*)userDetailsData {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     if(_username && _course_enrollments) {
-        [dict safeSetObject:_username forKey:OEXUserDetailsUserNameKey];
+        [dict setSafeObject:_username forKey:OEXUserDetailsUserNameKey];
         [dict setObjectOrNil:_email forKey:OEXUserDetailsEmailKey];
-        [dict safeSetObject:_course_enrollments forKey:OEXUserDetailsCourseEnrollmentsKey];
+        [dict setSafeObject:_course_enrollments forKey:OEXUserDetailsCourseEnrollmentsKey];
         [dict setObjectOrNil:_userId forKey:OEXUserDetailsUserIdKey];
         [dict setObjectOrNil:_url forKey:OEXUserDetailsUrlKey];
         [dict setObjectOrNil:_name forKey:OEXUserDetailsNameKey];

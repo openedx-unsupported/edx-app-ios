@@ -13,9 +13,6 @@ extern NSString* const OEXAnalyticsKeyCourseID;
 extern NSString* const OEXAnalyticsKeyOrientation;
 extern NSString* const OEXAnalyticsKeyProvider;
 extern NSString* const OEXAnalyticsKeySupported;
-extern NSString* const OEXAnalyticsKeyThreadID;
-extern NSString* const OEXAnalyticsKeyTopicID;
-extern NSString* const OEXAnalyticsKeyResponseID;
 extern NSString* const OEXAnalyticsKeyQueryString;
 
 // TODO rename these to be more like the above
@@ -130,13 +127,7 @@ extern NSString* const OEXAnalyticsScreenChooseFormValue;
 extern NSString* const OEXAnalyticsScreenEditTextFormValue;
 extern NSString* const OEXAnalyticsScreenCertificate;
 extern NSString* const OEXAnalyticsScreenViewTopics;
-extern NSString* const OEXAnalyticsScreenViewTopicThreads;
 extern NSString* const OEXAnalyticsScreenSearchThreads;
-extern NSString* const OEXAnalyticsScreenCreateTopicThread;
-extern NSString* const OEXAnalyticsScreenViewThread;
-extern NSString* const OEXAnalyticsScreenAddThreadResponse;
-extern NSString* const OEXAnalyticsScreenAddResponseComment;
-extern NSString* const OEXAnalyticsScreenViewResponseComments;
 extern NSString* const OEXAnalyticsScreenDownloads;
 extern NSString* const OEXAnalyticsScreenSettings;
 

@@ -7,12 +7,9 @@
 //
 
 #import "OEXAuthentication.h"
-
 #import "NSDictionary+OEXEncoding.h"
 #import "NSError+OEXKnownErrors.h"
-#import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSString+OEXFormatting.h"
-
 #import "OEXAccessToken.h"
 #import "OEXAppDelegate.h"
 #import "OEXConfig.h"
@@ -102,8 +99,8 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
     NSMutableDictionary* parameters = [[NSMutableDictionary alloc] init];
-    [parameters safeSetObject:token forKey:@"access_token"];
-    [parameters safeSetObject:[[OEXConfig sharedConfig] oauthClientID] forKey:@"client_id"];
+    [parameters setSafeObject:token forKey:@"access_token"];
+    [parameters setSafeObject:[[OEXConfig sharedConfig] oauthClientID] forKey:@"client_id"];
     NSString* path = [NSString oex_stringWithFormat:URL_EXCHANGE_TOKEN parameters:@{@"backend" : provider.backendName}];
     
     [self executePOSTRequestWithPath:path parameters:parameters completion:^(NSData *data, NSHTTPURLResponse *response, NSError *error) {
@@ -127,7 +124,7 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
 
 + (void)resetPasswordWithEmailId:(NSString*)email completionHandler:(OEXURLRequestHandler)completionBlock {
     NSMutableDictionary* parameters = [[NSMutableDictionary alloc] init];
-    [parameters safeSetObject:email forKey:@"email"];
+    [parameters setSafeObject:email forKey:@"email"];
     [self executePOSTRequestWithPath:URL_RESET_PASSWORD parameters:parameters completion:completionBlock];
 }
 
@@ -136,10 +133,10 @@ OEXNSDataTaskRequestHandler OEXWrapURLCompletion(OEXURLRequestHandler completion
     NSString* clientID = [[OEXConfig sharedConfig] oauthClientID];
     
     NSMutableDictionary* arguments = [[NSMutableDictionary alloc] init];
-    [arguments safeSetObject:clientID forKey:@"client_id"];
-    [arguments safeSetObject:@"password" forKey:@"grant_type"];
-    [arguments safeSetObject:userName forKey:@"username"];
-    [arguments safeSetObject:password forKey:@"password"];
+    [arguments setSafeObject:clientID forKey:@"client_id"];
+    [arguments setSafeObject:@"password" forKey:@"grant_type"];
+    [arguments setSafeObject:userName forKey:@"username"];
+    [arguments setSafeObject:password forKey:@"password"];
     
     return [arguments oex_stringByUsingFormEncoding];
 }
