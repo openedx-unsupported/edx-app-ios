@@ -288,7 +288,7 @@ open class NetworkManager : NSObject {
             switch deserializer {
             case let .jsonResponse(f):
                 if let data = data,
-                    let raw : AnyObject = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as AnyObject?
+                    let raw : AnyObject = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as AnyObject
                 {
                     let json = JSON(raw)
                     let result = interceptors.reduce(.success(json)) {(current : Result<JSON>, interceptor : @escaping (_ _response : HTTPURLResponse, _ _json : JSON) -> Result<JSON>) -> Result<JSON> in
@@ -306,7 +306,7 @@ open class NetworkManager : NSObject {
             case let .noContent(f):
                 if response.hasErrorResponseCode() { // server error
                     guard let data = data,
-                        let raw : AnyObject = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as AnyObject? else {
+                        let raw : AnyObject = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) as AnyObject else {
                             return .failure(error)
                     }
                     let userInfo = JSON(raw).object as? [AnyHashable: Any]
