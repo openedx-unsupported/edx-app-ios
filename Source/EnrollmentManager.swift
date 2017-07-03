@@ -39,7 +39,7 @@ public class EnrollmentManager : NSObject {
                 let courses = $0?.flatMap { $0.course } ?? []
                 self?.interface?.setRegisteredCourses(courses)
                 self?.interface?.deleteUnregisteredItems()
-                self?.interface?.courses = $0 ?? []
+                self?.interface?.t_setCourseEnrollments($0 ?? [])
             }
         }
     }

@@ -30,7 +30,6 @@
 		193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 193B50471945A0520038E11C /* OEXCustomLabel.m */; };
 		1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 1940D8CA1A230E25000318A3 /* OEXAnalytics.m */; };
 		194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */; };
-		194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */; };
 		198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 198826E61952FE39005D4D8A /* OEXOpenInBrowserViewController.m */; };
 		198826E91952FE39005D4D8A /* OEXOpenInBrowserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 198826E71952FE39005D4D8A /* OEXOpenInBrowserViewController.xib */; };
 		198826F1195D6979005D4D8A /* OEXMyVideosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 198826F0195D6979005D4D8A /* OEXMyVideosViewController.m */; };
@@ -91,6 +90,8 @@
 		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
+		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
+		227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
@@ -335,7 +336,6 @@
 		77567B551AC5F06F00877A7B /* OEXSafeCastTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B541AC5F06F00877A7B /* OEXSafeCastTests.m */; };
 		77567B771AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B761AC9FC1400877A7B /* NSNotificationCenter+OEXSafeAccess.m */; };
 		77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77567B781ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m */; };
-		775716B31CB7FF4B0091AB10 /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
 		775716B51CB7FF660091AB10 /* sample-badge.png in Resources */ = {isa = PBXBuildFile; fileRef = 775716B41CB7FF660091AB10 /* sample-badge.png */; };
 		775716B71CB803330091AB10 /* UIImage+TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775716B61CB803330091AB10 /* UIImage+TestData.swift */; };
 		775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775716B81CB804E40091AB10 /* UserProfilePresenter.swift */; };
@@ -430,7 +430,6 @@
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
 		77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */; };
 		77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */; };
-		77BC6F421CB82DFA00F0A8C1 /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		77BC6F431CB82E1D00F0A8C1 /* CourseOutlineTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */; };
 		77BC6F451CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */; };
 		77BECB041B0A5FDB00894276 /* ContentInsetsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */; };
@@ -654,6 +653,7 @@
 		BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B591924D760009C77F1 /* SWRevealViewController.m */; };
 		BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */; };
 		BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEEBF82196AAACF00EF2C35 /* Localizable.strings */; };
+		E0018A7D1EF2AA8600ED53A3 /* OEXInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0018A7C1EF2AA8600ED53A3 /* OEXInterfaceTests.swift */; };
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
 		E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */; };
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
@@ -814,7 +814,6 @@
 		1940D8CA1A230E25000318A3 /* OEXAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnalytics.m; sourceTree = "<group>"; };
 		194E018F1A54204A00A0CFAE /* OEXDBTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDBTests.m; sourceTree = "<group>"; };
 		194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFormEncodingTests.m; sourceTree = "<group>"; };
-		194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXInterfaceTests.m; sourceTree = "<group>"; };
 		198826E51952FE39005D4D8A /* OEXOpenInBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXOpenInBrowserViewController.h; sourceTree = "<group>"; };
 		198826E61952FE39005D4D8A /* OEXOpenInBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXOpenInBrowserViewController.m; sourceTree = "<group>"; };
 		198826E71952FE39005D4D8A /* OEXOpenInBrowserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXOpenInBrowserViewController.xib; sourceTree = "<group>"; };
@@ -1574,6 +1573,7 @@
 		C1061FFC436565270CDA40E3 /* Pods-edXTests.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.profile.xcconfig"; sourceTree = "<group>"; };
 		C7C088336C8983E1C003D89D /* libPods-edX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-edX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D403B266ACE25A256FD75605 /* Pods-edXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.release.xcconfig"; sourceTree = "<group>"; };
+		E0018A7C1EF2AA8600ED53A3 /* OEXInterfaceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXInterfaceTests.swift; sourceTree = "<group>"; };
 		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
 		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
 		E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewControllerTests.swift; sourceTree = "<group>"; };
@@ -3194,6 +3194,7 @@
 		BECB7B331924C0C3009C77F1 /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E0018A7C1EF2AA8600ED53A3 /* OEXInterfaceTests.swift */,
 				7768745A1CDCCB1E001DFB77 /* RemoteImageTests.swift */,
 				77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */,
 				77C6BBC61CB438170026C37B /* TabContainerViewTests.swift */,
@@ -3258,7 +3259,6 @@
 				779376541BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift */,
 				77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */,
 				9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */,
-				194E01911A54204A00A0CFAE /* OEXInterfaceTests.m */,
 				7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */,
 				77F76A6F1B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift */,
 				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
@@ -3807,10 +3807,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				77E6489D1C91D92400B6740D /* CourseStatusInfo.json in Resources */,
-				775716B31CB7FF4B0091AB10 /* test-movie.m4v in Resources */,
 				69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */,
 				77E6489E1C91D92D00B6740D /* DiscussionPosts.json in Resources */,
 				775716B51CB7FF660091AB10 /* sample-badge.png in Resources */,
+				227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */,
 				B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4488,9 +4488,7 @@
 				6987A86B1D6C57C100E9D183 /* OEXColorsTests.swift in Sources */,
 				E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */,
 				775E5A831BE1C91B0046B26B /* LiveObjectCacheTests.swift in Sources */,
-				77BC6F421CB82DFA00F0A8C1 /* OEXVideoSummaryTestDataFactory.swift in Sources */,
 				779998231C3C1EE00058E5FE /* EnrolledCoursesViewControllerTests.swift in Sources */,
-				194E01941A54204B00A0CFAE /* OEXInterfaceTests.m in Sources */,
 				F2C1F0D81CFDDC400051743C /* NetworkManagerTests.swift in Sources */,
 				7753914B1C98A16600FA959C /* VideoBlockViewControllerTests.swift in Sources */,
 				E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */,
@@ -4504,10 +4502,12 @@
 				773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */,
 				77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
 				77C182A81CD299AE00AE1474 /* PaginationInfoTests.swift in Sources */,
+				227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */,
 				9E35A2841B32D7090040B9A9 /* DateFormattingTests.swift in Sources */,
 				1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */,
 				7791C4ED1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift in Sources */,
 				E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */,
+				E0018A7D1EF2AA8600ED53A3 /* OEXInterfaceTests.swift in Sources */,
 				7706AAC31BCFF28B00728432 /* NSAttributedString+FormattingTests.swift in Sources */,
 				77FEF2241C8A0A45009DFDB3 /* OEXFileUtility+TestAdditions.m in Sources */,
 				772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */,

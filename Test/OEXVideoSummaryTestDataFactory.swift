@@ -44,9 +44,36 @@ class OEXVideoSummaryTestDataFactory {
                 "only_on_web": false,
                 "id": videoID,
                 "size": 0,
-                "duration" : 100
+                "duration" : 100,
+                "encoded_videos":[
+                "mobile_low":[
+                    "file_size":0,
+                    "url":"https://www.example.com/video.mp4"
+                    ]
+                ]
             ]
         ]
         return OEXVideoSummary(dictionary: info)
     }
+    
+    // This method create the mock video objects
+    static func localCourseVideos(_ videoID : String) -> [OEXHelperVideoDownload]{
+
+        let video1 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"])
+        let video2 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"])
+        let video3 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot2", "section1dot1"])
+        let video4 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"])
+        
+        let videoSummaries = [video1, video2, video3, video4]
+        var videosArray : [OEXHelperVideoDownload] = []
+        var helperVideoDownload : OEXHelperVideoDownload
+        for videoSummary in videoSummaries {
+            helperVideoDownload = OEXHelperVideoDownload()
+            helperVideoDownload.summary = videoSummary
+            videosArray.append(helperVideoDownload)
+        }
+        
+        return videosArray
+    }
 }
+

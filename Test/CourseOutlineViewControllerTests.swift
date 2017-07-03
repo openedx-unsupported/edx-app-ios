@@ -12,23 +12,29 @@ import XCTest
 
 class CourseOutlineViewControllerTests: SnapshotTestCase {
     
-    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
+    let course = OEXCourse.freshCourse()
+    var outline : CourseOutline!
     var router : OEXRouter!
     var environment : TestRouterEnvironment!
-    let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem()
+    let lastAccessedItem = CourseOutlineTestDataFactory.knownLastAccessedItem
     let networkManager = MockNetworkManager(baseURL: URL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
-        environment = TestRouterEnvironment()
-        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, outline : outline)
+        outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
+        let config = OEXConfig(dictionary: ["COURSE_VIDEOS_ENABLED": true])
+        let interface = OEXInterface.shared()
+        environment = TestRouterEnvironment(config: config, interface: interface)
+        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)
+        environment.interface?.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
+        environment.interface?.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
         router = OEXRouter(environment: environment)
     }
     
-    func loadAndVerifyControllerWithBlockID(_ blockID : CourseBlockID, verifier : @escaping (CourseOutlineViewController) -> ((XCTestExpectation) -> Void)?) {
+    func loadAndVerifyControllerWithBlockID(_ blockID : CourseBlockID, courseOutlineMode: CourseOutlineMode? = CourseOutlineMode.Full, verifier : @escaping (CourseOutlineViewController) -> ((XCTestExpectation) -> Void)?) {
         
         let blockIdOrNilIfRoot : CourseBlockID? = blockID == outline.root ? nil : blockID
-        let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot)
+        let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot, forMode: courseOutlineMode)
         
         let expectations = self.expectation(description: "course loaded")
         let updateStream = BackedStream<Void>()
@@ -51,6 +57,22 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         }
     }
     
+    func testVideoModeSection() {
+
+        let fullChildren = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .Full)
+        let filteredChildren = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .Video)
+    
+        let expectation = self.expectation(description: "Loaded children")
+        let stream = joinStreams(fullChildren!, filteredChildren!)
+        stream.listen(NSObject()) {
+            let full = $0.value!.0
+            let filtered = $0.value!.1
+            XCTAssertGreaterThan(full.children.count, filtered.children.count)
+            expectation.fulfill()
+        }
+        self.waitForExpectations()
+    }
+    
     func testScreenAnalyticsRoot() {
         loadAndVerifyControllerWithBlockID(outline.root) {_ in
             return {expectation -> Void in
@@ -68,7 +90,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     }
     
     func testScreenAnalyticsChild() {
-        let sectionID = CourseOutlineTestDataFactory.knownSection()
+        let sectionID = CourseOutlineTestDataFactory.knownSection
         let section = outline.blocks[sectionID]!
         loadAndVerifyControllerWithBlockID(section.blockID) {_ in
             return {expectation -> Void in
@@ -93,10 +115,16 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     
     
     func testSnapshotContentChapter() {
-        loadAndVerifyControllerWithBlockID(CourseOutlineTestDataFactory.knownSection()) {
+        loadAndVerifyControllerWithBlockID(CourseOutlineTestDataFactory.knownSection) {
             self.assertSnapshotValidWithContent($0.navigationController!)
             return nil
         }
     }
-
+    
+    func testSnapshotVideoContent() {
+        loadAndVerifyControllerWithBlockID(outline.root, courseOutlineMode: CourseOutlineMode.Video) {
+            self.assertSnapshotValidWithContent($0.navigationController!)
+            return nil
+        }
+    }
 }

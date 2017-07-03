@@ -56,24 +56,24 @@ extension OEXRouter {
         showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller)
     }
     
-    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?) -> CourseContentPageViewController {
-        let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID)
+    func unitControllerForCourseID(courseID : String, blockID : CourseBlockID?, initialChildID : CourseBlockID?, forMode mode: CourseOutlineMode? = .Full) -> CourseContentPageViewController {
+        let contentPageController = CourseContentPageViewController(environment: environment, courseID: courseID, rootID: blockID, initialChildID: initialChildID, forMode: mode ?? .Full)
         return contentPageController
     }
     
-    func showContainerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, parentID : CourseBlockID?, courseID : CourseBlockID, fromController controller: UIViewController) {
+    func showContainerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, parentID : CourseBlockID?, courseID : CourseBlockID, fromController controller: UIViewController, forMode mode: CourseOutlineMode? = .Full) {
         switch type {
         case .Outline:
             fallthrough
         case .Unit:
-            let outlineController = controllerForBlockWithID(blockID: blockID, type: type, courseID: courseID)
+            let outlineController = controllerForBlockWithID(blockID: blockID, type: type, courseID: courseID, forMode: mode)
             controller.navigationController?.pushViewController(outlineController, animated: true)
         case .HTML:
             fallthrough
         case .Video:
             fallthrough
         case .Unknown:
-            let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID)
+            let pageController = unitControllerForCourseID(courseID: courseID, blockID: parentID, initialChildID: blockID, forMode: mode)
             if let delegate = controller as? CourseContentPageViewControllerDelegate {
                 pageController.navigationDelegate = delegate
             }
@@ -87,13 +87,13 @@ extension OEXRouter {
         }
     }
     
-    private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String) -> UIViewController {
+    private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String, forMode mode: CourseOutlineMode? = .Full) -> UIViewController {
         switch type {
             case .Outline:
-                let outlineController = CourseOutlineViewController(environment: self.environment, courseID: courseID, rootID: blockID)
+                let outlineController = CourseOutlineViewController(environment: self.environment, courseID: courseID, rootID: blockID, forMode: mode)
                 return outlineController
         case .Unit:
-            return unitControllerForCourseID(courseID: courseID, blockID: blockID, initialChildID: nil)
+            return unitControllerForCourseID(courseID: courseID, blockID: blockID, initialChildID: nil, forMode: mode)
         case .HTML:
             let controller = HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
@@ -124,6 +124,10 @@ extension OEXRouter {
     func showCourseDates(controller:UIViewController, courseID: String) {
         let courseDates = CourseDatesViewController(environment: environment, courseID: courseID)
         controller.navigationController?.pushViewController(courseDates, animated: true)
+    }
+    
+    func showCourseVideos(controller:UIViewController, courseID: String) {
+        showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller, forMode: .Video)
     }
     
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, thread : DiscussionThread, isDiscussionBlackedOut: Bool) {

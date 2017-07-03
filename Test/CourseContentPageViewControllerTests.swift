@@ -27,7 +27,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     
     @discardableResult func loadAndVerifyControllerWithInitialChild(_ initialChildID : CourseBlockID?, parentID : CourseBlockID, verifier : ((CourseBlockID?, CourseContentPageViewController) -> ((XCTestExpectation) -> Void)?)? = nil) -> CourseContentPageViewController {
         
-        let controller = CourseContentPageViewController(environment: environment, courseID: outline.root, rootID: parentID, initialChildID: initialChildID)
+        let controller = CourseContentPageViewController(environment: environment, courseID: outline.root, rootID: parentID, initialChildID: initialChildID, forMode: .Full)
         
         inScreenNavigationContext(controller) {
             let expectation = self.expectation(description: "course loaded")
@@ -59,7 +59,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     }
 
     func testShowsRequestedChild() {
-        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
+        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren
         let childIDs = outline.blocks[parent]!.children
         XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
         let childID = childIDs.last
@@ -71,7 +71,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     }
     
     func testInvalidRequestedChild() {
-        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
+        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren
         let childIDs = outline.blocks[parent]!.children
         XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
         let childID = childIDs.first
@@ -199,7 +199,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
     }
 
     func testSnapshotContent() {
-        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren()
+        let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren
         let childIDs = outline.blocks[parent]!.children
         XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
         let childID = childIDs.last

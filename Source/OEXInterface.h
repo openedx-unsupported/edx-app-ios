@@ -41,13 +41,13 @@ extern NSString* const OEXDownloadEndedNotification;
 @property (nonatomic, assign) NSInteger selectedCCIndex;
 @property (nonatomic, assign) NSInteger selectedVideoSpeedIndex;
 
-@property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
+@property (nonatomic, strong, nullable, readonly) NSArray<UserCourseEnrollment*>* courses;
 
 @property (nonatomic, weak, nullable) id <OEXStorageInterface>  storage;
 
 // [String(Course.video_outline) : OEXHelperVideoDownload]
 // TODO: Make this indexed by courseID instead of course.video_outline
-@property (nullable, nonatomic, strong) NSMutableDictionary* courseVideos;
+@property (nullable, nonatomic, strong, readonly) NSMutableDictionary* courseVideos;
 
 //Reachability
 @property (nonatomic, assign) BOOL reachable;
@@ -56,6 +56,11 @@ extern NSString* const OEXDownloadEndedNotification;
 @property (nonatomic, assign) float totalProgress;
 @property (nonatomic, strong) NSMutableSet<UIView*>* progressViews;
 @property (nonatomic, assign) int numberOfRecentDownloads;
+
+// These two method are used to set the course enrolments and courseVideos for unit test cases
+- (void)t_setCourseEnrollments:(NSArray *)courses;
+- (void)t_setCourseVideos:(NSDictionary *)courseVideos;
+
 
 #pragma Common Methods
 + (BOOL)isURLForVideo:(NSString*)URLString;

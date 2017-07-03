@@ -22,7 +22,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         })
         let querier = CourseOutlineQuerier(courseID: "course", interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil)
         
-        let blockID = CourseOutlineTestDataFactory.knownSection()
+        let blockID = CourseOutlineTestDataFactory.knownSection
         let blockStream = querier.blockWithID(id: blockID)
         let expectation = self.expectation(description: "block loads")
         let removable = blockStream.listen(self) {block in
@@ -36,7 +36,7 @@ class CourseOutlineQuerierTests: XCTestCase {
     func testFlatMap() {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
-        let knownNodes = CourseOutlineTestDataFactory.knownHTMLBlockIDs()
+        let knownNodes = CourseOutlineTestDataFactory.knownHTMLBlockIDs
         let htmlNodeStream = querier.flatMapRootedAtBlockWithID(id: outline.root) { block -> CourseBlockID? in
             switch block.type {
             case .HTML: return block.blockID
@@ -57,7 +57,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let root = outline.blocks[outline.root]!
         let child = root.children[1]
-        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID : child).value!
+        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID : child, forMode: .Full).value!
         
         let block = cursor.prev()!.block
         XCTAssertEqual(root.children[0], block.blockID)
@@ -72,7 +72,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let root = outline.blocks[outline.root]!
-        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID: nil).value!
+        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID: nil, forMode: .Full).value!
         
         XCTAssertFalse(cursor.hasPrev)
         let block = cursor.next()!.block
@@ -87,7 +87,7 @@ class CourseOutlineQuerierTests: XCTestCase {
     func testReloadsAfterFailure() {
         let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://www.example.com")!)
         let querier = CourseOutlineQuerier(courseID: courseID, interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil)
-        let blockID = CourseOutlineTestDataFactory.knownSection()
+        let blockID = CourseOutlineTestDataFactory.knownSection
         
         // attempt to load a block but there's no outline in network or cache so it should fail
         var blockStream = querier.blockWithID(id: blockID)
@@ -132,7 +132,7 @@ class CourseOutlineQuerierTests: XCTestCase {
             ]
         )
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
-        let childStream = querier.childrenOfBlockWithID(blockID: nil)
+        let childStream = querier.childrenOfBlockWithID(blockID: nil, forMode: .Full)
         childStream.listenOnce(self) {
             XCTAssertEqual($0.value!.children.count, 1)
             XCTAssertEqual($0.value!.children[0].blockID, "found")

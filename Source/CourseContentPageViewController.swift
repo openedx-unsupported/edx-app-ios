@@ -42,13 +42,14 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     fileprivate var contentLoader = BackedStream<ListCursor<CourseOutlineQuerier.GroupItem>>()
     
     private let courseQuerier : CourseOutlineQuerier
+    private var courseOutlineMode: CourseOutlineMode
     weak var navigationDelegate : CourseContentPageViewControllerDelegate?
     
     ///Manages the caching of the viewControllers that have been viewed atleast once.
     ///Removes the ViewControllers from memory in case of a memory warning
     private let cacheManager : BlockViewControllerCacheManager
     
-    public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil) {
+    public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil, forMode mode: CourseOutlineMode) {
         self.environment = environment
         self.blockID = rootID
         self.initialChildID = initialChildID
@@ -57,7 +58,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         initialLoadController = LoadStateViewController()
         
         cacheManager = BlockViewControllerCacheManager()
-        
+        courseOutlineMode = mode
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.setViewControllers([initialLoadController], direction: .forward, animated: false, completion: nil)
         
@@ -149,7 +150,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func loadIfNecessary() {
         if !contentLoader.hasBacking {
-            let stream = courseQuerier.spanningCursorForBlockWithID(blockID: blockID, initialChildID: initialChildID)
+            let stream = courseQuerier.spanningCursorForBlockWithID(blockID: blockID, initialChildID: initialChildID, forMode: courseOutlineMode)
             contentLoader.backWithStream(stream.firstSuccess())
         }
     }

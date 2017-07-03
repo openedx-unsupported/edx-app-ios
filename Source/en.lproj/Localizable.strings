@@ -248,6 +248,8 @@
 "COURSE_DETAIL.INVITATION_ONLY" = "Invitation only";
 /* Message shown when there is no course content */
 "COURSEWARE_UNAVAILABLE"="No course content is currently available.";
+/* Message shown when there is no course video */
+"COURSE_VIDEO_UNAVAILABLE"="This course does not include any videos";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
 /* Message shown when there is no course dates */
@@ -259,7 +261,11 @@
 /* Title text for the Courseware section of the course dashboard */
 "DASHBOARD.COURSE_COURSEWARE"="Course";
 /* Text describing the Courseware section within the course dashboard */
-"DASHBOARD.COURSE_COURSE_DETAIL"="Access videos and assignments";
+"DASHBOARD.COURSE_COURSE_DETAIL"="Access course content and assignments";
+/* Title text for the videos section of the course dashboard */
+"DASHBOARD.COURSE_Videos"="Videos";
+/* Text describing the Videos section within the course dashboard */
+"DASHBOARD.COURSE_Videos_DETAIL"="Watch course videos";
 /* Title text for the Discussions section of the course dashboard */
 "DASHBOARD.COURSE_DISCUSSION"="Discussion";
 /* Text describing the Discussions section within the course dashboard */

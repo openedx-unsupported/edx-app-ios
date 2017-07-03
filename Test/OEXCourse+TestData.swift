@@ -32,7 +32,8 @@ public extension OEXCourse {
             "name" : "A Great Course",
             "course_image" : imagePath!.absoluteString ,
             "org" : "edX",
-            "courseware_access" : ["has_access" : accessible]
+            "courseware_access" : ["has_access" : accessible],
+            "video_outline": "https://www.example.com/video_outlines/testcourse"
         ]
         if let overview = overview {
             courseDictionary["overview"] = overview as AnyObject

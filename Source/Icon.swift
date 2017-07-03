@@ -106,7 +106,7 @@ public enum Icon {
     case CourseEnd
     case CourseHTMLContent
     case CourseModeFull
-    case CourseModeVideo
+    case CourseVideos
     case CourseProblemContent
     case CourseUnknownContent
     case CourseVideoContent
@@ -203,7 +203,7 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .ArrowsV)
         case .Country:
             return FontAwesomeRenderer(icon: .MapMarker)
-        case .CourseModeVideo:
+        case .CourseVideos:
             return FontAwesomeRenderer(icon: .Film)
         case .CourseProblemContent:
             return FontAwesomeRenderer(icon: .ThList)

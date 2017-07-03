@@ -60,6 +60,9 @@ NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
 
 @property(nonatomic, strong) NSTimer* timer;
 
+@property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
+@property (nonatomic, strong, nullable) NSMutableDictionary* courseVideos;
+
 @end
 
 static OEXInterface* _sharedInterface = nil;
@@ -1173,6 +1176,16 @@ static OEXInterface* _sharedInterface = nil;
     [_downloadManger resumePausedDownloads];
 }
 
+- (void)t_setCourseEnrollments:(NSArray *)courses
+{
+    self.courses = courses;
+}
+
+- (void)t_setCourseVideos:(NSDictionary *)courseVideos
+{
+    self.courseVideos = [courseVideos copy];
+}
+
 #pragma mark Video Management
 
 - (OEXHelperVideoDownload*)stateForVideoWithID:(NSString*)videoID courseID:(NSString*)courseID {
@@ -1420,8 +1433,6 @@ static OEXInterface* _sharedInterface = nil;
     self.network = nil;
     [_downloadManger deactivateWithCompletionHandler:^{
         [_storage deactivate];
-        self.courses = nil;
-        self.courseVideos = nil;
         self.parser = nil;
         self.numberOfRecentDownloads = 0;
         [self.videoSummaries removeAllObjects];
