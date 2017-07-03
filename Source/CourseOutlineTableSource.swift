@@ -206,8 +206,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
 
 extension CourseOutlineTableController: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        
-            let delete = SwipeAction(style: .destructive, title: nil) { action, indexPath in
+        if orientation == .left {
+            return nil
+        }
+            let delete = SwipeAction(style: .default, title: nil) { action, indexPath in
              // delete action implementation
             }
             delete.title = "Trash"
@@ -216,8 +218,6 @@ extension CourseOutlineTableController: SwipeTableViewCellDelegate {
             return [delete]
     }
 }
-
-
 
 enum ButtonDisplayMode {
     case titleAndImage, titleOnly, imageOnly

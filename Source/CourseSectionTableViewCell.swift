@@ -23,12 +23,8 @@ class CourseSectionTableViewCell: SwipeTableViewCell, CourseBlockContainerCell {
     //weak var delegate : CourseSectionTableViewCellDelegate?
     
     private let videosStream = BackedStream<[OEXHelperVideoDownload]>()
-
-    var indicatorView = IndicatorView(frame: .zero)
     
-    override func awakeFromNib() {
-        setupIndicatorView()
-    }
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
@@ -130,30 +126,5 @@ class CourseSectionTableViewCell: SwipeTableViewCell, CourseBlockContainerCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupIndicatorView() {
-        indicatorView.translatesAutoresizingMaskIntoConstraints = false
-        indicatorView.color = tintColor
-        indicatorView.backgroundColor = .clear
-        contentView.addSubview(indicatorView)
-        
-//        let size: CGFloat = 12
-//        indicatorView.widthAnchor.constraint(equalToConstant: size).isActive = true
-//        indicatorView.heightAnchor.constraint(equalTo: indicatorView.widthAnchor).isActive = true
-//        indicatorView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 12).isActive = true
-//        indicatorView.centerYAnchor.constraint(equalTo: fromLabel.centerYAnchor).isActive = true
-    }
-
-}
-
-class IndicatorView: UIView {
-    var color = UIColor.clear {
-        didSet { setNeedsDisplay() }
-    }
-    
-    override func draw(_ rect: CGRect) {
-        color.set()
-        UIBezierPath(ovalIn: rect).fill()
     }
 }

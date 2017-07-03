@@ -11,14 +11,14 @@ import UIKit
 public struct SwipeExpansionStyle {    
     /// The default action performs a selection-type behavior. The cell bounces back to its unopened state upon selection and the row remains in the table view.
     public static var selection: SwipeExpansionStyle { return SwipeExpansionStyle(target: .percentage(0.5),
-                                                                                  elasticOverscroll: true,
+                                                                                  elasticOverscroll: false,
                                                                                   completionAnimation: .bounce) }
     
     /// The default action performs a destructive behavior. The cell is removed from the table view in an animated fashion.
-    public static var destructive: SwipeExpansionStyle { return .destructive(automaticallyDelete: true, timing: .with) }
+    public static var destructive: SwipeExpansionStyle { return .destructive(automaticallyDelete: false, timing: .with) }
 
     /// The default action performs a destructive behavior after the fill animation completes. The cell is removed from the table view in an animated fashion.
-    public static var destructiveAfterFill: SwipeExpansionStyle { return .destructive(automaticallyDelete: true, timing: .after) }
+    public static var destructiveAfterFill: SwipeExpansionStyle { return .destructive(automaticallyDelete: false, timing: .after) }
 
     /// The default action performs a fill behavior.
     ///

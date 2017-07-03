@@ -16,14 +16,10 @@ class SwipeActionsView: UIView {
     
     let transitionLayout: SwipeTransitionLayout
     var layoutContext: ActionsViewLayoutContext
-    
-    var feedbackGenerator: SwipeFeedback
-    
-    var expansionAnimator: SwipeAnimator?
-    
-    var expansionDelegate: SwipeExpanding? {
-        return options.expansionDelegate ?? (expandableAction?.hasBackgroundColor == false ? ScaleAndAlphaExpansion.default : nil)
-    }
+    var expansionAnimator: SwipeAnimator?    
+//    var expansionDelegate: SwipeExpanding? {
+//        return options.expansionDelegate ?? (expandableAction?.hasBackgroundColor == false ? ScaleAndAlphaExpansion.default : nil)
+//    }
 
     let orientation: SwipeActionsOrientation
     let actions: [SwipeAction]
@@ -75,20 +71,8 @@ class SwipeActionsView: UIView {
         self.options = options
         self.orientation = orientation
         self.actions = actions.reversed()
-        
-        switch options.transitionStyle {
-        case .border:
-            transitionLayout = BorderTransitionLayout()
-        case .reveal:
-            transitionLayout = RevealTransitionLayout()
-        default:
-            transitionLayout = DragTransitionLayout()
-        }
-        
+        transitionLayout = DragTransitionLayout()
         self.layoutContext = ActionsViewLayoutContext(numberOfActions: actions.count, orientation: orientation)
-        
-        feedbackGenerator = SwipeFeedback(style: .light)
-        feedbackGenerator.prepare()
         
         super.init(frame: .zero)
         
@@ -153,40 +137,6 @@ class SwipeActionsView: UIView {
         return UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
     }
     
-    func setExpanded(expanded: Bool, feedback: Bool = false) {
-        guard self.expanded != expanded else { return }
-        
-        self.expanded = expanded
-        
-        if feedback {
-            feedbackGenerator.impactOccurred()
-            feedbackGenerator.prepare()
-        }
-        
-        let timingParameters = expansionDelegate?.animationTimingParameters(buttons: buttons.reversed(), expanding: expanded)
-        
-        if expansionAnimator?.isRunning == true {
-            expansionAnimator?.stopAnimation(true)
-        }
-        
-        if #available(iOS 10, *) {
-            expansionAnimator = UIViewPropertyAnimator(duration: timingParameters?.duration ?? 0.6, dampingRatio: 1.0)
-        } else {
-            expansionAnimator = UIViewSpringAnimator(duration: timingParameters?.duration ?? 0.6,
-                                                     damping: 1.0,
-                                                     initialVelocity: 1.0)
-        }
-        
-        expansionAnimator?.addAnimations {
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-        }
-        
-        expansionAnimator?.startAnimation(afterDelay: timingParameters?.delay ?? 0)
-        
-        notifyExpansion(expanded: expanded)
-    }
-    
     func notifyVisibleWidthChanged(oldWidths: [CGFloat], newWidths: [CGFloat]) {
         DispatchQueue.main.async {
             oldWidths.enumerated().forEach { index, oldWidth in
@@ -204,13 +154,7 @@ class SwipeActionsView: UIView {
             }
         }
     }
-    
-    func notifyExpansion(expanded: Bool) {
-        guard let expandedButton = buttons.last else { return }
-
-        expansionDelegate?.actionButton(expandedButton, didChange: expanded, otherActionButtons: buttons.dropLast().reversed())
-    }
-    
+        
     func createDeletionMask() -> UIView {
         let mask = UIView(frame: CGRect(x: min(0, frame.minX), y: 0, width: bounds.width * 2, height: bounds.height))
         mask.backgroundColor = UIColor.white

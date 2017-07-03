@@ -40,7 +40,7 @@ extension SwipeTableViewCell {
             reset()
         }
         
-        notifyEditingStateChange(active: false)
+//        notifyEditingStateChange(active: false)
     }
     
     /**

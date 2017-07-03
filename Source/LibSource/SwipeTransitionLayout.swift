@@ -43,24 +43,6 @@ struct ActionsViewLayoutContext {
 
 // MARK: - Supported Layout Implementations 
 
-class BorderTransitionLayout: SwipeTransitionLayout {
-    func container(view: UIView, didChangeVisibleWidthWithContext context: ActionsViewLayoutContext) {
-    }
-    
-    func layout(view: UIView, atIndex index: Int, with context: ActionsViewLayoutContext) {
-        let diff = context.visibleWidth - context.contentSize.width
-        view.frame.origin.x = (CGFloat(index) * context.contentSize.width / CGFloat(context.numberOfActions) + diff) * context.orientation.scale
-    }
-    
-    func visibleWidthsForViews(with context: ActionsViewLayoutContext) -> [CGFloat] {
-        let diff = context.visibleWidth - context.contentSize.width
-        let visibleWidth = context.contentSize.width / CGFloat(context.numberOfActions) + diff
-
-        // visible widths are all the same regardless of the action view position
-        return (0..<context.numberOfActions).map({ _ in visibleWidth })
-    }
-}
-
 class DragTransitionLayout: SwipeTransitionLayout {
     func container(view: UIView, didChangeVisibleWidthWithContext context: ActionsViewLayoutContext) {
         view.bounds.origin.x = (context.contentSize.width - context.visibleWidth) * context.orientation.scale
@@ -73,16 +55,5 @@ class DragTransitionLayout: SwipeTransitionLayout {
     func visibleWidthsForViews(with context: ActionsViewLayoutContext) -> [CGFloat] {
         return (0..<context.numberOfActions)
             .map({ max(0, min(context.minimumButtonWidth, context.visibleWidth - (CGFloat($0) * context.minimumButtonWidth))) })
-    }
-}
-
-class RevealTransitionLayout: DragTransitionLayout {
-    override func container(view: UIView, didChangeVisibleWidthWithContext context: ActionsViewLayoutContext) {
-        let width = context.minimumButtonWidth * CGFloat(context.numberOfActions)
-        view.bounds.origin.x = (width - context.visibleWidth) * context.orientation.scale
-    }
-    
-    override func visibleWidthsForViews(with context: ActionsViewLayoutContext) -> [CGFloat] {
-        return super.visibleWidthsForViews(with: context).reversed()
     }
 }
