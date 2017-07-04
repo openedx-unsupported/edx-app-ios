@@ -21,12 +21,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     weak var delegate : CourseOutlineTableControllerDelegate?
     private let environment : Environment
-    private let courseQuerier : CourseOutlineQuerier
-    
+    let courseQuerier : CourseOutlineQuerier
+    let courseID : String
     private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44))
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
     init(environment : Environment, courseID : String) {
+        self.courseID = courseID
         self.environment = environment
         self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
         super.init(nibName: nil, bundle: nil)
@@ -119,6 +120,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.block = block
             cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)
             cell.delegate = self
+            cell.swipeCellViewDelegate = self
             return cell
         case .HTML(.Base):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseHTMLTableViewCell.identifier, for: indexPath) as! CourseHTMLTableViewCell
@@ -137,7 +139,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.block = nodes[indexPath.row]
             let courseID = courseQuerier.courseID
             cell.videos = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
-            cell.delegate = self
+            cell.swipeCellViewDelegate = self
+            cell.courseSectionDelegate = self
             return cell
         case .Discussion:
             let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionTableViewCell.identifier, for: indexPath) as! DiscussionTableViewCell
@@ -203,15 +206,39 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 }
 
-extension CourseOutlineTableController: SwipeTableViewCellDelegate {
+extension CourseOutlineTableController: SwipeCellViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         if orientation == .left {
             return nil
         }
+        
+        let group = self.groups[indexPath.section]
+        let nodes = group.children
+        let block = nodes[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
+        cell.block = nodes[indexPath.row]
+        cell.videos = self.courseQuerier.supportedBlockVideos(forCourseID: self.courseID, blockID: block.blockID)
+        if(!cell.isAllVideosDownloaded())
+        {
+            return nil
+        }
+        
             let delete = SwipeAction(title: nil) { action, indexPath in
              // delete action implementation
+                
+                let group = self.groups[indexPath.section]
+                let nodes = group.children
+                let block = nodes[indexPath.row]
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
+                cell.block = nodes[indexPath.row]
+                cell.videos = self.courseQuerier.supportedBlockVideos(forCourseID: self.courseID, blockID: block.blockID)
+                cell.deleteDownloadedVideos()
+                tableView.reloadData()
+                print("delete")
             }
-    
+
             delete.image = Icon.Trash.imageWithFontSize(size: 30)
             delete.backgroundColor = UIColor.red
             return [delete]

@@ -92,13 +92,13 @@
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
 		22318B011EFBDAB900F09DF8 /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AEF1EFBDAB900F09DF8 /* SwipeAction.swift */; };
 		22318B021EFBDAB900F09DF8 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AF01EFBDAB900F09DF8 /* SwipeActionButton.swift */; };
-		22318B031EFBDAB900F09DF8 /* SwipeActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AF11EFBDAB900F09DF8 /* SwipeActionsView.swift */; };
 		22318B051EFBDAB900F09DF8 /* SwipeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AF31EFBDAB900F09DF8 /* SwipeAnimator.swift */; };
-		22318B091EFBDAB900F09DF8 /* SwipeTableOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AF81EFBDAB900F09DF8 /* SwipeTableOptions.swift */; };
-		22318B0A1EFBDAB900F09DF8 /* SwipeTableViewCell+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AF91EFBDAB900F09DF8 /* SwipeTableViewCell+Accessibility.swift */; };
-		22318B0C1EFBDAB900F09DF8 /* SwipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AFB1EFBDAB900F09DF8 /* SwipeTableViewCell.swift */; };
-		22318B0D1EFBDAB900F09DF8 /* SwipeTableViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AFC1EFBDAB900F09DF8 /* SwipeTableViewCellDelegate.swift */; };
 		22318B101EFBEFD000F09DF8 /* Trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 22318B0F1EFBEFD000F09DF8 /* Trash.png */; };
+		227241921F0B65E4000DCCEC /* SwipeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241911F0B65E4000DCCEC /* SwipeCellView.swift */; };
+		227241941F0B6792000DCCEC /* SwipeCellViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */; };
+		227241961F0B6D49000DCCEC /* SwipeCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */; };
+		227241981F0B74C3000DCCEC /* SwipeCellViewOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */; };
+		2272419C1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2272419B1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
@@ -898,13 +898,13 @@
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
 		22318AEF1EFBDAB900F09DF8 /* SwipeAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		22318AF01EFBDAB900F09DF8 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
-		22318AF11EFBDAB900F09DF8 /* SwipeActionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionsView.swift; sourceTree = "<group>"; };
 		22318AF31EFBDAB900F09DF8 /* SwipeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAnimator.swift; sourceTree = "<group>"; };
-		22318AF81EFBDAB900F09DF8 /* SwipeTableOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeTableOptions.swift; sourceTree = "<group>"; };
-		22318AF91EFBDAB900F09DF8 /* SwipeTableViewCell+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwipeTableViewCell+Accessibility.swift"; sourceTree = "<group>"; };
-		22318AFB1EFBDAB900F09DF8 /* SwipeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeTableViewCell.swift; sourceTree = "<group>"; };
-		22318AFC1EFBDAB900F09DF8 /* SwipeTableViewCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeTableViewCellDelegate.swift; sourceTree = "<group>"; };
 		22318B0F1EFBEFD000F09DF8 /* Trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Trash.png; sourceTree = "<group>"; };
+		227241911F0B65E4000DCCEC /* SwipeCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellView.swift; sourceTree = "<group>"; };
+		227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellViewDelegate.swift; sourceTree = "<group>"; };
+		227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellActionView.swift; sourceTree = "<group>"; };
+		227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellViewOptions.swift; sourceTree = "<group>"; };
+		2272419B1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAccessibilityCustomAction.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
@@ -1971,12 +1971,12 @@
 			children = (
 				22318AEF1EFBDAB900F09DF8 /* SwipeAction.swift */,
 				22318AF01EFBDAB900F09DF8 /* SwipeActionButton.swift */,
-				22318AF11EFBDAB900F09DF8 /* SwipeActionsView.swift */,
 				22318AF31EFBDAB900F09DF8 /* SwipeAnimator.swift */,
-				22318AF81EFBDAB900F09DF8 /* SwipeTableOptions.swift */,
-				22318AF91EFBDAB900F09DF8 /* SwipeTableViewCell+Accessibility.swift */,
-				22318AFB1EFBDAB900F09DF8 /* SwipeTableViewCell.swift */,
-				22318AFC1EFBDAB900F09DF8 /* SwipeTableViewCellDelegate.swift */,
+				227241911F0B65E4000DCCEC /* SwipeCellView.swift */,
+				227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */,
+				227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */,
+				227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */,
+				2272419B1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift */,
 			);
 			path = LibSource;
 			sourceTree = "<group>";
@@ -4094,7 +4094,6 @@
 				77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */,
 				7742F8DD1C3C979D009E555A /* EnrollmentConfig.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
-				22318B0D1EFBDAB900F09DF8 /* SwipeTableViewCellDelegate.swift in Sources */,
 				1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */,
 				1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */,
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
@@ -4117,6 +4116,7 @@
 				7706AAC11BCFEEBF00728432 /* NSAttributedString+Formatting.swift in Sources */,
 				778D53351B3D96E900441A98 /* ListCursor.swift in Sources */,
 				E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */,
+				227241961F0B6D49000DCCEC /* SwipeCellActionView.swift in Sources */,
 				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
 				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,
@@ -4171,7 +4171,6 @@
 				1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */,
 				9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */,
 				7725016A1C80FB5C002549A9 /* ServerChangedChecker.swift in Sources */,
-				22318B0C1EFBDAB900F09DF8 /* SwipeTableViewCell.swift in Sources */,
 				E07107931C7591360004B76C /* DiscussionHelper.swift in Sources */,
 				77092C751B42E4C1004AA1A1 /* UIStatusBarStyle+Styles.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
@@ -4188,6 +4187,7 @@
 				E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
+				227241981F0B74C3000DCCEC /* SwipeCellViewOptions.swift in Sources */,
 				1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */,
 				9EA4788B1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift in Sources */,
 				E0A1A02D1E93A77E00510488 /* Constraint.swift in Sources */,
@@ -4256,9 +4256,9 @@
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
 				77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */,
+				227241941F0B6792000DCCEC /* SwipeCellViewDelegate.swift in Sources */,
 				77691F9C1B3A0774003922F2 /* Result+JSON.swift in Sources */,
 				199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */,
-				22318B031EFBDAB900F09DF8 /* SwipeActionsView.swift in Sources */,
 				772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */,
 				77ADF49E1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m in Sources */,
 				697652261D9BA7C80031FF8B /* OEXColorsDataFactory.swift in Sources */,
@@ -4270,7 +4270,6 @@
 				1904A14F1A1386C2006A5524 /* ResourceData.m in Sources */,
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
 				E0A1A02F1E93A78700510488 /* ConstraintAttributes.swift in Sources */,
-				22318B0A1EFBDAB900F09DF8 /* SwipeTableViewCell+Accessibility.swift in Sources */,
 				1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */,
 				1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */,
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
@@ -4302,7 +4301,6 @@
 				B4B6D62B1A949F1B000F44E8 /* OEXRegistrationFieldTextController.m in Sources */,
 				774B393B1B5EEF8A00595D33 /* UIAlertController+Selection.swift in Sources */,
 				69EFBB0B1E36259D00FF66C4 /* RatingViewController.swift in Sources */,
-				22318B091EFBDAB900F09DF8 /* SwipeTableOptions.swift in Sources */,
 				1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,
 				77C182AC1CD2E60E00AE1474 /* StackPaginationManipulator.swift in Sources */,
@@ -4340,6 +4338,7 @@
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
+				2272419C1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift in Sources */,
 				5D43B1871B0C1F9200448B52 /* PostsViewController.swift in Sources */,
 				5DD0FFC31B17ED2100837121 /* DiscussionCommentsViewController.swift in Sources */,
 				770C514D1B1685F5009B9696 /* AuthenticatedWebViewController.swift in Sources */,
@@ -4436,6 +4435,7 @@
 				E03E6A191D38EC7500944AAA /* UIView+UIViewController.swift in Sources */,
 				77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */,
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
+				227241921F0B65E4000DCCEC /* SwipeCellView.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				B4B2F16A1AA4F4E500A66A71 /* OEXRegistrationFieldValidator.m in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,

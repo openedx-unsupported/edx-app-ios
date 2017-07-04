@@ -13,14 +13,14 @@ protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
 }
 
-class CourseSectionTableViewCell: SwipeTableViewCell, CourseBlockContainerCell {
+class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
     
     static let identifier = "CourseSectionTableViewCellIdentifier"
     
     fileprivate let content = CourseOutlineItemView()
     private let downloadView = DownloadsAccessoryView()
 
-    //weak var delegate : CourseSectionTableViewCellDelegate?
+    weak var courseSectionDelegate : CourseSectionTableViewCellDelegate?
     
     private let videosStream = BackedStream<[OEXHelperVideoDownload]>()
     
@@ -34,7 +34,7 @@ class CourseSectionTableViewCell: SwipeTableViewCell, CourseBlockContainerCell {
 
         downloadView.downloadAction = {[weak self] _ in
             if let owner = self, let block = owner.block, let videos = self?.videosStream.value {
-                //owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
+                owner.courseSectionDelegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
             }
         }
         videosStream.listen(self) {[weak self] downloads in
@@ -62,7 +62,7 @@ class CourseSectionTableViewCell: SwipeTableViewCell, CourseBlockContainerCell {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self]_ in
             if let owner = self, owner.downloadView.state == .Downloading {
-                //owner.delegate?.sectionCellChoseShowDownloads(cell: owner)
+                owner.courseSectionDelegate?.sectionCellChoseShowDownloads(cell: owner)
             }
         }
         downloadView.addGestureRecognizer(tapGesture)
@@ -114,6 +114,39 @@ class CourseSectionTableViewCell: SwipeTableViewCell, CourseBlockContainerCell {
         }
         
         return incompleteVideos
+    }
+    
+    
+    private func deleteVideos(videos : [OEXHelperVideoDownload]) {
+        for video in videos {
+            OEXInterface.shared().deleteDownloadedVideo(forVideoId: (video.summary?.videoID)!, completionHandler: { (deleted) in
+                video.downloadState = OEXDownloadState.new
+                video.downloadProgress = 0.0
+                video.isVideoDownloading = false
+            })
+        }
+    }
+    
+    public func isAllVideosDownloaded() -> Bool {
+    
+        var downloadingState : Bool = false
+        videosStream.listen(self) {[weak self] downloads in
+            if let downloads = downloads.value, let videoState = self?.downloadStateForDownloads(videos: downloads) {
+                downloadingState = (videoState == .Done)
+                print(downloadingState)
+            }
+        }
+        
+        return downloadingState
+    }
+    
+    public func deleteDownloadedVideos() {
+    
+        videosStream.listen(self) {[weak self] downloads in
+            if let downloads = downloads.value {
+                self?.deleteVideos(videos: downloads)
+            }
+        }
     }
     
     var block : CourseBlock? = nil {

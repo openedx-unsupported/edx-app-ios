@@ -16,7 +16,7 @@ protocol CourseVideoTableViewCellDelegate : class {
 
 private let titleLabelCenterYOffset = -12
 
-class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
+class CourseVideoTableViewCell: SwipeCellView, CourseBlockContainerCell {
     
     static let identifier = "CourseVideoTableViewCellIdentifier"
     weak var delegate : CourseVideoTableViewCellDelegate?

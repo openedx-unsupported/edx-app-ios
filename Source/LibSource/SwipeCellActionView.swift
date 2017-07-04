@@ -1,8 +1,9 @@
 //
-//  SwipeActionsView.swift
+//  SwipeCellActionView.swift
+//  edX
 //
-//  Created by Jeremy Koch
-//  Copyright © 2017 Jeremy Koch. All rights reserved.
+//  Created by Salman on 04/07/2017.
+//  Copyright © 2017 edX. All rights reserved.
 //
 
 import UIKit
@@ -13,25 +14,26 @@ enum SwipeState: Int {
     case right
     case dragging
     case animatingToCenter
-
+    
     init(orientation: SwipeActionsOrientation) {
         self = orientation == .left ? .left : .right
     }
-
+    
     var isActive: Bool { return self != .center }
 }
 
 protocol SwipeActionsViewDelegate: class {
-    func swipeActionsView(_ swipeActionsView: SwipeActionsView, didSelect action: SwipeAction)
+    func swipeActionsView(_ swipeCellActionView: SwipeCellActionView, didSelect action: SwipeAction)
 }
 
-class SwipeActionsView: UIView {
+class SwipeCellActionView: UIView {
+
     weak var delegate: SwipeActionsViewDelegate?
     
     var expansionAnimator: SwipeAnimator?
     let orientation: SwipeActionsOrientation
     let actions: [SwipeAction]
-    let options: SwipeTableOptions
+    let options: SwipeCellViewOptions
     
     var buttons: [SwipeActionButton] = []
     
@@ -45,15 +47,15 @@ class SwipeActionsView: UIView {
     var preferredWidth: CGFloat {
         return minimumButtonWidth * CGFloat(actions.count)
     }
-
+    
     var contentSize: CGSize {
         return CGSize(width: visibleWidth, height: bounds.height)
         
     }
     
     private(set) var expanded: Bool = false
-        
-    init(maxSize: CGSize, options: SwipeTableOptions, orientation: SwipeActionsOrientation, actions: [SwipeAction]) {
+    
+    init(maxSize: CGSize, options: SwipeCellViewOptions, orientation: SwipeActionsOrientation, actions: [SwipeAction]) {
         self.options = options
         self.orientation = orientation
         self.actions = actions.reversed()
@@ -101,14 +103,14 @@ class SwipeActionsView: UIView {
     
     func actionTapped(button: SwipeActionButton) {
         guard let index = buttons.index(of: button) else { return }
-
+        
         delegate?.swipeActionsView(self, didSelect: actions[index])
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-    
+        
         if expanded {
             subviews.last?.frame.origin.x = 0 + bounds.origin.x
         }
