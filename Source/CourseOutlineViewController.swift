@@ -60,9 +60,8 @@ public class CourseOutlineViewController :
         
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
-        
-        tableController = CourseOutlineTableController(environment : self.environment, courseID: courseID)
         courseOutlineMode = mode ?? .Full
+        tableController = CourseOutlineTableController(environment: self.environment, courseID: courseID, forMode: courseOutlineMode)
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment)

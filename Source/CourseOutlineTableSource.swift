@@ -23,12 +23,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let environment : Environment
     let courseQuerier : CourseOutlineQuerier
     let courseID : String
+    private var courseOutlineMode: CourseOutlineMode
     private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44))
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
-    init(environment : Environment, courseID : String) {
+    //init(environment : Environment, courseID : String) {
+    init(environment : Environment, courseID : String, forMode mode: CourseOutlineMode) {
         self.courseID = courseID
         self.environment = environment
+        self.courseOutlineMode = mode
         self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
         super.init(nibName: nil, bundle: nil)
     }
@@ -120,7 +123,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.block = block
             cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)
             cell.delegate = self
-            cell.swipeCellViewDelegate = self
+            cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? self : nil
             return cell
         case .HTML(.Base):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseHTMLTableViewCell.identifier, for: indexPath) as! CourseHTMLTableViewCell
@@ -139,7 +142,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.block = nodes[indexPath.row]
             let courseID = courseQuerier.courseID
             cell.videos = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
-            cell.swipeCellViewDelegate = self
+            cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? self : nil
             cell.courseSectionDelegate = self
             return cell
         case .Discussion:
@@ -208,9 +211,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
 
 extension CourseOutlineTableController: SwipeCellViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        if orientation == .left {
-            return nil
-        }
         
         let group = self.groups[indexPath.section]
         let nodes = group.children
@@ -219,28 +219,18 @@ extension CourseOutlineTableController: SwipeCellViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
         cell.block = nodes[indexPath.row]
         cell.videos = self.courseQuerier.supportedBlockVideos(forCourseID: self.courseID, blockID: block.blockID)
-        if(!cell.isAllVideosDownloaded())
+        if(!cell.isAllVideosDownloaded() || orientation == .left)
         {
             return nil
         }
         
-            let delete = SwipeAction(title: nil) { action, indexPath in
-             // delete action implementation
-                
-                let group = self.groups[indexPath.section]
-                let nodes = group.children
-                let block = nodes[indexPath.row]
-                
-                let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
-                cell.block = nodes[indexPath.row]
-                cell.videos = self.courseQuerier.supportedBlockVideos(forCourseID: self.courseID, blockID: block.blockID)
-                cell.deleteDownloadedVideos()
-                tableView.reloadData()
-                print("delete")
-            }
+        let delete = SwipeAction(title: nil) { action, indexPath in
+            cell.deleteDownloadedVideos()
+            tableView.reloadData()
+        }
 
-            delete.image = Icon.Trash.imageWithFontSize(size: 30)
-            delete.backgroundColor = UIColor.red
-            return [delete]
+        delete.image = Icon.Trash.imageWithFontSize(size: 30)
+        delete.backgroundColor = UIColor.red
+        return [delete]
     }
 }
