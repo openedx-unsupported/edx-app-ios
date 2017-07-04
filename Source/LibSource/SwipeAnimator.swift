@@ -31,13 +31,6 @@ protocol SwipeAnimator {
     func startAnimation()
     
     /**
-     Starts the defined animation after the given delay
-     
-     - parameter delay: Delay of the animation
-     */
-    func startAnimation(afterDelay delay: TimeInterval)
-    
-    /**
      Stops the animations at their current positions.
      
      - parameter withoutFinishing: A Boolean indicating whether any final actions should be performed.
@@ -89,16 +82,12 @@ class UIViewSpringAnimator: SwipeAnimator {
     }
     
     func startAnimation() {
-        self.startAnimation(afterDelay: 0)
-    }
-    
-    func startAnimation(afterDelay delay:TimeInterval) {
         guard let animations = animations else { return }
         
         isRunning = true
         
         UIView.animate(withDuration: duration,
-                       delay: delay,
+                       delay: 0,
                        usingSpringWithDamping: damping,
                        initialSpringVelocity: velocity,
                        options: [.curveEaseInOut, .allowUserInteraction],

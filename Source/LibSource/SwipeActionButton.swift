@@ -33,7 +33,6 @@ class SwipeActionButton: UIButton {
         contentHorizontalAlignment = .center
         
         tintColor = action.textColor ?? .white
-        highlightedBackgroundColor = action.highlightedBackgroundColor ?? UIColor.black.withAlphaComponent(0.1)
 
         titleLabel?.font = action.font ?? UIFont.systemFont(ofSize: 15)
         titleLabel?.textAlignment = .center
@@ -52,7 +51,7 @@ class SwipeActionButton: UIButton {
         didSet {
             guard shouldHighlight else { return }
             
-            backgroundColor = isHighlighted ? highlightedBackgroundColor : .clear
+            //backgroundColor = isHighlighted ? highlightedBackgroundColor : .clear
         }
     }
     

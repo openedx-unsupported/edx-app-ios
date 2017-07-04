@@ -7,15 +7,6 @@
 
 import UIKit
 
-/// Constants that help define the appearance of action buttons.
-public enum SwipeActionStyle: Int {
-    /// Apply a style that reflects standard non-destructive actions.
-    case `default`
-    
-    /// Apply a style that reflects destructive actions.
-    case destructive
-}
-
 /**
  The `SwipeAction` object defines a single action to present when the user swipes horizontally in a table row.
  
@@ -30,11 +21,8 @@ public class SwipeAction: NSObject {
     /// - note: You must specify a title or an image.
     public var title: String?
     
-    /// The style applied to the action button.
-    public var style: SwipeActionStyle
-    
     /// The object that is notified as transitioning occurs.
-    public var transitionDelegate: SwipeActionTransitioning?
+    //public var transitionDelegate: SwipeActionTransitioning?
     
     /// The font to use for the title of the action button.
     ///
@@ -68,59 +56,16 @@ public class SwipeAction: NSObject {
     ///
     /// - note: Use this property to specify the highlighted background color for your button.
     public var highlightedBackgroundColor: UIColor?
-    
-    /// The visual effect to apply to the action button.
-    ///
-    /// - note: Assigning a visual effect object to this property adds that effect to the background of the action button.
-    public var backgroundEffect: UIVisualEffect?
-    
-    /// A Boolean value that determines whether the actions menu is automatically hidden upon selection.
-    ///
-    /// - note: When set to `true`, the actions menu is automatically hidden when the action is selected. The default value is `false`.
-    public var hidesWhenSelected = false
-    
+
+
     /**
      Constructs a new `SwipeAction` instance.
-
-     - parameter style: The style of the action button.
      - parameter title: The title of the action button.
      - parameter handler: The closure to execute when the user taps the button associated with this action.
     */
-    public init(style: SwipeActionStyle, title: String?, handler: ((SwipeAction, IndexPath) -> Void)?) {
+    public init(title: String?, handler: ((SwipeAction, IndexPath) -> Void)?) {
         self.title = title
-        self.style = style
         self.handler = handler
     }
     
-    /**
-     Calling this method performs the configured expansion completion animation including deletion, if necessary. Calling this method more than once has no effect.
- 
-     You should only call this method from the implementation of your action `handler` method.
-     
-     - parameter style: The desired style for completing the expansion action.
-     */
-    public func fulfill(with style: ExpansionFulfillmentStyle) {
-        completionHandler?(style)
-    }
-    
-    // MARK: - Internal
-    
-    internal var completionHandler: ((ExpansionFulfillmentStyle) -> Void)?
-}
-
-/// Describes how expansion should be resolved once the action has been fulfilled.
-public enum ExpansionFulfillmentStyle {
-    /// Implies the item will be deleted upon action fulfillment.
-    case delete
-
-    /// Implies the item will be reset and the actions view hidden upon action fulfillment.
-    case reset
-}
-
-// MARK: - Internal
-
-internal extension SwipeAction {
-    var hasBackgroundColor: Bool {
-        return backgroundColor != .clear && backgroundEffect == nil
-    }
 }

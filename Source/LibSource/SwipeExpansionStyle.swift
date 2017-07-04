@@ -9,23 +9,10 @@ import UIKit
 
 /// Describes the expansion style.  Expansion is the behavior when the cell is swiped past a defined threshold.
 public struct SwipeExpansionStyle {    
-    /// The default action performs a selection-type behavior. The cell bounces back to its unopened state upon selection and the row remains in the table view.
-    public static var selection: SwipeExpansionStyle { return SwipeExpansionStyle(target: .percentage(0.5),
-                                                                                  elasticOverscroll: false,
-                                                                                  completionAnimation: .bounce) }
     
-    /// The default action performs a destructive behavior. The cell is removed from the table view in an animated fashion.
-    public static var destructive: SwipeExpansionStyle { return .destructive(automaticallyDelete: false, timing: .with) }
-
-    /// The default action performs a destructive behavior after the fill animation completes. The cell is removed from the table view in an animated fashion.
-    public static var destructiveAfterFill: SwipeExpansionStyle { return .destructive(automaticallyDelete: false, timing: .after) }
-
-    /// The default action performs a fill behavior.
-    ///
-    /// - note: The action handle must call `SwipeAction.fulfill(style:)` to resolve the fill expansion.
-    public static var fill: SwipeExpansionStyle { return SwipeExpansionStyle(target: .edgeInset(30),
-                                                                             additionalTriggers: [.overscroll(30)],
-                                                                             completionAnimation: .fill(.manual(timing: .after))) }
+    
+    
+    
 
     /**
      Returns a `SwipeExpansionStyle` instance for the default action which peforms destructive behavior with the specified options.

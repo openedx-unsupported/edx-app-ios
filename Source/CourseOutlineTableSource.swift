@@ -26,7 +26,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44))
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
-    var buttonDisplayMode: ButtonDisplayMode = .titleAndImage
     init(environment : Environment, courseID : String) {
         self.environment = environment
         self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
@@ -209,17 +208,12 @@ extension CourseOutlineTableController: SwipeTableViewCellDelegate {
         if orientation == .left {
             return nil
         }
-            let delete = SwipeAction(style: .default, title: nil) { action, indexPath in
+            let delete = SwipeAction(title: nil) { action, indexPath in
              // delete action implementation
             }
-            delete.title = "Trash"
-            delete.image = UIImage(named: "Trash")
+    
+            delete.image = Icon.Trash.imageWithFontSize(size: 30)
             delete.backgroundColor = UIColor.red
             return [delete]
     }
 }
-
-enum ButtonDisplayMode {
-    case titleAndImage, titleOnly, imageOnly
-}
-

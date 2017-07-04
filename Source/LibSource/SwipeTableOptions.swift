@@ -9,16 +9,7 @@ import UIKit
 
 /// The `SwipeTableOptions` class provides options for transistion and expansion behavior for swiped cell.
 public struct SwipeTableOptions {
-    /// The transition style. Transition is the style of how the action buttons are exposed during the swipe.
-    public var transitionStyle: SwipeTransitionStyle = .border
     
-    /// The expansion style. Expansion is the behavior when the cell is swiped past a defined threshold.
-    public var expansionStyle: SwipeExpansionStyle?
-    
-    /// The object that is notified when expansion changes.
-    ///
-    /// - note: If an `expansionDelegate` is not provided, and the expanding action is configured with a clear background, the system automatically uses the default `ScaleAndAlphaExpansion` to show/hide underlying actions.
-    public var expansionDelegate: SwipeExpanding?
     
     /// The background color behind the action buttons.
     public var backgroundColor: UIColor?
@@ -46,17 +37,6 @@ public struct SwipeTableOptions {
     public init() {}
 }
 
-/// Describes the transition style. Transition is the style of how the action buttons are exposed during the swipe.
-public enum SwipeTransitionStyle {
-    /// The visible action area is equally divide between all action buttons.
-    case border
-    
-    /// The visible action area is dragged, pinned to the cell, with each action button fully sized as it is exposed.
-    case drag
-    
-    /// The visible action area sits behind the cell, pinned to the edge of the table view, and is revealed as the cell is dragged aside.
-    case reveal
-}
 
 /// Describes which side of the cell that the action buttons will be displayed.
 public enum SwipeActionsOrientation: CGFloat {
