@@ -262,6 +262,11 @@ public class CourseOutlineViewController :
         self.environment.router?.showContainerForBlockWithID(blockID: block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self, forMode: courseOutlineMode)
     }
     
+    func outlineTableControllerReload(controller: CourseOutlineTableController) {
+        courseQuerier.needsRefresh = true
+        reload()
+    }
+    
     //MARK: PullRefreshControllerDelegate
     public func refreshControllerActivated(controller: PullRefreshController) {
         courseQuerier.needsRefresh = true

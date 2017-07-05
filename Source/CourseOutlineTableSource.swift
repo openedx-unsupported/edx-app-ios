@@ -13,6 +13,7 @@ protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideos videos:[OEXHelperVideoDownload], rootedAtBlock block: CourseBlock)
     func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideoForBlock block:CourseBlock)
     func outlineTableControllerChoseShowDownloads(controller : CourseOutlineTableController)
+    func outlineTableControllerReload(controller: CourseOutlineTableController)
 }
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
@@ -226,7 +227,7 @@ extension CourseOutlineTableController: SwipeCellViewDelegate {
         
         let delete = SwipeAction(title: nil) { action, indexPath in
             cell.deleteDownloadedVideos()
-            tableView.reloadData()
+            self.delegate?.outlineTableControllerReload(controller: self)
         }
 
         delete.image = Icon.Trash.imageWithFontSize(size: 30)
