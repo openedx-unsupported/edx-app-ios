@@ -77,6 +77,7 @@ class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         videosStream.backWithStream(OEXStream(value:[]))
+        self.reset()
     }
     
     func downloadStateForDownloads(videos : [OEXHelperVideoDownload]?) -> DownloadsAccessoryView.State? {
@@ -133,10 +134,8 @@ class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
         videosStream.listen(self) {[weak self] downloads in
             if let downloads = downloads.value, let videoState = self?.downloadStateForDownloads(videos: downloads) {
                 downloadingState = (videoState == .Done)
-                print(downloadingState)
             }
         }
-        
         return downloadingState
     }
     

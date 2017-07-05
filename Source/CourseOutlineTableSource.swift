@@ -216,8 +216,12 @@ extension CourseOutlineTableController: SwipeCellViewDelegate {
         let group = self.groups[indexPath.section]
         let nodes = group.children
         let block = nodes[indexPath.row]
+        if(orientation == .left)
+                {
+                    return nil
+                }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
+        let cell = tableView.cellForRow(at: indexPath) as! CourseSectionTableViewCell
         cell.block = nodes[indexPath.row]
         cell.videos = self.courseQuerier.supportedBlockVideos(forCourseID: self.courseID, blockID: block.blockID)
         if(!cell.isAllVideosDownloaded() || orientation == .left)

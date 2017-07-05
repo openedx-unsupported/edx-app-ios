@@ -63,12 +63,6 @@ open class SwipeCellView: UITableViewCell {
         addGestureRecognizer(panGestureRecognizer)
     }
     
-    override open func prepareForReuse() {
-        super.prepareForReuse()
-        
-        reset()
-    }
-    
     override open func didMoveToSuperview() {
         super.didMoveToSuperview()
         
@@ -352,7 +346,7 @@ extension UITableView {
 }
 
 extension UIPanGestureRecognizer {
-    func elasticTranslation(in view: UIView?, withLimit limit: CGSize, fromOriginalCenter center: CGPoint, applyingRatio ratio: CGFloat = 0.20) -> CGPoint {
+    func elasticTranslation(in view: UIView?, withLimit limit: CGSize, fromOriginalCenter center: CGPoint, applyingRatio ratio: CGFloat = 0.0) -> CGPoint {
         let translation = self.translation(in: view)
         
         guard let sourceView = self.view else {
