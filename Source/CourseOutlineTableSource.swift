@@ -124,7 +124,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.block = block
             cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)
             cell.delegate = self
-            cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? self : nil
+            cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? cell : nil
             return cell
         case .HTML(.Base):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseHTMLTableViewCell.identifier, for: indexPath) as! CourseHTMLTableViewCell
@@ -143,7 +143,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.block = nodes[indexPath.row]
             let courseID = courseQuerier.courseID
             cell.videos = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
-            cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? self : nil
+            cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? cell : nil
             cell.courseSectionDelegate = self
             return cell
         case .Discussion:
@@ -177,12 +177,20 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableControllerChoseShowDownloads(controller: self)
     }
     
+    func videoCellUpdate(cell: CourseVideoTableViewCell) {
+        self.delegate?.outlineTableControllerReload(controller: self)   
+    }
+    
     func sectionCellChoseShowDownloads(cell: CourseSectionTableViewCell) {
         self.delegate?.outlineTableControllerChoseShowDownloads(controller: self)
     }
     
     func sectionCellChoseDownload(cell: CourseSectionTableViewCell, videos: [OEXHelperVideoDownload], forBlock block : CourseBlock) {
         self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
+    }
+    
+    func sectionCellUpdate(cell: CourseSectionTableViewCell) {
+        self.delegate?.outlineTableControllerReload(controller: self)
     }
     
     func choseViewLastAccessedWithItem(item : CourseLastAccessed) {
@@ -210,28 +218,31 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 }
 
+/*
 extension CourseOutlineTableController: SwipeCellViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         
         let group = self.groups[indexPath.section]
         let nodes = group.children
         let block = nodes[indexPath.row]
-        if(orientation == .left)
-                {
-                    return nil
-                }
-        
-        let cell = tableView.cellForRow(at: indexPath) as! CourseSectionTableViewCell
-        cell.block = nodes[indexPath.row]
-        cell.videos = self.courseQuerier.supportedBlockVideos(forCourseID: self.courseID, blockID: block.blockID)
-        if(!cell.isAllVideosDownloaded() || orientation == .left)
-        {
-            return nil
+        let cell = tableView.cellForRow(at: indexPath)!
+        if cell is CourseSectionTableViewCell {
+            print("aaaaa")
         }
+        else if (cell is CourseVideoTableViewCell) {
+            print("bbbbbb")
+        }
+        //let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
+//        cell.block = nodes[indexPath.row]
+//        cell.videos = self.courseQuerier.supportedBlockVideos(forCourseID: self.courseID, blockID: block.blockID)
+//        if(!cell.isAllVideosDownloaded() || orientation == .left)
+//        {
+//            return nil
+//        }
         
         let delete = SwipeAction(title: nil) { action, indexPath in
-            cell.deleteDownloadedVideos()
-            self.delegate?.outlineTableControllerReload(controller: self)
+//            cell.deleteDownloadedVideos()
+//            self.delegate?.outlineTableControllerReload(controller: self)
         }
 
         delete.image = Icon.Trash.imageWithFontSize(size: 30)
@@ -239,3 +250,4 @@ extension CourseOutlineTableController: SwipeCellViewDelegate {
         return [delete]
     }
 }
+*/

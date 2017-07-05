@@ -11,6 +11,7 @@ import UIKit
 protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseDownload(cell : CourseSectionTableViewCell, videos : [OEXHelperVideoDownload], forBlock block : CourseBlock)
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
+    func sectionCellUpdate(cell: CourseSectionTableViewCell)
 }
 
 class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
@@ -119,17 +120,12 @@ class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
     
     
     private func deleteVideos(videos : [OEXHelperVideoDownload]) {
-        for video in videos {
-            OEXInterface.shared().deleteDownloadedVideo(forVideoId: (video.summary?.videoID)!, completionHandler: { (deleted) in
-                video.downloadState = OEXDownloadState.new
-                video.downloadProgress = 0.0
-                video.isVideoDownloading = false
-            })
+        OEXInterface.shared().deleteDownloadedVideos(videos) { (deleted) in
+            
         }
     }
     
     public func isAllVideosDownloaded() -> Bool {
-    
         var downloadingState : Bool = false
         videosStream.listen(self) {[weak self] downloads in
             if let downloads = downloads.value, let videoState = self?.downloadStateForDownloads(videos: downloads) {
@@ -140,7 +136,6 @@ class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
     }
     
     public func deleteDownloadedVideos() {
-    
         videosStream.listen(self) {[weak self] downloads in
             if let downloads = downloads.value {
                 self?.deleteVideos(videos: downloads)
@@ -158,5 +153,23 @@ class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension CourseSectionTableViewCell: SwipeCellViewDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        
+        if(!self.isAllVideosDownloaded() || orientation == .left) {
+            return nil
+        }
+    
+        let delete = SwipeAction(title: nil) { action, indexPath in
+            self.deleteDownloadedVideos()
+            self.courseSectionDelegate?.sectionCellUpdate(cell: self)
+        }
+        
+        delete.image = Icon.Trash.imageWithFontSize(size: 30)
+        delete.backgroundColor = UIColor.red
+        return [delete]
     }
 }

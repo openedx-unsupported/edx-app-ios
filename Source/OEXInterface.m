@@ -460,6 +460,17 @@ static OEXInterface* _sharedInterface = nil;
     completionHandler(YES);
 }
 
+- (void)deleteDownloadedVideos:(NSArray *)videos completionHandler:(void (^)(BOOL success))completionHandler {
+
+    for (OEXHelperVideoDownload *video in videos) {
+        [_storage deleteDataForVideoID:video.summary.videoID];
+        video.downloadState = OEXDownloadStateNew;
+        video.downloadProgress = 0.0;
+        video.isVideoDownloading = false;
+    }
+    completionHandler(YES);
+}
+
 - (void)setAllEntriesUnregister {
     [_storage unregisterAllEntries];
 }
