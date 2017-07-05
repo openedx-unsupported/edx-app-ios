@@ -10,7 +10,7 @@ import UIKit
 
 class UserProfileViewController: OfflineSupportViewController, UserProfilePresenterDelegate, LoadStateViewReloadSupport {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & OEXRouterProvider & ReachabilityProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & OEXRouterProvider & ReachabilityProvider & OEXStylesProvider
     
     private let environment : Environment
 
@@ -45,15 +45,10 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
             make.edges.equalTo(view)
         }
         
-        if editable {
-            let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: nil)
-            editButton.oex_setAction() { [weak self] in
-                self?.environment.router?.showProfileEditorFromController(controller: self!)
-            }
-            editButton.accessibilityLabel = Strings.Profile.editAccessibility
-            navigationItem.rightBarButtonItem = editButton
-        }
-
+        view.backgroundColor = environment.styles.standardBackgroundColor()
+        loadController.setupInController(controller: self, contentView: contentView)
+        loadController.state = .Initial
+        
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
 
         addProfileListener()
@@ -68,6 +63,23 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         presenter.refresh()
     }
     
+    private func addProfileEditButton() {
+        if editable {
+            let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: nil)
+            editButton.oex_setAction() { [weak self] in
+                if let owner = self {
+                    owner.environment.router?.showProfileEditorFromController(controller: owner)
+                }
+            }
+            editButton.accessibilityLabel = Strings.Profile.editAccessibility
+            navigationItem.rightBarButtonItem = editButton
+        }
+    }
+    
+    private func removeProfileEditButton() {
+        navigationItem.rightBarButtonItem = nil
+    }
+    
     override func reloadViewData() {
         presenter.refresh()
     }
@@ -79,9 +91,11 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
             // TODO: Refactor UserProfileView to take a dumb model so we don't need to pass it a network manager
             self?.contentView.populateFields(profile: profile, editable: editable, networkManager: networkManager)
             self?.loadController.state = .Loaded
+            self?.addProfileEditButton()
             }, failure : { [weak self] error in
                 self?.loadController.state = LoadState.failed(error: error, message: Strings.Profile.unableToGet)
-            })
+                self?.removeProfileEditButton()
+        })
     }
 
     private func addExtraTabsListener() {
@@ -104,6 +118,9 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     
     //MARK:- LoadStateViewReloadSupport method
     func loadStateViewReload() {
+        if !environment.reachability.isReachable() { return }
+        
+        loadController.state = .Initial
         presenter.refresh()
     }
 }

@@ -695,7 +695,6 @@
 		E0816D7F1CBE35DA00818769 /* FindCoursesTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D7B1CBE358900818769 /* FindCoursesTestCase.swift */; };
 		E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */; };
 		E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */; };
-		E08EFCD21EC1E4A1008ECEC9 /* screen_4.png in Resources */ = {isa = PBXBuildFile; fileRef = E08EFCCE1EC1E4A1008ECEC9 /* screen_4.png */; };
 		E08EFCD31EC1E4A1008ECEC9 /* screen_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E08EFCCF1EC1E4A1008ECEC9 /* screen_2.png */; };
 		E08EFCD41EC1E4A1008ECEC9 /* screen_3.png in Resources */ = {isa = PBXBuildFile; fileRef = E08EFCD01EC1E4A1008ECEC9 /* screen_3.png */; };
 		E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */; };
@@ -1625,7 +1624,6 @@
 		E0816D7B1CBE358900818769 /* FindCoursesTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindCoursesTestCase.swift; sourceTree = "<group>"; };
 		E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModel.swift; sourceTree = "<group>"; };
 		E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionCommentsViewControllerTests.swift; sourceTree = "<group>"; };
-		E08EFCCE1EC1E4A1008ECEC9 /* screen_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_4.png; sourceTree = "<group>"; };
 		E08EFCCF1EC1E4A1008ECEC9 /* screen_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_2.png; sourceTree = "<group>"; };
 		E08EFCD01EC1E4A1008ECEC9 /* screen_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_3.png; sourceTree = "<group>"; };
 		E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoController.swift; sourceTree = "<group>"; };
@@ -3457,7 +3455,6 @@
 			isa = PBXGroup;
 			children = (
 				E054B09E1EC3178200FACBA6 /* screen_1.png */,
-				E08EFCCE1EC1E4A1008ECEC9 /* screen_4.png */,
 				E08EFCCF1EC1E4A1008ECEC9 /* screen_2.png */,
 				E08EFCD01EC1E4A1008ECEC9 /* screen_3.png */,
 			);
@@ -3723,7 +3720,6 @@
 				69ECC60F1D50D1170030CF87 /* arrow_next@2x.png in Resources */,
 				69ECC6451D50D1170030CF87 /* separator.png in Resources */,
 				69ECC6131D50D1170030CF87 /* loginScreenImage.png in Resources */,
-				E08EFCD21EC1E4A1008ECEC9 /* screen_4.png in Resources */,
 				E0E27FC21EC469A800D1AEFE /* WhatsNew.json in Resources */,
 				69ECC6011D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				19A1339719CAE108003ADD24 /* EULA.htm in Resources */,
