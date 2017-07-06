@@ -10,3 +10,4 @@ build
 /edx.properties
 default_config/local.yaml 
 *.gcda
+*.swp
