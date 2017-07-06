@@ -265,7 +265,7 @@ open class SwipeCellView: UITableViewCell {
     }
 }
 
-extension SwipeCellView {
+extension SwipeCellView: SwipeActionsViewDelegate {
     func targetState(forVelocity velocity: CGPoint) -> SwipeState {
         guard let actionsView = actionsView else { return .center }
         
@@ -310,10 +310,7 @@ extension SwipeCellView {
         
         return true
     }
-
-}
-
-extension SwipeCellView: SwipeActionsViewDelegate {
+    
     func swipeActionsView(_ swipeCellActionView: SwipeCellActionView, didSelect action: SwipeAction) {
         // delete action
         perform(action: action)
@@ -324,7 +321,6 @@ extension SwipeCellView: SwipeActionsViewDelegate {
         
         action.handler?(action, indexPath)
     }
-    
 }
 
 extension UITableView {

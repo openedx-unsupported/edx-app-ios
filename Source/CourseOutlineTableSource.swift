@@ -28,7 +28,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44))
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
-    //init(environment : Environment, courseID : String) {
+    
     init(environment : Environment, courseID : String, forMode mode: CourseOutlineMode) {
         self.courseID = courseID
         self.environment = environment
@@ -217,37 +217,3 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.tableHeaderView = nil
     }
 }
-
-/*
-extension CourseOutlineTableController: SwipeCellViewDelegate {
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        
-        let group = self.groups[indexPath.section]
-        let nodes = group.children
-        let block = nodes[indexPath.row]
-        let cell = tableView.cellForRow(at: indexPath)!
-        if cell is CourseSectionTableViewCell {
-            print("aaaaa")
-        }
-        else if (cell is CourseVideoTableViewCell) {
-            print("bbbbbb")
-        }
-        //let cell = tableView.dequeueReusableCell(withIdentifier: CourseSectionTableViewCell.identifier, for: indexPath) as! CourseSectionTableViewCell
-//        cell.block = nodes[indexPath.row]
-//        cell.videos = self.courseQuerier.supportedBlockVideos(forCourseID: self.courseID, blockID: block.blockID)
-//        if(!cell.isAllVideosDownloaded() || orientation == .left)
-//        {
-//            return nil
-//        }
-        
-        let delete = SwipeAction(title: nil) { action, indexPath in
-//            cell.deleteDownloadedVideos()
-//            self.delegate?.outlineTableControllerReload(controller: self)
-        }
-
-        delete.image = Icon.Trash.imageWithFontSize(size: 30)
-        delete.backgroundColor = UIColor.red
-        return [delete]
-    }
-}
-*/

@@ -167,9 +167,8 @@ extension CourseSectionTableViewCell: SwipeCellViewDelegate {
             self.deleteDownloadedVideos()
             self.courseSectionDelegate?.sectionCellUpdate(cell: self)
         }
-        
         delete.image = Icon.Trash.imageWithFontSize(size: 30)
-        delete.backgroundColor = UIColor.red
+        delete.accessibilityLabel = "delete action button"
         return [delete]
     }
 }

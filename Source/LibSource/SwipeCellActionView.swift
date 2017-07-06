@@ -34,15 +34,13 @@ class SwipeCellActionView: UIView {
     let orientation: SwipeActionsOrientation
     let actions: [SwipeAction]
     let options: SwipeCellViewOptions
-    
     var buttons: [SwipeActionButton] = []
-    
     var minimumButtonWidth: CGFloat = 0
+    var visibleWidth: CGFloat = 0
+    
     var maximumImageHeight: CGFloat {
         return actions.reduce(0, { initial, next in max(initial, next.image?.size.height ?? 0) })
     }
-    
-    var visibleWidth: CGFloat = 0
     
     var preferredWidth: CGFloat {
         return minimumButtonWidth * CGFloat(actions.count)

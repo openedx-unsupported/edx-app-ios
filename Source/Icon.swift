@@ -181,7 +181,7 @@ public enum Icon {
         case .Transcript:
             return FontAwesomeRenderer(icon: .FileTextO)
         case .Trash:
-            return FontAwesomeRenderer(icon: .TrashO)
+            return FontAwesomeRenderer(icon: .Trash)
         case .Announcements:
             return FontAwesomeRenderer(icon: .Bullhorn)
         case .CircleO:

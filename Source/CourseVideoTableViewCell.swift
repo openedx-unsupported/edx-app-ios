@@ -129,9 +129,7 @@ extension CourseVideoTableViewCell: SwipeCellViewDelegate {
             self.delegate?.videoCellUpdate(cell: self)
             tableView.hideSwipeCell()
         }
-        
         delete.image = Icon.Trash.imageWithFontSize(size: 30)
-        delete.backgroundColor = UIColor.red
         return [delete]
     }
 }

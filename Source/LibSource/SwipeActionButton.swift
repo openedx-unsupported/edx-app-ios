@@ -1,8 +1,9 @@
 //
 //  SwipeActionButton.swift
+//  edX
 //
-//  Created by Jeremy Koch.
-//  Copyright © 2017 Jeremy Koch. All rights reserved.
+//  Created by Salman on 04/07/2017.
+//  Copyright © 2017 edX. All rights reserved.
 //
 
 import UIKit
@@ -11,7 +12,6 @@ class SwipeActionButton: UIButton {
     var spacing: CGFloat = 8
     var shouldHighlight = true
     var highlightedBackgroundColor: UIColor?
-
     var maximumImageHeight: CGFloat = 0
     var verticalAlignment: SwipeVerticalAlignment = .centerFirstBaseline
     
@@ -32,7 +32,7 @@ class SwipeActionButton: UIButton {
 
         contentHorizontalAlignment = .center
         
-        tintColor = action.textColor ?? .white
+        tintColor = action.textColor ?? .darkGray
 
         titleLabel?.font = action.font ?? UIFont.systemFont(ofSize: 15)
         titleLabel?.textAlignment = .center
@@ -45,14 +45,6 @@ class SwipeActionButton: UIButton {
         setTitleColor(tintColor, for: .normal)
         setImage(action.image, for: .normal)
         setImage(action.highlightedImage ?? action.image, for: .highlighted)
-    }
-    
-    override var isHighlighted: Bool {
-        didSet {
-            guard shouldHighlight else { return }
-            
-            //backgroundColor = isHighlighted ? highlightedBackgroundColor : .clear
-        }
     }
     
     func preferredWidth(maximum: CGFloat) -> CGFloat {
