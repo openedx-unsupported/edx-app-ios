@@ -161,7 +161,7 @@
 /* Positive review message */
 "APP_REVIEW.POSITIVE_REVIEW_MESSAGE" = "Tell others what you think of the app by writing a quick review in the app store";
 /* Send feedback message for negative app review */
-"APP_REVIEW.SEND_FEEDBACK" = "Send Feedback?";
+"APP_REVIEW.SEND_FEEDBACK_TITLE" = "Send Feedback?";
 /* Help us improve message for negative app review */
 "APP_REVIEW.HELP_US_IMPROVE" = "Help us improve!";
 /* Maybe later message for positive/negative app review */
