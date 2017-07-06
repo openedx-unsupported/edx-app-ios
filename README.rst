@@ -94,3 +94,32 @@ within Xcode.
 
 As mentioned, the app relies on the presence of several third party services:
 Facebook, NewRelic, Google+, SegmentIO, and Crashlytics. You must remove references to each of these services you choose not to use. You can comment out the lines that mention these services. We're working to make those dependencies optional.
+
+Whitelabel Script
+-----------------
+
+1. Checkout a new branch for your app, e.g. ::
+
+    git checkout -b my-new-app
+
+2. Reset to the desired base upstream ref, e.g. ::
+
+    git reset --hard master
+
+3. In a separate dir, create your whitelabel configuration file, e.g. ``../my-app-config/whitelabel.yaml``
+   Run the ``whitelabel`` script to see the options: ::
+
+    python script/whitelabel.py --help
+    python script/whitelabel.py --help-config-file
+
+4. In that separate dir, optionally create your resource directory and files.  e.g., to update the colors.json file: ::
+
+    mkdir -p ../my-app-config/Resources/Colors
+    cp Sources/Resources/Colors/colors.json ../my-app-config/Resources/Colors/
+    # edit ../my-app-config/Resources/Colors/colors.json as required
+
+5. If you chose to use the `patches` option, ensure those commits are fetched and available.
+
+6. Run the `whitelabel.py` script to apply your whitelabel changes to the current branch. ::
+
+    python script/whitelabel.py --config-file=../my-app-config/whitelabel.yaml -v
