@@ -172,3 +172,9 @@ extension CourseSectionTableViewCell: SwipeCellViewDelegate {
         return [delete]
     }
 }
+
+extension CourseSectionTableViewCell {
+    public func t_setup() -> OEXStream<[OEXHelperVideoDownload]> {
+        return videos
+    }
+}

@@ -317,4 +317,8 @@ extension CourseOutlineViewController {
         return t_hasTriggeredSetLastAccessed
     }
     
+    public func t_tableView() -> UITableView {
+        return self.tableController.tableView
+    }
+    
 }
