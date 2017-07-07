@@ -426,10 +426,11 @@ typedef  enum OEXAlertType
         NSInteger count = [[dictVideo objectForKey:CAV_KEY_VIDEOS] count];
         NSString* Vcount = nil;
         if(count == 1) {
-            Vcount = [NSString stringWithFormat:@"%ld Video", (long)count];
+            Vcount = [NSString stringWithFormat:@"%ld %@", (long)count, [Strings myVideosVideoCountLabel]];
         }
         else {
-            Vcount = [NSString stringWithFormat:@"%ld Videos", (long)count];
+            Vcount = [NSString stringWithFormat:@"%ld %@", (long)count, [Strings myVideosVideosCountLabel]];
+        
         }
         NSString* videoDetails = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
         
@@ -445,7 +446,7 @@ typedef  enum OEXAlertType
         OEXHelperVideoDownload* obj_video = [videos objectAtIndex:indexPath.row];
         cell.lbl_Title.text = obj_video.summary.name;
         if([cell.lbl_Title.text length] == 0) {
-            cell.lbl_Title.text = @"(Untitled)";
+            cell.lbl_Title.text = [NSString stringWithFormat:@"(%@)", [Strings myVideosUntitledLabel]];
         }
 
         double size = [obj_video.summary.size doubleValue];
@@ -453,7 +454,7 @@ typedef  enum OEXAlertType
         cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB", result];
 
         if(!obj_video.summary.duration) {
-            cell.lbl_Time.text = @"NA";
+            cell.lbl_Time.text = [Strings myVideosTimeLabel];
         }
         else {
             cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];

@@ -12,11 +12,12 @@ import UIKit
 protocol CourseVideoTableViewCellDelegate : class {
     func videoCellChoseDownload(cell : CourseVideoTableViewCell, block : CourseBlock)
     func videoCellChoseShowDownloads(cell : CourseVideoTableViewCell)
+    func videoCellUpdate(cell: CourseVideoTableViewCell)
 }
 
 private let titleLabelCenterYOffset = -12
 
-class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
+class CourseVideoTableViewCell: SwipeCellView, CourseBlockContainerCell {
     
     static let identifier = "CourseVideoTableViewCellIdentifier"
     weak var delegate : CourseVideoTableViewCellDelegate?
@@ -32,7 +33,7 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
             }
         }
     }
-        
+    
     var localState : OEXHelperVideoDownload? {
         didSet {
             updateDownloadViewForVideoState()
@@ -70,7 +71,7 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
         content.trailingView = downloadView
         downloadView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -101,5 +102,34 @@ class CourseVideoTableViewCell: UITableViewCell, CourseBlockContainerCell {
         
         content.trailingView = downloadView
         downloadView.state = downloadState
+    }
+    
+    func isVideoDownloaded() -> Bool{
+        return (localState?.downloadState == OEXDownloadState.complete)
+    }
+    
+    func deleteVideo()  {
+        OEXInterface.shared().deleteDownloadedVideo(forVideoId: (localState?.summary?.videoID)!) { (delete) in
+            self.localState?.downloadState = OEXDownloadState.new;
+            self.localState?.downloadProgress = 0.0;
+            self.localState?.isVideoDownloading = false;
+        }
+    }
+}
+
+extension CourseVideoTableViewCell: SwipeCellViewDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        
+        if(!self.isVideoDownloaded() || orientation == .left) {
+            return nil
+        }
+        
+        let delete = SwipeAction(title: nil) { action, indexPath in
+            self.deleteVideo()
+            self.delegate?.videoCellUpdate(cell: self)
+            tableView.hideSwipeCell()
+        }
+        delete.image = Icon.Trash.imageWithFontSize(size: 30)
+        return [delete]
     }
 }

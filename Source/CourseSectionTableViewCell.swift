@@ -11,18 +11,20 @@ import UIKit
 protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseDownload(cell : CourseSectionTableViewCell, videos : [OEXHelperVideoDownload], forBlock block : CourseBlock)
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
+    func sectionCellUpdate(cell: CourseSectionTableViewCell)
 }
 
-class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
+class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
     
     static let identifier = "CourseSectionTableViewCellIdentifier"
     
     fileprivate let content = CourseOutlineItemView()
     private let downloadView = DownloadsAccessoryView()
 
-    weak var delegate : CourseSectionTableViewCellDelegate?
+    weak var courseSectionDelegate : CourseSectionTableViewCellDelegate?
     
     private let videosStream = BackedStream<[OEXHelperVideoDownload]>()
+    
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -33,7 +35,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
 
         downloadView.downloadAction = {[weak self] _ in
             if let owner = self, let block = owner.block, let videos = self?.videosStream.value {
-                owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
+                owner.courseSectionDelegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
             }
         }
         videosStream.listen(self) {[weak self] downloads in
@@ -61,7 +63,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self]_ in
             if let owner = self, owner.downloadView.state == .Downloading {
-                owner.delegate?.sectionCellChoseShowDownloads(cell: owner)
+                owner.courseSectionDelegate?.sectionCellChoseShowDownloads(cell: owner)
             }
         }
         downloadView.addGestureRecognizer(tapGesture)
@@ -76,6 +78,7 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         videosStream.backWithStream(OEXStream(value:[]))
+        self.reset()
     }
     
     func downloadStateForDownloads(videos : [OEXHelperVideoDownload]?) -> DownloadsAccessoryView.State? {
@@ -115,6 +118,31 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
         return incompleteVideos
     }
     
+    
+    private func deleteVideos(videos : [OEXHelperVideoDownload]) {
+        OEXInterface.shared().deleteDownloadedVideos(videos) { (deleted) in
+            
+        }
+    }
+    
+    public func isAllVideosDownloaded() -> Bool {
+        var downloadingState : Bool = false
+        videosStream.listen(self) {[weak self] downloads in
+            if let downloads = downloads.value, let videoState = self?.downloadStateForDownloads(videos: downloads) {
+                downloadingState = (videoState == .Done)
+            }
+        }
+        return downloadingState
+    }
+    
+    public func deleteDownloadedVideos() {
+        videosStream.listen(self) {[weak self] downloads in
+            if let downloads = downloads.value {
+                self?.deleteVideos(videos: downloads)
+            }
+        }
+    }
+    
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(title: block?.displayName)
@@ -126,5 +154,27 @@ class CourseSectionTableViewCell: UITableViewCell, CourseBlockContainerCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
+extension CourseSectionTableViewCell: SwipeCellViewDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        
+        if(!self.isAllVideosDownloaded() || orientation == .left) {
+            return nil
+        }
+    
+        let delete = SwipeAction(title: nil) { action, indexPath in
+            self.deleteDownloadedVideos()
+            self.courseSectionDelegate?.sectionCellUpdate(cell: self)
+        }
+        delete.image = Icon.Trash.imageWithFontSize(size: 30)
+        delete.accessibilityLabel = "delete action button"
+        return [delete]
+    }
+}
+
+extension CourseSectionTableViewCell {
+    public func t_setup() -> OEXStream<[OEXHelperVideoDownload]> {
+        return videos
+    }
 }
