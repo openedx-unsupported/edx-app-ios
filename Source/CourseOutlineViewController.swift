@@ -60,9 +60,8 @@ public class CourseOutlineViewController :
         
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
-        
-        tableController = CourseOutlineTableController(environment : self.environment, courseID: courseID)
         courseOutlineMode = mode ?? .Full
+        tableController = CourseOutlineTableController(environment: self.environment, courseID: courseID, forMode: courseOutlineMode)
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment)
@@ -263,6 +262,11 @@ public class CourseOutlineViewController :
         self.environment.router?.showContainerForBlockWithID(blockID: block.blockID, type:block.displayType, parentID: parent, courseID: courseQuerier.courseID, fromController:self, forMode: courseOutlineMode)
     }
     
+    func outlineTableControllerReload(controller: CourseOutlineTableController) {
+        courseQuerier.needsRefresh = true
+        reload()
+    }
+    
     //MARK: PullRefreshControllerDelegate
     public func refreshControllerActivated(controller: PullRefreshController) {
         courseQuerier.needsRefresh = true
@@ -311,6 +315,10 @@ extension CourseOutlineViewController {
     
     public func t_didTriggerSetLastAccessed() -> Bool {
         return t_hasTriggeredSetLastAccessed
+    }
+    
+    public func t_tableView() -> UITableView {
+        return self.tableController.tableView
     }
     
 }

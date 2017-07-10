@@ -397,14 +397,14 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     OEXHelperVideoDownload* obj_video = [videos objectAtIndex:indexPath.row];
     cell.lbl_Title.text = obj_video.summary.name;
     if([cell.lbl_Title.text length] == 0) {
-        cell.lbl_Title.text = @"(Untitled)";
+        cell.lbl_Title.text = [NSString stringWithFormat:@"(%@)", [Strings myVideosUntitledLabel]];
     }
     double size = [obj_video.summary.size doubleValue];
     float result = ((size / 1024) / 1024);
     cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB", result];
 
     if(!obj_video.summary.duration) {
-        cell.lbl_Time.text = @"NA";
+        cell.lbl_Time.text = [Strings myVideosTimeLabel];
     }
     else {
         cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];

@@ -90,12 +90,22 @@
 		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
+		22318B011EFBDAB900F09DF8 /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AEF1EFBDAB900F09DF8 /* SwipeAction.swift */; };
+		22318B021EFBDAB900F09DF8 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AF01EFBDAB900F09DF8 /* SwipeActionButton.swift */; };
+		22318B051EFBDAB900F09DF8 /* SwipeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AF31EFBDAB900F09DF8 /* SwipeAnimator.swift */; };
+		22318B101EFBEFD000F09DF8 /* Trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 22318B0F1EFBEFD000F09DF8 /* Trash.png */; };
+		227241921F0B65E4000DCCEC /* SwipeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241911F0B65E4000DCCEC /* SwipeCellView.swift */; };
+		227241941F0B6792000DCCEC /* SwipeCellViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */; };
+		227241961F0B6D49000DCCEC /* SwipeCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */; };
+		227241981F0B74C3000DCCEC /* SwipeCellViewOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */; };
+		2272419C1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2272419B1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
 		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
+		22DCA5031F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */; };
 		46CECC3A1B041CDC0073C63A /* CourseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseCardView.swift */; };
 		46CECC3C1B041D270073C63A /* CourseDashboardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */; };
 		46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */; };
@@ -886,10 +896,20 @@
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
+		22318AEF1EFBDAB900F09DF8 /* SwipeAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
+		22318AF01EFBDAB900F09DF8 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
+		22318AF31EFBDAB900F09DF8 /* SwipeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAnimator.swift; sourceTree = "<group>"; };
+		22318B0F1EFBEFD000F09DF8 /* Trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Trash.png; sourceTree = "<group>"; };
+		227241911F0B65E4000DCCEC /* SwipeCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellView.swift; sourceTree = "<group>"; };
+		227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellViewDelegate.swift; sourceTree = "<group>"; };
+		227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellActionView.swift; sourceTree = "<group>"; };
+		227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellViewOptions.swift; sourceTree = "<group>"; };
+		2272419B1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAccessibilityCustomAction.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
 		22D73B5C1ED575C000220280 /* course-dates.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "course-dates.js"; sourceTree = "<group>"; };
+		22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSectionTableViewCellTests.swift; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* CourseDashboardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardCell.swift; sourceTree = "<group>"; };
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicCell.swift; sourceTree = "<group>"; };
@@ -1946,6 +1966,22 @@
 			name = "Course Dates";
 			sourceTree = "<group>";
 		};
+		22318AEB1EFBDAB900F09DF8 /* Swipe cell */ = {
+			isa = PBXGroup;
+			children = (
+				22318AEF1EFBDAB900F09DF8 /* SwipeAction.swift */,
+				22318AF01EFBDAB900F09DF8 /* SwipeActionButton.swift */,
+				22318AF31EFBDAB900F09DF8 /* SwipeAnimator.swift */,
+				227241911F0B65E4000DCCEC /* SwipeCellView.swift */,
+				227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */,
+				227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */,
+				227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */,
+				2272419B1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift */,
+			);
+			name = "Swipe cell";
+			path = LibSource;
+			sourceTree = "<group>";
+		};
 		46D567A51B0292D40068F823 /* Discussion */ = {
 			isa = PBXGroup;
 			children = (
@@ -2043,6 +2079,7 @@
 		69ECC5B61D50D1170030CF87 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				22318B0F1EFBEFD000F09DF8 /* Trash.png */,
 				22A4191B1EB1CF1500BBC8CA /* shareCourse.png */,
 				22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */,
 				6926CDA41D59BE3600A16E22 /* ic_next_press.png */,
@@ -3138,6 +3175,7 @@
 		BECB7B141924C0C3009C77F1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				22318AEB1EFBDAB900F09DF8 /* Swipe cell */,
 				1972E3B619BF474900085F08 /* Analytics */,
 				69EFBB011E361BE600FF66C4 /* App Review */,
 				772619B41ADC5CE8005BD7E4 /* Application */,
@@ -3304,6 +3342,7 @@
 				77567B501AC5EC0400877A7B /* Test Doubles */,
 				BECB7B341924C0C3009C77F1 /* Supporting Files */,
 				2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */,
+				22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
@@ -3592,16 +3631,17 @@
 					77E6478D1C90C10300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
 						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
 					};
 					77E647961C90C10300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
 						LastSwiftMigration = 0820;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					77E6482F1C91016300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
 						LastSwiftMigration = 0820;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						TestTargetID = BECB7B0A1924C0C3009C77F1;
 					};
 					BECB7B0A1924C0C3009C77F1 = {
@@ -3778,6 +3818,7 @@
 				69ECC6071D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				69ECC60C1D50D1170030CF87 /* Icon-40@3x.png in Resources */,
 				6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */,
+				22318B101EFBEFD000F09DF8 /* Trash.png in Resources */,
 				BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */,
 				69ECC63A1D50D1170030CF87 /* ic_watched@2x.png in Resources */,
 				69ECC6061D50D1170030CF87 /* OpenSans-Semibold.ttf in Resources */,
@@ -4076,6 +4117,7 @@
 				7706AAC11BCFEEBF00728432 /* NSAttributedString+Formatting.swift in Sources */,
 				778D53351B3D96E900441A98 /* ListCursor.swift in Sources */,
 				E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */,
+				227241961F0B6D49000DCCEC /* SwipeCellActionView.swift in Sources */,
 				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
 				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,
@@ -4146,6 +4188,7 @@
 				E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
+				227241981F0B74C3000DCCEC /* SwipeCellViewOptions.swift in Sources */,
 				1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */,
 				9EA4788B1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift in Sources */,
 				E0A1A02D1E93A77E00510488 /* Constraint.swift in Sources */,
@@ -4177,6 +4220,7 @@
 				E01F45671E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift in Sources */,
 				9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */,
 				B4B6D62C1A949F1B000F44E8 /* OEXRegistrationFieldPasswordController.m in Sources */,
+				22318B051EFBDAB900F09DF8 /* SwipeAnimator.swift in Sources */,
 				1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */,
 				77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */,
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
@@ -4202,6 +4246,7 @@
 				773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */,
 				E0A1A0411E93A7C400510488 /* View+SnapKit.swift in Sources */,
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
+				22318B011EFBDAB900F09DF8 /* SwipeAction.swift in Sources */,
 				7C2DD5531D4A8669006148E0 /* UserPreferenceManager.swift in Sources */,
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				777DE71A1C1656ED0068E280 /* CourseCatalogDetailView.swift in Sources */,
@@ -4212,6 +4257,7 @@
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
 				77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */,
+				227241941F0B6792000DCCEC /* SwipeCellViewDelegate.swift in Sources */,
 				77691F9C1B3A0774003922F2 /* Result+JSON.swift in Sources */,
 				199B9B721935C8AC00081A09 /* OEXCourseVideosTableViewCell.m in Sources */,
 				772619B71ADDA8ED005BD7E4 /* OEXPushSettingsManager.m in Sources */,
@@ -4293,6 +4339,7 @@
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
+				2272419C1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift in Sources */,
 				5D43B1871B0C1F9200448B52 /* PostsViewController.swift in Sources */,
 				5DD0FFC31B17ED2100837121 /* DiscussionCommentsViewController.swift in Sources */,
 				770C514D1B1685F5009B9696 /* AuthenticatedWebViewController.swift in Sources */,
@@ -4315,6 +4362,7 @@
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
 				1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */,
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
+				22318B021EFBDAB900F09DF8 /* SwipeActionButton.swift in Sources */,
 				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
 				7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */,
 				77092C731B421BD0004AA1A1 /* ContainerNavigationController.swift in Sources */,
@@ -4388,6 +4436,7 @@
 				E03E6A191D38EC7500944AAA /* UIView+UIViewController.swift in Sources */,
 				77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */,
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
+				227241921F0B65E4000DCCEC /* SwipeCellView.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				B4B2F16A1AA4F4E500A66A71 /* OEXRegistrationFieldValidator.m in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,
@@ -4441,6 +4490,7 @@
 				77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */,
 				8F7F6DAD1A795AA60063B9D6 /* OEXSessionTests.m in Sources */,
 				2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */,
+				22DCA5031F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift in Sources */,
 				77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */,
 				775434911AD8594A00635A40 /* OEXParsePushProviderTests.m in Sources */,
 				7754348F1AD83FC100635A40 /* OEXMockCredentialStorage.m in Sources */,
@@ -4691,6 +4741,7 @@
 				PODS_CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
@@ -4758,10 +4809,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -4774,6 +4826,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
 				PRODUCT_NAME = edXCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -4789,11 +4842,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -4806,6 +4860,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
 				PRODUCT_NAME = edXCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4820,11 +4875,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -4837,6 +4893,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
 				PRODUCT_NAME = edXCore;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4861,6 +4918,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -4884,6 +4942,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -4906,6 +4965,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
@@ -4927,6 +4987,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = edX;
@@ -4951,6 +5012,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = edX;
 				USES_XCTRUNNER = YES;
@@ -4974,6 +5036,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = edX;
 				USES_XCTRUNNER = YES;
@@ -5048,7 +5111,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -5116,6 +5179,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = edX.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DEVELOPMENT_TEAM = 57UCUYGPA2;
@@ -5138,6 +5202,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
