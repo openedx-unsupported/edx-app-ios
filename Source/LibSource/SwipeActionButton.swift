@@ -33,18 +33,15 @@ class SwipeActionButton: UIButton {
         contentHorizontalAlignment = .center
         
         tintColor = action.textColor ?? .darkGray
-
-        titleLabel?.font = action.font ?? UIFont.systemFont(ofSize: 15)
+        titleLabel?.font = OEXStyles.shared().semiBoldSansSerif(ofSize: 15)
         titleLabel?.textAlignment = .center
         titleLabel?.lineBreakMode = .byWordWrapping
         titleLabel?.numberOfLines = 0
-        
         accessibilityLabel = action.accessibilityLabel
-        
+
         setTitle(action.title, for: .normal)
         setTitleColor(tintColor, for: .normal)
         setImage(action.image, for: .normal)
-        setImage(action.highlightedImage ?? action.image, for: .highlighted)
     }
     
     func preferredWidth(maximum: CGFloat) -> CGFloat {

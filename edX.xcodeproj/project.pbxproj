@@ -98,7 +98,6 @@
 		227241941F0B6792000DCCEC /* SwipeCellViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */; };
 		227241961F0B6D49000DCCEC /* SwipeCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */; };
 		227241981F0B74C3000DCCEC /* SwipeCellViewOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */; };
-		2272419C1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2272419B1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
@@ -904,7 +903,6 @@
 		227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellViewDelegate.swift; sourceTree = "<group>"; };
 		227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellActionView.swift; sourceTree = "<group>"; };
 		227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellViewOptions.swift; sourceTree = "<group>"; };
-		2272419B1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAccessibilityCustomAction.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
@@ -1976,7 +1974,6 @@
 				227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */,
 				227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */,
 				227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */,
-				2272419B1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift */,
 			);
 			name = "Swipe cell";
 			path = LibSource;
@@ -4339,7 +4336,6 @@
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
-				2272419C1F0B7866000DCCEC /* SwipeAccessibilityCustomAction.swift in Sources */,
 				5D43B1871B0C1F9200448B52 /* PostsViewController.swift in Sources */,
 				5DD0FFC31B17ED2100837121 /* DiscussionCommentsViewController.swift in Sources */,
 				770C514D1B1685F5009B9696 /* AuthenticatedWebViewController.swift in Sources */,

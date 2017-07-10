@@ -9,17 +9,16 @@
 import UIKit
 
 enum SwipeState: Int {
-    case center = 0
+    case initialPosition = 0
     case left
     case right
-    case dragging
-    case animatingToCenter
+    case animatingToInitialPosition
     
     init(orientation: SwipeActionsOrientation) {
         self = orientation == .left ? .left : .right
     }
     
-    var isActive: Bool { return self != .center }
+    var isActive: Bool { return self != .initialPosition }
 }
 
 protocol SwipeActionsViewDelegate: class {
@@ -51,7 +50,7 @@ class SwipeCellActionView: UIView {
         
     }
     
-    private(set) var expanded: Bool = false
+    var expanded: Bool = false
     
     init(maxSize: CGSize, options: SwipeCellViewOptions, orientation: SwipeActionsOrientation, actions: [SwipeAction]) {
         self.options = options
@@ -85,13 +84,9 @@ class SwipeCellActionView: UIView {
         minimumButtonWidth = buttons.reduce(options.minimumButtonWidth ?? 74, { initial, next in max(initial, next.preferredWidth(maximum: maximum)) })
         
         buttons.enumerated().forEach { (index, button) in
-            let action = actions[index]
             let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
-            let wrapperView = SwipeActionButtonWrapperView(frame: frame, action: action, orientation: orientation, contentWidth: minimumButtonWidth)
-            wrapperView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-            wrapperView.addSubview(button)
-            addSubview(wrapperView)
-            button.frame = wrapperView.contentRect
+            button.frame = (UIApplication.shared.userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.rightToLeft) ? CGRect(x: frame.width - minimumButtonWidth, y: 0, width: minimumButtonWidth, height: frame.height) : CGRect(x: 0, y: 0, width: minimumButtonWidth, height: frame.height)
+            addSubview(button)
             button.maximumImageHeight = maximumImageHeight
             button.verticalAlignment = options.buttonVerticalAlignment
         }
@@ -114,24 +109,3 @@ class SwipeCellActionView: UIView {
         }
     }
 }
-
-class SwipeActionButtonWrapperView: UIView {
-    let contentRect: CGRect
-    
-    init(frame: CGRect, action: SwipeAction, orientation: SwipeActionsOrientation, contentWidth: CGFloat) {
-        switch orientation {
-        case .left:
-            contentRect = CGRect(x: frame.width - contentWidth, y: 0, width: contentWidth, height: frame.height)
-        case .right:
-            contentRect = CGRect(x: 0, y: 0, width: contentWidth, height: frame.height)
-        }
-        
-        super.init(frame: frame)
-        self.backgroundColor = action.backgroundColor
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-

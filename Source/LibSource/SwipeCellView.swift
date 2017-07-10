@@ -14,7 +14,7 @@ open class SwipeCellView: UITableViewCell {
     public weak var swipeCellViewDelegate: SwipeCellViewDelegate?
     
     var animator: SwipeAnimator?
-    var state = SwipeState.center
+    var state = SwipeState.initialPosition
     var originalCenter: CGFloat = 0
     weak var tableView: UITableView?
     var actionsView: SwipeCellActionView?
@@ -78,14 +78,30 @@ open class SwipeCellView: UITableViewCell {
         }
     }
     
+    func isRTL() -> Bool {
+        return (UIApplication.shared.userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.rightToLeft)
+    }
+    
+    func allowedDirection(ForVelocity velocity: CGPoint) -> Bool {
+        var swipAllowed = false
+        if(isRTL() && velocity.x > 0 || state == .left) {
+            swipAllowed = true
+        }
+        else if(!isRTL() && velocity.x < 0 || state == .right) {
+            swipAllowed = true
+        }
+        
+        return swipAllowed
+    }
+    
     func handlePan(gesture: UIPanGestureRecognizer) {
-        guard let target = gesture.view else { return }
+        guard let target = gesture.view, allowedDirection(ForVelocity: gesture.velocity(in: target)) else { return }
         
         switch gesture.state {
             case .began:
                 stopAnimatorIfNeeded()
                 originalCenter = center.x
-                if state == .center || state == .animatingToCenter {
+                if state == .initialPosition || state == .animatingToInitialPosition {
                     let velocity = gesture.velocity(in: target)
                     let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
                     showActionsView(for: orientation)
@@ -103,7 +119,7 @@ open class SwipeCellView: UITableViewCell {
                 let distance = targetOffset - center.x
                 let normalizedVelocity = velocity.x * 1.0 / distance
                 animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
-                    if self.state == .center {
+                    if self.state == .initialPosition {
                         self.reset()
                     }
                 }
@@ -112,7 +128,7 @@ open class SwipeCellView: UITableViewCell {
     }
     
     func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
-        state = .animatingToCenter
+        state = .animatingToInitialPosition
         tableView?.setGestureEnabled(true)
         let targetCenter = self.targetCenter(active: false)
         if animated {
@@ -158,18 +174,13 @@ open class SwipeCellView: UITableViewCell {
         let actionsView = SwipeCellActionView(maxSize: bounds.size, options: options, orientation: orientation, actions: actions)
         actionsView.delegate = self
         addSubview(actionsView)
-        let heightConstraint = NSLayoutConstraint(item: actionsView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 1.0, constant: 0.0)
-        let constantWidth = NSLayoutConstraint(item: actionsView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100.0)
-        let verticalCentreConstraint = NSLayoutConstraint(item: actionsView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0.0)
-        var constraints: [NSLayoutConstraint] = [heightConstraint,constantWidth,verticalCentreConstraint]
-        
-        if orientation == .right {
-            let rightConstraint = NSLayoutConstraint(item: actionsView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0.0)
-            constraints.append(rightConstraint)
-        }
-        NSLayoutConstraint.activate(constraints)
+        actionsView.snp_makeConstraints(closure: { (make) in
+            make.height.equalTo(self)
+            make.width.equalTo(100)
+            make.centerY.equalTo(self)
+            make.leading.equalTo(self.snp_trailing)
+        })
         self.actionsView = actionsView
-        state = .dragging
     }
     
     
@@ -250,7 +261,7 @@ open class SwipeCellView: UITableViewCell {
     }
     
     override open func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        if state == .center {
+        if state == .initialPosition {
             super.setHighlighted(highlighted, animated: animated)
         }
     }
@@ -267,13 +278,13 @@ open class SwipeCellView: UITableViewCell {
 
 extension SwipeCellView: SwipeActionsViewDelegate {
     func targetState(forVelocity velocity: CGPoint) -> SwipeState {
-        guard let actionsView = actionsView else { return .center }
+        guard let actionsView = actionsView else { return .initialPosition }
         
         switch actionsView.orientation {
         case .left:
-            return (velocity.x < 0 && !actionsView.expanded) ? .center : .left
+            return (velocity.x < 0 && !actionsView.expanded) ? .initialPosition : .left
         case .right:
-            return (velocity.x > 0 && !actionsView.expanded) ? .center : .right
+            return (velocity.x > 0 && !actionsView.expanded) ? .initialPosition : .right
         }
     }
     
@@ -284,7 +295,7 @@ extension SwipeCellView: SwipeActionsViewDelegate {
     }
     
     func reset() {
-        state = .center
+        state = .initialPosition
         tableView?.setGestureEnabled(true)
         actionsView?.removeFromSuperview()
         actionsView = nil

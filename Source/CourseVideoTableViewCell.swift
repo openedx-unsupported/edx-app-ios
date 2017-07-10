@@ -120,7 +120,7 @@ class CourseVideoTableViewCell: SwipeCellView, CourseBlockContainerCell {
 extension CourseVideoTableViewCell: SwipeCellViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         
-        if(!self.isVideoDownloaded() || orientation == .left) {
+        if(!self.isVideoDownloaded()) {
             return nil
         }
         

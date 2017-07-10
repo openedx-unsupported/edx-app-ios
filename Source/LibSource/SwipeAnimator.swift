@@ -12,16 +12,16 @@ protocol SwipeAnimator {
     //A Boolean value indicating whether the animation is currently running.
     var isRunning: Bool { get }
     
-     //The animation to be run by the SwipeAnimator - parameter animation: The closure to be executed by the animator
+     //The animation to be run by the SwipeAnimator.
     func addAnimations(_ animation: @escaping () -> Void)
     
-    //Completion handler for the animation that is going to be started
+    //Completion handler for the animation that is going to be started.
     func addCompletion(completion: @escaping (Bool) -> Void)
     
     //Starts the defined animation
     func startAnimation()
 
-    //Stops the animations at their current positions - parameter withoutFinishing: A Boolean indicating whether any final actions should be performed.
+    //Stops the animations at their current positions
     func stopAnimation(_ withoutFinishing: Bool)
 }
 
