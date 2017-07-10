@@ -11,3 +11,18 @@ source_lang = en
 file_filter = Source/<lang>.proj/InfoPlist.strings
 source_file = Source/en.lproj/InfoPlist.strings
 source_lang = en
+
+[edx-mobile-apps.ios-app-localizable-profile]
+file_filter = Source/<lang>.proj/profile.json
+source_file = Source/en.lproj/profile.json
+source_lang = en
+
+[edx-mobile-apps.ios-app-localizable-countries]
+file_filter = Source/<lang>.proj/countries.json
+source_file = Source/en.lproj/countries.json
+source_lang = en
+
+[edx-mobile-apps.ios-app-localizable-languages]
+file_filter = Source/<lang>.proj/languages.json
+source_file = Source/en.lproj/languages.json
+source_lang = en
