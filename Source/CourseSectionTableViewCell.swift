@@ -12,8 +12,8 @@ protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseDownload(cell : CourseSectionTableViewCell, videos : [OEXHelperVideoDownload], forBlock block : CourseBlock)
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
     func sectionCellUpdate(cell: CourseSectionTableViewCell)
-    func swipeActionBegin(cell: CourseSectionTableViewCell)
-    func swipeActionEnd(Cell: CourseSectionTableViewCell)
+    func swipeActionBegin(cell: SwipeCellView)
+    func swipeActionEnd(Cell: SwipeCellView)
 }
 
 class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {

@@ -13,6 +13,8 @@ protocol CourseVideoTableViewCellDelegate : class {
     func videoCellChoseDownload(cell : CourseVideoTableViewCell, block : CourseBlock)
     func videoCellChoseShowDownloads(cell : CourseVideoTableViewCell)
     func videoCellUpdate(cell: CourseVideoTableViewCell)
+    func swipeActionBegin(cell: SwipeCellView)
+    func swipeActionEnd(Cell: SwipeCellView)
 }
 
 private let titleLabelCenterYOffset = -12
@@ -130,10 +132,11 @@ extension CourseVideoTableViewCell: SwipeCellViewDelegate {
             tableView.hideSwipeCell()
         }
         delete.image = Icon.Trash.imageWithFontSize(size: 30)
+        self.delegate?.swipeActionBegin(cell: self)
         return [delete]
     }
     
     func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {
-    //    self.courseSectionDelegate?.swipeActionEnd(Cell: self)
+        self.delegate?.swipeActionEnd(Cell: self)
     }
 }

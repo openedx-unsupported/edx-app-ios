@@ -202,11 +202,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableControllerReload(controller: self)
     }
     
-    func swipeActionBegin(cell: CourseSectionTableViewCell) {
+    func swipeActionBegin(cell: SwipeCellView) {
         self.shouldSelect = false
     }
     
-    func swipeActionEnd(Cell: CourseSectionTableViewCell) {
+    func swipeActionEnd(Cell: SwipeCellView) {
         self.shouldSelect = true
     }
     
