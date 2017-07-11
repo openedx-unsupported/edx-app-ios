@@ -15,6 +15,10 @@ public protocol SwipeCellViewDelegate: class {
     
     //  The delegate method for the display options to be used while presenting the action buttons.
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeCellViewOptions
+    
+    //func tableView(_ tableView: UITableView, swipActionBeginForRowAt indexPath: IndexPath)
+    func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath)
+    
 }
 
  // Default implementation of `SwipeTableViewCellDelegate` methods

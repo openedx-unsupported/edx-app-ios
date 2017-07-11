@@ -132,4 +132,8 @@ extension CourseVideoTableViewCell: SwipeCellViewDelegate {
         delete.image = Icon.Trash.imageWithFontSize(size: 30)
         return [delete]
     }
+    
+    func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {
+    //    self.courseSectionDelegate?.swipeActionEnd(Cell: self)
+    }
 }

@@ -12,6 +12,8 @@ protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseDownload(cell : CourseSectionTableViewCell, videos : [OEXHelperVideoDownload], forBlock block : CourseBlock)
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
     func sectionCellUpdate(cell: CourseSectionTableViewCell)
+    func swipeActionBegin(cell: CourseSectionTableViewCell)
+    func swipeActionEnd(Cell: CourseSectionTableViewCell)
 }
 
 class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
@@ -167,9 +169,15 @@ extension CourseSectionTableViewCell: SwipeCellViewDelegate {
             self.deleteDownloadedVideos()
             self.courseSectionDelegate?.sectionCellUpdate(cell: self)
         }
+        
         delete.image = Icon.Trash.imageWithFontSize(size: 30)
         delete.accessibilityLabel = "delete action button"
+        self.courseSectionDelegate?.swipeActionBegin(cell: self)
         return [delete]
+    }
+    
+    func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {
+            self.courseSectionDelegate?.swipeActionEnd(Cell: self)
     }
 }
 

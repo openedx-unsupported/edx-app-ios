@@ -84,11 +84,19 @@ open class SwipeCellView: UITableViewCell {
     
     func allowedDirection(ForVelocity velocity: CGPoint) -> Bool {
         var swipAllowed = false
-        if(isRTL() && velocity.x > 0 || state == .left) {
+        if(isRTL() && velocity.x > 0) {
             swipAllowed = true
         }
-        else if(!isRTL() && velocity.x < 0 || state == .right) {
+        else if(!isRTL() && velocity.x < 0) {
             swipAllowed = true
+        }
+        else if (velocity.x > 0 && state == .right) {
+            hideSwipe(animated: true)
+            swipAllowed = false
+        }
+        else if(velocity.x < 0 && state == .left) {
+            hideSwipe(animated: true)
+            swipAllowed = false
         }
         
         return swipAllowed
@@ -105,6 +113,7 @@ open class SwipeCellView: UITableViewCell {
                     let velocity = gesture.velocity(in: target)
                     let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
                     showActionsView(for: orientation)
+                    state = targetState(forVelocity: velocity)
                 }
             case .changed:
                 guard let actionsView = actionsView else { return }
@@ -135,6 +144,8 @@ open class SwipeCellView: UITableViewCell {
             animate(toOffset: targetCenter) { complete in
                 self.reset()
                 completion?(complete)
+                guard let tableView = self.tableView, let indexPath = tableView.indexPath(for: self) else {return}
+                self.swipeCellViewDelegate?.tableView(tableView, swipActionEndForRowAt: indexPath)
             }
         } else {
             center = CGPoint(x: targetCenter, y: self.center.y)
@@ -226,8 +237,8 @@ open class SwipeCellView: UITableViewCell {
         }
     }
     
-    func handleTap(gesture: UITapGestureRecognizer) {
-        hideSwipe(animated: true)
+    func handleTap(gesture: UITapGestureRecognizer) {    
+        hideSwipe(animated: true);
     }
     
     func handleTablePan(gesture: UIPanGestureRecognizer) {
@@ -243,13 +254,11 @@ open class SwipeCellView: UITableViewCell {
         guard let superview = superview else { return false }
         
         let point = convert(point, to: superview)
-        
-        if !UIAccessibilityIsVoiceOverRunning() {
-            for cell in tableView?.swipeCells ?? [] {
-                if (cell.state == .left || cell.state == .right) && !cell.contains(point: point) {
-                    tableView?.hideSwipeCell()
-                    return false
-                }
+
+        for cell in tableView?.swipeCells ?? [] {
+            if (cell.state == .left || cell.state == .right) && !cell.contains(point: point) {
+                tableView?.hideSwipeCell()
+                return false
             }
         }
         
@@ -303,9 +312,6 @@ extension SwipeCellView: SwipeActionsViewDelegate {
     
     override open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == tapGestureRecognizer {
-            if UIAccessibilityIsVoiceOverRunning() {
-                tableView?.hideSwipeCell()
-            }
             
             let cell = tableView?.swipeCells.first(where: { $0.state.isActive })
             return cell == nil ? false : true
