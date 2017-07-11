@@ -56,10 +56,10 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     }
     
     static func canShowWhatsNew(environment: RouterEnvironment?) -> Bool {
-        let appVersion = Bundle.main.oex_shortVersionString()
-        let savedAppVersion = environment?.interface?.getSavedAppVersionForWhatsNew()
-        let versionDiff = (Float(appVersion) ?? 0.0) - (Float(savedAppVersion ?? "") ?? 0.0)
-        return (versionDiff > 0 && environment?.config.isWhatsNewEnabled ?? false)
+        let appVersion = Version(version: Bundle.main.oex_buildVersionString())
+        let savedAppVersion = Version(version: environment?.interface?.getSavedAppVersionForWhatsNew() ?? "")
+        let validDiff = appVersion.isNMinorVersionsDiff(otherVersion: savedAppVersion, minorVersionDiff: 1)
+        return (validDiff && environment?.config.isWhatsNewEnabled ?? false)
     }
     
     override func viewDidLoad() {
