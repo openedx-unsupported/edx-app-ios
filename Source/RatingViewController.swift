@@ -33,9 +33,9 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
         if let appRating = environment.interface?.getSavedAppRating(), let lastVersionForAppReview = environment.interface?.getSavedAppVersionWhenLastRated(){
             let version = Version(version: (Bundle.main.oex_buildVersionString()))
             let savedVersion = Version(version: lastVersionForAppReview)
-            let validDiff = version.isNMinorVersionsDiff(otherVersion: savedVersion, minorVersionDiff: minimumVersionDifferenceForNegativeRating)
+            let validVersionDiff = version.isNMinorVersionsDiff(otherVersion: savedVersion, minorVersionDiff: minimumVersionDifferenceForNegativeRating)
             
-            if appRating >= minimumPositiveRating || !validDiff {
+            if appRating >= minimumPositiveRating || !validVersionDiff {
                 return false
             }
         }
