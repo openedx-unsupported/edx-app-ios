@@ -25,15 +25,6 @@ protocol SwipeAnimator {
     func stopAnimation(_ withoutFinishing: Bool)
 }
 
-@available(iOS 10.0, *)
-extension UIViewPropertyAnimator: SwipeAnimator {
-    func addCompletion(completion: @escaping (Bool) -> Void) {
-        addCompletion { position in
-            completion(position == .end)
-        }
-    }
-}
-
 class UIViewSpringAnimator: SwipeAnimator {
     var isRunning: Bool = false
     

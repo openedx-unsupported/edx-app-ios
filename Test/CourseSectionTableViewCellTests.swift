@@ -100,9 +100,11 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
             let cell = tableView.cellForRow(at: indexPath) as? CourseSectionTableViewCell
             let videosStream = BackedStream<[OEXHelperVideoDownload]>()
             let blockLoadedStream = cell!.t_setup()
+            var downloadVideos :[OEXHelperVideoDownload] = []
             videosStream.backWithStream(blockLoadedStream)
             videosStream.listen(self) { downloads in
                 if let downloads = downloads.value {
+                    downloadVideos = downloads
                     for video in downloads {
                         video.downloadState = OEXDownloadState.complete
                     }
@@ -111,7 +113,7 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
             var swipeActions = cell?.tableView(tableView, editActionsForRowAt: indexPath, for: SwipeActionsOrientation.right)
             return {expectation -> Void in
                 XCTAssertNotNil(swipeActions)
-                cell?.deleteDownloadedVideos()
+                cell?.deleteVideos(videos: downloadVideos)
                 swipeActions = cell?.tableView(tableView, editActionsForRowAt: indexPath, for: SwipeActionsOrientation.right)
                 XCTAssertNil(swipeActions)
                 expectation.fulfill()

@@ -21,13 +21,10 @@ class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
     static let identifier = "CourseSectionTableViewCellIdentifier"
     
     fileprivate let content = CourseOutlineItemView()
+    fileprivate let videosStream = BackedStream<[OEXHelperVideoDownload]>()
     private let downloadView = DownloadsAccessoryView()
-
     weak var courseSectionDelegate : CourseSectionTableViewCellDelegate?
     
-    private let videosStream = BackedStream<[OEXHelperVideoDownload]>()
-    
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
@@ -121,30 +118,18 @@ class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
     }
     
     
-    private func deleteVideos(videos : [OEXHelperVideoDownload]) {
+    public func deleteVideos(videos : [OEXHelperVideoDownload]) {
         OEXInterface.shared().deleteDownloadedVideos(videos) { (deleted) in
             
         }
     }
     
-    public func isAllVideosDownloaded() -> Bool {
-        var downloadingState : Bool = false
-        videosStream.listen(self) {[weak self] downloads in
-            if let downloads = downloads.value, let videoState = self?.downloadStateForDownloads(videos: downloads) {
-                downloadingState = (videoState == .Done)
-            }
-        }
-        return downloadingState
+    public func isAllVideosDownloaded(videos: [OEXHelperVideoDownload]) -> Bool {
+        
+        let videoState = self.downloadStateForDownloads(videos: videos)
+        return (videoState == .Done)
     }
-    
-    public func deleteDownloadedVideos() {
-        videosStream.listen(self) {[weak self] downloads in
-            if let downloads = downloads.value {
-                self?.deleteVideos(videos: downloads)
-            }
-        }
-    }
-    
+
     var block : CourseBlock? = nil {
         didSet {
             content.setTitleText(title: block?.displayName)
@@ -161,23 +146,29 @@ class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
 extension CourseSectionTableViewCell: SwipeCellViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         
-        if(!self.isAllVideosDownloaded()) {
+        var downloadVideos:[OEXHelperVideoDownload] = []
+        videosStream.listen(self) { downloads in
+            if let downloads = downloads.value {
+                downloadVideos = downloads
+            }
+        }
+        
+        if(!self.isAllVideosDownloaded(videos: downloadVideos)) {
             return nil
         }
     
         let delete = SwipeAction(title: nil) { action, indexPath in
-            self.deleteDownloadedVideos()
+            self.deleteVideos(videos: downloadVideos)
             self.courseSectionDelegate?.sectionCellUpdate(cell: self)
         }
         
         delete.image = Icon.Trash.imageWithFontSize(size: 30)
-        delete.accessibilityLabel = "delete action button"
         self.courseSectionDelegate?.swipeActionBegin(cell: self)
         return [delete]
     }
     
     func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {
-            self.courseSectionDelegate?.swipeActionEnd(Cell: self)
+        self.courseSectionDelegate?.swipeActionEnd(Cell: self)
     }
 }
 

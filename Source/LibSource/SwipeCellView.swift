@@ -194,25 +194,14 @@ open class SwipeCellView: UITableViewCell {
         self.actionsView = actionsView
     }
     
-    
     func animate(duration: Double = 0.7, toOffset offset: CGFloat, withInitialVelocity velocity: CGFloat = 0, completion: ((Bool) -> Void)? = nil) {
         stopAnimatorIfNeeded()
         layoutIfNeeded()
         let animator: SwipeAnimator = {
             if velocity != 0 {
-                if #available(iOS 10, *) {
-                    let velocity = CGVector(dx: velocity, dy: velocity)
-                    let parameters = UISpringTimingParameters(mass: 1.0, stiffness: 100, damping: 18, initialVelocity: velocity)
-                    return UIViewPropertyAnimator(duration: 0.0, timingParameters: parameters)
-                } else {
-                    return UIViewSpringAnimator(duration: duration, damping: 1.0, initialVelocity: velocity)
-                }
+                return UIViewSpringAnimator(duration: duration, damping: 1.0, initialVelocity: velocity)
             } else {
-                if #available(iOS 10, *) {
-                    return UIViewPropertyAnimator(duration: duration, dampingRatio: 1.0)
-                } else {
-                    return UIViewSpringAnimator(duration: duration, damping: 1.0)
-                }
+                return UIViewSpringAnimator(duration: duration, damping: 1.0)
             }
         }()
         
@@ -336,6 +325,7 @@ extension SwipeCellView: SwipeActionsViewDelegate {
     func perform(action: SwipeAction) {
         guard let tableView = tableView, let indexPath = tableView.indexPath(for: self) else { return }
         
+        hideSwipe(animated: true)
         action.handler?(action, indexPath)
     }
 }
