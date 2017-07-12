@@ -20,7 +20,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     var delegate : RatingViewControllerDelegate?
     
     static let minimumPositiveRating : Int = 4
-    static let minimumVersionDifferenceForNegativeRating : Float = 0.2
+    static let minimumVersionDifferenceForNegativeRating = 2
     
     let environment : Environment
     let ratingContainerView : RatingContainerView
@@ -31,8 +31,11 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
         guard let _ = environment.config.appReviewURI, environment.interface?.reachable ?? false && environment.config.isAppReviewsEnabled else { return false }
         
         if let appRating = environment.interface?.getSavedAppRating(), let lastVersionForAppReview = environment.interface?.getSavedAppVersionWhenLastRated(){
-            let versionDiff = (Float(Bundle.main.oex_shortVersionString()) ?? 0.0) - (Float(lastVersionForAppReview) ?? 0.0)
-            if appRating >= minimumPositiveRating || versionDiff < minimumVersionDifferenceForNegativeRating {
+            let version = Version(version: (Bundle.main.oex_buildVersionString()))
+            let savedVersion = Version(version: lastVersionForAppReview)
+            let validVersionDiff = version.isNMinorVersionsDiff(otherVersion: savedVersion, minorVersionDiff: minimumVersionDifferenceForNegativeRating)
+            
+            if appRating >= minimumPositiveRating || !validVersionDiff {
                 return false
             }
         }
@@ -128,7 +131,7 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     
     //MARK: - Negative Rating methods
     private func negativeRatingReceived() {
-        alertController = UIAlertController().showAlert(withTitle: Strings.AppReview.sendFeedback, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
+        alertController = UIAlertController().showAlert(withTitle: Strings.AppReview.sendFeedbackTitle, message: Strings.AppReview.helpUsImprove,cancelButtonTitle: nil, onViewController: self)
         alertController?.addButton(withTitle: Strings.AppReview.maybeLater) {[weak self] (action) in
             self?.saveAppRating()
             if let rating = self?.selectedRating {
