@@ -519,8 +519,6 @@
 "PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "This {platform_name} learner is currently sharing a limited profile.";
 /* User has not filled in an "about me" on their profile */
 "PROFILE.NO_BIO" = "No \"About me\" info provided.";
-/* Option to allow for nil setting of a particular field */
-"PROFILE.NO_FIELD" = "No {field_name}";
 /* Text in the picture taker alert to delete the existing image */
 "PROFILE.REMOVE_IMAGE" = "Remove";
 /* Profile screen text indicating that the user is currently only displaying a limited profile */

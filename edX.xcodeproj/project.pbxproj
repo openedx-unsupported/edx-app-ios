@@ -676,6 +676,7 @@
 		E03E6A221D38F77C00944AAA /* OfflineSupportViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03E6A211D38F77C00944AAA /* OfflineSupportViewControllerTests.swift */; };
 		E04848321CFDA10600BE00E1 /* DiscussionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */; };
 		E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */; };
+		E04A93291F13846B00D4615D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E04A932B1F13846B00D4615D /* InfoPlist.strings */; };
 		E04F56861E9E0A5B0088C65E /* EnrollmentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742F8DC1C3C979D009E555A /* EnrollmentConfig.swift */; };
 		E054B09D1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E054B09C1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift */; };
 		E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E054B09E1EC3178200FACBA6 /* screen_1.png */; };
@@ -1598,6 +1599,7 @@
 		E03E6A211D38F77C00944AAA /* OfflineSupportViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineSupportViewControllerTests.swift; sourceTree = "<group>"; };
 		E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModelTests.swift; sourceTree = "<group>"; };
 		E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsViewControllerTests.swift; sourceTree = "<group>"; };
+		E04A932A1F13846B00D4615D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E052F5A81D9953BB009F6B6F /* edX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = edX.entitlements; sourceTree = "<group>"; };
 		E054B09C1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXInterface+WhatsNew.swift"; sourceTree = "<group>"; };
 		E054B09E1EC3178200FACBA6 /* screen_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_1.png; sourceTree = "<group>"; };
@@ -3190,6 +3192,7 @@
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
 				BECB7B1A1924C0C3009C77F1 /* main.m */,
 				BECB7B1C1924C0C3009C77F1 /* edX-Prefix.pch */,
+				E04A932B1F13846B00D4615D /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3789,6 +3792,7 @@
 				69ECC6061D50D1170030CF87 /* OpenSans-Semibold.ttf in Resources */,
 				69ECC63B1D50D1170030CF87 /* ic_watched@3x.png in Resources */,
 				E0E27FC41EC46D4000D1AEFE /* test_screen_1.png in Resources */,
+				E04A93291F13846B00D4615D /* InfoPlist.strings in Resources */,
 				19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */,
 				805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */,
 				22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */,
@@ -4623,6 +4627,14 @@
 				773BE0001AAA07DD0074C3CA /* en */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		E04A932B1F13846B00D4615D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E04A932A1F13846B00D4615D /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
