@@ -105,6 +105,13 @@ open class SwipeCellView: UITableViewCell {
     func handlePan(gesture: UIPanGestureRecognizer) {
         guard let target = gesture.view, allowedDirection(ForVelocity: gesture.velocity(in: target)) else { return }
         
+        
+        let translation =  panGestureRecognizer.translation(in: panGestureRecognizer.view)
+        let velocity = panGestureRecognizer .velocity(in: panGestureRecognizer.view)
+        let panOffset = translation.x
+        let actualTranslation = CGPoint(x: panOffset, y: translation.y)
+
+        
         switch gesture.state {
             case .began:
                 stopAnimatorIfNeeded()
@@ -114,14 +121,11 @@ open class SwipeCellView: UITableViewCell {
                     let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
                     showActionsView(for: orientation)
                     state = targetState(forVelocity: velocity)
+                    
                 }
             case .changed:
                 guard let actionsView = actionsView else { return }
-                target.center.x = gesture.elasticTranslation(in: target,
-                                                             withLimit: CGSize(width: actionsView.preferredWidth, height: 0),
-                                                             fromOriginalCenter: CGPoint(x: originalCenter, y: 0),
-                                                             applyingRatio: 0.0).x
-            case .ended:
+            
                 let velocity = gesture.velocity(in: target)
                 state = targetState(forVelocity: velocity)
                 let targetOffset = targetCenter(active: state.isActive)
@@ -131,7 +135,9 @@ open class SwipeCellView: UITableViewCell {
                     if self.state == .initialPosition {
                         self.reset()
                     }
-                }
+            }
+            
+            
             default: break
         }
     }
@@ -345,26 +351,5 @@ extension UITableView {
             
             $0.isEnabled = enabled
         }
-    }
-}
-
-extension UIPanGestureRecognizer {
-    func elasticTranslation(in view: UIView?, withLimit limit: CGSize, fromOriginalCenter center: CGPoint, applyingRatio ratio: CGFloat = 0.0) -> CGPoint {
-        let translation = self.translation(in: view)
-        
-        guard let sourceView = self.view else {
-            return translation
-        }
-        
-        let updatedCenter = CGPoint(x: center.x + translation.x, y: center.y + translation.y)
-        let distanceFromCenter = CGSize(width: abs(updatedCenter.x - sourceView.bounds.midX),
-                                        height: abs(updatedCenter.y - sourceView.bounds.midY))
-        
-        let inverseRatio = 1.0 - ratio
-        let scale: (x: CGFloat, y: CGFloat) = (updatedCenter.x < sourceView.bounds.midX ? -1 : 1, updatedCenter.y < sourceView.bounds.midY ? -1 : 1)
-        let x = updatedCenter.x - (distanceFromCenter.width > limit.width ? inverseRatio * (distanceFromCenter.width - limit.width) * scale.x : 0)
-        let y = updatedCenter.y - (distanceFromCenter.height > limit.height ? inverseRatio * (distanceFromCenter.height - limit.height) * scale.y : 0)
-        
-        return CGPoint(x: x, y: y)
     }
 }

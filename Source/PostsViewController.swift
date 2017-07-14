@@ -388,7 +388,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         case .Following:
             self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "posts_following", threadId: nil, topicId: "posts_following", responseID: nil)
         case .AllPosts:
-            self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
+            environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenViewTopicThreads, courseId: self.courseID, value: "all_posts", threadId: nil, topicId: "all_posts", responseID: nil)
         }
     }
     
