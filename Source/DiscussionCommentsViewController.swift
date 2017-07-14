@@ -374,7 +374,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private func logScreenEvent() {
-        self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem.threadID, topicId: nil, responseID: responseItem.commentID)
+        self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem.threadID, topicId: nil, responseID: responseItem.commentID, author: responseItem.author)
     }
     
     func addSubviews() {

@@ -140,9 +140,6 @@ NS_ASSUME_NONNULL_BEGIN
 // Course
 - (void)trackCourseShared:(NSString*)courseName url:(NSString*)aboutUrl socialTarget:(NSString*)type;
 
-//Discussion screen event
-- (void) trackDiscussionScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value threadId:(nullable NSString *) threadId topicId:(nullable NSString *) topicId responseID:(nullable NSString *) responseID;
-
 //Discussion search screen event
 - (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query;
 

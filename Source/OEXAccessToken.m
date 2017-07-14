@@ -7,7 +7,7 @@
 //
 
 #import "OEXAccessToken.h"
-#import "NSMutableDictionary+OEXSafeAccess.h"
+#import "edX-Swift.h"
 
 static NSString* const OEXAccessTokenKey = @"access_token";
 static NSString* const OEXTokenTypeKey = @"token_type";
@@ -62,7 +62,7 @@ static NSString* const OEXRefreshTokenKey = @"refresh_token";
 - (NSData*)accessTokenData {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     if(_accessToken) {
-        [dict safeSetObject:_accessToken forKey:OEXAccessTokenKey];
+        [dict setSafeObject:_accessToken forKey:OEXAccessTokenKey];
         [dict setObjectOrNil:_tokenType forKey:OEXTokenTypeKey];
         [dict setObjectOrNil:_expiryDate forKey:OEXExpiryDateKey];
         [dict setObjectOrNil:_scope forKey:OEXScopeKey];
