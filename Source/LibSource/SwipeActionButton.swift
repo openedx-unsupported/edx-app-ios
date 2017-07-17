@@ -10,10 +10,8 @@ import UIKit
 
 class SwipeActionButton: UIButton {
     var spacing: CGFloat = 8
-    var shouldHighlight = true
-    var highlightedBackgroundColor: UIColor?
-    var maximumImageHeight: CGFloat = 0
-    var verticalAlignment: SwipeVerticalAlignment = .centerFirstBaseline
+    private var maximumImageHeight: CGFloat = 0
+    private var verticalAlignment: SwipeVerticalAlignment = .centerFirstBaseline
     
     var currentSpacing: CGFloat {
         return (currentTitle?.isEmpty == false && maximumImageHeight > 0) ? spacing : 0
@@ -32,7 +30,7 @@ class SwipeActionButton: UIButton {
 
         contentHorizontalAlignment = .center
         
-        tintColor = action.textColor ?? .darkGray
+        tintColor = OEXStyles.shared().neutralWhiteT()
         titleLabel?.font = OEXStyles.shared().semiBoldSansSerif(ofSize: 15)
         titleLabel?.textAlignment = .center
         titleLabel?.lineBreakMode = .byWordWrapping
@@ -42,6 +40,14 @@ class SwipeActionButton: UIButton {
         setTitle(action.title, for: .normal)
         setTitleColor(tintColor, for: .normal)
         setImage(action.image, for: .normal)
+    }
+    
+    func setMaximumImageHeight(maxImageHeight: CGFloat) {
+        maximumImageHeight = maxImageHeight
+    }
+    
+    func setVerticalAlignment(alignment: SwipeVerticalAlignment) {
+        verticalAlignment = alignment
     }
     
     func preferredWidth(maximum: CGFloat) -> CGFloat {

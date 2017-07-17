@@ -8,19 +8,18 @@
 
 import UIKit
 
-open class SwipeCellView: UITableViewCell {
+public class SwipeCellView: UITableViewCell {
     
     /// The object that acts as the delegate of the `SwipeCellView`.
     public weak var swipeCellViewDelegate: SwipeCellViewDelegate?
-    
-    var animator: SwipeAnimator?
-    var state = SwipeState.initialPosition
-    var originalCenter: CGFloat = 0
-    weak var tableView: UITableView?
-    var actionsView: SwipeCellActionView?
-    var originalLayoutMargins: UIEdgeInsets = .zero
-    var panGestureRecognizer = UIPanGestureRecognizer()
-    var tapGestureRecognizer = UITapGestureRecognizer()
+    private var animator: SwipeAnimator?
+    private var originalCenter: CGFloat = 0
+    fileprivate weak var tableView: UITableView?
+    fileprivate var actionsView: SwipeCellActionView?
+    private var originalLayoutMargins: UIEdgeInsets = .zero
+    fileprivate var panGestureRecognizer = UIPanGestureRecognizer()
+    fileprivate var tapGestureRecognizer = UITapGestureRecognizer()
+    var state = SwipeState.initial
     
     override open var center: CGPoint {
         didSet {
@@ -57,7 +56,7 @@ open class SwipeCellView: UITableViewCell {
         tableView?.panGestureRecognizer.removeTarget(self, action: nil)
     }
     
-    func configure() {
+    private func configure() {
         clipsToBounds = false
         addGestureRecognizer(tapGestureRecognizer)
         addGestureRecognizer(panGestureRecognizer)
@@ -78,45 +77,30 @@ open class SwipeCellView: UITableViewCell {
         }
     }
     
-    func isRTL() -> Bool {
-        return (UIApplication.shared.userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.rightToLeft)
+    private func isRTL() -> Bool {
+        return (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft)
     }
     
-    func allowedDirection(ForVelocity velocity: CGPoint) -> Bool {
+    private func allowedDirection(ForVelocity velocity: CGPoint) -> Bool {
         var swipAllowed = false
-        if(isRTL() && velocity.x > 0) {
+        if((isRTL() && velocity.x > 0) || (!isRTL() && velocity.x < 0)) {
             swipAllowed = true
         }
-        else if(!isRTL() && velocity.x < 0) {
-            swipAllowed = true
-        }
-        else if (velocity.x > 0 && state == .right) {
+        else if ((velocity.x > 0 && state == .right) || ((velocity.x < 0 && state == .left))) {
             hideSwipe(animated: true)
             swipAllowed = false
         }
-        else if(velocity.x < 0 && state == .left) {
-            hideSwipe(animated: true)
-            swipAllowed = false
-        }
-        
         return swipAllowed
     }
     
-    func handlePan(gesture: UIPanGestureRecognizer) {
+    private func handlePan(gesture: UIPanGestureRecognizer) {
         guard let target = gesture.view, allowedDirection(ForVelocity: gesture.velocity(in: target)) else { return }
-        
-        
-        let translation =  panGestureRecognizer.translation(in: panGestureRecognizer.view)
-        let velocity = panGestureRecognizer .velocity(in: panGestureRecognizer.view)
-        let panOffset = translation.x
-        let actualTranslation = CGPoint(x: panOffset, y: translation.y)
-
         
         switch gesture.state {
             case .began:
                 stopAnimatorIfNeeded()
                 originalCenter = center.x
-                if state == .initialPosition || state == .animatingToInitialPosition {
+                if state == .initial || state == .animatingToInitialPosition {
                     let velocity = gesture.velocity(in: target)
                     let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
                     showActionsView(for: orientation)
@@ -132,12 +116,11 @@ open class SwipeCellView: UITableViewCell {
                 let distance = targetOffset - center.x
                 let normalizedVelocity = velocity.x * 1.0 / distance
                 animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
-                    if self.state == .initialPosition {
+                    if self.state == .initial {
                         self.reset()
                     }
             }
-            
-            
+    
             default: break
         }
     }
@@ -147,11 +130,11 @@ open class SwipeCellView: UITableViewCell {
         tableView?.setGestureEnabled(true)
         let targetCenter = self.targetCenter(active: false)
         if animated {
-            animate(toOffset: targetCenter) { complete in
-                self.reset()
+            animate(toOffset: targetCenter) {[weak self] complete in
+                self?.reset()
                 completion?(complete)
-                guard let tableView = self.tableView, let indexPath = tableView.indexPath(for: self) else {return}
-                self.swipeCellViewDelegate?.tableView(tableView, swipActionEndForRowAt: indexPath)
+                guard let owner = self, let tableView = owner.tableView, let indexPath = tableView.indexPath(for: owner) else {return}
+                owner.swipeCellViewDelegate?.tableView(tableView, swipActionEndForRowAt: indexPath)
             }
         } else {
             center = CGPoint(x: targetCenter, y: self.center.y)
@@ -160,7 +143,7 @@ open class SwipeCellView: UITableViewCell {
     }
     
     @discardableResult
-    func showActionsView(for orientation: SwipeActionsOrientation) -> Bool {
+    private func showActionsView(for orientation: SwipeActionsOrientation) -> Bool {
         guard let tableView = tableView,
             let indexPath = tableView.indexPath(for: self),
             let actions = swipeCellViewDelegate?.tableView(tableView, editActionsForRowAt: indexPath, for: orientation),
@@ -171,7 +154,6 @@ open class SwipeCellView: UITableViewCell {
         originalLayoutMargins = super.layoutMargins
         
         // Remove highlight and deselect any selected cells
-        super.setHighlighted(false, animated: false)
         let selectedIndexPaths = tableView.indexPathsForSelectedRows
         selectedIndexPaths?.forEach { tableView.deselectRow(at: $0, animated: false) }
         
@@ -181,7 +163,7 @@ open class SwipeCellView: UITableViewCell {
         return true
     }
     
-    func configureActionsView(with actions: [SwipeAction], for orientation: SwipeActionsOrientation) {
+    private func configureActionsView(with actions: [SwipeAction], for orientation: SwipeActionsOrientation) {
         guard let tableView = tableView,
             let indexPath = tableView.indexPath(for: self) else { return }
         
@@ -195,12 +177,12 @@ open class SwipeCellView: UITableViewCell {
             make.height.equalTo(self)
             make.width.equalTo(100)
             make.centerY.equalTo(self)
-            make.leading.equalTo(self.snp_trailing)
+            make.leading.equalTo(snp_trailing)
         })
         self.actionsView = actionsView
     }
     
-    func animate(duration: Double = 0.7, toOffset offset: CGFloat, withInitialVelocity velocity: CGFloat = 0, completion: ((Bool) -> Void)? = nil) {
+    private func animate(duration: Double = 0.7, toOffset offset: CGFloat, withInitialVelocity velocity: CGFloat = 0, completion: ((Bool) -> Void)? = nil) {
         stopAnimatorIfNeeded()
         layoutIfNeeded()
         let animator: SwipeAnimator = {
@@ -211,10 +193,11 @@ open class SwipeCellView: UITableViewCell {
             }
         }()
         
-        animator.addAnimations({
-            self.center = CGPoint(x: offset, y: self.center.y)
-            
-            self.layoutIfNeeded()
+        animator.addAnimations({[weak self] _ in
+            if let owner = self {
+                owner.center = CGPoint(x: offset, y: owner.center.y)
+                owner.layoutIfNeeded()
+            }
         })
         
         if let completion = completion {
@@ -226,13 +209,13 @@ open class SwipeCellView: UITableViewCell {
         animator.startAnimation()
     }
     
-    func stopAnimatorIfNeeded() {
+    private func stopAnimatorIfNeeded() {
         if animator?.isRunning == true {
             animator?.stopAnimation(true)
         }
     }
     
-    func handleTap(gesture: UITapGestureRecognizer) {    
+    private func handleTap(gesture: UITapGestureRecognizer) {
         hideSwipe(animated: true);
     }
     
@@ -260,16 +243,10 @@ open class SwipeCellView: UITableViewCell {
         return contains(point: point)
     }
     
-    func contains(point: CGPoint) -> Bool {
+    private func contains(point: CGPoint) -> Bool {
         return point.y > frame.minY && point.y < frame.maxY
     }
     
-    override open func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        if state == .initialPosition {
-            super.setHighlighted(highlighted, animated: animated)
-        }
-    }
-
     override open var layoutMargins: UIEdgeInsets {
         get {
             return frame.origin.x != 0 ? originalLayoutMargins : super.layoutMargins
@@ -282,13 +259,13 @@ open class SwipeCellView: UITableViewCell {
 
 extension SwipeCellView: SwipeActionsViewDelegate {
     func targetState(forVelocity velocity: CGPoint) -> SwipeState {
-        guard let actionsView = actionsView else { return .initialPosition }
+        guard let actionsView = actionsView else { return .initial }
         
         switch actionsView.orientation {
         case .left:
-            return (velocity.x < 0 && !actionsView.expanded) ? .initialPosition : .left
+            return (velocity.x < 0 && !actionsView.expanded) ? .initial : .left
         case .right:
-            return (velocity.x > 0 && !actionsView.expanded) ? .initialPosition : .right
+            return (velocity.x > 0 && !actionsView.expanded) ? .initial : .right
         }
     }
     
@@ -299,7 +276,7 @@ extension SwipeCellView: SwipeActionsViewDelegate {
     }
     
     func reset() {
-        state = .initialPosition
+        state = .initial
         tableView?.setGestureEnabled(true)
         actionsView?.removeFromSuperview()
         actionsView = nil

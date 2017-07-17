@@ -10,10 +10,7 @@ import UIKit
 
 public class SwipeAction: NSObject {
     public var title: String?
-    public var font: UIFont?
-    public var textColor: UIColor?
     public var image: UIImage?
-    public var backgroundColor: UIColor?
     
     // The closure to execute when the user taps the button associated with this action.
     public var handler: ((SwipeAction, IndexPath) -> Void)?

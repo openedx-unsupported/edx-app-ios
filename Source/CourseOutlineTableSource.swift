@@ -55,15 +55,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.register(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.register(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
-        tableView.setGestureEnabled(true)
         headerContainer.addSubview(lastAccessedView)
         lastAccessedView.snp_makeConstraints { (make) -> Void in
             make.edges.equalTo(self.headerContainer)
         }
         
         refreshController.setupInScrollView(scrollView: self.tableView)
-        
-        
     }
     
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
@@ -144,7 +141,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             let courseID = courseQuerier.courseID
             cell.videos = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
             cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? cell : nil
-            cell.courseSectionDelegate = self
+            cell.delegate = self
             return cell
         case .Discussion:
             let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionTableViewCell.identifier, for: indexPath) as! DiscussionTableViewCell
@@ -185,7 +182,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableControllerChoseShowDownloads(controller: self)
     }
     
-    func videoCellUpdate(cell: CourseVideoTableViewCell) {
+    func videoCellUpdate(cell: UITableViewCell) {
+        self.shouldSelect = true
         self.delegate?.outlineTableControllerReload(controller: self)   
     }
     
@@ -195,11 +193,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     func sectionCellChoseDownload(cell: CourseSectionTableViewCell, videos: [OEXHelperVideoDownload], forBlock block : CourseBlock) {
         self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
-    }
-    
-    func sectionCellUpdate(cell: CourseSectionTableViewCell) {
-        self.shouldSelect = true
-        self.delegate?.outlineTableControllerReload(controller: self)
     }
     
     func swipeActionBegin(cell: SwipeCellView) {

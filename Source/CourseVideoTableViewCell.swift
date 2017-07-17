@@ -12,7 +12,7 @@ import UIKit
 protocol CourseVideoTableViewCellDelegate : class {
     func videoCellChoseDownload(cell : CourseVideoTableViewCell, block : CourseBlock)
     func videoCellChoseShowDownloads(cell : CourseVideoTableViewCell)
-    func videoCellUpdate(cell: CourseVideoTableViewCell)
+    func videoCellUpdate(cell: UITableViewCell)
     func swipeActionBegin(cell: SwipeCellView)
     func swipeActionEnd(Cell: SwipeCellView)
 }
@@ -111,10 +111,8 @@ class CourseVideoTableViewCell: SwipeCellView, CourseBlockContainerCell {
     }
     
     func deleteVideo()  {
-        OEXInterface.shared().deleteDownloadedVideo(forVideoId: (localState?.summary?.videoID)!) { (delete) in
-            self.localState?.downloadState = OEXDownloadState.new;
-            self.localState?.downloadProgress = 0.0;
-            self.localState?.isVideoDownloading = false;
+        if let video = localState {
+            OEXInterface.shared().deleteDownloadedVideo(video) { _ in }
         }
     }
 }
@@ -122,16 +120,18 @@ class CourseVideoTableViewCell: SwipeCellView, CourseBlockContainerCell {
 extension CourseVideoTableViewCell: SwipeCellViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         
-        if(!self.isVideoDownloaded()) {
+        if(!isVideoDownloaded()) {
             return nil
         }
         
-        let delete = SwipeAction(title: nil) { action, indexPath in
-            self.deleteVideo()
-            self.delegate?.videoCellUpdate(cell: self)
+        let delete = SwipeAction(title: nil) {[weak self] action, indexPath in
+            if let owner = self {
+                owner.deleteVideo()
+                owner.delegate?.videoCellUpdate(cell: owner)
+            }
             tableView.hideSwipeCell()
         }
-        delete.image = Icon.Trash.imageWithFontSize(size: 30)
+        delete.image = Icon.Trash.imageWithFontSize(size: 20)
         self.delegate?.swipeActionBegin(cell: self)
         return [delete]
     }

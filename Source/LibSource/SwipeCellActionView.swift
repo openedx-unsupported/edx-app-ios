@@ -9,7 +9,7 @@
 import UIKit
 
 enum SwipeState: Int {
-    case initialPosition = 0
+    case initial = 0
     case left
     case right
     case animatingToInitialPosition
@@ -18,7 +18,7 @@ enum SwipeState: Int {
         self = orientation == .left ? .left : .right
     }
     
-    var isActive: Bool { return self != .initialPosition }
+    var isActive: Bool { return self != .initial }
 }
 
 protocol SwipeActionsViewDelegate: class {
@@ -29,15 +29,15 @@ class SwipeCellActionView: UIView {
 
     weak var delegate: SwipeActionsViewDelegate?
     
-    var expansionAnimator: SwipeAnimator?
     let orientation: SwipeActionsOrientation
-    let actions: [SwipeAction]
-    let options: SwipeCellViewOptions
-    var buttons: [SwipeActionButton] = []
-    var minimumButtonWidth: CGFloat = 0
+    private let actions: [SwipeAction]
+    private let options: SwipeCellViewOptions
+    private var buttons: [SwipeActionButton] = []
+    private var minimumButtonWidth: CGFloat = 0
     var visibleWidth: CGFloat = 0
+    var expanded: Bool = false
     
-    var maximumImageHeight: CGFloat {
+    private var maximumImageHeight: CGFloat {
         return actions.reduce(0, { initial, next in max(initial, next.image?.size.height ?? 0) })
     }
     
@@ -45,12 +45,10 @@ class SwipeCellActionView: UIView {
         return minimumButtonWidth * CGFloat(actions.count)
     }
     
-    var contentSize: CGSize {
+    private var contentSize: CGSize {
         return CGSize(width: visibleWidth, height: bounds.height)
         
     }
-    
-    var expanded: Bool = false
     
     init(maxSize: CGSize, options: SwipeCellViewOptions, orientation: SwipeActionsOrientation, actions: [SwipeAction]) {
         self.options = options
@@ -61,7 +59,7 @@ class SwipeCellActionView: UIView {
         
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = options.backgroundColor ?? #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
+        backgroundColor = UIColor.init(red: 203.0/255.0, green: 7.0/255.0, blue: 18.0/255.0, alpha: 1.0)
         
         buttons = addButtons(for: self.actions, withMaximum: maxSize)
     }
@@ -75,7 +73,6 @@ class SwipeCellActionView: UIView {
             let actionButton = SwipeActionButton(action: action)
             actionButton.addTarget(self, action: #selector(actionTapped(button:)), for: .touchUpInside)
             actionButton.autoresizingMask = [.flexibleHeight, orientation == .right ? .flexibleRightMargin : .flexibleLeftMargin]
-            actionButton.spacing = options.buttonSpacing ?? 8
             actionButton.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
             return actionButton
         })
@@ -87,8 +84,8 @@ class SwipeCellActionView: UIView {
             let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
             button.frame = (UIApplication.shared.userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.rightToLeft) ? CGRect(x: frame.width - minimumButtonWidth, y: 0, width: minimumButtonWidth, height: frame.height) : CGRect(x: 0, y: 0, width: minimumButtonWidth, height: frame.height)
             addSubview(button)
-            button.maximumImageHeight = maximumImageHeight
-            button.verticalAlignment = options.buttonVerticalAlignment
+            button.setMaximumImageHeight(maxImageHeight: maximumImageHeight)
+            button.setVerticalAlignment(alignment: options.buttonVerticalAlignment)
         }
         
         return buttons
