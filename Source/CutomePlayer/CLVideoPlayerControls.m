@@ -13,9 +13,6 @@
 
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
-
-#import "NSMutableDictionary+OEXSafeAccess.h"
-
 #import "CLButton.h"
 #import "CLVideoPlayer.h"
 #import "OEXAnalytics.h"

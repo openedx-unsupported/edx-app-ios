@@ -333,7 +333,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private func logScreenEvent(){
         if let thread = thread {
             
-            self.environment.analytics.trackDiscussionScreen(withName: OEXAnalyticsScreenViewThread, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, responseID: nil)
+            self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewThread, courseId: self.courseID, value: thread.title, threadId: thread.threadID, topicId: thread.topicId, responseID: nil, author: thread.author)
         }
     }
     

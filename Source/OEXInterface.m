@@ -16,7 +16,6 @@
 #import "NSArray+OEXFunctional.h"
 #import "NSArray+OEXSafeAccess.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
-#import "NSMutableDictionary+OEXSafeAccess.h"
 #import "NSNotificationCenter+OEXSafeAccess.h"
 
 #import "OEXAnalytics.h"
@@ -419,7 +418,7 @@ static OEXInterface* _sharedInterface = nil;
     OEXCourse* course = [self courseWithID:courseID];
     
     for(OEXHelperVideoDownload* video in [self.courseVideos objectForKey:course.video_outline]) {
-        [videos safeSetObject:video forKey:video.summary.videoID];
+        [videos setSafeObject:video forKey:video.summary.videoID];
     }
     return [videoIDs oex_map:^id(NSString* videoID) {
         return [videos objectForKey:videoID];
@@ -830,13 +829,13 @@ static OEXInterface* _sharedInterface = nil;
         // we don't have any videos for this course yet
         // so set it up
         videoDatas = [[NSMutableArray alloc] init];
-        [self.courseVideos safeSetObject:videoDatas forKey:course.video_outline];
+        [self.courseVideos setSafeObject:videoDatas forKey:course.video_outline];
     }
     else {
         // we do have videos, so collect their IDs so we only add new ones
         for(OEXHelperVideoDownload* download in videoDatas) {
             [knownVideoIDs addObject:download.summary.videoID];
-            [videosMap safeSetObject:download forKey:download.summary.videoID];
+            [videosMap setSafeObject:download forKey:download.summary.videoID];
         }
     }
     
@@ -863,7 +862,7 @@ static OEXInterface* _sharedInterface = nil;
         }
     }];
     
-    [self.courseVideos safeSetObject:videoDatas forKey:course.video_outline];
+    [self.courseVideos setSafeObject:videoDatas forKey:course.video_outline];
     
     [self makeRecordsForVideos:videoHelpers inCourse:course];
 }
@@ -879,7 +878,7 @@ static OEXInterface* _sharedInterface = nil;
         }
     }
 
-    [_courseVideos safeSetObject:videos forKey:URLString];
+    [_courseVideos setSafeObject:videos forKey:URLString];
     
     [self makeRecordsForVideos:videos inCourse:course];
 }
