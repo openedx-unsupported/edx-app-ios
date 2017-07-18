@@ -426,11 +426,11 @@ typedef  enum OEXAlertType
         NSInteger count = [[dictVideo objectForKey:CAV_KEY_VIDEOS] count];
         NSString* Vcount = nil;
         if(count == 1) {
-            Vcount = [NSString stringWithFormat:@"%ld %@", (long)count, [Strings myVideosVideoCountLabel]];
+            Vcount = [Strings myVideosVideoCountLabelWithCount:count formatted:nil];
+            
         }
         else {
-            Vcount = [NSString stringWithFormat:@"%ld %@", (long)count, [Strings myVideosVideosCountLabel]];
-        
+            Vcount = [Strings myVideosVideosCountLabelWithCount:count formatted:nil];
         }
         NSString* videoDetails = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
         

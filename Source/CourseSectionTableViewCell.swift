@@ -162,7 +162,7 @@ extension CourseSectionTableViewCell: SwipeCellViewDelegate {
             }
         }
         
-        delete.image = Icon.Trash.imageWithFontSize(size: 20)
+        delete.image = Icon.DeleteIcon.imageWithFontSize(size: 30)
         self.delegate?.swipeActionBegin(cell: self)
         return [delete]
     }
