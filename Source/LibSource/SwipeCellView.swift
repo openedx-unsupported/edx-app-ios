@@ -108,8 +108,6 @@ public class SwipeCellView: UITableViewCell {
                     
                 }
             case .changed:
-                guard let actionsView = actionsView else { return }
-            
                 let velocity = gesture.velocity(in: target)
                 state = targetState(forVelocity: velocity)
                 let targetOffset = targetCenter(active: state.isActive)
@@ -164,13 +162,10 @@ public class SwipeCellView: UITableViewCell {
     }
     
     private func configureActionsView(with actions: [SwipeAction], for orientation: SwipeActionsOrientation) {
-        guard let tableView = tableView,
-            let indexPath = tableView.indexPath(for: self) else { return }
-        
-        let options = swipeCellViewDelegate?.tableView(tableView, editActionsOptionsForRowAt: indexPath, for: orientation) ?? SwipeCellViewOptions()
+    
         self.actionsView?.removeFromSuperview()
         self.actionsView = nil
-        let actionsView = SwipeCellActionView(maxSize: bounds.size, options: options, orientation: orientation, actions: actions)
+        let actionsView = SwipeCellActionView(maxSize: bounds.size, orientation: orientation, actions: actions)
         actionsView.delegate = self
         addSubview(actionsView)
         actionsView.snp_makeConstraints(closure: { (make) in

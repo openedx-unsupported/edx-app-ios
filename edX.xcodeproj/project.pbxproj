@@ -97,7 +97,6 @@
 		227241921F0B65E4000DCCEC /* SwipeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241911F0B65E4000DCCEC /* SwipeCellView.swift */; };
 		227241941F0B6792000DCCEC /* SwipeCellViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */; };
 		227241961F0B6D49000DCCEC /* SwipeCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */; };
-		227241981F0B74C3000DCCEC /* SwipeCellViewOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
@@ -904,7 +903,6 @@
 		227241911F0B65E4000DCCEC /* SwipeCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellView.swift; sourceTree = "<group>"; };
 		227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellViewDelegate.swift; sourceTree = "<group>"; };
 		227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellActionView.swift; sourceTree = "<group>"; };
-		227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellViewOptions.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
@@ -1977,7 +1975,6 @@
 				227241911F0B65E4000DCCEC /* SwipeCellView.swift */,
 				227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */,
 				227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */,
-				227241971F0B74C3000DCCEC /* SwipeCellViewOptions.swift */,
 			);
 			name = "Swipe cell";
 			path = LibSource;
@@ -3338,7 +3335,6 @@
 				E024AFFF1EC4589800498ECA /* WhatsNewViewControllerTests.swift */,
 				E07FE7541EC47FD60049A10A /* WhatsNewDataModel.swift */,
 				E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */,
-				2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */,
 				E02E59F01F0E517300060AE0 /* VersionParserTests.swift */,
 				77FDF4171B0269FA00E8C639 /* Test Data */,
 				77FFA2C41AC30D6300B4D69B /* Data Factories */,
@@ -4193,7 +4189,6 @@
 				E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
 				9CADE2F71A91E91A00ACDAF7 /* NSURL+OEXPathExtensions.m in Sources */,
-				227241981F0B74C3000DCCEC /* SwipeCellViewOptions.swift in Sources */,
 				1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */,
 				9EA4788B1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift in Sources */,
 				E0A1A02D1E93A77E00510488 /* Constraint.swift in Sources */,

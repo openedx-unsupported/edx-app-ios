@@ -45,7 +45,6 @@ class SwipeCellActionView: UIView {
     
     let orientation: SwipeActionsOrientation
     private let actions: [SwipeAction]
-    private let options: SwipeCellViewOptions
     private var buttons: [SwipeActionButton] = []
     private var minimumButtonWidth: CGFloat = 0
     var visibleWidth: CGFloat = 0
@@ -64,8 +63,7 @@ class SwipeCellActionView: UIView {
         
     }
     
-    init(maxSize: CGSize, options: SwipeCellViewOptions, orientation: SwipeActionsOrientation, actions: [SwipeAction]) {
-        self.options = options
+    init(maxSize: CGSize, orientation: SwipeActionsOrientation, actions: [SwipeAction]) {
         self.orientation = orientation
         self.actions = actions.reversed()
         
@@ -96,7 +94,7 @@ class SwipeCellActionView: UIView {
         
         buttons.enumerated().forEach { (index, button) in
             let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
-            button.frame = (UIApplication.shared.userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.rightToLeft) ? CGRect(x: frame.width - minimumButtonWidth, y: 0, width: minimumButtonWidth, height: frame.height) : CGRect(x: 0, y: 0, width: minimumButtonWidth, height: frame.height)
+            button.frame = (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft) ? CGRect(x: frame.width - minimumButtonWidth, y: 0, width: minimumButtonWidth, height: frame.height) : CGRect(x: 0, y: 0, width: minimumButtonWidth, height: frame.height)
             addSubview(button)
             button.setMaximumImageHeight(maxImageHeight: maximumImageHeight)
         }

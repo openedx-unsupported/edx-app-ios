@@ -397,7 +397,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     OEXHelperVideoDownload* obj_video = [videos objectAtIndex:indexPath.row];
     cell.lbl_Title.text = obj_video.summary.name;
     if([cell.lbl_Title.text length] == 0) {
-        cell.lbl_Title.text = [NSString stringWithFormat:@"(%@)", [Strings myVideosUntitledLabel]];
+        cell.lbl_Title.text = [Strings parenthesisWithText:[Strings myVideosUntitledLabel]];
     }
     double size = [obj_video.summary.size doubleValue];
     float result = ((size / 1024) / 1024);
