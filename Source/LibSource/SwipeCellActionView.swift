@@ -8,6 +8,20 @@
 
 import UIKit
 
+
+// Describes which side of the cell that the action buttons will be displayed.
+public enum SwipeActionsOrientation: CGFloat {
+    // The left side of the cell.
+    case left = -1
+    
+    // The right side of the cell.
+    case right = 1
+    
+    var scale: CGFloat {
+        return rawValue
+    }
+}
+
 enum SwipeState: Int {
     case initial = 0
     case left
@@ -77,15 +91,14 @@ class SwipeCellActionView: UIView {
             return actionButton
         })
         
-        let maximum = options.maximumButtonWidth ?? (size.width - 30) / CGFloat(actions.count)
-        minimumButtonWidth = buttons.reduce(options.minimumButtonWidth ?? 74, { initial, next in max(initial, next.preferredWidth(maximum: maximum)) })
+        let maximum = (size.width - 30) / CGFloat(actions.count)
+        minimumButtonWidth = buttons.reduce(74, { initial, next in max(initial, next.preferredWidth(maximum: maximum)) })
         
         buttons.enumerated().forEach { (index, button) in
             let frame = CGRect(origin: .zero, size: CGSize(width: bounds.width, height: bounds.height))
             button.frame = (UIApplication.shared.userInterfaceLayoutDirection == UIUserInterfaceLayoutDirection.rightToLeft) ? CGRect(x: frame.width - minimumButtonWidth, y: 0, width: minimumButtonWidth, height: frame.height) : CGRect(x: 0, y: 0, width: minimumButtonWidth, height: frame.height)
             addSubview(button)
             button.setMaximumImageHeight(maxImageHeight: maximumImageHeight)
-            button.setVerticalAlignment(alignment: options.buttonVerticalAlignment)
         }
         
         return buttons

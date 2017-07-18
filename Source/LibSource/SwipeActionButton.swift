@@ -9,17 +9,15 @@
 import UIKit
 
 class SwipeActionButton: UIButton {
-    var spacing: CGFloat = 8
     private var maximumImageHeight: CGFloat = 0
-    private var verticalAlignment: SwipeVerticalAlignment = .centerFirstBaseline
     
-    var currentSpacing: CGFloat {
-        return (currentTitle?.isEmpty == false && maximumImageHeight > 0) ? spacing : 0
+    private var currentSpacing: CGFloat {
+        return (currentTitle?.isEmpty == false && maximumImageHeight > 0) ? StandardVerticalMargin : 0
     }
     
-    var alignmentRect: CGRect {
+    private var alignmentRect: CGRect {
         let contentRect = self.contentRect(forBounds: bounds)
-        let titleHeight = titleBoundingRect(with: verticalAlignment == .centerFirstBaseline ? CGRect.infinite.size : contentRect.size).height
+        let titleHeight = titleBoundingRect(with: contentRect.size).height
         let totalHeight = maximumImageHeight + titleHeight + currentSpacing
 
         return contentRect.center(size: CGSize(width: contentRect.width, height: totalHeight))
@@ -46,10 +44,6 @@ class SwipeActionButton: UIButton {
         maximumImageHeight = maxImageHeight
     }
     
-    func setVerticalAlignment(alignment: SwipeVerticalAlignment) {
-        verticalAlignment = alignment
-    }
-    
     func preferredWidth(maximum: CGFloat) -> CGFloat {
         let width = maximum > 0 ? maximum : CGFloat.greatestFiniteMagnitude
         let textWidth = titleBoundingRect(with: CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)).width
@@ -59,9 +53,9 @@ class SwipeActionButton: UIButton {
     }
     
     func titleBoundingRect(with size: CGSize) -> CGRect {
-        guard let title = currentTitle, let font = titleLabel?.font else { return .zero }
+        guard let title = currentTitle else { return .zero }
         
-        return title.boundingRect(with: size, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: font], context: nil)
+        return title.boundingRect(with: size, options: [.usesLineFragmentOrigin], attributes: [NSFontAttributeName: OEXStyles.shared().semiBoldSansSerif(ofSize: 15)], context: nil)
     }
     
     override func titleRect(forContentRect contentRect: CGRect) -> CGRect {
