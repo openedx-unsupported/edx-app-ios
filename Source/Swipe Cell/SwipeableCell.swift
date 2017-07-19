@@ -1,17 +1,17 @@
 //
-//  SwipeCellView.swift
+//  SwipeableCell.swift
 //  edX
 //
-//  Created by Salman on 04/07/2017.
+//  Created by Salman on 19/07/2017.
 //  Copyright © 2017 edX. All rights reserved.
 //
 
 import UIKit
 
-public class SwipeCellView: UITableViewCell {
-    
-    /// The object that acts as the delegate of the `SwipeCellView`.
-    public weak var swipeCellViewDelegate: SwipeCellViewDelegate?
+class SwipeableCell: UITableViewCell {
+
+    /// The object that acts as the delegate of the `SwipeableCell`.
+    public weak var swipeCellViewDelegate: SwipeableCellDelegate?
     private var animator: SwipeAnimator?
     private var originalCenter: CGFloat = 0
     fileprivate weak var tableView: UITableView?
@@ -97,29 +97,29 @@ public class SwipeCellView: UITableViewCell {
         guard let target = gesture.view, allowedDirection(ForVelocity: gesture.velocity(in: target)) else { return }
         
         switch gesture.state {
-            case .began:
-                stopAnimatorIfNeeded()
-                originalCenter = center.x
-                if state == .initial || state == .animatingToInitialPosition {
-                    let velocity = gesture.velocity(in: target)
-                    let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
-                    showActionsView(for: orientation)
-                    state = targetState(forVelocity: velocity)
-                    
-                }
-            case .changed:
+        case .began:
+            stopAnimatorIfNeeded()
+            originalCenter = center.x
+            if state == .initial || state == .animatingToInitialPosition {
                 let velocity = gesture.velocity(in: target)
+                let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
+                showActionsView(for: orientation)
                 state = targetState(forVelocity: velocity)
-                let targetOffset = targetCenter(active: state.isActive)
-                let distance = targetOffset - center.x
-                let normalizedVelocity = velocity.x * 1.0 / distance
-                animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
-                    if self.state == .initial {
-                        self.reset()
-                    }
+                
             }
-    
-            default: break
+        case .changed:
+            let velocity = gesture.velocity(in: target)
+            state = targetState(forVelocity: velocity)
+            let targetOffset = targetCenter(active: state.isActive)
+            let distance = targetOffset - center.x
+            let normalizedVelocity = velocity.x * 1.0 / distance
+            animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
+                if self.state == .initial {
+                    self.reset()
+                }
+            }
+            
+        default: break
         }
     }
     
@@ -162,7 +162,7 @@ public class SwipeCellView: UITableViewCell {
     }
     
     private func configureActionsView(with actionButtons: [SwipeActionButton], for orientation: SwipeActionsOrientation) {
-    
+        
         self.actionsView?.removeFromSuperview()
         self.actionsView = nil
         let actionsView = SwipeCellActionView(maxSize: bounds.size, orientation: orientation, actions: actionButtons)
@@ -222,12 +222,12 @@ public class SwipeCellView: UITableViewCell {
     
     // Override so we can accept touches anywhere within the cell's minY/maxY.
     // This is required to detect touches on the `SwipeCellActionView` sitting alongside the
-    // `SwipeCellView`.
+    // `SwipeableCell`.
     override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         guard let superview = superview else { return false }
         
         let point = convert(point, to: superview)
-
+        
         for cell in tableView?.swipeCells ?? [] {
             if (cell.state == .left || cell.state == .right) && !cell.contains(point: point) {
                 tableView?.hideSwipeCell()
@@ -252,7 +252,7 @@ public class SwipeCellView: UITableViewCell {
     }
 }
 
-extension SwipeCellView: SwipeActionsViewDelegate {
+extension SwipeableCell: SwipeActionsViewDelegate {
     func targetState(forVelocity velocity: CGPoint) -> SwipeState {
         guard let actionsView = actionsView else { return .initial }
         
@@ -309,8 +309,8 @@ extension SwipeCellView: SwipeActionsViewDelegate {
 }
 
 extension UITableView {
-    var swipeCells: [SwipeCellView] {
-        return visibleCells.flatMap({ $0 as? SwipeCellView })
+    var swipeCells: [SwipeableCell] {
+        return visibleCells.flatMap({ $0 as? SwipeableCell })
     }
     
     func hideSwipeCell() {

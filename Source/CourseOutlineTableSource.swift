@@ -195,11 +195,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
     }
     
-    func swipeActionBegin(cell: SwipeCellView) {
+    func swipeActionBegin(cell: SwipeableCell) {
         self.shouldSelect = false
     }
     
-    func swipeActionEnd(Cell: SwipeCellView) {
+    func swipeActionEnd(Cell: SwipeableCell) {
         self.shouldSelect = true
     }
     

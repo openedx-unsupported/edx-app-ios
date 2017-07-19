@@ -13,13 +13,13 @@ protocol CourseVideoTableViewCellDelegate : class {
     func videoCellChoseDownload(cell : CourseVideoTableViewCell, block : CourseBlock)
     func videoCellChoseShowDownloads(cell : CourseVideoTableViewCell)
     func videoCellUpdate(cell: UITableViewCell)
-    func swipeActionBegin(cell: SwipeCellView)
-    func swipeActionEnd(Cell: SwipeCellView)
+    func swipeActionBegin(cell: SwipeableCell)
+    func swipeActionEnd(Cell: SwipeableCell)
 }
 
 private let titleLabelCenterYOffset = -12
 
-class CourseVideoTableViewCell: SwipeCellView, CourseBlockContainerCell {
+class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     static let identifier = "CourseVideoTableViewCellIdentifier"
     weak var delegate : CourseVideoTableViewCellDelegate?
@@ -117,7 +117,7 @@ class CourseVideoTableViewCell: SwipeCellView, CourseBlockContainerCell {
     }
 }
 
-extension CourseVideoTableViewCell: SwipeCellViewDelegate {
+extension CourseVideoTableViewCell: SwipeableCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeActionButton]? {
         
         if(!isVideoDownloaded()) {

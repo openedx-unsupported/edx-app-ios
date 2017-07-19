@@ -12,11 +12,11 @@ protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseDownload(cell : CourseSectionTableViewCell, videos : [OEXHelperVideoDownload], forBlock block : CourseBlock)
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
     func videoCellUpdate(cell: UITableViewCell)
-    func swipeActionBegin(cell: SwipeCellView)
-    func swipeActionEnd(Cell: SwipeCellView)
+    func swipeActionBegin(cell: SwipeableCell)
+    func swipeActionEnd(Cell: SwipeableCell)
 }
 
-class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
+class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     static let identifier = "CourseSectionTableViewCellIdentifier"
     
@@ -141,7 +141,7 @@ class CourseSectionTableViewCell: SwipeCellView, CourseBlockContainerCell {
     }
 }
 
-extension CourseSectionTableViewCell: SwipeCellViewDelegate {
+extension CourseSectionTableViewCell: SwipeableCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeActionButton]? {
         
         var downloadVideos:[OEXHelperVideoDownload] = []
