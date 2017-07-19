@@ -36,7 +36,7 @@ enum SwipeState: Int {
 }
 
 protocol SwipeActionsViewDelegate: class {
-    func swipeActionsView(_ swipeCellActionView: SwipeCellActionView, didSelect action: SwipeAction)
+    func swipeActionsView(_ swipeCellActionView: SwipeCellActionView, didSelect action: SwipeActionButton)
 }
 
 class SwipeCellActionView: UIView {
@@ -44,18 +44,17 @@ class SwipeCellActionView: UIView {
     weak var delegate: SwipeActionsViewDelegate?
     
     let orientation: SwipeActionsOrientation
-    private let actions: [SwipeAction]
     private var buttons: [SwipeActionButton] = []
     private var minimumButtonWidth: CGFloat = 0
     var visibleWidth: CGFloat = 0
     var expanded: Bool = false
     
     private var maximumImageHeight: CGFloat {
-        return actions.reduce(0, { initial, next in max(initial, next.image?.size.height ?? 0) })
+        return buttons.reduce(0, { initial, next in max(initial, next.image?.size.height ?? 0) })
     }
     
     var preferredWidth: CGFloat {
-        return minimumButtonWidth * CGFloat(actions.count)
+        return minimumButtonWidth * CGFloat(buttons.count)
     }
     
     private var contentSize: CGSize {
@@ -63,9 +62,10 @@ class SwipeCellActionView: UIView {
         
     }
     
-    init(maxSize: CGSize, orientation: SwipeActionsOrientation, actions: [SwipeAction]) {
+    init(maxSize: CGSize, orientation: SwipeActionsOrientation, actions: [SwipeActionButton]) {
         self.orientation = orientation
-        self.actions = actions.reversed()
+        self.buttons = actions.reversed()
+        
         
         super.init(frame: .zero)
         
@@ -73,16 +73,15 @@ class SwipeCellActionView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = UIColor.init(red: 203.0/255.0, green: 7.0/255.0, blue: 18.0/255.0, alpha: 1.0)
         
-        buttons = addButtons(for: self.actions, withMaximum: maxSize)
+        buttons = addButtons(for: self.buttons, withMaximum: maxSize)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addButtons(for actions: [SwipeAction], withMaximum size: CGSize) -> [SwipeActionButton] {
-        let buttons: [SwipeActionButton] = actions.map({ action in
-            let actionButton = SwipeActionButton(action: action)
+    func addButtons(for actions: [SwipeActionButton], withMaximum size: CGSize) -> [SwipeActionButton] {
+        let buttons: [SwipeActionButton] = actions.map({ actionButton in
             actionButton.addTarget(self, action: #selector(actionTapped(button:)), for: .touchUpInside)
             actionButton.autoresizingMask = [.flexibleHeight, orientation == .right ? .flexibleRightMargin : .flexibleLeftMargin]
             actionButton.contentEdgeInsets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
@@ -105,7 +104,7 @@ class SwipeCellActionView: UIView {
     func actionTapped(button: SwipeActionButton) {
         guard let index = buttons.index(of: button) else { return }
         
-        delegate?.swipeActionsView(self, didSelect: actions[index])
+        delegate?.swipeActionsView(self, didSelect: buttons[index])
     }
     
     

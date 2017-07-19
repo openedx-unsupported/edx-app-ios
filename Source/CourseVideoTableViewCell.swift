@@ -118,22 +118,22 @@ class CourseVideoTableViewCell: SwipeCellView, CourseBlockContainerCell {
 }
 
 extension CourseVideoTableViewCell: SwipeCellViewDelegate {
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeActionButton]? {
         
         if(!isVideoDownloaded()) {
             return nil
         }
         
-        let delete = SwipeAction(title: nil) {[weak self] action, indexPath in
+        let deleteButton = SwipeActionButton(title: nil, image: Icon.DeleteIcon.imageWithFontSize(size: 20)) {[weak self] action, indexPath in
             if let owner = self {
                 owner.deleteVideo()
                 owner.delegate?.videoCellUpdate(cell: owner)
             }
             tableView.hideSwipeCell()
         }
-        delete.image = Icon.DeleteIcon.imageWithFontSize(size: 20)
+
         self.delegate?.swipeActionBegin(cell: self)
-        return [delete]
+        return [deleteButton]
     }
     
     func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {

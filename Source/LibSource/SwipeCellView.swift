@@ -144,8 +144,8 @@ public class SwipeCellView: UITableViewCell {
     private func showActionsView(for orientation: SwipeActionsOrientation) -> Bool {
         guard let tableView = tableView,
             let indexPath = tableView.indexPath(for: self),
-            let actions = swipeCellViewDelegate?.tableView(tableView, editActionsForRowAt: indexPath, for: orientation),
-            actions.count > 0
+            let actionButtons = swipeCellViewDelegate?.tableView(tableView, editActionsForRowAt: indexPath, for: orientation),
+            actionButtons.count > 0
             else {
                 return false
         }
@@ -157,15 +157,15 @@ public class SwipeCellView: UITableViewCell {
         
         // Temporarily remove table gestures
         tableView.setGestureEnabled(false)
-        configureActionsView(with: actions, for: orientation)
+        configureActionsView(with: actionButtons, for: orientation)
         return true
     }
     
-    private func configureActionsView(with actions: [SwipeAction], for orientation: SwipeActionsOrientation) {
+    private func configureActionsView(with actionButtons: [SwipeActionButton], for orientation: SwipeActionsOrientation) {
     
         self.actionsView?.removeFromSuperview()
         self.actionsView = nil
-        let actionsView = SwipeCellActionView(maxSize: bounds.size, orientation: orientation, actions: actions)
+        let actionsView = SwipeCellActionView(maxSize: bounds.size, orientation: orientation, actions: actionButtons)
         actionsView.delegate = self
         addSubview(actionsView)
         actionsView.snp_makeConstraints(closure: { (make) in
@@ -295,12 +295,12 @@ extension SwipeCellView: SwipeActionsViewDelegate {
         return true
     }
     
-    func swipeActionsView(_ swipeCellActionView: SwipeCellActionView, didSelect action: SwipeAction) {
+    func swipeActionsView(_ swipeCellActionView: SwipeCellActionView, didSelect action: SwipeActionButton) {
         // delete action
         perform(action: action)
     }
     
-    func perform(action: SwipeAction) {
+    func perform(action: SwipeActionButton) {
         guard let tableView = tableView, let indexPath = tableView.indexPath(for: self) else { return }
         
         hideSwipe(animated: true)

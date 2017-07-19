@@ -93,10 +93,9 @@
 		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
-		22318B011EFBDAB900F09DF8 /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AEF1EFBDAB900F09DF8 /* SwipeAction.swift */; };
-		22318B021EFBDAB900F09DF8 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AF01EFBDAB900F09DF8 /* SwipeActionButton.swift */; };
 		22318B051EFBDAB900F09DF8 /* SwipeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22318AF31EFBDAB900F09DF8 /* SwipeAnimator.swift */; };
 		22318B101EFBEFD000F09DF8 /* Trash.png in Resources */ = {isa = PBXBuildFile; fileRef = 22318B0F1EFBEFD000F09DF8 /* Trash.png */; };
+		223895B61F1F43C4005B9C15 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895B51F1F43C4005B9C15 /* SwipeActionButton.swift */; };
 		227241921F0B65E4000DCCEC /* SwipeCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241911F0B65E4000DCCEC /* SwipeCellView.swift */; };
 		227241941F0B6792000DCCEC /* SwipeCellViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */; };
 		227241961F0B6D49000DCCEC /* SwipeCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */; };
@@ -900,10 +899,9 @@
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
-		22318AEF1EFBDAB900F09DF8 /* SwipeAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
-		22318AF01EFBDAB900F09DF8 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
 		22318AF31EFBDAB900F09DF8 /* SwipeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAnimator.swift; sourceTree = "<group>"; };
 		22318B0F1EFBEFD000F09DF8 /* Trash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Trash.png; sourceTree = "<group>"; };
+		223895B51F1F43C4005B9C15 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
 		227241911F0B65E4000DCCEC /* SwipeCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellView.swift; sourceTree = "<group>"; };
 		227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellViewDelegate.swift; sourceTree = "<group>"; };
 		227241951F0B6D49000DCCEC /* SwipeCellActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellActionView.swift; sourceTree = "<group>"; };
@@ -1972,8 +1970,7 @@
 		22318AEB1EFBDAB900F09DF8 /* Swipe cell */ = {
 			isa = PBXGroup;
 			children = (
-				22318AEF1EFBDAB900F09DF8 /* SwipeAction.swift */,
-				22318AF01EFBDAB900F09DF8 /* SwipeActionButton.swift */,
+				223895B51F1F43C4005B9C15 /* SwipeActionButton.swift */,
 				22318AF31EFBDAB900F09DF8 /* SwipeAnimator.swift */,
 				227241911F0B65E4000DCCEC /* SwipeCellView.swift */,
 				227241931F0B6792000DCCEC /* SwipeCellViewDelegate.swift */,
@@ -4250,7 +4247,6 @@
 				773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */,
 				E0A1A0411E93A7C400510488 /* View+SnapKit.swift in Sources */,
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
-				22318B011EFBDAB900F09DF8 /* SwipeAction.swift in Sources */,
 				7C2DD5531D4A8669006148E0 /* UserPreferenceManager.swift in Sources */,
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				777DE71A1C1656ED0068E280 /* CourseCatalogDetailView.swift in Sources */,
@@ -4353,6 +4349,7 @@
 				199B9B6F1935C72900081A09 /* DACircularProgressView.m in Sources */,
 				1AA79ABA1BAC7F710011D381 /* ProfileAPI.swift in Sources */,
 				46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */,
+				223895B61F1F43C4005B9C15 /* SwipeActionButton.swift in Sources */,
 				9EDB10BC1B0C74F800C760C6 /* CourseVideoTableViewCell.swift in Sources */,
 				779D1CE11B8E6FE000FCC847 /* PullRefreshController.swift in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
@@ -4365,7 +4362,6 @@
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
 				1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */,
 				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
-				22318B021EFBDAB900F09DF8 /* SwipeActionButton.swift in Sources */,
 				B4B6D6311A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m in Sources */,
 				7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */,
 				77092C731B421BD0004AA1A1 /* ContainerNavigationController.swift in Sources */,
