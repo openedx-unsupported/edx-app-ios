@@ -9,7 +9,6 @@
 import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
-fileprivate var isFirstLoad: Bool = true
 
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport {
     
@@ -22,7 +21,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     private let insetsController = ContentInsetsController()
     fileprivate let enrollmentFeed: Feed<[UserCourseEnrollment]?>
     private let userPreferencesFeed: Feed<UserPreference?>
-    var testCount: Int = 0
 
     init(environment: Environment) {
         self.tableController = CoursesTableViewController(environment: environment, context: .EnrollmentList)
@@ -112,14 +110,11 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             case let Result.failure(error):
                 //App is showing occasionally error on app launch, so skipping first error on app launch
                 //TODO: Find exact root cause of error and remove this patch
-                self?.testCount += (self?.testCount)! + 1
-                if isFirstLoad {
-                    isFirstLoad = false
+                if error.code == Int(OEXErrorCode.unknown.rawValue) {
                     return
                 }
-                let testError = NSError.oex_error(with: .unknown, message: "Test Error testCount: \(self?.testCount ?? 11111) StatusCode: \(error.code), userData: \(error.userInfo)")
                 
-                self?.loadController.state = LoadState.failed(error: testError)
+                self?.loadController.state = LoadState.failed(error: error)
                 if error.errorIsThisType(NSError.oex_outdatedVersionError()) {
                     self?.hideSnackBar()
                 }
