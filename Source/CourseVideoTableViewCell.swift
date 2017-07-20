@@ -25,7 +25,8 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     weak var delegate : CourseVideoTableViewCellDelegate?
     
     private let content = CourseOutlineItemView()
-    private let downloadView = DownloadsAccessoryView()
+    fileprivate let downloadView = DownloadsAccessoryView()
+    fileprivate var spinnerTimer = Timer()
     
     var block : CourseBlock? = nil {
         didSet {
@@ -127,13 +128,20 @@ extension CourseVideoTableViewCell: SwipeableCellDelegate {
         let deleteButton = SwipeActionButton(title: nil, image: Icon.DeleteIcon.imageWithFontSize(size: 20)) {[weak self] action, indexPath in
             if let owner = self {
                 owner.deleteVideo()
-                owner.delegate?.videoCellUpdate(cell: owner)
+                owner.downloadView.state = .Deleting
+                owner.spinnerTimer = Timer.scheduledTimer(timeInterval: 0.4, target:owner, selector: #selector(owner.invalidateTimer), userInfo: nil, repeats: true)
             }
             tableView.hideSwipeCell()
         }
 
         self.delegate?.swipeActionBegin(cell: self)
         return [deleteButton]
+    }
+
+    func invalidateTimer(){
+        spinnerTimer.invalidate()
+        self.downloadView.state = .Done
+        self.delegate?.videoCellUpdate(cell: self)
     }
     
     func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {

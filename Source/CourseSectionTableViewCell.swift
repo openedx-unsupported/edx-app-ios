@@ -22,9 +22,9 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     fileprivate let content = CourseOutlineItemView()
     fileprivate let videosStream = BackedStream<[OEXHelperVideoDownload]>()
-    private let downloadView = DownloadsAccessoryView()
+    fileprivate let downloadView = DownloadsAccessoryView()
     weak var delegate : CourseSectionTableViewCellDelegate?
-    
+    fileprivate var spinnerTimer = Timer()
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
@@ -154,15 +154,21 @@ extension CourseSectionTableViewCell: SwipeableCellDelegate {
         if(!isAllVideosDownloaded(videos: downloadVideos)) {
             return nil
         }
-    
         let deleteButton = SwipeActionButton(title: nil, image: Icon.DeleteIcon.imageWithFontSize(size: 20)) {[weak self] action, indexPath in
-            self?.deleteVideos(videos: downloadVideos)
             if let owner = self {
-                owner.delegate?.videoCellUpdate(cell: owner)
+                owner.deleteVideos(videos: downloadVideos)
+                owner.downloadView.state = .Deleting
+                owner.spinnerTimer = Timer.scheduledTimer(timeInterval: 0.4, target:owner, selector: #selector(owner.invalidateTimer), userInfo: nil, repeats: true)
             }
         }
         self.delegate?.swipeActionBegin(cell: self)
         return [deleteButton]
+    }
+    
+    func invalidateTimer(){
+        spinnerTimer.invalidate()
+        self.downloadView.state = .Done
+        self.delegate?.videoCellUpdate(cell: self)
     }
     
     func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {

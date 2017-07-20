@@ -14,6 +14,7 @@ class DownloadsAccessoryView : UIView {
     enum State {
         case Available
         case Downloading
+        case Deleting
         case Done
     }
     
@@ -112,6 +113,16 @@ class DownloadsAccessoryView : UIView {
                 downloadSpinner.isHidden = false
                 downloadButton.isUserInteractionEnabled = true
                 self.isUserInteractionEnabled = true
+                downloadButton.isHidden = true
+                countLabel.isHidden = true
+                
+                self.accessibilityLabel = Strings.downloading
+                self.accessibilityTraits = UIAccessibilityTraitButton
+            case .Deleting:
+                downloadSpinner.startAnimating()
+                downloadSpinner.isHidden = false
+                downloadButton.isUserInteractionEnabled = false
+                self.isUserInteractionEnabled = false
                 downloadButton.isHidden = true
                 countLabel.isHidden = true
                 
