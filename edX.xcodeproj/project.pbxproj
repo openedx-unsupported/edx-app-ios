@@ -712,6 +712,7 @@
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
+		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
 		E0D159911EB87658005E2A76 /* WhatsNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */; };
 		E0D159931EB8766C005E2A76 /* whats_new.json in Resources */ = {isa = PBXBuildFile; fileRef = E0D159921EB8766C005E2A76 /* whats_new.json */; };
 		E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */; };
@@ -1634,6 +1635,7 @@
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
+		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewViewController.swift; sourceTree = "<group>"; };
 		E0D159921EB8766C005E2A76 /* whats_new.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = whats_new.json; sourceTree = "<group>"; };
 		E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewDataModel.swift; sourceTree = "<group>"; };
@@ -3198,6 +3200,7 @@
 		BECB7B331924C0C3009C77F1 /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */,
 				E0018A7C1EF2AA8600ED53A3 /* OEXInterfaceTests.swift */,
 				7768745A1CDCCB1E001DFB77 /* RemoteImageTests.swift */,
 				77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */,
@@ -4543,6 +4546,7 @@
 				021AD6281F166F78009AF653 /* CourseCatalogDetailViewControllerTests.swift in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
 				77E648A51C92062900B6740D /* MockResponseCache.swift in Sources */,
+				E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */,
 				E00A33C11D3CEB3400963D8F /* SnackbarViewsTests.swift in Sources */,
 				77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */,
 				9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */,
