@@ -110,7 +110,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             case let Result.failure(error):
                 //App is showing occasionally error on app launch, so skipping first error on app launch
                 //TODO: Find exact root cause of error and remove this patch
-                if error.code == Int(OEXErrorCode.unknown.rawValue) {
+                // error code -100 is for unknown error
+                if error.code == -100 && self?.tableController.courses.count ?? 0 > 0 {
                     return
                 }
                 
