@@ -12,7 +12,7 @@ import UIKit
 protocol CourseVideoTableViewCellDelegate : class {
     func videoCellChoseDownload(cell : CourseVideoTableViewCell, block : CourseBlock)
     func videoCellChoseShowDownloads(cell : CourseVideoTableViewCell)
-    func videoCellUpdate(cell: UITableViewCell)
+    func reloadCell(cell: UITableViewCell)
     func swipeActionBegin(cell: SwipeableCell)
     func swipeActionEnd(Cell: SwipeableCell)
 }
@@ -126,6 +126,8 @@ extension CourseVideoTableViewCell: SwipeableCellDelegate {
         }
         
         let deleteButton = SwipeActionButton(title: nil, image: Icon.DeleteIcon.imageWithFontSize(size: 20)) {[weak self] action, indexPath in
+        //Delete video from database
+        //run the spinner for 0.45 sec
             if let owner = self {
                 owner.deleteVideo()
                 owner.downloadView.state = .Deleting
@@ -138,10 +140,10 @@ extension CourseVideoTableViewCell: SwipeableCellDelegate {
         return [deleteButton]
     }
 
-    func invalidateTimer(){
+    @objc private func invalidateTimer(){
         spinnerTimer.invalidate()
         downloadView.state = .Done
-        delegate?.videoCellUpdate(cell: self)
+        delegate?.reloadCell(cell: self)
     }
     
     func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {

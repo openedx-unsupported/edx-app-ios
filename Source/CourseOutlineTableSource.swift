@@ -182,9 +182,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.delegate?.outlineTableControllerChoseShowDownloads(controller: self)
     }
     
-    func videoCellUpdate(cell: UITableViewCell) {
+    func reloadCell(cell: UITableViewCell) {
         self.shouldSelect = true
-        self.delegate?.outlineTableControllerReload(controller: self)   
+        self.delegate?.outlineTableControllerReload(controller: self)
     }
     
     func sectionCellChoseShowDownloads(cell: CourseSectionTableViewCell) {
