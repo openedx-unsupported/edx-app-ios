@@ -165,14 +165,14 @@ extension CourseSectionTableViewCell: SwipeableCellDelegate {
         return [deleteButton]
     }
     
-    func invalidateTimer(){
+    @objc private func invalidateTimer(){
         spinnerTimer.invalidate()
-        self.downloadView.state = .Done
-        self.delegate?.videoCellUpdate(cell: self)
+        downloadView.state = .Done
+        delegate?.videoCellUpdate(cell: self)
     }
     
     func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {
-        self.delegate?.swipeActionEnd(Cell: self)
+        delegate?.swipeActionEnd(Cell: self)
     }
 }
 

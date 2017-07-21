@@ -8,9 +8,9 @@
 
 import UIKit
 
-public class SwipeActionButton: UIButton {
+class SwipeActionButton: UIButton {
     private var maximumImageHeight: CGFloat = 0
-    public var title: String?
+    private var title: String?
     public var image: UIImage?
     public var handler: ((SwipeActionButton, IndexPath) -> Void)?
     

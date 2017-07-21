@@ -1203,7 +1203,7 @@ typedef  enum OEXAlertType
                             // As it is unsorted array used to sort and put in array for key CAV_KEY_RECENT_VIDEOS
 
                             [[[self.arr_CourseData objectAtIndex:index] objectForKey:CAV_KEY_VIDEOS] removeObject:videos];
-                            [[OEXInterface sharedInterface] deleteDownloadedVideo:selectedVideo completionHandler:^(BOOL success) {
+                            [self.dataInterface deleteDownloadedVideo:selectedVideo completionHandler:^(BOOL success) {
                                 selectedVideo.downloadState = OEXDownloadStateNew;
                             }];
                             deleteCount++;

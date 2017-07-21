@@ -8,6 +8,16 @@
 
 import UIKit
 
+protocol SwipeableCellDelegate: class {
+    
+    // The delegate for the actions to display in response to a swipe in the specified row.
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeActionButton]?
+    
+    //func tableView(_ tableView: UITableView, swipActionBeginForRowAt indexPath: IndexPath)
+    func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath)
+    
+}
+
 class SwipeableCell: UITableViewCell {
 
     /// The object that acts as the delegate of the `SwipeableCell`.
@@ -21,18 +31,18 @@ class SwipeableCell: UITableViewCell {
     fileprivate var tapGestureRecognizer = UITapGestureRecognizer()
     var state = SwipeState.initial
     
-    override open var center: CGPoint {
+    override var center: CGPoint {
         didSet {
             actionsView?.visibleWidth = abs(frame.minX)
         }
     }
     
-    open override var frame: CGRect {
+    override var frame: CGRect {
         set { super.frame = state.isActive ? CGRect(origin: CGPoint(x: frame.minX, y: newValue.minY), size: newValue.size) : newValue }
         get { return super.frame }
     }
     
-    override public init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         panGestureRecognizer.addAction {[weak self]_ in
             self?.handlePan(gesture: (self?.panGestureRecognizer)!)
@@ -46,7 +56,7 @@ class SwipeableCell: UITableViewCell {
         configure()
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         configure()
@@ -62,7 +72,7 @@ class SwipeableCell: UITableViewCell {
         addGestureRecognizer(panGestureRecognizer)
     }
     
-    override open func didMoveToSuperview() {
+    override func didMoveToSuperview() {
         super.didMoveToSuperview()
         
         var view: UIView = self
@@ -100,7 +110,7 @@ class SwipeableCell: UITableViewCell {
         case .began:
             stopAnimatorIfNeeded()
             originalCenter = center.x
-            if state == .initial || state == .animatingToInitialPosition {
+            if state == .initial || state == .animatingToInitial {
                 let velocity = gesture.velocity(in: target)
                 let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
                 showActionsView(for: orientation)
@@ -113,9 +123,9 @@ class SwipeableCell: UITableViewCell {
             let targetOffset = targetCenter(active: state.isActive)
             let distance = targetOffset - center.x
             let normalizedVelocity = velocity.x * 1.0 / distance
-            animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) { _ in
-                if self.state == .initial {
-                    self.reset()
+            animate(toOffset: targetOffset, withInitialVelocity: normalizedVelocity) {[weak self] _ in
+                if self?.state == .initial {
+                    self?.reset()
                 }
             }
             
@@ -124,7 +134,7 @@ class SwipeableCell: UITableViewCell {
     }
     
     func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
-        state = .animatingToInitialPosition
+        state = .animatingToInitial
         tableView?.setGestureEnabled(true)
         let targetCenter = self.targetCenter(active: false)
         if animated {
@@ -223,7 +233,7 @@ class SwipeableCell: UITableViewCell {
     // Override so we can accept touches anywhere within the cell's minY/maxY.
     // This is required to detect touches on the `SwipeCellActionView` sitting alongside the
     // `SwipeableCell`.
-    override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         guard let superview = superview else { return false }
         
         let point = convert(point, to: superview)
@@ -242,7 +252,7 @@ class SwipeableCell: UITableViewCell {
         return point.y > frame.minY && point.y < frame.maxY
     }
     
-    override open var layoutMargins: UIEdgeInsets {
+    override var layoutMargins: UIEdgeInsets {
         get {
             return frame.origin.x != 0 ? originalLayoutMargins : super.layoutMargins
         }
@@ -253,7 +263,7 @@ class SwipeableCell: UITableViewCell {
 }
 
 extension SwipeableCell: SwipeActionsViewDelegate {
-    func targetState(forVelocity velocity: CGPoint) -> SwipeState {
+   fileprivate func targetState(forVelocity velocity: CGPoint) -> SwipeState {
         guard let actionsView = actionsView else { return .initial }
         
         switch actionsView.orientation {
@@ -264,7 +274,7 @@ extension SwipeableCell: SwipeActionsViewDelegate {
         }
     }
     
-    func targetCenter(active: Bool) -> CGFloat {
+   fileprivate func targetCenter(active: Bool) -> CGFloat {
         guard let actionsView = actionsView, active == true else { return bounds.midX }
         
         return bounds.midX - actionsView.preferredWidth * actionsView.orientation.scale
@@ -277,7 +287,7 @@ extension SwipeableCell: SwipeActionsViewDelegate {
         actionsView = nil
     }
     
-    override open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == tapGestureRecognizer {
             
             let cell = tableView?.swipeCells.first(where: { $0.state.isActive })

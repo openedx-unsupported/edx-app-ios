@@ -26,7 +26,7 @@ enum SwipeState: Int {
     case initial = 0
     case left
     case right
-    case animatingToInitialPosition
+    case animatingToInitial
     
     init(orientation: SwipeActionsOrientation) {
         self = orientation == .left ? .left : .right

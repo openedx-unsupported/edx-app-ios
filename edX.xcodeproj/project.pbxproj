@@ -94,7 +94,6 @@
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
 		223895C51F1F4D74005B9C15 /* SwipeableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895C01F1F4D74005B9C15 /* SwipeableCell.swift */; };
-		223895C61F1F4D74005B9C15 /* SwipeableCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895C11F1F4D74005B9C15 /* SwipeableCellDelegate.swift */; };
 		223895C71F1F4D74005B9C15 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895C21F1F4D74005B9C15 /* SwipeActionButton.swift */; };
 		223895C81F1F4D74005B9C15 /* SwipeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895C31F1F4D74005B9C15 /* SwipeAnimator.swift */; };
 		223895C91F1F4D74005B9C15 /* SwipeCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895C41F1F4D74005B9C15 /* SwipeCellActionView.swift */; };
@@ -899,7 +898,6 @@
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
 		223895C01F1F4D74005B9C15 /* SwipeableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeableCell.swift; sourceTree = "<group>"; };
-		223895C11F1F4D74005B9C15 /* SwipeableCellDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeableCellDelegate.swift; sourceTree = "<group>"; };
 		223895C21F1F4D74005B9C15 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
 		223895C31F1F4D74005B9C15 /* SwipeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAnimator.swift; sourceTree = "<group>"; };
 		223895C41F1F4D74005B9C15 /* SwipeCellActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellActionView.swift; sourceTree = "<group>"; };
@@ -1969,7 +1967,6 @@
 			isa = PBXGroup;
 			children = (
 				223895C01F1F4D74005B9C15 /* SwipeableCell.swift */,
-				223895C11F1F4D74005B9C15 /* SwipeableCellDelegate.swift */,
 				223895C21F1F4D74005B9C15 /* SwipeActionButton.swift */,
 				223895C31F1F4D74005B9C15 /* SwipeAnimator.swift */,
 				223895C41F1F4D74005B9C15 /* SwipeCellActionView.swift */,
@@ -4277,7 +4274,6 @@
 				9ED105441B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift in Sources */,
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
-				223895C61F1F4D74005B9C15 /* SwipeableCellDelegate.swift in Sources */,
 				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
 				9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */,
 				E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */,

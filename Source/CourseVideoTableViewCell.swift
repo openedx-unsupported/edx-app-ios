@@ -107,11 +107,11 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         downloadView.state = downloadState
     }
     
-    func isVideoDownloaded() -> Bool{
+   fileprivate func isVideoDownloaded() -> Bool{
         return (localState?.downloadState == OEXDownloadState.complete)
     }
     
-    func deleteVideo()  {
+   fileprivate func deleteVideo()  {
         if let video = localState {
             OEXInterface.shared().deleteDownloadedVideo(video) { _ in }
         }
@@ -140,11 +140,11 @@ extension CourseVideoTableViewCell: SwipeableCellDelegate {
 
     func invalidateTimer(){
         spinnerTimer.invalidate()
-        self.downloadView.state = .Done
-        self.delegate?.videoCellUpdate(cell: self)
+        downloadView.state = .Done
+        delegate?.videoCellUpdate(cell: self)
     }
     
     func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {
-        self.delegate?.swipeActionEnd(Cell: self)
+        delegate?.swipeActionEnd(Cell: self)
     }
 }
