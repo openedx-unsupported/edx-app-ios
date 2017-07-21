@@ -12,10 +12,7 @@ protocol SwipeableCellDelegate: class {
     
     // The delegate for the actions to display in response to a swipe in the specified row.
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeActionButton]?
-    
-    //func tableView(_ tableView: UITableView, swipActionBeginForRowAt indexPath: IndexPath)
-    func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath)
-    
+        
 }
 
 class SwipeableCell: UITableViewCell {
@@ -141,8 +138,6 @@ class SwipeableCell: UITableViewCell {
             animate(toOffset: targetCenter) {[weak self] complete in
                 self?.reset()
                 completion?(complete)
-                guard let owner = self, let tableView = owner.tableView, let indexPath = tableView.indexPath(for: owner) else {return}
-                owner.swipeCellViewDelegate?.tableView(tableView, swipActionEndForRowAt: indexPath)
             }
         } else {
             center = CGPoint(x: targetCenter, y: self.center.y)

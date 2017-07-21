@@ -13,8 +13,6 @@ protocol CourseVideoTableViewCellDelegate : class {
     func videoCellChoseDownload(cell : CourseVideoTableViewCell, block : CourseBlock)
     func videoCellChoseShowDownloads(cell : CourseVideoTableViewCell)
     func reloadCell(cell: UITableViewCell)
-    func swipeActionBegin(cell: SwipeableCell)
-    func swipeActionEnd(Cell: SwipeableCell)
 }
 
 private let titleLabelCenterYOffset = -12
@@ -135,8 +133,6 @@ extension CourseVideoTableViewCell: SwipeableCellDelegate {
             }
             tableView.hideSwipeCell()
         }
-
-        self.delegate?.swipeActionBegin(cell: self)
         return [deleteButton]
     }
 
@@ -144,9 +140,5 @@ extension CourseVideoTableViewCell: SwipeableCellDelegate {
         spinnerTimer.invalidate()
         downloadView.state = .Done
         delegate?.reloadCell(cell: self)
-    }
-    
-    func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {
-        delegate?.swipeActionEnd(Cell: self)
     }
 }

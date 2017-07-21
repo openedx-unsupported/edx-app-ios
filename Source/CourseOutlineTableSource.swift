@@ -28,7 +28,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44))
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
-    var shouldSelect = true
     init(environment : Environment, courseID : String, forMode mode: CourseOutlineMode) {
         self.courseID = courseID
         self.environment = environment
@@ -168,10 +167,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
-        if shouldSelect {
-            return indexPath
+        let cell = tableView.cellForRow(at: indexPath) as? SwipeableCell
+        let state = cell?.state
+        if state != SwipeState.initial {
+            return nil
         }
-        return nil
+
+        return indexPath
     }
     
     func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
@@ -183,7 +185,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     func reloadCell(cell: UITableViewCell) {
-        self.shouldSelect = true
         self.delegate?.outlineTableControllerReload(controller: self)
     }
     
@@ -193,14 +194,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     func sectionCellChoseDownload(cell: CourseSectionTableViewCell, videos: [OEXHelperVideoDownload], forBlock block : CourseBlock) {
         self.delegate?.outlineTableController(controller: self, choseDownloadVideos: videos, rootedAtBlock:block)
-    }
-    
-    func swipeActionBegin(cell: SwipeableCell) {
-        self.shouldSelect = false
-    }
-    
-    func swipeActionEnd(Cell: SwipeableCell) {
-        self.shouldSelect = true
     }
     
     func choseViewLastAccessedWithItem(item : CourseLastAccessed) {

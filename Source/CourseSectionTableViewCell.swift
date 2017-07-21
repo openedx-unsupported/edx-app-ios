@@ -12,8 +12,6 @@ protocol CourseSectionTableViewCellDelegate : class {
     func sectionCellChoseDownload(cell : CourseSectionTableViewCell, videos : [OEXHelperVideoDownload], forBlock block : CourseBlock)
     func sectionCellChoseShowDownloads(cell : CourseSectionTableViewCell)
     func reloadCell(cell: UITableViewCell)
-    func swipeActionBegin(cell: SwipeableCell)
-    func swipeActionEnd(Cell: SwipeableCell)
 }
 
 class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
@@ -163,7 +161,6 @@ extension CourseSectionTableViewCell: SwipeableCellDelegate {
                 owner.spinnerTimer = Timer.scheduledTimer(timeInterval: 0.4, target:owner, selector: #selector(owner.invalidateTimer), userInfo: nil, repeats: true)
             }
         }
-        self.delegate?.swipeActionBegin(cell: self)
         return [deleteButton]
     }
     
@@ -171,10 +168,6 @@ extension CourseSectionTableViewCell: SwipeableCellDelegate {
         spinnerTimer.invalidate()
         downloadView.state = .Done
         delegate?.reloadCell(cell: self)
-    }
-    
-    func tableView(_ tableView: UITableView, swipActionEndForRowAt indexPath: IndexPath) {
-        delegate?.swipeActionEnd(Cell: self)
     }
 }
 
