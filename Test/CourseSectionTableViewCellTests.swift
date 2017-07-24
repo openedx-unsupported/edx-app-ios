@@ -35,7 +35,7 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
         
         let blockIdOrNilIfRoot : CourseBlockID? = blockID == outline.root ? nil : blockID
         let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot, forMode: courseOutlineMode)
-        let expectations = self.expectation(description: "course loaded")
+        let expectations = expectation(description: "course loaded")
         let updateStream = BackedStream<Void>()
         
         inScreenNavigationContext(controller) {
@@ -52,7 +52,7 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
                     }
                 }
             }
-            self.waitForExpectations()
+            waitForExpectations()
         }
     }
     

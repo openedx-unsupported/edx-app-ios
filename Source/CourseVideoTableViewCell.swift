@@ -124,8 +124,7 @@ extension CourseVideoTableViewCell: SwipeableCellDelegate {
         }
         
         let deleteButton = SwipeActionButton(title: nil, image: Icon.DeleteIcon.imageWithFontSize(size: 20)) {[weak self] action, indexPath in
-        //Delete video from database
-        //run the spinner for 0.45 sec
+        //Showing a spinner while deleting video
             if let owner = self {
                 owner.deleteVideo()
                 owner.downloadView.state = .Deleting
