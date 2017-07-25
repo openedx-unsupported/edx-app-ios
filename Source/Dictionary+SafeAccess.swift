@@ -30,7 +30,7 @@ extension NSMutableDictionary {
             #if DEBUG
                 assert(false, "Expecting object for key: \(forKey)");
             #else
-                OEXLogError("FOUNDATION", "Expecting object for key: \(forKey)");
+                Logger.logError("FOUNDATION", "Expecting object for key: \(forKey)");
             #endif
         }
     }
@@ -53,7 +53,7 @@ extension Dictionary {
             #if DEBUG
                 assert(false, "Expecting object for key: \(forKey)");
             #else
-                OEXLogError("FOUNDATION", "Expecting object for key: \(forKey)");
+                Logger.logError("FOUNDATION", "Expecting object for key: \(forKey)");
             #endif
         }
     }
