@@ -18,7 +18,6 @@
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomLabel.h"
 #import "OEXDataParser.h"
-#import "OEXDateFormatting.h"
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXStyles.h"

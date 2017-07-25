@@ -13,7 +13,6 @@
 #import "NSString+OEXFormatting.h"
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
-#import "OEXDateFormatting.h"
 #import "OEXDownloadTableCell.h"
 #import "OEXOpenInBrowserViewController.h"
 #import "OEXHelperVideoDownload.h"

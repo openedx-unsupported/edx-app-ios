@@ -29,7 +29,7 @@ class CourseCardViewModelTests: XCTestCase {
         }
         
         let date = NSDate().addingDays(1)
-        assertDisplayTimestamp(date, expected: OEXDateFormatting.format(asMonthDayString: date!))
+        assertDisplayTimestamp(date, expected: DateFormatting.format(asMonthDayString: date! as NSDate)!)
         assertDisplayTimestamp(nil, expected: Strings.soon)
     }
     
@@ -43,14 +43,14 @@ class CourseCardViewModelTests: XCTestCase {
         let startInfo = OEXCourseStartDisplayInfo(date: Date.distantPast, displayDate: nil, type: .none)
         let endDate = NSDate().addingDays(1)
         let course = OEXCourse.freshCourse(startInfo: startInfo, end: endDate! as NSDate)
-        XCTAssertEqual(course.nextRelevantDate, Strings.courseEnding(endDate: OEXDateFormatting.format(asMonthDayString: endDate!)))
+        XCTAssertEqual(course.nextRelevantDate, Strings.courseEnding(endDate: DateFormatting.format(asMonthDayString: endDate! as NSDate)!))
     }
     
     func testEnded() {
         let startInfo = OEXCourseStartDisplayInfo(date: Date.distantPast, displayDate: nil, type: .none)
         let endDate = NSDate.distantPast
         let course = OEXCourse.freshCourse(startInfo: startInfo, end: endDate as NSDate)
-        XCTAssertEqual(course.nextRelevantDate, Strings.courseEnded(endDate: OEXDateFormatting.format(asMonthDayString: endDate)))
+        XCTAssertEqual(course.nextRelevantDate, Strings.courseEnded(endDate: DateFormatting.format(asMonthDayString: endDate as NSDate)!))
     }
     
     func testTimeZoneDates() {

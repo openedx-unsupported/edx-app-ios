@@ -222,8 +222,8 @@ extension CourseCatalogDetailView {
             result.append(Field(name: Strings.CourseDetail.effort, value: effort, icon: .CourseEffort))
         }
         if let endDate = course.end, !course.isStartDateOld {
-            let date = OEXDateFormatting.format(asMonthDayYearString: endDate)
-            result.append(Field(name: Strings.CourseDetail.endDate, value: date, icon: .CourseEnd))
+            let date = DateFormatting.format(asMonthDayYearString: endDate as NSDate)
+            result.append(Field(name: Strings.CourseDetail.endDate, value: date ?? "", icon: .CourseEnd))
         }
         return result
     }

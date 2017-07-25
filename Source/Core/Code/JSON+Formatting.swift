@@ -7,7 +7,7 @@
 //
 
 extension JSON {
-    var serverDate : Date? {
-        return string.map { OEXDateFormatting.date(withServerString: $0) }
+    var serverDate : NSDate? {
+        return string.map { (DateFormatting.date(withServerString: $0)) ?? NSDate() }
     }
 }

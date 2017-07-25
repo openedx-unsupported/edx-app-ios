@@ -12,7 +12,6 @@
 
 #import "OEXCoursewareAccess.h"
 #import "OEXCourse.h"
-#import "OEXDateFormatting.h"
 #import "OEXTextStyle.h"
 #import "NSAttributedString+OEXFormatting.h"
 

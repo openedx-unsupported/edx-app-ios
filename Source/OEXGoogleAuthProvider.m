@@ -10,7 +10,6 @@
 
 #import "edX-Swift.h"
 
-#import "OEXDateFormatting.h"
 #import "OEXExternalAuthProviderButton.h"
 #import "OEXGoogleSocial.h"
 #import "OEXRegisteringUserDetails.h"

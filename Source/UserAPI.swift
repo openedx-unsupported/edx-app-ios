@@ -12,7 +12,7 @@ import edXCore
 public struct UserAPI {
     public struct UserStatusParameters {
         let courseVisitedModuleId : String
-        let modificationDate = OEXDateFormatting.serverString(with: NSDate() as Date)
+        let modificationDate = DateFormatting.serverString(withDate: NSDate()) ?? ""
         var query : [String:String] {
             return [
                 "last_visited_module_id" : courseVisitedModuleId,

@@ -57,16 +57,16 @@ extension DiscussionComment {
         self.voted = json["voted"].boolValue
         self.voteCount = json["vote_count"].intValue
         if let dateStr = json["created_at"].string {
-            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            self.createdAt = DateFormatting.date(withServerString: dateStr)
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            self.updatedAt = DateFormatting.date(withServerString: dateStr)
         }
         self.endorsed = json["endorsed"].boolValue
         self.endorsedBy = json["endorsed_by"].string
         self.endorsedByLabel = json["endorsed_by_label"].string
         if let dateStr = json["endorsed_at"].string {
-            self.endorsedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            self.endorsedAt = DateFormatting.date(withServerString: dateStr)
         }
         self.flagged = json["flagged"].boolValue
         self.abuseFlagged = json["abuse_flagged"].boolValue
@@ -162,10 +162,10 @@ extension DiscussionThread {
         self.unreadCommentCount = json["unread_comment_count"].intValue
         
         if let dateStr = json["created_at"].string {
-            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            self.createdAt = DateFormatting.date(withServerString: dateStr)
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            self.updatedAt = DateFormatting.date(withServerString: dateStr)
         }
         self.editableFields = json["editable_fields"].string
         if let numberOfResponses = json["response_count"].int {
@@ -217,10 +217,10 @@ public struct DiscussionBlackout {
 
 extension DiscussionBlackout {
     public init?(json: JSON) {
-        guard let startDate = json["start"].string, let endDate = json["end"].string else { return nil }
-        
-        self.start = OEXDateFormatting.date(withServerString: startDate) as NSDate
-        self.end = OEXDateFormatting.date(withServerString: endDate) as NSDate
+        guard let startDateString = json["start"].string, let endDateString = json["end"].string else { return nil }
+        guard let startDate = DateFormatting.date(withServerString: startDateString), let endDate = DateFormatting.date(withServerString: endDateString) else { return nil }
+        start = startDate
+        end = endDate
     }
 }
 

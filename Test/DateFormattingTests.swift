@@ -1,5 +1,5 @@
 //
-//  OEXDateFormattingTests.swift
+//  DateFormattingTests.swift
 //  edX
 //
 //  Created by Ehmad Zubair Chughtai on 18/06/2015.
@@ -59,12 +59,12 @@ class DateFormattingTests: XCTestCase {
     
     func testConvertAndRevertTime() {
         
-        let testDate = Date()
-        let convertedDate = OEXDateFormatting.serverString(with: testDate)
-        let revertedDate = OEXDateFormatting.date(withServerString: convertedDate)
+        let testDate = NSDate()
+        let convertedDate = DateFormatting.serverString(withDate: testDate)
+        let revertedDate = DateFormatting.date(withServerString: convertedDate)
         
         //Using description explicitly as a hack for invalid NSDate comparison
-        let isRevertedSuccesfully = revertedDate.description == testDate.description
+        let isRevertedSuccesfully = revertedDate?.description == testDate.description
         
         XCTAssertTrue(isRevertedSuccesfully, "The reverted date doesn't match the original date")
     }

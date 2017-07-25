@@ -21,7 +21,6 @@
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomEditingView.h"
 #import "OEXCustomLabel.h"
-#import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXInterface.h"
 #import "OEXFrontTableViewCell.h"

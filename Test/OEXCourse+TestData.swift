@@ -59,7 +59,7 @@ public extension OEXCourse {
             courseDictionary["effort"] = effort
         }
         if let end = end {
-            courseDictionary["end"] = OEXDateFormatting.serverString(with: end as Date)
+            courseDictionary["end"] = DateFormatting.serverString(withDate: end)
         }
         if let startInfo = startInfo {
             courseDictionary = courseDictionary.concat(dictionary: startInfo.jsonFields)
