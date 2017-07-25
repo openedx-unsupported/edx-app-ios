@@ -118,8 +118,6 @@ Whitelabel Script
     cp Sources/Resources/Colors/colors.json ../my-app-config/Resources/Colors/
     # edit ../my-app-config/Resources/Colors/colors.json as required
 
-5. If you chose to use the `patches` option, ensure those commits are fetched and available.
-
 6. Run the `whitelabel.py` script to apply your whitelabel changes to the current branch. ::
 
     python script/whitelabel.py --config-file=../my-app-config/whitelabel.yaml -v
