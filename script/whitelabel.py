@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 """
 Script to update the current edX iOS App with different names, resources, etc.
+
+Requirements:
+
+    pip install pyyaml
 """
 
 import os
@@ -141,7 +145,8 @@ git_command = '/usr/bin/env git'
         """
         Update the app's plist file.
         """
-        for name, value in self.plist.iteritems():
+        for name in self.plist:
+            value = self.plist[name]
             if self._update_plist(name, value):
                 logging.info("Updated %s: %s=%s", self.project_plist, name, value)
             else:

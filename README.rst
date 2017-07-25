@@ -106,13 +106,20 @@ Whitelabel Script
 
     git reset --hard master
 
-3. In a separate dir, create your whitelabel configuration file, e.g. ``../my-app-config/whitelabel.yaml``
+3. Create a virtualenv for use with the ``whitelabel`` script, and install dependencies.
+   Either Python2.7 or Python3.x will work. ::
+
+    virtualenv edx-app-ios
+    source edx-app-ios/bin/activate
+    pip install pyyaml
+
+4. In a separate dir, create your whitelabel configuration file, e.g. ``../my-app-config/whitelabel.yaml``
    Run the ``whitelabel`` script to see the options: ::
 
     python script/whitelabel.py --help
     python script/whitelabel.py --help-config-file
 
-4. In that separate dir, optionally create your resource directory and files.  e.g., to update the colors.json file: ::
+5. In that separate dir, optionally create your resource directory and files.  e.g., to update the colors.json file: ::
 
     mkdir -p ../my-app-config/Resources/Colors
     cp Sources/Resources/Colors/colors.json ../my-app-config/Resources/Colors/
