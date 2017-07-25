@@ -7,13 +7,14 @@ Requirements:
     pip install pyyaml
 """
 
-import os
-import sys
-import yaml
-import shutil
-import logging
 import argparse
+import logging
+import os
+import shutil
 import subprocess
+import sys
+
+import yaml
 
 
 class WhitelabelApp:
