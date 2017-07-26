@@ -25,7 +25,7 @@ public class CourseOutlineViewController :
     LoadStateViewReloadSupport
 {
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider
-
+    
     
     private var rootID : CourseBlockID?
     private var environment : Environment
@@ -73,22 +73,6 @@ public class CourseOutlineViewController :
         tableController.delegate = self
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped))
-
-    }
-    
-    func addTapped() {
-        let tableView = tableController.tableView
-        
-        //var cells : [SwipeableCell] = []
-        if let cells = tableView?.visibleCells as? [SwipeableCell] {
-            for cell in cells {
-                cell.openCell()
-            }
-            
-        }
-        
     }
     
     
@@ -128,10 +112,10 @@ public class CourseOutlineViewController :
                 else {
                     self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.internalName)
                 }
-            },
-            failure: {
-                Logger.logError("ANALYTICS", "Unable to load block: \($0)")
-            }
+        },
+                                               failure: {
+                                                Logger.logError("ANALYTICS", "Unable to load block: \($0)")
+        }
         )
     }
     
@@ -178,7 +162,7 @@ public class CourseOutlineViewController :
             self.loadController.state = LoadState.failed(error: error)
         }
     }
-
+    
     private func addListeners() {
         headersLoader.backWithStream(blockIDStream.transform {[weak self] blockID in
             if let owner = self {
@@ -203,33 +187,33 @@ public class CourseOutlineViewController :
         self.blockIDStream.backWithStream(OEXStream(value: rootID))
         
         headersLoader.listen(self,
-            success: {[weak self] headers in
-                self?.setupNavigationItem(block: headers.block)
+                             success: {[weak self] headers in
+                                self?.setupNavigationItem(block: headers.block)
             },
-            failure: {[weak self] error in
-                self?.showErrorIfNecessary(error: error)
+                             failure: {[weak self] error in
+                                self?.showErrorIfNecessary(error: error)
             }
         )
         
         rowsLoader.listen(self,
-            success : {[weak self] groups in
-                if let owner = self {
-                    owner.tableController.groups = groups
-                    owner.tableController.tableView.reloadData()
-                    owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded
-                }
+                          success : {[weak self] groups in
+                            if let owner = self {
+                                owner.tableController.groups = groups
+                                owner.tableController.tableView.reloadData()
+                                owner.loadController.state = groups.count == 0 ? owner.emptyState() : .Loaded
+                            }
             },
-            failure : {[weak self] error in
-                self?.showErrorIfNecessary(error: error)
+                          failure : {[weak self] error in
+                            self?.showErrorIfNecessary(error: error)
             },
-            finally: {[weak self] in
-                if let active = self?.rowsLoader.active, !active {
-                    self?.tableController.refreshController.endRefreshing()
-                }
+                          finally: {[weak self] in
+                            if let active = self?.rowsLoader.active, !active {
+                                self?.tableController.refreshController.endRefreshing()
+                            }
             }
         )
     }
-
+    
     // MARK: Outline Table Delegate
     
     func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController) {
@@ -237,7 +221,7 @@ public class CourseOutlineViewController :
     }
     
     private func canDownloadVideo() -> Bool {
-        let hasWifi = environment.reachability.isReachableViaWiFi() 
+        let hasWifi = environment.reachability.isReachableViaWiFi()
         let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
         return !onlyOnWifi || hasWifi
     }
@@ -256,10 +240,10 @@ public class CourseOutlineViewController :
         courseQuerier.parentOfBlockWithID(blockID: block.blockID).listenOnce(self, success:
             { parentID in
                 analytics.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
-            },
-            failure: {error in
-                Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
-            }
+        },
+                                                                             failure: {error in
+                                                                                Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
+        }
         )
     }
     
@@ -326,7 +310,7 @@ extension CourseOutlineViewController {
     public func t_populateLastAccessedItem(item : CourseLastAccessed) -> Bool {
         self.tableController.showLastAccessedWithItem(item: item)
         return self.tableController.tableView.tableHeaderView != nil
-
+        
     }
     
     public func t_didTriggerSetLastAccessed() -> Bool {

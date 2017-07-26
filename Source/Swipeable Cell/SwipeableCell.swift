@@ -12,11 +12,11 @@ protocol SwipeableCellDelegate: class {
     
     // The delegate for the actions to display in response to a swipe in the specified row.
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeActionButton]?
-        
+    
 }
 
 class SwipeableCell: UITableViewCell {
-
+    
     /// The object that acts as the delegate of the `SwipeableCell`.
     public weak var swipeCellViewDelegate: SwipeableCellDelegate?
     private var animator: SwipeAnimator?
@@ -127,18 +127,6 @@ class SwipeableCell: UITableViewCell {
             }
             
         default: break
-        }
-    }
-    
-    public func openCell() {
-        let velocity =  CGPoint(x: -1081.12894668978, y: 0.0)
-        let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
-        showActionsView(for: orientation)
-        state = targetState(forVelocity: velocity)
-        let targetOffset = targetCenter(active: state.isActive)
-        let normalizedVelocity = 14.609850630943
-        animate(toOffset: CGFloat(targetOffset), withInitialVelocity: CGFloat(normalizedVelocity)) {[weak self] _ in
-            
         }
     }
     
@@ -270,7 +258,7 @@ class SwipeableCell: UITableViewCell {
 }
 
 extension SwipeableCell: SwipeActionsViewDelegate {
-   fileprivate func targetState(forVelocity velocity: CGPoint) -> SwipeState {
+    fileprivate func targetState(forVelocity velocity: CGPoint) -> SwipeState {
         guard let actionsView = actionsView else { return .initial }
         
         switch actionsView.orientation {
@@ -281,7 +269,7 @@ extension SwipeableCell: SwipeActionsViewDelegate {
         }
     }
     
-   fileprivate func targetCenter(active: Bool) -> CGFloat {
+    fileprivate func targetCenter(active: Bool) -> CGFloat {
         guard let actionsView = actionsView, active == true else { return bounds.midX }
         
         return bounds.midX - actionsView.preferredWidth * actionsView.orientation.scale
