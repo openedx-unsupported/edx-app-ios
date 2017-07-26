@@ -250,10 +250,10 @@ def main():
         config = yaml.load(f) or {}
 
     # Use the config_file's directory as the default config_dir
-    # (may be overridden in the config_file itself)
-    config_dir = os.path.dirname(args.config_file)
+    if 'config_dir' not in config:
+        config['config_dir'] = os.path.dirname(args.config_file)
 
-    whitelabeler = WhitelabelApp(config_dir=config_dir, **config)
+    whitelabeler = WhitelabelApp(**config)
     whitelabeler.whitelabel()
 
 
