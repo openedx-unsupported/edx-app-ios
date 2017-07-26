@@ -57,10 +57,10 @@ extension DiscussionComment {
         self.voted = json["voted"].boolValue
         self.voteCount = json["vote_count"].intValue
         if let dateStr = json["created_at"].string {
-            self.createdAt = DateFormatting.date(withServerString: dateStr)
+            createdAt = DateFormatting.date(withServerString: dateStr)
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = DateFormatting.date(withServerString: dateStr)
+            updatedAt = DateFormatting.date(withServerString: dateStr)
         }
         self.endorsed = json["endorsed"].boolValue
         self.endorsedBy = json["endorsed_by"].string
@@ -162,10 +162,10 @@ extension DiscussionThread {
         self.unreadCommentCount = json["unread_comment_count"].intValue
         
         if let dateStr = json["created_at"].string {
-            self.createdAt = DateFormatting.date(withServerString: dateStr)
+            createdAt = DateFormatting.date(withServerString: dateStr)
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = DateFormatting.date(withServerString: dateStr)
+            updatedAt = DateFormatting.date(withServerString: dateStr)
         }
         self.editableFields = json["editable_fields"].string
         if let numberOfResponses = json["response_count"].int {
