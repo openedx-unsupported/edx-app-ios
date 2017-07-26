@@ -130,6 +130,18 @@ class SwipeableCell: UITableViewCell {
         }
     }
     
+    public func openCell() {
+        let velocity =  CGPoint(x: -1081.12894668978, y: 0.0)
+        let orientation: SwipeActionsOrientation = velocity.x > 0 ? .left : .right
+        showActionsView(for: orientation)
+        state = targetState(forVelocity: velocity)
+        let targetOffset = targetCenter(active: state.isActive)
+        let normalizedVelocity = 14.609850630943
+        animate(toOffset: CGFloat(targetOffset), withInitialVelocity: CGFloat(normalizedVelocity)) {[weak self] _ in
+            
+        }
+    }
+    
     func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
         state = .animatingToInitial
         tableView?.setGestureEnabled(true)

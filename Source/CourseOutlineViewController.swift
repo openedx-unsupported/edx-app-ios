@@ -73,9 +73,25 @@ public class CourseOutlineViewController :
         tableController.delegate = self
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped))
+
     }
     
-
+    func addTapped() {
+        let tableView = tableController.tableView
+        
+        //var cells : [SwipeableCell] = []
+        if let cells = tableView?.visibleCells as? [SwipeableCell] {
+            for cell in cells {
+                cell.openCell()
+            }
+            
+        }
+        
+    }
+    
+    
     public required init?(coder aDecoder: NSCoder) {
         // required by the compiler because UIViewController implements NSCoding,
         // but we don't actually want to serialize these things
