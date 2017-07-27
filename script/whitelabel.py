@@ -146,8 +146,7 @@ git_command = '/usr/bin/env git'
         """
         Update the app's plist file.
         """
-        for name in self.plist:
-            value = self.plist[name]
+        for name, value in self.plist.items():
             if self._update_plist(name, value):
                 logging.info("Updated %s: %s=%s", self.project_plist, name, value)
             else:
@@ -250,8 +249,7 @@ def main():
         config = yaml.load(f) or {}
 
     # Use the config_file's directory as the default config_dir
-    if 'config_dir' not in config:
-        config['config_dir'] = os.path.dirname(args.config_file)
+    config.setdefault('config_dir', os.path.dirname(args.config_file))
 
     whitelabeler = WhitelabelApp(**config)
     whitelabeler.whitelabel()
