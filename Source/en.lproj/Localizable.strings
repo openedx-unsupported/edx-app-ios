@@ -431,8 +431,6 @@
 "MY_VIDEOS_VIDEOS_COUNT_LABEL" = "{count} Videos";
 /* Time Label in My Videos section*/
 "MY_VIDEOS_TIME_LABEL" = "NA";
-/* Untitled Label in My Videos section*/
-"MY_VIDEOS_UNTITLED_LABEL" = "Untitled";
 
 /* Marked as answer for endorsed responses */
 "MARKED_ANSWER" = "Marked as answer";

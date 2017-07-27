@@ -445,7 +445,7 @@ typedef  enum OEXAlertType
         OEXHelperVideoDownload* obj_video = [videos objectAtIndex:indexPath.row];
         cell.lbl_Title.text = obj_video.summary.name;
         if([cell.lbl_Title.text length] == 0) {
-            cell.lbl_Title.text = [Strings parenthesisWithText:[Strings myVideosUntitledLabel]];
+            cell.lbl_Title.text = [Strings parenthesisWithText:[Strings untitled]];
         }
 
         double size = [obj_video.summary.size doubleValue];
