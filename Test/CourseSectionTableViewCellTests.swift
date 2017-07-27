@@ -62,8 +62,19 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
             let tableView = courseoutlineview.t_tableView()
             let cell = tableView.cellForRow(at: indexPath) as? CourseSectionTableViewCell
             let swipeActions = cell?.tableView(tableView, editActionsForRowAt: indexPath, for: SwipeActionsOrientation.right)
+            var downloadVideos:[OEXHelperVideoDownload] = []
+            let videosStream = BackedStream<[OEXHelperVideoDownload]>()
+            let blockLoadedStream = cell!.t_setup()
+            videosStream.backWithStream(blockLoadedStream)
+            videosStream.listen(self) { downloads in
+                if let videos = downloads.value {
+                    downloadVideos = videos
+                }
+            }
+
             return {expectation -> Void in
                 XCTAssertNil(swipeActions)
+                XCTAssertFalse(cell!.t_areAllVideosDownloaded(videos: downloadVideos))
                 expectation.fulfill()
             }
             
@@ -77,9 +88,11 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
             let cell = tableView.cellForRow(at: indexPath) as? CourseSectionTableViewCell
             let videosStream = BackedStream<[OEXHelperVideoDownload]>()
             let blockLoadedStream = cell!.t_setup()
+            var downloadVideos:[OEXHelperVideoDownload] = []
             videosStream.backWithStream(blockLoadedStream)
             videosStream.listen(self) { downloads in
                 if let downloads = downloads.value {
+                    downloadVideos = downloads
                     for video in downloads {
                         video.downloadState = OEXDownloadState.complete
                     }
@@ -88,6 +101,7 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
             let swipeActions = cell?.tableView(tableView, editActionsForRowAt: indexPath, for: SwipeActionsOrientation.right)
             return {expectation -> Void in
                 XCTAssertNotNil(swipeActions)
+                XCTAssertTrue(cell!.t_areAllVideosDownloaded(videos: downloadVideos))
                 expectation.fulfill()
             }
         }

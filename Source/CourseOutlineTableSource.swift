@@ -167,8 +167,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
-        let cell = tableView.cellForRow(at: indexPath) as? SwipeableCell
-        if cell?.state != SwipeState.initial {
+        if let cell = tableView.cellForRow(at: indexPath) as? SwipeableCell, cell.state != SwipeState.initial {
             return nil
         }
 

@@ -120,7 +120,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         OEXInterface.shared().deleteDownloadedVideos(videos) { _ in }
     }
     
-    public func isAllVideosDownloaded(videos: [OEXHelperVideoDownload]) -> Bool {
+    public func areAllVideosDownloaded(videos: [OEXHelperVideoDownload]) -> Bool {
         
         let videosState = downloadStateForDownloads(videos: videos)
         return (videosState == .Done)
@@ -149,7 +149,7 @@ extension CourseSectionTableViewCell: SwipeableCellDelegate {
             }
         }
         
-        if(!isAllVideosDownloaded(videos: downloadVideos)) {
+        if(!areAllVideosDownloaded(videos: downloadVideos)) {
             return nil
         }
         let deleteButton = SwipeActionButton(title: nil, image: Icon.DeleteIcon.imageWithFontSize(size: 20)) {[weak self] action, indexPath in
@@ -173,5 +173,9 @@ extension CourseSectionTableViewCell: SwipeableCellDelegate {
 extension CourseSectionTableViewCell {
     public func t_setup() -> OEXStream<[OEXHelperVideoDownload]> {
         return videos
+    }
+    
+    public func t_areAllVideosDownloaded(videos: [OEXHelperVideoDownload]) -> Bool {
+        return areAllVideosDownloaded(videos: videos)
     }
 }
