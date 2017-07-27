@@ -98,9 +98,9 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         info = [info oex_replaceNullsWithEmptyStrings];
         self.end = [DateFormatting dateWithServerString:[info objectForKey:@"end"]];
         
-        NSDate* start = [DateFormatting dateWithServerString:[info objectForKey:@"start"]];
+        NSDate* startDate = [DateFormatting dateWithServerString:[info objectForKey:@"start"]];
         self.start_display_info = [[OEXCourseStartDisplayInfo alloc]
-                                   initWithDate:start
+                                   initWithDate:startDate
                                    displayDate:[info objectForKey:@"start_display"]
                                    type:OEXStartTypeForString([info objectForKey:@"start_type"])];
         self.course_image_url = [info objectForKey:@"course_image"];
