@@ -167,15 +167,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
-        guard let cell = tableView.cellForRow(at: indexPath) as? SwipeableCell else {
+        guard let cell = tableView.cellForRow(at: indexPath) as? SwipeableCell, cell.state != SwipeState.initial  else {
            return indexPath
         }
         
-        if cell.state != SwipeState.initial {
-            return nil
-        }
-
-        return indexPath
+        return nil
     }
     
     func videoCellChoseDownload(cell: CourseVideoTableViewCell, block : CourseBlock) {
