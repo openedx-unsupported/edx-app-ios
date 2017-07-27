@@ -685,10 +685,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _videoTitleLabel.font = [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:16.f];
     _videoTitleLabel.textColor = [UIColor whiteColor];
     _videoTitleLabel.textAlignment = NSTextAlignmentLeft;
-    _videoTitleLabel.text = @"Untitled";
+    _videoTitleLabel.text = [Strings untitled];
     if(_moviePlayer.videoTitle == nil || [_videoTitleLabel.text isEqualToString:@""]) {
-        _videoTitleLabel.text = @"Untitled";
-        _moviePlayer.videoTitle = @"Untitled";
+        _videoTitleLabel.text = [Strings untitled];
+        _moviePlayer.videoTitle = [Strings untitled];
     }
     else {
         _videoTitleLabel.text = self.moviePlayer.videoTitle;
@@ -1384,7 +1384,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 - (void)setDurationSliderMaxMinValues {
     if(_moviePlayer.videoTitle == nil) {
-        _videoTitleLabel.text = @"Untitled";
+        _videoTitleLabel.text = [Strings untitled];
     }
     else {
         _videoTitleLabel.text = self.moviePlayer.videoTitle;

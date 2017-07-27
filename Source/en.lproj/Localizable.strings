@@ -425,6 +425,13 @@
 "MY_SETTINGS"="My Settings";
 /* Screen title showing a user's downloaded videos */
 "MY_VIDEOS" = "My Videos";
+/* Video count title in My Videos section*/
+"MY_VIDEOS_VIDEO_COUNT_LABEL" = "{count} Video";
+/* Videos count in My Videos section*/
+"MY_VIDEOS_VIDEOS_COUNT_LABEL" = "{count} Videos";
+/* Time Label in My Videos section*/
+"MY_VIDEOS_TIME_LABEL" = "NA";
+
 /* Marked as answer for endorsed responses */
 "MARKED_ANSWER" = "Marked as answer";
 /* Overlay error shown when attempting an action without an internet connection */

@@ -163,12 +163,12 @@
         
         NSString* videoName = downloadingVideo.summary.name;
         if([videoName length] == 0) {
-            videoName = @"(Untitled)";
+            videoName = [Strings parenthesisWithText:[Strings untitled]];
         }
         cell.lbl_title.text = videoName;
 
         if(!downloadingVideo.summary.duration) {
-            cell.lbl_time.text = @"NA";
+            cell.lbl_time.text = [Strings myVideosTimeLabel];
         }
         else {
             cell.lbl_time.text = [OEXDateFormatting formatSecondsAsVideoLength: downloadingVideo.summary.duration];

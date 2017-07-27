@@ -426,10 +426,10 @@ typedef  enum OEXAlertType
         NSInteger count = [[dictVideo objectForKey:CAV_KEY_VIDEOS] count];
         NSString* Vcount = nil;
         if(count == 1) {
-            Vcount = [NSString stringWithFormat:@"%ld Video", (long)count];
+            Vcount = [Strings myVideosVideoCountLabelWithCount:[NSString stringWithFormat:@"%ld", (long)count]];
         }
         else {
-            Vcount = [NSString stringWithFormat:@"%ld Videos", (long)count];
+            Vcount = [Strings myVideosVideosCountLabelWithCount:[NSString stringWithFormat:@"%ld", (long)count]];
         }
         NSString* videoDetails = [NSString stringWithFormat:@"%@, %@", Vcount, [dictVideo objectForKey:CAV_KEY_VIDEOS_SIZE]];
         
@@ -445,7 +445,7 @@ typedef  enum OEXAlertType
         OEXHelperVideoDownload* obj_video = [videos objectAtIndex:indexPath.row];
         cell.lbl_Title.text = obj_video.summary.name;
         if([cell.lbl_Title.text length] == 0) {
-            cell.lbl_Title.text = @"(Untitled)";
+            cell.lbl_Title.text = [Strings parenthesisWithText:[Strings untitled]];
         }
 
         double size = [obj_video.summary.size doubleValue];
@@ -453,7 +453,7 @@ typedef  enum OEXAlertType
         cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB", result];
 
         if(!obj_video.summary.duration) {
-            cell.lbl_Time.text = @"NA";
+            cell.lbl_Time.text = [Strings myVideosTimeLabel];
         }
         else {
             cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
@@ -1202,13 +1202,9 @@ typedef  enum OEXAlertType
                             // As it is unsorted array used to sort and put in array for key CAV_KEY_RECENT_VIDEOS
 
                             [[[self.arr_CourseData objectAtIndex:index] objectForKey:CAV_KEY_VIDEOS] removeObject:videos];
-
-                            [[OEXInterface sharedInterface] deleteDownloadedVideoForVideoId:selectedVideo.summary.videoID completionHandler:^(BOOL success) {
+                            [self.dataInterface deleteDownloadedVideo:selectedVideo completionHandler:^(BOOL success) {
                                 selectedVideo.downloadState = OEXDownloadStateNew;
-                                selectedVideo.downloadProgress = 0.0;
-                                selectedVideo.isVideoDownloading = NO;
                             }];
-
                             deleteCount++;
                             // if no objects in a particular section then remove the array
                             if([[[self.arr_CourseData objectAtIndex:index] objectForKey:CAV_KEY_RECENT_VIDEOS] count] == 0) {

@@ -144,6 +144,7 @@ public enum Icon {
     case VideoRewind
     case VideoShrink
     case Warning
+    case DeleteIcon
     
     private var renderer : IconRenderer {
         switch self {
@@ -179,6 +180,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .ThumbTack)
         case .Transcript:
             return FontAwesomeRenderer(icon: .FileTextO)
+        case .DeleteIcon:
+            return FontAwesomeRenderer(icon: .Trash)
         case .Announcements:
             return FontAwesomeRenderer(icon: .Bullhorn)
         case .CircleO:

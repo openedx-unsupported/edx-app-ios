@@ -125,7 +125,8 @@ extern NSString* const OEXDownloadEndedNotification;
 
 - (NSArray<OEXHelperVideoDownload*>*)statesForVideosWithIDs:(NSArray<NSString*>*)videoIDs courseID:(NSString*)courseID;
 
-- (void)deleteDownloadedVideoForVideoId:(NSString*)videoId completionHandler:(void (^)(BOOL success))completionHandler;
+- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video completionHandler:(void (^)(BOOL success))completionHandler;
+- (void)deleteDownloadedVideos:(NSArray *)videos completionHandler:(void (^)(BOOL success))completionHandler;
 
 - (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo;
 

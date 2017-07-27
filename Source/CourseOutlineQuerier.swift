@@ -306,13 +306,7 @@ public class CourseOutlineQuerier : NSObject {
             return blocks
         case .Video:
             return blocks.filter {(block : CourseBlock) -> Bool in
-                let hasVideos = (block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0) > 0
-                if hasVideos {
-                    let blockVideos = supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
-                    return (blockVideos.value?.count ?? 0) > 0
-                }
-                
-                return hasVideos
+                return (block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0) > 0
             }
         }
     }

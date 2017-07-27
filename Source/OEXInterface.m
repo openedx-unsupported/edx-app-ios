@@ -454,8 +454,18 @@ static OEXInterface* _sharedInterface = nil;
     [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
 }
 
-- (void)deleteDownloadedVideoForVideoId:(NSString*)videoId completionHandler:(void (^)(BOOL success))completionHandler {
-    [_storage deleteDataForVideoID:videoId];
+- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video completionHandler:(void (^)(BOOL success))completionHandler {
+    [_storage deleteDataForVideoID:video.summary.videoID];
+    video.downloadState = OEXDownloadStateNew;
+    video.downloadProgress = 0.0;
+    video.isVideoDownloading = false;
+    completionHandler(YES);
+}
+
+- (void)deleteDownloadedVideos:(NSArray *)videos completionHandler:(void (^)(BOOL success))completionHandler {
+    for (OEXHelperVideoDownload *video in videos) {
+        [self deleteDownloadedVideo:video completionHandler:^(BOOL success) {}];
+    }
     completionHandler(YES);
 }
 
