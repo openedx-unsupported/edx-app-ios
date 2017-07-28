@@ -47,31 +47,31 @@ extension DiscussionComment {
                 return nil
         }
 
-        self.parentID = json["parent_id"].string
+        parentID = json["parent_id"].string
         self.threadID = threadID
         self.commentID = commentID
-        self.rawBody = json["raw_body"].string
-        self.renderedBody = json["rendered_body"].string
+        rawBody = json["raw_body"].string
+        renderedBody = json["rendered_body"].string
         self.author = author
-        self.authorLabel = json["author_label"].string
-        self.voted = json["voted"].boolValue
-        self.voteCount = json["vote_count"].intValue
+        authorLabel = json["author_label"].string
+        voted = json["voted"].boolValue
+        voteCount = json["vote_count"].intValue
         if let dateStr = json["created_at"].string {
-            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            createdAt = DateFormatting.date(withServerString: dateStr)
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            updatedAt = DateFormatting.date(withServerString: dateStr)
         }
-        self.endorsed = json["endorsed"].boolValue
-        self.endorsedBy = json["endorsed_by"].string
-        self.endorsedByLabel = json["endorsed_by_label"].string
+        endorsed = json["endorsed"].boolValue
+        endorsedBy = json["endorsed_by"].string
+        endorsedByLabel = json["endorsed_by_label"].string
         if let dateStr = json["endorsed_at"].string {
-            self.endorsedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            endorsedAt = DateFormatting.date(withServerString: dateStr)
         }
-        self.flagged = json["flagged"].boolValue
-        self.abuseFlagged = json["abuse_flagged"].boolValue
-        self.editableFields = json["editable_fields"].string
-        self.childCount = json["child_count"].intValue
+        flagged = json["flagged"].boolValue
+        abuseFlagged = json["abuse_flagged"].boolValue
+        editableFields = json["editable_fields"].string
+        childCount = json["child_count"].intValue
         
         let users = json["users"].dictionary
         if let users = users{
@@ -80,8 +80,8 @@ extension DiscussionComment {
                 let profile = user["profile"]
                 if let profile = profile {
                     let image = profile["image"]
-                    self.hasProfileImage = image["has_image"].boolValue
-                    self.imageURL = image["image_url_medium"].string
+                    hasProfileImage = image["has_image"].boolValue
+                    imageURL = image["image_url_medium"].string
                 }
             }
         }
@@ -136,40 +136,40 @@ extension DiscussionThread {
             return nil
         }
         
-        self.threadID = identifier
+        threadID = identifier
         self.topicId = topicId
         
-        self.author = json["author"].string
-        self.type = DiscussionThreadType(rawValue: json["type"].string ?? "") ?? .Discussion
-        self.courseId = json["course_id"].string
-        self.groupId = json["group_id"].intValue
-        self.groupName = json["group_name"].string
-        self.title = json["title"].string
-        self.rawBody = json["raw_body"].string
-        self.renderedBody = json["rendered_body"].string
-        self.authorLabel = json["author_label"].string
-        self.commentCount = json["comment_count"].intValue
-        self.commentListUrl = json["comment_list_url"].string
-        self.hasEndorsed = json["has_endorsed"].boolValue
-        self.pinned = json["pinned"].boolValue
-        self.closed = json["closed"].boolValue
-        self.following = json["following"].boolValue
-        self.flagged = json["flagged"].boolValue
-        self.abuseFlagged = json["abuse_flagged"].boolValue
-        self.voted = json["voted"].boolValue
-        self.voteCount = json["vote_count"].intValue
-        self.read = json["read"].boolValue
-        self.unreadCommentCount = json["unread_comment_count"].intValue
+        author = json["author"].string
+        type = DiscussionThreadType(rawValue: json["type"].string ?? "") ?? .Discussion
+        courseId = json["course_id"].string
+        groupId = json["group_id"].intValue
+        groupName = json["group_name"].string
+        title = json["title"].string
+        rawBody = json["raw_body"].string
+        renderedBody = json["rendered_body"].string
+        authorLabel = json["author_label"].string
+        commentCount = json["comment_count"].intValue
+        commentListUrl = json["comment_list_url"].string
+        hasEndorsed = json["has_endorsed"].boolValue
+        pinned = json["pinned"].boolValue
+        closed = json["closed"].boolValue
+        following = json["following"].boolValue
+        flagged = json["flagged"].boolValue
+        abuseFlagged = json["abuse_flagged"].boolValue
+        voted = json["voted"].boolValue
+        voteCount = json["vote_count"].intValue
+        read = json["read"].boolValue
+        unreadCommentCount = json["unread_comment_count"].intValue
         
         if let dateStr = json["created_at"].string {
-            self.createdAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            createdAt = DateFormatting.date(withServerString: dateStr)
         }
         if let dateStr = json["updated_at"].string {
-            self.updatedAt = OEXDateFormatting.date(withServerString: dateStr) as NSDate
+            updatedAt = DateFormatting.date(withServerString: dateStr)
         }
         self.editableFields = json["editable_fields"].string
         if let numberOfResponses = json["response_count"].int {
-            self.responseCount = numberOfResponses
+            responseCount = numberOfResponses
         }
         
         let users = json["users"].dictionary
@@ -179,8 +179,8 @@ extension DiscussionThread {
                 let profile = user["profile"]
                 if let profile = profile {
                     let image = profile["image"]
-                    self.hasProfileImage = image["has_image"].boolValue
-                    self.imageURL = image["image_url_medium"].string
+                    hasProfileImage = image["has_image"].boolValue
+                    imageURL = image["image_url_medium"].string
                 }
             }
         }
@@ -217,10 +217,10 @@ public struct DiscussionBlackout {
 
 extension DiscussionBlackout {
     public init?(json: JSON) {
-        guard let startDate = json["start"].string, let endDate = json["end"].string else { return nil }
-        
-        self.start = OEXDateFormatting.date(withServerString: startDate) as NSDate
-        self.end = OEXDateFormatting.date(withServerString: endDate) as NSDate
+        guard let startDateString = json["start"].string, let endDateString = json["end"].string else { return nil }
+        guard let startDate = DateFormatting.date(withServerString: startDateString), let endDate = DateFormatting.date(withServerString: endDateString) else { return nil }
+        start = startDate
+        end = endDate
     }
 }
 

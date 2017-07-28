@@ -21,7 +21,6 @@
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomEditingView.h"
 #import "OEXCustomLabel.h"
-#import "OEXDateFormatting.h"
 #import "OEXDownloadViewController.h"
 #import "OEXInterface.h"
 #import "OEXFrontTableViewCell.h"
@@ -456,7 +455,7 @@ typedef  enum OEXAlertType
             cell.lbl_Time.text = [Strings myVideosTimeLabel];
         }
         else {
-            cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
+            cell.lbl_Time.text = [DateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
         }
 
         //Played state

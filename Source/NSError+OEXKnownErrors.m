@@ -12,7 +12,6 @@
 
 #import "OEXCoursewareAccess.h"
 #import "OEXCourse.h"
-#import "OEXDateFormatting.h"
 #import "OEXTextStyle.h"
 #import "NSAttributedString+OEXFormatting.h"
 
@@ -75,7 +74,7 @@ NSString* const OEXErrorDomain = @"org.edx.error";
                 return message;
             }
             else if(self.displayInfo.type == OEXStartTypeTimestamp && self.displayInfo.date != nil) {
-                NSString* displayDate = [OEXDateFormatting formatAsMonthDayYearString: self.displayInfo.date];
+                NSString* displayDate = [DateFormatting formatAsMonthDayYearString: self.displayInfo.date];
                 NSAttributedString* styledDate = [style.withWeight(OEXTextWeightBold) attributedStringWithText:displayDate]; 
                 NSAttributedString* message = template(styledDate);
                 return message;

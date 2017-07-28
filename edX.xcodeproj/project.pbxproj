@@ -283,9 +283,6 @@
 		7727EC351BBC73F300C9987F /* RevealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7727EC341BBC73F300C9987F /* RevealViewController.swift */; };
 		772856DF1CADBFD100460E7C /* BadgesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772856DE1CADBFD100460E7C /* BadgesAPI.swift */; };
 		772856E11CADC5DB00460E7C /* RawStringExtractable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772856E01CADC5DB00460E7C /* RawStringExtractable.swift */; };
-		772856E31CADCE0900460E7C /* OEXDateFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 772856E21CADCE0900460E7C /* OEXDateFormattingTests.m */; };
-		772856E71CADCEB200460E7C /* OEXDateFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 772856E51CADCE2E00460E7C /* OEXDateFormatting.m */; };
-		772856E81CADCEB600460E7C /* OEXDateFormatting.h in Headers */ = {isa = PBXBuildFile; fileRef = 772856E41CADCE2E00460E7C /* OEXDateFormatting.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		773181371B697644000CC050 /* DiscussionDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181361B697644000CC050 /* DiscussionDataManager.swift */; };
 		773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */; };
 		7731813B1B6C1442000CC050 /* SeparatorInsetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */; };
@@ -551,7 +548,6 @@
 		9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */; };
 		9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */; };
 		9E30B4021B00BFB0007F673E /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */; };
-		9E35A2841B32D7090040B9A9 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E35A2831B32D7090040B9A9 /* DateFormattingTests.swift */; };
 		9E4E6C3F1B4BBB5C0034F7EB /* LastAccessedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */; };
 		9E4E6C411B4BDB5C0034F7EB /* MockLastAccessedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */; };
 		9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */; };
@@ -562,7 +558,6 @@
 		9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9AA36B1B3174E300CD7D44 /* CourseLastAccessedTests.swift */; };
 		9EA4788B1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EA4788A1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift */; };
 		9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */; };
-		9EB9C5251BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */; };
 		9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */; };
 		9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */; };
 		9EC6E1001BDE40E100729704 /* OEXCourse+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC6E0FF1BDE40E100729704 /* OEXCourse+Swift.swift */; };
@@ -693,6 +688,7 @@
 		E0816D7D1CBE35CE00818769 /* NavigationDrawerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D781CBE356E00818769 /* NavigationDrawerInteractor.swift */; };
 		E0816D7E1CBE35D300818769 /* FindCoursesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D771CBE356E00818769 /* FindCoursesInteractor.swift */; };
 		E0816D7F1CBE35DA00818769 /* FindCoursesTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0816D7B1CBE358900818769 /* FindCoursesTestCase.swift */; };
+		E08863F31F209B9C0009A06D /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08863F21F209B9C0009A06D /* DateFormatting.swift */; };
 		E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */; };
 		E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */; };
 		E08EFCD31EC1E4A1008ECEC9 /* screen_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E08EFCCF1EC1E4A1008ECEC9 /* screen_2.png */; };
@@ -718,6 +714,7 @@
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
+		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
 		E0D159911EB87658005E2A76 /* WhatsNewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */; };
 		E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */; };
 		E0D159971EB87700005E2A76 /* WhatsNewObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D159961EB87700005E2A76 /* WhatsNewObject.swift */; };
@@ -1099,9 +1096,6 @@
 		7727EC341BBC73F300C9987F /* RevealViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RevealViewController.swift; sourceTree = "<group>"; };
 		772856DE1CADBFD100460E7C /* BadgesAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgesAPI.swift; path = Source/Core/Code/BadgesAPI.swift; sourceTree = SOURCE_ROOT; };
 		772856E01CADC5DB00460E7C /* RawStringExtractable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RawStringExtractable.swift; path = Source/Core/Code/RawStringExtractable.swift; sourceTree = SOURCE_ROOT; };
-		772856E21CADCE0900460E7C /* OEXDateFormattingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXDateFormattingTests.m; path = Source/Core/Test/Code/OEXDateFormattingTests.m; sourceTree = SOURCE_ROOT; };
-		772856E41CADCE2E00460E7C /* OEXDateFormatting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXDateFormatting.h; path = Source/Core/Code/OEXDateFormatting.h; sourceTree = SOURCE_ROOT; };
-		772856E51CADCE2E00460E7C /* OEXDateFormatting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXDateFormatting.m; path = Source/Core/Code/OEXDateFormatting.m; sourceTree = SOURCE_ROOT; };
 		773181361B697644000CC050 /* DiscussionDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataManager.swift; sourceTree = "<group>"; };
 		773181381B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicsViewControllerTests.swift; sourceTree = "<group>"; };
 		7731813A1B6C1442000CC050 /* SeparatorInsetable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeparatorInsetable.swift; sourceTree = "<group>"; };
@@ -1413,7 +1407,6 @@
 		9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessibilityCLButton.swift; path = ../AccessibilityCLButton.swift; sourceTree = "<group>"; };
 		9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Accessibility.swift"; sourceTree = "<group>"; };
 		9E30B4011B00BFB0007F673E /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
-		9E35A2831B32D7090040B9A9 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastAccessedProvider.swift; sourceTree = "<group>"; };
 		9E4E6C401B4BDB5C0034F7EB /* MockLastAccessedProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockLastAccessedProvider.swift; sourceTree = "<group>"; };
 		9E5EDA681AFB603A002ADC64 /* CourseAnnouncementsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseAnnouncementsViewController.swift; sourceTree = "<group>"; };
@@ -1425,7 +1418,6 @@
 		9EA4788A1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionSearchBarDelegate.swift; sourceTree = "<group>"; };
 		9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressController.swift; sourceTree = "<group>"; };
 		9EACF3291BE0C92C0019130E /* JSON+ReadFromFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSON+ReadFromFile.swift"; sourceTree = "<group>"; };
-		9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXDateFormatting+Swift.swift"; sourceTree = "<group>"; };
 		9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Animations.swift"; sourceTree = "<group>"; };
 		9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IrregularBorderView.swift; sourceTree = "<group>"; };
 		9EC6E0FF1BDE40E100729704 /* OEXCourse+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXCourse+Swift.swift"; sourceTree = "<group>"; };
@@ -1621,6 +1613,7 @@
 		E0816D771CBE356E00818769 /* FindCoursesInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindCoursesInteractor.swift; sourceTree = "<group>"; };
 		E0816D781CBE356E00818769 /* NavigationDrawerInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDrawerInteractor.swift; sourceTree = "<group>"; };
 		E0816D7B1CBE358900818769 /* FindCoursesTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindCoursesTestCase.swift; sourceTree = "<group>"; };
+		E08863F21F209B9C0009A06D /* DateFormatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatting.swift; sourceTree = SOURCE_ROOT; };
 		E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModel.swift; sourceTree = "<group>"; };
 		E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionCommentsViewControllerTests.swift; sourceTree = "<group>"; };
 		E08EFCCF1EC1E4A1008ECEC9 /* screen_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_2.png; sourceTree = "<group>"; };
@@ -1646,6 +1639,7 @@
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
+		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
 		E0D159901EB87658005E2A76 /* WhatsNewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewViewController.swift; sourceTree = "<group>"; };
 		E0D159941EB87699005E2A76 /* WhatsNewDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewDataModel.swift; sourceTree = "<group>"; };
 		E0D159961EB87700005E2A76 /* WhatsNewObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObject.swift; sourceTree = "<group>"; };
@@ -1794,7 +1788,6 @@
 				191A001F1940560D004F7902 /* OEXDataParser.m */,
 				191A002219405B91004F7902 /* OEXUserDetails.h */,
 				191A002319405B91004F7902 /* OEXUserDetails.m */,
-				9EB9C5241BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2291,7 +2284,6 @@
 				77542CD71CB6A3AA006CA428 /* BadgesAPITests.swift */,
 				775391831CA0600700FA959C /* RegistrationAPITests.swift */,
 				77E6489F1C91EB2000B6740D /* NetworkManagerTests.swift */,
-				772856E21CADCE0900460E7C /* OEXDateFormattingTests.m */,
 				77C182A71CD299AE00AE1474 /* PaginationInfoTests.swift */,
 				7753913B1C97579000FA959C /* PersistentResponseCacheTests.swift */,
 			);
@@ -2668,6 +2660,7 @@
 				771D65D21C922FD400112B7E /* Operation.swift */,
 				772856E01CADC5DB00460E7C /* RawStringExtractable.swift */,
 				771D65CF1C922FC800112B7E /* StreamWaitOperation.swift */,
+				E08863F21F209B9C0009A06D /* DateFormatting.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -2716,8 +2709,6 @@
 				775391341C97404600FA959C /* Base Structures */,
 				77E648631C91276500B6740D /* Configuration */,
 				77E647BF1C90C6BE00B6740D /* Library Additions */,
-				772856E41CADCE2E00460E7C /* OEXDateFormatting.h */,
-				772856E51CADCE2E00460E7C /* OEXDateFormatting.m */,
 				775391351C97405D00FA959C /* Network */,
 			);
 			name = Code;
@@ -3222,6 +3213,7 @@
 		BECB7B331924C0C3009C77F1 /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */,
 				E0018A7C1EF2AA8600ED53A3 /* OEXInterfaceTests.swift */,
 				7768745A1CDCCB1E001DFB77 /* RemoteImageTests.swift */,
 				77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */,
@@ -3291,7 +3283,6 @@
 				77F76A6F1B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift */,
 				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
 				770A27AB1A702B6500DFC6FF /* OEXDataParserTests.m */,
-				9E35A2831B32D7090040B9A9 /* DateFormattingTests.swift */,
 				194E01901A54204A00A0CFAE /* OEXFormEncodingTests.m */,
 				77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */,
 				8F7F6DAC1A795AA60063B9D6 /* OEXSessionTests.m */,
@@ -3499,7 +3490,6 @@
 				77E647C91C90C76C00B6740D /* NSString+OEXFormatting.h in Headers */,
 				775391441C9760BD00FA959C /* NSString+OEXCrypto.h in Headers */,
 				77E648261C90DE0200B6740D /* NSBundle+OEXConveniences.h in Headers */,
-				772856E81CADCEB600460E7C /* OEXDateFormatting.h in Headers */,
 				771D65C61C922E6700112B7E /* OEXRemovable.h in Headers */,
 				77E648941C91407B00B6740D /* NSObject+OEXDeallocAction.h in Headers */,
 				77E648221C90DD6B00B6740D /* edXCore.h in Headers */,
@@ -4012,6 +4002,7 @@
 				771D65D01C922FC800112B7E /* Removable.swift in Sources */,
 				77E648651C9127DF00B6740D /* Logger.swift in Sources */,
 				771D65C91C922EE600112B7E /* NetworkManager.swift in Sources */,
+				E08863F31F209B9C0009A06D /* DateFormatting.swift in Sources */,
 				77E648611C91274E00B6740D /* OEXConfig.m in Sources */,
 				772856E11CADC5DB00460E7C /* RawStringExtractable.swift in Sources */,
 				77E647D01C90CABD00B6740D /* NSString+OEXFormatting.m in Sources */,
@@ -4026,7 +4017,6 @@
 				771D65D71C922FF400112B7E /* NSHTTPURLResponse+OEXHelpers.swift in Sources */,
 				77C182A61CD2997C00AE1474 /* PaginationInfo.swift in Sources */,
 				775391451C9760BD00FA959C /* NSString+OEXCrypto.m in Sources */,
-				772856E71CADCEB200460E7C /* OEXDateFormatting.m in Sources */,
 				771D65C71C922E6700112B7E /* OEXRemovable.m in Sources */,
 				771D65DB1C92301600112B7E /* OEXHTTPStatusCode+Groups.swift in Sources */,
 				77E648951C91407B00B6740D /* NSObject+OEXDeallocAction.m in Sources */,
@@ -4040,7 +4030,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				77E648A41C91F99400B6740D /* MockNetworkManager.swift in Sources */,
-				772856E31CADCE0900460E7C /* OEXDateFormattingTests.m in Sources */,
 				7753913C1C97579000FA959C /* PersistentResponseCacheTests.swift in Sources */,
 				7753913F1C9758D400FA959C /* XCTestCase+Async.swift in Sources */,
 				77542CDB1CB6A463006CA428 /* OEXMetaClassHelpers.m in Sources */,
@@ -4322,7 +4311,6 @@
 				9C9B7F731A8CC80E00A857B2 /* OEXURLSessionManager.m in Sources */,
 				699FF8541E5AE74300AD98A5 /* EmailTemplates.swift in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
-				9EB9C5251BAFEE9F00300E55 /* OEXDateFormatting+Swift.swift in Sources */,
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
@@ -4541,7 +4529,6 @@
 				77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
 				77C182A81CD299AE00AE1474 /* PaginationInfoTests.swift in Sources */,
 				227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */,
-				9E35A2841B32D7090040B9A9 /* DateFormattingTests.swift in Sources */,
 				1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */,
 				7791C4ED1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift in Sources */,
 				E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */,
@@ -4576,6 +4563,7 @@
 				021AD6281F166F78009AF653 /* CourseCatalogDetailViewControllerTests.swift in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
 				77E648A51C92062900B6740D /* MockResponseCache.swift in Sources */,
+				E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */,
 				E00A33C11D3CEB3400963D8F /* SnackbarViewsTests.swift in Sources */,
 				77567B791ACA00F900877A7B /* NSNotificationCenter+OEXSafeAccessTests.m in Sources */,
 				9E9AA36C1B3174E300CD7D44 /* CourseLastAccessedTests.swift in Sources */,

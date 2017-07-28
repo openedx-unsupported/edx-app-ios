@@ -77,7 +77,7 @@ public struct BadgeAssertion {
         }
         self.assertionURL = assertionURL as URL
         self.imageURL = imageURL
-        self.created = json[Fields.Created].serverDate as NSDate?
+        created = json[Fields.Created].serverDate
         self.badgeClass = badgeClass
     }
 }

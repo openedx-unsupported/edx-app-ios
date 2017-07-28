@@ -18,7 +18,6 @@
 #import "OEXCourseVideosTableViewCell.h"
 #import "OEXCustomLabel.h"
 #import "OEXDataParser.h"
-#import "OEXDateFormatting.h"
 #import "OEXInterface.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXStyles.h"
@@ -407,7 +406,7 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
         cell.lbl_Time.text = [Strings myVideosTimeLabel];
     }
     else {
-        cell.lbl_Time.text = [OEXDateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
+        cell.lbl_Time.text = [DateFormatting formatSecondsAsVideoLength: obj_video.summary.duration];
     }
 
     //Played state

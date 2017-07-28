@@ -12,7 +12,6 @@
 
 #import "NSDate+OEXComparisons.h"
 #import "NSObject+OEXReplaceNull.h"
-#import "OEXDateFormatting.h"
 #import "OEXLatestUpdates.h"
 #import "OEXCoursewareAccess.h"
 
@@ -56,7 +55,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 
 - (NSDictionary<NSString*, id>*)jsonFields {
     NSMutableDictionary<NSString*, NSObject*>* result = [[NSMutableDictionary alloc] init];
-    [result setObjectOrNil:[OEXDateFormatting serverStringWithDate:self.date] forKey:@"start"];
+    [result setObjectOrNil:[DateFormatting serverStringWithDate:self.date] forKey:@"start"];
     [result setObjectOrNil:self.displayDate forKey:@"start_display"];
     [result setObjectOrNil:NSStringForOEXStartType(self.type) forKey:@"start_type"];
     return result;
@@ -97,11 +96,11 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
     self = [super init];
     if(self != nil) {
         info = [info oex_replaceNullsWithEmptyStrings];
-        self.end = [OEXDateFormatting dateWithServerString:[info objectForKey:@"end"]];
+        self.end = [DateFormatting dateWithServerString:[info objectForKey:@"end"]];
         
-        NSDate* start = [OEXDateFormatting dateWithServerString:[info objectForKey:@"start"]];
+        NSDate* startDate = [DateFormatting dateWithServerString:[info objectForKey:@"start"]];
         self.start_display_info = [[OEXCourseStartDisplayInfo alloc]
-                                   initWithDate:start
+                                   initWithDate:startDate
                                    displayDate:[info objectForKey:@"start_display"]
                                    type:OEXStartTypeForString([info objectForKey:@"start_type"])];
         self.course_image_url = [info objectForKey:@"course_image"];

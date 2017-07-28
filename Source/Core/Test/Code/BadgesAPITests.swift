@@ -26,7 +26,7 @@ class BadgesAPITests : XCTestCase {
         return [
             "assertion_url": "http://example.com/evidence",
             "image_url": "http://example.com/image.jpg",
-            "created": OEXDateFormatting.serverString(with: NSDate() as Date),
+            "created": DateFormatting.serverString(withDate: NSDate()) ?? "",
             "badge_class": [
                 "description" : "Some cool badge!",
                 "slug": "someslug",

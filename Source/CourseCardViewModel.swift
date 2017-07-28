@@ -94,7 +94,7 @@ extension OEXCourse {
                 return nil
             }
             
-            let formattedEndDate = OEXDateFormatting.format(asMonthDayString: end)
+            let formattedEndDate = (DateFormatting.format(asMonthDayString: end as NSDate)) ?? ""
             
             // If Old date is older than current date
             if self.isEndDateOld {
@@ -109,8 +109,8 @@ extension OEXCourse {
             case .string where self.start_display_info.displayDate != nil:
                 return Strings.starting(startDate: self.start_display_info.displayDate!)
             case .timestamp where self.start_display_info.date != nil:
-                let formattedStartDate = OEXDateFormatting.format(asMonthDayString: self.start_display_info.date!)
-                return Strings.starting(startDate: formattedStartDate)
+                let formattedStartDate = DateFormatting.format(asMonthDayString: self.start_display_info.date! as NSDate)
+                return Strings.starting(startDate: formattedStartDate ?? "")
             case .none, .timestamp, .string:
                 return Strings.starting(startDate: Strings.soon)
             }

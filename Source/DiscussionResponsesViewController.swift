@@ -828,7 +828,7 @@ extension NSDate {
     }
     
     public var displayDate : String {
-        return shouldDisplayTimeSpan ? self.timeAgoSinceNow() : OEXDateFormatting.formatAsDateMonthYearStringWithDate(date: self)
+        return shouldDisplayTimeSpan ? self.timeAgoSinceNow() : DateFormatting.format(asDateMonthYearString: self)
     }
 }
 

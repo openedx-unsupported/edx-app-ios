@@ -13,7 +13,6 @@
 #import "NSString+OEXFormatting.h"
 #import "OEXAppDelegate.h"
 #import "OEXCustomLabel.h"
-#import "OEXDateFormatting.h"
 #import "OEXDownloadTableCell.h"
 #import "OEXOpenInBrowserViewController.h"
 #import "OEXHelperVideoDownload.h"
@@ -171,7 +170,7 @@
             cell.lbl_time.text = [Strings myVideosTimeLabel];
         }
         else {
-            cell.lbl_time.text = [OEXDateFormatting formatSecondsAsVideoLength: downloadingVideo.summary.duration];
+            cell.lbl_time.text = [DateFormatting formatSecondsAsVideoLength: downloadingVideo.summary.duration];
         }
 
         float result = (([downloadingVideo.summary.size doubleValue] / 1024) / 1024);

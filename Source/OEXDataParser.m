@@ -18,7 +18,6 @@
 
 #import "OEXAnnouncement.h"
 #import "OEXCourse.h"
-#import "OEXDateFormatting.h"
 #import "OEXHelperVideoDownload.h"
 #import "OEXInterface.h"
 #import "OEXLatestUpdates.h"
