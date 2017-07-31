@@ -128,15 +128,22 @@
     XCTAssertFalse(summary.isSupportedVideo);
 }
 
-- (void)testSupportedFallbackEncoding {
+- (void)testSupportedEncoding {
     NSDictionary *fallback = [self encodingWithName:OEXVideoEncodingMobileLow andUrl:@"https://www.example.com/video.mp4"];
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
 }
 
-- (void)testUnSupportedFallbackEncoding {
+- (void)testSupportedFallbackEncoding {
     NSDictionary *fallback = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.mp4"];
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
+    
+    XCTAssertTrue(summary.isSupportedVideo);
+}
+
+- (void)testUnSupportedFallbackEncoding {
+    NSDictionary *fallback = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.example.com/video.mp4"];
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
     
     XCTAssertFalse(summary.isSupportedVideo);
