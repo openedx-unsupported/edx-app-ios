@@ -107,7 +107,12 @@ public class CourseOutlineViewController :
         stream.extendLifetimeUntilFirstResult (success :
             { (rootID, block) in
                 if self.blockID == rootID || self.blockID == nil {
-                    self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self.courseID, value: nil)
+                    if self.courseOutlineMode == .Full {
+                        self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self.courseID, value: nil)
+                    }
+                    else {
+                        self.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self.courseID, value: nil)
+                    }
                 }
                 else {
                     self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.internalName)

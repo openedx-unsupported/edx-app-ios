@@ -25,6 +25,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     private let content = CourseOutlineItemView()
     fileprivate let downloadView = DownloadsAccessoryView()
     fileprivate var spinnerTimer = Timer()
+    var courseID: String?
     
     var block : CourseBlock? = nil {
         didSet {
@@ -112,6 +113,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
    fileprivate func deleteVideo()  {
         if let video = localState {
             OEXInterface.shared().deleteDownloadedVideo(video) { _ in }
+            OEXAnalytics.shared().trackUnitDeleteVideo(courseID: courseID ?? "", unitID: block?.blockID ?? "")
         }
     }
 }

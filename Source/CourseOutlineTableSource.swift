@@ -118,6 +118,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         case .Video:
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseVideoTableViewCell.identifier, for: indexPath as IndexPath) as! CourseVideoTableViewCell
             cell.block = block
+            cell.courseID = courseID
             cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)
             cell.delegate = self
             cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? cell : nil
@@ -141,6 +142,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.videos = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
             cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? cell : nil
             cell.delegate = self
+            cell.courseID = courseID
             return cell
         case .Discussion:
             let cell = tableView.dequeueReusableCell(withIdentifier: DiscussionTableViewCell.identifier, for: indexPath) as! DiscussionTableViewCell
