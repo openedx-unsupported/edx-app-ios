@@ -55,6 +55,16 @@ open class DateFormatting: NSObject {
         return formatter.string(from: date as Date).uppercased()
     }
     
+    /// Format like April 11, 2013 6:30
+    open class func format(asMonthDay date: NSDate?) -> String? {
+        guard let date = date else { return nil }
+        
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "MMM dd, yyyy HH:mm"
+        return formatter.string(from: date as Date).uppercased()
+    }
+    
     /// Format like April 11, 2013
     open class func format(asMonthDayYearString date: NSDate?) -> String? {
         guard let date = date else { return nil }

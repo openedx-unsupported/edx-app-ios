@@ -45,7 +45,7 @@ public struct CourseOutlineAPI {
         let parameters = Parameters(
             courseID: courseID,
             username: username,
-            fields : ["graded", "student_view_multi_device", "format"],
+            fields : ["graded", "student_view_multi_device", "format", "due"],
             blockCount : [CourseBlock.Category.Video.rawValue],
             studentViewData : [CourseBlock.Category.Video, CourseBlock.Category.Discussion]
         )

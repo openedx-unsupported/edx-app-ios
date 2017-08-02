@@ -20,6 +20,7 @@ public struct CourseOutline {
         case BlockType = "type"
         case Descendants = "descendants"
         case DisplayName = "display_name"
+        case DueDate = "due"
         case Format = "format"
         case Graded = "graded"
         case LMSWebURL = "lms_web_url"
@@ -55,6 +56,7 @@ public struct CourseOutline {
                 let webURL = NSURL(string: body[Fields.LMSWebURL].stringValue)
                 let children = body[Fields.Descendants].arrayObject as? [String] ?? []
                 let name = body[Fields.DisplayName].string
+                let dueDate = body[Fields.DueDate].string
                 let blockURL = body[Fields.StudentViewURL].string.flatMap { NSURL(string:$0) }
                 let format = body[Fields.Format].string
                 let typeName = body[Fields.BlockType].string ?? ""
@@ -105,6 +107,7 @@ public struct CourseOutline {
                     blockID: blockID,
                     minifiedBlockID: minifiedBlockID,
                     name: name,
+                    dueDate: dueDate,
                     blockCounts : blockCounts,
                     blockURL : blockURL,
                     webURL: webURL,
@@ -173,6 +176,8 @@ public class CourseBlock {
     /// Title of block. Keep this private so people don't use it as the displayName by accident
     private let name : String?
     
+    public let dueDate : String?
+    
     /// Actual title of the block. Not meant to be user facing - see displayName
     public var internalName : String? {
         return name
@@ -214,6 +219,7 @@ public class CourseBlock {
         blockID : CourseBlockID,
         minifiedBlockID: String?,
         name : String?,
+        dueDate : String? = nil,
         blockCounts : [String:Int] = [:],
         blockURL : NSURL? = nil,
         webURL : NSURL? = nil,
@@ -223,6 +229,7 @@ public class CourseBlock {
         self.type = type
         self.children = children
         self.name = name
+        self.dueDate = dueDate
         self.blockCounts = blockCounts
         self.blockID = blockID
         self.minifiedBlockID = minifiedBlockID

@@ -29,6 +29,7 @@ public class CourseOutlineItemView: UIView {
     static let detailFontStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBase())
     
     private let fontStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
+    private let boldFontStyle = OEXTextStyle(weight: .bold, size: .small, color : OEXStyles.shared().neutralBlack())
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let leadingImageButton = UIButton(type: UIButtonType.system)
@@ -88,8 +89,17 @@ public class CourseOutlineItemView: UIView {
         titleLabel.attributedText = fontStyle.attributedString(withText: title)
     }
     
-    func setDetailText(title : String) {
-        subtitleLabel.attributedText = CourseOutlineItemView.detailFontStyle.attributedString(withText: title)
+    func setDetailText(title : String, dueDate: String? = "") {
+        
+        
+        let dateString =  DateFormatting.format(asMonthDay: DateFormatting.date(withServerString: dueDate)) ?? ""
+        let formattedDateString = (dateString != "") ? String(format: "due %@", dateString) : ""
+        
+        var attributedStrings = [NSAttributedString]()
+        attributedStrings.append(boldFontStyle.attributedString(withText: title))
+        attributedStrings.append(CourseOutlineItemView.detailFontStyle.attributedString(withText: formattedDateString))
+        
+        subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
         setNeedsUpdateConstraints()
     }
     
@@ -137,17 +147,19 @@ public class CourseOutlineItemView: UIView {
         addSubview(checkmark)
         
         // For performance only add the static constraints once
-        subtitleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
-            make.leading.equalTo(titleLabel)
-            make.trailing.lessThanOrEqualTo(trailingContainer.snp_leading).offset(TitleOffsetTrailing)
-        }
         
         checkmark.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(subtitleLabel.snp_centerY)
-            make.leading.equalTo(subtitleLabel.snp_trailing).offset(5)
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            make.leading.equalTo(titleLabel)
+            make.trailing.lessThanOrEqualTo(trailingContainer.snp_leading).offset(5)
             make.size.equalTo(CGSize(width: SmallIconSize, height: SmallIconSize))
         }
+        
+        subtitleLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            make.leading.equalTo(checkmark.snp_leading).offset(20)
+        }
+
         
         trailingContainer.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
