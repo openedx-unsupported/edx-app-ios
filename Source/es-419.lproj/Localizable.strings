@@ -1,0 +1,736 @@
+/*
+ Localizable.strings
+ edXVideoLocker
+ 
+ Created by Nirbhay Agarwal on 07/07/14.
+ Copyright (c) 2014-2015 edX. All rights reserved.
+ */
+
+// Please keep in alphabetical order
+
+/* Alert dialog confirmation button when user chooses to download a large video */
+"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Descargar";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_CHECKED" = "Marcado";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_UNCHECKED" = "Desmarcado";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "Limpiar el marcado";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Toque para seleccionar";
+/* Appending By before course organization and number on My Find Courses*/
+"ACCESSIBILITY_BY" = "Por";
+/* Accessibility hint for close button*/
+"ACCESSIBILITY.CLOSE_HINT" = "Toque dos veces para cerrar.";
+/* Accessibility label for posted data of discussion responses*/
+"ACCESSIBILITY.DISCUSSION_POSTED_ON" = "Publicado el {date}";
+/* Accessibility hint for Vote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_VOTE_HINT" = "Toque dos veces para votar.";
+/* Accessibility hint for Unvote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNVOTE_HINT" = "Toque dos veces para eliminar su voto.";
+/* Accessibility hint for Report button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_REPORT_HINT" = "Toque dos veces para reportar.";
+/* Accessibility hint for Unreport button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "Toque dos veces para eliminar su reporte.";
+/* Accessibility hint for Follow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "Toque dos veces para seguir.";
+/* Accessibility hint for Unfollow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Toque dos veces para dejar de seguir.";
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Descarga en progreso: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Descargas en progreso: {percent_complete}";
+/* Acessibility hint for the download progress button. */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "Toque dos veces para ver las descargas actuales";
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "Descargando {video_name}. {percent_complete} completado.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{other}" = "Descargando {video_name}. {percent_complete} por ciento completado.";
+/* Accessibility hint for number of downloadable videos */
+/* Accessibility hint for number of downloadable videos */
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Descargas {video_count} video.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "Descargas {video_count} videos.";
+/* Accessibility label for fullscreen button on video player */
+"ACCESSIBILITY_FULLSCREEN" = "Pantalla completa";
+/* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
+"ACCESSIBILITY_EXIT_FULLSCREEN" = "Salir de pantalla completa";
+/* Accessibility label for HTML Icon in the Courseware screens */
+"ACCESSIBILITY_HTML" = "HTML";
+/* Accessibility label for Pause Button in the Video Player */
+"ACCESSIBILITY_PAUSE" = "Pausar";
+/* Accessibility label for Play Button in the Video Player */
+"ACCESSIBILITY_PLAY" = "Reproducir";
+/* Accessibility lable for the avatar image */
+"ACCESSIBILITY_USER_AVATAR" = "Su imagen de avatar";
+/* Accessibility label for Problem Icon in the Courseware screens */
+"ACCESSIBILITY_PROBLEM" = "Problema";
+/* Accessibility label for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND" = "Retroceder";
+/* Call to action for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND_HINT" = "Retroceder 30 segundos";
+/* Accessibility label for Seek bar in the Video Player */
+"ACCESSIBILITY_SEEK_BAR" = "Barra de búsqueda";
+/* Accessibility label for Select Button on My Videos List Screen */
+"ACCESSIBILITY_SELECT" = "Seleccionar";
+/* Accessibility label for Select All Button on My Videos List Screen */
+"ACCESSIBILITY_SELECT_ALL" = "Seleccionar todo";
+/* Accessibility label for Settings Button in the Video Player */
+"ACCESSIBILITY_SETTINGS" = "Configuración";
+/* Call to action for Course content on Home Screen */
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Toque dos veces para ver el contenido del curso.";
+/* Call to action for Opening Dropdown */
+"ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Toque dos veces para abrir el menú desplegable.";
+/* Call to action for Selecting Option */
+"ACCESSIBILITY_SELECT_VALUE_HINT" = "Toque dos veces para seleccionar.";
+/* Accessibility label for Unknown Icon in the Courseware screens */
+"ACCESSIBILITY_UNKNOWN" = "Desconocido";
+/* Accessibility label for Video Icon in the Courseware screens */
+"ACCESSIBILITY_VIDEO" = "Video";
+/* Text spoken for Navigation Button on Course List Screen */
+"ACCESSIBILITY_MENU" = "Menú de Navegación";
+/* Accessibility label for close button when left drawer is open*/
+"ACCESSIBILITY_CLOSE_MENU" = "Cerrar Menú de Navegación";
+/* Accessibility label for hiding keyboard*/
+"ACCESSIBILITY_HIDE_KEYBOARD" = "Ocultar el teclado";
+/* Accessibility Hint to view user profile*/
+"ACCESSIBILITY_SHOW_USER_PROFILE_HINT" = "Toque dos veces para ver el perfil de usuario.";
+/*Accessibility text for pinned discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_PINNED" = "Marcado";
+/*Accessibility text for closed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_CLOSED" = "Cerrado";
+/*Accessibility text for followed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_FOLLOWED" = "Siguiendo";
+/* Accessibility text for unread discussion comments count (Posts screen) - {count} is a number of unread comments */
+"ACCESSIBILITY.DISCUSSION_UNREAD_REPLIES"="{count} respuestas no leídas";
+/*Accessibility text for unread discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_UNREAD_THREAD" = "Discusión no leída";
+/*Accessibility text for read discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_READ_THREAD" = "Discusión leída";
+/*Accessibility text for discussion thread last seen date(Posts screen) - {date} last updated thread date*/
+"ACCESSIBILITY.DISCUSSION_LAST_POST_ON" = "Última publicación hecha el {date}";
+/*Accessibility hint for discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_THREAD_HINT" = "Toque dos veces para ver.";
+/*Accessibility hint for sort button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_SORT_BY" = "Ordenar por {sort_by}";
+/*Accessibility hint for filter button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_FILTER_BY" = "Filtrar por {filter_by}";
+/*Accessibility label for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_LABEL" = "Ha iniciado sesión como {user_name}, {user_email}";
+/*Accessibility hint for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "Toque dos veces para abrir su perfil";
+/*Accessibility text for close button on whats new screen*/
+"ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="Cerrar";
+/*Accessibility label for header on new screen*/
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Nuevas funciones de la versión {app_version}";
+/*Accessibility text for course share button on course dashboard*/
+"ACCESSIBILITY.SHARE_A_COURSE"="Compartir un curso";
+/* Title of user profile section for user accomplishments (like badges) */
+"ACCOMPLISHMENTS.TITLE" = "Logros";
+/* Default text template when user shares an accomplishment */
+"ACCOMPLISHMENTS.SHARE_TEXT" = "He ganado una insignia en {platform_name}! Dale un vistazo";
+/* Add a comment button title and place holder used in discussion comment text view */
+"ADD_A_COMMENT"="Añadir comentario";
+/* Add a response button title used in discussion's responses screen */
+"ADD_A_RESPONSE"="Añadir respuesta";
+/* Add comment button title used in discussion's Add a comment */
+"ADD_COMMENT"="Añadir comentario";
+/* Add post button title used in discussion's Create a new post */
+"ADD_POST"="Añadir publicación";
+/* Add response button title used in discussion's Add a response */
+"ADD_RESPONSE"="Añadir respuesta";
+/* Add your post button title used in discussion's add a post textview */
+"ADD_YOUR_POST"="Añadir su publicación";
+/* Alert dialog button allowing user to chosing to allow downloads on cellular */
+"ALLOW"="Permitir";
+/* Filtering option to show all discussion posts */
+"ALL_POSTS"="Todas las publicaciones";
+/* Tab allowing the user to see all videos */
+"ALL_VIDEOS"="Todos los videos";
+/* Message shown when there are no announcements for a course */
+"ANNOUNCEMENT_UNAVAILABLE"="No hay anuncios para este curso.";
+/* Label indicating the response answer in Discussion Add comment screen */
+"ANSWER"="Responder";
+/* Navigation title for a Question Post which has endorsed answers */
+"ANSWERED_QUESTION"="Pregunta respondida";
+/* Accessibility label for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "Control de valoraciones.";
+/* Accessibility hint for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_HINT" = "Toque dos veces y mantega presionado para cambiar el valor.";
+/* Alert title for positive app review */
+"APP_REVIEW.RATE_THE_APP" = "Valorar la aplicación";
+/* Positive review message */
+"APP_REVIEW.POSITIVE_REVIEW_MESSAGE" = "Comparta su opinión sobre la aplicación con los demás escribiendo una breve crítica en la App Store";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK_TITLE" = "Send Feedback?";
+/* Help us improve message for negative app review */
+"APP_REVIEW.HELP_US_IMPROVE" = "¡Ayúdenos a mejorar!";
+/* Maybe later message for positive/negative app review */
+"APP_REVIEW.MAYBE_LATER" = "Quizás más tarde";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK" = "Send Feedback";
+/* Question for rating view */
+"APP_REVIEW.RATE_THE_APP_QUESTION" = "¿Cómo valoraría la aplicación?";
+/* Submit button for rating view */
+"APP_REVIEW.SUBMIT" = "Enviar";
+/* App Review message email title */
+"APP_REVIEW.MESSAGE_SUBJECT" = "Crítica del cliente";
+/*Asteric for marking fields required*/
+"ASTERIC" = "*";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR" = "Por {author_name}";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR_LOWER_CASE" = "por {author_name}";
+/* Course completion title */
+"CERTIFICATES.COURSE_COMPLETION_TITLE"="FELICITACIONES!";
+/* Course completion subtitle */
+"CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="Ha aprobado el curso.";
+/* Get certificate button text. */
+"CERTIFICATES.GET_CERTIFICATE"="Ver certificado";
+/* Text to share on FB & Twitter when sharing a course cert */
+"CERTIFICATES.SHARE_TEXT"="Acabo de obtener un Certificado en {platform_name}! Dale un vistazo:";
+/* Title bar when viewing an actual certificate */
+"CERTIFICATES.VIEW_CERT_TITLE"="Certificado";
+/* Title of course announcements section */
+"COURSE_ANNOUNCEMENTS"="Anuncios";
+/* Title of course handouts section */
+"COURSE_HANDOUTS"="Recursos";
+/* Title of course important dates screen */
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Fechas y plazos del curso";
+/* Button text for cancelling any action */
+"CANCEL"="Cancelar";
+/* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Permitir que su dispositivo descargue videos usando su conexión de datos móviles cuando no haya una red Wi-Fi disponible. Pueden aplicar cargos de datos.";
+/* Title of alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_TITLE"="Permitir descarga de datos móviles";
+/* Error message shown when there is a problem loading a video */
+"CHECK_CONNECTION"="Problema cargando el video.\nPor favor revise su conexión a Internet.";
+/* Generic action button label when the user chooses a thing */
+"CHOOSE" = "Elegir";
+/* Title of dropdown from which the user can select topics on New Post Screen */
+"CHOOSE_A_TOPIC" = "Seleccione un tema...";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
+"COMPLETE_REGISTRATION_INFO" = "Ha iniciado sesión exitosamente con {service}. Sólo necesitamos un poco más de información antes de que empiece a aprender con {platform_name}.";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
+"COMPLETE_REGISTRATION_PROMPT" = "Complete su incripción";
+/* Title of alert when confirming deletion of a video */
+"CONFIRM_DELETE_TITLE"="Confirmar borrado";
+/* Text of alert when confirming video deletion */
+/* Text of alert when confirming video deletion */
+"CONFIRM_DELETE_MESSAGE##{one}"="¿Está seguro de querer borrar este video?";
+"CONFIRM_DELETE_MESSAGE##{other}"="¿Está seguro de querer borrar estos videos?";
+/* Text of push notification announcing a new course announcement */
+"COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="Nuevo anuncio: {course_name}";
+/* Alert dialog button text */
+"CLOSE"="Cerrar";
+/* Discussion response comment - {count} is a number of comments */
+/* Discussion response comment - {count} is a number of comments */
+"COMMENT##{one}"="{count} comentario";
+"COMMENT##{other}"="{count} comentarios";
+/* Discussion comments */
+"COMMENTS"="Comentarios";
+/* Text displayed when comments are disabled for a Response */
+"COMMENTS_CLOSED" = "Los comentarios están cerrados para esta respuesta";
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+"COMMENTS_TO_RESPONSE##{one}"="{count} Comentario";
+"COMMENTS_TO_RESPONSE##{other}"="{count} Comentarios";
+/* Label for posts pinned by Community TA(s)" */
+"COMMUNITY_TA"="PROFESOR ASISTENTE DE LA COMUNIDAD";
+/* Label indicating the amount of time a course will take */
+"COURSE_DETAIL.EFFORT"="Esfuerzo:";
+/* Label indicating when a course ends. */
+"COURSE_DETAIL.END_DATE"="Fecha de finalización:";
+/* Button title allowing user to enroll in a course */
+"COURSE_DETAIL.ENROLL_NOW" = "Inscribirse ahora";
+/* Button title allowing user to view a course from the course's catalog detail page */
+"COURSE_DETAIL.VIEW_COURSE" = "Ver curso";
+/* Button title describing that the course is invitation only */
+"COURSE_DETAIL.INVITATION_ONLY" = "Solo con invitación";
+/* Message shown when there is no course content */
+"COURSEWARE_UNAVAILABLE"="No hay ningún contenido del curso disponible en este momento.";
+/* Message shown when there is no course video */
+"COURSE_VIDEO_UNAVAILABLE"="This course does not include any videos";
+/* Message shown when attempting to display content not available on the app */
+"COURSE_CONTENT_UNKNOWN" = "Este componente interactivo aún no está disponible desde dispositivos móviles.\n\nExplore otras partes de este curso o véalo en línea.";
+/* Message shown when there is no course dates */
+"COURSEDATES.COURSE_DATE_UNAVAILABLE"="Las fechas del curso no están disponibles en este momento.";
+/* Title text for the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS"="Anuncios";
+/* Text describing the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS_DETAIL"="Manténgase actualizado";
+/* Title text for the Courseware section of the course dashboard */
+"DASHBOARD.COURSE_COURSEWARE"="Curso";
+/* Text describing the Courseware section within the course dashboard */
+"DASHBOARD.COURSE_COURSE_DETAIL"="Access course content and assignments";
+/* Title text for the videos section of the course dashboard */
+"DASHBOARD.COURSE_Videos"="Videos";
+/* Text describing the Videos section within the course dashboard */
+"DASHBOARD.COURSE_Videos_DETAIL"="Watch course videos";
+/* Title text for the Discussions section of the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION"="Debate";
+/* Text describing the Discussions section within the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION_DETAIL"="Únase a la conversación";
+/* Title text for the Handouts section of the course dashboard  */
+"DASHBOARD.COURSE_HANDOUTS"="Recursos";
+/* Text describing the Handouts section within the course dashboard */
+"DASHBOARD.COURSE_HANDOUTS_DETAIL"="Encuentre información importante del curso";
+/* Title text for the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Fechas importantes";
+/* Text describing the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Realice un seguimiento de los plazos y cumpla con lo planeado";
+
+/* Label indicated that a course has ended */
+"COURSE_ENDED"="Terminado - {end_date}";
+/* Label indicating that a course will end */
+"COURSE_ENDING"="Tarmina - {end_date}";
+/* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
+"COURSE_MODE_FULL"="Mostrar curso completo";
+/* Option to show only video course content. Constrasts with 'Show All Course Content'. */
+"COURSE_MODE_VIDEO"="Mostrar solo videos";
+/* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
+"COURSE_MODE_PICKER_DESCRIPTION" = "Selector de modo";
+/* Text displayed when Can't find one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "Estamos trabajando para hacer que todos nuestros cursos sean compatibles con dispositivos móviles. Si no encuentra un curso, vuelva a consultar pronto. ¡Estamos añadiendo cursos todos los días!";
+/* Message shown on a course when it hasn't started yet.*/
+"COURSE_NOT_STARTED"="Este curso no ha comenzado todavía.";
+/* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
+"COURSE_WILL_START_AT"="Este curso no ha comenzado todavía. Regrese el {date} para poder ver sus videos.";
+/* Create a new post button title used in discussions' posts screen */
+"CREATE_A_NEW_POST"="Crear nueva publicación";
+/* Button text to initiate or confirm deletion */
+"DELETE"="Borrar";
+/* Discussion used in the segmented control Creating a new post */
+"DISCUSSION"="Discusión";
+/* Discussion comment overlay message when new comment added */
+"DISCUSSION_COMMENT_POSTED" = "Su comentario ha sido añadido.";
+/* Title of button to allow user to follow a discussion post */
+"DISCUSSION_FOLLOW"="Seguir";
+/* Title of action to report a discussion post/response/comment to the course staff */
+"DISCUSSION_REPORT"="Reportar";
+/* Discussion response overlay message when new response added */
+"DISCUSSION_THREAD_POSTED" = "Su respuesta ha sido añadida.";
+/* Title of the navigation bar when entering the course discussion */
+"DISCUSSION_TOPICS"="Temas de discusión";
+/* Title of button to allow user to unfollow a discussion post */
+"DISCUSSION_UNFOLLOW"="Dejar de seguir";
+/* Title of action to unreport a discussion post/response/comment to the course staff */
+"DISCUSSION_UNREPORT"="Anular reporte";
+/* Discussion comments count (Posts screen) - {count} is a number of comments */
+"DISCUSSIONS.REPLIES_COUNT"="{count} Respuestas";
+/*Discussion posts screen last post date - {date} last updated thread date*/
+"DISCUSSIONS.LAST_POST" = "Última publicación: {date}";
+/* Alert dialog button for allowing/disallowing downloads on cellular data */
+"DO_NOT_ALLOW"="No permitir";
+/* Description about for button to download videos. For example, "Download 1 video" */
+/* Description about for button to download videos. For example, "Download 3 videos" */
+"DOWNLOAD_MANY_VIDEOS##{one}" = "Descargar {video_count} video";
+"DOWNLOAD_MANY_VIDEOS##{other}" = "Descargar {video_count} videos";
+/* Button text for confirming download */
+"DOWNLOAD" = "Descargar";
+/* Label indicating that a video or videos have been downloaded */
+"DOWNLOADED" = "Descargados";
+/* Description about downloaded videos. For example, "Downloaded 1 video" */
+/* Description about downloaded videos. For example, "Downloaded 3 videos" */
+"DOWNLOADED_MANY_VIDEOS##{one}" = "Descargar {video_count} video.";
+"DOWNLOADED_MANY_VIDEOS##{other}" = "Descargar {video_count} videos";
+/* Label indicating that a video or videos are downloading */
+"DOWNLOADING" = "Descargando";
+/* Title of video downloads screen */
+"DOWNLOADS"="Descargas";
+/* Overlay message after user chooses to download a video */
+"DOWNLOADING_1_VIDEO"="Descargando 1 video.";
+/* Title for Edit button on My Videos Screen */
+"EDIT" = "Editar";
+/* Alert message shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="Al parecer su cliente de correo no está configurado.";
+/* Alert dialog title shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="No se pudo enviar el correo";
+/* Placeholder text for email address entry field */
+"EMAIL_ADDRESS_PROMPT"="Dirección de correo electrónico";
+/* Text displayed when no results are found in the search */
+"EMPTY_RESULTSET" = "Resultados no encontrados para \"{query_string}\". Intente usando otro término de búsqueda o seleccione una categoría de discusión a explorar.";
+/* Prompt shown to users on the course list encouraging them to find new courses */
+"ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "¿Buscando un nuevo desafío?";
+/* Button title opening course catalog */
+"ENROLLMENT_LIST.FIND_COURSES" = "Encuentre un curso";
+/* Error message when user is not enrolled to any course and course discovery is also disabled.*/
+"ENROLLMENT_LIST.NO_ENROLLMENT" = "Parece que todavía no está inscrito en ningún curso.";
+/* Prompt indicating user needs to enter an email address */
+"ENTER_EMAIL"="Por favor ingrese su nombre de usuario o dirección de correo e intente de nuevo.";
+/* Prompt indicating user needs to enter a password */
+"ENTER_PASSWORD"="Por favor ingrese su contraseña e intente de nuevo.";
+/* Text used when the post is visible to everyone */
+"EVERYONE"="todos";
+/* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
+"EXTERNAL_REGISTRATION_BECAME_LOGIN" = "Ya estableció una cuenta de {platform_name} usando su cuenta de {service}. Se ha iniciado sesión con esa cuenta.";
+/* Endorsed text */
+"ENDORSED" = "Validado";
+/* Facebook login method */
+"FACEBOOK"="Facebook";
+/* Overlay message shown when facebook login fails because the user's account isn't linked */
+"FAILED_TO_LOAD_TOPICS"="Falló al cargar los temas.";
+/* Title of find courses screen */
+"FIND_COURSES"="Encontrar cursos";
+/* Overlay message shown when enrolling in a course fails because the user is already in the course */
+"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="Ya está inscrito en este curso";
+/* Overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="Ocurrió un error al crear su inscripción al curso";
+/* Title of overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Error en la inscripción";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="Ya está inscrito en este curso.";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_OFFLINE_MESSAGE"="Usted está en modo offline.\nPara encontrar cursos, debe estar conectado a Internet";
+/* Title of overlay message shown when sign in fails */
+"FLOATING_ERROR_LOGIN_TITLE"="Error de inicio de sesión";
+/* Title of overlay message shown when reset password fails */
+"FLOATING_ERROR_TITLE"="Error al reiniciar la contraseña";
+/* Adds a `:` after a label, used in form. Eg. "{First Name}: Bob" */
+"FORM_LABEL"="{label}:";
+/* Google login method */
+"GOOGLE"="Google";
+/* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Asegúrese de que su cuenta de {service} está asociada con su cuenta de {platform_name} en {destination_name}";
+/* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_TITLE"="cuenta de {service} no asociada con cuenta de {platform_name}";
+/* Indicator for course content that is marked as having a graded component */
+"GRADED" = "Calificable";
+/* Warning shown to indicate that the user is in a section of graded content. */
+"GRADED_CONTENT_WARNING" = "Recomendamos que complete las secciones calificables como ésta en su navegador de internet hasta que estén apoyadas de forma completa en dispositivos móviles.";
+/* Message shown when there are no handouts for a course */
+"HANDOUTS_UNAVAILABLE"="No hay entregas para este curso.";
+/* Overlay error shown when logging in with an invalid email address */
+"INVALID_EMAIL_MESSAGE"="Por favor revise su nombre de usuario o dirección de correo e intente de nuevo.";
+/* Overlay error shown when logging in with an invalid username or password */
+"INVALID_USERNAME_PASSWORD"="Por favor revise su nombre de usuario o dirección de correo e intente de nuevo.";
+/* Alert dialog text asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_MESSAGE"="Los videos que seleccionó suman más de 1 GB. ¿Desea descargarlos?";
+/* Alert dialog title when asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_TITLE"="Descarga grande";
+/* Title for Course Item that was last accessed */
+"LAST_ACCESSED" = "Último acceso";
+/* Prompt leading user to create account screen */
+"LOGIN_SPLASH_SIGN_UP"="Inicie sesión y comience a aprender";
+/* Prompt leading user to sign in screen */
+"LOGIN_SPLASH_SIGN_IN"="¿Ya tiene una cuenta? Inicie sesión";
+/* Button title to log out the current user */
+"LOGOUT"="Salir";
+/* Option to sort discussion post list by most activity */
+"MOST_ACTIVITY"="Mayor actividad";
+/* Option to sort discussion post list by most votes */
+"MOST_VOTES"="Más votos";
+/* Screen title showing a user's courses */
+"MY_COURSES"="Mis cursos";
+/* Screen title showing a user's settings */
+"MY_SETTINGS"="Mis opciones";
+/* Screen title showing a user's downloaded videos */
+"MY_VIDEOS" = "Mis videos";
+/* Video count title in My Videos section*/
+"MY_VIDEOS_VIDEO_COUNT_LABEL" = "{count} Video";
+/* Videos count in My Videos section*/
+"MY_VIDEOS_VIDEOS_COUNT_LABEL" = "{count} Videos";
+/* Time Label in My Videos section*/
+"MY_VIDEOS_TIME_LABEL" = "NA";
+
+/* Marked as answer for endorsed responses */
+"MARKED_ANSWER" = "Marcado como respondido";
+/* Overlay error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE"="No está conectado a Internet.";
+/* Alert dialog error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="No está conectado a Internet. Por favor revise su conexión de red.";
+/* Title of alert dialog shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_TITLE"="Error de conexión";
+/* Button title for moving to the next block in the course */
+"NEXT" = "Siguiente";
+/* Button title for moving to the next unit in the course */
+"NEXT_UNIT" = "Siguiente unidad";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "Mientras tanto, puede inscribirse en cursos a través de nuestro sitio web - tendrá que iniciar sesión, inscribirse, y volver a la aplicación después de haber realizado estos pasos.";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Nuestro equipo está trabajando para permitir las inscripciones desde la app.";
+/* Message shown when no results are found while filtering discussions */
+"NO_RESULTS_FOUND" = "No hay entradas para esta categoría de discusión.";
+/* Message shown to indicate video transcript support has not yet been implemented */
+"NO_TRANSCRIPT" = "La transcripción de este video aún no está disponible.";
+/* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
+"NO_WIFI_MESSAGE" = "Su actual configuración solo permite descargar a través de Wi-Fi.\nPor favor conéctese a una red Wi-Fi o cambie las configuraciones de descarga.";
+/* Message shown on videos screen when user has not downloaded any videos */
+"NO_VIDEOS_DOWNLOADED" = "No ha descargado ningún video.";
+/* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {mode_switcher} will be replaced with a name or icon for the mode switch button */
+"NO_VIDEOS_TRY_MODE_SWITCHER" = "No hay videos en esta sección. Para ver el contenido de otras secciones, seleccione {mode_switcher} arriba y cambiar al modo de curso completo.";
+/* Text displayed when no results are found for following*/
+"NO_FOLLOWING_RESULTS" = "Usted no está siguiendo ninguna publicación.";
+/* Message shown when no results are found for all posts*/
+"NO_COURSE_RESULTS" = "No hay comentarios en esta discusión.";
+/* Indicates a field that does not apply to the current context */
+"NOT_APPLICABLE" = "ND";
+/* Label of switch that toggles push notification support */
+"NOTIFICATIONS_ENABLED" = "Permitir notificaciones";
+/*Text for author if post is by anonymous user*/
+"ANONYMOUS" = "Anónimo";
+/* Label indicating user has on internet connection and is in offline mode */
+"OFFLINE" = "Sin conexión";
+/* Alert dialog okay button */
+"OK"="OK";
+/* Button title allowing user to open current page in their web browser */
+"OPEN_IN_BROWSER"="Ver en Safari";
+/* Button title allowing user to open current page in their web browser */
+"OPEN_IN_BROWSER_TITLE"="Mostrando solo videos";
+/* Button label to bring up course finder */
+"OR_SIGN_IN_WITH"="O iniciar sesión con";
+/* Login screen password field placeholder text */
+"PASSWORD_PLACEHOLDER" = "Contraseñas";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_CONTINUE"="Continuar";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
+"PLAYBACK_COMPLETE_CONTINUE_CANCEL"="No";
+/* Alert dialog content when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_MESSAGE"="¿Desea reproducir el siguiente video?";
+/* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_TITLE"="Ha llegado al final del video.";
+/* Post screen title in creating a new post */
+"POST" = "Crear nueva publicación";
+/* Title for Row on Discussion screen which opens the posts followed by the user */
+"POSTS_IM_FOLLOWING" = "Publicaciones que estoy siguiendo";
+/* Navigation item title for post and responses */
+"DISCUSSION_POST" = "Publicación en el foro de discusión";
+/* Post discussion button title in Create a new post */
+"POST_DISCUSSION"="Publicar discusión";
+/* Post question button title in Create a new post */
+"POST_QUESTION"="Publicar pregunta";
+/* Button title for moving to the previous block in the course */
+"PREVIOUS" = "Anterior";
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "Unidad anterior";
+/* A10y hint for the change picture button. */
+"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Cargue una nueva foto de perfil";
+/* Change picture button text on edit profile screen. */
+"PROFILE.CHANGE_PICTURE_BUTTON" = "Cambiar";
+/* Text for use a photo already in library for user profile photo alert */
+"PROFILE.CHOOSE_EXISTING" = "Elija una foto";
+/* Instruction title text on the photo crop view. */
+"PROFILE.CROP_AND_RESIZE_PICTURE" = "Cortar y redimensionar";
+/* 'Current Language' label on top row of edit language in user's profile */
+"PROFILE.CURRENT_LANGUAGE_LABEL" = "Idioma actual:";
+/* 'Current Location' label on top row of edit country in user's profile */
+"PROFILE.CURRENT_LOCATION_LABEL" = "Ubicación actual:";
+/* Profile edit view title */
+"PROFILE.EDIT_TITLE" = "Editar perfil";
+/* Accessibility label for edit profile button */
+"PROFILE.EDIT_ACCESSIBILITY" = "Editar perfil";
+/* Accessibility hint for country field in user profile */
+"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "Su país";
+/* Accessibility hint for language field in user profile */
+"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "Su preferencia de idioma";
+/* Shown when viewing someone else's limied profile. */
+"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "Este usuario de {platform_name} está compartiendo un perfil limitado.";
+/* User has not filled in an "about me" on their profile */
+"PROFILE.NO_BIO" = "No se suministró información \"Sobre mí\".";
+/* Text in the picture taker alert to delete the existing image */
+"PROFILE.REMOVE_IMAGE" = "Eliminar";
+/* Profile screen text indicating that the user is currently only displaying a limited profile */
+"PROFILE.SHOWING_LIMITED" = "Actualmente está compartiendo una versión limitada de su perfil";
+/* Text for take picture for user profile photo alert */
+"PROFILE.TAKE_PICTURE" = "Tomar foto";
+/* Descriptive text for why a limited profile is shown for users under 13, first line */
+"PROFILE.AGE_LIMIT" = "Debe tener más de 13 años para compartir el perfil completo.";
+/* Error retrieving a profile */
+"PROFILE.UNABLE_TO_GET" = "No se ha podido cargar este perfil.";
+/* Error message when removing profile picture */
+"PROFILE.UNABLE_TO_REMOVE_PHOTO" = "No fue posible eliminar su foto.";
+/* Error saving user profile, for field `field_name` */
+"PROFILE.UNABLE_TO_SEND" = "No fue posible actualizar el campo {field_name}.";
+/* Error message when setting a new profile picture */
+"PROFILE.UNABLE_TO_SET_PHOTO" = "No fue posible actualizar su foto.";
+/*Pipe sign using for formatting in discussion posts*/
+"PIPE_SIGN" = "|";
+/* Question used in the segmented control Creating a new post */
+"QUESTION"="Pregunta";
+/* Option to sort discussion post list by recent activity */
+"RECENT_ACTIVITY" = "Actividad reciente";
+/* Section title to display recently downloaded videos */
+"RECENT_VIDEOS"="Videos recientes";
+/* Create account agreement. Followed by agreement name like "End User License Agreement */
+"REDIRECT_TEXT" = "Al iniciar sesión en esta app, está aceptando los ";
+/* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
+"REFINE" = "Refinar:";
+/* Button title when responses are closed for a thread */
+"RESPONSES_CLOSED"="Las respuestas ya están cerradas para esta publicación";
+/* Title of registration agreement */
+"REGISTRATION_AGREEMENT_BUTTON_TITLE"="Términos del servicio y Código de honor de {platform_name}";
+/* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
+"REGISTRATION_AGREEMENT_MESSAGE"="Al crear una cuenta, usted acepta los ";
+/* Button text allowing user create an account */
+"REGISTRATION_CREATE_MY_ACCOUNT"="Crear mi cuenta";
+/* Text shown while waiting for registration request */
+"REGISTRATION_CREATING_ACCOUNT"="Creando cuenta...";
+/* Error prompt shown during registration to indicate an empty field. {field_name} is the name of a registration field like 'password' */
+"REGISTRATION_FIELD_EMPTY_ERROR"="Por favor ingrese su {field_name}.";
+/* Error prompt shown during registration to indicate a field missing a selection. {field_name} is the name of a registration field like 'year of birth' */
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Por favor seleccione su {field_name}.";
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{one}"="{field_name} no puede tener más de {count} caracter.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{other}"="{field_name} no puede tener más de {count} caracteres.";
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{one}"="{field_name} debe tener al menos {count} caracter.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{other}"="{field_name} debe tener al menos {count} caracteres.";
+/* Button text allowing user to hide visible optional registration fields */
+"REGISTRATION_HIDE_OPTIONAL_FIELDS"="Ocultar campos opcionales";
+/* Button text allowing user to show hidden optional registration fields */
+"REGISTRATION_SHOW_OPTIONAL_FIELDS"="Mostrar campos opcionales";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be followed by text "or sign up with an email". */
+"REGISTRATION_REGISTER_PROMPT"="Registrarse con";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
+"REGISTRATION_REGISTER_ALTERNATE_PROMPT"="o registrarse con el correo electrónico";
+/* Alert dialog title prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_TITLE"="Restablecer contraseña";
+/* Alert dialog content prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_POPUP_TEXT"="Ingrese la dirección de correo para su cuenta y le enviaremos las instrucciones para restablecer su contraseña.";
+/* Alert dialog title confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_TITLE"="Correo de restablecimiento de contraseña enviado";
+/* Alert dialog content confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_MESSAGE"="Hemos enviado a su correo un mensaje con las instrucciones para restablecer su contraseña. Si no lo recibe en algunos minutos, asegúrese de revisar su carpeta de spam.";
+/* Button that allows user to retry an operation that did not succeed */
+"RETRY" = "Reintentar";
+/*Offline snackbar button that allows user to reload data*/
+"RELOAD" = "Recargar";
+/* Response back title in adding a new response */
+"ADD_A_RESPONSE"="Añadir respuesta";
+/* Discussion response - {count} is a number of responses */
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{one}"="{count} respuesta";
+"RESPONSE##{other}"="{count} respuestas";
+/* Discussion topics search placeholder */
+"SEARCH_ALL_POSTS"="Buscar en todas las publicaciones";
+/* Discussion search results  */
+"SEARCH_RESULTS"="Resultados de búsqueda";
+/* Text shown below the video, in portrait mode */
+"ROTATE_DEVICE"="Gire su dispositivo para ver este video en pantalla completa";
+/*if filter applied then append this string to error message*/
+"REMOVE_FILTER" = "Intente borrar su filtro de publicaciones.";
+/* Label shown when user attempts to view a course section that hasn't been synced  */
+"SECTION_UNAVAILABLE_OFFLINE"="Esta sección no está disponible en modo offline.\nSi ya ha descargado a su dispositivo contenido de otra sección, puede ver ese contenido.";
+/* Screen title showing a user's settings */
+"SETTINGS"="Opciones";
+/* Text for a Twitter or Facebook post to a course about page */
+"SHARE_A_COURSE"="Estoy tomando un curso en {platform_name}! Dale un vistazo:";
+/* Sign in screen title and button initiating login process after user enters credentials like username and password */
+"SIGN_IN_TEXT"="Iniciar sesión";
+/* Message shown while user waits for response to a sign in request */
+"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Iniciando sesión";
+/*Sign up screen title and button initiating sign up process on the main screen */
+"REGISTER_TEXT"="Registrarse";
+/* Indicates a date in the near future */
+"SOON"="Proximamente";
+/* Label for posts pinned by Staff */
+"STAFF"="EQUIPO DEL CURSO";
+/* Label for date when course starts */
+"STARTING"="Comenzando el {start_date}";
+/* Discover Courses button text on the first screen */
+"STARTUP.DISCOVER_COURSES"="Descubrir cursos";
+/* Explore Subjects button text on the first screen */
+"STARTUP_EXPLORE_SUBJECTS"="Explorar temas";
+/* Button allowing user to submit feedback about the app via email */
+"SUBMIT_FEEDBACK.OPTION_TITLE" = "Enviar comentario";
+/* Support message email title */
+"SUBMIT_FEEDBACK.MESSAGE_SUBJECT" = "Comentarios de usuarios";
+/* Marker in feedback email meant to separate feedback from prepopulated device information */
+"SUBMIT_FEEDBACK.MARKER" = "---- Mantenga sus comentarios sobre esta línea ----";
+/* Line in submit feedback email that supplies OS version information. For example, "iOS Version: 9.2" */
+"SUBMIT_FEEDBACK.OS_VERSION" = "Versión de iOS: {version}";
+/* Line in submit feedback email that supplies app version information. For example, "App Version: 2.2 (2.2.23)" */
+"SUBMIT_FEEDBACK.APP_VERSION" = "Versión de la aplicación: {version} ({build})";
+/* Line in submit feedback email that supplies device model information. For example, "Device Model: iPhone" */
+"SUBMIT_FEEDBACK.DEVICE_MODEL" = "Dispositivo: {model}";
+/* Text that indicates the visibility of the post */
+"POST_VISIBILITY"="Esta publicación solo es visible para {cohort}.";
+/* Text that indicates the visibility of the post to everyone */
+"POST_VISIBILITY_EVERYONE" = "Esta publicación es visible para todos.";
+/*Add parenthesis around text*/
+"PARENTHESIS" = "({text})";
+/* Alert dialog title shown when network request takes too long to complete */
+"TIMEOUT_ALERT_TITLE"="Error";
+/* Alert dialog content shown when network request takes too long to complete */
+"TIMEOUT_CHECK_INTERNET_CONNECTION"="Por favor revise su conexión a Internet.\nLa página está tardando más de lo esperado para cargar.";
+/* Title as place holder in Create a new post */
+"TITLE"="Título";
+/* Topic as button title in Create a new post */
+"TOPIC"="Tema: {topic}";
+/* Back bar button topics */
+"TOPICS"="Temas";
+/* Button text allowing user to reset their password */
+"TROUBLE_IN_LOGIN_BUTTON"="¿Olvidó su contraseña?";
+/* Error shown when video download fails */
+"UNABLE_TO_DOWNLOAD"="Imposible descargar." ;
+/* Error shown when the course content could not for an unknown reason. */
+"UNABLE_TO_LOAD_COURSE_CONTENT"="No se ha podido cargar el contenido.\nInténtelo de nuevo más tarde.";
+/* Filtering option to show unanswered discussion posts */
+"UNANSWERED"="Sin respuesta";
+/* Navigation title for a Question Post which has no endorsed answers */
+"UNANSWERED_QUESTION" = "Pregunta sin respuestas";
+/* Filtering option to show unread discussion posts*/
+"UNREAD"="No leído";
+/* Placeholder title for course content with no title */
+"UNTITLED"="Sin título";
+/* Hint text for login field */
+"USERNAME_PLACEHOLDER" = "Nombre de usuario o correo electrónico";
+/*Error message when operation failed with unknow error*/
+"UNKNOWN_ERROR" = "Su acción no pudo ser completada.";
+/* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
+"VERSION_DISPLAY" = "Versión {number} {environment}";
+/* Error shown when video download fails */
+"VIDEO_CONTENT_NOT_AVAILABLE"="Este video está disponible por el momento. Vuelva a intentar más tarde.";
+/* Floating overlay text shown after deleting a video. {count} is a number of videos */
+/* Floating overlay text shown after deleting a video. {count} is a number of videos */
+"VIDEOS_DELETED##{one}" = "{count} video borrado";
+"VIDEOS_DELETED##{other}" = "{count} videos borrados";
+/* Floating overlay text shown after video download begins. {count} is a number of videos  */
+/* Floating overlay text shown after video download begins. {count} is a number of videos  */
+"VIDEOS_DOWNLOADING##{one}" = "Descargando {count} video";
+"VIDEOS_DOWNLOADING##{other}" = "Descargando {count} videos";
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
+"VIDEOS_DOWNLOADED##{one}" = "{count} videos descargado";
+"VIDEOS_DOWNLOADED##{other}" = "{count} videos descargados";
+/* Floating overlay text shown while videos download */
+"VIDEO_DOWNLOADS_IN_PROGRESS" = "Descarga de video en progreso";
+/* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
+"VIDEO_ONLY_ON_WEB" = "Este video está actualmente solo en la web. Toque la pantalla para verlo en el navegador.";
+/* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
+"VIDEO_NOT_AVAILABLE"="Este video no está disponible en modo offline.\nPor favor seleccione un video que ya haya descargado a su dispositivo.";
+/* Shows in the video setting sub-table which item is selected */
+"VIDEO_SETTING_SELECTED" = "✓ %@";
+/* Button action to open app on YouTube */
+"VIDEO.VIEW_ON_YOUTUBE" = "Ver video en YouTube";
+/* Message shown for videos that can only be played external the app via YouTube. */
+"VIDEO.ONLY_ON_YOUTUBE" = "Este vídeo solo puede reproducirse en Youtube. ";
+/* Button text for showing an associated item */
+"VIEW" = "Ver";
+/* Button linking to course announcements */
+"VIEW_HANDOUTS" = "Ver enlaces útiles";
+/* Discussion vote - {count} is a number of votes */
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{one}"="{count} Voto";
+"VOTE##{other}"="{count} Votos";
+/*Title of update button on fullscreen error and SnackBar*/
+"VERSION_UPGRADE_UPDATE" = "Actualizar";
+/*Title of dismiss button on SnackBar*/
+"VERSION_UPGRADE.DISMISS" = "Cancelar";
+/*Deprecated version detail message*/
+"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Una versión nueva de la app está disponible.";
+/*Outdated version detail message*/
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Su versión de la app ya no está soportada.";
+/*Outdated version alert message for login screen*/
+"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Su versión de la aplicación ya no es compatible. Actualice a la última versión para iniciar sesión.";
+/*New version available without deadline message*/
+"VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "Una versión nueva de la app está disponible.";
+/* Overlay shown after a network request has started, telling the user to wait for the response */
+"WAITING_FOR_RESPONSE"="Espere por favor....";
+/* Header of 'whats new screen'*/
+"WHATS_NEW.HEADER_TEXT"="Nuevas funciones de la versión {app_version}";
+/*Whats new screen done button title*/
+"WHATS_NEW.DONE"="Hecho";
+/* Alert dialog button title to confirm an action */
+"YES"="Si";
