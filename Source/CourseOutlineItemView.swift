@@ -98,7 +98,7 @@ public class CourseOutlineItemView: UIView {
         let order = Calendar.current.compare(Date(), to: date as Date, toGranularity: .day)
         formatter.dateFormat = (order == .orderedSame) ? "HH:mm z" : "MMM dd, yyyy"
         let dateString = formatter.string(from: date as Date).uppercased()
-        let formattedDateString = (order == .orderedSame) ? String(format: "Due today at %@", dateString) : String(format: "due %@", dateString)
+        let formattedDateString = (order == .orderedSame) ? Strings.courseDueDateSameDay(dueDate: dateString) : Strings.courseDueDate(dueDate: dateString)
         
         return formattedDateString
     }
