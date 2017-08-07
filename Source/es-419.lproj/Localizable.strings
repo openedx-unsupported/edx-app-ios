@@ -726,11 +726,17 @@
 "VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Su versión de la aplicación ya no es compatible. Actualice a la última versión para iniciar sesión.";
 /*New version available without deadline message*/
 "VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "Una versión nueva de la app está disponible.";
+/*Video player remaining time default value*/
+"VIDEO_PLAYER_DEFAULT_REMAINING_TIME" = "0:00/0:00";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
 "WAITING_FOR_RESPONSE"="Espere por favor....";
 /* Header of 'whats new screen'*/
 "WHATS_NEW.HEADER_TEXT"="Nuevas funciones de la versión {app_version}";
 /*Whats new screen done button title*/
 "WHATS_NEW.DONE"="Hecho";
+/*Title for wifi only switch at Settings screen*/
+"WIFI_ONLY_TITLE" = "Descargar solo por Wi-Fi";
+/*Detail message for wifi only switch at Settings screen*/
+"WIFI_ONLY_DETAIL_MESSAGE" = "Sólo descargar contenido cuando el Wifi está encendido";
 /* Alert dialog button title to confirm an action */
 "YES"="Si";
