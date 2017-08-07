@@ -30,9 +30,3 @@ type = KEYVALUEJSON
 file_filter = Source/<lang>.proj/languages.json
 source_file = Source/en.lproj/languages.json
 source_lang = en
-
-[edx-mobile-apps.ios-app-localizable-whatsNew]
-type = KEYVALUEJSON
-file_filter = Source/<lang>.proj/whats_new.json
-source_file = Source/en.lproj/whats_new.json
-source_lang = en
