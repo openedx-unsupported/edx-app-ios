@@ -105,12 +105,17 @@ public class CourseOutlineViewController :
         lastAccessedController.saveLastAccessed()
         let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
         stream.extendLifetimeUntilFirstResult (success :
-            { (rootID, block) in
-                if self.blockID == rootID || self.blockID == nil {
-                    self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self.courseID, value: nil)
+            { [weak self] (rootID, block) in
+                if self?.blockID == rootID || self?.blockID == nil {
+                    if self?.courseOutlineMode == .Full {
+                        self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
+                    }
+                    else {
+                        self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
+                    }
                 }
                 else {
-                    self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self.courseID, value: block.internalName)
+                    self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
                 }
         },
                                                failure: {

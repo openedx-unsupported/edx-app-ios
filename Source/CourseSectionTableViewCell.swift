@@ -23,6 +23,8 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     fileprivate let downloadView = DownloadsAccessoryView()
     weak var delegate : CourseSectionTableViewCellDelegate?
     fileprivate var spinnerTimer = Timer()
+    var courseID: String?
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
@@ -118,6 +120,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
     public func deleteVideos(videos : [OEXHelperVideoDownload]) {
         OEXInterface.shared().deleteDownloadedVideos(videos) { _ in }
+        OEXAnalytics.shared().trackSubsectionDeleteVideos(courseID: courseID ?? "", subsectionID: block?.blockID ?? "")
     }
     
     public func areAllVideosDownloaded(videos: [OEXHelperVideoDownload]) -> Bool {
