@@ -19,6 +19,7 @@
     IBOutlet UIActivityIndicatorView* activityIndicator;
 }
 @property(nonatomic, strong) NSURL* contentUrl;
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
 @end
 
 @implementation OEXUserLicenseAgreementViewController
@@ -38,6 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [_closeButton setTitle:[Strings close] forState:UIControlStateNormal];
     NSURLRequest* request = [[NSURLRequest alloc] initWithURL:self.contentUrl];
     webView.delegate = self;
     [webView loadRequest:request];
