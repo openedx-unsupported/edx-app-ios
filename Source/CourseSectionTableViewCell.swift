@@ -130,6 +130,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         didSet {
             content.setTitleText(title: block?.displayName)
             content.isGraded = block?.graded
+            
             content.setDetailText(title: block?.format ?? "", dueDate: block?.dueDate)
         }
     }

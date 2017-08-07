@@ -26,7 +26,7 @@ private let SmallIconSize : CGFloat = 15
 private let IconFontSize : CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
-    static let detailFontStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBase())
+    static let detailFontStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralDark())
     
     private let fontStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
     private let boldFontStyle = OEXTextStyle(weight: .bold, size: .small, color : OEXStyles.shared().neutralBlack())
@@ -89,11 +89,23 @@ public class CourseOutlineItemView: UIView {
         titleLabel.attributedText = fontStyle.attributedString(withText: title)
     }
     
+    func formattedDueDateString(asMonthDay date: NSDate?) -> String {
+        
+        guard let date = date else { return "" }
+        
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        let order = Calendar.current.compare(Date(), to: date as Date, toGranularity: .day)
+        formatter.dateFormat = (order == .orderedSame) ? "HH:mm z" : "MMM dd, yyyy"
+        let dateString = formatter.string(from: date as Date).uppercased()
+        let formattedDateString = (order == .orderedSame) ? String(format: "Due today at %@", dateString) : String(format: "due %@", dateString)
+        
+        return formattedDateString
+    }
+
     func setDetailText(title : String, dueDate: String? = "") {
         
-        
-        let dateString =  DateFormatting.format(asMonthDay: DateFormatting.date(withServerString: dueDate)) ?? ""
-        let formattedDateString = (dateString != "") ? String(format: "due %@", dateString) : ""
+        let formattedDateString = formattedDueDateString(asMonthDay: DateFormatting.date(withServerString: dueDate))
         
         var attributedStrings = [NSAttributedString]()
         attributedStrings.append(boldFontStyle.attributedString(withText: title))
