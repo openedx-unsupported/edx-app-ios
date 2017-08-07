@@ -102,16 +102,25 @@ public class CourseOutlineItemView: UIView {
         
         return formattedDateString
     }
+    
+    func getAttributedString(withBlockType type: CourseBlockType?, withText text: String) -> NSAttributedString {
+        
+        guard let blockType = type, case CourseBlockType.Section = blockType else {
+            return CourseOutlineItemView.detailFontStyle.attributedString(withText: text)
+        }
+        
+        return boldFontStyle.attributedString(withText: text)
+    }
 
-    func setDetailText(title : String, dueDate: String? = "") {
+    func setDetailText(title : String, dueDate: String? = "", blockType: CourseBlockType?) {
         
         let formattedDateString = formattedDueDateString(asMonthDay: DateFormatting.date(withServerString: dueDate))
         
         var attributedStrings = [NSAttributedString]()
-        attributedStrings.append(boldFontStyle.attributedString(withText: title))
+        attributedStrings.append(getAttributedString(withBlockType: blockType, withText: title))
         attributedStrings.append(CourseOutlineItemView.detailFontStyle.attributedString(withText: formattedDateString))
-        
         subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
+        resetContraints(withBlockType: blockType)
         setNeedsUpdateConstraints()
     }
     
@@ -151,6 +160,22 @@ public class CourseOutlineItemView: UIView {
         super.updateConstraints()
     }
     
+    
+    private func resetContraints(withBlockType type: CourseBlockType?){
+        guard let blockType = type else { return }
+        
+        subtitleLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            if case CourseBlockType.Section = blockType {
+                make.leading.equalTo(checkmark.snp_leading).offset(20)
+            }
+            else
+            {
+                make.leading.equalTo(checkmark.snp_leading).offset(0)
+            }
+        }
+    }
+    
     private func addSubviews() {
         addSubview(leadingImageButton)
         addSubview(trailingContainer)
@@ -169,7 +194,14 @@ public class CourseOutlineItemView: UIView {
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
-            make.leading.equalTo(checkmark.snp_leading).offset(20)
+            
+            if checkmark.isHidden {
+                make.leading.equalTo(checkmark.snp_leading).offset(20)
+            }else
+            {
+                make.leading.equalTo(checkmark.snp_leading).offset(0)
+            }
+            
         }
 
         

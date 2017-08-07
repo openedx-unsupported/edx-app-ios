@@ -122,7 +122,6 @@ class CourseOutlineQuerierTests: XCTestCase {
         
     }
     
-
     func testMissingChildFilteredOut() {
         let outline = CourseOutline(root: "root", blocks:
             [
@@ -140,5 +139,4 @@ class CourseOutlineQuerierTests: XCTestCase {
         }
         waitForStream(childStream)
     }
-
 }
