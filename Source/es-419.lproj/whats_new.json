@@ -2,11 +2,11 @@
  {
  "image": "screen_1.png",
  "title": "Videos",
- "message": "The \"Videos\" tab in each course's menu replaces \"My Videos\" in the main menu. Now you can view all the videos in a course in one place!"
+ "message": "La pestaña \"Videos\" en el menú de cada curso reemplaza \"Mis Videos\" en el menú principal. Ahora puedes ver todos los videos de un curso en un solo lugar!"
  },
  {
  "image": "screen_2.png",
  "title": "Delete Video",
- "message": "Swipe left to delete downloaded videos."
+ "message": "Desliza el dedo hacia la izquierda para eliminar los videos descargados."
  }
 ]
