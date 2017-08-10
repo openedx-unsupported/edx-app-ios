@@ -30,7 +30,7 @@ class EnrolledCoursesFooterView : UIView {
         self.promptLabel.attributedText = findCoursesTextStyle.attributedString(withText: Strings.EnrollmentList.findCoursesPrompt)
         self.promptLabel.textAlignment = .center
         
-        self.findCoursesButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle, withTitle: Strings.EnrollmentList.findCourses.oex_uppercaseStringInCurrentLocale())
+        self.findCoursesButton.applyButtonStyle(style: OEXStyles.shared().filledButtonStyle(color: OEXStyles.shared().findCoursesButtonColor()), withTitle: Strings.EnrollmentList.findCourses.oex_uppercaseStringInCurrentLocale())
         
         container.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         container.applyBorderStyle(style: BorderStyle())

@@ -95,6 +95,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)banner;
 - (UIColor*)disabledButtonColor;
 
+#pragma mark Buttons Color Customization
+- (UIColor *)signUpButtonColor;
+- (UIColor *)registerButtonColor;
+- (UIColor *)loginButtonColor;
+- (UIColor *)findCoursesButtonColor;
+
 @end
 
 @protocol OEXStylesProvider <NSObject>

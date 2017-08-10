@@ -37,7 +37,7 @@
     [super viewDidLoad];
     
     [self.signInButton setTitle:[Strings loginSplashSignIn] forState:UIControlStateNormal];
-    [self.signUpButton applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings loginSplashSignUp]];
+    [self.signUpButton applyButtonStyleWithStyle:[self.environment.styles filledButtonStyleWithColor:self.environment.styles.signUpButtonColor] withTitle:[Strings loginSplashSignUp]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

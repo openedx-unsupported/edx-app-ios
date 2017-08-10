@@ -129,7 +129,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [self createAccount:nil];
     } forEvents:UIControlEventTouchUpInside];
     
-    [self.registerButton applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
+    [self.registerButton applyButtonStyleWithStyle:[self.environment.styles filledButtonStyleWithColor:self.environment.styles.registerButtonColor] withTitle:[Strings registrationCreateMyAccount]];
     self.registerButton.accessibilityIdentifier = @"register";
 
     ////Create progrssIndicator as subview to btnCreateAccount
@@ -531,12 +531,12 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void)showProgress:(BOOL)status {
     if(status) {
         [self.progressIndicator startAnimating];
-        [self.registerButton applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings registrationCreatingAccount]];
+        [self.registerButton applyButtonStyleWithStyle:[self.environment.styles filledButtonStyleWithColor:self.environment.styles.registerButtonColor] withTitle:[Strings registrationCreatingAccount]];
         [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     }
     else {
         [self.progressIndicator stopAnimating];
-        [self.registerButton applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
+        [self.registerButton applyButtonStyleWithStyle:[self.environment.styles filledButtonStyleWithColor:self.environment.styles.registerButtonColor] withTitle:[Strings registrationCreateMyAccount]];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
 }
