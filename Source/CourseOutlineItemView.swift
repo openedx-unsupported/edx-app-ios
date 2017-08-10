@@ -93,12 +93,9 @@ public class CourseOutlineItemView: UIView {
         
         guard let date = date else { return "" }
         
-        let formatter = DateFormatter()
-        formatter.timeZone = TimeZone.current
-        let order = Calendar.current.compare(Date(), to: date as Date, toGranularity: .day)
-        formatter.dateFormat = (order == .orderedSame) ? "HH:mm z" : "MMM dd, yyyy"
-        let dateString = formatter.string(from: date as Date).uppercased()
-        let formattedDateString = (order == .orderedSame) ? Strings.courseDueDateSameDay(dueDate: dateString) : Strings.courseDueDate(dueDate: dateString)
+        let dateString = DateFormatting.format(asMinHourOrMonthDayYearString: date)
+        let dateOrder = DateFormatting.compareTwoDates(fromDate: Date(), toDate: date as Date)
+        let formattedDateString = (dateOrder == .orderedSame) ? Strings.courseDueDateSameDay(dueDate: dateString) : Strings.courseDueDate(dueDate: dateString)
         
         return formattedDateString
     }
@@ -164,7 +161,7 @@ public class CourseOutlineItemView: UIView {
     private func resetContraints(withBlockType type: CourseBlockType?){
         guard let blockType = type else { return }
         
-        subtitleLabel.snp_makeConstraints { (make) -> Void in
+        subtitleLabel.snp_remakeConstraints{ (make) -> Void in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             if case CourseBlockType.Section = blockType {
                 make.leading.equalTo(checkmark.snp_leading).offset(20)

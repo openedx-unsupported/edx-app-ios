@@ -83,4 +83,18 @@ open class DateFormatting: NSObject {
         return formatter.string(from: date as Date)
     }
     
+    /// Format like 12:00 if same day otherwise April 11, 2013
+    open class func format(asMinHourOrMonthDayYearString date: NSDate) -> String {
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        let order = compareTwoDates(fromDate: Date(), toDate: date as Date)
+        formatter.dateFormat = (order == .orderedSame) ? "HH:mm z" : "MMM dd, yyyy"
+        return formatter.string(from: date as Date).uppercased()
+    }
+    
+    /// Get the order of two dates comparison
+    open class func compareTwoDates(fromDate date: Date, toDate: Date) -> ComparisonResult{
+        return  Calendar.current.compare(Date(), to: date as Date, toGranularity: .day)
+    }
+    
 }
