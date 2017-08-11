@@ -88,13 +88,27 @@ open class DateFormatting: NSObject {
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
         let order = compareTwoDates(fromDate: Date(), toDate: date as Date)
-        formatter.dateFormat = (order == .orderedSame) ? "HH:mm z" : "MMM dd, yyyy"
+        formatter.dateFormat = (order == .orderedSame) ? "HH:mm" : "MMM dd, yyyy"
         return formatter.string(from: date as Date).uppercased()
     }
     
     /// Get the order of two dates comparison
     open class func compareTwoDates(fromDate date: Date, toDate: Date) -> ComparisonResult{
-        return  Calendar.current.compare(Date(), to: date as Date, toGranularity: .day)
+        return  Calendar.current.compare(date, to: toDate as Date, toGranularity: .year)
+    }
+    
+    open class func getTimeZoneAbbriviation() -> String{
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        let timeZoneAbbbreviatedDict = TimeZone.abbreviationDictionary
+        var abbreviatedKey : String = ""
+        for key in timeZoneAbbbreviatedDict.keys {
+            if (timeZoneAbbbreviatedDict[key] == formatter.timeZone.identifier) {
+                abbreviatedKey = key
+                break
+            }
+        }
+        return abbreviatedKey
     }
     
 }
