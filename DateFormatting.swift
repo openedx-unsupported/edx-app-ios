@@ -83,4 +83,33 @@ open class DateFormatting: NSObject {
         return formatter.string(from: date as Date)
     }
     
+    /// Format like 12:00 if same day otherwise April 11, 2013
+    open class func format(asMinHourOrMonthDayYearString date: NSDate) -> String {
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        let order = compareTwoDates(fromDate: Date(), toDate: date as Date)
+        formatter.dateFormat = (order == .orderedSame) ? "HH:mm" : "MMM dd, yyyy"
+        return formatter.string(from: date as Date).uppercased()
+    }
+    
+    /// Get the order of two dates comparison
+    open class func compareTwoDates(fromDate date: Date, toDate: Date) -> ComparisonResult{
+        return  Calendar.current.compare(date, to: toDate as Date, toGranularity: .year)
+    }
+    
+    /// Get the time zone abbreivation like PKT, EDT
+    open class func timeZoneAbbriviation() -> String{
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone.current
+        let timeZoneAbbbreviatedDict = TimeZone.abbreviationDictionary
+        var abbreviatedKey : String = ""
+        for key in timeZoneAbbbreviatedDict.keys {
+            if (timeZoneAbbbreviatedDict[key] == formatter.timeZone.identifier) {
+                abbreviatedKey = key
+                break
+            }
+        }
+        return abbreviatedKey
+    }
+    
 }

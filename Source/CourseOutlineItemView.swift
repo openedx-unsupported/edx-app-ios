@@ -26,9 +26,10 @@ private let SmallIconSize : CGFloat = 15
 private let IconFontSize : CGFloat = 15
 
 public class CourseOutlineItemView: UIView {
-    static let detailFontStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBase())
+    static let detailFontStyle = OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralDark())
     
     private let fontStyle = OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
+    private let boldFontStyle = OEXTextStyle(weight: .bold, size: .small, color : OEXStyles.shared().neutralBlack())
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let leadingImageButton = UIButton(type: UIButtonType.system)
@@ -88,8 +89,34 @@ public class CourseOutlineItemView: UIView {
         titleLabel.attributedText = fontStyle.attributedString(withText: title)
     }
     
-    func setDetailText(title : String) {
-        subtitleLabel.attributedText = CourseOutlineItemView.detailFontStyle.attributedString(withText: title)
+    func formattedDueDateString(asMonthDay date: NSDate?) -> String {
+        
+        guard let date = date else { return "" }
+        
+        let dateString = DateFormatting.format(asMinHourOrMonthDayYearString: date)
+        let dateOrder = DateFormatting.compareTwoDates(fromDate: Date(), toDate: date as Date)
+        let formattedDateString = (dateOrder == .orderedSame) ? Strings.courseDueDateSameDay(dueDate: dateString, timeZone: DateFormatting.timeZoneAbbriviation()) : Strings.courseDueDate(dueDate: dateString)
+        return formattedDateString
+    }
+    
+    func getAttributedString(withBlockType type: CourseBlockType?, withText text: String) -> NSAttributedString {
+        
+        guard let blockType = type, case CourseBlockType.Section = blockType else {
+            return CourseOutlineItemView.detailFontStyle.attributedString(withText: text)
+        }
+        
+        return boldFontStyle.attributedString(withText: text)
+    }
+
+    func setDetailText(title : String, dueDate: String? = "", blockType: CourseBlockType?) {
+        
+        let formattedDateString = formattedDueDateString(asMonthDay: DateFormatting.date(withServerString: dueDate))
+        
+        var attributedStrings = [NSAttributedString]()
+        attributedStrings.append(getAttributedString(withBlockType: blockType, withText: title))
+        attributedStrings.append(CourseOutlineItemView.detailFontStyle.attributedString(withText: formattedDateString))
+        subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
+        resetContraints(withBlockType: blockType)
         setNeedsUpdateConstraints()
     }
     
@@ -129,6 +156,22 @@ public class CourseOutlineItemView: UIView {
         super.updateConstraints()
     }
     
+    
+    private func resetContraints(withBlockType type: CourseBlockType?){
+        guard let blockType = type else { return }
+        
+        subtitleLabel.snp_remakeConstraints{ (make) -> Void in
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            if case CourseBlockType.Section = blockType {
+                make.leading.equalTo(checkmark.snp_leading).offset(20)
+            }
+            else
+            {
+                make.leading.equalTo(checkmark.snp_leading).offset(0)
+            }
+        }
+    }
+    
     private func addSubviews() {
         addSubview(leadingImageButton)
         addSubview(trailingContainer)
@@ -137,17 +180,26 @@ public class CourseOutlineItemView: UIView {
         addSubview(checkmark)
         
         // For performance only add the static constraints once
-        subtitleLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
-            make.leading.equalTo(titleLabel)
-            make.trailing.lessThanOrEqualTo(trailingContainer.snp_leading).offset(TitleOffsetTrailing)
-        }
         
         checkmark.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(subtitleLabel.snp_centerY)
-            make.leading.equalTo(subtitleLabel.snp_trailing).offset(5)
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            make.leading.equalTo(titleLabel)
+            make.trailing.lessThanOrEqualTo(trailingContainer.snp_leading).offset(5)
             make.size.equalTo(CGSize(width: SmallIconSize, height: SmallIconSize))
         }
+        
+        subtitleLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            
+            if checkmark.isHidden {
+                make.leading.equalTo(checkmark.snp_leading).offset(20)
+            }else
+            {
+                make.leading.equalTo(checkmark.snp_leading).offset(0)
+            }
+            
+        }
+
         
         trailingContainer.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
