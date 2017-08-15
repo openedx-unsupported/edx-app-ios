@@ -97,7 +97,8 @@ open class DateFormatting: NSObject {
         return  Calendar.current.compare(date, to: toDate as Date, toGranularity: .year)
     }
     
-    open class func getTimeZoneAbbriviation() -> String{
+    /// Get the time zone abbreivation like PKT, EDT
+    open class func timeZoneAbbriviation() -> String{
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
         let timeZoneAbbbreviatedDict = TimeZone.abbreviationDictionary
