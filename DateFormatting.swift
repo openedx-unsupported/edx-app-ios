@@ -94,7 +94,15 @@ open class DateFormatting: NSObject {
     
     /// Get the order of two dates comparison
     open class func compareTwoDates(fromDate date: Date, toDate: Date) -> ComparisonResult{
-        return  Calendar.current.compare(date, to: toDate as Date, toGranularity: .year)
+        
+        if(date > toDate) {
+            return ComparisonResult.orderedDescending
+        }
+        else if (date < toDate) {
+            return ComparisonResult.orderedAscending
+        }
+        
+        return  ComparisonResult.orderedSame
     }
     
     /// Get the time zone abbreivation like PKT, EDT
