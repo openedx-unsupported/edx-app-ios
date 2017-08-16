@@ -1,17 +1,12 @@
-[
- {
- "image": "screen_1.png",
- "title": "Important Course Dates",
- "message": "Important course dates, including assignment deadlines, are now listed in the \"Important Dates\" section."
- },
- {
- "image": "screen_2.png",
- "title": "Course Sharing",
- "message": "Tap the Share icon next to the course title to let friends and family know about a course you’re taking!"
- },
- {
- "image": "screen_3.png",
- "title": "Social Sharing",
- "message": "Choose the app to use for sharing your course."
- }
-]
+ [
+  {
+  "image": "screen_1.png",
+  "title": "Videos",
+  "message": "The \"Videos\" tab in each course's menu replaces \"My Videos\" in the main menu. Now you can view all the videos in a course in one place!"
+  },
+  {
+  "image": "screen_2.png",
+  "title": "Delete Video",
+  "message": "Swipe left to delete downloaded videos."
+  }
+  ]
