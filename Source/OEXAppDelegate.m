@@ -12,7 +12,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <NewRelicAgent/NewRelic.h>
-#import <SEGAnalytics.h>
+#import <Analytics/SEGAnalytics.h>
 
 #import "OEXAppDelegate.h"
 
