@@ -4745,7 +4745,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
-				PODS_CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -5169,7 +5168,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
-				PODS_CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
@@ -5207,7 +5205,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
-				PODS_CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";

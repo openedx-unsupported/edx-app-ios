@@ -7,7 +7,7 @@
 //
 
 import Foundation
-@testable import edX
+
 
 extension XCTestCase {
     func waitForStream<A>(_ stream : OEXStream<A>, fireIfAlreadyLoaded: Bool = true, verifier : ((Result<A>) -> Void)? = nil) {
