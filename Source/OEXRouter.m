@@ -27,6 +27,7 @@
 #import "OEXCourse.h"
 #import "SWRevealViewController.h"
 
+
 static OEXRouter* sSharedRouter;
 
 NSString* OEXSideNavigationChangedStateNotification = @"OEXSideNavigationChangedStateNotification";
@@ -209,6 +210,11 @@ OEXRegistrationViewControllerDelegate
 
 - (void)showMySettings {
     OEXMySettingsViewController* controller = [[OEXMySettingsViewController alloc] initWithNibName:nil bundle:nil];
+    [self showContentStackWithRootController:controller animated:YES];
+}
+
+- (void)showAccount {
+    AccountViewController *controller = [[AccountViewController alloc] initWithEnvironment:self.environment];
     [self showContentStackWithRootController:controller animated:YES];
 }
 
