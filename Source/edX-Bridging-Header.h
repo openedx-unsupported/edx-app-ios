@@ -9,7 +9,7 @@
 #import "CLVideoPlayer.h"
 #import "CLButton.h"
 #import "DACircularProgressView.h"
-#import "NSDate+DateTools.h"
+#import <DateTools/NSDate+DateTools.h>
 #import "LastAccessed.h"
 #import "NSAttributedString+OEXFormatting.h"
 #import "NSDate+OEXComparisons.h"
