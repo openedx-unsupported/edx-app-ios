@@ -12,7 +12,7 @@ import MessageUI
 import edXCore
 
 private enum OEXRearViewOptions: Int {
-    case UserProfile, MyCourse, MyVideos, FindCourses, MySettings, SubmitFeedback, Debug, Logout
+    case UserProfile, MyCourse, MyVideos, MySettings, SubmitFeedback, Debug, Logout
 }
 
 private let LogoutCellDefaultHeight: CGFloat = 130.0
@@ -33,7 +33,6 @@ class OEXRearTableViewController : UITableViewController {
     
     @IBOutlet var coursesLabel: UILabel!
     @IBOutlet var videosLabel: UILabel!
-    @IBOutlet var findCoursesLabel: UILabel!
     @IBOutlet var settingsLabel: UILabel!
     @IBOutlet var submitFeedbackLabel: UILabel!
     @IBOutlet var logoutButton: UIButton!
@@ -65,7 +64,6 @@ class OEXRearTableViewController : UITableViewController {
         
         coursesLabel.text = Strings.myCourses.oex_uppercaseStringInCurrentLocale()
         videosLabel.text = Strings.myVideos.oex_uppercaseStringInCurrentLocale()
-        findCoursesLabel.text = Strings.findCourses.oex_uppercaseStringInCurrentLocale()
         settingsLabel.text = Strings.mySettings.oex_uppercaseStringInCurrentLocale()
         submitFeedbackLabel.text = Strings.SubmitFeedback.optionTitle.oex_uppercaseStringInCurrentLocale()
         logoutButton.setTitle(Strings.logout.oex_uppercaseStringInCurrentLocale(), for: .normal)
@@ -115,7 +113,6 @@ class OEXRearTableViewController : UITableViewController {
     private func setNaturalTextAlignment() {
         coursesLabel.textAlignment = .natural
         videosLabel.textAlignment = .natural
-        findCoursesLabel.textAlignment = .natural
         settingsLabel.textAlignment = .natural
         submitFeedbackLabel.textAlignment = .natural
         userNameLabel.textAlignment = .natural
@@ -128,7 +125,6 @@ class OEXRearTableViewController : UITableViewController {
         userEmailLabel.accessibilityLabel = userEmailLabel.text
         coursesLabel.accessibilityLabel = coursesLabel.text
         videosLabel.accessibilityLabel = videosLabel.text
-        findCoursesLabel.accessibilityLabel = findCoursesLabel.text
         settingsLabel.accessibilityLabel = settingsLabel.text
         submitFeedbackLabel.accessibilityLabel = submitFeedbackLabel.text
         logoutButton.accessibilityLabel = logoutButton.titleLabel!.text
@@ -171,9 +167,6 @@ class OEXRearTableViewController : UITableViewController {
                 environment.router?.showMyCourses()
             case .MyVideos:
                 environment.router?.showMyVideos()
-            case .FindCourses:
-                environment.router?.showCourseCatalog(bottomBar: nil)
-                environment.analytics.trackUserFindsCourses()
             case .MySettings:
                 environment.router?.showMySettings()
             case .SubmitFeedback:
@@ -190,9 +183,6 @@ class OEXRearTableViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if ((indexPath.row == OEXRearViewOptions.Debug.rawValue && !environment.config.shouldShowDebug()) || (indexPath.row == OEXRearViewOptions.MyVideos.rawValue && !environment.config.isMyVideosEnabled)) {
-            return 0
-        }
-        else if indexPath.row == OEXRearViewOptions.FindCourses.rawValue && !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
             return 0
         }
         else if indexPath.row == OEXRearViewOptions.Logout.rawValue {
