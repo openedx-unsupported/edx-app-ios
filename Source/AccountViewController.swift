@@ -52,17 +52,14 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         populateOptionsArray()
     }
     
-    
     func configureViews() {
-        tableView.estimatedRowHeight = 40
+        tableView.estimatedRowHeight = 400
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.tableFooterView = UIView()
         tableView.register(AccountViewCell.self, forCellReuseIdentifier: AccountViewCell.identifier)
-        
-        
+    
         versionLabel.text = Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: "")
         versionLabel.textAlignment = NSTextAlignment.center
         
@@ -117,7 +114,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return AccountviewOptions.options.count
+        return optionsArray.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -130,7 +127,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         if let option = AccountviewOptions(rawValue: indexPath.row) {
             switch option {
             case .Setting:
@@ -165,11 +161,9 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         return optionTitle
     }
-
 }
 
 extension AccountViewController : MFMailComposeViewControllerDelegate {
-    
     func launchEmailComposer() {
         if !MFMailComposeViewController.canSendMail() {
             let alert = UIAlertView(title: Strings.emailAccountNotSetUpTitle,

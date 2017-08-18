@@ -18,8 +18,14 @@ class AccountViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         titleLabel.textColor = UIColor.black
-        titleLabel.frame = CGRect(x: 20, y: 0, width: 200, height: contentView.frame.size.height)
         contentView.addSubview(titleLabel)
+        titleLabel.snp_makeConstraints { make -> Void in
+            make.height.equalTo(40)
+            make.top.equalTo(contentView)
+            make.leading.equalTo(contentView).offset(30)
+            make.trailing.equalTo(contentView)
+            make.bottom.equalTo(contentView)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
