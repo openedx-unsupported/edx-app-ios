@@ -161,41 +161,8 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.15686274509803921" green="0.16862745098039217" blue="0.18431372549019609" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellFindCourses" rowHeight="50" id="Jkx-wc-oGY">
-                                        <rect key="frame" x="0.0" y="241" width="320" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jkx-wc-oGY" id="Iht-9i-ycY">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator1.png" translatesAutoresizingMaskIntoConstraints="NO" id="Opq-WJ-Neg">
-                                                    <rect key="frame" x="30" y="49" width="210" height="1"/>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="204" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FIND COURSES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EfY-2m-mAz" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="30" y="0.0" width="210" height="50"/>
-                                                    <accessibility key="accessibilityConfiguration" label="">
-                                                        <accessibilityTraits key="traits" button="YES" staticText="YES"/>
-                                                    </accessibility>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="EfY-2m-mAz" secondAttribute="bottom" id="4p2-Na-UE8"/>
-                                                <constraint firstItem="EfY-2m-mAz" firstAttribute="leading" secondItem="Opq-WJ-Neg" secondAttribute="leading" id="7A3-d5-j69"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="EfY-2m-mAz" secondAttribute="trailing" constant="72" id="7XB-5K-pT4"/>
-                                                <constraint firstItem="EfY-2m-mAz" firstAttribute="top" secondItem="Iht-9i-ycY" secondAttribute="top" id="FSz-2Q-ZY2"/>
-                                                <constraint firstItem="EfY-2m-mAz" firstAttribute="bottom" secondItem="Opq-WJ-Neg" secondAttribute="bottom" id="fJc-Ar-z8X"/>
-                                                <constraint firstItem="EfY-2m-mAz" firstAttribute="centerX" secondItem="Opq-WJ-Neg" secondAttribute="centerX" id="tdG-tQ-iVI"/>
-                                                <constraint firstItem="EfY-2m-mAz" firstAttribute="leading" secondItem="Iht-9i-ycY" secondAttribute="leadingMargin" constant="22" id="xxX-9R-e6L"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" red="0.15686274510000001" green="0.16862745100000001" blue="0.1843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="find-courses-cell"/>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellSetting" rowHeight="50" id="Hmd-TD-4eC">
-                                        <rect key="frame" x="0.0" y="291" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="241" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hmd-TD-4eC" id="4ma-P0-sml">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -204,7 +171,7 @@
                                                 <imageView userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator1.png" translatesAutoresizingMaskIntoConstraints="NO" id="93k-X3-oKY">
                                                     <rect key="frame" x="30" y="49" width="210" height="1"/>
                                                 </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="205" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MY SETTINGS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Et-PU-vDe">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="205" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ACCOUNT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Et-PU-vDe">
                                                     <rect key="frame" x="30" y="0.0" width="210" height="50"/>
                                                     <accessibility key="accessibilityConfiguration" label="">
                                                         <accessibilityTraits key="traits" button="YES" staticText="YES"/>
@@ -227,7 +194,7 @@
                                         <color key="backgroundColor" red="0.15686274510000001" green="0.16862745100000001" blue="0.1843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellDebug" rowHeight="50" id="lzd-ss-mgn">
-                                        <rect key="frame" x="0.0" y="341" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="291" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lzd-ss-mgn" id="IyX-WK-94J">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -273,9 +240,8 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="600"/>
                     <connections>
-                        <outlet property="accountLabel" destination="5Et-PU-vDe" id="3Vx-UN-I6z"/>
+                        <outlet property="accountLabel" destination="5Et-PU-vDe" id="HZj-pn-wEO"/>
                         <outlet property="coursesLabel" destination="Lcp-ZJ-taY" id="Ltg-vL-WbI"/>
-                        <outlet property="findCoursesLabel" destination="EfY-2m-mAz" id="dSD-Ks-fOa"/>
                         <outlet property="userEmailLabel" destination="o3n-qF-MxO" id="Qul-S1-8Gb"/>
                         <outlet property="userNameLabel" destination="Ov6-L3-h2F" id="ey0-hL-y2k"/>
                         <outlet property="userProfilePicture" destination="rh2-oS-pei" id="xmf-XA-MXT"/>

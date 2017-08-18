@@ -17,12 +17,12 @@ class AccountViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        titleLabel.textColor = UIColor.black
+        titleLabel.textColor = OEXStyles.shared().neutralBlackT()
         contentView.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { make -> Void in
             make.height.equalTo(40)
             make.top.equalTo(contentView)
-            make.leading.equalTo(contentView).offset(30)
+            make.leading.equalTo(contentView).offset(20)
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)
         }

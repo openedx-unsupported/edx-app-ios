@@ -128,7 +128,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     //MARK: - Actions
     func showCourses() {
         let bottomBar = BottomBarView(environment: environment)
-        environment.router?.showCourseCatalog(bottomBar: bottomBar)
+        environment.router?.showCourseCatalog(fromController: nil, bottomBar: bottomBar)
     }
     
     func exploreSubjects() {

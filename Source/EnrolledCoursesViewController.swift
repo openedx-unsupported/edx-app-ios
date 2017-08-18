@@ -73,6 +73,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         setupListener()
         setupFooter()
         setupObservers()
+        addFindCoursesButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +89,18 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         refreshIfNecessary()
     }
 
+    private func addFindCoursesButton() {
+        if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+            let findcoursesButton = UIBarButtonItem(barButtonSystemItem: .search, target: nil, action: nil)
+            findcoursesButton.accessibilityLabel = Strings.findCourses
+            navigationItem.rightBarButtonItem = findcoursesButton
+            
+            findcoursesButton.oex_setAction { [weak self] in
+                self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
+            }
+        }
+    }
+    
     private func setupListener() {
         enrollmentFeed.output.listen(self) {[weak self] result in
             if !(self?.enrollmentFeed.output.active ?? false) {
@@ -127,7 +140,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
             let footer = EnrolledCoursesFooterView()
             footer.findCoursesAction = {[weak self] in
-                self?.environment.router?.showCourseCatalog(bottomBar: nil)
+                self?.environment.router?.showCourseCatalog()
             }
             
             footer.sizeToFit()

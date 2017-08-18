@@ -40,7 +40,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "Account"
+        self.navigationItem.title = Strings.myAccount
         self.view.backgroundColor = UIColor.white
         
         view.addSubview(contentView)

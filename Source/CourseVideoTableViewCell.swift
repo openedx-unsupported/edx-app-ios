@@ -39,7 +39,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     var localState : OEXHelperVideoDownload? {
         didSet {
             updateDownloadViewForVideoState()
-            content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0))
+            content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type)
         }
     }
     

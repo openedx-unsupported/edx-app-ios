@@ -278,7 +278,10 @@
 "DASHBOARD.COURSE_IMPORTANT_DATES"="Fechas importantes";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Realice un seguimiento de los plazos y cumpla con lo planeado";
-
+/* Text describing the course due date for same day*/
+"COURSE_DUE_DATE_SAME_DAY"="due today at {due_date}";
+/* Text describing the course due date*/
+"COURSE_DUE_DATE"="due {due_date}";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Terminado - {end_date}";
 /* Label indicating that a course will end */
