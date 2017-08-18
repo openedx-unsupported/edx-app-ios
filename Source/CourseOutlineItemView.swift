@@ -94,7 +94,7 @@ public class CourseOutlineItemView: UIView {
         guard let date = date else { return "" }
         
         let dateString = DateFormatting.format(asMinHourOrMonthDayYearString: date)
-        let dateOrder = DateFormatting.compareTwoDates(fromDate: Date(), toDate: date as Date)
+        let dateOrder = DateFormatting.compareTwoDates(fromDate: DateFormatting.getDate(withFormat: "MMM dd, yyyy", date: Date()), toDate: DateFormatting.getDate(withFormat: "MMM dd, yyyy", date: date as Date))
         let formattedDateString = (dateOrder == .orderedSame) ? Strings.courseDueDateSameDay(dueDate: dateString, timeZone: DateFormatting.timeZoneAbbriviation()) : Strings.courseDueDate(dueDate: dateString)
         return formattedDateString
     }

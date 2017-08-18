@@ -83,18 +83,34 @@ open class DateFormatting: NSObject {
         return formatter.string(from: date as Date)
     }
     
+    open class func getDate(withFormat format: String, date: Date) -> Date {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        let dateString = formatter.string(from: date )
+        let formattedDate = formatter.date(from: dateString) ?? date
+
+        return formattedDate
+    }
+    
     /// Format like 12:00 if same day otherwise April 11, 2013
     open class func format(asMinHourOrMonthDayYearString date: NSDate) -> String {
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
-        let order = compareTwoDates(fromDate: Date(), toDate: date as Date)
+        let order = compareTwoDates(fromDate: getDate(withFormat: "MMM dd, yyyy", date: Date()), toDate: getDate(withFormat: "MMM dd, yyyy", date: date as Date))
         formatter.dateFormat = (order == .orderedSame) ? "HH:mm" : "MMM dd, yyyy"
         return formatter.string(from: date as Date).uppercased()
     }
     
     /// Get the order of two dates comparison
-    open class func compareTwoDates(fromDate date: Date, toDate: Date) -> ComparisonResult{
-        return  Calendar.current.compare(date, to: toDate as Date, toGranularity: .year)
+    open class func compareTwoDates(fromDate date: Date, toDate: Date) -> ComparisonResult {
+        if(date > toDate) {
+            return ComparisonResult.orderedDescending
+        }
+        else if (date < toDate) {
+            return ComparisonResult.orderedAscending
+        }
+        
+        return  ComparisonResult.orderedSame
     }
     
     /// Get the time zone abbreivation like PKT, EDT
