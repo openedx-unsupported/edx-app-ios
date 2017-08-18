@@ -22,7 +22,7 @@
             <objects>
                 <navigationController navigationBarHidden="YES" id="QZv-Oh-XSY" sceneMemberID="viewController">
                     <nil key="simulatedTopBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="d3D-qd-xvw">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="d3D-qd-xvw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -240,7 +240,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="600"/>
                     <connections>
-                        <outlet property="accountLabel" destination="5Et-PU-vDe" id="HZj-pn-wEO"/>
+                        <outlet property="accountLabel" destination="5Et-PU-vDe" id="I4z-Xr-VI3"/>
                         <outlet property="coursesLabel" destination="Lcp-ZJ-taY" id="Ltg-vL-WbI"/>
                         <outlet property="userEmailLabel" destination="o3n-qF-MxO" id="Qul-S1-8Gb"/>
                         <outlet property="userNameLabel" destination="Ov6-L3-h2F" id="ey0-hL-y2k"/>
