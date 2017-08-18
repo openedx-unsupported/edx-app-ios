@@ -32,9 +32,8 @@ class AccountViewControllerTest: SnapshotTestCase {
     
     func testScreenshot() {
         let controller = accountViewcontroller()
-        
-        inScreenDisplayContext(controller) {
-            assertSnapshotValidWithContent(controller)
+        inScreenNavigationContext(controller) { 
+              assertSnapshotValidWithContent(controller.navigationController!)
         }
     }
     
