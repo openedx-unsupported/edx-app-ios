@@ -84,13 +84,12 @@ open class DateFormatting: NSObject {
     }
     
     open class func getDate(withFormat format: String, date: Date) -> Date {
-    
         let formatter = DateFormatter()
         formatter.dateFormat = format
         let dateString = formatter.string(from: date )
-        let dateObject = formatter.date(from: dateString) ?? date
+        let formattedDate = formatter.date(from: dateString) ?? date
 
-        return dateObject
+        return formattedDate
     }
     
     /// Format like 12:00 if same day otherwise April 11, 2013
