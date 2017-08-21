@@ -10,12 +10,12 @@ import UIKit
 import MessageUI
 
 fileprivate enum AccountviewOptions : Int {
-    case Setting,
+    case UserSettings,
          Profile,
          SubmitFeedback,
          Logout
     
-        static let options = [Setting, Profile, SubmitFeedback, Logout]
+        static let accountOptions = [UserSettings, Profile, SubmitFeedback, Logout]
 }
 
 class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -24,8 +24,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     private let tableView = UITableView()
     private let versionView = UIView()
     private let versionLabel = UILabel()
-    private var optionsArray : [String] = []
-    public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider
+    private var accountViewOptionsArray : [String] = []
+    typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider
     fileprivate let environment: Environment
     
     init(environment: Environment) {
@@ -40,8 +40,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = Strings.myAccount
-        self.view.backgroundColor = UIColor.white
+        navigationItem.title = Strings.userAccount
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
         view.addSubview(contentView)
         contentView.addSubview(tableView)
@@ -49,7 +49,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         versionView.addSubview(versionLabel)
 
         configureViews()
-        populateOptionsArray()
+        populateOptions()
     }
     
     func configureViews() {
@@ -92,10 +92,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func populateOptionsArray() {
-        for option in AccountviewOptions.options {
+    func populateOptions() {
+        for option in AccountviewOptions.accountOptions {
             if let optionTitle = getOptionTitle(option: option) {
-                optionsArray.append(optionTitle)
+                accountViewOptionsArray.append(optionTitle)
             }
         }
     }
@@ -108,13 +108,11 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: - Table view data source
 
     public func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return optionsArray.count
+        return accountViewOptionsArray.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -122,14 +120,14 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Configure the cell...
         let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewCell.identifier, for: indexPath) as! AccountViewCell
         cell.separatorInset = UIEdgeInsets.zero
-        cell.configureView(withTitle: optionsArray[indexPath.row])
+        cell.configureView(withTitle: accountViewOptionsArray[indexPath.row])
         return cell
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let option = AccountviewOptions(rawValue: indexPath.row) {
             switch option {
-            case .Setting:
+            case .UserSettings:
                 environment.router?.showMySettings(controller: self)
             case .Profile:
                 guard environment.config.profilesEnabled else { break }
@@ -148,11 +146,11 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     fileprivate func getOptionTitle(option: AccountviewOptions) -> String? {
         var optionTitle : String?
         switch option {
-        case .Setting :
+        case .UserSettings :
             optionTitle = Strings.settings
         case .Profile:
             guard environment.config.profilesEnabled else { break }
-            optionTitle = Strings.profile
+            optionTitle = Strings.UserAccount.profile
         case .SubmitFeedback:
             optionTitle = Strings.SubmitFeedback.optionTitle
         case .Logout:

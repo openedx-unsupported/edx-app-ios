@@ -12,7 +12,6 @@ class AccountViewCell: UITableViewCell {
 
     static let identifier = "accountViewCellIdentifier"
     private let titleLabel = UILabel()
-    private let separatorImage = UIImageView(image: UIImage(named: "separator.png"))
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -11,7 +11,7 @@ import MessageUI
 import edXCore
 
 private enum OEXRearViewOptions: Int {
-    case UserProfile, MyCourse, MyVideos, Account, Debug
+    case UserProfile, MyCourse, MyVideos, UserAccount, Debug
 }
 
 private let versionButtonStyle = OEXTextStyle(weight:.normal, size:.xxSmall, color: OEXStyles.shared().neutralWhite())
@@ -49,7 +49,7 @@ class OEXRearTableViewController : UITableViewController {
         
         coursesLabel.text = Strings.myCourses.oex_uppercaseStringInCurrentLocale()
         videosLabel.text = Strings.myVideos.oex_uppercaseStringInCurrentLocale()
-        accountLabel.text = Strings.myAccount.oex_uppercaseStringInCurrentLocale()
+        accountLabel.text = Strings.userAccount.oex_uppercaseStringInCurrentLocale()
         setNaturalTextAlignment()
         setAccessibilityLabels()
         
@@ -145,7 +145,7 @@ class OEXRearTableViewController : UITableViewController {
                 environment.router?.showMyCourses()
             case .MyVideos:
                 environment.router?.showMyVideos()
-            case .Account:
+            case .UserAccount:
                 environment.router?.showAccount()
             case .Debug:
                 environment.router?.showDebugPane()

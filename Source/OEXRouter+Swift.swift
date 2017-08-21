@@ -198,13 +198,8 @@ extension OEXRouter {
 
     func showMySettings(controller: UIViewController? = nil) {
         let settingController = OEXMySettingsViewController(nibName: nil, bundle: nil)
-        if let controller = controller {
-            controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-            controller.navigationController?.pushViewController(settingController, animated: true)
-        }
-        else {
-            showMySettings()
-        }
+        controller?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        controller?.navigationController?.pushViewController(settingController, animated: true)
     }
     
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true) {
