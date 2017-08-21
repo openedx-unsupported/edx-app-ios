@@ -22,9 +22,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     private let contentView = UIView()
     private let tableView = UITableView()
-    private let versionView = UIView()
     private let versionLabel = UILabel()
     private var accountViewOptionsArray : [String] = []
+    private let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
+    private let titleStyle = OEXTextStyle(weight: .normal, size: .large, color : OEXStyles.shared().neutralBlack())
     typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider
     fileprivate let environment: Environment
     
@@ -45,8 +46,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         view.addSubview(contentView)
         contentView.addSubview(tableView)
-        contentView.addSubview(versionView)
-        versionView.addSubview(versionLabel)
+        contentView.addSubview(versionLabel)
 
         configureViews()
         populateOptions()
@@ -60,8 +60,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.tableFooterView = UIView()
         tableView.register(AccountViewCell.self, forCellReuseIdentifier: AccountViewCell.identifier)
     
-        versionLabel.text = Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: "")
-        versionLabel.textAlignment = NSTextAlignment.center
+        textStyle.alignment = NSTextAlignment.center
+        versionLabel.attributedText = textStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: ""))
         
         contentView.snp_makeConstraints {make in
             make.edges.equalTo(view)
@@ -71,31 +71,22 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(versionView.snp_top)
-        }
-        
-        versionView.snp_makeConstraints { make -> Void in
-            make.height.equalTo(50)
-            make.top.equalTo(tableView.snp_bottom)
-            make.leading.equalTo(contentView)
-            make.trailing.equalTo(contentView)
-            make.bottom.equalTo(contentView)
+            make.bottom.equalTo(versionLabel.snp_top)
         }
         
         versionLabel.snp_makeConstraints { make -> Void in
-            make.height.equalTo(versionView.snp_height)
-            make.width.equalTo(versionView.snp_width)
-            make.top.equalTo(versionView)
-            make.leading.equalTo(versionView)
-            make.trailing.equalTo(versionView)
-            make.bottom.equalTo(versionView)
+            make.width.equalTo(contentView.snp_width)
+            make.top.equalTo(tableView.snp_bottom)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.bottom.equalTo(contentView).inset(20)
         }
     }
     
     func populateOptions() {
         for option in AccountviewOptions.accountOptions {
-            if let optionTitle = getOptionTitle(option: option) {
-                accountViewOptionsArray.append(optionTitle)
+            if let title = optionTitle(option: option) {
+                accountViewOptionsArray.append(title)
             }
         }
     }
@@ -120,7 +111,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Configure the cell...
         let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewCell.identifier, for: indexPath) as! AccountViewCell
         cell.separatorInset = UIEdgeInsets.zero
-        cell.configureView(withTitle: accountViewOptionsArray[indexPath.row])
+        cell.titleLabel.attributedText = titleStyle.attributedString(withText: accountViewOptionsArray[indexPath.row])
         return cell
     }
     
@@ -143,21 +134,21 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    fileprivate func getOptionTitle(option: AccountviewOptions) -> String? {
-        var optionTitle : String?
+    fileprivate func optionTitle(option: AccountviewOptions) -> String? {
+        var title : String?
         switch option {
         case .UserSettings :
-            optionTitle = Strings.settings
+            title = Strings.settings
         case .Profile:
             guard environment.config.profilesEnabled else { break }
-            optionTitle = Strings.UserAccount.profile
+            title = Strings.UserAccount.profile
         case .SubmitFeedback:
-            optionTitle = Strings.SubmitFeedback.optionTitle
+            title = Strings.SubmitFeedback.optionTitle
         case .Logout:
-            optionTitle = Strings.logout
+            title = Strings.logout
         }
         
-        return optionTitle
+        return title
     }
 }
 

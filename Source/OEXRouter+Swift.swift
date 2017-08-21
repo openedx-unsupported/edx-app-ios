@@ -202,6 +202,11 @@ extension OEXRouter {
         controller?.navigationController?.pushViewController(settingController, animated: true)
     }
     
+    func showAccount() {
+        let controller = AccountViewController(environment: environment)
+        self.showContentStack(withRootController: controller, animated: true)
+    }
+    
     func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true) {
         OEXAnalytics.shared().trackProfileViewed(username: username)
         let editable = self.environment.session.currentUser?.username == username

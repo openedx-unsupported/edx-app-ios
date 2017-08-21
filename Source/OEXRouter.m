@@ -213,11 +213,6 @@ OEXRegistrationViewControllerDelegate
     [self showContentStackWithRootController:controller animated:YES];
 }
 
-- (void)showAccount {
-    AccountViewController *controller = [[AccountViewController alloc] initWithEnvironment:self.environment];
-    [self showContentStackWithRootController:controller animated:YES];
-}
-
 #pragma Delegate Implementations
 
 - (void)registrationViewControllerDidRegister:(OEXRegistrationViewController *)controller completion:(void (^)(void))completion {

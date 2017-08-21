@@ -11,17 +11,16 @@ import UIKit
 class AccountViewCell: UITableViewCell {
 
     static let identifier = "accountViewCellIdentifier"
-    private let titleLabel = UILabel()
+    public var titleLabel = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        titleLabel.textColor = OEXStyles.shared().neutralBlackT()
         contentView.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { make -> Void in
             make.height.equalTo(40)
             make.top.equalTo(contentView)
-            make.leading.equalTo(contentView).offset(20)
+            make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)
         }
@@ -29,9 +28,5 @@ class AccountViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func configureView(withTitle title: String){
-        titleLabel.text = title
     }
 }

@@ -61,7 +61,6 @@ extern NSString* OEXSideNavigationChangedStateKey;
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated;
 - (void)showMyVideos;
 - (void)showMySettings;
-- (void)showAccount;
 
 #pragma mark Course Structure
 - (void)showAnnouncementsForCourseWithID:(NSString*)courseID;
