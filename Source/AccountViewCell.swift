@@ -11,18 +11,23 @@ import UIKit
 class AccountViewCell: UITableViewCell {
 
     static let identifier = "accountViewCellIdentifier"
-    public var titleLabel = UILabel()
+    private var titleLabel = UILabel()
+    
+    public var title : String? {
+        didSet {
+            titleLabel.attributedText = OEXTextStyle(weight: .normal, size: .large, color : OEXStyles.shared().neutralBlack()).attributedString(withText: title)
+        }
+    }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { make -> Void in
-            make.height.equalTo(40)
-            make.top.equalTo(contentView)
+            make.top.equalTo(contentView).offset(StandardVerticalMargin)
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(contentView)
+            make.bottom.equalTo(contentView).inset(StandardVerticalMargin)
         }
     }
     

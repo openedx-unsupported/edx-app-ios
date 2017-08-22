@@ -10,12 +10,12 @@ import UIKit
 import MessageUI
 
 fileprivate enum AccountviewOptions : Int {
-    case UserSettings,
-         Profile,
+    case Profile,
+         UserSettings,
          SubmitFeedback,
          Logout
     
-        static let accountOptions = [UserSettings, Profile, SubmitFeedback, Logout]
+        static let accountOptions = [Profile, UserSettings, SubmitFeedback, Logout]
 }
 
 class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -23,8 +23,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     private let contentView = UIView()
     private let tableView = UITableView()
     private let versionLabel = UILabel()
-    private var accountViewOptionsArray : [String] = []
-    private let titleStyle = OEXTextStyle(weight: .normal, size: .large, color : OEXStyles.shared().neutralBlack())
     typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider
     fileprivate let environment: Environment
     
@@ -48,7 +46,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         contentView.addSubview(versionLabel)
 
         configureViews()
-        populateOptions()
     }
     
     func configureViews() {
@@ -62,7 +59,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
         textStyle.alignment = NSTextAlignment.center
         versionLabel.attributedText = textStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: ""))
-        
+        addConstraints()
+    }
+
+    func addConstraints() {
         contentView.snp_makeConstraints {make in
             make.edges.equalTo(view)
         }
@@ -83,14 +83,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func populateOptions() {
-        for option in AccountviewOptions.accountOptions {
-            if let title = optionTitle(option: option) {
-                accountViewOptionsArray.append(title)
-            }
-        }
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -103,7 +95,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return accountViewOptionsArray.count
+        return AccountviewOptions.accountOptions.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,7 +103,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Configure the cell...
         let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewCell.identifier, for: indexPath) as! AccountViewCell
         cell.separatorInset = UIEdgeInsets.zero
-        cell.titleLabel.attributedText = titleStyle.attributedString(withText: accountViewOptionsArray[indexPath.row])
+        cell.title = optionTitle(option: AccountviewOptions.accountOptions[indexPath.row])
         return cell
     }
     
@@ -134,21 +126,29 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    fileprivate func optionTitle(option: AccountviewOptions) -> String? {
-        var title : String?
-        switch option {
-        case .UserSettings :
-            title = Strings.settings
-        case .Profile:
-            guard environment.config.profilesEnabled else { break }
-            title = Strings.UserAccount.profile
-        case .SubmitFeedback:
-            title = Strings.SubmitFeedback.optionTitle
-        case .Logout:
-            title = Strings.logout
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if (indexPath.row == AccountviewOptions.Profile.rawValue && !environment.config.profilesEnabled)  {
+            return 0
         }
         
-        return title
+        return tableView.estimatedRowHeight
+    }
+    
+    fileprivate func optionTitle(option: AccountviewOptions) -> String? {
+        switch option {
+        case .UserSettings :
+            return Strings.settings
+        case .Profile:
+            guard environment.config.profilesEnabled else { break }
+            return Strings.UserAccount.profile
+        case .SubmitFeedback:
+            return Strings.SubmitFeedback.optionTitle
+        case .Logout:
+            return Strings.logout
+        }
+        
+        return nil
     }
 }
 
