@@ -24,7 +24,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     private let tableView = UITableView()
     private let versionLabel = UILabel()
     private var accountViewOptionsArray : [String] = []
-    private let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
     private let titleStyle = OEXTextStyle(weight: .normal, size: .large, color : OEXStyles.shared().neutralBlack())
     typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider
     fileprivate let environment: Environment
@@ -53,13 +52,14 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func configureViews() {
-        tableView.estimatedRowHeight = 400
+        tableView.estimatedRowHeight = 40
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         tableView.register(AccountViewCell.self, forCellReuseIdentifier: AccountViewCell.identifier)
-    
+        
+        let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
         textStyle.alignment = NSTextAlignment.center
         versionLabel.attributedText = textStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: ""))
         
