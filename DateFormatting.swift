@@ -98,7 +98,7 @@ open class DateFormatting: NSObject {
         formatter.timeZone = TimeZone.current
         let order = compareTwoDates(fromDate: getDate(withFormat: "MMM dd, yyyy", date: Date()), toDate: getDate(withFormat: "MMM dd, yyyy", date: date as Date))
         formatter.dateFormat = (order == .orderedSame) ? "HH:mm" : "MMM dd, yyyy"
-        return formatter.string(from: date as Date).uppercased()
+        return formatter.string(from: date as Date)
     }
     
     /// Get the order of two dates comparison
