@@ -109,12 +109,12 @@ public class CourseOutlineItemView: UIView {
     }
 
     func setDetailText(title : String, dueDate: String? = "", blockType: CourseBlockType?) {
-        
-        let formattedDateString = formattedDueDateString(asMonthDay: DateFormatting.date(withServerString: dueDate))
-        
         var attributedStrings = [NSAttributedString]()
         attributedStrings.append(getAttributedString(withBlockType: blockType, withText: title))
-        attributedStrings.append(CourseOutlineItemView.detailFontStyle.attributedString(withText: formattedDateString))
+        if isGraded == true {
+            let formattedDateString = formattedDueDateString(asMonthDay: DateFormatting.date(withServerString: dueDate))
+            attributedStrings.append(CourseOutlineItemView.detailFontStyle.attributedString(withText: formattedDateString))
+        }
         subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
         resetContraints(withBlockType: blockType)
         setNeedsUpdateConstraints()
@@ -197,7 +197,6 @@ public class CourseOutlineItemView: UIView {
             {
                 make.leading.equalTo(checkmark.snp_leading).offset(0)
             }
-            
         }
 
         
