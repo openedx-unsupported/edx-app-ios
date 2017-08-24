@@ -81,4 +81,8 @@ extension OEXConfig {
     var isCourseVideosEnabled: Bool {
         return bool(forKey: "COURSE_VIDEOS_ENABLED")
     }
+    
+    var isAnnouncementsEnabled: Bool {
+        return bool(forKey: "ANNOUNCEMENTS_ENABLED")
+    }
 }
