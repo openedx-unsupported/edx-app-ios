@@ -235,6 +235,24 @@ static OEXStyles* sSharedStyles;
 {
     return [UIColor grayColor];
 }
+    
+#pragma mark Buttons Color Customization
+
+- (UIColor *)signUpButtonColor {
+    return [self.oexColors buttonColorForIdentifier:ButtonsIdentifiersSignUp];
+}
+    
+- (UIColor *)registerButtonColor {
+    return [self.oexColors buttonColorForIdentifier:ButtonsIdentifiersRegister];
+}
+    
+- (UIColor *)loginButtonColor {
+    return [self.oexColors buttonColorForIdentifier:ButtonsIdentifiersLogin];
+}
+    
+- (UIColor *)findCoursesButtonColor {
+    return [self.oexColors buttonColorForIdentifier:ButtonsIdentifiersFindCourses];
+}
 
 #pragma mark Fonts
 

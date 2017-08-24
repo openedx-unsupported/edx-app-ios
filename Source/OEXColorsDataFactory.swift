@@ -44,4 +44,9 @@ class OEXColorsDataFactory {
                          "errorLight":"#CB585E",
                          "banner":"#7DC88F"]
     
+    static let buttonsColorCustomization = ["signUp": "primaryBaseColor",
+                                           "register": "primaryBaseColor",
+                                           "login": "primaryBaseColor",
+                                           "findCourses": "primaryBaseColor"]
+    
 }

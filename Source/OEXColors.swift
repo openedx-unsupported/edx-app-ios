@@ -23,11 +23,17 @@ public class OEXColors: NSObject {
         Banner, Random
     }
     
+    @objc public enum ButtonsIdentifiers: Int {
+        case SignUp = 1, Register, Login, FindCourses, Error
+    }
+    
     public var colorsDictionary = [String: AnyObject]()
+    public var buttonsColorDictionary = [String: AnyObject]()
     
     private override init() {
         super.init()
         colorsDictionary = initializeColorsDictionary()
+        buttonsColorDictionary = initializeButtonsColorDictionary()
     }
     
     private func initializeColorsDictionary() -> [String: AnyObject] {
@@ -45,8 +51,27 @@ public class OEXColors: NSObject {
         return fallbackColors()
     }
     
+    private func initializeButtonsColorDictionary() -> [String: AnyObject] {
+        guard let filePath = Bundle.main.path(forResource: "buttons-colors", ofType: "json") else {
+            return fallbackButtonsColor();
+        }
+        if let data = NSData(contentsOfFile: filePath) {
+            var error : NSError?
+            
+            if let json = JSON(data: data as Data, error: &error).dictionaryObject{
+                return json as [String : AnyObject];
+            }
+            return fallbackButtonsColor()
+        }
+        return fallbackButtonsColor()
+    }
+    
     @discardableResult public func fallbackColors() -> [String: AnyObject] {
         return OEXColorsDataFactory.colors as [String : AnyObject]
+    }
+    
+    @discardableResult public func fallbackButtonsColor() -> [String: AnyObject] {
+        return OEXColorsDataFactory.buttonsColorCustomization as [String : AnyObject]
     }
     
     public func color(forIdentifier identifier: ColorsIdentifiers) -> UIColor {
@@ -54,12 +79,26 @@ public class OEXColors: NSObject {
     }
     
     public func color(forIdentifier identifier: ColorsIdentifiers, alpha: CGFloat) -> UIColor {
-        if let hexValue = colorsDictionary[getIdentifier(identifier: identifier)] as? String {
+        let colorIdentifier = getIdentifier(identifier: identifier)
+        return getColor(identifier: colorIdentifier, alpha: alpha, defaultIdentifier: ColorsIdentifiers.Random)
+    }
+    
+    public func buttonColor(forIdentifier identifier: ButtonsIdentifiers) -> UIColor {
+        return buttonColor(forIdentifier: identifier, alpha: 1.0);
+    }
+    
+    public func buttonColor(forIdentifier identifier: ButtonsIdentifiers, alpha: CGFloat) -> UIColor {
+        let buttonColorIdentifier = buttonsColorDictionary[getButtonIdentifier(identifier: identifier)] as? String
+        return getColor(identifier: buttonColorIdentifier!, alpha: alpha, defaultIdentifier: ColorsIdentifiers.PrimaryBaseColor)
+    }
+    
+    private func getColor(identifier: String, alpha: CGFloat, defaultIdentifier: ColorsIdentifiers) -> UIColor {
+        if let hexValue = colorsDictionary[identifier] as? String {
             let color = UIColor(hexString: hexValue, alpha: alpha)
             return color
         }
-
-        return UIColor(hexString: getIdentifier(identifier: ColorsIdentifiers.Random), alpha: 1.0)
+        
+        return UIColor(hexString: getIdentifier(identifier: defaultIdentifier), alpha: 1.0)
     }
     
     private func getIdentifier(identifier: ColorsIdentifiers) -> String {
@@ -131,6 +170,25 @@ public class OEXColors: NSObject {
             assert(false, "Could not find the required color in colors.json")
             return "#FABA12"
             
+        }
+    }
+    
+    private func getButtonIdentifier(identifier: ButtonsIdentifiers) -> String {
+        switch identifier {
+        case .SignUp:
+            return "signUp"
+        case .Register:
+            return "register"
+        case .Login:
+            return "login"
+        case .FindCourses:
+            return "findCourses"
+        case .Error:
+            fallthrough
+        default:
+            //Assert to crash on development, and return a sign up identifier for distribution
+            assert(false, "Could not find the required button identifier in buttons-color-customization.json")
+            return "signUp"
         }
     }
 }
