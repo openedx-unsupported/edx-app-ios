@@ -8,14 +8,12 @@
 
 import Foundation
 import MessageUI
-
 import edXCore
 
 private enum OEXRearViewOptions: Int {
-    case UserProfile, MyCourse, MyVideos, MySettings, SubmitFeedback, Debug, Logout
+    case UserProfile, MyCourse, MyVideos, UserAccount, Debug
 }
 
-private let LogoutCellDefaultHeight: CGFloat = 130.0
 private let versionButtonStyle = OEXTextStyle(weight:.normal, size:.xxSmall, color: OEXStyles.shared().neutralWhite())
 
 class OEXRearTableViewController : UITableViewController {
@@ -33,15 +31,10 @@ class OEXRearTableViewController : UITableViewController {
     
     @IBOutlet var coursesLabel: UILabel!
     @IBOutlet var videosLabel: UILabel!
-    @IBOutlet var settingsLabel: UILabel!
-    @IBOutlet var submitFeedbackLabel: UILabel!
-    @IBOutlet var logoutButton: UIButton!
-    
+    @IBOutlet var accountLabel: UILabel!
     @IBOutlet var userNameLabel: UILabel!
     @IBOutlet var userEmailLabel: UILabel!
-
     @IBOutlet var userProfilePicture: UIImageView!
-    @IBOutlet weak var appVersionButton: UIButton!
     
     lazy var environment = Environment()
     var profileFeed: Feed<UserProfile>?
@@ -51,23 +44,12 @@ class OEXRearTableViewController : UITableViewController {
         setupProfileLoader()
         updateUIWithUserInfo()
         
-        let environmentName = self.environment.config.environmentName()
-        let appVersion = Bundle.main.oex_buildVersionString()
-        appVersionButton.setAttributedTitle(versionButtonStyle.attributedString(withText: Strings.versionDisplay(number: appVersion, environment: environmentName)), for:.normal)
-        appVersionButton.accessibilityTraits = UIAccessibilityTraitStaticText
-        
-        //UI
-        logoutButton.setBackgroundImage(UIImage(named: "bt_logout_active"), for: .highlighted)
-        
         //Listen to notification
         NotificationCenter.default.addObserver(self, selector: #selector(OEXRearTableViewController.dataAvailable(notification:)), name: NSNotification.Name(rawValue: NOTIFICATION_URL_RESPONSE), object: nil)
         
         coursesLabel.text = Strings.myCourses.oex_uppercaseStringInCurrentLocale()
         videosLabel.text = Strings.myVideos.oex_uppercaseStringInCurrentLocale()
-        settingsLabel.text = Strings.mySettings.oex_uppercaseStringInCurrentLocale()
-        submitFeedbackLabel.text = Strings.SubmitFeedback.optionTitle.oex_uppercaseStringInCurrentLocale()
-        logoutButton.setTitle(Strings.logout.oex_uppercaseStringInCurrentLocale(), for: .normal)
-        
+        accountLabel.text = Strings.userAccount.oex_uppercaseStringInCurrentLocale()
         setNaturalTextAlignment()
         setAccessibilityLabels()
         
@@ -113,8 +95,7 @@ class OEXRearTableViewController : UITableViewController {
     private func setNaturalTextAlignment() {
         coursesLabel.textAlignment = .natural
         videosLabel.textAlignment = .natural
-        settingsLabel.textAlignment = .natural
-        submitFeedbackLabel.textAlignment = .natural
+        accountLabel.textAlignment = .natural
         userNameLabel.textAlignment = .natural
         userNameLabel.adjustsFontSizeToFitWidth = true
         userEmailLabel.textAlignment = .natural
@@ -125,9 +106,7 @@ class OEXRearTableViewController : UITableViewController {
         userEmailLabel.accessibilityLabel = userEmailLabel.text
         coursesLabel.accessibilityLabel = coursesLabel.text
         videosLabel.accessibilityLabel = videosLabel.text
-        settingsLabel.accessibilityLabel = settingsLabel.text
-        submitFeedbackLabel.accessibilityLabel = submitFeedbackLabel.text
-        logoutButton.accessibilityLabel = logoutButton.titleLabel!.text
+        accountLabel.accessibilityLabel = accountLabel.text
         userProfilePicture.accessibilityLabel = Strings.accessibilityUserAvatar
     }
     
@@ -151,8 +130,7 @@ class OEXRearTableViewController : UITableViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 separatorImage.isHidden = false
             }
-        }
-        
+        } 
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -167,14 +145,10 @@ class OEXRearTableViewController : UITableViewController {
                 environment.router?.showMyCourses()
             case .MyVideos:
                 environment.router?.showMyVideos()
-            case .MySettings:
-                environment.router?.showMySettings()
-            case .SubmitFeedback:
-                launchEmailComposer()
+            case .UserAccount:
+                environment.router?.showAccount()
             case .Debug:
                 environment.router?.showDebugPane()
-            case .Logout:
-                break
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -185,19 +159,8 @@ class OEXRearTableViewController : UITableViewController {
         if ((indexPath.row == OEXRearViewOptions.Debug.rawValue && !environment.config.shouldShowDebug()) || (indexPath.row == OEXRearViewOptions.MyVideos.rawValue && !environment.config.isMyVideosEnabled)) {
             return 0
         }
-        else if indexPath.row == OEXRearViewOptions.Logout.rawValue {
-            let screenHeight = UIScreen.main.bounds.height
-            let tableviewHeight = tableView.contentSize.height
-            return max((screenHeight - tableviewHeight) + LogoutCellDefaultHeight, LogoutCellDefaultHeight)
-        }
-        
         
         return super.tableView(tableView, heightForRowAt: indexPath)
-    }
-    
-    @IBAction func logoutClicked(sender: UIButton) {
-        OEXFileUtility.nukeUserPIIData()
-        self.environment.router?.logout()
     }
     
     func dataAvailable(notification: NSNotification) {
@@ -207,33 +170,5 @@ class OEXRearTableViewController : UITableViewController {
         if successString == NOTIFICATION_VALUE_URL_STATUS_SUCCESS && URLString == environment.interface?.urlString(forType: URL_USER_DETAILS) {
             updateUIWithUserInfo()
         }
-    }
-}
-
-extension OEXRearTableViewController : MFMailComposeViewControllerDelegate {
-
-    func launchEmailComposer() {
-        if !MFMailComposeViewController.canSendMail() {
-            let alert = UIAlertView(title: Strings.emailAccountNotSetUpTitle,
-                message: Strings.emailAccountNotSetUpMessage,
-                delegate: nil,
-                cancelButtonTitle: Strings.ok)
-            alert.show()
-        } else {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.navigationBar.tintColor = OEXStyles.shared().navigationItemTintColor()
-            mail.setSubject(Strings.SubmitFeedback.messageSubject)
-
-            mail.setMessageBody(EmailTemplates.supportEmailMessageTemplate(), isHTML: false)
-            if let fbAddress = environment.config.feedbackEmailAddress() {
-                mail.setToRecipients([fbAddress])
-            }
-            present(mail, animated: true, completion: nil)
-        }
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        dismiss(animated: true, completion: nil)
     }
 }

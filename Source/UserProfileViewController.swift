@@ -50,7 +50,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         loadController.state = .Initial
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
-
+        navigationItem.title = Strings.UserAccount.profile
         addProfileListener()
         addExtraTabsListener()
 

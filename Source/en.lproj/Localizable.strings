@@ -426,6 +426,8 @@
 "MY_COURSES"="My Courses";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="My Settings";
+/* Screen title showing a user's account */
+"USER_ACCOUNT"="Account";
 /* Screen title showing a user's downloaded videos */
 "MY_VIDEOS" = "My Videos";
 /* Video count title in My Videos section*/
@@ -503,6 +505,8 @@
 "POST_QUESTION"="Post question";
 /* Button title for moving to the previous block in the course */
 "PREVIOUS" = "Previous";
+/* Button title for profile view in account*/
+"USER_ACCOUNT.PROFILE"= "Profile";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
 /* A10y hint for the change picture button. */
