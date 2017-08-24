@@ -98,7 +98,7 @@ open class DateFormatting: NSObject {
         formatter.timeZone = TimeZone.current
         let order = compareTwoDates(fromDate: getDate(withFormat: "MMM dd, yyyy", date: Date()), toDate: getDate(withFormat: "MMM dd, yyyy", date: date as Date))
         formatter.dateFormat = (order == .orderedSame) ? "HH:mm" : "MMM dd, yyyy"
-        return formatter.string(from: date as Date).uppercased()
+        return formatter.string(from: date as Date)
     }
     
     /// Get the order of two dates comparison
@@ -114,18 +114,25 @@ open class DateFormatting: NSObject {
     }
     
     /// Get the time zone abbreivation like PKT, EDT
-    open class func timeZoneAbbriviation() -> String{
+    open class func timeZoneAbbriviation() -> String {
         let formatter = DateFormatter()
         formatter.timeZone = TimeZone.current
+        formatter.locale = Locale.current
         let timeZoneAbbbreviatedDict = TimeZone.abbreviationDictionary
         var abbreviatedKey : String = ""
-        for key in timeZoneAbbbreviatedDict.keys {
-            if (timeZoneAbbbreviatedDict[key] == formatter.timeZone.identifier) {
-                abbreviatedKey = key
-                break
+        if (timeZoneAbbbreviatedDict.values.contains(formatter.timeZone.identifier)) {
+            for key in timeZoneAbbbreviatedDict.keys {
+                if (timeZoneAbbbreviatedDict[key] == formatter.timeZone.identifier) {
+                    abbreviatedKey = key
+                    break
+                }
             }
         }
+        else
+        {
+            abbreviatedKey = TimeZone.current.abbreviation() ?? ""
+        }
+    
         return abbreviatedKey
     }
-    
 }

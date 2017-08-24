@@ -113,8 +113,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             case .UserSettings:
                 environment.router?.showMySettings(controller: self)
             case .Profile:
-                guard environment.config.profilesEnabled else { break }
-                guard let currentUserName = environment.session.currentUser?.username else { return }
+                guard environment.config.profilesEnabled, let currentUserName = environment.session.currentUser?.username  else { break }
                 environment.router?.showProfileForUsername(controller: self, username: currentUserName, editable: true)
             case .SubmitFeedback:
                 launchEmailComposer()
@@ -135,7 +134,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         return tableView.estimatedRowHeight
     }
     
-    fileprivate func optionTitle(option: AccountviewOptions) -> String? {
+    private func optionTitle(option: AccountviewOptions) -> String? {
         switch option {
         case .UserSettings :
             return Strings.settings

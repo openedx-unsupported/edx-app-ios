@@ -12,10 +12,10 @@ class AccountViewCell: UITableViewCell {
 
     static let identifier = "accountViewCellIdentifier"
     private var titleLabel = UILabel()
-    
+    private let titleStyle = OEXTextStyle(weight: .normal, size: .large, color : OEXStyles.shared().neutralBlack())
     public var title : String? {
         didSet {
-            titleLabel.attributedText = OEXTextStyle(weight: .normal, size: .large, color : OEXStyles.shared().neutralBlack()).attributedString(withText: title)
+            titleLabel.attributedText = titleStyle.attributedString(withText: title)
         }
     }
     
