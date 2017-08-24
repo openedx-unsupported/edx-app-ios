@@ -13,11 +13,12 @@ import edXCore
 
 private extension OEXConfig {
 
-    convenience init(discussionsEnabled : Bool, courseSharingEnabled: Bool = false, courseVideosEnabled: Bool = false) {
+    convenience init(discussionsEnabled : Bool, courseSharingEnabled: Bool = false, courseVideosEnabled: Bool = false, isAnnouncementsEnabled: Bool = true) {
         self.init(dictionary: [
             "DISCUSSIONS_ENABLED": discussionsEnabled,
             "COURSE_SHARING_ENABLED": courseSharingEnabled,
-            "COURSE_VIDEOS_ENABLED": courseVideosEnabled
+            "COURSE_VIDEOS_ENABLED": courseVideosEnabled,
+            "ANNOUNCEMENTS_ENABLED": isAnnouncementsEnabled
             ]
         )
     }
@@ -66,6 +67,27 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
                 
                 let expected = hasHandoutsUrl
                 XCTAssertEqual(enabled, expected, "Expected handouts visiblity \(expected) when course_handouts_empty: \(hasHandoutsUrl)")
+            }
+        }
+    }
+    
+    func testAnnouncementsEnabled() {
+        for isAnnouncementsEnabled in [true, false] {
+            let config = OEXConfig(discussionsEnabled: true, isAnnouncementsEnabled:isAnnouncementsEnabled)
+            let course = OEXCourse.freshCourse(discussionsEnabled: true)
+            let environment = TestRouterEnvironment(config: config)
+            environment.mockEnrollmentManager.courses = [course]
+            environment.logInTestUser()
+            let controller = CourseDashboardViewController(environment: environment,
+                                                           courseID: course.course_id!)
+            
+            inScreenDisplayContext(controller) {
+                waitForStream(controller.t_loaded)
+                
+                let enabled = controller.t_canVisitAnnouncements()
+                
+                let expected = isAnnouncementsEnabled
+                XCTAssertEqual(enabled, expected, "Expected announcements visiblity \(expected) when is_announcements_enabled: \(isAnnouncementsEnabled)")
             }
         }
     }
