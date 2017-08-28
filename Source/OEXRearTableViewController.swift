@@ -11,7 +11,7 @@ import MessageUI
 import edXCore
 
 private enum OEXRearViewOptions: Int {
-    case UserProfile, MyCourse, MyVideos, UserAccount, Debug
+    case UserProfile, MyCourse, MyVideos, CourseCatalog, UserAccount, Debug
 }
 
 private let versionButtonStyle = OEXTextStyle(weight:.normal, size:.xxSmall, color: OEXStyles.shared().neutralWhite())
@@ -34,6 +34,7 @@ class OEXRearTableViewController : UITableViewController {
     @IBOutlet var accountLabel: UILabel!
     @IBOutlet var userNameLabel: UILabel!
     @IBOutlet var userEmailLabel: UILabel!
+    @IBOutlet var courseCatalogLabel: UILabel!
     @IBOutlet var userProfilePicture: UIImageView!
     
     lazy var environment = Environment()
@@ -50,6 +51,7 @@ class OEXRearTableViewController : UITableViewController {
         coursesLabel.text = Strings.myCourses.oex_uppercaseStringInCurrentLocale()
         videosLabel.text = Strings.myVideos.oex_uppercaseStringInCurrentLocale()
         accountLabel.text = Strings.userAccount.oex_uppercaseStringInCurrentLocale()
+        courseCatalogLabel.text = Strings.courseCatalog.oex_uppercaseStringInCurrentLocale()
         setNaturalTextAlignment()
         setAccessibilityLabels()
         
@@ -99,6 +101,7 @@ class OEXRearTableViewController : UITableViewController {
         userNameLabel.textAlignment = .natural
         userNameLabel.adjustsFontSizeToFitWidth = true
         userEmailLabel.textAlignment = .natural
+        courseCatalogLabel.textAlignment = .natural
     }
     
     private func setAccessibilityLabels() {
@@ -107,6 +110,7 @@ class OEXRearTableViewController : UITableViewController {
         coursesLabel.accessibilityLabel = coursesLabel.text
         videosLabel.accessibilityLabel = videosLabel.text
         accountLabel.accessibilityLabel = accountLabel.text
+        courseCatalogLabel.accessibilityLabel = courseCatalogLabel.text
         userProfilePicture.accessibilityLabel = Strings.accessibilityUserAvatar
     }
     
@@ -145,6 +149,8 @@ class OEXRearTableViewController : UITableViewController {
                 environment.router?.showMyCourses()
             case .MyVideos:
                 environment.router?.showMyVideos()
+            case .CourseCatalog:
+                environment.router?.showCourseCatalog()
             case .UserAccount:
                 environment.router?.showAccount()
             case .Debug:
@@ -159,7 +165,9 @@ class OEXRearTableViewController : UITableViewController {
         if ((indexPath.row == OEXRearViewOptions.Debug.rawValue && !environment.config.shouldShowDebug()) || (indexPath.row == OEXRearViewOptions.MyVideos.rawValue && !environment.config.isMyVideosEnabled)) {
             return 0
         }
-        
+        else if indexPath.row == OEXRearViewOptions.CourseCatalog.rawValue && !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+            return 0
+        }
         return super.tableView(tableView, heightForRowAt: indexPath)
     }
     

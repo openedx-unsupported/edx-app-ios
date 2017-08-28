@@ -254,6 +254,8 @@
 "COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Course dates are not currently available.";
+/*Course Catalog in left drawer(used for courses and programs discovery)*/
+"COURSE_CATALOG"=" Course Catalog";
 /* Title text for the Announcements section within the course dashboard */
 "DASHBOARD.COURSE_ANNOUNCEMENTS"="Announcements";
 /* Text describing the Announcements section within the course dashboard */
@@ -426,8 +428,6 @@
 "MY_COURSES"="My Courses";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="My Settings";
-/* Screen title showing a user's account */
-"USER_ACCOUNT"="Account";
 /* Screen title showing a user's downloaded videos */
 "MY_VIDEOS" = "My Videos";
 /* Video count title in My Videos section*/
@@ -505,8 +505,6 @@
 "POST_QUESTION"="Post question";
 /* Button title for moving to the previous block in the course */
 "PREVIOUS" = "Previous";
-/* Button title for profile view in account*/
-"USER_ACCOUNT.PROFILE"= "Profile";
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
 /* A10y hint for the change picture button. */
@@ -685,6 +683,10 @@
 "USERNAME_PLACEHOLDER" = "User name or e-mail address";
 /*Error message when operation failed with unknow error*/
 "UNKNOWN_ERROR" = "Your action could not be completed.";
+/* Screen title showing a user's account */
+"USER_ACCOUNT"="Account";
+/* Button title for profile view in account*/
+"USER_ACCOUNT.PROFILE"= "Profile";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "Version {number} {environment}";
 /* Error shown when video download fails */
