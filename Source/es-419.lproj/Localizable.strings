@@ -301,8 +301,6 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Crear nueva publicación";
 /* Button text to initiate or confirm deletion */
-/*Course Catalog in left drawer(used for courses and programs discovery)*/
-"COURSE_CATALOG"=" Course Catalog";
 "DELETE"="Borrar";
 /* Discussion used in the segmented control Creating a new post */
 "DISCUSSION"="Discusión";
@@ -344,6 +342,8 @@
 "DOWNLOADS"="Descargas";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Descargando 1 video.";
+/*Discover in left drawer(used for courses and programs discovery)*/
+"DISCOVER"="Discover";
 /* Title for Edit button on My Videos Screen */
 "EDIT" = "Editar";
 /* Alert message shown when user tries to send an email, but email isn't setup */

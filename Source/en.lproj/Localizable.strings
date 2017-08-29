@@ -254,8 +254,6 @@
 "COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Course dates are not currently available.";
-/*Course Catalog in left drawer(used for courses and programs discovery)*/
-"COURSE_CATALOG"=" Course Catalog";
 /* Title text for the Announcements section within the course dashboard */
 "DASHBOARD.COURSE_ANNOUNCEMENTS"="Announcements";
 /* Text describing the Announcements section within the course dashboard */
@@ -344,6 +342,8 @@
 "DOWNLOADS"="Downloads";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
+/*Discover in left drawer(used for courses and programs discovery)*/
+"DISCOVER"="Discover";
 /* Title for Edit button on My Videos Screen */
 "EDIT" = "Edit";
 /* Alert message shown when user tries to send an email, but email isn't setup */

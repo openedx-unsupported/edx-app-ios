@@ -43,7 +43,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = [Strings findCourses];
+    self.navigationItem.title = [self courseDiscoveryTitle];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 
     self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:YES];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
@@ -60,6 +61,14 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
             break;
     }
     [self.webViewHelper loadRequestWithURL: urlToLoad];
+}
+    
+-(NSString *) courseDiscoveryTitle {
+    if ([[self enrollmentConfig] isCourseDiscoveryNative]) {
+        return [Strings findCourses];
+    }
+    
+    return [Strings discover];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
