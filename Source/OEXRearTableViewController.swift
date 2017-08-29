@@ -51,7 +51,7 @@ class OEXRearTableViewController : UITableViewController {
         coursesLabel.text = Strings.myCourses.oex_uppercaseStringInCurrentLocale()
         videosLabel.text = Strings.myVideos.oex_uppercaseStringInCurrentLocale()
         accountLabel.text = Strings.userAccount.oex_uppercaseStringInCurrentLocale()
-        courseCatalogLabel.text = courseDiscoveryTitle().oex_uppercaseStringInCurrentLocale()
+        courseCatalogLabel.text = courseCatalogTitle().oex_uppercaseStringInCurrentLocale()
         setNaturalTextAlignment()
         setAccessibilityLabels()
         
@@ -114,7 +114,7 @@ class OEXRearTableViewController : UITableViewController {
         userProfilePicture.accessibilityLabel = Strings.accessibilityUserAvatar
     }
     
-    private func courseDiscoveryTitle() -> String {
+    private func courseCatalogTitle() -> String {
         switch environment.config.courseEnrollmentConfig.type {
         case .Native:
             return Strings.findCourses
