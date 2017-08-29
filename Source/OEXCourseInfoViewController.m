@@ -43,7 +43,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     if(self != nil) {
         self.pathID = pathID;
         self.bottomBar = bottomBar;
-        self.navigationItem.title = [Strings findCourses];
+        self.navigationItem.title = [self courseDiscoveryTitle];
     }
     return self;
 }
@@ -56,6 +56,14 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
 - (EnrollmentConfig*)enrollmentConfig {
     return [[OEXConfig sharedConfig] courseEnrollmentConfig];
+}
+    
+-(NSString *) courseDiscoveryTitle {
+    if ([[self enrollmentConfig] isCourseDiscoveryNative]) {
+        return [Strings findCourses];
+    }
+    
+    return [Strings discover];
 }
 
 - (void)viewDidLoad {

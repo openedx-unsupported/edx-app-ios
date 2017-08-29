@@ -248,7 +248,13 @@ extension OEXRouter {
             controller = CourseCatalogViewController(environment: self.environment)
         }
         if revealController != nil {
-            fromController?.navigationController?.pushViewController(controller, animated: true)
+            if let fromController = fromController {
+                fromController.navigationController?.pushViewController(controller, animated: true)
+            }
+            else {
+                showContentStack(withRootController: controller, animated: true)
+            }
+            
         } else {
             showControllerFromStartupScreen(controller: controller)
         }
