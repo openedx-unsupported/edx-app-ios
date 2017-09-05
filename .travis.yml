@@ -18,17 +18,19 @@ script:
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
-    - pip install virtualenv
-    - virtualenv ~/env
-    - source ~/env/bin/activate
-    - pip install transifex-client
-    - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc
-    - tx push -s
+    - if [ $TRAVIS_BRANCH == "master" ]; then
+        pip install virtualenv;
+        virtualenv ~/env;
+        source ~/env/bin/activate;
+        pip install transifex-client;
+        sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc;
+        tx push --source --no-interactive;
+        fi
     - sleep 5 # https://github.com/travis-ci/travis-ci/issues/4725
 
 branches:
     only:
-        - master
+        - /.*/
 
 notifications:
   email: true
