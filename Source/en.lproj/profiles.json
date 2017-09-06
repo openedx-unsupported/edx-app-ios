@@ -1,7 +1,6 @@
 {
     "fields":[
     {
-              "test_test": "test_text",
               "name" : "account_privacy",
               "label" : "Other learners can see my:",
               "type" : "switch",
