@@ -10,7 +10,7 @@
 
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
-
+#import <Crashlytics/Crashlytics.h>
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXFileUtility.h"
@@ -81,6 +81,7 @@ static NSURLSession* videosBackgroundSession = nil;
 
 - (void)resumePausedDownloads {
     OEXLogInfo(@"DOWNLOADS", @"Resuming Paused downloads");
+    CLS_LOG(@"resumePausedDownloads");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray* array = [self.storage getVideosForDownloadState:OEXDownloadStatePartial];
         for(VideoData* data in array) {

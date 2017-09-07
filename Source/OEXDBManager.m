@@ -9,7 +9,7 @@
 #import "OEXDBManager.h"
 
 #import "edX-Swift.h"
-
+#import <Crashlytics/Crashlytics.h>
 #import "LastAccessed.h"
 #import "Logger+OEXObjC.h"
 #import "OEXFileUtility.h"
@@ -189,7 +189,7 @@ static OEXDBManager* _sharedManager = nil;
 // Save all table data at a time
 - (void)saveCurrentStateToDB {
     OEXLogInfo(@"STORAGE", @"Save database context on main thread");
-
+    CLS_LOG(@"saveCurrentStateToDB");
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         @synchronized(_masterManagedObjectContext){
             [self.backGroundContext save:nil];
@@ -216,6 +216,7 @@ static OEXDBManager* _sharedManager = nil;
 }
 
 - (NSArray*)executeFetchRequest:(NSFetchRequest*)fetchRequest {
+    CLS_LOG(@"executeFetchRequest");
     if([self masterManagedObjectContext]) {
         __block NSArray* resultArray;
         if([NSThread isMainThread]) {
@@ -395,6 +396,7 @@ static OEXDBManager* _sharedManager = nil;
 #pragma  mark - VideoData Table Methods
 
 - (NSArray*)getAllLocalVideoData {
+    CLS_LOG(@"getAllLocalVideoData");
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription* videoEntity = [NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:_backGroundContext];
     [fetchRequest setEntity:videoEntity];
@@ -584,6 +586,7 @@ static OEXDBManager* _sharedManager = nil;
 }
 
 - (NSArray*)getVideosForDownloadState:(OEXDownloadState)state {
+    CLS_LOG(@"getVideosForDownloadState");
     NSArray* allVideos = [self getAllLocalVideoData];
     NSMutableArray* filteredArray = [[NSMutableArray alloc] init];
 
