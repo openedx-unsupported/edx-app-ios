@@ -21,7 +21,7 @@ class AccountViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        backgroundColor = OEXStyles.shared().standardBackgroundColor()
         contentView.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { make -> Void in
             make.top.equalTo(contentView).offset(StandardVerticalMargin)
