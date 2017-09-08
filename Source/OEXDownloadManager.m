@@ -84,6 +84,7 @@ static NSURLSession* videosBackgroundSession = nil;
     CLS_LOG(@"resumePausedDownloads");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray* array = [self.storage getVideosForDownloadState:OEXDownloadStatePartial];
+        CLS_LOG(@"resumePausedDownloads: videos get successfully");
         for(VideoData* data in array) {
             NSString* file = [OEXFileUtility filePathForVideoURL:data.video_url username:[OEXSession sharedSession].currentUser.username];
             if([[NSFileManager defaultManager] fileExistsAtPath:file]) {
@@ -100,6 +101,7 @@ static NSURLSession* videosBackgroundSession = nil;
                 }];
         }
         [self.storage saveCurrentStateToDB];
+        CLS_LOG(@"resumePausedDownloads: saveCurrentStateToDB successfully");
     });
 }
 

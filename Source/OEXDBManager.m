@@ -218,15 +218,18 @@ static OEXDBManager* _sharedManager = nil;
 - (NSArray*)executeFetchRequest:(NSFetchRequest*)fetchRequest {
     CLS_LOG(@"executeFetchRequest");
     if([self masterManagedObjectContext]) {
+        CLS_LOG(@"executeFetchRequest: masterManagedObjectContext exist");
         __block NSArray* resultArray;
         if([NSThread isMainThread]) {
             @synchronized(_masterManagedObjectContext)
             {
+                CLS_LOG(@"executeFetchRequest: executeFetchRequest in main thread");
                 resultArray = [[self masterManagedObjectContext] executeFetchRequest:fetchRequest error:nil];
             }
         }
         else {
             [_backGroundContext performBlockAndWait:^{
+                CLS_LOG(@"executeFetchRequest: executeFetchRequest in performBlockAndWait");
                 resultArray = [self.backGroundContext executeFetchRequest:fetchRequest error:nil];
             }];
         }
@@ -399,6 +402,7 @@ static OEXDBManager* _sharedManager = nil;
     CLS_LOG(@"getAllLocalVideoData");
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription* videoEntity = [NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:_backGroundContext];
+    CLS_LOG(@"getAllLocalVideoData: getVideoEntity from manageObjectContect");
     [fetchRequest setEntity:videoEntity];
     return [self executeFetchRequest:fetchRequest];
 }
