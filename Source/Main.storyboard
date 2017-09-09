@@ -22,7 +22,7 @@
             <objects>
                 <navigationController navigationBarHidden="YES" id="QZv-Oh-XSY" sceneMemberID="viewController">
                     <nil key="simulatedTopBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="d3D-qd-xvw">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="d3D-qd-xvw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -69,7 +69,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="201" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ov6-L3-h2F">
-                                                    <rect key="frame" x="129" y="48" width="111" height="22"/>
+                                                    <rect key="frame" x="129" y="65" width="111" height="22"/>
                                                     <accessibility key="accessibilityConfiguration" label=""/>
                                                     <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -79,7 +79,7 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Ov6-L3-h2F" secondAttribute="trailing" constant="72" id="23I-Q4-hmy"/>
                                                 <constraint firstItem="rh2-oS-pei" firstAttribute="leading" secondItem="F3L-Q6-zd3" secondAttribute="leadingMargin" constant="20" id="6G4-xE-MTU"/>
-                                                <constraint firstItem="Ov6-L3-h2F" firstAttribute="baseline" secondItem="rh2-oS-pei" secondAttribute="top" constant="32" id="8YN-ra-mPe"/>
+                                                <constraint firstItem="Ov6-L3-h2F" firstAttribute="baseline" secondItem="rh2-oS-pei" secondAttribute="top" constant="49" id="8YN-ra-mPe"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="rh2-oS-pei" secondAttribute="bottom" constant="15" id="fO0-ml-Ofb"/>
                                                 <constraint firstItem="Ov6-L3-h2F" firstAttribute="leading" secondItem="rh2-oS-pei" secondAttribute="trailing" constant="16" id="zIx-L5-w2x"/>
                                             </constraints>

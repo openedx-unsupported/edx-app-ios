@@ -39,7 +39,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
 
         navigationItem.title = Strings.userAccount
-        contentView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         view.addSubview(contentView)
         contentView.addSubview(tableView)
         contentView.addSubview(versionLabel)
@@ -53,7 +53,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        tableView.backgroundColor = UIColor.clear
         tableView.register(AccountViewCell.self, forCellReuseIdentifier: AccountViewCell.identifier)
         let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
         textStyle.alignment = NSTextAlignment.center
@@ -102,7 +102,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Configure the cell...
         let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewCell.identifier, for: indexPath) as! AccountViewCell
         cell.separatorInset = UIEdgeInsets.zero
-        cell.accessoryType = accessoryViewType(option: AccountviewOptions.accountOptions[indexPath.row])
+        cell.accessoryType = accessoryType(option: AccountviewOptions.accountOptions[indexPath.row])
         cell.title = optionTitle(option: AccountviewOptions.accountOptions[indexPath.row])
         return cell
     }
@@ -134,12 +134,11 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         return tableView.estimatedRowHeight
     }
     
-    private func accessoryViewType(option: AccountviewOptions) -> UITableViewCellAccessoryType{
+    private func accessoryType(option: AccountviewOptions) -> UITableViewCellAccessoryType{
         switch option {
-        case .SubmitFeedback :
+        case .SubmitFeedback, .Logout :
             return .none
-        case .Logout:
-            return .none
+    
         default :
             return .disclosureIndicator
         }

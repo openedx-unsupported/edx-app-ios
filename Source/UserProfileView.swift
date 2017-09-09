@@ -19,7 +19,9 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             super.drawText(in: UIEdgeInsetsInsetRect(rect, newRect))
         }
     }
-
+    typealias Environment =  OEXSessionProvider
+    
+    private var environment : Environment
     private let scrollView = UIScrollView()
     private let usernameLabel = UILabel()
     private let emailLabel = UILabel()
@@ -33,7 +35,8 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     private let header = ProfileBanner()
     private let bottomBackground = UIView()
 
-    override init(frame: CGRect) {
+    init(environment: Environment, frame: CGRect) {
+        self.environment = environment
         super.init(frame: frame)
 
         self.addSubview(scrollView)
@@ -203,7 +206,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
         usernameLabel.attributedText = usernameStyle.attributedString(withText: profile.username)
         bioSystemMessage.isHidden = true
-        emailLabel.attributedText = infoStyle.attributedString(withText: OEXRouter.shared().environment.session.currentUser?.email)
+        emailLabel.attributedText = infoStyle.attributedString(withText:environment.session.currentUser?.email)
         avatarImage.remoteImage = profile.image(networkManager: networkManager)
         setDefaultValues()
         setMessage(message: messageForProfile(profile: profile, editable: editable))
