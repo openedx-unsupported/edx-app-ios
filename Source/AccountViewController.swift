@@ -39,7 +39,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
 
         navigationItem.title = Strings.userAccount
-        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         view.addSubview(contentView)
         contentView.addSubview(tableView)
         contentView.addSubview(versionLabel)
@@ -136,10 +136,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     private func accessoryType(option: AccountviewOptions) -> UITableViewCellAccessoryType{
         switch option {
-        case .SubmitFeedback, .Logout :
+        case .SubmitFeedback, .Logout:
             return .none
     
-        default :
+        default:
             return .disclosureIndicator
         }
     }

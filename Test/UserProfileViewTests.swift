@@ -46,9 +46,7 @@ class UserProfileViewTests: SnapshotTestCase {
     }
     
     func snapshotContentWithPrivacy(_ privacy : UserProfile.ProfilePrivacy) {
-        let environment = TestRouterEnvironment()
-        environment.logInTestUser()
-        
+        let environment = TestRouterEnvironment().logInTestUser()
         let presenter = MockProfilePresenter(profile: profileWithPrivacy(privacy), tabs: [])
         let controller = UserProfileViewController(environment: environment, presenter: presenter, editable: true)
         inScreenNavigationContext(controller, action: { () -> () in

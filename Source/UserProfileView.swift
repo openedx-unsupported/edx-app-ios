@@ -19,7 +19,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             super.drawText(in: UIEdgeInsetsInsetRect(rect, newRect))
         }
     }
-    typealias Environment =  OEXSessionProvider
+    typealias Environment =  OEXSessionProvider & OEXStylesProvider
     
     private var environment : Environment
     private let scrollView = UIScrollView()
@@ -46,7 +46,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     }
 
     private func setupViews() {
-        scrollView.backgroundColor = OEXStyles.shared().primaryBaseColor()
+        scrollView.backgroundColor = environment.styles.primaryBaseColor()
         scrollView.delegate = self
 
         avatarImage.borderWidth = 3.0
@@ -87,7 +87,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
         bioSystemMessage.isHidden = true
         bioSystemMessage.numberOfLines = 0
-        bioSystemMessage.backgroundColor = OEXStyles.shared().neutralXLight()
+        bioSystemMessage.backgroundColor = environment.styles.neutralXLight()
         scrollView.insertSubview(bioSystemMessage, aboveSubview: tabs)
 
         header.style = .LightContent
@@ -95,7 +95,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         header.isHidden = true
         self.addSubview(header)
 
-        bottomBackground.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        bottomBackground.backgroundColor = environment.styles.standardBackgroundColor()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -173,7 +173,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             return
         }
         
-        let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
+        let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: environment.styles.primaryXLightColor())
         messageLabel.attributedText = messageStyle.attributedString(withText: message)
     }
 
@@ -197,10 +197,10 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     }
 
     func populateFields(profile: UserProfile, editable : Bool, networkManager : NetworkManager) {
-        let usernameStyle = OEXTextStyle(weight : .normal, size: .xxLarge, color: OEXStyles.shared().neutralWhiteT())
-        let infoStyle = OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
-        let bioStyle = OEXStyles.shared().textAreaBodyStyle
-        let messageStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: OEXStyles.shared().neutralDark())
+        let usernameStyle = OEXTextStyle(weight : .normal, size: .xxLarge, color: environment.styles.neutralWhiteT())
+        let infoStyle = OEXTextStyle(weight: .light, size: .xSmall, color: environment.styles.primaryXLightColor())
+        let bioStyle = environment.styles.textAreaBodyStyle
+        let messageStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.neutralDark())
         messageStyle.alignment = .center
 
 
