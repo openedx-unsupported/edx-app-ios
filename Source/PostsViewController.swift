@@ -584,6 +584,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.updateAccessibility()
         }
         controller.addCancelAction()
+        controller.popoverPresentationController?.sourceView = filterButton
+        controller.popoverPresentationController?.sourceRect = filterButton.bounds
         self.present(controller, animated: true, completion:nil)
     }
     
@@ -605,6 +607,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         controller.addCancelAction()
+        controller.popoverPresentationController?.sourceView = sortButton
+        controller.popoverPresentationController?.sourceRect = sortButton.bounds
         self.present(controller, animated: true, completion:nil)
     }
     

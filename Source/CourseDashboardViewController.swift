@@ -184,6 +184,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             }, url: url, utmParams: course.courseShareUtmParams, analyticsCallback: { analyticsType in
                 analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
             })
+            controller.popoverPresentationController?.sourceView = shareButton
+            controller.popoverPresentationController?.sourceRect = shareButton.bounds
             self.present(controller, animated: true, completion: nil)
         }
     }
