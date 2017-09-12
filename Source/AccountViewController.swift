@@ -39,8 +39,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
 
         navigationItem.title = Strings.userAccount
-        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
-        
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         view.addSubview(contentView)
         contentView.addSubview(tableView)
         contentView.addSubview(versionLabel)
@@ -54,8 +53,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = UIColor.clear
         tableView.register(AccountViewCell.self, forCellReuseIdentifier: AccountViewCell.identifier)
-        
         let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
         textStyle.alignment = NSTextAlignment.center
         versionLabel.attributedText = textStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: ""))
@@ -103,6 +102,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Configure the cell...
         let cell = tableView.dequeueReusableCell(withIdentifier: AccountViewCell.identifier, for: indexPath) as! AccountViewCell
         cell.separatorInset = UIEdgeInsets.zero
+        cell.accessoryType = accessoryType(option: AccountviewOptions.accountOptions[indexPath.row])
         cell.title = optionTitle(option: AccountviewOptions.accountOptions[indexPath.row])
         return cell
     }
@@ -132,6 +132,16 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         return tableView.estimatedRowHeight
+    }
+    
+    private func accessoryType(option: AccountviewOptions) -> UITableViewCellAccessoryType{
+        switch option {
+        case .SubmitFeedback, .Logout:
+            return .none
+    
+        default:
+            return .disclosureIndicator
+        }
     }
     
     private func optionTitle(option: AccountviewOptions) -> String? {

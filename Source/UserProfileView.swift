@@ -19,9 +19,12 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             super.drawText(in: UIEdgeInsetsInsetRect(rect, newRect))
         }
     }
-
+    typealias Environment =  OEXSessionProvider & OEXStylesProvider
+    
+    private var environment : Environment
     private let scrollView = UIScrollView()
     private let usernameLabel = UILabel()
+    private let emailLabel = UILabel()
     private let messageLabel = UILabel()
     private let countryLabel = UILabel()
     private let languageLabel = UILabel()
@@ -32,7 +35,8 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     private let header = ProfileBanner()
     private let bottomBackground = UIView()
 
-    override init(frame: CGRect) {
+    init(environment: Environment, frame: CGRect) {
+        self.environment = environment
         super.init(frame: frame)
 
         self.addSubview(scrollView)
@@ -42,7 +46,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     }
 
     private func setupViews() {
-        scrollView.backgroundColor = OEXStyles.shared().primaryBaseColor()
+        scrollView.backgroundColor = environment.styles.primaryBaseColor()
         scrollView.delegate = self
 
         avatarImage.borderWidth = 3.0
@@ -51,6 +55,9 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         usernameLabel.setContentHuggingPriority(1000, for: .vertical)
         scrollView.addSubview(usernameLabel)
 
+        emailLabel.setContentHuggingPriority(1000, for: .vertical)
+        scrollView.addSubview(emailLabel)
+        
         messageLabel.numberOfLines = 0
         messageLabel.setContentHuggingPriority(1000, for: .vertical)
         scrollView.addSubview(messageLabel)
@@ -80,7 +87,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
         bioSystemMessage.isHidden = true
         bioSystemMessage.numberOfLines = 0
-        bioSystemMessage.backgroundColor = OEXStyles.shared().neutralXLight()
+        bioSystemMessage.backgroundColor = environment.styles.neutralXLight()
         scrollView.insertSubview(bioSystemMessage, aboveSubview: tabs)
 
         header.style = .LightContent
@@ -88,7 +95,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         header.isHidden = true
         self.addSubview(header)
 
-        bottomBackground.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        bottomBackground.backgroundColor = environment.styles.standardBackgroundColor()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -111,8 +118,13 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             make.centerX.equalTo(scrollView)
         }
 
+        emailLabel.snp_makeConstraints { (make) -> Void in
+            make.top.equalTo(usernameLabel.snp_bottom).offset(margin)
+            make.centerX.equalTo(scrollView)
+        }
+        
         messageLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(usernameLabel.snp_bottom).offset(margin).priorityHigh()
+            make.top.equalTo(emailLabel.snp_bottom).offset(margin).priorityHigh()
             make.centerX.equalTo(scrollView)
         }
 
@@ -161,7 +173,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             return
         }
         
-        let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
+        let messageStyle = OEXTextStyle(weight: .light, size: .xSmall, color: environment.styles.primaryXLightColor())
         messageLabel.attributedText = messageStyle.attributedString(withText: message)
     }
 
@@ -185,16 +197,16 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     }
 
     func populateFields(profile: UserProfile, editable : Bool, networkManager : NetworkManager) {
-        let usernameStyle = OEXTextStyle(weight : .normal, size: .xxLarge, color: OEXStyles.shared().neutralWhiteT())
-        let infoStyle = OEXTextStyle(weight: .light, size: .xSmall, color: OEXStyles.shared().primaryXLightColor())
-        let bioStyle = OEXStyles.shared().textAreaBodyStyle
-        let messageStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: OEXStyles.shared().neutralDark())
+        let usernameStyle = OEXTextStyle(weight : .normal, size: .xxLarge, color: environment.styles.neutralWhiteT())
+        let infoStyle = OEXTextStyle(weight: .light, size: .xSmall, color: environment.styles.primaryXLightColor())
+        let bioStyle = environment.styles.textAreaBodyStyle
+        let messageStyle = OEXMutableTextStyle(weight: .bold, size: .large, color: environment.styles.neutralDark())
         messageStyle.alignment = .center
 
 
         usernameLabel.attributedText = usernameStyle.attributedString(withText: profile.username)
         bioSystemMessage.isHidden = true
-
+        emailLabel.attributedText = infoStyle.attributedString(withText:environment.session.currentUser?.email)
         avatarImage.remoteImage = profile.image(networkManager: networkManager)
         setDefaultValues()
         setMessage(message: messageForProfile(profile: profile, editable: editable))

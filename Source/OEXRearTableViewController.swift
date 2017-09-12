@@ -33,7 +33,6 @@ class OEXRearTableViewController : UITableViewController {
     @IBOutlet var videosLabel: UILabel!
     @IBOutlet var accountLabel: UILabel!
     @IBOutlet var userNameLabel: UILabel!
-    @IBOutlet var userEmailLabel: UILabel!
     @IBOutlet var courseCatalogLabel: UILabel!
     @IBOutlet var userProfilePicture: UIImageView!
     
@@ -89,7 +88,6 @@ class OEXRearTableViewController : UITableViewController {
     private func updateUIWithUserInfo() {
         if let currentUser = environment.session.currentUser {
             userNameLabel.text = currentUser.name
-            userEmailLabel.text = currentUser.email
             profileFeed?.refresh()
         }
     }
@@ -100,13 +98,11 @@ class OEXRearTableViewController : UITableViewController {
         accountLabel.textAlignment = .natural
         userNameLabel.textAlignment = .natural
         userNameLabel.adjustsFontSizeToFitWidth = true
-        userEmailLabel.textAlignment = .natural
         courseCatalogLabel.textAlignment = .natural
     }
     
     private func setAccessibilityLabels() {
         userNameLabel.accessibilityLabel = userNameLabel.text
-        userEmailLabel.accessibilityLabel = userEmailLabel.text
         coursesLabel.accessibilityLabel = coursesLabel.text
         videosLabel.accessibilityLabel = videosLabel.text
         accountLabel.accessibilityLabel = accountLabel.text
