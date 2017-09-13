@@ -189,7 +189,7 @@ public enum Icon {
         case .CheckCircleO:
             return FontAwesomeRenderer(icon: .CheckCircleO)
         case .ContentCanDownload:
-            return FontAwesomeRenderer(icon: .ArrowDown)
+            return FontAwesomeRenderer(icon: .Download)
         case .ContentDidDownload:
             return FontAwesomeRenderer(icon: .Check)
         case .CourseEffort:
