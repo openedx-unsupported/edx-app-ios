@@ -93,7 +93,7 @@ class DownloadsAccessoryView : UIView {
         didSet {
             switch state {
             case .Available:
-                useIcon(icon: .Download)
+                useIcon(icon: .ContentCanDownload)
                 downloadSpinner.isHidden = true
                 downloadButton.isUserInteractionEnabled = true
                 downloadButton.isHidden = false

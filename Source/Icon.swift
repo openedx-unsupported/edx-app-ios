@@ -145,7 +145,6 @@ public enum Icon {
     case VideoShrink
     case Warning
     case DeleteIcon
-    case Download
     
     private var renderer : IconRenderer {
         switch self {
@@ -190,7 +189,7 @@ public enum Icon {
         case .CheckCircleO:
             return FontAwesomeRenderer(icon: .CheckCircleO)
         case .ContentCanDownload:
-            return FontAwesomeRenderer(icon: .ArrowDown)
+            return FontAwesomeRenderer(icon: .Download)
         case .ContentDidDownload:
             return FontAwesomeRenderer(icon: .Check)
         case .CourseEffort:
@@ -265,8 +264,6 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Lock)
         case .Warning:
             return FontAwesomeRenderer(icon: .Exclamation)
-        case .Download:
-            return FontAwesomeRenderer(icon: .Download)
         }
     }
     
