@@ -149,7 +149,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 - (void)showSubSettingsWithChooser:(UIAlertController * __nonnull)chooser
 {
     UIViewController* controller = [UIApplication sharedApplication].keyWindow.rootViewController;
-    [chooser popoverPresentationControllerWithSourseView:self.btnSettings];
+    [chooser popoverPresentationControllerWithSourceView:self.btnSettings];
     [controller presentViewController:chooser animated:true completion:nil];
 
     [self hideOptionsAndValues];
