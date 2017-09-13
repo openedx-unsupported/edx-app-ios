@@ -369,8 +369,7 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
     }
     
     func showChooserAlert(alert: UIAlertController) {
-        alert.popoverPresentationController?.sourceView = banner.changeButton
-        alert.popoverPresentationController?.sourceRect = banner.changeButton.bounds
+        alert.popoverPresentationController(withSourseView: banner.changeButton)
         self.present(alert, animated: true, completion: nil)
     }
     
