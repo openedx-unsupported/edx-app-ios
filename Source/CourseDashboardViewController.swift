@@ -184,7 +184,9 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             }, url: url, utmParams: course.courseShareUtmParams, analyticsCallback: { analyticsType in
                 analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
             })
-            controller.popoverPresentationController(withSourceView: shareButton)
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+                controller.configurePresentationController(withSourceView: shareButton)
+            }
             self.present(controller, animated: true, completion: nil)
         }
     }
@@ -389,8 +391,8 @@ extension CourseDashboardViewController {
 }
 
 public extension UIViewController {
-    func popoverPresentationController(withSourceView sourceView: UIView){
-        self.popoverPresentationController?.sourceView = sourceView
-        self.popoverPresentationController?.sourceRect = sourceView.bounds
+    func configurePresentationController(withSourceView sourceView: UIView){
+        popoverPresentationController?.sourceView = sourceView
+        popoverPresentationController?.sourceRect = sourceView.bounds
     }
 }

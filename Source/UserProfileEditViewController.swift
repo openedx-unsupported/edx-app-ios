@@ -369,7 +369,9 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
     }
     
     func showChooserAlert(alert: UIAlertController) {
-        alert.popoverPresentationController(withSourceView: banner.changeButton)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+            alert.configurePresentationController(withSourceView: banner.changeButton)
+        }
         self.present(alert, animated: true, completion: nil)
     }
     

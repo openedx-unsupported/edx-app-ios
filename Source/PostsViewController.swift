@@ -584,7 +584,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             self.updateAccessibility()
         }
         controller.addCancelAction()
-        controller.popoverPresentationController(withSourceView: filterButton)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+            controller.configurePresentationController(withSourceView: filterButton)
+        }
         self.present(controller, animated: true, completion:nil)
     }
     
@@ -606,7 +608,9 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         controller.addCancelAction()
-        controller.popoverPresentationController(withSourceView: sortButton)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+            controller.configurePresentationController(withSourceView: sortButton)
+        }
         self.present(controller, animated: true, completion:nil)
     }
     
