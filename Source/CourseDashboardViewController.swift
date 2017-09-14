@@ -389,7 +389,7 @@ extension CourseDashboardViewController {
 }
 
 public extension UIViewController {
-    func configurePresentationController(withSourceView sourceView: UIView){
+    func configurePresentationController(withSourceView sourceView: UIView) {
         if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
             popoverPresentationController?.sourceView = sourceView
             popoverPresentationController?.sourceRect = sourceView.bounds
