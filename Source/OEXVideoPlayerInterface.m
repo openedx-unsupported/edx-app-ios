@@ -324,8 +324,7 @@
             _height = [[UIScreen mainScreen] bounds].size.height - 84; // height of nav n toolbar
         
     }
-    else {
-        if (!_height)
+    else if (!_height) {
             _height = 220;
     }
     

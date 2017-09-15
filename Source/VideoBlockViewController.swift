@@ -313,19 +313,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
 
     }
     
-    // willTransition only called in case of iPhone because iPhone has regulare and compact vertical classes.
+    // willTransition only called in case of iPhone because iPhone has regular and compact vertical classes.
     // This method is specially for iPad
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         guard let videoPlayer = videoController.moviePlayerController, UIDevice.current.userInterfaceIdiom == .pad else { return }
         
         if videoPlayer.isFullscreen {
-            
-            if UIDevice.current.orientation.isPortrait {
-                videoPlayer.setFullscreen(false, with: currentOrientation())
-            }
-            else {
-                videoPlayer.setFullscreen(true, with: currentOrientation())
-            }
+            videoPlayer.setFullscreen(!UIDevice.current.orientation.isPortrait, with: currentOrientation())
         }
         else if videoController.shouldRotate && UIDevice.current.orientation.isLandscape {
             videoPlayer.setFullscreen(true, with: currentOrientation())
