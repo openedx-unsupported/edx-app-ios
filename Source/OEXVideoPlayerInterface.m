@@ -316,25 +316,18 @@
 }
 
 - (void)viewDidLayoutSubviews {
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        _width = 700.f;
-        _height = 535.f;
-    }
-    else {
-        if (!_width)
-            _width = self.view.frame.size.width;
-        
-        if ([self isVerticallyCompact]) {
-            if (!_height)
-                _height = [[UIScreen mainScreen] bounds].size.height - 84; // height of nav n toolbar
-            
-        }
-        else {
-            if (!_height)
-                _height = 220;
-        }
+    if (!_width)
+        _width = self.view.frame.size.width;
+    
+    if ([self isVerticallyCompact]) {
+        if (!_height)
+            _height = [[UIScreen mainScreen] bounds].size.height - 84; // height of nav n toolbar
         
     }
+    else if (!_height) {
+            _height = 220;
+    }
+    
     //calulate the frame on every rotation, so when we're returning from fullscreen mode we'll know where to position the movie player
     self.defaultFrame = CGRectMake(self.view.frame.size.width / 2 - _width / 2, 0, _width, _height);
 

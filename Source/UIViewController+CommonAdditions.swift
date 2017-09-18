@@ -10,6 +10,10 @@ import Foundation
 
 extension UIViewController {
     func isVerticallyCompact() -> Bool {
+        // In case of iPad vertical size class is always regular for both height and width
+        if UIDevice.current.userInterfaceIdiom == .pad && UIDevice.current.orientation.isLandscape {
+            return true
+        }
         return self.traitCollection.verticalSizeClass == .compact
     }
     
