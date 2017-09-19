@@ -47,7 +47,7 @@ class OEXVideoSummaryTestDataFactory {
                 "duration" : 100,
                 "encoded_videos":[
                 "mobile_low":[
-                    "file_size":0,
+                    "file_size":3700000,
                     "url":"https://www.example.com/video.mp4"
                     ]
                 ]
