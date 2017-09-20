@@ -193,6 +193,8 @@ static OEXDBManager* _sharedManager = nil;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         @synchronized(_masterManagedObjectContext){
             [self.backGroundContext save:nil];
+            CLS_LOG(@"saveCurrentStateToDB: backGroundContext... %@", self.backGroundContext);
+            CLS_LOG(@"saveCurrentStateToDB: masterManagedObjectContext... %@", self.masterManagedObjectContext);
             [self.masterManagedObjectContext save:nil];
             NSError* error = nil;
             if(_masterManagedObjectContext != nil) {
@@ -218,7 +220,7 @@ static OEXDBManager* _sharedManager = nil;
 - (NSArray*)executeFetchRequest:(NSFetchRequest*)fetchRequest {
     CLS_LOG(@"executeFetchRequest");
     if([self masterManagedObjectContext]) {
-        CLS_LOG(@"executeFetchRequest: masterManagedObjectContext exist");
+        CLS_LOG(@"executeFetchRequest: masterManagedObjectContext exist...%@", _masterManagedObjectContext);
         __block NSArray* resultArray;
         if([NSThread isMainThread]) {
             @synchronized(_masterManagedObjectContext)
@@ -229,7 +231,7 @@ static OEXDBManager* _sharedManager = nil;
         }
         else {
             [_backGroundContext performBlockAndWait:^{
-                CLS_LOG(@"executeFetchRequest: executeFetchRequest in performBlockAndWait");
+                CLS_LOG(@"executeFetchRequest: executeFetchRequest in performBlockAndWait with %@", _backGroundContext);
                 resultArray = [self.backGroundContext executeFetchRequest:fetchRequest error:nil];
             }];
         }
@@ -401,6 +403,7 @@ static OEXDBManager* _sharedManager = nil;
 - (NSArray*)getAllLocalVideoData {
     CLS_LOG(@"getAllLocalVideoData");
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    CLS_LOG(@"getAllLocalVideoData: backGroundContext...%@", _backGroundContext);
     NSEntityDescription* videoEntity = [NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:_backGroundContext];
     CLS_LOG(@"getAllLocalVideoData: getVideoEntity from manageObjectContect");
     [fetchRequest setEntity:videoEntity];
