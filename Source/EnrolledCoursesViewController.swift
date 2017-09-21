@@ -124,7 +124,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                 //App is showing occasionally error on app launch, so skipping first error on app launch
                 //TODO: Find exact root cause of error and remove this patch
                 // error code -100 is for unknown error
-                if error.code == -100 && self?.tableController.courses.count ?? 0 > 0 {
+                if error.code == -100 {
+                    self?.loadController.state = .Initial
                     return
                 }
                 
