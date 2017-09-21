@@ -40,7 +40,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         didSet {
             updateDownloadViewForVideoState()
         
-            if (Double(localState?.summary?.duration ?? 0) == 0.0) {
+            if (Double(localState?.summary?.duration ?? 0) == 0.0 && localState?.summary?.size?.doubleValue != 0.0) {
                 content.setDetailText(title: localState?.summary?.videoSize() ?? "", blockType: block?.type)
             }
             else
