@@ -43,7 +43,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             if (Double(localState?.summary?.duration ?? 0) == 0.0 && localState?.summary?.size?.doubleValue != 0.0) {
                 content.setDetailText(title: localState?.summary?.videoSize() ?? "", blockType: block?.type)
             }
-            else
+            else if(Double(localState?.summary?.duration ?? 0) != 0.0 && localState?.summary?.size?.doubleValue != 0.0)
             {
                 content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type, videoSize: localState?.summary?.videoSize())
             }
