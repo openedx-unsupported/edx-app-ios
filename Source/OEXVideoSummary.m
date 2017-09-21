@@ -172,6 +172,10 @@
     return self.preferredEncoding.size;
 }
 
+- (NSString *)videoSize {
+    return [NSString stringWithFormat:@"%.2fMB", (([[self size] doubleValue] / 1024) / 1024)];
+}
+
 - (OEXVideoPathEntry*)chapterPathEntry {
     __block OEXVideoPathEntry* result = nil;
     [self.path enumerateObjectsUsingBlock:^(OEXVideoPathEntry* entry, NSUInteger idx, BOOL* stop) {

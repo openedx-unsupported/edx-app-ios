@@ -40,9 +40,13 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         didSet {
             updateDownloadViewForVideoState()
         
-            let size = (((localState?.summary?.size?.doubleValue ?? 0) / 1024) / 1024)
-            let videoSizeString = String(format: "%.2fMB", size)
-            content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type, videoSize: videoSizeString)
+            if (Double(localState?.summary?.duration ?? 0) == 0.0) {
+                content.setDetailText(title: localState?.summary?.videoSize() ?? "", blockType: block?.type)
+            }
+            else
+            {
+                content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type, videoSize: localState?.summary?.videoSize())
+            }
         }
     }
     

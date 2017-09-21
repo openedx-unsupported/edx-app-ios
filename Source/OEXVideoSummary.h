@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 // fr - French
 
 @property (readonly, nonatomic, strong, nullable) NSDictionary* transcripts;
-
+- (NSString *)videoSize;
 
 @end
 
