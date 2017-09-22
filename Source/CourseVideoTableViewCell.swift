@@ -47,9 +47,12 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             if (hasVideoDuration && hasVideoSize) {
                 content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type, videoSize: localState?.summary?.videoSize())
             }
-            else {
-                let title = (hasVideoSize) ? localState?.summary?.videoSize() : DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0)
-                content.setDetailText(title: title ?? "", blockType: block?.type)
+            else if(hasVideoDuration) {
+                content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type)
+            }
+            else if(hasVideoSize)
+            {
+                content.setDetailText(title: localState?.summary?.videoSize() ?? "", blockType: block?.type)
             }
         }
     }
