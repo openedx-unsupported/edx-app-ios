@@ -32,6 +32,7 @@ public class CourseOutlineItemView: UIView {
     private let boldFontStyle = OEXTextStyle(weight: .bold, size: .small, color : OEXStyles.shared().neutralBlack())
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
+    private let videoSizeLabel = UILabel()
     private let leadingImageButton = UIButton(type: UIButtonType.system)
     private let checkmark = UIImageView()
     private let trailingContainer = UIView()
@@ -108,7 +109,7 @@ public class CourseOutlineItemView: UIView {
         return boldFontStyle.attributedString(withText: text)
     }
 
-    func setDetailText(title : String, dueDate: String? = "", blockType: CourseBlockType?) {
+    func setDetailText(title : String, dueDate: String? = "", blockType: CourseBlockType?, videoSize: String? = "") {
         var attributedStrings = [NSAttributedString]()
         attributedStrings.append(getAttributedString(withBlockType: blockType, withText: title))
         if isGraded == true {
@@ -116,6 +117,7 @@ public class CourseOutlineItemView: UIView {
             attributedStrings.append(CourseOutlineItemView.detailFontStyle.attributedString(withText: formattedDateString))
         }
         subtitleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
+        videoSizeLabel.attributedText = CourseOutlineItemView.detailFontStyle.attributedString(withText: videoSize)
         resetContraints(withBlockType: blockType)
         setNeedsUpdateConstraints()
     }
@@ -177,6 +179,7 @@ public class CourseOutlineItemView: UIView {
         addSubview(trailingContainer)
         addSubview(titleLabel)
         addSubview(subtitleLabel)
+        addSubview(videoSizeLabel)
         addSubview(checkmark)
         
         // For performance only add the static constraints once
@@ -198,8 +201,12 @@ public class CourseOutlineItemView: UIView {
                 make.leading.equalTo(checkmark.snp_leading).offset(0)
             }
         }
-
         
+        videoSizeLabel.snp_makeConstraints { (make) -> Void in
+            make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
+            make.leading.equalTo(subtitleLabel.snp_trailing).offset(StandardHorizontalMargin)
+        }
+
         trailingContainer.snp_makeConstraints { (make) -> Void in
             make.trailing.equalTo(self.snp_trailing).offset(CellOffsetTrailing)
             make.centerY.equalTo(self)

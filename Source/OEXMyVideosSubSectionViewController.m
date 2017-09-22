@@ -398,9 +398,8 @@ typedef NS_ENUM (NSUInteger, OEXAlertType) {
     if([cell.lbl_Title.text length] == 0) {
         cell.lbl_Title.text = [Strings parenthesisWithText:[Strings untitled]];
     }
-    double size = [obj_video.summary.size doubleValue];
-    float result = ((size / 1024) / 1024);
-    cell.lbl_Size.text = [NSString stringWithFormat:@"%.2fMB", result];
+    
+    cell.lbl_Size.text = [obj_video.summary videoSize];
 
     if(!obj_video.summary.duration) {
         cell.lbl_Time.text = [Strings myVideosTimeLabel];

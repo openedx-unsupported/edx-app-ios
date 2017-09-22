@@ -39,7 +39,21 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     var localState : OEXHelperVideoDownload? {
         didSet {
             updateDownloadViewForVideoState()
-            content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type)
+            
+            guard let hasVideoDuration = localState?.summary?.hasVideoDuration, let hasVideoSize = localState?.summary?.hasVideoSize else {
+                return
+            }
+            
+            if (hasVideoDuration && hasVideoSize) {
+                content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type, videoSize: localState?.summary?.videoSize())
+            }
+            else if(hasVideoDuration) {
+                content.setDetailText(title: DateFormatting.formatSeconds(asVideoLength: localState?.summary?.duration ?? 0), blockType: block?.type)
+            }
+            else if(hasVideoSize)
+            {
+                content.setDetailText(title: localState?.summary?.videoSize() ?? "", blockType: block?.type)
+            }
         }
     }
     

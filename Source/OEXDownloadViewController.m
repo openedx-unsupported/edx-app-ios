@@ -172,9 +172,8 @@
         else {
             cell.lbl_time.text = [DateFormatting formatSecondsAsVideoLength: downloadingVideo.summary.duration];
         }
-
-        float result = (([downloadingVideo.summary.size doubleValue] / 1024) / 1024);
-        cell.lbl_totalSize.text = [NSString stringWithFormat:@"%.2fMB", result];
+        
+        cell.lbl_totalSize.text = [downloadingVideo.summary videoSize];
         float progress = (float)downloadingVideo.downloadProgress;
         [cell.progressView setProgress:progress];
         //

@@ -48,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic, assign) BOOL onlyOnWeb;
 @property (readonly, nonatomic, assign) BOOL isYoutubeVideo;
 @property (readonly, nonatomic, assign) BOOL isSupportedVideo;
+@property (readonly, nonatomic, assign) BOOL hasVideoDuration;
+@property (readonly, nonatomic, assign) BOOL hasVideoSize;
 @property (nonatomic, strong) NSDictionary* encodings;
 
 // For CC
@@ -59,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 // fr - French
 
 @property (readonly, nonatomic, strong, nullable) NSDictionary* transcripts;
-
+- (NSString *)videoSize;
 
 @end
 
