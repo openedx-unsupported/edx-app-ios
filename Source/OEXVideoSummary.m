@@ -149,6 +149,16 @@
     return false;
 }
 
+- (BOOL)hasVideoDuration {
+    
+    return (self.duration > 0.0);
+}
+
+- (BOOL)hasVideoSize {
+    
+    return ([[self size] doubleValue] > 0.0);
+}
+
 - (BOOL) isSupportedVideo {
     BOOL isSupportedEncoding = false;
     for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
