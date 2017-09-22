@@ -125,7 +125,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                 //TODO: Find exact root cause of error and remove this patch
                 // error code -100 is for unknown error
                 if error.code == -100 {
-                    self?.loadController.state = .Initial
                     return
                 }
                 
