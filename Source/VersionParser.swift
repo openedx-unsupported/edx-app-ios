@@ -42,4 +42,8 @@ class Version {
         // Difference in major version is consider to be valid for any minor versions difference
         return (getMajorVersion() - otherVersion.getMajorVersion() >= 1) || (getMinorVersion() - otherVersion.getMinorVersion() >= minorVersionDiff)
     }
+    
+    func isMajorMinorVersionsSame(otherVersion: Version) -> Bool {
+        return getMajorVersion() == otherVersion.getMajorVersion() && getMinorVersion() == otherVersion.getMinorVersion()
+    }
 }

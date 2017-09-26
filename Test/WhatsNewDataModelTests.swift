@@ -1,5 +1,5 @@
 //
-//  WhatsNewDataModel.swift
+//  WhatsNewDataModelTests.swift
 //  edX
 //
 //  Created by Saeed Bashir on 5/11/17.
@@ -15,10 +15,10 @@ class WhatsNewDataModelTests: XCTestCase {
     func testParsing() {
         let config = OEXConfig(dictionary:["PLATFORM_NAME" : "App Test"])
         let mockEnv = TestRouterEnvironment(config: config, interface: nil)
-        let dataModel = WhatsNewDataModel(fileName: "WhatsNew", environment: mockEnv)
+        let dataModel = WhatsNewDataModel(fileName: "WhatsNew", environment: mockEnv, version: "2.10")
         
         XCTAssertNotNil(dataModel.fields)
-        XCTAssertEqual(dataModel.fields?.count, 4) // 4 items in test json 'WhatsNew.json'
+        XCTAssertEqual(dataModel.fields?.count, 3) // 3 items are for iOS in test json 'WhatsNew.json'
         
         // Test whatsNew items parsing
         let item = dataModel.fields?.first
