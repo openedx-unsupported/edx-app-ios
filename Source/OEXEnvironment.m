@@ -77,6 +77,11 @@
             if((segmentConfig.apiKey != nil && segmentConfig.isEnabled) || env.config.isFirebaseEnabled) {
                 [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
             }
+            
+            if (env.config.isAnswerEnable) {
+                [analytics addTracker:[[AnswerAnalyticsTracker alloc] init]];
+            }
+            
             return analytics;
         };
         self.configBuilder = ^(OEXEnvironment* env){
