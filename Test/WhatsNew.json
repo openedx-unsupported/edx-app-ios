@@ -3,7 +3,7 @@
   "version": "2.10",
   "messages": [
                {
-               "platform": [
+               "platforms": [
                             "ios"
                             ],
                "image": "test_screen_1.png",
@@ -11,7 +11,7 @@
                "message": "We would love to hear your feedback so now we ask you about how you would rate the platform_name app."
                },
                {
-               "platform": [
+               "platforms": [
                             "android"
                             ],
                "image": "test_screen_1.png",
@@ -19,7 +19,7 @@
                "message": "We've heard you! All courses on platform_name will now be available on mobile."
                },
                {
-               "platform": [
+               "platforms": [
                             "ios", "android"
                             ],
                "image": "test_screen_1.png",
@@ -27,7 +27,7 @@
                "message": "If subtitles are available for a video, it will be shown as a scrollable transcript below the video."
                },
                {
-               "platform": [
+               "platforms": [
                             "ios"
                             ],
                "image": "test_screen_1.png",
