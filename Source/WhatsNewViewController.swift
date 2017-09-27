@@ -204,6 +204,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
             }
         }
         
+        doneButton.isHidden = true
         return nil
     }
     
@@ -212,9 +213,13 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
             if let item = dataModel.nextItem(currentItem: controller.whatsNew) {
                 return contentController(withItem: item, direction: .forward)
             }
+        
+            let totalScreens = dataModel.fields?.count ?? 0
+            if (dataModel.itemIndex(item: controller.whatsNew) == totalScreens-1) {
+                doneButton.isHidden = false
+            }
         }
         
-        doneButton.isHidden = false
         return nil
     }
     
