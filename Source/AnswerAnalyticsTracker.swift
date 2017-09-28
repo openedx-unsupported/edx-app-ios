@@ -49,10 +49,6 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         }
     }
     
-    func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {
-        
-        
-    }
-    
+    func trackScreen(withName screenName: String, courseID: String?, value: String?, additionalInfo info: [String : String]?) {}
     
 }
