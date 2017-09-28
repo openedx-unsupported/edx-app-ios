@@ -417,8 +417,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     __weak id weakSelf = self;
     [self showProgress:YES];
 
-    [self.environment.analytics trackRegistrationWithProvider:self.externalProvider.backendName];
-
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
         if(!error) {
             NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
@@ -428,6 +426,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             void(^completion)(NSData*, NSURLResponse*, NSError*) = ^(NSData* data, NSURLResponse* response, NSError* error){
                 NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
                 if(httpResp.statusCode == OEXHTTPStatusCode200OK) {
+                    [self.environment.analytics trackRegistrationWithProvider:self.externalProvider.backendName];
                     [self.delegate registrationViewControllerDidRegister:weakSelf completion:nil];
                 }
                 else if([error oex_isNoInternetConnectionError]) {
