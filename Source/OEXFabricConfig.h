@@ -7,6 +7,7 @@
 //
 
 #import "OEXConfig.h"
+#import "edX-Swift.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, copy, nullable) NSString* appKey;
 @property(nonatomic, readonly, assign, getter = isEnabled) BOOL enabled;
+@property (nullable, readonly, strong, nonatomic) FabricKits* kits;
 
 @end
 
