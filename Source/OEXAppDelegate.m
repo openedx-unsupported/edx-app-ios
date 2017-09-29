@@ -219,7 +219,7 @@
 
 - (void) configureFabricKits:(NSDictionary*) launchOptions {
     if (self.environment.config.fabricConfig.kits.branchConfig.enabled) {
-        [Branch setBranchKey:@"key_test_jprs11CFxrWCn7jx1MMLIbkiDwjbxW3I"];
+        [Branch setBranchKey:self.environment.config.fabricConfig.kits.branchConfig.branchKey];
         if ([Branch branchKey]){
             [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
                 if (!error && params) {

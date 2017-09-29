@@ -12,6 +12,6 @@ import Foundation
     var branchConfig: BranchConfig?
     
     init(dictionary: Dictionary<String, Any>) {
-        self.branchConfig = BranchConfig(dictionary: dictionary["BRANCH"] as! Dictionary<String, Any>)
+        self.branchConfig = BranchConfig(dictionary: dictionary["BRANCH"] as? Dictionary<String, Any>)
     }
 }

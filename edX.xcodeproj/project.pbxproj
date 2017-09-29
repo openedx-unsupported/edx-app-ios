@@ -692,6 +692,7 @@
 		E055D53D1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */; };
 		E06292751F7BAFFF006D5EFC /* BranchConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06292741F7BAFFF006D5EFC /* BranchConfig.swift */; };
 		E06292771F7BB452006D5EFC /* FabricKits.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06292761F7BB452006D5EFC /* FabricKits.swift */; };
+		E06292791F7E349D006D5EFC /* BranchConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06292781F7E349D006D5EFC /* BranchConfigTests.swift */; };
 		E07107931C7591360004B76C /* DiscussionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07107921C7591360004B76C /* DiscussionHelper.swift */; };
 		E076A5C21C7DB624008A99C6 /* DiscussionResponsesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */; };
 		E07FE7551EC47FD60049A10A /* WhatsNewDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FE7541EC47FD60049A10A /* WhatsNewDataModel.swift */; };
@@ -1626,6 +1627,7 @@
 		E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+ResponseInterceptors.swift"; sourceTree = SOURCE_ROOT; };
 		E06292741F7BAFFF006D5EFC /* BranchConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchConfig.swift; sourceTree = "<group>"; };
 		E06292761F7BB452006D5EFC /* FabricKits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FabricKits.swift; sourceTree = "<group>"; };
+		E06292781F7E349D006D5EFC /* BranchConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchConfigTests.swift; sourceTree = "<group>"; };
 		E07107921C7591360004B76C /* DiscussionHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionHelper.swift; sourceTree = "<group>"; };
 		E076A5C11C7DB624008A99C6 /* DiscussionResponsesDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesDataController.swift; sourceTree = "<group>"; };
 		E07FE7541EC47FD60049A10A /* WhatsNewDataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewDataModel.swift; sourceTree = "<group>"; };
@@ -3370,6 +3372,7 @@
 				2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */,
 				22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */,
 				021AD6261F166331009AF653 /* Dictionary+SafeAccessTests.swift */,
+				E06292781F7E349D006D5EFC /* BranchConfigTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
@@ -4543,6 +4546,7 @@
 				E03E6A221D38F77C00944AAA /* OfflineSupportViewControllerTests.swift in Sources */,
 				77BC6F431CB82E1D00F0A8C1 /* CourseOutlineTestDataFactory.swift in Sources */,
 				77124FDB1CA5A706002DA012 /* SessionUsernameProviderTests.swift in Sources */,
+				E06292791F7E349D006D5EFC /* BranchConfigTests.swift in Sources */,
 				773CC01F1BE29D5100DDC127 /* UserProfileManagerTests.swift in Sources */,
 				773CC0231BE2C4C200DDC127 /* MockUserProfileManager.swift in Sources */,
 				E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */,

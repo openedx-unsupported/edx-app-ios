@@ -13,10 +13,10 @@ class BranchConfig: NSObject {
     var enabled: Bool = false
     var branchKey: String?
     
-    init(dictionary: Dictionary<String, Any>) {
-        if let enabled = dictionary["ENABLED"] as? Bool {
+    init(dictionary: Dictionary<String, Any>?) {
+        if let enabled = dictionary?["ENABLED"] as? Bool {
             self.enabled = enabled
         }
-        self.branchKey = dictionary["BRANCH_KEY"] as? String
+        self.branchKey = dictionary?["BRANCH_KEY"] as? String
     }
 }
