@@ -204,6 +204,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
             }
         }
         
+        doneButton.isHidden = true
         return nil
     }
     
@@ -213,7 +214,6 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
                 return contentController(withItem: item, direction: .forward)
             }
         }
-        
         doneButton.isHidden = false
         return nil
     }
