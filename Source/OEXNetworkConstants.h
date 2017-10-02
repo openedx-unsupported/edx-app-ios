@@ -22,6 +22,7 @@
 
 // TODO: move the remaining things that mention edx.org into config
 #define URL_EXTENSION_VIDEOS @".mp4"
+#define URL_EXTENSION_HLS @".m3u8"
 #define URL_EXCHANGE_TOKEN @"/oauth2/exchange_access_token/{backend}/"
 #define URL_USER_DETAILS @"/api/mobile/v0.5/users"
 #define URL_COURSE_ENROLLMENTS @"/course_enrollments/"
