@@ -14,7 +14,7 @@
                "platforms": [
                             "android"
                             ],
-               "image": "screen_1.png",
+               "image": "screen_1",
                "title": "Videos Being Downloaded",
                "message": "Notification bar will now show the videos being downloaded."
                },
