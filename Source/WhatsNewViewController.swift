@@ -203,7 +203,6 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
                 return contentController(withItem: item, direction: .reverse)
             }
         }
-        
         return nil
     }
     
