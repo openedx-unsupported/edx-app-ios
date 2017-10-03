@@ -21,7 +21,8 @@ public enum AnalyticsEventName: String {
     case DiscoverCourses = "edx.bi.app.discover.courses.tapped"
     case ExploreSubjects = "edx.bi.app.discover.explore.tapped"
     case UserLogin = "edx.bi.app.user.login"
-    case UserRegistration = "edx.bi.app.user.register.clicked"
+    case UserRegistrationClick = "edx.bi.app.user.register.clicked"
+    case UserRegistrationSuccess = "edx.bi.app.user.register.success"
     case ViewRating = "edx.bi.app.app_reviews.view_rating"
     case DismissRating = "edx.bi.app.app_reviews.dismiss_rating"
     case SubmitRating = "edx.bi.app.app_reviews.submit_rating"
@@ -85,8 +86,17 @@ extension OEXAnalytics {
 
     @objc static func registerEvent() -> OEXAnalyticsEvent {
         let event = OEXAnalyticsEvent()
-        event.name = AnalyticsEventName.UserRegistration.rawValue
+        event.name = AnalyticsEventName.UserRegistrationClick.rawValue
         event.displayName = "Create Account Clicked"
+        event.category = AnalyticsCategory.Conversion.rawValue
+        event.label = "iOS v\(Bundle.main.oex_shortVersionString())"
+        return event
+    }
+    
+    @objc static func registerSuccessEvent() -> OEXAnalyticsEvent {
+        let event = OEXAnalyticsEvent()
+        event.name = AnalyticsEventName.UserRegistrationSuccess.rawValue
+        event.displayName = "Registration Success"
         event.category = AnalyticsCategory.Conversion.rawValue
         event.label = "iOS v\(Bundle.main.oex_shortVersionString())"
         return event

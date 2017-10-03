@@ -128,6 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Provider is optional. null indicates password login
 - (void)trackRegistrationWithProvider:(nullable NSString*)provider;
+- (void)trackRegistrationSuccessWithProvider:(NSString *)provider;
 
 - (void)trackUserDoesNotHaveAccount;
 

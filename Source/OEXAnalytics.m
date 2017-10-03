@@ -410,6 +410,15 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:properties];
 }
 
+- (void)trackRegistrationSuccessWithProvider:(NSString *)provider {
+    OEXAnalyticsEvent* event = [OEXAnalytics registerSuccessEvent];
+    
+    NSMutableDictionary* properties = [[NSMutableDictionary alloc] init];
+    [properties setObjectOrNil:provider forKey:OEXAnalyticsKeyProvider];
+    
+    [self trackEvent:event forComponent:nil withInfo:properties];
+}
+
 #pragma mark - Course Navigation
 
 - (void)trackViewedComponentForCourseWithID:(NSString*)courseID blockID:(NSString*)blockID minifiedBlockID: (NSString*)minifiedBlockID {
