@@ -1,22 +1,39 @@
-[
- {
- "image": "test_screen_1.png",
- "title": "App Feedback",
- "message": "We would love to hear your feedback so now we ask you about how you would rate the platform_name app."
- },
- {
- "image": "test_screen_1.png",
- "title": "All Courses Available on Mobile",
- "message": "We've heard you! All courses on platform_name will now be available on mobile."
- },
- {
- "image": "test_screen_1.png",
- "title": "Transcript for Videos",
- "message": "If subtitles are available for a video, it will be shown as a scrollable transcript below the video."
- },
- {
- "image": "test_screen_1.png",
- "title": "Video Player Improvements",
- "message": "The video player now goes into full screen as soon as device is rotated to landscape. Full screen videos can easily be swiped to move to next units."
- }
- ]
+ [
+  {
+  "version": "2.10",
+  "messages": [
+               {
+               "platforms": [
+                            "ios"
+                            ],
+               "image": "test_screen_1.png",
+               "title": "App Feedback",
+               "message": "We would love to hear your feedback so now we ask you about how you would rate the platform_name app."
+               },
+               {
+               "platforms": [
+                            "android"
+                            ],
+               "image": "test_screen_1.png",
+               "title": "All Courses Available on Mobile",
+               "message": "We've heard you! All courses on platform_name will now be available on mobile."
+               },
+               {
+               "platforms": [
+                            "ios", "android"
+                            ],
+               "image": "test_screen_1.png",
+               "title": "Transcript for Videos",
+               "message": "If subtitles are available for a video, it will be shown as a scrollable transcript below the video."
+               },
+               {
+               "platforms": [
+                            "ios"
+                            ],
+               "image": "test_screen_1.png",
+               "title": "Video Player Improvements",
+               "message": "The video player now goes into full screen as soon as device is rotated to landscape. Full screen videos can easily be swiped to move to next units."
+               }
+               ]
+  }
+  ]

@@ -15,14 +15,16 @@ class WhatsNewDataModel {
     private var json: JSON = JSON(NSNull())
     private(set) var fields: [WhatsNew]? = []
     private let environment: RouterEnvironment?
+    private(set) var versionString: String
     
-    init(fileName name: String? = FileName, environment: RouterEnvironment?) {
+    init(fileName name: String? = FileName, environment: RouterEnvironment?, version: String) {
         self.environment = environment
+        self.versionString = version
         
         do {
-             json = try loadJSON(jsonFile: name ?? FileName)
+            json = try loadJSON(jsonFile: name ?? FileName)
         } catch {
-             json = JSON(NSNull())
+            json = JSON(NSNull())
             //Assert to crash on development
             assert(false, "Unable to load whats_new.json")
             return
@@ -30,11 +32,11 @@ class WhatsNewDataModel {
         
         populateFields()
     }
-
+    
     private func populateFields() {
-        guard let objects = json.array else {
+        guard let objects = whatsNewForCurrentVersion() else {
             //Assert to crash on development
-            assert(false, "Could not find any whatsNew object in whats_new.json")
+            assert(false, "Could not find any messages for current version in whats_new.json")
             return
         }
         
@@ -71,6 +73,26 @@ class WhatsNewDataModel {
             throw NSError(domain: NSCocoaErrorDomain, code: NSFileNoSuchFileError, userInfo: nil)
         }
         return json
+    }
+    
+    private func whatsNewForCurrentVersion()-> [JSON]? {
+        guard let objects = json.array else {
+            //Assert to crash on development
+            assert(false, "Could not find any whatsNew object in whats_new.json")
+            return nil
+        }
+        
+        for object in objects {
+            if let versionString = object["version"].string {
+                let version = Version(version: versionString)
+                let appVersion = Version(version: self.versionString)
+                if appVersion.isMajorMinorVersionsSame(otherVersion: version) {
+                    return object["messages"].array
+                }
+            }
+        }
+        
+        return nil
     }
     
     func nextItem(currentItem: WhatsNew?)-> WhatsNew? {

@@ -54,6 +54,8 @@ class WhatsNewObjectTests: XCTestCase {
             dictionary.setObject(message, forKey: "message" as NSCopying)
         }
         
+        dictionary.setObject(["ios"], forKey: "platforms" as NSCopying)
+        
         return dictionary
     }
 }

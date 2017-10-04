@@ -57,4 +57,20 @@ class VersionParserTests: XCTestCase {
         let majorVersion = Version(version: "3.0.0")
         XCTAssertTrue(minorVersion.isNMinorVersionsDiff(otherVersion: majorVersion, minorVersionDiff: 2))
     }
+    
+    func testSameVersions() {
+        let version = Version(version: "2.10")
+        let sameVersion = Version(version: "2.10")
+        
+        XCTAssertTrue(sameVersion.isMajorMinorVersionsSame(otherVersion: version))
+        
+        // Test for patch version. Patch version should be ignored
+        let patchVersion = Version(version: "2.10.1")
+        XCTAssertTrue(patchVersion.isMajorMinorVersionsSame(otherVersion: version))
+        
+        // Test Different versions
+        let newVersion = Version(version: "2.11")
+        XCTAssertFalse(newVersion.isMajorMinorVersionsSame(otherVersion: version))
+        
+    }
 }
