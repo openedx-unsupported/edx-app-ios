@@ -222,10 +222,8 @@
         [Branch setBranchKey:self.environment.config.fabricConfig.kits.branchConfig.branchKey];
         if ([Branch branchKey]){
             [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
-                if (!error && params) {
-                    // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
-                    // params will be empty if no data found
-                }
+                // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
+                // params will be empty if no data found
             }];
         }
     }
