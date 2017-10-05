@@ -9,7 +9,7 @@
 #import "edX-Swift.h"
 
 #import "OEXEnvironment.h"
-
+#import "OEXFabricConfig.h"
 #import <Analytics/SEGAnalytics.h>
 #import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
 #import "OEXAnalytics.h"
@@ -78,7 +78,7 @@
                 [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
             }
             
-            if (env.config.isAnswerEnable) {
+            if(env.config.fabricConfig.kits.answersEnable) {
                 [analytics addTracker:[[AnswerAnalyticsTracker alloc] init]];
             }
             
