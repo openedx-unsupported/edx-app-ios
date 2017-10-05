@@ -221,8 +221,8 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
             currentPageIndex = dataModel.itemIndex(item: controller.whatsNew)
         }
         
-        let totalScreen = dataModel.fields?.count ?? 0
-        doneButton.isHidden = currentPageIndex != totalScreen - 1
+        let totalScreens = dataModel.fields?.count ?? 0
+        doneButton.isHidden = currentPageIndex != totalScreens - 1
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
