@@ -203,8 +203,6 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
                 return contentController(withItem: item, direction: .reverse)
             }
         }
-        
-        doneButton.isHidden = true
         return nil
     }
     
@@ -214,7 +212,6 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
                 return contentController(withItem: item, direction: .forward)
             }
         }
-        doneButton.isHidden = false
         return nil
     }
     
@@ -224,6 +221,8 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
             currentPageIndex = dataModel.itemIndex(item: controller.whatsNew)
         }
         
+        let totalScreens = dataModel.fields?.count ?? 0
+        doneButton.isHidden = currentPageIndex != totalScreens - 1
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
