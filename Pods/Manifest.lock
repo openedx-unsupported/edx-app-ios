@@ -6,6 +6,9 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
+  - Branch (0.17.9):
+    - Branch/Core (= 0.17.9)
+  - Branch/Core (0.17.9)
   - Crashlytics (3.8.5):
     - Fabric (~> 1.6.3)
   - DateTools (1.6.1)
@@ -76,6 +79,7 @@ PODS:
 
 DEPENDENCIES:
   - Analytics (~> 3.0.0)
+  - Branch (= 0.17.9)
   - Crashlytics (~> 3.2)
   - DateTools (~> 1.6.1)
   - Fabric (~> 1.5)
@@ -95,6 +99,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Analytics: b342fb4f43fa4f97ca6f4358b44d3295217ba294
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
+  Branch: 38100c961f1838d0b0dbd7377839d530374762ff
   Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
   Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
@@ -123,6 +128,6 @@ SPEC CHECKSUMS:
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 03ef7a5643965212c6ca9ed7d65385950ca4a989
 
-PODFILE CHECKSUM: 734d5b0fe4bbac0f66677de571e2448cc8dfde8d
+PODFILE CHECKSUM: 79b2666a498bcfc3d404241e4776964e27bec7fd
 
 COCOAPODS: 1.1.1

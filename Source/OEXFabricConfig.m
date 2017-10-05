@@ -22,6 +22,8 @@ static NSString* const OEXFabricConfigKey = @"FABRIC";
         _enabled = [dictionary[@"ENABLED"] boolValue];
         _appKey = dictionary[@"FABRIC_KEY"];
         _buildSecret = dictionary[@"FABRIC_BUILD_SECRET"];
+        _kits = [[FabricKits alloc] initWithDictionary:dictionary[@"KITS"]];
+        
     }
     return self;
 }
