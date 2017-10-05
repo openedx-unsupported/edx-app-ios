@@ -1,12 +1,32 @@
-[
- {
- "image": "screen_1.png",
- "title": "Videos",
- "message": "La pestaña \"Videos\" en el menú de cada curso reemplaza \"Mis Videos\" en el menú principal. Ahora puedes ver todos los videos de un curso en un solo lugar!"
- },
- {
- "image": "screen_2.png",
- "title": "Delete Video",
- "message": "Desliza el dedo hacia la izquierda para eliminar los videos descargados."
- }
-]
+ [
+  {
+  "version": "2.10",
+  "messages": [
+               {
+               "platforms": [
+                            "ios"
+                            ],
+               "image": "screen_1",
+               "title": "All Courses Available on Mobile",
+               "message": "We've heard you! All courses on platform_name will now be available on mobile."
+               },
+               {
+               "platforms": [
+                            "android"
+                            ],
+               "image": "screen_1",
+               "title": "Videos Being Downloaded",
+               "message": "Notification bar will now show the videos being downloaded."
+               },
+               {
+               "platforms": [
+                            "ios",
+                            "android"
+                            ],
+               "image": "screen_2",
+               "title": "Landscape Support",
+               "message": "Video player improvements for landscape mode."
+               }
+               ]
+  }
+  ]

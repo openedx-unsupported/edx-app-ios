@@ -57,6 +57,22 @@
    
 }
 
+-(void) testFabricKits {
+    NSDictionary *configDictionary=@{@"FABRIC":@{@"ENABLED":@YES ,
+                                                 @"FABRIC_KEY":@"fabric_key" ,
+                                                 @"FABRIC_BUILD_SECRET":@"fabric_build_secret",
+                                                 @"KITS":@{@"ANSWERS":@YES, @"CRASHLYTICS":@YES, @"BRANCH": @{@"ENABLED": @YES, @"BRANCH_KEY": @"branch_key"}}}
+                                     };
+    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
+    OEXFabricConfig *fabricConfig=[config fabricConfig];
+    XCTAssertTrue(fabricConfig.enabled);
+    XCTAssertNotNil(fabricConfig.appKey);
+    XCTAssertNotNil(fabricConfig.kits);
+    XCTAssertNotNil(fabricConfig.kits.branchConfig);
+    XCTAssertNotNil(fabricConfig.kits.branchConfig.branchKey);
+    XCTAssertTrue(fabricConfig.kits.branchConfig.enabled);
+}
+
 
 -(void)testFacebookNoConfig{
     NSDictionary *configDictionary=@{};

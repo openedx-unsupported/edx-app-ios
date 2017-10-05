@@ -8,6 +8,10 @@
 
 import Foundation
 
+fileprivate enum SupportPlatforms: String {
+    case iOS = "ios"
+}
+
 public struct WhatsNew: Equatable {
     var image: UIImage
     var title: String
@@ -22,12 +26,21 @@ public struct WhatsNew: Equatable {
 extension WhatsNew {
     init?(json: JSON) {
         guard let imageName = json["image"].string,
-        let title = json["title"].string,
-            let message = json["message"].string else {
+            let title = json["title"].string,
+            let message = json["message"].string,
+            let platforms = json["platforms"].array else {
                 return nil
         }
         
-        if let image = UIImage(named: imageName) {
+        var isSupportMessage = false
+        for platform in platforms {
+            if platform.string?.lowercased() == SupportPlatforms.iOS.rawValue {
+                isSupportMessage = true
+                break
+            }
+        }
+        
+        if let image = UIImage(named: imageName), isSupportMessage == true {
             self.image = image
             self.title = title
             self.message = message

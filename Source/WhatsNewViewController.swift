@@ -43,7 +43,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
             self.dataModel = dataModel
         }
         else {
-            self.dataModel = WhatsNewDataModel(environment: environment as? RouterEnvironment)
+            self.dataModel = WhatsNewDataModel(environment: environment as? RouterEnvironment, version: Bundle.main.oex_buildVersionString())
         }
         titleString = title ?? Strings.WhatsNew.headerText(appVersion: Bundle.main.oex_buildVersionString())
         pageController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -204,6 +204,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
             }
         }
         
+        doneButton.isHidden = true
         return nil
     }
     
@@ -213,7 +214,6 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
                 return contentController(withItem: item, direction: .forward)
             }
         }
-        
         doneButton.isHidden = false
         return nil
     }
