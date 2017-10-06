@@ -115,16 +115,20 @@
 // Respond to URI scheme links
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     // pass the url to the handle deep link call
-    [[Branch getInstance] application:app openURL:url options:options];
+    if (self.environment.config.fabricConfig.kits.branchConfig.enabled) {
+        [[Branch getInstance] application:app openURL:url options:options];
+    }
     
     return YES;
 }
 
 // Respond to Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
-    BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
     
-    return handledByBranch;
+    if (self.environment.config.fabricConfig.kits.branchConfig.enabled) {
+        return [[Branch getInstance] continueUserActivity:userActivity];
+    }
+    return NO;
 }
 
 #pragma mark Push Notifications
