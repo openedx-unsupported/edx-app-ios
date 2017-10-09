@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-
 #import "OEXAnalytics.h"
-
 #import "NSBundle+OEXConveniences.h"
 #import "OEXEnvironment.h"
 #import "OEXMockAnalyticsTracker.h"
+#import "edX-Swift.h"
 
 @interface OEXAnalyticsTests : XCTestCase
 
@@ -33,7 +32,7 @@
 
 - (void)testRegistrationEvent {
     NSString* provider = @"SomeProvider";
-    [self.analytics trackRegistrationWithProvider:provider];
+    [self.analytics trackRegistrationWithProvider:provider name:@"edx.bi.app.user.register.clicked" displayName:@"displayName"];
     NSArray* events = self.analyticsTracker.observedEvents;
     XCTAssertEqual(events.count, 1);
     OEXMockAnalyticsEventRecord* record = events[0];
@@ -46,7 +45,7 @@
 }
 
 - (void)testRegistrationNullProvider {
-    [self.analytics trackRegistrationWithProvider:nil];
+    [self.analytics trackRegistrationWithProvider:nil name:@"" displayName:@""];
     NSArray* events = self.analyticsTracker.observedEvents;
     XCTAssertEqual(events.count, 1);
     OEXMockAnalyticsEventRecord* record = events[0];

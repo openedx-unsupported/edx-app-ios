@@ -16,6 +16,15 @@ public enum AnalyticsCategory : String {
     case WhatsNew = "whats-new"
 }
 
+public enum AnalyticsDisplayName : String {
+    case DiscoverCourses = "Discover Courses"
+    case ExploreCourses = "Explore Courses"
+    case UserLogin = "User Login"
+    case CreateAccount = "Create Account Clicked"
+    case RegistrationSuccess = "Registration Success"
+    case EnrolledCourses = "Enroll Course Clicked"
+}
+
 public enum AnalyticsEventName: String {
     case CourseEnrollment = "edx.bi.app.course.enroll.clicked"
     case DiscoverCourses = "edx.bi.app.discover.courses.tapped"
@@ -65,7 +74,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.category = AnalyticsCategory.Discovery.rawValue
         event.name = AnalyticsEventName.DiscoverCourses.rawValue
-        event.displayName = "Discover Courses"
+        event.displayName = AnalyticsDisplayName.DiscoverCourses.rawValue
         return event
     }
 
@@ -73,21 +82,21 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.category = AnalyticsCategory.Discovery.rawValue
         event.name = AnalyticsEventName.ExploreSubjects.rawValue
-        event.displayName = "Explore Courses"
+        event.displayName = AnalyticsDisplayName.ExploreCourses.rawValue
         return event
     }
 
     @objc static func loginEvent() -> OEXAnalyticsEvent {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.UserLogin.rawValue
-        event.displayName = "User Login"
+        event.displayName = AnalyticsDisplayName.UserLogin.rawValue
         return event
     }
-
-    @objc static func registerEvent() -> OEXAnalyticsEvent {
+    
+    @objc static func registerEvent(name: String, displayName: String) -> OEXAnalyticsEvent {
         let event = OEXAnalyticsEvent()
-        event.name = AnalyticsEventName.UserRegistrationClick.rawValue
-        event.displayName = "Create Account Clicked"
+        event.name = name
+        event.displayName = displayName
         event.category = AnalyticsCategory.Conversion.rawValue
         event.label = "iOS v\(Bundle.main.oex_shortVersionString())"
         return event
@@ -105,7 +114,7 @@ extension OEXAnalytics {
     @objc static func enrollEvent(courseId: String) -> OEXAnalyticsEvent {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.CourseEnrollment.rawValue
-        event.displayName = "Enroll Course Clicked"
+        event.displayName = AnalyticsDisplayName.EnrolledCourses.rawValue
         event.category = AnalyticsCategory.Conversion.rawValue
         event.label = courseId
         return event
@@ -145,5 +154,13 @@ extension OEXAnalytics {
         
         trackEvent(event, forComponent: nil, withInfo: [AnalyticsEventDataKey.UnitID.rawValue : unitID])
     }
-
+    
+    func trackRegistration(WithProvider provider: String?, name:String, displayName:String) {
+       let event = OEXAnalytics.registerEvent(name: name, displayName: displayName)
+        var dictionary : [String: Any] = [:]
+        if let provider = provider {
+            dictionary.updateValue(provider, forKey: OEXAnalyticsKeyProvider)
+        }
+        trackEvent(event, forComponent: nil, withInfo: dictionary)
+    }
 }

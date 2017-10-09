@@ -12,6 +12,8 @@ import Crashlytics
 
 class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
 
+    let trackEventsAllowed = ["Enroll Course Clicked", "Create Account Clicked", "Registration Success"]
+    
     var currentOrientationValue : String {
         return UIInterfaceOrientationIsLandscape(UIApplication.shared.statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
@@ -26,7 +28,7 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     
     func trackEvent(_ event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : Any]) {
         
-        if event.displayName == "Enroll Course Clicked" || event.displayName == "Create Account Clicked" || event.displayName == "Registration Success" {
+        if(trackEventsAllowed.contains(event.displayName)) {
             var context = [key_app_name : value_app_name]
             if let component = component {
                 context[key_component] = component

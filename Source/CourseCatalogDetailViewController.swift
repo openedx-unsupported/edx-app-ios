@@ -130,15 +130,6 @@ class CourseCatalogDetailViewController: UIViewController {
             completion()
         }
     }
-
-    
-    private func CourseEnrolEvent(name: String, displayName: String) -> OEXAnalyticsEvent {
-        let event = OEXAnalyticsEvent()
-        event.name = name
-        event.displayName = displayName
-        event.category = AnalyticsCategory.WhatsNew.rawValue
-        return event
-    }
 }
 // Testing only
 extension CourseCatalogDetailViewController {

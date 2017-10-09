@@ -8,6 +8,11 @@
 
 import Foundation
 
+@objc public enum RegistrationEventType: Int {
+    case CreateAccountClick,
+         CreateAccountSuccess
+}
+
 extension OEXRegistrationViewController {
     
     func getRegistrationFormDescription(success: @escaping (_ response: OEXRegistrationDescription) -> ()) {
@@ -23,6 +28,15 @@ extension OEXRegistrationViewController {
             else{
                 self?.loadController.state = LoadState.failed(error: result.error)
             }
+        }
+    }
+    
+    @objc func trackEvent(type: RegistrationEventType, provider: String) {
+        switch type {
+        case .CreateAccountClick:
+            self.environment.analytics.trackRegistration(WithProvider: provider, name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue)
+        case .CreateAccountSuccess:
+            self.environment.analytics.trackRegistration(WithProvider: provider, name: AnalyticsEventName.UserRegistrationSuccess.rawValue, displayName: AnalyticsDisplayName.RegistrationSuccess.rawValue)
         }
     }
     
