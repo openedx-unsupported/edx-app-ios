@@ -111,7 +111,7 @@ extension OEXAnalytics {
         return event
     }
 
-    @objc static func enrollEvent(courseId: String) -> OEXAnalyticsEvent {
+    @objc static func enrollEvent(courseId: String, name: String, displayName: String) -> OEXAnalyticsEvent {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.CourseEnrollment.rawValue
         event.displayName = AnalyticsDisplayName.EnrolledCourses.rawValue
@@ -153,14 +153,5 @@ extension OEXAnalytics {
         event.displayName = "Videos: Unit Delete"
         
         trackEvent(event, forComponent: nil, withInfo: [AnalyticsEventDataKey.UnitID.rawValue : unitID])
-    }
-    
-    func trackRegistration(WithProvider provider: String?, name:String, displayName:String) {
-       let event = OEXAnalytics.registerEvent(name: name, displayName: displayName)
-        var dictionary : [String: Any] = [:]
-        if let provider = provider {
-            dictionary.updateValue(provider, forKey: OEXAnalyticsKeyProvider)
-        }
-        trackEvent(event, forComponent: nil, withInfo: dictionary)
     }
 }

@@ -121,7 +121,7 @@ class CourseCatalogDetailViewController: UIViewController {
         let request = CourseCatalogAPI.enroll(courseID: courseID)
         environment.networkManager.taskForRequest(request) {[weak self] response in
             if response.response?.httpStatusCode.is2xx ?? false {
-                self?.environment.analytics.trackUserEnrolled(inCourse: courseID)
+                self?.environment.analytics.trackEvent(OEXAnalytics.enrollEvent(courseId: courseID, name: AnalyticsEventName.CourseEnrollment.rawValue, displayName: AnalyticsDisplayName.EnrolledCourses.rawValue), forComponent: nil, withInfo: [:])
                 self?.showCourseScreen(message: Strings.findCoursesEnrollmentSuccessfulMessage)
             }
             else {

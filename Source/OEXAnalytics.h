@@ -130,9 +130,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)trackUserFindsCourses;
 
-// Enrollment
-
-- (void)trackUserEnrolledInCourse:(NSString*)courseID;
 
 // Course
 - (void)trackCourseShared:(NSString*)courseName url:(NSString*)aboutUrl socialTarget:(NSString*)type;

@@ -32,7 +32,10 @@
 
 - (void)testRegistrationEvent {
     NSString* provider = @"SomeProvider";
-    [self.analytics trackRegistrationWithProvider:provider name:@"edx.bi.app.user.register.clicked" displayName:@"displayName"];
+    
+    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+    [dictionary setObject:provider forKey:OEXAnalyticsKeyProvider];
+    [self.analytics trackEvent:[OEXAnalytics registerEventWithName:@"edx.bi.app.user.register.clicked" displayName:@"displayName"] forComponent:nil withInfo:dictionary];
     NSArray* events = self.analyticsTracker.observedEvents;
     XCTAssertEqual(events.count, 1);
     OEXMockAnalyticsEventRecord* record = events[0];
@@ -45,7 +48,8 @@
 }
 
 - (void)testRegistrationNullProvider {
-    [self.analytics trackRegistrationWithProvider:nil name:@"" displayName:@""];
+    
+    [self.analytics trackEvent:[OEXAnalytics registerEventWithName:@"" displayName:@""] forComponent:nil withInfo:@{}];
     NSArray* events = self.analyticsTracker.observedEvents;
     XCTAssertEqual(events.count, 1);
     OEXMockAnalyticsEventRecord* record = events[0];

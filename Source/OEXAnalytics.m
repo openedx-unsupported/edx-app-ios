@@ -476,11 +476,6 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
-- (void)trackUserEnrolledInCourse:(NSString*)courseID {
-    OEXAnalyticsEvent* event = [OEXAnalytics enrollEventWithCourseId:courseID];
-    [self trackEvent:event forComponent:nil withInfo:@{}];
-}
-
 #pragma mark Course
 - (void)trackCourseShared:(NSString*)courseName url:(NSString*)aboutUrl socialTarget:(NSString*)type {
     OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];

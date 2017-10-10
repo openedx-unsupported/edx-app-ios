@@ -32,11 +32,14 @@ extension OEXRegistrationViewController {
     }
     
     @objc func trackEvent(type: RegistrationEventType, provider: String) {
+        
+        let dictionary = [OEXAnalyticsKeyProvider: provider]
+
         switch type {
         case .CreateAccountClick:
-            self.environment.analytics.trackRegistration(WithProvider: provider, name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue)
+            self.environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue), forComponent: nil, withInfo: dictionary)
         case .CreateAccountSuccess:
-            self.environment.analytics.trackRegistration(WithProvider: provider, name: AnalyticsEventName.UserRegistrationSuccess.rawValue, displayName: AnalyticsDisplayName.RegistrationSuccess.rawValue)
+            self.environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationSuccess.rawValue, displayName: AnalyticsDisplayName.RegistrationSuccess.rawValue), forComponent: nil, withInfo: dictionary)
         }
     }
     
