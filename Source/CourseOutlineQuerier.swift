@@ -343,7 +343,7 @@ public class CourseOutlineQuerier : NSObject {
         
         let blockVideos = videoStream.map({[weak self] videoIDs -> [OEXHelperVideoDownload] in
             let videos = self?.interface?.statesForVideos(withIDs: videoIDs, courseID: self?.courseID ?? "")
-            return videos?.filter { video in (video.summary?.isSupportedVideo ?? false)} ?? []
+            return videos?.filter { video in (video.summary?.isDownloadableVideo ?? false)} ?? []
         })
         
         return blockVideos

@@ -8,6 +8,7 @@
 
 #import "OEXVideoSummary.h"
 #import "OEXConfig.h"
+#import "OEXNetworkConstants.h"
 
 #import "edX-Swift.h"
 #import "OEXVideoEncoding.h"
@@ -172,6 +173,19 @@
     }
     
     return !self.onlyOnWeb && isSupportedEncoding;
+}
+
+- (BOOL) isDownloadableVideo {
+    BOOL canDownload = self.isSupportedVideo;
+    if(canDownload) {
+        for (NSString *extension in ONLINE_ONLY_VIDEO_URL_EXTENSIONS) {
+            if([self.videoURL localizedCaseInsensitiveContainsString:extension]){
+                canDownload = NO;
+                break;
+            }
+        }
+    }
+    return canDownload;
 }
 
 - (NSString*)videoURL {
