@@ -24,7 +24,6 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     private var environment : Environment
     private let scrollView = UIScrollView()
     private let usernameLabel = UILabel()
-    private let emailLabel = UILabel()
     private let messageLabel = UILabel()
     private let countryLabel = UILabel()
     private let languageLabel = UILabel()
@@ -54,9 +53,6 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
         usernameLabel.setContentHuggingPriority(1000, for: .vertical)
         scrollView.addSubview(usernameLabel)
-
-        emailLabel.setContentHuggingPriority(1000, for: .vertical)
-        scrollView.addSubview(emailLabel)
         
         messageLabel.numberOfLines = 0
         messageLabel.setContentHuggingPriority(1000, for: .vertical)
@@ -117,14 +113,9 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             make.top.equalTo(avatarImage.snp_bottom).offset(margin)
             make.centerX.equalTo(scrollView)
         }
-
-        emailLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(usernameLabel.snp_bottom).offset(margin)
-            make.centerX.equalTo(scrollView)
-        }
         
         messageLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(emailLabel.snp_bottom).offset(margin).priorityHigh()
+            make.top.equalTo(usernameLabel.snp_bottom).offset(margin).priorityHigh()
             make.centerX.equalTo(scrollView)
         }
 
@@ -206,7 +197,6 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
         usernameLabel.attributedText = usernameStyle.attributedString(withText: profile.username)
         bioSystemMessage.isHidden = true
-        emailLabel.attributedText = infoStyle.attributedString(withText:environment.session.currentUser?.email)
         avatarImage.remoteImage = profile.image(networkManager: networkManager)
         setDefaultValues()
         setMessage(message: messageForProfile(profile: profile, editable: editable))
