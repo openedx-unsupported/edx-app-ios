@@ -599,7 +599,7 @@ static OEXDBManager* _sharedManager = nil;
     NSMutableArray* filteredArray = [[NSMutableArray alloc] init];
     CLS_LOG(@"getVideosForDownloadState: videosForDownloadState...%@", allVideos);
     for(VideoData* data in allVideos) {
-        if(data && ([data.download_state intValue] == state)) {
+        if(data && [data isKindOfClass:[VideoData class]] && ([data.download_state intValue] == state)) {
             [filteredArray addObject:data];
         }
     }
