@@ -132,7 +132,6 @@ class SwipeableCell: UITableViewCell {
     
     func hideSwipe(animated: Bool, completion: ((Bool) -> Void)? = nil) {
         state = .animatingToInitial
-        tableView?.setGestureEnabled(true)
         let targetCenter = self.targetCenter(active: false)
         if animated {
             animate(toOffset: targetCenter) {[weak self] complete in
@@ -160,8 +159,6 @@ class SwipeableCell: UITableViewCell {
         let selectedIndexPaths = tableView.indexPathsForSelectedRows
         selectedIndexPaths?.forEach { tableView.deselectRow(at: $0, animated: false) }
         
-        // Temporarily remove table gestures
-        tableView.setGestureEnabled(false)
         configureActionsView(with: actionButtons, for: orientation)
         return true
     }
@@ -277,7 +274,6 @@ extension SwipeableCell: SwipeActionsViewDelegate {
     
     func reset() {
         state = .initial
-        tableView?.setGestureEnabled(true)
         actionsView?.removeFromSuperview()
         actionsView = nil
     }
@@ -320,13 +316,5 @@ extension UITableView {
     
     func hideSwipeCell() {
         swipeCells.forEach { $0.hideSwipe(animated: true) }
-    }
-    
-    func setGestureEnabled(_ enabled: Bool) {
-        gestureRecognizers?.forEach {
-            guard $0 != panGestureRecognizer else { return }
-            
-            $0.isEnabled = enabled
-        }
     }
 }
