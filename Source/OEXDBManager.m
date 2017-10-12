@@ -538,7 +538,8 @@ static OEXDBManager* _sharedManager = nil;
     NSArray* array = [self getAllLocalVideoData];
     CLS_LOG(@"pausedAllDownloads: localVideoData...%@", array);
     for(VideoData* video in array) {
-        if([video.download_state intValue] == OEXDownloadStatePartial || [video.dm_id intValue] != 0) {
+        CLS_LOG(@"pausedAllDownloads: VideoData...%@", video);
+        if((video && [video isKindOfClass:[VideoData class]]) && ([video.download_state intValue] == OEXDownloadStatePartial || [video.dm_id intValue] != 0)) {
             video.dm_id = [NSNumber numberWithInt:0];
         }
     }
