@@ -71,8 +71,8 @@
     XCTAssertNotNil(fabricConfig.kits.branchConfig);
     XCTAssertNotNil(fabricConfig.kits.branchConfig.branchKey);
     XCTAssertTrue(fabricConfig.kits.branchConfig.enabled);
-    XCTAssertTrue(fabricConfig.kits.answersEnable);
-    XCTAssertTrue(fabricConfig.kits.crashlyticsEnable);
+    XCTAssertTrue(fabricConfig.kits.answersEnabled);
+    XCTAssertTrue(fabricConfig.kits.crashlyticsEnabled);
 }
 
 -(void) testFabricKitsDisable {
@@ -89,8 +89,8 @@
     XCTAssertNotNil(fabricConfig.kits.branchConfig);
     XCTAssertNil(fabricConfig.kits.branchConfig.branchKey);
     XCTAssertFalse(fabricConfig.kits.branchConfig.enabled);
-    XCTAssertFalse(fabricConfig.kits.answersEnable);
-    XCTAssertFalse(fabricConfig.kits.crashlyticsEnable);
+    XCTAssertFalse(fabricConfig.kits.answersEnabled);
+    XCTAssertFalse(fabricConfig.kits.crashlyticsEnabled);
 }
 
 

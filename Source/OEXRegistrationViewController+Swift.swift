@@ -9,7 +9,7 @@
 import Foundation
 
 @objc public enum RegistrationEventType: Int {
-    case CreateAccountClick,
+    case CreateAccountClicked,
          CreateAccountSuccess
 }
 
@@ -36,7 +36,7 @@ extension OEXRegistrationViewController {
         let dictionary = [OEXAnalyticsKeyProvider: provider]
 
         switch type {
-        case .CreateAccountClick:
+        case .CreateAccountClicked:
             self.environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue), forComponent: nil, withInfo: dictionary)
         case .CreateAccountSuccess:
             self.environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationSuccess.rawValue, displayName: AnalyticsDisplayName.RegistrationSuccess.rawValue), forComponent: nil, withInfo: dictionary)

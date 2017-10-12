@@ -416,7 +416,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void)registerWithParameters:(NSDictionary*)parameters {
     __weak id weakSelf = self;
     [self showProgress:YES];
-    [self trackEventWithType:RegistrationEventTypeCreateAccountClick provider:self.externalProvider.backendName];
+    [self trackEventWithType:RegistrationEventTypeCreateAccountClicked provider:self.externalProvider.backendName];
     [OEXAuthentication registerUserWithParameters:parameters completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
         if(!error) {
             NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];

@@ -22,7 +22,7 @@ public enum AnalyticsDisplayName : String {
     case UserLogin = "User Login"
     case CreateAccount = "Create Account Clicked"
     case RegistrationSuccess = "Registration Success"
-    case EnrolledCourses = "Enroll Course Clicked"
+    case EnrolledCourses = "Course Enroll Success"
 }
 
 public enum AnalyticsEventName: String {
@@ -102,15 +102,6 @@ extension OEXAnalytics {
         return event
     }
     
-    @objc static func registerSuccessEvent() -> OEXAnalyticsEvent {
-        let event = OEXAnalyticsEvent()
-        event.name = AnalyticsEventName.UserRegistrationSuccess.rawValue
-        event.displayName = "Registration Success"
-        event.category = AnalyticsCategory.Conversion.rawValue
-        event.label = "iOS v\(Bundle.main.oex_shortVersionString())"
-        return event
-    }
-
     @objc static func enrollEvent(courseId: String, name: String, displayName: String) -> OEXAnalyticsEvent {
         let event = OEXAnalyticsEvent()
         event.name = AnalyticsEventName.CourseEnrollment.rawValue

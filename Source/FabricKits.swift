@@ -10,17 +10,17 @@ import Foundation
 
 @objc class FabricKits: NSObject {
     var branchConfig: BranchConfig?
-    var crashlyticsEnable: Bool = false
-    var answersEnable: Bool = false
+    var crashlyticsEnabled: Bool = false
+    var answersEnabled: Bool = false
     
     init(dictionary: Dictionary<String, Any>) {
     
-        if let crashlyticsEnable = dictionary["CRASHLYTICS"] as? Bool {
-            self.crashlyticsEnable = crashlyticsEnable
+        if let crashlyticsEnabled = dictionary["CRASHLYTICS"] as? Bool {
+            self.crashlyticsEnabled = crashlyticsEnabled
         }
         
-        if let answerEnable = dictionary["ANSWERS"] as? Bool {
-            self.answersEnable = answerEnable
+        if let answersEnabled = dictionary["ANSWERS"] as? Bool {
+            self.answersEnabled = answersEnabled
         }
         self.branchConfig = BranchConfig(dictionary: dictionary["BRANCH"] as? Dictionary<String, Any>)
     }

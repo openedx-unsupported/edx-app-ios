@@ -78,7 +78,7 @@
                 [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
             }
             
-            if(env.config.fabricConfig.kits.answersEnable) {
+            if(env.config.fabricConfig.kits.answersEnabled) {
                 [analytics addTracker:[[AnswerAnalyticsTracker alloc] init]];
             }
             
