@@ -22,11 +22,13 @@ public enum AnalyticsDisplayName : String {
     case UserLogin = "User Login"
     case CreateAccount = "Create Account Clicked"
     case RegistrationSuccess = "Registration Success"
-    case EnrolledCourses = "Course Enroll Success"
+    case EnrolledCourseClicked = "Course Enroll Clicked"
+    case EnrolledCourseSuccess = "Course Enroll Success"
 }
 
 public enum AnalyticsEventName: String {
-    case CourseEnrollment = "edx.bi.app.course.enroll.clicked"
+    case CourseEnrollmentClicked = "edx.bi.app.course.enroll.clicked"
+    case CourseEnrollmentSuccess = "edx.bi.app.course.enroll.success"
     case DiscoverCourses = "edx.bi.app.discover.courses.tapped"
     case ExploreSubjects = "edx.bi.app.discover.explore.tapped"
     case UserLogin = "edx.bi.app.user.login"
@@ -104,8 +106,8 @@ extension OEXAnalytics {
     
     @objc static func enrollEvent(courseId: String, name: String, displayName: String) -> OEXAnalyticsEvent {
         let event = OEXAnalyticsEvent()
-        event.name = AnalyticsEventName.CourseEnrollment.rawValue
-        event.displayName = AnalyticsDisplayName.EnrolledCourses.rawValue
+        event.name = name
+        event.displayName = displayName
         event.category = AnalyticsCategory.Conversion.rawValue
         event.label = courseId
         return event

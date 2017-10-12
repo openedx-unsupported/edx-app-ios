@@ -28,7 +28,7 @@ extension OEXCourseInfoViewController {
         let request = CourseCatalogAPI.enroll(courseID: courseID)
         environment.networkManager.taskForRequest(request) {[weak self] response in
             if response.response?.httpStatusCode.is2xx ?? false {
-                environment.analytics.trackEvent(OEXAnalytics.enrollEvent(courseId: courseID, name: AnalyticsEventName.CourseEnrollment.rawValue, displayName: AnalyticsDisplayName.EnrolledCourses.rawValue), forComponent: nil, withInfo: [:])
+                environment.analytics.trackEvent(OEXAnalytics.enrollEvent(courseId: courseID, name: AnalyticsEventName.CourseEnrollmentSuccess.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseSuccess.rawValue), forComponent: nil, withInfo: [:])
                 self?.showMainScreen(withMessage: Strings.findCoursesEnrollmentSuccessfulMessage, courseID: courseID)
             }
             else {
