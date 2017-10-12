@@ -10,7 +10,7 @@
 
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
-
+#import <Crashlytics/Crashlytics.h>
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXFileUtility.h"
@@ -81,8 +81,10 @@ static NSURLSession* videosBackgroundSession = nil;
 
 - (void)resumePausedDownloads {
     OEXLogInfo(@"DOWNLOADS", @"Resuming Paused downloads");
+    CLS_LOG(@"resumePausedDownloads");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSArray* array = [self.storage getVideosForDownloadState:OEXDownloadStatePartial];
+        CLS_LOG(@"resumePausedDownloads: videos get successfully");
         for(VideoData* data in array) {
             NSString* file = [OEXFileUtility filePathForVideoURL:data.video_url username:[OEXSession sharedSession].currentUser.username];
             if([[NSFileManager defaultManager] fileExistsAtPath:file]) {
@@ -91,7 +93,9 @@ static NSURLSession* videosBackgroundSession = nil;
             }
             [self downloadVideoForObject:data withCompletionHandler:^(NSURLSessionDownloadTask* downloadTask) {
                     if(downloadTask) {
+                        CLS_LOG(@"resumePausedDownloads: downloadTask");
                         data.dm_id = [NSNumber numberWithUnsignedInteger:downloadTask.taskIdentifier];
+                        CLS_LOG(@"resumePausedDownloads: get data.dm_id successfully");
                     }
                     else {
                         data.dm_id = [NSNumber numberWithInt:0];
@@ -99,27 +103,32 @@ static NSURLSession* videosBackgroundSession = nil;
                 }];
         }
         [self.storage saveCurrentStateToDB];
+        CLS_LOG(@"resumePausedDownloads: saveCurrentStateToDB successfully");
     });
 }
 
 //Start Download for video
 - (void)downloadVideoForObject:(VideoData*)video withCompletionHandler:(void (^)(NSURLSessionDownloadTask* downloadTask))completionHandler {
+    CLS_LOG(@"downloadVideoForObject");
     [self checkIfVideoIsDownloading:video withCompletionHandler:completionHandler];
 }
 
 // Start Download for video Url
 - (void)checkIfVideoIsDownloading:(VideoData*)video withCompletionHandler:(void (^)(NSURLSessionDownloadTask* downloadTask))completionHandler {
+    CLS_LOG(@"checkIfVideoIsDownloading");
     //Check if null
     if(!video.video_url || [video.video_url isEqualToString:@""]) {
         OEXLogError(@"DOWNLOADS", @"Download Manager Empty/Corrupt URL, ignoring");
         video.download_state = [NSNumber numberWithInt: OEXDownloadStateNew];
         video.dm_id = [NSNumber numberWithInt:0];
         [self.storage saveCurrentStateToDB];
+        CLS_LOG(@"checkIfVideoIsDownloading: saveCurrentStateToDB successfully");
         completionHandler(nil);
         return;
     }
 
     [videosBackgroundSession getTasksWithCompletionHandler:^(NSArray* dataTasks, NSArray* uploadTasks, NSArray* downloadTasks) {
+        CLS_LOG(@"checkIfVideoIsDownloading: getTasksWithCompletionHandler");
         //Check if already downloading
         BOOL alreadyInProgress = NO;
         __block NSInteger taskIndex = NSNotFound;
@@ -137,6 +146,7 @@ static NSURLSession* videosBackgroundSession = nil;
             video.download_state = [NSNumber numberWithInt:OEXDownloadStatePartial];
             video.dm_id = [NSNumber numberWithUnsignedInteger:downloadTask.taskIdentifier];
             [self.storage saveCurrentStateToDB];
+            CLS_LOG(@"checkIfVideoIsDownloading: saveCurrentStateToDB successfully");
             completionHandler(downloadTask);
         }
         else {
@@ -151,7 +161,9 @@ static NSURLSession* videosBackgroundSession = nil;
 }
 
 - (void)startDownloadForVideo:(VideoData*)video WithCompletionHandler:(void (^)(NSURLSessionDownloadTask* downloadTask))completionHandler {
+    CLS_LOG(@"startDownloadForVideo");
     NSURLSessionDownloadTask* _downloadTask = [self startBackgroundDownloadForVideo:video];
+    CLS_LOG(@"startDownloadForVideo: downloadTask");
     completionHandler(_downloadTask);
 }
 
