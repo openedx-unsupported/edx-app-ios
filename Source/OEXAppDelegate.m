@@ -115,11 +115,28 @@
 // Respond to URI scheme links
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     // pass the url to the handle deep link call
+    BOOL handled = false;
     if (self.environment.config.fabricConfig.kits.branchConfig.enabled) {
-        [[Branch getInstance] application:app openURL:url options:options];
+        handled = [[Branch getInstance] application:app openURL:url options:options];
+        if (handled) {
+            return handled;
+        }
     }
     
-    return YES;
+    if (self.environment.config.facebookConfig.enabled) {
+        handled = [[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options];
+        if (handled) {
+            return handled;
+        }
+    }
+    
+    if (self.environment.config.googleConfig.enabled){
+        handled = [[GIDSignIn sharedInstance] handleURL:url
+                                   sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                                          annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+    }
+    
+    return handled;
 }
 
 // Respond to Universal Links
