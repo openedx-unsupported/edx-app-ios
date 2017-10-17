@@ -28,13 +28,14 @@ extension OEXRegistrationViewController {
     
     func register(withParameters parameter:[String:String]) {
         self.showProgress(true)
+        let infoDict :[String: String] = [OEXAnalyticsKeyProvider: self.externalProvider?.backendName ?? ""]
+        self.environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue), forComponent: nil, withInfo: infoDict)
         OEXAuthentication.registerUser(withParameters: parameter) { (data: Data?, response: HTTPURLResponse?, error: Error?) in
             if let data = data  {
                 let dictionary: AnyObject = JSONSerialization.oex_JSONObject(with: data, error: nil) as AnyObject
                 let completion: ((_: Data?, _: HTTPURLResponse?, _: Error?) -> Void) = {[weak self] (_ data: Data?, _ response: HTTPURLResponse?, _ error: Error?) -> Void in
                         if let owner = self {
                             if response?.statusCode == OEXHTTPStatusCode.code200OK.rawValue {
-                                let infoDict :[String: String] = [OEXAnalyticsKeyProvider: owner.externalProvider?.backendName ?? ""]
                                 owner.environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationSuccess.rawValue, displayName: AnalyticsDisplayName.RegistrationSuccess.rawValue), forComponent: nil, withInfo: infoDict)
                                 owner.delegate?.registrationViewControllerDidRegister(owner, completion: { _ in })
                             }
