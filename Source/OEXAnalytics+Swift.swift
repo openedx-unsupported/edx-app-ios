@@ -104,13 +104,14 @@ extension OEXAnalytics {
         return event
     }
     
-    @objc static func enrollEvent(courseId: String, name: String, displayName: String) -> OEXAnalyticsEvent {
+    func enrollCourseEvent(courseId: String, name: String, displayName: String) {
         let event = OEXAnalyticsEvent()
         event.name = name
         event.displayName = displayName
         event.category = AnalyticsCategory.Conversion.rawValue
         event.label = courseId
-        return event
+
+        trackEvent(event, forComponent: nil, withInfo: [:])
     }
 
     func trackDiscussionScreen(

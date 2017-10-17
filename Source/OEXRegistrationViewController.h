@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+#import "OEXExternalAuthProvider.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,9 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) OEXRegistrationDescription* registrationDescription;
 @property (strong, nonatomic) LoadStateViewController *loadController;
 @property (strong, nonatomic) id stream;
+@property (strong, nonatomic, readonly, nullable) id <OEXExternalAuthProvider> externalProvider;
+@property (nonatomic, readonly) NSString* externalAccessToken;
+@property (strong, nonatomic, readonly) NSArray* fieldControllers;
 
 - (void)makeFieldControllers;
 - (void)refreshFormFields;
+- (void) showNoNetworkError;
+- (void)showProgress:(BOOL)status;
+- (void)attemptExternalLoginWithProvider:(id <OEXExternalAuthProvider>)provider token:(NSString*)token completion:(void(^)(NSData* data, NSHTTPURLResponse* response, NSError* error))completion;
 
 @end
 

@@ -21,6 +21,7 @@
 #import "OEXNetworkConstants.h"
 #import "NSArray+OEXFunctional.h"
 
+#import "OEXAuthentication.h"
 #import "OEXAccessToken.h"
 #import "OEXAnalytics.h"
 #import "OEXAnalyticsData.h"
@@ -47,6 +48,8 @@
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationViewController.h"
 #import "OEXRegistrationFormField.h"
+#import "OEXRegistrationFieldController.h"
+#import "OEXRegistrationFieldError.h"
 #import "OEXRemovable.h"
 #import "OEXRouter.h"
 #import "OEXSession.h"
@@ -69,6 +72,5 @@
 #import "UIControl+OEXBlockActions.h"
 #import "UIImage+OEXColors.h"
 #import "NSDate+OEXComparisons.h"
-
 #import "NSJSONSerialization+OEXSafeAccess.h"
 
