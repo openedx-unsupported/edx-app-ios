@@ -30,6 +30,7 @@ extension OEXRegistrationViewController {
         self.showProgress(true)
         let infoDict :[String: String] = [OEXAnalyticsKeyProvider: self.externalProvider?.backendName ?? ""]
         self.environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue), forComponent: nil, withInfo: infoDict)
+        
         OEXAuthentication.registerUser(withParameters: parameter) { (data: Data?, response: HTTPURLResponse?, error: Error?) in
             if let data = data  {
                 let dictionary: AnyObject = JSONSerialization.oex_JSONObject(with: data, error: nil) as AnyObject
