@@ -32,8 +32,7 @@ extension OEXRegistrationViewController {
         self.environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue), forComponent: nil, withInfo: infoDict)
         
         OEXAuthentication.registerUser(withParameters: parameter) { (data: Data?, response: HTTPURLResponse?, error: Error?) in
-            if let data = data  {
-                let dictionary: AnyObject = JSONSerialization.oex_JSONObject(with: data, error: nil) as AnyObject
+            if let data = data, error == nil {
                 let completion: ((_: Data?, _: HTTPURLResponse?, _: Error?) -> Void) = {[weak self] (_ data: Data?, _ response: HTTPURLResponse?, _ error: Error?) -> Void in
                         if let owner = self {
                             if response?.statusCode == OEXHTTPStatusCode.code200OK.rawValue {
@@ -63,21 +62,24 @@ extension OEXRegistrationViewController {
                         controllers.setSafeObject(controller, forKey: controller?.field.name ?? "")
                         controller?.handleError("")
                     }
-                    dictionary.enumerateKeysAndObjects({ (key, value, stop) in
-                        let key = key as? String ?? ""
-                        weak var controller: OEXRegistrationFieldController? = controllers[key] as? OEXRegistrationFieldController
-                        if let array = value as? NSArray {
-                          let errorStrings = array.oex_map({ (info) -> Any in
-                                if let info = info as? [AnyHashable: Any] {
-                                    return OEXRegistrationFieldError(dictionary: info).userMessage
-                                }
-                            return  OEXRegistrationFieldError().userMessage
-
-                            })
-                           let errors = (errorStrings as NSArray).componentsJoined(by: " ")
-                            controller?.handleError(errors)
-                        }
-                    })
+                    let dictionary = JSONSerialization.oex_JSONObject(with: data, error: nil) as AnyObject
+                    if dictionary is Dictionary<AnyHashable, Any> {
+                        dictionary.enumerateKeysAndObjects({ (key, value, stop) in
+                            let key = key as? String ?? ""
+                            weak var controller: OEXRegistrationFieldController? = controllers[key] as? OEXRegistrationFieldController
+                            if let array = value as? NSArray {
+                                let errorStrings = array.oex_map({ (info) -> Any in
+                                    if let info = info as? [AnyHashable: Any] {
+                                        return OEXRegistrationFieldError(dictionary: info).userMessage
+                                    }
+                                    return  OEXRegistrationFieldError().userMessage
+                                    
+                                })
+                                let errors = (errorStrings as NSArray).componentsJoined(by: " ")
+                                controller?.handleError(errors)
+                            }
+                        })
+                    }
                     self.showProgress(false)
                     self.refreshFormFields()
                 }
