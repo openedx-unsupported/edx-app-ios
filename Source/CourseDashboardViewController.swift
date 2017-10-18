@@ -215,7 +215,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseDashboard, courseID: courseID, value: nil)
-        
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
