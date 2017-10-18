@@ -166,14 +166,17 @@
         }
         cell.lbl_title.text = videoName;
 
-        if(!downloadingVideo.summary.duration) {
-            cell.lbl_time.text = [Strings myVideosTimeLabel];
+        if (downloadingVideo.summary.hasVideoDuration && downloadingVideo.summary.hasVideoSize) {
+            cell.lbl_time.text = [DateFormatting formatSecondsAsVideoLength: downloadingVideo.summary.duration];
+            cell.lbl_totalSize.text = [downloadingVideo.summary videoSize];
         }
-        else {
+        else if(downloadingVideo.summary.hasVideoDuration) {
             cell.lbl_time.text = [DateFormatting formatSecondsAsVideoLength: downloadingVideo.summary.duration];
         }
+        else if(downloadingVideo.summary.hasVideoSize) {
+            cell.lbl_time.text = [downloadingVideo.summary videoSize];
+        }
         
-        cell.lbl_totalSize.text = [downloadingVideo.summary videoSize];
         float progress = (float)downloadingVideo.downloadProgress;
         [cell.progressView setProgress:progress];
         //
