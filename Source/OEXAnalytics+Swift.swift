@@ -104,7 +104,7 @@ extension OEXAnalytics {
         return event
     }
     
-    func enrollCourseEvent(courseId: String, name: String, displayName: String) {
+    func trackCourseEnrollment(courseId: String, name: String, displayName: String) {
         let event = OEXAnalyticsEvent()
         event.name = name
         event.displayName = displayName

@@ -88,7 +88,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
             self?.actionButton.showProgress = true
             self?.action?( {[weak self] _ in
                             self?.actionButton.showProgress = false
-                            self?.environment.analytics.enrollCourseEvent(courseId: self?.courseCard.course?.course_id ?? "", name: AnalyticsEventName.CourseEnrollmentClicked.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseClicked.rawValue)
+                            self?.environment.analytics.trackCourseEnrollment(courseId: self?.courseCard.course?.course_id ?? "", name: AnalyticsEventName.CourseEnrollmentClicked.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseClicked.rawValue)
             } )
             }, for: .touchUpInside)
         
