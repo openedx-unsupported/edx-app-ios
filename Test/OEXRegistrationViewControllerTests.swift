@@ -22,7 +22,7 @@ class OEXRegistrationViewControllerTests: SnapshotTestCase {
 
         let event = environment.eventTracker.events[0].asEvent!
         XCTAssertEqual(event.event.category, AnalyticsCategory.Conversion.rawValue)
-        XCTAssertEqual(event.event.name, AnalyticsEventName.UserRegistration.rawValue)
+        XCTAssertEqual(event.event.name, AnalyticsEventName.UserRegistrationClick.rawValue)
     }
     
     func requiredTestField() -> OEXMutableRegistrationFormField {

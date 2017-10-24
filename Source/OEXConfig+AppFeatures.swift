@@ -61,7 +61,7 @@ extension OEXConfig {
         
         return false
     }
-    
+        
     var isVideoTranscriptEnabled : Bool {
         return bool(forKey: "VIDEO_TRANSCRIPT_ENABLED")
     }

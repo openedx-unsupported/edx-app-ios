@@ -71,7 +71,28 @@
     XCTAssertNotNil(fabricConfig.kits.branchConfig);
     XCTAssertNotNil(fabricConfig.kits.branchConfig.branchKey);
     XCTAssertTrue(fabricConfig.kits.branchConfig.enabled);
+    XCTAssertTrue(fabricConfig.kits.answersEnabled);
+    XCTAssertTrue(fabricConfig.kits.crashlyticsEnabled);
 }
+
+-(void) testFabricKitsDisable {
+    NSDictionary *configDictionary=@{@"FABRIC":@{@"ENABLED":@YES ,
+                                                 @"FABRIC_KEY":@"fabric_key" ,
+                                                 @"FABRIC_BUILD_SECRET":@"fabric_build_secret",
+                                                 @"KITS":@{@"ANSWERS":@NO, @"CRASHLYTICS":@NO, @"BRANCH": @{@"ENABLED": @NO}}}
+                                     };
+    OEXConfig *config=[[OEXConfig alloc] initWithDictionary:configDictionary];
+    OEXFabricConfig *fabricConfig=[config fabricConfig];
+    XCTAssertTrue(fabricConfig.enabled);
+    XCTAssertNotNil(fabricConfig.appKey);
+    XCTAssertNotNil(fabricConfig.kits);
+    XCTAssertNotNil(fabricConfig.kits.branchConfig);
+    XCTAssertNil(fabricConfig.kits.branchConfig.branchKey);
+    XCTAssertFalse(fabricConfig.kits.branchConfig.enabled);
+    XCTAssertFalse(fabricConfig.kits.answersEnabled);
+    XCTAssertFalse(fabricConfig.kits.crashlyticsEnabled);
+}
+
 
 
 -(void)testFacebookNoConfig{

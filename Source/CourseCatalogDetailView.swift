@@ -18,7 +18,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         let icon : Icon
     }
     
-    typealias Environment = NetworkManagerProvider & OEXStylesProvider
+    typealias Environment = NetworkManagerProvider & OEXStylesProvider & OEXAnalyticsProvider
     
     fileprivate let environment : Environment
     
@@ -86,7 +86,10 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         
         actionButton.oex_addAction({[weak self] _ in
             self?.actionButton.showProgress = true
-            self?.action?( { self?.actionButton.showProgress = false } )
+            self?.action?( {[weak self] _ in
+                            self?.actionButton.showProgress = false
+                            self?.environment.analytics.trackCourseEnrollment(courseId: self?.courseCard.course?.course_id ?? "", name: AnalyticsEventName.CourseEnrollmentClicked.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseClicked.rawValue)
+            } )
             }, for: .touchUpInside)
         
         descriptionView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
