@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="QZv-Oh-XSY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="QZv-Oh-XSY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -22,7 +22,7 @@
             <objects>
                 <navigationController navigationBarHidden="YES" id="QZv-Oh-XSY" sceneMemberID="viewController">
                     <nil key="simulatedTopBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="d3D-qd-xvw">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="d3D-qd-xvw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -121,41 +121,8 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellVideo" rowHeight="50" id="Onf-SS-P0i">
-                                        <rect key="frame" x="0.0" y="191" width="320" height="50"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Onf-SS-P0i" id="BAV-r4-L0c">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="204" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MY VIDEOS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GO9-7U-W3R" customClass="OEXCustomLabel">
-                                                    <rect key="frame" x="30" y="0.0" width="210" height="50"/>
-                                                    <accessibility key="accessibilityConfiguration" label="">
-                                                        <accessibilityTraits key="traits" button="YES" staticText="YES"/>
-                                                    </accessibility>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="separator1.png" translatesAutoresizingMaskIntoConstraints="NO" id="iME-te-g1A">
-                                                    <rect key="frame" x="30" y="49" width="210" height="1"/>
-                                                </imageView>
-                                            </subviews>
-                                            <color key="backgroundColor" red="0.23529411759999999" green="0.25098039220000001" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <constraints>
-                                                <constraint firstItem="GO9-7U-W3R" firstAttribute="top" secondItem="BAV-r4-L0c" secondAttribute="top" id="0vA-9V-Wkg"/>
-                                                <constraint firstItem="GO9-7U-W3R" firstAttribute="leading" secondItem="BAV-r4-L0c" secondAttribute="leadingMargin" constant="22" id="ODm-E4-hv6"/>
-                                                <constraint firstItem="GO9-7U-W3R" firstAttribute="bottom" secondItem="iME-te-g1A" secondAttribute="bottom" id="Ugh-jo-dGS"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="GO9-7U-W3R" secondAttribute="trailing" constant="72" id="egb-J4-Z3M"/>
-                                                <constraint firstItem="GO9-7U-W3R" firstAttribute="centerX" secondItem="iME-te-g1A" secondAttribute="centerX" id="lAC-cI-BIZ"/>
-                                                <constraint firstItem="GO9-7U-W3R" firstAttribute="leading" secondItem="iME-te-g1A" secondAttribute="leading" id="xCr-QA-wxw"/>
-                                                <constraint firstAttribute="bottom" secondItem="GO9-7U-W3R" secondAttribute="bottom" id="xj6-da-Azg"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellVideo" rowHeight="50" id="R5n-Em-Cik" userLabel="CellCourseCatalog">
-                                        <rect key="frame" x="0.0" y="241" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="191" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="R5n-Em-Cik" id="tNK-bC-DHo">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -188,7 +155,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellSetting" rowHeight="50" id="Hmd-TD-4eC" userLabel="CellAccount">
-                                        <rect key="frame" x="0.0" y="291" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="241" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Hmd-TD-4eC" id="4ma-P0-sml">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -221,7 +188,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellDebug" rowHeight="50" id="lzd-ss-mgn">
-                                        <rect key="frame" x="0.0" y="341" width="320" height="50"/>
+                                        <rect key="frame" x="0.0" y="291" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lzd-ss-mgn" id="IyX-WK-94J">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
@@ -273,7 +240,6 @@
                         <outlet property="coursesLabel" destination="Lcp-ZJ-taY" id="Ltg-vL-WbI"/>
                         <outlet property="userNameLabel" destination="Ov6-L3-h2F" id="ey0-hL-y2k"/>
                         <outlet property="userProfilePicture" destination="rh2-oS-pei" id="xmf-XA-MXT"/>
-                        <outlet property="videosLabel" destination="GO9-7U-W3R" id="TmZ-Qu-3xG"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vaP-x7-SEW" userLabel="First Responder" sceneMemberID="firstResponder"/>

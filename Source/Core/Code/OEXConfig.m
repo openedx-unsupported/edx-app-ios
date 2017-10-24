@@ -82,6 +82,14 @@ static OEXConfig* sSharedConfig;
     return [[self objectForKey:key] boolValue];
 }
 
+- (BOOL)boolForKey:(NSString*)key defaultValue:(BOOL) defaultValue {
+    if (![_properties objectForKey:key]) {
+        return defaultValue;
+    }
+    
+    return [self boolForKey:key];
+}
+
 @end
 
 @implementation OEXConfig (OEXKnownConfigs)

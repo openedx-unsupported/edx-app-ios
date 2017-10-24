@@ -59,7 +59,6 @@ extern NSString* OEXSideNavigationChangedStateKey;
 
 #pragma mark Top Level
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated;
-- (void)showMyVideos;
 - (void)showMySettings;
 
 #pragma mark Course Structure
@@ -67,7 +66,6 @@ extern NSString* OEXSideNavigationChangedStateKey;
 
 #pragma mark Videos
 - (void)showDownloadsFromViewController:(UIViewController*)controller;
-- (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(nullable NSMutableArray*) courseData;
 
 @end
 

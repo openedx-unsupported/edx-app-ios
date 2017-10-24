@@ -38,10 +38,6 @@
 
 @implementation OEXDownloadViewController
 
-- (IBAction)navigateToDownloadedVideos {
-    [[OEXRouter sharedRouter] showMyVideos];
-}
-
 #pragma mark - REACHABILITY
 
 - (void)viewWillAppear:(BOOL)animated {
