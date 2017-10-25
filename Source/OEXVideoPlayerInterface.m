@@ -83,10 +83,6 @@
     }
 }
 
-- (void) enableFullscreenAutorotation {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
-}
-
 - (void)playVideoFor:(OEXHelperVideoDownload*)video {
     _moviePlayerController.videoTitle = video.summary.name;
     _moviePlayerController.controls.video = video;
