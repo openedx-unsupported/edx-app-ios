@@ -73,6 +73,7 @@ public class CourseOutlineViewController :
         tableController.delegate = self
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        
     }
     
     
@@ -129,7 +130,7 @@ public class CourseOutlineViewController :
     }
     
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+        return [.portrait , .landscapeLeft , .landscapeRight]
     }
     
     override public func updateViewConstraints() {

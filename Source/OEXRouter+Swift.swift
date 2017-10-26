@@ -87,7 +87,7 @@ extension OEXRouter {
         }
     }
     
-    private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String, forMode mode: CourseOutlineMode? = .Full) -> UIViewController {
+    func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String, forMode mode: CourseOutlineMode? = .Full) -> UIViewController {
         switch type {
             case .Outline:
                 let outlineController = CourseOutlineViewController(environment: self.environment, courseID: courseID, rootID: blockID, forMode: mode)
@@ -235,8 +235,10 @@ extension OEXRouter {
     }
     
     func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
-        let controller = CourseDashboardViewController(environment: self.environment, courseID: courseID)
+    //    let controller = CourseDashboardViewController(environment: self.environment, courseID: courseID)
+        let controller = CourseTabBarViewController(environment: self.environment, courseID: courseID)
         fromController.navigationController?.pushViewController(controller, animated: animated)
+        //fromController.navigationItem.backBarButtonItem?.title = "Course Name"
     }
     
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil) {
