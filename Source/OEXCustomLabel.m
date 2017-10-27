@@ -55,10 +55,6 @@
                 self.font = [[OEXStyles sharedStyles] sansSerifOfSize:self.font.pointSize];
                 break;
 
-            case 204:   // Rareview - MY VIDEOS
-                self.font = [[OEXStyles sharedStyles] sansSerifOfSize:self.font.pointSize];
-                break;
-
             case 205:   // Rareview - settings
                 self.font = [[OEXStyles sharedStyles] sansSerifOfSize:self.font.pointSize];
                 break;

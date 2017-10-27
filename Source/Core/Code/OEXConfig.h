@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable id)objectForKey:(NSString*)key;
 - (nullable NSString*)stringForKey:(NSString*)key;
 - (BOOL)boolForKey:(NSString*)key;
+- (BOOL)boolForKey:(NSString*)key defaultValue:(BOOL) defaultValue;
 
 @end
 

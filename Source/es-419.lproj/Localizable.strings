@@ -70,10 +70,6 @@
 "ACCESSIBILITY_REWIND_HINT" = "Retroceder 30 segundos";
 /* Accessibility label for Seek bar in the Video Player */
 "ACCESSIBILITY_SEEK_BAR" = "Barra de búsqueda";
-/* Accessibility label for Select Button on My Videos List Screen */
-"ACCESSIBILITY_SELECT" = "Seleccionar";
-/* Accessibility label for Select All Button on My Videos List Screen */
-"ACCESSIBILITY_SELECT_ALL" = "Seleccionar todo";
 /* Accessibility label for Settings Button in the Video Player */
 "ACCESSIBILITY_SETTINGS" = "Configuración";
 /* Call to action for Course content on Home Screen */
@@ -344,8 +340,6 @@
 "DOWNLOADING_1_VIDEO"="Descargando 1 video.";
 /*Discover in left drawer(used for courses and programs discovery)*/
 "DISCOVER"="Discover";
-/* Title for Edit button on My Videos Screen */
-"EDIT" = "Editar";
 /* Alert message shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="Al parecer su cliente de correo no está configurado.";
 /* Alert dialog title shown when user tries to send an email, but email isn't setup */
@@ -428,15 +422,8 @@
 "MY_COURSES"="Mis cursos";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="Mis opciones";
-/* Screen title showing a user's downloaded videos */
-"MY_VIDEOS" = "Mis videos";
-/* Video count title in My Videos section*/
-"MY_VIDEOS_VIDEO_COUNT_LABEL" = "{count} Video";
-/* Videos count in My Videos section*/
-"MY_VIDEOS_VIDEOS_COUNT_LABEL" = "{count} Videos";
 /* Time Label in My Videos section*/
 "MY_VIDEOS_TIME_LABEL" = "NA";
-
 /* Marked as answer for endorsed responses */
 "MARKED_ANSWER" = "Marcado como respondido";
 /* Overlay error shown when attempting an action without an internet connection */

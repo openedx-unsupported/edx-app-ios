@@ -22,8 +22,6 @@
 #import "OEXRegistrationViewController.h"
 #import "OEXSession.h"
 #import "OEXDownloadViewController.h"
-#import "OEXMyVideosSubSectionViewController.h"
-#import "OEXMyVideosViewController.h"
 #import "OEXCourse.h"
 #import "SWRevealViewController.h"
 
@@ -191,21 +189,6 @@ OEXRegistrationViewControllerDelegate
 - (void)showDownloadsFromViewController:(UIViewController*)controller {
     OEXDownloadViewController* vc = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
     [controller.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)showVideoSubSectionFromViewController:(UIViewController*) controller forCourse:(OEXCourse*) course withCourseData:(NSMutableArray*) courseData{
-    OEXMyVideosSubSectionViewController* vc = [[UIStoryboard storyboardWithName:@"OEXMyVideosSubSectionViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"MyVideosSubsection"];
-    vc.course = course;
-    vc.arr_CourseData = courseData;
-    vc.environment = self.environment;
-    [controller.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)showMyVideos {
-    OEXMyVideosViewController* videoController = [[UIStoryboard storyboardWithName:@"OEXMyVideosViewController" bundle:nil]instantiateViewControllerWithIdentifier:@"MyVideos"];
-    NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
-    videoController.environment = self.environment;
-    [self showContentStackWithRootController:videoController animated:YES];
 }
 
 - (void)showMySettings {
