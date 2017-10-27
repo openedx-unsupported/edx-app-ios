@@ -109,6 +109,8 @@ class CourseCatalogDetailViewController: UIViewController {
     
     fileprivate func enrollInCourse(completion : @escaping () -> Void) {
         
+        environment.analytics.trackCourseEnrollment(courseId: self.courseID, name: AnalyticsEventName.CourseEnrollmentClicked.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseClicked.rawValue)
+        
         let notEnrolled = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: self.courseID) == nil
         
         guard notEnrolled else {
