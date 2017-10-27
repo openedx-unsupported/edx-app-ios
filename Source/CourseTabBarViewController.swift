@@ -29,20 +29,46 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Course Name"
         self.loadViewControllers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-
+        self.delegate = self
+    }
+    
+    func prepareTabViewData() {
+      
+        if environment.config.isCourseVideosEnabled {
+    
+    //        cellItems.append(item)
+        }
+        //if shouldShowDiscussions(course: <#T##OEXCourse#>)
+        
+       
+        if environment.config.isAnnouncementsEnabled {
+      
+        }
+        
+        if environment.config.courseDatesEnabled {
+      
+        }
+    }
+    
+    private func shouldShowDiscussions(course: OEXCourse) -> Bool {
+        let canShowDiscussions = self.environment.config.discussionsEnabled
+        let courseHasDiscussions = course.hasDiscussionsEnabled
+        return canShowDiscussions && courseHasDiscussions
     }
     
     func loadViewControllers() {
         guard let router = environment.router else { return }
         
-        let courseViewController = router.controllerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, courseID: courseID)
-        let videoViewController = router.controllerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, courseID: courseID, forMode: .Video)
-        let discussionViewController = router.controllerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, courseID: courseID)
-        let courseDatesViewController = router.controllerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, courseID: courseID, forMode: .Video)
+        let courseViewController = CourseOutlineViewController(environment: router.environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Full)
+        let videoViewController = CourseOutlineViewController(environment: router.environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Video)
+        let discussionViewController = DiscussionTopicsViewController(environment: router.environment, courseID: courseID)
+        let courseDatesViewController = CourseDatesViewController(environment:router.environment , courseID: courseID)
+        
         let moreOptionsViewController = router.controllerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, courseID: courseID, forMode: .Video)
         
         
@@ -72,8 +98,12 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
         return .landscapeLeft
     }
     
-    public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        
+
+    public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
+        self.navigationItem.title = viewController.navigationItem.title
     }
+    
+    
+
 
 }
