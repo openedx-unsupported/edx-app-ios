@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let titleLabelCenterYOffset : CGFloat = -8
+private let titleLabelCenterYOffset : CGFloat = -10
 private let subtitleLabelCenterYOffset : CGFloat = 8
 
 public class CourseOutlineHeaderView: UIView {
@@ -27,15 +27,15 @@ public class CourseOutlineHeaderView: UIView {
     }
     
     private var labelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .semiBold, size: .xSmall, color: contrastColor)
+        return OEXTextStyle(weight: .normal, size: .base, color: contrastColor)
     }
     
     private var subtitleLabelStyle : OEXTextStyle {
-        return OEXTextStyle(weight: .normal, size: .small, color : OEXStyles.shared().neutralBlack())
+        return OEXTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
     }
     
     private var viewButtonStyle : ButtonStyle {
-        let textStyle = OEXTextStyle(weight: .semiBold, size: .small, color : contrastColor)
+        let textStyle = OEXTextStyle(weight: .normal, size: .large, color : contrastColor)
         return ButtonStyle(textStyle: textStyle, backgroundColor: nil, borderStyle: nil)
     }
     
