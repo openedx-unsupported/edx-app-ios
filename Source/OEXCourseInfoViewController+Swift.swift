@@ -11,14 +11,16 @@ import Foundation
 extension OEXCourseInfoViewController {
  
     func enrollInCourse(courseID: String, emailOpt: Bool) {
+        
+        let environment = OEXRouter.shared().environment;
+        environment.analytics.trackCourseEnrollment(courseId: courseID, name: AnalyticsEventName.CourseEnrollmentClicked.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseClicked.rawValue)
+        
         guard let _ = OEXSession.shared()?.currentUser else {
             OEXRouter.shared().showSignUpScreen(from: self, completion: {
                 self.enrollInCourse(courseID: courseID, emailOpt: emailOpt)
             })
             return;
         }
-        
-        let environment = OEXRouter.shared().environment;
         
         if let _ = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID) {
             showMainScreen(withMessage: Strings.findCoursesAlreadyEnrolledMessage, courseID: courseID)

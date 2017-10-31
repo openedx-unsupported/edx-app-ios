@@ -12,7 +12,7 @@ import Crashlytics
 
 class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
 
-    let trackEventsAllowed = [AnalyticsDisplayName.EnrolledCourseClicked.rawValue, AnalyticsDisplayName.EnrolledCourseSuccess.rawValue, AnalyticsDisplayName.CreateAccount.rawValue, AnalyticsDisplayName.RegistrationSuccess.rawValue]
+    let trackEventsAllowed = [AnalyticsDisplayName.EnrolledCourseSuccess.rawValue, AnalyticsDisplayName.RegistrationSuccess.rawValue]
     
     var currentOrientationValue : String {
         return UIInterfaceOrientationIsLandscape(UIApplication.shared.statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
