@@ -31,10 +31,6 @@ class CourseCardViewModel : NSObject {
         return course.courseImageURL
     }
     
-    static func onMyVideos(course: OEXCourse, collectionInfo: String) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: collectionInfo, persistImage: true)
-    }
-    
     static func onHome(course: OEXCourse) -> CourseCardViewModel {
         return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: course.nextRelevantDateUpperCaseString, persistImage: true)
     }

@@ -174,7 +174,7 @@ private class BottomBarView: UIView, NSCopying {
             }, for: .touchUpInside, analyticsEvent: signInEvent)
         
         registerButton.setTitle(Strings.registerText, for: .normal)
-        let signUpEvent = OEXAnalytics.registerEvent()
+        let signUpEvent = OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue)
         registerButton.oex_addAction({ [weak self] _ in
             self?.showRegistration()
             }, for: .touchUpInside, analyticsEvent: signUpEvent)

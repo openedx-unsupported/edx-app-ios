@@ -401,15 +401,6 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
-- (void)trackRegistrationWithProvider:(NSString *)provider {
-    OEXAnalyticsEvent* event = [OEXAnalytics registerEvent];
-    
-    NSMutableDictionary* properties = [[NSMutableDictionary alloc] init];
-    [properties setObjectOrNil:provider forKey:OEXAnalyticsKeyProvider];
-
-    [self trackEvent:event forComponent:nil withInfo:properties];
-}
-
 #pragma mark - Course Navigation
 
 - (void)trackViewedComponentForCourseWithID:(NSString*)courseID blockID:(NSString*)blockID minifiedBlockID: (NSString*)minifiedBlockID {
@@ -482,11 +473,6 @@ static OEXAnalytics* sAnalytics;
     event.displayName = @"Find Courses Clicked";
     event.category = OEXAnalyticsCategoryUserEngagement;
     event.label = @"course-discovery";
-    [self trackEvent:event forComponent:nil withInfo:@{}];
-}
-
-- (void)trackUserEnrolledInCourse:(NSString*)courseID {
-    OEXAnalyticsEvent* event = [OEXAnalytics enrollEventWithCourseId:courseID];
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
