@@ -96,6 +96,7 @@
 		223895D01F25CF76005B9C15 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */; };
 		223895D11F25CF76005B9C15 /* SwipeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CD1F25CF76005B9C15 /* SwipeAnimator.swift */; };
 		223895D21F25CF76005B9C15 /* SwipeCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CE1F25CF76005B9C15 /* SwipeCellActionView.swift */; };
+		223A98FC1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223A98FB1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift */; };
 		223DD6BB1F9F5A4B004A21B9 /* CourseTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DD6BA1F9F5A4B004A21B9 /* CourseTabBarViewController.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
@@ -908,6 +909,7 @@
 		223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
 		223895CD1F25CF76005B9C15 /* SwipeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAnimator.swift; sourceTree = "<group>"; };
 		223895CE1F25CF76005B9C15 /* SwipeCellActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellActionView.swift; sourceTree = "<group>"; };
+		223A98FB1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardAdditionalViewController.swift; sourceTree = "<group>"; };
 		223DD6BA1F9F5A4B004A21B9 /* CourseTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTabBarViewController.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		228E0B8C1F431F7B0073E6FA /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
@@ -3129,6 +3131,7 @@
 				9EF21A9D1B4697CA000048F8 /* CourseLastAccessedController.swift */,
 				9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */,
 				1A5AC57E1B94ECDA00885187 /* Course Card */,
+				223A98FB1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -4430,6 +4433,7 @@
 				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,
 				1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */,
 				E0A1A03B1E93A7B100510488 /* EdgeInsets.swift in Sources */,
+				223A98FC1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift in Sources */,
 				77F76A6E1B0BD32A00ED3E39 /* OEXSession+Authorization.swift in Sources */,
 				228E0B8F1F43208C0073E6FA /* AccountViewCell.swift in Sources */,
 				9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */,

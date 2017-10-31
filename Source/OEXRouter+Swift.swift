@@ -235,10 +235,15 @@ extension OEXRouter {
     }
     
     func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
-    //    let controller = CourseDashboardViewController(environment: self.environment, courseID: courseID)
-        let controller = CourseTabBarViewController(environment: self.environment, courseID: courseID)
+        
+        let controller : UIViewController
+        if environment.config.isTabDashboardEnabled {
+            controller = CourseTabBarViewController(environment: self.environment, courseID: courseID)
+        }
+        else {
+            controller = CourseDashboardViewController(environment: self.environment, courseID: courseID)
+        }
         fromController.navigationController?.pushViewController(controller, animated: animated)
-        //fromController.navigationItem.backBarButtonItem?.title = "Course Name"
     }
     
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil) {
