@@ -237,7 +237,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             make.top.equalTo(headerContainer)
             let _ = (lastAssecss) ? make.bottom.equalTo(lastAccessedView.snp_top) : make.bottom.equalTo(headerContainer)
             
-            if courseOutlineMode != CourseOutlineMode.Full || !environment.config.isNewDashboardEnabled {
+            if courseOutlineMode != CourseOutlineMode.Full || !environment.config.isTabsDashboardEnabled {
                 make.height.equalTo(0)
             }
         }

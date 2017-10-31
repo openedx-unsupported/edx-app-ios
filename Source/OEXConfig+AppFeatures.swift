@@ -90,7 +90,7 @@ extension OEXConfig {
         return bool(forKey: "ANNOUNCEMENTS_ENABLED")
     }
     
-    var isNewDashboardEnabled: Bool {
-        return bool(forKey: "NEW_DASHBOARD_ENABLED")
+    var isTabsDashboardEnabled: Bool {
+        return bool(forKey: "TABS_DASHBOARD_ENABLED")
     }
 }
