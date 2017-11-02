@@ -160,17 +160,15 @@ static OEXInterface* _sharedInterface = nil;
     NSMutableString* URLString = [NSMutableString stringWithString:[OEXConfig sharedConfig].apiHostURL.absoluteString];
 
     if([type isEqualToString:URL_USER_DETAILS]) {
-        [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
+        [URLString appendFormat:@"%@/%@?format=json", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
     }
     else if([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
-        [URLString appendFormat:@"%@/%@%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username, URL_COURSE_ENROLLMENTS];
+        URLString = [[OEXInterface sharedInterface] formatEnrollmentWithUrl:URLString];
     }
     else {
         return nil;
     }
-    //Append tail
-    [URLString appendString:@"?format=json"];
-
+    
     return URLString;
 }
 

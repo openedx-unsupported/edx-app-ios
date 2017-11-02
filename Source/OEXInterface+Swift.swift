@@ -8,6 +8,19 @@
 
 import Foundation
 
+extension OEXInterface {
+    @objc public func formatEnrollment(url : NSMutableString) -> NSMutableString {
+        if let orgCode = OEXConfig.shared().organizationCode() {
+            url.appendFormat("%@/%@%@?org=%@", URL_USER_DETAILS, (OEXSession.shared()?.currentUser?.username)!, URL_COURSE_ENROLLMENTS, orgCode)
+        } else {
+            url.appendFormat("%@/%@%@", URL_USER_DETAILS, (OEXSession.shared()?.currentUser?.username)!, URL_COURSE_ENROLLMENTS)
+        }
+        
+        url.append("&format=json")
+        return url
+    }
+}
+
 extension OEXInterface : LastAccessedProvider {
     
     public func getLastAccessedSectionForCourseID(courseID : String) -> CourseLastAccessed? {
