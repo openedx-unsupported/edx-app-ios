@@ -24,6 +24,7 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
     private let courseID: String
     private let environment: Environment
     fileprivate var tabBarItems : [CoursesTabBarItem] = []
+    fileprivate let loadController = LoadStateViewController()
     
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
@@ -47,10 +48,12 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
         super.viewDidLoad()
         self.title = "Course Name"
         
+        loadController.setupInController(controller: self, contentView: self.view)
         courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
         courseStream.listen(self) {[weak self] in
             self?.resultLoaded(result: $0)
         }
+        
         self.progressController.hideProgessView()
     }
     
@@ -139,6 +142,7 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
     }
     
     func loadedCourseWithEnrollment(enrollment: UserCourseEnrollment) {
+        verifyAccessForCourse(course: enrollment.course)
         prepareTabViewData(enrollment: enrollment)
         addNavigationItems(enrollment: enrollment)
     }
@@ -151,12 +155,20 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
             if !courseStream.active {
                 // enrollment list is cached locally, so if the stream is still active we may yet load the course
                 // don't show failure until the stream is done
-                //self.loadController.state = LoadState.failed(error: error)
+                self.loadController.state = LoadState.failed(error: error)
             }
         }
     }
     
-    
+    private func verifyAccessForCourse(course: OEXCourse) {
+        if let access = course.courseware_access, !access.has_access {
+            loadController.state = LoadState.failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info), icon: Icon.UnknownError)
+        }
+        else {
+            loadController.state = .Loaded
+        }
+        
+    }
     
     private func shouldShowDiscussions(course: OEXCourse) -> Bool {
         let canShowDiscussions = self.environment.config.discussionsEnabled
