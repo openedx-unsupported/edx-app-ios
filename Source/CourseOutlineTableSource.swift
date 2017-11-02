@@ -59,10 +59,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         headerContainer.addSubview(lastAccessedView)
         headerContainer.addSubview(courseCard)
         
-        if let enrollment = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID) {
-            CourseCardViewModel.onCourseOutline(course: enrollment.course).apply(card: courseCard, networkManager: environment.networkManager)
+        if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, environment.config.isTabsDashboardEnabled {
+            CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
             refreshTableHeaderView(lastAssecss: false)
         }
+        
         refreshController.setupInScrollView(scrollView: tableView)
     }
     
@@ -237,7 +238,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             make.top.equalTo(headerContainer)
             let _ = (lastAssecss) ? make.bottom.equalTo(lastAccessedView.snp_top) : make.bottom.equalTo(headerContainer)
             
-            if courseOutlineMode != CourseOutlineMode.Full || !environment.config.isTabsDashboardEnabled {
+            if courseOutlineMode != .Full || !environment.config.isTabsDashboardEnabled {
                 make.height.equalTo(0)
             }
         }
@@ -256,7 +257,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
 extension UITableView {
     //set the tableHeaderView so that the required height can be determined, update the header's frame and set it again
     func setAndLayoutTableHeaderView(header: UIView) {
-        tableHeaderView = header
         header.setNeedsLayout()
         header.layoutIfNeeded()
         let size = header.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
