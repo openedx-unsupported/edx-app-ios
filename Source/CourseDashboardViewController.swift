@@ -8,6 +8,30 @@
 
 import UIKit
 
+protocol CourseDashboardItem {
+    var identifier: String { get }
+    var action:(() -> Void) { get }
+    var height: CGFloat { get }
+    
+    func decorateCell(cell: UITableViewCell)
+}
+
+struct StandardCourseDashboardItem : CourseDashboardItem {
+    let identifier = CourseDashboardCell.identifier
+    let height:CGFloat = 85.0
+    
+    let title: String
+    let detail: String
+    let icon : Icon
+    let action:(() -> Void)
+    
+    
+    typealias CellType = CourseDashboardCell
+    func decorateCell(cell: UITableViewCell) {
+        guard let dashboardCell = cell as? CourseDashboardCell else { return }
+        dashboardCell.useItem(item: self)
+    }
+}
 
 struct CertificateDashboardItem: CourseDashboardItem {
     let identifier = CourseCertificateCell.identifier
@@ -340,7 +364,8 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
 extension CourseDashboardViewController {
     
     func t_canVisitDiscussions() -> Bool {
-        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Discussions }) != nil
+        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in
+            return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Discussions }) != nil
     }
     
     func t_canVisitHandouts() -> Bool {

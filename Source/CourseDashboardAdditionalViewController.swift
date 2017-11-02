@@ -8,32 +8,6 @@
 
 import UIKit
 
-protocol CourseDashboardItem {
-    var identifier: String { get }
-    var action:(() -> Void) { get }
-    var height: CGFloat { get }
-    
-    func decorateCell(cell: UITableViewCell)
-}
-
-struct StandardCourseDashboardItem : CourseDashboardItem {
-    let identifier = CourseDashboardCell.identifier
-    let height:CGFloat = 85.0
-    
-    let title: String
-    let detail: String
-    let icon : Icon
-    let action:(() -> Void)
-    
-    
-    typealias CellType = CourseDashboardCell
-    func decorateCell(cell: UITableViewCell) {
-        guard let dashboardCell = cell as? CourseDashboardCell else { return }
-        dashboardCell.useItem(item: self)
-    }
-}
-
-
 class CourseDashboardAdditionalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & OEXRouterProvider
@@ -43,13 +17,13 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     private let tableView: UITableView = UITableView()
     fileprivate var cellItems: [CourseDashboardItem] = []
     
-    public init(environment: Environment, courseID: String, enrollment: UserCourseEnrollment) {
+    public init(environment: Environment, courseID: String, enrollment: UserCourseEnrollment,cellItems:[CoursesTabBarItem]) {
         self.environment = environment
         self.courseID = courseID
         self.enrollment = enrollment
         
         super.init(nibName: nil, bundle: nil)
-        
+        self.prepareTableViewData(enrollment: enrollment, items: cellItems)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -59,7 +33,7 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = OEXStyles.shared().neutralXLight()
-        
+        self.title = Strings.resourses
         
         tableView.isScrollEnabled = false
         
@@ -67,6 +41,7 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = UIColor.clear
+        tableView.tableFooterView = UIView()
         self.view.addSubview(tableView)
         
         // Register tableViewCell
@@ -80,26 +55,17 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        prepareTableViewData(enrollment: enrollment)
+        self.tableView.reloadData()
     }
     
-    public func prepareTableViewData(enrollment: UserCourseEnrollment) {
+    public func prepareTableViewData(enrollment: UserCourseEnrollment, items:[CoursesTabBarItem]) {
         cellItems = []
-        
-        if shouldShowHandouts(course: enrollment.course) {
-            let item = StandardCourseDashboardItem(title: Strings.Dashboard.courseHandouts, detail: Strings.Dashboard.courseHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
-                self?.showHandouts()
+        for item in items {
+            let standardCourseItem = StandardCourseDashboardItem(title: item.title, detail: item.detailText, icon: item.icon) {
+                self.navigationController?.pushViewController(item.viewController, animated: true)
             }
-            cellItems.append(item)
+            cellItems.append(standardCourseItem)
         }
-        
-        if environment.config.isAnnouncementsEnabled {
-            let item = StandardCourseDashboardItem(title: Strings.Dashboard.courseAnnouncements, detail: Strings.Dashboard.courseAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
-                self?.showAnnouncements()
-            }
-            cellItems.append(item)
-        }
-        self.tableView.reloadData()
     }
     
     // MARK: - TableView Data and Delegate
