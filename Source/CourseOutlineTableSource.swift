@@ -18,14 +18,16 @@ protocol CourseOutlineTableControllerDelegate : class {
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider
     
     weak var delegate : CourseOutlineTableControllerDelegate?
     private let environment : Environment
     let courseQuerier : CourseOutlineQuerier
     let courseID : String
     private var courseOutlineMode: CourseOutlineMode
-    private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 44))
+    
+    private let courseCard = CourseCardView(frame: CGRect.zero)
+    private let headerContainer = UIView()
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
     init(environment : Environment, courseID : String, forMode mode: CourseOutlineMode) {
@@ -55,11 +57,14 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.register(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
         headerContainer.addSubview(lastAccessedView)
-        lastAccessedView.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(self.headerContainer)
+        headerContainer.addSubview(courseCard)
+        
+        if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, environment.config.isTabsDashboardEnabled {
+            CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
+            refreshTableHeaderView(lastAssecss: false)
         }
         
-        refreshController.setupInScrollView(scrollView: self.tableView)
+        refreshController.setupInScrollView(scrollView: tableView)
     }
     
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
@@ -209,14 +214,53 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     /// Shows the last accessed Header from the item as argument. Also, sets the relevant action if the course block exists in the course outline.
     func showLastAccessedWithItem(item : CourseLastAccessed) {
-        tableView.tableHeaderView = self.headerContainer
         lastAccessedView.subtitleText = item.moduleName
         lastAccessedView.setViewButtonAction { [weak self] _ in
             self?.choseViewLastAccessedWithItem(item: item)
         }
+        
+        refreshTableHeaderView(lastAssecss: true)
     }
     
     func hideLastAccessed() {
+        refreshTableHeaderView(lastAssecss: false)
+    }
+    
+    func hideTableHeaderView() {
         tableView.tableHeaderView = nil
+    }
+    
+    private func refreshTableHeaderView(lastAssecss: Bool) {
+        courseCard.snp_remakeConstraints { (make) in
+            make.trailing.equalTo(headerContainer)
+            make.leading.equalTo(headerContainer)
+            make.width.equalTo(UIScreen.main.bounds.size.width)
+            make.top.equalTo(headerContainer)
+            let _ = (lastAssecss) ? make.bottom.equalTo(lastAccessedView.snp_top) : make.bottom.equalTo(headerContainer)
+            
+            if courseOutlineMode != .Full || !environment.config.isTabsDashboardEnabled {
+                make.height.equalTo(0)
+            }
+        }
+        
+        lastAccessedView.snp_remakeConstraints { (make) -> Void in
+            make.trailing.equalTo(courseCard)
+            make.leading.equalTo(courseCard)
+            let _ = lastAssecss ? make.height.equalTo(72) : make.height.equalTo(0)
+            make.bottom.equalTo(headerContainer)
+        }
+        
+        tableView.setAndLayoutTableHeaderView(header: headerContainer)
+    }
+}
+
+extension UITableView {
+    //set the tableHeaderView so that the required height can be determined, update the header's frame and set it again
+    func setAndLayoutTableHeaderView(header: UIView) {
+        header.setNeedsLayout()
+        header.layoutIfNeeded()
+        let size = header.systemLayoutSizeFitting(UILayoutFittingCompressedSize)
+        header.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        tableHeaderView = header
     }
 }

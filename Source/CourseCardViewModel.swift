@@ -43,6 +43,10 @@ class CourseCardViewModel : NSObject {
         return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: course.nextRelevantDateUpperCaseString, persistImage: false, wrapTitle: wrapTitle)
     }
     
+    static func onCourseOutline(course: OEXCourse) -> CourseCardViewModel {
+        return CourseCardViewModel(course: course, detailText: course.courseRunIncludingNextDate, bottomTrailingText: nil, persistImage: true, wrapTitle: true)
+    }
+    
     func apply(card : CourseCardView, networkManager: NetworkManager) {
         card.titleText = title
         card.detailText = detailText
