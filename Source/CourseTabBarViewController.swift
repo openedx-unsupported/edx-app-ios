@@ -159,7 +159,7 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
     private func verifyAccessForCourse(enrollment: UserCourseEnrollment){
         if let access = enrollment.course.courseware_access, !access.has_access {
          loadStateErrorController.loadController.state = LoadState.failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: enrollment.course.start_display_info), icon: Icon.UnknownError)
-            
+            setTabBarVisible(visible: false, animated: true)
         }
         else {
             loadStateErrorController.loadController.state = .Loaded
@@ -191,6 +191,32 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
             self.present(controller, animated: true, completion: nil)
         }
     }
+    
+    func setTabBarVisible(visible: Bool, animated: Bool) {
+        //* This cannot be called before viewDidLayoutSubviews(), because the frame is not set before this time
+        
+        // bail if the current state matches the desired state
+        if (isTabBarVisible == visible) { return }
+        
+        // get a frame calculation ready
+        let frame = self.tabBar.frame
+        let height = frame.size.height
+        let offsetY = (visible ? -height : height)
+        
+        // zero duration means no animation
+        let duration: TimeInterval = (animated ? 0.3 : 0.0)
+        
+        //  animate the tabBar
+        UIView.animate(withDuration: duration) {
+            self.tabBar.frame = frame.offsetBy(dx: 0, dy: offsetY)
+            return
+        }
+    }
+    
+    var isTabBarVisible: Bool {
+        return self.tabBar.frame.origin.y < self.view.frame.maxY
+    }
+
 }
 
 // MARK: Testing

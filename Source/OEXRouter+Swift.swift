@@ -237,7 +237,7 @@ extension OEXRouter {
     func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
         
         let controller : UIViewController
-        if environment.config.isAnnouncementsEnabled {
+        if environment.config.isTabsDashboardEnabled {
             controller = CourseTabBarViewController(environment: self.environment, courseID: courseID)
         }
         else {
