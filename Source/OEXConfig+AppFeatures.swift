@@ -83,4 +83,8 @@ extension OEXConfig {
     var isAnnouncementsEnabled: Bool {
         return bool(forKey: "ANNOUNCEMENTS_ENABLED")
     }
+    
+    var isTabsDashboardEnabled: Bool {
+        return bool(forKey: "TABS_DASHBOARD_ENABLED")
+    }
 }
