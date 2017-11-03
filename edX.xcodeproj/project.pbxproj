@@ -94,6 +94,7 @@
 		223895D11F25CF76005B9C15 /* SwipeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CD1F25CF76005B9C15 /* SwipeAnimator.swift */; };
 		223895D21F25CF76005B9C15 /* SwipeCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CE1F25CF76005B9C15 /* SwipeCellActionView.swift */; };
 		223A5F201FA9AA8F008C9963 /* CourseTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223A5F1F1FA9AA8F008C9963 /* CourseTabBarViewControllerTests.swift */; };
+		223A5F221FAB4F72008C9963 /* CourseTabBarErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223A5F211FAB4F72008C9963 /* CourseTabBarErrorViewController.swift */; };
 		223A98FC1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223A98FB1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift */; };
 		223DD6BB1F9F5A4B004A21B9 /* CourseTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DD6BA1F9F5A4B004A21B9 /* CourseTabBarViewController.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
@@ -899,6 +900,7 @@
 		223895CD1F25CF76005B9C15 /* SwipeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAnimator.swift; sourceTree = "<group>"; };
 		223895CE1F25CF76005B9C15 /* SwipeCellActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellActionView.swift; sourceTree = "<group>"; };
 		223A5F1F1FA9AA8F008C9963 /* CourseTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTabBarViewControllerTests.swift; sourceTree = "<group>"; };
+		223A5F211FAB4F72008C9963 /* CourseTabBarErrorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTabBarErrorViewController.swift; sourceTree = "<group>"; };
 		223A98FB1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardAdditionalViewController.swift; sourceTree = "<group>"; };
 		223DD6BA1F9F5A4B004A21B9 /* CourseTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTabBarViewController.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
@@ -1987,6 +1989,7 @@
 			isa = PBXGroup;
 			children = (
 				223DD6BA1F9F5A4B004A21B9 /* CourseTabBarViewController.swift */,
+				223A5F211FAB4F72008C9963 /* CourseTabBarErrorViewController.swift */,
 			);
 			name = "Tab Layout Dashboard";
 			sourceTree = "<group>";
@@ -4251,6 +4254,7 @@
 				77AFD11C1C1B76D0001985FD /* NSObject+SafeKVO.swift in Sources */,
 				9EE684CB1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift in Sources */,
 				7C2DD5511D4A790F006148E0 /* UserPreferenceAPI.swift in Sources */,
+				223A5F221FAB4F72008C9963 /* CourseTabBarErrorViewController.swift in Sources */,
 				9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */,
 				19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */,
 				7784C68B1B03BA1E00529C7C /* LoadStateViewController.swift in Sources */,

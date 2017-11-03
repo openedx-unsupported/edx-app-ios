@@ -25,7 +25,7 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
     private let environment: Environment
     fileprivate var tabBarItems : [CoursesTabBarItem] = []
     fileprivate let loadController = LoadStateViewController()
-    
+    private let loadStateErrorController = CourseTabBarErrorViewController()
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
     }()
@@ -37,7 +37,6 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
         self.courseID = courseID
         
         super.init(nibName: nil, bundle: nil)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -48,7 +47,8 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
         super.viewDidLoad()
         self.title = "Course Name"
         
-        loadController.setupInController(controller: self, contentView: self.view)
+        self.viewControllers = [loadStateErrorController]
+        
         courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
         courseStream.listen(self) {[weak self] in
             self?.resultLoaded(result: $0)
@@ -66,7 +66,6 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    
     public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         self.navigationItem.title = viewController.navigationItem.title
     }
@@ -75,8 +74,7 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
         let shareButton = UIBarButtonItem(image: UIImage(named: "shareCourse.png"), style: UIBarButtonItemStyle.plain, target: self, action: nil)
         shareButton.oex_setAction { [weak self] in
             self?.shareCourse(course: enrollment.course)
-        }
-        
+        }        
         navigationItem.rightBarButtonItems = [shareButton]
     }
     
@@ -142,9 +140,7 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
     }
     
     func loadedCourseWithEnrollment(enrollment: UserCourseEnrollment) {
-        verifyAccessForCourse(course: enrollment.course)
-        prepareTabViewData(enrollment: enrollment)
-        addNavigationItems(enrollment: enrollment)
+        verifyAccessForCourse(enrollment: enrollment)
     }
     
     private func resultLoaded(result : Result<UserCourseEnrollment>) {
@@ -155,17 +151,20 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
             if !courseStream.active {
                 // enrollment list is cached locally, so if the stream is still active we may yet load the course
                 // don't show failure until the stream is done
-                self.loadController.state = LoadState.failed(error: error)
+                loadStateErrorController.loadController.state = LoadState.failed(error: error)
             }
         }
     }
-    
-    private func verifyAccessForCourse(course: OEXCourse) {
-        if let access = course.courseware_access, !access.has_access {
-            loadController.state = LoadState.failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info), icon: Icon.UnknownError)
+
+    private func verifyAccessForCourse(enrollment: UserCourseEnrollment){
+        if let access = enrollment.course.courseware_access, !access.has_access {
+         loadStateErrorController.loadController.state = LoadState.failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: enrollment.course.start_display_info), icon: Icon.UnknownError)
+            
         }
         else {
-            loadController.state = .Loaded
+            loadStateErrorController.loadController.state = .Loaded
+            prepareTabViewData(enrollment: enrollment)
+            addNavigationItems(enrollment: enrollment)
         }
         
     }

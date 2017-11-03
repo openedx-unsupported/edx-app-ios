@@ -68,7 +68,7 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
             }
         }
     }
-    /*
+    
     func testAnnouncementsEnabled() {
         for isAnnouncementsEnabled in [true, false] {
             let config = OEXConfig(discussionsEnabled: true, isAnnouncementsEnabled:isAnnouncementsEnabled)
@@ -88,8 +88,7 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
             }
         }
     }
-     */
-    
+
     func testSharing() {
         let courseData = OEXCourse.testData(aboutUrl: "http://www.yahoo.com")
         let enrollment = UserCourseEnrollment(dictionary: ["course" : courseData])!
