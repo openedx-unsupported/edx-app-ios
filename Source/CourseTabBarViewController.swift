@@ -25,7 +25,7 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
     private let environment: Environment
     fileprivate var tabBarItems : [CoursesTabBarItem] = []
     fileprivate let loadController = LoadStateViewController()
-    private let loadStateErrorController = CourseTabBarErrorViewController()
+    fileprivate let loadStateErrorController = CourseTabBarErrorViewController()
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
     }()
@@ -232,6 +232,10 @@ extension CourseTabBarViewController {
 
     func t_canVisitAnnouncements() -> Bool {
         return self.tabBarItems.firstIndexMatching({ (item: CoursesTabBarItem) in return item.icon == .Announcements }) != nil
+    }
+    
+    var t_state : LoadState {
+        return self.loadStateErrorController.loadController.state
     }
 
     var t_loaded : OEXStream<()> {

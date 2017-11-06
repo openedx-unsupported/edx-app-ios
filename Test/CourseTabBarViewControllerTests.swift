@@ -12,11 +12,12 @@ import edXCore
 
 private extension OEXConfig {
     
-    convenience init(discussionsEnabled : Bool, courseSharingEnabled: Bool = false, courseVideosEnabled: Bool = false, isAnnouncementsEnabled: Bool = true) {
+    convenience init(courseVideosEnabled: Bool = false, courseDatesEnabled: Bool = true, discussionsEnabled : Bool, courseSharingEnabled: Bool = false, isAnnouncementsEnabled: Bool = true) {
         self.init(dictionary: [
+            "COURSE_VIDEOS_ENABLED" : courseVideosEnabled,
+            "COURSE_DATES_ENABLED" : courseDatesEnabled,
             "DISCUSSIONS_ENABLED": discussionsEnabled,
             "COURSE_SHARING_ENABLED": courseSharingEnabled,
-            "COURSE_VIDEOS_ENABLED": courseVideosEnabled,
             "ANNOUNCEMENTS_ENABLED": isAnnouncementsEnabled
             ]
         )
@@ -48,7 +49,7 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
             }
         }
     }
-    
+
     func testHandoutsEnabled() {
         for hasHandoutsUrl in [true, false] {
             let config = OEXConfig(discussionsEnabled: true)
@@ -88,23 +89,41 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
             }
         }
     }
-
-    func testSharing() {
-        let courseData = OEXCourse.testData(aboutUrl: "http://www.yahoo.com")
-        let enrollment = UserCourseEnrollment(dictionary: ["course" : courseData])!
-        
-        let config = OEXConfig(discussionsEnabled: true, courseSharingEnabled: true)
-        
+    
+    func testSnapshot() {
+        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true)
+        let course = OEXCourse.freshCourse()
         let environment = TestRouterEnvironment(config: config)
-        environment.mockEnrollmentManager.enrollments = [enrollment]
+        environment.mockEnrollmentManager.courses = [course]
         environment.logInTestUser()
         
-        let controller = CourseTabBarViewController(environment: environment, courseID: enrollment.course.course_id!)
-        
-        self.inScreenNavigationContext(controller) {
+        let controller = CourseTabBarViewController(environment: environment, courseID: course.course_id!)
+        inScreenNavigationContext(controller, action: { () -> () in
+            assertSnapshotValidWithContent(controller.navigationController!)
+        })
+    }
+    
+    func testAccessOkay() {
+        let course = OEXCourse.freshCourse()
+        let environment = TestRouterEnvironment()
+        environment.mockEnrollmentManager.courses = [course]
+        environment.logInTestUser()
+        let controller = CourseTabBarViewController(environment: environment, courseID: course.course_id!)
+        inScreenDisplayContext(controller) {
             waitForStream(controller.t_loaded)
-            self.assertSnapshotValidWithContent(controller.navigationController!)
+            XCTAssertTrue(controller.t_state.isLoaded)
         }
     }
-
+    
+    func testAccessBlocked() {
+        let course = OEXCourse.freshCourse(accessible: false)
+        let environment = TestRouterEnvironment()
+        environment.mockEnrollmentManager.courses = [course]
+        environment.logInTestUser()
+        let controller = CourseTabBarViewController(environment: environment, courseID: course.course_id!)
+        inScreenDisplayContext(controller) {
+            waitForStream(controller.t_loaded)
+            XCTAssertTrue(controller.t_state.isError)
+        }
+    }
 }
