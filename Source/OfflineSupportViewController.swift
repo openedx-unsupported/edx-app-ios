@@ -14,7 +14,7 @@ import Foundation
 public class OfflineSupportViewController: UIViewController {
     typealias Env = ReachabilityProvider
     private let environment : Env
-    
+
     init(env: Env) {
         self.environment = env
         super.init(nibName: nil, bundle: nil)

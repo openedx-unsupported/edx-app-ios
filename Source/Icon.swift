@@ -146,7 +146,6 @@ public enum Icon {
     case Warning
     case DeleteIcon
     case EllipsisHorizontal
-    case shareAlt
     
     private var renderer : IconRenderer {
         switch self {
@@ -268,8 +267,6 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Exclamation)
         case .EllipsisHorizontal:
             return FontAwesomeRenderer(icon: .EllipsisH)
-        case .shareAlt:
-            return FontAwesomeRenderer(icon: .ShareAlt)
         }
     }
     
