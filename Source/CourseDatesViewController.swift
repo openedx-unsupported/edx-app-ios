@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate, AuthenticatedWebViewControllerRequireAuthentication {
+class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate {
     
     public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider
     private var webController: AuthenticatedWebViewController
@@ -45,7 +45,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     }
     
     private func loadCourseDates() {
-        let courseDateURLString = String(format: "%@/courses/%@/info", environment.config.apiHostURL()?.absoluteString ?? "", courseID)
+        let courseDateURLString = String(format: "%@/courses/%@/course/mobile_dates_fragment", environment.config.apiHostURL()?.absoluteString ?? "", courseID)
         let request = NSURLRequest(url: URL(string: courseDateURLString)!)
         webController.loadRequest(request: request)
     }
