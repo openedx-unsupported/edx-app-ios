@@ -10,20 +10,13 @@ import UIKit
 
 class CourseDashboardAdditionalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & OEXRouterProvider
-    private let courseID: String
-    private let environment: Environment
-    private let enrollment: UserCourseEnrollment
     private let tableView: UITableView = UITableView()
     fileprivate var cellItems: [CourseDashboardItem] = []
     
-    public init(environment: Environment, courseID: String, enrollment: UserCourseEnrollment,cellItems:[CoursesTabBarItem]) {
-        self.environment = environment
-        self.courseID = courseID
-        self.enrollment = enrollment
-        
+    init(cellItems:[CourseDashboardTabBarItem]) {
+    
         super.init(nibName: nil, bundle: nil)
-        self.prepareTableViewData(enrollment: enrollment, items: cellItems)
+        prepareTableViewData(items: cellItems)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -32,8 +25,8 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = OEXStyles.shared().neutralXLight()
-        self.title = Strings.resourses
+        view.backgroundColor = OEXStyles.shared().neutralXLight()
+        title = Strings.resourses
         
         tableView.isScrollEnabled = false
         
@@ -42,7 +35,7 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         tableView.delegate = self
         tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView()
-        self.view.addSubview(tableView)
+        view.addSubview(tableView)
         
         // Register tableViewCell
         tableView.register(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
@@ -53,16 +46,11 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tableView.reloadData()
-    }
-    
-    public func prepareTableViewData(enrollment: UserCourseEnrollment, items:[CoursesTabBarItem]) {
+    private func prepareTableViewData(items:[CourseDashboardTabBarItem]) {
         cellItems = []
         for item in items {
             let standardCourseItem = StandardCourseDashboardItem(title: item.title, detail: item.detailText, icon: item.icon) {
-                self.navigationController?.pushViewController(item.viewController, animated: true)
+                OEXRouter.shared().pushViewController(controller: item.viewController, fromController: self)
             }
             cellItems.append(standardCourseItem)
         }
@@ -70,17 +58,15 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     
     // MARK: - TableView Data and Delegate
     
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cellItems.count
     }
     
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let dashboardItem = cellItems[indexPath.row]
-        let height = dashboardItem.height
-        return height
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return cellItems[indexPath.row].height
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let dashboardItem = cellItems[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: dashboardItem.identifier, for: indexPath as IndexPath)
@@ -89,29 +75,17 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         return cell
     }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let dashboardItem = cellItems[indexPath.row]
         dashboardItem.action()
     }
     
-    private func showHandouts() {
-        environment.router?.showHandoutsFromController(controller: self, courseID: courseID)
-    }
-    
-    private func showAnnouncements() {
-        environment.router?.showAnnouncementsForCourse(withID: courseID)
-    }
-    
-    private func shouldShowHandouts(course: OEXCourse) -> Bool {
-        return !(course.course_handouts?.isEmpty ?? true)
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-    public override func viewDidDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: false)

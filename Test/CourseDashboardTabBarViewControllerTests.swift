@@ -24,7 +24,7 @@ private extension OEXConfig {
     }
 }
 
-class CourseTabBarViewControllerTests: SnapshotTestCase {
+class CourseDashboardTabBarViewControllerTests: SnapshotTestCase {
     
     func testDiscussionsEnabled() {
         for enabledInConfig in [true, false] {
@@ -35,8 +35,7 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
                 let environment = TestRouterEnvironment(config: config)
                 environment.mockEnrollmentManager.courses = [course]
                 environment.logInTestUser()
-                let controller = CourseTabBarViewController(environment: environment, courseID: course.course_id!)
-                
+                let controller = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
                 
                 inScreenDisplayContext(controller) {
                     waitForStream(controller.t_loaded)
@@ -57,7 +56,7 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
             let environment = TestRouterEnvironment(config: config)
             environment.mockEnrollmentManager.courses = [course]
             environment.logInTestUser()
-            let controller = CourseTabBarViewController(environment: environment, courseID: course.course_id!)
+            let controller = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
             
             inScreenDisplayContext(controller) {
                 waitForStream(controller.t_loaded)
@@ -77,7 +76,7 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
             let environment = TestRouterEnvironment(config: config)
             environment.mockEnrollmentManager.courses = [course]
             environment.logInTestUser()
-            let controller = CourseTabBarViewController(environment: environment, courseID: course.course_id!)
+            let controller = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
             
             inScreenDisplayContext(controller) {
                 waitForStream(controller.t_loaded)
@@ -97,7 +96,7 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
         environment.mockEnrollmentManager.courses = [course]
         environment.logInTestUser()
         
-        let controller = CourseTabBarViewController(environment: environment, courseID: course.course_id!)
+        let controller = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
         })
@@ -108,7 +107,7 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
         let environment = TestRouterEnvironment()
         environment.mockEnrollmentManager.courses = [course]
         environment.logInTestUser()
-        let controller = CourseTabBarViewController(environment: environment, courseID: course.course_id!)
+        let controller = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
         inScreenDisplayContext(controller) {
             waitForStream(controller.t_loaded)
             XCTAssertTrue(controller.t_state.isLoaded)
@@ -120,7 +119,7 @@ class CourseTabBarViewControllerTests: SnapshotTestCase {
         let environment = TestRouterEnvironment()
         environment.mockEnrollmentManager.courses = [course]
         environment.logInTestUser()
-        let controller = CourseTabBarViewController(environment: environment, courseID: course.course_id!)
+        let controller = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
         inScreenDisplayContext(controller) {
             waitForStream(controller.t_loaded)
             XCTAssertTrue(controller.t_state.isError)

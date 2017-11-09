@@ -100,7 +100,6 @@ public class CourseOutlineViewController :
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.title = (courseOutlineMode == .Full) ? "Course Name" : "Video"
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
         let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
@@ -152,7 +151,7 @@ public class CourseOutlineViewController :
     }
     
     private func setupNavigationItem(block : CourseBlock) {
-        self.navigationItem.title = block.displayName
+        self.navigationItem.title = (courseOutlineMode == .Full) ? block.displayName : Strings.video
     }
     
     private func reload() {

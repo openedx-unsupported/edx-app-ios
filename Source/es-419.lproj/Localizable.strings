@@ -190,7 +190,7 @@
 "COURSE_ANNOUNCEMENTS"="Anuncios";
 /* Title of course handouts section */
 "COURSE_HANDOUTS"="Recursos";
-/* Title tab bar option resources */
+/* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Resources";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Fechas y plazos del curso";
@@ -706,6 +706,8 @@
 "VIDEO.ONLY_ON_YOUTUBE" = "Este vídeo solo puede reproducirse en Youtube. ";
 /* Button text for showing an associated item */
 "VIEW" = "Ver";
+/*Navigation title of video tab in CourseDashboardTabBar view*/
+"VIDEO"= "Video";
 /* Button linking to course announcements */
 "VIEW_HANDOUTS" = "Ver enlaces útiles";
 /* Discussion vote - {count} is a number of votes */

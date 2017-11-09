@@ -1,5 +1,5 @@
 //
-//  CourseTabBarViewController.swift
+//  CourseDashboardTabBarViewController.swift
 //  edX
 //
 //  Created by Salman on 24/10/2017.
@@ -8,31 +8,28 @@
 
 import UIKit
 
-struct CoursesTabBarItem {
+struct CourseDashboardTabBarItem {
     let title: String
     let viewController: UIViewController
     let icon: Icon
     let detailText: String
-    
 }
 
-class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate {
+class CourseDashboardTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
-    
+     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
     private let courseID: String
     private let environment: Environment
-    fileprivate var tabBarItems : [CoursesTabBarItem] = []
-    fileprivate let loadController = LoadStateViewController()
-    fileprivate let loadStateErrorController = CourseTabBarErrorViewController()
+    fileprivate var tabBarItems : [CourseDashboardTabBarItem] = []
+    fileprivate let loadStateErrorController = CourseTabBarStateViewController()
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
     }()
     
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
-    public init(environment: Environment, courseID: String) {
+    init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID
         
@@ -45,20 +42,13 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Course Name"
-        
-        self.viewControllers = [loadStateErrorController]
-        
+        viewControllers = [loadStateErrorController]
         courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
         courseStream.listen(self) {[weak self] in
             self?.resultLoaded(result: $0)
         }
-        
-        self.progressController.hideProgessView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         self.delegate = self
+        progressController.hideProgessView()
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,70 +56,67 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
         // Dispose of any resources that can be recreated.
     }
     
-    public func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
-        self.navigationItem.title = viewController.navigationItem.title
-    }
-    
-    func addShareButton(enrollment: UserCourseEnrollment) {
+    private func addShareButton(enrollment: UserCourseEnrollment) {
         let shareButton = UIBarButtonItem(image: UIImage(named: "shareCourse.png"), style: UIBarButtonItemStyle.plain, target: self, action: nil)
+        shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
         shareButton.oex_setAction { [weak self] in
             self?.shareCourse(course: enrollment.course)
         }        
         navigationItem.rightBarButtonItems = [shareButton]
     }
     
-    func addNavigationItems(enrollment: UserCourseEnrollment) {
+    private func addNavigationItems(enrollment: UserCourseEnrollment) {
         if enrollment.course.course_about != nil || environment.config.courseSharingEnabled {
             addShareButton(enrollment: enrollment)
         }
-        navigationItem.rightBarButtonItems?.append(self.progressController.navigationItem())
+        navigationItem.rightBarButtonItems?.append(progressController.navigationItem())
     }
     
-    func prepareTabViewData(enrollment: UserCourseEnrollment) {
+    private func prepareTabViewData(enrollment: UserCourseEnrollment) {
         
         tabBarItems = []
         
-        var item = CoursesTabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Full), icon: Icon.Courseware, detailText: "")
+        var item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
         tabBarItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
-           item = CoursesTabBarItem(title: Strings.Dashboard.courseVideos, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Video), icon: Icon.CourseVideos, detailText: "")
+           item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseVideos, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Video), icon: Icon.CourseVideos, detailText: Strings.Dashboard.courseVideosDetail)
             tabBarItems.append(item)
         }
         
         if shouldShowDiscussions(course: enrollment.course) {
-            item = CoursesTabBarItem(title: Strings.Dashboard.courseDiscussion, viewController: DiscussionTopicsViewController(environment: environment, courseID: courseID), icon: Icon.Discussions, detailText: "")
+            item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseDiscussion, viewController: DiscussionTopicsViewController(environment: environment, courseID: courseID), icon: Icon.Discussions, detailText: Strings.Dashboard.courseDiscussionDetail)
             tabBarItems.append(item)
         }
         
         if environment.config.courseDatesEnabled {
-            item = CoursesTabBarItem(title: Strings.Dashboard.courseImportantDates, viewController: CourseDatesViewController(environment: environment , courseID: courseID), icon: Icon.Calendar, detailText: "")
+            item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseImportantDates, viewController: CourseDatesViewController(environment: environment , courseID: courseID), icon: Icon.Calendar, detailText: Strings.Dashboard.courseImportantDatesDetail)
             tabBarItems.append(item)
         }
 
         if shouldShowHandouts(course: enrollment.course) {
-            item = CoursesTabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: courseID), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
+            item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: courseID), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
             tabBarItems.append(item)
         }
         
         if environment.config.isAnnouncementsEnabled {
-            item = CoursesTabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: courseID), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
+            item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: courseID), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
             tabBarItems.append(item)
         }
         
         if tabBarItems.count > 4 {
-            var views = Array(tabBarItems[0..<4])
-            let moreViews = Array(tabBarItems[4..<tabBarItems.count])
-            item = CoursesTabBarItem(title:Strings.resourses, viewController: CourseDashboardAdditionalViewController(environment: environment, courseID: courseID, enrollment: enrollment, cellItems: moreViews), icon: Icon.EllipsisHorizontal, detailText: "")
-            views.append(item)
-            loadTabBarViewControllers(tabBarItems: views)
+            var items = Array(tabBarItems[0..<4])
+            let additionalItems = Array(tabBarItems[4..<tabBarItems.count])
+            item = CourseDashboardTabBarItem(title:Strings.resourses, viewController: CourseDashboardAdditionalViewController(cellItems: additionalItems), icon: Icon.MoreOptionsIcon, detailText: "")
+            items.append(item)
+            loadTabBarViewControllers(tabBarItems: items)
         }
         else {
             loadTabBarViewControllers(tabBarItems: tabBarItems)
         }
     }
     
-    func loadTabBarViewControllers(tabBarItems: [CoursesTabBarItem]) {
+    func loadTabBarViewControllers(tabBarItems: [CourseDashboardTabBarItem]) {
         var views:[UIViewController] = []
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
@@ -139,7 +126,8 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
         self.viewControllers = views
     }
     
-    func loadedCourseWithEnrollment(enrollment: UserCourseEnrollment) {
+    private func loadedCourseWithEnrollment(enrollment: UserCourseEnrollment) {
+        title = enrollment.course.name
         verifyAccessForCourse(enrollment: enrollment)
     }
     
@@ -166,13 +154,10 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
             prepareTabViewData(enrollment: enrollment)
             addNavigationItems(enrollment: enrollment)
         }
-        
     }
     
     private func shouldShowDiscussions(course: OEXCourse) -> Bool {
-        let canShowDiscussions = self.environment.config.discussionsEnabled
-        let courseHasDiscussions = course.hasDiscussionsEnabled
-        return canShowDiscussions && courseHasDiscussions
+        return environment.config.discussionsEnabled && course.hasDiscussionsEnabled
     }
     
     private func shouldShowHandouts(course: OEXCourse) -> Bool {
@@ -188,7 +173,7 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
             }, url: url, utmParams: course.courseShareUtmParams, analyticsCallback: { analyticsType in
                 analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
             })
-            self.present(controller, animated: true, completion: nil)
+            present(controller, animated: true, completion: nil)
         }
     }
     
@@ -199,47 +184,49 @@ class CourseTabBarViewController: UITabBarController, UITabBarControllerDelegate
         if (isTabBarVisible == visible) { return }
         
         // get a frame calculation ready
-        let frame = self.tabBar.frame
+        let frame = tabBar.frame
         let height = frame.size.height
         let offsetY = (visible ? -height : height)
         
         // zero duration means no animation
-        let duration: TimeInterval = (animated ? 0.3 : 0.0)
+        let duration: TimeInterval = (animated ? 0.4 : 0.0)
         
         //  animate the tabBar
-        UIView.animate(withDuration: duration) {
-            self.tabBar.frame = frame.offsetBy(dx: 0, dy: offsetY)
-            return
+        UIView.animate(withDuration: duration) {[weak self] in
+            self?.tabBar.frame = frame.offsetBy(dx: 0, dy: offsetY)
         }
     }
     
-    var isTabBarVisible: Bool {
-        return self.tabBar.frame.origin.y < self.view.frame.maxY
+    private var isTabBarVisible: Bool {
+        return tabBar.frame.origin.y < self.view.frame.maxY
     }
-
 }
 
 // MARK: Testing
-extension CourseTabBarViewController {
+extension CourseDashboardTabBarViewController {
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
+        navigationItem.title = viewController.navigationItem.title
+    }
     
     func t_canVisitDiscussions() -> Bool {
-        return self.tabBarItems.firstIndexMatching({ (item: CoursesTabBarItem) in return item.icon == .Discussions }) != nil
+        return tabBarItems.firstIndexMatching({ (item: CourseDashboardTabBarItem) in return item.icon == .Discussions }) != nil
     }
 
     func t_canVisitHandouts() -> Bool {
-        return self.tabBarItems.firstIndexMatching({ (item: CoursesTabBarItem) in return item.icon == .Handouts }) != nil
+        return tabBarItems.firstIndexMatching({ (item: CourseDashboardTabBarItem) in return item.icon == .Handouts }) != nil
     }
 
     func t_canVisitAnnouncements() -> Bool {
-        return self.tabBarItems.firstIndexMatching({ (item: CoursesTabBarItem) in return item.icon == .Announcements }) != nil
+        return tabBarItems.firstIndexMatching({ (item: CourseDashboardTabBarItem) in return item.icon == .Announcements }) != nil
     }
     
     var t_state : LoadState {
-        return self.loadStateErrorController.loadController.state
+        return loadStateErrorController.loadController.state
     }
 
     var t_loaded : OEXStream<()> {
-        return self.courseStream.map {_ in () }
+        return courseStream.map {_ in () }
     }
     
 }

@@ -238,10 +238,10 @@ extension OEXRouter {
         
         let controller : UIViewController
         if environment.config.isTabsDashboardEnabled {
-            controller = CourseTabBarViewController(environment: self.environment, courseID: courseID)
+            controller = CourseDashboardTabBarViewController(environment: environment, courseID: courseID)
         }
         else {
-            controller = CourseDashboardViewController(environment: self.environment, courseID: courseID)
+            controller = CourseDashboardViewController(environment: environment, courseID: courseID)
         }
         fromController.navigationController?.pushViewController(controller, animated: animated)
     }
@@ -333,6 +333,10 @@ extension OEXRouter {
         }
         
         makeContentControllerCurrent(splashController)
+    }
+
+    func pushViewController(controller: UIViewController, fromController: UIViewController) {
+        fromController.navigationController?.pushViewController(controller, animated: true)
     }
 
     public func logout() {
