@@ -176,16 +176,22 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
     
     private func shareCourse(course: OEXCourse) {
-        if let urlString = course.course_about, let url = NSURL(string: urlString) {
-            let analytics = environment.analytics
-            let courseID = self.courseID
-            let controller = shareHashtaggedTextAndALink(textBuilder: { hashtagOrPlatform in
-                Strings.shareACourse(platformName: hashtagOrPlatform)
-            }, url: url, utmParams: course.courseShareUtmParams, analyticsCallback: { analyticsType in
-                analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
-            })
-            controller.configurePresentationController(withSourceView: shareButton)
-            self.present(controller, animated: true, completion: nil)
+        if let urlString = course.course_about {
+            let urlParts = urlString.components(separatedBy: "/courses/")
+            if urlParts.count > 1 {
+                let overrideUrlString = (environment.config.apiHostURL()?.absoluteString)! + "/courses/" + urlParts[1];
+                if let url = NSURL(string: overrideUrlString) {
+                    let analytics = environment.analytics
+                    let courseID = self.courseID
+                    let controller = shareHashtaggedTextAndALink(textBuilder: { hashtagOrPlatform in
+                        Strings.shareACourse(platformName: hashtagOrPlatform)
+                    }, url: url, utmParams: course.courseShareUtmParams, analyticsCallback: { analyticsType in
+                        analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
+                    })
+                    controller.configurePresentationController(withSourceView: shareButton)
+                    self.present(controller, animated: true, completion: nil)
+                }
+            }
         }
     }
 
