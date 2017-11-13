@@ -229,4 +229,7 @@ extension CourseDashboardTabBarViewController {
         return courseStream.map {_ in () }
     }
     
+    func t_items() -> [CourseDashboardTabBarItem] {
+        return tabBarItems
+    }
 }
