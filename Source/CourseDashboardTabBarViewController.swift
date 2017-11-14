@@ -68,7 +68,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     }
     
     private func addNavigationItems(enrollment: UserCourseEnrollment) {
-        if enrollment.course.course_about != nil || environment.config.courseSharingEnabled {
+        if enrollment.course.course_about != nil && environment.config.courseSharingEnabled {
             addShareButton(enrollment: enrollment)
         }
         navigationItem.rightBarButtonItems?.append(progressController.navigationItem())
