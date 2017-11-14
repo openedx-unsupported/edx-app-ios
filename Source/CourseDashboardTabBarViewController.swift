@@ -22,7 +22,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     private let courseID: String
     private let environment: Environment
     fileprivate var tabBarItems : [CourseDashboardTabBarItem] = []
-    fileprivate let loadStateErrorController = CourseTabBarStateViewController()
+    fileprivate let loadStateController: CourseTabBarLoadStateViewController
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
     }()
@@ -32,6 +32,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     init(environment: Environment, courseID: String) {
         self.environment = environment
         self.courseID = courseID
+        loadStateController = CourseTabBarLoadStateViewController(environment: environment)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -42,7 +43,8 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [loadStateErrorController]
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        viewControllers = [loadStateController]
         courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
         courseStream.listen(self) {[weak self] in
             self?.resultLoaded(result: $0)
@@ -107,7 +109,8 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         if tabBarItems.count > 4 {
             var items = Array(tabBarItems[0..<4])
             let additionalItems = Array(tabBarItems[4..<tabBarItems.count])
-            item = CourseDashboardTabBarItem(title:Strings.resourses, viewController: CourseDashboardAdditionalViewController(cellItems: additionalItems), icon: Icon.MoreOptionsIcon, detailText: "")
+            item = CourseDashboardTabBarItem(title:Strings.resourses, viewController: CourseDashboardAdditionalViewController(environment: environment, cellItems: additionalItems), icon: Icon.MoreOptionsIcon, detailText: "")
+            
             items.append(item)
             loadTabBarViewControllers(tabBarItems: items)
         }
@@ -116,41 +119,41 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         }
     }
     
-    func loadTabBarViewControllers(tabBarItems: [CourseDashboardTabBarItem]) {
-        var views:[UIViewController] = []
+    private func loadTabBarViewControllers(tabBarItems: [CourseDashboardTabBarItem]) {
+        var controllers :[UIViewController] = []
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
             controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: 20), selectedImage: tabBarItem.icon.imageWithFontSize(size: 20))
-            views.append(controller)
+            controllers.append(controller)
         }
-        self.viewControllers = views
+        viewControllers = controllers
     }
     
-    private func loadedCourseWithEnrollment(enrollment: UserCourseEnrollment) {
+    private func loadedCourse(withEnrollment enrollment: UserCourseEnrollment) {
         title = enrollment.course.name
-        verifyAccessForCourse(enrollment: enrollment)
+        verifyAccessForCourse(withEnrollment: enrollment)
     }
     
     private func resultLoaded(result : Result<UserCourseEnrollment>) {
         switch result {
         case let Result.success(enrollment):
-            loadedCourseWithEnrollment(enrollment: enrollment)
+            loadedCourse(withEnrollment: enrollment)
         case let Result.failure(error):
             if !courseStream.active {
                 // enrollment list is cached locally, so if the stream is still active we may yet load the course
                 // don't show failure until the stream is done
-                loadStateErrorController.loadController.state = LoadState.failed(error: error)
+                loadStateController.loadController.state = LoadState.failed(error: error)
             }
         }
     }
 
-    private func verifyAccessForCourse(enrollment: UserCourseEnrollment){
+    private func verifyAccessForCourse(withEnrollment enrollment: UserCourseEnrollment){
         if let access = enrollment.course.courseware_access, !access.has_access {
-         loadStateErrorController.loadController.state = LoadState.failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: enrollment.course.start_display_info), icon: Icon.UnknownError)
-            setTabBarVisible(visible: false, animated: true)
+         loadStateController.loadController.state = LoadState.failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: enrollment.course.start_display_info), icon: Icon.UnknownError)
+            setTabBarVisibility(visible: false, animated: true)
         }
         else {
-            loadStateErrorController.loadController.state = .Loaded
+            loadStateController.loadController.state = .Loaded
             prepareTabViewData(enrollment: enrollment)
             addNavigationItems(enrollment: enrollment)
         }
@@ -177,7 +180,11 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         }
     }
     
-    func setTabBarVisible(visible: Bool, animated: Bool) {
+}
+
+extension UITabBarController {
+    
+    func setTabBarVisibility(visible: Bool, animated: Bool) {
         //* This cannot be called before viewDidLayoutSubviews(), because the frame is not set before this time
         
         // bail if the current state matches the desired state
@@ -202,9 +209,10 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     }
 }
 
+
 // MARK: Testing
 extension CourseDashboardTabBarViewController {
-    
+
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
     }
@@ -222,7 +230,7 @@ extension CourseDashboardTabBarViewController {
     }
     
     var t_state : LoadState {
-        return loadStateErrorController.loadController.state
+        return loadStateController.loadController.state
     }
 
     var t_loaded : OEXStream<()> {

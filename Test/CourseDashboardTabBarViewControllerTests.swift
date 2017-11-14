@@ -1,5 +1,5 @@
 //
-//  CourseTabBarViewControllerTests.swift
+//  CourseDashboardTabBarViewControllerTests.swift
 //  edX
 //
 //  Created by Salman on 01/11/2017.
@@ -106,7 +106,7 @@ class CourseDashboardTabBarViewControllerTests: SnapshotTestCase {
     
         let stream = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .Full)
         
-        let expectations = expectation(description: "New post topics loaded")
+        let expectations = expectation(description: "course loaded")
         stream?.listenOnce(self) {_ in
             expectations.fulfill()
         }

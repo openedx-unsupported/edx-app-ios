@@ -10,11 +10,15 @@ import UIKit
 
 class CourseDashboardAdditionalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
+    
     private let tableView: UITableView = UITableView()
     fileprivate var cellItems: [CourseDashboardItem] = []
+    private let environment: Environment
     
-    init(cellItems:[CourseDashboardTabBarItem]) {
+    init(environment: Environment, cellItems:[CourseDashboardTabBarItem]) {
     
+        self.environment = environment
         super.init(nibName: nil, bundle: nil)
         prepareTableViewData(items: cellItems)
     }
@@ -25,7 +29,8 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = OEXStyles.shared().neutralXLight()
+        
+        view.backgroundColor = environment.styles.neutralXLight()
         title = Strings.resourses
         
         tableView.isScrollEnabled = false
@@ -43,14 +48,13 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         tableView.snp_makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-        
     }
     
     private func prepareTableViewData(items:[CourseDashboardTabBarItem]) {
         cellItems = []
         for item in items {
             let standardCourseItem = StandardCourseDashboardItem(title: item.title, detail: item.detailText, icon: item.icon) {
-                OEXRouter.shared().pushViewController(controller: item.viewController, fromController: self)
+                self.environment.router?.pushViewController(controller: item.viewController, fromController: self)
             }
             cellItems.append(standardCourseItem)
         }

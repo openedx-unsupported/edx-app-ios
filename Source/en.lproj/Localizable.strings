@@ -706,8 +706,6 @@
 "VIDEO.ONLY_ON_YOUTUBE" = "This video can only be played on YouTube.";
 /* Button text for showing an associated item */
 "VIEW" = "View";
-/*Navigation title of video tab in CourseDashboardTabBar view*/
-"VIDEO"= "Video";
 /* Button linking to course announcements */
 "VIEW_HANDOUTS" = "View course handouts";
 /* Discussion vote - {count} is a number of votes */
