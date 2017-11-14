@@ -221,33 +221,29 @@ static OEXDBManager* _sharedManager = nil;
 
 - (NSArray*)executeFetchRequest:(NSFetchRequest*)fetchRequest {
     CLS_LOG(@"executeFetchRequest");
-    if([self masterManagedObjectContext]) {
-        CLS_LOG(@"executeFetchRequest: masterManagedObjectContext exist...%@", _masterManagedObjectContext);
-        __block NSArray* resultArray;
-        if([NSThread isMainThread]) {
-            @synchronized(_masterManagedObjectContext)
-            {
-                CLS_LOG(@"executeFetchRequest: executeFetchRequest in main thread");
-                resultArray = [[self masterManagedObjectContext] executeFetchRequest:fetchRequest error:nil];
-            }
-        }
-        else {
-            [[self safeBackgroudContext] performBlockAndWait:^{
-                CLS_LOG(@"executeFetchRequest: executeFetchRequest in performBlockAndWait with %@", _backGroundContext);
-                resultArray = [self.backGroundContext executeFetchRequest:fetchRequest error:nil];
-            }];
-        }
-
-        if(!resultArray) {
-            return [NSArray array];
-        }
-        else {
-            return resultArray;
+    __block NSArray* resultArray;
+    if([NSThread isMainThread]) {
+        @synchronized(self.masterManagedObjectContext)
+        {
+            CLS_LOG(@"executeFetchRequest: executeFetchRequest in main thread");
+            resultArray = [self.masterManagedObjectContext executeFetchRequest:fetchRequest error:nil];
         }
     }
     else {
-        return nil;
+        @synchronized (self.backGroundContext) {
+            CLS_LOG(@"executeFetchRequest: executeFetchRequest in performBlockAndWait with %@", _backGroundContext);
+            resultArray = [self.backGroundContext executeFetchRequest:fetchRequest error:nil];
+        }
     }
+    
+    if(!resultArray) {
+        return [NSArray array];
+    }
+    else {
+        return resultArray;
+    }
+    
+    return nil;
 }
 
 #pragma mark - Existing methods refactored with new DB
