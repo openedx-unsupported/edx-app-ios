@@ -57,7 +57,7 @@ static OEXDBManager* _sharedManager = nil;
         [self createDatabaseDirectory];
         _userName = userName;
         if(_masterManagedObjectContext != nil) {
-            [[self safeBackgroudContext] save:nil];
+            [self.backGroundContext save:nil];
             [_masterManagedObjectContext save:nil];
             _backGroundContext = nil;
             _masterManagedObjectContext = nil;
@@ -135,22 +135,16 @@ static OEXDBManager* _sharedManager = nil;
 
 - (NSManagedObjectContext*)newManagedObjectContext {
     NSManagedObjectContext* newContext = nil;
-    NSManagedObjectContext* masterContext = _masterManagedObjectContext;
+    NSManagedObjectContext* masterContext = self.masterManagedObjectContext;
+    
     if(masterContext != nil) {
         newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         [newContext performBlockAndWait:^{
             [newContext setParentContext:masterContext];
         }];
     }
-    return newContext;
-}
-
-- (NSManagedObjectContext *) safeBackgroudContext {
-    if (!_backGroundContext) {
-        _backGroundContext = [self newManagedObjectContext];
-    }
     
-    return _backGroundContext;
+    return newContext;
 }
 
 - (NSManagedObjectContext*)backGroundContext {
@@ -199,7 +193,7 @@ static OEXDBManager* _sharedManager = nil;
     OEXLogInfo(@"STORAGE", @"Save database context on main thread");
     CLS_LOG(@"saveCurrentStateToDB");
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        @synchronized(_masterManagedObjectContext){
+        @synchronized(self.masterManagedObjectContext){
             [self.backGroundContext save:nil];
             CLS_LOG(@"saveCurrentStateToDB: backGroundContext... %@", self.backGroundContext);
             CLS_LOG(@"saveCurrentStateToDB: masterManagedObjectContext... %@", self.masterManagedObjectContext);
@@ -216,9 +210,9 @@ static OEXDBManager* _sharedManager = nil;
 
 - (NSEntityDescription*)getEntityByName:(NSString*)entityName {
     if([self backGroundContext]) {
-        @synchronized([self backGroundContext])
+        @synchronized(self.backGroundContext)
         {
-            NSEntityDescription* videoEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:[self safeBackgroudContext]];
+            NSEntityDescription* videoEntity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self.backGroundContext];
             return videoEntity;
         }
     }
@@ -285,7 +279,7 @@ static OEXDBManager* _sharedManager = nil;
         return;
     }
     ResourceData* resourceObj = [NSEntityDescription insertNewObjectForEntityForName:@"ResourceData"
-                                                              inManagedObjectContext:[self safeBackgroudContext]];
+                                                              inManagedObjectContext:self.backGroundContext];
     resourceObj.resourceDownloadURL = resourceDownloadURL;
     [self saveCurrentStateToDB];
 }
@@ -412,7 +406,7 @@ static OEXDBManager* _sharedManager = nil;
     CLS_LOG(@"getAllLocalVideoData");
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
     CLS_LOG(@"getAllLocalVideoData: backGroundContext...%@", _backGroundContext);
-    NSEntityDescription* videoEntity = [NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]];
+    NSEntityDescription* videoEntity = [NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext];
     CLS_LOG(@"getAllLocalVideoData: getVideoEntity from manageObjectContect");
     [fetchRequest setEntity:videoEntity];
     return [self executeFetchRequest:fetchRequest];
@@ -442,7 +436,7 @@ static OEXDBManager* _sharedManager = nil;
 
     if(!newVideoData) {
         newVideoData = [NSEntityDescription insertNewObjectForEntityForName:@"VideoData"
-                                                     inManagedObjectContext:[self safeBackgroudContext]];
+                                                     inManagedObjectContext:self.backGroundContext];
 
         newVideoData.video_id = videoId;
     }
@@ -593,7 +587,7 @@ static OEXDBManager* _sharedManager = nil;
 - (NSArray*)getVideosForDownloadUrl:(NSString*)downloadUrl {
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
 
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
 
     NSPredicate* query = [NSPredicate predicateWithFormat:@"video_url==%@", downloadUrl];
     [fetchRequest setPredicate:query];
@@ -640,7 +634,7 @@ static OEXDBManager* _sharedManager = nil;
 - (VideoData*)videoDataForTaskIdentifier:(NSUInteger)dTaskId {
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
 
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
 
     NSPredicate* query = [NSPredicate predicateWithFormat:@"dm_id==%lu", dTaskId];
     //setting the predicate to the fetch request
@@ -653,7 +647,7 @@ static OEXDBManager* _sharedManager = nil;
 
 - (NSArray*)videosForTaskIdentifier:(NSUInteger)dTaskId {
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
     NSPredicate* query = [NSPredicate predicateWithFormat:@"dm_id==%lu", dTaskId];
     //setting the predicate to the fetch request
     [fetchRequest setPredicate:query];
@@ -675,7 +669,7 @@ static OEXDBManager* _sharedManager = nil;
 // Get all videos for enrollmentID
 - (NSArray*)videosWithCourseID:(NSString*)courseid {
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
     NSPredicate* query = [NSPredicate predicateWithFormat:@"enrollment_id==%@", courseid];
     //setting the predicate to the fetch request
     [fetchRequest setPredicate:query];
@@ -686,7 +680,7 @@ static OEXDBManager* _sharedManager = nil;
 // get all unregistered videos
 - (void)deleteUnregisteredItems {
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
     NSPredicate* query = [NSPredicate predicateWithFormat:@"is_registered==%@", [NSNumber numberWithBool:NO]];
     //setting the predicate to the fetch request
     [fetchRequest setPredicate:query];
@@ -744,7 +738,7 @@ static OEXDBManager* _sharedManager = nil;
     }
 
     VideoData* videoObj = [NSEntityDescription insertNewObjectForEntityForName:@"VideoData"
-                                                        inManagedObjectContext:[self safeBackgroudContext]];
+                                                        inManagedObjectContext:self.backGroundContext];
 
     videoObj.username = username;
     videoObj.title = title;
@@ -776,7 +770,7 @@ static OEXDBManager* _sharedManager = nil;
     NSArray* resultArray = [self getRecordsForOperation:username VideoID:video_id];
 
     for(NSManagedObject* managedObject in resultArray) {
-        [[self safeBackgroudContext] deleteObject:managedObject];
+        [self.backGroundContext deleteObject:managedObject];
     }
 }
 
@@ -786,7 +780,7 @@ static OEXDBManager* _sharedManager = nil;
 - (NSArray*)getAllVideoDataFor:(NSString*)username {
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
 
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
 
     NSPredicate* query = [NSPredicate predicateWithFormat:@"username==%@", username];
 
@@ -804,7 +798,7 @@ static OEXDBManager* _sharedManager = nil;
                     VideoID:(NSString*)video_id {
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
 
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
 
     NSPredicate* query = [NSPredicate predicateWithFormat:@"username==%@", username];
 
@@ -826,7 +820,7 @@ static OEXDBManager* _sharedManager = nil;
                EnrollmentID:(NSString*)enrollment_id {
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
 
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
 
     NSPredicate* query = [NSPredicate predicateWithFormat:@"username==%@", username];
 
@@ -852,7 +846,7 @@ static OEXDBManager* _sharedManager = nil;
 
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
 
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
 
     //setting the predicate to the fetch request
     [fetchRequest setPredicate:query];
@@ -922,7 +916,7 @@ static OEXDBManager* _sharedManager = nil;
 
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
 
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:[self safeBackgroudContext]]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext]];
 
     //setting the predicate to the fetch request
     [fetchRequest setPredicate:query];
