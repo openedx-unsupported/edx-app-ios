@@ -8,6 +8,7 @@
 
 import UIKit
 
+// CourseDashboardTabBarItem represent each tab in tabBarViewController
 struct CourseDashboardTabBarItem {
     let title: String
     let viewController: UIViewController
