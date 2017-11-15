@@ -92,7 +92,7 @@ class CourseDashboardTabBarViewControllerTests: SnapshotTestCase {
     
     func testSnapshot() {
         let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true, tabDashboardEnabled: true)
-        let course = OEXCourse.freshCourse()
+        let course = OEXCourse.freshCourse(aboutUrl: "http://www.yahoo.com")
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
         let interface = OEXInterface.shared()
         let environment = TestRouterEnvironment(config: config, interface: interface)
