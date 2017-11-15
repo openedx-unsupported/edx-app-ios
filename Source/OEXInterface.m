@@ -1489,7 +1489,7 @@ static OEXInterface* _sharedInterface = nil;
 #pragma mark - Course Enrollments
 - (UserCourseEnrollment*)enrollmentForCourseWithID:(NSString*)courseID {
     for (UserCourseEnrollment* enrollment in self.courses) {
-        if(enrollment.course.course_id == courseID) {
+        if([enrollment.course.course_id isEqualToString:courseID]) {
             return enrollment;
         }
     }

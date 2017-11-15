@@ -50,7 +50,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         courseStream.listen(self) {[weak self] in
             self?.resultLoaded(result: $0)
         }
-        self.delegate = self
+        delegate = self
         progressController.hideProgessView()
     }
     
@@ -59,23 +59,23 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         // Dispose of any resources that can be recreated.
     }
     
-    private func addShareButton(enrollment: UserCourseEnrollment) {
+    private func addShareButton(withCourse course: OEXCourse) {
         let shareButton = UIBarButtonItem(image: UIImage(named: "shareCourse.png"), style: UIBarButtonItemStyle.plain, target: self, action: nil)
         shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
         shareButton.oex_setAction { [weak self] in
-            self?.shareCourse(course: enrollment.course)
+            self?.shareCourse(course: course)
         }        
         navigationItem.rightBarButtonItems = [shareButton]
     }
     
-    private func addNavigationItems(enrollment: UserCourseEnrollment) {
-        if enrollment.course.course_about != nil && environment.config.courseSharingEnabled {
-            addShareButton(enrollment: enrollment)
+    private func addNavigationItems(withCourse course: OEXCourse) {
+        if course.course_about != nil && environment.config.courseSharingEnabled {
+            addShareButton(withCourse: course)
         }
         navigationItem.rightBarButtonItems?.append(progressController.navigationItem())
     }
     
-    private func prepareTabViewData(enrollment: UserCourseEnrollment) {
+    private func prepareTabViewData(withCourse course: OEXCourse) {
         
         tabBarItems = []
         
@@ -87,7 +87,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
             tabBarItems.append(item)
         }
         
-        if shouldShowDiscussions(course: enrollment.course) {
+        if shouldShowDiscussions(course: course) {
             item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseDiscussion, viewController: DiscussionTopicsViewController(environment: environment, courseID: courseID), icon: Icon.Discussions, detailText: Strings.Dashboard.courseDiscussionDetail)
             tabBarItems.append(item)
         }
@@ -97,7 +97,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
             tabBarItems.append(item)
         }
 
-        if shouldShowHandouts(course: enrollment.course) {
+        if shouldShowHandouts(course: course) {
             item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: courseID), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
             tabBarItems.append(item)
         }
@@ -130,15 +130,15 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         viewControllers = controllers
     }
     
-    private func loadedCourse(withEnrollment enrollment: UserCourseEnrollment) {
-        title = enrollment.course.name
-        verifyAccessForCourse(withEnrollment: enrollment)
+    private func loadedCourse(withCourse course: OEXCourse) {
+        title = course.name
+        verifyAccessForCourse(withCourse: course)
     }
     
     private func resultLoaded(result : Result<UserCourseEnrollment>) {
         switch result {
         case let Result.success(enrollment):
-            loadedCourse(withEnrollment: enrollment)
+            loadedCourse(withCourse: enrollment.course)
         case let Result.failure(error):
             if !courseStream.active {
                 // enrollment list is cached locally, so if the stream is still active we may yet load the course
@@ -148,15 +148,15 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         }
     }
 
-    private func verifyAccessForCourse(withEnrollment enrollment: UserCourseEnrollment){
-        if let access = enrollment.course.courseware_access, !access.has_access {
-         loadStateController.loadController.state = LoadState.failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: enrollment.course.start_display_info), icon: Icon.UnknownError)
+    private func verifyAccessForCourse(withCourse course: OEXCourse){
+        if let access = course.courseware_access, !access.has_access {
+         loadStateController.loadController.state = LoadState.failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info), icon: Icon.UnknownError)
             setTabBarVisibility(visible: false, animated: true)
         }
         else {
             loadStateController.loadController.state = .Loaded
-            prepareTabViewData(enrollment: enrollment)
-            addNavigationItems(enrollment: enrollment)
+            prepareTabViewData(withCourse: course)
+            addNavigationItems(withCourse: course)
         }
     }
     
@@ -211,13 +211,16 @@ extension UITabBarController {
 }
 
 
-// MARK: Testing
 extension CourseDashboardTabBarViewController {
-
+    
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
     }
-    
+}
+
+// MARK: Testing
+extension CourseDashboardTabBarViewController {
+
     func t_canVisitDiscussions() -> Bool {
         return tabBarItems.firstIndexMatching({ (item: CourseDashboardTabBarItem) in return item.icon == .Discussions }) != nil
     }

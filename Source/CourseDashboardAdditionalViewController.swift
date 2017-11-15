@@ -29,12 +29,10 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = environment.styles.neutralXLight()
+    
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         title = Strings.resourses
-        
-        tableView.isScrollEnabled = false
-        
+    
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
@@ -58,6 +56,7 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
             }
             cellItems.append(standardCourseItem)
         }
+        tableView.isScrollEnabled = cellItems.count > 6
     }
     
     // MARK: - TableView Data and Delegate

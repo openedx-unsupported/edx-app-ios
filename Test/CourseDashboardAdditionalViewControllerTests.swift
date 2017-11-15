@@ -29,15 +29,13 @@ class CourseDashboardAdditionalViewControllerTests: SnapshotTestCase {
         let environment = TestRouterEnvironment(config: config)
         environment.mockEnrollmentManager.courses = [course]
         environment.logInTestUser()
-        
-        let dashboardController = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
-        let items = dashboardController.t_items()
+    
         var cellItems : [CourseDashboardTabBarItem] = []
-        for cellItem in items {
-            if(cellItem.icon == .Announcements || cellItem.icon == .Handouts) {
-                cellItems.append(cellItem)
-            }
-        }
+        var item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: course.course_id!), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
+            cellItems.append(item)
+            item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: course.course_id!), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
+            cellItems.append(item)
+        
         let additionalController = CourseDashboardAdditionalViewController(environment: environment, cellItems: cellItems)
         inScreenNavigationContext(additionalController, action: { () -> () in
             assertSnapshotValidWithContent(additionalController.navigationController!)

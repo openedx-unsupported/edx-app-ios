@@ -364,8 +364,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
 extension CourseDashboardViewController {
     
     func t_canVisitDiscussions() -> Bool {
-        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in
-            return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Discussions }) != nil
+        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Discussions }) != nil
     }
     
     func t_canVisitHandouts() -> Bool {
