@@ -45,8 +45,8 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         tableView.snp_makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-        self.edgesForExtendedLayout = []
-        self.tabBarController?.tabBar.isTranslucent = false
+        edgesForExtendedLayout = []
+        tabBarController?.tabBar.isTranslucent = false
     }
     
     private func prepareTableViewData(items:[CourseDashboardTabBarItem]) {
