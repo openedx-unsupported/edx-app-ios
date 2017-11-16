@@ -17,7 +17,6 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     private let environment: Environment
     
     init(environment: Environment, cellItems:[CourseDashboardTabBarItem]) {
-    
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
         prepareTableViewData(items: cellItems)
@@ -39,13 +38,15 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView()
         view.addSubview(tableView)
-        
+    
         // Register tableViewCell
         tableView.register(CourseDashboardCell.self, forCellReuseIdentifier: CourseDashboardCell.identifier)
         
         tableView.snp_makeConstraints { (make) in
             make.edges.equalTo(view)
         }
+        self.edgesForExtendedLayout = []
+        self.tabBarController?.tabBar.isTranslucent = false
     }
     
     private func prepareTableViewData(items:[CourseDashboardTabBarItem]) {
@@ -56,7 +57,6 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
             }
             cellItems.append(standardCourseItem)
         }
-        tableView.isScrollEnabled = cellItems.count > 6
     }
     
     // MARK: - TableView Data and Delegate
@@ -71,10 +71,9 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let dashboardItem = cellItems[indexPath.row]
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: dashboardItem.identifier, for: indexPath as IndexPath)
         dashboardItem.decorateCell(cell: cell)
-        
+        tableView.isScrollEnabled = tableView.contentSize.height > tableView.frame.size.height
         return cell
     }
     

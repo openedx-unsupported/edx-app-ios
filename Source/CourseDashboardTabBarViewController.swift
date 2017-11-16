@@ -132,7 +132,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     
     private func loadedCourse(withCourse course: OEXCourse) {
         title = course.name
-        verifyAccessForCourse(withCourse: course)
+        verifyAccess(forCourse: course)
     }
     
     private func resultLoaded(result : Result<UserCourseEnrollment>) {
@@ -148,7 +148,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         }
     }
 
-    private func verifyAccessForCourse(withCourse course: OEXCourse){
+    private func verifyAccess(forCourse course: OEXCourse){
         if let access = course.courseware_access, !access.has_access {
          loadStateController.loadController.state = LoadState.failed(error: OEXCoursewareAccessError(coursewareAccess: access, displayInfo: course.start_display_info), icon: Icon.UnknownError)
             setTabBarVisibility(visible: false, animated: true)
