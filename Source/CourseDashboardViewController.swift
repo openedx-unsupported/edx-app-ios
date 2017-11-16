@@ -12,20 +12,20 @@ protocol CourseDashboardItem {
     var identifier: String { get }
     var action:(() -> Void) { get }
     var height: CGFloat { get }
-
+    
     func decorateCell(cell: UITableViewCell)
 }
 
 struct StandardCourseDashboardItem : CourseDashboardItem {
     let identifier = CourseDashboardCell.identifier
     let height:CGFloat = 85.0
-
+    
     let title: String
     let detail: String
     let icon : Icon
     let action:(() -> Void)
     
-
+    
     typealias CellType = CourseDashboardCell
     func decorateCell(cell: UITableViewCell) {
         guard let dashboardCell = cell as? CourseDashboardCell else { return }

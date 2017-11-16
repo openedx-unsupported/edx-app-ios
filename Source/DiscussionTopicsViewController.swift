@@ -60,7 +60,6 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         self.navigationItem.title = Strings.discussionTopics
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         searchBarSeparator.backgroundColor = OEXStyles.shared().neutralLight()
         

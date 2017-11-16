@@ -71,8 +71,6 @@ public class CourseOutlineViewController :
         addChildViewController(tableController)
         tableController.didMove(toParentViewController: self)
         tableController.delegate = self
-        
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
     
     
@@ -85,6 +83,7 @@ public class CourseOutlineViewController :
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         view.addSubview(tableController.view)
         
@@ -100,7 +99,6 @@ public class CourseOutlineViewController :
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
         let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
@@ -152,7 +150,7 @@ public class CourseOutlineViewController :
     }
     
     private func setupNavigationItem(block : CourseBlock) {
-        self.navigationItem.title = block.displayName
+        navigationItem.title = (courseOutlineMode == .Video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
     }
     
     private func reload() {
