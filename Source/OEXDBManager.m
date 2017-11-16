@@ -6,6 +6,11 @@
 //  Copyright (c) 2014-2016 edX, Inc. All rights reserved.
 //
 
+/*
+ Note: Always use getter of NSManagedObjectContext objects instead of instance variables because we are ensuring validity in getters of NSManagedObjectContext objects. Instance variables can be nil on session expiration which results in app crash.
+ */
+
+
 #import "OEXDBManager.h"
 
 #import "edX-Swift.h"
