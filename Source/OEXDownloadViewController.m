@@ -187,6 +187,7 @@
 }
 
 - (void)downloadProgressNotification:(NSNotification*)notification {
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^(void){
         @autoreleasepool {
             NSDictionary* progress = (NSDictionary*)notification.userInfo;
@@ -195,7 +196,7 @@
             
             for(OEXHelperVideoDownload* video in _arr_downloadingVideo) {
                 if([video.summary.videoURL isEqualToString:url]) {
-                    [self updateProgressForVisibleRows];
+                    [weakSelf updateProgressForVisibleRows];
                     break;
                 }
             }
@@ -204,8 +205,9 @@
 }
 
 - (void)downloadCompleteNotification:(NSNotification*)notification {
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateProgressForVisibleRows];
+        [weakSelf updateProgressForVisibleRows];
     });
 }
 

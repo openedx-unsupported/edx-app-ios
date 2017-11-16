@@ -145,6 +145,7 @@ public enum Icon {
     case VideoShrink
     case Warning
     case DeleteIcon
+    case MoreOptionsIcon
     
     private var renderer : IconRenderer {
         switch self {
@@ -264,6 +265,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .Lock)
         case .Warning:
             return FontAwesomeRenderer(icon: .Exclamation)
+        case .MoreOptionsIcon:
+            return FontAwesomeRenderer(icon: .EllipsisH)
         }
     }
     

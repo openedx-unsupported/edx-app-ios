@@ -236,7 +236,14 @@ extension OEXRouter {
     }
     
     func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
-        let controller = CourseDashboardViewController(environment: self.environment, courseID: courseID)
+        
+        let controller : UIViewController
+        if environment.config.isTabsDashboardEnabled {
+            controller = CourseDashboardTabBarViewController(environment: environment, courseID: courseID)
+        }
+        else {
+            controller = CourseDashboardViewController(environment: environment, courseID: courseID)
+        }
         fromController.navigationController?.pushViewController(controller, animated: animated)
     }
     
@@ -327,6 +334,10 @@ extension OEXRouter {
         }
         
         makeContentControllerCurrent(splashController)
+    }
+
+    func pushViewController(controller: UIViewController, fromController: UIViewController) {
+        fromController.navigationController?.pushViewController(controller, animated: true)
     }
 
     public func logout() {

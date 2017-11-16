@@ -190,6 +190,8 @@
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
 "COURSE_HANDOUTS"="Handouts";
+/* Title of resources tab in course dashboardTabBar view */
+"RESOURSES"="Resources";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Course Dates and Deadlines";
 /* Button text for cancelling any action */
