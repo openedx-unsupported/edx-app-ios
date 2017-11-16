@@ -87,4 +87,8 @@ extension OEXConfig {
     var isTabsDashboardEnabled: Bool {
         return bool(forKey: "TABS_DASHBOARD_ENABLED")
     }
+    
+    var isJumpToLastAccessedModuleEnabled: Bool {
+        return bool(forKey: "JUMP_TO_LAST_ACCESSED_MODULE_ENABLED")
+    }
 }
