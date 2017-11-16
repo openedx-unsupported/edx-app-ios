@@ -79,7 +79,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         
         tabBarItems = []
         
-        var item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+        var item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Full, jumpToLastAccessedModule: environment.config.isJumpToLastAccessedModuleEnabled), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
         tabBarItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
