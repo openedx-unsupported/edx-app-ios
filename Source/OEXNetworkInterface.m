@@ -111,14 +111,16 @@
 #pragma mark NetworkDelegate
 
 - (void)receivedData:(NSData*)data forTask:(NSURLSessionTask*)task {
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_delegate returnedData:data forType:[self descriptionForURLString:task.originalRequest.URL.absoluteString]];
+        [_delegate returnedData:data forType:[weakSelf descriptionForURLString:task.originalRequest.URL.absoluteString]];
     });
 }
 
 - (void)receivedFailureforTask:(NSURLSessionTask*)task {
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_delegate returnedFailureForType:[self descriptionForURLString:task.originalRequest.URL.absoluteString]];
+        [_delegate returnedFailureForType:[weakSelf descriptionForURLString:task.originalRequest.URL.absoluteString]];
     });
 }
 
