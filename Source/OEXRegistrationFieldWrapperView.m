@@ -82,6 +82,7 @@
 
 - (void)setRegistrationErrorMessage:(NSString*)errorMessage instructionMessage:(NSString*)instructionMessage {
     self.errorLabel.text = errorMessage;
+    self.errorLabel.isAccessibilityElement = NO;
     self.instructionLabel.text = instructionMessage;
     [self setNeedsLayout];
 }

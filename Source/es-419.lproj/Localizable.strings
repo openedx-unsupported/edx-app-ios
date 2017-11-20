@@ -578,6 +578,10 @@
 "REGISTRATION_REGISTER_PROMPT"="Registrarse con";
 /* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
 "REGISTRATION_REGISTER_ALTERNATE_PROMPT"="o registrarse con el correo electrónico";
+/*Title of registration error alert*/
+"REGISTRATION_ERROR_ALERT_TITLE"="Registration Error";
+/* Detailed info message for registration error alert*/
+"REGISTRATION_ERROR_ALERT_MESSAGE"="Update the highlighted fields and try again";
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Restablecer contraseña";
 /* Alert dialog content prompting user to enter an email address to reset their password */
