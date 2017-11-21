@@ -53,6 +53,7 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
     CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
     [self.textInputView setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, 100)];
     [self.textInputView setPlaceholder:self.placeholder];
+    self.textInputView.accessibilityLabel = self.placeholder;
     offset = offset + 100;
     [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:self.instructionMessage];
     [self.registrationWrapper setNeedsLayout];
