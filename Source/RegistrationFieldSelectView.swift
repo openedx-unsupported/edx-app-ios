@@ -55,7 +55,8 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        tapButton.accessibilityLabel = self.placeholder
+        tapButton.accessibilityTraits = UIAccessibilityTraitNone
+        tapButton.accessibilityLabel = String(format: "%@, %@", placeholder, Strings.accessibilityDropdownTrait)
         tapButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
     }
     
