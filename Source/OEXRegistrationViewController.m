@@ -93,12 +93,13 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)getFormFields {
+    __weak typeof(self) weakSelf = self;
     
     [self getRegistrationFormDescriptionWithSuccess:^(OEXRegistrationDescription * _Nonnull response) {
-        self.registrationDescription = response;
-        [self makeFieldControllers];
-        [self initializeViews];
-        [self refreshFormFields];
+        weakSelf.registrationDescription = response;
+        [weakSelf makeFieldControllers];
+        [weakSelf initializeViews];
+        [weakSelf refreshFormFields];
     }];
 }
 
@@ -434,6 +435,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     if(hasError) {
         [self showProgress:NO];
         [self refreshFormFields];
+        [self showInputErrorAlert];
         return;
     }
     //Setting parameter 'honor_code'='true'
@@ -450,6 +452,19 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
     [self registerWithParameters:parameters];
 
+}
+
+- (void) showInputErrorAlert {
+    __weak typeof(self) weakSelf = self;
+    
+    [[UIAlertController alloc] showAlertWithTitle:[Strings registrationErrorAlertTitle] message:[Strings registrationErrorAlertMessage] cancelButtonTitle:[Strings ok] onViewController:self tapBlock:^(UIAlertController * _Nonnull controller, UIAlertAction * _Nonnull action, NSInteger index) {
+        for(id <OEXRegistrationFieldController> controller in weakSelf.fieldControllers) {
+            if(![controller isValidInput]) {
+                    [[controller accessibleInputField] becomeFirstResponder];
+                    break;
+            }
+        }
+    }];
 }
 
 - (void) showNoNetworkError {
