@@ -76,22 +76,22 @@
 }
 
 - (OEXRegistrationFieldType)registrationFieldType:(NSString*)fieldType {
-    if([strType isEqualToString:@"email"]) {
+    if([fieldType isEqualToString:@"email"]) {
         return OEXRegistrationFieldTypeEmail;
     }
-    else if([strType isEqualToString:@"password"]) {
+    else if([fieldType isEqualToString:@"password"]) {
         return OEXRegistrationFieldTypePassword;
     }
-    else if([strType isEqualToString:@"text"]) {
+    else if([fieldType isEqualToString:@"text"]) {
         return OEXRegistrationFieldTypeText;
     }
-    else if([strType isEqualToString:@"textarea"]) {
+    else if([fieldType isEqualToString:@"textarea"]) {
         return OEXRegistrationFieldTypeTextArea;
     }
-    else if([strType isEqualToString:@"select"]) {
+    else if([fieldType isEqualToString:@"select"]) {
         return OEXRegistrationFieldTypeSelect;
     }
-    else if([strType isEqualToString:@"checkbox"]) {
+    else if([fieldType isEqualToString:@"checkbox"]) {
         return OEXRegistrationFieldTypeAgreement;
     }
     else {
