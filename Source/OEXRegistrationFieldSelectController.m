@@ -29,6 +29,7 @@
         self.view.options = self.field.fieldOptions;
         self.view.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
         self.view.picker.accessibilityIdentifier = [NSString stringWithFormat:@"picker-field-%@", field.name];
+        self.view.fieldType = [field registrationFieldType:field.type];
     }
     return self;
 }

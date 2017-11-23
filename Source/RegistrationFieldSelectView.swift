@@ -16,6 +16,11 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
     
+    
+    private var titleStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+    }
+    
     override init(frame : CGRect) {
         super.init(frame : CGRect.zero)
         picker.dataSource = self
@@ -26,6 +31,8 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
         dropdownTab.image = Icon.Dropdown.imageWithFontSize(size: 12)
         dropdownTab.tintColor = OEXStyles.shared().neutralDark()
         dropdownTab.sizeToFit()
+        
+        tapButton.localizedHorizontalContentAlignment = .Leading
         
         if isRightToLeft && !UIDevice.isOSVersionAtLeast9() {
             // Starting with iOS9, leftView and rightView are reflected in RTL views.
@@ -58,6 +65,7 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
         tapButton.accessibilityTraits = UIAccessibilityTraitNone
         tapButton.accessibilityLabel = String(format: "%@, %@", placeholder, Strings.accessibilityDropdownTrait)
         tapButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
+        tapButton.setAttributedTitle(titleStyle.attributedString(withText: placeholder), for: .normal)
     }
     
     override var canBecomeFirstResponder: Bool {
