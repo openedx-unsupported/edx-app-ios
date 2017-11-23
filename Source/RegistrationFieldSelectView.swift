@@ -63,9 +63,14 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     override func layoutSubviews() {
         super.layoutSubviews()
         tapButton.accessibilityTraits = UIAccessibilityTraitNone
-        tapButton.accessibilityLabel = String(format: "%@, %@", placeholder, Strings.accessibilityDropdownTrait)
-        tapButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
-        tapButton.setAttributedTitle(titleStyle.attributedString(withText: placeholder), for: .normal)
+        tapButton.accessibilityHint = String(format: "%@, %@", instructionMessage, Strings.accessibilityShowsDropdownHint)
+        setButtonTitle(title: placeholder)
+        
+    }
+    
+    private func setButtonTitle(title: String) {
+        tapButton.setAttributedTitle(titleStyle.attributedString(withText: title), for: .normal)
+        tapButton.accessibilityLabel = String(format: "%@, %@", title, Strings.accessibilityDropdownTrait)
     }
     
     override var canBecomeFirstResponder: Bool {
@@ -95,10 +100,10 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selected = self.options[row]
         if let selected = self.selected, !selected.value.isEmpty {
-            self.textInputView.text = selected.name
+            setButtonTitle(title: selected.name)
         }
         else {
-            self.textInputView.text = ""
+            setButtonTitle(title: placeholder)
         }
     }
     
