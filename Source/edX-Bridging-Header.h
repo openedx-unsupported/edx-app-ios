@@ -43,7 +43,6 @@
 #import "OEXMySettingsViewController.h"
 #import "OEXPlaceholderTextView.h"
 #import "OEXPushSettingsManager.h"
-#import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationOption.h"
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationViewController.h"

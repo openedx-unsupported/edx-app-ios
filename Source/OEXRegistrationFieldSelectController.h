@@ -9,7 +9,6 @@
 @import Foundation;
 #import "OEXRegistrationFieldController.h"
 #import "OEXRegistrationFormField.h"
-#import "OEXRegistrationFieldEmailView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

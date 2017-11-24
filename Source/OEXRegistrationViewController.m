@@ -22,7 +22,6 @@
 #import "OEXHTTPStatusCodes.h"
 #import "OEXRegistrationAgreementController.h"
 #import "OEXRegistrationDescription.h"
-#import "OEXRegistrationFieldControllerFactory.h"
 #import "OEXRegistrationFieldError.h"
 #import "OEXRegistrationFormField.h"
 #import "OEXRegistrationStyles.h"

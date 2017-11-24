@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#import "OEXRegistrationFieldEmailView.h"
+#import "edX-Swift.h"
 
 @interface OEXRegistrationFieldEmailViewTests : XCTestCase
 
@@ -17,8 +17,8 @@
 
 @implementation OEXRegistrationFieldEmailViewTests
 - (void)testAutocorrect {
-    OEXRegistrationFieldEmailView* view = [[OEXRegistrationFieldEmailView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-    XCTAssertEqual(view.textInputView.autocorrectionType, UITextAutocorrectionTypeNo);
+    RegistrationFormFieldView* view = [[RegistrationFormFieldView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    XCTAssertEqual(view.textInputField.autocorrectionType, UITextAutocorrectionTypeNo);
     
 }
 @end
