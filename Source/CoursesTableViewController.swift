@@ -100,9 +100,10 @@ class CoursesTableViewController: UITableViewController {
         let course = self.courses[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CourseCardCell.cellIdentifier, for: indexPath as IndexPath) as! CourseCardCell
-        cell.accessibilityLabel = cell.courseView.updateAcessibilityLabel()
+        DispatchQueue.main.async {
+            cell.accessibilityLabel = cell.courseView.updateAcessibilityLabel()
+        }
         cell.accessibilityHint = Strings.accessibilityShowsCourseContent
-        
         cell.courseView.tapAction = {[weak self] card in
             self?.delegate?.coursesTableChoseCourse(course: course)
         }

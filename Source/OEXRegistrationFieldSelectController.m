@@ -24,9 +24,6 @@
     if(self) {
         self.field = field;
         self.view = [[RegistrationFieldSelectView alloc] init];
-//        self.view.instructionMessage = field.instructions;
-//        self.view.placeholder = field.label;
-//        self.view.isRequired = field.isRequired;
         self.view.field = field;
         self.view.options = self.field.fieldOptions;
         self.view.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];

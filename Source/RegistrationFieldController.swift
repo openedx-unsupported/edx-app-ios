@@ -70,7 +70,6 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
             break
         case OEXRegistrationFieldTypeTextArea:
             self._view.accessibilityHint = _field.instructions != "" ? _field.instructions : _field.label
-//            self.view.accessibilityHint = [field.instructions length] > 0 ? field.instructions : field.label;
             break
         default:
             break

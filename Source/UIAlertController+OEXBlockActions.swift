@@ -89,6 +89,23 @@ extension UIAlertController {
         
     }
     
+    @discardableResult func showAlert(withTitle title: String?,
+                                      message: String?,
+                                      cancelButtonTitle: String?,
+                                      onViewController viewController: UIViewController,
+                                      tapBlock:((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?) -> UIAlertController{
+        
+        return showIn(viewController: viewController,
+                           title: title,
+                           message: message,
+                           preferredStyle: UIAlertControllerStyle.alert,
+                           cancelButtonTitle: cancelButtonTitle,
+                           destructiveButtonTitle: nil,
+                           otherButtonsTitle: nil,
+                           tapBlock: tapBlock)
+        
+    }
+    
     //MARK:- Add Action Methods
     
     func addButton(withTitle title: String,

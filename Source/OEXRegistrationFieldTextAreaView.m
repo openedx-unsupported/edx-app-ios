@@ -15,7 +15,7 @@
 static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
 static NSInteger const formFieldLabelHeight = 20;
 
-@interface OEXRegistrationFieldTextAreaView ()
+@interface OEXRegistrationFieldTextAreaView () <UITextViewDelegate>
 
 @property (strong, nonatomic) OEXRegistrationFieldWrapperView* registrationWrapper;
 @property (strong, nonatomic) OEXPlaceholderTextView* textInputView;
@@ -99,6 +99,11 @@ static NSInteger const formFieldLabelHeight = 20;
 
 - (void)clearError {
     self.errorMessage = nil;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    textView.accessibilityLabel = _field.label;
+    return YES;
 }
 
 @end

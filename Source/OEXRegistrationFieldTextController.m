@@ -22,11 +22,8 @@
     self = [super init];
     if(self) {
         self.field = field;
+
         self.view = [[RegistrationFormFieldView alloc] initWith:field];
-//        self.view.field = field;
-//        self.view.instructionMessage = field.instructions;
-//        self.view.placeholder = field.label;
-//        self.view.isRequired = field.isRequired;
     }
     return self;
 }
