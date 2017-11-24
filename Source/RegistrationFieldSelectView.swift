@@ -16,6 +16,11 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
     
+    
+    private var titleStyle : OEXTextStyle {
+        return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+    }
+    
     override init(frame : CGRect) {
         super.init(frame : CGRect.zero)
         picker.dataSource = self
@@ -26,6 +31,8 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
         dropdownTab.image = Icon.Dropdown.imageWithFontSize(size: 12)
         dropdownTab.tintColor = OEXStyles.shared().neutralDark()
         dropdownTab.sizeToFit()
+        
+        tapButton.localizedHorizontalContentAlignment = .Leading
         
         if isRightToLeft && !UIDevice.isOSVersionAtLeast9() {
             // Starting with iOS9, leftView and rightView are reflected in RTL views.
@@ -55,8 +62,15 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        tapButton.accessibilityLabel = self.placeholder
-        tapButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
+        tapButton.accessibilityTraits = UIAccessibilityTraitNone
+        tapButton.accessibilityHint = String(format: "%@, %@", instructionMessage, Strings.accessibilityShowsDropdownHint)
+        setButtonTitle(title: placeholder)
+        
+    }
+    
+    private func setButtonTitle(title: String) {
+        tapButton.setAttributedTitle(titleStyle.attributedString(withText: title), for: .normal)
+        tapButton.accessibilityLabel = String(format: "%@, %@", title, Strings.accessibilityDropdownTrait)
     }
     
     override var canBecomeFirstResponder: Bool {
@@ -86,10 +100,10 @@ class RegistrationFieldSelectView: OEXRegistrationFormTextField, UIPickerViewDel
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selected = self.options[row]
         if let selected = self.selected, !selected.value.isEmpty {
-            self.textInputView.text = selected.name
+            setButtonTitle(title: selected.name)
         }
         else {
-            self.textInputView.text = ""
+            setButtonTitle(title: placeholder)
         }
     }
     

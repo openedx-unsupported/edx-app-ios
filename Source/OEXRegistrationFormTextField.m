@@ -73,6 +73,11 @@ static NSInteger const textFieldHeight = 40;
     CGRect frame = self.frame;
     frame.size.height = offset + paddingBottom;
     self.frame = frame;
+    
+    if (self.fieldType == OEXRegistrationFieldTypeSelect) {
+        [self.textInputView setAttributedPlaceholder:[_placeHolderStyle attributedStringWithText:@""]];
+    }
+    
     [super layoutSubviews];
 }
 

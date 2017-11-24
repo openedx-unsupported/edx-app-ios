@@ -74,6 +74,8 @@
 "ACCESSIBILITY_SETTINGS" = "Settings";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Double tap to view course content.";
+/* We don't have a accessility trait for dropdown, so we will be achieving dropdown trait through accessibility label */
+"ACCESSIBILITY_DROPDOWN_TRAIT" = "Dropdown.";
 /* Call to action for Opening Dropdown */
 "ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Double tap to open dropdown.";
 /* Call to action for Selecting Option */
