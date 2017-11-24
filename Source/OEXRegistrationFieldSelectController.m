@@ -23,8 +23,7 @@
     self = [super init];
     if(self) {
         self.field = field;
-        self.view = [[RegistrationFieldSelectView alloc] init];
-        self.view.field = field;
+        self.view = [[RegistrationFieldSelectView alloc] initWith:field];
         self.view.options = self.field.fieldOptions;
         self.view.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
         self.view.picker.accessibilityIdentifier = [NSString stringWithFormat:@"picker-field-%@", field.name];
