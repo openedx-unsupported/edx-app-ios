@@ -13,7 +13,7 @@
 
 static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
 
-@interface OEXRegistrationFieldTextAreaView ()
+@interface OEXRegistrationFieldTextAreaView () <UITextViewDelegate>
 
 @property (strong, nonatomic) OEXRegistrationFieldWrapperView* registrationWrapper;
 @property (strong, nonatomic) OEXPlaceholderTextView* textInputView;
@@ -53,6 +53,7 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
     CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
     [self.textInputView setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, 100)];
     [self.textInputView setPlaceholder:self.placeholder];
+    self.textInputView.accessibilityLabel = self.placeholder;
     offset = offset + 100;
     [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:self.instructionMessage];
     [self.registrationWrapper setNeedsLayout];
@@ -76,6 +77,11 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
 
 - (void)clearError {
     self.errorMessage = nil;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    textView.accessibilityLabel = self.placeholder;
+    return YES;
 }
 
 @end
