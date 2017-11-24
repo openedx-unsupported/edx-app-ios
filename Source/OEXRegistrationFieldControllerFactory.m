@@ -14,21 +14,22 @@
 #import "OEXRegistrationFieldSelectController.h"
 #import "OEXRegistrationFieldCheckBoxController.h"
 #import "OEXRegistrationAgreementController.h"
+#import "edX-Swift.h"
 
 @implementation OEXRegistrationFieldControllerFactory
 
 + (id <OEXRegistrationFieldController> )registrationFieldViewController:(OEXRegistrationFormField*)registrationField {
     switch(registrationField.fieldType) {
         case OEXRegistrationFieldTypePassword:
-            return [OEXRegistrationFieldControllerFactory passwordFieldControllerWith:registrationField];
+            return [OEXRegistrationFieldControllerFactory fieldControllerWith:registrationField];
         case OEXRegistrationFieldTypeText:
-            return [OEXRegistrationFieldControllerFactory textFieldControllerWith:registrationField];
+            return [OEXRegistrationFieldControllerFactory fieldControllerWith:registrationField];
         case OEXRegistrationFieldTypeTextArea:
-            return [OEXRegistrationFieldControllerFactory textAreaFieldControllerWith:registrationField];
+            return [OEXRegistrationFieldControllerFactory fieldControllerWith:registrationField];
         case OEXRegistrationFieldTypeSelect:
             return [OEXRegistrationFieldControllerFactory selectFieldControllerWith:registrationField];
         case OEXRegistrationFieldTypeEmail:
-            return [OEXRegistrationFieldControllerFactory emailFieldControllerWith:registrationField];
+            return [OEXRegistrationFieldControllerFactory fieldControllerWith:registrationField];
         case OEXRegistrationFieldTypeCheckbox:
             return [OEXRegistrationFieldControllerFactory checkboxFieldControllerWith:registrationField];
         case OEXRegistrationFieldTypeAgreement:
@@ -68,6 +69,10 @@
 
 + (id <OEXRegistrationFieldController>)registrationAgreementControllerWith:(OEXRegistrationFormField*)formField {
     return [[OEXRegistrationAgreementController alloc] initWithRegistrationFormField:formField];
+}
+
++ (id <OEXRegistrationFieldController>)fieldControllerWith:(OEXRegistrationFormField*)formField {
+    return [[RegistrationFieldController alloc] initWith:formField];
 }
 
 @end

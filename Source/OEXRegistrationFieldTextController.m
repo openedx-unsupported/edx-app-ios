@@ -7,11 +7,13 @@
 //
 
 #import "OEXRegistrationFieldTextController.h"
-#import "OEXRegistrationFormTextField.h"
+//#import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationFieldValidator.h"
+#import "edX-Swift.h"
+
 @interface OEXRegistrationFieldTextController ()
 @property(nonatomic, strong) OEXRegistrationFormField* field;
-@property(nonatomic, strong) OEXRegistrationFormTextField* view;
+@property(nonatomic, strong) RegistrationFormFieldView* view;
 @end
 
 @implementation OEXRegistrationFieldTextController
@@ -20,9 +22,11 @@
     self = [super init];
     if(self) {
         self.field = field;
-        self.view = [[OEXRegistrationFormTextField alloc] init];
-        self.view.instructionMessage = field.instructions;
-        self.view.placeholder = field.label;
+        self.view = [[RegistrationFormFieldView alloc] initWith:field];
+//        self.view.field = field;
+//        self.view.instructionMessage = field.instructions;
+//        self.view.placeholder = field.label;
+//        self.view.isRequired = field.isRequired;
     }
     return self;
 }
@@ -53,7 +57,7 @@
 }
 
 -  (UIView*)accessibleInputField {
-    return self.view.textInputView;
+    return self.view.textInputField;
 }
 
 @end

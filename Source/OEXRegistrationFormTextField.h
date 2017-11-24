@@ -7,15 +7,21 @@
 //
 
 @import UIKit;
+#import "OEXRegistrationFormField.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXRegistrationFormTextField : UIView
 
-@property(nonatomic, strong, nullable) NSString* errorMessage;
-@property(nonatomic, strong) NSString* instructionMessage;
-@property(nonatomic, strong) NSString* placeholder;
 
+@property(nonatomic, strong, nullable) NSString* errorMessage;
+
+//@property(nonatomic, strong) NSString* instructionMessage;
+//@property(nonatomic, strong) NSString* placeholder;
+//@property(nonatomic, assign) BOOL isRequired;
+
+@property(nonatomic, strong) OEXRegistrationFormField* field;
+@property (strong, nonatomic) UILabel* textInputLabel;
 @property (strong, nonatomic) UITextField* textInputView;
 
 - (void)takeValue:(NSString*)value;

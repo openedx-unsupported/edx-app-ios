@@ -631,6 +631,11 @@
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
 		B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
+		B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */; };
+		B78823A61FC6F59A00F9CD61 /* RegistrationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */; };
+		B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */; };
+		B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AB1FC709BD00F9CD61 /* String+Validation.swift */; };
+		B78823B01FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */; };
 		BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */; };
 		BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */; };
 		BD7C6C401DCA329A0004D135 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = BD7C6C3F1DCA329A0004D135 /* fonts.json */; };
@@ -1546,6 +1551,11 @@
 		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
 		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
 		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
+		B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFormFieldView.swift; sourceTree = "<group>"; };
+		B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationTextField.swift; sourceTree = "<group>"; };
+		B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldController.swift; sourceTree = "<group>"; };
+		B78823AB1FC709BD00F9CD61 /* String+Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Validation.swift"; sourceTree = "<group>"; };
+		B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldControllerFactory.swift; sourceTree = "<group>"; };
 		BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsTests.swift; sourceTree = "<group>"; };
 		BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFonts.swift; sourceTree = "<group>"; };
 		BD7C6C3F1DCA329A0004D135 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
@@ -2435,6 +2445,7 @@
 				E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */,
 				E03E6A181D38EC7500944AAA /* UIView+UIViewController.swift */,
 				E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */,
+				B78823AB1FC709BD00F9CD61 /* String+Validation.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -2959,18 +2970,19 @@
 			isa = PBXGroup;
 			children = (
 				77F76A6D1B0BD32A00ED3E39 /* OEXSession+Authorization.swift */,
-				7769071F1AD5EED600F5E7EB /* Screens */,
-				BECB7B661924EE06009C77F1 /* Login */,
-				77ADF4B01AC1F82300AC8955 /* Providers */,
 				7713DFBD1AC3C16C005A1756 /* OEXRegisteringUserDetails.h */,
 				7713DFBE1AC3C16C005A1756 /* OEXRegisteringUserDetails.m */,
 				77FFA2CA1AC35CE800B4D69B /* OEXRegistrationStyles.h */,
 				77FFA2CB1AC35CE800B4D69B /* OEXRegistrationStyles.m */,
-				B4B6D5F11A949EDE000F44E8 /* Registration Field Controllers */,
-				B4B6D5F01A949ED6000F44E8 /* Views */,
-				B4B6D5EF1A949ECD000F44E8 /* Model */,
 				B4B6D62F1A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.h */,
 				B4B6D6301A949F71000F44E8 /* OEXRegistrationFieldControllerFactory.m */,
+				B78823A21FC6F59A00F9CD61 /* Registration Field Views */,
+				B4B6D5F11A949EDE000F44E8 /* Registration Field Controllers */,
+				7769071F1AD5EED600F5E7EB /* Screens */,
+				BECB7B661924EE06009C77F1 /* Login */,
+				77ADF4B01AC1F82300AC8955 /* Providers */,
+				B4B6D5F01A949ED6000F44E8 /* Views */,
+				B4B6D5EF1A949ECD000F44E8 /* Model */,
 			);
 			name = Authentication;
 			sourceTree = "<group>";
@@ -3034,6 +3046,8 @@
 			isa = PBXGroup;
 			children = (
 				B4B6D61C1A949F1B000F44E8 /* OEXRegistrationFieldController.h */,
+				B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */,
+				B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */,
 				B4B6D61D1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.h */,
 				B4B6D61E1A949F1B000F44E8 /* OEXRegistrationFieldEmailController.m */,
 				B4B6D61F1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.h */,
@@ -3052,6 +3066,15 @@
 				B4B2F1691AA4F4E500A66A71 /* OEXRegistrationFieldValidator.m */,
 			);
 			name = "Registration Field Controllers";
+			sourceTree = "<group>";
+		};
+		B78823A21FC6F59A00F9CD61 /* Registration Field Views */ = {
+			isa = PBXGroup;
+			children = (
+				B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */,
+				B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */,
+			);
+			path = "Registration Field Views";
 			sourceTree = "<group>";
 		};
 		BE0D454E192DE63900D720D6 /* Data */ = {
@@ -3665,7 +3688,6 @@
 						TestTargetID = BECB7B0A1924C0C3009C77F1;
 					};
 					BECB7B0A1924C0C3009C77F1 = {
-						DevelopmentTeam = 57UCUYGPA2;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -4274,6 +4296,7 @@
 				775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */,
+				B78823A61FC6F59A00F9CD61 /* RegistrationTextField.swift in Sources */,
 				B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */,
 				7713DFBF1AC3C16C005A1756 /* OEXRegisteringUserDetails.m in Sources */,
 				77FDF40F1AFBAE7700E8C639 /* OEXRouter+Swift.swift in Sources */,
@@ -4354,12 +4377,15 @@
 				699FF8541E5AE74300AD98A5 /* EmailTemplates.swift in Sources */,
 				199627A71945D95D0022C489 /* OEXFrontTableViewCell.m in Sources */,
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
+				B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
+				B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */,
 				77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */,
 				B4B6D6031A949EFC000F44E8 /* OEXRegistrationOption.m in Sources */,
 				223895D01F25CF76005B9C15 /* SwipeActionButton.swift in Sources */,
+				B78823B01FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift in Sources */,
 				5D43B1871B0C1F9200448B52 /* PostsViewController.swift in Sources */,
 				5DD0FFC31B17ED2100837121 /* DiscussionCommentsViewController.swift in Sources */,
 				770C514D1B1685F5009B9696 /* AuthenticatedWebViewController.swift in Sources */,
@@ -4398,6 +4424,7 @@
 				77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */,
 				77DCD23B1C2B14BA00CAEBB5 /* UITableView+Layout.swift in Sources */,
 				77509D941BE1710200B10CD3 /* TZStackView.swift in Sources */,
+				B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */,
 				9E17EFD31BC65B7600C903CC /* UIAppearance+Swift.m in Sources */,
 				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
 				775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */,
@@ -4776,7 +4803,7 @@
 				CODE_SIGN_ENTITLEMENTS = edX.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				DEVELOPMENT_TEAM = 57UCUYGPA2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5201,7 +5228,7 @@
 				CODE_SIGN_ENTITLEMENTS = edX.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				DEVELOPMENT_TEAM = 57UCUYGPA2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5238,7 +5265,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				DEVELOPMENT_TEAM = 57UCUYGPA2;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

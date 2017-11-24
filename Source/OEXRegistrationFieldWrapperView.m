@@ -8,12 +8,13 @@
 
 #import "OEXRegistrationFieldWrapperView.h"
 #import "OEXStyles.h"
+#import "OEXTextStyle.h"
 
 @interface OEXRegistrationFieldWrapperView ()
 
 @property (strong, nonatomic) UILabel* errorLabel;
 @property (strong, nonatomic) UILabel* instructionLabel;
-
+@property (strong, nonatomic) OEXTextStyle *instructionLabelStyle;
 @end
 
 @implementation OEXRegistrationFieldWrapperView
@@ -33,7 +34,10 @@
         self.instructionLabel.numberOfLines = 0;
         self.instructionLabel.font = [[OEXStyles sharedStyles] sansSerifOfSize:10.f];
         self.instructionLabel.isAccessibilityElement = NO;
+        self.instructionLabel.textColor = [[OEXStyles sharedStyles] neutralBlack];
         [self addSubview:self.instructionLabel];
+        
+        _instructionLabelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] neutralDark]];
     }
     return self;
 }
@@ -82,8 +86,12 @@
 
 - (void)setRegistrationErrorMessage:(NSString*)errorMessage instructionMessage:(NSString*)instructionMessage {
     self.errorLabel.text = errorMessage;
-    self.instructionLabel.text = instructionMessage;
+    self.instructionLabel.attributedText = [_instructionLabelStyle attributedStringWithText:instructionMessage];
+    [self.errorLabel sizeToFit];
+    [self.instructionLabel sizeToFit];
     [self setNeedsLayout];
+    [self layoutIfNeeded];
+    [self layoutSubviews];
 }
 
 @end

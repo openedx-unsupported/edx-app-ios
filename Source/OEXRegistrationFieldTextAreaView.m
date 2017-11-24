@@ -10,14 +10,17 @@
 #import "OEXRegistrationFieldWrapperView.h"
 #import "OEXPlaceholderTextView.h"
 #import "OEXStyles.h"
+#import "OEXTextStyle.h"
 
 static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
+static NSInteger const formFieldLabelHeight = 20;
 
 @interface OEXRegistrationFieldTextAreaView ()
 
 @property (strong, nonatomic) OEXRegistrationFieldWrapperView* registrationWrapper;
 @property (strong, nonatomic) OEXPlaceholderTextView* textInputView;
 
+@property (nonatomic) OEXTextStyle *formFieldLabelStyle;
 @end
 
 @implementation OEXRegistrationFieldTextAreaView
@@ -26,6 +29,12 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
     self = [super initWithFrame:self.bounds];
     if(self) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        // Add Label On Top
+        self.textInputLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.textInputLabel.isAccessibilityElement = NO;
+        
+        _formFieldLabelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+        
         self.textInputView = [[OEXPlaceholderTextView alloc] initWithFrame:CGRectZero];
         self.textInputView.textContainer.lineFragmentPadding = 0;
         self.textInputView.textContainerInset = UIEdgeInsetsMake(5, 10, 5, 10);
@@ -41,29 +50,43 @@ static NSString* const textAreaBackgoundImage = @"bt_grey_default.png";
         [self addSubview:self.textInputView];
         self.registrationWrapper = [[OEXRegistrationFieldWrapperView alloc] init];
         [self addSubview:self.registrationWrapper];
+        [self addSubview:self.textInputLabel];
     }
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    CGFloat offset = 0;
-    CGFloat paddingHorizontal = 20;
-    CGFloat bottomPadding = 10;
-    CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
-    [self.textInputView setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, 100)];
-    [self.textInputView setPlaceholder:self.placeholder];
-    offset = offset + 100;
-    [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:self.instructionMessage];
-    [self.registrationWrapper setNeedsLayout];
-    [self.registrationWrapper layoutIfNeeded];
-    [self.registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, self.registrationWrapper.frame.size.height)];
-    if([self.errorMessage length] > 0 || [self.instructionMessage length] > 0) {
-        offset = offset + self.registrationWrapper.frame.size.height;
+    if (_field) {
+        
+        
+        CGFloat offset = 24;
+        CGFloat paddingHorizontal = 20;
+        CGFloat bottomPadding = 10;
+        CGFloat frameWidth = self.bounds.size.width - 2 * paddingHorizontal;
+        
+        self.textInputLabel.frame = CGRectMake(paddingHorizontal, 0, frameWidth, formFieldLabelHeight);
+        if (_field.isRequired){
+            self.textInputLabel.attributedText = [_formFieldLabelStyle attributedStringWithText:[NSString stringWithFormat:@"%@ *", _field.label]];
+        }
+        else{
+            self.textInputLabel.attributedText = [_formFieldLabelStyle attributedStringWithText:_field.label];
+        }
+        
+        [self.textInputView setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, 100)];
+//            [self.textInputView setPlaceholder:_field.label];
+        offset = offset + 100;
+        [self.registrationWrapper setRegistrationErrorMessage:self.errorMessage instructionMessage:_field.instructions];
+        [self.registrationWrapper setNeedsLayout];
+        [self.registrationWrapper layoutIfNeeded];
+        [self.registrationWrapper setFrame:CGRectMake(0, offset, self.bounds.size.width, self.registrationWrapper.frame.size.height)];
+        if([self.errorMessage length] > 0 || [_field.instructions length] > 0) {
+            offset = offset + self.registrationWrapper.frame.size.height;
+        }
+        CGRect frame = self.frame;
+        frame.size.height = offset + bottomPadding;
+        self.frame = frame;
     }
-    CGRect frame = self.frame;
-    frame.size.height = offset + bottomPadding;
-    self.frame = frame;
 }
 
 - (void)takeValue:(NSString*)value {

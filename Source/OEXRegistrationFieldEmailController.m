@@ -7,12 +7,14 @@
 //
 
 #import "OEXRegistrationFieldEmailController.h"
-#import "OEXRegistrationFormField.h"
+//#import "OEXRegistrationFormField.h"
 #import "NSString+OEXValidation.h"
 #import "OEXRegistrationFieldValidator.h"
+#import "edX-Swift.h"
+
 @interface OEXRegistrationFieldEmailController ()
 @property(nonatomic, strong) OEXRegistrationFormField* field;
-@property(nonatomic, strong) OEXRegistrationFieldEmailView* view;
+@property(nonatomic, strong) RegistrationFormFieldView* view;
 @end
 
 @implementation OEXRegistrationFieldEmailController
@@ -21,10 +23,9 @@
     self = [super init];
     if(self) {
         self.field = field;
-        self.view = [[OEXRegistrationFieldEmailView alloc] init];
-        self.view.instructionMessage = field.instructions;
-        self.view.placeholder = field.label;
-        self.view.textInputView.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
+        self.view = [[RegistrationFormFieldView alloc] initWith:field];
+        self.view.textInputField.keyboardType = UIKeyboardTypeEmailAddress;
+        self.view.textInputField.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
     }
     return self;
 }
@@ -61,7 +62,7 @@
 }
 
 - (UIView*)accessibleInputField {
-    return self.view.textInputView;
+    return self.view.textInputField;
 }
 
 @end

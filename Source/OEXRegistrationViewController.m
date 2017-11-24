@@ -87,7 +87,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     //By default we only shows required fields
     self.isShowingOptionalFields = NO;
     
-    _buttonsTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles primaryBaseColor]];
+    _buttonsTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralBlack]];
     
     [self getFormFields];
 }
@@ -107,7 +107,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     NSArray* fields = self.registrationDescription.registrationFormFields;
     self.fieldControllers = [fields oex_map:^id < OEXRegistrationFieldController > (OEXRegistrationFormField* formField)
                              {
-                                 id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
+                                 id <OEXRegistrationFieldController> fieldController = [RegistrationFieldControllerFactory registrationControllerOf:formField];
                                  if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {
                                      // These don't have explicit representations in the apps
                                      return nil;
@@ -161,10 +161,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     //This button will show and hide optional fields
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
-    [self.toggleOptionalFieldsButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton setTitle:[Strings registrationShowOptionalFields]  forState:UIControlStateNormal];
-    [self.toggleOptionalFieldsButton.titleLabel setFont:[self.environment.styles semiBoldSansSerifOfSize:14.0]];
-
+    [self.toggleOptionalFieldsButton.titleLabel setFont:[self.environment.styles boldSansSerifOfSize:14.0]];
+    [self.toggleOptionalFieldsButton setTitleColor:[[OEXStyles sharedStyles] neutralDark] forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
 
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] init];
@@ -246,6 +245,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
+    [self viewDidLayoutSubviews];
     UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
 }
 
