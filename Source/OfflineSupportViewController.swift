@@ -26,6 +26,8 @@ public class OfflineSupportViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupObservers()
+        edgesForExtendedLayout = []
+        tabBarController?.tabBar.isTranslucent = false
     }
     
     override public func viewWillAppear(_ animated: Bool) {

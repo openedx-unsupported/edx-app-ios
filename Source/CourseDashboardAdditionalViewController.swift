@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseDashboardAdditionalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CourseDashboardAdditionalViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate {
 
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
@@ -18,7 +18,7 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     
     init(environment: Environment, cellItems:[CourseDashboardTabBarItem]) {
         self.environment = environment
-        super.init(nibName: nil, bundle: nil)
+        super.init(env: environment)
         prepareTableViewData(items: cellItems)
     }
     
@@ -31,7 +31,6 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     
         view.backgroundColor = environment.styles.standardBackgroundColor()
         title = Strings.resourses
-    
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
@@ -45,8 +44,6 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         tableView.snp_makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-        edgesForExtendedLayout = []
-        tabBarController?.tabBar.isTranslucent = false
     }
     
     private func prepareTableViewData(items:[CourseDashboardTabBarItem]) {
