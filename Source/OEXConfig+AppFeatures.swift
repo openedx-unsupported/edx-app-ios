@@ -87,4 +87,8 @@ extension OEXConfig {
     var isTabsDashboardEnabled: Bool {
         return bool(forKey: "TABS_DASHBOARD_ENABLED")
     }
+    
+    var invertColorLoginSlpashViewSignInBtn: Bool {
+        return bool(forKey: "INVERT_COLOR_LOGIN_SPLASH_VIEW_SIGN_IN_BTN")
+    }
 }
