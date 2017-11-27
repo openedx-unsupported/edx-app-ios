@@ -191,8 +191,13 @@ static OEXInterface* _sharedInterface = nil;
     if([URLString rangeOfString:URL_SUBSTRING_VIDEOS].location != NSNotFound) {
         return YES;
     }
-    else if([URLString rangeOfString:URL_EXTENSION_VIDEOS].location != NSNotFound) {
-        return YES;
+    else {
+        for (NSString *extension_option in VIDEO_URL_EXTENSION_OPTIONS) {
+        // Check each string in VIDEO_URL_EXTENSION_OPTIONS to see if the URL has a valid file extension for a video
+            if([URLString localizedCaseInsensitiveContainsString:extension_option]) {
+                return YES;
+            }
+        }
     }
     return NO;
 }
