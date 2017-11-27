@@ -72,7 +72,6 @@
 #import "UIImage+OEXColors.h"
 #import "NSDate+OEXComparisons.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
-#import "OEXRegistrationFieldValidator.h"
 #import "NSString+OEXValidation.h"
 #import "OEXRegistrationFieldSelectController.h"
 #import "OEXRegistrationFieldCheckBoxController.h"

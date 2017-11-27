@@ -36,8 +36,7 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
         return ""
     }
     var isValidInput: Bool{
-        
-        if let errorMessage = OEXRegistrationFieldValidator.validate(_field, withText: self.stringValue) {
+        if let errorMessage = validate() {
             self.handleError(errorMessage)
             return false
         }
@@ -97,5 +96,37 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
         }
     }
     
+    
+    func validate() -> String?{
+        if _field.isRequired && stringValue == "" {
+            if _field.errorMessage.required == ""{
+                return Strings.registrationFieldEmptyError(fieldName: _field.label)
+            }
+            else{
+                return _field.errorMessage.required
+            }
+        }
+        
+        let length = stringValue.characters.count
+        if length < _field.restriction.minLength {
+            if _field.errorMessage.minLength == "" {
+                return Strings.registrationFieldMinLengthError(fieldName: _field.label, count: "\(_field.restriction.minLength)")(_field.restriction.minLength)
+            }
+            else{
+                return _field.errorMessage.minLength
+            }
+        }
+        
+        if length > _field.restriction.maxLength && _field.restriction.maxLength != 0{
+            if _field.errorMessage.maxLength == ""{
+                return Strings.registrationFieldMaxLengthError(fieldName: _field.label, count: "\(_field.restriction.maxLength)")(_field.restriction.maxLength)
+            }
+            else{
+                return _field.errorMessage.maxLength
+            }
+        }
+        
+        return nil
+    }
     
 }
