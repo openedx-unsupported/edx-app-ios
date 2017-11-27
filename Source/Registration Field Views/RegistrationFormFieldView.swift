@@ -223,19 +223,6 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
         errorMessage = ""
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == self.textInputField {
-            if textField.text == "" && string != "" {
-                if let formField = formField{
-                    textField.accessibilityLabel = formField.label
-                }
-            }
-            else if string == "" && textField.text?.characters.count == 1{
-                textField.accessibilityLabel = nil
-            }
-        }
-        return true
-    }
 }
 extension String{
     fileprivate func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
