@@ -44,15 +44,13 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
         switch field.fieldType {
         case OEXRegistrationFieldTypeEmail:
             if hasValue && !stringValue.isValidEmailAddress(){
-                self.handleError("Please make sure your e-mail address is formatted correctly and try again.")
+                handleError(Strings.ErrorMessage.invalidEmailFormat)
                 return false;
             }
             break
         default:
             break
         }
-        
-        
         return true
     }
     
@@ -61,14 +59,11 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
         self._view = RegistrationFormFieldView(with: formField)
         switch formField.fieldType {
         case OEXRegistrationFieldTypeEmail:
-            self._view.textInputField.keyboardType = .emailAddress
-            self._view.textInputField.accessibilityIdentifier = "field-\(_field.name)"
+            _view.textInputField.keyboardType = .emailAddress
+            _view.textInputField.accessibilityIdentifier = "field-\(_field.name)"
             break
         case OEXRegistrationFieldTypePassword:
-            self._view.textInputField.isSecureTextEntry = true
-            break
-        case OEXRegistrationFieldTypeTextArea:
-            self._view.accessibilityHint = _field.instructions != "" ? _field.instructions : _field.label
+            _view.textInputField.isSecureTextEntry = true
             break
         default:
             break
@@ -102,33 +97,15 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
     
     private func validate() -> String?{
         if _field.isRequired && stringValue == "" {
-            if _field.errorMessage.required == ""{
-                return Strings.registrationFieldEmptyError(fieldName: _field.label)
-            }
-            else{
-                return _field.errorMessage.required
-            }
+            return _field.errorMessage.required == "" ? Strings.registrationFieldEmptyError(fieldName: _field.label) : _field.errorMessage.required
         }
-        
         let length = stringValue.characters.count
         if length < _field.restriction.minLength {
-            if _field.errorMessage.minLength == "" {
-                return Strings.registrationFieldMinLengthError(fieldName: _field.label, count: "\(_field.restriction.minLength)")(_field.restriction.minLength)
-            }
-            else{
-                return _field.errorMessage.minLength
-            }
+            return _field.errorMessage.minLength == "" ? Strings.registrationFieldMinLengthError(fieldName: _field.label, count: "\(_field.restriction.minLength)")(_field.restriction.minLength) : _field.errorMessage.minLength
         }
-        
         if length > _field.restriction.maxLength && _field.restriction.maxLength != 0{
-            if _field.errorMessage.maxLength == ""{
-                return Strings.registrationFieldMaxLengthError(fieldName: _field.label, count: "\(_field.restriction.maxLength)")(_field.restriction.maxLength)
-            }
-            else{
-                return _field.errorMessage.maxLength
-            }
+            return _field.errorMessage.maxLength == "" ? Strings.registrationFieldMaxLengthError(fieldName: _field.label, count: "\(_field.restriction.maxLength)")(_field.restriction.maxLength): _field.errorMessage.maxLength
         }
-        
         return nil
     }
     

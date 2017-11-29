@@ -21,8 +21,6 @@ import Foundation
             return OEXRegistrationFieldSelectController(registrationFormField: field)
         case OEXRegistrationFieldTypeCheckbox:
             return OEXRegistrationFieldCheckBoxController(registrationFormField: field)
-        case OEXRegistrationFieldTypeAgreement:
-            return RegistrationAgreementController(with: field)
         default:
             break
         }

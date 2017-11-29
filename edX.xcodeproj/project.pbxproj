@@ -619,14 +619,11 @@
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
 		B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
-		B7504C9E1FCEA5E300D86CB6 /* UILabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7504C9D1FCEA5E300D86CB6 /* UILabelStyle.swift */; };
 		B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */; };
 		B78823A61FC6F59A00F9CD61 /* RegistrationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */; };
 		B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */; };
 		B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AB1FC709BD00F9CD61 /* String+Validation.swift */; };
 		B78823B01FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */; };
-		B7EEF7541FCC2F7800F9F426 /* RegistrationAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EEF7531FCC2F7800F9F426 /* RegistrationAgreementView.swift */; };
-		B7EEF7561FCD467400F9F426 /* RegistrationAgreementController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EEF7551FCD467400F9F426 /* RegistrationAgreementController.swift */; };
 		BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */; };
 		BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */; };
 		BD7C6C401DCA329A0004D135 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = BD7C6C3F1DCA329A0004D135 /* fonts.json */; };
@@ -1518,14 +1515,11 @@
 		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
 		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
 		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
-		B7504C9D1FCEA5E300D86CB6 /* UILabelStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UILabelStyle.swift; sourceTree = "<group>"; };
 		B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFormFieldView.swift; sourceTree = "<group>"; };
 		B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationTextField.swift; sourceTree = "<group>"; };
 		B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldController.swift; sourceTree = "<group>"; };
 		B78823AB1FC709BD00F9CD61 /* String+Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Validation.swift"; sourceTree = "<group>"; };
 		B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldControllerFactory.swift; sourceTree = "<group>"; };
-		B7EEF7531FCC2F7800F9F426 /* RegistrationAgreementView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationAgreementView.swift; sourceTree = "<group>"; };
-		B7EEF7551FCD467400F9F426 /* RegistrationAgreementController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationAgreementController.swift; sourceTree = "<group>"; };
 		BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsTests.swift; sourceTree = "<group>"; };
 		BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFonts.swift; sourceTree = "<group>"; };
 		BD7C6C3F1DCA329A0004D135 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
@@ -1795,7 +1789,6 @@
 		193B504219459BE60038E11C /* Custom Styles */ = {
 			isa = PBXGroup;
 			children = (
-				B7504C9D1FCEA5E300D86CB6 /* UILabelStyle.swift */,
 				6919F5FE1D65CD27006935C8 /* OEXColors.swift */,
 				BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */,
 				77C901A61BBDDD630016E468 /* TableCellStyle.swift */,
@@ -3007,7 +3000,6 @@
 				B4B6D61C1A949F1B000F44E8 /* OEXRegistrationFieldController.h */,
 				B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */,
 				B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */,
-				B7EEF7551FCD467400F9F426 /* RegistrationAgreementController.swift */,
 				B4B6D61F1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.h */,
 				B4B6D6201A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m */,
 				B4B6D6251A949F1B000F44E8 /* OEXRegistrationFieldCheckBoxController.h */,
@@ -3021,7 +3013,6 @@
 			children = (
 				B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */,
 				B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */,
-				B7EEF7531FCC2F7800F9F426 /* RegistrationAgreementView.swift */,
 			);
 			path = "Registration Field Views";
 			sourceTree = "<group>";
@@ -4118,7 +4109,6 @@
 				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,
 				778F177C1C0D12780099BF93 /* CourseCatalogAPI.swift in Sources */,
 				B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */,
-				B7504C9E1FCEA5E300D86CB6 /* UILabelStyle.swift in Sources */,
 				773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */,
 				191A002B19405E1B004F7902 /* OEXCourse.m in Sources */,
 				E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */,
@@ -4176,7 +4166,6 @@
 				9E882B6A1BBA9825007347A2 /* DiscussionTopicCell.swift in Sources */,
 				E0A1A0351E93A79E00510488 /* ConstraintMaker.swift in Sources */,
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
-				B7EEF7561FCD467400F9F426 /* RegistrationAgreementController.swift in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
 				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
@@ -4431,7 +4420,6 @@
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
-				B7EEF7541FCC2F7800F9F426 /* RegistrationAgreementView.swift in Sources */,
 				77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */,
 				E0A1A03F1E93A7BE00510488 /* SnapKit.swift in Sources */,
 				9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */,

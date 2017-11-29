@@ -13,8 +13,9 @@
 @interface OEXRegistrationFieldWrapperView ()
 
 @property (strong, nonatomic) UILabel* errorLabel;
-@property (strong, nonatomic) UILabel* instructionLabel;
-@property (strong, nonatomic) OEXTextStyle *instructionLabelStyle;
+@property (strong, nonatomic) UILabel* instructionsLabel;
+@property (strong, nonatomic) OEXTextStyle *errorLabelStyle;
+@property (strong, nonatomic) OEXTextStyle *instructionsLabelStyle;
 @end
 
 @implementation OEXRegistrationFieldWrapperView
@@ -25,19 +26,15 @@
         self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.errorLabel.numberOfLines = 0;
         self.errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.errorLabel.font = [[OEXStyles sharedStyles] sansSerifOfSize:10.f];
-        self.errorLabel.textColor = [UIColor redColor];
+        _errorLabelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[UIColor redColor]];
         [self addSubview:self.errorLabel];
 
-        self.instructionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.instructionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        self.instructionLabel.numberOfLines = 0;
-        self.instructionLabel.font = [[OEXStyles sharedStyles] sansSerifOfSize:10.f];
-        self.instructionLabel.isAccessibilityElement = NO;
-        self.instructionLabel.textColor = [[OEXStyles sharedStyles] neutralBlack];
-        [self addSubview:self.instructionLabel];
-        
-        _instructionLabelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] neutralDark]];
+        self.instructionsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.instructionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.instructionsLabel.numberOfLines = 0;
+        self.instructionsLabel.isAccessibilityElement = NO;
+        [self addSubview:self.instructionsLabel];
+        _instructionsLabelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] neutralDark]];
     }
     return self;
 }
@@ -65,19 +62,19 @@
         offset = offset + spacingTextFieldAndLabel;
         [self.errorLabel setFrame:CGRectZero];
     }
-    if([self.instructionLabel.text length] > 0) {
-        NSDictionary* attributes = @{NSFontAttributeName:self.instructionLabel.font};
-        CGRect rect = [self.instructionLabel.text boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
+    if([self.instructionsLabel.text length] > 0) {
+        NSDictionary* attributes = @{NSFontAttributeName:self.instructionsLabel.font};
+        CGRect rect = [self.instructionsLabel.text boundingRectWithSize:CGSizeMake(frameWidth, CGFLOAT_MAX)
                                                           options:NSStringDrawingUsesLineFragmentOrigin
                                                        attributes:attributes
                                                           context:nil];
-        [self.instructionLabel setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, rect.size.height)];
+        [self.instructionsLabel setFrame:CGRectMake(paddingHorizontal, offset, frameWidth, rect.size.height)];
 
         offset = offset + rect.size.height;
     }
     else {
         offset = offset + spacingTextFieldAndLabel;
-        [self.instructionLabel setFrame:CGRectZero];
+        [self.instructionsLabel setFrame:CGRectZero];
     }
     CGRect frame = self.frame;
     frame.size.height = offset + paddingBottom;
@@ -85,13 +82,11 @@
 }
 
 - (void)setRegistrationErrorMessage:(NSString*)errorMessage instructionMessage:(NSString*)instructionMessage {
-    self.errorLabel.text = errorMessage;
-    self.instructionLabel.attributedText = [_instructionLabelStyle attributedStringWithText:instructionMessage];
+    self.errorLabel.attributedText = [_errorLabelStyle attributedStringWithText:errorMessage];
+    self.instructionsLabel.attributedText = [_instructionsLabelStyle attributedStringWithText:instructionMessage];
     [self.errorLabel sizeToFit];
-    [self.instructionLabel sizeToFit];
+    [self.instructionsLabel sizeToFit];
     [self setNeedsLayout];
-    [self layoutIfNeeded];
-    [self layoutSubviews];
 }
 
 @end

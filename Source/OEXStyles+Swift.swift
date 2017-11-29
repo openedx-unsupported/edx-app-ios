@@ -102,10 +102,10 @@ extension OEXStyles {
         return style
     }
     
-    var textFieldBodyStyle: OEXTextStyle{
-        let style = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: .base, color: OEXStyles.shared().neutralDark())
-        return style
+    func textFieldStyle(with size: OEXTextSize) -> OEXTextStyle {
+        return OEXMutableTextStyle(weight: OEXTextWeight.normal, size: size, color: OEXStyles.shared().neutralDark())
     }
+    
 
 // Standard button styles
 
