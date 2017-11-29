@@ -78,7 +78,10 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
     
     /// id should be a JSON safe type.
     func currentValue() -> Any {
-        return _view.currentValue.trimmingCharacters(in: NSCharacterSet.whitespaces)
+        if let currentValue = _view.currentValue{
+            return currentValue.trimmingCharacters(in: NSCharacterSet.whitespaces)
+        }
+        return ""
     }
     
     func takeValue(_ value: Any) {
@@ -97,7 +100,7 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
     }
     
     
-    func validate() -> String?{
+    private func validate() -> String?{
         if _field.isRequired && stringValue == "" {
             if _field.errorMessage.required == ""{
                 return Strings.registrationFieldEmptyError(fieldName: _field.label)

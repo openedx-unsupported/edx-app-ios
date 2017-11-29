@@ -136,10 +136,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         titleLabel.isAccessibilityElement = false
         titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [titleTextStyle.attributedString(withText: Strings.title), titleTextStyle.attributedString(withText: Strings.asteric)])
         contentTextView.textContainer.lineFragmentPadding = 0
-        contentTextView.textContainerInset = OEXStyles.shared().standardTextViewInsets
-        contentTextView.typingAttributes = OEXStyles.shared().textAreaBodyStyle.attributes
-        contentTextView.placeholderTextColor = OEXStyles.shared().neutralLight()
-        contentTextView.applyBorderStyle(style: OEXStyles.shared().entryFieldBorderStyle)
+        contentTextView.applyBorderStyle()
         contentTextView.delegate = self
         titleTextField.accessibilityLabel = Strings.title
         

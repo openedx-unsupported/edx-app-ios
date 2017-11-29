@@ -101,6 +101,11 @@ extension OEXStyles {
         style.lineBreakMode = .byWordWrapping
         return style
     }
+    
+    var textFieldBodyStyle: OEXTextStyle{
+        let style = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: .base, color: OEXStyles.shared().neutralDark())
+        return style
+    }
 
 // Standard button styles
 

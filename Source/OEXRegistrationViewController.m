@@ -20,7 +20,6 @@
 #import "OEXGoogleAuthProvider.h"
 #import "OEXGoogleConfig.h"
 #import "OEXHTTPStatusCodes.h"
-#import "OEXRegistrationAgreementController.h"
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationFieldError.h"
 #import "OEXRegistrationFormField.h"

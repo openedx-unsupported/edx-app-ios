@@ -64,6 +64,10 @@
 "ACCESSIBILITY_USER_AVATAR" = "Your avatar image";
 /* Accessibility label for Problem Icon in the Courseware screens */
 "ACCESSIBILITY_PROBLEM" = "Problem";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY.REQUIRED_INPUT"="Required";
+/* Optional text needs to be added for accesibility*/
+"ACCESSIBILITY.OPTIONAL_INPUT"="Optional";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Rewind";
 /* Call to action for Rewind Button in the Video Player */
@@ -584,6 +588,7 @@
 "REGISTRATION_ERROR_ALERT_TITLE"="Registration Error";
 /* Detailed info message for registration error alert*/
 "REGISTRATION_ERROR_ALERT_MESSAGE"="Update the highlighted fields and try again";
+
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Reset Password";
 /* Alert dialog content prompting user to enter an email address to reset their password */

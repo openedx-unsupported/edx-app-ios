@@ -22,7 +22,7 @@ import Foundation
         case OEXRegistrationFieldTypeCheckbox:
             return OEXRegistrationFieldCheckBoxController(registrationFormField: field)
         case OEXRegistrationFieldTypeAgreement:
-            return OEXRegistrationAgreementController(registrationFormField: field)
+            return RegistrationAgreementController(with: field)
         default:
             break
         }

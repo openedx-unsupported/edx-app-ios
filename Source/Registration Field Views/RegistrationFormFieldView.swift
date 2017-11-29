@@ -11,224 +11,174 @@ import UIKit
 class RegistrationFormFieldView: UIView, UITextFieldDelegate {
     
     // MARK: - Configurations -
-    
-    fileprivate var paddingHorizontol: CGFloat = 20.0
-    fileprivate var verticleSpace: CGFloat = 3.0
-    fileprivate var width:CGFloat = 0.0
-    fileprivate var paddingTop:CGFloat = 0.0
-    fileprivate var paddingBottom: CGFloat = 10.0
-    fileprivate var offset:CGFloat = 0.0
-    
-    let formFieldStyle = OEXTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.base, color: OEXStyles.shared().neutralDark())
-    let formFieldInstructionsStyle = OEXTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.xxSmall, color: OEXStyles.shared().neutralDark())
+    private var paddingHorizontol: CGFloat = 20.0
+    private var verticleSpace: CGFloat = 3.0
+    private var paddingTop:CGFloat = 0.0
+    private var textFieldHeight:CGFloat = 40.0
+    private var textViewHeight:CGFloat = 100.0
+    private var textInputViewHeight: CGFloat{
+        return formField?.fieldType ?? OEXRegistrationFieldTypeText == OEXRegistrationFieldTypeTextArea ? textViewHeight : textFieldHeight
+    }
     
     // MARK: - Properties -
     
-    lazy var lblTextInput: UILabel = {
+    let formTitleLabelStyle = OEXTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.base, color: OEXStyles.shared().neutralDark())
+    let formInstructionLabelStyle = OEXTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.xxSmall, color: OEXStyles.shared().neutralDark())
+    let formErrorLabelStyle = OEXTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.xxSmall, color: UIColor.red)
+    
+    // MARK: - UI Properties -
+    lazy private var lblTextInput: UILabel = {
         let label = UILabel()
-        label.isAccessibilityElement = false
+        label.applyLabelDefaults()
+        label.attributedText = self.formField?.isRequired ?? false ? self.formTitleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "") \(Strings.asteric)") : self.formTitleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "")")
         return label
     }()
+    // Used in child class
     lazy var textInputField: RegistrationTextField = {
         let textField = RegistrationTextField()
-        textField.font = OEXStyles.shared().sansSerif(ofSize: 13.0)
-        textField.textColor = UIColor(colorLiteralRed: 0.275, green: 0.29, blue: 0.314, alpha: 1.0)
+        textField.defaultTextAttributes = OEXStyles.shared().textFieldBodyStyle.attributes
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         return textField
     }()
     
-    lazy var textInputArea: OEXPlaceholderTextView = {
+    lazy private var textInputArea: OEXPlaceholderTextView = {
         let textArea = OEXPlaceholderTextView()
         textArea.textContainer.lineFragmentPadding = 0.0
-        textArea.textContainerInset = UIEdgeInsetsMake(5, 10, 5, 10)
-        textArea.font = OEXStyles.shared().sansSerif(ofSize: 13.0)
-        textArea.textColor = UIColor(colorLiteralRed: 0.275, green: 0.29, blue: 0.314, alpha: 0.9)
-        textArea.placeholderTextColor = UIColor(colorLiteralRed: 0.675, green: 0.69, blue: 0.614, alpha: 0.9)
-        textArea.layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
-        textArea.layer.borderWidth = 1.0
         textArea.autocapitalizationType = .none
-        textArea.layer.cornerRadius = 5.0
-        textArea.clipsToBounds = true
+        textArea.applyBorderStyle()
         return textArea
     }()
     
-    lazy var lblErrorMessage: UILabel = {
+    lazy private var lblErrorMessage: UILabel = {
         let label = UILabel()
-        label.isAccessibilityElement = false
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = OEXStyles.shared().sansSerif(ofSize: 10.0)
-        label.textColor = UIColor.red
+        label.applyLabelDefaults()
         return label
     }()
     
-    lazy var lblInstructionMessage: UILabel = {
+    lazy private var lblInstructionMessage: UILabel = {
         let label = UILabel()
-        label.isAccessibilityElement = false
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
+        label.applyLabelDefaults()
+        label.attributedText = self.formInstructionLabelStyle.attributedString(withText: self.formField?.instructions ?? "")
         return label
     }()
     
+    private var textInputView: UIView{
+        return formField?.fieldType ?? OEXRegistrationFieldTypeText == OEXRegistrationFieldTypeTextArea ? textInputArea : textInputField
+    }
+    
+    
+    // Used in child class
     var formField: OEXRegistrationFormField?
-    var _errorMessage: String = ""
-    var errorMessage: String{
-        get{
-            return _errorMessage
-        }
-        set{
-            _errorMessage = newValue
-            lblErrorMessage.text = _errorMessage
-            self.lblErrorMessage.sizeToFit()
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-            self.layoutSubviews()
+    var errorMessage: String? {
+        didSet{
+            lblErrorMessage.attributedText = self.formErrorLabelStyle.attributedString(withText: errorMessage ?? "")
         }
     }
     
-    var currentValue: String {
-        if let formField = formField{
-            if formField.fieldType == OEXRegistrationFieldTypeTextArea
-            {
-                return self.textInputArea.text!
-            }
-            else{
-                return self.textInputField.text!
-            }
-        }
-        return ""
+    var currentValue: String? {
+        return formField?.fieldType ?? OEXRegistrationFieldTypeText == OEXRegistrationFieldTypeTextArea ? textInputArea.text : textInputField.text
     }
     
     // MARK: - Setup View -
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    convenience init(with formField: OEXRegistrationFormField){
-        self.init(frame: CGRect.zero)
+    init(with formField: OEXRegistrationFormField){
+        super.init(frame: CGRect.zero)
         self.formField = formField
         load()
     }
     
+    // public function as can be inherited
     func load() {
-        if let formField = formField{
-            width = UIScreen.main.bounds.width - (paddingHorizontol * 2)
-            offset = paddingTop
+        guard let formField = formField else { return }
+        addSubViews()
+        textInputView.accessibilityLabel = formField.label
+        textInputView.accessibilityHint = formField.isRequired ? "\(Strings.Accessibility.requiredInput),\(formField.instructions)" : "\(Strings.Accessibility.optionalInput),\(formField.instructions)"
+    }
+    
+    func addSubViews(){
+        // Add subviews
+        addSubview(lblTextInput)
+        addSubview(textInputView)
+        addSubview(lblErrorMessage)
+        addSubview(lblInstructionMessage)
+        
+        setupConstraints()
+    }
+    
+    func setupConstraints() {
+        // Setup Constraints
+        lblTextInput.snp_makeConstraints { (maker) in
+            maker.top.equalTo(self).offset(paddingTop)
+            maker.leading.equalTo(self).offset(paddingHorizontol)
+            maker.trailing.equalTo(self).inset(paddingHorizontol)
             
-            self.autoresizingMask = [.flexibleHeight , .flexibleWidth]
-            // Add subviews
-            self.addSubview(lblTextInput)
-            
-            if formField.fieldType == OEXRegistrationFieldTypeTextArea
-            {
-                self.addSubview(textInputArea)
-            }
-            else{
-                self.addSubview(textInputField)
-                textInputField.delegate = self
-            }
-            
-            self.addSubview(lblErrorMessage)
-            self.addSubview(lblInstructionMessage)
-            
-            if formField.isRequired{
-                self.lblTextInput.attributedText = self.formFieldStyle.attributedString(withText: "\(formField.label) \(Strings.asteric)")
-            }
-            else{
-                self.lblTextInput.attributedText = self.formFieldStyle.attributedString(withText: formField.label)
-            }
-            
-            if formField.fieldType == OEXRegistrationFieldTypeTextArea
-            {
-                self.textInputArea.accessibilityHint = formField.instructions
-            }
-            else{
-                self.textInputField.accessibilityHint = formField.instructions
-            }
-            
-            
-            self.lblErrorMessage.text = _errorMessage
-            self.lblInstructionMessage.attributedText = self.formFieldInstructionsStyle.attributedString(withText: formField.instructions)
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
-            self.layoutSubviews()
+        }
+        
+        textInputView.snp_makeConstraints { (maker) in
+            maker.leading.equalTo(lblTextInput.snp_leading)
+            maker.trailing.equalTo(lblTextInput.snp_trailing)
+            maker.top.equalTo(lblTextInput.snp_bottom).offset(verticleSpace)
+            maker.height.equalTo(textInputViewHeight)
+        }
+        
+        lblErrorMessage.snp_makeConstraints { (maker) in
+            maker.leading.equalTo(lblTextInput.snp_leading)
+            maker.trailing.equalTo(lblTextInput.snp_trailing)
+            maker.top.equalTo(textInputView.snp_bottom).offset(verticleSpace)
+        }
+        
+        lblInstructionMessage.snp_makeConstraints { (maker) in
+            maker.leading.equalTo(lblTextInput.snp_leading)
+            maker.trailing.equalTo(lblTextInput.snp_trailing)
+            maker.top.equalTo(lblErrorMessage.snp_bottom).offset(verticleSpace)
+            maker.bottom.equalTo(snp_bottom).inset(StandardVerticalMargin)
         }
     }
     
-   
-    
     override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Super View is not constraint base. So need to call sizeToFit on labels to show layout properly. As Superviews height is calculated after randering views.
+        lblTextInput.sizeToFit()
+        lblErrorMessage.sizeToFit()
+        lblInstructionMessage.sizeToFit()
+        var height = lblTextInput.frame.size.height + lblErrorMessage.frame.size.height + lblInstructionMessage.frame.size.height + StandardVerticalMargin + (3 * verticleSpace)
         if let formField = formField{
-            
-            offset = paddingTop
-            self.lblTextInput.frame = CGRect(x: paddingHorizontol, y: offset, width: width, height: 21)
-            offset += 21 + verticleSpace
-            
-            
-            if formField.fieldType == OEXRegistrationFieldTypeTextArea
-            {
-                self.textInputArea.frame = CGRect(x: paddingHorizontol, y: offset, width: width, height: 100)
-                offset += 100
+            if formField.fieldType == OEXRegistrationFieldTypeTextArea{
+                height += textViewHeight
             }
             else{
-                self.textInputField.frame = CGRect(x: paddingHorizontol, y: offset, width: width, height: 40)
-                offset += 40
+                height += textFieldHeight
             }
-            
-            
-            var possibleErrorLabelHeight:CGFloat = 0.0
-            if self.lblErrorMessage.text != "" {
-                possibleErrorLabelHeight = self.errorMessage.height(withConstrainedWidth: width, font: lblErrorMessage.font)
-                offset += verticleSpace
-            }
-            self.lblErrorMessage.frame = CGRect(x: paddingHorizontol, y: offset, width: width, height: possibleErrorLabelHeight)
-            offset += possibleErrorLabelHeight
-            var possibleInstructionLabelHeight:CGFloat = 0.0
-            if self.lblInstructionMessage.text != "" {
-                possibleInstructionLabelHeight = formField.instructions.height(withConstrainedWidth: width, font: lblInstructionMessage.font)
-                offset += verticleSpace
-            }
-            
-            self.lblInstructionMessage.frame = CGRect(x: paddingHorizontol, y: offset, width: width, height: possibleInstructionLabelHeight)
-            offset += possibleInstructionLabelHeight + paddingBottom
-            var frame = self.frame
-            frame.size.height = offset
-            self.frame = frame
         }
-        self.lblTextInput.sizeToFit()
-        self.lblErrorMessage.sizeToFit()
-        self.lblInstructionMessage.sizeToFit()
-        super.layoutSubviews()
+        
+        var frame = self.frame
+        frame.size.height = height
+        self.frame = frame
     }
     
     func takeValue(_ value: String) {
-        if let formField = formField{
-            if formField.fieldType == OEXRegistrationFieldTypeTextArea
-            {
-                self.textInputArea.text = value
-            }
-            else{
-                self.textInputField.text = value
-            }
+        if formField?.fieldType ?? OEXRegistrationFieldTypeText == OEXRegistrationFieldTypeTextArea
+        {
+            textInputArea.text = value
+        }
+        else{
+            textInputField.text = value
         }
     }
     
     
     func clearError() {
-        errorMessage = ""
+        errorMessage = nil
     }
     
+    
 }
-extension String{
-    fileprivate func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: font], context: nil)
-        
-        return ceil(boundingBox.height)
-    }
-}
+
+
+

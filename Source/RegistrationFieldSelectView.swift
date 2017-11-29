@@ -17,19 +17,14 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
     
-    
     private var titleStyle : OEXTextStyle {
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
     }
     
-    override init(frame : CGRect) {
-        super.init(frame : CGRect.zero)
-    }
     
-    convenience init(with formField: OEXRegistrationFormField){
-        self.init(frame: CGRect.zero)
-        self.formField = formField
-        load()
+    
+    override init(with formField: OEXRegistrationFormField){
+        super.init(with: formField)
     }
     
     override func load() {
@@ -69,23 +64,28 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
             make.bottom.equalTo(textInputField)
         }
         
-        self.textInputField.isAccessibilityElement = false
+        tapButton.accessibilityLabel = String(format: "%@, %@", formField?.label ?? "", Strings.accessibilityDropdownTrait)
+        
+        tapButton.accessibilityTraits = UIAccessibilityTraitNone
+        var accessibilitHintText = String(format: "%@, %@, %@", Strings.Accessibility.optionalInput,formField?.instructions ?? "", Strings.accessibilityShowsDropdownHint)
+        if formField?.isRequired ?? false{
+            accessibilitHintText = String(format: "%@, %@, %@", Strings.Accessibility.requiredInput,formField?.instructions ?? "", Strings.accessibilityShowsDropdownHint)
+        }
+        let insets = OEXStyles.shared().standardTextViewInsets
+        tapButton.titleEdgeInsets = UIEdgeInsetsMake(0, insets.left, 0, insets.right)
+        tapButton.accessibilityHint = accessibilitHintText
+        textInputField.isAccessibilityElement = false
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        tapButton.accessibilityTraits = UIAccessibilityTraitNone
-        if let formField = formField{
-            tapButton.accessibilityHint = String(format: "%@, %@", formField.label, Strings.accessibilityShowsDropdownHint)
-        }
-        else{
-            tapButton.accessibilityHint = String(format: "%@", Strings.accessibilityShowsDropdownHint)
-        }
+        
+        
     }
     
     private func setButtonTitle(title: String) {
         tapButton.setAttributedTitle(titleStyle.attributedString(withText: title), for: .normal)
-        tapButton.accessibilityLabel = String(format: "%@, %@", title, Strings.accessibilityDropdownTrait)
+        tapButton.accessibilityLabel = String(format: "%@, %@, %@", formField?.label ?? "", title, Strings.accessibilityDropdownTrait)
     }
     
     override var canBecomeFirstResponder: Bool {
