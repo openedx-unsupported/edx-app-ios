@@ -50,17 +50,7 @@
 }
 
 - (BOOL)isValidInput {
-    if(self.field.isRequired && ![self hasValue]) {
-        if(!self.field.errorMessage.required) {
-            NSString* error = [Strings registrationFieldEmptySelectErrorWithFieldName:self.field.label];
-            [self handleError:error];
-        }
-        else {
-            [self handleError:self.field.errorMessage.required];
-        }
-        return NO;
-    }
-    return YES;
+    return self.view.isValidInput;
 }
 - (UIView*)accessibleInputField {
     return self.view;

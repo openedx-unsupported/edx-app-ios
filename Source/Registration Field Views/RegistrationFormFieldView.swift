@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegistrationFormFieldView: UIView, UITextFieldDelegate {
+class RegistrationFormFieldView: UIView {
     
     // MARK: - Configurations -
     private var textFieldHeight:CGFloat = 40.0
@@ -29,7 +29,7 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
         label.isAccessibilityElement = false
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.attributedText = self.formField?.isRequired ?? false ? self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "") \(Strings.asteric)") : self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "")")
+        label.attributedText = self.isRequired ? self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "") \(Strings.asteric)") : self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "")")
         return label
     }()
     // Used in child class
@@ -38,6 +38,7 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
         textField.defaultTextAttributes = OEXStyles.shared().textFieldStyle(with: .base).attributes
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
+        textField.addTarget(self, action: #selector(RegistrationFormFieldView.valueDidChange), for: .editingChanged)
         return textField
     }()
     
@@ -46,6 +47,7 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
         textArea.textContainer.lineFragmentPadding = 0.0
         textArea.autocapitalizationType = .none
         textArea.applyBorderStyle()
+        textArea.delegate = self
         return textArea
     }()
     
@@ -66,7 +68,7 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
         return label
     }()
     
-    private var textInputView: UIView{
+    var textInputView: UIView{
         return isTextArea ? textInputArea : textInputField
     }
     
@@ -76,17 +78,33 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
     var errorMessage: String? {
         didSet{
             errorLabel.attributedText = self.errorLabelStyle.attributedString(withText: errorMessage ?? "")
+            refreshAccessibilty()
         }
     }
     
-    var currentValue: String? {
-        return isTextArea ? textInputArea.text : textInputField.text
+    var currentValue: String {
+        let value = isTextArea ? textInputArea.text : textInputField.text
+        return value?.trimmingCharacters(in: NSCharacterSet.whitespaces) ?? ""
     }
     
     var isTextArea: Bool{
         return formField?.fieldType ?? OEXRegistrationFieldTypeText == OEXRegistrationFieldTypeTextArea
     }
     
+    var isRequired: Bool{
+        return formField?.isRequired ?? false
+    }
+    var hasValue: Bool{
+        return currentValue != ""
+    }
+    
+    var isValidInput: Bool{
+        guard let errorMessage = validate() else {
+            return true
+        }
+        self.errorMessage = errorMessage
+        return false
+    }
     // MARK: - Setup View -
     
     required init?(coder aDecoder: NSCoder) {
@@ -101,12 +119,17 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
     
     // public function as can be inherited
     func load() {
-        guard let formField = formField else { return }
         addSubViews()
-        textInputView.accessibilityLabel = formField.label
-        textInputView.accessibilityHint = formField.isRequired ? "\(Strings.Accessibility.requiredInput),\(formField.instructions)" : "\(Strings.Accessibility.optionalInput),\(formField.instructions)"
+        refreshAccessibilty()
     }
     
+    func refreshAccessibilty()  {
+        guard let formField = formField else { return }
+        let errorAccessibility = errorMessage ?? "" != "" ? ",\(Strings.Accessibility.errorText), \(errorMessage ?? "")" : ""
+        let requiredOrOptionalAccessibility = isRequired ? Strings.Accessibility.requiredInput : Strings.Accessibility.optionalInput
+        textInputView.accessibilityLabel = formField.label
+        textInputView.accessibilityHint = "\(requiredOrOptionalAccessibility),\(formField.instructions)\(errorAccessibility)"
+    }
     func addSubViews(){
         // Add subviews
         addSubview(textInputLabel)
@@ -119,31 +142,31 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
     
     func setupConstraints() {
         // Setup Constraints
-        textInputLabel.snp_makeConstraints { (maker) in
-            maker.top.equalTo(self)
-            maker.leading.equalTo(self).offset(StandardHorizontalMargin)
-            maker.trailing.equalTo(self).inset(StandardHorizontalMargin)
+        textInputLabel.snp_makeConstraints { (make) in
+            make.top.equalTo(self)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
             
         }
         
-        textInputView.snp_makeConstraints { (maker) in
-            maker.leading.equalTo(textInputLabel.snp_leading)
-            maker.trailing.equalTo(textInputLabel.snp_trailing)
-            maker.top.equalTo(textInputLabel.snp_bottom).offset(StandardVerticalMargin/2.0)
-            maker.height.equalTo(textInputViewHeight)
+        textInputView.snp_makeConstraints { (make) in
+            make.leading.equalTo(textInputLabel.snp_leading)
+            make.trailing.equalTo(textInputLabel.snp_trailing)
+            make.top.equalTo(textInputLabel.snp_bottom).offset(StandardVerticalMargin/2.0)
+            make.height.equalTo(textInputViewHeight)
         }
         
-        errorLabel.snp_makeConstraints { (maker) in
-            maker.leading.equalTo(textInputLabel.snp_leading)
-            maker.trailing.equalTo(textInputLabel.snp_trailing)
-            maker.top.equalTo(textInputView.snp_bottom).offset(StandardVerticalMargin/2.0)
+        errorLabel.snp_makeConstraints { (make) in
+            make.leading.equalTo(textInputLabel.snp_leading)
+            make.trailing.equalTo(textInputLabel.snp_trailing)
+            make.top.equalTo(textInputView.snp_bottom).offset(StandardVerticalMargin/2.0)
         }
         
-        lblInstructionMessage.snp_makeConstraints { (maker) in
-            maker.leading.equalTo(textInputLabel.snp_leading)
-            maker.trailing.equalTo(textInputLabel.snp_trailing)
-            maker.top.equalTo(errorLabel.snp_bottom).offset(StandardVerticalMargin/2.0)
-            maker.bottom.equalTo(snp_bottom).inset(StandardVerticalMargin)
+        lblInstructionMessage.snp_makeConstraints { (make) in
+            make.leading.equalTo(textInputLabel.snp_leading)
+            make.trailing.equalTo(textInputLabel.snp_trailing)
+            make.top.equalTo(errorLabel.snp_bottom).offset(StandardVerticalMargin/2.0)
+            make.bottom.equalTo(snp_bottom).inset(StandardVerticalMargin)
         }
     }
     
@@ -170,11 +193,10 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
     }
     
     func takeValue(_ value: String) {
-        if isTextArea
-        {
+        if isTextArea {
             textInputArea.text = value
         }
-        else{
+        else {
             textInputField.text = value
         }
     }
@@ -184,8 +206,44 @@ class RegistrationFormFieldView: UIView, UITextFieldDelegate {
         errorMessage = nil
     }
     
+    @objc func valueDidChange(){
+        errorMessage = validate()
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_FORM_FIELD_VALUE_DID_CHANGE)))
+    }
+    
+    func validate() -> String?{
+        guard let field = formField else {
+            return nil
+        }
+        if isRequired && currentValue == "" {
+            return field.errorMessage.required == "" ? Strings.registrationFieldEmptyError(fieldName: field.label) : field.errorMessage.required
+        }
+        let length = currentValue.characters.count
+        if length < field.restriction.minLength {
+            return field.errorMessage.minLength == "" ? Strings.registrationFieldMinLengthError(fieldName: field.label, count: "\(field.restriction.minLength)")(field.restriction.minLength) : field.errorMessage.minLength
+        }
+        if length > field.restriction.maxLength && field.restriction.maxLength != 0{
+            return field.errorMessage.maxLength == "" ? Strings.registrationFieldMaxLengthError(fieldName: field.label, count: "\(field.restriction.maxLength)")(field.restriction.maxLength): field.errorMessage.maxLength
+        }
+        
+        switch field.fieldType {
+        case OEXRegistrationFieldTypeEmail:
+            if hasValue && !currentValue.isValidEmailAddress(){
+                return Strings.ErrorMessage.invalidEmailFormat
+            }
+            break
+        default:
+            break
+        }
+        
+        return nil
+    }
     
 }
 
-
+extension RegistrationFormFieldView: UITextViewDelegate{
+    func textViewDidChange(_ textView: UITextView) {
+        valueDidChange()
+    }
+}
 

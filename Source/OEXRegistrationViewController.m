@@ -86,7 +86,14 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.isShowingOptionalFields = NO;
     
     _toggleButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(formFieldValueDidChange:) name:NOTIFICATION_FORM_FIELD_VALUE_DID_CHANGE object:nil];
+    
     [self getFormFields];
+}
+
+-(void)formFieldValueDidChange: (NSNotification *)notification {
+    [self refreshFormFields];
 }
 
 - (void)getFormFields {

@@ -21,6 +21,9 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
     }
     
+    override var currentValue: String{
+        return tapButton.attributedTitle(for: .normal)?.string ?? ""
+    } 
     
     
     override init(with formField: OEXRegistrationFormField){
@@ -63,24 +66,24 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
             make.trailing.equalTo(textInputField)
             make.bottom.equalTo(textInputField)
         }
-        
-        tapButton.accessibilityLabel = String(format: "%@, %@", formField?.label ?? "", Strings.accessibilityDropdownTrait)
-        
-        tapButton.accessibilityTraits = UIAccessibilityTraitNone
-        var accessibilitHintText = String(format: "%@, %@, %@", Strings.Accessibility.optionalInput,formField?.instructions ?? "", Strings.accessibilityShowsDropdownHint)
-        if formField?.isRequired ?? false{
-            accessibilitHintText = String(format: "%@, %@, %@", Strings.Accessibility.requiredInput,formField?.instructions ?? "", Strings.accessibilityShowsDropdownHint)
-        }
         let insets = OEXStyles.shared().standardTextViewInsets
         tapButton.titleEdgeInsets = UIEdgeInsetsMake(0, insets.left, 0, insets.right)
-        tapButton.accessibilityHint = accessibilitHintText
-        textInputField.isAccessibilityElement = false
+        refreshAccessibilty()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+    }
+    
+    override func refreshAccessibilty()  {
+        guard let formField = formField else { return }
         
-        
+        let errorAccessibility = errorMessage ?? "" != "" ? ",\(Strings.Accessibility.errorText), \(errorMessage ?? "")" : ""
+        tapButton.accessibilityLabel = String(format: "%@, %@", formField.label, Strings.accessibilityDropdownTrait)
+        tapButton.accessibilityTraits = UIAccessibilityTraitNone
+        let accessibilitHintText = isRequired ? String(format: "%@, %@, %@, %@", Strings.Accessibility.requiredInput,formField.instructions, errorAccessibility , Strings.accessibilityShowsDropdownHint) : String(format: "%@, %@, %@, %@", Strings.Accessibility.optionalInput,formField.instructions,errorAccessibility , Strings.accessibilityShowsDropdownHint)
+        tapButton.accessibilityHint = accessibilitHintText
+        textInputField.isAccessibilityElement = false
     }
     
     private func setButtonTitle(title: String) {
@@ -120,11 +123,22 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         else {
             setButtonTitle(title: "")
         }
+        valueDidChange()
     }
     
     func makeFirstResponder() {
         self.becomeFirstResponder()
             UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self.picker)
+    }
+    
+    override func validate() -> String? {
+        guard let field = formField else {
+            return nil
+        }
+        if isRequired && currentValue == "" {
+            return field.errorMessage.required == "" ? Strings.registrationFieldEmptySelectError(fieldName: field.label) : field.errorMessage.required
+        }
+        return nil
     }
 
 }

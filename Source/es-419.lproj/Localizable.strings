@@ -34,6 +34,8 @@
 "ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "Toque dos veces para eliminar su reporte.";
 /* Accessibility hint for Follow button for discussion responses*/
 "ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "Toque dos veces para seguir.";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "Error";
 /* Accessibility hint for Unfollow button for discussion responses*/
 "ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Toque dos veces para dejar de seguir.";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */

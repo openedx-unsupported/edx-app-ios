@@ -54,6 +54,8 @@
 "ACCESSIBILITY_FULLSCREEN" = "Fullscreen";
 /* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
 "ACCESSIBILITY_EXIT_FULLSCREEN" = "Exit fullscreen";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "Error";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
 /* Accessibility label for Pause Button in the Video Player */

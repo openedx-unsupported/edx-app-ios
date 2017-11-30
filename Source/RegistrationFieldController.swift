@@ -18,32 +18,14 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
     }
     
     var hasValue: Bool{
-        return stringValue != ""
+        return fieldView.hasValue
     }
     
     var accessibleInputField: UIView?{
-        return fieldView.textInputField
-    }
-    private var stringValue: String{
-        return currentValue() as? String ?? ""
+        return fieldView.textInputView
     }
     var isValidInput: Bool{
-        if let errorMessage = validate() {
-            self.handleError(errorMessage)
-            return false
-        }
-        
-        switch field.fieldType {
-        case OEXRegistrationFieldTypeEmail:
-            if hasValue && !stringValue.isValidEmailAddress(){
-                handleError(Strings.ErrorMessage.invalidEmailFormat)
-                return false;
-            }
-            break
-        default:
-            break
-        }
-        return true
+        return fieldView.isValidInput
     }
     
     init(with formField: OEXRegistrationFormField) {
@@ -60,12 +42,11 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
         default:
             break
         }
-        
     }
     
     /// id should be a JSON safe type.
     func currentValue() -> Any {
-        return fieldView.currentValue?.trimmingCharacters(in: NSCharacterSet.whitespaces) ?? ""
+        return fieldView.currentValue
     }
     
     func takeValue(_ value: Any) {
@@ -79,18 +60,6 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
     }
     
     
-    private func validate() -> String?{
-        if field.isRequired && stringValue == "" {
-            return field.errorMessage.required == "" ? Strings.registrationFieldEmptyError(fieldName: field.label) : field.errorMessage.required
-        }
-        let length = stringValue.characters.count
-        if length < field.restriction.minLength {
-            return field.errorMessage.minLength == "" ? Strings.registrationFieldMinLengthError(fieldName: field.label, count: "\(field.restriction.minLength)")(field.restriction.minLength) : field.errorMessage.minLength
-        }
-        if length > field.restriction.maxLength && field.restriction.maxLength != 0{
-            return field.errorMessage.maxLength == "" ? Strings.registrationFieldMaxLengthError(fieldName: field.label, count: "\(field.restriction.maxLength)")(field.restriction.maxLength): field.errorMessage.maxLength
-        }
-        return nil
-    }
+    
     
 }
