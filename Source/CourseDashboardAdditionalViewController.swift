@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseDashboardAdditionalViewController: OfflineSupportViewController, UITableViewDataSource, UITableViewDelegate {
+class CourseDashboardAdditionalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
@@ -18,7 +18,7 @@ class CourseDashboardAdditionalViewController: OfflineSupportViewController, UIT
     
     init(environment: Environment, cellItems:[CourseDashboardTabBarItem]) {
         self.environment = environment
-        super.init(env: environment)
+        super.init(nibName: nil, bundle: nil)
         prepareTableViewData(items: cellItems)
     }
     

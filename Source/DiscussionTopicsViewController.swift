@@ -147,7 +147,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         }
         
         self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
-        
+        refreshTopics()
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
