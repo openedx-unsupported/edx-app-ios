@@ -18,20 +18,19 @@ class RegistrationFormFieldView: UIView {
     }
     
     // MARK: - Properties -
-    
-    let titleLabelStyle = OEXTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.base, color: OEXStyles.shared().neutralDark())
-    let instructionsLabelStyle = OEXTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.xxSmall, color: OEXStyles.shared().neutralDark())
-    let errorLabelStyle = OEXTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.xxSmall, color: UIColor.red)
+    let titleLabelStyle = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.base, color: OEXStyles.shared().neutralDark())
+    let instructionsLabelStyle = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.xxSmall, color: OEXStyles.shared().neutralDark())
+    let errorLabelStyle = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.xxSmall, color: UIColor.red)
     
     // MARK: - UI Properties -
     lazy private var textInputLabel: UILabel = {
         let label = UILabel()
         label.isAccessibilityElement = false
         label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
         label.attributedText = self.isRequired ? self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "") \(Strings.asteric)") : self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "")")
         return label
     }()
+    
     // Used in child class
     lazy var textInputField: RegistrationTextField = {
         let textField = RegistrationTextField()
@@ -55,7 +54,6 @@ class RegistrationFormFieldView: UIView {
         let label = UILabel()
         label.isAccessibilityElement = false
         label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
         return label
     }()
     
@@ -63,7 +61,6 @@ class RegistrationFormFieldView: UIView {
         let label = UILabel()
         label.isAccessibilityElement = false
         label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
         label.attributedText = self.instructionsLabelStyle.attributedString(withText: self.formField?.instructions ?? "")
         return label
     }()
@@ -72,9 +69,9 @@ class RegistrationFormFieldView: UIView {
         return isTextArea ? textInputArea : textInputField
     }
     
-    
     // Used in child class
     private(set) var formField: OEXRegistrationFormField?
+    
     var errorMessage: String? {
         didSet{
             errorLabel.attributedText = self.errorLabelStyle.attributedString(withText: errorMessage ?? "")
@@ -105,8 +102,8 @@ class RegistrationFormFieldView: UIView {
         self.errorMessage = errorMessage
         return false
     }
-    // MARK: - Setup View -
     
+    // MARK: - Setup View -
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -117,8 +114,11 @@ class RegistrationFormFieldView: UIView {
         load()
     }
     
-    // public function as can be inherited
+    // public method, can be inherited
     func load() {
+        titleLabelStyle.lineBreakMode = .byWordWrapping
+        instructionsLabelStyle.lineBreakMode = .byWordWrapping
+        errorLabelStyle.lineBreakMode = .byWordWrapping
         addSubViews()
         refreshAccessibilty()
     }
@@ -130,13 +130,13 @@ class RegistrationFormFieldView: UIView {
         textInputView.accessibilityLabel = formField.label
         textInputView.accessibilityHint = "\(requiredOrOptionalAccessibility),\(formField.instructions)\(errorAccessibility)"
     }
+    
     func addSubViews(){
         // Add subviews
         addSubview(textInputLabel)
         addSubview(textInputView)
         addSubview(errorLabel)
         addSubview(lblInstructionMessage)
-        
         setupConstraints()
     }
     
@@ -146,22 +146,18 @@ class RegistrationFormFieldView: UIView {
             make.top.equalTo(self)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
-            
         }
-        
         textInputView.snp_makeConstraints { (make) in
             make.leading.equalTo(textInputLabel.snp_leading)
             make.trailing.equalTo(textInputLabel.snp_trailing)
             make.top.equalTo(textInputLabel.snp_bottom).offset(StandardVerticalMargin/2.0)
             make.height.equalTo(textInputViewHeight)
         }
-        
         errorLabel.snp_makeConstraints { (make) in
             make.leading.equalTo(textInputLabel.snp_leading)
             make.trailing.equalTo(textInputLabel.snp_trailing)
             make.top.equalTo(textInputView.snp_bottom).offset(StandardVerticalMargin/2.0)
         }
-        
         lblInstructionMessage.snp_makeConstraints { (make) in
             make.leading.equalTo(textInputLabel.snp_leading)
             make.trailing.equalTo(textInputLabel.snp_trailing)
@@ -172,7 +168,6 @@ class RegistrationFormFieldView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         // Super View is not constraint base. So need to call sizeToFit on labels to show layout properly. As Superviews height is calculated after randering views.
         textInputLabel.sizeToFit()
         errorLabel.sizeToFit()
@@ -186,7 +181,6 @@ class RegistrationFormFieldView: UIView {
                 height += textFieldHeight
             }
         }
-        
         var frame = self.frame
         frame.size.height = height
         self.frame = frame
@@ -200,7 +194,6 @@ class RegistrationFormFieldView: UIView {
             textInputField.text = value
         }
     }
-    
     
     func clearError() {
         errorMessage = nil
@@ -235,10 +228,8 @@ class RegistrationFormFieldView: UIView {
         default:
             break
         }
-        
         return nil
     }
-    
 }
 
 extension RegistrationFormFieldView: UITextViewDelegate{

@@ -12,7 +12,6 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
     var field: OEXRegistrationFormField
     var fieldView: RegistrationFormFieldView
     
-    
     var view: UIView{
         return fieldView
     }
@@ -20,10 +19,10 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
     var hasValue: Bool{
         return fieldView.hasValue
     }
-    
     var accessibleInputField: UIView?{
         return fieldView.textInputView
     }
+    
     var isValidInput: Bool{
         return fieldView.isValidInput
     }
@@ -58,8 +57,4 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
     func handleError(_ errorMessage: String?) {
         fieldView.errorMessage = errorMessage
     }
-    
-    
-    
-    
 }
