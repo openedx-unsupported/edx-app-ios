@@ -36,7 +36,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         self.courseID = courseID
         self.loadController = LoadStateViewController()
         
-        super.init(env: environment)
+        super.init(env: environment, shouldShowOfflineSnackBar: false)
        
         let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: courseID).topics
         topics.backWithStream(stream.map {

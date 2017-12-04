@@ -64,7 +64,7 @@ public class CourseOutlineViewController :
         tableController = CourseOutlineTableController(environment: self.environment, courseID: courseID, forMode: courseOutlineMode)
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
-        super.init(env: environment)
+        super.init(env: environment, shouldShowOfflineSnackBar: false)
         
         lastAccessedController.delegate = self
         
@@ -98,11 +98,10 @@ public class CourseOutlineViewController :
     }
     
     public override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
         reloadView()
-        super.viewWillAppear(animated)
     }
     
     override public var shouldAutorotate: Bool {

@@ -40,12 +40,12 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
         setConstraints()
         setStyles()
         webView.delegate = self
-        loadHandouts()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenHandouts, courseID: courseID, value: nil)
+        loadHandouts()
     }
     
     override func reloadViewData() {

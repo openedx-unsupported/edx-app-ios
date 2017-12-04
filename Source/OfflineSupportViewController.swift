@@ -14,8 +14,10 @@ import Foundation
 public class OfflineSupportViewController: UIViewController {
     typealias Env = ReachabilityProvider
     private let environment : Env
-    init(env: Env) {
+    private var shouldShowOfflineSnackBar: Bool? = true
+    init(env: Env, shouldShowOfflineSnackBar: Bool? = true) {
         self.environment = env
+        self.shouldShowOfflineSnackBar = shouldShowOfflineSnackBar
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,7 +34,9 @@ public class OfflineSupportViewController: UIViewController {
     
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        showOfflineSnackBarIfNecessary()
+        if shouldShowOfflineSnackBar ?? true {
+            showOfflineSnackBarIfNecessary()
+        }
     }
     
     private func setupObservers() {
