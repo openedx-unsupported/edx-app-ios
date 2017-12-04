@@ -41,7 +41,8 @@ public class OfflineSupportViewController: UIViewController {
         }
     }
     
-    private func showOfflineSnackBarIfNecessary() {
+    /// Can be called from child on need bases
+    public func showOfflineSnackBarIfNecessary() {
         if !environment.reachability.isReachable() {
             showOfflineSnackBar(message: Strings.offline, selector: #selector(reloadViewData))
         }
