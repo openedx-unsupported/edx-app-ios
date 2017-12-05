@@ -116,9 +116,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                     if enrollments.count <= 0 {
                         self?.enrollmentsEmptyState()
                     }
-                    else {
-                        self?.showOfflineSnackBarIfNecessary()
-                    }
                 }
                 else {
                     self?.loadController.state = .Initial
