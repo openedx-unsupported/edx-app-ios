@@ -57,7 +57,7 @@ class RegistrationFormFieldView: UIView {
         return label
     }()
     
-    lazy private var lblInstructionMessage: UILabel = {
+    lazy private var instructionsLabel: UILabel = {
         let label = UILabel()
         label.isAccessibilityElement = false
         label.numberOfLines = 0
@@ -71,7 +71,6 @@ class RegistrationFormFieldView: UIView {
     
     // Used in child class
     private(set) var formField: OEXRegistrationFormField?
-    
     var errorMessage: String? {
         didSet{
             errorLabel.attributedText = self.errorLabelStyle.attributedString(withText: errorMessage ?? "")
@@ -136,7 +135,7 @@ class RegistrationFormFieldView: UIView {
         addSubview(textInputLabel)
         addSubview(textInputView)
         addSubview(errorLabel)
-        addSubview(lblInstructionMessage)
+        addSubview(instructionsLabel)
         setupConstraints()
     }
     
@@ -158,7 +157,7 @@ class RegistrationFormFieldView: UIView {
             make.trailing.equalTo(textInputLabel.snp_trailing)
             make.top.equalTo(textInputView.snp_bottom).offset(StandardVerticalMargin/2.0)
         }
-        lblInstructionMessage.snp_makeConstraints { (make) in
+        instructionsLabel.snp_makeConstraints { (make) in
             make.leading.equalTo(textInputLabel.snp_leading)
             make.trailing.equalTo(textInputLabel.snp_trailing)
             make.top.equalTo(errorLabel.snp_bottom).offset(StandardVerticalMargin/2.0)
@@ -168,11 +167,11 @@ class RegistrationFormFieldView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        // Super View is not constraint base. So need to call sizeToFit on labels to show layout properly. As Superviews height is calculated after randering views.
-        textInputLabel.sizeToFit()
-        errorLabel.sizeToFit()
-        lblInstructionMessage.sizeToFit()
-        var height = textInputLabel.frame.size.height + errorLabel.frame.size.height + lblInstructionMessage.frame.size.height + StandardVerticalMargin + (3.0 * StandardVerticalMargin/2.0)
+        // Super View is not constraint base. Calculating superview height.
+        let textInputLabelHeight = textInputLabel.sizeThatFits(CGSize(width: textInputView.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
+        let errorLabelHeight = errorLabel.sizeThatFits(CGSize(width: textInputView.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
+        let instructionLabelHeight = instructionsLabel.sizeThatFits(CGSize(width: textInputView.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
+        var height = textInputLabelHeight + errorLabelHeight + instructionLabelHeight + StandardVerticalMargin + (3.0 * StandardVerticalMargin/2.0)
         if let formField = formField{
             if formField.fieldType == OEXRegistrationFieldTypeTextArea{
                 height += textViewHeight
