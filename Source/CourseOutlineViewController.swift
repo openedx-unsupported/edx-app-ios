@@ -101,7 +101,7 @@ public class CourseOutlineViewController :
         super.viewWillAppear(animated)
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
-        reloadView()
+        loadStreams()
     }
     
     override public var shouldAutorotate: Bool {
@@ -134,7 +134,7 @@ public class CourseOutlineViewController :
         navigationItem.title = (courseOutlineMode == .Video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
     }
     
-    private func reloadView() {
+    private func loadStreams() {
         loadController.state = .Initial
         let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
         stream.extendLifetimeUntilFirstResult (success :
