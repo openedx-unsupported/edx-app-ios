@@ -12,25 +12,29 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
     var field: OEXRegistrationFormField
     var fieldView: RegistrationFormFieldView
     
-    var view: UIView{
+    var view: UIView {
         return fieldView
     }
     
-    var hasValue: Bool{
+    var hasValue: Bool {
         return fieldView.hasValue
     }
-    var accessibleInputField: UIView?{
+    var accessibleInputField: UIView? {
         return fieldView.textInputView
     }
     
-    var isValidInput: Bool{
+    var isValidInput: Bool {
         return fieldView.isValidInput
     }
     
     init(with formField: OEXRegistrationFormField) {
         field = formField
         fieldView = RegistrationFormFieldView(with: formField)
-        switch formField.fieldType {
+        super.init()
+        setupView()
+    }
+    private func setupView() {
+        switch field.fieldType {
         case OEXRegistrationFieldTypeEmail:
             fieldView.textInputField.keyboardType = .emailAddress
             fieldView.textInputField.accessibilityIdentifier = "field-\(field.name)"

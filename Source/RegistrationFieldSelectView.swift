@@ -21,12 +21,11 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
     }
     
-    override var currentValue: String{
+    override var currentValue: String {
         return tapButton.attributedTitle(for: .normal)?.string ?? ""
-    } 
+    }
     
-    
-    override init(with formField: OEXRegistrationFormField){
+    override init(with formField: OEXRegistrationFormField) {
         super.init(with: formField)
     }
     
@@ -75,7 +74,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         super.layoutSubviews()
     }
     
-    override func refreshAccessibilty()  {
+    override func refreshAccessibilty() {
         guard let formField = formField else { return }
         
         let errorAccessibility = errorMessage ?? "" != "" ? ",\(Strings.Accessibility.errorText), \(errorMessage ?? "")" : ""

@@ -14,8 +14,8 @@
 
 @property (strong, nonatomic) UILabel* errorLabel;
 @property (strong, nonatomic) UILabel* instructionsLabel;
-@property (strong, nonatomic) OEXTextStyle *errorLabelStyle;
-@property (strong, nonatomic) OEXTextStyle *instructionsLabelStyle;
+@property (strong, nonatomic) OEXMutableTextStyle *errorLabelStyle;
+@property (strong, nonatomic) OEXMutableTextStyle *instructionsLabelStyle;
 @end
 
 @implementation OEXRegistrationFieldWrapperView
@@ -25,16 +25,17 @@
     if(self) {
         self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.errorLabel.numberOfLines = 0;
-        self.errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        _errorLabelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[UIColor redColor]];
+        self.errorLabelStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[UIColor redColor]];
+        self.errorLabelStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        self.errorLabelStyle.isAccessibilityElement = NO;
         [self addSubview:self.errorLabel];
 
         self.instructionsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.instructionsLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.instructionsLabel.numberOfLines = 0;
-        self.instructionsLabel.isAccessibilityElement = NO;
         [self addSubview:self.instructionsLabel];
-        _instructionsLabelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] neutralDark]];
+        self.instructionsLabelStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] neutralDark]];
+        self.instructionsLabelStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        self.instructionsLabelStyle.isAccessibilityElement = NO;
     }
     return self;
 }
@@ -82,8 +83,8 @@
 }
 
 - (void)setRegistrationErrorMessage:(NSString*)errorMessage instructionMessage:(NSString*)instructionMessage {
-    self.errorLabel.attributedText = [_errorLabelStyle attributedStringWithText:errorMessage];
-    self.instructionsLabel.attributedText = [_instructionsLabelStyle attributedStringWithText:instructionMessage];
+    self.errorLabel.attributedText = [self.errorLabelStyle attributedStringWithText:errorMessage];
+    self.instructionsLabel.attributedText = [self.instructionsLabelStyle attributedStringWithText:instructionMessage];
     [self.errorLabel sizeToFit];
     [self.instructionsLabel sizeToFit];
     [self setNeedsLayout];

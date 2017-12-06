@@ -24,15 +24,15 @@ class RegistrationTextField: UITextField{
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setupTextField()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+        setupTextField()
     }
     
-    private func setup() {
+    private func setupTextField() {
         background = #imageLiteral(resourceName: "bt_grey_default.png")
         layer.cornerRadius = 4
         borderStyle = .none

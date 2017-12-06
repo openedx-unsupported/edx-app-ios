@@ -345,13 +345,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)toggleOptionalFields:(id)sender {
     self.isShowingOptionalFields = !self.isShowingOptionalFields;
-    if(self.isShowingOptionalFields) {
-        [self.toggleOptionalFieldsButton setAttributedTitle: [_toggleButtonStyle attributedStringWithText:[Strings registrationHideOptionalFields]] forState:UIControlStateNormal];
-    }
-    else {
-        [self.toggleOptionalFieldsButton setAttributedTitle: [_toggleButtonStyle attributedStringWithText:[Strings registrationShowOptionalFields]] forState:UIControlStateNormal];
-    }
-
+    NSString *attributedTitle = self.isShowingOptionalFields ? [Strings registrationHideOptionalFields] : [Strings registrationShowOptionalFields];
+    [self.toggleOptionalFieldsButton setAttributedTitle: [self.toggleButtonStyle attributedStringWithText: attributedTitle] forState:UIControlStateNormal];
     [self refreshFormFields];
 }
 
