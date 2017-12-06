@@ -25,9 +25,9 @@
     if(self) {
         self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.errorLabel.numberOfLines = 0;
-        self.errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        self.errorLabel.isAccessibilityElement = NO;
         self.errorLabelStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[UIColor redColor]];
-        self.errorLabelStyle.isAccessibilityElement = NO;
+        self.errorLabelStyle.lineBreakMode = NSLineBreakByWordWrapping;
         [self addSubview:self.errorLabel];
 
         self.instructionsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
