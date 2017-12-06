@@ -26,6 +26,7 @@ class RegistrationFormFieldView: UIView {
     lazy private var textInputLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.isAccessibilityElement = false
         label.attributedText = self.isRequired ? self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "") \(Strings.asteric)") : self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "")")
         return label
     }()
@@ -52,12 +53,14 @@ class RegistrationFormFieldView: UIView {
     lazy private var errorLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.isAccessibilityElement = false
         return label
     }()
     
     lazy private var instructionsLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
+        label.isAccessibilityElement = false
         label.attributedText = self.instructionsLabelStyle.attributedString(withText: self.formField?.instructions ?? "")
         return label
     }()
@@ -107,14 +110,14 @@ class RegistrationFormFieldView: UIView {
     init(with formField: OEXRegistrationFormField) {
         super.init(frame: CGRect.zero)
         self.formField = formField
-        load()
+        loadView()
     }
     
     // public method, can be inherited
-    func load() {
-        titleLabelStyle.applyDefaultProperties()
-        instructionsLabelStyle.applyDefaultProperties()
-        errorLabelStyle.applyDefaultProperties()
+    func loadView() {
+        titleLabelStyle.lineBreakMode = .byWordWrapping
+        instructionsLabelStyle.lineBreakMode = .byWordWrapping
+        errorLabelStyle.lineBreakMode = .byWordWrapping
         addSubViews()
         refreshAccessibilty()
     }
@@ -231,12 +234,5 @@ class RegistrationFormFieldView: UIView {
 extension RegistrationFormFieldView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         valueDidChange()
-    }
-}
-
-extension OEXMutableTextStyle {
-    fileprivate func applyDefaultProperties() {
-        lineBreakMode = .byWordWrapping
-        isAccessibilityElement = false
     }
 }

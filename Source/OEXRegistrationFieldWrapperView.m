@@ -25,17 +25,17 @@
     if(self) {
         self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.errorLabel.numberOfLines = 0;
+        self.errorLabel.lineBreakMode = NSLineBreakByWordWrapping;
         self.errorLabelStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[UIColor redColor]];
-        self.errorLabelStyle.lineBreakMode = NSLineBreakByWordWrapping;
         self.errorLabelStyle.isAccessibilityElement = NO;
         [self addSubview:self.errorLabel];
 
         self.instructionsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.instructionsLabel.numberOfLines = 0;
+        self.instructionsLabel.isAccessibilityElement = NO;
         [self addSubview:self.instructionsLabel];
         self.instructionsLabelStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] neutralDark]];
         self.instructionsLabelStyle.lineBreakMode = NSLineBreakByWordWrapping;
-        self.instructionsLabelStyle.isAccessibilityElement = NO;
     }
     return self;
 }

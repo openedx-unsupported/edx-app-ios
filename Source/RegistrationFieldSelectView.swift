@@ -29,8 +29,8 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         super.init(with: formField)
     }
     
-    override func load() {
-        super.load()
+    override func loadView() {
+        super.loadView()
         picker.dataSource = self
         picker.delegate = self
         picker.showsSelectionIndicator = true;

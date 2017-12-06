@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension String{
+extension String {
     func isValidEmailAddress() -> Bool {
         // Regular expression to check the email format. 
         // Ref: NSString+OEXValidation.m
