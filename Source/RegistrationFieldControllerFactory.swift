@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc class RegistrationFieldControllerFactory : NSObject{
+@objc class RegistrationFieldControllerFactory : NSObject {
     
     open class func registrationController(of field: OEXRegistrationFormField) -> OEXRegistrationFieldController? {
         switch field.fieldType {

@@ -41,15 +41,15 @@
             [owner choseProvider:provider];
         }];
         self.authOptionsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        _labelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+        self.labelStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
         self.signUpHeading = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.signUpHeading.attributedText = [_labelStyle attributedStringWithText:[Strings registrationRegisterPrompt]];
+        self.signUpHeading.attributedText = [self.labelStyle attributedStringWithText:[Strings registrationRegisterPrompt]];
         self.signUpHeading.isAccessibilityElement = NO;
         self.emailSuggestion = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.emailSuggestion.attributedText = [_labelStyle attributedStringWithText:[Strings registrationRegisterAlternatePrompt]];
+        self.emailSuggestion.attributedText = [self.labelStyle attributedStringWithText:[Strings registrationRegisterAlternatePrompt]];
         [self.emailSuggestion setTextAlignment:NSTextAlignmentCenter];
-        _leftSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
-        _rightSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
+        self.leftSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
+        self.rightSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
         
         [self addSubviews];
     }
@@ -61,8 +61,8 @@
     [self addSubview:self.authOptionsView];
     [self addSubview:self.signUpHeading];
     [self addSubview:self.emailSuggestion];
-    [self addSubview:_leftSeparator];
-    [self addSubview:_rightSeparator];
+    [self addSubview:self.leftSeparator];
+    [self addSubview:self.rightSeparator];
 }
 
 - (void)updateConstraints {
@@ -87,7 +87,7 @@
     
     [self.leftSeparator mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(weakSelf.signUpHeading.mas_leading);
-        make.trailing.equalTo(_emailSuggestion.mas_leading).offset(-8);
+        make.trailing.equalTo(weakSelf.emailSuggestion.mas_leading).offset(-8);
         make.height.mas_equalTo(1.0);
         make.centerY.equalTo(weakSelf.emailSuggestion.mas_centerY);
     }];
@@ -97,7 +97,7 @@
         make.leading.equalTo(_emailSuggestion.mas_trailing);
         make.height.mas_equalTo(1.0);
         make.centerY.equalTo(weakSelf.emailSuggestion.mas_centerY);
-        make.width.equalTo(_leftSeparator);
+        make.width.equalTo(weakSelf.leftSeparator);
     }];
     [self.emailSuggestion setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     [self.leftSeparator setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
