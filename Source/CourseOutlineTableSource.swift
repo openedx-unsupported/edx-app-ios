@@ -62,6 +62,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, environment.config.isTabsDashboardEnabled {
             CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
             refreshTableHeaderView(lastAssecss: false)
+            tableView.setAndLayoutTableHeaderView(header: headerContainer)
+            
         }
         
         refreshController.setupInScrollView(scrollView: tableView)
