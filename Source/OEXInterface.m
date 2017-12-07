@@ -552,12 +552,6 @@ static OEXInterface* _sharedInterface = nil;
 
 #pragma mark EdxNetworkInterface Delegate
 
-
-- (BOOL)isVideosDownloadInProgress {
-    NSArray* array = [self allVideosForState:OEXDownloadStatePartial];
-    return (OEXMaxDownloadProgress * array.count > 0);
-}
-
 - (void)updateTotalProgress {
     NSArray* array = [self allVideosForState:OEXDownloadStatePartial];
     float total = 0;
@@ -642,9 +636,6 @@ static OEXInterface* _sharedInterface = nil;
     }
     else {
         self.reachable = NO;
-    }
-    if ([self isVideosDownloadInProgress]) {
-        [self.progressViews makeObjectsPerformSelector:@selector(setHidden:) withObject:[NSNumber numberWithBool:!self.reachable]];
     }
 }
 
