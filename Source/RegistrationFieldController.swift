@@ -52,9 +52,9 @@ class RegistrationFieldController: NSObject, OEXRegistrationFieldController {
         return fieldView.currentValue
     }
     
-    func takeValue(_ value: Any) {
+    func setValue(_ value: Any) {
         if let value = value as? String {
-            fieldView.takeValue(value)
+            fieldView.setValue(value)
         }
     }
     

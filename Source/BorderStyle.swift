@@ -67,7 +67,7 @@ extension UIView {
 }
 
 extension OEXPlaceholderTextView {
-    func applyBorderStyle() {
+    func applyStandardBorderStyle() {
         textContainerInset = OEXStyles.shared().standardTextViewInsets
         typingAttributes = OEXStyles.shared().textAreaBodyStyle.attributes
         placeholderTextColor = OEXStyles.shared().neutralLight()

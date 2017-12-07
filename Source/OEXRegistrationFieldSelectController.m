@@ -35,9 +35,9 @@
     return [self.view.selected.value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-- (void)takeValue:(NSString*)value {
+- (void)setValue:(NSString*)value {
     if(value && [self.field.fieldOptions containsObject:value]) {
-        [self.view takeValue:value];
+        [self.view setValue:value];
     }
 }
 

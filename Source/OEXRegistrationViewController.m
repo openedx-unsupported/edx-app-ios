@@ -85,9 +85,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     //By default we only shows required fields
     self.isShowingOptionalFields = NO;
     
-    _toggleButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+    self.toggleButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(formFieldValueDidChange:) name:NOTIFICATION_FORM_FIELD_VALUE_DID_CHANGE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(formFieldValueDidChange:) name:NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE object:nil];
     
     [self getFormFields];
 }
@@ -165,7 +165,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     //This button will show and hide optional fields
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
-    [self.toggleOptionalFieldsButton setAttributedTitle: [_toggleButtonStyle attributedStringWithText:[Strings registrationShowOptionalFields]] forState:UIControlStateNormal];
+    [self.toggleOptionalFieldsButton setAttributedTitle: [self.toggleButtonStyle attributedStringWithText:[Strings registrationShowOptionalFields]] forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
 
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] init];
@@ -392,13 +392,13 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     // We will need to do this if we ever transition to fetching that from the server
     for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
         if([[controller field].name isEqualToString:@"email"]) {
-            [controller takeValue:profile.email];
+            [controller setValue:profile.email];
         }
         if([[controller field].name isEqualToString:@"name"]) {
-            [controller takeValue:profile.name];
+            [controller setValue:profile.name];
         }
         if([[controller field].name isEqualToString:@"year_of_birth"]) {
-            [controller takeValue:profile.birthYear];
+            [controller setValue:profile.birthYear];
         }
     }
     [self refreshFormFields];

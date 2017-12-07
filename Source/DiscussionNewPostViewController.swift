@@ -50,7 +50,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
     weak var delegate: DiscussionNewPostViewControllerDelegate?
     private let tapButton = UIButton()
     
-    var titleTextStyle : OEXTextStyle {
+    var titleTextStyle: OEXTextStyle {
         return OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralDark())
     }
     
@@ -136,7 +136,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         titleLabel.isAccessibilityElement = false
         titleLabel.attributedText = NSAttributedString.joinInNaturalLayout(attributedStrings: [titleTextStyle.attributedString(withText: Strings.title), titleTextStyle.attributedString(withText: Strings.asteric)])
         contentTextView.textContainer.lineFragmentPadding = 0
-        contentTextView.applyBorderStyle()
+        contentTextView.applyStandardBorderStyle()
         contentTextView.delegate = self
         titleTextField.accessibilityLabel = Strings.title
         

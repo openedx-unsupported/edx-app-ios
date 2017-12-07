@@ -26,7 +26,7 @@
         self.errorLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.errorLabel.numberOfLines = 0;
         self.errorLabel.isAccessibilityElement = NO;
-        self.errorLabelStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[UIColor redColor]];
+        self.errorLabelStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeXXSmall color:[[OEXStyles sharedStyles] errorLight]];
         self.errorLabelStyle.lineBreakMode = NSLineBreakByWordWrapping;
         [self addSubview:self.errorLabel];
 

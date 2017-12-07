@@ -14,13 +14,13 @@ class RegistrationFormFieldView: UIView {
     private var textFieldHeight:CGFloat = 40.0
     private var textViewHeight:CGFloat = 100.0
     private var textInputViewHeight: CGFloat {
-        return isTextArea ? textViewHeight : textFieldHeight
+        return isInputTypeTextArea ? textViewHeight : textFieldHeight
     }
     
     // MARK: - Properties -
-    let titleLabelStyle = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.base, color: OEXStyles.shared().neutralDark())
-    let instructionsLabelStyle = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.xxSmall, color: OEXStyles.shared().neutralDark())
-    let errorLabelStyle = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: OEXTextSize.xxSmall, color: UIColor.red)
+    let titleLabelStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+    let instructionsLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().neutralDark())
+    let errorLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().errorLight())
     
     // MARK: - UI Properties -
     lazy private var textInputLabel: UILabel = {
@@ -45,7 +45,7 @@ class RegistrationFormFieldView: UIView {
         let textArea = OEXPlaceholderTextView()
         textArea.textContainer.lineFragmentPadding = 0.0
         textArea.autocapitalizationType = .none
-        textArea.applyBorderStyle()
+        textArea.applyStandardBorderStyle()
         textArea.delegate = self
         return textArea
     }()
@@ -66,7 +66,7 @@ class RegistrationFormFieldView: UIView {
     }()
     
     var textInputView: UIView {
-        return isTextArea ? textInputArea : textInputField
+        return isInputTypeTextArea ? textInputArea : textInputField
     }
     
     // Used in child class
@@ -79,11 +79,11 @@ class RegistrationFormFieldView: UIView {
     }
     
     var currentValue: String {
-        let value = isTextArea ? textInputArea.text : textInputField.text
+        let value = isInputTypeTextArea ? textInputArea.text : textInputField.text
         return value?.trimmingCharacters(in: NSCharacterSet.whitespaces) ?? ""
     }
     
-    var isTextArea: Bool {
+    var isInputTypeTextArea: Bool {
         return formField?.fieldType ?? OEXRegistrationFieldTypeText == OEXRegistrationFieldTypeTextArea
     }
     
@@ -147,19 +147,19 @@ class RegistrationFormFieldView: UIView {
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
         textInputView.snp_makeConstraints { (make) in
-            make.leading.equalTo(textInputLabel.snp_leading)
-            make.trailing.equalTo(textInputLabel.snp_trailing)
+            make.leading.equalTo(textInputLabel)
+            make.trailing.equalTo(textInputLabel)
             make.top.equalTo(textInputLabel.snp_bottom).offset(StandardVerticalMargin/2.0)
             make.height.equalTo(textInputViewHeight)
         }
         errorLabel.snp_makeConstraints { (make) in
-            make.leading.equalTo(textInputLabel.snp_leading)
-            make.trailing.equalTo(textInputLabel.snp_trailing)
+            make.leading.equalTo(textInputLabel)
+            make.trailing.equalTo(textInputLabel)
             make.top.equalTo(textInputView.snp_bottom).offset(StandardVerticalMargin/2.0)
         }
         instructionsLabel.snp_makeConstraints { (make) in
-            make.leading.equalTo(textInputLabel.snp_leading)
-            make.trailing.equalTo(textInputLabel.snp_trailing)
+            make.leading.equalTo(textInputLabel)
+            make.trailing.equalTo(textInputLabel)
             make.top.equalTo(errorLabel.snp_bottom).offset(StandardVerticalMargin/2.0)
             make.bottom.equalTo(snp_bottom).inset(StandardVerticalMargin)
         }
@@ -172,21 +172,14 @@ class RegistrationFormFieldView: UIView {
         let errorLabelHeight = errorLabel.sizeThatFits(CGSize(width: textInputView.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
         let instructionLabelHeight = instructionsLabel.sizeThatFits(CGSize(width: textInputView.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
         var height = textInputLabelHeight + errorLabelHeight + instructionLabelHeight + StandardVerticalMargin + (3.0 * StandardVerticalMargin/2.0)
-        if let formField = formField {
-            if formField.fieldType == OEXRegistrationFieldTypeTextArea {
-                height += textViewHeight
-            }
-            else {
-                height += textFieldHeight
-            }
-        }
+        if let _ = formField { height += textInputViewHeight }
         var frame = self.frame
         frame.size.height = height
         self.frame = frame
     }
     
-    func takeValue(_ value: String) {
-        if isTextArea {
+    func setValue(_ value: String) {
+        if isInputTypeTextArea {
             textInputArea.text = value
         }
         else {
@@ -200,7 +193,7 @@ class RegistrationFormFieldView: UIView {
     
     @objc func valueDidChange() {
         errorMessage = validate()
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_FORM_FIELD_VALUE_DID_CHANGE)))
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE)))
     }
     
     func validate() -> String? {
@@ -214,7 +207,7 @@ class RegistrationFormFieldView: UIView {
         if length < field.restriction.minLength {
             return field.errorMessage.minLength == "" ? Strings.registrationFieldMinLengthError(fieldName: field.label, count: "\(field.restriction.minLength)")(field.restriction.minLength) : field.errorMessage.minLength
         }
-        if length > field.restriction.maxLength && field.restriction.maxLength != 0 {
+        else if length > field.restriction.maxLength && field.restriction.maxLength != 0 {
             return field.errorMessage.maxLength == "" ? Strings.registrationFieldMaxLengthError(fieldName: field.label, count: "\(field.restriction.maxLength)")(field.restriction.maxLength): field.errorMessage.maxLength
         }
         
