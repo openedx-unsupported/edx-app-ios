@@ -637,8 +637,6 @@ static OEXInterface* _sharedInterface = nil;
     else {
         self.reachable = NO;
     }
-
-    [self.progressViews makeObjectsPerformSelector:@selector(setHidden:) withObject:[NSNumber numberWithBool:!self.reachable]];
 }
 
 #pragma mark NetworkInterface Delegate

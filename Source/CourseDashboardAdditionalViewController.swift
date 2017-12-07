@@ -31,7 +31,6 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
     
         view.backgroundColor = environment.styles.standardBackgroundColor()
         title = Strings.resourses
-    
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
@@ -45,8 +44,6 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         tableView.snp_makeConstraints { (make) in
             make.edges.equalTo(view)
         }
-        edgesForExtendedLayout = []
-        tabBarController?.tabBar.isTranslucent = false
     }
     
     private func prepareTableViewData(items:[CourseDashboardTabBarItem]) {

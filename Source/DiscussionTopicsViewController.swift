@@ -36,7 +36,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         self.courseID = courseID
         self.loadController = LoadStateViewController()
         
-        super.init(env: environment)
+        super.init(env: environment, shouldShowOfflineSnackBar: false)
        
         let stream = environment.dataManager.courseDataManager.discussionManagerForCourseWithID(courseID: courseID).topics
         topics.backWithStream(stream.map {
@@ -147,7 +147,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         }
         
         self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenViewTopics, courseID: self.courseID, value: nil)
-        
+        refreshTopics()
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     

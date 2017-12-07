@@ -64,7 +64,7 @@ public class CourseOutlineViewController :
         tableController = CourseOutlineTableController(environment: self.environment, courseID: courseID, forMode: courseOutlineMode)
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
-        super.init(env: environment)
+        super.init(env: environment, shouldShowOfflineSnackBar: false)
         
         lastAccessedController.delegate = self
         
@@ -101,26 +101,7 @@ public class CourseOutlineViewController :
         super.viewWillAppear(animated)
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
-        let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
-        stream.extendLifetimeUntilFirstResult (success :
-            { [weak self] (rootID, block) in
-                if self?.blockID == rootID || self?.blockID == nil {
-                    if self?.courseOutlineMode == .Full {
-                        self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
-                    }
-                    else {
-                        self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
-                    }
-                }
-                else {
-                    self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
-                    self?.tableController.hideTableHeaderView()
-                }
-        },
-                                               failure: {
-                                                Logger.logError("ANALYTICS", "Unable to load block: \($0)")
-        }
-        )
+        loadStreams()
     }
     
     override public var shouldAutorotate: Bool {
@@ -151,6 +132,31 @@ public class CourseOutlineViewController :
     
     private func setupNavigationItem(block : CourseBlock) {
         navigationItem.title = (courseOutlineMode == .Video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
+    }
+    
+    private func loadStreams() {
+        loadController.state = .Initial
+        let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
+        stream.extendLifetimeUntilFirstResult (success :
+            { [weak self] (rootID, block) in
+                if self?.blockID == rootID || self?.blockID == nil {
+                    if self?.courseOutlineMode == .Full {
+                        self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
+                    }
+                    else {
+                        self?.environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseVideos.rawValue, courseID: self?.courseID, value: nil)
+                    }
+                }
+                else {
+                    self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
+                    self?.tableController.hideTableHeaderView()
+                }
+            },
+                                               failure: {
+                                                Logger.logError("ANALYTICS", "Unable to load block: \($0)")
+        }
+        )
+        reload()
     }
     
     private func reload() {
