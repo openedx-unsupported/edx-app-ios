@@ -34,6 +34,8 @@
 "ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "Toque dos veces para eliminar su reporte.";
 /* Accessibility hint for Follow button for discussion responses*/
 "ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "Toque dos veces para seguir.";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "Error";
 /* Accessibility hint for Unfollow button for discussion responses*/
 "ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Toque dos veces para dejar de seguir.";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
@@ -64,6 +66,10 @@
 "ACCESSIBILITY_USER_AVATAR" = "Su imagen de avatar";
 /* Accessibility label for Problem Icon in the Courseware screens */
 "ACCESSIBILITY_PROBLEM" = "Problema";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY.REQUIRED_INPUT"="Required";
+/* Optional text needs to be added for accesibility*/
+"ACCESSIBILITY.OPTIONAL_INPUT"="Optional";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Retroceder";
 /* Call to action for Rewind Button in the Video Player */
@@ -342,6 +348,8 @@
 "DOWNLOADS"="Descargas";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Descargando 1 video.";
+/* Error message shown when email address is not properly formatted */
+"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Please make sure your e-mail address is formatted correctly and try again.";
 /*Discover in left drawer(used for courses and programs discovery)*/
 "DISCOVER"="Discover";
 /* Alert message shown when user tries to send an email, but email isn't setup */

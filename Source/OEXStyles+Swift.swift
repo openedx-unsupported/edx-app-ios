@@ -97,10 +97,15 @@ extension OEXStyles {
 // Standard text Styles
     
     var textAreaBodyStyle : OEXTextStyle {
-        let style = OEXMutableTextStyle(weight: OEXTextWeight.normal, size: .small, color: OEXStyles.shared().neutralDark())
+        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralDark())
         style.lineBreakMode = .byWordWrapping
         return style
     }
+    
+    func textFieldStyle(with size: OEXTextSize) -> OEXTextStyle {
+        return OEXMutableTextStyle(weight: .normal, size: size, color: OEXStyles.shared().neutralDark())
+    }
+    
 
 // Standard button styles
 

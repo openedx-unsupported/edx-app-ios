@@ -54,6 +54,8 @@
 "ACCESSIBILITY_FULLSCREEN" = "Fullscreen";
 /* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
 "ACCESSIBILITY_EXIT_FULLSCREEN" = "Exit fullscreen";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "Error";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
 /* Accessibility label for Pause Button in the Video Player */
@@ -64,6 +66,10 @@
 "ACCESSIBILITY_USER_AVATAR" = "Your avatar image";
 /* Accessibility label for Problem Icon in the Courseware screens */
 "ACCESSIBILITY_PROBLEM" = "Problem";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY.REQUIRED_INPUT"="Required";
+/* Optional text needs to be added for accesibility*/
+"ACCESSIBILITY.OPTIONAL_INPUT"="Optional";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Rewind";
 /* Call to action for Rewind Button in the Video Player */
@@ -344,6 +350,8 @@
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /*Discover in left drawer(used for courses and programs discovery)*/
 "DISCOVER"="Discover";
+/* Error message shown when email address is not properly formatted */
+"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Please make sure your e-mail address is formatted correctly and try again.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="It seems your email client is not set up.";
 /* Alert dialog title shown when user tries to send an email, but email isn't setup */
@@ -584,6 +592,7 @@
 "REGISTRATION_ERROR_ALERT_TITLE"="Registration Error";
 /* Detailed info message for registration error alert*/
 "REGISTRATION_ERROR_ALERT_MESSAGE"="Update the highlighted fields and try again";
+
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Reset Password";
 /* Alert dialog content prompting user to enter an email address to reset their password */

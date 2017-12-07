@@ -20,9 +20,7 @@
 #import "OEXGoogleAuthProvider.h"
 #import "OEXGoogleConfig.h"
 #import "OEXHTTPStatusCodes.h"
-#import "OEXRegistrationAgreementController.h"
 #import "OEXRegistrationDescription.h"
-#import "OEXRegistrationFieldControllerFactory.h"
 #import "OEXRegistrationFieldError.h"
 #import "OEXRegistrationFormField.h"
 #import "OEXRegistrationStyles.h"
@@ -56,7 +54,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (assign, nonatomic) BOOL isShowingOptionalFields;
 
 @property (strong, nonatomic) OEXRegistrationStyles* styles;
-@property (nonatomic) OEXMutableTextStyle *buttonsTitleStyle;
+@property (strong, nonatomic) OEXTextStyle *toggleButtonStyle;
 
 @end
 
@@ -87,9 +85,15 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     //By default we only shows required fields
     self.isShowingOptionalFields = NO;
     
-    _buttonsTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles primaryBaseColor]];
+    self.toggleButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(formFieldValueDidChange:) name:NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE object:nil];
     
     [self getFormFields];
+}
+
+-(void)formFieldValueDidChange: (NSNotification *)notification {
+    [self refreshFormFields];
 }
 
 - (void)getFormFields {
@@ -108,12 +112,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     NSArray* fields = self.registrationDescription.registrationFormFields;
     self.fieldControllers = [fields oex_map:^id < OEXRegistrationFieldController > (OEXRegistrationFormField* formField)
                              {
-                                 id <OEXRegistrationFieldController> fieldController = [OEXRegistrationFieldControllerFactory registrationFieldViewController:formField];
-                                 if(formField.fieldType == OEXRegistrationFieldTypeAgreement) {
-                                     // These don't have explicit representations in the apps
-                                     return nil;
+                                 if(formField.fieldType != OEXRegistrationFieldTypeAgreement) {
+                                     id <OEXRegistrationFieldController> fieldController = [RegistrationFieldControllerFactory registrationControllerOf:formField];
+                                     return fieldController;
                                  }
-                                 return fieldController;
+                                 return nil;
                              }];
 }
 
@@ -162,10 +165,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     //This button will show and hide optional fields
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
-    [self.toggleOptionalFieldsButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [self.toggleOptionalFieldsButton setTitle:[Strings registrationShowOptionalFields]  forState:UIControlStateNormal];
-    [self.toggleOptionalFieldsButton.titleLabel setFont:[self.environment.styles semiBoldSansSerifOfSize:14.0]];
-
+    [self.toggleOptionalFieldsButton setAttributedTitle: [self.toggleButtonStyle attributedStringWithText:[Strings registrationShowOptionalFields]] forState:UIControlStateNormal];
     [self.toggleOptionalFieldsButton addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
 
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] init];
@@ -247,6 +247,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
+    [self viewDidLayoutSubviews];
     UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil);
 }
 
@@ -344,13 +345,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)toggleOptionalFields:(id)sender {
     self.isShowingOptionalFields = !self.isShowingOptionalFields;
-    if(self.isShowingOptionalFields) {
-        [self.toggleOptionalFieldsButton setTitle:[Strings registrationHideOptionalFields] forState:UIControlStateNormal];
-    }
-    else {
-        [self.toggleOptionalFieldsButton setTitle:[Strings registrationShowOptionalFields] forState:UIControlStateNormal];
-    }
-
+    NSString *attributedTitle = self.isShowingOptionalFields ? [Strings registrationHideOptionalFields] : [Strings registrationShowOptionalFields];
+    [self.toggleOptionalFieldsButton setAttributedTitle: [self.toggleButtonStyle attributedStringWithText: attributedTitle] forState:UIControlStateNormal];
     [self refreshFormFields];
 }
 
@@ -396,13 +392,13 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     // We will need to do this if we ever transition to fetching that from the server
     for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
         if([[controller field].name isEqualToString:@"email"]) {
-            [controller takeValue:profile.email];
+            [controller setValue:profile.email];
         }
         if([[controller field].name isEqualToString:@"name"]) {
-            [controller takeValue:profile.name];
+            [controller setValue:profile.name];
         }
         if([[controller field].name isEqualToString:@"year_of_birth"]) {
-            [controller takeValue:profile.birthYear];
+            [controller setValue:profile.birthYear];
         }
     }
     [self refreshFormFields];
