@@ -1450,6 +1450,8 @@ static OEXInterface* _sharedInterface = nil;
 # pragma  mark activate interface for user
 
 - (void)activateInterfaceForUser:(OEXUserDetails*)user {
+    [_network invalidateNetworkManager];
+    
     // Reset Default Settings
     self.storage = [OEXStorageFactory getInstance];
     self.network = [[OEXNetworkInterface alloc] init];
@@ -1468,7 +1470,6 @@ static OEXInterface* _sharedInterface = nil;
     //Downloads
     self.numberOfRecentDownloads = (int)recentDownloads;
 
-    [_network activate];
     [[OEXDownloadManager sharedManager] activateDownloadManager];
     [self backgroundInit];
 
