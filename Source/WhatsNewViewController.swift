@@ -87,7 +87,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     private func configureViews() {
         view.backgroundColor = environment.styles.primaryBaseColor()
         doneButton.setAttributedTitle(doneButtonStyle.attributedString(withText: Strings.WhatsNew.done), for: .normal)
-        doneButton.isHidden = true
+        doneButton.isHidden = false
         headerLabel.accessibilityLabel = Strings.Accessibility.Whatsnew.headerLabel(appVersion: Bundle.main.oex_buildVersionString())
         closeButton.accessibilityLabel = Strings.Accessibility.Whatsnew.closeLabel
         closeButton.accessibilityHint = Strings.Accessibility.closeHint
