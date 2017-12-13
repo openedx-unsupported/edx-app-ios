@@ -50,6 +50,7 @@ public class CourseOutlineQuerier : NSObject {
         self.session = session
         super.init()
         addListener()
+        addObservers()
     }
     
     /// Use this to create a querier with an existing outline.
@@ -64,6 +65,7 @@ public class CourseOutlineQuerier : NSObject {
         
         super.init()
         addListener()
+        addObservers()
     }
     
     // Use this to create a querier with interface and outline.
@@ -71,6 +73,12 @@ public class CourseOutlineQuerier : NSObject {
     convenience public init(courseID : String, interface : OEXInterface?, outline : CourseOutline) {
         self.init(courseID: courseID, outline: outline)
         self.interface = interface
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionStarted.rawValue) { (notification, observer, _) -> Void in
+            observer.needsRefresh = true
+        }
     }
     
     private func addListener() {

@@ -144,12 +144,7 @@ static OEXNetworkManager* _sharedManager = nil;
 #pragma mark Helpers
 
 - (NSURLSession*)sessionForRequest:(NSURL*)URL {
-    if([OEXInterface isURLForedXDomain:URL.absoluteString]) {
-        return _backgroundSession;
-    }
-    else {
-        return _backgroundSession;
-    }
+    return _backgroundSession;
 }
 
 #pragma mark Initializations
