@@ -33,16 +33,16 @@ extension NSError {
     }
 
     func isAPIError(code: APIErrorCode) -> Bool {
-        guard let errorCode = errorInfo()?[ErrorFields.Code.rawValue] as? String else { return false }
+        guard let errorCode = errorInfo?[ErrorFields.Code.rawValue] as? String else { return false }
         return errorCode == code.rawValue
     }
     
     /// error_code can be in the different hierarchy. Like it can be direct or it can be contained in a dictionary under developer_message
-    private func errorInfo() -> Dictionary<AnyHashable, Any>? {
-        if let info = userInfo[ErrorFields.DeveloperMessage.rawValue] as? Dictionary<AnyHashable, Any> {
-            return info
+    private var errorInfo: Dictionary<AnyHashable, Any>? {
+        guard let errorInfo = userInfo[ErrorFields.DeveloperMessage.rawValue] as? Dictionary<AnyHashable, Any>  else {
+            return userInfo
         }
         
-        return userInfo
+        return errorInfo
     }
 }
