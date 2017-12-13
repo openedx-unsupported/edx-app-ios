@@ -182,13 +182,6 @@ static OEXInterface* _sharedInterface = nil;
     return NO;
 }
 
-+ (BOOL)isURLForedXDomain:(NSString*)URLString {
-    if([URLString rangeOfString:[OEXConfig sharedConfig].apiHostURL.absoluteString].location != NSNotFound) {
-        return YES;
-    }
-    return NO;
-}
-
 + (BOOL)isURLForImage:(NSString*)URLString {
     if([URLString rangeOfString:URL_SUBSTRING_ASSETS].location != NSNotFound) {
         return YES;

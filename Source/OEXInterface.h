@@ -65,7 +65,6 @@ extern NSString* const OEXDownloadEndedNotification;
 #pragma Common Methods
 + (BOOL)isURLForVideo:(NSString*)URLString;
 + (BOOL)isURLForImage:(NSString*)URLString;
-+ (BOOL)isURLForedXDomain:(NSString*)URLString;
 
 #pragma mark Resource downloading
 - (BOOL)downloadWithRequestString:(nullable NSString*)URLString forceUpdate:(BOOL)update;
