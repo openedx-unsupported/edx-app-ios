@@ -650,7 +650,6 @@
 		BECB7B5A1924D760009C77F1 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B591924D760009C77F1 /* SWRevealViewController.m */; };
 		BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */; };
 		BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEEBF82196AAACF00EF2C35 /* Localizable.strings */; };
-		E0018A7D1EF2AA8600ED53A3 /* OEXInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0018A7C1EF2AA8600ED53A3 /* OEXInterfaceTests.swift */; };
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
 		E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */; };
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
@@ -1561,7 +1560,6 @@
 		C1061FFC436565270CDA40E3 /* Pods-edXTests.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.profile.xcconfig"; sourceTree = "<group>"; };
 		C7C088336C8983E1C003D89D /* libPods-edX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-edX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D403B266ACE25A256FD75605 /* Pods-edXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.release.xcconfig"; sourceTree = "<group>"; };
-		E0018A7C1EF2AA8600ED53A3 /* OEXInterfaceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXInterfaceTests.swift; sourceTree = "<group>"; };
 		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
 		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
 		E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewControllerTests.swift; sourceTree = "<group>"; };
@@ -3211,7 +3209,6 @@
 			children = (
 				22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */,
 				E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */,
-				E0018A7C1EF2AA8600ED53A3 /* OEXInterfaceTests.swift */,
 				7768745A1CDCCB1E001DFB77 /* RemoteImageTests.swift */,
 				77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */,
 				77C6BBC61CB438170026C37B /* TabContainerViewTests.swift */,
@@ -4536,7 +4533,6 @@
 				1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */,
 				7791C4ED1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift in Sources */,
 				E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */,
-				E0018A7D1EF2AA8600ED53A3 /* OEXInterfaceTests.swift in Sources */,
 				7706AAC31BCFF28B00728432 /* NSAttributedString+FormattingTests.swift in Sources */,
 				77FEF2241C8A0A45009DFDB3 /* OEXFileUtility+TestAdditions.m in Sources */,
 				772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */,
