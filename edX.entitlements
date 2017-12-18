@@ -8,8 +8,8 @@
 	<array>
 		<string>applinks:edx.test-app.link</string>
 		<string>applinks:edx.app.link</string>
-		<string>edx-alternate.app.link</string>
-		<string>edx-alternate.test-app.link</string>
+		<string>applinks:edx-alternate.app.link</string>
+		<string>applinks:edx-alternate.test-app.link</string>
 	</array>
 	<key>keychain-access-groups</key>
 	<array>
