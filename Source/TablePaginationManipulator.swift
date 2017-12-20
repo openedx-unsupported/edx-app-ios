@@ -33,7 +33,7 @@ class TablePaginationManipulator : ScrollingPaginationViewManipulator {
 
 extension PaginationController {
 
-    convenience init<P: Paginator>(paginator: P, tableView: UITableView) where P.Element == A, P.Element == A {
+    convenience init<P: Paginator>(paginator: P, tableView: UITableView) where P.Element == A{
         self.init(paginator: paginator, manipulator: TablePaginationManipulator(tableView: tableView))
     }
     
