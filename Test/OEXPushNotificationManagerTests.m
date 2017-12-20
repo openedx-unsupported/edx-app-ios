@@ -130,15 +130,15 @@
     XCTAssertTrue(self.applicationInstanceMock.registered);
 }
 
-- (void)testProviderSessionEnds {
-    [self.manager addProvider:self.provider withSession:self.session];
-    
-    [[self.provider expect] sessionEnded];
-    
-    [self.session closeAndClearSession];
-    
-    OCMVerifyAll(self.provider);
-}
+//- (void)testProviderSessionEnds {
+//    [self.manager addProvider:self.provider withSession:self.session];
+//
+//    [[self.provider expect] sessionEnded];
+//
+//    [self.session closeAndClearSession];
+//
+//    OCMVerifyAll(self.provider);
+//}
 
 - (void)testListenerAdd {
     NSDictionary* userInfo = @{@"thing" : @"happened"};
