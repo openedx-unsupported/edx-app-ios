@@ -352,6 +352,8 @@
 "ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Please make sure your e-mail address is formatted correctly and try again.";
 /*Discover in left drawer(used for courses and programs discovery)*/
 "DISCOVER"="Discover";
+/*Debug option title in tabbar */
+"DEBUG"="Debug";
 /* Alert message shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="Al parecer su cliente de correo no está configurado.";
 /* Alert dialog title shown when user tries to send an email, but email isn't setup */

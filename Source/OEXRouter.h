@@ -12,6 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class DataManager;
+@class SingleChildContainingViewController;
 
 @class RouterEnvironment;
 
@@ -58,6 +59,7 @@ extern NSString* OEXSideNavigationChangedStateKey;
 - (void)showSignUpScreenFromController:(nullable UIViewController*)controller completion:(nullable void(^)(void))completion;
 
 #pragma mark Top Level
+- (void)showSidebar;
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated;
 - (void)showMySettings;
 
@@ -74,6 +76,7 @@ extern NSString* OEXSideNavigationChangedStateKey;
 
 @property (readonly, strong, nonatomic) RouterEnvironment* environment;
 @property (strong, nonatomic, nullable) RevealViewController* revealController;
+@property (strong, nonatomic) SingleChildContainingViewController* containerViewController;
 
 - (UINavigationController *) loginViewController;
 - (void)removeCurrentContentController;

@@ -54,7 +54,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         navigationItem.title = Strings.UserAccount.profile
         addProfileListener()
         addExtraTabsListener()
-
+        addCrossButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +74,18 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
             }
             editButton.accessibilityLabel = Strings.Profile.editAccessibility
             navigationItem.rightBarButtonItem = editButton
+        }
+    }
+    
+    private func addCrossButton() {
+        if (self.isModal()) {
+            let crossButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+            crossButton.accessibilityLabel = Strings.userAccount
+            navigationItem.leftBarButtonItem = crossButton
+            
+            crossButton.oex_setAction { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
     }
     

@@ -45,6 +45,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         contentView.addSubview(versionLabel)
 
         configureViews()
+        addCrossButton()
     }
     
     func configureViews() {
@@ -61,6 +62,18 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         addConstraints()
     }
 
+    private func addCrossButton() {
+        if (self.isModal()) {
+            let crossButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+            crossButton.accessibilityLabel = Strings.userAccount
+            navigationItem.rightBarButtonItem = crossButton
+            
+            crossButton.oex_setAction { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
     func addConstraints() {
         contentView.snp_makeConstraints {make in
             make.edges.equalTo(view)
