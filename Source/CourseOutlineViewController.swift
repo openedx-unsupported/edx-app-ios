@@ -41,6 +41,7 @@ public class CourseOutlineViewController :
     private let insetsController : ContentInsetsController
     private var lastAccessedController : CourseLastAccessedController
     private var courseOutlineMode: CourseOutlineMode
+    private var jumpToLastAccessedModule : Bool
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     fileprivate var t_hasTriggeredSetLastAccessed = false
@@ -53,7 +54,7 @@ public class CourseOutlineViewController :
         return courseQuerier.courseID
     }
     
-    public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
+    public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?, jumpToLastAccessedModule : Bool = false) {
         self.rootID = rootID
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
@@ -63,6 +64,7 @@ public class CourseOutlineViewController :
         courseOutlineMode = mode ?? .Full
         tableController = CourseOutlineTableController(environment: self.environment, courseID: courseID, forMode: courseOutlineMode)
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
+        self.jumpToLastAccessedModule = jumpToLastAccessedModule
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
         
@@ -292,6 +294,21 @@ public class CourseOutlineViewController :
     //MARK: LastAccessedControllerDeleagte
     public func courseLastAccessedControllerDidFetchLastAccessedItem(item: CourseLastAccessed?) {
         if let lastAccessedItem = item {
+            if (jumpToLastAccessedModule) {
+                jumpToLastAccessedModule = false
+                if (item?.moduleId) != nil {
+                    let blockId = item?.moduleId
+                    for group in tableController.groups {
+                        let childNodes = group.children
+                        let currentLastViewedIndex = childNodes.firstIndexMatching({$0.blockID == blockId})
+                        if let matchedIndex = currentLastViewedIndex {
+                            outlineTableController(controller: tableController, choseBlock: childNodes[matchedIndex], withParentID: group.block.blockID)
+                            break
+                        }
+                    }
+                }
+                
+            }
             self.tableController.showLastAccessedWithItem(item: lastAccessedItem)
         }
         else {
