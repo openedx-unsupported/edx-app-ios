@@ -27,6 +27,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
     }()
+    private let shareButton = UIButton(type: .system)
     
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
@@ -60,12 +61,21 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     }
     
     private func addShareButton(withCourse course: OEXCourse) {
-        let shareButton = UIBarButtonItem(image: UIImage(named: "shareCourse.png"), style: UIBarButtonItemStyle.plain, target: self, action: nil)
+        shareButton.setImage(UIImage(named: "shareCourse.png"), for: .normal)
         shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
-        shareButton.oex_setAction { [weak self] in
+        
+        shareButton.snp_makeConstraints(closure: { (make) -> Void in
+            make.height.equalTo(26)
+            make.width.equalTo(26)
+        })
+        
+        shareButton.oex_removeAllActions()
+        shareButton.oex_addAction({[weak self] _ in
             self?.shareCourse(course: course)
-        }        
-        navigationItem.rightBarButtonItems = [shareButton]
+            }, for: .touchUpInside)
+        
+        let shareItem = UIBarButtonItem(customView: shareButton)
+        navigationItem.rightBarButtonItems = [shareItem]
     }
     
     private func addNavigationItems(withCourse course: OEXCourse) {
@@ -177,10 +187,10 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
             }, url: url, utmParams: course.courseShareUtmParams, analyticsCallback: { analyticsType in
                 analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
             })
+            controller.configurePresentationController(withSourceView: shareButton)
             present(controller, animated: true, completion: nil)
         }
-    }
-    
+    }    
 }
 
 extension UITabBarController {
