@@ -21,7 +21,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     fileprivate var tabBarItems : [CourseDashboardTabBarItem] = []
     fileprivate var additionalTabBarItems : [CourseDashboardTabBarItem] = []
     var userProfilePicture = ProfileImageView()
-    private let UserProfileImageSize = CGSize(width: 40, height: 40)
+    private let UserProfileImageSize = CGSize(width: 30, height: 30)
     
     var profileFeed: Feed<UserProfile>?
     
@@ -50,15 +50,22 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         // Dispose of any resources that can be recreated.
     }
     
+    private func courseCatalogTitle() -> String {
+        switch environment.config.courseEnrollmentConfig.type {
+        case .Native:
+            return Strings.findCourses
+        default:
+            return Strings.discover
+        }
+    }
+    
     private func setScreenTitle() {
         let option = TabBarOptions.allValues[0]
         switch option {
-        case .MyCourse:
-            navigationItem.title = Strings.myCourses
         case .CourseCatalog:
-            navigationItem.title = Strings.findCourses
+            navigationItem.title = courseCatalogTitle()
         default:
-            navigationItem.title = Strings.myCourses
+            navigationItem.title = Strings.courses
         }
     }
     
@@ -68,10 +75,11 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for option in TabBarOptions.allValues {
             switch option {
             case .MyCourse:
-                item = CourseDashboardTabBarItem(title: Strings.myCourses, viewController: EnrolledCoursesViewController(environment: self.environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+                item = CourseDashboardTabBarItem(title: Strings.courses, viewController: EnrolledCoursesViewController(environment: self.environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
-                item = CourseDashboardTabBarItem(title: Strings.discover, viewController: getDiscoveryViewController(), icon: Icon.Search, detailText: Strings.Dashboard.courseCourseDetail)
+                guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() else { break }
+                item = CourseDashboardTabBarItem(title: courseCatalogTitle(), viewController: getDiscoveryViewController(), icon: Icon.Search, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .Debug:
                 if environment.config.shouldShowDebug() {
@@ -95,7 +103,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         case .Webview:
             controller = OEXFindCoursesViewController(bottomBar: nil)
         case .Native, .None:
-            controller = CourseCatalogViewController(environment: self.environment)
+            controller = CourseCatalogViewController(environment: environment)
         }
         
         return controller
@@ -109,6 +117,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             controllers.append(controller)
         }
         viewControllers = controllers
+        tabBar.isHidden = (tabBarItems.count == 1)
     }
     
     private func setupProfileLoader() {
@@ -123,34 +132,34 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     }
 
     private func addProfileButton() {
-        let profileView = UIView()
-        let profileButton = UIButton()
-        profileView.addSubview(userProfilePicture)
-        profileView.addSubview(profileButton)
-        profileView.snp_makeConstraints { (make) in
-            make.width.equalTo(UserProfileImageSize.width)
-            make.height.equalTo(UserProfileImageSize.height)
+        if environment.config.profilesEnabled {
+            let profileView = UIView(frame: CGRect(x: 0, y: 0, width: UserProfileImageSize.width, height: UserProfileImageSize.height))
+            let profileButton = UIButton()
+            profileView.addSubview(userProfilePicture)
+            profileView.addSubview(profileButton)
+    
+            profileButton.snp_makeConstraints { (make) in
+                make.edges.equalTo(profileView)
+            }
+            
+            userProfilePicture.snp_makeConstraints { (make) in
+                make.edges.equalTo(profileView)
+            }
+            
+            profileButton.oex_addAction({[weak self] _  in
+                guard let currentUserName = self?.environment.session.currentUser?.username else { return }
+                self?.environment.router?.showProfileForUsername(controller: self, username: currentUserName, modalTransitionStylePresent: true)
+            }, for: .touchUpInside)
+            
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileView)
         }
-        profileButton.snp_makeConstraints { (make) in
-            make.edges.equalTo(profileView)
-        }
-        userProfilePicture.snp_makeConstraints { (make) in
-            make.edges.equalTo(profileView)
-        }
-        profileButton.oex_addAction({[weak self] _  in
-            guard let currentUserName = self?.environment.session.currentUser?.username else { return }
-            self?.environment.router?.showProfileForUsername(controller: self, username: currentUserName, modalTransitionStylePresent: true)
-        }, for: .touchUpInside)
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileView)
     }
     
     private func addAccountButton() {
-        let accountButton = UIBarButtonItem(image: Icon.Settings.imageWithFontSize(size: 20.0), style: .plain, target: nil, action: nil)
+        let accountButton = UIBarButtonItem(image: Icon.AccountIcon.imageWithFontSize(size: 20.0), style: .plain, target: nil, action: nil)
         accountButton.accessibilityLabel = Strings.userAccount
         navigationItem.rightBarButtonItem = accountButton
         
-
         accountButton.oex_setAction { [weak self] in
             self?.environment.router?.showAccount(controller: self, modalTransitionStylePresent: true)
         }
@@ -162,7 +171,6 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
 }
 
 extension EnrolledTabBarViewController {
-    
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
     }

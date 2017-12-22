@@ -433,7 +433,7 @@
 /* Option to sort discussion post list by most votes */
 "MOST_VOTES"="Más votos";
 /* Screen title showing a user's courses */
-"MY_COURSES"="Mis cursos";
+"COURSES"="cursos";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="Mis opciones";
 /* Time Label in My Videos section*/

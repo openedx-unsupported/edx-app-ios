@@ -349,7 +349,7 @@
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="Discover";
+"DISCOVER"="Discovery";
 /*Debug option title in tabbar */
 "DEBUG"="Debug";
 /* Error message shown when email address is not properly formatted */
@@ -433,7 +433,7 @@
 /* Option to sort discussion post list by most votes */
 "MOST_VOTES"="Most Votes";
 /* Screen title showing a user's courses */
-"MY_COURSES"="My Courses";
+"COURSES"="Courses";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="My Settings";
 /* Time Label in My Videos section*/
