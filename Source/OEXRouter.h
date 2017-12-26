@@ -12,8 +12,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class DataManager;
-@class SingleChildContainingViewController;
-
 @class RouterEnvironment;
 
 @class OEXHelperVideoDownload;
