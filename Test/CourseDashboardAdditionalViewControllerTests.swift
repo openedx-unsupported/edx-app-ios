@@ -1,5 +1,5 @@
 //
-//  CourseDashboardAdditionalViewControllerTests.swift
+//  AdditionalTabBarViewControllerTests.swift
 //  edX
 //
 //  Created by Salman on 13/11/2017.
@@ -21,7 +21,7 @@ private extension OEXConfig {
     }
 }
 
-class CourseDashboardAdditionalViewControllerTests: SnapshotTestCase {
+class AdditionalTabBarViewControllerTests: SnapshotTestCase {
         
     func testResourcesViewSnapshot() {
         let config = OEXConfig(courseSharingEnabled: true, isAnnouncementsEnabled: true)
@@ -36,7 +36,7 @@ class CourseDashboardAdditionalViewControllerTests: SnapshotTestCase {
             item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: course.course_id!), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
             cellItems.append(item)
         
-        let additionalController = CourseDashboardAdditionalViewController(environment: environment, cellItems: cellItems)
+        let additionalController = AdditionalTabBarViewController(environment: environment, cellItems: cellItems)
         inScreenNavigationContext(additionalController, action: { () -> () in
             assertSnapshotValidWithContent(additionalController.navigationController!)
         })

@@ -10,7 +10,7 @@ import UIKit
 
 private enum TabBarOptions: Int {
     case MyCourse, CourseCatalog, Debug
-    static let allValues = [MyCourse, CourseCatalog, Debug]
+    static let allOptions = [MyCourse, CourseCatalog, Debug]
 }
 
 class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelegate {
@@ -18,12 +18,24 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
     private let environment: Environment
-    fileprivate var tabBarItems : [CourseDashboardTabBarItem] = []
-    fileprivate var additionalTabBarItems : [CourseDashboardTabBarItem] = []
-    var userProfilePicture = ProfileImageView()
-    private let UserProfileImageSize = CGSize(width: 30, height: 30)
+    private var tabBarItems : [CourseDashboardTabBarItem] = []
     
-    var profileFeed: Feed<UserProfile>?
+    // add the additional resources options in additionalTabBarItems
+    fileprivate var additionalTabBarItems : [CourseDashboardTabBarItem] = []
+    
+    private var userProfileImageView = ProfileImageView()
+    private let UserProfileImageSize = CGSize(width: 30, height: 30)
+    private var profileFeed: Feed<UserProfile>?
+    private let tabBarImageFontSize : CGFloat = 20
+    
+    private var screenTitle: String {
+        let option = TabBarOptions.allOptions[0]
+        switch option {
+            case .CourseCatalog:
+                return courseCatalogTitle()
+            default: return Strings.courses
+        }
+    }
     
     init(environment: Environment) {
         self.environment = environment
@@ -36,11 +48,10 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setScreenTitle()
+        navigationItem.title = screenTitle
         addAccountButton()
         addProfileButton()
         setupProfileLoader()
-        updateUIWithUserInfo()
         prepareTabViewData()
         delegate = self
     }
@@ -59,61 +70,40 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         }
     }
     
-    private func setScreenTitle() {
-        let option = TabBarOptions.allValues[0]
-        switch option {
-        case .CourseCatalog:
-            navigationItem.title = courseCatalogTitle()
-        default:
-            navigationItem.title = Strings.courses
-        }
-    }
-    
     private func prepareTabViewData() {
         tabBarItems = []
         var item : CourseDashboardTabBarItem
-        for option in TabBarOptions.allValues {
+        for option in TabBarOptions.allOptions {
             switch option {
             case .MyCourse:
-                item = CourseDashboardTabBarItem(title: Strings.courses, viewController: EnrolledCoursesViewController(environment: self.environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+                item = CourseDashboardTabBarItem(title: Strings.courses, viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
-                guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() else { break }
-                item = CourseDashboardTabBarItem(title: courseCatalogTitle(), viewController: getDiscoveryViewController(), icon: Icon.Search, detailText: Strings.Dashboard.courseCourseDetail)
+                guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }
+                item = CourseDashboardTabBarItem(title: courseCatalogTitle(), viewController: router.getDiscoveryViewController(), icon: Icon.CourseDiscovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .Debug:
                 if environment.config.shouldShowDebug() {
-                    item = CourseDashboardTabBarItem(title:Strings.debug, viewController: DebugMenuViewController(environment: environment), icon: Icon.Search, detailText: Strings.Dashboard.courseCourseDetail)
+                    item = CourseDashboardTabBarItem(title:Strings.debug, viewController: DebugMenuViewController(environment: environment), icon: Icon.CourseDiscovery, detailText: Strings.Dashboard.courseCourseDetail)
                     additionalTabBarItems.append(item)
                 }
             }
         }
         
         if additionalTabBarItems.count > 0 {
-            let item = CourseDashboardTabBarItem(title:Strings.resourses, viewController: EnrolledTabBarAdditionalViewController(environment: environment, cellItems: additionalTabBarItems), icon: Icon.MoreOptionsIcon, detailText:"")
+            let item = CourseDashboardTabBarItem(title:Strings.resourses, viewController:
+                AdditionalTabBarViewController(environment: environment, cellItems: additionalTabBarItems), icon: Icon.MoreOptionsIcon, detailText: "")
             tabBarItems.append(item)
         }
     
         loadTabBarViewControllers(tabBarItems: tabBarItems)
-    }
-
-    func getDiscoveryViewController() -> UIViewController {
-        let controller: UIViewController
-        switch environment.config.courseEnrollmentConfig.type {
-        case .Webview:
-            controller = OEXFindCoursesViewController(bottomBar: nil)
-        case .Native, .None:
-            controller = CourseCatalogViewController(environment: environment)
-        }
-        
-        return controller
     }
     
     private func loadTabBarViewControllers(tabBarItems: [CourseDashboardTabBarItem]) {
         var controllers :[UIViewController] = []
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
-            controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: 20), selectedImage: tabBarItem.icon.imageWithFontSize(size: 20))
+            controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize), selectedImage: tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize))
             controllers.append(controller)
         }
         viewControllers = controllers
@@ -125,24 +115,25 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         profileFeed = environment.dataManager.userProfileManager.feedForCurrentUser()
         
         profileFeed?.output.listen(self,  success: { profile in
-            self.userProfilePicture.remoteImage = profile.image(networkManager: self.environment.networkManager)
+            self.userProfileImageView.remoteImage = profile.image(networkManager: self.environment.networkManager)
         }, failure : { _ in
             Logger.logError("Profiles", "Unable to fetch profile")
         })
+        profileFeed?.refresh()
     }
 
     private func addProfileButton() {
         if environment.config.profilesEnabled {
             let profileView = UIView(frame: CGRect(x: 0, y: 0, width: UserProfileImageSize.width, height: UserProfileImageSize.height))
             let profileButton = UIButton()
-            profileView.addSubview(userProfilePicture)
+            profileView.addSubview(userProfileImageView)
             profileView.addSubview(profileButton)
     
             profileButton.snp_makeConstraints { (make) in
                 make.edges.equalTo(profileView)
             }
             
-            userProfilePicture.snp_makeConstraints { (make) in
+            userProfileImageView.snp_makeConstraints { (make) in
                 make.edges.equalTo(profileView)
             }
             
@@ -164,14 +155,11 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             self?.environment.router?.showAccount(controller: self, modalTransitionStylePresent: true)
         }
     }
-    
-    private func updateUIWithUserInfo() {
-        profileFeed?.refresh()
-    }
 }
 
 extension EnrolledTabBarViewController {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 }

@@ -8,14 +8,6 @@
 
 import UIKit
 
-// CourseDashboardTabBarItem represent each tab in tabBarViewController
-struct CourseDashboardTabBarItem {
-    let title: String
-    let viewController: UIViewController
-    let icon: Icon
-    let detailText: String
-}
-
 class CourseDashboardTabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
      typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
@@ -120,7 +112,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         if tabBarItems.count > 4 {
             var items = Array(tabBarItems[0..<4])
             let additionalItems = Array(tabBarItems[4..<tabBarItems.count])
-            item = CourseDashboardTabBarItem(title:Strings.resourses, viewController: CourseDashboardAdditionalViewController(environment: environment, cellItems: additionalItems), icon: Icon.MoreOptionsIcon, detailText: "")
+            item = CourseDashboardTabBarItem(title:Strings.resourses, viewController: AdditionalTabBarViewController(environment: environment, cellItems: additionalItems), icon: Icon.MoreOptionsIcon, detailText: "")
             
             items.append(item)
             loadTabBarViewControllers(tabBarItems: items)

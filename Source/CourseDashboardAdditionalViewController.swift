@@ -1,5 +1,5 @@
 //
-//  CourseDashboardAdditionalViewController.swift
+//  AdditionalTabBarViewController.swift
 //  edX
 //
 //  Created by Salman on 31/10/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseDashboardAdditionalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class AdditionalTabBarViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     

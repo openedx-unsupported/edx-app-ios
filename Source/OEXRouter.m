@@ -108,7 +108,7 @@ OEXRegistrationViewControllerDelegate
     [self.environment.analytics identifyUser:currentUser];
 
     if (self.environment.config.isTabLayoutEnabled) {
-        [self showEnrolledCoursesWithCourseID:nil];
+        [self showEnrolledTabBarView];
     }
     else {
         self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
@@ -169,14 +169,14 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (UIBarButtonItem*)showNavigationBarItem {
-    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar)];
+    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar:)];
     item.accessibilityLabel = [Strings accessibilityMenu];
     item.accessibilityIdentifier = @"navigation-bar-button";
     
     return item;
 }
 
-- (void)showSidebar {
+- (void)showSidebar:(id)sender {
     [self.revealController toggleDrawerAnimatedWithAnimated:YES];
 }
 
