@@ -169,12 +169,12 @@
 
 #pragma mark Background Downloading
 
-- (void)application:(UIApplication*)application handleEventsForBackgroundURLSession:(NSString*)identifier completionHandler:(void (^)())completionHandler {
+- (void)application:(UIApplication*)application handleEventsForBackgroundURLSession:(NSString*)identifier completionHandler:(void (^)(void))completionHandler {
     [OEXDownloadManager sharedManager];
     [self addCompletionHandler:completionHandler forSession:identifier];
 }
 
-- (void)addCompletionHandler:(void (^)())handler forSession:(NSString*)identifier {
+- (void)addCompletionHandler:(void (^)(void))handler forSession:(NSString*)identifier {
     if(!_dictCompletionHandler) {
         _dictCompletionHandler = [[NSMutableDictionary alloc] init];
     }

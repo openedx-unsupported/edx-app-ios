@@ -85,7 +85,7 @@ open class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverD
     // Since it has no properties, it should work no matter what type is used
     // This will lose the cache entry when we try to cast to an actual cache entry type
     // but it's better than crashing
-    fileprivate class DummyCodeableObject: NSObject, NSCoding {
+    @objc(_TtCC7edXCore23PersistentResponseCacheP33_29F7229A2B5F3B6F93C70C950BB0300319DummyCodeableObject)fileprivate class DummyCodeableObject: NSObject, NSCoding {
         @objc required init?(coder aDecoder: NSCoder) {
             return nil
         }
