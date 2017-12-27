@@ -10,7 +10,18 @@ import UIKit
 
 private enum TabBarOptions: Int {
     case MyCourse, CourseCatalog, Debug
-    static let allOptions = [MyCourse, CourseCatalog, Debug]
+    static let options = [MyCourse, CourseCatalog, Debug]
+    
+    func title(config: OEXConfig? = nil) -> String {
+        switch self {
+        case .MyCourse:
+            return Strings.courses
+        case .CourseCatalog:
+            return config?.courseEnrollmentConfig.type == .Native ? Strings.findCourses : Strings.discover
+        case .Debug:
+            return Strings.debug
+        }
+    }
 }
 
 class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelegate {
@@ -18,10 +29,10 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
     private let environment: Environment
-    private var tabBarItems : [CourseDashboardTabBarItem] = []
+    private var tabBarItems : [TabBarItem] = []
     
     // add the additional resources options in additionalTabBarItems
-    fileprivate var additionalTabBarItems : [CourseDashboardTabBarItem] = []
+    fileprivate var additionalTabBarItems : [TabBarItem] = []
     
     private var userProfileImageView = ProfileImageView()
     private let UserProfileImageSize = CGSize(width: 30, height: 30)
@@ -29,12 +40,8 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     private let tabBarImageFontSize : CGFloat = 20
     
     private var screenTitle: String {
-        let option = TabBarOptions.allOptions[0]
-        switch option {
-            case .CourseCatalog:
-                return courseCatalogTitle()
-            default: return Strings.courses
-        }
+        guard let option = TabBarOptions.options.first else {return Strings.courses}
+        return option.title(config: environment.config)
     }
     
     init(environment: Environment) {
@@ -61,37 +68,28 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         // Dispose of any resources that can be recreated.
     }
     
-    private func courseCatalogTitle() -> String {
-        switch environment.config.courseEnrollmentConfig.type {
-        case .Native:
-            return Strings.findCourses
-        default:
-            return Strings.discover
-        }
-    }
-    
     private func prepareTabViewData() {
         tabBarItems = []
-        var item : CourseDashboardTabBarItem
-        for option in TabBarOptions.allOptions {
+        var item : TabBarItem
+        for option in TabBarOptions.options {
             switch option {
             case .MyCourse:
-                item = CourseDashboardTabBarItem(title: Strings.courses, viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
                 guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }
-                item = CourseDashboardTabBarItem(title: courseCatalogTitle(), viewController: router.getDiscoveryViewController(), icon: Icon.CourseDiscovery, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(config: environment.config), viewController: router.getDiscoveryViewController(), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .Debug:
                 if environment.config.shouldShowDebug() {
-                    item = CourseDashboardTabBarItem(title:Strings.debug, viewController: DebugMenuViewController(environment: environment), icon: Icon.CourseDiscovery, detailText: Strings.Dashboard.courseCourseDetail)
+                    item = TabBarItem(title: option.title(), viewController: DebugMenuViewController(environment: environment), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                     additionalTabBarItems.append(item)
                 }
             }
         }
         
         if additionalTabBarItems.count > 0 {
-            let item = CourseDashboardTabBarItem(title:Strings.resourses, viewController:
+            let item = TabBarItem(title:Strings.resourses, viewController:
                 AdditionalTabBarViewController(environment: environment, cellItems: additionalTabBarItems), icon: Icon.MoreOptionsIcon, detailText: "")
             tabBarItems.append(item)
         }
@@ -99,7 +97,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         loadTabBarViewControllers(tabBarItems: tabBarItems)
     }
     
-    private func loadTabBarViewControllers(tabBarItems: [CourseDashboardTabBarItem]) {
+    private func loadTabBarViewControllers(tabBarItems: [TabBarItem]) {
         var controllers :[UIViewController] = []
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
@@ -114,8 +112,10 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         guard environment.config.profilesEnabled else { return }
         profileFeed = environment.dataManager.userProfileManager.feedForCurrentUser()
         
-        profileFeed?.output.listen(self,  success: { profile in
-            self.userProfileImageView.remoteImage = profile.image(networkManager: self.environment.networkManager)
+        profileFeed?.output.listen(self,  success: {[weak self] profile in
+            if let weakSelf = self {
+                weakSelf.userProfileImageView.remoteImage = profile.image(networkManager: weakSelf.environment.networkManager)
+            }
         }, failure : { _ in
             Logger.logError("Profiles", "Unable to fetch profile")
         })
@@ -147,7 +147,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     }
     
     private func addAccountButton() {
-        let accountButton = UIBarButtonItem(image: Icon.AccountIcon.imageWithFontSize(size: 20.0), style: .plain, target: nil, action: nil)
+        let accountButton = UIBarButtonItem(image: Icon.AccountIcon.imageWithFontSize(size: tabBarImageFontSize), style: .plain, target: nil, action: nil)
         accountButton.accessibilityLabel = Strings.userAccount
         navigationItem.rightBarButtonItem = accountButton
         

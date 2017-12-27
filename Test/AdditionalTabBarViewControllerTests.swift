@@ -30,10 +30,10 @@ class AdditionalTabBarViewControllerTests: SnapshotTestCase {
         environment.mockEnrollmentManager.courses = [course]
         environment.logInTestUser()
     
-        var cellItems : [CourseDashboardTabBarItem] = []
-        var item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: course.course_id!), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
+        var cellItems : [TabBarItem] = []
+        var item = TabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: course.course_id!), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
             cellItems.append(item)
-            item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: course.course_id!), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
+            item = TabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: course.course_id!), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
             cellItems.append(item)
         
         let additionalController = AdditionalTabBarViewController(environment: environment, cellItems: cellItems)

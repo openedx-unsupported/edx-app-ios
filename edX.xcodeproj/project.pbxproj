@@ -95,11 +95,11 @@
 		223895D21F25CF76005B9C15 /* SwipeCellActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CE1F25CF76005B9C15 /* SwipeCellActionView.swift */; };
 		223972E11FE92BB500B2BBEC /* EnrolledTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223972E01FE92BB500B2BBEC /* EnrolledTabBarViewController.swift */; };
 		223A5F201FA9AA8F008C9963 /* CourseDashboardTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223A5F1F1FA9AA8F008C9963 /* CourseDashboardTabBarViewControllerTests.swift */; };
-		223A98FC1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223A98FB1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift */; };
+		223A98FC1FA8610B0018DF67 /* AdditionalTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223A98FB1FA8610B0018DF67 /* AdditionalTabBarViewController.swift */; };
 		223DD6BB1F9F5A4B004A21B9 /* CourseDashboardTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DD6BA1F9F5A4B004A21B9 /* CourseDashboardTabBarViewController.swift */; };
 		2240FD541FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */; };
 		2240FD561FF266E4001D6589 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD551FF266E4001D6589 /* TabBarItem.swift */; };
-		2264ED861FB9A40F00DE49BE /* CourseDashboardAdditionalViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* CourseDashboardAdditionalViewControllerTests.swift */; };
+		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
@@ -896,11 +896,11 @@
 		223895CE1F25CF76005B9C15 /* SwipeCellActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeCellActionView.swift; sourceTree = "<group>"; };
 		223972E01FE92BB500B2BBEC /* EnrolledTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolledTabBarViewController.swift; sourceTree = "<group>"; };
 		223A5F1F1FA9AA8F008C9963 /* CourseDashboardTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardTabBarViewControllerTests.swift; sourceTree = "<group>"; };
-		223A98FB1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardAdditionalViewController.swift; sourceTree = "<group>"; };
+		223A98FB1FA8610B0018DF67 /* AdditionalTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewController.swift; sourceTree = "<group>"; };
 		223DD6BA1F9F5A4B004A21B9 /* CourseDashboardTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardTabBarViewController.swift; sourceTree = "<group>"; };
 		2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolledTabBarViewControllerTest.swift; sourceTree = "<group>"; };
 		2240FD551FF266E4001D6589 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		2264ED851FB9A40F00DE49BE /* CourseDashboardAdditionalViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardAdditionalViewControllerTests.swift; sourceTree = "<group>"; };
+		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		228E0B8C1F431F7B0073E6FA /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		228E0B8E1F43208C0073E6FA /* AccountViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewCell.swift; sourceTree = "<group>"; };
@@ -3072,7 +3072,7 @@
 				9EF21A9D1B4697CA000048F8 /* CourseLastAccessedController.swift */,
 				9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */,
 				1A5AC57E1B94ECDA00885187 /* Course Card */,
-				223A98FB1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift */,
+				223A98FB1FA8610B0018DF67 /* AdditionalTabBarViewController.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -3328,7 +3328,7 @@
 				021AD6261F166331009AF653 /* Dictionary+SafeAccessTests.swift */,
 				E06292781F7E349D006D5EFC /* BranchConfigTests.swift */,
 				223A5F1F1FA9AA8F008C9963 /* CourseDashboardTabBarViewControllerTests.swift */,
-				2264ED851FB9A40F00DE49BE /* CourseDashboardAdditionalViewControllerTests.swift */,
+				2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */,
 				2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */,
 			);
 			name = "Unit Tests";
@@ -4369,7 +4369,7 @@
 				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,
 				1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */,
 				E0A1A03B1E93A7B100510488 /* EdgeInsets.swift in Sources */,
-				223A98FC1FA8610B0018DF67 /* CourseDashboardAdditionalViewController.swift in Sources */,
+				223A98FC1FA8610B0018DF67 /* AdditionalTabBarViewController.swift in Sources */,
 				77F76A6E1B0BD32A00ED3E39 /* OEXSession+Authorization.swift in Sources */,
 				228E0B8F1F43208C0073E6FA /* AccountViewCell.swift in Sources */,
 				9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */,
@@ -4536,7 +4536,7 @@
 				773181391B6C1361000CC050 /* DiscussionTopicsViewControllerTests.swift in Sources */,
 				77691F961B389B62003922F2 /* NSNotificationCenter+SafeSwiftTests.swift in Sources */,
 				77C182A81CD299AE00AE1474 /* PaginationInfoTests.swift in Sources */,
-				2264ED861FB9A40F00DE49BE /* CourseDashboardAdditionalViewControllerTests.swift in Sources */,
+				2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */,
 				227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */,
 				1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */,
 				7791C4ED1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift in Sources */,

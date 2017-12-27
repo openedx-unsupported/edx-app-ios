@@ -16,7 +16,7 @@ class AdditionalTabBarViewController: UIViewController, UITableViewDataSource, U
     fileprivate var cellItems: [CourseDashboardItem] = []
     private let environment: Environment
     
-    init(environment: Environment, cellItems:[CourseDashboardTabBarItem]) {
+    init(environment: Environment, cellItems:[TabBarItem]) {
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
         prepareTableViewData(items: cellItems)
@@ -46,7 +46,7 @@ class AdditionalTabBarViewController: UIViewController, UITableViewDataSource, U
         }
     }
     
-    private func prepareTableViewData(items:[CourseDashboardTabBarItem]) {
+    private func prepareTableViewData(items:[TabBarItem]) {
         cellItems = []
         for item in items {
             let standardCourseItem = StandardCourseDashboardItem(title: item.title, detail: item.detailText, icon: item.icon) {

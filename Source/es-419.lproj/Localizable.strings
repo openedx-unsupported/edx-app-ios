@@ -128,7 +128,7 @@
 "ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Nuevas funciones de la versión {app_version}";
 /*Accessibility text for course share button on course dashboard*/
 "ACCESSIBILITY.SHARE_A_COURSE"="Compartir un curso";
-/*Accessibility text for close screen*/
+/*Accessibility text for close button*/
 "ACCESSIBILITY.CLOSE_LABEL"="Cerrado";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Logros";
