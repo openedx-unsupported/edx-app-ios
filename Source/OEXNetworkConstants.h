@@ -20,8 +20,10 @@
 
 // edX Constants
 
-// TODO: move the remaining things that mention edx.org into config
-#define URL_EXTENSION_VIDEOS @".mp4"
+// Extensions must be lowercase
+#define VIDEO_URL_EXTENSION_OPTIONS @[ @".mp4", @".m3u8" ]
+#define ONLINE_ONLY_VIDEO_URL_EXTENSIONS @[ @".m3u8" ]
+
 #define URL_EXCHANGE_TOKEN @"/oauth2/exchange_access_token/{backend}/"
 #define URL_USER_DETAILS @"/api/mobile/v0.5/users"
 #define URL_COURSE_ENROLLMENTS @"/course_enrollments/"

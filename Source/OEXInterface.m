@@ -172,12 +172,11 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 + (BOOL)isURLForVideo:(NSString*)URLString {
-    //    https://d2f1egay8yehza.cloudfront.net/mit-6002x/MIT6002XT214-V043800_MB2.mp4
-    if([URLString rangeOfString:URL_SUBSTRING_VIDEOS].location != NSNotFound) {
-        return YES;
-    }
-    else if([URLString rangeOfString:URL_EXTENSION_VIDEOS].location != NSNotFound) {
-        return YES;
+    for (NSString *extension_option in VIDEO_URL_EXTENSION_OPTIONS) {
+        // Check each string in VIDEO_URL_EXTENSION_OPTIONS to see if the URL has a valid file extension for a video
+        if([URLString localizedCaseInsensitiveContainsString:extension_option]) {
+            return YES;
+        }
     }
     return NO;
 }
@@ -375,7 +374,7 @@ static OEXInterface* _sharedInterface = nil;
     
     NSInteger count = 0;
     for(OEXHelperVideoDownload* video in array) {
-        if(video.summary.videoURL.length > 0 && video.downloadState == OEXDownloadStateNew) {
+        if(video.summary.downloadURL.length > 0 && video.downloadState == OEXDownloadStateNew) {
             [self downloadAllTranscriptsForVideo:video];
             [self addVideoForDownload:video completionHandler:^(BOOL success){}];
             count++;
@@ -476,7 +475,7 @@ static OEXInterface* _sharedInterface = nil;
                                 Size: [NSString stringWithFormat:@"%.2f", [helperVideo.summary.size doubleValue]]
                             Duration: [NSString stringWithFormat:@"%.2f", helperVideo.summary.duration]
                        DownloadState: helperVideo.downloadState
-                            VideoURL: helperVideo.summary.videoURL
+                            VideoURL: helperVideo.summary.downloadURL
                              VideoID: helperVideo.summary.videoID
                              UnitURL: helperVideo.summary.unitURL
                             CourseID: helperVideo.course_id
@@ -649,7 +648,7 @@ static OEXInterface* _sharedInterface = nil;
 - (void)markDownloadProgress:(float)progress forURL:(NSString*)URLString andVideoId:(NSString*)videoId {
     @autoreleasepool {
         for(OEXHelperVideoDownload* video in [self allVideos]) {
-            if(([video.summary.videoURL isEqualToString:URLString] && video.downloadState == OEXDownloadStatePartial)
+            if(([video.summary.downloadURL isEqualToString:URLString] && video.downloadState == OEXDownloadStatePartial)
                || [video.summary.videoID isEqualToString:videoId]) {
                 video.downloadProgress = progress;
                 video.isVideoDownloading = YES;
@@ -808,7 +807,7 @@ static OEXInterface* _sharedInterface = nil;
         if(![knownVideoIDs containsObject:summary.videoID]) {
             OEXHelperVideoDownload* helper = [[OEXHelperVideoDownload alloc] init];
             helper.summary = summary;
-            helper.filePath = [OEXFileUtility filePathForRequestKey:summary.videoURL];
+            helper.filePath = [OEXFileUtility filePathForRequestKey:summary.downloadURL];
             [videoDatas addObject:helper];
             return helper;
         }
@@ -947,7 +946,7 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)startDownloadForVideo:(OEXHelperVideoDownload*)video completionHandler:(void (^)(BOOL sucess))completionHandler {
     OEXAppDelegate* appD = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-    if([OEXInterface isURLForVideo:video.summary.videoURL]) {
+    if([OEXInterface isURLForVideo:video.summary.downloadURL]) {
         if([OEXInterface shouldDownloadOnlyOnWifi]) {
             if(![appD.reachability isReachableViaWiFi]) {
                 completionHandler(NO);
@@ -964,7 +963,7 @@ static OEXInterface* _sharedInterface = nil;
         data = [self insertVideoData:video];
     }
 
-    NSArray* array = [_storage getVideosForDownloadUrl:video.summary.videoURL];
+    NSArray* array = [_storage getVideosForDownloadUrl:video.summary.downloadURL];
     if([array count] > 1) {
         for(VideoData* videoObj in array) {
             if([videoObj.download_state intValue] == OEXDownloadStateComplete) {

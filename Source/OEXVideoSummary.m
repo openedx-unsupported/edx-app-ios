@@ -8,6 +8,7 @@
 
 #import "OEXVideoSummary.h"
 #import "OEXConfig.h"
+#import "OEXNetworkConstants.h"
 
 #import "edX-Swift.h"
 #import "OEXVideoEncoding.h"
@@ -85,8 +86,35 @@
             _defaultEncoding = [[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:[summary objectForKey:@"video_url"] size:[summary objectForKey:@"size"]];
         
         self.supportedEncodings = [[NSMutableArray alloc] initWithArray:@[OEXVideoEncodingMobileHigh, OEXVideoEncodingMobileLow]];
-        if (![[OEXConfig sharedConfig] isUsingVideoPipeline]) {
+        self.downloadURL = nil;
+        if ([[OEXConfig sharedConfig] isUsingVideoPipeline]) {
+            // Loop through the available encodings to find a downloadable
+            // video URL
+            for(NSString* name in [self supportedEncodings]) {
+                OEXVideoEncoding* encoding = self.encodings[name];
+                NSString *url = [encoding URL];
+                if (url && [OEXVideoSummary isDownloadableVideoURL:url]) {
+                    self.downloadURL = url;
+                    break;
+                }
+            }
+        }
+        else {
             [self.supportedEncodings addObject:OEXVideoEncodingFallback];
+
+            // If the preferred encoding video URL is downloadable, then allow it to be downloaded.
+            if ([OEXVideoSummary isDownloadableVideoURL:self.videoURL]) {
+                self.downloadURL = self.videoURL;
+            } else {
+                // Else loop through the video sources to find a downloadable
+                // video URL
+                for (NSString *url in [summary objectForKey:@"all_sources"]) {
+                    if ([OEXVideoSummary isDownloadableVideoURL:url]) {
+                        self.downloadURL = url;
+                        break;
+                    }
+                }
+            }
         }
     }
     
@@ -172,6 +200,23 @@
     }
     
     return !self.onlyOnWeb && isSupportedEncoding;
+}
+
++ (BOOL) isDownloadableVideoURL:(NSString*) url {
+    BOOL canDownload = url.length && [OEXInterface isURLForVideo:url];
+    if(canDownload) {
+        for (NSString *extension in ONLINE_ONLY_VIDEO_URL_EXTENSIONS) {
+            if([url localizedCaseInsensitiveContainsString:extension]){
+                canDownload = NO;
+                break;
+            }
+        }
+    }
+    return canDownload;
+}
+
+- (BOOL) isDownloadableVideo {
+    return (BOOL)self.downloadURL;
 }
 
 - (NSString*)videoURL {

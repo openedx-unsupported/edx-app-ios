@@ -106,7 +106,7 @@
             if(video.downloadProgress < OEXMaxDownloadProgress) {
                 [self.arr_downloadingVideo addObject:video];
                 if (video != nil && video.summary != nil) {
-                    NSString* key = video.summary.videoURL;
+                    NSString* key = video.summary.downloadURL;
                     if (key) {
                         duplicationAvoidingDict[key] = @"object";
                     }
@@ -195,7 +195,7 @@
             NSString* url = [task.originalRequest.URL absoluteString];
             
             for(OEXHelperVideoDownload* video in _arr_downloadingVideo) {
-                if([video.summary.videoURL isEqualToString:url]) {
+                if([video.summary.downloadURL isEqualToString:url]) {
                     [weakSelf updateProgressForVisibleRows];
                     break;
                 }
