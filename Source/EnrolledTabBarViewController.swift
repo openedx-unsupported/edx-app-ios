@@ -131,10 +131,14 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     
             profileButton.snp_makeConstraints { (make) in
                 make.edges.equalTo(profileView)
+                make.width.equalTo(UserProfileImageSize.width)
+                make.height.equalTo(UserProfileImageSize.height)
             }
             
             userProfileImageView.snp_makeConstraints { (make) in
                 make.edges.equalTo(profileView)
+                make.width.equalTo(UserProfileImageSize.width)
+                make.height.equalTo(UserProfileImageSize.height)
             }
             
             profileButton.oex_addAction({[weak self] _  in
