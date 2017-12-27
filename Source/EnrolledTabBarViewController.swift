@@ -28,7 +28,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
 
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
-    private let environment: Environment
+    fileprivate let environment: Environment
     private var tabBarItems : [TabBarItem] = []
     
     // add the additional resources options in additionalTabBarItems
@@ -161,5 +161,8 @@ extension EnrolledTabBarViewController {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        if viewController is OEXFindCoursesViewController || viewController is CourseCatalogViewController {
+            environment.analytics.trackUserFindsCourses()
+        }
     }
 }
