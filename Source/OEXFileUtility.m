@@ -105,7 +105,7 @@
         
         NSError* error = nil;
         if(![[NSFileManager defaultManager] createDirectoryAtPath:containerPath withIntermediateDirectories:YES attributes:nil error:&error] ) {
-            NSAssert(@"Error creating directory: %@", error.localizedDescription);
+            NSAssert(!error, @"Error creating directory: %@", error.localizedDescription);
         }
         
         NSString* totalPath = [containerPath stringByAppendingPathComponent:url.oex_md5];
@@ -121,7 +121,7 @@
         if([[NSFileManager defaultManager] fileExistsAtPath:videosPath]) {
             BOOL success = [[NSFileManager defaultManager] removeItemAtPath:videosPath error:&error];
             if (!success) {
-                NSAssert(@"Error deleting videos directory: %@", error.localizedDescription);
+                NSAssert(!success, @"Error deleting videos directory: %@", error.localizedDescription);
             }
         }
         

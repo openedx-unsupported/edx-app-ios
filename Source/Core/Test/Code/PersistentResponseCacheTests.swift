@@ -136,7 +136,7 @@ class PersistentResponseCacheTests: XCTestCase {
 
 
     // Basic class that implements NSCoding
-    class CodeableObject : NSObject, NSCoding {
+    @objc(_TtCC12edXCoreTests28PersistentResponseCacheTests14CodeableObject)class CodeableObject : NSObject, NSCoding {
         override init() {
             super.init()
         }
