@@ -250,7 +250,6 @@ extension OEXRouter {
     }
     
     func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
-        
         let controller : UIViewController
         if environment.config.isTabLayoutEnabled {
             controller = CourseDashboardTabBarViewController(environment: environment, courseID: courseID)
