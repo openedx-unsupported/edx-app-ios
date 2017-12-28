@@ -130,6 +130,8 @@
 "ACCESSIBILITY.SHARE_A_COURSE"="Share a course";
 /*Accessibility text for close button*/
 "ACCESSIBILITY.CLOSE_LABEL"="Close";
+/*Accessibility text for profile button*/
+"ACCESSIBILITY.PROFILE_LABEL"="Pofile";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
