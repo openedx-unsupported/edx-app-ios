@@ -9,12 +9,12 @@
 import UIKit
 
 private enum TabBarOptions: Int {
-    case MyCourse, CourseCatalog, Debug
-    static let options = [MyCourse, CourseCatalog, Debug]
+    case Course, CourseCatalog, Debug
+    static let options = [Course, CourseCatalog, Debug]
     
     func title(config: OEXConfig? = nil) -> String {
         switch self {
-        case .MyCourse:
+        case .Course:
             return Strings.courses
         case .CourseCatalog:
             return config?.courseEnrollmentConfig.type == .Native ? Strings.findCourses : Strings.discover
@@ -31,8 +31,8 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     fileprivate let environment: Environment
     private var tabBarItems : [TabBarItem] = []
     
-    // add the additional resources options in additionalTabBarItems
-    fileprivate var additionalTabBarItems : [TabBarItem] = []
+    // add the additional resources options like 'debug'(special developer option) in additionalTabBarItems
+    private var additionalTabBarItems : [TabBarItem] = []
     
     private var userProfileImageView = ProfileImageView()
     private let UserProfileImageSize = CGSize(width: 30, height: 30)
@@ -73,12 +73,12 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         var item : TabBarItem
         for option in TabBarOptions.options {
             switch option {
-            case .MyCourse:
+            case .Course:
                 item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
                 guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }
-                item = TabBarItem(title: option.title(config: environment.config), viewController: router.getDiscoveryViewController(), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(config: environment.config), viewController: router.discoveryViewController(), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .Debug:
                 if environment.config.shouldShowDebug() {
@@ -124,11 +124,18 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
 
     private func addProfileButton() {
         if environment.config.profilesEnabled {
-            let profileView = UIView(frame: CGRect(x: 0, y: 0, width: UserProfileImageSize.width, height: UserProfileImageSize.height))
+            let profileView = UIView()
             let profileButton = UIButton()
+            profileButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
+            profileButton.accessibilityLabel = Strings.Accessibility.profileLabel
             profileView.addSubview(userProfileImageView)
             profileView.addSubview(profileButton)
     
+            profileView.snp_makeConstraints { (make) in
+                make.width.equalTo(UserProfileImageSize.width)
+                make.height.equalTo(UserProfileImageSize.height)
+            }
+            
             profileButton.snp_makeConstraints { (make) in
                 make.edges.equalTo(profileView)
                 make.width.equalTo(UserProfileImageSize.width)
@@ -147,11 +154,12 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             }, for: .touchUpInside)
             
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileView)
+            
         }
     }
     
     private func addAccountButton() {
-        let accountButton = UIBarButtonItem(image: Icon.AccountIcon.imageWithFontSize(size: tabBarImageFontSize), style: .plain, target: nil, action: nil)
+        let accountButton = UIBarButtonItem(image: Icon.Account.imageWithFontSize(size: tabBarImageFontSize), style: .plain, target: nil, action: nil)
         accountButton.accessibilityLabel = Strings.userAccount
         navigationItem.rightBarButtonItem = accountButton
         

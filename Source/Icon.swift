@@ -147,7 +147,7 @@ public enum Icon {
     case Warning
     case DeleteIcon
     case MoreOptionsIcon
-    case AccountIcon
+    case Account
     
     private var renderer : IconRenderer {
         switch self {
@@ -159,7 +159,7 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .LongArrowUp)
         case .ArrowDown:
             return FontAwesomeRenderer(icon: .LongArrowDown)
-        case .AccountIcon:
+        case .Account:
             return FontAwesomeRenderer(icon: .EllipsisV)
         case .Camera:
             return FontAwesomeRenderer(icon: .Camera)

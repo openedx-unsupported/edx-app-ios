@@ -262,7 +262,7 @@ extension OEXRouter {
     }
     
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil) {
-        let controller = getDiscoveryViewController()
+        let controller = discoveryViewController()
         if revealController != nil {
             if let fromController = fromController {
                 fromController.navigationController?.pushViewController(controller, animated: true)
@@ -277,7 +277,7 @@ extension OEXRouter {
         self.environment.analytics.trackUserFindsCourses()
     }
     
-    func getDiscoveryViewController() -> UIViewController {
+    func discoveryViewController() -> UIViewController {
         let controller: UIViewController
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
