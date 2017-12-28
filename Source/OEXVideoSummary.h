@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 // This property is deprecated. We should be reading it from the CourseBlock itself
 @property (readonly, nonatomic, copy, nullable) NSString* name;
 @property (readonly, nonatomic, copy, nullable) NSString* videoURL;
-@property (nonatomic, copy, nullable) NSString* downloadURL;
+@property (readonly, nonatomic, copy, nullable) NSString* downloadURL;
 @property (readonly, nonatomic, copy, nullable) NSString* videoThumbnailURL;
 // TODO: Make this readonly again, once we completely migrate to the new API
 @property (nonatomic, assign) double duration;
