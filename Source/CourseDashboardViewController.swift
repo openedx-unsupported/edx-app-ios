@@ -8,32 +8,7 @@
 
 import UIKit
 
-protocol CourseDashboardItem {
-    var identifier: String { get }
-    var action:(() -> Void) { get }
-    var height: CGFloat { get }
-    
-    func decorateCell(cell: UITableViewCell)
-}
-
-struct StandardCourseDashboardItem : CourseDashboardItem {
-    let identifier = CourseDashboardCell.identifier
-    let height:CGFloat = 85.0
-    
-    let title: String
-    let detail: String
-    let icon : Icon
-    let action:(() -> Void)
-    
-    
-    typealias CellType = CourseDashboardCell
-    func decorateCell(cell: UITableViewCell) {
-        guard let dashboardCell = cell as? CourseDashboardCell else { return }
-        dashboardCell.useItem(item: self)
-    }
-}
-
-struct CertificateDashboardItem: CourseDashboardItem {
+struct CertificateDashboardItem: TableViewCellItem {
     let identifier = CourseCertificateCell.identifier
     let height: CGFloat = 116.0
 
@@ -63,7 +38,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     private let containerView: UIScrollView = UIScrollView()
     private let shareButton = UIButton(type: .system)
     
-    fileprivate var cellItems: [CourseDashboardItem] = []
+    fileprivate var cellItems: [TableViewCellItem] = []
     
     fileprivate let loadController = LoadStateViewController()
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
@@ -239,13 +214,13 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
             cellItems.append(item)
         }
 
-        var item = StandardCourseDashboardItem(title: Strings.Dashboard.courseCourseware, detail: Strings.Dashboard.courseCourseDetail, icon : .Courseware) {[weak self] () -> Void in
+        var item = StandardTableViewCellItem(title: Strings.Dashboard.courseCourseware, detail: Strings.Dashboard.courseCourseDetail, icon : .Courseware) {[weak self] () -> Void in
             self?.showCourseware()
         }
         cellItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
-            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseVideosDetail, icon : .CourseVideos) {[weak self] () -> Void in
+            item = StandardTableViewCellItem(title: Strings.Dashboard.courseVideos, detail: Strings.Dashboard.courseVideosDetail, icon : .CourseVideos) {[weak self] () -> Void in
                 self?.showCourseVideos()
             }
             cellItems.append(item)
@@ -253,28 +228,28 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         if shouldShowDiscussions(course: enrollment.course) {
             let courseID = self.courseID
-            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseDiscussion, detail: Strings.Dashboard.courseDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
+            item = StandardTableViewCellItem(title: Strings.Dashboard.courseDiscussion, detail: Strings.Dashboard.courseDiscussionDetail, icon: .Discussions) {[weak self] () -> Void in
                 self?.showDiscussionsForCourseID(courseID: courseID)
             }
             cellItems.append(item)
         }
         
         if shouldShowHandouts(course: enrollment.course) {
-            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseHandouts, detail: Strings.Dashboard.courseHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
+            item = StandardTableViewCellItem(title: Strings.Dashboard.courseHandouts, detail: Strings.Dashboard.courseHandoutsDetail, icon: .Handouts) {[weak self] () -> Void in
                 self?.showHandouts()
             }
             cellItems.append(item)
         }
         
         if environment.config.isAnnouncementsEnabled {
-            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseAnnouncements, detail: Strings.Dashboard.courseAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
+            item = StandardTableViewCellItem(title: Strings.Dashboard.courseAnnouncements, detail: Strings.Dashboard.courseAnnouncementsDetail, icon: .Announcements) {[weak self] () -> Void in
                 self?.showAnnouncements()
             }
             cellItems.append(item)
         }
         
         if environment.config.courseDatesEnabled {
-            item = StandardCourseDashboardItem(title: Strings.Dashboard.courseImportantDates, detail:Strings.Dashboard.courseImportantDatesDetail, icon:.Calendar, action: {[weak self] () -> Void in
+            item = StandardTableViewCellItem(title: Strings.Dashboard.courseImportantDates, detail:Strings.Dashboard.courseImportantDatesDetail, icon:.Calendar, action: {[weak self] () -> Void in
                 self?.showCourseDates();
             })
             cellItems.append(item)
@@ -364,19 +339,19 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
 extension CourseDashboardViewController {
     
     func t_canVisitDiscussions() -> Bool {
-        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Discussions }) != nil
+        return self.cellItems.firstIndexMatching({ (item: TableViewCellItem) in return (item is StandardTableViewCellItem) && (item as! StandardTableViewCellItem).icon == .Discussions }) != nil
     }
     
     func t_canVisitHandouts() -> Bool {
-        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Handouts }) != nil
+        return self.cellItems.firstIndexMatching({ (item: TableViewCellItem) in return (item is StandardTableViewCellItem) && (item as! StandardTableViewCellItem).icon == .Handouts }) != nil
     }
     
     func t_canVisitAnnouncements() -> Bool {
-        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is StandardCourseDashboardItem) && (item as! StandardCourseDashboardItem).icon == .Announcements }) != nil
+        return self.cellItems.firstIndexMatching({ (item: TableViewCellItem) in return (item is StandardTableViewCellItem) && (item as! StandardTableViewCellItem).icon == .Announcements }) != nil
     }
 
     func t_canVisitCertificate() -> Bool {
-        return self.cellItems.firstIndexMatching({ (item: CourseDashboardItem) in return (item is CertificateDashboardItem)}) != nil
+        return self.cellItems.firstIndexMatching({ (item: TableViewCellItem) in return (item is CertificateDashboardItem)}) != nil
     }
     
     var t_state : LoadState {
