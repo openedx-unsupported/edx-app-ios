@@ -124,17 +124,12 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
 
     private func addProfileButton() {
         if environment.config.profilesEnabled {
-            let profileView = UIView()
+            let profileView = UIView(frame: CGRect(x: 0, y: 0, width: UserProfileImageSize.width, height: UserProfileImageSize.height))
             let profileButton = UIButton()
             profileButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
             profileButton.accessibilityLabel = Strings.Accessibility.profileLabel
             profileView.addSubview(userProfileImageView)
             profileView.addSubview(profileButton)
-    
-            profileView.snp_makeConstraints { (make) in
-                make.width.equalTo(UserProfileImageSize.width)
-                make.height.equalTo(UserProfileImageSize.height)
-            }
             
             profileButton.snp_makeConstraints { (make) in
                 make.edges.equalTo(profileView)
@@ -154,7 +149,6 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             }, for: .touchUpInside)
             
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileView)
-            
         }
     }
     
@@ -173,7 +167,7 @@ extension EnrolledTabBarViewController {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        if viewController is OEXFindCoursesViewController || viewController is CourseCatalogViewController {
+        if TabBarOptions.options[tabBarController.selectedIndex] == .CourseCatalog {
             environment.analytics.trackUserFindsCourses()
         }
     }
