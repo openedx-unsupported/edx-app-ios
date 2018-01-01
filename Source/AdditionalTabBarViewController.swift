@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TableViewCellItem {
+protocol AdditionalTableViewCellItem {
     var identifier: String { get }
     var action:(() -> Void) { get }
     var height: CGFloat { get }
@@ -16,7 +16,7 @@ protocol TableViewCellItem {
     func decorateCell(cell: UITableViewCell)
 }
 
-struct StandardTableViewCellItem : TableViewCellItem {
+struct AdditionalTabBarViewCellItem : AdditionalTableViewCellItem {
     let identifier = CourseDashboardCell.identifier
     let height:CGFloat = 85.0
     
@@ -38,7 +38,7 @@ class AdditionalTabBarViewController: UIViewController, UITableViewDataSource, U
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
     private let tableView: UITableView = UITableView()
-    fileprivate var cellItems: [TableViewCellItem] = []
+    fileprivate var cellItems: [AdditionalTableViewCellItem] = []
     private let environment: Environment
     
     init(environment: Environment, cellItems:[TabBarItem]) {
@@ -74,7 +74,7 @@ class AdditionalTabBarViewController: UIViewController, UITableViewDataSource, U
     private func prepareTableViewData(items:[TabBarItem]) {
         cellItems = []
         for item in items {
-            let standardCourseItem = StandardTableViewCellItem(title: item.title, detail: item.detailText, icon: item.icon) {
+            let standardCourseItem = AdditionalTabBarViewCellItem(title: item.title, detail: item.detailText, icon: item.icon) {
                 self.environment.router?.pushViewController(controller: item.viewController, fromController: self)
             }
             cellItems.append(standardCourseItem)
