@@ -281,7 +281,7 @@
 /* Text describing the Handouts section within the course dashboard */
 "DASHBOARD.COURSE_HANDOUTS_DETAIL"="Encuentre información importante del curso";
 /* Title text for the Important dates section of the course dashboard  */
-"DASHBOARD.COURSE_IMPORTANT_DATES"="Fechas importantes";
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Fechas";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Realice un seguimiento de los plazos y cumpla con lo planeado";
 /* Text describing the course due date for same day*/
