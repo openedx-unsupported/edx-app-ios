@@ -110,7 +110,7 @@ public class CourseOutlineViewController :
     }
     
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return [.portrait , .landscapeLeft , .landscapeRight]
+        return .allButUpsideDown
     }
     
     override public func updateViewConstraints() {

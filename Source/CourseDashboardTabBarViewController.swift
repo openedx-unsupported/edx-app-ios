@@ -57,7 +57,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return [.portrait , .landscapeLeft , .landscapeRight]
+        return .allButUpsideDown
     }
     
     private func addShareButton(withCourse course: OEXCourse) {

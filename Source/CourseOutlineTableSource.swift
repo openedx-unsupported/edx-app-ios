@@ -8,6 +8,10 @@
 
 import UIKit
 
+private let defaultAspectRatio:CGFloat = 0.533
+private let lassAccessViewPortraitHeight:CGFloat = 72
+private let lassAccessViewLandscapeHeight:CGFloat = 52
+
 protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableController(controller : CourseOutlineTableController, choseBlock:CourseBlock, withParentID:CourseBlockID)
     func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideos videos:[OEXHelperVideoDownload], rootedAtBlock block: CourseBlock)
@@ -29,7 +33,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let courseCard = CourseCardView(frame: CGRect.zero)
     private let headerContainer = UIView()
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
+    private var lastAccess:Bool = false
+    private var shouldHideCourseCard:Bool = false
     let refreshController = PullRefreshController()
+    
     init(environment : Environment, courseID : String, forMode mode: CourseOutlineMode) {
         self.courseID = courseID
         self.environment = environment
@@ -61,7 +68,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, environment.config.isTabLayoutEnabled {
             CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
-            refreshTableHeaderView(lastAssecss: false)
+            refreshTableHeaderView(lastAccess: false)
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
             
         }
@@ -90,6 +97,16 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         {
             tableView.scrollToRow(at: indexPath as IndexPath, at: UITableViewScrollPosition.middle, animated: false)
         }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        updateViewConstraints()
+    }
+
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        refreshTableHeaderView(lastAccess: lastAccess)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -221,34 +238,44 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             self?.choseViewLastAccessedWithItem(item: item)
         }
         
-        refreshTableHeaderView(lastAssecss: true)
+        refreshTableHeaderView(lastAccess: true)
     }
     
     func hideLastAccessed() {
-        refreshTableHeaderView(lastAssecss: false)
+        refreshTableHeaderView(lastAccess: false)
     }
     
     func hideTableHeaderView() {
+        shouldHideCourseCard = true
         tableView.tableHeaderView = nil
     }
     
-    private func refreshTableHeaderView(lastAssecss: Bool) {
+    private func refreshTableHeaderView(lastAccess: Bool) {
+        if shouldHideCourseCard { return }
+        
+        self.lastAccess = lastAccess
         courseCard.snp_remakeConstraints { (make) in
-            make.trailing.equalTo(headerContainer)
-            make.leading.equalTo(headerContainer)
-            make.width.equalTo(UIScreen.main.bounds.size.width)
-            make.top.equalTo(headerContainer)
-            let _ = (lastAssecss) ? make.bottom.equalTo(lastAccessedView.snp_top) : make.bottom.equalTo(headerContainer)
-            
-            if courseOutlineMode != .Full || !environment.config.isTabLayoutEnabled {
+            let screenWidth = UIScreen.main.bounds.size.width
+            if courseOutlineMode != .Full || !environment.config.isTabLayoutEnabled || shouldHideCourseCard {
                 make.height.equalTo(0)
             }
+            else {
+                let screenHeight = UIScreen.main.bounds.size.height
+                let halfScreehHeight = screenHeight / 2
+                let ratioedHeight = screenWidth * defaultAspectRatio
+                let _ = (halfScreehHeight > ratioedHeight) ? make.height.equalTo(ratioedHeight): make.height.equalTo(halfScreehHeight)
+            }
+            make.trailing.equalTo(headerContainer)
+            make.leading.equalTo(headerContainer)
+            make.width.equalTo(screenWidth)
+            make.top.equalTo(headerContainer)
+            let _ = (lastAccess) ? make.bottom.equalTo(lastAccessedView.snp_top) : make.bottom.equalTo(headerContainer)
         }
         
         lastAccessedView.snp_remakeConstraints { (make) -> Void in
             make.trailing.equalTo(courseCard)
             make.leading.equalTo(courseCard)
-            let _ = lastAssecss ? make.height.equalTo(72) : make.height.equalTo(0)
+            let _ = lastAccess ? (isVerticallyCompact() ? make.height.equalTo(lassAccessViewLandscapeHeight) : make.height.equalTo(lassAccessViewPortraitHeight)) : make.height.equalTo(0)
             make.bottom.equalTo(headerContainer)
         }
         
