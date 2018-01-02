@@ -4,5 +4,5 @@ ignore:
 
  coverage:
   precision: 2
-  round: nearest
+  round: down
   range: 0...100
