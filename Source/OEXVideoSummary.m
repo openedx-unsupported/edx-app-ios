@@ -34,7 +34,6 @@
 @property (nonatomic, strong) NSDictionary* transcripts;
 @property (nonatomic, strong) OEXVideoEncoding *defaultEncoding;
 @property (nonatomic, strong) NSMutableArray *supportedEncodings;
-@property (nonatomic, copy) NSArray *allSources;
 
 - (BOOL)isSupportedEncoding:(NSString *) encodingName;
 
@@ -85,13 +84,13 @@
         
         if (_encodings.count <=0)
             _defaultEncoding = [[OEXVideoEncoding alloc] initWithName:OEXVideoEncodingFallback URL:[summary objectForKey:@"video_url"] size:[summary objectForKey:@"size"]];
-
         self.supportedEncodings = [[NSMutableArray alloc] initWithArray:@[OEXVideoEncodingMobileHigh, OEXVideoEncodingMobileLow]];
-        self.allSources = [summary objectForKey:@"all_sources"];
         if (![[OEXConfig sharedConfig] isUsingVideoPipeline] ||
             [self.preferredEncoding.name isEqualToString:OEXVideoEncodingFallback]) {
             [self.supportedEncodings addObject:OEXVideoEncodingFallback];
         }
+
+        self.downloadURL = [self getDownloadURL:[summary objectForKey:@"all_sources"]];
     }
     
     return self;
@@ -195,7 +194,7 @@
     return (BOOL)self.downloadURL;
 }
 
-- (NSString*)downloadURL {
+- (NSString*)getDownloadURL:(NSArray*) allSources {
     NSString *downloadURL = nil;
 
     if ([[OEXConfig sharedConfig] isUsingVideoPipeline]) {
@@ -216,7 +215,7 @@
             downloadURL = self.videoURL;
         } else {
             // Loop through the video sources to find a downloadable video URL
-            for (NSString *url in self.allSources) {
+            for (NSString *url in allSources) {
                 if ([OEXVideoSummary isDownloadableVideoURL:url]) {
                     downloadURL = url;
                     break;
