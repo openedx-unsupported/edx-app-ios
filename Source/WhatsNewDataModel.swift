@@ -40,13 +40,16 @@ class WhatsNewDataModel {
             return
         }
         
+        var id = 1
         for object in objects {
             if var item = WhatsNew(json: object) {
                 if item.message.contains("platform_name") {
                     let message = item.message.replacingOccurrences(of: "platform_name", with: environment?.config.platformName() ?? "")
                     item.message = message
                 }
+                item.id = id
                 fields?.append(item)
+                id += 1
             }
         }
         

@@ -13,13 +13,14 @@ fileprivate enum SupportPlatforms: String {
 }
 
 public struct WhatsNew: Equatable {
+    var id: Int
     var image: UIImage
     var title: String
     var message: String
     var isLast = false
     
     public static func == (left: WhatsNew, right: WhatsNew) -> Bool {
-        return left.title == right.title && left.message == right.message
+        return left.title == right.title && left.message == right.message && left.id == right.id
     }
 }
 
@@ -44,6 +45,7 @@ extension WhatsNew {
             self.image = image
             self.title = title
             self.message = message
+            id = 0
         }
         else {
             return nil
