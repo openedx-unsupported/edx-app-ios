@@ -1,5 +1,5 @@
 //
-//  CourseDashboardAdditionalViewControllerTests.swift
+//  AdditionalTabBarViewControllerTests.swift
 //  edX
 //
 //  Created by Salman on 13/11/2017.
@@ -21,7 +21,7 @@ private extension OEXConfig {
     }
 }
 
-class CourseDashboardAdditionalViewControllerTests: SnapshotTestCase {
+class AdditionalTabBarViewControllerTests: SnapshotTestCase {
         
     func testResourcesViewSnapshot() {
         let config = OEXConfig(courseSharingEnabled: true, isAnnouncementsEnabled: true)
@@ -30,13 +30,13 @@ class CourseDashboardAdditionalViewControllerTests: SnapshotTestCase {
         environment.mockEnrollmentManager.courses = [course]
         environment.logInTestUser()
     
-        var cellItems : [CourseDashboardTabBarItem] = []
-        var item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: course.course_id!), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
+        var cellItems : [TabBarItem] = []
+        var item = TabBarItem(title: Strings.Dashboard.courseHandouts, viewController: CourseHandoutsViewController(environment: environment, courseID: course.course_id!), icon: Icon.Handouts, detailText: Strings.Dashboard.courseHandoutsDetail)
             cellItems.append(item)
-            item = CourseDashboardTabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: course.course_id!), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
+            item = TabBarItem(title: Strings.Dashboard.courseAnnouncements, viewController: CourseAnnouncementsViewController(environment: environment, courseID: course.course_id!), icon:Icon.Announcements, detailText: Strings.Dashboard.courseAnnouncementsDetail)
             cellItems.append(item)
         
-        let additionalController = CourseDashboardAdditionalViewController(environment: environment, cellItems: cellItems)
+        let additionalController = AdditionalTabBarViewController(environment: environment, cellItems: cellItems)
         inScreenNavigationContext(additionalController, action: { () -> () in
             assertSnapshotValidWithContent(additionalController.navigationController!)
         })

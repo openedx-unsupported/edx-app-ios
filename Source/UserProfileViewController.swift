@@ -54,7 +54,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         navigationItem.title = Strings.UserAccount.profile
         addProfileListener()
         addExtraTabsListener()
-
+        addCloseButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +74,19 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
             }
             editButton.accessibilityLabel = Strings.Profile.editAccessibility
             navigationItem.rightBarButtonItem = editButton
+        }
+    }
+    
+    private func addCloseButton() {
+        if (isModal()) {//isModal check if the view is presented then add close button
+            let closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+            closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
+            closeButton.accessibilityHint = Strings.Accessibility.closeHint
+            navigationItem.leftBarButtonItem = closeButton
+            
+            closeButton.oex_setAction { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
     }
     

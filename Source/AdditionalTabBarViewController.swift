@@ -1,5 +1,5 @@
 //
-//  CourseDashboardAdditionalViewController.swift
+//  AdditionalTabBarViewController.swift
 //  edX
 //
 //  Created by Salman on 31/10/2017.
@@ -8,15 +8,40 @@
 
 import UIKit
 
-class CourseDashboardAdditionalViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+protocol AdditionalTableViewCellItem {
+    var identifier: String { get }
+    var action:(() -> Void) { get }
+    var height: CGFloat { get }
+    
+    func decorateCell(cell: UITableViewCell)
+}
+
+struct AdditionalTabBarViewCellItem : AdditionalTableViewCellItem {
+    let identifier = CourseDashboardCell.identifier
+    let height:CGFloat = 85.0
+    
+    let title: String
+    let detail: String
+    let icon : Icon
+    let action:(() -> Void)
+    
+    
+    typealias CellType = CourseDashboardCell
+    func decorateCell(cell: UITableViewCell) {
+        guard let dashboardCell = cell as? CourseDashboardCell else { return }
+        dashboardCell.useItem(item: self)
+    }
+}
+
+class AdditionalTabBarViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
     private let tableView: UITableView = UITableView()
-    fileprivate var cellItems: [CourseDashboardItem] = []
+    fileprivate var cellItems: [AdditionalTableViewCellItem] = []
     private let environment: Environment
     
-    init(environment: Environment, cellItems:[CourseDashboardTabBarItem]) {
+    init(environment: Environment, cellItems:[TabBarItem]) {
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
         prepareTableViewData(items: cellItems)
@@ -46,10 +71,10 @@ class CourseDashboardAdditionalViewController: UIViewController, UITableViewData
         }
     }
     
-    private func prepareTableViewData(items:[CourseDashboardTabBarItem]) {
+    private func prepareTableViewData(items:[TabBarItem]) {
         cellItems = []
         for item in items {
-            let standardCourseItem = StandardCourseDashboardItem(title: item.title, detail: item.detailText, icon: item.icon) {
+            let standardCourseItem = AdditionalTabBarViewCellItem(title: item.title, detail: item.detailText, icon: item.icon) {
                 self.environment.router?.pushViewController(controller: item.viewController, fromController: self)
             }
             cellItems.append(standardCourseItem)

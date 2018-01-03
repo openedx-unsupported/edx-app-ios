@@ -59,7 +59,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         headerContainer.addSubview(lastAccessedView)
         headerContainer.addSubview(courseCard)
         
-        if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, environment.config.isTabsDashboardEnabled {
+        if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, environment.config.isTabLayoutEnabled {
             CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
             refreshTableHeaderView(lastAssecss: false)
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
@@ -240,7 +240,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             make.top.equalTo(headerContainer)
             let _ = (lastAssecss) ? make.bottom.equalTo(lastAccessedView.snp_top) : make.bottom.equalTo(headerContainer)
             
-            if courseOutlineMode != .Full || !environment.config.isTabsDashboardEnabled {
+            if courseOutlineMode != .Full || !environment.config.isTabLayoutEnabled {
                 make.height.equalTo(0)
             }
         }

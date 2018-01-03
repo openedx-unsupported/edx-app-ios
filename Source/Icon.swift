@@ -134,6 +134,7 @@ public enum Icon {
     case Spinner
     case StarEmpty
     case StarFilled
+    case Discovery
     case Transcript
     case UnknownError
     case UpVote
@@ -146,6 +147,7 @@ public enum Icon {
     case Warning
     case DeleteIcon
     case MoreOptionsIcon
+    case Account
     
     private var renderer : IconRenderer {
         switch self {
@@ -157,6 +159,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .LongArrowUp)
         case .ArrowDown:
             return FontAwesomeRenderer(icon: .LongArrowDown)
+        case .Account:
+            return FontAwesomeRenderer(icon: .EllipsisV)
         case .Camera:
             return FontAwesomeRenderer(icon: .Camera)
         case .Close:
@@ -245,6 +249,8 @@ public enum Icon {
             return FontAwesomeRenderer(icon: .StarO)
         case .StarFilled:
             return FontAwesomeRenderer(icon: .Star)
+        case .Discovery:
+            return FontAwesomeRenderer(icon: .Search)
         case .UnknownError:
             return FontAwesomeRenderer(icon: .ExclamationCircle)
         case .NoTopics:

@@ -128,6 +128,10 @@
 "ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Nuevas funciones de la versión {app_version}";
 /*Accessibility text for course share button on course dashboard*/
 "ACCESSIBILITY.SHARE_A_COURSE"="Compartir un curso";
+/*Accessibility text for close button*/
+"ACCESSIBILITY.CLOSE_LABEL"="Cerrado";
+/*Accessibility text for profile button*/
+"ACCESSIBILITY.PROFILE_LABEL"="Pofile";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Logros";
 /* Default text template when user shares an accomplishment */
@@ -350,6 +354,8 @@
 "DOWNLOADING_1_VIDEO"="Descargando 1 video.";
 /*Discover in left drawer(used for courses and programs discovery)*/
 "DISCOVER"="Exploración";
+/*Debug option title in tabbar */
+"DEBUG"="Debug";
 /* Error message shown when email address is not properly formatted */
 "ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Por favor revise su dirección de correo e intente de nuevo.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
@@ -431,7 +437,7 @@
 /* Option to sort discussion post list by most votes */
 "MOST_VOTES"="Más votos";
 /* Screen title showing a user's courses */
-"MY_COURSES"="Mis cursos";
+"COURSES"="Cursos";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="Mis opciones";
 /* Time Label in My Videos section*/

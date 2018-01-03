@@ -45,6 +45,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         contentView.addSubview(versionLabel)
 
         configureViews()
+        addCloseButton()
     }
     
     func configureViews() {
@@ -61,6 +62,19 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         addConstraints()
     }
 
+    private func addCloseButton() {
+        if (isModal()) { //isModal check if the view is presented then add close button
+            let closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+            closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
+            closeButton.accessibilityHint = Strings.Accessibility.closeHint
+            navigationItem.rightBarButtonItem = closeButton
+            
+            closeButton.oex_setAction { [weak self] in
+                self?.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
     func addConstraints() {
         contentView.snp_makeConstraints {make in
             make.edges.equalTo(view)

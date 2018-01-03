@@ -120,6 +120,11 @@ extension OEXRouter {
             self.showCourseWithID(courseID: courseID, fromController: controller, animated: false)
         }
     }
+
+   @objc func showEnrolledTabBarView() {
+        let controller = EnrolledTabBarViewController(environment: environment)
+        showContentStack(withRootController: controller, animated: false)
+    }
     
     func showCourseDates(controller:UIViewController, courseID: String) {
         let courseDates = CourseDatesViewController(environment: environment, courseID: courseID)
@@ -202,20 +207,30 @@ extension OEXRouter {
         controller?.navigationController?.pushViewController(settingController, animated: true)
     }
     
-    func showAccount() {
-        let controller = AccountViewController(environment: environment)
-        self.showContentStack(withRootController: controller, animated: true)
+    func showAccount(controller: UIViewController? = nil, modalTransitionStylePresent: Bool = false) {
+        let accountController = AccountViewController(environment: environment)
+        if modalTransitionStylePresent {
+            controller?.present(ForwardingNavigationController(rootViewController: AccountViewController(environment:environment)), animated: true, completion: nil)
+        }
+        else {
+            showContentStack(withRootController: accountController, animated: true)
+        }
     }
     
-    func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true) {
+    func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true, modalTransitionStylePresent: Bool = false) {
         OEXAnalytics.shared().trackProfileViewed(username: username)
         let editable = self.environment.session.currentUser?.username == username
         let profileController = UserProfileViewController(environment: environment, username: username, editable: editable)
-        if let controller = controller {
-            controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-            controller.navigationController?.pushViewController(profileController, animated: true)
-        } else {
-            self.showContentStack(withRootController: profileController, animated: true)
+        if modalTransitionStylePresent {
+            controller?.present(ForwardingNavigationController(rootViewController: profileController), animated: true, completion: nil)
+        }
+        else {
+            if let controller = controller {
+                controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                controller.navigationController?.pushViewController(profileController, animated: true)
+            } else {
+                showContentStack(withRootController: profileController, animated: true)
+            }
         }
     }
     
@@ -235,9 +250,8 @@ extension OEXRouter {
     }
     
     func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
-        
         let controller : UIViewController
-        if environment.config.isTabsDashboardEnabled {
+        if environment.config.isTabLayoutEnabled {
             controller = CourseDashboardTabBarViewController(environment: environment, courseID: courseID)
         }
         else {
@@ -247,13 +261,7 @@ extension OEXRouter {
     }
     
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil) {
-        let controller: UIViewController
-        switch environment.config.courseEnrollmentConfig.type {
-        case .Webview:
-            controller = OEXFindCoursesViewController(bottomBar: bottomBar)
-        case .Native, .None:
-            controller = CourseCatalogViewController(environment: self.environment)
-        }
+        let controller = discoveryViewController()
         if revealController != nil {
             if let fromController = fromController {
                 fromController.navigationController?.pushViewController(controller, animated: true)
@@ -266,6 +274,18 @@ extension OEXRouter {
             showControllerFromStartupScreen(controller: controller)
         }
         self.environment.analytics.trackUserFindsCourses()
+    }
+    
+    func discoveryViewController() -> UIViewController {
+        let controller: UIViewController
+        switch environment.config.courseEnrollmentConfig.type {
+        case .Webview:
+            controller = OEXFindCoursesViewController(bottomBar: nil)
+        case .Native, .None:
+            controller = CourseCatalogViewController(environment: environment)
+        }
+        
+        return controller
     }
 
     func showExploreCourses(bottomBar: UIView?) {

@@ -29,7 +29,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         self.environment = environment
         
         super.init(env: environment)
-        self.navigationItem.title = Strings.myCourses
+        self.navigationItem.title = Strings.courses
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
 

@@ -19,7 +19,7 @@ private extension OEXConfig {
             "DISCUSSIONS_ENABLED": discussionsEnabled,
             "COURSE_SHARING_ENABLED": courseSharingEnabled,
             "ANNOUNCEMENTS_ENABLED": isAnnouncementsEnabled,
-            "TABS_DASHBOARD_ENABLED": tabDashboardEnabled
+            "TAB_LAYOUTS_ENABLED": tabDashboardEnabled
             ]
         )
     }
