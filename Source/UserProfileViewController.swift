@@ -61,7 +61,16 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenProfileView)
 
+        navigationController?.navigationBar.barTintColor = environment.styles.primaryBaseColor()
+        navigationController?.navigationBar.tintColor = environment.styles.neutralWhite()
+        
         presenter.refresh()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.barTintColor = environment.styles.neutralWhite()
+        navigationController?.navigationBar.tintColor = environment.styles.primaryBaseColor()
     }
     
     private func addProfileEditButton() {

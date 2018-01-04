@@ -218,6 +218,12 @@ class UserProfileEditViewController: UITableViewController {
         reloadViews()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.navigationBar.barTintColor = OEXStyles.shared().neutralWhite()
+        navigationController?.navigationBar.tintColor = OEXStyles.shared().primaryBaseColor()
+    }
+    
     func reloadViews() {
         disableLimitedProfileCells(disabled: profile.sharingLimitedProfile)
         self.tableView.reloadData()
