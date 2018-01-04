@@ -293,9 +293,9 @@
 /* Text describing the course due date*/
 "COURSE_DUE_DATE"="debido {due date}";
 /* Label indicated that a course has ended */
-"COURSE_ENDED"="Terminado - {end_date}";
+"COURSE_ENDED"="Terminado {end_date}";
 /* Label indicating that a course will end */
-"COURSE_ENDING"="Tarmina - {end_date}";
+"COURSE_ENDING"="Tarmina {end_date}";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Mostrar curso completo";
 /* Option to show only video course content. Constrasts with 'Show All Course Content'. */
