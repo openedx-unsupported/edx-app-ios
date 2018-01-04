@@ -20,16 +20,15 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     private let titleLabel = UILabel()
     private let detailLabel = UILabel()
     private let bottomLine = UIView()
-    private let bottomTrailingLabel = UILabel()
     private let overlayContainer = UIView()
     
     var tapAction : ((CourseCardView) -> ())?
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .normal, size: .large, color: OEXStyles.shared().neutralBlack())
+        return OEXTextStyle(weight : .semiBold, size: .large, color: OEXStyles.shared().neutralXDark())
     }
     private var detailTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .normal, size: .xxxSmall, color: OEXStyles.shared().neutralXDark())
+        return OEXTextStyle(weight : .semiBold, size: .small, color: OEXStyles.shared().neutralDark())
     }
     
     private func setup() {
@@ -57,7 +56,6 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         coverImageView.image = UIImage(named:"placeholderCourseCardImage", in: bundle, compatibleWith: self.traitCollection)
         titleLabel.attributedText = titleTextStyle.attributedString(withText: "Demo Course")
         detailLabel.attributedText = detailTextStyle.attributedString(withText: "edx | DemoX")
-        bottomTrailingLabel.attributedText = detailTextStyle.attributedString(withText: "X Videos, 1.23 MB")
     }
     
     func configureViews() {
@@ -74,7 +72,6 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         self.container.accessibilityIdentifier = "Title Bar"
         self.container.addSubview(titleLabel)
         self.container.addSubview(detailLabel)
-        self.container.addSubview(bottomTrailingLabel)
         
         self.addSubview(coverImageView)
         self.addSubview(container)
@@ -111,11 +108,6 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             make.top.equalTo(self.container.snp_bottom)
         }
         
-        self.bottomTrailingLabel.snp_makeConstraints { (make) -> Void in
-            make.centerY.equalTo(detailLabel)
-            make.trailing.equalTo(self.container).offset(-StandardHorizontalMargin)
-        }
-
         self.overlayContainer.snp_makeConstraints {make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
@@ -127,7 +119,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         tapGesture.delegate = self
         self.addGestureRecognizer(tapGesture)
     }
-
+    
     override func updateConstraints() {
         if let accessory = titleAccessoryView {
             accessory.snp_remakeConstraints { make in
@@ -135,7 +127,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
                 make.centerY.equalTo(container)
             }
         }
-
+        
         self.titleLabel.snp_remakeConstraints { (make) -> Void in
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             if let accessory = titleAccessoryView {
@@ -146,10 +138,10 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             }
             make.top.equalTo(container).offset(verticalMargin)
         }
-
+        
         super.updateConstraints()
     }
-
+    
     var titleAccessoryView : UIView? = nil {
         willSet {
             titleAccessoryView?.removeFromSuperview()
@@ -186,18 +178,6 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-    var bottomTrailingText : String? {
-        get {
-            return self.bottomTrailingLabel.text
-        }
-        
-        set {
-            self.bottomTrailingLabel.attributedText = detailTextStyle.attributedString(withText: newValue)
-            self.bottomTrailingLabel.isHidden = !(newValue != nil && !newValue!.isEmpty)
-            updateAcessibilityLabel()
-        }
-    }
-    
     var coverImage : RemoteImage? {
         get {
             return self.coverImageView.remoteImage
@@ -227,12 +207,8 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
         
         if let text = detailText {
-         let formatedDetailText = text.replacingOccurrences(of: "|", with: "")
+            let formatedDetailText = text.replacingOccurrences(of: "|", with: "")
             accessibilityString = "\(accessibilityString),\(Strings.accessibilityBy) \(formatedDetailText)"
-        }
-        
-        if let bottomText = bottomTrailingText {
-            accessibilityString = "\(accessibilityString), \(bottomText)"
         }
         
         accessibilityLabel = accessibilityString
@@ -246,3 +222,4 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
     }
 }
+

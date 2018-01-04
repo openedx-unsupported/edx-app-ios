@@ -293,9 +293,9 @@
 /* Text describing the course due date*/
 "COURSE_DUE_DATE"="due {due_date}";
 /* Label indicated that a course has ended */
-"COURSE_ENDED"="Ended - {end_date}";
+"COURSE_ENDED"="Ended {end_date}";
 /* Label indicating that a course will end */
-"COURSE_ENDING"="Ending - {end_date}";
+"COURSE_ENDING"="Ending {end_date}";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Show Full Course";
 /* Option to show only video course content. Constrasts with 'Show All Course Content'. */
@@ -642,7 +642,7 @@
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
 /* Label for date when course starts */
-"STARTING"="Starting - {start_date}";
+"STARTING"="Starting {start_date}";
 /* Discover Courses button text on the first screen */
 "STARTUP.DISCOVER_COURSES"="Discover Courses";
 /* Explore Subjects button text on the first screen */

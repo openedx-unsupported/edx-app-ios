@@ -10,14 +10,12 @@ import Foundation
 
 class CourseCardViewModel : NSObject {
     private let detailText: String
-    private let bottomTrailingText: String?
     private let persistImage: Bool
     private let wrapTitle: Bool
     private let course: OEXCourse
     
-    private init(course: OEXCourse, detailText: String, bottomTrailingText: String?, persistImage: Bool, wrapTitle: Bool = false) {
+    private init(course: OEXCourse, detailText: String, persistImage: Bool, wrapTitle: Bool = false) {
         self.detailText = detailText
-        self.bottomTrailingText = bottomTrailingText
         self.persistImage = persistImage
         self.course = course
         self.wrapTitle = wrapTitle
@@ -32,25 +30,24 @@ class CourseCardViewModel : NSObject {
     }
     
     static func onHome(course: OEXCourse) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: course.nextRelevantDateUpperCaseString, persistImage: true)
+        return CourseCardViewModel(course: course, detailText: course.nextRelevantDate ?? "", persistImage: true, wrapTitle: true)
     }
     
     static func onDashboard(course: OEXCourse) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.courseRunIncludingNextDate, bottomTrailingText: nil, persistImage: true, wrapTitle: true)
+        return CourseCardViewModel(course: course, detailText: course.nextRelevantDate ?? "", persistImage: true, wrapTitle: true)
     }
     
     static func onCourseCatalog(course: OEXCourse, wrapTitle: Bool = false) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.courseRun, bottomTrailingText: course.nextRelevantDateUpperCaseString, persistImage: false, wrapTitle: wrapTitle)
+        return CourseCardViewModel(course: course, detailText: course.nextRelevantDate ?? "", persistImage: false, wrapTitle: wrapTitle)
     }
     
     static func onCourseOutline(course: OEXCourse) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.courseRunIncludingNextDate, bottomTrailingText: nil, persistImage: true, wrapTitle: true)
+        return CourseCardViewModel(course: course, detailText: course.nextRelevantDate ?? "", persistImage: true, wrapTitle: true)
     }
     
     func apply(card : CourseCardView, networkManager: NetworkManager) {
         card.titleText = title
         card.detailText = detailText
-        card.bottomTrailingText = bottomTrailingText
         card.course = self.course
         
         if wrapTitle {
@@ -71,7 +68,7 @@ class CourseCardViewModel : NSObject {
         else {
             remoteImage = RemoteImageJustImage(image: placeholder)
         }
-
+        
         card.coverImage = remoteImage
     }
     
@@ -84,7 +81,7 @@ extension OEXCourse {
     }
     
     var courseRunIncludingNextDate : String {
-        return String.joinInNaturalLayout(nullableStrings: [self.org, self.number, self.nextRelevantDateUpperCaseString], separator : " | ")
+        return String.joinInNaturalLayout(nullableStrings: [self.org, self.number, self.nextRelevantDate], separator : " | ")
     }
     
     var nextRelevantDate : String?  {
@@ -117,7 +114,5 @@ extension OEXCourse {
         }
     }
     
-    fileprivate var nextRelevantDateUpperCaseString : String? {
-        return nextRelevantDate?.oex_uppercaseStringInCurrentLocale()
-    }
 }
+
