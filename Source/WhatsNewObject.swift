@@ -13,7 +13,7 @@ fileprivate enum SupportPlatforms: String {
 }
 
 public struct WhatsNew: Equatable {
-    var id: Int
+    var id = 0
     var image: UIImage
     var title: String
     var message: String
@@ -41,11 +41,10 @@ extension WhatsNew {
             }
         }
         
-        if let image = UIImage(named: imageName), isSupportMessage == true {
+        if let image = UIImage(named: imageName), isSupportMessage {
             self.image = image
             self.title = title
             self.message = message
-            id = 0
         }
         else {
             return nil
