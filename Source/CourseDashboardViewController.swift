@@ -11,11 +11,9 @@ import UIKit
 struct CertificateDashboardItem: AdditionalTableViewCellItem {
     let identifier = CourseCertificateCell.identifier
     let height: CGFloat = 116.0
+    let certificateItem : CourseCertificateIem
 
-    let certificateImage: UIImage
-    let certificateUrl: String
-    let action:(() -> Void)
-
+    var action: (() -> Void)
     func decorateCell(cell: UITableViewCell) {
         guard let certificateCell = cell as? CourseCertificateCell else { return }
         certificateCell.useItem(item: self)
@@ -207,10 +205,12 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         cellItems = []
         
         if let certificateUrl = getCertificateUrl(enrollment: enrollment) {
-            let item = CertificateDashboardItem(certificateImage: UIImage(named: "courseCertificate")!, certificateUrl: certificateUrl, action: {
+            let certificateItem = CourseCertificateIem(certificateImage: UIImage(named: "courseCertificate")!, certificateUrl: certificateUrl, action:nil)
+            let item = CertificateDashboardItem(certificateItem: certificateItem, action: {
                 let url = NSURL(string: certificateUrl)!
                 self.environment.router?.showCertificate(url: url, title: enrollment.course.name, fromController: self)
             })
+    
             cellItems.append(item)
         }
 

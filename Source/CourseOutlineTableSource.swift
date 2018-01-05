@@ -18,7 +18,7 @@ protocol CourseOutlineTableControllerDelegate : class {
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider
     
     weak var delegate : CourseOutlineTableControllerDelegate?
     private let environment : Environment
@@ -27,6 +27,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private var courseOutlineMode: CourseOutlineMode
     
     private let courseCard = CourseCardView(frame: CGRect.zero)
+    private var courseCertificateView : CourseCertificateView?
     private let headerContainer = UIView()
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     let refreshController = PullRefreshController()
@@ -45,6 +46,20 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     var groups : [CourseOutlineQuerier.BlockGroup] = []
     var highlightedBlockID : CourseBlockID? = nil
     
+    func addCertificateView() {
+        guard environment.config.isTabLayoutEnabled, environment.config.discussionsEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl = enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
+        
+        let certificateItem =  CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: {
+            let url = NSURL(string: certificateUrl)!
+            self.environment.router?.showCertificate(url: url, title: enrollment.course.name, fromController: self)
+    
+        })
+        courseCertificateView = CourseCertificateView(certificateItem: certificateItem)
+        if let courseCertificateView = courseCertificateView {
+            headerContainer.addSubview(courseCertificateView)
+        }
+    }
+    
     override func viewDidLoad() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -58,6 +73,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
         headerContainer.addSubview(lastAccessedView)
         headerContainer.addSubview(courseCard)
+        addCertificateView()
         
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, environment.config.isTabLayoutEnabled {
             CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
@@ -233,25 +249,34 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     private func refreshTableHeaderView(lastAssecss: Bool) {
+        var constraintView: UIView = courseCard
+        lastAccessedView.isHidden = !lastAssecss
         courseCard.snp_remakeConstraints { (make) in
             make.trailing.equalTo(headerContainer)
             make.leading.equalTo(headerContainer)
             make.width.equalTo(UIScreen.main.bounds.size.width)
             make.top.equalTo(headerContainer)
-            let _ = (lastAssecss) ? make.bottom.equalTo(lastAccessedView.snp_top) : make.bottom.equalTo(headerContainer)
-            
             if courseOutlineMode != .Full || !environment.config.isTabLayoutEnabled {
                 make.height.equalTo(0)
             }
         }
-        
+        if let courseCertificateView = courseCertificateView {
+            courseCertificateView.snp_remakeConstraints { (make) -> Void in
+                make.trailing.equalTo(courseCard)
+                make.leading.equalTo(courseCard)
+                make.height.equalTo(116)
+                make.top.equalTo(constraintView.snp_bottom)
+                make.bottom.equalTo(lastAccessedView.snp_top)
+            }
+            constraintView = courseCertificateView
+        }
         lastAccessedView.snp_remakeConstraints { (make) -> Void in
             make.trailing.equalTo(courseCard)
             make.leading.equalTo(courseCard)
             let _ = lastAssecss ? make.height.equalTo(72) : make.height.equalTo(0)
+            make.top.equalTo(constraintView.snp_bottom)
             make.bottom.equalTo(headerContainer)
         }
-        
         tableView.setAndLayoutTableHeaderView(header: headerContainer)
     }
 }
