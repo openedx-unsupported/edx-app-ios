@@ -22,7 +22,8 @@ public class CourseOutlineViewController :
     CourseContentPageViewControllerDelegate,
     CourseLastAccessedControllerDelegate,
     PullRefreshControllerDelegate,
-    LoadStateViewReloadSupport
+    LoadStateViewReloadSupport,
+    InterfaceOrientationOverriding
 {
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider
     
@@ -109,7 +110,7 @@ public class CourseOutlineViewController :
     }
     
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+        return .allButUpsideDown
     }
     
     override public func updateViewConstraints() {
