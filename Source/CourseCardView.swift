@@ -18,16 +18,16 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     private let coverImageView = UIImageView()
     private let container = UIView()
     private let titleLabel = UILabel()
-    private let detailLabel = UILabel()
+    private let dateLabel = UILabel()
     private let bottomLine = UIView()
     private let overlayContainer = UIView()
     
     var tapAction : ((CourseCardView) -> ())?
     
     private var titleTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .semiBold, size: .large, color: OEXStyles.shared().neutralXDark())
+        return OEXTextStyle(weight : .semiBold, size: .xLarge, color: OEXStyles.shared().neutralXDark())
     }
-    private var detailTextStyle : OEXTextStyle {
+    private var dateTextStyle : OEXTextStyle {
         return OEXTextStyle(weight : .semiBold, size: .small, color: OEXStyles.shared().neutralDark())
     }
     
@@ -55,7 +55,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         let bundle = Bundle(for: type(of: self))
         coverImageView.image = UIImage(named:"placeholderCourseCardImage", in: bundle, compatibleWith: self.traitCollection)
         titleLabel.attributedText = titleTextStyle.attributedString(withText: "Demo Course")
-        detailLabel.attributedText = detailTextStyle.attributedString(withText: "edx | DemoX")
+        dateLabel.attributedText = dateTextStyle.attributedString(withText: "edx | DemoX")
     }
     
     func configureViews() {
@@ -71,7 +71,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         
         self.container.accessibilityIdentifier = "Title Bar"
         self.container.addSubview(titleLabel)
-        self.container.addSubview(detailLabel)
+        self.container.addSubview(dateLabel)
         
         self.addSubview(coverImageView)
         self.addSubview(container)
@@ -80,8 +80,8 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         
         coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
         coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
-        detailLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
-        detailLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
+        dateLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
+        dateLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
         
         self.container.snp_makeConstraints { make -> Void in
             make.leading.equalTo(self)
@@ -95,9 +95,9 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             make.height.equalTo(self.coverImageView.snp_width).multipliedBy(0.533).priorityLow()
             make.bottom.equalTo(self)
         }
-        self.detailLabel.snp_makeConstraints { (make) -> Void in
+        self.dateLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.container).offset(StandardHorizontalMargin)
-            make.top.equalTo(self.titleLabel.snp_bottom)
+            make.top.equalTo(self.titleLabel.snp_bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(self.container).offset(-verticalMargin)
             make.trailing.equalTo(self.titleLabel)
         }
@@ -168,12 +168,12 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-    var detailText : String? {
+    var dateText : String? {
         get {
-            return self.detailLabel.text
+            return self.dateLabel.text
         }
         set {
-            self.detailLabel.attributedText = detailTextStyle.attributedString(withText: newValue)
+            self.dateLabel.attributedText = dateTextStyle.attributedString(withText: newValue)
             updateAcessibilityLabel()
         }
     }
@@ -206,9 +206,9 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             accessibilityString = title
         }
         
-        if let text = detailText {
-            let formatedDetailText = text.replacingOccurrences(of: "|", with: "")
-            accessibilityString = "\(accessibilityString),\(Strings.accessibilityBy) \(formatedDetailText)"
+        if let text = dateText {
+            let formateddateText = text.replacingOccurrences(of: "|", with: "")
+            accessibilityString = "\(accessibilityString),\(Strings.accessibilityBy) \(formateddateText)"
         }
         
         accessibilityLabel = accessibilityString

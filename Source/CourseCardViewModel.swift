@@ -9,13 +9,13 @@
 import Foundation
 
 class CourseCardViewModel : NSObject {
-    private let detailText: String
+    private let dateText: String
     private let persistImage: Bool
     private let wrapTitle: Bool
     private let course: OEXCourse
     
-    private init(course: OEXCourse, detailText: String, persistImage: Bool, wrapTitle: Bool = false) {
-        self.detailText = detailText
+    private init(course: OEXCourse, dateText: String, persistImage: Bool, wrapTitle: Bool = false) {
+        self.dateText = dateText
         self.persistImage = persistImage
         self.course = course
         self.wrapTitle = wrapTitle
@@ -30,24 +30,24 @@ class CourseCardViewModel : NSObject {
     }
     
     static func onHome(course: OEXCourse) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.nextRelevantDate ?? "", persistImage: true, wrapTitle: true)
+        return CourseCardViewModel(course: course, dateText: course.nextRelevantDate ?? "", persistImage: true, wrapTitle: true)
     }
     
     static func onDashboard(course: OEXCourse) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.nextRelevantDate ?? "", persistImage: true, wrapTitle: true)
+        return CourseCardViewModel(course: course, dateText: course.nextRelevantDate ?? "", persistImage: true, wrapTitle: true)
     }
     
     static func onCourseCatalog(course: OEXCourse, wrapTitle: Bool = false) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.nextRelevantDate ?? "", persistImage: false, wrapTitle: wrapTitle)
+        return CourseCardViewModel(course: course, dateText: course.nextRelevantDate ?? "", persistImage: false, wrapTitle: wrapTitle)
     }
     
     static func onCourseOutline(course: OEXCourse) -> CourseCardViewModel {
-        return CourseCardViewModel(course: course, detailText: course.nextRelevantDate ?? "", persistImage: true, wrapTitle: true)
+        return CourseCardViewModel(course: course, dateText: course.nextRelevantDate ?? "", persistImage: true, wrapTitle: true)
     }
     
     func apply(card : CourseCardView, networkManager: NetworkManager) {
         card.titleText = title
-        card.detailText = detailText
+        card.dateText = dateText
         card.course = self.course
         
         if wrapTitle {
