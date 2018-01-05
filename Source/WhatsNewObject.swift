@@ -13,14 +13,14 @@ fileprivate enum SupportPlatforms: String {
 }
 
 public struct WhatsNew: Equatable {
-    var id = 0
+    var itemID = 0
     var image: UIImage
     var title: String
     var message: String
     var isLast = false
     
     public static func == (left: WhatsNew, right: WhatsNew) -> Bool {
-        return left.title == right.title && left.message == right.message && left.id == right.id
+        return left.title == right.title && left.message == right.message && left.itemID == right.itemID
     }
 }
 
