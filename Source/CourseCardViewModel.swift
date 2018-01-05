@@ -9,6 +9,7 @@
 import Foundation
 
 class CourseCardViewModel : NSObject {
+    
     private let dateText: String
     private let persistImage: Bool
     private let wrapTitle: Bool
@@ -48,7 +49,7 @@ class CourseCardViewModel : NSObject {
     func apply(card : CourseCardView, networkManager: NetworkManager) {
         card.titleText = title
         card.dateText = dateText
-        card.course = self.course
+        card.course = course
         
         if wrapTitle {
             card.wrapTitleLabel()
@@ -76,25 +77,17 @@ class CourseCardViewModel : NSObject {
 
 extension OEXCourse {
     
-    var courseRun : String {
-        return String.joinInNaturalLayout(nullableStrings: [self.org, self.number], separator : " | ")
-    }
-    
-    var courseRunIncludingNextDate : String {
-        return String.joinInNaturalLayout(nullableStrings: [self.org, self.number, self.nextRelevantDate], separator : " | ")
-    }
-    
     var nextRelevantDate : String?  {
         // If start date is older than current date
-        if self.isStartDateOld {
-            guard let end = self.end else {
+        if isStartDateOld {
+            guard let end = end else {
                 return nil
             }
             
             let formattedEndDate = (DateFormatting.format(asMonthDayString: end as NSDate)) ?? ""
             
             // If Old date is older than current date
-            if self.isEndDateOld {
+            if isEndDateOld {
                 return Strings.courseEnded(endDate: formattedEndDate)
             }
             else{
@@ -102,11 +95,11 @@ extension OEXCourse {
             }
         }
         else {  // Start date is newer than current date
-            switch self.start_display_info.type {
-            case .string where self.start_display_info.displayDate != nil:
-                return Strings.starting(startDate: self.start_display_info.displayDate!)
-            case .timestamp where self.start_display_info.date != nil:
-                let formattedStartDate = DateFormatting.format(asMonthDayString: self.start_display_info.date! as NSDate)
+            switch start_display_info.type {
+            case .string where start_display_info.displayDate != nil:
+                return Strings.starting(startDate: start_display_info.displayDate!)
+            case .timestamp where start_display_info.date != nil:
+                let formattedStartDate = DateFormatting.format(asMonthDayString: start_display_info.date! as NSDate)
                 return Strings.starting(startDate: formattedStartDate ?? "")
             case .none, .timestamp, .string:
                 return Strings.starting(startDate: Strings.soon)
@@ -115,4 +108,3 @@ extension OEXCourse {
     }
     
 }
-
