@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseDashboardTabBarViewController: UITabBarController, UITabBarControllerDelegate {
+class CourseDashboardTabBarViewController: UITabBarController, UITabBarControllerDelegate, InterfaceOrientationOverriding {
     
      typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
@@ -50,6 +50,14 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
     
     private func addShareButton(withCourse course: OEXCourse) {

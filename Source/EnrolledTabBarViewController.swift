@@ -24,7 +24,7 @@ private enum TabBarOptions: Int {
     }
 }
 
-class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelegate {
+class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelegate, InterfaceOrientationOverriding {
 
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
@@ -66,6 +66,14 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override var shouldAutorotate: Bool {
+        return false
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
     }
     
     private func prepareTabViewData() {
