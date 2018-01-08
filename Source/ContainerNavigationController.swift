@@ -71,6 +71,6 @@ class ForwardingNavigationController: UINavigationController, StatusBarOverridin
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return OEXStyles.shared().standardStatusBarStyle()
+        return UIStatusBarStyle(barStyle: .default)
     }
 }
