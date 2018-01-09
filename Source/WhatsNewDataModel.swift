@@ -26,7 +26,7 @@ class WhatsNewDataModel {
         } catch {
             json = JSON(NSNull())
             //Assert to crash on development
-            assert(false, "Unable to load whats_new.json")
+            assert(false, "Unable to load \(String(describing: name)).json")
             return
         }
         
@@ -40,13 +40,16 @@ class WhatsNewDataModel {
             return
         }
         
+        var itemID = 1
         for object in objects {
             if var item = WhatsNew(json: object) {
                 if item.message.contains("platform_name") {
                     let message = item.message.replacingOccurrences(of: "platform_name", with: environment?.config.platformName() ?? "")
                     item.message = message
                 }
+                item.itemID = itemID
                 fields?.append(item)
+                itemID += 1
             }
         }
         
