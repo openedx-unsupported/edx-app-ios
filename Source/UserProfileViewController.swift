@@ -45,12 +45,11 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         contentView.snp_makeConstraints {make in
             make.edges.equalTo(view)
         }
-        
+        addBackNavbarItem()
         view.backgroundColor = environment.styles.standardBackgroundColor()
         loadController.setupInController(controller: self, contentView: contentView)
         loadController.state = .Initial
         
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
         navigationItem.title = Strings.UserAccount.profile
         addProfileListener()
         addExtraTabsListener()
@@ -60,17 +59,25 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenProfileView)
-
-        navigationController?.navigationBar.barTintColor = environment.styles.primaryBaseColor()
-        navigationController?.navigationBar.tintColor = environment.styles.neutralWhite()
+        // Profile has different nav bar color from main nav bar color. Setting new nav bar color to match with profile header color
+        let titleStyle = OEXTextStyle(weight: .semiBold, size: .base, color : environment.styles.neutralWhite())
+        navigationController?.navigationBar.customizeNavBar(barTintColor: environment.styles.primaryBaseColor(), tintColor: environment.styles.neutralWhite(), titleStyle: titleStyle)
         
         presenter.refresh()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        navigationController?.navigationBar.barTintColor = environment.styles.neutralWhite()
-        navigationController?.navigationBar.tintColor = environment.styles.primaryBaseColor()
+    private func addBackNavbarItem() {
+        // Profile has different navbar color scheme that's why we need to revert nav bar color to original color while poping the controller
+        let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+        backItem.oex_setAction {[weak self] in
+            self?.applyRevertedNavbarColor()
+            self?.navigationController?.popViewController(animated: true)
+        }
+        navigationItem.leftBarButtonItem = backItem
+    }
+    
+    private func applyRevertedNavbarColor(){
+        navigationController?.navigationBar.customizeNavBar(barTintColor: environment.styles.navigationBarColor(), tintColor: environment.styles.navigationItemTintColor(), titleStyle: environment.styles.navigationTitleTextStyle)
     }
     
     private func addProfileEditButton() {
@@ -80,6 +87,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
                 if let owner = self {
                     owner.environment.router?.showProfileEditorFromController(controller: owner)
                 }
+                self?.applyRevertedNavbarColor()
             }
             editButton.accessibilityLabel = Strings.Profile.editAccessibility
             navigationItem.rightBarButtonItem = editButton
@@ -127,7 +135,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
             self?.contentView.extraTabs = $0
             }, failure: {_ in
                 // ignore. Better to just not show tabs and still show the profile assuming the rest of it worked fine
-            }
+}
         )
     }
 
@@ -155,3 +163,12 @@ extension UserProfileViewController {
         self.contentView.chooseTab(identifier: identifier)
     }
 }
+
+extension UINavigationBar {
+    func customizeNavBar(barTintColor: UIColor, tintColor: UIColor, titleStyle: OEXTextStyle) {
+        self.barTintColor = barTintColor
+        self.tintColor = tintColor
+        titleTextAttributes = titleStyle.attributes
+    }
+}
+
