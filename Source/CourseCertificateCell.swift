@@ -29,10 +29,7 @@ class CourseCertificateCell: UITableViewCell {
         applyStandardSeparatorInsets()
         contentView.addSubview(certificateView)
         certificateView.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(contentView)
-            make.bottom.equalTo(contentView)
-            make.leading.equalTo(contentView)
-            make.trailing.equalTo(contentView)
+            make.edges.equalTo(contentView)
         })
     }
 

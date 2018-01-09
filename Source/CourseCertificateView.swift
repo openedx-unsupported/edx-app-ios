@@ -16,21 +16,19 @@ struct CourseCertificateIem {
 
 class CourseCertificateView: UIView {
 
-    let certificateImageView = UIImageView()
-    let titleLabel = UILabel()
-    let subtitleLabel = UILabel()
-    lazy var viewCertificateButton: UIButton = {
+    private let certificateImageView = UIImageView()
+    private let titleLabel = UILabel()
+    private let subtitleLabel = UILabel()
+    private lazy var viewCertificateButton: UIButton = {
         let button = UIButton()
         button.isUserInteractionEnabled = false
         button.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle, withTitle: Strings.Certificates.getCertificate)
-        button.backgroundColor = UIColor.green
         return button
     }()
     
     var certificateItem : CourseCertificateIem? {
         didSet {
-            guard let item = certificateItem else { return }
-            useItem(item: item)
+            useItem(item: certificateItem)
         }
     }
 
@@ -50,7 +48,7 @@ class CourseCertificateView: UIView {
     }
     
     private func configureViews() {
-        self.backgroundColor =  OEXStyles.shared().neutralXLight()
+        backgroundColor =  OEXStyles.shared().neutralXLight()
         
         addSubview(certificateImageView)
         addSubview(titleLabel)
@@ -88,8 +86,9 @@ class CourseCertificateView: UIView {
         }
     }
     
-    private func useItem(item: CourseCertificateIem) {
-        certificateImageView.image = item.certificateImage
+    private func useItem(item: CourseCertificateIem?) {
+        guard let certificateItem = item else {return}
+        certificateImageView.image = certificateItem.certificateImage
         
         let titleStyle = OEXTextStyle(weight: .normal, size: .large, color: OEXStyles.shared().primaryXDarkColor())
         let subtitleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())

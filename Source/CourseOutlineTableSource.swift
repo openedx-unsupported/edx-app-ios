@@ -54,12 +54,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     var highlightedBlockID : CourseBlockID? = nil
     
     func addCertificateView() {
-        guard environment.config.isTabLayoutEnabled, environment.config.discussionsEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl = enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
+        guard environment.config.isTabLayoutEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl = enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
         
-        let certificateItem =  CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: {
-            let url = NSURL(string: certificateUrl)!
-            self.environment.router?.showCertificate(url: url, title: enrollment.course.name, fromController: self)
-            
+        let certificateItem =  CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: {[weak self] _ in
+            if let weakSelf = self, let url = NSURL(string: certificateUrl) {
+                weakSelf.environment.router?.showCertificate(url: url, title: enrollment.course.name, fromController: weakSelf)
+            }
         })
         courseCertificateView = CourseCertificateView(certificateItem: certificateItem)
         if let courseCertificateView = courseCertificateView {
