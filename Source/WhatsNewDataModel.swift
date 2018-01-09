@@ -26,7 +26,7 @@ class WhatsNewDataModel {
         } catch {
             json = JSON(NSNull())
             //Assert to crash on development
-            assert(false, "Unable to load whats_new.json")
+            assert(false, "Unable to load \(String(describing: name)).json")
             return
         }
         
