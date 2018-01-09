@@ -18,7 +18,7 @@ class WhatsNewDataModelTests: XCTestCase {
         let dataModel = WhatsNewDataModel(fileName: "WhatsNew", environment: mockEnv, version: "2.10")
         
         XCTAssertNotNil(dataModel.fields)
-        XCTAssertEqual(dataModel.fields?.count, 4) // 3 items are for iOS in test json 'WhatsNew.json'
+        XCTAssertEqual(dataModel.fields?.count, 4) // 4 items are for iOS in test json 'WhatsNew.json'
         
         // Test whatsNew items parsing
         
