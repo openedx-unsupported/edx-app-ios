@@ -28,7 +28,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         return OEXTextStyle(weight : .semiBold, size: .xLarge, color: OEXStyles.shared().neutralXDark())
     }
     private var dateTextStyle : OEXTextStyle {
-        return OEXTextStyle(weight : .semiBold, size: .small, color: OEXStyles.shared().neutralDark())
+        return OEXTextStyle(weight : .normal, size: .small, color: OEXStyles.shared().neutralDark())
     }
     
     private func setup() {
@@ -159,21 +159,30 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     }
     
     var titleText : String? {
-        didSet {
-            titleLabel.attributedText = titleTextStyle.attributedString(withText: titleText)
+        get {
+            return titleLabel.text
+        }
+        set {
+            titleLabel.attributedText = titleTextStyle.attributedString(withText: newValue)
             updateAcessibilityLabel()
         }
     }
     
     var dateText : String? {
-        didSet {
-            dateLabel.attributedText = dateTextStyle.attributedString(withText: dateText)
+        get {
+            return dateLabel.text
+        }
+        set {
+            dateLabel.attributedText = dateTextStyle.attributedString(withText: newValue)
             updateAcessibilityLabel()
         }
     }
     
     var coverImage : RemoteImage? {
-        didSet {
+        get {
+            return coverImageView.remoteImage
+        }
+        set {
             coverImageView.remoteImage = coverImage
         }
     }
