@@ -205,7 +205,7 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Recursos";
 /* Title of course important dates screen */
-"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Fechas y plazos del curso";
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Fechas importantes";
 /* Button text for cancelling any action */
 "CANCEL"="Cancelar";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
@@ -285,7 +285,7 @@
 /* Text describing the Handouts section within the course dashboard */
 "DASHBOARD.COURSE_HANDOUTS_DETAIL"="Encuentre información importante del curso";
 /* Title text for the Important dates section of the course dashboard  */
-"DASHBOARD.COURSE_IMPORTANT_DATES"="Fechas importantes";
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Fechas";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Realice un seguimiento de los plazos y cumpla con lo planeado";
 /* Text describing the course due date for same day*/
