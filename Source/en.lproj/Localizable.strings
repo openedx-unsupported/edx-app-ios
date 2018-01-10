@@ -201,7 +201,7 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Resources";
 /* Title of course important dates screen */
-"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Course Dates and Deadlines";
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
 /* Button text for cancelling any action */
 "CANCEL"="Cancel";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
