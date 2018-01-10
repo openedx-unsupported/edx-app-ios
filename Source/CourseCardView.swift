@@ -183,7 +183,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             return coverImageView.remoteImage
         }
         set {
-            coverImageView.remoteImage = coverImage
+            coverImageView.remoteImage = newValue
         }
     }
     
