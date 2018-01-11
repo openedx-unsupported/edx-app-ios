@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserProfileViewController: OfflineSupportViewController, UserProfilePresenterDelegate, LoadStateViewReloadSupport {
+class UserProfileViewController: OfflineSupportViewController, UserProfilePresenterDelegate, LoadStateViewReloadSupport, StatusBarOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & NetworkManagerProvider & OEXRouterProvider & ReachabilityProvider & OEXStylesProvider & OEXSessionProvider
     
@@ -150,6 +150,10 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         
         loadController.state = .Initial
         presenter.refresh()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle(barStyle: .black)
     }
 }
 
