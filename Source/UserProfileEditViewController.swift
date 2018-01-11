@@ -180,16 +180,10 @@ class UserProfileEditViewController: UITableViewController {
     private func addBackNavbarItem() {
         let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: UIBarButtonItemStyle.plain, target: nil, action: nil)
         backItem.oex_setAction {[weak self] in
-            self?.applyCustomizedNavBarColor()
+            self?.navigationController?.navigationBar.applyUserProfileNavbarColorScheme()
             self?.navigationController?.popViewController(animated: true)
         }
         navigationItem.leftBarButtonItem = backItem
-    }
-    
-    func applyCustomizedNavBarColor() {
-        // Profile has different navbar color scheme that's why we need to update nav bar color for profile while poping the controller
-        let titleStyle = OEXTextStyle(weight: .semiBold, size: .base, color : self.environment.styles.neutralWhite())
-        navigationController?.navigationBar.customizeNavBar(barTintColor: environment.styles.primaryBaseColor(), tintColor: environment.styles.neutralWhite(), titleStyle: titleStyle)
     }
     
     override func viewWillLayoutSubviews() {

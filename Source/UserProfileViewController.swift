@@ -59,9 +59,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenProfileView)
-        // Profile has different nav bar color from main nav bar color. Setting new nav bar color to match with profile header color
-        let titleStyle = OEXTextStyle(weight: .semiBold, size: .base, color : environment.styles.neutralWhite())
-        navigationController?.navigationBar.customizeNavBar(barTintColor: environment.styles.primaryBaseColor(), tintColor: environment.styles.neutralWhite(), titleStyle: titleStyle)
+        navigationController?.navigationBar.applyUserProfileNavbarColorScheme()
         
         presenter.refresh()
     }
@@ -132,7 +130,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
             self?.contentView.extraTabs = $0
             }, failure: {_ in
                 // ignore. Better to just not show tabs and still show the profile assuming the rest of it worked fine
-}
+        }
         )
     }
 
@@ -167,10 +165,17 @@ extension UserProfileViewController {
 
 extension UINavigationBar {
     // To update navbar color scheme on specific controllers 
-    func customizeNavBar(barTintColor: UIColor, tintColor: UIColor, titleStyle: OEXTextStyle) {
+    private func customizeNavBar(barTintColor: UIColor, tintColor: UIColor, titleStyle: OEXTextStyle) {
         self.barTintColor = barTintColor
         self.tintColor = tintColor
         titleTextAttributes = titleStyle.attributes
+    }
+    
+    func applyUserProfileNavbarColorScheme() {
+        // Profile has different navbar color scheme that's why we need to update nav bar color for profile
+        let neutralWhiteColor = OEXStyles.shared().neutralWhite()
+        let titleStyle = OEXTextStyle(weight: .semiBold, size: .base, color : neutralWhiteColor)
+        customizeNavBar(barTintColor: OEXStyles.shared().primaryBaseColor(), tintColor: neutralWhiteColor, titleStyle: titleStyle)
     }
     
     func applyDefaultNavbarColorScheme() {
