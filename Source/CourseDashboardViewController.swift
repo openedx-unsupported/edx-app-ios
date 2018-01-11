@@ -10,7 +10,7 @@ import UIKit
 
 struct CertificateDashboardItem: AdditionalTableViewCellItem {
     let identifier = CourseCertificateCell.identifier
-    let height: CGFloat = 116.0
+    let height: CGFloat = CourseCertificateView.height
     let certificateItem : CourseCertificateIem
 
     var action: (() -> Void)
@@ -268,7 +268,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
     }
 
     private func getCertificateUrl(enrollment: UserCourseEnrollment) -> String? {
-        guard environment.config.discussionsEnabled else { return nil }
+        guard environment.config.certificatesEnabled else { return nil }
         return enrollment.certificateUrl
     }
     

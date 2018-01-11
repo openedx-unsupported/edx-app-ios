@@ -15,8 +15,10 @@ struct CourseCertificateIem {
 }
 
 class CourseCertificateView: UIView {
-
+    
+    static let height: CGFloat = 100.0
     private let certificateImageView = UIImageView()
+    private let rightContentView = UIView()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private lazy var viewCertificateButton: UIButton = {
@@ -31,7 +33,7 @@ class CourseCertificateView: UIView {
             useItem(item: certificateItem)
         }
     }
-
+    
     init() {
         super.init(frame: CGRect.zero)
         configureViews()
@@ -51,9 +53,10 @@ class CourseCertificateView: UIView {
         backgroundColor =  OEXStyles.shared().neutralXLight()
         
         addSubview(certificateImageView)
-        addSubview(titleLabel)
-        addSubview(subtitleLabel)
-        addSubview(viewCertificateButton)
+        addSubview(rightContentView)
+        rightContentView.addSubview(titleLabel)
+        rightContentView.addSubview(subtitleLabel)
+        rightContentView.addSubview(viewCertificateButton)
         
         certificateImageView.contentMode = .scaleAspectFit
         certificateImageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
@@ -62,23 +65,29 @@ class CourseCertificateView: UIView {
         subtitleLabel.adjustsFontSizeToFitWidth = true
         
         certificateImageView.snp_makeConstraints(closure: { (make) -> Void in
-            make.top.equalTo(self).offset(15)
-            make.bottom.equalTo(self).inset(15)
-            make.leading.equalTo(self.snp_leading).offset(10)
+            make.top.equalTo(self).offset(StandardVerticalMargin)
+            make.bottom.equalTo(self).inset(StandardVerticalMargin)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin)
         })
+        
+        rightContentView.snp_makeConstraints { (make) in
+            make.leading.equalTo(certificateImageView.snp_trailing).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
+            make.top.equalTo(self)
+            make.bottom.equalTo(self)
+        }
         
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(certificateImageView)
-            make.leading.equalTo(certificateImageView.snp_trailing).offset(14)
-            make.trailing.equalTo(self.snp_trailingMargin)
+            make.centerX.equalTo(rightContentView.snp_centerX)
         }
-
+        
         subtitleLabel.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp_bottom)
         }
-
+        
         viewCertificateButton.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(titleLabel)

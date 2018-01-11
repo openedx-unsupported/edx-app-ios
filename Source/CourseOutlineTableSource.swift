@@ -54,7 +54,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     var highlightedBlockID : CourseBlockID? = nil
     
     func addCertificateView() {
-        guard environment.config.isTabLayoutEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl = enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
+        guard environment.config.isTabLayoutEnabled, environment.config.certificatesEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl = enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
         
         let certificateItem =  CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: {[weak self] _ in
             if let weakSelf = self, let url = NSURL(string: certificateUrl) {
@@ -292,7 +292,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             courseCertificateView.snp_remakeConstraints { (make) -> Void in
                 make.trailing.equalTo(courseCard)
                 make.leading.equalTo(courseCard)
-                make.height.equalTo(116)
+                make.height.equalTo(CourseCertificateView.height)
                 make.top.equalTo(constraintView.snp_bottom)
                 make.bottom.equalTo(lastAccessedView.snp_top)
             }
