@@ -67,9 +67,10 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     }
     
     private func addBackNavbarItem() {
-        // Profile has different navbar color scheme that's why we need to revert nav bar color to original color while poping the controller
+        if !environment.config.isTabLayoutEnabled { return }
         let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: UIBarButtonItemStyle.plain, target: nil, action: nil)
         backItem.oex_setAction {[weak self] in
+            // Profile has different navbar color scheme that's why we need to revert nav bar color to original color while poping the controller
             self?.navigationController?.navigationBar.applyDefaultNavbarColorScheme()
             self?.navigationController?.popViewController(animated: true)
         }
