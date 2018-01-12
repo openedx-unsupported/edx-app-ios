@@ -86,7 +86,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         })
     }
     
-    @objc @objc func showLoadedCourseDates() {
+    @objc func showLoadedCourseDates() {
         webController.setLoadControllerState(withState: LoadState.Loaded)
     }
 }

@@ -14,7 +14,7 @@ class OEXTextStyleWithShadow: OEXTextStyle {
     override var attributes: [String : Any] {
         var attr = super.attributes
         if let shadowStyle = shadow {
-            attr[NSShadowAttributeName] = shadowStyle.shadow
+            attr[NSAttributedStringKey.shadow.rawValue] = shadowStyle.shadow
         }
         return attr as [String : AnyObject]
     }

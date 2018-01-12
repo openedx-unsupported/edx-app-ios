@@ -45,8 +45,8 @@ extension OEXStyles {
         UINavigationBar.appearance().barTintColor = navigationBarColor()
         UINavigationBar.appearance().barStyle = UIBarStyle.black
         UINavigationBar.appearance().tintColor = navigationItemTintColor()
-        UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
-        UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, for: .normal)
+        UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.convertedAttributes
+        UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.convertedAttributes, for: .normal)
         
         UIToolbar.appearance().tintColor = navigationBarColor()
         
