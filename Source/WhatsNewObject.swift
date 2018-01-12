@@ -13,13 +13,15 @@ fileprivate enum SupportPlatforms: String {
 }
 
 public struct WhatsNew: Equatable {
+    // itemID is property designated to uniquely identify all objects. It is used to resolve the cyclic behaviour issue on WhatsNew Screen if Multiple objects have same title and message.
+    var itemID = 0
     var image: UIImage
     var title: String
     var message: String
     var isLast = false
     
     public static func == (left: WhatsNew, right: WhatsNew) -> Bool {
-        return left.title == right.title && left.message == right.message
+        return left.title == right.title && left.message == right.message && left.itemID == right.itemID
     }
 }
 
@@ -40,7 +42,7 @@ extension WhatsNew {
             }
         }
         
-        if let image = UIImage(named: imageName), isSupportMessage == true {
+        if let image = UIImage(named: imageName), isSupportMessage {
             self.image = image
             self.title = title
             self.message = message

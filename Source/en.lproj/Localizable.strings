@@ -205,7 +205,7 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Resources";
 /* Title of course important dates screen */
-"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Course Dates and Deadlines";
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
 /* Button text for cancelling any action */
 "CANCEL"="Cancel";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
@@ -285,7 +285,7 @@
 /* Text describing the Handouts section within the course dashboard */
 "DASHBOARD.COURSE_HANDOUTS_DETAIL"="Find important course information";
 /* Title text for the Important dates section of the course dashboard  */
-"DASHBOARD.COURSE_IMPORTANT_DATES"="Important Dates";
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Dates";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Keep track of deadlines and stay on track";
 /* Text describing the course due date for same day*/
@@ -293,9 +293,9 @@
 /* Text describing the course due date*/
 "COURSE_DUE_DATE"="due {due_date}";
 /* Label indicated that a course has ended */
-"COURSE_ENDED"="Ended - {end_date}";
+"COURSE_ENDED"="Ended {end_date}";
 /* Label indicating that a course will end */
-"COURSE_ENDING"="Ending - {end_date}";
+"COURSE_ENDING"="Ending {end_date}";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Show Full Course";
 /* Option to show only video course content. Constrasts with 'Show All Course Content'. */
@@ -642,7 +642,7 @@
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
 /* Label for date when course starts */
-"STARTING"="Starting - {start_date}";
+"STARTING"="Starting {start_date}";
 /* Discover Courses button text on the first screen */
 "STARTUP.DISCOVER_COURSES"="Discover Courses";
 /* Explore Subjects button text on the first screen */

@@ -12,6 +12,14 @@
                },
                {
                "platforms": [
+                             "ios"
+                             ],
+               "image": "test_screen_1.png",
+               "title": "App Feedback",
+               "message": "We would love to hear your feedback so now we ask you about how you would rate the platform_name app."
+               },
+               {
+               "platforms": [
                             "android"
                             ],
                "image": "test_screen_1.png",

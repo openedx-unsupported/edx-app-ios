@@ -11,7 +11,7 @@ import Foundation
 class CourseCertificateCell: UITableViewCell {
 
     static let identifier = "CourseCertificateCellIdentifier"
-    let certificateView = CourseCertificateView()
+    private let certificateView = CourseCertificateView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
