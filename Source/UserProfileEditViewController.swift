@@ -84,7 +84,7 @@ extension UserProfile : FormData {
 
 class UserProfileEditViewController: UITableViewController {
     
-    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider
+    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXStylesProvider
     
     var profile: UserProfile
     let environment: Environment
@@ -174,6 +174,16 @@ class UserProfileEditViewController: UITableViewController {
             JSONFormBuilder.registerCells(tableView: tableView)
             fields = form.fields!
         }
+        addBackBarButtonItem()
+    }
+    
+    private func addBackBarButtonItem() {
+        let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: .plain, target: nil, action: nil)
+        backItem.oex_setAction {[weak self] in
+            self?.navigationController?.navigationBar.applyUserProfileNavbarColorScheme()
+            self?.navigationController?.popViewController(animated: true)
+        }
+        navigationItem.leftBarButtonItem = backItem
     }
     
     override func viewWillLayoutSubviews() {
