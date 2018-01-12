@@ -45,7 +45,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         contentView.snp_makeConstraints {make in
             make.edges.equalTo(view)
         }
-        addBackNavbarItem()
+        addBackBarButtonItem()
         view.backgroundColor = environment.styles.standardBackgroundColor()
         loadController.setupInController(controller: self, contentView: contentView)
         loadController.state = .Initial
@@ -64,7 +64,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         presenter.refresh()
     }
     
-    private func addBackNavbarItem() {
+    private func addBackBarButtonItem() {
         if !environment.config.isTabLayoutEnabled { return }
         let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: .plain, target: nil, action: nil)
         backItem.oex_setAction {[weak self] in
@@ -165,7 +165,7 @@ extension UserProfileViewController {
 
 extension UINavigationBar {
     // To update navbar color scheme on specific controllers 
-    private func customizeNavBar(barTintColor: UIColor, tintColor: UIColor, titleStyle: OEXTextStyle) {
+    private func apply(barTintColor: UIColor, tintColor: UIColor, titleStyle: OEXTextStyle) {
         self.barTintColor = barTintColor
         self.tintColor = tintColor
         titleTextAttributes = titleStyle.attributes
@@ -175,11 +175,11 @@ extension UINavigationBar {
         // Profile has different navbar color scheme that's why we need to update nav bar color for profile
         let neutralWhiteColor = OEXStyles.shared().neutralWhite()
         let titleStyle = OEXTextStyle(weight: .semiBold, size: .base, color : neutralWhiteColor)
-        customizeNavBar(barTintColor: OEXStyles.shared().primaryBaseColor(), tintColor: neutralWhiteColor, titleStyle: titleStyle)
+        apply(barTintColor: OEXStyles.shared().primaryBaseColor(), tintColor: neutralWhiteColor, titleStyle: titleStyle)
     }
     
     func applyDefaultNavbarColorScheme() {
-        customizeNavBar(barTintColor: OEXStyles.shared().navigationBarColor(), tintColor: OEXStyles.shared().navigationItemTintColor(), titleStyle: OEXStyles.shared().navigationTitleTextStyle)
+        apply(barTintColor: OEXStyles.shared().navigationBarColor(), tintColor: OEXStyles.shared().navigationItemTintColor(), titleStyle: OEXStyles.shared().navigationTitleTextStyle)
     }
 }
 
