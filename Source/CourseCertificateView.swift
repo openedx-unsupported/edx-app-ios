@@ -18,7 +18,6 @@ class CourseCertificateView: UIView {
     
     static let height: CGFloat = 100.0
     private let certificateImageView = UIImageView()
-    private let rightContentView = UIView()
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private lazy var viewCertificateButton: UIButton = {
@@ -53,10 +52,9 @@ class CourseCertificateView: UIView {
         backgroundColor =  OEXStyles.shared().neutralXLight()
         
         addSubview(certificateImageView)
-        addSubview(rightContentView)
-        rightContentView.addSubview(titleLabel)
-        rightContentView.addSubview(subtitleLabel)
-        rightContentView.addSubview(viewCertificateButton)
+        addSubview(titleLabel)
+        addSubview(subtitleLabel)
+        addSubview(viewCertificateButton)
         
         certificateImageView.contentMode = .scaleAspectFit
         certificateImageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
@@ -70,16 +68,9 @@ class CourseCertificateView: UIView {
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
         })
         
-        rightContentView.snp_makeConstraints { (make) in
-            make.leading.equalTo(certificateImageView.snp_trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
-            make.top.equalTo(self)
-            make.bottom.equalTo(self)
-        }
-        
         titleLabel.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(certificateImageView)
-            make.centerX.equalTo(rightContentView.snp_centerX)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin)
         }
         
         subtitleLabel.snp_makeConstraints { (make) -> Void in
@@ -120,3 +111,5 @@ class CourseCertificateView: UIView {
     }
     
 }
+
+
