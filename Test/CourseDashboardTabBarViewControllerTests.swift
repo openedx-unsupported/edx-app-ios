@@ -12,14 +12,15 @@ import edXCore
 
 private extension OEXConfig {
     
-    convenience init(courseVideosEnabled: Bool = false, courseDatesEnabled: Bool = true, discussionsEnabled : Bool, courseSharingEnabled: Bool = false, isAnnouncementsEnabled: Bool = true, tabDashboardEnabled: Bool = true) {
+    convenience init(courseVideosEnabled: Bool = false, courseDatesEnabled: Bool = true, discussionsEnabled : Bool, courseSharingEnabled: Bool = false, isAnnouncementsEnabled: Bool = true, tabDashboardEnabled: Bool = true, certificatesEnabled: Bool = false) {
         self.init(dictionary: [
             "COURSE_VIDEOS_ENABLED" : courseVideosEnabled,
             "COURSE_DATES_ENABLED" : courseDatesEnabled,
             "DISCUSSIONS_ENABLED": discussionsEnabled,
             "COURSE_SHARING_ENABLED": courseSharingEnabled,
             "ANNOUNCEMENTS_ENABLED": isAnnouncementsEnabled,
-            "TAB_LAYOUTS_ENABLED": tabDashboardEnabled
+            "TAB_LAYOUTS_ENABLED": tabDashboardEnabled,
+            "CERTIFICATES_ENABLED": certificatesEnabled
             ]
         )
     }
@@ -117,6 +118,42 @@ class CourseDashboardTabBarViewControllerTests: SnapshotTestCase {
             assertSnapshotValidWithContent(controller.navigationController!)
         })
     }
+    
+    func testCertificate() {
+        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true, tabDashboardEnabled: true, certificatesEnabled: true)
+        
+        let courseData = OEXCourse.testData()
+        let course = OEXCourse(dictionary: courseData)
+        
+        let outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
+        let interface = OEXInterface.shared()
+        let enrollment = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])!
+        
+        interface.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        
+        let environment = TestRouterEnvironment(config: config, interface: interface).logInTestUser()
+        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)
+        environment.mockEnrollmentManager.courses = [course]
+        environment.mockEnrollmentManager.enrollments = [enrollment]
+        
+        
+        let controller = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
+        
+        let stream = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .Full)
+        
+        let expectations = expectation(description: "course loaded")
+        stream?.listenOnce(self) {_ in
+            expectations.fulfill()
+        }
+        
+        waitForExpectations()
+        
+        
+        inScreenNavigationContext(controller, action: { () -> () in
+            assertSnapshotValidWithContent(controller.navigationController!)
+        })
+    }
+    
     
     func testResourcesViewSnapshot() {
         let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true)

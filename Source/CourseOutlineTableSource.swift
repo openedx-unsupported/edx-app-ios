@@ -22,7 +22,7 @@ protocol CourseOutlineTableControllerDelegate : class {
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider
     
     weak var delegate : CourseOutlineTableControllerDelegate?
     private let environment : Environment
@@ -31,6 +31,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private var courseOutlineMode: CourseOutlineMode
     
     private let courseCard = CourseCardView(frame: CGRect.zero)
+    private var courseCertificateView : CourseCertificateView?
     private let headerContainer = UIView()
     private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     private var lastAccess:Bool = false
@@ -44,13 +45,27 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     var groups : [CourseOutlineQuerier.BlockGroup] = []
     var highlightedBlockID : CourseBlockID? = nil
+    
+    func addCertificateView() {
+        guard environment.config.isTabLayoutEnabled, environment.config.certificatesEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl = enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
+        
+        let certificateItem =  CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: {[weak self] _ in
+            if let weakSelf = self, let url = NSURL(string: certificateUrl) {
+                weakSelf.environment.router?.showCertificate(url: url, title: enrollment.course.name, fromController: weakSelf)
+            }
+        })
+        courseCertificateView = CourseCertificateView(certificateItem: certificateItem)
+        if let courseCertificateView = courseCertificateView {
+            headerContainer.addSubview(courseCertificateView)
+        }
+    }
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -65,6 +80,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
         headerContainer.addSubview(lastAccessedView)
         headerContainer.addSubview(courseCard)
+        addCertificateView()
         
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, environment.config.isTabLayoutEnabled {
             CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
@@ -103,7 +119,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         super.viewWillLayoutSubviews()
         updateViewConstraints()
     }
-
+    
     override func updateViewConstraints() {
         super.updateViewConstraints()
         refreshTableHeaderView(lastAccess: lastAccess)
@@ -194,7 +210,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? SwipeableCell, cell.state != .initial  else {
-           return indexPath
+            return indexPath
         }
         
         return nil
@@ -251,9 +267,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     private func refreshTableHeaderView(lastAccess: Bool) {
+        var constraintView: UIView = courseCard
         if shouldHideCourseCard { return }
-        
         self.lastAccess = lastAccess
+        lastAccessedView.isHidden = !lastAccess
+        
         courseCard.snp_remakeConstraints { (make) in
             let screenWidth = UIScreen.main.bounds.size.width
             if courseOutlineMode != .Full || !environment.config.isTabLayoutEnabled || shouldHideCourseCard {
@@ -269,7 +287,16 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             make.leading.equalTo(headerContainer)
             make.width.equalTo(screenWidth)
             make.top.equalTo(headerContainer)
-            let _ = (lastAccess) ? make.bottom.equalTo(lastAccessedView.snp_top) : make.bottom.equalTo(headerContainer)
+        }
+        if let courseCertificateView = courseCertificateView {
+            courseCertificateView.snp_remakeConstraints { (make) -> Void in
+                make.trailing.equalTo(courseCard)
+                make.leading.equalTo(courseCard)
+                make.height.equalTo(CourseCertificateView.height)
+                make.top.equalTo(constraintView.snp_bottom)
+                make.bottom.equalTo(lastAccessedView.snp_top)
+            }
+            constraintView = courseCertificateView
         }
         
         lastAccessedView.snp_remakeConstraints { (make) -> Void in
@@ -278,7 +305,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             let _ = lastAccess ? (isVerticallyCompact() ? make.height.equalTo(lassAccessViewLandscapeHeight) : make.height.equalTo(lassAccessViewPortraitHeight)) : make.height.equalTo(0)
             make.bottom.equalTo(headerContainer)
         }
-        
         tableView.setAndLayoutTableHeaderView(header: headerContainer)
     }
 }
@@ -293,3 +319,4 @@ extension UITableView {
         tableHeaderView = header
     }
 }
+
