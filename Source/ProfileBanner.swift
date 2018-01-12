@@ -41,7 +41,7 @@ class ProfileBanner: UIView {
         addSubview(shortProfView)
         addSubview(usernameLabel)
         
-        usernameLabel.setContentHuggingPriority(1, for: .horizontal)
+        usernameLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 1), for: .horizontal)
         
         shortProfView.snp_makeConstraints { (make) -> Void in
             make.leading.equalTo(self.snp_leadingMargin)

@@ -17,9 +17,9 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
     
     private var wasActive : Bool = false
     
-    private let active : (Void) -> Bool
+    private let active : () -> Bool
     
-    public init(messageView: UIView, active : @escaping (Void) -> Bool) {
+    public init(messageView: UIView, active : @escaping () -> Bool) {
         self.active = active
         self.messageView = messageView
         

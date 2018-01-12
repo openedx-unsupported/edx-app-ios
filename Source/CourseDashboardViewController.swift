@@ -206,7 +206,7 @@ public class CourseDashboardViewController: UIViewController, UITableViewDataSou
         
         if let certificateUrl = getCertificateUrl(enrollment: enrollment), let certificateImage = UIImage(named: "courseCertificate") {
             let certificateItem = CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action:nil)
-            let item = CertificateDashboardItem(certificateItem: certificateItem, action: {[weak self] _ in
+            let item = CertificateDashboardItem(certificateItem: certificateItem, action: {[weak self] in
                 if let weakSelf = self, let url = NSURL(string: certificateUrl) {
                     weakSelf.environment.router?.showCertificate(url: url, title: enrollment.course.name, fromController: weakSelf)
                 }

@@ -94,7 +94,7 @@ public extension LayoutConstraint {
             }
         }
         
-        if self.priority != 1000.0 {
+        if self.priority != UILayoutPriority(rawValue:1000) {
             description += " ^\(self.priority)"
         }
         

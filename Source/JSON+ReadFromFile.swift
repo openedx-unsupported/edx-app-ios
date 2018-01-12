@@ -18,7 +18,7 @@ public extension JSON {
     
     public init(resourceNamed fileName: String) {
         guard let
-        url = Bundle(for: type(of: BundleClass())).url(forResource: fileName, withExtension: "json"),
+        url = Bundle(for: Swift.type(of: BundleClass())).url(forResource: fileName, withExtension: "json"),
             let data = try? NSData(contentsOf: url, options: NSData.ReadingOptions.mappedIfSafe) else
         {
             assertionFailure("Couldn't load data from file")
@@ -30,7 +30,7 @@ public extension JSON {
 
     public init(plistResourceNamed fileName: String) {
         guard let
-            url = Bundle(for: type(of: BundleClass())).url(forResource: fileName, withExtension: "plist"),
+            url = Bundle(for: Swift.type(of: BundleClass())).url(forResource: fileName, withExtension: "plist"),
             let data = NSDictionary(contentsOf: url) else
         {
             assertionFailure("Couldn't load data from file")

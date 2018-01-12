@@ -43,7 +43,7 @@ class DetailToolbarButton: UIView {
         button.setAttributedTitle(title, for: .normal)
         
         let disabledTitle = NSMutableAttributedString(attributedString: title)
-        disabledTitle.setAttributes([NSForegroundColorAttributeName: OEXStyles.shared().disabledButtonColor()], range: NSMakeRange(0, title.length))
+        disabledTitle.setAttributes([NSAttributedStringKey.foregroundColor: OEXStyles.shared().disabledButtonColor()], range: NSMakeRange(0, title.length))
         button.setAttributedTitle(disabledTitle, for: .disabled)
         
         button.contentHorizontalAlignment = buttonAlignment

@@ -86,7 +86,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         
         actionButton.oex_addAction({[weak self] _ in
             self?.actionButton.showProgress = true
-            self?.action?( {[weak self] _ in
+            self?.action?( {[weak self] in
                             self?.actionButton.showProgress = false
             } )
             }, for: .touchUpInside)

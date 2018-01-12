@@ -68,11 +68,11 @@ public class CourseOutlineItemView: UIView {
         super.init(frame: CGRect.zero)
         
         leadingImageButton.tintColor = OEXStyles.shared().primaryBaseColor()
-        leadingImageButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        trailingContainer.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        leadingImageButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        trailingContainer.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
         
         leadingImageButton.accessibilityTraits = UIAccessibilityTraitImage
-        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        titleLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
         
         checkmark.image = Icon.Graded.imageWithFontSize(size: 10)
         checkmark.tintColor = OEXStyles.shared().primaryBaseColor()

@@ -42,6 +42,8 @@ extension UIControl {
                 return .Center
             case .fill:
                 return .Fill
+            default:
+                return .Center
             }
         }
         set {

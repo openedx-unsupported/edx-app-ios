@@ -60,7 +60,7 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 @property (readonly, assign, nonatomic) OEXTextSize size;
 @property (readonly, assign, nonatomic) OEXTextWeight weight;
 
-@property (readonly, nonatomic) NSDictionary<NSString*, id>* attributes;
+@property (readonly, nonatomic) NSDictionary<String*, id>* attributes;
 
 /// Duplicates the current style but makes it bold if it is not already
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withWeight)(OEXTextWeight weight);

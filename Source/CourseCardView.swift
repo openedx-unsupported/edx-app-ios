@@ -78,10 +78,10 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         insertSubview(bottomLine, aboveSubview: coverImageView)
         addSubview(overlayContainer)
         
-        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
-        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
-        dateLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
-        dateLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
+        coverImageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
+        coverImageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .vertical)
+        dateLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for: UILayoutConstraintAxis.horizontal)
+        dateLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: UILayoutConstraintAxis.horizontal)
         
         container.snp_makeConstraints { make -> Void in
             make.leading.equalTo(self)

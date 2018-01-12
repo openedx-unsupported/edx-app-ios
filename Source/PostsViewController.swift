@@ -31,8 +31,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             switch self {
             case let .Topic(topic): return topic
             case .Search(_): return nil
-            case .Following(_): return nil
-            case .AllPosts(_): return nil
+            case .Following: return nil
+            case .AllPosts: return nil
             }
         }
         
@@ -40,8 +40,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             switch self {
             case let .Topic(topic): return topic.name
             case .Search(_): return Strings.searchResults
-            case .Following(_): return Strings.postsImFollowing
-            case .AllPosts(_): return Strings.allPosts
+            case .Following: return Strings.postsImFollowing
+            case .AllPosts: return Strings.allPosts
             }
         }
 
@@ -50,8 +50,8 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             switch self {
             case let .Topic(topic): return topic.isSelectable ? topic : topic.firstSelectableChild()
             case .Search(_): return nil
-            case .Following(_): return nil
-            case .AllPosts(_): return nil
+            case .Following: return nil
+            case .AllPosts: return nil
             }
         }
         
@@ -277,7 +277,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.leadingMargin.equalTo(headerView).offset(StandardHorizontalMargin)
             make.centerY.equalTo(headerView)
         }
-        refineLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        refineLabel.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
         
         headerButtonHolderView.snp_remakeConstraints { (make) -> Void in
             make.leading.equalTo(refineLabel.snp_trailing)

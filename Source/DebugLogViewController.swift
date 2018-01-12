@@ -36,12 +36,12 @@ class DebugLogViewController : UIViewController {
         }
     }
 
-    func share() {
+    @objc func share() {
         let c = UIActivityViewController(activityItems: [self.textView.text], applicationActivities: nil)
         present(c, animated: true, completion: nil)
     }
 
-    func clear() {
+    @objc func clear() {
         DebugMenuLogger.instance.clear()
         loadLog()
     }

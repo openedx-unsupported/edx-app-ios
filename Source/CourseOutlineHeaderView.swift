@@ -83,7 +83,7 @@ public class CourseOutlineHeaderView: UIView {
             make.bottom.equalTo(self).offset(-5)
         }
 
-        viewButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
+        viewButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: UILayoutConstraintAxis.horizontal)
         
         messageView.snp_makeConstraints { make in
             let situationalCenterYOffset = hasSubtitle ? titleLabelCenterYOffset : 0
@@ -96,7 +96,7 @@ public class CourseOutlineHeaderView: UIView {
             make.leading.equalTo(messageView)
             make.trailing.lessThanOrEqualTo(viewButton.snp_leading).offset(-10)
         }
-        subtitleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
+        subtitleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: UILayoutConstraintAxis.horizontal)
     }
     
     public func setViewButtonAction(action: @escaping (AnyObject) -> Void) {

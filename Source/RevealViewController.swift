@@ -89,7 +89,7 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
         switch state {
         case .hidden:
             UIView.animate(withDuration: 0.2, animations:
-                { _ in
+                { 
                     self.dimmingOverlay.alpha = 0
                 }, completion: {_ in
                     self.dimmingOverlay.isHidden = true
@@ -101,7 +101,7 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
             dimmingOverlay.frame = frontViewController.view.bounds
             frontViewController.view.addSubview(dimmingOverlay)
             dimmingOverlay.isHidden = false
-            UIView.animate(withDuration: 0.5) { _ in
+            UIView.animate(withDuration: 0.5) {
                 self.dimmingOverlay.alpha = 0.5
             }
             defaultMenuVOFocus()

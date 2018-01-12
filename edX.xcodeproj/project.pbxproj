@@ -3619,17 +3619,17 @@
 				TargetAttributes = {
 					77E6478D1C90C10300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					77E647961C90C10300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					77E6482F1C91016300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						TestTargetID = BECB7B0A1924C0C3009C77F1;
 					};
@@ -3654,7 +3654,7 @@
 					};
 					BECB7B2B1924C0C3009C77F1 = {
 						DevelopmentTeam = 57UCUYGPA2;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						TestTargetID = BECB7B0A1924C0C3009C77F1;
 					};
@@ -4768,7 +4768,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4823,7 +4823,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edXTests;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/edX";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -4855,7 +4856,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -4888,7 +4890,8 @@
 				PRODUCT_NAME = edXCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -4921,7 +4924,8 @@
 				PRODUCT_NAME = edXCore;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -4947,7 +4951,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -4970,7 +4975,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -4993,7 +4999,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/Core/Test/SupportingFiles/edXCoreTests-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Profile;
 		};
@@ -5015,7 +5022,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = edX;
 				USES_XCTRUNNER = YES;
 			};
@@ -5039,7 +5047,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = edX;
 				USES_XCTRUNNER = YES;
 			};
@@ -5063,7 +5072,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = edX;
 				USES_XCTRUNNER = YES;
 			};
@@ -5207,7 +5217,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -5244,7 +5254,7 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Source/edX-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -5300,7 +5310,8 @@
 				PRODUCT_NAME = edXTests;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/edX";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -5355,7 +5366,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edXTests;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/Test/edXTests-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/edX.app/edX";
 				WRAPPER_EXTENSION = xctest;
 			};
