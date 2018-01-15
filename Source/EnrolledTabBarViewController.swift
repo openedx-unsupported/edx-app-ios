@@ -56,6 +56,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = screenTitle
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         addAccountButton()
         addProfileButton()
         setupProfileLoader()
@@ -174,7 +175,6 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
 extension EnrolledTabBarViewController {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         if TabBarOptions.options[tabBarController.selectedIndex] == .CourseCatalog {
             environment.analytics.trackUserFindsCourses()
         }
