@@ -294,7 +294,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 make.leading.equalTo(courseCard)
                 make.height.equalTo(CourseCertificateView.height)
                 make.top.equalTo(constraintView.snp_bottom)
-                make.bottom.equalTo(lastAccessedView.snp_top)
             }
             constraintView = courseCertificateView
         }
@@ -302,6 +301,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         lastAccessedView.snp_remakeConstraints { (make) -> Void in
             make.trailing.equalTo(courseCard)
             make.leading.equalTo(courseCard)
+            make.top.equalTo(constraintView.snp_bottom)
             let _ = lastAccess ? (isVerticallyCompact() ? make.height.equalTo(lassAccessViewLandscapeHeight) : make.height.equalTo(lassAccessViewPortraitHeight)) : make.height.equalTo(0)
             make.bottom.equalTo(headerContainer)
         }
