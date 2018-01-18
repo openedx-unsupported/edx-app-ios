@@ -126,7 +126,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     
    fileprivate func deleteVideo()  {
         if let video = localState {
-            OEXInterface.shared().deleteDownloadedVideo(video) { _ in }
+            OEXInterface.shared().deleteDownloadedVideo(video, shouldNotify: true) { _ in }
             OEXAnalytics.shared().trackUnitDeleteVideo(courseID: courseID ?? "", unitID: block?.blockID ?? "")
         }
     }

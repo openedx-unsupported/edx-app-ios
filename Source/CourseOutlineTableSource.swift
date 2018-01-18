@@ -20,8 +20,8 @@ protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableControllerReload(controller: CourseOutlineTableController)
 }
 
-class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate {
-    
+class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosDownloaderViewDelegate {
+
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider
     
     weak var delegate : CourseOutlineTableControllerDelegate?
@@ -30,12 +30,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     let courseID : String
     private var courseOutlineMode: CourseOutlineMode
     
-    private let courseCard = CourseCardView(frame: CGRect.zero)
+    private let courseCard = CourseCardView(frame: .zero)
     private var courseCertificateView : CourseCertificateView?
     private let headerContainer = UIView()
-    private let lastAccessedView = CourseOutlineHeaderView(frame: CGRect.zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
+    private let lastAccessedView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
+    private var courseDownloaderView: CourseVideosDownloaderView?
     private var lastAccess:Bool = false
-    private var shouldHideCourseCard:Bool = false
+    private var shouldHideTableViewHeader:Bool = false
     let refreshController = PullRefreshController()
     
     init(environment : Environment, courseID : String, forMode mode: CourseOutlineMode) {
@@ -78,18 +79,40 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.register(CourseUnknownTableViewCell.self, forCellReuseIdentifier: CourseUnknownTableViewCell.identifier)
         tableView.register(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
-        headerContainer.addSubview(lastAccessedView)
-        headerContainer.addSubview(courseCard)
-        addCertificateView()
-        
-        if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, environment.config.isTabLayoutEnabled {
-            CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
-            refreshTableHeaderView(lastAccess: false)
-            tableView.setAndLayoutTableHeaderView(header: headerContainer)
-            
+        configureHeaderView()
+    }
+    
+    private func configureHeaderView() {
+        if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
+            switch courseOutlineMode {
+            case .Full:
+                headerContainer.addSubview(lastAccessedView)
+                headerContainer.addSubview(courseCard)
+                addCertificateView()
+                CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
+                if environment.config.isTabLayoutEnabled {
+                    refreshTableHeaderView(lastAccess: false)
+                }
+                break
+            case .Video:
+                courseDownloaderView = CourseVideosDownloaderView(with: course, delegate: self)
+                addCourseVideoDownloaderView()
+                refreshTableHeaderView(lastAccess: false)
+                break
+            }
         }
-        
         refreshController.setupInScrollView(scrollView: tableView)
+    }
+    
+    func courseVideosDownloaderViewDidTapped() {
+        delegate?.outlineTableControllerChoseShowDownloads(controller: self)
+    }
+    
+    private func addCourseVideoDownloaderView(){
+        guard let downloaderView = courseDownloaderView else {
+            return
+        }
+        headerContainer.addSubview(downloaderView)
     }
     
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
@@ -112,6 +135,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         if let highlightID = highlightedBlockID, let indexPath = indexPathForBlockWithID(blockID: highlightID)
         {
             tableView.scrollToRow(at: indexPath as IndexPath, at: UITableViewScrollPosition.middle, animated: false)
+        }
+        
+        if courseOutlineMode == .Video {
+            courseDownloaderView?.updateProgressDisplay()
         }
     }
     
@@ -262,48 +289,60 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     func hideTableHeaderView() {
-        shouldHideCourseCard = true
+        shouldHideTableViewHeader = true
         tableView.tableHeaderView = nil
     }
     
     private func refreshTableHeaderView(lastAccess: Bool) {
-        var constraintView: UIView = courseCard
-        if shouldHideCourseCard { return }
-        self.lastAccess = lastAccess
-        lastAccessedView.isHidden = !lastAccess
+        if shouldHideTableViewHeader { return }
         
-        courseCard.snp_remakeConstraints { (make) in
-            let screenWidth = UIScreen.main.bounds.size.width
-            if courseOutlineMode != .Full || !environment.config.isTabLayoutEnabled || shouldHideCourseCard {
-                make.height.equalTo(0)
+        switch courseOutlineMode {
+        case .Full:
+            var constraintView: UIView = courseCard
+            
+            self.lastAccess = lastAccess
+            lastAccessedView.isHidden = !lastAccess
+            
+            courseCard.snp_remakeConstraints { (make) in
+                let screenWidth = UIScreen.main.bounds.size.width
+                if courseOutlineMode != .Full || !environment.config.isTabLayoutEnabled || shouldHideTableViewHeader {
+                    make.height.equalTo(0)
+                }
+                else {
+                    let screenHeight = UIScreen.main.bounds.size.height
+                    let halfScreehHeight = screenHeight / 2
+                    let ratioedHeight = screenWidth * defaultAspectRatio
+                    let _ = (halfScreehHeight > ratioedHeight) ? make.height.equalTo(ratioedHeight): make.height.equalTo(halfScreehHeight)
+                }
+                make.trailing.equalTo(headerContainer)
+                make.leading.equalTo(headerContainer)
+                make.width.equalTo(screenWidth)
+                make.top.equalTo(headerContainer)
             }
-            else {
-                let screenHeight = UIScreen.main.bounds.size.height
-                let halfScreehHeight = screenHeight / 2
-                let ratioedHeight = screenWidth * defaultAspectRatio
-                let _ = (halfScreehHeight > ratioedHeight) ? make.height.equalTo(ratioedHeight): make.height.equalTo(halfScreehHeight)
+            if let courseCertificateView = courseCertificateView {
+                courseCertificateView.snp_remakeConstraints { (make) -> Void in
+                    make.trailing.equalTo(courseCard)
+                    make.leading.equalTo(courseCard)
+                    make.height.equalTo(CourseCertificateView.height)
+                    make.top.equalTo(constraintView.snp_bottom)
+                }
+                constraintView = courseCertificateView
             }
-            make.trailing.equalTo(headerContainer)
-            make.leading.equalTo(headerContainer)
-            make.width.equalTo(screenWidth)
-            make.top.equalTo(headerContainer)
-        }
-        if let courseCertificateView = courseCertificateView {
-            courseCertificateView.snp_remakeConstraints { (make) -> Void in
+            
+            lastAccessedView.snp_remakeConstraints { (make) -> Void in
                 make.trailing.equalTo(courseCard)
                 make.leading.equalTo(courseCard)
-                make.height.equalTo(CourseCertificateView.height)
                 make.top.equalTo(constraintView.snp_bottom)
+                let _ = lastAccess ? (isVerticallyCompact() ? make.height.equalTo(lassAccessViewLandscapeHeight) : make.height.equalTo(lassAccessViewPortraitHeight)) : make.height.equalTo(0)
+                make.bottom.equalTo(headerContainer)
             }
-            constraintView = courseCertificateView
-        }
-        
-        lastAccessedView.snp_remakeConstraints { (make) -> Void in
-            make.trailing.equalTo(courseCard)
-            make.leading.equalTo(courseCard)
-            make.top.equalTo(constraintView.snp_bottom)
-            let _ = lastAccess ? (isVerticallyCompact() ? make.height.equalTo(lassAccessViewLandscapeHeight) : make.height.equalTo(lassAccessViewPortraitHeight)) : make.height.equalTo(0)
-            make.bottom.equalTo(headerContainer)
+            break
+        case .Video:
+            courseDownloaderView?.snp_makeConstraints(closure: { make in
+                make.edges.equalTo(headerContainer)
+                make.height.equalTo(CourseVideosDownloaderView.height)
+            })
+            break
         }
         tableView.setAndLayoutTableHeaderView(header: headerContainer)
     }

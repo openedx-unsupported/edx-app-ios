@@ -27,6 +27,7 @@ extern NSString* const OEXCourseListKey;
 extern NSString* const OEXVideoStateChangedNotification;
 extern NSString* const OEXDownloadProgressChangedNotification;
 extern NSString* const OEXDownloadEndedNotification;
+extern NSString* const OEXDownloadedVideoDeletedNotification;
 
 // This class requires significant refactoring
 // Think very hard before adding anything to it
@@ -115,7 +116,7 @@ extern NSString* const OEXDownloadEndedNotification;
 
 - (NSArray<OEXHelperVideoDownload*>*)statesForVideosWithIDs:(NSArray<NSString*>*)videoIDs courseID:(NSString*)courseID;
 
-- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video completionHandler:(void (^)(BOOL success))completionHandler;
+- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video shouldNotify:(BOOL)shouldNotify  completionHandler:(void (^)(BOOL success))completionHandler;
 - (void)deleteDownloadedVideos:(NSArray *)videos completionHandler:(void (^)(BOOL success))completionHandler;
 
 - (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo;
