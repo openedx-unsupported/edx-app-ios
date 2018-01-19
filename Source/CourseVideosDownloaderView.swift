@@ -28,13 +28,19 @@ class CourseVideosDownloaderView: UIView {
     private let downloadSpinner = SpinnerView(size: .Medium, color: .Primary)
     lazy private var titleLabel: UILabel = UILabel()
     lazy private var subTitleLabel: UILabel = UILabel()
-    
+//        {
+//        let label = UILabel()
+//        label.numberOfLines = 2
+//        return label
+//    }()
+    lazy private var showDownloadsButton: UIButton = UIButton()
     lazy private var toggleSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
         toggleSwitch.onTintColor = self.styles.utilitySuccessBase()
         toggleSwitch.tintColor = self.styles.neutralLight()
         toggleSwitch.oex_addAction({[weak self] _ in
             if let owner = self {
+                owner.shouldUpdateProgressView = false
                 owner.switchToggled()
             }
             }, for: .valueChanged)
@@ -49,6 +55,7 @@ class CourseVideosDownloaderView: UIView {
     }()
     
     private var isToggledAutomatically = false
+    private var shouldUpdateProgressView = true
     private var styles : OEXStyles {
         return OEXStyles.shared()
     }
@@ -81,44 +88,46 @@ class CourseVideosDownloaderView: UIView {
     
     // MARK: - Methods -
     func updateProgressDisplay() {
-        isToggledAutomatically = true
-        if courseVideosDownloader.isDownloadedAllVideos {
-            title = "All Videos Downloaded"
-            subTitle = "\(courseVideosDownloader.courseVideos.count) Videos, \(courseVideosDownloader.totalSize.bytesToMB.twoDecimalPlaces)MB total"
-            
-            toggleSwitch.isOn = true
-            downloadProgressView.isHidden = true
-            downloadSpinner.isHidden = true
-            imageView.isHidden = false
-        }
-        else if courseVideosDownloader.isDownloadingAllVideos {
-            title = "Downloading Videos..."
-            subTitle = "\(courseVideosDownloader.newOrPartiallyDownloadedVideos.count) Remaining, \(courseVideosDownloader.remainingSize.bytesToMB.twoDecimalPlaces)MB total"
-            toggleSwitch.isOn = true
-            downloadProgressView.isHidden = false
-            downloadProgressView.progress = Float(courseVideosDownloader.downloadedSize / courseVideosDownloader.totalSize)
-            downloadSpinner.isHidden = false
-            imageView.isHidden = true
-            
-        }
-        else {
-            if courseVideosDownloader.isDownloadedAnyVideo ||
-                courseVideosDownloader.isDownloadingAnyVideo {
-                let remainingSize = courseVideosDownloader.totalSize - courseVideosDownloader.fullyDownloadedVideosSize
-                subTitle = "\(courseVideosDownloader.newOrPartiallyDownloadedVideos.count) Remaining, \(remainingSize.bytesToMB.twoDecimalPlaces)MB total"
+        if shouldUpdateProgressView {
+            isToggledAutomatically = true
+            if courseVideosDownloader.isDownloadedAllVideos {
+                title = "All Videos Downloaded"
+                subTitle = "\(courseVideosDownloader.courseVideos.count) Videos, \(courseVideosDownloader.totalSize.bytesToMB.twoDecimalPlaces)MB total"
+                
+                toggleSwitch.isOn = true
+                downloadProgressView.isHidden = true
+                downloadSpinner.isHidden = true
+                imageView.isHidden = false
+            }
+            else if courseVideosDownloader.isDownloadingAllVideos {
+                title = "Downloading Videos..."
+                subTitle = "\(courseVideosDownloader.newOrPartiallyDownloadedVideos.count) Remaining, \(courseVideosDownloader.remainingSize.bytesToMB.twoDecimalPlaces)MB"
+                toggleSwitch.isOn = true
+                downloadProgressView.isHidden = false
+                downloadProgressView.progress = Float(courseVideosDownloader.downloadedSize / courseVideosDownloader.totalSize)
+                downloadSpinner.isHidden = false
+                imageView.isHidden = true
+                
             }
             else {
-                subTitle = "\(courseVideosDownloader.courseVideos.count) videos, \(courseVideosDownloader.totalSize.bytesToMB.twoDecimalPlaces)MB total"
+                if courseVideosDownloader.isDownloadedAnyVideo ||
+                    courseVideosDownloader.isDownloadingAnyVideo {
+                    let remainingSize = courseVideosDownloader.totalSize - courseVideosDownloader.fullyDownloadedVideosSize
+                    subTitle = "\(courseVideosDownloader.newOrPartiallyDownloadedVideos.count) Remaining, \(remainingSize.bytesToMB.twoDecimalPlaces)MB"
+                }
+                else {
+                    subTitle = "\(courseVideosDownloader.courseVideos.count) videos, \(courseVideosDownloader.totalSize.bytesToMB.twoDecimalPlaces)MB total"
+                }
+                title = "Download to Device"
+                
+                toggleSwitch.isOn = false
+                downloadProgressView.isHidden = true
+                downloadSpinner.isHidden = true
+                imageView.isHidden = false
+                
             }
-            title = "Download to Device"
-            
-            toggleSwitch.isOn = false
-            downloadProgressView.isHidden = true
-            downloadSpinner.isHidden = true
-            imageView.isHidden = false
-            
+            isToggledAutomatically = false
         }
-        isToggledAutomatically = false
     }
     
     private func switchToggled(){
@@ -139,10 +148,12 @@ class CourseVideosDownloaderView: UIView {
     
     private func startDownloading() {
         OEXInterface.shared().downloadVideos(courseVideosDownloader.newVideos)
+        shouldUpdateProgressView = true
     }
     
     private func stopAndDeleteDownloads() {
         OEXInterface.shared().deleteDownloadedVideos(courseVideosDownloader.partialyOrFullyDownloadedVideos) { _ in }
+        shouldUpdateProgressView = true
     }
     
     private func configureView() {
@@ -150,13 +161,12 @@ class CourseVideosDownloaderView: UIView {
         addSubviews()
         imageView.contentMode = .scaleAspectFit
         imageView.image = Icon.CourseVideos.imageWithFontSize(size: 20)
-        let tapGesture = UITapGestureRecognizer()
-        tapGesture.addAction { [weak self] _ in
+        
+        showDownloadsButton.oex_addAction({ [weak self] _ in
             if let owner = self, owner.toggleSwitch.isOn && !owner.courseVideosDownloader.isDownloadedAllVideos  {
                 owner.delegate?.courseVideosDownloaderViewDidTapped()
             }
-        }
-        addGestureRecognizer(tapGesture)
+        }, for: .touchUpInside)
     }
     
     private func addSubviews() {
@@ -164,6 +174,7 @@ class CourseVideosDownloaderView: UIView {
         addSubview(downloadSpinner)
         addSubview(titleLabel)
         addSubview(subTitleLabel)
+        addSubview(showDownloadsButton)
         addSubview(toggleSwitch)
         addSubview(downloadProgressView)
         setupConstraints()
@@ -181,17 +192,24 @@ class CourseVideosDownloaderView: UIView {
         downloadSpinner.snp_makeConstraints { make in
             make.edges.equalTo(imageView)
         }
-        
+//        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .vertical)
+//        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
         titleLabel.snp_makeConstraints { make in
             make.leading.equalTo(imageView.snp_trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(toggleSwitch.snp_leading).inset(StandardHorizontalMargin)
+            make.trailing.equalTo(toggleSwitch.snp_leading).offset(-StandardHorizontalMargin)
             make.top.equalTo(self).offset(1.5 * StandardVerticalMargin)
         }
+//        subTitleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .vertical)
+//        subTitleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .vertical)
         
         subTitleLabel.snp_makeConstraints { make in
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp_bottom).offset(StandardVerticalMargin / 2)
+        }
+        
+        showDownloadsButton.snp_makeConstraints { make in
+            make.edges.equalTo(self)
         }
         
         toggleSwitch.snp_makeConstraints { make in

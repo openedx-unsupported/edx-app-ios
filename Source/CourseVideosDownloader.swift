@@ -16,7 +16,7 @@ class CourseVideosDownloader {
     }
     
     var courseVideos: [OEXHelperVideoDownload] {
-        return OEXInterface.shared().videos(of: self.course)
+        return OEXInterface.shared().downloadableVideos(of: self.course)
     }
     
     var newVideos: [OEXHelperVideoDownload] {

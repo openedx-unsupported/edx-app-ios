@@ -20,7 +20,7 @@ extension OEXInterface : LastAccessedProvider {
         self.storage?.setLastAccessedSubsection(subsectionID, andSubsectionName: subsectionName, forCourseID: courseID, onTimeStamp: timeStamp)
     }
     
-    public func videos(of course: OEXCourse) -> [OEXHelperVideoDownload] {
+    public func downloadableVideos(of course: OEXCourse) -> [OEXHelperVideoDownload] {
         // This being O(n) is pretty mediocre
         // We should rebuild this to have all the videos in a hash table
         // Right now they actually need to be in an array since that is
@@ -31,7 +31,8 @@ extension OEXInterface : LastAccessedProvider {
             let videos = courseVideos.object(forKey: videoOutline) as? [OEXHelperVideoDownload] else {
             return []
         }
-        return videos
+        
+        return videos.filter { $0.summary?.isDownloadableVideo ?? false }
     }
     
 }

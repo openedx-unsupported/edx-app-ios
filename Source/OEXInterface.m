@@ -45,7 +45,9 @@ NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
 NSString* const OEXDownloadedVideoDeletedNotification = @"OEXDownloadedVideoDeletedNotification";
 NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
 
-@interface OEXInterface () <OEXDownloadManagerProtocol>
+@interface OEXInterface () <OEXDownloadManagerProtocol> {
+    BOOL userAllowedLargeDownload;
+}
 
 @property (nonatomic, strong) OEXNetworkInterface* network;
 @property (nonatomic, strong) OEXDataParser* parser;
@@ -349,7 +351,7 @@ static OEXInterface* _sharedInterface = nil;
         }
     }
     
-    if(totalSpaceRequired > 1) {
+    if(!userAllowedLargeDownload && totalSpaceRequired > 1) {
         self.multipleDownloadArray = videos;
         
         // As suggested by Lou
@@ -363,6 +365,7 @@ static OEXInterface* _sharedInterface = nil;
         [alertView show];
         return NO;
     }
+    userAllowedLargeDownload = false;
     return YES;
 }
 
@@ -923,6 +926,7 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 1) {
+        userAllowedLargeDownload = true;
         NSInteger count = [self downloadVideos:_multipleDownloadArray];
         if(count > 0) {
             [[NSNotificationCenter defaultCenter] postNotificationName:FL_MESSAGE
@@ -932,6 +936,7 @@ static OEXInterface* _sharedInterface = nil;
     }
     else {
         self.multipleDownloadArray = nil;
+        userAllowedLargeDownload = false;
     }
 }
 
