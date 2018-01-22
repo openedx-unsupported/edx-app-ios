@@ -133,9 +133,13 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                 launchEmailComposer()
             case .Logout:
                 OEXFileUtility.nukeUserPIIData()
-                self.dismiss(animated: true, completion: { 
+                if (environment.config.isTabLayoutEnabled) {
+                    self.dismiss(animated: true, completion: {
+                        self.environment.router?.logout()
+                    })
+                } else {
                     self.environment.router?.logout()
-                })
+                }
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
