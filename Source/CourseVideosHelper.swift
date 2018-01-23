@@ -11,53 +11,96 @@ import Foundation
 class CourseVideosHelper {
     
     let course: OEXCourse
+    var newVideos: [OEXHelperVideoDownload] = []
+    var partialyOrFullyDownloadedVideos: [OEXHelperVideoDownload] = []
+    private var courseVideos: [OEXHelperVideoDownload] = []
+    private var partialyDownloadedVideos: [OEXHelperVideoDownload]  = []
+    private var fullyDownloadedVideos: [OEXHelperVideoDownload] = []
+    private var newOrPartiallyDownloadedVideos: [OEXHelperVideoDownload] = []
+    private var totalSize: Double = 0
+    private var downloadedSize: Double = 0
+    private var fullyDownloadedVideosSize : Double = 0
+    
     init(with course: OEXCourse) {
         self.course = course
+        refresh()
     }
     
-    var courseVideos: [OEXHelperVideoDownload] {
-        return OEXInterface.shared().downloadableVideos(of: self.course)
-    }
-    
-    var newVideos: [OEXHelperVideoDownload] {
-        return courseVideos.filter { $0.downloadState == .new }
-    }
-    
-    var partialyDownloadedVideos: [OEXHelperVideoDownload] {
-        return courseVideos.filter { $0.downloadState == .partial }
-    }
-    
-    var fullyDownloadedVideos: [OEXHelperVideoDownload] {
-        return courseVideos.filter { $0.downloadState == .complete }
-    }
-    
-    var partialyOrFullyDownloadedVideos: [OEXHelperVideoDownload] {
-        return courseVideos.filter { $0.downloadState != .new }
-    }
-    
-    var newOrPartiallyDownloadedVideos: [OEXHelperVideoDownload] {
-        return courseVideos.filter { $0.downloadState != .complete }
-    }
-    
-    var totalSize: Double {
-        return courseVideos.reduce(into: 0.0) { (sum, video) in sum = sum + Double(video.summary?.size ?? 0) }
-    }
-    
-    var downloadedSize: Double {
-        return courseVideos.reduce(into: 0.0) { (sum, video) in
+    func refresh() {
+        
+        courseVideos = OEXInterface.shared().downloadableVideos(of: course)
+        newVideos = courseVideos.filter { $0.downloadState == .new }
+        partialyDownloadedVideos = courseVideos.filter { $0.downloadState == .partial }
+        fullyDownloadedVideos = courseVideos.filter { $0.downloadState == .complete }
+        partialyOrFullyDownloadedVideos = courseVideos.filter { $0.downloadState != .new }
+        newOrPartiallyDownloadedVideos = courseVideos.filter { $0.downloadState != .complete }
+        
+        // Calculate Sizes
+        totalSize = courseVideos.reduce(into: 0.0) {
+            (sum, video) in
+            sum = sum + Double(video.summary?.size ?? 0)
+        }
+        downloadedSize = courseVideos.reduce(into: 0.0) {
+            (sum, video) in
             sum = sum + ((video.downloadProgress *  Double(video.summary?.size ?? 0.0)) / 100.0)
+        }
+        fullyDownloadedVideosSize = fullyDownloadedVideos.reduce(into: 0.0) {
+            (sum, video) in
+            sum = sum + Double(video.summary?.size ?? 0)
         }
     }
     
-    var remainingSize: Double {
+    private var remainingSize: Double {
         return totalSize - downloadedSize
     }
     
-    var fullyDownloadedVideosSize : Double {
-        return fullyDownloadedVideos.reduce(into: 0.0) { (sum, video) in sum = sum + Double(video.summary?.size ?? 0) }
+    var toggleOn: Bool {
+        return isDownloadingAllVideos
     }
     
-    var isDownloadingAllVideos: Bool {
+    var hideProgressBar: Bool {
+        return !(toggleOn && !isDownloadedAllVideos)
+    }
+    
+    var hideSpinner: Bool {
+        return hideProgressBar
+    }
+    
+    var title: String {
+        if isDownloadedAllVideos {
+            return Strings.allVideosDownloadedTitle
+        }
+        else if isDownloadingAllVideos {
+            return Strings.downloadingVideosTitle
+        }
+        return Strings.downloadToDeviceTitle
+    }
+    
+    var subTitle: String {
+        if !isDownloadedAllVideos && (isDownloadingAllVideos || isDownloadedAnyVideo || isDownloadingAnyVideo) {
+            return Strings.downloadingVideosSubTitle(remainingVideosCount: "\(newOrPartiallyDownloadedVideos.count)", remainingVideosSize: "\(videosSizeForStatus)")
+        }
+        return Strings.allVideosSubTitle(videosCount: "\(courseVideos.count)", videosSize: "\(videosSizeForStatus)")
+    }
+    
+    var progress: Float {
+       return Float(downloadedSize / totalSize)
+    }
+    
+    private var videosSizeForStatus: Double {
+        if !isDownloadedAllVideos {
+            if isDownloadingAllVideos {
+                return remainingSize.bytesToMB.twoDecimalPlaces
+            }
+            else if isDownloadedAnyVideo || isDownloadingAnyVideo {
+                let remainingSize = totalSize - fullyDownloadedVideosSize
+                return remainingSize.bytesToMB.twoDecimalPlaces
+            }
+        }
+        return totalSize.bytesToMB.twoDecimalPlaces
+    }
+    
+    private var isDownloadingAllVideos: Bool {
         return newVideos.count == 0
     }
     
@@ -65,11 +108,11 @@ class CourseVideosHelper {
         return fullyDownloadedVideos.count == courseVideos.count
     }
     
-    var isDownloadedAnyVideo: Bool {
+    private var isDownloadedAnyVideo: Bool {
         return fullyDownloadedVideos.count > 0
     }
     
-    var isDownloadingAnyVideo: Bool {
+    private var isDownloadingAnyVideo: Bool {
         return partialyDownloadedVideos.count > 0
     }
     

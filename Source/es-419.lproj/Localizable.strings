@@ -10,6 +10,16 @@
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Descargar";
+/*Bulk Download View Title if all course Videos are not downloaded yet */
+"DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
+/*Bulk Download View Title if all course Videos downloading in progress */
+"DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos...";
+/*Bulk Download View Sub Title if all course Videos downloading in progress */
+"DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB";
+/*Bulk Download View Title if all course Videos downloaded */
+"ALL_VIDEOS_DOWNLOADED_TITLE" = "All Videos Downloaded";
+/*Bulk Download View Sub Title if all course Videos downloaded or All videos are needs to be Downloaded */
+"ALL_VIDEOS_SUB_TITLE" = "{videos_count} Videos, {videos_size}MB total";
 /* Label for check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_CHECKED" = "Marcado";
 /* Label for check box when it's checked. */

@@ -118,41 +118,48 @@ class CourseVideosHeaderView: UIView {
     func updateProgressDisplay() {
         guard toggleAction == nil else { return }
         
-        if courseVideosHelper.isDownloadedAllVideos {
-            title = "All Videos Downloaded"
-            subTitle = "\(courseVideosHelper.courseVideos.count) Videos, \(courseVideosHelper.totalSize.bytesToMB.twoDecimalPlaces)MB total"
-            
-            toggleSwitch.isOn = true
-            downloadProgressView.isHidden = true
-            downloadSpinner.isHidden = true
-            imageView.isHidden = false
-        }
-        else if courseVideosHelper.isDownloadingAllVideos {
-            title = "Downloading Videos..."
-            subTitle = "\(courseVideosHelper.newOrPartiallyDownloadedVideos.count) Remaining, \(courseVideosHelper.remainingSize.bytesToMB.twoDecimalPlaces)MB"
-            toggleSwitch.isOn = true
-            downloadProgressView.isHidden = false
-            downloadProgressView.progress = Float(courseVideosHelper.downloadedSize / courseVideosHelper.totalSize)
-            downloadSpinner.isHidden = false
-            imageView.isHidden = true
-            
-        }
-        else {
-            if courseVideosHelper.isDownloadedAnyVideo ||
-                courseVideosHelper.isDownloadingAnyVideo {
-                let remainingSize = courseVideosHelper.totalSize - courseVideosHelper.fullyDownloadedVideosSize
-                subTitle = "\(courseVideosHelper.newOrPartiallyDownloadedVideos.count) Remaining, \(remainingSize.bytesToMB.twoDecimalPlaces)MB"
-            }
-            else {
-                subTitle = "\(courseVideosHelper.courseVideos.count) videos, \(courseVideosHelper.totalSize.bytesToMB.twoDecimalPlaces)MB total"
-            }
-            title = "Download to Device"
-            
-            toggleSwitch.isOn = false
-            downloadProgressView.isHidden = true
-            downloadSpinner.isHidden = true
-            imageView.isHidden = false
-        }
+        courseVideosHelper.refresh()
+        toggleSwitch.isOn = courseVideosHelper.toggleOn
+        downloadProgressView.isHidden = courseVideosHelper.hideProgressBar
+        downloadSpinner.isHidden = courseVideosHelper.hideSpinner
+        imageView.isHidden = !courseVideosHelper.hideSpinner
+        title = courseVideosHelper.title
+        subTitle = courseVideosHelper.subTitle
+        downloadProgressView.progress = courseVideosHelper.progress
+//        if courseVideosHelper.isDownloadedAllVideos {
+//
+//            subTitle = "\(courseVideosHelper.courseVideos.count) Videos, \(courseVideosHelper.totalSize.bytesToMB.twoDecimalPlaces)MB total"
+//
+//            toggleSwitch.isOn = true
+//            downloadProgressView.isHidden = true
+//            downloadSpinner.isHidden = true
+//            imageView.isHidden = false
+//        }
+//        else if courseVideosHelper.isDownloadingAllVideos {
+//
+//            subTitle = "\(courseVideosHelper.newOrPartiallyDownloadedVideos.count) Remaining, \(courseVideosHelper.remainingSize.bytesToMB.twoDecimalPlaces)MB"
+//            downloadProgressView.progress = Float(courseVideosHelper.downloadedSize / courseVideosHelper.totalSize)
+//            toggleSwitch.isOn = true
+//            downloadProgressView.isHidden = false
+//            downloadSpinner.isHidden = false
+//            imageView.isHidden = true
+//
+//        }
+//        else {
+//            if courseVideosHelper.isDownloadedAnyVideo ||
+//                courseVideosHelper.isDownloadingAnyVideo {
+//                let remainingSize = courseVideosHelper.totalSize - courseVideosHelper.fullyDownloadedVideosSize
+//                subTitle = "\(courseVideosHelper.newOrPartiallyDownloadedVideos.count) Remaining, \(remainingSize.bytesToMB.twoDecimalPlaces)MB"
+//            }
+//            else {
+//                subTitle = "\(courseVideosHelper.courseVideos.count) videos, \(courseVideosHelper.totalSize.bytesToMB.twoDecimalPlaces)MB total"
+//            }
+//
+//            toggleSwitch.isOn = false
+//            downloadProgressView.isHidden = true
+//            downloadSpinner.isHidden = true
+//            imageView.isHidden = false
+//        }
     }
     
     private func switchToggled(){
