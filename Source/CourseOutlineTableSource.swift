@@ -20,7 +20,7 @@ protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableControllerReload(controller: CourseOutlineTableController)
 }
 
-class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosDownloaderViewDelegate {
+class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate {
 
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider
     
@@ -34,7 +34,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private var courseCertificateView : CourseCertificateView?
     private let headerContainer = UIView()
     private let lastAccessedView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
-    private var courseDownloaderView: CourseVideosDownloaderView?
+    var courseVideosHeaderView: CourseVideosHeaderView?
     private var lastAccess:Bool = false
     private var shouldHideTableViewHeader:Bool = false
     let refreshController = PullRefreshController()
@@ -85,7 +85,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private func configureHeaderView() {
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
             switch courseOutlineMode {
-            case .Full:
+            case .full:
                 headerContainer.addSubview(lastAccessedView)
                 headerContainer.addSubview(courseCard)
                 addCertificateView()
@@ -94,8 +94,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                     refreshTableHeaderView(lastAccess: false)
                 }
                 break
-            case .Video:
-                courseDownloaderView = CourseVideosDownloaderView(with: course, delegate: self)
+            case .video:
+                courseVideosHeaderView = CourseVideosHeaderView(with: course)
+                courseVideosHeaderView?.delegate = self
                 addCourseVideoDownloaderView()
                 refreshTableHeaderView(lastAccess: false)
                 break
@@ -104,15 +105,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         refreshController.setupInScrollView(scrollView: tableView)
     }
     
-    func courseVideosDownloaderViewDidTapped() {
+    func courseVideosHeaderViewDidTapped() {
         delegate?.outlineTableControllerChoseShowDownloads(controller: self)
     }
     
     private func addCourseVideoDownloaderView(){
-        guard let downloaderView = courseDownloaderView else {
-            return
-        }
-        headerContainer.addSubview(downloaderView)
+        guard let courseVideosHeaderView = courseVideosHeaderView else { return }
+        headerContainer.addSubview(courseVideosHeaderView)
     }
     
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
@@ -137,8 +136,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             tableView.scrollToRow(at: indexPath as IndexPath, at: UITableViewScrollPosition.middle, animated: false)
         }
         
-        if courseOutlineMode == .Video {
-            courseDownloaderView?.updateProgressDisplay()
+        if courseOutlineMode == .video {
+            courseVideosHeaderView?.updateProgressDisplay()
         }
     }
     
@@ -188,7 +187,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.courseID = courseID
             cell.localState = environment.dataManager.interface?.stateForVideo(withID: block.blockID, courseID : courseQuerier.courseID)
             cell.delegate = self
-            cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? cell : nil
+            cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             return cell
         case .HTML(.Base):
             let cell = tableView.dequeueReusableCell(withIdentifier: CourseHTMLTableViewCell.identifier, for: indexPath) as! CourseHTMLTableViewCell
@@ -207,7 +206,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             cell.block = nodes[indexPath.row]
             let courseID = courseQuerier.courseID
             cell.videos = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: block.blockID)
-            cell.swipeCellViewDelegate = (courseOutlineMode == .Video) ? cell : nil
+            cell.swipeCellViewDelegate = (courseOutlineMode == .video) ? cell : nil
             cell.delegate = self
             cell.courseID = courseID
             return cell
@@ -297,7 +296,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         if shouldHideTableViewHeader { return }
         
         switch courseOutlineMode {
-        case .Full:
+        case .full:
             var constraintView: UIView = courseCard
             
             self.lastAccess = lastAccess
@@ -305,7 +304,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             
             courseCard.snp_remakeConstraints { (make) in
                 let screenWidth = UIScreen.main.bounds.size.width
-                if courseOutlineMode != .Full || !environment.config.isTabLayoutEnabled || shouldHideTableViewHeader {
+                if courseOutlineMode != .full || !environment.config.isTabLayoutEnabled || shouldHideTableViewHeader {
                     make.height.equalTo(0)
                 }
                 else {
@@ -337,10 +336,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 make.bottom.equalTo(headerContainer)
             }
             break
-        case .Video:
-            courseDownloaderView?.snp_makeConstraints(closure: { make in
+        case .video:
+            courseVideosHeaderView?.snp_makeConstraints(closure: { make in
                 make.edges.equalTo(headerContainer)
-                make.height.equalTo(CourseVideosDownloaderView.height)
+                make.height.equalTo(CourseVideosHeaderView.height)
             })
             break
         }

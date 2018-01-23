@@ -57,7 +57,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let root = outline.blocks[outline.root]!
         let child = root.children[1]
-        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID : child, forMode: .Full).value!
+        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID : child, forMode: .full).value!
         
         let block = cursor.prev()!.block
         XCTAssertEqual(root.children[0], block.blockID)
@@ -72,7 +72,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
         let root = outline.blocks[outline.root]!
-        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID: nil, forMode: .Full).value!
+        let cursor = querier.spanningCursorForBlockWithID(blockID: outline.root, initialChildID: nil, forMode: .full).value!
         
         XCTAssertFalse(cursor.hasPrev)
         let block = cursor.next()!.block
@@ -132,7 +132,7 @@ class CourseOutlineQuerierTests: XCTestCase {
             ]
         )
         let querier = CourseOutlineQuerier(courseID: courseID, outline: outline)
-        let childStream = querier.childrenOfBlockWithID(blockID: nil, forMode: .Full)
+        let childStream = querier.childrenOfBlockWithID(blockID: nil, forMode: .full)
         childStream.listenOnce(self) {
             XCTAssertEqual($0.value!.children.count, 1)
             XCTAssertEqual($0.value!.children[0].blockID, "found")

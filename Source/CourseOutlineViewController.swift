@@ -11,8 +11,8 @@ import UIKit
 
 
 public enum CourseOutlineMode {
-    case Full
-    case Video
+    case full
+    case video
 }
 
 public class CourseOutlineViewController :
@@ -41,7 +41,7 @@ public class CourseOutlineViewController :
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private var lastAccessedController : CourseLastAccessedController
-    private var courseOutlineMode: CourseOutlineMode
+    var courseOutlineMode: CourseOutlineMode
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     fileprivate var t_hasTriggeredSetLastAccessed = false
@@ -61,7 +61,7 @@ public class CourseOutlineViewController :
         
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
-        courseOutlineMode = mode ?? .Full
+        courseOutlineMode = mode ?? .full
         tableController = CourseOutlineTableController(environment: self.environment, courseID: courseID, forMode: courseOutlineMode)
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
@@ -103,6 +103,17 @@ public class CourseOutlineViewController :
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
         loadStreams()
+        
+        if courseOutlineMode == .video {
+            tableController.courseVideosHeaderView?.addObservers()
+        }
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if courseOutlineMode == .video {
+            tableController.courseVideosHeaderView?.removeObservers()
+        }
     }
     
     override public var shouldAutorotate: Bool {
@@ -132,7 +143,7 @@ public class CourseOutlineViewController :
     }
     
     private func setupNavigationItem(block : CourseBlock) {
-        navigationItem.title = (courseOutlineMode == .Video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
+        navigationItem.title = (courseOutlineMode == .video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
     }
     
     private func loadStreams() {
@@ -141,7 +152,7 @@ public class CourseOutlineViewController :
         stream.extendLifetimeUntilFirstResult (success :
             { [weak self] (rootID, block) in
                 if self?.blockID == rootID || self?.blockID == nil {
-                    if self?.courseOutlineMode == .Full {
+                    if self?.courseOutlineMode == .full {
                         self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
                     }
                     else {
@@ -165,7 +176,7 @@ public class CourseOutlineViewController :
     }
     
     private func emptyState() -> LoadState {
-        return LoadState.empty(icon: .UnknownError, message : (courseOutlineMode == .Video) ? Strings.courseVideoUnavailable : Strings.coursewareUnavailable)
+        return LoadState.empty(icon: .UnknownError, message : (courseOutlineMode == .video) ? Strings.courseVideoUnavailable : Strings.coursewareUnavailable)
     }
     
     private func showErrorIfNecessary(error : NSError) {

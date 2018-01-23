@@ -31,7 +31,7 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
         router = OEXRouter(environment: environment)
     }
     
-    func loadAndVerifyControllerWithBlockID(_ blockID : CourseBlockID, courseOutlineMode: CourseOutlineMode? = CourseOutlineMode.Full, verifier : @escaping (CourseOutlineViewController) -> ((XCTestExpectation) -> Void)?) {
+    func loadAndVerifyControllerWithBlockID(_ blockID : CourseBlockID, courseOutlineMode: CourseOutlineMode? = .full, verifier : @escaping (CourseOutlineViewController) -> ((XCTestExpectation) -> Void)?) {
         
         let blockIdOrNilIfRoot : CourseBlockID? = blockID == outline.root ? nil : blockID
         let controller = CourseOutlineViewController(environment: environment, courseID: outline.root, rootID: blockIdOrNilIfRoot, forMode: courseOutlineMode)

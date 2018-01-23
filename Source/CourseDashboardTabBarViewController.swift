@@ -13,6 +13,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
      typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
     private let courseID: String
+    fileprivate var course: OEXCourse?
     private let environment: Environment
     fileprivate var tabBarItems : [TabBarItem] = []
     fileprivate let loadStateController: CourseTabBarLoadStateViewController
@@ -78,22 +79,24 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         navigationItem.rightBarButtonItems = [shareItem]
     }
     
-    private func addNavigationItems(withCourse course: OEXCourse) {
+    fileprivate func addNavigationItems(withCourse course: OEXCourse, shouldShowProgressBarItem: Bool = true) {
         if course.course_about != nil && environment.config.courseSharingEnabled {
             addShareButton(withCourse: course)
         }
-        navigationItem.rightBarButtonItems?.append(progressController.navigationItem())
+        if shouldShowProgressBarItem {
+            navigationItem.rightBarButtonItems?.append(progressController.navigationItem())
+        }
     }
     
     private func prepareTabViewData(withCourse course: OEXCourse) {
         
         tabBarItems = []
         
-        var item = TabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+        var item = TabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
         tabBarItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
-           item = TabBarItem(title: Strings.Dashboard.courseVideos, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Video), icon: Icon.CourseVideos, detailText: Strings.Dashboard.courseVideosDetail)
+           item = TabBarItem(title: Strings.Dashboard.courseVideos, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .video), icon: Icon.CourseVideos, detailText: Strings.Dashboard.courseVideosDetail)
             tabBarItems.append(item)
         }
         
@@ -148,6 +151,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     private func resultLoaded(result : Result<UserCourseEnrollment>) {
         switch result {
         case let Result.success(enrollment):
+            course = enrollment.course
             loadedCourse(withCourse: enrollment.course)
         case let Result.failure(error):
             if !courseStream.active {
@@ -225,6 +229,14 @@ extension CourseDashboardTabBarViewController {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
+        if let course = course {
+            if let controller = viewController as? CourseOutlineViewController, controller.courseOutlineMode == .video {
+                addNavigationItems(withCourse: course, shouldShowProgressBarItem: false)
+            }
+            else {
+                addNavigationItems(withCourse: course)
+            }
+        }
     }
 }
 

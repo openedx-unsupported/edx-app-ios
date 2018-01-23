@@ -42,11 +42,12 @@ NSString* const OEXCourseListKey = @"OEXCourseListKey";
 NSString* const OEXVideoStateChangedNotification = @"OEXVideoStateChangedNotification";
 NSString* const OEXDownloadProgressChangedNotification = @"OEXDownloadProgressChangedNotification";
 NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
-NSString* const OEXDownloadedVideoDeletedNotification = @"OEXDownloadedVideoDeletedNotification";
+NSString* const OEXDownloadStartedNotification = @"OEXDownloadStartedNotification";
 NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
 
 @interface OEXInterface () <OEXDownloadManagerProtocol> {
     BOOL userAllowedLargeDownload;
+    DownloadVideosCompletionHandler downloadVideosCompletionHandler;
 }
 
 @property (nonatomic, strong) OEXNetworkInterface* network;
@@ -380,11 +381,24 @@ static OEXInterface* _sharedInterface = nil;
     for(OEXHelperVideoDownload* video in array) {
         if(video.summary.downloadURL.length > 0 && video.downloadState == OEXDownloadStateNew) {
             [self downloadAllTranscriptsForVideo:video];
-            [self addVideoForDownload:video completionHandler:^(BOOL success){}];
+            [self addVideoForDownload:video completionHandler:^(BOOL success){
+                if (array.lastObject.summary.videoID && video.summary.videoID && array.lastObject.summary.videoID == video.summary.videoID) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadStartedNotification object:nil];
+                }
+            }];
             count++;
         }
     }
+    if (downloadVideosCompletionHandler) {
+        downloadVideosCompletionHandler(false);
+        downloadVideosCompletionHandler = nil;
+    }
     return count;
+}
+
+- (NSInteger)downloadVideos:(NSArray<OEXHelperVideoDownload*>*)array completionHandler: (DownloadVideosCompletionHandler) completionHandler  {
+    downloadVideosCompletionHandler = completionHandler;
+    return [self downloadVideos:array];
 }
 
 - (NSArray<OEXHelperVideoDownload*>*)statesForVideosWithIDs:(NSArray<NSString*>*)videoIDs courseID:(NSString*)courseID {
@@ -428,23 +442,19 @@ static OEXInterface* _sharedInterface = nil;
     [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
 }
 
-- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video shouldNotify:(BOOL)shouldNotify completionHandler:(void (^)(BOOL success))completionHandler {
+- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video completionHandler:(void (^)(BOOL success))completionHandler {
     [_storage deleteDataForVideoID:video.summary.videoID];
     video.downloadState = OEXDownloadStateNew;
     video.downloadProgress = 0.0;
     video.isVideoDownloading = false;
     completionHandler(YES);
-    if (shouldNotify) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadedVideoDeletedNotification object:nil userInfo:nil];
-    }
 }
 
 - (void)deleteDownloadedVideos:(NSArray *)videos completionHandler:(void (^)(BOOL success))completionHandler {
     for (OEXHelperVideoDownload *video in videos) {
-        [self deleteDownloadedVideo:video shouldNotify:false completionHandler:^(BOOL success) {}];
+        [self deleteDownloadedVideo:video completionHandler:^(BOOL success) {}];
     }
     completionHandler(YES);
-    [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadedVideoDeletedNotification object:nil userInfo:nil];
 }
 
 - (void)setAllEntriesUnregister {
@@ -937,6 +947,10 @@ static OEXInterface* _sharedInterface = nil;
     else {
         self.multipleDownloadArray = nil;
         userAllowedLargeDownload = false;
+        if (downloadVideosCompletionHandler) {
+            downloadVideosCompletionHandler(true);
+            downloadVideosCompletionHandler = nil;
+        }
     }
 }
 

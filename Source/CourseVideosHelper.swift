@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CourseVideosDownloader {
+class CourseVideosHelper {
     
     let course: OEXCourse
     init(with course: OEXCourse) {
@@ -58,7 +58,7 @@ class CourseVideosDownloader {
     }
     
     var isDownloadingAllVideos: Bool {
-        return (courseVideos.filter { $0.downloadState == .new }).count == 0
+        return newVideos.count == 0
     }
     
     var isDownloadedAllVideos: Bool {
