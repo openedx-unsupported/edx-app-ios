@@ -13,7 +13,7 @@ class CourseVideosHelper {
     let course: OEXCourse
     var newVideos: [OEXHelperVideoDownload] = []
     var partialyOrFullyDownloadedVideos: [OEXHelperVideoDownload] = []
-    private var courseVideos: [OEXHelperVideoDownload] = []
+    var courseVideos: [OEXHelperVideoDownload] = []
     private var partialyDownloadedVideos: [OEXHelperVideoDownload]  = []
     private var fullyDownloadedVideos: [OEXHelperVideoDownload] = []
     private var newOrPartiallyDownloadedVideos: [OEXHelperVideoDownload] = []
@@ -90,14 +90,14 @@ class CourseVideosHelper {
     private var videosSizeForStatus: Double {
         if !isDownloadedAllVideos {
             if isDownloadingAllVideos {
-                return remainingSize.bytesToMB.twoDecimalPlaces
+                return remainingSize.roundedMB
             }
             else if isDownloadedAnyVideo || isDownloadingAnyVideo {
                 let remainingSize = totalSize - fullyDownloadedVideosSize
-                return remainingSize.bytesToMB.twoDecimalPlaces
+                return remainingSize.roundedMB
             }
         }
-        return totalSize.bytesToMB.twoDecimalPlaces
+        return totalSize.roundedMB
     }
     
     private var isDownloadingAllVideos: Bool {
@@ -115,5 +115,20 @@ class CourseVideosHelper {
     private var isDownloadingAnyVideo: Bool {
         return partialyDownloadedVideos.count > 0
     }
+}
+
+extension Double {
+    // Bytes to MB Conversion
+    private var mb: Double {
+        return self / 1024 / 1024
+    }
     
+    private func roundTo(places:Int) -> Double {
+        let divisor = pow(10.0, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
+    
+    fileprivate var roundedMB: Double {
+        return self.mb.roundTo(places: 2)
+    }
 }

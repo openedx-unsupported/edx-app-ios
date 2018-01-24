@@ -43,6 +43,7 @@ NSString* const OEXVideoStateChangedNotification = @"OEXVideoStateChangedNotific
 NSString* const OEXDownloadProgressChangedNotification = @"OEXDownloadProgressChangedNotification";
 NSString* const OEXDownloadEndedNotification = @"OEXDownloadEndedNotification";
 NSString* const OEXDownloadStartedNotification = @"OEXDownloadStartedNotification";
+NSString* const OEXDownloadDeletedNotification = @"OEXDownloadDeletedNotification";
 NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
 
 @interface OEXInterface () <OEXDownloadManagerProtocol> {
@@ -442,19 +443,23 @@ static OEXInterface* _sharedInterface = nil;
     [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
 }
 
-- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video completionHandler:(void (^)(BOOL success))completionHandler {
+- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video shouldNotify:(BOOL) shouldNotify completionHandler:(void (^)(BOOL success))completionHandler {
     [_storage deleteDataForVideoID:video.summary.videoID];
     video.downloadState = OEXDownloadStateNew;
     video.downloadProgress = 0.0;
     video.isVideoDownloading = false;
     completionHandler(YES);
+    if (shouldNotify) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadDeletedNotification object:nil];
+    }
 }
 
 - (void)deleteDownloadedVideos:(NSArray *)videos completionHandler:(void (^)(BOOL success))completionHandler {
     for (OEXHelperVideoDownload *video in videos) {
-        [self deleteDownloadedVideo:video completionHandler:^(BOOL success) {}];
+        [self deleteDownloadedVideo:video shouldNotify:false completionHandler:^(BOOL success) {}];
     }
     completionHandler(YES);
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadDeletedNotification object:nil];
 }
 
 - (void)setAllEntriesUnregister {

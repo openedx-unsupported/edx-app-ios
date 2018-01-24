@@ -28,6 +28,7 @@ extern NSString* const OEXVideoStateChangedNotification;
 extern NSString* const OEXDownloadProgressChangedNotification;
 extern NSString* const OEXDownloadEndedNotification;
 extern NSString* const OEXDownloadStartedNotification;
+extern NSString* const OEXDownloadDeletedNotification;
 
 typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 
@@ -119,7 +120,7 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 
 - (NSArray<OEXHelperVideoDownload*>*)statesForVideosWithIDs:(NSArray<NSString*>*)videoIDs courseID:(NSString*)courseID;
 
-- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video completionHandler:(void (^)(BOOL success))completionHandler;
+- (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video shouldNotify:(BOOL) shouldNotify completionHandler:(void (^)(BOOL success))completionHandler;
 - (void)deleteDownloadedVideos:(NSArray *)videos completionHandler:(void (^)(BOOL success))completionHandler;
 
 - (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo;

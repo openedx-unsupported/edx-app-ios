@@ -230,11 +230,11 @@ extension CourseDashboardTabBarViewController {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
         if let course = course {
-            if let controller = viewController as? CourseOutlineViewController, controller.courseOutlineMode == .video {
-                addNavigationItems(withCourse: course, shouldShowProgressBarItem: false)
+            if let controller = viewController as? CourseOutlineViewController, controller.courseOutlineMode == .full {
+                addNavigationItems(withCourse: course)
             }
             else {
-                addNavigationItems(withCourse: course)
+                addNavigationItems(withCourse: course, shouldShowProgressBarItem: false)
             }
         }
     }

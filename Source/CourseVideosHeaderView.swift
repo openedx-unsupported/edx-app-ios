@@ -20,26 +20,41 @@ fileprivate struct NotificationObserver {
 class CourseVideosHeaderView: UIView {
     
     static var height: CGFloat = 72.0
-    private let toggleActionDelay = 2.0 // In Seconds
-    
+    private let toggleActionDelay = 5.0 // In Seconds
     private let courseVideosHelper: CourseVideosHelper
     private var toggleAction: DispatchWorkItem?
-    weak var delegate: CourseVideosHeaderViewDelegate?
     private var observers:[NotificationObserver] = []
+    weak var delegate: CourseVideosHeaderViewDelegate?
     
     // MARK: - UI Properties -
-    lazy private var imageView: UIImageView = UIImageView()
-    private let downloadSpinner = SpinnerView(size: .Medium, color: .Primary)
-    lazy private var titleLabel: UILabel = UILabel()
-    lazy private var subTitleLabel: UILabel = UILabel()
-    //        {
-    //        let label = UILabel()
-    //        label.numberOfLines = 2
-    //        return label
-    //    }()
-    lazy private var showDownloadsButton: UIButton = UIButton()
+    lazy private var imageView: UIImageView = {
+        let image = UIImageView()
+        image.accessibilityIdentifier = "imageView"
+        return image
+    }()
+    private let downloadSpinner: SpinnerView = {
+        let spinner = SpinnerView(size: .Medium, color: .Primary)
+        spinner.accessibilityIdentifier = "downloadSpinner"
+        return spinner
+    }()
+    lazy private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.accessibilityIdentifier = "titleLabel"
+        return label
+    }()
+    lazy private var subTitleLabel: UILabel = {
+        let label = UILabel()
+        label.accessibilityIdentifier = "subTitleLabel"
+        return label
+    }()
+    lazy private var showDownloadsButton: UIButton = {
+        let button =  UIButton()
+        button.accessibilityIdentifier = "showDownloadsButton"
+        return button
+    }()
     lazy private var toggleSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
+        toggleSwitch.accessibilityIdentifier = "toggleSwitch"
         toggleSwitch.onTintColor = self.styles.utilitySuccessBase()
         toggleSwitch.tintColor = self.styles.neutralLight()
         toggleSwitch.oex_addAction({[weak self] _ in
@@ -50,22 +65,21 @@ class CourseVideosHeaderView: UIView {
             }, for: .valueChanged)
         return toggleSwitch
     }()
-    
     lazy private var downloadProgressView: UIProgressView = {
         let progressView = UIProgressView()
+        progressView.accessibilityIdentifier = "downloadProgressView"
         progressView.tintColor = self.styles.utilitySuccessBase()
         progressView.trackTintColor = self.styles.neutralXLight()
         return progressView
     }()
     
+    // MARK: - Styles -
     private var styles : OEXStyles {
         return OEXStyles.shared()
     }
-    
     private var titleLabelStyle : OEXTextStyle {
         return OEXTextStyle(weight: .normal, size: .base, color: styles.primaryBaseColor())
     }
-    
     private var subTitleLabelStyle : OEXTextStyle {
         return OEXTextStyle(weight: .normal, size: .base, color : styles.neutralDark())
     }
@@ -95,10 +109,9 @@ class CourseVideosHeaderView: UIView {
             observers.append(notificationObserver)
         }
         else {
-            // Remove All Observers except DownloadStarted Notification Observer
             observers = observers.filter { $0.notification ==  NSNotification.Name.OEXDownloadStarted }
         }
-        for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded] {
+        for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXDownloadDeleted] {
             let observer = NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (_, observer, _) -> Void in
                 observer.updateProgressDisplay()
             }
@@ -126,53 +139,20 @@ class CourseVideosHeaderView: UIView {
         title = courseVideosHelper.title
         subTitle = courseVideosHelper.subTitle
         downloadProgressView.progress = courseVideosHelper.progress
-//        if courseVideosHelper.isDownloadedAllVideos {
-//
-//            subTitle = "\(courseVideosHelper.courseVideos.count) Videos, \(courseVideosHelper.totalSize.bytesToMB.twoDecimalPlaces)MB total"
-//
-//            toggleSwitch.isOn = true
-//            downloadProgressView.isHidden = true
-//            downloadSpinner.isHidden = true
-//            imageView.isHidden = false
-//        }
-//        else if courseVideosHelper.isDownloadingAllVideos {
-//
-//            subTitle = "\(courseVideosHelper.newOrPartiallyDownloadedVideos.count) Remaining, \(courseVideosHelper.remainingSize.bytesToMB.twoDecimalPlaces)MB"
-//            downloadProgressView.progress = Float(courseVideosHelper.downloadedSize / courseVideosHelper.totalSize)
-//            toggleSwitch.isOn = true
-//            downloadProgressView.isHidden = false
-//            downloadSpinner.isHidden = false
-//            imageView.isHidden = true
-//
-//        }
-//        else {
-//            if courseVideosHelper.isDownloadedAnyVideo ||
-//                courseVideosHelper.isDownloadingAnyVideo {
-//                let remainingSize = courseVideosHelper.totalSize - courseVideosHelper.fullyDownloadedVideosSize
-//                subTitle = "\(courseVideosHelper.newOrPartiallyDownloadedVideos.count) Remaining, \(remainingSize.bytesToMB.twoDecimalPlaces)MB"
-//            }
-//            else {
-//                subTitle = "\(courseVideosHelper.courseVideos.count) videos, \(courseVideosHelper.totalSize.bytesToMB.twoDecimalPlaces)MB total"
-//            }
-//
-//            toggleSwitch.isOn = false
-//            downloadProgressView.isHidden = true
-//            downloadSpinner.isHidden = true
-//            imageView.isHidden = false
-//        }
     }
     
     private func switchToggled(){
         toggleAction?.cancel()
-        toggleAction = nil
-        toggleAction = toggleSwitch.isOn ? DispatchWorkItem { self.startDownloading() }
-            : DispatchWorkItem { self.stopAndDeleteDownloads() }
         if toggleSwitch.isOn {
+            toggleAction = DispatchWorkItem { self.startDownloading() }
             DispatchQueue.main.async(execute: toggleAction!)
         }
         else {
+            toggleAction = DispatchWorkItem { self.stopAndDeleteDownloads() }
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + toggleActionDelay, execute: toggleAction!)
+            OEXAnalytics.shared().trackBulkDownloadToggle(on: false, courseID: courseVideosHelper.course.course_id ?? "", totalVideosCount: courseVideosHelper.courseVideos.count, remainingVideosCount: courseVideosHelper.newVideos.count)
         }
+        
     }
     
     private func startDownloading() {
@@ -183,6 +163,11 @@ class CourseVideosHeaderView: UIView {
                     owner.toggleAction = nil
                     owner.updateProgressDisplay()
                     owner.addObservers(exceptDownloadStarted: true)
+                }
+            }
+            else {
+                if let owner = self {
+                    OEXAnalytics.shared().trackBulkDownloadToggle(on: true, courseID: owner.courseVideosHelper.course.course_id ?? "", totalVideosCount: owner.courseVideosHelper.courseVideos.count, remainingVideosCount: owner.courseVideosHelper.newVideos.count)
                 }
             }
         }
@@ -291,15 +276,5 @@ class CourseVideosHeaderView: UIView {
         set {
             subTitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: newValue)
         }
-    }
-}
-
-extension Double {
-    var bytesToMB: Double {
-        return self / 1024 / 1024
-    }
-    
-    var twoDecimalPlaces: Double {
-        return (100 * self).rounded() / 100.0
     }
 }
