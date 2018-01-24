@@ -318,6 +318,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 make.width.equalTo(screenWidth)
                 make.top.equalTo(headerContainer)
             }
+            
             if let courseCertificateView = courseCertificateView {
                 courseCertificateView.snp_remakeConstraints { (make) -> Void in
                     make.trailing.equalTo(courseCard)
