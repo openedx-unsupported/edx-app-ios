@@ -769,3 +769,9 @@
 "WIFI_ONLY_DETAIL_MESSAGE" = "Only download content when Wi-Fi is turned on";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
+/*Detail message for bulk download Toggle*/
+"BULK_DOWNLOAD_ALL_HINT" = "Double tap to download all videos.";
+/*Detail message for bulk download Toggle when downloading in progress*/
+"BULK_DOWNLOAD_CANCEL_AND_DELETE_HINT" = "Double tap to cancel downloading and delete all videos.";
+/*Detail message for bulk download Toggle if all videos are downloaded*/
+"BULK_DOWNLOAD_DELETE_ALL_HINT" = "Double tap to delete all videos.";

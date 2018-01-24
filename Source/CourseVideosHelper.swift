@@ -58,6 +58,19 @@ class CourseVideosHelper {
         return isDownloadingAllVideos
     }
     
+    var toggleAccessibilityHint: String {
+        return isDownloadedAllVideos ? Strings.bulkDownloadDeleteAllHint : (isDownloadingAllVideos ? Strings.bulkDownloadCancelAndDeleteHint : Strings.bulkDownloadAllHint)
+    }
+    
+    var progressAccessibilityLabel: String {
+       let percentFormatter = NumberFormatter()
+        percentFormatter.numberStyle = NumberFormatter.Style.percent
+        let percentStr = percentFormatter.string(from: NSNumber(value: Float(progress)))!
+        let numeric = Int(progress * 100)
+        return Strings.accessibilityDownloadProgressButton(percentComplete: numeric, formatted: percentStr)
+    }
+    
+    
     var hideProgressBar: Bool {
         return !(toggleOn && !isDownloadedAllVideos)
     }

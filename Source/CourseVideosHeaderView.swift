@@ -50,6 +50,8 @@ class CourseVideosHeaderView: UIView {
     lazy private var showDownloadsButton: UIButton = {
         let button =  UIButton()
         button.accessibilityIdentifier = "showDownloadsButton"
+        button.accessibilityHint = Strings.accessibilityDownloadProgressButtonHint
+        button.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
         return button
     }()
     lazy private var toggleSwitch: UISwitch = {
@@ -96,7 +98,6 @@ class CourseVideosHeaderView: UIView {
     }
     
     // MARK: - Methods -
-    
     func addObservers(exceptDownloadStarted: Bool = false) {
         if !exceptDownloadStarted {
             observers.removeAll()
@@ -138,7 +139,10 @@ class CourseVideosHeaderView: UIView {
         imageView.isHidden = !courseVideosHelper.hideSpinner
         title = courseVideosHelper.title
         subTitle = courseVideosHelper.subTitle
-        downloadProgressView.progress = courseVideosHelper.progress
+        downloadProgressView.setProgress(courseVideosHelper.progress, animated: true)
+        showDownloadsButton.isAccessibilityElement = !courseVideosHelper.hideProgressBar
+        downloadProgressView.accessibilityLabel = courseVideosHelper.progressAccessibilityLabel
+        toggleSwitch.accessibilityHint = courseVideosHelper.toggleAccessibilityHint
     }
     
     private func switchToggled(){
