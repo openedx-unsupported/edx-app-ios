@@ -79,11 +79,11 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         navigationItem.rightBarButtonItems = [shareItem]
     }
     
-    fileprivate func addNavigationItems(withCourse course: OEXCourse, shouldShowProgressBarItem: Bool = true) {
+    fileprivate func addNavigationItems(withCourse course: OEXCourse) {
         if course.course_about != nil && environment.config.courseSharingEnabled {
             addShareButton(withCourse: course)
         }
-        if shouldShowProgressBarItem {
+        if let controller = selectedViewController as? CourseOutlineViewController, controller.courseOutlineMode == .full {
             navigationItem.rightBarButtonItems?.append(progressController.navigationItem())
         }
     }
@@ -230,12 +230,7 @@ extension CourseDashboardTabBarViewController {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
         if let course = course {
-            if let controller = viewController as? CourseOutlineViewController, controller.courseOutlineMode == .full {
-                addNavigationItems(withCourse: course)
-            }
-            else {
-                addNavigationItems(withCourse: course, shouldShowProgressBarItem: false)
-            }
+            addNavigationItems(withCourse: course)
         }
     }
 }

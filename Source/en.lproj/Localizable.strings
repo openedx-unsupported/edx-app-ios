@@ -15,7 +15,9 @@
 /*Bulk Download View Title if all course Videos downloading in progress */
 "DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos...";
 /*Bulk Download View Sub Title if all course Videos downloading in progress */
-"DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB";
+"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB";
+/*Bulk Download View Sub Title if some course Videos downloading in progress or completed */
+"PARTIAL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Videos, {remaining_videos_size}MB";
 /*Bulk Download View Title if all course Videos downloaded */
 "ALL_VIDEOS_DOWNLOADED_TITLE" = "All Videos Downloaded";
 /*Bulk Download View Sub Title if all course Videos downloaded or All videos are needs to be Downloaded */

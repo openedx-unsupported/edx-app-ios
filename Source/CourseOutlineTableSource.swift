@@ -80,6 +80,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.register(CourseSectionTableViewCell.self, forCellReuseIdentifier: CourseSectionTableViewCell.identifier)
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
         configureHeaderView()
+        refreshController.setupInScrollView(scrollView: tableView)
     }
     
     private func configureHeaderView() {
@@ -97,21 +98,17 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             case .video:
                 courseVideosHeaderView = CourseVideosHeaderView(with: course)
                 courseVideosHeaderView?.delegate = self
-                addCourseVideoDownloaderView()
+                if let headerView = courseVideosHeaderView {
+                    headerContainer.addSubview(headerView)
+                }
                 refreshTableHeaderView(lastAccess: false)
                 break
             }
         }
-        refreshController.setupInScrollView(scrollView: tableView)
     }
     
-    func courseVideosHeaderViewDidTapped() {
+    func courseVideosHeaderViewTapped() {
         delegate?.outlineTableControllerChoseShowDownloads(controller: self)
-    }
-    
-    private func addCourseVideoDownloaderView(){
-        guard let courseVideosHeaderView = courseVideosHeaderView else { return }
-        headerContainer.addSubview(courseVideosHeaderView)
     }
     
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
@@ -294,14 +291,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     private func refreshTableHeaderView(lastAccess: Bool) {
         if shouldHideTableViewHeader { return }
+        self.lastAccess = lastAccess
+        lastAccessedView.isHidden = !lastAccess
         
         switch courseOutlineMode {
         case .full:
-            var constraintView: UIView = courseCard
-            
-            self.lastAccess = lastAccess
-            lastAccessedView.isHidden = !lastAccess
-            
+            var constraintView: UIView = courseCard            
             courseCard.snp_remakeConstraints { (make) in
                 let screenWidth = UIScreen.main.bounds.size.width
                 if courseOutlineMode != .full || !environment.config.isTabLayoutEnabled || shouldHideTableViewHeader {

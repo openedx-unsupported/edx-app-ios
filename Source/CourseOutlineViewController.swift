@@ -41,7 +41,7 @@ public class CourseOutlineViewController :
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private var lastAccessedController : CourseLastAccessedController
-    var courseOutlineMode: CourseOutlineMode
+    private(set) var courseOutlineMode: CourseOutlineMode
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     fileprivate var t_hasTriggeredSetLastAccessed = false
@@ -105,6 +105,7 @@ public class CourseOutlineViewController :
         loadStreams()
         
         if courseOutlineMode == .video {
+            // We are doing calculations to show downloading progress on video tab, For this purpose we are observing notifications.
             tableController.courseVideosHeaderView?.addObservers()
         }
     }
@@ -112,6 +113,7 @@ public class CourseOutlineViewController :
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if courseOutlineMode == .video {
+            // As calculations are made to show progress on view. So when any other view apear we stop observing and making calculations for better performance.
             tableController.courseVideosHeaderView?.removeObservers()
         }
     }
