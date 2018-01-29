@@ -383,9 +383,7 @@ static OEXInterface* _sharedInterface = nil;
         if(video.summary.downloadURL.length > 0 && video.downloadState == OEXDownloadStateNew) {
             [self downloadAllTranscriptsForVideo:video];
             [self addVideoForDownload:video completionHandler:^(BOOL success){
-                if (array.lastObject.summary.videoID && video.summary.videoID && array.lastObject.summary.videoID == video.summary.videoID) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadStartedNotification object:nil];
-                }
             }];
             count++;
         }

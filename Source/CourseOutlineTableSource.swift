@@ -134,7 +134,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
         
         if courseOutlineMode == .video {
-            courseVideosHeaderView?.updateProgressDisplay()
+            courseVideosHeaderView?.updateView()
         }
     }
     

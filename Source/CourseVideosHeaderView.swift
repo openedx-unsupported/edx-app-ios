@@ -9,9 +9,10 @@
 import UIKit
 
 protocol CourseVideosHeaderViewDelegate: class {
-    func courseVideosHeaderViewDidTapped()
+    func courseVideosHeaderViewTapped()
 }
 
+// To remove specific observers we need reference of notification and observer as well.
 fileprivate struct NotificationObserver {
     var notification: NSNotification.Name
     var observer: Removable
@@ -20,8 +21,9 @@ fileprivate struct NotificationObserver {
 class CourseVideosHeaderView: UIView {
     
     static var height: CGFloat = 72.0
+    // We need to execute deletion (on turn off switch) after some delay to avoid accidental deletion.
     private let toggleActionDelay = 5.0 // In Seconds
-    private let courseVideosHelper: CourseVideosHelper
+    private let bulkDownloadHelper: BulkDownloadHelper
     private var toggleAction: DispatchWorkItem?
     private var observers:[NotificationObserver] = []
     weak var delegate: CourseVideosHeaderViewDelegate?
@@ -29,39 +31,39 @@ class CourseVideosHeaderView: UIView {
     // MARK: - UI Properties -
     lazy private var imageView: UIImageView = {
         let image = UIImageView()
-        image.accessibilityIdentifier = "imageView"
+        image.accessibilityIdentifier = "CourseVideosHeaderView:image-view"
         return image
     }()
-    private let downloadSpinner: SpinnerView = {
+    private let spinner: SpinnerView = {
         let spinner = SpinnerView(size: .Medium, color: .Primary)
-        spinner.accessibilityIdentifier = "downloadSpinner"
+        spinner.accessibilityIdentifier = "CourseVideosHeaderView:spinner"
         return spinner
     }()
     lazy private var titleLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "titleLabel"
+        label.accessibilityIdentifier = "CourseVideosHeaderView:title-label"
         return label
     }()
     lazy private var subTitleLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "subTitleLabel"
+        label.accessibilityIdentifier = "CourseVideosHeaderView:sub-title-label"
         return label
     }()
     lazy private var showDownloadsButton: UIButton = {
         let button =  UIButton()
-        button.accessibilityIdentifier = "showDownloadsButton"
+        button.accessibilityIdentifier = "CourseVideosHeaderView:show-downloads-button"
         button.accessibilityHint = Strings.accessibilityDownloadProgressButtonHint
         button.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
         return button
     }()
     lazy private var toggleSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
-        toggleSwitch.accessibilityIdentifier = "toggleSwitch"
+        toggleSwitch.accessibilityIdentifier = "CourseVideosHeaderView:toggle-switch"
         toggleSwitch.onTintColor = self.styles.utilitySuccessBase()
         toggleSwitch.tintColor = self.styles.neutralLight()
         toggleSwitch.oex_addAction({[weak self] _ in
             if let owner = self {
-                owner.removeObservers(exceptDownloadStarted: true)
+//                owner.removeObservers()
                 owner.switchToggled()
             }
             }, for: .valueChanged)
@@ -69,7 +71,7 @@ class CourseVideosHeaderView: UIView {
     }()
     lazy private var downloadProgressView: UIProgressView = {
         let progressView = UIProgressView()
-        progressView.accessibilityIdentifier = "downloadProgressView"
+        progressView.accessibilityIdentifier = "CourseVideosHeaderView:download-progress-view"
         progressView.tintColor = self.styles.utilitySuccessBase()
         progressView.trackTintColor = self.styles.neutralXLight()
         return progressView
@@ -86,9 +88,58 @@ class CourseVideosHeaderView: UIView {
         return OEXTextStyle(weight: .normal, size: .base, color : styles.neutralDark())
     }
     
+    // MARK: - Properties -
+    
+    private var toggleOn: Bool {
+        return bulkDownloadHelper.state == .downloading || bulkDownloadHelper.state == .downloaded
+    }
+    
+    private var title: String {
+        switch bulkDownloadHelper.state {
+        case .downloaded:
+            return Strings.allVideosDownloadedTitle
+        case .downloading:
+            return Strings.downloadingVideosTitle
+        default:
+            return Strings.downloadToDeviceTitle
+        }
+    }
+    
+    private var subTitle: String {
+        switch bulkDownloadHelper.state {
+        case .partial:
+            return Strings.partialDownloadingVideosSubTitle(remainingVideosCount: "\(bulkDownloadHelper.partialAndNewVideosCount)", remainingVideosSize: "\(bulkDownloadHelper.videoSizeForStatus)")
+        case .downloading:
+            return Strings.partialDownloadingVideosSubTitle(remainingVideosCount: "\(bulkDownloadHelper.partialAndNewVideosCount)", remainingVideosSize: "\(bulkDownloadHelper.videoSizeForStatus)")
+        default:
+            return Strings.allVideosSubTitle(videosCount: "\(bulkDownloadHelper.courseVideos.count)", videosSize: "\(bulkDownloadHelper.videoSizeForStatus)")
+        }
+    }
+    
+    private var toggleAccessibilityHint: String {
+        switch bulkDownloadHelper.state {
+        case .downloaded:
+            return Strings.bulkDownloadDeleteAllHint
+        case .downloading:
+            return Strings.bulkDownloadCancelAndDeleteHint
+        default:
+            return Strings.bulkDownloadAllHint
+        }
+    }
+    
+    var progressAccessibilityLabel: String? {
+        let percentFormatter = NumberFormatter()
+        percentFormatter.numberStyle = NumberFormatter.Style.percent
+        if let percentStr = percentFormatter.string(from: NSNumber(value: bulkDownloadHelper.progress)) {
+            let numeric = Int(bulkDownloadHelper.progress * 100)
+            return Strings.accessibilityDownloadProgressButton(percentComplete: numeric, formatted: percentStr)
+        }
+        return nil
+    }
+    
     // MARK: - Initializers -
     init(with course: OEXCourse) {
-        courseVideosHelper = CourseVideosHelper(with: course)
+        bulkDownloadHelper = BulkDownloadHelper(with: course)
         super.init(frame: .zero)
         configureView()
     }
@@ -98,51 +149,66 @@ class CourseVideosHeaderView: UIView {
     }
     
     // MARK: - Methods -
-    func addObservers(exceptDownloadStarted: Bool = false) {
-        if !exceptDownloadStarted {
-            observers.removeAll()
-            let notification = NSNotification.Name.OEXDownloadStarted
-            let observer = NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (_, observer, _) in
-                observer.toggleAction = nil
-                observer.addObservers(exceptDownloadStarted: true)
+    func addObservers() {
+        for notification in [NSNotification.Name.OEXDownloadStarted, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXDownloadDeleted] {
+            addObserver(notification: notification)
+        }
+    }
+    
+    func removeObservers() {
+        for notificationObserver in observers {
+            removeObserver(notificationObserver: notificationObserver)
+        }
+        observers.removeAll()
+    }
+    
+    fileprivate func addObserver(notification: Notification.Name) {
+        let observer = NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (notification, observer, _) -> Void in
+            observer.updateView()
+        }
+        let notificationObserver = NotificationObserver(notification: notification, observer: observer)
+        observers.append(notificationObserver)
+    }
+    
+    fileprivate func removeObserver(notificationObserver: NotificationObserver) {
+        notificationObserver.observer.remove()
+        NotificationCenter.default.removeObserver(self, name: notificationObserver.notification, object: nil)
+    }
+    
+    fileprivate func handleProgressChangeObserver() {
+        let progressChangedNotification = NSNotification.Name.OEXDownloadProgressChanged
+        if bulkDownloadHelper.state == .downloading {
+            let alreadyAdded = observers.reduce(false) {(acc, observer) in
+                return acc || observer.notification == progressChangedNotification
             }
-            let notificationObserver = NotificationObserver(notification: notification, observer: observer)
-            observers.append(notificationObserver)
+            if !alreadyAdded {
+                addObserver(notification: progressChangedNotification)
+            }
         }
         else {
-            observers = observers.filter { $0.notification ==  NSNotification.Name.OEXDownloadStarted }
-        }
-        for notification in [NSNotification.Name.OEXDownloadProgressChanged, NSNotification.Name.OEXDownloadEnded, NSNotification.Name.OEXDownloadDeleted] {
-            let observer = NotificationCenter.default.oex_addObserver(observer: self, name: notification.rawValue) { (_, observer, _) -> Void in
-                observer.updateProgressDisplay()
+            for notificationObserver in observers {
+                if notificationObserver.notification == progressChangedNotification {
+                    removeObserver(notificationObserver: notificationObserver)
+                }
             }
-            let notificationObserver = NotificationObserver(notification: notification, observer: observer)
-            observers.append(notificationObserver)
+            observers = observers.filter { $0.notification != progressChangedNotification }
         }
     }
     
-    func removeObservers(exceptDownloadStarted: Bool = false) {
-        let removeableObservers = exceptDownloadStarted ? observers.filter { $0.notification !=  NSNotification.Name.OEXDownloadStarted } : observers
-        for notificationObserver in removeableObservers {
-            notificationObserver.observer.remove()
-            NotificationCenter.default.removeObserver(self, name: notificationObserver.notification, object: nil)
-        }
-    }
-    
-    func updateProgressDisplay() {
+    func updateView() {
         guard toggleAction == nil else { return }
-        
-        courseVideosHelper.refresh()
-        toggleSwitch.isOn = courseVideosHelper.toggleOn
-        downloadProgressView.isHidden = courseVideosHelper.hideProgressBar
-        downloadSpinner.isHidden = courseVideosHelper.hideSpinner
-        imageView.isHidden = !courseVideosHelper.hideSpinner
-        title = courseVideosHelper.title
-        subTitle = courseVideosHelper.subTitle
-        downloadProgressView.setProgress(courseVideosHelper.progress, animated: true)
-        showDownloadsButton.isAccessibilityElement = !courseVideosHelper.hideProgressBar
-        downloadProgressView.accessibilityLabel = courseVideosHelper.progressAccessibilityLabel
-        toggleSwitch.accessibilityHint = courseVideosHelper.toggleAccessibilityHint
+        bulkDownloadHelper.refreshState()
+        toggleSwitch.isOn = toggleOn
+        downloadProgressView.isHidden = bulkDownloadHelper.state != .downloading
+        spinner.isHidden = bulkDownloadHelper.state != .downloading
+        imageView.isHidden = bulkDownloadHelper.state == .downloading
+        titleLabel.attributedText = titleLabelStyle.attributedString(withText: title)
+        subTitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: subTitle)
+        downloadProgressView.setProgress(bulkDownloadHelper.progress, animated: true)
+        showDownloadsButton.isAccessibilityElement = bulkDownloadHelper.state == .downloading
+        downloadProgressView.accessibilityLabel = progressAccessibilityLabel
+        toggleSwitch.accessibilityHint = toggleAccessibilityHint
+        handleProgressChangeObserver()
     }
     
     private func switchToggled(){
@@ -154,36 +220,30 @@ class CourseVideosHeaderView: UIView {
         else {
             toggleAction = DispatchWorkItem { self.stopAndDeleteDownloads() }
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + toggleActionDelay, execute: toggleAction!)
-            OEXAnalytics.shared().trackBulkDownloadToggle(on: false, courseID: courseVideosHelper.course.course_id ?? "", totalVideosCount: courseVideosHelper.courseVideos.count, remainingVideosCount: courseVideosHelper.newVideos.count)
+            OEXAnalytics.shared().trackBulkDownloadToggle(on: false, courseID: bulkDownloadHelper.course.course_id ?? "", totalVideosCount: bulkDownloadHelper.courseVideos.count, remainingVideosCount: bulkDownloadHelper.newVideosCount)
         }
         
     }
     
     private func startDownloading() {
-        OEXInterface.shared().downloadVideos(courseVideosHelper.newVideos) {
+        OEXInterface.shared().downloadVideos(bulkDownloadHelper.courseVideos) {
             [weak self] cancelled in
+            self?.toggleAction = nil
             if cancelled {
-                if let owner = self {
-                    owner.toggleAction = nil
-                    owner.updateProgressDisplay()
-                    owner.addObservers(exceptDownloadStarted: true)
-                }
+                self?.updateView()
             }
             else {
                 if let owner = self {
-                    OEXAnalytics.shared().trackBulkDownloadToggle(on: true, courseID: owner.courseVideosHelper.course.course_id ?? "", totalVideosCount: owner.courseVideosHelper.courseVideos.count, remainingVideosCount: owner.courseVideosHelper.newVideos.count)
+                    OEXAnalytics.shared().trackBulkDownloadToggle(on: true, courseID: owner.bulkDownloadHelper.course.course_id ?? "", totalVideosCount: owner.bulkDownloadHelper.courseVideos.count, remainingVideosCount: owner.bulkDownloadHelper.newVideosCount)
                 }
             }
         }
     }
     
     private func stopAndDeleteDownloads() {
-        OEXInterface.shared().deleteDownloadedVideos(courseVideosHelper.partialyOrFullyDownloadedVideos) { [weak self] _ in
-            if let owner = self {
-                owner.toggleAction = nil
-                owner.updateProgressDisplay()
-                owner.addObservers(exceptDownloadStarted: true)
-            }
+        OEXInterface.shared().deleteDownloadedVideos(bulkDownloadHelper.courseVideos) { [weak self] _ in
+            self?.toggleAction = nil
+            self?.updateView()
         }
     }
     
@@ -194,15 +254,15 @@ class CourseVideosHeaderView: UIView {
         imageView.image = Icon.CourseVideos.imageWithFontSize(size: 20)
         
         showDownloadsButton.oex_addAction({ [weak self] _ in
-            if let owner = self, owner.toggleSwitch.isOn && !owner.courseVideosHelper.isDownloadedAllVideos  {
-                owner.delegate?.courseVideosHeaderViewDidTapped()
+            if let owner = self, owner.toggleSwitch.isOn && owner.bulkDownloadHelper.state == .downloading {
+                    owner.delegate?.courseVideosHeaderViewTapped()
             }
             }, for: .touchUpInside)
     }
     
     private func addSubviews() {
         addSubview(imageView)
-        addSubview(downloadSpinner)
+        addSubview(spinner)
         addSubview(titleLabel)
         addSubview(subTitleLabel)
         addSubview(showDownloadsButton)
@@ -220,7 +280,7 @@ class CourseVideosHeaderView: UIView {
             make.width.equalTo(20)
         }
         
-        downloadSpinner.snp_makeConstraints { make in
+        spinner.snp_makeConstraints { make in
             make.edges.equalTo(imageView)
         }
         
@@ -264,21 +324,21 @@ class CourseVideosHeaderView: UIView {
         }
     }
     
-    var title: String? {
-        get {
-            return titleLabel.text
-        }
-        set {
-            titleLabel.attributedText = titleLabelStyle.attributedString(withText: newValue)
-        }
-    }
-    
-    var subTitle: String? {
-        get {
-            return subTitleLabel.text
-        }
-        set {
-            subTitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: newValue)
-        }
-    }
+//    var title: String? {
+//        get {
+//            return titleLabel.text
+//        }
+//        set {
+//            titleLabel.attributedText = titleLabelStyle.attributedString(withText: newValue)
+//        }
+//    }
+//
+//    var subTitle: String? {
+//        get {
+//            return subTitleLabel.text
+//        }
+//        set {
+//            subTitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: newValue)
+//        }
+//    }
 }
