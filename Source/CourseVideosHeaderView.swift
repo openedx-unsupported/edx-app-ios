@@ -22,10 +22,11 @@ class CourseVideosHeaderView: UIView {
     
     static var height: CGFloat = 72.0
     // We need to execute deletion (on turn off switch) after some delay to avoid accidental deletion.
-    private let toggleActionDelay = 2.0 // In Seconds
+    private let toggleActionDelay = 4.0 // In Seconds
     private let bulkDownloadHelper: BulkDownloadHelper
     private var toggleAction: DispatchWorkItem?
     private var observers:[NotificationObserver] = []
+    private let interface: OEXInterface
     weak var delegate: CourseVideosHeaderViewDelegate?
     
     // MARK: - UI Properties -
@@ -58,6 +59,14 @@ class CourseVideosHeaderView: UIView {
         button.accessibilityIdentifier = "CourseVideosHeaderView:show-downloads-button"
         button.accessibilityHint = Strings.accessibilityDownloadProgressButtonHint
         button.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
+        button.oex_addAction({
+            [weak self] _ in
+            if let owner = self,
+                owner.toggleSwitch.isOn &&
+                owner.bulkDownloadHelper.state == .downloading {
+                owner.delegate?.courseVideosHeaderViewTapped()
+            }
+        }, for: .touchUpInside)
         return button
     }()
     lazy private var toggleSwitch: UISwitch = {
@@ -66,8 +75,8 @@ class CourseVideosHeaderView: UIView {
         toggleSwitch.onTintColor = self.styles.utilitySuccessBase()
         toggleSwitch.tintColor = self.styles.neutralLight()
         toggleSwitch.oex_addAction({[weak self] _ in
-                self?.switchToggled()
-            }, for: .valueChanged)
+            self?.switchToggled()
+        }, for: .valueChanged)
         return toggleSwitch
     }()
     lazy private var downloadProgressView: UIProgressView = {
@@ -124,8 +133,9 @@ class CourseVideosHeaderView: UIView {
     }
     
     // MARK: - Initializers -
-    init(with course: OEXCourse) {
-        bulkDownloadHelper = BulkDownloadHelper(with: course)
+    init(with course: OEXCourse, interface: OEXInterface) {
+        self.interface = interface
+        bulkDownloadHelper = BulkDownloadHelper(with: course, interface: interface)
         super.init(frame: .zero)
         configureView()
     }
@@ -215,7 +225,7 @@ class CourseVideosHeaderView: UIView {
     }
     
     private func startDownloading() {
-        OEXInterface.shared().downloadVideos(bulkDownloadHelper.courseVideos) {
+        interface.downloadVideos(bulkDownloadHelper.courseVideos) {
             [weak self] cancelled in
             self?.toggleAction = nil
             // User turn on switch for course which has large download, but after watching warning cancel the bulk download, for this we need to update headerview accordingly
@@ -231,7 +241,7 @@ class CourseVideosHeaderView: UIView {
     }
     
     private func stopAndDeleteDownloads() {
-        OEXInterface.shared().deleteDownloadedVideos(bulkDownloadHelper.courseVideos) { [weak self] _ in
+        interface.deleteDownloadedVideos(bulkDownloadHelper.courseVideos) { [weak self] _ in
             self?.toggleAction = nil
             self?.refreshView()
         }
@@ -241,12 +251,6 @@ class CourseVideosHeaderView: UIView {
         backgroundColor = styles.neutralXXLight()
         addSubviews()
         imageView.image = Icon.CourseVideos.imageWithFontSize(size: 20)
-        
-        showDownloadsButton.oex_addAction({ [weak self] _ in
-            if let owner = self, owner.toggleSwitch.isOn && owner.bulkDownloadHelper.state == .downloading {
-                owner.delegate?.courseVideosHeaderViewTapped()
-            }
-            }, for: .touchUpInside)
     }
     
     private func addSubviews() {

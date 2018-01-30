@@ -96,10 +96,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 }
                 break
             case .video:
-                courseVideosHeaderView = CourseVideosHeaderView(with: course)
-                courseVideosHeaderView?.delegate = self
-                if let headerView = courseVideosHeaderView {
-                    headerContainer.addSubview(headerView)
+                if let interface = environment.interface {
+                    courseVideosHeaderView = CourseVideosHeaderView(with: course, interface: interface)
+                    courseVideosHeaderView?.delegate = self
+                    if let headerView = courseVideosHeaderView {
+                        headerContainer.addSubview(headerView)
+                    }
                 }
                 refreshTableHeaderView(lastAccess: false)
                 break

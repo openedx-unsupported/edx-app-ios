@@ -19,9 +19,10 @@ enum BulkDownloadState {
 class BulkDownloadHelper {
     
     let course: OEXCourse
+    let interface: OEXInterface
     var state: BulkDownloadState = .new
     var courseVideos: [OEXHelperVideoDownload] {
-        return OEXInterface.shared().downloadableVideos(of: course)
+        return interface.downloadableVideos(of: course)
     }
     
     var newVideosCount: Int {
@@ -65,8 +66,9 @@ class BulkDownloadHelper {
         return totalSize == 0 ? 0.0 : Float(downloadedSize / totalSize)
     }
     
-    init(with course: OEXCourse) {
+    init(with course: OEXCourse, interface: OEXInterface) {
         self.course = course
+        self.interface = interface
         refreshState()
     }
     
