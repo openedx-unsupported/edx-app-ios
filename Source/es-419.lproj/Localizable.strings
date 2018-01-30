@@ -10,18 +10,24 @@
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Descargar";
-/*Bulk Download View Title if all course Videos are not downloaded yet */
+/*Title for bulk download view when in new or partial state */
 "DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
-/*Bulk Download View Title if all course Videos downloading in progress */
+/*Title for bulk download view when in downloading state */
 "DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos...";
-/*Bulk Download View Sub Title if all course Videos downloading in progress */
+/*Title for Accessibility label for bulk download view when in downloading state */
+"DOWNLOADING_VIDEOS_TITLE_FOR_ACCESSIBILITY_LABEL" = "Downloading Videos";
+/*Subtitle for bulk download view when in downloading state */
 "ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB";
-/*Bulk Download View Sub Title if some course Videos downloading in progress or completed */
-"PARTIAL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Videos, {remaining_videos_size}MB";
-/*Bulk Download View Title if all course Videos downloaded */
+/*Subtitle for bulk download view when in partial state - {count} is single video*/
+"PARTIAL_DOWNLOADING_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {remaining_videos_size}MB";
+/*Subtitle for bulk download view when in partial state - {count} is number of videos*/
+"PARTIAL_DOWNLOADING_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {remaining_videos_size}MB";
+/*Title for bulk download view when in downloaded state */
 "ALL_VIDEOS_DOWNLOADED_TITLE" = "All Videos Downloaded";
-/*Bulk Download View Sub Title if all course Videos downloaded or All videos are needs to be Downloaded */
-"ALL_VIDEOS_SUB_TITLE" = "{videos_count} Videos, {videos_size}MB total";
+/*Subtitle for bulk download view when in new or downloaded state - {count} is single video*/
+"ALL_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
+/*Subtitle for bulk download view when in new or downloaded state - {count} is number of videos*/
+"ALL_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {videos_size}MB total";
 /* Label for check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_CHECKED" = "Marcado";
 /* Label for check box when it's checked. */
@@ -771,9 +777,3 @@
 "WIFI_ONLY_DETAIL_MESSAGE" = "Sólo descargar contenido cuando el Wifi está encendido";
 /* Alert dialog button title to confirm an action */
 "YES"="Si";
-/*Detail message for bulk download Toggle*/
-"BULK_DOWNLOAD_ALL_HINT" = "Double tap to download all videos.";
-/*Detail message for bulk download Toggle when downloading in progress*/
-"BULK_DOWNLOAD_CANCEL_AND_DELETE_HINT" = "Double tap to cancel downloading and delete all videos.";
-/*Detail message for bulk download Toggle if all videos are downloaded*/
-"BULK_DOWNLOAD_DELETE_ALL_HINT" = "Double tap to delete all videos.";

@@ -134,7 +134,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         }
         
         if courseOutlineMode == .video {
-            courseVideosHeaderView?.updateView()
+            courseVideosHeaderView?.refreshView()
         }
     }
     
@@ -337,6 +337,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 make.edges.equalTo(headerContainer)
                 make.height.equalTo(CourseVideosHeaderView.height)
             })
+            courseVideosHeaderView?.refreshView()
             break
         }
         tableView.setAndLayoutTableHeaderView(header: headerContainer)

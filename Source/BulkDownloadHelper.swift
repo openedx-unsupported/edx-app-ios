@@ -19,7 +19,7 @@ enum BulkDownloadState {
 class BulkDownloadHelper {
     
     let course: OEXCourse
-    var state: BulkDownloadState = .none
+    var state: BulkDownloadState = .new
     var courseVideos: [OEXHelperVideoDownload] {
         return OEXInterface.shared().downloadableVideos(of: course)
     }

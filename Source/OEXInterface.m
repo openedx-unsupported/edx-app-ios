@@ -343,7 +343,9 @@ static OEXInterface* _sharedInterface = nil;
     double totalSpaceRequired = 0;
     //Total space
     for(OEXHelperVideoDownload* video in videos) {
-        totalSpaceRequired += [video.summary.size doubleValue];
+        if (video.downloadState == OEXDownloadStateNew) {
+            totalSpaceRequired += [video.summary.size doubleValue];
+        }
     }
     totalSpaceRequired = totalSpaceRequired / 1024 / 1024 / 1024;
     OEXAppDelegate* appD = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -379,13 +381,20 @@ static OEXInterface* _sharedInterface = nil;
     }
     
     NSInteger count = 0;
+    __block NSInteger downloadStartedCount = 0;
     for(OEXHelperVideoDownload* video in array) {
         if(video.summary.downloadURL.length > 0 && video.downloadState == OEXDownloadStateNew) {
             [self downloadAllTranscriptsForVideo:video];
             [self addVideoForDownload:video completionHandler:^(BOOL success){
+                downloadStartedCount++;
+                if (array.count == downloadStartedCount) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:OEXDownloadStartedNotification object:nil];
+                }
             }];
             count++;
+        }
+        else {
+            downloadStartedCount++;
         }
     }
     if (downloadVideosCompletionHandler) {
