@@ -251,6 +251,7 @@ class CourseVideosHeaderView: UIView {
         backgroundColor = styles.neutralXXLight()
         addSubviews()
         imageView.image = Icon.CourseVideos.imageWithFontSize(size: 20)
+        accessibilityElements = [toggleSwitch, showDownloadsButton]
     }
     
     private func addSubviews() {
