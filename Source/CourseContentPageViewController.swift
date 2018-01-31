@@ -320,7 +320,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
 
     override public var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle(barStyle : self.navigationController?.navigationBar.barStyle)
+        return UIStatusBarStyle(barStyle: .default)
     }
     
     override public var childViewControllerForStatusBarStyle: UIViewController? {
