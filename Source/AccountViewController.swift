@@ -122,7 +122,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        weak var weakSelf = self
         if let option = AccountviewOptions(rawValue: indexPath.row) {
             switch option {
             case .UserSettings:
@@ -135,8 +134,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             case .Logout:
                 OEXFileUtility.nukeUserPIIData()
                 if (environment.config.isTabLayoutEnabled) {
-                    weakSelf?.dismiss(animated: true, completion: {
-                        weakSelf?.environment.router?.logout()
+                    dismiss(animated: true, completion: {
+                        [weak self] in self?.environment.router?.logout()
                     })
                 } else {
                     environment.router?.logout()
