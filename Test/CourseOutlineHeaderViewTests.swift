@@ -20,6 +20,17 @@ class CourseOutlineHeaderViewTests : SnapshotTestCase {
         
         headerInfoView.layoutIfNeeded()
         assertSnapshotValidWithContent(headerInfoView)
-
     }
+    
+    func testCourseVideosHeaderView() {
+        let course = OEXCourse.accessibleTestCourse()
+        let interface = OEXInterface.shared()
+        interface.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        let courseVideosHeaderView = CourseVideosHeaderView(with: course, interface: interface)
+        courseVideosHeaderView.bounds = CGRect(x: 0, y: 0, width: screenSize.width, height: CourseVideosHeaderView.height)
+        courseVideosHeaderView.refreshView()
+        courseVideosHeaderView.layoutIfNeeded()
+        assertSnapshotValidWithContent(courseVideosHeaderView)
+    }
+    
 }

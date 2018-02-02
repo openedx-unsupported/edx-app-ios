@@ -17,17 +17,13 @@
 /*Accessibility label for bulk download view when in downloading state */
 "DOWNLOADING_VIDEOS_TITLE_FOR_ACCESSIBILITY_LABEL" = "Downloading Videos";
 /*Subtitle for bulk download view when in downloading state */
-"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB";
-/*Subtitle for bulk download view when in partial state - {count} is single video*/
-"PARTIAL_DOWNLOADING_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {remaining_videos_size}MB";
-/*Subtitle for bulk download view when in partial state - {count} is number of videos*/
-"PARTIAL_DOWNLOADING_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {remaining_videos_size}MB";
+"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB total";
 /*Title for bulk download view when in downloaded state */
 "ALL_VIDEOS_DOWNLOADED_TITLE" = "All Videos Downloaded";
-/*Subtitle for bulk download view when in new or downloaded state - {count} is single video*/
-"ALL_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
-/*Subtitle for bulk download view when in new or downloaded state - {count} is number of videos*/
-"ALL_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {videos_size}MB total";
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {videos_size}MB total";
 /* Label for check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_CHECKED" = "Checked";
 /* Label for check box when it's checked. */
