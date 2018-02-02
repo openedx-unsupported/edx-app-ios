@@ -96,12 +96,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 }
                 break
             case .video:
-                if let interface = environment.interface {
+                if let interface = environment.interface, interface.downloadableVideos(of: course).count > 0 {
                     courseVideosHeaderView = CourseVideosHeaderView(with: course, interface: interface)
                     courseVideosHeaderView?.delegate = self
                     if let headerView = courseVideosHeaderView {
                         headerContainer.addSubview(headerView)
                     }
+                }
+                else {
+                    shouldHideTableViewHeader = true
                 }
                 refreshTableHeaderView(lastAccess: false)
                 break
