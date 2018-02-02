@@ -309,9 +309,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 }
                 else {
                     let screenHeight = UIScreen.main.bounds.size.height
-                    let halfScreehHeight = screenHeight / 2
+                    let halfScreenHeight = screenHeight / 2
                     let ratioedHeight = screenWidth * defaultAspectRatio
-                    let _ = (halfScreehHeight > ratioedHeight) ? make.height.equalTo(ratioedHeight): make.height.equalTo(halfScreehHeight)
+                    let _ = (halfScreenHeight > ratioedHeight) ? make.height.equalTo(ratioedHeight): make.height.equalTo(halfScreenHeight)
                 }
                 make.trailing.equalTo(headerContainer)
                 make.leading.equalTo(headerContainer)
