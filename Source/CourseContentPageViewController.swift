@@ -318,11 +318,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
     }
     
-
-    override public var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle(barStyle: .default)
-    }
-    
     override public var childViewControllerForStatusBarStyle: UIViewController? {
         if let controller = viewControllers?.last as? StatusBarOverriding as? UIViewController {
             return controller
