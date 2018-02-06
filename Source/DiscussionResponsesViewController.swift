@@ -475,7 +475,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
         }
     }
-    
+
     // Mark - tableview delegate methods
 
     public func numberOfSections(in tableView: UITableView) -> Int {
@@ -776,8 +776,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         // Basically the reload happens during the next layout pass, which normally happens when you return control to the run loop (after, say, your button action or whatever returns) So one way to run something after the table view reloads is simply to force the table view to perform layout immediately
         tableView.layoutIfNeeded()
         
-        let indexPath = IndexPath(row: responsesDataController.responses.count - 1, section: TableSection.Responses.rawValue)
-        tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+        if tableView.hasRowAtIndexPath(indexPath: IndexPath(row: responsesDataController.responses.count - 1, section: TableSection.Responses.rawValue)) {
+            tableView.scrollToRow(at: IndexPath(row: responsesDataController.responses.count - 1, section: TableSection.Responses.rawValue), at: .top, animated: false)
+        }
     }
     
     private func setupProfileLoader() {
@@ -891,5 +892,11 @@ extension AuthorLabelProtocol {
         }
         
         return NSAttributedString.joinInNaturalLayout(attributedStrings: attributedStrings)
+    }
+}
+
+extension UITableView {
+    func hasRowAtIndexPath(indexPath: IndexPath) -> Bool {
+        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
     }
 }
