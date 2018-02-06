@@ -53,6 +53,13 @@ class WhatsNewContentController: UIViewController {
     }
     
     private func configureViews() {
+        containerView.accessibilityIdentifier = "WhatsNewContentController:container-view"
+        imageContainer.accessibilityIdentifier = "WhatsNewContentController:image-container-view"
+        infoContainer.accessibilityIdentifier = "WhatsNewContentController:info-container-view"
+        screenImageView.accessibilityIdentifier = "WhatsNewContentController:screen-image-view"
+        titleLabel.accessibilityIdentifier = "WhatsNewContentController:title-label"
+        messageLabel.accessibilityIdentifier = "WhatsNewContentController:message-label"
+        
         containerView.backgroundColor = environment.styles.primaryBaseColor()
         screenImageView.contentMode = .scaleAspectFit
         titleLabel.textAlignment = .center

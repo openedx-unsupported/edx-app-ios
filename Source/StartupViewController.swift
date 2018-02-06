@@ -68,6 +68,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         logoImageView.accessibilityLabel = environment.config.platformName()
         logoImageView.isAccessibilityElement = true
         logoImageView.accessibilityTraits = UIAccessibilityTraitImage
+        logoImageView.accessibilityIdentifier = "StartUpViewController:logo-image-view"
         view.addSubview(logoImageView)
 
         logoImageView.snp_makeConstraints { (make) in

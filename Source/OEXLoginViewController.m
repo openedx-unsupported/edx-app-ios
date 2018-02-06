@@ -197,6 +197,7 @@
     if (self.environment.config.isRegistrationEnabled) {
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack)];
         closeButton.accessibilityLabel = [Strings close];
+        closeButton.accessibilityIdentifier = @"LoginViewController:close-bar-button-item";
         self.navigationItem.leftBarButtonItem = closeButton;
     }
     
@@ -210,7 +211,7 @@
     self.tf_Password.textAlignment = NSTextAlignmentNatural;
     self.img_Logo.isAccessibilityElement = YES;
     self.img_Logo.accessibilityLabel = [[OEXConfig sharedConfig] platformName];
-
+    
     NSString* environmentName = self.environment.config.environmentName;
     if(environmentName.length > 0) {
         NSString* appVersion = [NSBundle mainBundle].oex_buildVersionString;
@@ -222,6 +223,27 @@
     
     _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
     _buttonsTitleStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[[OEXStyles sharedStyles] primaryBaseColor]];
+    [self setAccessibilityIdentifiers];
+}
+
+    //setting accessibility identifiers for developer automation use
+- (void)setAccessibilityIdentifiers {
+    self.img_Logo.accessibilityIdentifier = @"LoginViewController:logo-image-view";
+    self.tf_EmailID.accessibilityIdentifier = @"LoginViewController:email-text-field";
+    self.tf_Password.accessibilityIdentifier = @"LoginViewController:password-text-field";
+    self.img_SeparatorEULA.accessibilityIdentifier = @"LoginViewController:separator-image-view";
+    self.lbl_Redirect.accessibilityIdentifier = @"LoginViewController:redirect-label";
+    self.btn_OpenEULA.accessibilityIdentifier = @"LoginViewController:open-eula-button";
+    self.externalAuthContainer.accessibilityIdentifier = @"LoginViewController:external-auth-container-view";
+    self.seperatorLeft.accessibilityIdentifier = @"LoginViewController:left-seperator-image-view";
+    self.seperatorRight.accessibilityIdentifier = @"LoginViewController:right-seperator-image-view";
+    self.btn_TroubleLogging.accessibilityIdentifier = @"LoginViewController:trouble-logging-button";
+    self.btn_Login.accessibilityIdentifier = @"LoginViewController:login-button";
+    self.scroll_Main.accessibilityIdentifier = @"LoginViewController:main-scroll-view";
+    self.img_Map.accessibilityIdentifier = @"LoginViewController:map-image-view";
+    self.activityIndicator.accessibilityIdentifier = @"LoginViewController:activity-indicator";
+    self.versionLabel.accessibilityIdentifier = @"LoginViewController:version-label";
+    self.lbl_OrSignIn.accessibilityIdentifier = @"LoginViewController:sign-in-label";
 }
 
 - (void)navigateBack {
@@ -318,7 +340,7 @@
     self.tf_Password.text = @"";
     self.tf_EmailID.accessibilityLabel = nil;
     self.tf_Password.accessibilityLabel = nil;
-
+    
     self.lbl_Redirect.text = [Strings redirectText];
     self.lbl_Redirect.isAccessibilityElement = NO;
     [self.btn_TroubleLogging setAttributedTitle:[_buttonsTitleStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
@@ -333,7 +355,7 @@
 
     self.btn_OpenEULA.accessibilityTraits = UIAccessibilityTraitLink;
     self.btn_OpenEULA.accessibilityLabel = [NSString stringWithFormat:@"%@,%@",[Strings redirectText], termsText];
-    
+
     [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
     [self.activityIndicator stopAnimating];
 

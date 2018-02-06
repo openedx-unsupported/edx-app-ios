@@ -22,12 +22,18 @@ class RegistrationFormFieldView: UIView {
     let instructionsLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().neutralDark())
     let errorLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().errorLight())
     
+    
+    private var accessibilityIdPrefix: String {
+        return "RegistrationFormFieldView:\(formField?.name ?? "")"
+    }
+    
     // MARK: - UI Properties -
     lazy private var textInputLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.isAccessibilityElement = false
         label.attributedText = self.isRequired ? self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "") \(Strings.asteric)") : self.titleLabelStyle.attributedString(withText: "\(self.formField?.label ?? "")")
+        label.accessibilityIdentifier = "\(self.accessibilityIdPrefix)-text-input-label"
         return label
     }()
     
@@ -38,6 +44,7 @@ class RegistrationFormFieldView: UIView {
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.addTarget(self, action: #selector(RegistrationFormFieldView.valueDidChange), for: .editingChanged)
+        textField.accessibilityIdentifier = "\(self.accessibilityIdPrefix)-text-input-field"
         return textField
     }()
     
@@ -47,6 +54,7 @@ class RegistrationFormFieldView: UIView {
         textArea.autocapitalizationType = .none
         textArea.applyStandardBorderStyle()
         textArea.delegate = self
+        textArea.accessibilityIdentifier = "\(self.accessibilityIdPrefix)-text-input-area"
         return textArea
     }()
     
@@ -54,6 +62,7 @@ class RegistrationFormFieldView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.isAccessibilityElement = false
+        label.accessibilityIdentifier = "\(self.accessibilityIdPrefix)-error-label"
         return label
     }()
     
@@ -62,6 +71,7 @@ class RegistrationFormFieldView: UIView {
         label.numberOfLines = 0
         label.isAccessibilityElement = false
         label.attributedText = self.instructionsLabelStyle.attributedString(withText: self.formField?.instructions ?? "")
+        label.accessibilityIdentifier = "\(self.accessibilityIdPrefix)-instructions-label"
         return label
     }()
     
