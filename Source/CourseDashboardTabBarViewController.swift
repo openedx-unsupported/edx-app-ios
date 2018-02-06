@@ -20,7 +20,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
     }()
-    private let shareButton = UIButton(type: .system)
+    private let shareButton = UIButton(frame: CGRect(x: 0, y: 0, width: 26, height: 26))
     
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
@@ -64,12 +64,10 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     fileprivate func addNavigationItems(withCourse course: OEXCourse) {
         var navigationItems: [UIBarButtonItem] = []
         if course.course_about != nil && environment.config.courseSharingEnabled {
-            shareButton.setImage(UIImage(named: "shareCourse.png"), for: .normal)
+            let shareImage = UIImage(named: "shareCourse.png")?.withRenderingMode(.alwaysTemplate)
+            shareButton.setImage(shareImage, for: .normal)
+            shareButton.tintColor = OEXStyles.shared().primaryBaseColor()
             shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
-            shareButton.snp_makeConstraints(closure: { (make) -> Void in
-                make.height.equalTo(26)
-                make.width.equalTo(26)
-            })
             shareButton.oex_removeAllActions()
             shareButton.oex_addAction({[weak self] _ in
                 self?.shareCourse(course: course)
