@@ -22,7 +22,7 @@ extension CourseBlockDisplayType {
 }
 
 // Container for scrolling horizontally between different screens of course content
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, InterfaceOrientationOverriding {
     
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXRouterProvider
     
@@ -318,23 +318,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
     }
     
-    override public var childViewControllerForStatusBarStyle: UIViewController? {
-        if let controller = viewControllers?.last as? StatusBarOverriding as? UIViewController {
-            return controller
-        }
-        else {
-            return super.childViewControllerForStatusBarStyle
-        }
-    }
-    
-    override public var childViewControllerForStatusBarHidden: UIViewController? {
-        if let controller = viewControllers?.last as? StatusBarOverriding as? UIViewController {
-            return controller
-        }
-        else {
-            return super.childViewControllerForStatusBarHidden
-        }
-        
+    override public var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle(barStyle : self.navigationController?.navigationBar.barStyle)
     }
     
     override public var shouldAutorotate: Bool {
