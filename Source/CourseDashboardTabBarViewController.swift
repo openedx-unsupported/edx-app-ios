@@ -61,31 +61,27 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         return .allButUpsideDown
     }
     
-    private func addShareButton(withCourse course: OEXCourse) {
-        shareButton.setImage(UIImage(named: "shareCourse.png"), for: .normal)
-        shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
-        
-        shareButton.snp_makeConstraints(closure: { (make) -> Void in
-            make.height.equalTo(26)
-            make.width.equalTo(26)
-        })
-        
-        shareButton.oex_removeAllActions()
-        shareButton.oex_addAction({[weak self] _ in
-            self?.shareCourse(course: course)
-            }, for: .touchUpInside)
-        
-        let shareItem = UIBarButtonItem(customView: shareButton)
-        navigationItem.rightBarButtonItems = [shareItem]
-    }
-    
     fileprivate func addNavigationItems(withCourse course: OEXCourse) {
+        var navigationItems: [UIBarButtonItem] = []
         if course.course_about != nil && environment.config.courseSharingEnabled {
-            addShareButton(withCourse: course)
+            shareButton.setImage(UIImage(named: "shareCourse.png"), for: .normal)
+            shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
+            shareButton.snp_makeConstraints(closure: { (make) -> Void in
+                make.height.equalTo(26)
+                make.width.equalTo(26)
+            })
+            shareButton.oex_removeAllActions()
+            shareButton.oex_addAction({[weak self] _ in
+                self?.shareCourse(course: course)
+                }, for: .touchUpInside)
+            
+            let shareItem = UIBarButtonItem(customView: shareButton)
+            navigationItems.append(shareItem)
         }
         if let controller = selectedViewController as? CourseOutlineViewController, controller.courseOutlineMode == .full {
-            navigationItem.rightBarButtonItems?.append(progressController.navigationItem())
+            navigationItems.append(progressController.navigationItem())
         }
+        navigationItem.rightBarButtonItems = navigationItems
     }
     
     private func prepareTabViewData(withCourse course: OEXCourse) {

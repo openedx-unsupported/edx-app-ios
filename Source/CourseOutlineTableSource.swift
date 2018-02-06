@@ -22,7 +22,7 @@ protocol CourseOutlineTableControllerDelegate : class {
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate {
 
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     weak var delegate : CourseOutlineTableControllerDelegate?
     private let environment : Environment
@@ -97,7 +97,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 break
             case .video:
                 if let interface = environment.interface, interface.downloadableVideos(of: course).count > 0 {
-                    courseVideosHeaderView = CourseVideosHeaderView(with: course, interface: interface)
+                    courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment)
                     courseVideosHeaderView?.delegate = self
                     if let headerView = courseVideosHeaderView {
                         headerContainer.addSubview(headerView)

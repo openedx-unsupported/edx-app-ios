@@ -25,7 +25,7 @@ public class CourseOutlineViewController :
     LoadStateViewReloadSupport,
     InterfaceOrientationOverriding
 {
-    public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider
+    public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider
     
     
     private var rootID : CourseBlockID?

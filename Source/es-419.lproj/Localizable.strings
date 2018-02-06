@@ -14,8 +14,6 @@
 "DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
 /*Title for bulk download view when in downloading state */
 "DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos...";
-/*Title for Accessibility label for bulk download view when in downloading state */
-"DOWNLOADING_VIDEOS_TITLE_FOR_ACCESSIBILITY_LABEL" = "Downloading Videos";
 /*Subtitle for bulk download view when in downloading state */
 "ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB total";
 /*Title for bulk download view when in downloaded state */
@@ -24,6 +22,8 @@
 "BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
 "BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {videos_size}MB total";
+/*Accessibility label for bulk download view when in downloading state */
+"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos";
 /* Label for check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_CHECKED" = "Marcado";
 /* Label for check box when it's checked. */
@@ -54,8 +54,8 @@
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Descarga en progreso: {percent_complete}";
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Descargas en progreso: {percent_complete}";
-/* Acessibility hint for the download progress button. */
-"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "Toque dos veces para ver las descargas actuales";
+/* Acessibility hint for the show downloads button. */
+"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Double tap to view current downloads";
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
 "ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "Descargando {video_name}. {percent_complete} completado.";

@@ -9,20 +9,20 @@
 import Foundation
 
 enum BulkDownloadState {
-    case new // All videos are in new state.
-    case downloading // All videos are downloading
-    case partial // Some Videos downloading in progress or completed
-    case downloaded // All Videos downloading completed.
-    case none // If Course has no Video
+    case new
+    case downloading
+    case partial
+    case downloaded
+    case none // if course has no `downloadable` videos.
 }
 
 class BulkDownloadHelper {
     
-    let course: OEXCourse
-    let interface: OEXInterface
-    var state: BulkDownloadState = .new
+    private(set) var course: OEXCourse
+    private let interface: OEXInterface?
+    private(set) var state: BulkDownloadState = .new
     var courseVideos: [OEXHelperVideoDownload] {
-        return interface.downloadableVideos(of: course)
+        return interface?.downloadableVideos(of: course) ?? []
     }
     
     var newVideosCount: Int {
@@ -38,6 +38,7 @@ class BulkDownloadHelper {
             sum = sum + Double(video.summary?.size ?? 0)
         }
     }
+    
     var downloadedSize: Double {
         switch state {
         case .downloaded:
@@ -58,15 +59,11 @@ class BulkDownloadHelper {
         }
     }
     
-    var videoSizeForStatus: Double {
-        return (state == .downloaded ? totalSize : totalSize - downloadedSize).roundedMB
-    }
-    
     var progress: Float {
         return totalSize == 0 ? 0.0 : Float(downloadedSize / totalSize)
     }
     
-    init(with course: OEXCourse, interface: OEXInterface) {
+    init(with course: OEXCourse, interface: OEXInterface?) {
         self.course = course
         self.interface = interface
         refreshState()
@@ -77,7 +74,7 @@ class BulkDownloadHelper {
     }
     
     private func bulkDownloadState() -> BulkDownloadState {
-        guard courseVideos.count != 0 else {
+        if courseVideos.count <= 0 {
             return .none
         }
         let allNew = courseVideos.reduce(true) {(acc, video) in
@@ -118,7 +115,7 @@ extension Double {
         return (self * divisor).rounded() / divisor
     }
     
-    fileprivate var roundedMB: Double {
+    var roundedMB: Double {
         return self.mb.roundTo(places: 2)
     }
 }
