@@ -34,6 +34,12 @@
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to select";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "By";
+/* Accessibility hint for bulk download switch when in new state */
+"ACCESSIBILITY.BULK_DOWNLOAD_NEW_STATE_HINT" = "Toggling the switch on, will download all videos of this course";
+/* Accessibility hint for bulk download switch when in new partial or downloading state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_STATE_HINT" = "Toggling the switch off, will cancel downloading of all videos and will delete all downloaded videos of this course.";
+/* Accessibility hint for bulk download switch when in downloaded state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_STATE_HINT" = "Toggling the switch off, will delete all downloaded videos of this course.";
 /* Accessibility hint for close button*/
 "ACCESSIBILITY.CLOSE_HINT" = "Double tap to close.";
 /* Accessibility label for posted data of discussion responses*/

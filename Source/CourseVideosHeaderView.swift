@@ -134,6 +134,18 @@ class CourseVideosHeaderView: UIView {
         return "\(title), \(subTitle)"
     }
     
+    private var switchAccessibilityHint: String {
+        switch bulkDownloadHelper.state {
+        case .new:
+            return Strings.Accessibility.bulkDownloadNewStateHint
+        case .downloaded:
+            return Strings.Accessibility.bulkDownloadDownloadedStateHint
+        default:
+            return Strings.Accessibility.bulkDownloadDownloadingStateHint
+        }
+    
+    }
+    
     // MARK: - Initializers -
     init(with course: OEXCourse, environment: Environment) {
         self.environment = environment
@@ -205,6 +217,7 @@ class CourseVideosHeaderView: UIView {
         downloadProgressView.setProgress(bulkDownloadHelper.progress, animated: true)
         showDownloadsButton.isAccessibilityElement = bulkDownloadHelper.state == .downloading
         toggleSwitch.accessibilityLabel = switchAccessibilityLabel
+        toggleSwitch.accessibilityHint = switchAccessibilityHint
         videoDownloadProgressChangeObserver()
     }
     
