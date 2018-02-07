@@ -96,16 +96,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 }
                 break
             case .video:
-                if let interface = environment.interface, interface.downloadableVideos(of: course).count > 0 {
-                    courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment)
-                    courseVideosHeaderView?.delegate = self
-                    if let headerView = courseVideosHeaderView {
-                        headerContainer.addSubview(headerView)
-                    }
+                courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment)
+                courseVideosHeaderView?.delegate = self
+                if let headerView = courseVideosHeaderView {
+                    headerContainer.addSubview(headerView)
                 }
-                else {
-                    shouldHideTableViewHeader = true
-                }
+                
                 refreshTableHeaderView(lastAccess: false)
                 break
             }
@@ -336,16 +332,23 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 let _ = lastAccess ? (isVerticallyCompact() ? make.height.equalTo(lassAccessViewLandscapeHeight) : make.height.equalTo(lassAccessViewPortraitHeight)) : make.height.equalTo(0)
                 make.bottom.equalTo(headerContainer)
             }
+            tableView.setAndLayoutTableHeaderView(header: headerContainer)
             break
         case .video:
+            if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
+                environment.interface?.downloadableVideos(of: course).count ?? 0 <= 0 {
+                tableView.tableHeaderView = nil
+                return
+            }
             courseVideosHeaderView?.snp_makeConstraints(closure: { make in
                 make.edges.equalTo(headerContainer)
                 make.height.equalTo(CourseVideosHeaderView.height)
             })
             courseVideosHeaderView?.refreshView()
+            tableView.setAndLayoutTableHeaderView(header: headerContainer)
             break
         }
-        tableView.setAndLayoutTableHeaderView(header: headerContainer)
+        
     }
 }
 
