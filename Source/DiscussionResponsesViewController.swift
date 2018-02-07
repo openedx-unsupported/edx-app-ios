@@ -777,7 +777,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         tableView.layoutIfNeeded()
         
         let indexPath = IndexPath(row: responsesDataController.responses.count - 1, section: TableSection.Responses.rawValue)
-        if tableView.hasRowAtIndexPath(indexPath: indexPath) {
+        if tableView.hasRow(at: indexPath) {
             tableView.scrollToRow(at: indexPath, at: .top, animated: false)
         }
     }
@@ -897,7 +897,7 @@ extension AuthorLabelProtocol {
 }
 
 extension UITableView {
-    func hasRowAtIndexPath(indexPath: IndexPath) -> Bool {
-        return indexPath.section < self.numberOfSections && indexPath.row < self.numberOfRows(inSection: indexPath.section)
+    func hasRow(at indexPath: IndexPath) -> Bool {
+        return indexPath.section < numberOfSections && indexPath.row < numberOfRows(inSection: indexPath.section)
     }
 }
