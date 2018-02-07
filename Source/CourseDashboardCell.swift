@@ -40,7 +40,7 @@ class CourseDashboardCell: UITableViewCell {
         configureViews()
     }
 
-    func useItem(item : StandardCourseDashboardItem) {
+    func useItem(item : AdditionalTabBarViewCellItem) {
         self.titleLabel.attributedText = titleTextStyle.attributedString(withText: item.title)
         self.detailLabel.attributedText = detailTextStyle.attributedString(withText: item.detail)
         self.iconView.image = item.icon.imageWithFontSize(size: ICON_SIZE)

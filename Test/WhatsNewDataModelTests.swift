@@ -18,10 +18,14 @@ class WhatsNewDataModelTests: XCTestCase {
         let dataModel = WhatsNewDataModel(fileName: "WhatsNew", environment: mockEnv, version: "2.10")
         
         XCTAssertNotNil(dataModel.fields)
-        XCTAssertEqual(dataModel.fields?.count, 3) // 3 items are for iOS in test json 'WhatsNew.json'
+        XCTAssertEqual(dataModel.fields?.count, 4) // 4 items are for iOS in test json 'WhatsNew.json'
         
         // Test whatsNew items parsing
+        
         let item = dataModel.fields?.first
+        let secondItem = dataModel.fields?[1]
+        // In WhatsNew.json first two items has same title & message. But itemID makes the difference and make both items unique.
+        XCTAssertNotEqual(item, secondItem)
         XCTAssertNotNil(item)
         XCTAssertNotNil(item?.image)
         XCTAssertNotNil(item?.title)
@@ -30,4 +34,5 @@ class WhatsNewDataModelTests: XCTestCase {
         // Test platform name injection for placeholder 'platform_name'
         XCTAssertEqual(item?.message, testMessage)
     }
+    
 }

@@ -43,7 +43,6 @@
 #import "OEXMySettingsViewController.h"
 #import "OEXPlaceholderTextView.h"
 #import "OEXPushSettingsManager.h"
-#import "OEXRegistrationFormTextField.h"
 #import "OEXRegistrationOption.h"
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationViewController.h"
@@ -73,4 +72,6 @@
 #import "UIImage+OEXColors.h"
 #import "NSDate+OEXComparisons.h"
 #import "NSJSONSerialization+OEXSafeAccess.h"
-
+#import "NSString+OEXValidation.h"
+#import "OEXRegistrationFieldSelectController.h"
+#import "OEXRegistrationFieldCheckBoxController.h"

@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+#import "OEXConfig.h"
 #import "OEXVideoEncoding.h"
 #import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
 
 @interface OEXVideoSummaryTests : XCTestCase
+
 
 @end
 
@@ -35,7 +37,31 @@
     if (encoding) {
         [summary setObject:encoding forKey:@"encoded_videos"];
     }
-    
+     
+    return @{@"summary": summary};
+}
+
+- (NSDictionary*) summaryWithEncodings:(NSArray*) encodings andOnlyOnWeb:(BOOL) onlyOnWeb {
+    return [self summaryWithEncodings:encodings andOnlyOnWeb: onlyOnWeb andAllSources:nil];
+}
+
+- (NSDictionary*) summaryWithEncodings:(NSArray*) encodings andOnlyOnWeb:(BOOL) onlyOnWeb andAllSources:(NSArray *)allSources {
+    NSMutableDictionary *summary = [NSMutableDictionary new];
+    NSMutableDictionary *allEncodings = [NSMutableDictionary new];
+    [summary setObject:[NSNumber numberWithBool:onlyOnWeb] forKey:@"only_on_web"];
+
+    for (NSDictionary *encoding in encodings) {
+        for (NSString *name in encoding) {
+            allEncodings[name] = encoding[name];
+        }
+    }
+    if (allEncodings) {
+        [summary setObject:allEncodings forKey:@"encoded_videos"];
+    }
+    if (allSources) {
+        [summary setObject:allSources forKey:@"all_sources"];
+    }
+
     return @{@"summary": summary};
 }
 
@@ -126,6 +152,7 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:nil andOnlyOnWeb:true]];
     XCTAssertTrue(summary.onlyOnWeb);
     XCTAssertFalse(summary.isSupportedVideo);
+    XCTAssertFalse(summary.isDownloadableVideo);
 }
 
 - (void)testSupportedEncoding {
@@ -133,6 +160,7 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertTrue(summary.isDownloadableVideo);
 }
 
 - (void)testSupportedFallbackEncoding {
@@ -140,6 +168,7 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertTrue(summary.isDownloadableVideo);
 }
 
 - (void)testUnSupportedFallbackEncoding {
@@ -147,6 +176,7 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
     
     XCTAssertFalse(summary.isSupportedVideo);
+    XCTAssertTrue(summary.isDownloadableVideo);
 }
 
 - (void)testYoutubeEncoding {
@@ -154,7 +184,63 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:youtube andOnlyOnWeb:false]];
     
     XCTAssertFalse(summary.isSupportedVideo);
+    XCTAssertFalse(summary.isDownloadableVideo);
     XCTAssertTrue(summary.isYoutubeVideo);
 }
 
+- (void)testSupportedYoutubeFallbackEncodingDownload {
+    NSDictionary *youtube = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.youtube.com/watch?v=abc123"];
+    NSDictionary *fallback = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.mp4"];
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncodings:@[youtube, fallback] andOnlyOnWeb:false]];
+    
+    XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertTrue(summary.isDownloadableVideo);
+    XCTAssertFalse(summary.isYoutubeVideo);
+}
+
+- (void)testSupportedYoutubeHLSEncodingDownload {
+    NSDictionary *youtube = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.youtube.com/watch?v=abc123"];
+    NSDictionary *hls = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.m3u8"];
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncodings:@[youtube, hls] andOnlyOnWeb:false]];
+    
+    XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertFalse(summary.isDownloadableVideo);
+    XCTAssertFalse(summary.isYoutubeVideo);
+}
+
+- (void)testSupportedYoutubeHLSEncodingAllSourcesDownload {
+    NSDictionary *youtube = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.youtube.com/watch?v=abc123"];
+    NSDictionary *hls = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.m3u8"];
+    NSArray *all_sources = @[
+        @"https://www.example.com/video.m3u8",
+        @"https://player.vimeo.com/external/225003478.m3u8?s=6438b130458bd0eb38f7625ffa26623caee8ff7c",
+        @"https://player.vimeo.com/external/225003478.hd.mp4?s=bb4df4d286c4326e7b53074f30b05c845ebd3912&profile_id=174",
+    ];
+    NSDictionary *summaryDict = [self summaryWithEncodings:@[youtube, hls] andOnlyOnWeb:false andAllSources:all_sources];
+    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:summaryDict];
+
+    XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertTrue([summary.videoURL isEqualToString:all_sources[0]]);
+    XCTAssertTrue(summary.isDownloadableVideo);
+    XCTAssertTrue([summary.downloadURL isEqualToString:all_sources[2]]);
+    XCTAssertFalse(summary.isYoutubeVideo);
+}
+
+- (void)testSupportedFallbackEncodingDownloadPipelineEnabled {
+    NSDictionary *youtube = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.youtube.com/watch?v=abc123"];
+    NSDictionary *hls = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.m3u8"];
+    NSArray *all_sources = @[@"https://www.example.com/video.mp4"];
+    OEXVideoSummary *summary = nil;
+
+    OEXConfig *origConfig = [OEXConfig sharedConfig];
+    OEXConfig *overrideConfig = [[OEXConfig alloc] initWithDictionary:@{@"USING_VIDEO_PIPELINE": @YES}];
+
+    [OEXConfig setSharedConfig:overrideConfig];
+    summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncodings:@[youtube, hls] andOnlyOnWeb:false andAllSources:all_sources]];
+    [OEXConfig setSharedConfig:origConfig];
+    
+    XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertFalse(summary.isDownloadableVideo);
+    XCTAssertFalse(summary.isYoutubeVideo);
+}
 @end

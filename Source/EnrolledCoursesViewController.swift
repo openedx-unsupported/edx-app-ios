@@ -10,7 +10,7 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider
     
@@ -29,7 +29,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         self.environment = environment
         
         super.init(env: environment)
-        self.navigationItem.title = Strings.myCourses
+        self.navigationItem.title = Strings.courses
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
 
@@ -87,6 +87,14 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     
     override func reloadViewData() {
         refreshIfNecessary()
+    }
+    
+    override var shouldAutorotate: Bool {
+        return false
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
     }
 
     private func addFindCoursesButton() {

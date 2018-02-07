@@ -7,7 +7,7 @@
 //
 
 import UIKit
-public class CourseHandoutsViewController: OfflineSupportViewController, UIWebViewDelegate, LoadStateViewReloadSupport {
+public class CourseHandoutsViewController: OfflineSupportViewController, UIWebViewDelegate, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
     
     public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider
 
@@ -40,16 +40,24 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
         setConstraints()
         setStyles()
         webView.delegate = self
-        loadHandouts()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenHandouts, courseID: courseID, value: nil)
+        loadHandouts()
     }
     
     override func reloadViewData() {
         loadHandouts()
+    }
+    
+    override public var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
     
     private func addSubviews() {

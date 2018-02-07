@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate, AuthenticatedWebViewControllerRequireAuthentication {
+class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate, InterfaceOrientationOverriding {
     
     public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider
     private var webController: AuthenticatedWebViewController
@@ -44,8 +44,16 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
            environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseDates.rawValue, courseID: courseID, value: nil)
     }
     
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
+    }
+    
     private func loadCourseDates() {
-        let courseDateURLString = String(format: "%@/courses/%@/info", environment.config.apiHostURL()?.absoluteString ?? "", courseID)
+        let courseDateURLString = String(format: "%@/courses/%@/course/mobile_dates_fragment", environment.config.apiHostURL()?.absoluteString ?? "", courseID)
         let request = NSURLRequest(url: URL(string: courseDateURLString)!)
         webController.loadRequest(request: request)
     }

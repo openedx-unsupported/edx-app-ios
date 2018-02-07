@@ -22,7 +22,7 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
     override func setUp() {
         super.setUp()
         outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
-        let config = OEXConfig(dictionary: ["COURSE_VIDEOS_ENABLED": true, "TABS_DASHBOARD_ENABLED": true])
+        let config = OEXConfig(dictionary: ["COURSE_VIDEOS_ENABLED": true, "TAB_LAYOUTS_ENABLED": true])
         let interface = OEXInterface.shared()
         environment = TestRouterEnvironment(config: config, interface: interface)
         environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)

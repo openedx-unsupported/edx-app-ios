@@ -39,6 +39,9 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 //Wifi only Key
 #define USERDEFAULT_KEY_WIFIONLY @"download on wifi only"
 
+// Registration
+#define NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE @"RegistrationFormFieldValueDidChange"
+
 //courses and videos
 #define CAV_KEY_COURSE @"course"
 #define CAV_KEY_VIDEOS @"videos"

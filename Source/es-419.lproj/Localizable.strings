@@ -54,6 +54,8 @@
 "ACCESSIBILITY_FULLSCREEN" = "Pantalla completa";
 /* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
 "ACCESSIBILITY_EXIT_FULLSCREEN" = "Salir de pantalla completa";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "Error";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
 /* Accessibility label for Pause Button in the Video Player */
@@ -64,6 +66,10 @@
 "ACCESSIBILITY_USER_AVATAR" = "Su imagen de avatar";
 /* Accessibility label for Problem Icon in the Courseware screens */
 "ACCESSIBILITY_PROBLEM" = "Problema";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY.REQUIRED_INPUT"="Requerido";
+/* Optional text needs to be added for accesibility*/
+"ACCESSIBILITY.OPTIONAL_INPUT"="Opcional";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Retroceder";
 /* Call to action for Rewind Button in the Video Player */
@@ -74,6 +80,8 @@
 "ACCESSIBILITY_SETTINGS" = "Configuración";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Toque dos veces para ver el contenido del curso.";
+/* We don't have a accessility trait for dropdown, so we will be achieving dropdown trait through accessibility label */
+"ACCESSIBILITY_DROPDOWN_TRAIT" = "Dropdown.";
 /* Call to action for Opening Dropdown */
 "ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Toque dos veces para abrir el menú desplegable.";
 /* Call to action for Selecting Option */
@@ -120,6 +128,10 @@
 "ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Nuevas funciones de la versión {app_version}";
 /*Accessibility text for course share button on course dashboard*/
 "ACCESSIBILITY.SHARE_A_COURSE"="Compartir un curso";
+/*Accessibility text for close button*/
+"ACCESSIBILITY.CLOSE_LABEL"="Cerrado";
+/*Accessibility text for profile button*/
+"ACCESSIBILITY.PROFILE_LABEL"="Pofile";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Logros";
 /* Default text template when user shares an accomplishment */
@@ -157,13 +169,13 @@
 /* Positive review message */
 "APP_REVIEW.POSITIVE_REVIEW_MESSAGE" = "Comparta su opinión sobre la aplicación con los demás escribiendo una breve crítica en la App Store";
 /* Send feedback message for negative app review */
-"APP_REVIEW.SEND_FEEDBACK_TITLE" = "Send Feedback?";
+"APP_REVIEW.SEND_FEEDBACK_TITLE" = "Enviar Comentario?";
 /* Help us improve message for negative app review */
 "APP_REVIEW.HELP_US_IMPROVE" = "¡Ayúdenos a mejorar!";
 /* Maybe later message for positive/negative app review */
 "APP_REVIEW.MAYBE_LATER" = "Quizás más tarde";
 /* Send feedback message for negative app review */
-"APP_REVIEW.SEND_FEEDBACK" = "Send Feedback";
+"APP_REVIEW.SEND_FEEDBACK" = "Enviar Comentario";
 /* Question for rating view */
 "APP_REVIEW.RATE_THE_APP_QUESTION" = "¿Cómo valoraría la aplicación?";
 /* Submit button for rating view */
@@ -190,8 +202,10 @@
 "COURSE_ANNOUNCEMENTS"="Anuncios";
 /* Title of course handouts section */
 "COURSE_HANDOUTS"="Recursos";
+/* Title of resources tab in course dashboardTabBar view */
+"RESOURSES"="Recursos";
 /* Title of course important dates screen */
-"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Fechas y plazos del curso";
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Fechas importantes";
 /* Button text for cancelling any action */
 "CANCEL"="Cancelar";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
@@ -245,7 +259,7 @@
 /* Message shown when there is no course content */
 "COURSEWARE_UNAVAILABLE"="No hay ningún contenido del curso disponible en este momento.";
 /* Message shown when there is no course video */
-"COURSE_VIDEO_UNAVAILABLE"="This course does not include any videos";
+"COURSE_VIDEO_UNAVAILABLE"="Este curso no incluye ningún video.";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Este componente interactivo aún no está disponible desde dispositivos móviles.\n\nExplore otras partes de este curso o véalo en línea.";
 /* Message shown when there is no course dates */
@@ -257,11 +271,11 @@
 /* Title text for the Courseware section of the course dashboard */
 "DASHBOARD.COURSE_COURSEWARE"="Curso";
 /* Text describing the Courseware section within the course dashboard */
-"DASHBOARD.COURSE_COURSE_DETAIL"="Access course content and assignments";
+"DASHBOARD.COURSE_COURSE_DETAIL"="Acceda a videos y actividades";
 /* Title text for the videos section of the course dashboard */
 "DASHBOARD.COURSE_Videos"="Videos";
 /* Text describing the Videos section within the course dashboard */
-"DASHBOARD.COURSE_Videos_DETAIL"="Watch course videos";
+"DASHBOARD.COURSE_Videos_DETAIL"="Ver videos del curso";
 /* Title text for the Discussions section of the course dashboard */
 "DASHBOARD.COURSE_DISCUSSION"="Debate";
 /* Text describing the Discussions section within the course dashboard */
@@ -271,17 +285,17 @@
 /* Text describing the Handouts section within the course dashboard */
 "DASHBOARD.COURSE_HANDOUTS_DETAIL"="Encuentre información importante del curso";
 /* Title text for the Important dates section of the course dashboard  */
-"DASHBOARD.COURSE_IMPORTANT_DATES"="Fechas importantes";
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Fechas";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Realice un seguimiento de los plazos y cumpla con lo planeado";
 /* Text describing the course due date for same day*/
-"COURSE_DUE_DATE_SAME_DAY"="due today at {due_date}";
+"COURSE_DUE_DATE_SAME_DAY"="debido hoy a las {due_date} {time_zone}";
 /* Text describing the course due date*/
-"COURSE_DUE_DATE"="due {due_date}";
+"COURSE_DUE_DATE"="debido {due date}";
 /* Label indicated that a course has ended */
-"COURSE_ENDED"="Terminado - {end_date}";
+"COURSE_ENDED"="Terminado {end_date}";
 /* Label indicating that a course will end */
-"COURSE_ENDING"="Tarmina - {end_date}";
+"COURSE_ENDING"="Tarmina {end_date}";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Mostrar curso completo";
 /* Option to show only video course content. Constrasts with 'Show All Course Content'. */
@@ -339,7 +353,11 @@
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Descargando 1 video.";
 /*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="Discover";
+"DISCOVER"="Exploración";
+/*Debug option title in tabbar */
+"DEBUG"="Debug";
+/* Error message shown when email address is not properly formatted */
+"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Por favor revise su dirección de correo e intente de nuevo.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="Al parecer su cliente de correo no está configurado.";
 /* Alert dialog title shown when user tries to send an email, but email isn't setup */
@@ -419,7 +437,7 @@
 /* Option to sort discussion post list by most votes */
 "MOST_VOTES"="Más votos";
 /* Screen title showing a user's courses */
-"MY_COURSES"="Mis cursos";
+"COURSES"="Cursos";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="Mis opciones";
 /* Time Label in My Videos section*/
@@ -576,6 +594,11 @@
 "REGISTRATION_REGISTER_PROMPT"="Registrarse con";
 /* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
 "REGISTRATION_REGISTER_ALTERNATE_PROMPT"="o registrarse con el correo electrónico";
+/*Title of registration error alert*/
+"REGISTRATION_ERROR_ALERT_TITLE"="Error de Registro";
+/* Detailed info message for registration error alert*/
+"REGISTRATION_ERROR_ALERT_MESSAGE"="Modifique los campos señalados e intente nuevamente.";
+
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Restablecer contraseña";
 /* Alert dialog content prompting user to enter an email address to reset their password */
@@ -671,9 +694,9 @@
 /*Error message when operation failed with unknow error*/
 "UNKNOWN_ERROR" = "Su acción no pudo ser completada.";
 /* Screen title showing a user's account */
-"USER_ACCOUNT"="Account";
+"USER_ACCOUNT"="Cuenta";
 /* Button title for profile view in account*/
-"USER_ACCOUNT.PROFILE"= "Profile";
+"USER_ACCOUNT.PROFILE"= "Perfil";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
 "VERSION_DISPLAY" = "Versión {number} {environment}";
 /* Error shown when video download fails */

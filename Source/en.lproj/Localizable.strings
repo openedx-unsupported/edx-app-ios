@@ -54,6 +54,8 @@
 "ACCESSIBILITY_FULLSCREEN" = "Fullscreen";
 /* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
 "ACCESSIBILITY_EXIT_FULLSCREEN" = "Exit fullscreen";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "Error";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
 /* Accessibility label for Pause Button in the Video Player */
@@ -64,6 +66,10 @@
 "ACCESSIBILITY_USER_AVATAR" = "Your avatar image";
 /* Accessibility label for Problem Icon in the Courseware screens */
 "ACCESSIBILITY_PROBLEM" = "Problem";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY.REQUIRED_INPUT"="Required";
+/* Optional text needs to be added for accesibility*/
+"ACCESSIBILITY.OPTIONAL_INPUT"="Optional";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Rewind";
 /* Call to action for Rewind Button in the Video Player */
@@ -74,6 +80,8 @@
 "ACCESSIBILITY_SETTINGS" = "Settings";
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Double tap to view course content.";
+/* We don't have a accessility trait for dropdown, so we will be achieving dropdown trait through accessibility label */
+"ACCESSIBILITY_DROPDOWN_TRAIT" = "Dropdown.";
 /* Call to action for Opening Dropdown */
 "ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Double tap to open dropdown.";
 /* Call to action for Selecting Option */
@@ -120,6 +128,10 @@
 "ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Version {app_version}, New Features";
 /*Accessibility text for course share button on course dashboard*/
 "ACCESSIBILITY.SHARE_A_COURSE"="Share a course";
+/*Accessibility text for close button*/
+"ACCESSIBILITY.CLOSE_LABEL"="Close";
+/*Accessibility text for profile button*/
+"ACCESSIBILITY.PROFILE_LABEL"="Pofile";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
@@ -190,8 +202,10 @@
 "COURSE_ANNOUNCEMENTS"="Announcements";
 /* Title of course handouts section */
 "COURSE_HANDOUTS"="Handouts";
+/* Title of resources tab in course dashboardTabBar view */
+"RESOURSES"="Resources";
 /* Title of course important dates screen */
-"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Course Dates and Deadlines";
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
 /* Button text for cancelling any action */
 "CANCEL"="Cancel";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
@@ -271,7 +285,7 @@
 /* Text describing the Handouts section within the course dashboard */
 "DASHBOARD.COURSE_HANDOUTS_DETAIL"="Find important course information";
 /* Title text for the Important dates section of the course dashboard  */
-"DASHBOARD.COURSE_IMPORTANT_DATES"="Important Dates";
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Dates";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Keep track of deadlines and stay on track";
 /* Text describing the course due date for same day*/
@@ -279,9 +293,9 @@
 /* Text describing the course due date*/
 "COURSE_DUE_DATE"="due {due_date}";
 /* Label indicated that a course has ended */
-"COURSE_ENDED"="Ended - {end_date}";
+"COURSE_ENDED"="Ended {end_date}";
 /* Label indicating that a course will end */
-"COURSE_ENDING"="Ending - {end_date}";
+"COURSE_ENDING"="Ending {end_date}";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Show Full Course";
 /* Option to show only video course content. Constrasts with 'Show All Course Content'. */
@@ -339,7 +353,11 @@
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Downloading 1 video.";
 /*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="Discover";
+"DISCOVER"="Discovery";
+/*Debug option title in tabbar */
+"DEBUG"="Debug";
+/* Error message shown when email address is not properly formatted */
+"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Please make sure your e-mail address is formatted correctly and try again.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
 "EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="It seems your email client is not set up.";
 /* Alert dialog title shown when user tries to send an email, but email isn't setup */
@@ -419,7 +437,7 @@
 /* Option to sort discussion post list by most votes */
 "MOST_VOTES"="Most Votes";
 /* Screen title showing a user's courses */
-"MY_COURSES"="My Courses";
+"COURSES"="Courses";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="My Settings";
 /* Time Label in My Videos section*/
@@ -576,6 +594,11 @@
 "REGISTRATION_REGISTER_PROMPT"="Register with";
 /* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
 "REGISTRATION_REGISTER_ALTERNATE_PROMPT"="or register with email";
+/*Title of registration error alert*/
+"REGISTRATION_ERROR_ALERT_TITLE"="Registration Error";
+/* Detailed info message for registration error alert*/
+"REGISTRATION_ERROR_ALERT_MESSAGE"="Update the highlighted fields and try again";
+
 /* Alert dialog title prompting user to enter an email address to reset their password */
 "RESET_PASSWORD_TITLE"="Reset Password";
 /* Alert dialog content prompting user to enter an email address to reset their password */
@@ -619,7 +642,7 @@
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
 /* Label for date when course starts */
-"STARTING"="Starting - {start_date}";
+"STARTING"="Starting {start_date}";
 /* Discover Courses button text on the first screen */
 "STARTUP.DISCOVER_COURSES"="Discover Courses";
 /* Explore Subjects button text on the first screen */

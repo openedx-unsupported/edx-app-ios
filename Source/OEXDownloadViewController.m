@@ -106,7 +106,7 @@
             if(video.downloadProgress < OEXMaxDownloadProgress) {
                 [self.arr_downloadingVideo addObject:video];
                 if (video != nil && video.summary != nil) {
-                    NSString* key = video.summary.videoURL;
+                    NSString* key = video.summary.downloadURL;
                     if (key) {
                         duplicationAvoidingDict[key] = @"object";
                     }
@@ -187,6 +187,7 @@
 }
 
 - (void)downloadProgressNotification:(NSNotification*)notification {
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^(void){
         @autoreleasepool {
             NSDictionary* progress = (NSDictionary*)notification.userInfo;
@@ -194,8 +195,8 @@
             NSString* url = [task.originalRequest.URL absoluteString];
             
             for(OEXHelperVideoDownload* video in _arr_downloadingVideo) {
-                if([video.summary.videoURL isEqualToString:url]) {
-                    [self updateProgressForVisibleRows];
+                if([video.summary.downloadURL isEqualToString:url]) {
+                    [weakSelf updateProgressForVisibleRows];
                     break;
                 }
             }
@@ -204,8 +205,9 @@
 }
 
 - (void)downloadCompleteNotification:(NSNotification*)notification {
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self updateProgressForVisibleRows];
+        [weakSelf updateProgressForVisibleRows];
     });
 }
 

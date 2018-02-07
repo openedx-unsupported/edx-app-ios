@@ -80,10 +80,11 @@ static NSURLSession* videosBackgroundSession = nil;
 }
 
 - (void)resumePausedDownloads {
+    __weak typeof(self) weakSelf = self;
     OEXLogInfo(@"DOWNLOADS", @"Resuming Paused downloads");
     CLS_LOG(@"resumePausedDownloads");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSArray* array = [self.storage getVideosForDownloadState:OEXDownloadStatePartial];
+        NSArray* array = [weakSelf.storage getVideosForDownloadState:OEXDownloadStatePartial];
         CLS_LOG(@"resumePausedDownloads: videos get successfully");
         for(VideoData* data in array) {
             NSString* file = [OEXFileUtility filePathForVideoURL:data.video_url username:[OEXSession sharedSession].currentUser.username];
@@ -91,7 +92,7 @@ static NSURLSession* videosBackgroundSession = nil;
                 data.download_state = [NSNumber numberWithInt:OEXDownloadStateComplete];
                 continue;
             }
-            [self downloadVideoForObject:data withCompletionHandler:^(NSURLSessionDownloadTask* downloadTask) {
+            [weakSelf downloadVideoForObject:data withCompletionHandler:^(NSURLSessionDownloadTask* downloadTask) {
                     if(downloadTask) {
                         CLS_LOG(@"resumePausedDownloads: downloadTask");
                         data.dm_id = [NSNumber numberWithUnsignedInteger:downloadTask.taskIdentifier];
@@ -102,7 +103,7 @@ static NSURLSession* videosBackgroundSession = nil;
                     }
                 }];
         }
-        [self.storage saveCurrentStateToDB];
+        [weakSelf.storage saveCurrentStateToDB];
         CLS_LOG(@"resumePausedDownloads: saveCurrentStateToDB successfully");
     });
 }

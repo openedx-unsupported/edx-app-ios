@@ -34,7 +34,7 @@ class CourseCardCell : UITableViewCell {
         
         self.selectionStyle = .none
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -65,11 +65,11 @@ class CoursesTableViewController: UITableViewController {
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
@@ -90,31 +90,32 @@ class CoursesTableViewController: UITableViewController {
             source: ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
         )
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.courses.count 
+        return self.courses.count
     }
- 
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let course = self.courses[indexPath.row]
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CourseCardCell.cellIdentifier, for: indexPath as IndexPath) as! CourseCardCell
-        cell.accessibilityLabel = cell.courseView.updateAcessibilityLabel()
+        DispatchQueue.main.async {
+            cell.accessibilityLabel = cell.courseView.updateAcessibilityLabel()
+        }
         cell.accessibilityHint = Strings.accessibilityShowsCourseContent
-        
         cell.courseView.tapAction = {[weak self] card in
             self?.delegate?.coursesTableChoseCourse(course: course)
         }
         
         switch context {
         case .CourseCatalog:
-            CourseCardViewModel.onCourseCatalog(course: course).apply(card: cell.courseView, networkManager: self.environment.networkManager)
+            CourseCardViewModel.onCourseCatalog(course: course, wrapTitle: true).apply(card: cell.courseView, networkManager: self.environment.networkManager)
         case .EnrollmentList:
             CourseCardViewModel.onHome(course: course).apply(card: cell.courseView, networkManager: self.environment.networkManager)
         }
         cell.course = course
-
+        
         return cell
     }
     
@@ -123,3 +124,4 @@ class CoursesTableViewController: UITableViewController {
         self.insetsController.updateInsets()
     }
 }
+

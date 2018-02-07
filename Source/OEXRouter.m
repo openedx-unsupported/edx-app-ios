@@ -41,7 +41,6 @@ OEXRegistrationViewControllerDelegate
 
 @property (strong, nonatomic) SingleChildContainingViewController* containerViewController;
 @property (strong, nonatomic) UIViewController* currentContentController;
-
 @property (strong, nonatomic) RevealViewController* revealController;
 @property (strong, nonatomic) void(^registrationCompletion)(void);
 
@@ -107,14 +106,18 @@ OEXRegistrationViewControllerDelegate
     
     OEXUserDetails* currentUser = self.environment.session.currentUser;
     [self.environment.analytics identifyUser:currentUser];
-    
-    self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
-    self.revealController.delegate = self.revealController;
-    [self showMyCoursesAnimated:NO pushingCourseWithID:nil];
-    
-    UIViewController* rearController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"RearViewController"];
-    [self.revealController setDrawerViewControllerWithController:rearController animated:NO];
-    [self makeContentControllerCurrent:self.revealController];
+
+    if (self.environment.config.isTabLayoutEnabled) {
+        [self showEnrolledTabBarView];
+    }
+    else {
+        self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
+        self.revealController.delegate = self.revealController;
+        [self showMyCoursesAnimated:NO pushingCourseWithID:nil];
+        UIViewController* rearController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"RearViewController"];
+        [self.revealController setDrawerViewControllerWithController:rearController animated:NO];
+        [self makeContentControllerCurrent:self.revealController];
+    }
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
@@ -178,14 +181,20 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated {
-    controller.navigationItem.leftBarButtonItem = [self showNavigationBarItem];
-    NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
     
-    [controller.view addGestureRecognizer:self.revealController.panGestureRecognizer];
     UINavigationController* navigationController = [[ForwardingNavigationController alloc] initWithRootViewController:controller];
-    [self.revealController pushFrontViewController:navigationController animated:animated];
+    if (self.environment.config.isTabLayoutEnabled) {
+        [self makeContentControllerCurrent:navigationController];
+    }
+    else {
+        controller.navigationItem.leftBarButtonItem = [self showNavigationBarItem];
+        NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
+        
+        [controller.view addGestureRecognizer:self.revealController.panGestureRecognizer];
+        [self.revealController pushFrontViewController:navigationController animated:animated];
+    }
 }
-
+    
 - (void)showDownloadsFromViewController:(UIViewController*)controller {
     OEXDownloadViewController* vc = [[UIStoryboard storyboardWithName:@"OEXDownloadViewController" bundle:nil] instantiateViewControllerWithIdentifier:@"OEXDownloadViewController"];
     [controller.navigationController pushViewController:vc animated:YES];

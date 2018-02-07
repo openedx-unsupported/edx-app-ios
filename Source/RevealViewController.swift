@@ -77,7 +77,7 @@ class RevealViewController: SWRevealViewController, SWRevealViewControllerDelega
     }
     
     @objc private func defaultMenuVOFocus() {
-        view.accessibilityElements = [dimmingOverlay, rearViewController.view.subviews]
+        view.accessibilityElements = [dimmingOverlay, drawerViewController.view.subviews]
         UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification,  dimmingOverlay)
     }
     

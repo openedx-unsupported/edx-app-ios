@@ -109,6 +109,8 @@ static OEXNetworkManager* _sharedManager = nil;
     if(!url || [url.absoluteString isEqualToString:@""]) {
         return;
     }
+    
+    __weak typeof(self) weakSelf = self;
 
     [[self sessionForRequest:url] getTasksWithCompletionHandler:^(NSArray* dataTasks, NSArray* uploadTasks, NSArray* downloadTasks) {
         //Check if already downloading
@@ -124,10 +126,10 @@ static OEXNetworkManager* _sharedManager = nil;
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             if(alreadyInProgress) {
-                [self URLAlreadyUnderProcess:url];
+                [weakSelf URLAlreadyUnderProcess:url];
             }
             else {
-                [self processURLInBackground:url];
+                [weakSelf processURLInBackground:url];
             }
         });
     }];
@@ -142,12 +144,7 @@ static OEXNetworkManager* _sharedManager = nil;
 #pragma mark Helpers
 
 - (NSURLSession*)sessionForRequest:(NSURL*)URL {
-    if([OEXInterface isURLForedXDomain:URL.absoluteString]) {
-        return _backgroundSession;
-    }
-    else {
-        return _backgroundSession;
-    }
+    return _backgroundSession;
 }
 
 #pragma mark Initializations

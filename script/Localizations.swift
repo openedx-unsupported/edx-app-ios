@@ -185,7 +185,7 @@ func getArguments(_ string : String) throws -> [String] {
                 
                 let argument = string[string.index(after: start.lowerBound)..<string.index(before: end.upperBound)]
                 
-                arguments.append(argument)
+                arguments.append(String(argument))
                 current = end.upperBound
             }
             else {

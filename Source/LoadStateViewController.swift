@@ -172,64 +172,74 @@ class LoadStateViewController : UIViewController {
         super.updateViewConstraints()
     }
     
+    private func showOfflineSnackBarIfNecessary() {
+        DispatchQueue.main.async { [weak self] in
+            if let parent = self?.parent as? OfflineSupportViewController {
+                parent.showOfflineSnackBarIfNecessary()
+            }
+        }
+    }
+    
     private func updateAppearanceAnimated(animated : Bool) {
         var alphas : (loading : CGFloat, message : CGFloat, content : CGFloat, touchable : Bool) = (loading : 0, message : 0, content : 0, touchable : false)
         
-        UIView.animate(withDuration: 0.3 * TimeInterval()) {
-            switch self.state {
+        UIView.animate(withDuration: 0.3 * TimeInterval()) { [weak self] in
+            guard let owner = self else { return }
+            switch owner.state {
             case .Initial:
                 alphas = (loading : 1, message : 0, content : 0, touchable : false)
             case .Loaded:
                 alphas = (loading : 0, message : 0, content : 1, touchable : false)
+                owner.showOfflineSnackBarIfNecessary()
             case let .Empty(info):
-                self.messageView.buttonInfo = info.buttonInfo
+                owner.messageView.buttonInfo = info.buttonInfo
                 UIView.performWithoutAnimation {
                     if let message = info.attributedMessage {
-                        self.messageView.attributedMessage = message
+                        owner.messageView.attributedMessage = message
                     }
                     else {
-                        self.messageView.message = info.message
+                        owner.messageView.message = info.message
                     }
-                    self.messageView.icon = info.icon
+                    owner.messageView.icon = info.icon
                 }
                 alphas = (loading : 0, message : 1, content : 0, touchable : true)
             case let .Failed(info):
-                self.messageView.buttonInfo = info.buttonInfo
+                owner.messageView.buttonInfo = info.buttonInfo
                 UIView.performWithoutAnimation {
                     if let error = info.error, error.oex_isNoInternetConnectionError {
-                        self.messageView.showError(message: Strings.networkNotAvailableMessageTrouble, icon: .InternetError)
+                        owner.messageView.showError(message: Strings.networkNotAvailableMessageTrouble, icon: .InternetError)
                     }
                     else if let error = info.error as? OEXAttributedErrorMessageCarrying {
-                        self.messageView.showError(message: error.attributedDescription(withBaseStyle: self.messageStyle), icon: info.icon)
+                        owner.messageView.showError(message: error.attributedDescription(withBaseStyle: owner.messageStyle), icon: info.icon)
                     }
                     else if let message = info.attributedMessage {
-                        self.messageView.showError(message: message, icon: info.icon)
+                        owner.messageView.showError(message: message, icon: info.icon)
                     }
                     else if let message = info.message {
-                        self.messageView.showError(message: message, icon: info.icon)
+                        owner.messageView.showError(message: message, icon: info.icon)
                     }
                     else if let error = info.error, error.errorIsThisType(NSError.oex_unknownNetworkError()) {
-                        self.messageView.showError(message: Strings.unknownError, icon: info.icon)
+                        owner.messageView.showError(message: Strings.unknownError, icon: info.icon)
                     }
                     else if let error = info.error, error.errorIsThisType(NSError.oex_outdatedVersionError()) {
-                        self.messageView.setupForOutdatedVersionError()
+                        owner.messageView.setupForOutdatedVersionError()
                     }
                     else {
-                        self.messageView.showError(message: info.error?.localizedDescription, icon: info.icon)
+                        owner.messageView.showError(message: info.error?.localizedDescription, icon: info.icon)
                     }
                 }
                 alphas = (loading : 0, message : 1, content : 0, touchable : true)
                 
-                DispatchQueue.main.async { [weak self] in
-                    self?.parent?.hideSnackBar()
+                DispatchQueue.main.async {
+                    owner.parent?.hideSnackBar()
                 }
             }
             
-            self.messageView.accessibilityMessage = self.state.accessibilityMessage
-            self.loadingView.alpha = alphas.loading
-            self.messageView.alpha = alphas.message
-            self.contentView?.alpha = alphas.content
-            self.view.isUserInteractionEnabled = alphas.touchable
+            owner.messageView.accessibilityMessage = self?.state.accessibilityMessage
+            owner.loadingView.alpha = alphas.loading
+            owner.messageView.alpha = alphas.message
+            owner.contentView?.alpha = alphas.content
+            owner.view.isUserInteractionEnabled = alphas.touchable
         }
     }
     
