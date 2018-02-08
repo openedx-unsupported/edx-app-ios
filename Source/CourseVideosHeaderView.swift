@@ -137,11 +137,11 @@ class CourseVideosHeaderView: UIView {
     private var switchAccessibilityHint: String {
         switch bulkDownloadHelper.state {
         case .new:
-            return Strings.Accessibility.bulkDownloadNewStateHint
+            return Strings.Accessibility.bulkDownloadHint
         case .downloaded:
-            return Strings.Accessibility.bulkDownloadDownloadedStateHint
+            return Strings.Accessibility.bulkDownloadDownloadedHint
         default:
-            return Strings.Accessibility.bulkDownloadDownloadingStateHint
+            return Strings.Accessibility.bulkDownloadDownloadingHint
         }
     
     }

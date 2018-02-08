@@ -116,6 +116,6 @@ extension Double {
     }
     
     var roundedMB: Double {
-        return self.mb.roundTo(places: 2)
+        return mb.roundTo(places: 2)
     }
 }
