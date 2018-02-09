@@ -112,7 +112,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         delegate?.outlineTableControllerChoseShowDownloads(controller: self)
     }
     
-    func internetNotAvailableForBulkDownload() {
+    func invalidDownloadSettings() {
         showOverlay(withMessage: Strings.noWifiMessage)
     }
     

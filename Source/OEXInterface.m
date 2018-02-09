@@ -339,7 +339,7 @@ static OEXInterface* _sharedInterface = nil;
     return YES;
 }
 
-+ (BOOL) isDownloadSettingsValid {
+- (BOOL) isDownloadSettingsValid {
     OEXAppDelegate* appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
     BOOL hasWifi = [appDelegate.reachability isReachableViaWiFi];
     BOOL onlyOnWifi = [OEXInterface shouldDownloadOnlyOnWifi];
@@ -347,33 +347,30 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (BOOL)canDownloadVideos:(NSArray*)videos {
-    if([OEXInterface isDownloadSettingsValid]) {
-        double totalSpaceRequired = 0;
-        //Total space
-        for(OEXHelperVideoDownload* video in videos) {
-            if (video.downloadState == OEXDownloadStateNew) {
-                totalSpaceRequired += [video.summary.size doubleValue];
-            }
+    double totalSpaceRequired = 0;
+    //Total space
+    for(OEXHelperVideoDownload* video in videos) {
+        if (video.downloadState == OEXDownloadStateNew) {
+            totalSpaceRequired += [video.summary.size doubleValue];
         }
-        totalSpaceRequired = totalSpaceRequired / 1024 / 1024 / 1024;
-        if(!userAllowedLargeDownload && totalSpaceRequired > 1) {
-            self.multipleDownloadArray = videos;
-            
-            // As suggested by Lou
-            UIAlertView* alertView =
-            [[UIAlertView alloc] initWithTitle:[Strings largeDownloadTitle]
-                                       message:[Strings largeDownloadMessage]
-                                      delegate:self
-                             cancelButtonTitle:[Strings cancel]
-                             otherButtonTitles:[Strings acceptLargeVideoDownload], nil];
-            
-            [alertView show];
-            return NO;
-        }
-        userAllowedLargeDownload = false;
-        return YES;
     }
-    return NO;
+    totalSpaceRequired = totalSpaceRequired / 1024 / 1024 / 1024;
+    if(!userAllowedLargeDownload && totalSpaceRequired > 1) {
+        self.multipleDownloadArray = videos;
+        
+        // As suggested by Lou
+        UIAlertView* alertView =
+        [[UIAlertView alloc] initWithTitle:[Strings largeDownloadTitle]
+                                   message:[Strings largeDownloadMessage]
+                                  delegate:self
+                         cancelButtonTitle:[Strings cancel]
+                         otherButtonTitles:[Strings acceptLargeVideoDownload], nil];
+        
+        [alertView show];
+        return NO;
+    }
+    userAllowedLargeDownload = false;
+    return YES;
 }
 
 - (NSInteger)downloadVideos:(NSArray<OEXHelperVideoDownload*>*)array {

@@ -238,6 +238,10 @@ public class CourseOutlineViewController :
         )
     }
     
+    private func isDownloadSettingsValid() -> Bool {
+        return environment.dataManager.interface?.isDownloadSettingsValid() ?? false
+    }
+    
     // MARK: Outline Table Delegate
     
     func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController) {
@@ -245,8 +249,8 @@ public class CourseOutlineViewController :
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
-        if OEXInterface.isDownloadSettingsValid() {
-            self.environment.dataManager.interface?.downloadVideos(videos)
+        if isDownloadSettingsValid() {
+            environment.dataManager.interface?.downloadVideos(videos)
             
             let courseID = self.courseID
             let analytics = environment.analytics
@@ -259,18 +263,18 @@ public class CourseOutlineViewController :
             })
         }
         else {
-            self.showOverlay(withMessage: Strings.noWifiMessage)
+            showOverlay(withMessage: Strings.noWifiMessage)
         }
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
         
-        if OEXInterface.isDownloadSettingsValid() {
-            self.environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
+        if isDownloadSettingsValid() {
+            environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
             environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
         }
         else {
-            self.showOverlay(withMessage: Strings.noWifiMessage)
+            showOverlay(withMessage: Strings.noWifiMessage)
         }
     }
     

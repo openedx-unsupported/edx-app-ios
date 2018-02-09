@@ -127,7 +127,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         validateSubtitleTimer()
         
-        if !OEXInterface.isDownloadSettingsValid() {
+        if !(environment.interface?.isDownloadSettingsValid() ?? false) {
             guard let video = self.environment.interface?.stateForVideo(withID: self.blockID, courseID : self.courseID), video.downloadState == .complete else {
                 self.showOverlay(withMessage: Strings.noWifiMessage)
                 return
