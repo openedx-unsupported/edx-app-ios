@@ -339,21 +339,15 @@ static OEXInterface* _sharedInterface = nil;
     return YES;
 }
 
-+ (BOOL) isInternetAvailableForDownloading {
++ (BOOL) isDownloadSettingsValid {
     OEXAppDelegate* appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-    if([OEXInterface shouldDownloadOnlyOnWifi]) {
-        if(![appDelegate.reachability isReachableViaWiFi]) {
-            return NO;
-        }
-    }
-    else if (![appDelegate.reachability isReachable]) {
-        return NO;
-    }
-    return YES;
+    BOOL hasWifi = [appDelegate.reachability isReachableViaWiFi];
+    BOOL onlyOnWifi = [OEXInterface shouldDownloadOnlyOnWifi];
+    return !onlyOnWifi || hasWifi;
 }
 
 - (BOOL)canDownloadVideos:(NSArray*)videos {
-    if([OEXInterface isInternetAvailableForDownloading]) {
+    if([OEXInterface isDownloadSettingsValid]) {
         double totalSpaceRequired = 0;
         //Total space
         for(OEXHelperVideoDownload* video in videos) {

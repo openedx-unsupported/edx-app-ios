@@ -225,7 +225,7 @@ class CourseVideosHeaderView: UIView {
     private func switchToggled(){
         toggleAction?.cancel()
         if toggleSwitch.isOn {
-            if (OEXInterface.isInternetAvailableForDownloading()) {
+            if (OEXInterface.isDownloadSettingsValid()) {
                 toggleAction = DispatchWorkItem { [weak self] in self?.startDownloading() }
                 if let task = toggleAction {
                     DispatchQueue.main.async(execute: task)

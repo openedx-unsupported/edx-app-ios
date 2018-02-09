@@ -244,42 +244,34 @@ public class CourseOutlineViewController :
         environment.router?.showDownloads(from: self)
     }
     
-    private func canDownloadVideo() -> Bool {
-        let hasWifi = environment.reachability.isReachableViaWiFi()
-        let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
-        return !onlyOnWifi || hasWifi
-    }
-    
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
-        guard canDownloadVideo() else {
+        if OEXInterface.isDownloadSettingsValid() {
+            self.environment.dataManager.interface?.downloadVideos(videos)
+            
+            let courseID = self.courseID
+            let analytics = environment.analytics
+            
+            courseQuerier.parentOfBlockWithID(blockID: block.blockID).listenOnce(self, success:
+                { parentID in
+                    analytics.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
+            }, failure: {error in
+                Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
+            })
+        }
+        else {
             self.showOverlay(withMessage: Strings.noWifiMessage)
-            return
         }
-        
-        self.environment.dataManager.interface?.downloadVideos(videos)
-        
-        let courseID = self.courseID
-        let analytics = environment.analytics
-        
-        courseQuerier.parentOfBlockWithID(blockID: block.blockID).listenOnce(self, success:
-            { parentID in
-                analytics.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
-        },
-                                                                             failure: {error in
-                                                                                Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
-        }
-        )
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
         
-        guard canDownloadVideo() else {
-            self.showOverlay(withMessage: Strings.noWifiMessage)
-            return
+        if OEXInterface.isDownloadSettingsValid() {
+            self.environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
+            environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
         }
-        
-        self.environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
-        environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
+        else {
+            self.showOverlay(withMessage: Strings.noWifiMessage)
+        }
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {
