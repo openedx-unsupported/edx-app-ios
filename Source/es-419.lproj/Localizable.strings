@@ -10,6 +10,8 @@
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Descargar";
+/*Accessibility label for bulk download view when in downloading state */
+"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos";
 /* Label for check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_CHECKED" = "Marcado";
 /* Label for check box when it's checked. */
@@ -20,6 +22,12 @@
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Toque para seleccionar";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "Por";
+/* Accessibility hint for bulk download switch when in new state */
+"ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Toggling the switch on, will download all videos of this course";
+/* Accessibility hint for bulk download switch when in new partial or downloading state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_HINT" = "Toggling the switch off, will cancel downloading of all videos and will delete all downloaded videos of this course.";
+/* Accessibility hint for bulk download switch when in downloaded state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_HINT" = "Toggling the switch off, will delete all downloaded videos of this course.";
 /* Accessibility hint for close button*/
 "ACCESSIBILITY.CLOSE_HINT" = "Toque dos veces para cerrar.";
 /* Accessibility label for posted data of discussion responses*/
@@ -40,8 +48,8 @@
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Descarga en progreso: {percent_complete}";
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Descargas en progreso: {percent_complete}";
-/* Acessibility hint for the download progress button. */
-"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON_HINT" = "Toque dos veces para ver las descargas actuales";
+/* Acessibility hint for the show downloads button. */
+"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Double tap to view current downloads";
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
 "ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "Descargando {video_name}. {percent_complete} completado.";
@@ -154,6 +162,10 @@
 "ALL_POSTS"="Todas las publicaciones";
 /* Tab allowing the user to see all videos */
 "ALL_VIDEOS"="Todos los videos";
+/*Subtitle for bulk download view when in downloading state */
+"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB total";
+/*Title for bulk download view when in downloaded state */
+"ALL_VIDEOS_DOWNLOADED_TITLE" = "All Videos Downloaded";
 /* Message shown when there are no announcements for a course */
 "ANNOUNCEMENT_UNAVAILABLE"="No hay anuncios para este curso.";
 /* Label indicating the response answer in Discussion Add comment screen */
@@ -184,6 +196,10 @@
 "APP_REVIEW.MESSAGE_SUBJECT" = "Crítica del cliente";
 /*Asteric for marking fields required*/
 "ASTERIC" = "*";
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {videos_size}MB total";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR" = "Por {author_name}";
 /* Prefix used with Staff of Community TA on the posts screen */
@@ -352,6 +368,10 @@
 "DOWNLOADS"="Descargas";
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Descargando 1 video.";
+/*Title for bulk download view when in downloading state */
+"DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos...";
+/*Title for bulk download view when in new or partial state */
+"DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
 /*Discover in left drawer(used for courses and programs discovery)*/
 "DISCOVER"="Exploración";
 /*Debug option title in tabbar */

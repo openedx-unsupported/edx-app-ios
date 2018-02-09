@@ -24,6 +24,8 @@ public enum AnalyticsDisplayName : String {
     case RegistrationSuccess = "Registration Success"
     case EnrolledCourseClicked = "Course Enroll Clicked"
     case EnrolledCourseSuccess = "Course Enroll Success"
+    case BulkDownloadToggleOn = "Bulk Download Toggle On"
+    case BulkDownloadToggleOff = "Bulk Download Toggle Off"
 }
 
 public enum AnalyticsEventName: String {
@@ -44,7 +46,8 @@ public enum AnalyticsEventName: String {
     case WhatsNewDone = "edx.bi.app.whats_new.done"
     case VideosSubsectionDelete = "edx.bi.app.video.delete.subsection"
     case VideosUnitDelete = "edx.bi.app.video.delete.unit"
-    
+    case BulkDownloadToggleOn = "edx.bi.app.videos.download.toggle.on"
+    case BulkDownloadToggleOff = "edx.bi.app.videos.download.toggle.off"
 }
 
 public enum AnalyticsScreenName: String {
@@ -67,6 +70,8 @@ public enum AnalyticsEventDataKey: String {
     case Author = "author"
     case SubsectionID = "subsection_id"
     case UnitID = "unit_id"
+    case totalDownloadableVideos = "total_downloadable_videos"
+    case remainingDownloadableVideos = "remaining_downloadable_videos"
 }
 
 
@@ -138,6 +143,21 @@ extension OEXAnalytics {
         event.displayName = "Videos: Subsection Delete"
         
         trackEvent(event, forComponent: nil, withInfo: [AnalyticsEventDataKey.SubsectionID.rawValue : subsectionID])
+    }
+    
+    func trackBulkDownloadToggle(isOn: Bool, courseID: String, totalVideosCount: Int, remainingVideosCount: Int) {
+        let event = OEXAnalyticsEvent()
+        event.courseID = courseID
+        event.name = isOn ? AnalyticsEventName.BulkDownloadToggleOn.rawValue : AnalyticsEventName.BulkDownloadToggleOff.rawValue
+        event.displayName = isOn ? AnalyticsDisplayName.BulkDownloadToggleOn.rawValue : AnalyticsDisplayName.BulkDownloadToggleOff.rawValue
+        
+        var info: [String:String] = [ key_course_id : courseID, AnalyticsEventDataKey.totalDownloadableVideos.rawValue : "\(totalVideosCount)", key_component:"downloadmodule" ]
+        
+        if isOn {
+            info[AnalyticsEventDataKey.remainingDownloadableVideos.rawValue] = "\(remainingVideosCount)"
+        }
+        
+        trackEvent(event, forComponent: nil, withInfo: info)
     }
     
     func trackUnitDeleteVideo(courseID: String, unitID: String) {

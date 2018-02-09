@@ -46,11 +46,11 @@ public class CourseLastAccessedController: NSObject {
     
     fileprivate var canShowLastAccessed : Bool {
         // We only show at the root level
-        return blockID == nil && courseOutlineMode == .Full
+        return blockID == nil && courseOutlineMode == .full
     }
     
     fileprivate var canUpdateLastAccessed : Bool {
-        return blockID != nil && courseOutlineMode == .Full
+        return blockID != nil && courseOutlineMode == .full
     }
     
     public func loadLastAccessed(forMode mode: CourseOutlineMode) {
@@ -110,7 +110,7 @@ public class CourseLastAccessedController: NSObject {
         
     }
 
-    private func expandAccessStream(stream: OEXStream<CourseLastAccessed>, forMode mode: CourseOutlineMode = .Full) -> OEXStream<(CourseBlock, CourseLastAccessed)> {
+    private func expandAccessStream(stream: OEXStream<CourseLastAccessed>, forMode mode: CourseOutlineMode = .full) -> OEXStream<(CourseBlock, CourseLastAccessed)> {
         return stream.transform {[weak self] lastAccessed in
             return joinStreams((self?.courseQuerier.blockWithID(id: lastAccessed.moduleId, mode: mode)) ?? OEXStream<CourseBlock>(), OEXStream(value: lastAccessed))
         }
