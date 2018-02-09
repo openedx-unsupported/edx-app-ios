@@ -10,6 +10,7 @@ import UIKit
 
 protocol CourseVideosHeaderViewDelegate: class {
     func courseVideosHeaderViewTapped()
+    func internetNotAvailableForBulkDownload()
 }
 
 // To remove specific observers we need reference of notification and observer as well.
@@ -224,9 +225,15 @@ class CourseVideosHeaderView: UIView {
     private func switchToggled(){
         toggleAction?.cancel()
         if toggleSwitch.isOn {
-            toggleAction = DispatchWorkItem { [weak self] in self?.startDownloading() }
-            if let task = toggleAction {
-                DispatchQueue.main.async(execute: task)
+            if (OEXInterface.isInternetAvailableForDownloading()) {
+                toggleAction = DispatchWorkItem { [weak self] in self?.startDownloading() }
+                if let task = toggleAction {
+                    DispatchQueue.main.async(execute: task)
+                }
+            }
+            else {
+                toggleSwitch.isOn = false
+                delegate?.internetNotAvailableForBulkDownload()
             }
         }
         else {

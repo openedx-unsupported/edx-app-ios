@@ -112,6 +112,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         delegate?.outlineTableControllerChoseShowDownloads(controller: self)
     }
     
+    func internetNotAvailableForBulkDownload() {
+        showOverlay(withMessage: Strings.noWifiMessage)
+    }
+    
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
         for (i, group) in groups.enumerated() {
             for (j, block) in group.children.enumerated() {
