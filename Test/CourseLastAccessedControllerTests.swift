@@ -45,19 +45,19 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
             dataManager: environment.dataManager,
             networkManager: environment.networkManager,
             courseQuerier: querier,
-            lastAccessedProvider : lastAccessedProvider, forMode: .Full)
+            lastAccessedProvider : lastAccessedProvider, forMode: .full)
         
         sectionController = CourseLastAccessedController(blockID: "unit3",
             dataManager: environment.dataManager,
             networkManager: environment.networkManager,
             courseQuerier: querier,
-            lastAccessedProvider: lastAccessedProvider, forMode: .Full)
+            lastAccessedProvider: lastAccessedProvider, forMode: .full)
         
         nonVideoSectionController = CourseLastAccessedController(blockID: "unit1",
             dataManager: environment.dataManager,
             networkManager: environment.networkManager,
             courseQuerier: querier,
-            lastAccessedProvider: lastAccessedProvider, forMode: .Full)
+            lastAccessedProvider: lastAccessedProvider, forMode: .full)
     }
     
     override func tearDown() {
@@ -71,7 +71,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         let delegate = MockLastAccessedDelegate()
         rootController?.delegate = delegate
         sectionController?.saveLastAccessed()
-        rootController?.loadLastAccessed(forMode: .Full)
+        rootController?.loadLastAccessed(forMode: .full)
         let expectations = self.expectation(description: "Item Fetched")
         delegate.didFetchAction = { item in
             if item?.moduleName == "Unit 3" {
@@ -88,7 +88,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
         
         sectionController?.saveLastAccessed()
         let expectations = self.expectation(description: "Set Last Accessed to Unit 3")
-        rootController?.loadLastAccessed(forMode: .Full)
+        rootController?.loadLastAccessed(forMode: .full)
         delegate.didFetchAction = { item in
             if (item?.moduleName == "Unit 3") {
                 expectations.fulfill()
@@ -98,7 +98,7 @@ class CourseLastAccessedControllerTests: SnapshotTestCase {
     }
     
     func testVideoMode() {
-        let videoSectionController = CourseLastAccessedController(blockID: nil, dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: CourseOutlineQuerier(courseID: outline.root, outline : outline), lastAccessedProvider: lastAccessedProvider, forMode: .Video)
+        let videoSectionController = CourseLastAccessedController(blockID: nil, dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: CourseOutlineQuerier(courseID: outline.root, outline : outline), lastAccessedProvider: lastAccessedProvider, forMode: .video)
         
         XCTAssertFalse(videoSectionController.t_canShowLastAccessed())
         XCTAssertFalse(videoSectionController.t_canUpdateLastAccessed())

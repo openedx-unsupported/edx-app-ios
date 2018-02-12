@@ -105,7 +105,7 @@ class CourseDashboardTabBarViewControllerTests: SnapshotTestCase {
         
         let controller = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
     
-        let stream = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .Full)
+        let stream = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .full)
         
         let expectations = expectation(description: "course loaded")
         stream?.listenOnce(self) {_ in
@@ -139,7 +139,7 @@ class CourseDashboardTabBarViewControllerTests: SnapshotTestCase {
         
         let controller = CourseDashboardTabBarViewController(environment: environment, courseID: course.course_id!)
         
-        let stream = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .Full)
+        let stream = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .full)
         
         let expectations = expectation(description: "course loaded")
         stream?.listenOnce(self) {_ in

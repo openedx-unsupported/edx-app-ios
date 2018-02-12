@@ -11,8 +11,8 @@ import UIKit
 
 
 public enum CourseOutlineMode {
-    case Full
-    case Video
+    case full
+    case video
 }
 
 public class CourseOutlineViewController :
@@ -25,7 +25,7 @@ public class CourseOutlineViewController :
     LoadStateViewReloadSupport,
     InterfaceOrientationOverriding
 {
-    public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider
+    public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXInterfaceProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXConfigProvider & OEXStylesProvider
     
     
     private var rootID : CourseBlockID?
@@ -41,7 +41,7 @@ public class CourseOutlineViewController :
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private var lastAccessedController : CourseLastAccessedController
-    private var courseOutlineMode: CourseOutlineMode
+    private(set) var courseOutlineMode: CourseOutlineMode
     
     /// Strictly a test variable used as a trigger flag. Not to be used out of the test scope
     fileprivate var t_hasTriggeredSetLastAccessed = false
@@ -61,7 +61,7 @@ public class CourseOutlineViewController :
         
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
-        courseOutlineMode = mode ?? .Full
+        courseOutlineMode = mode ?? .full
         tableController = CourseOutlineTableController(environment: self.environment, courseID: courseID, forMode: courseOutlineMode)
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
@@ -103,6 +103,19 @@ public class CourseOutlineViewController :
         lastAccessedController.loadLastAccessed(forMode: courseOutlineMode)
         lastAccessedController.saveLastAccessed()
         loadStreams()
+        
+        if courseOutlineMode == .video {
+            // We are doing calculations to show downloading progress on video tab, For this purpose we are observing notifications.
+            tableController.courseVideosHeaderView?.addObservers()
+        }
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if courseOutlineMode == .video {
+            // As calculations are made to show progress on view. So when any other view apear we stop observing and making calculations for better performance.
+            tableController.courseVideosHeaderView?.removeObservers()
+        }
     }
     
     override public var shouldAutorotate: Bool {
@@ -132,7 +145,7 @@ public class CourseOutlineViewController :
     }
     
     private func setupNavigationItem(block : CourseBlock) {
-        navigationItem.title = (courseOutlineMode == .Video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
+        navigationItem.title = (courseOutlineMode == .video && rootID == nil) ? Strings.Dashboard.courseVideos : block.displayName
     }
     
     private func loadStreams() {
@@ -141,7 +154,7 @@ public class CourseOutlineViewController :
         stream.extendLifetimeUntilFirstResult (success :
             { [weak self] (rootID, block) in
                 if self?.blockID == rootID || self?.blockID == nil {
-                    if self?.courseOutlineMode == .Full {
+                    if self?.courseOutlineMode == .full {
                         self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
                     }
                     else {
@@ -165,7 +178,7 @@ public class CourseOutlineViewController :
     }
     
     private func emptyState() -> LoadState {
-        return LoadState.empty(icon: .UnknownError, message : (courseOutlineMode == .Video) ? Strings.courseVideoUnavailable : Strings.coursewareUnavailable)
+        return LoadState.empty(icon: .UnknownError, message : (courseOutlineMode == .video) ? Strings.courseVideoUnavailable : Strings.coursewareUnavailable)
     }
     
     private func showErrorIfNecessary(error : NSError) {
@@ -225,48 +238,44 @@ public class CourseOutlineViewController :
         )
     }
     
+    private func isDownloadSettingsValid() -> Bool {
+        return environment.dataManager.interface?.isDownloadSettingsValid() ?? false
+    }
+    
     // MARK: Outline Table Delegate
     
     func outlineTableControllerChoseShowDownloads(controller: CourseOutlineTableController) {
         environment.router?.showDownloads(from: self)
     }
     
-    private func canDownloadVideo() -> Bool {
-        let hasWifi = environment.reachability.isReachableViaWiFi()
-        let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
-        return !onlyOnWifi || hasWifi
-    }
-    
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
-        guard canDownloadVideo() else {
-            self.showOverlay(withMessage: Strings.noWifiMessage)
-            return
+        if isDownloadSettingsValid() {
+            environment.dataManager.interface?.downloadVideos(videos)
+            
+            let courseID = self.courseID
+            let analytics = environment.analytics
+            
+            courseQuerier.parentOfBlockWithID(blockID: block.blockID).listenOnce(self, success:
+                { parentID in
+                    analytics.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
+            }, failure: {error in
+                Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
+            })
         }
-        
-        self.environment.dataManager.interface?.downloadVideos(videos)
-        
-        let courseID = self.courseID
-        let analytics = environment.analytics
-        
-        courseQuerier.parentOfBlockWithID(blockID: block.blockID).listenOnce(self, success:
-            { parentID in
-                analytics.trackSubSectionBulkVideoDownload(parentID, subsection: block.blockID, courseID: courseID, videoCount: videos.count)
-        },
-                                                                             failure: {error in
-                                                                                Logger.logError("ANALYTICS", "Unable to find parent of block: \(block). Error: \(error.localizedDescription)")
+        else {
+            showOverlay(withMessage: Strings.noWifiMessage)
         }
-        )
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
         
-        guard canDownloadVideo() else {
-            self.showOverlay(withMessage: Strings.noWifiMessage)
-            return
+        if isDownloadSettingsValid() {
+            environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
+            environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
         }
-        
-        self.environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
-        environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
+        else {
+            showOverlay(withMessage: Strings.noWifiMessage)
+        }
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseBlock block: CourseBlock, withParentID parent : CourseBlockID) {

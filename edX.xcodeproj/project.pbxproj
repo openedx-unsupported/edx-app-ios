@@ -623,6 +623,8 @@
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
 		B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
+		B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */; };
+		B760E5562010DD6800ECACAB /* BulkDownloadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */; };
 		B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */; };
 		B78823A61FC6F59A00F9CD61 /* RegistrationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */; };
 		B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */; };
@@ -1521,6 +1523,8 @@
 		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
 		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
 		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
+		B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseVideosHeaderView.swift; sourceTree = "<group>"; };
+		B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkDownloadHelper.swift; sourceTree = "<group>"; };
 		B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFormFieldView.swift; sourceTree = "<group>"; };
 		B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationTextField.swift; sourceTree = "<group>"; };
 		B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldController.swift; sourceTree = "<group>"; };
@@ -3076,6 +3080,8 @@
 				1A5AC57E1B94ECDA00885187 /* Course Card */,
 				223A98FB1FA8610B0018DF67 /* AdditionalTabBarViewController.swift */,
 				22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */,
+				B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */,
+				B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */,
 			);
 			name = Course;
 			sourceTree = "<group>";
@@ -4213,6 +4219,7 @@
 				9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */,
 				1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */,
 				77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */,
+				B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */,
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
 				770848BA1B200C76002FEEEE /* ViewTopMessageController.swift in Sources */,
 				E02F65691E8B94CC000D1C4E /* TZStackViewAlignment.swift in Sources */,
@@ -4240,6 +4247,7 @@
 				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				777DE71A1C1656ED0068E280 /* CourseCatalogDetailView.swift in Sources */,
 				775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */,
+				B760E5562010DD6800ECACAB /* BulkDownloadHelper.swift in Sources */,
 				8FE04B4D1A1E2637007F88B8 /* OEXFBSocial.m in Sources */,
 				9EDB10B41B0C732300C760C6 /* CourseGenericBlockTableViewCell.swift in Sources */,
 				B78823A61FC6F59A00F9CD61 /* RegistrationTextField.swift in Sources */,
