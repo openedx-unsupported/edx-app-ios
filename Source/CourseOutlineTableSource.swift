@@ -304,19 +304,18 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             var constraintView: UIView = courseCard            
             courseCard.snp_remakeConstraints { (make) in
                 let screenWidth = UIScreen.main.bounds.size.width
-                if courseOutlineMode != .full || !environment.config.isTabLayoutEnabled || shouldHideTableViewHeader {
-                    make.height.equalTo(0)
-                }
-                else {
+                var height: CGFloat = 0
+                if environment.config.isTabLayoutEnabled {
                     let screenHeight = UIScreen.main.bounds.size.height
-                    let halfScreenHeight = screenHeight / 2
+                    let halfScreenHeight = screenHeight / 2.0
                     let ratioedHeight = screenWidth * defaultAspectRatio
-                    let _ = (halfScreenHeight > ratioedHeight) ? make.height.equalTo(ratioedHeight): make.height.equalTo(halfScreenHeight)
+                    height = CGFloat(Int(halfScreenHeight > ratioedHeight ? ratioedHeight : halfScreenHeight))
                 }
                 make.trailing.equalTo(headerContainer)
                 make.leading.equalTo(headerContainer)
                 make.width.equalTo(screenWidth)
                 make.top.equalTo(headerContainer)
+                make.height.equalTo(height)
             }
             
             if let courseCertificateView = courseCertificateView {
@@ -333,7 +332,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 make.trailing.equalTo(courseCard)
                 make.leading.equalTo(courseCard)
                 make.top.equalTo(constraintView.snp_bottom)
-                let _ = lastAccess ? (isVerticallyCompact() ? make.height.equalTo(lassAccessViewLandscapeHeight) : make.height.equalTo(lassAccessViewPortraitHeight)) : make.height.equalTo(0)
+                let height = lastAccess ? (isVerticallyCompact() ? lassAccessViewLandscapeHeight : lassAccessViewPortraitHeight) : 0
+                make.height.equalTo(height)
                 make.bottom.equalTo(headerContainer)
             }
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
