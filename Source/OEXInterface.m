@@ -53,7 +53,7 @@ NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
 
 @property (nonatomic, strong) OEXNetworkInterface* network;
 @property (nonatomic, strong) OEXDataParser* parser;
-@property(nonatomic, weak) OEXDownloadManager* downloadManger;
+@property (nonatomic, strong) OEXDownloadManager* downloadManger;
 
 //Cached Data
 @property (nonatomic, assign) int commonDownloadProgress;

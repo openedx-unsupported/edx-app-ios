@@ -82,7 +82,7 @@ static NSURLSession* videosBackgroundSession = nil;
 - (void)resumePausedDownloads {
     __weak typeof(self) weakSelf = self;
     OEXLogInfo(@"DOWNLOADS", @"Resuming Paused downloads");
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_main_queue(), ^{
         NSArray* array = [weakSelf.storage getVideosForDownloadState:OEXDownloadStatePartial];
         for(VideoData* data in array) {
             NSString* file = [OEXFileUtility filePathForVideoURL:data.video_url username:[OEXSession sharedSession].currentUser.username];

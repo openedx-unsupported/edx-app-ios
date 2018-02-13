@@ -586,14 +586,21 @@ static OEXDBManager* _sharedManager = nil;
 }
 
 - (NSArray*)getVideosForDownloadState:(OEXDownloadState)state {
-    NSArray* allVideos = [self getAllLocalVideoData];
+    NSArray* allVideos = [[self getAllLocalVideoData] copy];
     NSMutableArray* filteredArray = [[NSMutableArray alloc] init];
+    
     for(VideoData* data in allVideos) {
-        if(data && [data isKindOfClass:[VideoData class]] && ([data.download_state intValue] == state)) {
+        if(data &&
+           [data isEqual:[NSNull null]] &&
+           [data isKindOfClass:[VideoData class]] &&
+           data.download_state &&
+           [data.download_state isEqual:[NSNull null]] &&
+           [data.download_state isKindOfClass:[NSNumber class]] &&
+           ([data.download_state intValue] == state)) {
             [filteredArray addObject:data];
         }
     }
-
+    allVideos = nil;
     return filteredArray;
 }
 
