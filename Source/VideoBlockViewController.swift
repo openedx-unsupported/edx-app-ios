@@ -127,7 +127,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         validateSubtitleTimer()
         
-        if !canDownloadVideo() {
+        if !(environment.interface?.isDownloadSettingsValid() ?? false) {
             guard let video = self.environment.interface?.stateForVideo(withID: self.blockID, courseID : self.courseID), video.downloadState == .complete else {
                 self.showOverlay(withMessage: Strings.noWifiMessage)
                 return
@@ -279,12 +279,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
         
         videoController.playVideo(for: video)
-    }
-    
-    private func canDownloadVideo() -> Bool {
-        let hasWifi = environment.reachability.isReachableViaWiFi() 
-        let onlyOnWifi = environment.dataManager.interface?.shouldDownloadOnlyOnWifi ?? false
-        return !onlyOnWifi || hasWifi
     }
     
     override var childViewControllerForStatusBarStyle: UIViewController? {

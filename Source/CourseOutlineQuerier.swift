@@ -310,9 +310,9 @@ public class CourseOutlineQuerier : NSObject {
     
     private func filterBlocks(blocks: [CourseBlock], forMode mode: CourseOutlineMode) -> [CourseBlock] {
         switch mode {
-        case .Full:
+        case .full:
             return blocks
-        case .Video:
+        case .video:
             return blocks.filter {(block : CourseBlock) -> Bool in
                 return (block.blockCounts[CourseBlock.Category.Video.rawValue] ?? 0) > 0
             }
@@ -359,7 +359,7 @@ public class CourseOutlineQuerier : NSObject {
     
     /// Loads the given block.
     /// nil means use the course root.
-    public func blockWithID(id: CourseBlockID?, mode: CourseOutlineMode = .Full) -> OEXStream<CourseBlock> {
+    public func blockWithID(id: CourseBlockID?, mode: CourseOutlineMode = .full) -> OEXStream<CourseBlock> {
         loadOutlineIfNecessary()
         return courseOutline.flatMap {outline in
             let blockID = id ?? outline.root
@@ -368,7 +368,7 @@ public class CourseOutlineQuerier : NSObject {
         }
     }
     
-    private func blockWithID(id: CourseBlockID, inOutline outline: CourseOutline, forMode mode: CourseOutlineMode = .Full) -> CourseBlock? {
+    private func blockWithID(id: CourseBlockID, inOutline outline: CourseOutline, forMode mode: CourseOutlineMode = .full) -> CourseBlock? {
         if let block = outline.blocks[id] {
             return block
         }

@@ -13,13 +13,14 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
      typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
     private let courseID: String
+    fileprivate var course: OEXCourse?
     private let environment: Environment
     fileprivate var tabBarItems : [TabBarItem] = []
     fileprivate let loadStateController: CourseTabBarLoadStateViewController
     private lazy var progressController : ProgressController = {
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
     }()
-    private let shareButton = UIButton(type: .system)
+    private let shareButton = UIButton(frame: CGRect(x: 0, y: 0, width: 26, height: 26))
     
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
@@ -60,40 +61,36 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
         return .allButUpsideDown
     }
     
-    private func addShareButton(withCourse course: OEXCourse) {
-        shareButton.setImage(UIImage(named: "shareCourse.png"), for: .normal)
-        shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
-        
-        shareButton.snp_makeConstraints(closure: { (make) -> Void in
-            make.height.equalTo(26)
-            make.width.equalTo(26)
-        })
-        
-        shareButton.oex_removeAllActions()
-        shareButton.oex_addAction({[weak self] _ in
-            self?.shareCourse(course: course)
-            }, for: .touchUpInside)
-        
-        let shareItem = UIBarButtonItem(customView: shareButton)
-        navigationItem.rightBarButtonItems = [shareItem]
-    }
-    
-    private func addNavigationItems(withCourse course: OEXCourse) {
+    fileprivate func addNavigationItems(withCourse course: OEXCourse) {
+        var navigationItems: [UIBarButtonItem] = []
         if course.course_about != nil && environment.config.courseSharingEnabled {
-            addShareButton(withCourse: course)
+            let shareImage = UIImage(named: "shareCourse.png")?.withRenderingMode(.alwaysTemplate)
+            shareButton.setImage(shareImage, for: .normal)
+            shareButton.tintColor = environment.styles.primaryBaseColor()
+            shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
+            shareButton.oex_removeAllActions()
+            shareButton.oex_addAction({[weak self] _ in
+                self?.shareCourse(course: course)
+                }, for: .touchUpInside)
+            
+            let shareItem = UIBarButtonItem(customView: shareButton)
+            navigationItems.append(shareItem)
         }
-        navigationItem.rightBarButtonItems?.append(progressController.navigationItem())
+        if let controller = selectedViewController as? CourseOutlineViewController, controller.courseOutlineMode == .full {
+            navigationItems.append(progressController.navigationItem())
+        }
+        navigationItem.rightBarButtonItems = navigationItems
     }
     
     private func prepareTabViewData(withCourse course: OEXCourse) {
         
         tabBarItems = []
         
-        var item = TabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+        var item = TabBarItem(title: Strings.Dashboard.courseCourseware, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .full), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
         tabBarItems.append(item)
         
         if environment.config.isCourseVideosEnabled {
-           item = TabBarItem(title: Strings.Dashboard.courseVideos, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: CourseOutlineMode.Video), icon: Icon.CourseVideos, detailText: Strings.Dashboard.courseVideosDetail)
+           item = TabBarItem(title: Strings.Dashboard.courseVideos, viewController: CourseOutlineViewController(environment: environment, courseID: courseID, rootID: nil, forMode: .video), icon: Icon.CourseVideos, detailText: Strings.Dashboard.courseVideosDetail)
             tabBarItems.append(item)
         }
         
@@ -148,6 +145,7 @@ class CourseDashboardTabBarViewController: UITabBarController, UITabBarControlle
     private func resultLoaded(result : Result<UserCourseEnrollment>) {
         switch result {
         case let Result.success(enrollment):
+            course = enrollment.course
             loadedCourse(withCourse: enrollment.course)
         case let Result.failure(error):
             if !courseStream.active {
@@ -225,6 +223,9 @@ extension CourseDashboardTabBarViewController {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
         navigationItem.title = viewController.navigationItem.title
+        if let course = course {
+            addNavigationItems(withCourse: course)
+        }
     }
 }
 

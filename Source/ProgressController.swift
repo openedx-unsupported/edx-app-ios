@@ -40,7 +40,7 @@ public class ProgressController: NSObject {
         downloadButton.setImage(UIImage(named: "ic_download_arrow"), for: .normal)
         downloadButton.tintColor = OEXStyles.shared().navigationItemTintColor()
         downloadButton.accessibilityLabel = Strings.accessibilityDownloadProgressButton(percentComplete: 0, formatted: nil)
-        downloadButton.accessibilityHint = Strings.accessibilityDownloadProgressButtonHint
+        downloadButton.accessibilityHint = Strings.Accessibility.showCurrentDownloadsButtonHint
         downloadButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
         downloadButton.frame = ProgressViewFrame
         
