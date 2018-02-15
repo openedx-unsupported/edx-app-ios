@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
+// This class has been deprecated in v2.13 and will be obsolete in 2.14
+// CourseDashboardTabBarViewController will be use instead for dashboard
+
+
 import UIKit
 
 struct CertificateDashboardItem: AdditionalTableViewCellItem {
