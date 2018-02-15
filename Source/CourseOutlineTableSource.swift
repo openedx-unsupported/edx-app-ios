@@ -84,14 +84,18 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     private func configureHeaderView() {
+        
+        if courseOutlineMode == .full {
+            headerContainer.addSubview(lastAccessedView)
+            headerContainer.addSubview(courseCard)
+            addCertificateView()
+        }
+        
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
             switch courseOutlineMode {
             case .full:
-                headerContainer.addSubview(lastAccessedView)
-                headerContainer.addSubview(courseCard)
-                addCertificateView()
-                CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
                 if environment.config.isTabLayoutEnabled {
+                    CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
                     refreshTableHeaderView(lastAccess: false)
                 }
                 break
