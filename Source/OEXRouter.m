@@ -42,7 +42,7 @@ OEXRegistrationViewControllerDelegate
 @property (strong, nonatomic) SingleChildContainingViewController* containerViewController;
 @property (strong, nonatomic) UIViewController* currentContentController;
 
-// The class RevealController has been deprecated in v2.13 and will be obsolete in 2.14
+// The class RevealController has been deprecated in v2.13 and will be obsolete in v2.14
 @property (strong, nonatomic) RevealViewController* revealController;
 
 @property (strong, nonatomic) void(^registrationCompletion)(void);
@@ -114,7 +114,7 @@ OEXRegistrationViewControllerDelegate
         [self showEnrolledTabBarView];
     }
     else {
-        // The class RevealController has been deprecated in v2.13 and will be obsolete in 2.14
+        // The class RevealController has been deprecated in v2.13 and will be obsolete in v2.14
         // showEnrolledTabBarView method will be use instead
         
         self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
@@ -198,7 +198,7 @@ OEXRegistrationViewControllerDelegate
         
         [controller.view addGestureRecognizer:self.revealController.panGestureRecognizer];
         
-        // The class RevealController has been deprecated in v2.13 and will be obsolete in 2.14
+        // The class RevealController has been deprecated in v2.13 and will be obsolete in v2.14
         // makeContentControllerCurrent method will be use instead
         
         [self.revealController pushFrontViewController:navigationController animated:animated];

@@ -5,7 +5,7 @@
 //  Created by Michael Katz on 9/21/15.
 //  Copyright (c) 2015 edX. All rights reserved.
 //
-// This class has been deprecated in v2.13 and will be obsolete in 2.14
+// This class has been deprecated in v2.13 and will be obsolete in v2.14
 // We have removed the hamburger menu
 
 import Foundation
