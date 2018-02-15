@@ -80,6 +80,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack:)];
     closeButton.accessibilityLabel = [Strings close];
+    closeButton.accessibilityIdentifier = @"RegistrationViewController:close-button";
     self.navigationItem.leftBarButtonItem = closeButton;
     
     //By default we only shows required fields
