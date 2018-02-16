@@ -73,9 +73,6 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         
         container.backgroundColor = OEXStyles.shared().neutralWhite().withAlphaComponent(0.85)
         coverImageView.backgroundColor = OEXStyles.shared().neutralWhiteT()
-        // iPads use aspect ratio 4:3, so looks better with image fit
-        // iPhones use aspect ratio 16:9, so looks best with image fill
-        coverImageView.contentMode = UIDevice.current.userInterfaceIdiom == .pad ? .scaleAspectFit : .scaleAspectFill
         coverImageView.clipsToBounds = true
         coverImageView.hidesLoadingSpinner = true
 
