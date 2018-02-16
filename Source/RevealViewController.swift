@@ -6,8 +6,8 @@
 //  Copyright © 2015 edX. All rights reserved.
 //
 // This class has been deprecated in v2.13 and will be obsolete in v2.14
-// we have removed the hamburger menu and now the
-// CourseDashboardTabBarViewController will be use for dashboard
+// The hamburger menu is removed in favor of new tab bar based design.
+// You should use CourseDashboardTabBarViewController instead.
 
 import UIKit
 

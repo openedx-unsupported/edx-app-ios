@@ -115,7 +115,7 @@ OEXRegistrationViewControllerDelegate
     }
     else {
         // The class RevealController has been deprecated in v2.13 and will be obsolete in v2.14
-        // showEnrolledTabBarView method will be use instead
+        // use showEnrolledTabBarView instead.
         
         self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
         self.revealController.delegate = self.revealController;

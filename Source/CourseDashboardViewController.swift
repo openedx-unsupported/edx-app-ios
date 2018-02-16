@@ -6,10 +6,6 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-// This class has been deprecated in v2.13 and will be obsolete in v2.14
-// CourseDashboardTabBarViewController will be use instead for dashboard
-
-
 import UIKit
 
 struct CertificateDashboardItem: AdditionalTableViewCellItem {
@@ -24,6 +20,7 @@ struct CertificateDashboardItem: AdditionalTableViewCellItem {
     }
 }
 
+@available(*, deprecated, message: "This class has been deprecated in v2.13 and will be obsolete in v2.14, use CourseDashboardTabBarViewController instead")
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & OEXRouterProvider
