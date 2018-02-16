@@ -14,6 +14,8 @@
 #import "UIControl+OEXBlockActions.h"
 #import "OEXExternalAuthProvider.h"
 #import "OEXExternalRegistrationOptionsView.h"
+#import "OEXFacebookAuthProvider.h"
+#import "OEXGoogleAuthProvider.h"
 
 static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
 
@@ -33,6 +35,12 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
         self.optionButtons = [providers oex_map:^id(id <OEXExternalAuthProvider> provider) {
             self.itemsPerRow += 1;
             UIButton* button = [provider freshAuthButton];
+            if ([provider isKindOfClass:[OEXFacebookAuthProvider class]]) {
+                button.accessibilityIdentifier = @"ExternalAuthOptionsView:facebook-button";
+            }
+            else if ([provider isKindOfClass:[OEXGoogleAuthProvider class]]) {
+                button.accessibilityIdentifier = @"ExternalAuthOptionsView:google-button";
+            }
             button.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationRegisterPrompt],button.titleLabel.text];
             [button oex_addAction:^(id  _Nonnull control) {
                 tapAction(provider);

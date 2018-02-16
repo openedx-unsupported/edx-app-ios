@@ -22,6 +22,7 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = Strings.findCourses
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "CourseCatalogViewController:cancel-bar-button-item"
     }
 
     required init?(coder aDecoder: NSCoder) {

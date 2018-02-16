@@ -45,7 +45,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [super viewDidLoad];
     self.navigationItem.title = [self courseDiscoveryTitle];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-
+    self.navigationItem.backBarButtonItem.accessibilityIdentifier = @"FindCoursesViewController:cancel-bar-button-item";
     self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:YES];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 
