@@ -196,12 +196,9 @@ static OEXDBManager* _sharedManager = nil;
 // Save all table data at a time
 - (void)saveCurrentStateToDB {
     OEXLogInfo(@"STORAGE", @"Save database context on main thread");
-    CLS_LOG(@"saveCurrentStateToDB");
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         @synchronized(self.masterManagedObjectContext){
             [self.backGroundContext save:nil];
-            CLS_LOG(@"saveCurrentStateToDB: backGroundContext... %@", self.backGroundContext);
-            CLS_LOG(@"saveCurrentStateToDB: masterManagedObjectContext... %@", self.masterManagedObjectContext);
             [self.masterManagedObjectContext save:nil];
             NSError* error = nil;
             if(_masterManagedObjectContext != nil) {
@@ -225,18 +222,15 @@ static OEXDBManager* _sharedManager = nil;
 }
 
 - (NSArray*)executeFetchRequest:(NSFetchRequest*)fetchRequest {
-    CLS_LOG(@"executeFetchRequest");
     __block NSArray* resultArray;
     if([NSThread isMainThread]) {
         @synchronized(self.masterManagedObjectContext)
         {
-            CLS_LOG(@"executeFetchRequest: executeFetchRequest in main thread");
             resultArray = [self.masterManagedObjectContext executeFetchRequest:fetchRequest error:nil];
         }
     }
     else {
         @synchronized (self.backGroundContext) {
-            CLS_LOG(@"executeFetchRequest: executeFetchRequest in performBlockAndWait with %@", _backGroundContext);
             resultArray = [self.backGroundContext executeFetchRequest:fetchRequest error:nil];
         }
     }
@@ -404,11 +398,8 @@ static OEXDBManager* _sharedManager = nil;
 #pragma  mark - VideoData Table Methods
 
 - (NSArray*)getAllLocalVideoData {
-    CLS_LOG(@"getAllLocalVideoData");
     NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
-    CLS_LOG(@"getAllLocalVideoData: backGroundContext...%@", _backGroundContext);
     NSEntityDescription* videoEntity = [NSEntityDescription entityForName:@"VideoData" inManagedObjectContext:self.backGroundContext];
-    CLS_LOG(@"getAllLocalVideoData: getVideoEntity from manageObjectContect");
     [fetchRequest setEntity:videoEntity];
     return [self executeFetchRequest:fetchRequest];
 }
@@ -539,9 +530,7 @@ static OEXDBManager* _sharedManager = nil;
 
 - (void)pausedAllDownloads {
     NSArray* array = [self getAllLocalVideoData];
-    CLS_LOG(@"pausedAllDownloads: localVideoData...%@", array);
     for(VideoData* video in array) {
-        CLS_LOG(@"pausedAllDownloads: VideoData...%@", video);
         if((video && [video isKindOfClass:[VideoData class]]) && ([video.download_state intValue] == OEXDownloadStatePartial || [video.dm_id intValue] != 0)) {
             video.dm_id = [NSNumber numberWithInt:0];
         }
@@ -597,16 +586,21 @@ static OEXDBManager* _sharedManager = nil;
 }
 
 - (NSArray*)getVideosForDownloadState:(OEXDownloadState)state {
-    CLS_LOG(@"getVideosForDownloadState");
-    NSArray* allVideos = [self getAllLocalVideoData];
+    NSArray* allVideos = [[self getAllLocalVideoData] copy];
     NSMutableArray* filteredArray = [[NSMutableArray alloc] init];
-    CLS_LOG(@"getVideosForDownloadState: videosForDownloadState...%@", allVideos);
+    
     for(VideoData* data in allVideos) {
-        if(data && [data isKindOfClass:[VideoData class]] && ([data.download_state intValue] == state)) {
+        if(data &&
+           [data isEqual:[NSNull null]] &&
+           [data isKindOfClass:[VideoData class]] &&
+           data.download_state &&
+           [data.download_state isEqual:[NSNull null]] &&
+           [data.download_state isKindOfClass:[NSNumber class]] &&
+           ([data.download_state intValue] == state)) {
             [filteredArray addObject:data];
         }
     }
-
+    allVideos = nil;
     return filteredArray;
 }
 
