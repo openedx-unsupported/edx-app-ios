@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark Metrics
 - (CGFloat)standardHorizontalMargin;
+- (CGFloat)iPadHorizontalMargin;
 - (CGFloat)boxCornerRadius;
 
 #pragma mark Computed Styles
