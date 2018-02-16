@@ -22,7 +22,7 @@ class SessionUsernameProviderTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         let path = OEXFileUtility.t_path(forUserName: user.username!)
-        try! FileManager.default.removeItem(atPath: path)
+        try? FileManager.default.removeItem(atPath: path)
     }
 
     func providerForUsername(_ user : OEXUserDetails) -> SessionUsernameProvider {
