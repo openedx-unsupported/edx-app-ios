@@ -16,6 +16,7 @@ class AccountViewCell: UITableViewCell {
     public var title : String? {
         didSet {
             titleLabel.attributedText = titleStyle.attributedString(withText: title)
+            titleLabel.accessibilityIdentifier = "AccountViewController:title-label"
         }
     }
     
