@@ -115,7 +115,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)postEnrollmentSuccessNotification:(NSString*)message {
     [[NSNotificationCenter defaultCenter] postNotificationName:EnrollmentShared.successNotification object:message];
     
-    if ([self isModal]) {
+    if ([self isRootModal]) {
         [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }

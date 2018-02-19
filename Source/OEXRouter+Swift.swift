@@ -270,7 +270,7 @@ extension OEXRouter {
                 showContentStack(withRootController: controller, animated: true)
             }
         } else if let fromController = fromController,
-            self.environment.config.isTabLayoutEnabled {
+            environment.config.isTabLayoutEnabled {
             fromController.tabBarController?.selectedIndex = 1
         } else {
             showControllerFromStartupScreen(controller: controller)
