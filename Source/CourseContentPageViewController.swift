@@ -268,8 +268,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let currentController = viewControllers?.first,
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
-            self.setViewControllers([nextController], direction: direction, animated: true, completion: nil)
-            self.updateNavigationForEnteredController(controller: nextController)
+            DispatchQueue.main.async {
+                self.setViewControllers([nextController], direction: direction, animated: true, completion: nil)
+                self.updateNavigationForEnteredController(controller: nextController)
+            }
         }
     }
     
