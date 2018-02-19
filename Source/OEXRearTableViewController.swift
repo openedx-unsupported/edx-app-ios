@@ -16,6 +16,7 @@ private enum OEXRearViewOptions: Int {
 
 private let versionButtonStyle = OEXTextStyle(weight:.normal, size:.xxSmall, color: OEXStyles.shared().neutralWhite())
 
+@available(*, deprecated, message: "This class has been deprecated in v2.13 and will be obsolete in v2.14, hamburger menu is removed in the favor of new tab bar based design.")
 class OEXRearTableViewController : UITableViewController {
 
     // TODO replace this with a proper injection when we nuke the storyboard

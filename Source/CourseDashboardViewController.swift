@@ -20,6 +20,7 @@ struct CertificateDashboardItem: AdditionalTableViewCellItem {
     }
 }
 
+@available(*, deprecated, message: "This class has been deprecated in v2.13 and will be obsolete in v2.14, use CourseDashboardTabBarViewController instead")
 public class CourseDashboardViewController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
     
     public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & OEXRouterProvider
