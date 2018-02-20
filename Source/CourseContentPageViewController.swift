@@ -116,7 +116,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             success : {[weak self] cursor -> Void in
                 if let owner = self, let controller = owner.controllerForBlock(block: cursor.current.block)
                 {
-                    owner.setPageView(controllers: [controller], direction: .forward, animated: false)
+                    owner.setPageControllers(with: [controller], direction: .forward, animated: false)
                 }
                 else {
                     self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
@@ -266,11 +266,11 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let currentController = viewControllers?.first,
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
-            setPageView(controllers: [nextController], direction: direction, animated: true)
+            setPageControllers(with: [nextController], direction: direction, animated: true)
         }
     }
     
-    private func setPageView(controllers: [UIViewController], direction:UIPageViewControllerNavigationDirection, animated:Bool, competion: ((Bool) -> Swift.Void)? = nil) {
+    private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewControllerNavigationDirection, animated:Bool, competion: ((Bool) -> Swift.Void)? = nil) {
         DispatchQueue.main.async { [weak self] in
             self?.setViewControllers(controllers, direction: direction, animated: animated, completion: competion)
             self?.updateNavigationForEnteredController(controller: controllers.first)
