@@ -99,9 +99,11 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             controller.t_goForward()
             
             let testExpectation = expectation(description: "controller went forward")
-            controller.t_blockIDForCurrentViewController().listen(controller) {
-                testExpectation.fulfill()
-                XCTAssertEqual($0.value!, childID)
+            DispatchQueue.main.async() {
+                controller.t_blockIDForCurrentViewController().listen(controller) {
+                    testExpectation.fulfill()
+                    XCTAssertEqual($0.value!, childID)
+                }
             }
             self.waitForExpectations()
             XCTAssertTrue(controller.t_prevButtonEnabled)
@@ -174,8 +176,10 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             controller.t_goForward()
             
             let testExpectation = expectation(description: "controller went backward")
-            controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
-                testExpectation.fulfill()
+            DispatchQueue.main.async() {
+                controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
+                    testExpectation.fulfill()
+                }
             }
             self.waitForExpectations()
         }

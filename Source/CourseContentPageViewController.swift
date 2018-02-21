@@ -61,7 +61,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         courseOutlineMode = mode
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.setViewControllers([initialLoadController], direction: .forward, animated: false, completion: nil)
-        
         self.dataSource = self
         self.delegate = self
         
@@ -117,8 +116,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             success : {[weak self] cursor -> Void in
                 if let owner = self, let controller = owner.controllerForBlock(block: cursor.current.block)
                 {
-                    owner.setViewControllers([controller], direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
-                    self?.updateNavigationForEnteredController(controller: controller)
+                    owner.setPageControllers(with: [controller], direction: .forward, animated: false)
                 }
                 else {
                     self?.initialLoadController.state = LoadState.failed(error: NSError.oex_courseContentLoadError())
@@ -268,8 +266,14 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let currentController = viewControllers?.first,
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
-            self.setViewControllers([nextController], direction: direction, animated: true, completion: nil)
-            self.updateNavigationForEnteredController(controller: nextController)
+            setPageControllers(with: [nextController], direction: direction, animated: true)
+        }
+    }
+    
+    private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewControllerNavigationDirection, animated:Bool, competion: ((Bool) -> Swift.Void)? = nil) {
+        DispatchQueue.main.async { [weak self] in
+            self?.setViewControllers(controllers, direction: direction, animated: animated, completion: competion)
+            self?.updateNavigationForEnteredController(controller: controllers.first)
         }
     }
     
