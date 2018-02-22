@@ -1,5 +1,28 @@
  [
   {
+  "version": "2.13",
+  "messages": [
+               {
+               "platforms": [
+                             "ios",
+                             "android"
+                             ],
+               "image": "screen_1",
+               "title": "Improved Navigation",
+               "message": "Quickly access your courses or discovery new courses using the new application navigation."
+               },
+               {
+               "platforms": [
+                             "ios",
+                             "android"
+                             ],
+               "image": "screen_2",
+               "title": "Bulk Video Download",
+               "message": "Easily download all videos within a course using the new toggle controls."
+               }
+               ]
+  },
+  {
   "version": "2.12",
   "messages": [
                {
