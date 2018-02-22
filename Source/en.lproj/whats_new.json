@@ -9,7 +9,7 @@
                              ],
                "image": "screen_1",
                "title": "Improved Navigation",
-               "message": "Quickly access your courses or discovery new courses using the new application navigation."
+               "message": "Quickly access your courses or discover new courses using the new application navigation."
                },
                {
                "platforms": [
@@ -18,7 +18,7 @@
                              ],
                "image": "screen_2",
                "title": "Bulk Video Download",
-               "message": "Easily download all videos within a course using the new toggle controls."
+               "message": "Easily download all videos within a course using the new toggle control."
                }
                ]
   },
