@@ -74,7 +74,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.loadController = [[LoadStateViewController alloc] init];
     [self.loadController setupInControllerWithController:self contentView:self.scrollView];
     
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBarHidden = NO;
     
     [self setTitle:[Strings registerText]];
@@ -489,10 +488,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [self.registerButton applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings registrationCreateMyAccount]];
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     }
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return self.environment.styles.standardStatusBarStyle;
 }
 
 - (BOOL) shouldAutorotate {

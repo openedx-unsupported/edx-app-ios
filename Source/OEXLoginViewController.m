@@ -172,7 +172,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     [self setTitle:[Strings signInText]];
 
     NSMutableArray* providers = [[NSMutableArray alloc] init];
@@ -762,10 +761,6 @@
 
 - (BOOL) isRTL {
     return [UIApplication sharedApplication].userInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionRightToLeft;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return [OEXStyles sharedStyles].standardStatusBarStyle;
 }
 
 - (BOOL) shouldAutorotate {
