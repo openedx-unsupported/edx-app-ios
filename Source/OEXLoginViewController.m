@@ -172,6 +172,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     [self setTitle:[Strings signInText]];
 
     NSMutableArray* providers = [[NSMutableArray alloc] init];

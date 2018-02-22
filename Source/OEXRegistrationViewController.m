@@ -74,6 +74,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.loadController = [[LoadStateViewController alloc] init];
     [self.loadController setupInControllerWithController:self contentView:self.scrollView];
     
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     self.navigationController.navigationBarHidden = NO;
     
     [self setTitle:[Strings registerText]];
