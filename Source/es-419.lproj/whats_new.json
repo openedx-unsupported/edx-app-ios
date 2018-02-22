@@ -8,8 +8,8 @@
                              "android"
                              ],
                "image": "screen_1",
-               "title": "Improved Navigation",
-               "message": "Quickly access your courses or discovery new courses using the new application navigation."
+               "title": "Navegación Actualizada ",
+               "message": "Acceda rápidamente a sus cursos o descubra nuevos cursos utilizando la nueva navegación."
                },
                {
                "platforms": [
@@ -17,8 +17,8 @@
                              "android"
                              ],
                "image": "screen_2",
-               "title": "Bulk Video Download",
-               "message": "Easily download all videos within a course using the new toggle controls."
+               "title": "Descarga de Videos a Granel",
+               "message": "Descargue fácilmente todos los videos dentro de un curso usando los nuevos controles de alternar."
                }
                ]
   },
