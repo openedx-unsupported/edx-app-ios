@@ -490,10 +490,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return self.environment.styles.standardStatusBarStyle;
-}
-
 - (BOOL) shouldAutorotate {
     return false;
 }
