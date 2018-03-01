@@ -55,7 +55,7 @@ private class PlatformHashTag: NSObject, UIActivityItemSource {
     }
 
     //If this is going to Twitter and the hashtag has been defined in the configuration, use it otherwise use the platform name
-    fileprivate func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+    fileprivate func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType?) -> Any? {
         var item = platformName
         if let hashTag = config.twitterConfiguration?.hashTag, activityType == UIActivityType.postToTwitter {
             item = hashTag
@@ -80,7 +80,7 @@ private class CourseShareURL: NSObject, UIActivityItemSource {
         return courseShareURL
     }
     
-    fileprivate func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
+    fileprivate func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType?) -> Any? {
         
         var courseShareURLStringWithUtmParams: String?
         if activityType == UIActivityType.postToFacebook, let utmParams = courseShareUtmParams.facebook {

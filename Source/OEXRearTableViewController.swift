@@ -172,7 +172,7 @@ class OEXRearTableViewController : UITableViewController {
         return super.tableView(tableView, heightForRowAt: indexPath)
     }
     
-    func dataAvailable(notification: NSNotification) {
+    @objc func dataAvailable(notification: NSNotification) {
         let successString = notification.userInfo![NOTIFICATION_KEY_STATUS] as? String;
         let URLString = notification.userInfo![NOTIFICATION_KEY_URL] as? String;
         

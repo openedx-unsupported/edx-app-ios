@@ -1700,7 +1700,7 @@ public func download(resumeData data: Data, destination: @escaping Request.Downl
 }
 
 extension URLSessionConfiguration {
-    public func defaultHTTPHeaders() -> NSDictionary {
+    @objc public func defaultHTTPHeaders() -> NSDictionary {
         return Manager.defaultHTTPHeaders as NSDictionary
     }
 }

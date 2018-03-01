@@ -298,9 +298,10 @@ public enum Icon {
     }
     
     private func imageWithStyle(style : OEXTextStyle, sizeOverride : CGFloat? = nil, inline : Bool = false) -> UIImage {
+        var convertedAttributes = style.convertedAttributes
         var attributes = style.attributes
         let textSize = sizeOverride ?? OEXTextStyle.pointSize(for: style.size)
-        attributes[NSFontAttributeName] = Icon.fontWithSize(size: textSize)
+        convertedAttributes[NSAttributedStringKey.font] = Icon.fontWithSize(size: textSize)
         
         let bounds = renderer.boundsWithAttributes(attributes: attributes as [String : AnyObject], inline: inline)
         let imageSize = bounds.size
@@ -321,8 +322,9 @@ public enum Icon {
     }
 
     public func attributedTextWithStyle(style : OEXTextStyle, inline : Bool = false) -> NSAttributedString {
+        var convertedAttributes = style.convertedAttributes
         var attributes = style.attributes
-        attributes[NSFontAttributeName] = Icon.fontWithSize(size: style.size)
+        convertedAttributes[NSAttributedStringKey.font] = Icon.fontWithSize(size: style.size)
         let bounds = renderer.boundsWithAttributes(attributes: attributes as [String : AnyObject], inline : inline)
         
         let attachment = NSTextAttachment(data: nil, ofType: nil)

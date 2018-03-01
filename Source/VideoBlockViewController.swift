@@ -331,7 +331,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         }
     }
     
-    func highlightSubtitle() {
+    @objc func highlightSubtitle() {
         videoTranscriptView?.highlightSubtitleForTime(time: videoController.moviePlayerController?.controls?.moviePlayer?.currentPlaybackTime)
     }
     

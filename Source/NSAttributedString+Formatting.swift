@@ -10,6 +10,11 @@ import Foundation
 
 extension OEXTextStyle {
 
+    var convertedAttributes: [NSAttributedStringKey: Any] {
+        return Dictionary(uniqueKeysWithValues:
+        attributes.lazy.map { (NSAttributedStringKey($0.key), $0.value) })
+    }
+    
     func apply(f : @escaping (String) -> String) -> ((NSAttributedString) -> NSAttributedString) {
         return {(s : NSAttributedString) in
             let string = f("{__param__}")

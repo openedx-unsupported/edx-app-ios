@@ -34,16 +34,16 @@ class DetailToolbarButton: UIView {
         if let destination = destinationText {
             let styledDestination = destinationStyle.attributedString(withText: destination)
         
-            title = NSAttributedString(string: "{top}\n{bottom}", attributes : titleStyle.attributes).oex_format(withParameters: ["top" : styledTitle, "bottom" : styledDestination])
+            title = NSAttributedString(string: "{top}\n{bottom}", attributes : titleStyle.convertedAttributes).oex_format(withParameters: ["top" : styledTitle, "bottom" : styledDestination])
         } else {
-            title = NSAttributedString(string: "{top}", attributes : titleStyle.attributes).oex_format(withParameters: ["top" : styledTitle])
+            title = NSAttributedString(string: "{top}", attributes : titleStyle.convertedAttributes).oex_format(withParameters: ["top" : styledTitle])
         }
         
         button.titleLabel?.numberOfLines = 2
         button.setAttributedTitle(title, for: .normal)
         
         let disabledTitle = NSMutableAttributedString(attributedString: title)
-        disabledTitle.setAttributes([NSForegroundColorAttributeName: OEXStyles.shared().disabledButtonColor()], range: NSMakeRange(0, title.length))
+        disabledTitle.setAttributes([NSAttributedStringKey.foregroundColor: OEXStyles.shared().disabledButtonColor()], range: NSMakeRange(0, title.length))
         button.setAttributedTitle(disabledTitle, for: .disabled)
         
         button.contentHorizontalAlignment = buttonAlignment

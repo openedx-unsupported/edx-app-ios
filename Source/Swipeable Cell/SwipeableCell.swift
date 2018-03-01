@@ -190,7 +190,7 @@ class SwipeableCell: UITableViewCell {
             }
         }()
         
-        animator.addAnimations({[weak self] _ in
+        animator.addAnimations({[weak self] in
             if let owner = self {
                 owner.center = CGPoint(x: offset, y: owner.center.y)
                 owner.layoutIfNeeded()
@@ -216,7 +216,7 @@ class SwipeableCell: UITableViewCell {
         hideSwipe(animated: true);
     }
     
-    func handleTablePan(gesture: UIPanGestureRecognizer) {
+    @objc func handleTablePan(gesture: UIPanGestureRecognizer) {
         if gesture.state == .began {
             hideSwipe(animated: true)
         }

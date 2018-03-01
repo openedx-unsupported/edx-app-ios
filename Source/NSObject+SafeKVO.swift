@@ -51,18 +51,20 @@ extension NSObjectExtensions where Self : NSObject {
                 action(observer, self, v)
             }
         }
-        objc_setAssociatedObject(observer, listener.token, listener, .OBJC_ASSOCIATION_RETAIN)
-        self.addObserver(listener, forKeyPath: keyPath, options: .new, context: listener.token)
-        let deallocRemover = observer.oex_performAction { [weak listener] in
-            listener?.remove()
-        }
-        
-        listener.removeAction = {[weak observer, weak self] listener in
-            self?.removeObserver(listener, forKeyPath: keyPath)
-            if let observer = observer {
-                objc_setAssociatedObject(observer, listener.token, nil, .OBJC_ASSOCIATION_RETAIN)
+        if let token = listener.token {
+            objc_setAssociatedObject(observer, token, listener, .OBJC_ASSOCIATION_RETAIN)
+            self.addObserver(listener, forKeyPath: keyPath, options: .new, context: token)
+            let deallocRemover = observer.oex_performAction { [weak listener] in
+                listener?.remove()
             }
-            deallocRemover.remove()
+            
+            listener.removeAction = {[weak observer, weak self] listener in
+                self?.removeObserver(listener, forKeyPath: keyPath)
+                if let observer = observer {
+                    objc_setAssociatedObject(observer, token, nil, .OBJC_ASSOCIATION_RETAIN)
+                }
+                deallocRemover.remove()
+            }
         }
         
         return listener

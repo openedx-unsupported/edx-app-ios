@@ -95,7 +95,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
         return transcriptArray.index(where: { time ?? 0 >= ($0 as? [String: AnyObject])?[CLVideoPlayerkStart] as? Double ?? 0 && time ?? 0 <= ($0 as? [String: AnyObject])?[CLVideoPlayerkEnd] as? Double ?? 0 })
     }
     
-    func invalidateDragging(){
+    @objc func invalidateDragging(){
         isTableDragged = false
     }
 }

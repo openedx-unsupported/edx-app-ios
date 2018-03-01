@@ -127,7 +127,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     }
     
     func showError(error : NSError) {
-        let buttonInfo = MessageButtonInfo(title: Strings.reload) {[weak self] _ in
+        let buttonInfo = MessageButtonInfo(title: Strings.reload) { [weak self] in
             if let request = self?.request {
                 self?.webView.load(request as URLRequest)
                 self?.loadController.state = .Initial

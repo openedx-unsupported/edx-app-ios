@@ -140,7 +140,7 @@ extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
             }
 
             alert.addAction(UIAlertAction(title: title, style:.default, handler: { _ in
-                selectedSetting.callback(value: row.value)
+                selectedSetting.callback(row.value)
             }))
         }
         alert.addCancelAction()

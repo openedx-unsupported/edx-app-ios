@@ -140,7 +140,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
         let childID = childIDs.first
         
-        loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) {_ in
+        loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (_, _) in
             return { expectation -> Void in
                 DispatchQueue.main.async {
                     self.environment.eventTracker.eventStream.listenOnce(self) {_ in

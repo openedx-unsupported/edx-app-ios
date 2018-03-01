@@ -44,7 +44,7 @@ class AccomplishmentView : UIView {
         shareButton.setImage(UIImage(named: "share"), for: .normal)
         shareButton.tintColor = OEXStyles.shared().neutralLight()
         shareButton.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        shareButton.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        shareButton.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
         shareButton.oex_addAction({ _ in
             shareAction?()
         }, for: .touchUpInside)

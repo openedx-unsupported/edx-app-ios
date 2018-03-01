@@ -31,9 +31,9 @@ class DownloadsAccessoryView : UIView {
         
         downloadButton.tintColor = OEXStyles.shared().neutralBase()
         downloadButton.contentEdgeInsets = UIEdgeInsetsMake(15, 10, 15, 10)
-        downloadButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        countLabel.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
-        downloadSpinner.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        downloadButton.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        countLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        downloadSpinner.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         
         self.addSubview(downloadButton)
         self.addSubview(downloadSpinner)

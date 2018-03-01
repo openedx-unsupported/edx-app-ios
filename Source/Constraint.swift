@@ -189,7 +189,7 @@ internal class ConcreteConstraint: Constraint {
         didSet {
             if let installInfo = self.installInfo {
                 for layoutConstraint in installInfo.layoutConstraints.allObjects as! [LayoutConstraint] {
-                    layoutConstraint.priority = self.priority
+                    layoutConstraint.priority = UILayoutPriority(rawValue: self.priority)
                 }
             }
         }
@@ -288,7 +288,7 @@ internal class ConcreteConstraint: Constraint {
             layoutConstraint.identifier = self.label
             
             // set priority
-            layoutConstraint.priority = self.priority
+            layoutConstraint.priority = UILayoutPriority(rawValue: self.priority)
             
             // set constraint
             layoutConstraint.snp_constraint = self

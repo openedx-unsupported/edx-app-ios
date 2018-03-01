@@ -227,7 +227,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             }
             }, for: UIControlEvents.valueChanged)
         discussionQuestionSegmentedControl.tintColor = OEXStyles.shared().neutralDark()
-        discussionQuestionSegmentedControl.setTitleTextAttributes([NSForegroundColorAttributeName: OEXStyles.shared().neutralWhite()], for: UIControlState.selected)
+        discussionQuestionSegmentedControl.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: OEXStyles.shared().neutralWhite()], for: UIControlState.selected)
         discussionQuestionSegmentedControl.selectedSegmentIndex = 0
         
         updateSelectedTabColor()
