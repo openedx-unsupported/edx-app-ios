@@ -86,6 +86,7 @@
 		1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */; };
 		1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */; };
 		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
+		22137E39203D5F2F005029F3 /* screen_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22137E38203D5F2E005029F3 /* screen_2.png */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
 		2231FF4D1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2231FF4C1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift */; };
@@ -109,6 +110,7 @@
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
 		22B6EF851FB4684A00480A38 /* CourseTabBarLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseTabBarLoadStateViewController.swift */; };
+		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
 		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
 		22DCA5031F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */; };
 		22F8A9101F45EFAF0025E18A /* AccountViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */; };
@@ -890,6 +892,7 @@
 		1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderTextEditor.swift; sourceTree = "<group>"; };
 		1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureTaker.swift; sourceTree = "<group>"; };
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
+		22137E38203D5F2E005029F3 /* screen_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_2.png; sourceTree = "<group>"; };
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
 		2231FF4C1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerAnalyticsTracker.swift; sourceTree = "<group>"; };
@@ -911,6 +914,7 @@
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
 		22B6EF841FB4684A00480A38 /* CourseTabBarLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTabBarLoadStateViewController.swift; sourceTree = "<group>"; };
+		22B85A33203EEE1E0071AD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		22D73B5C1ED575C000220280 /* course-dates.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "course-dates.js"; sourceTree = "<group>"; };
 		22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSectionTableViewCellTests.swift; sourceTree = "<group>"; };
 		22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountViewControllerTest.swift; path = ../Source/AccountViewControllerTest.swift; sourceTree = "<group>"; };
@@ -2032,6 +2036,7 @@
 		69ECC5A11D50D1170030CF87 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				22B85A33203EEE1E0071AD43 /* Images.xcassets */,
 				77BFD8691BB9E15B001D7BE5 /* Strings.swift */,
 				6919F5FB1D65CD14006935C8 /* Colors */,
 				69ECC5A21D50D1170030CF87 /* Fonts */,
@@ -3456,6 +3461,7 @@
 		E08EFCCC1EC1E462008ECEC9 /* WhatsNew */ = {
 			isa = PBXGroup;
 			children = (
+				22137E38203D5F2E005029F3 /* screen_2.png */,
 				E054B09E1EC3178200FACBA6 /* screen_1.png */,
 			);
 			path = WhatsNew;
@@ -3719,6 +3725,7 @@
 				69ECC6171D50D1170030CF87 /* bt_google.png in Resources */,
 				69ECC62E1D50D1170030CF87 /* ic_cancel.png in Resources */,
 				69ECC64E1D50D1170030CF87 /* Default-414w-736h@3x.png in Resources */,
+				22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */,
 				B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */,
 				69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */,
 				69ECC60F1D50D1170030CF87 /* arrow_next@2x.png in Resources */,
@@ -3820,6 +3827,7 @@
 				BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */,
 				69ECC63A1D50D1170030CF87 /* ic_watched@2x.png in Resources */,
 				69ECC6061D50D1170030CF87 /* OpenSans-Semibold.ttf in Resources */,
+				22137E39203D5F2F005029F3 /* screen_2.png in Resources */,
 				E039A8031F74C0D80064ABDB /* loginScreenImage~ipad.png in Resources */,
 				69ECC63B1D50D1170030CF87 /* ic_watched@3x.png in Resources */,
 				E0E27FC41EC46D4000D1AEFE /* test_screen_1.png in Resources */,
@@ -4750,6 +4758,7 @@
 			baseConfigurationReference = 6C5AB6D484316B1D809C5BC7 /* Pods-edX.profile.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = edX.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -5189,6 +5198,7 @@
 			baseConfigurationReference = B1AF3BB032520841A93A174B /* Pods-edX.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = edX.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -5226,6 +5236,7 @@
 			baseConfigurationReference = FFF07B872500B8140F91FB08 /* Pods-edX.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = edX.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

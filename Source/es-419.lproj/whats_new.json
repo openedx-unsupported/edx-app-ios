@@ -1,5 +1,28 @@
  [
   {
+  "version": "2.13",
+  "messages": [
+               {
+               "platforms": [
+                             "ios",
+                             "android"
+                             ],
+               "image": "screen_1",
+               "title": "Navegación Actualizada ",
+               "message": "Acceda rápidamente a sus cursos o descubra nuevos cursos utilizando la nueva navegación."
+               },
+               {
+               "platforms": [
+                             "ios",
+                             "android"
+                             ],
+               "image": "screen_2",
+               "title": "Descarga de Videos a Granel",
+               "message": "Descargue fácilmente todos los videos dentro de un curso usando los nuevos controles de alternar."
+               }
+               ]
+  },
+  {
   "version": "2.12",
   "messages": [
                {
