@@ -22,7 +22,6 @@
 #import "OEXStyles.h"
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
-#import "SWRevealViewController.h"
 #import "OEXCustomButton.h"
 
 #define RECENT_DOWNLOADEDVIEW_HEIGHT 76

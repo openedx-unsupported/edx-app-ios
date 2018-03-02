@@ -23,7 +23,6 @@
 #import "OEXSession.h"
 #import "OEXDownloadViewController.h"
 #import "OEXCourse.h"
-#import "SWRevealViewController.h"
 
 
 static OEXRouter* sSharedRouter;
@@ -41,9 +40,6 @@ OEXRegistrationViewControllerDelegate
 
 @property (strong, nonatomic) SingleChildContainingViewController* containerViewController;
 @property (strong, nonatomic) UIViewController* currentContentController;
-
-// The class RevealController has been deprecated in v2.13 and will be obsolete in v2.14
-@property (strong, nonatomic) RevealViewController* revealController;
 
 @property (strong, nonatomic) void(^registrationCompletion)(void);
 
@@ -109,21 +105,7 @@ OEXRegistrationViewControllerDelegate
     
     OEXUserDetails* currentUser = self.environment.session.currentUser;
     [self.environment.analytics identifyUser:currentUser];
-
-    if (self.environment.config.isTabLayoutEnabled) {
-        [self showEnrolledTabBarView];
-    }
-    else {
-        // The class RevealController has been deprecated in v2.13 and will be obsolete in v2.14
-        // use showEnrolledTabBarView instead.
-        
-        self.revealController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"SideNavigationContainer"];
-        self.revealController.delegate = self.revealController;
-        [self showMyCoursesAnimated:NO pushingCourseWithID:nil];
-        UIViewController* rearController = [self.mainStoryboard instantiateViewControllerWithIdentifier:@"RearViewController"];
-        [self.revealController setDrawerViewControllerWithController:rearController animated:NO];
-        [self makeContentControllerCurrent:self.revealController];
-    }
+    [self showEnrolledTabBarView];
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
@@ -164,7 +146,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showAnnouncementsForCourseWithID:(NSString *)courseID {
-    UINavigationController* navigation = OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController);
+    UINavigationController* navigation = OEXSafeCastAsClass(UIApplication.sharedApplication.keyWindow.rootViewController, UINavigationController);
     CourseAnnouncementsViewController* currentController = OEXSafeCastAsClass(navigation.topViewController, CourseAnnouncementsViewController);
     BOOL showingChosenCourse = [currentController.courseID isEqual:courseID];
     
@@ -174,35 +156,9 @@ OEXRegistrationViewControllerDelegate
     }
 }
 
-- (UIBarButtonItem*)showNavigationBarItem {
-    UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithImage:[UIImage MenuIcon] style:UIBarButtonItemStylePlain target:self action:@selector(showSidebar:)];
-    item.accessibilityLabel = [Strings accessibilityMenu];
-    item.accessibilityIdentifier = @"navigation-bar-button";
-    
-    return item;
-}
-
-- (void)showSidebar:(id)sender {
-    [self.revealController toggleDrawerAnimatedWithAnimated:YES];
-}
-
 - (void)showContentStackWithRootController:(UIViewController*)controller animated:(BOOL)animated {
-    
     UINavigationController* navigationController = [[ForwardingNavigationController alloc] initWithRootViewController:controller];
-    if (self.environment.config.isTabLayoutEnabled) {
-        [self makeContentControllerCurrent:navigationController];
-    }
-    else {
-        controller.navigationItem.leftBarButtonItem = [self showNavigationBarItem];
-        NSAssert( self.revealController != nil, @"oops! must have a revealViewController" );
-        
-        [controller.view addGestureRecognizer:self.revealController.panGestureRecognizer];
-        
-        // The class RevealController has been deprecated in v2.13 and will be obsolete in v2.14
-        // makeContentControllerCurrent method will be use instead
-        
-        [self.revealController pushFrontViewController:navigationController animated:animated];
-    }
+    [self makeContentControllerCurrent:navigationController];
 }
     
 - (void)showDownloadsFromViewController:(UIViewController*)controller {
@@ -238,15 +194,11 @@ OEXRegistrationViewControllerDelegate
 @implementation OEXRouter(Testing)
 
 - (NSArray*)t_navigationHierarchy {
-    return OEXSafeCastAsClass(self.revealController.frontViewController, UINavigationController).viewControllers ?: @[];
+    return OEXSafeCastAsClass([[UIApplication sharedApplication] keyWindow].rootViewController, UINavigationController).viewControllers ?: @[];
 }
 
 - (BOOL)t_showingLogin {
     return [self.currentContentController isKindOfClass:[OEXLoginSplashViewController class]];
-}
-
-- (BOOL)t_hasDrawerController {
-    return self.revealController.drawerViewController != nil;
 }
 
 @end
