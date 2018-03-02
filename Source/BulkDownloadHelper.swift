@@ -21,19 +21,17 @@ class BulkDownloadHelper {
     private(set) var course: OEXCourse
     private let interface: OEXInterface?
     private(set) var state: BulkDownloadState = .new
-    var courseVideos: [OEXHelperVideoDownload] {
-        return interface?.downloadableVideos(of: course) ?? []
-    }
+    private(set) var videos: [OEXHelperVideoDownload] = []
     
     var newVideosCount: Int {
-        return (courseVideos.filter { $0.downloadState == .new }).count
+        return (videos.filter { $0.downloadState == .new }).count
     }
     var partialAndNewVideosCount: Int {
-        return (courseVideos.filter { $0.downloadState == .partial || $0.downloadState == .new }).count
+        return (videos.filter { $0.downloadState == .partial || $0.downloadState == .new }).count
     }
     
     var totalSize: Double {
-        return courseVideos.reduce(into: 0.0) {
+        return videos.reduce(into: 0.0) {
             (sum, video) in
             sum = sum + Double(video.summary?.size ?? 0)
         }
@@ -44,12 +42,12 @@ class BulkDownloadHelper {
         case .downloaded:
             return totalSize
         case .downloading:
-            return courseVideos.reduce(into: 0.0) {
+            return videos.reduce(into: 0.0) {
                 (sum, video) in
                 sum = sum + ((video.downloadProgress *  Double(video.summary?.size ?? 0.0)) / 100.0)
             }
         case .partial:
-            let fullyDownloadedVideos = courseVideos.filter { $0.downloadState == .complete }
+            let fullyDownloadedVideos = videos.filter { $0.downloadState == .complete }
             return fullyDownloadedVideos.reduce(into: 0.0) {
                 (sum, video) in
                 sum = sum + Double(video.summary?.size ?? 0)
@@ -63,9 +61,10 @@ class BulkDownloadHelper {
         return totalSize == 0 ? 0.0 : Float(downloadedSize / totalSize)
     }
     
-    init(with course: OEXCourse, interface: OEXInterface?) {
+    init(with course: OEXCourse, interface: OEXInterface?, videos: [OEXHelperVideoDownload]) {
         self.course = course
         self.interface = interface
+        self.videos = videos
         refreshState()
     }
     
@@ -74,10 +73,10 @@ class BulkDownloadHelper {
     }
     
     private func bulkDownloadState() -> BulkDownloadState {
-        if courseVideos.count <= 0 {
+        if videos.count <= 0 {
             return .none
         }
-        let allNew = courseVideos.reduce(true) {(acc, video) in
+        let allNew = videos.reduce(true) {(acc, video) in
             return acc && video.downloadState == .new
         }
         
@@ -85,14 +84,14 @@ class BulkDownloadHelper {
             return .new
         }
         
-        let allCompleted = courseVideos.reduce(true) {(acc, video) in
+        let allCompleted = videos.reduce(true) {(acc, video) in
             return acc && video.downloadState == .complete
         }
         if allCompleted {
             return .downloaded
         }
         
-        let allPartialyOrFullyDownloaded = courseVideos.reduce(true) {(acc, video) in
+        let allPartialyOrFullyDownloaded = videos.reduce(true) {(acc, video) in
             return acc && video.downloadState != .new
         }
         if allPartialyOrFullyDownloaded {

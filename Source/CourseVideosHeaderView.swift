@@ -10,7 +10,7 @@ import UIKit
 
 protocol CourseVideosHeaderViewDelegate: class {
     func courseVideosHeaderViewTapped()
-    func invalidDownloadSettings()
+    func invalidOrNoNetworkFound()
 }
 
 // To remove specific observers we need reference of notification and observer as well.
@@ -31,6 +31,7 @@ class CourseVideosHeaderView: UIView {
     private var observers:[NotificationObserver] = []
     private let environment: Environment
     weak var delegate: CourseVideosHeaderViewDelegate?
+    private var blockID: CourseBlockID?
     
     // MARK: - UI Properties -
     lazy private var imageView: UIImageView = {
@@ -125,7 +126,7 @@ class CourseVideosHeaderView: UIView {
         case .downloading:
             return Strings.allDownloadingVideosSubTitle(remainingVideosCount: "\(bulkDownloadHelper.partialAndNewVideosCount)", remainingVideosSize: "\(videoSizeForSubTitle)")
         default:
-            return Strings.bulkDownloadVideosSubTitle(count: "\(bulkDownloadHelper.courseVideos.count)", videosSize: "\(videoSizeForSubTitle)")(bulkDownloadHelper.courseVideos.count)
+            return Strings.bulkDownloadVideosSubTitle(count: "\(bulkDownloadHelper.videos.count)", videosSize: "\(videoSizeForSubTitle)")(bulkDownloadHelper.videos.count)
         }
     }
     
@@ -144,13 +145,13 @@ class CourseVideosHeaderView: UIView {
         default:
             return Strings.Accessibility.bulkDownloadDownloadingHint
         }
-    
     }
     
     // MARK: - Initializers -
-    init(with course: OEXCourse, environment: Environment) {
+    init(with course: OEXCourse, environment: Environment, videos: [OEXHelperVideoDownload], blockID: CourseBlockID?) {
         self.environment = environment
-        bulkDownloadHelper = BulkDownloadHelper(with: course, interface: environment.interface)
+        self.blockID = blockID
+        bulkDownloadHelper = BulkDownloadHelper(with: course, interface: environment.interface, videos: videos)
         super.init(frame: .zero)
         configureView()
     }
@@ -225,7 +226,7 @@ class CourseVideosHeaderView: UIView {
     private func switchToggled(){
         toggleAction?.cancel()
         if toggleSwitch.isOn {
-            if (environment.interface?.isDownloadSettingsValid() ?? false) {
+            if (environment.interface?.canDownload() ?? false) {
                 toggleAction = DispatchWorkItem { [weak self] in self?.startDownloading() }
                 if let task = toggleAction {
                     DispatchQueue.main.async(execute: task)
@@ -233,7 +234,7 @@ class CourseVideosHeaderView: UIView {
             }
             else {
                 toggleSwitch.isOn = false
-                delegate?.invalidDownloadSettings()
+                delegate?.invalidOrNoNetworkFound()
             }
         }
         else {
@@ -241,13 +242,13 @@ class CourseVideosHeaderView: UIView {
             if let task = toggleAction {
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + toggleActionDelay, execute: task)
             }
-            environment.analytics.trackBulkDownloadToggle(isOn: toggleSwitch.isOn, courseID: bulkDownloadHelper.course.course_id ?? "", totalVideosCount: bulkDownloadHelper.courseVideos.count, remainingVideosCount: bulkDownloadHelper.newVideosCount)
+            environment.analytics.trackBulkDownloadToggle(isOn: toggleSwitch.isOn, courseID: bulkDownloadHelper.course.course_id ?? "", totalVideosCount: bulkDownloadHelper.videos.count, remainingVideosCount: bulkDownloadHelper.newVideosCount, blockID: blockID)
         }
         
     }
     
     private func startDownloading() {
-        environment.interface?.downloadVideos(bulkDownloadHelper.courseVideos) {
+        environment.interface?.downloadVideos(bulkDownloadHelper.videos) {
             [weak self] cancelled in
             self?.toggleAction = nil
             // User turn on switch for course which has large download, but after watching warning cancel the bulk download, for this we need to update headerview accordingly
@@ -256,14 +257,14 @@ class CourseVideosHeaderView: UIView {
             }
             else {
                 if let owner = self {
-                    owner.environment.analytics.trackBulkDownloadToggle(isOn: owner.toggleSwitch.isOn, courseID: owner.bulkDownloadHelper.course.course_id ?? "", totalVideosCount: owner.bulkDownloadHelper.courseVideos.count, remainingVideosCount: owner.bulkDownloadHelper.newVideosCount)
+                    owner.environment.analytics.trackBulkDownloadToggle(isOn: owner.toggleSwitch.isOn, courseID: owner.bulkDownloadHelper.course.course_id ?? "", totalVideosCount: owner.bulkDownloadHelper.videos.count, remainingVideosCount: owner.bulkDownloadHelper.newVideosCount, blockID: owner.blockID)
                 }
             }
         }
     }
     
     private func stopAndDeleteDownloads() {
-        environment.interface?.deleteDownloadedVideos(bulkDownloadHelper.courseVideos) { [weak self] _ in
+        environment.interface?.deleteDownloadedVideos(bulkDownloadHelper.videos) { [weak self] _ in
             self?.toggleAction = nil
             self?.refreshView()
         }

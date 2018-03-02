@@ -38,9 +38,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private var lastAccess:Bool = false
     private var shouldHideTableViewHeader:Bool = false
     let refreshController = PullRefreshController()
+    private var courseBlockID : CourseBlockID?
     
-    init(environment : Environment, courseID : String, forMode mode: CourseOutlineMode) {
+    init(environment : Environment, courseID : String, forMode mode: CourseOutlineMode, courseBlockID : CourseBlockID? = nil) {
         self.courseID = courseID
+        self.courseBlockID = courseBlockID
         self.environment = environment
         self.courseOutlineMode = mode
         self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
@@ -53,6 +55,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     var groups : [CourseOutlineQuerier.BlockGroup] = []
     var highlightedBlockID : CourseBlockID? = nil
+    private var videos: [OEXHelperVideoDownload]?
     
     func addCertificateView() {
         guard environment.config.isTabLayoutEnabled, environment.config.certificatesEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl = enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
@@ -85,39 +88,58 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     private func configureHeaderView() {
         
-        if courseOutlineMode == .full {
-            headerContainer.addSubview(lastAccessedView)
-            headerContainer.addSubview(courseCard)
-            addCertificateView()
-        }
-        
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
             switch courseOutlineMode {
             case .full:
+                headerContainer.addSubview(lastAccessedView)
+                headerContainer.addSubview(courseCard)
+                addCertificateView()
                 if environment.config.isTabLayoutEnabled {
                     CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
                     refreshTableHeaderView(lastAccess: false)
                 }
                 break
             case .video:
-                courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment)
-                courseVideosHeaderView?.delegate = self
-                if let headerView = courseVideosHeaderView {
-                    headerContainer.addSubview(headerView)
+                if let interface = environment.interface {
+                    if let courseBlockID = courseBlockID {
+                        let stream = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: courseBlockID)
+                        stream.listen(self) {[weak self] downloads in
+                            if let downloads = downloads.value {
+                                self?.videos = downloads.filter { $0.summary?.isDownloadableVideo ?? false }
+                                if let videos = self?.videos {
+                                    self?.addBulkDownloadHeaderView(course: course, videos: videos)
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        videos = interface.downloadableVideos(of: course)
+                        if let videos = videos {
+                            addBulkDownloadHeaderView(course: course, videos: videos)
+                        }
+                    }
                 }
-                
-                refreshTableHeaderView(lastAccess: false)
                 break
             }
         }
+    }
+    
+    private func addBulkDownloadHeaderView(course: OEXCourse, videos: [OEXHelperVideoDownload]) {
+        courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment, videos: videos, blockID: courseBlockID)
+        courseVideosHeaderView?.delegate = self
+        if let headerView = courseVideosHeaderView {
+            headerContainer.addSubview(headerView)
+        }
+        
+        refreshTableHeaderView(lastAccess: false)
     }
     
     func courseVideosHeaderViewTapped() {
         delegate?.outlineTableControllerChoseShowDownloads(controller: self)
     }
     
-    func invalidDownloadSettings() {
-        showOverlay(withMessage: Strings.noWifiMessage)
+    func invalidOrNoNetworkFound() {
+        showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
     }
     
     private func indexPathForBlockWithID(blockID : CourseBlockID) -> NSIndexPath? {
@@ -299,12 +321,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     private func refreshTableHeaderView(lastAccess: Bool) {
-        if shouldHideTableViewHeader { return }
         self.lastAccess = lastAccess
         lastAccessedView.isHidden = !lastAccess
         
         switch courseOutlineMode {
         case .full:
+            if shouldHideTableViewHeader { return }
             var constraintView: UIView = courseCard            
             courseCard.snp_remakeConstraints { (make) in
                 let screenWidth = UIScreen.main.bounds.size.width
@@ -343,8 +365,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
             break
         case .video:
-            if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course,
-                environment.interface?.downloadableVideos(of: course).count ?? 0 <= 0 {
+            if videos?.count ?? 0 <= 0 {
                 tableView.tableHeaderView = nil
                 return
             }

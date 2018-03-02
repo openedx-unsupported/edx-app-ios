@@ -145,7 +145,7 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: [AnalyticsEventDataKey.SubsectionID.rawValue : subsectionID])
     }
     
-    func trackBulkDownloadToggle(isOn: Bool, courseID: String, totalVideosCount: Int, remainingVideosCount: Int) {
+    func trackBulkDownloadToggle(isOn: Bool, courseID: String, totalVideosCount: Int, remainingVideosCount: Int, blockID: CourseBlockID?) {
         let event = OEXAnalyticsEvent()
         event.courseID = courseID
         event.name = isOn ? AnalyticsEventName.BulkDownloadToggleOn.rawValue : AnalyticsEventName.BulkDownloadToggleOff.rawValue
@@ -155,6 +155,9 @@ extension OEXAnalytics {
         
         if isOn {
             info[AnalyticsEventDataKey.remainingDownloadableVideos.rawValue] = "\(remainingVideosCount)"
+        }
+        if let blockID = blockID {
+            info[OEXAnalyticsKeyBlockID] = "\(blockID)"
         }
         
         trackEvent(event, forComponent: nil, withInfo: info)
