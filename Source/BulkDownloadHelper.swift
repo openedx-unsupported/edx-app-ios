@@ -19,7 +19,6 @@ enum BulkDownloadState {
 class BulkDownloadHelper {
     
     private(set) var course: OEXCourse
-    private let interface: OEXInterface?
     private(set) var state: BulkDownloadState = .new
     private(set) var videos: [OEXHelperVideoDownload] = []
     
@@ -61,9 +60,8 @@ class BulkDownloadHelper {
         return totalSize == 0 ? 0.0 : Float(downloadedSize / totalSize)
     }
     
-    init(with course: OEXCourse, interface: OEXInterface?, videos: [OEXHelperVideoDownload]) {
+    init(with course: OEXCourse, videos: [OEXHelperVideoDownload]) {
         self.course = course
-        self.interface = interface
         self.videos = videos
         refreshState()
     }

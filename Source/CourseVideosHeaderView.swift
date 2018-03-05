@@ -151,7 +151,7 @@ class CourseVideosHeaderView: UIView {
     init(with course: OEXCourse, environment: Environment, videos: [OEXHelperVideoDownload], blockID: CourseBlockID?) {
         self.environment = environment
         self.blockID = blockID
-        bulkDownloadHelper = BulkDownloadHelper(with: course, interface: environment.interface, videos: videos)
+        bulkDownloadHelper = BulkDownloadHelper(with: course, videos: videos)
         super.init(frame: .zero)
         configureView()
     }

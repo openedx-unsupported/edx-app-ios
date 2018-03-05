@@ -62,7 +62,7 @@ public class CourseOutlineViewController :
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
         courseOutlineMode = mode ?? .full
-        tableController = CourseOutlineTableController(environment: self.environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: self.rootID)
+        tableController = CourseOutlineTableController(environment: environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: rootID)
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
