@@ -365,6 +365,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
             break
         case .video:
+            if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, courseBlockID == nil {
+                videos = environment.interface?.downloadableVideos(of: course)
+                if let videos = videos {
+                    courseVideosHeaderView?.videos = videos
+                }
+            }
             if videos?.count ?? 0 <= 0 {
                 tableView.tableHeaderView = nil
                 return

@@ -147,6 +147,15 @@ class CourseVideosHeaderView: UIView {
         }
     }
     
+    var videos: [OEXHelperVideoDownload] {
+        get {
+            return bulkDownloadHelper.videos
+        }
+        set {
+            bulkDownloadHelper.videos = newValue
+        }
+    }
+    
     // MARK: - Initializers -
     init(with course: OEXCourse, environment: Environment, videos: [OEXHelperVideoDownload], blockID: CourseBlockID?) {
         self.environment = environment

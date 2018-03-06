@@ -20,7 +20,11 @@ class BulkDownloadHelper {
     
     private(set) var course: OEXCourse
     private(set) var state: BulkDownloadState = .new
-    private(set) var videos: [OEXHelperVideoDownload] = []
+    var videos: [OEXHelperVideoDownload] {
+        didSet {
+            refreshState()
+        }
+    }
     
     var newVideosCount: Int {
         return (videos.filter { $0.downloadState == .new }).count
