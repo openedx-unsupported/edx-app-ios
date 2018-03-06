@@ -87,44 +87,37 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     private func configureHeaderView() {
-        
-        if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
-            switch courseOutlineMode {
-            case .full:
-                headerContainer.addSubview(lastAccessedView)
-                headerContainer.addSubview(courseCard)
-                addCertificateView()
-                if environment.config.isTabLayoutEnabled {
-                    CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
-                    refreshTableHeaderView(lastAccess: false)
-                }
-                break
-            case .video:
-                if let interface = environment.interface {
-                    if let courseBlockID = courseBlockID {
-                        let stream = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: courseBlockID)
-                        stream.listen(self) {[weak self] downloads in
-                            if let downloads = downloads.value {
-                                self?.videos = downloads.filter { $0.summary?.isDownloadableVideo ?? false }
-                                if let videos = self?.videos {
-                                    self?.addBulkDownloadHeaderView(course: course, videos: videos)
-                                }
-                            }
-                        }
-                    }
-                    else {
-                        videos = interface.downloadableVideos(of: course)
-                        if let videos = videos {
-                            addBulkDownloadHeaderView(course: course, videos: videos)
-                        }
-                    }
-                }
-                break
-            }
+        guard let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course else {
+            return
         }
+        switch courseOutlineMode {
+        case .full:
+            headerContainer.addSubview(lastAccessedView)
+            headerContainer.addSubview(courseCard)
+            addCertificateView()
+            if environment.config.isTabLayoutEnabled {
+                CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
+                refreshTableHeaderView(lastAccess: false)
+            }
+            break
+        case .video:
+            if let courseBlockID = courseBlockID {
+                let stream = courseQuerier.supportedBlockVideos(forCourseID: courseID, blockID: courseBlockID)
+                stream.listen(self) {[weak self] downloads in
+                    self?.videos = downloads.value?.filter { $0.summary?.isDownloadableVideo ?? false }
+                    self?.addBulkDownloadHeaderView(course: course, videos: self?.videos)
+                }
+            }
+            else {
+                videos = environment.interface?.downloadableVideos(of: course)
+                addBulkDownloadHeaderView(course: course, videos: videos)
+            }
+            break
+        }
+        
     }
     
-    private func addBulkDownloadHeaderView(course: OEXCourse, videos: [OEXHelperVideoDownload]) {
+    private func addBulkDownloadHeaderView(course: OEXCourse, videos: [OEXHelperVideoDownload]?) {
         courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: environment, videos: videos, blockID: courseBlockID)
         courseVideosHeaderView?.delegate = self
         if let headerView = courseVideosHeaderView {
@@ -367,9 +360,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         case .video:
             if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course, courseBlockID == nil {
                 videos = environment.interface?.downloadableVideos(of: course)
-                if let videos = videos {
-                    courseVideosHeaderView?.videos = videos
-                }
+                courseVideosHeaderView?.videos = videos ?? []
             }
             if videos?.count ?? 0 <= 0 {
                 tableView.tableHeaderView = nil

@@ -66,7 +66,7 @@ class CourseVideosHeaderView: UIView {
         button.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
         button.oex_addAction({
             [weak self] _ in
-            if self?.bulkDownloadHelper.state == .downloading {
+            if self?.state == .downloading {
                 self?.delegate?.courseVideosHeaderViewTapped()
             }
         }, for: .touchUpInside)
@@ -101,11 +101,11 @@ class CourseVideosHeaderView: UIView {
     
     // MARK: - Properties -
     private var toggledOn: Bool {
-        return bulkDownloadHelper.state == .downloading || bulkDownloadHelper.state == .downloaded
+        return state == .downloading || state == .downloaded
     }
     
     private var title: String {
-        switch bulkDownloadHelper.state {
+        switch state {
         case .downloaded:
             return Strings.allVideosDownloadedTitle
         case .downloading:
@@ -116,28 +116,28 @@ class CourseVideosHeaderView: UIView {
     }
     
     private var videoSizeForSubTitle: Double {
-        return (bulkDownloadHelper.state == .downloaded ? bulkDownloadHelper.totalSize : bulkDownloadHelper.totalSize - bulkDownloadHelper.downloadedSize).roundedMB
+        return (state == .downloaded ? bulkDownloadHelper.totalSize : bulkDownloadHelper.totalSize - bulkDownloadHelper.downloadedSize).roundedMB
     }
     
     private var subTitle: String {
-        switch bulkDownloadHelper.state {
+        switch state {
         case .partial:
             return Strings.bulkDownloadVideosSubTitle(count: "\(bulkDownloadHelper.partialAndNewVideosCount)", videosSize: "\(videoSizeForSubTitle)")(bulkDownloadHelper.partialAndNewVideosCount)
         case .downloading:
             return Strings.allDownloadingVideosSubTitle(remainingVideosCount: "\(bulkDownloadHelper.partialAndNewVideosCount)", remainingVideosSize: "\(videoSizeForSubTitle)")
         default:
-            return Strings.bulkDownloadVideosSubTitle(count: "\(bulkDownloadHelper.videos.count)", videosSize: "\(videoSizeForSubTitle)")(bulkDownloadHelper.videos.count)
+            return Strings.bulkDownloadVideosSubTitle(count: "\(videos.count)", videosSize: "\(videoSizeForSubTitle)")(videos.count)
         }
     }
     
     private var switchAccessibilityLabel: String {
-        let title = bulkDownloadHelper.state == .downloading ? Strings.Accessibility.downloadingVideosTitle : titleLabel.attributedText?.string ?? ""
+        let title = state == .downloading ? Strings.Accessibility.downloadingVideosTitle : titleLabel.attributedText?.string ?? ""
         let subTitle = subTitleLabel.attributedText?.string ?? ""
         return "\(title), \(subTitle)"
     }
     
     private var switchAccessibilityHint: String {
-        switch bulkDownloadHelper.state {
+        switch state {
         case .new:
             return Strings.Accessibility.bulkDownloadHint
         case .downloaded:
@@ -145,6 +145,10 @@ class CourseVideosHeaderView: UIView {
         default:
             return Strings.Accessibility.bulkDownloadDownloadingHint
         }
+    }
+    
+    private var state: BulkDownloadState {
+        return bulkDownloadHelper.state
     }
     
     var videos: [OEXHelperVideoDownload] {
@@ -157,10 +161,10 @@ class CourseVideosHeaderView: UIView {
     }
     
     // MARK: - Initializers -
-    init(with course: OEXCourse, environment: Environment, videos: [OEXHelperVideoDownload], blockID: CourseBlockID?) {
+    init(with course: OEXCourse, environment: Environment, videos: [OEXHelperVideoDownload]?, blockID: CourseBlockID?) {
         self.environment = environment
         self.blockID = blockID
-        bulkDownloadHelper = BulkDownloadHelper(with: course, videos: videos)
+        bulkDownloadHelper = BulkDownloadHelper(with: course, videos: videos ?? [])
         super.init(frame: .zero)
         configureView()
     }
@@ -198,7 +202,7 @@ class CourseVideosHeaderView: UIView {
     
     fileprivate func videoDownloadProgressChangeObserver() {
         let progressChangedNotification = NSNotification.Name.OEXDownloadProgressChanged
-        if bulkDownloadHelper.state == .downloading {
+        if state == .downloading {
             let alreadyAdded = observers.reduce(false) {(acc, observer) in
                 return acc || observer.notification == progressChangedNotification
             }
@@ -220,13 +224,13 @@ class CourseVideosHeaderView: UIView {
         guard toggleAction == nil else { return }
         bulkDownloadHelper.refreshState()
         toggleSwitch.isOn = toggledOn
-        downloadProgressView.isHidden = bulkDownloadHelper.state != .downloading
-        spinner.isHidden = bulkDownloadHelper.state != .downloading
-        imageView.isHidden = bulkDownloadHelper.state == .downloading
+        downloadProgressView.isHidden = state != .downloading
+        spinner.isHidden = state != .downloading
+        imageView.isHidden = state == .downloading
         titleLabel.attributedText = titleLabelStyle.attributedString(withText: title)
         subTitleLabel.attributedText = subTitleLabelStyle.attributedString(withText: subTitle)
         downloadProgressView.setProgress(bulkDownloadHelper.progress, animated: true)
-        showDownloadsButton.isAccessibilityElement = bulkDownloadHelper.state == .downloading
+        showDownloadsButton.isAccessibilityElement = state == .downloading
         toggleSwitch.accessibilityLabel = switchAccessibilityLabel
         toggleSwitch.accessibilityHint = switchAccessibilityHint
         videoDownloadProgressChangeObserver()
@@ -251,13 +255,13 @@ class CourseVideosHeaderView: UIView {
             if let task = toggleAction {
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + toggleActionDelay, execute: task)
             }
-            environment.analytics.trackBulkDownloadToggle(isOn: toggleSwitch.isOn, courseID: bulkDownloadHelper.course.course_id ?? "", totalVideosCount: bulkDownloadHelper.videos.count, remainingVideosCount: bulkDownloadHelper.newVideosCount, blockID: blockID)
+            environment.analytics.trackBulkDownloadToggle(isOn: toggleSwitch.isOn, courseID: bulkDownloadHelper.course.course_id ?? "", totalVideosCount: videos.count, remainingVideosCount: bulkDownloadHelper.newVideosCount, blockID: blockID)
         }
         
     }
     
     private func startDownloading() {
-        environment.interface?.downloadVideos(bulkDownloadHelper.videos) {
+        environment.interface?.downloadVideos(videos) {
             [weak self] cancelled in
             self?.toggleAction = nil
             // User turn on switch for course which has large download, but after watching warning cancel the bulk download, for this we need to update headerview accordingly
@@ -266,14 +270,14 @@ class CourseVideosHeaderView: UIView {
             }
             else {
                 if let owner = self {
-                    owner.environment.analytics.trackBulkDownloadToggle(isOn: owner.toggleSwitch.isOn, courseID: owner.bulkDownloadHelper.course.course_id ?? "", totalVideosCount: owner.bulkDownloadHelper.videos.count, remainingVideosCount: owner.bulkDownloadHelper.newVideosCount, blockID: owner.blockID)
+                    owner.environment.analytics.trackBulkDownloadToggle(isOn: owner.toggleSwitch.isOn, courseID: owner.bulkDownloadHelper.course.course_id ?? "", totalVideosCount: owner.videos.count, remainingVideosCount: owner.bulkDownloadHelper.newVideosCount, blockID: owner.blockID)
                 }
             }
         }
     }
     
     private func stopAndDeleteDownloads() {
-        environment.interface?.deleteDownloadedVideos(bulkDownloadHelper.videos) { [weak self] _ in
+        environment.interface?.deleteDownloadedVideos(videos) { [weak self] _ in
             self?.toggleAction = nil
             self?.refreshView()
         }
