@@ -1,5 +1,5 @@
 //
-//  CourseDashboardTabBarViewControllerTests.swift
+//  CourseDashboardViewControllerTests.swift
 //  edX
 //
 //  Created by Salman on 01/11/2017.
@@ -26,7 +26,7 @@ private extension OEXConfig {
     }
 }
 
-class CourseDashboardTabBarViewControllerTests: SnapshotTestCase {
+class CourseDashboardViewControllerTests: SnapshotTestCase {
     
     func testDiscussionsEnabled() {
         for enabledInConfig in [true, false] {
