@@ -1,5 +1,5 @@
 //
-//  CourseDashboardCell.swift
+//  AdditionalTableViewCell.swift
 //  edX
 //
 //  Created by Jianfeng Qiu on 13/05/2015.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class CourseDashboardCell: UITableViewCell {
+class AdditionalTableViewCell: UITableViewCell {
 
-    static let identifier = "CourseDashboardCellIdentifier"
+    static let identifier = "AdditionalTableViewCellIdentifier"
     
     //TODO: all these should be adjusted once the final UI is ready
     private let ICON_SIZE : CGFloat = OEXTextStyle.pointSize(for: OEXTextSize.xxLarge)
@@ -40,7 +40,7 @@ class CourseDashboardCell: UITableViewCell {
         configureViews()
     }
 
-    func useItem(item : AdditionalTabBarViewCellItem) {
+    func useItem(item : AdditionalCellItem) {
         self.titleLabel.attributedText = titleTextStyle.attributedString(withText: item.title)
         self.detailLabel.attributedText = detailTextStyle.attributedString(withText: item.detail)
         self.iconView.image = item.icon.imageWithFontSize(size: ICON_SIZE)

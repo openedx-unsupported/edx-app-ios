@@ -114,10 +114,10 @@ extension OEXRouter {
     }
     
     @objc(showMyCoursesAnimated:pushingCourseWithID:) func showMyCourses(animated: Bool = true, pushingCourseWithID courseID: String? = nil) {
-        let controller = self.environment.config.isTabLayoutEnabled ? EnrolledTabBarViewController(environment: self.environment) : EnrolledCoursesViewController(environment: self.environment)
+        let controller = EnrolledTabBarViewController(environment: environment)
         showContentStack(withRootController: controller, animated: animated)
         if let courseID = courseID {
-            self.showCourseWithID(courseID: courseID, fromController: controller, animated: false)
+            showCourseWithID(courseID: courseID, fromController: controller, animated: false)
         }
     }
 
@@ -250,27 +250,13 @@ extension OEXRouter {
     }
     
     func showCourseWithID(courseID : String, fromController: UIViewController, animated: Bool = true) {
-        let controller : UIViewController
-        if environment.config.isTabLayoutEnabled {
-            controller = CourseDashboardTabBarViewController(environment: environment, courseID: courseID)
-        }
-        else {
-            controller = CourseDashboardViewController(environment: environment, courseID: courseID)
-        }
+        let controller = CourseDashboardViewController(environment: environment, courseID: courseID)
         fromController.navigationController?.pushViewController(controller, animated: animated)
     }
     
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil) {
         let controller = discoveryViewController(bottomBar: bottomBar)
-        if revealController != nil {
-            if let fromController = fromController {
-                fromController.navigationController?.pushViewController(controller, animated: true)
-            }
-            else {
-                showContentStack(withRootController: controller, animated: true)
-            }
-        } else if let fromController = fromController,
-            environment.config.isTabLayoutEnabled {
+        if let fromController = fromController {
             fromController.tabBarController?.selectedIndex = 1
         } else {
             showControllerFromStartupScreen(controller: controller)
@@ -293,11 +279,7 @@ extension OEXRouter {
     func showExploreCourses(bottomBar: UIView?) {
         let controller = OEXFindCoursesViewController(bottomBar: bottomBar)
         controller.startURL = .exploreSubjects
-        if revealController != nil {
-            showContentStack(withRootController: controller, animated: true)
-        } else {
-            showControllerFromStartupScreen(controller: controller)
-        }
+        showControllerFromStartupScreen(controller: controller)
     }
 
     private func showControllerFromStartupScreen(controller: UIViewController) {
@@ -340,7 +322,6 @@ extension OEXRouter {
     // MARK: - LOGIN / LOGOUT
 
     func showSplash() {
-        revealController = nil
         removeCurrentContentController()
 
         let splashController: UIViewController

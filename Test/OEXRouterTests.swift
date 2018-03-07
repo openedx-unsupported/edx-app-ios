@@ -29,13 +29,6 @@ class OEXRouterTests: XCTestCase {
         XCTAssertNotNil(router.t_navigationHierarchy())
     }
     
-    func testDrawerViewExists() {
-        let environment = TestRouterEnvironment().logInTestUser()
-        let router = OEXRouter(environment: environment)
-        router.open(in: nil)
-        XCTAssertTrue(router.t_hasDrawerController())
-    }
-    
     func testShowNewAnnouncement() {
         let course = OEXCourse.accessibleTestCourse()
         let environment = TestRouterEnvironment().logInTestUser()
@@ -50,7 +43,7 @@ class OEXRouterTests: XCTestCase {
         stepRunLoop()
         
         // not showing announcements so push a new screen
-        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
+        XCTAssertEqual(router.t_navigationHierarchy().count, stackLength)
         
     }
     
@@ -67,7 +60,7 @@ class OEXRouterTests: XCTestCase {
         
         // Make sure the navigation controller actions happened
         stepRunLoop()
-        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
+        XCTAssertEqual(router.t_navigationHierarchy().count, stackLength)
         
         // Now try to show it again
         stackLength = router.t_navigationHierarchy().count
@@ -95,7 +88,7 @@ class OEXRouterTests: XCTestCase {
         
         // Make sure the navigation controller actions happened
         stepRunLoop()
-        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
+        XCTAssertEqual(router.t_navigationHierarchy().count, stackLength)
         
         // Now try to show the next course's announcements
         stackLength = router.t_navigationHierarchy().count
@@ -103,9 +96,9 @@ class OEXRouterTests: XCTestCase {
         
         // Make sure the navigation controller actions happened
         stepRunLoop()
-        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
+        XCTAssertEqual(router.t_navigationHierarchy().count, stackLength)
         
         // Already showing so stack length shouldn't change
-        XCTAssertGreaterThan(router.t_navigationHierarchy().count, stackLength)
+        XCTAssertEqual(router.t_navigationHierarchy().count, stackLength)
     }
 }

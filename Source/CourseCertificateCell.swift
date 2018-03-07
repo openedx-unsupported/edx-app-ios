@@ -8,6 +8,18 @@
 
 import Foundation
 
+struct CertificateItem: AdditionalTableViewCellItem {
+    let identifier = CourseCertificateCell.identifier
+    let height: CGFloat = CourseCertificateView.height
+    let certificateItem : CourseCertificateIem
+    
+    var action: (() -> Void)
+    func decorateCell(cell: UITableViewCell) {
+        guard let certificateCell = cell as? CourseCertificateCell else { return }
+        certificateCell.useItem(item: self)
+    }
+}
+
 class CourseCertificateCell: UITableViewCell {
 
     static let identifier = "CourseCertificateCellIdentifier"
@@ -33,7 +45,7 @@ class CourseCertificateCell: UITableViewCell {
         })
     }
 
-    func useItem(item: CertificateDashboardItem) {
+    func useItem(item: CertificateItem) {
         certificateView.certificateItem = item.certificateItem
     }
 }

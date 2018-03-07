@@ -2,23 +2,24 @@
 //  CourseDashboardViewControllerTests.swift
 //  edX
 //
-//  Created by Qiu, Jianfeng on 5/14/15.
-//  Copyright (c) 2015 edX. All rights reserved.
+//  Created by Salman on 01/11/2017.
+//  Copyright © 2017 edX. All rights reserved.
 //
 
-import UIKit
 import XCTest
 import edXCore
 @testable import edX
 
 private extension OEXConfig {
-
-    convenience init(discussionsEnabled : Bool, courseSharingEnabled: Bool = false, courseVideosEnabled: Bool = false, isAnnouncementsEnabled: Bool = true, certificatesEnabled: Bool = false) {
+    
+    convenience init(courseVideosEnabled: Bool = false, courseDatesEnabled: Bool = true, discussionsEnabled : Bool, courseSharingEnabled: Bool = false, isAnnouncementsEnabled: Bool = true, tabDashboardEnabled: Bool = true, certificatesEnabled: Bool = false) {
         self.init(dictionary: [
+            "COURSE_VIDEOS_ENABLED" : courseVideosEnabled,
+            "COURSE_DATES_ENABLED" : courseDatesEnabled,
             "DISCUSSIONS_ENABLED": discussionsEnabled,
             "COURSE_SHARING_ENABLED": courseSharingEnabled,
-            "COURSE_VIDEOS_ENABLED": courseVideosEnabled,
             "ANNOUNCEMENTS_ENABLED": isAnnouncementsEnabled,
+            "TAB_LAYOUTS_ENABLED": tabDashboardEnabled,
             "CERTIFICATES_ENABLED": certificatesEnabled
             ]
         )
@@ -36,8 +37,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
                 let environment = TestRouterEnvironment(config: config)
                 environment.mockEnrollmentManager.courses = [course]
                 environment.logInTestUser()
-                let controller = CourseDashboardViewController(environment: environment,
-                    courseID: course.course_id!)
+                let controller = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
                 
                 inScreenDisplayContext(controller) {
                     waitForStream(controller.t_loaded)
@@ -50,7 +50,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
             }
         }
     }
-    
+
     func testHandoutsEnabled() {
         for hasHandoutsUrl in [true, false] {
             let config = OEXConfig(discussionsEnabled: true)
@@ -58,8 +58,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
             let environment = TestRouterEnvironment(config: config)
             environment.mockEnrollmentManager.courses = [course]
             environment.logInTestUser()
-            let controller = CourseDashboardViewController(environment: environment,
-                                                           courseID: course.course_id!)
+            let controller = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
             
             inScreenDisplayContext(controller) {
                 waitForStream(controller.t_loaded)
@@ -79,8 +78,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
             let environment = TestRouterEnvironment(config: config)
             environment.mockEnrollmentManager.courses = [course]
             environment.logInTestUser()
-            let controller = CourseDashboardViewController(environment: environment,
-                                                           courseID: course.course_id!)
+            let controller = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
             
             inScreenDisplayContext(controller) {
                 waitForStream(controller.t_loaded)
@@ -94,29 +92,82 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
     }
     
     func testSnapshot() {
-        let config = OEXConfig(discussionsEnabled: true, courseSharingEnabled: true, courseVideosEnabled: true)
-        let course = OEXCourse.freshCourse()
-        let environment = TestRouterEnvironment(config: config)
+        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true, tabDashboardEnabled: true)
+        let course = OEXCourse.freshCourse(aboutUrl: "http://www.yahoo.com")
+        let outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
+        let interface = OEXInterface.shared()
+        let environment = TestRouterEnvironment(config: config, interface: interface)
+        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)
+        environment.interface?.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
+        environment.interface?.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
         environment.mockEnrollmentManager.courses = [course]
         environment.logInTestUser()
         
         let controller = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
+    
+        let stream = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .full)
+        
+        let expectations = expectation(description: "course loaded")
+        stream?.listenOnce(self) {_ in
+            expectations.fulfill()
+        }
+        
+        waitForExpectations()
+        
         inScreenNavigationContext(controller, action: { () -> () in
             assertSnapshotValidWithContent(controller.navigationController!)
         })
     }
     
-    func testDashboardScreenAnalytics() {
-        let course = OEXCourse.freshCourse()
-        let environment = TestRouterEnvironment()
+    func testCertificate() {
+        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true, tabDashboardEnabled: true, certificatesEnabled: true)
+        
+        let courseData = OEXCourse.testData()
+        let course = OEXCourse(dictionary: courseData)
+        
+        let outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
+        let interface = OEXInterface.shared()
+        let enrollment = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])!
+        
+        interface.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        
+        let environment = TestRouterEnvironment(config: config, interface: interface).logInTestUser()
+        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)
         environment.mockEnrollmentManager.courses = [course]
+        environment.mockEnrollmentManager.enrollments = [enrollment]
+        
+        
         let controller = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
-        inScreenDisplayContext(controller) {
-            XCTAssertEqual(environment.eventTracker.events.count, 1)
-            let event = environment.eventTracker.events.first!.asScreen
-            XCTAssertNotNil(event)
-            XCTAssertEqual(event!.screenName, OEXAnalyticsScreenCourseDashboard)
+        
+        let stream = environment.mockCourseDataManager.querier?.childrenOfBlockWithID(blockID: outline.root, forMode: .full)
+        
+        let expectations = expectation(description: "course loaded")
+        stream?.listenOnce(self) {_ in
+            expectations.fulfill()
         }
+        
+        waitForExpectations()
+        
+        
+        inScreenNavigationContext(controller, action: { () -> () in
+            assertSnapshotValidWithContent(controller.navigationController!)
+        })
+    }
+    
+    
+    func testResourcesViewSnapshot() {
+        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true)
+        let course = OEXCourse.freshCourse()
+        let environment = TestRouterEnvironment(config: config)
+        environment.mockEnrollmentManager.courses = [course]
+        environment.logInTestUser()
+        
+        let additionalController = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
+        additionalController.selectedIndex = 4
+        
+        inScreenNavigationContext(additionalController, action: { () -> () in
+            assertSnapshotValidWithContent(additionalController.navigationController!)
+        })
     }
     
     func testAccessOkay() {
@@ -140,40 +191,6 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         inScreenDisplayContext(controller) {
             waitForStream(controller.t_loaded)
             XCTAssertTrue(controller.t_state.isError)
-        }
-    }
-
-    func testCertificate() {
-        let courseData = OEXCourse.testData()
-        let enrollment = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])!
-        let config = OEXConfig(discussionsEnabled: true,certificatesEnabled: true)
-        let environment = TestRouterEnvironment(config: config).logInTestUser()
-        environment.mockEnrollmentManager.enrollments = [enrollment]
-        
-        let controller = CourseDashboardViewController(environment: environment, courseID: enrollment.course.course_id!)
-        
-        self.inScreenNavigationContext(controller, action: { () -> () in
-            waitForStream(controller.t_loaded)
-            self.assertSnapshotValidWithContent(controller.navigationController!)
-        })
-        XCTAssertTrue(controller.t_canVisitCertificate())
-    }
-
-    func testSharing() {
-        let courseData = OEXCourse.testData(aboutUrl: "http://www.yahoo.com")
-        let enrollment = UserCourseEnrollment(dictionary: ["course" : courseData])!
-        
-        let config = OEXConfig(discussionsEnabled: true, courseSharingEnabled: true)
-        
-        let environment = TestRouterEnvironment(config: config)
-        environment.mockEnrollmentManager.enrollments = [enrollment]
-        environment.logInTestUser()
-        
-        let controller = CourseDashboardViewController(environment: environment, courseID: enrollment.course.course_id!)
-        
-        self.inScreenNavigationContext(controller) {
-            waitForStream(controller.t_loaded)
-            self.assertSnapshotValidWithContent(controller.navigationController!)
         }
     }
 }
