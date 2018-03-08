@@ -1,5 +1,5 @@
 //
-//  CourseTabBarLoadStateViewController.swift
+//  CourseDashboardLoadStateViewController.swift
 //  edX
 //
 //  Created by Salman on 09/11/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseTabBarLoadStateViewController: UIViewController {
+class CourseDashboardLoadStateViewController: UIViewController {
 
     typealias Environment = OEXStylesProvider
     

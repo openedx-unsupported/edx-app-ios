@@ -40,4 +40,11 @@ extension UIViewController {
     func isRootModal() -> Bool {
         return (navigationController != nil && navigationController?.presentingViewController?.presentedViewController == navigationController)
     }
+    
+    func configurePresentationController(withSourceView sourceView: UIView) {
+        if UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad {
+            popoverPresentationController?.sourceView = sourceView
+            popoverPresentationController?.sourceRect = sourceView.bounds
+        }
+    }
 }

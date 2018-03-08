@@ -58,7 +58,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private var videos: [OEXHelperVideoDownload]?
     
     func addCertificateView() {
-        guard environment.config.isTabLayoutEnabled, environment.config.certificatesEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl = enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
+        guard environment.config.certificatesEnabled, let enrollment = environment.interface?.enrollmentForCourse(withID: courseID), let certificateUrl = enrollment.certificateUrl, let certificateImage = UIImage(named: "courseCertificate") else { return }
         
         let certificateItem =  CourseCertificateIem(certificateImage: certificateImage, certificateUrl: certificateUrl, action: {[weak self] _ in
             if let weakSelf = self, let url = NSURL(string: certificateUrl) {
@@ -95,10 +95,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
             switch courseOutlineMode {
             case .full:
-                if environment.config.isTabLayoutEnabled {
-                    CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
-                    refreshTableHeaderView(lastAccess: false)
-                }
+                CourseCardViewModel.onCourseOutline(course: course).apply(card: courseCard, networkManager: environment.networkManager)
                 break
             case .video:
                 if let courseBlockID = courseBlockID {
@@ -114,6 +111,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 }
                 break
             }
+            refreshTableHeaderView(lastAccess: false)
         }
     }
     
@@ -324,12 +322,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             courseCard.snp_remakeConstraints { (make) in
                 let screenWidth = UIScreen.main.bounds.size.width
                 var height: CGFloat = 0
-                if environment.config.isTabLayoutEnabled {
-                    let screenHeight = UIScreen.main.bounds.size.height
-                    let halfScreenHeight = screenHeight / 2.0
-                    let ratioedHeight = screenWidth * defaultAspectRatio
-                    height = CGFloat(Int(halfScreenHeight > ratioedHeight ? ratioedHeight : halfScreenHeight))
-                }
+                let screenHeight = UIScreen.main.bounds.size.height
+                let halfScreenHeight = screenHeight / 2.0
+                let ratioedHeight = screenWidth * defaultAspectRatio
+                height = CGFloat(Int(halfScreenHeight > ratioedHeight ? ratioedHeight : halfScreenHeight))
+                
                 make.trailing.equalTo(headerContainer)
                 make.leading.equalTo(headerContainer)
                 make.width.equalTo(screenWidth)
