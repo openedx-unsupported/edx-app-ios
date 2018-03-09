@@ -110,7 +110,8 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 
 // Start All paused downloads
 - (void)startAllBackgroundDownloads;
-- (BOOL) isDownloadSettingsValid;
+- (BOOL) canDownload;
+- (NSString* _Nullable) networkErrorMessage;
 /// @param array An array of OEXHelperVideoDownload representing the videos to download
 - (NSInteger)downloadVideos:(NSArray<OEXHelperVideoDownload*>*)videos;
 - (NSInteger)downloadVideos:(NSArray<OEXHelperVideoDownload*>*)array completionHandler: (DownloadVideosCompletionHandler) completionHandler;

@@ -62,7 +62,7 @@ public class CourseOutlineViewController :
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
         courseOutlineMode = mode ?? .full
-        tableController = CourseOutlineTableController(environment: self.environment, courseID: courseID, forMode: courseOutlineMode)
+        tableController = CourseOutlineTableController(environment: environment, courseID: courseID, forMode: courseOutlineMode, courseBlockID: rootID)
         lastAccessedController = CourseLastAccessedController(blockID: rootID , dataManager: environment.dataManager, networkManager: environment.networkManager, courseQuerier: courseQuerier, forMode: courseOutlineMode)
         
         super.init(env: environment, shouldShowOfflineSnackBar: false)
@@ -151,8 +151,7 @@ public class CourseOutlineViewController :
     private func loadStreams() {
         loadController.state = .Initial
         let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
-        stream.extendLifetimeUntilFirstResult (success :
-            { [weak self] (rootID, block) in
+        stream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
                 if self?.blockID == rootID || self?.blockID == nil {
                     if self?.courseOutlineMode == .full {
                         self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)
@@ -165,10 +164,9 @@ public class CourseOutlineViewController :
                     self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenSectionOutline, courseID: self?.courseID, value: block.internalName)
                     self?.tableController.hideTableHeaderView()
                 }
-            },
-                                               failure: {
-                                                Logger.logError("ANALYTICS", "Unable to load block: \($0)")
-        }
+            }, failure: {
+                Logger.logError("ANALYTICS", "Unable to load block: \($0)")
+            }
         )
         reload()
     }
@@ -238,8 +236,8 @@ public class CourseOutlineViewController :
         )
     }
     
-    private func isDownloadSettingsValid() -> Bool {
-        return environment.dataManager.interface?.isDownloadSettingsValid() ?? false
+    private func canDownload() -> Bool {
+        return environment.dataManager.interface?.canDownload() ?? false
     }
     
     // MARK: Outline Table Delegate
@@ -249,7 +247,7 @@ public class CourseOutlineViewController :
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideos videos: [OEXHelperVideoDownload], rootedAtBlock block:CourseBlock) {
-        if isDownloadSettingsValid() {
+        if canDownload() {
             environment.dataManager.interface?.downloadVideos(videos)
             
             let courseID = self.courseID
@@ -263,18 +261,18 @@ public class CourseOutlineViewController :
             })
         }
         else {
-            showOverlay(withMessage: Strings.noWifiMessage)
+            showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
         }
     }
     
     func outlineTableController(controller: CourseOutlineTableController, choseDownloadVideoForBlock block: CourseBlock) {
         
-        if isDownloadSettingsValid() {
+        if canDownload() {
             environment.dataManager.interface?.downloadVideos(withIDs: [block.blockID], courseID: courseID)
             environment.analytics.trackSingleVideoDownload(block.blockID, courseID: courseID, unitURL: block.webURL?.absoluteString)
         }
         else {
-            showOverlay(withMessage: Strings.noWifiMessage)
+            showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
         }
     }
     
