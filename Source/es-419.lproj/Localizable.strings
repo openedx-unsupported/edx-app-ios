@@ -408,6 +408,8 @@
 "FAILED_TO_LOAD_TOPICS"="Falló al cargar los temas.";
 /* Title of find courses screen */
 "FIND_COURSES"="Encontrar cursos";
+/* No available courses on find courses section */
+"FIND_COURSES_NO_AVAILABLE_COURSES"="No hay cursos disponibles";
 /* Overlay message shown when enrolling in a course fails because the user is already in the course */
 "FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="Ya está inscrito en este curso";
 /* Overlay message shown when enrolling in a course fails */

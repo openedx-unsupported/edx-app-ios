@@ -408,6 +408,8 @@
 "FAILED_TO_LOAD_TOPICS"="Failed to load topics.";
 /* Title of find courses screen */
 "FIND_COURSES"="Find Courses";
+/* No available courses on find courses section */
+"FIND_COURSES_NO_AVAILABLE_COURSES"="No available courses";
 /* Overlay message shown when enrolling in a course fails because the user is already in the course */
 "FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="You are already enrolled in this course";
 /* Overlay message shown when enrolling in a course fails */
