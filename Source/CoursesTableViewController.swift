@@ -92,17 +92,7 @@ class CoursesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = self.courses.count
-        if count == 0 {
-            switch context {
-            case .CourseCatalog:
-                setupNoCoursesAvailableLabel()
-                break
-            case .EnrollmentList:
-                break
-            }
-        }
-        return count
+        return self.courses.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -132,15 +122,6 @@ class CoursesTableViewController: UITableViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.insetsController.updateInsets()
-    }
-    
-    func setupNoCoursesAvailableLabel() {
-        let noCoursesLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-        let textStyle = OEXMutableTextStyle(weight: .semiBold, size: .large, color : OEXStyles.shared().neutralBlack())
-        textStyle.alignment = NSTextAlignment.center
-        noCoursesLabel.attributedText = textStyle.attributedString(withText: Strings.findCoursesNoAvailableCourses)
-        tableView.backgroundView  = noCoursesLabel
-        tableView.separatorStyle  = .none
     }
 }
 
