@@ -139,7 +139,12 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
             activityItems: [message, url],
             applicationActivities: nil
         )
-        self.present(controller, animated: true, completion: nil)
+        if let titleView = navigationItem.titleView {
+            // Badges are not enabled, so sourceView can be revised on enabling of badges as per position of share location
+            // Position of UIActivityViewController can be not as per on iPad but app will not crash
+            controller.configurePresentationController(withSourceView: titleView)
+            present(controller, animated: true, completion: nil)
+        }
     }
     
     //MARK:- LoadStateViewReloadSupport method
