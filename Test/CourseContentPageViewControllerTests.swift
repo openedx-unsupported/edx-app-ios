@@ -12,16 +12,21 @@ import XCTest
 
 class CourseContentPageViewControllerTests: SnapshotTestCase {
     
-    let outline = CourseOutlineTestDataFactory.freshCourseOutline(OEXCourse.freshCourse().course_id!)
+    var course : OEXCourse!
+    var outline : CourseOutline!
     var router : OEXRouter!
     var environment : TestRouterEnvironment!
     let networkManager = MockNetworkManager(baseURL: URL(string: "www.example.com")!)
     
     override func setUp() {
         super.setUp()
-        
-        environment = TestRouterEnvironment()
-        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, outline: outline)
+        course = OEXCourse.freshCourse()
+        outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
+        let interface = OEXInterface.shared()
+        interface.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
+        interface.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        environment = TestRouterEnvironment(config: OEXConfig(dictionary:["TAB_LAYOUTS_ENABLED": true]), interface: interface)
+        environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: course.course_id!, interface: interface, outline: outline)
         router = OEXRouter(environment: environment)
     }
     

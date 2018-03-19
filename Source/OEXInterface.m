@@ -339,12 +339,27 @@ static OEXInterface* _sharedInterface = nil;
     return YES;
 }
 
-- (BOOL) isDownloadSettingsValid {
+- (BOOL) canDownload {
     OEXAppDelegate* appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
-    BOOL hasWifi = [appDelegate.reachability isReachableViaWiFi];
-    BOOL onlyOnWifi = [OEXInterface shouldDownloadOnlyOnWifi];
-    return !onlyOnWifi || hasWifi;
+    if ([OEXInterface shouldDownloadOnlyOnWifi]) {
+        return [appDelegate.reachability isReachableViaWiFi];
+    }
+    return [appDelegate.reachability isReachable];
 }
+
+- (NSString* _Nullable) networkErrorMessage {
+    OEXAppDelegate* appDelegate = (OEXAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if ([OEXInterface shouldDownloadOnlyOnWifi]) {
+        if (![appDelegate.reachability isReachableViaWiFi]) {
+            return Strings.noWifiMessage;
+        }
+    }
+    else if (![appDelegate.reachability isReachable]) {
+        return Strings.networkNotAvailableMessage;
+    }
+    return nil;
+}
+
 
 - (BOOL)canDownloadVideos:(NSArray*)videos {
     double totalSpaceRequired = 0;

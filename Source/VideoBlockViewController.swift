@@ -119,24 +119,24 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, OE
         
         // There's a weird OS bug where the bottom layout guide doesn't get set properly until
         // the layout cycle after viewDidAppear so cause a layout cycle
-        self.view.setNeedsUpdateConstraints()
-        self.view.updateConstraintsIfNeeded()
-        self.view.setNeedsLayout()
-        self.view.layoutIfNeeded()
+        view.setNeedsUpdateConstraints()
+        view.updateConstraintsIfNeeded()
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
         super.viewDidAppear(animated)
         
         validateSubtitleTimer()
         
-        if !(environment.interface?.isDownloadSettingsValid() ?? false) {
-            guard let video = self.environment.interface?.stateForVideo(withID: self.blockID, courseID : self.courseID), video.downloadState == .complete else {
-                self.showOverlay(withMessage: Strings.noWifiMessage)
+        if !(environment.interface?.canDownload() ?? false) {
+            guard let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID), video.downloadState == .complete else {
+                showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
                 return
             }
         }
         
         guard let videoPlayer = videoController.moviePlayerController else { return }
         if currentOrientation() == .landscapeLeft || currentOrientation() == .landscapeRight {
-            videoPlayer.setFullscreen(true, with: self.currentOrientation())
+            videoPlayer.setFullscreen(true, with: currentOrientation())
         }
         
     }
