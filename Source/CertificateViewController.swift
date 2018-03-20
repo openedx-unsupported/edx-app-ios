@@ -10,13 +10,13 @@ import Foundation
 
 class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceOrientationOverriding {
 
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider
     private let environment: Environment
 
     private let loadController = LoadStateViewController()
     let webView = UIWebView()
     var request: NSURLRequest?
-
+    private let shareButton = UIButton(frame: CGRect(x: 0, y: 0, width: 26, height: 26))
 
     init(environment : Environment) {
         self.environment = environment
@@ -63,11 +63,16 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
     }
 
     func addShareButton() {
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: nil, action: nil)
-        shareButton.oex_setAction { [weak self] in
+        let shareImage = UIImage(named: "shareCourse.png")?.withRenderingMode(.alwaysTemplate)
+        shareButton.setImage(shareImage, for: .normal)
+        shareButton.tintColor = environment.styles.primaryBaseColor()
+        shareButton.oex_removeAllActions()
+        shareButton.oex_addAction({[weak self] _ in
             self?.share()
-        }
-        navigationItem.rightBarButtonItem = shareButton
+            }, for: .touchUpInside)
+        
+        let shareItem = UIBarButtonItem(customView: shareButton)
+        navigationItem.rightBarButtonItem = shareItem
     }
 
     func share() {
@@ -76,6 +81,7 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
         let controller = shareTextAndALink(text: text, url: url as NSURL) { analyticsType in
             self.environment.analytics.trackCertificateShared(url: url.absoluteString, type: analyticsType)
         }
+        controller.configurePresentationController(withSourceView: shareButton)
         present(controller, animated: true, completion: nil)
     }
 
