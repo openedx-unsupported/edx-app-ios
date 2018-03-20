@@ -663,8 +663,14 @@
 "STAFF"="STAFF";
 /* Label for date when course starts */
 "STARTING"="Starting {start_date}";
-/* Discover Courses button text on the first screen */
-"STARTUP.DISCOVER_COURSES"="Discover Courses";
+/* Info message text on the startup screen */
+"STARTUP.INFO_MESSAGE_TEXT"="Free courses from the world's best universities in your pocket.";
+/*Placeholder text for search textfield on the startup screen*/
+"STARTUP.SEARCH_PLACEHOLDER_TEXT"="Search Courses";
+/*Log In button title on the startup screen*/
+"STARTUP.LOGIN_TEXT"="Log In";
+/*Create your Account button title on the startup screen*/
+"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Create your Account";
 /* Explore Subjects button text on the first screen */
 "STARTUP_EXPLORE_SUBJECTS"="Explore Subjects";
 /* Button allowing user to submit feedback about the app via email */
