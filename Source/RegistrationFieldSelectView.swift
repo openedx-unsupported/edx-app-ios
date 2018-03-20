@@ -34,6 +34,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         picker.dataSource = self
         picker.delegate = self
         picker.showsSelectionIndicator = true;
+        picker.accessibilityIdentifier = "RegistrationFieldSelectView:picker-view"
         textInputField.isEnabled = false
         dropdownView.addSubview(dropdownTab)
         dropdownView.layoutIfNeeded()
@@ -83,11 +84,13 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         let accessibilitHintText = isRequired ? String(format: "%@, %@, %@, %@", Strings.Accessibility.requiredInput,formField.instructions, errorAccessibility , Strings.accessibilityShowsDropdownHint) : String(format: "%@, %@, %@, %@", Strings.Accessibility.optionalInput,formField.instructions,errorAccessibility , Strings.accessibilityShowsDropdownHint)
         tapButton.accessibilityHint = accessibilitHintText
         textInputField.isAccessibilityElement = false
+        textInputField.accessibilityIdentifier = "RegistrationFieldSelectView:text-input-field"
     }
     
     private func setButtonTitle(title: String) {
         tapButton.setAttributedTitle(titleStyle.attributedString(withText: title), for: .normal)
         tapButton.accessibilityLabel = String(format: "%@, %@, %@", formField?.label ?? "", title, Strings.accessibilityDropdownTrait)
+        tapButton.accessibilityIdentifier = "RegistrationFieldSelectView:\(String(describing: formField?.name))-\(title)-dropdown"
     }
     
     override var canBecomeFirstResponder: Bool {

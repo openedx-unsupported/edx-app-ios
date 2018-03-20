@@ -80,6 +80,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack:)];
     closeButton.accessibilityLabel = [Strings close];
+    closeButton.accessibilityIdentifier = @"RegistrationViewController:close-button";
     self.navigationItem.leftBarButtonItem = closeButton;
     
     //By default we only shows required fields
@@ -90,6 +91,17 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(formFieldValueDidChange:) name:NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE object:nil];
     
     [self getFormFields];
+    [self setAccessibilityIdentifiers];
+}
+    //set accessibility identifiers for the developer automation use
+- (void)setAccessibilityIdentifiers {
+    self.registerButton.accessibilityIdentifier = @"RegistrationViewController:register-button";
+    self.agreementLabel.accessibilityIdentifier = @"RegistrationViewController:agreement-label";
+    self.agreementLink.accessibilityIdentifier = @"RegistrationViewController:agreement-link-button";
+    self.toggleOptionalFieldsButton.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-button";
+    self.optionalFieldsSeparator.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-separator-image-view";
+    self.progressIndicator.accessibilityIdentifier = @"RegistrationViewController:progress-indicator";
+    self.currentHeadingView.accessibilityIdentifier = @"RegistrationViewController:current-heading-view";
 }
 
 -(void)formFieldValueDidChange: (NSNotification *)notification {

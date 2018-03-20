@@ -68,6 +68,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         logoImageView.accessibilityLabel = environment.config.platformName()
         logoImageView.isAccessibilityElement = true
         logoImageView.accessibilityTraits = UIAccessibilityTraitImage
+        logoImageView.accessibilityIdentifier = "StartUpViewController:logo-image-view"
         view.addSubview(logoImageView)
 
         logoImageView.snp_makeConstraints { (make) in
@@ -82,6 +83,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         discoverButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle, withTitle: Strings.Startup.discoverCourses
         )
         let discoverEvent = OEXAnalytics.discoverCoursesEvent()
+        discoverButton.accessibilityIdentifier = "StartUpViewController:discover-button"
         discoverButton.oex_addAction({ [weak self] _ in
             self?.showCourses()
             }, for: .touchUpInside, analyticsEvent: discoverEvent)
@@ -91,6 +93,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
         let exploreButton = UIButton()
         exploreButton.applyButtonStyle(style: OEXStyles.shared().filledPrimaryButtonStyle, withTitle: Strings.startupExploreSubjects)
+        exploreButton.accessibilityIdentifier = "StartUpViewController:explore-button"
         let exploreEvent = OEXAnalytics.exploreSubjectsEvent()
         exploreButton.oex_addAction({ [weak self] _ in
             self?.exploreSubjects()
@@ -168,12 +171,14 @@ private class BottomBarView: UIView, NSCopying {
         bottomBar.backgroundColor = UIColor.black.withAlphaComponent(0.90)
         
         signInButton.setTitle(Strings.signInText, for: .normal)
+        signInButton.accessibilityIdentifier = "StartUpViewController:sign-in-button"
         let signInEvent = OEXAnalytics.loginEvent()
         signInButton.oex_addAction({ [weak self] _ in
             self?.showLogin()
             }, for: .touchUpInside, analyticsEvent: signInEvent)
         
         registerButton.setTitle(Strings.registerText, for: .normal)
+        registerButton.accessibilityIdentifier = "StartUpViewController:register-button"
         let signUpEvent = OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue)
         registerButton.oex_addAction({ [weak self] _ in
             self?.showRegistration()

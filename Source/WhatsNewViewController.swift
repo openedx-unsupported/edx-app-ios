@@ -87,10 +87,13 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     private func configureViews() {
         view.backgroundColor = environment.styles.primaryBaseColor()
         doneButton.setAttributedTitle(doneButtonStyle.attributedString(withText: Strings.WhatsNew.done), for: .normal)
+        doneButton.accessibilityIdentifier = "WhatsNewViewController:done-button"
         headerLabel.accessibilityLabel = Strings.Accessibility.Whatsnew.headerLabel(appVersion: Bundle.main.oex_buildVersionString())
+        headerLabel.accessibilityIdentifier = "WhatsNewViewController:header-label"
         closeButton.accessibilityLabel = Strings.Accessibility.Whatsnew.closeLabel
         closeButton.accessibilityHint = Strings.Accessibility.closeHint
-        
+        closeButton.accessibilityIdentifier = "WhatsNewViewController:close-button"
+        containerView.accessibilityIdentifier = "WhatsNewViewController:container-view"
         view.addSubview(containerView)
         containerView.addSubview(headerLabel)
         containerView.addSubview(closeButton)

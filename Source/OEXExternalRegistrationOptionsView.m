@@ -45,8 +45,10 @@
         self.signUpHeading = [[UILabel alloc] initWithFrame:CGRectZero];
         self.signUpHeading.attributedText = [self.labelStyle attributedStringWithText:[Strings registrationRegisterPrompt]];
         self.signUpHeading.isAccessibilityElement = NO;
+        self.signUpHeading.accessibilityIdentifier = @"RegistrationViewController:register-with-label";
         self.emailSuggestion = [[UILabel alloc] initWithFrame:CGRectZero];
         self.emailSuggestion.attributedText = [self.labelStyle attributedStringWithText:[Strings registrationRegisterAlternatePrompt]];
+        self.emailSuggestion.accessibilityIdentifier = @"RegistrationViewController:register-with-email-label";
         [self.emailSuggestion setTextAlignment:NSTextAlignmentCenter];
         self.leftSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
         self.rightSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
