@@ -30,7 +30,6 @@ NSString* const OEXAnalyticsCategoryNotifications = @"notifications";
 NSString* const OEXAnalyticsCategoryProfile = @"profiles";
 NSString* const OEXAnalyticsCategoryScreen = @"screen";
 NSString* const OEXAnalyticsCategoryUserEngagement = @"user-engagement";
-NSString* const OEXAnalyticsCategorySocialSharing = @"social-sharing";
 
 NSString* const OEXAnalyticsValueNavigationModeFull = @"full";
 NSString* const OEXAnalyticsValueNavigationModeVideo = @"video";

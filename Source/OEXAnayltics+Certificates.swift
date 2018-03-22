@@ -15,7 +15,7 @@ extension OEXAnalytics {
         let event = OEXAnalyticsEvent()
         event.name = OEXAnalyticsEventCertificateShared
         event.displayName = "Shared a certificate"
-        event.category = OEXAnalyticsCategorySocialSharing
+        event.category = AnalyticsCategory.SocialSharing.rawValue
 
         let info = ["url" : url, "type": type]
 

@@ -14,6 +14,7 @@ public enum AnalyticsCategory : String {
     case Discovery = "discovery"
     case AppReviews = "app-reviews"
     case WhatsNew = "whats-new"
+    case SocialSharing = "social-sharing"
 }
 
 public enum AnalyticsDisplayName : String {
@@ -26,6 +27,7 @@ public enum AnalyticsDisplayName : String {
     case EnrolledCourseSuccess = "Course Enroll Success"
     case BulkDownloadToggleOn = "Bulk Download Toggle On"
     case BulkDownloadToggleOff = "Bulk Download Toggle Off"
+    case SharedCourse = "Shared a course"
 }
 
 public enum AnalyticsEventName: String {
@@ -48,6 +50,7 @@ public enum AnalyticsEventName: String {
     case VideosUnitDelete = "edx.bi.app.video.delete.unit"
     case BulkDownloadToggleOn = "edx.bi.app.videos.download.toggle.on"
     case BulkDownloadToggleOff = "edx.bi.app.videos.download.toggle.off"
+    case SharedCourse = "edx.bi.app.course.shared"
 }
 
 public enum AnalyticsScreenName: String {
@@ -170,5 +173,13 @@ extension OEXAnalytics {
         event.displayName = "Videos: Unit Delete"
         
         trackEvent(event, forComponent: nil, withInfo: [AnalyticsEventDataKey.UnitID.rawValue : unitID])
+    }
+
+    func trackCourseShared(courseID: String, url: String, type: String) {
+        let event = OEXAnalyticsEvent()
+        event.name = AnalyticsEventName.SharedCourse.rawValue
+        event.displayName = AnalyticsDisplayName.SharedCourse.rawValue
+        event.category = AnalyticsCategory.SocialSharing.rawValue
+        trackEvent(event, forComponent: nil, withInfo: ["name" : courseID, "url": url, "type": type])
     }
 }

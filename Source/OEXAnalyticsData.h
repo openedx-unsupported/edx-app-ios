@@ -94,7 +94,6 @@ extern NSString* const OEXAnalyticsCategoryNotifications;
 extern NSString* const OEXAnalyticsCategoryProfile;
 extern NSString* const OEXAnalyticsCategoryScreen;
 extern NSString* const OEXAnalyticsCategoryUserEngagement;
-extern NSString* const OEXAnalyticsCategorySocialSharing;
 
 // Values
 extern NSString* const OEXAnalyticsValueNavigationModeVideo;
