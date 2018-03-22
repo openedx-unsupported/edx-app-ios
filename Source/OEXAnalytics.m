@@ -476,15 +476,6 @@ static OEXAnalytics* sAnalytics;
     [self trackEvent:event forComponent:nil withInfo:@{}];
 }
 
-#pragma mark Course
-- (void)trackCourseShared:(NSString*)courseName url:(NSString*)aboutUrl socialTarget:(NSString*)type {
-    OEXAnalyticsEvent* event = [[OEXAnalyticsEvent alloc] init];
-    event.name = OEXAnalyticsEventCourseShared;
-    event.displayName = @"Shared a course";
-    event.category = OEXAnalyticsCategorySocialSharing;
-    [self trackEvent:event forComponent:nil withInfo:@{@"name": courseName, @"url" : aboutUrl, @"type": type}];
-}
-
 #pragma mark- Discussion
 
 - (void) trackDiscussionSearchScreenWithName:(NSString *) screenName courseId:(NSString *) courseID value:(nullable NSString *) value searchQuery:(NSString *) query {

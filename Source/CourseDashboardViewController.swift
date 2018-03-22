@@ -183,7 +183,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
             let controller = shareHashtaggedTextAndALink(textBuilder: { hashtagOrPlatform in
                 Strings.shareACourse(platformName: hashtagOrPlatform)
             }, url: url, utmParams: course.courseShareUtmParams, analyticsCallback: { analyticsType in
-                analytics.trackCourseShared(courseID, url: urlString, socialTarget: analyticsType)
+                analytics.trackCourseShared(courseID: courseID, url: urlString, type: analyticsType)
             })
             controller.configurePresentationController(withSourceView: shareButton)
             present(controller, animated: true, completion: nil)

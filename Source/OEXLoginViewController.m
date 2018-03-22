@@ -516,9 +516,9 @@
             [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
             return;
         }
-        self.authProvider = nil;
         
         [self handleLoginResponseWith:data response:response error:error];
+        self.authProvider = nil;
     };
     
     [provider authorizeServiceFromController:self
