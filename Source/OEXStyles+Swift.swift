@@ -100,8 +100,8 @@ extension OEXStyles {
         return style
     }
     
-    func textFieldStyle(with size: OEXTextSize) -> OEXTextStyle {
-        return OEXMutableTextStyle(weight: .normal, size: size, color: OEXStyles.shared().neutralDark())
+    func textFieldStyle(with size: OEXTextSize, color: UIColor = OEXStyles.shared().neutralDark()) -> OEXTextStyle {
+        return OEXMutableTextStyle(weight: .normal, size: size, color: color)
     }
     
 

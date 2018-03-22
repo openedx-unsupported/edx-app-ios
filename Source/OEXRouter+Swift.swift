@@ -254,8 +254,8 @@ extension OEXRouter {
         fromController.navigationController?.pushViewController(controller, animated: animated)
     }
     
-    func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil) {
-        let controller = discoveryViewController(bottomBar: bottomBar)
+    func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil, searchQuery: String? = nil) {
+        let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery)
         if let fromController = fromController {
             fromController.tabBarController?.selectedIndex = 1
         } else {
@@ -264,22 +264,16 @@ extension OEXRouter {
         self.environment.analytics.trackUserFindsCourses()
     }
     
-    func discoveryViewController(bottomBar: UIView? = nil) -> UIViewController {
+    func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController {
         let controller: UIViewController
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
-            controller = OEXFindCoursesViewController(bottomBar: bottomBar)
+            controller = OEXFindCoursesViewController(bottomBar: bottomBar, searchQuery: searchQuery)
         case .Native, .None:
             controller = CourseCatalogViewController(environment: environment)
         }
         
         return controller
-    }
-
-    func showExploreCourses(bottomBar: UIView?) {
-        let controller = OEXFindCoursesViewController(bottomBar: bottomBar)
-        controller.startURL = .exploreSubjects
-        showControllerFromStartupScreen(controller: controller)
     }
 
     private func showControllerFromStartupScreen(controller: UIViewController) {

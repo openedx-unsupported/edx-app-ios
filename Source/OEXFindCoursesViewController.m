@@ -28,15 +28,17 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) UIView* bottomBar;
+@property (strong, nonatomic) NSString* searchQuery;
 
 @end
 
 @implementation OEXFindCoursesViewController
 
-- (instancetype) initWithBottomBar:(UIView*)bottomBar {
+- (instancetype) initWithBottomBar:(UIView*)bottomBar searchQuery:(nullable NSString *)searchQuery {
     self = [super init];
     if (self) {
         _bottomBar = bottomBar;
+        _searchQuery = searchQuery;
     }
     return self;
 }
@@ -46,7 +48,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     self.navigationItem.title = [self courseDiscoveryTitle];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.backBarButtonItem.accessibilityIdentifier = @"FindCoursesViewController:cancel-bar-button-item";
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:YES];
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:_bottomBar showSearch:YES searchQuery:_searchQuery];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 
     self.webViewHelper.searchBaseURL = [self enrollmentConfig].webviewConfig.searchURL;
@@ -60,7 +62,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
             urlToLoad = [self enrollmentConfig].webviewConfig.exploreSubjectsURL;
             break;
     }
-    [self.webViewHelper loadRequestWithURL: urlToLoad];
+    [self.webViewHelper loadWithURL:urlToLoad];
 }
     
 -(NSString *) courseDiscoveryTitle {
