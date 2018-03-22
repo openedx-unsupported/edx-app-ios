@@ -10,7 +10,7 @@ import Foundation
 
 private let CornerRadius:CGFloat = 2.0
 private let BottomBarMargin:CGFloat = 20.0
-private let BottombarHeight:CGFloat = 90.0
+private let BottomBarHeight:CGFloat = 90.0
 
 class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
@@ -91,7 +91,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         messageLabel.snp_makeConstraints { (make) in
             make.top.equalTo(logoImageView.snp_bottom).offset(3 * StandardVerticalMargin)
             make.leading.equalTo(logoImageView)
-            make.trailing.equalTo(view).offset(-2*StandardHorizontalMargin)
+            make.trailing.equalTo(view).offset(-2 * StandardHorizontalMargin)
         }
     }
     
@@ -181,8 +181,8 @@ private class BottomBarView: UIView, NSCopying {
 
         bottomBar.backgroundColor = environment?.styles.standardBackgroundColor()
         
-        let signinBorderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment?.styles.primaryBaseColor())
-        signInButton.applyBorderStyle(style: signinBorderStyle)
+        let signInBorderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment?.styles.primaryBaseColor())
+        signInButton.applyBorderStyle(style: signInBorderStyle)
         signInButton.accessibilityIdentifier = "StartUpViewController:sign-in-button"
         
         let signinTextStyle = OEXTextStyle(weight: .normal, size: .large, color: environment?.styles.primaryBaseColor())
@@ -209,7 +209,7 @@ private class BottomBarView: UIView, NSCopying {
 
         bottomBar.snp_makeConstraints { (make) in
             make.edges.equalTo(self)
-            make.height.equalTo(BottombarHeight)
+            make.height.equalTo(BottomBarHeight)
         }
         
         signInButton.snp_makeConstraints { (make) in
