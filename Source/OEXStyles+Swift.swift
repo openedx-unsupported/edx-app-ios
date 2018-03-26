@@ -48,7 +48,7 @@ extension OEXStyles {
         UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
         UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, for: .normal)
         
-        UIToolbar.appearance().tintColor = navigationBarColor()
+        UIToolbar.appearance().tintColor = navigationItemTintColor()
         
         let styleAttributes = OEXTextStyle(weight: .normal, size : .small, color : self.neutralBlack()).attributes
         UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, for: UIControlState.selected)
