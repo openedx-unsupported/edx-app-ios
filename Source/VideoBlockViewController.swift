@@ -111,26 +111,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         view.layoutIfNeeded()
         super.viewDidAppear(animated)
         
-<<<<<<< HEAD
-        validateSubtitleTimer()
-        
-=======
->>>>>>> LEARNER-4146, deprecate the old MPMovieplayer and add new AVPlayer
         if !(environment.interface?.canDownload() ?? false) {
             guard let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID), video.downloadState == .complete else {
                 showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
                 return
             }
         }
-<<<<<<< HEAD
-        
-        guard let videoPlayer = videoController.moviePlayerController else { return }
-        if currentOrientation() == .landscapeLeft || currentOrientation() == .landscapeRight {
-            videoPlayer.setFullscreen(true, with: currentOrientation())
-        }
-        
-=======
->>>>>>> LEARNER-4146, deprecate the old MPMovieplayer and add new AVPlayer
     }
     
     override func viewDidDisappear(_ animated: Bool) {

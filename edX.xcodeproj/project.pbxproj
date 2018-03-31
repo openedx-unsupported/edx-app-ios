@@ -655,10 +655,6 @@
 		BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */; };
 		BECB7B2F1924C0C3009C77F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B0E1924C0C3009C77F1 /* Foundation.framework */; };
 		BECB7B301924C0C3009C77F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B121924C0C3009C77F1 /* UIKit.framework */; };
-<<<<<<< HEAD
-		BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B501924C9FB009C77F1 /* OEXVideoPlayerInterface.m */; };
-=======
->>>>>>> LEARNER-4146, deprecate the old MPMovieplayer and add new AVPlayer
 		BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */; };
 		BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEEBF82196AAACF00EF2C35 /* Localizable.strings */; };
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
@@ -1567,11 +1563,6 @@
 		BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEXAppDelegate.m; sourceTree = "<group>"; };
 		BECB7B2C1924C0C3009C77F1 /* edXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = edXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BECB7B351924C0C3009C77F1 /* edXTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "edXTests-Info.plist"; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		BECB7B4F1924C9FB009C77F1 /* OEXVideoPlayerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXVideoPlayerInterface.h; sourceTree = "<group>"; };
-		BECB7B501924C9FB009C77F1 /* OEXVideoPlayerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXVideoPlayerInterface.m; sourceTree = "<group>"; };
-=======
->>>>>>> LEARNER-4146, deprecate the old MPMovieplayer and add new AVPlayer
 		BECB7B671924EE11009C77F1 /* OEXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLoginViewController.h; sourceTree = "<group>"; };
 		BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLoginViewController.m; sourceTree = "<group>"; };
 		C1061FFC436565270CDA40E3 /* Pods-edXTests.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.profile.xcconfig"; sourceTree = "<group>"; };
