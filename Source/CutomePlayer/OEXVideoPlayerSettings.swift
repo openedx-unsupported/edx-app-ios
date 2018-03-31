@@ -18,11 +18,11 @@ public struct OEXVideoPlayerSetting {
     let callback: (_ value: Any)->()
 }
 
-@objc protocol OEXVideoPlayerSettingsDelegate {
+@objc protocol VideoPlayerSettingsDelegate {
     func showSubSettings(chooser: UIAlertController)
     func setCaption(language: String)
     func setPlaybackSpeed(speed: OEXVideoSpeed)
-    func videoInfo() -> OEXVideoSummary
+    func videoInfo() -> OEXVideoSummary?
 }
 
 private func setupTable(table: UITableView) {
@@ -57,7 +57,7 @@ private func setupTable(table: UITableView) {
                 self?.delegate?.setPlaybackSpeed(speed: speed)
         }
         
-        if let transcripts: [String: String] = self.delegate?.videoInfo().transcripts as? [String: String] {
+        if let transcripts: [String: String] = self.delegate?.videoInfo()?.transcripts as? [String: String] {
             var rows = [RowType]()
             for lang: String in transcripts.keys {
                 let locale = NSLocale(localeIdentifier: lang)
@@ -85,17 +85,15 @@ private func setupTable(table: UITableView) {
             return [speeds]
         }
     }()
-    weak var delegate: OEXVideoPlayerSettingsDelegate?
+    weak var delegate: VideoPlayerSettingsDelegate?
 
     func updateMargins() {
         optionsTable.layoutMargins = EdgeInsets.zero
     }
     
-    init(delegate: OEXVideoPlayerSettingsDelegate, videoInfo: OEXVideoSummary) {
-        self.delegate = delegate
-
+    //init(delegate: VideoPlayerSettingsDelegate, videoInfo: OEXVideoSummary) {
+    override init() {
         super.init()
-        
         optionsTable.dataSource = self
         optionsTable.delegate = self
         setupTable(table: optionsTable)

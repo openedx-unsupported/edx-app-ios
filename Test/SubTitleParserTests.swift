@@ -1,27 +1,28 @@
 //
-//  CLVideoPlayerControlsTests.swift
+//  SubTitleParserTests.swift
 //  edX
 //
-//  Created by Danial Zahid on 2/1/17.
+//  Created by Salman on 13/03/2018.
 //  Copyright © 2017 edX. All rights reserved.
 //
 
 import XCTest
 @testable import edX
 
-class CLVideoPlayerControlsTests: XCTestCase {
+class SubTitleParserTests: XCTestCase {
     
     func testValidCaptions() {
         
         let expectation = self.expectation(description: "Parsing Transcript")
-        
-        let control = CLVideoPlayerControls()
-        control.readClosedCaptioningString(TranscriptDataFactory.validTranscriptString, completion: { (success: Bool) in
+    
+        let subTitleParser = SubTitleParser()
+        subTitleParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
             XCTAssertTrue(success)
-            XCTAssertEqual(control.subtitlesParts().count, 11)
+            XCTAssertEqual(subTitleParser.subTitles.count, 11)
             expectation.fulfill()
-            }) { (error) in
+            if error != nil {
                 XCTFail("Transcript parsing failed")
+            }
         }
         
         waitForExpectations { (error) in
@@ -32,18 +33,17 @@ class CLVideoPlayerControlsTests: XCTestCase {
     }
     
     func testPartialCaptions() {
-        
         let expectation = self.expectation(description: "Parsing Transcript")
-        
-        let control = CLVideoPlayerControls()
-        control.readClosedCaptioningString(TranscriptDataFactory.partialTranscriptString, completion: { (success: Bool) in
+        let subTitleParser = SubTitleParser()
+        subTitleParser.parse(subTitlesString: TranscriptDataFactory.partialTranscriptString) { (success, error) in
             XCTAssertTrue(success)
-            XCTAssertEqual(control.subtitlesParts().count, 10)
+            XCTAssertEqual(subTitleParser.subTitles.count, 10)
             expectation.fulfill()
-        }) { (error) in
-            XCTFail("Transcript parsing failed")
+            if error != nil {
+                XCTFail("Transcript parsing failed")
+            }
         }
-        
+    
         waitForExpectations { (error) in
             if error != nil {
                 XCTFail("Transcript parsing failed")
@@ -52,16 +52,14 @@ class CLVideoPlayerControlsTests: XCTestCase {
     }
     
     func testInvalidCaptions() {
-        
         let expectation = self.expectation(description: "Parsing Transcript")
-        
-        let control = CLVideoPlayerControls()
-        control.readClosedCaptioningString(TranscriptDataFactory.invalidTranscriptString, completion: { (success: Bool) in
-            XCTAssertTrue(success)
-            XCTAssertEqual(control.subtitlesParts().count, 0)
+        let subTitleParser = SubTitleParser()
+        subTitleParser.parse(subTitlesString: TranscriptDataFactory.invalidTranscriptString) { (success, error) in
+            XCTAssertFalse(success)
             expectation.fulfill()
-        }) { (error) in
-            XCTFail("Transcript parsing failed")
+            if error != nil {
+                XCTAssertEqual(error?.localizedDescription, "Invalid Format")
+            }
         }
         
         waitForExpectations { (error) in
@@ -72,16 +70,15 @@ class CLVideoPlayerControlsTests: XCTestCase {
     }
     
     func testEmptyCaptions() {
-        
         let expectation = self.expectation(description: "Parsing Transcript")
-        
-        let control = CLVideoPlayerControls()
-        control.readClosedCaptioningString(TranscriptDataFactory.emptyTranscriptString, completion: { (success: Bool) in
-            XCTAssertTrue(success)
-            XCTAssertEqual(control.subtitlesParts().count, 0)
+        let subTitleParser = SubTitleParser()
+        subTitleParser.parse(subTitlesString: TranscriptDataFactory.emptyTranscriptString) { (success, error) in
+            XCTAssertFalse(success)
+            XCTAssertEqual(subTitleParser.subTitles.count, 0)
             expectation.fulfill()
-        }) { (error) in
-            XCTFail("Transcript parsing failed")
+            if error != nil {
+                XCTAssertEqual(error?.localizedDescription, "Invalid Format")
+            }
         }
         
         waitForExpectations { (error) in

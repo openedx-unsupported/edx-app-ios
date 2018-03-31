@@ -14,9 +14,9 @@ static const CGFloat expandedMargin = 10.f;
 - (id)init {
     if(self = [super init]) {
         self.showsTouchWhenHighlighted = YES;
-        [self addTarget:self action:@selector(touchedDown:) forControlEvents:UIControlEventTouchDown];
-        [self addTarget:self action:@selector(touchedUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
-        [self addTarget:self action:@selector(touchCancelled:) forControlEvents:UIControlEventTouchCancel];
+//        [self addTarget:self action:@selector(touchedDown:) forControlEvents:UIControlEventTouchDown];
+//        [self addTarget:self action:@selector(touchedUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
+//        [self addTarget:self action:@selector(touchCancelled:) forControlEvents:UIControlEventTouchCancel];
     }
     return self;
 }
