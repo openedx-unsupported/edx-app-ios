@@ -86,6 +86,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let labelStyle = OEXTextStyle(weight: .semiBold, size: .xxLarge, color: environment.styles.primaryBaseColor())
         messageLabel.numberOfLines = 0
         messageLabel.attributedText = labelStyle.attributedString(withText: Strings.Startup.infoMessageText)
+        messageLabel.accessibilityIdentifier = "StartUpViewController:message-label"
         view.addSubview(messageLabel)
         
         messageLabel.snp_makeConstraints { (make) in
