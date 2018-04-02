@@ -92,7 +92,7 @@ private var playbackLikelyToKeepUpContext = 0
         addObservers()
     }
     
-    func addObservers() {
+   private func addObservers() {
         videoPlayer.addObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp",
                                 options: .new, context: &playbackLikelyToKeepUpContext)
         
@@ -113,12 +113,12 @@ private var playbackLikelyToKeepUpContext = 0
         let duration = CMTimeGetSeconds(self.duration)
         if duration.isFinite {
             let elapsedTime = CMTimeGetSeconds(elapsedTime)
-            playerControls?.durationSlider.value = Float(elapsedTime / duration)
+            playerControls?.durationSliderValue = Float(elapsedTime / duration)
             playerControls?.updateTimeLabel(elapsedTime: elapsedTime, duration: duration)
         }
     }
     
-    func createPlayer() {
+   private func createPlayer() {
         view.addSubview(playerView)
         playerView.playerLayer.player = videoPlayer
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
@@ -132,7 +132,7 @@ private var playbackLikelyToKeepUpContext = 0
         setControlsConstraints()
     }
     
-    func initializeSubtitles() {
+   private func initializeSubtitles() {
         if let video = video {
             videoSubTitle = VideoSubTitle(with: video)
             videoSubTitle?.delegate = self
@@ -165,13 +165,13 @@ private var playbackLikelyToKeepUpContext = 0
                 switch newStatus {
                 case .readyToPlay:
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
-                    playerControls?.tapButton.isHidden = false
+                    playerControls?.isTapButtonHidden = false
                     break
                 case .unknown:
-                    playerControls?.tapButton.isHidden = true
+                    playerControls?.isTapButtonHidden = true
                     break
                 case .failed:
-                    playerControls?.tapButton.isHidden = true
+                    playerControls?.isTapButtonHidden = true
                     break
                 }
             }
@@ -196,7 +196,7 @@ private var playbackLikelyToKeepUpContext = 0
         checkForOrientation()
     }
     
-    func checkForOrientation() {
+   private func checkForOrientation() {
         if currentOrientation().isLandscape {
             setFullscreen(fullscreen: true, animated: false, with: UIInterfaceOrientation.portrait, forceRotate: false)
         }
@@ -208,13 +208,8 @@ private var playbackLikelyToKeepUpContext = 0
             videoPlayer.replaceCurrentItem(with: playerItem)
         }
         videoPlayer.play()
-        playerControls?.tapButton.isHidden = true
+        playerControls?.isTapButtonHidden = true
         perform(#selector(movieTimedOut), with: nil, afterDelay: 60)
-    }
-    
-    func movieTimedOut() {
-        stop()
-        playerDelegate?.movieTimedOut()
     }
     
     func play(at timeInterval: TimeInterval) {
@@ -223,16 +218,20 @@ private var playbackLikelyToKeepUpContext = 0
         var resumeObserver: AnyObject?
         resumeObserver = videoPlayer.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 3), queue: DispatchQueue.main) { [weak self]
             (elapsedTime: CMTime) -> Void in
-                if self?.videoPlayer.currentItem?.status == .readyToPlay {
-                    self?.resume(at: timeInterval)
-                    if let observer = resumeObserver {
-                        self?.videoPlayer.removeTimeObserver(observer)
-                    }
+            if self?.videoPlayer.currentItem?.status == .readyToPlay {
+                self?.resume(at: timeInterval)
+                if let observer = resumeObserver {
+                    self?.videoPlayer.removeTimeObserver(observer)
                 }
+            }
             
             } as AnyObject
     }
     
+   @objc private func movieTimedOut() {
+        stop()
+        playerDelegate?.movieTimedOut()
+    }
     
     func resume() {
         resume(at: lastElapsedTime)
@@ -257,7 +256,7 @@ private var playbackLikelyToKeepUpContext = 0
         videoPlayer.replaceCurrentItem(with: nil)
     }
     
-    func removeObservers() {
+   private func removeObservers() {
         if let observer = timeObserver {
             videoPlayer.removeTimeObserver(observer)
             timeObserver = nil
@@ -369,14 +368,16 @@ private var playbackLikelyToKeepUpContext = 0
         }
     }
     
-    func subTitleLoaded(transcripts: [SubTitle]) {
-        playerDelegate?.transcriptLoaded(transcripts: transcripts)
-    }
-    
     func playerDidFinishPlaying(note: NSNotification) {
         playerDelegate?.didFinishVideoPlaying()
     }
     
+    // MARK: SubTitle  Delegate method
+    func subTitleLoaded(transcripts: [SubTitle]) {
+        playerDelegate?.transcriptLoaded(transcripts: transcripts)
+    }
+    
+    // MARK: Player control delegate method
     func playPausePressed(isPlaying: Bool) {
         if videoPlayer.isPlaying {
             pause()
@@ -391,7 +392,7 @@ private var playbackLikelyToKeepUpContext = 0
     func seekBackwardPressed() {
         let oldTime = self.currentTime
         let videoDuration = CMTimeGetSeconds(self.duration)
-        let elapsedTime: Float64 = videoDuration * Float64(playerControls?.durationSlider.value ?? 0)
+        let elapsedTime: Float64 = videoDuration * Float64(playerControls?.durationSliderValue ?? 0)
         let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
         playerControls?.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
         videoPlayer.seek(to: CMTimeMakeWithSeconds(backTime, 100)) { [weak self]

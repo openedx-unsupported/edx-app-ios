@@ -48,7 +48,7 @@ class CustomSlider: UISlider {
         }
     }
     
-    func loadSubViews() {
+   private func loadSubViews() {
         progressView.progress = 0.7
         backgroundColor = UIColor.clear
         maximumTrackTintColor = UIColor.clear

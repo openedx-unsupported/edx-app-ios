@@ -22,20 +22,20 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
             startBufferedTimer()
         }
     }
-    var playerSettings : OEXVideoPlayerSettings = OEXVideoPlayerSettings()
-    var playerRateBeforeSeek: Float = 0
-    var isControlsHidden: Bool = true
-    let subTitleParser = SubTitleParser()
-    var subtitleActivated : Bool = false
-    var delegate : VideoPlayerControlsDelegate?
-    var bufferedTimer: Timer?
-    lazy var dismissOptionOverlayButton: CLButton = CLButton()
-    lazy var timeElapsedLabel: UILabel = UILabel()
-    lazy var seekForwardButton: UILabel = UILabel()
+    private var playerSettings : OEXVideoPlayerSettings = OEXVideoPlayerSettings()
+    private var playerRateBeforeSeek: Float = 0
+    private var isControlsHidden: Bool = true
+    private let subTitleParser = SubTitleParser()
+    private var subtitleActivated : Bool = false
+    private var bufferedTimer: Timer?
+    private lazy var dismissOptionOverlayButton: CLButton = CLButton()
+    private lazy var timeElapsedLabel: UILabel = UILabel()
+    private lazy var seekForwardButton: UILabel = UILabel()
+    private var lastElapsedTime: Float64 = 0.0
+    private var dataInterface = OEXInterface.shared()
     let videoPlayerController: AVVideoPlayer
+    var delegate : VideoPlayerControlsDelegate?
     var seeking: Bool = false
-    var lastElapsedTime: Float64 = 0.0
-    var dataInterface = OEXInterface.shared()
     
     var leftSwipeGestureRecognizer : UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer()
@@ -53,7 +53,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
     var playerStopTime: TimeInterval = 0
     let videoSkipBackwardsDuration: Double = 30
     
-    lazy var subTitleLabel : UILabel = {
+    lazy private var subTitleLabel : UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor(red: 31.0/255.0, green: 33.0/255.0, blue: 36.0/255.0, alpha: 0.4)
         label.textColor = UIColor.white
@@ -66,14 +66,14 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return label
     }()
     
-    lazy var topBar: UIView = {
+    lazy private var topBar: UIView = {
         let view = UIView()
         view.backgroundColor = self.barColor
         view.alpha = 0
         return view
     }()
     
-    lazy var tapButton: UIButton = {
+    lazy private var tapButton: UIButton = {
         let button = UIButton()
         button.oex_addAction({ [weak self] _ in
             self?.contentTapped()
@@ -81,13 +81,13 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return button
     }()
     
-    lazy var bottomBar: UIView = {
+    lazy private var bottomBar: UIView = {
         let view = UIView()
         view.backgroundColor = self.barColor
         return view
     }()
     
-    lazy var rewindButton: CLButton = {
+    lazy private var rewindButton: CLButton = {
         let button = CLButton()
         button.setImage(UIImage.RewindIcon(), for: .normal)
         button.tintColor = .white
@@ -96,7 +96,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return button
     }()
     
-    lazy var durationSlider: CustomSlider = {
+    lazy private var durationSlider: CustomSlider = {
         let slider = CustomSlider()
         slider.isContinuous = true
         slider.setThumbImage(UIImage(named: "ic_seek_thumb"), for: .normal)
@@ -106,11 +106,10 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         slider.addTarget(self, action: #selector(durationSliderTouchBegan), for: .touchDown)
         slider.addTarget(self, action: #selector(durationSliderTouchEnded), for: .touchUpInside)
         slider.addTarget(self, action: #selector(durationSliderTouchEnded), for: .touchUpOutside)
-        
         return slider
     }()
     
-    lazy var btnSettings: CLButton = {
+    lazy private var btnSettings: CLButton = {
         let button = CLButton()
         button.setImage(UIImage.SettingsIcon(), for: .normal)
         button.tintColor = .white
@@ -119,14 +118,14 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return button
     }()
     
-    lazy var tableSettings: UITableView = {
+    lazy private var tableSettings: UITableView = {
         let tableView = self.playerSettings.optionsTable
         tableView.isHidden = true
         self.playerSettings.delegate = self
         return tableView
     }()
     
-    lazy var playPauseButton : AccessibilityCLButton = {
+    lazy private var playPauseButton : AccessibilityCLButton = {
         let button = AccessibilityCLButton()
         button.setAttributedTitle(title: UIImage.PauseTitle(), forState: .normal, animated: true)
         button.setAttributedTitle(title: UIImage.PlayTitle(), forState: .selected, animated: true)
@@ -135,7 +134,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return button
     }()
     
-    lazy var btnNext: CLButton = {
+    lazy private var btnNext: CLButton = {
         let button = CLButton()
         button.setImage(UIImage(named: "ic_next"), for: .normal)
         button.setImage(UIImage(named: "ic_next_press"), for: .highlighted)
@@ -144,7 +143,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return button
     }()
     
-    lazy var btnPrevious: CLButton = {
+    lazy private var btnPrevious: CLButton = {
         let button = CLButton()
         button.setImage(UIImage(named: "ic_previous"), for: .normal)
         button.setImage(UIImage(named: "ic_previous_press"), for: .highlighted)
@@ -153,7 +152,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return button
     }()
     
-    lazy var fullScreenButton: CLButton = {
+    lazy private var fullScreenButton: CLButton = {
         let button = CLButton()
         button.setImage(UIImage.ExpandIcon(), for: .normal)
         button.tintColor = .white
@@ -162,7 +161,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return button
     }()
     
-    lazy var timeRemainingLabel: UILabel = {
+    lazy private var timeRemainingLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .clear
         label.textColor = .lightText
@@ -176,7 +175,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return label
     }()
     
-    lazy var videoTitleLabel: UILabel = {
+    lazy private var videoTitleLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .clear
         label.font = OEXStyles.shared().semiBoldSansSerif(ofSize: 16.0)
@@ -225,6 +224,24 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         addSubview(tableSettings)
         setConstraints()
         setPlayerControlAccessibilityID()
+    }
+    
+    var durationSliderValue: Float {
+        set {
+            durationSlider.value = newValue
+        }
+        get {
+            return durationSlider.value
+        }
+    }
+    
+    var isTapButtonHidden: Bool {
+        set {
+            tapButton.isHidden = newValue
+        }
+        get {
+            return tapButton.isHidden
+        }
     }
     
     private func startBufferedTimer() {
@@ -311,7 +328,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         }
     }
     
-    func setPlayerControlAccessibilityID() {
+    private func setPlayerControlAccessibilityID() {
          durationSlider.accessibilityLabel = Strings.accessibilitySeekBar
          btnPrevious.accessibilityLabel = Strings.previous
          btnNext.accessibilityLabel = Strings.next
@@ -464,6 +481,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         }
     }
     
+    //MARK Video player setting delegate method
     func videoInfo() -> OEXVideoSummary? {
         return video?.summary
     }
@@ -488,7 +506,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         subTitleLabel.isHidden = !show;
     }
     
-    func monitorBufferedMovie() {
+    @objc private func monitorBufferedMovie() {
         let secondaryProgress = floor(videoPlayerController.playableDuration)
         let totalTime = floor(videoPlayerController.duration.seconds)
         let time = secondaryProgress/totalTime
@@ -527,14 +545,14 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         }
     }
     
-    func nextBtnClicked() {
+    private func nextBtnClicked() {
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;
         videoPlayerController.resetView()
         NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_NEXT), object: self)
     }
     
-    func previousBtnClicked() {
+    private func previousBtnClicked() {
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;
         videoPlayerController.resetView()

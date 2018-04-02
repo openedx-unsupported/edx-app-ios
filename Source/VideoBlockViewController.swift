@@ -80,7 +80,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         
         contentView?.addSubview(videoController.view)
         videoController.view.translatesAutoresizingMaskIntoConstraints = false
-        //videoController.fadeInOnLoad = false
         
         if environment.config.isVideoTranscriptEnabled {
             videoTranscriptView = VideoTranscript(environment: environment)
@@ -98,7 +97,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.loadVideoIfNecessary()
+        loadVideoIfNecessary()
     }
     
     override func viewDidAppear(_ animated : Bool) {
@@ -121,11 +120,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.subtitleTimer.invalidate()
+        subtitleTimer.invalidate()
     }
     
     func setAccessibility() {
-        if let ratingController = self.presentedViewController as? RatingViewController, UIAccessibilityIsVoiceOverRunning() {
+        if let ratingController = presentedViewController as? RatingViewController, UIAccessibilityIsVoiceOverRunning() {
             // If Timely App Reviews popup is showing then set popup elements as accessibilityElements
             view.accessibilityElements = [ratingController.ratingContainerView.subviews]
             setParentAccessibility(ratingController: ratingController)
@@ -150,7 +149,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
 
     private func loadVideoIfNecessary() {
         if !loader.hasBacking {
-            loader.backWithStream(courseQuerier.blockWithID(id: self.blockID).firstSuccess())
+            loader.backWithStream(courseQuerier.blockWithID(id: blockID).firstSuccess())
         }
     }
     
@@ -160,8 +159,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     override func updateViewConstraints() {
-        
-        if  self.isVerticallyCompact() {
+        if  isVerticallyCompact() {
             applyLandscapeConstraints()
         }
         else{
@@ -172,7 +170,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func applyPortraitConstraints() {
-        
         contentView?.snp_remakeConstraints {make in
             make.edges.equalTo(view)
         }
@@ -183,7 +180,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            make.top.equalTo(self.snp_topLayoutGuideBottom)
+            make.top.equalTo(snp_topLayoutGuideBottom)
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
         
@@ -197,7 +194,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func applyLandscapeConstraints() {
-        
         contentView?.snp_remakeConstraints {make in
             make.edges.equalTo(view)
         }
@@ -209,7 +205,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            make.top.equalTo(self.snp_topLayoutGuideBottom)
+            make.top.equalTo(snp_topLayoutGuideBottom)
             make.height.equalTo(playerHeight)
         }
         
@@ -218,15 +214,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
             make.bottom.equalTo(view)
-        }
-    }
-    
-    func movieTimedOut() {
-        if videoController.movieFullscreen {
-            UIAlertView(title: Strings.timeoutCheckInternetConnection, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
-        }
-        else {
-            self.showOverlay(withMessage: Strings.timeoutCheckInternetConnection)
         }
     }
     
@@ -245,13 +232,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload) {
         navigationItem.title = block.displayName
-        DispatchQueue.main.async {
-            self.loadController.state = .Loaded
+        DispatchQueue.main.async {[weak self] _ in
+            self?.loadController.state = .Loaded
         }
         playVideo(video: video)
     }
     
-    func playVideo(video : OEXHelperVideoDownload) {
+    private func playVideo(video : OEXHelperVideoDownload) {
         videoController.playerControls?.video = video
         videoController.video = video
         currentVideo = video
@@ -285,7 +272,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         return videoController
     }
     
-    func validateSubtitleTimer() {
+    private func validateSubtitleTimer() {
         if !subtitleTimer.isValid && videoController.playerControls != nil {
             subtitleTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                                  target: self,
@@ -295,10 +282,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         }
     }
     
-    func highlightSubtitle() {
+    @objc private func highlightSubtitle() {
         videoTranscriptView?.highlightSubtitle(for: videoController.currentTime)
     }
-    
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         //guard let videoPlayer = videoController.moviePlayerController else { return }
@@ -306,14 +292,14 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         if videoController.movieFullscreen {
 
             if newCollection.verticalSizeClass == .regular {
-                videoController.setFullscreen(fullscreen: false, animated: true, with: self.currentOrientation(), forceRotate: false)
+                videoController.setFullscreen(fullscreen: false, animated: true, with: currentOrientation(), forceRotate: false)
             }
             else {
-                videoController.setFullscreen(fullscreen: true, animated: true, with: self.currentOrientation(), forceRotate: false)
+                videoController.setFullscreen(fullscreen: true, animated: true, with: currentOrientation(), forceRotate: false)
             }
         }
         else if newCollection.verticalSizeClass == .compact {
-            videoController.setFullscreen(fullscreen: true, animated: true, with: self.currentOrientation(), forceRotate: false)
+            videoController.setFullscreen(fullscreen: true, animated: true, with: currentOrientation(), forceRotate: false)
         }
     }
     
@@ -323,22 +309,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         guard UIDevice.current.userInterfaceIdiom == .pad else { return }
         
         if videoController.movieFullscreen {
-            videoController.setFullscreen(fullscreen: !UIDevice.current.orientation.isPortrait, animated: true, with: self.currentOrientation(), forceRotate: false)
+            videoController.setFullscreen(fullscreen: !UIDevice.current.orientation.isPortrait, animated: true, with: currentOrientation(), forceRotate: false)
         }
         else if UIDevice.current.orientation.isLandscape {
-             videoController.setFullscreen(fullscreen: true, animated: true, with: self.currentOrientation(), forceRotate: false)
+             videoController.setFullscreen(fullscreen: true, animated: true, with: currentOrientation(), forceRotate: false)
         }
     }
 
-    func transcriptLoaded(transcripts: [SubTitle]) {
-        videoTranscriptView?.updateTranscript(transcript: transcripts)
-        validateSubtitleTimer()
-    }
-    
-    func didFinishVideoPlaying() {
-        environment.router?.showAppReviewIfNeeded(fromController: self)
-    }
-    
     //MARK: - VideoTranscriptDelegate methods
     func didSelectSubtitleAtInterval(time: TimeInterval) {
         videoController.resume(at: time)
@@ -365,6 +342,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         return .allButUpsideDown
     }
     
+    //MARK: - VideoPlayerControllerDelegate methods
     func moviePlayerWillMoveFromWindow() {
         videoController.view.snp_updateConstraints { make in
             make.width.equalTo(view.bounds.size.width)
@@ -378,6 +356,23 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             let state = doublesWithinEpsilon(left: duration, right: currentTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
             OEXInterface.shared().markVideoState(state, forVideo: currentVideo)
         }
-        
+    }
+    
+    func transcriptLoaded(transcripts: [SubTitle]) {
+        videoTranscriptView?.updateTranscript(transcript: transcripts)
+        validateSubtitleTimer()
+    }
+    
+    func didFinishVideoPlaying() {
+        environment.router?.showAppReviewIfNeeded(fromController: self)
+    }
+    
+    func movieTimedOut() {
+        if videoController.movieFullscreen {
+            UIAlertView(title: Strings.timeoutCheckInternetConnection, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
+        }
+        else {
+            showOverlay(withMessage: Strings.timeoutCheckInternetConnection)
+        }
     }
 }

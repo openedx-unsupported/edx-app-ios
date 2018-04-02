@@ -54,7 +54,7 @@ class VideoSubTitle: NSObject {
         }
     }
     
-    func getClosedCaptioningFile(atURL URLString: String?) {
+   private func getClosedCaptioningFile(atURL URLString: String?) {
         if let localFile: String = OEXFileUtility.filePath(forRequestKey: URLString) {
             var subtitleString = ""
             // File to string
@@ -69,8 +69,6 @@ class VideoSubTitle: NSObject {
                     })
                 }
                 catch let error {
-                    //completion(false, error)
-                    //return
                 }
             }
             else {

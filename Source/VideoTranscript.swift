@@ -17,8 +17,6 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider
     
     let transcriptTableView = UITableView(frame: CGRect.zero, style: .plain)
-//    var transcriptArray = [AnyObject]()
-    
     var transcripts = [SubTitle]()
     
     let environment : Environment
@@ -56,20 +54,17 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     //MARK: - UITableview methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return transcriptArray.count
         return transcripts.count
     }
     
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VideoTranscriptTableViewCell.cellIdentifier) as! VideoTranscriptTableViewCell
         cell.applyStandardSeparatorInsets()
-//        cell.setTranscriptText(text: (transcriptArray[indexPath.row] as? [String: AnyObject])?[CLVideoPlayerkText] as? String, highlighted: indexPath.row == highlightedIndex)
         cell.setTranscriptText(text: transcripts[indexPath.row].text, highlighted: indexPath.row == highlightedIndex)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        delegate?.didSelectSubtitleAtInterval(time: (transcriptArray[indexPath.row] as? [String: AnyObject])?[CLVideoPlayerkStart] as! TimeInterval)
         delegate?.didSelectSubtitleAtInterval(time: transcripts[indexPath.row].start)
     }
     
@@ -79,10 +74,8 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
         draggingTimer = Timer.scheduledTimer(timeInterval: dragDelay, target: self, selector: #selector(invalidateDragging), userInfo: nil, repeats: false)
     }
     
-//    func updateTranscript(transcript: [AnyObject]) {
     func updateTranscript(transcript: [SubTitle]) {
         if transcript.count > 0 {
-//            transcriptArray = transcript
             transcripts = transcript
             transcriptTableView.reloadData()
             transcriptTableView.isHidden = false
@@ -104,9 +97,6 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
             return nil
         }
         return transcripts.index(where: { time >= $0.start && time <= $0.end })
-//        let filteredTranscript = SubTitleParser.getSubTitle(from: transcripts, at: time)
-//        return filteredTranscript[0]
-//        return transcriptArray.index(where: { time ?? 0 >= ($0 as? [String: AnyObject])?[CLVideoPlayerkStart] as? Double ?? 0 && time ?? 0 <= ($0 as? [String: AnyObject])?[CLVideoPlayerkEnd] as? Double ?? 0 })
     }
     
     func invalidateDragging(){
