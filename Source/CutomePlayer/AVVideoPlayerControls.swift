@@ -201,6 +201,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         backgroundColor = .clear
         addSubviews()
         hideAndShowControls(isHidden: isControlsHidden)
+        showHideNextPrevious(isHidden: true)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -216,9 +217,9 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         bottomBar.addSubview(timeRemainingLabel)
         bottomBar.addSubview(btnSettings)
         bottomBar.addSubview(fullScreenButton)
+        addSubview(tapButton)
         addSubview(btnNext)
         addSubview(btnPrevious)
-        addSubview(tapButton)
         addSubview(playPauseButton)
         addSubview(subTitleLabel)
         addSubview(tableSettings)
@@ -316,8 +317,22 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
             make.bottom.equalTo(bottomBar.snp_top)
         }
         
+        btnPrevious.snp_makeConstraints { make in
+            make.leading.equalTo(self).offset(10.0)
+            make.height.equalTo(42.0)
+            make.width.equalTo(42.0)
+            make.centerY.equalTo(self.snp_centerY)
+        }
+        
         playPauseButton.snp_makeConstraints { make in
-            make.center.equalTo(tapButton.center)
+            make.center.equalTo(self.snp_center)
+        }
+        
+        btnNext.snp_makeConstraints { make in
+            make.height.equalTo(42.0)
+            make.width.equalTo(42.0)
+            make.trailing.equalTo(self).inset(10)
+            make.centerY.equalTo(self.snp_centerY)
         }
         
         subTitleLabel.snp_makeConstraints { make in
@@ -438,12 +453,6 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
             autoHide()
         }
     }
-    @objc private func nextButtonClicked() {
-        autoHide()
-    }
-    @objc private func previousButtonClicked() {
-        autoHide()
-    }
     
     @objc private func settingsButtonClicked() {
         NSObject.cancelPreviousPerformRequests(withTarget:self)
@@ -524,10 +533,10 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         }
     
         leftSwipeGestureRecognizer.addAction {[weak self] _ in
-            self?.nextBtnClicked()
+            self?.nextButtonClicked()
         }
         rightSwipeGestureRecognizer.addAction {[weak self] _ in
-            self?.previousBtnClicked()
+            self?.previousButtonClicked()
         }
         videoPlayerController.playerView.addGestureRecognizer(leftSwipeGestureRecognizer )
         videoPlayerController.playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
@@ -535,6 +544,11 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             OEXAnalytics.shared().trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(videoPlayerController.currentTime), mode: true, unitURL: unitUrl)
         }
+    }
+    
+    func showHideNextPrevious(isHidden: Bool) {
+        btnNext.isHidden = isHidden
+        btnPrevious.isHidden = isHidden
     }
     
     func removeGesters() {
@@ -545,14 +559,16 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         }
     }
     
-    private func nextBtnClicked() {
+   @objc private func nextButtonClicked() {
+        autoHide()
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;
         videoPlayerController.resetView()
         NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_NEXT), object: self)
     }
     
-    private func previousBtnClicked() {
+   @objc private func previousButtonClicked() {
+        autoHide()
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;
         videoPlayerController.resetView()

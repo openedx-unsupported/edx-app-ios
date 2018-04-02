@@ -283,6 +283,7 @@ private var playbackLikelyToKeepUpContext = 0
             view.addSubview(playerView)
             view.frame = defaultFrame
             playerControls?.removeGesters()
+            playerControls?.showHideNextPrevious(isHidden: true)
         }
     }
     
@@ -302,6 +303,7 @@ private var playbackLikelyToKeepUpContext = 0
                 movieBackgroundView.addSubview(playerView)
                 movieBackgroundView.layer.insertSublayer(playerView.playerLayer, at: 0)
                 playerControls?.addGesters()
+                playerControls?.showHideNextPrevious(isHidden: false)
             }
             UIView.animate(withDuration: animated ? 0.1 : 0.0, delay: 0.0, options: .curveLinear, animations: {() -> Void in
                 self.movieBackgroundView.alpha = 1.0
