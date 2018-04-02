@@ -56,6 +56,10 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
         
         info[GoogleCategoryKey] = event.category as AnyObject
         info[GoogleLabelKey] = event.label as AnyObject
+
+        if let userID = OEXSession.shared()?.currentUser?.userId {
+            info[AnalyticsEventDataKey.UserID.rawValue] = userID
+        }
         
         SEGAnalytics.shared().track(event.displayName, properties: info)
     }
@@ -66,12 +70,22 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
                 key_app_name: value_app_name
             ]
         ]
+
         if let value = value {
             properties[GoogleActionKey] = value as NSObject
         }
+
+        if let userID = OEXSession.shared()?.currentUser?.userId {
+            properties[AnalyticsEventDataKey.UserID.rawValue] = userID
+        }
         
         SEGAnalytics.shared().screen(screenName, properties: properties)
-        
+
+        // remove used id from properties because custom event will add it again
+        if let _ = OEXSession.shared()?.currentUser?.userId {
+            properties.removeValue(forKey: AnalyticsEventDataKey.UserID.rawValue)
+        }
+
         // adding additional info to event
         if let info = info, info.count > 0 {
             properties = properties.concat(dictionary: info as [String : NSObject])

@@ -75,6 +75,7 @@ public enum AnalyticsEventDataKey: String {
     case UnitID = "unit_id"
     case totalDownloadableVideos = "total_downloadable_videos"
     case remainingDownloadableVideos = "remaining_downloadable_videos"
+    case UserID = "user_id"
 }
 
 
