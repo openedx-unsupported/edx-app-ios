@@ -202,11 +202,11 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func updateNavigationBars() {
-        DispatchQueue.main.async { [weak self] in
-            if let cursor = self?.contentLoader.value {
 
-                let item = cursor.current
+        if let cursor = contentLoader.value {
+            let item = cursor.current
 
+            DispatchQueue.main.async { [weak self] in
                 // only animate change if we haven't set a title yet, so the initial set happens without
                 // animation to make the push transition work right
                 let actions : () -> Void = {
@@ -214,6 +214,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 }
                 if let navigationBar = self?.navigationController?.navigationBar, let _ = self?.navigationItem.title {
                     let animated = self?.navigationItem.title != nil
+
                     UIView.transition(with: navigationBar,
                                       duration: 0.3 * (animated ? 1.0 : 0.0), options: UIViewAnimationOptions.transitionCrossDissolve,
                                       animations: actions, completion: nil)
@@ -221,21 +222,19 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 else {
                     actions()
                 }
+            }
 
-                let prevItem = self?.toolbarItemWithGroupItem(item: item, adjacentGroup: item.prevGroup, direction: .Prev, enabled: cursor.hasPrev)
-                let nextItem = self?.toolbarItemWithGroupItem(item: item, adjacentGroup: item.nextGroup, direction: .Next, enabled: cursor.hasNext)
-                if let prevItem = prevItem, let nextItem = nextItem {
-                    self?.setToolbarItems(
-                        [
-                            prevItem,
-                            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                            nextItem
-                        ], animated : true)
-                }
-            }
-            else {
-                self?.toolbarItems = []
-            }
+            let prevItem = toolbarItemWithGroupItem(item: item, adjacentGroup: item.prevGroup, direction: .Prev, enabled: cursor.hasPrev)
+            let nextItem = toolbarItemWithGroupItem(item: item, adjacentGroup: item.nextGroup, direction: .Next, enabled: cursor.hasNext)
+            setToolbarItems(
+                [
+                    prevItem,
+                    UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                    nextItem
+                ], animated : true)
+        }
+        else {
+            toolbarItems = []
         }
     }
     
@@ -385,11 +384,11 @@ extension CourseContentPageViewController {
     }
     
     public var t_prevButtonEnabled : Bool {
-        return self.toolbarItems![0].isEnabled
+        return self.toolbarItems?[0].isEnabled ?? false
     }
     
     public var t_nextButtonEnabled : Bool {
-        return self.toolbarItems![2].isEnabled
+        return self.toolbarItems?[2].isEnabled ?? false
     }
     
     public func t_goForward() {
