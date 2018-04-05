@@ -18,7 +18,8 @@ class CourseCardCell : UITableViewCell {
     
     override init(style : UITableViewCellStyle, reuseIdentifier : String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        let horizMargin = UIDevice.current.userInterfaceIdiom == .pad ? StandardHorizontalMarginIPad : CourseCardCell.margin
+        let iPadHorizMargin = OEXStyles.shared().iPadHorizontalMargin()
+        let horizMargin = UIDevice.current.userInterfaceIdiom == .pad ? iPadHorizMargin : CourseCardCell.margin
         
         self.contentView.addSubview(courseView)
         

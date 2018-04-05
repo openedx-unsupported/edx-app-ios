@@ -176,10 +176,6 @@ var StandardHorizontalMargin : CGFloat {
     return OEXStyles.shared().standardHorizontalMargin()
 }
 
-var StandardHorizontalMarginIPad : CGFloat {
-    return OEXStyles.shared().iPadHorizontalMargin()
-}
-
 var StandardVerticalMargin : CGFloat {
     return OEXStyles.shared().standardVerticalMargin
 }
