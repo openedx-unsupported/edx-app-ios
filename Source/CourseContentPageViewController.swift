@@ -118,6 +118,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 {
                     owner.setPageControllers(with: [controller], direction: .forward, animated: false, competion: { [weak self] (finished) in
                         self?.view.isUserInteractionEnabled = true
+                        self?.navigationController?.toolbar.isUserInteractionEnabled = true
                     })
                 }
                 else {
@@ -273,6 +274,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         {
             setPageControllers(with: [nextController], direction: direction, animated: true, competion: { [weak self] (finished) in
                 self?.view.isUserInteractionEnabled = true
+                self?.navigationController?.toolbar.isUserInteractionEnabled = true
             })
         }
     }
@@ -281,6 +283,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         // setViewControllers is being called in async thread so user may intract with UIPageController in that duration so
         // disabling user interation while setting viewControllers of UIPageViewController
         view.isUserInteractionEnabled = false
+        navigationController?.toolbar.isUserInteractionEnabled = false
         DispatchQueue.main.async { [weak self] in
             self?.setViewControllers(controllers, direction: direction, animated: animated, completion: competion)
             self?.updateNavigationForEnteredController(controller: controllers.first)
