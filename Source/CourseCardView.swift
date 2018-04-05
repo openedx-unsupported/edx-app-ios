@@ -73,9 +73,10 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         
         container.backgroundColor = OEXStyles.shared().neutralWhite().withAlphaComponent(0.85)
         coverImageView.backgroundColor = OEXStyles.shared().neutralWhiteT()
+        coverImageView.contentMode = UIViewContentMode.scaleAspectFill
         coverImageView.clipsToBounds = true
         coverImageView.hidesLoadingSpinner = true
-
+        
         container.accessibilityIdentifier = "Title Bar"
         container.addSubview(titleLabel)
         container.addSubview(dateLabel)
