@@ -358,7 +358,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         }
     }
     
-    func transcriptLoaded(transcripts: [SubTitle]) {
+    func transcriptLoaded(transcripts: [TranscriptObject]) {
         videoTranscriptView?.updateTranscript(transcript: transcripts)
         validateSubtitleTimer()
     }

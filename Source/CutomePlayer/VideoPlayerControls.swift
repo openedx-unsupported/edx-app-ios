@@ -1,5 +1,5 @@
 //
-//  AVVideoPlayerControls.swift
+//  VideoPlayerControls.swift
 //  edX
 //
 //  Created by Salman on 06/03/2018.
@@ -13,9 +13,13 @@ protocol VideoPlayerControlsDelegate {
     func playPausePressed(isPlaying: Bool)
     func seekBackwardPressed()
     func fullscreenPressed()
+    func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed)
+    func sliderValueChanged(playerControls: VideoPlayerControls)
+    func sliderTouchBegan(playerControls: VideoPlayerControls)
+    func sliderTouchEnded(playerControls: VideoPlayerControls)
 }
 
-class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelegate {
+class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     var video : OEXHelperVideoDownload? {
         didSet {
@@ -23,35 +27,14 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         }
     }
     private var playerSettings : OEXVideoPlayerSettings = OEXVideoPlayerSettings()
-    private var playerRateBeforeSeek: Float = 0
     private var isControlsHidden: Bool = true
-    private let subTitleParser = SubTitleParser()
     private var subtitleActivated : Bool = false
     private var bufferedTimer: Timer?
-    private lazy var dismissOptionOverlayButton: CLButton = CLButton()
-    private lazy var timeElapsedLabel: UILabel = UILabel()
-    private lazy var seekForwardButton: UILabel = UILabel()
-    private var lastElapsedTime: Float64 = 0.0
     private var dataInterface = OEXInterface.shared()
-    let videoPlayerController: AVVideoPlayer
+    private let videoPlayerController: AVVideoPlayer
     var delegate : VideoPlayerControlsDelegate?
-    var seeking: Bool = false
-    
-    var leftSwipeGestureRecognizer : UISwipeGestureRecognizer = {
-        let gesture = UISwipeGestureRecognizer()
-        gesture.direction = .left
-        return gesture
-    }()
-    
-    var rightSwipeGestureRecognizer : UISwipeGestureRecognizer = {
-        let gesture = UISwipeGestureRecognizer()
-        gesture.direction = .right
-        return gesture
-    }()
-    
     var playerStartTime: TimeInterval = 0
     var playerStopTime: TimeInterval = 0
-    let videoSkipBackwardsDuration: Double = 30
     
     lazy private var subTitleLabel : UILabel = {
         let label = UILabel()
@@ -60,7 +43,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         label.numberOfLines = 0
         label.layer.cornerRadius = 5
         label.layer.rasterizationScale = UIScreen.main.scale
-        label.textAlignment = NSTextAlignment.center
+        label.textAlignment = .center
         label.font = OEXStyles.shared().sansSerif(ofSize: 12)
         label.layer.shouldRasterize = true
         return label
@@ -87,34 +70,53 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         return view
     }()
     
-    lazy private var rewindButton: CLButton = {
-        let button = CLButton()
+    lazy private var rewindButton: CustomPlayerButton = {
+        let button = CustomPlayerButton()
         button.setImage(UIImage.RewindIcon(), for: .normal)
         button.tintColor = .white
-        button.delegate = self
-        button.addTarget(self, action: #selector(seekBackwardPressed), for: .touchUpInside)
+        button.oex_addAction({[weak self] (action) in
+            self?.delegate?.seekBackwardPressed()
+        }, for: .touchUpInside)
         return button
     }()
     
     lazy private var durationSlider: CustomSlider = {
         let slider = CustomSlider()
         slider.isContinuous = true
-        slider.setThumbImage(UIImage(named: "ic_seek_thumb"), for: .normal)
+        slider.setThumbImage(UIImage(named: "ic_seek_thumb.png"), for: .normal)
         slider.setMinimumTrackImage(UIImage(named: "ic_progressbar.png"), for: .normal)
         slider.secondaryTrackColor = UIColor(red: 76.0/255.0, green: 135.0/255.0, blue: 130.0/255.0, alpha: 0.9)
-        slider.addTarget(self, action: #selector(durationSliderValueChanged), for: .valueChanged)
-        slider.addTarget(self, action: #selector(durationSliderTouchBegan), for: .touchDown)
-        slider.addTarget(self, action: #selector(durationSliderTouchEnded), for: .touchUpInside)
-        slider.addTarget(self, action: #selector(durationSliderTouchEnded), for: .touchUpOutside)
+        slider.oex_addAction({[weak self] (action) in
+            if let weakSelf = self {
+                weakSelf.delegate?.sliderValueChanged(playerControls: weakSelf)
+            }
+        }, for: .valueChanged)
+        slider.oex_addAction({[weak self] (action) in
+            if let weakSelf = self {
+                weakSelf.delegate?.sliderTouchBegan(playerControls: weakSelf)
+            }
+        }, for: .touchDown)
+        slider.oex_addAction({[weak self] (action) in
+            if let weakSelf = self {
+                weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
+            }
+        }, for: .touchUpInside)
+        slider.oex_addAction({[weak self] (action) in
+            if let weakSelf = self {
+                weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
+            }
+        }, for: .touchUpOutside)
+        
         return slider
     }()
     
-    lazy private var btnSettings: CLButton = {
-        let button = CLButton()
+    lazy private var btnSettings: CustomPlayerButton = {
+        let button = CustomPlayerButton()
         button.setImage(UIImage.SettingsIcon(), for: .normal)
         button.tintColor = .white
-        button.delegate = self
-        button.addTarget(self, action: #selector(settingsButtonClicked), for: .touchUpInside)
+        button.oex_addAction({[weak self] (action) in
+            self?.settingsButtonClicked()
+        }, for: .touchUpInside)
         return button
     }()
     
@@ -129,35 +131,42 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         let button = AccessibilityCLButton()
         button.setAttributedTitle(title: UIImage.PauseTitle(), forState: .normal, animated: true)
         button.setAttributedTitle(title: UIImage.PlayTitle(), forState: .selected, animated: true)
-        button.addTarget(self, action: #selector(playPausePressed), for: .touchUpInside)
-        button.delegate = self;
+        button.oex_addAction({[weak self] (action) in
+            button.isSelected = !button.isSelected
+            self?.delegate?.playPausePressed(isPlaying: button.isSelected)
+            self?.autoHide()
+            }, for: .touchUpInside)
         return button
     }()
     
-    lazy private var btnNext: CLButton = {
-        let button = CLButton()
+    lazy private var btnNext: CustomPlayerButton = {
+        let button = CustomPlayerButton()
         button.setImage(UIImage(named: "ic_next"), for: .normal)
         button.setImage(UIImage(named: "ic_next_press"), for: .highlighted)
-        button.addTarget(self, action: #selector(nextButtonClicked), for: .touchUpInside)
-        button.delegate = self;
+        button.oex_addAction({[weak self] (action) in
+            self?.nextButtonClicked()
+        }, for: .touchUpInside)
         return button
     }()
     
-    lazy private var btnPrevious: CLButton = {
-        let button = CLButton()
+    lazy private var btnPrevious: CustomPlayerButton = {
+        let button = CustomPlayerButton()
         button.setImage(UIImage(named: "ic_previous"), for: .normal)
         button.setImage(UIImage(named: "ic_previous_press"), for: .highlighted)
-        button.addTarget(self, action: #selector(previousButtonClicked), for: .touchUpInside)
-        button.delegate = self;
+        button.oex_addAction({[weak self] (action) in
+            self?.previousButtonClicked()
+        }, for: .touchUpInside)
         return button
     }()
     
-    lazy private var fullScreenButton: CLButton = {
-        let button = CLButton()
+    lazy private var fullScreenButton: CustomPlayerButton = {
+        let button = CustomPlayerButton()
         button.setImage(UIImage.ExpandIcon(), for: .normal)
         button.tintColor = .white
-        button.delegate = self
-        button.addTarget(self, action: #selector(fullscreenPressed), for: .touchUpInside)
+        button.oex_addAction({[weak self] (action) in
+            self?.autoHide()
+            self?.delegate?.fullscreenPressed()
+        }, for: .touchUpInside)
         return button
     }()
     
@@ -196,10 +205,11 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
     init(with player: AVVideoPlayer) {
         videoPlayerController = player
         super.init(frame: CGRect.zero)
-        seeking = false
         playerSettings.delegate = self
         backgroundColor = .clear
         addSubviews()
+        setConstraints()
+        setPlayerControlAccessibilityID()
         hideAndShowControls(isHidden: isControlsHidden)
         showHideNextPrevious(isHidden: true)
     }
@@ -223,8 +233,6 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         addSubview(playPauseButton)
         addSubview(subTitleLabel)
         addSubview(tableSettings)
-        setConstraints()
-        setPlayerControlAccessibilityID()
     }
     
     var durationSliderValue: Float {
@@ -366,9 +374,9 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         perform(#selector(hideAndShowControls(isHidden:)), with: 1, afterDelay: 3.0)
     }
     
-    @objc func hideAndShowControls(isHidden: Bool) {
+    @objc private func hideAndShowControls(isHidden: Bool) {
         isControlsHidden = isHidden
-        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, animations: {[weak self] in
             let alpha: CGFloat = isHidden ? 0 : 1
             self?.topBar.alpha = alpha
             self?.bottomBar.alpha = alpha
@@ -383,24 +391,20 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
             if (!isHidden) {
                 self?.autoHide()
             }
-            
-        }) {[weak self] _ in
+        }, completion: {[weak self] _ in
             self?.updateSubtTitleConstraints()
-        }
-    }
-    
-    func hideOptionsAndValues() {
-        tableSettings.isHidden = true
+        })
     }
     
     func updateTimeLabel(elapsedTime: Float64, duration: Float64) {
         let totalTime: Float64 = CMTimeGetSeconds(videoPlayerController.duration)
         timeRemainingLabel.text = String(format: "%02d:%02d / %02d:%02d", ((lround(elapsedTime) / 60) % 60), lround(elapsedTime) % 60, ((lround(totalTime) / 60) % 60), lround(totalTime) % 60)
         if subtitleActivated {
-            subTitleLabel.text = videoPlayerController.videoSubTitle?.getSubTitle(at: elapsedTime)
+            subTitleLabel.text = videoPlayerController.subTitle(at: elapsedTime)
         }
     }
     
+    /*
     // MARK: Slider Handling
     @objc private func durationSliderValueChanged() {
         let videoDuration = CMTimeGetSeconds(videoPlayerController.duration)
@@ -428,21 +432,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
             OEXAnalytics.shared().trackVideoSeekRewind(videoId, requestedDuration:playerStopTime - playerStartTime, oldTime:playerStartTime, newTime: playerStopTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
         }
     }
-    
-    @objc private func seekBackwardPressed() {
-        delegate?.seekBackwardPressed()
-    }
-    
-    @objc private func playPausePressed() {
-        playPauseButton.isSelected = !playPauseButton.isSelected
-        delegate?.playPausePressed(isPlaying: playPauseButton.isSelected)
-        autoHide()
-    }
-    
-    @objc private func fullscreenPressed() {
-        autoHide()
-        delegate?.fullscreenPressed()
-    }
+    */
     
     private func contentTapped() {
         if tableSettings.isHidden {
@@ -454,13 +444,14 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         }
     }
     
-    @objc private func settingsButtonClicked() {
+    private func settingsButtonClicked() {
         NSObject.cancelPreviousPerformRequests(withTarget:self)
         tableSettings.isHidden = !tableSettings.isHidden
     }
     
     func showSubSettings(chooser: UIAlertController) {
-        let controller = UIApplication.shared.keyWindow?.rootViewController
+        let controller = firstAvailableUIViewController()
+        
         chooser.configurePresentationController(withSourceView: btnSettings)
         controller?.present(chooser, animated: true, completion: nil)
     }
@@ -469,7 +460,6 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         OEXInterface.setCCSelectedLanguage(language)
         if language == "" {
             deAvtivateSubTitles()
-            return
         }
         else {
             activateSubTitles()
@@ -480,14 +470,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
     }
     
     func setPlaybackSpeed(speed: OEXVideoSpeed) {
-        let oldSpeed = videoPlayerController.rate
-        let playbackRate = OEXInterface.getOEXVideoSpeed(speed)
-        OEXInterface.setCCSelectedPlaybackSpeed(speed)
-        videoPlayerController.rate = playbackRate
-        
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            OEXAnalytics.shared().trackVideoSpeed(videoId, currentTime: videoPlayerController.currentTime, courseID: courseId, unitURL: unitUrl, oldSpeed: String.init(format: "%.1f", oldSpeed), newSpeed: String.init(format: "%.1f", playbackRate))
-        }
+        delegate?.setPlayBackSpeed(playerControls: self, speed: speed)
     }
     
     //MARK Video player setting delegate method
@@ -527,39 +510,12 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         durationSlider.secondaryProgress = Float(time)
     }
     
-    func addGesters() {
-        if let _ = videoPlayerController.playerView.gestureRecognizers?.contains(leftSwipeGestureRecognizer), let _ = videoPlayerController.playerView.gestureRecognizers?.contains(rightSwipeGestureRecognizer) {
-            removeGesters()
-        }
-    
-        leftSwipeGestureRecognizer.addAction {[weak self] _ in
-            self?.nextButtonClicked()
-        }
-        rightSwipeGestureRecognizer.addAction {[weak self] _ in
-            self?.previousButtonClicked()
-        }
-        videoPlayerController.playerView.addGestureRecognizer(leftSwipeGestureRecognizer )
-        videoPlayerController.playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
-        
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            OEXAnalytics.shared().trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(videoPlayerController.currentTime), mode: true, unitURL: unitUrl)
-        }
-    }
-    
     func showHideNextPrevious(isHidden: Bool) {
         btnNext.isHidden = isHidden
         btnPrevious.isHidden = isHidden
     }
     
-    func removeGesters() {
-        videoPlayerController.playerView.removeGestureRecognizer(leftSwipeGestureRecognizer)
-        videoPlayerController.playerView.removeGestureRecognizer(rightSwipeGestureRecognizer)
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            OEXAnalytics.shared().trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(videoPlayerController.currentTime), mode: false, unitURL: unitUrl)
-        }
-    }
-    
-   @objc private func nextButtonClicked() {
+   @objc func nextButtonClicked() {
         autoHide()
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;
@@ -567,7 +523,7 @@ class AVVideoPlayerControls: UIView, CLButtonDelegate, VideoPlayerSettingsDelega
         NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_NEXT), object: self)
     }
     
-   @objc private func previousButtonClicked() {
+   @objc func previousButtonClicked() {
         autoHide()
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;

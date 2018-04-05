@@ -9,8 +9,14 @@
 import UIKit
 import AVKit
 
+private enum PlayerState {
+    case Playing
+    case Paused
+    case Stop
+}
+
 protocol VideoPlayerControllerDelegate {
-    func transcriptLoaded(transcripts: [SubTitle])
+    func transcriptLoaded(transcripts: [TranscriptObject])
     func moviePlayerWillMoveFromWindow()
     func playerDidStopPlaying(duration: Double, currentTime: Double)
     func movieTimedOut()
@@ -18,22 +24,25 @@ protocol VideoPlayerControllerDelegate {
 }
 
 private var playbackLikelyToKeepUpContext = 0
-@objc class AVVideoPlayer: UIViewController,VideoPlayerControlsDelegate,VideoSubTitleDelegate {
+@objc class AVVideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManagerDelegate {
     
     var contentURL : URL?
-    let videoPlayer = AVPlayer()
-    var playerControls: AVVideoPlayerControls?
-    let loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .white)
-    var lastElapsedTime: TimeInterval = 0
+    var playerControls: VideoPlayerControls?
     var playerDelegate : VideoPlayerControllerDelegate?
     var movieFullscreen : Bool = false
-    var timeObserver : AnyObject?
     let playerView = PlayerView()
     var height: Double = 0
     var width: Double = 0
     var defaultFrame : CGRect = CGRect.zero
-    var videoSubTitle: VideoSubTitle?
-    let videoSkipBackwardsDuration: Double = 30
+    private var timeObserver : AnyObject?
+    let videoPlayer = AVPlayer()
+    private let loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    private var lastElapsedTime: TimeInterval = 0
+    private var transcriptManager: TranscriptManager?
+    private let videoSkipBackwardsDuration: Double = 30
+    private var playerStartTime: TimeInterval = 0
+    private var playerStopTime: TimeInterval = 0
+    private var playerState: PlayerState = .Stop
     
     var video : OEXHelperVideoDownload? {
         didSet {
@@ -86,22 +95,23 @@ private var playbackLikelyToKeepUpContext = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
         createPlayer()
-        loadingIndicatorView.hidesWhenStopped = true
         addObservers()
+        view.backgroundColor = .black
+        loadingIndicatorView.hidesWhenStopped = true
     }
     
    private func addObservers() {
+    
         videoPlayer.addObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp",
                                 options: .new, context: &playbackLikelyToKeepUpContext)
-        
+    
         videoPlayer.addObserver(self, forKeyPath: "currentItem.status",
                                 options: .new, context: nil)
         
         NotificationCenter.default.addObserver(self, selector:#selector(playerDidFinishPlaying(note:)),
                                                name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: videoPlayer.currentItem)
-        
+         
         let timeInterval: CMTime = CMTimeMakeWithSeconds(1.0, 10)
         timeObserver = videoPlayer.addPeriodicTimeObserver(forInterval: timeInterval, queue: DispatchQueue.main) { [weak self]
             (elapsedTime: CMTime) -> Void in
@@ -122,7 +132,7 @@ private var playbackLikelyToKeepUpContext = 0
         view.addSubview(playerView)
         playerView.playerLayer.player = videoPlayer
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
-        let controls = AVVideoPlayerControls(with: self)
+        let controls = VideoPlayerControls(with: self)
         controls.delegate = self
         playerControls = controls
         playerView.addSubview(controls)
@@ -134,9 +144,8 @@ private var playbackLikelyToKeepUpContext = 0
     
    private func initializeSubtitles() {
         if let video = video {
-            videoSubTitle = VideoSubTitle(with: video)
-            videoSubTitle?.delegate = self
-            videoSubTitle?.initializeSubtitle()
+            transcriptManager = TranscriptManager(with: video)
+            transcriptManager?.delegate = self
             
             if let ccSelectedLanguage = OEXInterface.getCCSelectedLanguage(), let url = video.summary?.transcripts?[ccSelectedLanguage] as? String, ccSelectedLanguage != "", url != "" {
                 playerControls?.activateSubTitles()
@@ -246,6 +255,10 @@ private var playbackLikelyToKeepUpContext = 0
     
     func pause() {
         videoPlayer.pause()
+        saveCurrentTime()
+    }
+    
+    func saveCurrentTime() {
         lastElapsedTime = currentTime
         playerDelegate?.playerDidStopPlaying(duration: duration.seconds, currentTime: currentTime)
     }
@@ -256,19 +269,50 @@ private var playbackLikelyToKeepUpContext = 0
         videoPlayer.replaceCurrentItem(with: nil)
     }
     
-   private func removeObservers() {
-        if let observer = timeObserver {
-            videoPlayer.removeTimeObserver(observer)
-            timeObserver = nil
+    func subTitle(at elapseTime: Float64) -> String {
+        return transcriptManager?.transcript(at: elapseTime) ?? ""
+    }
+    
+    func addGesture() {
+        playerView.leftSwipeGestureRecognizer.addAction {[weak self] _ in
+            self?.playerControls?.nextButtonClicked()
         }
-        videoPlayer.removeObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp")
-        videoPlayer.removeObserver(self, forKeyPath: "currentItem.status")
-        NotificationCenter.default.removeObserver(self)
+        playerView.rightSwipeGestureRecognizer.addAction {[weak self] _ in
+            self?.playerControls?.previousButtonClicked()
+        }
+        
+        playerView.addGesture(gesture: playerView.leftSwipeGestureRecognizer)
+        playerView.addGesture(gesture: playerView.rightSwipeGestureRecognizer)
+        
+        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+            OEXAnalytics.shared().trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(self.currentTime), mode: true, unitURL: unitUrl)
+        }
+    }
+    
+    func removeGesture() {
+        playerView.removeGesture(gesture: playerView.leftSwipeGestureRecognizer)
+        playerView.removeGesture(gesture: playerView.rightSwipeGestureRecognizer)
+        
+        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+            OEXAnalytics.shared().trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(self.currentTime), mode: false, unitURL: unitUrl)
+        }
+    }
+    
+   private func removeObservers() {
+            if let observer = timeObserver {
+                videoPlayer.removeTimeObserver(observer)
+                timeObserver = nil
+            }
+            videoPlayer.removeObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp")
+            videoPlayer.removeObserver(self, forKeyPath: "currentItem.status")
+            NotificationCenter.default.removeObserver(self)
+    
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         stop()
+        playerState = .Stop
         removeObservers()
     }
     
@@ -282,7 +326,7 @@ private var playbackLikelyToKeepUpContext = 0
         if !(view.subviews.contains(playerView)) {
             view.addSubview(playerView)
             view.frame = defaultFrame
-            playerControls?.removeGesters()
+            removeGesture()
             playerControls?.showHideNextPrevious(isHidden: true)
         }
     }
@@ -302,7 +346,7 @@ private var playbackLikelyToKeepUpContext = 0
             if !(movieBackgroundView.subviews.contains(playerView)) {
                 movieBackgroundView.addSubview(playerView)
                 movieBackgroundView.layer.insertSublayer(playerView.playerLayer, at: 0)
-                playerControls?.addGesters()
+                addGesture()
                 playerControls?.showHideNextPrevious(isHidden: false)
             }
             UIView.animate(withDuration: animated ? 0.1 : 0.0, delay: 0.0, options: .curveLinear, animations: {() -> Void in
@@ -374,8 +418,8 @@ private var playbackLikelyToKeepUpContext = 0
         playerDelegate?.didFinishVideoPlaying()
     }
     
-    // MARK: SubTitle  Delegate method
-    func subTitleLoaded(transcripts: [SubTitle]) {
+    // MARK: TransctiptManagerDelegate method
+    func transcriptsLoaded(transcripts: [TranscriptObject]) {
         playerDelegate?.transcriptLoaded(transcripts: transcripts)
     }
     
@@ -383,10 +427,12 @@ private var playbackLikelyToKeepUpContext = 0
     func playPausePressed(isPlaying: Bool) {
         if videoPlayer.isPlaying {
             pause()
+            playerState = .Paused
             OEXInterface.shared().sendAnalyticsEvents(.pause, withCurrentTime: self.currentTime, forVideo: video)
         }
         else {
             resume()
+            playerState = .Playing
             OEXInterface.shared().sendAnalyticsEvents(.play, withCurrentTime: self.currentTime, forVideo: video)
         }
     }
@@ -415,9 +461,64 @@ private var playbackLikelyToKeepUpContext = 0
             setFullscreen(fullscreen: !movieFullscreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:false)
         }
     }
+    
+    func sliderValueChanged(playerControls: VideoPlayerControls) {
+        let videoDuration = CMTimeGetSeconds(self.duration)
+        let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
+        playerControls.updateTimeLabel(elapsedTime: elapsedTime, duration: videoDuration)
+    }
+    
+    func sliderTouchBegan(playerControls: VideoPlayerControls) {
+        playerStartTime = self.currentTime
+        videoPlayer.pause()
+    }
+    
+    func sliderTouchEnded(playerControls: VideoPlayerControls) {
+        let videoDuration = CMTimeGetSeconds(self.duration)
+        let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
+        playerControls.updateTimeLabel(elapsedTime: elapsedTime, duration: videoDuration)
+        
+        videoPlayer.seek(to: CMTimeMakeWithSeconds(elapsedTime, 100)) { [weak self]
+            (completed: Bool) -> Void in
+            if self?.playerState == .Playing {
+                self?.videoPlayer.play()
+            }
+            else {
+                self?.saveCurrentTime()
+            }
+        }
+        
+        playerStopTime = self.currentTime
+        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+            OEXAnalytics.shared().trackVideoSeekRewind(videoId, requestedDuration:playerStopTime - playerStartTime, oldTime:playerStartTime, newTime: playerStopTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
+        }
+    }
+    
+    func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed) {
+        let oldSpeed = self.rate
+        let playbackRate = OEXInterface.getOEXVideoSpeed(speed)
+        OEXInterface.setCCSelectedPlaybackSpeed(speed)
+        self.rate = playbackRate
+        
+        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+            OEXAnalytics.shared().trackVideoSpeed(videoId, currentTime: self.currentTime, courseID: courseId, unitURL: unitUrl, oldSpeed: String(format: "%.1f", oldSpeed), newSpeed: String.init(format: "%.1f", playbackRate))
+        }
+    }
 }
 
 class PlayerView: UIView {
+    var leftSwipeGestureRecognizer : UISwipeGestureRecognizer = {
+        let gesture = UISwipeGestureRecognizer()
+        gesture.direction = .left
+        return gesture
+    }()
+    
+    var rightSwipeGestureRecognizer : UISwipeGestureRecognizer = {
+        let gesture = UISwipeGestureRecognizer()
+        gesture.direction = .right
+        return gesture
+    }()
+    
     var player: AVPlayer? {
         get {
             return playerLayer.player
@@ -435,6 +536,18 @@ class PlayerView: UIView {
     override class var layerClass: AnyClass {
         return AVPlayerLayer.self
     }
+    
+    func addGesture(gesture: UIGestureRecognizer) {
+        if let _ = gestureRecognizers?.contains(gesture) {
+            removeGesture(gesture: gesture)
+        }
+        addGestureRecognizer(gesture)
+    }
+    
+    func removeGesture(gesture: UIGestureRecognizer) {
+        removeGestureRecognizer(gesture)
+    }
+    
 }
 
 extension AVPlayer {

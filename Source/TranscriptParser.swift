@@ -1,6 +1,6 @@
 
 //
-//  SubTitleParser.swift
+//  TranscriptParser.swift
 //  edX
 //
 //  Created by Salman on 13/03/2018.
@@ -11,7 +11,7 @@ import UIKit
 
 typealias SubTitleParsingCompletion = (_ parsed: Bool,_ error: Error?) -> Void
 
-class SubTitle: NSObject {
+class TranscriptObject: NSObject {
     public var text: String
     public var start: TimeInterval
     public var end: TimeInterval
@@ -26,13 +26,13 @@ class SubTitle: NSObject {
     }
 }
 
-class SubTitleParser: NSObject {
+class TranscriptParser: NSObject {
     
-    private(set) var subTitles: [SubTitle] = []
+    private(set) var transcripts: [TranscriptObject] = []
     
     func parse(subTitlesString: String, completion: SubTitleParsingCompletion) {
-        subTitles.removeAll()
-        if subTitlesString == "" {
+        transcripts.removeAll()
+        if subTitlesString.isEmpty {
             completion(false, NSError(domain:"", code:-1, userInfo:[ NSLocalizedDescriptionKey: "Invalid Format"]))
             return
         }
@@ -74,8 +74,8 @@ class SubTitleParser: NSObject {
                 let endTimeInterval = timeInterval(from: end as String),
                 startTimeScanResult, endTimeScanResult, indexScanSuccess, dividerScanSuccess {
                 if textLineScanResult, let text = textResult {
-                    let subTitle = SubTitle(with: text as String, start: startTimeInterval, end: endTimeInterval, index: indexResult)
-                    subTitles.append(subTitle)
+                    let transcript = TranscriptObject(with: text as String, start: startTimeInterval, end: endTimeInterval, index: indexResult)
+                    transcripts.append(transcript)
                 }
             }
             else {
@@ -87,7 +87,7 @@ class SubTitleParser: NSObject {
         completion(true, nil)
     }
     
-    func timeInterval(from timeString: String) -> TimeInterval? {
+    private func timeInterval(from timeString: String) -> TimeInterval? {
         let scanner = Scanner(string: timeString)
         var hoursResult: Int = 0
         var minutesResult: Int = 0

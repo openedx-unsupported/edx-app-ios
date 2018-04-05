@@ -19,10 +19,10 @@ class VideoTranscriptTests: XCTestCase {
         XCTAssertEqual(transcriptView.transcriptTableView.numberOfRows(inSection: 0), 0)
         XCTAssertTrue(transcriptView.transcriptTableView.isHidden)
         
-        let subTitleParser = SubTitleParser()
-        subTitleParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
+        let transcriptParser = TranscriptParser()
+        transcriptParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
             if success {
-                transcriptView.updateTranscript(transcript: subTitleParser.subTitles)
+                transcriptView.updateTranscript(transcript: transcriptParser.transcripts)
             }
         }
         
@@ -34,10 +34,10 @@ class VideoTranscriptTests: XCTestCase {
         let environment = TestRouterEnvironment()
         let transcriptView = VideoTranscript(environment: environment)
         
-        let subTitleParser = SubTitleParser()
-        subTitleParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
+        let transcriptParser = TranscriptParser()
+        transcriptParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
             if success {
-                transcriptView.updateTranscript(transcript: subTitleParser.subTitles)
+                transcriptView.updateTranscript(transcript: transcriptParser.transcripts)
             }
         }
 

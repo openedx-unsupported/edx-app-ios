@@ -17,7 +17,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider
     
     let transcriptTableView = UITableView(frame: CGRect.zero, style: .plain)
-    var transcripts = [SubTitle]()
+    var transcripts = [TranscriptObject]()
     
     let environment : Environment
     var delegate : VideoTranscriptDelegate?
@@ -74,7 +74,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
         draggingTimer = Timer.scheduledTimer(timeInterval: dragDelay, target: self, selector: #selector(invalidateDragging), userInfo: nil, repeats: false)
     }
     
-    func updateTranscript(transcript: [SubTitle]) {
+    func updateTranscript(transcript: [TranscriptObject]) {
         if transcript.count > 0 {
             transcripts = transcript
             transcriptTableView.reloadData()

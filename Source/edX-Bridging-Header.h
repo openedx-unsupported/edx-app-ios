@@ -6,7 +6,6 @@
 #import <FirebaseCore/FirebaseCore.h>
 #import <FirebaseAnalytics/FirebaseAnalytics.h>
 
-#import "CLButton.h"
 #import "DACircularProgressView.h"
 #import <DateTools/NSDate+DateTools.h>
 #import "LastAccessed.h"
@@ -72,4 +71,3 @@
 #import "NSString+OEXValidation.h"
 #import "OEXRegistrationFieldSelectController.h"
 #import "OEXRegistrationFieldCheckBoxController.h"
-#import "CLButton.h"

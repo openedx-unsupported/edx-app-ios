@@ -57,7 +57,7 @@ class CustomSlider: UISlider {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        progressView.frame = CGRect(x: 2, y: self.frame.size.height / 2 - 1, width: self.frame.size.width - 2, height: self.frame.size.height);
+        progressView.frame = CGRect(x: 2, y: frame.size.height / 2 - 1, width: frame.size.width - 2, height: frame.size.height);
     }
 
 }

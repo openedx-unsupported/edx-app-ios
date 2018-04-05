@@ -1,5 +1,5 @@
 //
-//  SubTitleParserTests.swift
+//  TranscriptParserTests.swift
 //  edX
 //
 //  Created by Salman on 13/03/2018.
@@ -9,16 +9,16 @@
 import XCTest
 @testable import edX
 
-class SubTitleParserTests: XCTestCase {
+class TranscriptParserTests: XCTestCase {
     
     func testValidCaptions() {
         
         let expectation = self.expectation(description: "Parsing Transcript")
     
-        let subTitleParser = SubTitleParser()
-        subTitleParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
+        let transcriptParser = TranscriptParser()
+        transcriptParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
             XCTAssertTrue(success)
-            XCTAssertEqual(subTitleParser.subTitles.count, 11)
+            XCTAssertEqual(transcriptParser.transcripts.count, 11)
             expectation.fulfill()
             if error != nil {
                 XCTFail("Transcript parsing failed")
@@ -34,10 +34,10 @@ class SubTitleParserTests: XCTestCase {
     
     func testPartialCaptions() {
         let expectation = self.expectation(description: "Parsing Transcript")
-        let subTitleParser = SubTitleParser()
-        subTitleParser.parse(subTitlesString: TranscriptDataFactory.partialTranscriptString) { (success, error) in
+        let transcriptParser = TranscriptParser()
+        transcriptParser.parse(subTitlesString: TranscriptDataFactory.partialTranscriptString) { (success, error) in
             XCTAssertTrue(success)
-            XCTAssertEqual(subTitleParser.subTitles.count, 10)
+            XCTAssertEqual(transcriptParser.transcripts.count, 10)
             expectation.fulfill()
             if error != nil {
                 XCTFail("Transcript parsing failed")
@@ -53,8 +53,8 @@ class SubTitleParserTests: XCTestCase {
     
     func testInvalidCaptions() {
         let expectation = self.expectation(description: "Parsing Transcript")
-        let subTitleParser = SubTitleParser()
-        subTitleParser.parse(subTitlesString: TranscriptDataFactory.invalidTranscriptString) { (success, error) in
+        let transcriptParser = TranscriptParser()
+        transcriptParser.parse(subTitlesString: TranscriptDataFactory.invalidTranscriptString) { (success, error) in
             XCTAssertFalse(success)
             expectation.fulfill()
             if error != nil {
@@ -71,10 +71,10 @@ class SubTitleParserTests: XCTestCase {
     
     func testEmptyCaptions() {
         let expectation = self.expectation(description: "Parsing Transcript")
-        let subTitleParser = SubTitleParser()
-        subTitleParser.parse(subTitlesString: TranscriptDataFactory.emptyTranscriptString) { (success, error) in
+        let transcriptParser = TranscriptParser()
+        transcriptParser.parse(subTitlesString: TranscriptDataFactory.emptyTranscriptString) { (success, error) in
             XCTAssertFalse(success)
-            XCTAssertEqual(subTitleParser.subTitles.count, 0)
+            XCTAssertEqual(transcriptParser.transcripts.count, 0)
             expectation.fulfill()
             if error != nil {
                 XCTAssertEqual(error?.localizedDescription, "Invalid Format")
