@@ -91,7 +91,6 @@ private func setupTable(table: UITableView) {
         optionsTable.layoutMargins = EdgeInsets.zero
     }
     
-    //init(delegate: VideoPlayerSettingsDelegate, videoInfo: OEXVideoSummary) {
     override init() {
         super.init()
         optionsTable.dataSource = self
