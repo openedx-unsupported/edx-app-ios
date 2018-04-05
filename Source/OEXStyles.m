@@ -34,10 +34,6 @@ static OEXStyles* sSharedStyles;
     return 15;
 }
 
-- (CGFloat)iPadHorizontalMargin {
-    return 180;
-}
-
 - (CGFloat)boxCornerRadius {
     return 5;
 }
