@@ -360,11 +360,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             preloadBlock(block: block)
         }
     }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        print("aaaaaa")
-        return false
-    }
 }
 
 // MARK: Testing

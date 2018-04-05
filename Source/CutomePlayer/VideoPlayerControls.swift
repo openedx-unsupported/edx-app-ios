@@ -512,7 +512,9 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     func showHideNextPrevious(isHidden: Bool) {
         btnNext.isHidden = isHidden
+        btnNext.isEnabled = !isHidden
         btnPrevious.isHidden = isHidden
+        btnPrevious.isEnabled = !isHidden
     }
     
    @objc func nextButtonClicked() {

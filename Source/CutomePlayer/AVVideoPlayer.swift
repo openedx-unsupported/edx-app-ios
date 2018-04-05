@@ -43,7 +43,7 @@ private var playbackLikelyToKeepUpContext = 0
     private var playerStartTime: TimeInterval = 0
     private var playerStopTime: TimeInterval = 0
     private var playerState: PlayerState = .Stop
-    
+    private var isObserverAdded: Bool = false
     var video : OEXHelperVideoDownload? {
         didSet {
             initializeSubtitles()
@@ -108,15 +108,13 @@ private var playbackLikelyToKeepUpContext = 0
     
         videoPlayer.addObserver(self, forKeyPath: "currentItem.status",
                                 options: .new, context: nil)
-        
-        NotificationCenter.default.addObserver(self, selector:#selector(playerDidFinishPlaying(note:)),
-                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: videoPlayer.currentItem)
-         
+    
         let timeInterval: CMTime = CMTimeMakeWithSeconds(1.0, 10)
         timeObserver = videoPlayer.addPeriodicTimeObserver(forInterval: timeInterval, queue: DispatchQueue.main) { [weak self]
             (elapsedTime: CMTime) -> Void in
             self?.observeTime(elapsedTime: elapsedTime)
             } as AnyObject
+        isObserverAdded = true
     }
     
     private func observeTime(elapsedTime: CMTime) {
@@ -218,6 +216,9 @@ private var playbackLikelyToKeepUpContext = 0
         }
         videoPlayer.play()
         playerControls?.isTapButtonHidden = true
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, object: videoPlayer.currentItem as Any) { (notification, _, _) in
+            self.playerDidFinishPlaying(note: notification)
+        }
         perform(#selector(movieTimedOut), with: nil, afterDelay: 60)
     }
     
@@ -299,6 +300,7 @@ private var playbackLikelyToKeepUpContext = 0
     }
     
    private func removeObservers() {
+        if isObserverAdded {
             if let observer = timeObserver {
                 videoPlayer.removeTimeObserver(observer)
                 timeObserver = nil
@@ -306,7 +308,8 @@ private var playbackLikelyToKeepUpContext = 0
             videoPlayer.removeObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp")
             videoPlayer.removeObserver(self, forKeyPath: "currentItem.status")
             NotificationCenter.default.removeObserver(self)
-    
+            isObserverAdded = false
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
