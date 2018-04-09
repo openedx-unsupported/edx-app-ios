@@ -9,7 +9,7 @@
 import UIKit
 
 protocol TranscriptManagerDelegate: class {
-    func transcriptsLoaded(transcripts: [TranscriptObject])
+    func transcriptsLoaded(manager: TranscriptManager, transcripts: [TranscriptObject])
 }
 
 class TranscriptManager: NSObject {
@@ -71,7 +71,7 @@ class TranscriptManager: NSObject {
                     transcriptString = transcript.replacingOccurrences(of: "\r", with:"\n")
                     transcriptParser.parse(subTitlesString: transcriptString, completion: { (success, error) in
                         transcripts = transcriptParser.transcripts
-                        delegate?.transcriptsLoaded(transcripts: transcripts)
+                        delegate?.transcriptsLoaded(manager: self, transcripts: transcripts)
                     })
                 }
                 catch _ {}

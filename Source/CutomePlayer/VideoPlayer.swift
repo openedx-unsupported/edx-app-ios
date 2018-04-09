@@ -214,7 +214,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        addObservers()
         defaultScreenOrientation()
     }
     
@@ -241,6 +240,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             if let url = url {
                 let playerItem = AVPlayerItem(url: url)
                 videoPlayer.replaceCurrentItem(with: playerItem)
+                addObservers()
             }
             
             let timeInterval = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
@@ -379,7 +379,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     // MARK: TransctiptManagerDelegate method
-    func transcriptsLoaded(transcripts: [TranscriptObject]) {
+    func transcriptsLoaded(manager: TranscriptManager, transcripts: [TranscriptObject]) {
         playerDelegate?.playerDidLoadTranscripts(videoPlayer: self, transcripts: transcripts)
     }
     
