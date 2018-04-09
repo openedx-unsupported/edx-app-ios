@@ -381,7 +381,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
     }
     
-    @objc private func autoHide() {
+    @objc func autoHide() {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
         perform(#selector(hideAndShowControls(isHidden:)), with: 1, afterDelay: 3.0)
     }
@@ -500,7 +500,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         btnPrevious.isEnabled = !isHidden
     }
     
-   @objc func nextButtonClicked() {
+   func nextButtonClicked() {
         autoHide()
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;
@@ -508,7 +508,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_NEXT), object: self)
     }
     
-   @objc func previousButtonClicked() {
+   func previousButtonClicked() {
         autoHide()
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;

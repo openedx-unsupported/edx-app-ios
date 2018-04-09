@@ -429,6 +429,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     func sliderTouchBegan(playerControls: VideoPlayerControls) {
         playerTimeBeforeSeek = currentTime
         videoPlayer.pause()
+        NSObject.cancelPreviousPerformRequests(withTarget:playerControls)
     }
     
     func sliderTouchEnded(playerControls: VideoPlayerControls) {
@@ -439,6 +440,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         videoPlayer.seek(to: CMTimeMakeWithSeconds(elapsedTime, 100)) { [weak self]
             (completed: Bool) -> Void in
             if self?.playerState == .playing {
+                playerControls.autoHide()
                 self?.videoPlayer.play()
             }
             else {
