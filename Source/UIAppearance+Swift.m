@@ -11,6 +11,6 @@
 // UIAppearance+Swift.m
 @implementation UIView (UIViewAppearance_Swift)
 + (instancetype)my_appearanceWhenContainedIn:(Class<UIAppearanceContainer>)containerClass {
-    return [self appearanceWhenContainedIn:containerClass, nil];
+     return [self appearanceWhenContainedInInstancesOfClasses:@[containerClass]];
 }
 @end

@@ -341,7 +341,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     func playerDidTimedOut(videoPlayer: VideoPlayer) {
         if videoPlayer.isFullScreen {
-            UIAlertView(title: Strings.timeoutCheckInternetConnection, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
+            UIAlertController().showAlert(withTitle: Strings.timeoutCheckInternetConnection, message: "", cancelButtonTitle: Strings.close, onViewController: self)
         }
         else {
             showOverlay(withMessage: Strings.timeoutCheckInternetConnection)

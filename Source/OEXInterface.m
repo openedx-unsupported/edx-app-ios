@@ -372,16 +372,29 @@ static OEXInterface* _sharedInterface = nil;
     totalSpaceRequired = totalSpaceRequired / 1024 / 1024 / 1024;
     if(!userAllowedLargeDownload && totalSpaceRequired > 1) {
         self.multipleDownloadArray = videos;
+        UIViewController *controller = [self topMostController];
+        if (controller) {
+            [[UIAlertController alloc] showInViewController:controller title:[Strings largeDownloadTitle] message:[Strings largeDownloadMessage] preferredStyle:UIAlertControllerStyleAlert cancelButtonTitle:[Strings cancel] destructiveButtonTitle:nil otherButtonsTitle:@[[Strings acceptLargeVideoDownload]] tapBlock:^(UIAlertController * _Nonnull alertController, UIAlertAction * _Nonnull alert, NSInteger buttonIndex) {
+                if(buttonIndex == 1) {
+                    userAllowedLargeDownload = true;
+                    NSInteger count = [self downloadVideos:_multipleDownloadArray];
+                    if(count > 0) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:FL_MESSAGE
+                                                                            object:self
+                                                                          userInfo:@{FL_ARRAY: _multipleDownloadArray}];
+                    }
+                }
+                else {
+                    self.multipleDownloadArray = nil;
+                    userAllowedLargeDownload = false;
+                    if (downloadVideosCompletionHandler) {
+                        downloadVideosCompletionHandler(true);
+                        downloadVideosCompletionHandler = nil;
+                    }
+                }
+            } textFieldWithConfigurationHandler:nil];
+        }
         
-        // As suggested by Lou
-        UIAlertView* alertView =
-        [[UIAlertView alloc] initWithTitle:[Strings largeDownloadTitle]
-                                   message:[Strings largeDownloadMessage]
-                                  delegate:self
-                         cancelButtonTitle:[Strings cancel]
-                         otherButtonTitles:[Strings acceptLargeVideoDownload], nil];
-        
-        [alertView show];
         return NO;
     }
     userAllowedLargeDownload = false;
@@ -957,28 +970,6 @@ static OEXInterface* _sharedInterface = nil;
     }
 
     return mainArray;
-}
-
-#pragma mark UIAlertView delegate
-
-- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 1) {
-        userAllowedLargeDownload = true;
-        NSInteger count = [self downloadVideos:_multipleDownloadArray];
-        if(count > 0) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:FL_MESSAGE
-                                                                object:self
-                                                              userInfo:@{FL_ARRAY: _multipleDownloadArray}];
-        }
-    }
-    else {
-        self.multipleDownloadArray = nil;
-        userAllowedLargeDownload = false;
-        if (downloadVideosCompletionHandler) {
-            downloadVideosCompletionHandler(true);
-            downloadVideosCompletionHandler = nil;
-        }
-    }
 }
 
 #pragma mark - Closed Captioning

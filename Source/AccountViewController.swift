@@ -184,11 +184,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 extension AccountViewController : MFMailComposeViewControllerDelegate {
     func launchEmailComposer() {
         if !MFMailComposeViewController.canSendMail() {
-            let alert = UIAlertView(title: Strings.emailAccountNotSetUpTitle,
-                                    message: Strings.emailAccountNotSetUpMessage,
-                                    delegate: nil,
-                                    cancelButtonTitle: Strings.ok)
-            alert.show()
+            UIAlertController().showAlert(withTitle: Strings.emailAccountNotSetUpTitle, message: Strings.emailAccountNotSetUpMessage, onViewController: self)
         } else {
             let mail = MFMailComposeViewController()
             mail.mailComposeDelegate = self

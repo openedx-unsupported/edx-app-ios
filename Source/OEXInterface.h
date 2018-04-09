@@ -34,7 +34,7 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 
 // This class requires significant refactoring
 // Think very hard before adding anything to it
-@interface OEXInterface : NSObject <OEXNetworkInterfaceDelegate, UIAlertViewDelegate>
+@interface OEXInterface : NSObject <OEXNetworkInterfaceDelegate>
 
 + (instancetype)sharedInterface;
 

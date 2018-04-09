@@ -35,4 +35,13 @@ extension OEXInterface : LastAccessedProvider {
         return videos.filter { $0.summary?.isDownloadableVideo ?? false }
     }
     
+    public func topMostController() -> UIViewController? {
+        var topController = UIApplication.shared.keyWindow?.rootViewController
+        while ((topController?.presentedViewController) != nil) {
+            topController = topController?.presentedViewController
+        }
+        
+        return topController
+    }
+    
 }
