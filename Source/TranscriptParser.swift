@@ -11,18 +11,17 @@ import UIKit
 
 typealias SubTitleParsingCompletion = (_ parsed: Bool,_ error: Error?) -> Void
 
-class TranscriptObject: NSObject {
-    public var text: String
-    public var start: TimeInterval
-    public var end: TimeInterval
-    public var index: Int
+struct TranscriptObject {
+    var text: String
+    var start: TimeInterval
+    var end: TimeInterval
+    var index: Int
     
-    public init(with text: String, start: TimeInterval, end: TimeInterval, index: Int) {
+    init(with text: String, start: TimeInterval, end: TimeInterval, index: Int) {
         self.text = text
         self.start = start
         self.end = end
         self.index = index
-        super.init()
     }
 }
 

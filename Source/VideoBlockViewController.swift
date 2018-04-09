@@ -12,12 +12,12 @@ import UIKit
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerControllerDelegate {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider
 
     let environment : Environment
     let blockID : CourseBlockID?
     let courseQuerier : CourseOutlineQuerier
-    let videoController = AVVideoPlayer()
+    let videoController: VideoPlayer
     let loader = BackedStream<CourseBlock>()
     var videoTranscriptView : VideoTranscript?
     var subtitleTimer = Timer()
@@ -31,6 +31,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
         loadController = LoadStateViewController()
+        videoController = VideoPlayer(environment: environment)
         super.init(nibName: nil, bundle: nil)
         addChildViewController(videoController)
         videoController.didMove(toParentViewController: self)
@@ -148,7 +149,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
 
     private func loadVideoIfNecessary() {
-        if !loader.hasBacking {
+         if let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID), loader.hasBacking {
+            videoController.play(video: video)
+        }
+        else if !loader.hasBacking {
             loader.backWithStream(courseQuerier.blockWithID(id: blockID).firstSuccess())
         }
     }
@@ -174,9 +178,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.edges.equalTo(view)
         }
         
-        videoController.height = Double(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
-        videoController.width = Double(view.bounds.size.width)
-        
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
@@ -199,9 +200,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         }
 
         let playerHeight = view.bounds.size.height - (navigationController?.toolbar.bounds.height ?? 0)
-        videoController.height = Double(playerHeight)
-        videoController.width = Double(view.bounds.size.width)
-        
+
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
@@ -235,33 +234,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         DispatchQueue.main.async {[weak self] _ in
             self?.loadController.state = .Loaded
         }
-        playVideo(video: video)
-    }
-    
-    private func playVideo(video : OEXHelperVideoDownload) {
-        videoController.playerControls?.video = video
-        videoController.video = video
-        currentVideo = video
-        if let videoURL = video.summary?.videoURL {
-            var url : URL? = URL(string:videoURL)
-            let fileManager = FileManager.default
-            let path = "\(video.filePath).mp4"
-            let fileExists : Bool = fileManager.fileExists(atPath: path)
-            if fileExists {
-                url = URL(fileURLWithPath: path)
-            }
-            if video.downloadState == .complete && !fileExists {
-                return
-            }
-            videoController.contentURL = url
-            let timeInterval = TimeInterval(OEXInterface.shared().lastPlayedInterval(forVideo: video))
-            if timeInterval > 0.0 {
-                videoController.play(at: timeInterval)
-            }
-            else {
-                videoController.play()
-            }
-        }
+        videoController.play(video: video)
     }
     
     override var childViewControllerForStatusBarStyle: UIViewController? {
@@ -287,9 +260,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        //guard let videoPlayer = videoController.moviePlayerController else { return }
-        
-        if videoController.movieFullscreen {
+        if videoController.isFullScreen {
 
             if newCollection.verticalSizeClass == .regular {
                 videoController.setFullscreen(fullscreen: false, animated: true, with: currentOrientation(), forceRotate: false)
@@ -308,7 +279,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         guard UIDevice.current.userInterfaceIdiom == .pad else { return }
         
-        if videoController.movieFullscreen {
+        if videoController.isFullScreen {
             videoController.setFullscreen(fullscreen: !UIDevice.current.orientation.isPortrait, animated: true, with: currentOrientation(), forceRotate: false)
         }
         else if UIDevice.current.orientation.isLandscape {
@@ -343,32 +314,33 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     //MARK: - VideoPlayerControllerDelegate methods
-    func moviePlayerWillMoveFromWindow() {
-        videoController.view.snp_updateConstraints { make in
+    func playerWillMoveFromWindow(videoPlayer: VideoPlayer) {
+        videoPlayer.view.snp_remakeConstraints {make in
+            make.top.equalTo(snp_topLayoutGuideBottom)
             make.width.equalTo(view.bounds.size.width)
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
     }
 
-    func playerDidStopPlaying(duration: Double, currentTime: Double) {
-        if let currentVideo = currentVideo {
-            OEXInterface.shared().markLastPlayedInterval(Float(currentTime), forVideo: currentVideo)
+    func playerDidStopPlaying(videoPlayer: VideoPlayer, duration: Double, currentTime: Double) {
+        if let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID) {
+            environment.interface?.markLastPlayedInterval(Float(currentTime), forVideo: video)
             let state = doublesWithinEpsilon(left: duration, right: currentTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
-            OEXInterface.shared().markVideoState(state, forVideo: currentVideo)
+            environment.interface?.markVideoState(state, forVideo: video)
         }
     }
     
-    func transcriptLoaded(transcripts: [TranscriptObject]) {
+    func playerDidLoadTranscripts(videoPlayer:VideoPlayer, transcripts: [TranscriptObject]) {
         videoTranscriptView?.updateTranscript(transcript: transcripts)
         validateSubtitleTimer()
     }
     
-    func didFinishVideoPlaying() {
+    func playerDidFinishPlaying(videoPlayer: VideoPlayer) {
         environment.router?.showAppReviewIfNeeded(fromController: self)
     }
     
-    func movieTimedOut() {
-        if videoController.movieFullscreen {
+    func playerDidTimedOut(videoPlayer: VideoPlayer) {
+        if videoPlayer.isFullScreen {
             UIAlertView(title: Strings.timeoutCheckInternetConnection, message: "", delegate: nil, cancelButtonTitle: nil, otherButtonTitles: Strings.close).show()
         }
         else {

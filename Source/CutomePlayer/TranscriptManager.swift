@@ -13,10 +13,12 @@ protocol TranscriptManagerDelegate: class {
 }
 
 class TranscriptManager: NSObject {
-
-    let video: OEXHelperVideoDownload
-    let dataInterface = OEXInterface.shared()
-    let transcriptParser = TranscriptParser()
+    
+    typealias Environment = OEXInterfaceProvider
+    
+    let environment : Environment
+    private let video: OEXHelperVideoDownload
+    private let transcriptParser = TranscriptParser()
     private var transcripts: [TranscriptObject] = []
     var delegate: TranscriptManagerDelegate? {
         didSet {
@@ -24,12 +26,13 @@ class TranscriptManager: NSObject {
         }
     }
     
-    init(with video: OEXHelperVideoDownload) {
+    init(environment: Environment, video: OEXHelperVideoDownload) {
+        self.environment = environment
         self.video = video
         super.init()
     }
     
-    func initializeSubtitle() {
+    private func initializeSubtitle() {
         let captionURL = getCaptionURL()
         getClosedCaptioningFile(atURL: captionURL)
         NotificationCenter.default.oex_addObserver(observer: self, name: DL_COMPLETE) { (notification, _, _) -> Void in
@@ -46,7 +49,7 @@ class TranscriptManager: NSObject {
         }
     }
     
-    func getCaptionURL() -> String {
+    private func getCaptionURL() -> String {
         var captionURL: String = ""
         if let ccSelectedLanguage = OEXInterface.getCCSelectedLanguage(), let url = video.summary?.transcripts?[ccSelectedLanguage] as? String, !ccSelectedLanguage.isEmpty, !url.isEmpty{
             captionURL = url
@@ -74,7 +77,7 @@ class TranscriptManager: NSObject {
                 catch _ {}
             }
             else {
-                dataInterface.download(withRequest: URLString, forceUpdate: false)
+                environment.interface?.download(withRequest: URLString, forceUpdate: false)
             }
         }
     }

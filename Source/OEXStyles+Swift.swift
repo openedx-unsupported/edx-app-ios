@@ -172,10 +172,14 @@ extension UISearchBar {
 }
 
 //Convenience computed properties for margins
-var StandardHorizontalMargin : CGFloat {
+var StandardHorizontalMargin: CGFloat {
     return OEXStyles.shared().standardHorizontalMargin()
 }
 
-var StandardVerticalMargin : CGFloat {
+var StandardVerticalMargin: CGFloat {
     return OEXStyles.shared().standardVerticalMargin
+}
+
+var StandardFooterHeight: CGFloat {
+    return OEXStyles.shared().standardFooterHeight
 }

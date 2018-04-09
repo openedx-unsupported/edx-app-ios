@@ -10,9 +10,9 @@ import UIKit
 import CoreMedia
 
 protocol VideoPlayerControlsDelegate {
-    func playPausePressed(isPlaying: Bool)
-    func seekBackwardPressed()
-    func fullscreenPressed()
+    func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool)
+    func seekBackwardPressed(playerControls: VideoPlayerControls)
+    func fullscreenPressed(playerControls: VideoPlayerControls)
     func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed)
     func sliderValueChanged(playerControls: VideoPlayerControls)
     func sliderTouchBegan(playerControls: VideoPlayerControls)
@@ -31,10 +31,16 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private var subtitleActivated : Bool = false
     private var bufferedTimer: Timer?
     private var dataInterface = OEXInterface.shared()
-    private let videoPlayerController: AVVideoPlayer
+    private let videoPlayerController: VideoPlayer
     var delegate : VideoPlayerControlsDelegate?
-    var playerStartTime: TimeInterval = 0
-    var playerStopTime: TimeInterval = 0
+    private let previousButtonSize = CGSize(width: 42.0, height: 42.0)
+    private let rewindButtonSize = CGSize(width: 42.0, height: 42.0)
+    private let durationSliderHeight: CGFloat = 34.0
+    private let timeRemainingLabelSize = CGSize(width: 75.0, height: 34.0)
+    private let settingButtonSize = CGSize(width: 24.0, height: 24.0)
+    private let fullScreenButtonSize = CGSize(width: 20.0, height: 20.0)
+    private let tableSettingSize = CGSize(width: 110.0, height: 100.0)
+    private let nextButtonSizeSize = CGSize(width: 42.0, height: 42.0)
     
     lazy private var subTitleLabel : UILabel = {
         let label = UILabel()
@@ -75,7 +81,9 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.setImage(UIImage.RewindIcon(), for: .normal)
         button.tintColor = .white
         button.oex_addAction({[weak self] (action) in
-            self?.delegate?.seekBackwardPressed()
+            if let weakSelf = self {
+                weakSelf.delegate?.seekBackwardPressed(playerControls: weakSelf)
+            }
         }, for: .touchUpInside)
         return button
     }()
@@ -132,9 +140,11 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.setAttributedTitle(title: UIImage.PauseTitle(), forState: .normal, animated: true)
         button.setAttributedTitle(title: UIImage.PlayTitle(), forState: .selected, animated: true)
         button.oex_addAction({[weak self] (action) in
-            button.isSelected = !button.isSelected
-            self?.delegate?.playPausePressed(isPlaying: button.isSelected)
-            self?.autoHide()
+                if let weakSelf = self {
+                    button.isSelected = !button.isSelected
+                    weakSelf.delegate?.playPausePressed(playerControls: weakSelf, isPlaying: button.isSelected)
+                    weakSelf.autoHide()
+                }
             }, for: .touchUpInside)
         return button
     }()
@@ -164,8 +174,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.setImage(UIImage.ExpandIcon(), for: .normal)
         button.tintColor = .white
         button.oex_addAction({[weak self] (action) in
-            self?.autoHide()
-            self?.delegate?.fullscreenPressed()
+            if let weakSelf = self {
+                weakSelf.autoHide()
+                weakSelf.delegate?.fullscreenPressed(playerControls: weakSelf)
+            }
         }, for: .touchUpInside)
         return button
     }()
@@ -202,7 +214,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         return UIColor.black.withAlphaComponent(0.7)
     }
     
-    init(with player: AVVideoPlayer) {
+    init(with player: VideoPlayer) {
         videoPlayerController = player
         super.init(frame: CGRect.zero)
         playerSettings.delegate = self
@@ -272,50 +284,50 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.leading.equalTo(self)
             make.bottom.equalTo(self)
             make.width.equalTo(self)
-            make.height.equalTo(50)
+            make.height.equalTo(StandardFooterHeight)
         }
         
         rewindButton.snp_makeConstraints { make in
             make.leading.equalTo(self).offset(StandardVerticalMargin)
-            make.height.equalTo(25.0)
-            make.width.equalTo(25.0)
+            make.height.equalTo(rewindButtonSize.height)
+            make.width.equalTo(rewindButtonSize.width)
             make.centerY.equalTo(bottomBar.snp_centerY)
         }
         
         durationSlider.snp_makeConstraints { make in
-            make.leading.equalTo(rewindButton.snp_trailing).offset(10.0)
-            make.height.equalTo(34.0)
+            make.leading.equalTo(rewindButton.snp_trailing).offset(StandardVerticalMargin)
+            make.height.equalTo(durationSliderHeight)
             make.centerY.equalTo(bottomBar.snp_centerY)
         }
         
         timeRemainingLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
         timeRemainingLabel.snp_makeConstraints { make in
-            make.leading.equalTo(durationSlider.snp_trailing).offset(10.0)
+            make.leading.equalTo(durationSlider.snp_trailing).offset(StandardVerticalMargin)
             make.centerY.equalTo(bottomBar.snp_centerY)
-            make.width.equalTo(75)
-            make.height.equalTo(34)
+            make.width.equalTo(timeRemainingLabelSize.width)
+            make.height.equalTo(timeRemainingLabelSize.height)
         }
         
         btnSettings.snp_makeConstraints { make in
-            make.leading.equalTo(timeRemainingLabel.snp_trailing).offset(10.0)
-            make.height.equalTo(24.0)
-            make.width.equalTo(24.0)
+            make.leading.equalTo(timeRemainingLabel.snp_trailing).offset(StandardVerticalMargin)
+            make.height.equalTo(settingButtonSize.height)
+            make.width.equalTo(settingButtonSize.width)
             make.centerY.equalTo(bottomBar.snp_centerY)
         }
         
         fullScreenButton.snp_makeConstraints { make in
-            make.leading.equalTo(btnSettings.snp_trailing).offset(10.0)
-            make.height.equalTo(20.0)
-            make.width.equalTo(20.0)
-            make.trailing.equalTo(self).inset(10)
+            make.leading.equalTo(btnSettings.snp_trailing).offset(StandardVerticalMargin)
+            make.height.equalTo(fullScreenButtonSize.height)
+            make.width.equalTo(fullScreenButtonSize.width)
+            make.trailing.equalTo(self).inset(StandardVerticalMargin)
             make.centerY.equalTo(bottomBar.snp_centerY)
         }
         
         tableSettings.snp_makeConstraints { make in
-            make.height.equalTo(100)
-            make.width.equalTo(110)
-            make.bottom.equalTo(btnSettings.snp_top).offset(-10)
-            make.centerX.equalTo(btnSettings.snp_centerX).offset(-50)
+            make.height.equalTo(tableSettingSize.height)
+            make.width.equalTo(tableSettingSize.width)
+            make.bottom.equalTo(btnSettings.snp_top).offset(-StandardVerticalMargin)
+            make.centerX.equalTo(btnSettings.snp_centerX).offset(-StandardFooterHeight)
         }
         
         tapButton.snp_makeConstraints { make in
@@ -326,9 +338,9 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         
         btnPrevious.snp_makeConstraints { make in
-            make.leading.equalTo(self).offset(10.0)
-            make.height.equalTo(42.0)
-            make.width.equalTo(42.0)
+            make.leading.equalTo(self).offset(StandardVerticalMargin)
+            make.height.equalTo(previousButtonSize.height)
+            make.width.equalTo(previousButtonSize.width)
             make.centerY.equalTo(self.snp_centerY)
         }
         
@@ -337,17 +349,17 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         
         btnNext.snp_makeConstraints { make in
-            make.height.equalTo(42.0)
-            make.width.equalTo(42.0)
-            make.trailing.equalTo(self).inset(10)
+            make.height.equalTo(nextButtonSizeSize.height)
+            make.width.equalTo(nextButtonSizeSize.width)
+            make.trailing.equalTo(self).inset(StandardVerticalMargin)
             make.centerY.equalTo(self.snp_centerY)
         }
         
         subTitleLabel.snp_makeConstraints { make in
-            make.bottom.equalTo(bottomBar.snp_top).offset(30)
+            make.bottom.equalTo(bottomBar.snp_top).offset(StandardHorizontalMargin*2)
             make.centerX.equalTo(snp_centerX)
-            make.leadingMargin.greaterThanOrEqualTo(16)
-            make.trailingMargin.lessThanOrEqualTo(16)
+            make.leadingMargin.greaterThanOrEqualTo(StandardVerticalMargin*2)
+            make.trailingMargin.lessThanOrEqualTo(StandardVerticalMargin*2)
         }
     }
     
@@ -403,36 +415,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             subTitleLabel.text = videoPlayerController.subTitle(at: elapsedTime)
         }
     }
-    
-    /*
-    // MARK: Slider Handling
-    @objc private func durationSliderValueChanged() {
-        let videoDuration = CMTimeGetSeconds(videoPlayerController.duration)
-        let elapsedTime: Float64 = videoDuration * Float64(durationSlider.value)
-        updateTimeLabel(elapsedTime: elapsedTime, duration: videoDuration)
-    }
-    
-    @objc private func durationSliderTouchBegan() {
-        playerStartTime = videoPlayerController.currentTime
-        videoPlayerController.pause()
-    }
-    
-    @objc private func durationSliderTouchEnded() {
-        let videoDuration = CMTimeGetSeconds(videoPlayerController.duration)
-        let elapsedTime: Float64 = videoDuration * Float64(durationSlider.value)
-        updateTimeLabel(elapsedTime: elapsedTime, duration: videoDuration)
-        
-        videoPlayerController.videoPlayer.seek(to: CMTimeMakeWithSeconds(elapsedTime, 100)) { [weak self]
-            (completed: Bool) -> Void in
-            self?.videoPlayerController.videoPlayer.play()
-        }
-        
-        playerStopTime = videoPlayerController.currentTime
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            OEXAnalytics.shared().trackVideoSeekRewind(videoId, requestedDuration:playerStopTime - playerStartTime, oldTime:playerStartTime, newTime: playerStopTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
-        }
-    }
-    */
     
     private func contentTapped() {
         if tableSettings.isHidden {
@@ -504,6 +486,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         let time = secondaryProgress/totalTime
         if time.isNaN {
             if !videoPlayerController.videoPlayer.isPlaying {
+            
              stopBufferedTimer()
             }
         }
@@ -521,7 +504,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         autoHide()
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;
-        videoPlayerController.resetView()
+        videoPlayerController.resetPlayerView()
         NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_NEXT), object: self)
     }
     
@@ -529,7 +512,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         autoHide()
         dataInterface.selectedCCIndex = -1;
         dataInterface.selectedVideoSpeedIndex = -1;
-        videoPlayerController.resetView()
+        videoPlayerController.resetPlayerView()
         NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_PREVIOUS), object: self)
     }
 }
