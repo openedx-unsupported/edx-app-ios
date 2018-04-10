@@ -128,6 +128,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 (elapsedTime: CMTime) -> Void in
                 self?.observeProgress(elapsedTime: elapsedTime)
                 } as AnyObject
+            
+            NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIApplicationWillResignActive.rawValue) {[weak self] (notification, _, _) in
+                self?.pause()
+                self?.playerControls?.setPlayPauseButtonState(isSelected: true)
+            }
         }
     }
     

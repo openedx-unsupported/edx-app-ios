@@ -381,6 +381,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
     }
     
+    func setPlayPauseButtonState(isSelected: Bool) {
+        playPauseButton.isSelected = isSelected
+    }
+    
     @objc func autoHide() {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
         perform(#selector(hideAndShowControls(isHidden:)), with: 1, afterDelay: 3.0)
