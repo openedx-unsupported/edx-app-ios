@@ -386,7 +386,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         perform(#selector(hideAndShowControls(isHidden:)), with: 1, afterDelay: 3.0)
     }
     
-    @objc private func hideAndShowControls(isHidden: Bool) {
+    @objc func hideAndShowControls(isHidden: Bool) {
         isControlsHidden = isHidden
         UIView.animate(withDuration: 0.3, animations: {[weak self] in
             let alpha: CGFloat = isHidden ? 0 : 1

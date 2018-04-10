@@ -13,7 +13,7 @@ import UIKit
 class VideoBlockViewController : UIViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerControllerDelegate {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider
-
+    
     let environment : Environment
     let blockID : CourseBlockID?
     let courseQuerier : CourseOutlineQuerier
@@ -25,6 +25,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     let loadController : LoadStateViewController
     private var VOEnabledOnScreen = false
     var currentVideo : OEXHelperVideoDownload?
+    var rotateDeviceMessageView : IconMessageView?
     
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
         self.blockID = blockID
@@ -81,7 +82,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         
         contentView?.addSubview(videoController.view)
         videoController.view.translatesAutoresizingMaskIntoConstraints = false
-        
+        rotateDeviceMessageView = IconMessageView(icon: .RotateDevice, message: Strings.rotateDevice)
+        contentView?.addSubview(rotateDeviceMessageView!)
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addAction {[weak self] _ in
+            self?.videoController.playerControls?.hideAndShowControls(isHidden: true)
+        }
+        rotateDeviceMessageView?.addGestureRecognizer(tapGesture)
         if environment.config.isVideoTranscriptEnabled {
             videoTranscriptView = VideoTranscript(environment: environment)
             videoTranscriptView?.delegate = self
@@ -136,7 +143,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             setParentAccessibility()
         }
     }
-
+    
     func setParentAccessibility(ratingController: RatingViewController? = nil) {
         if let parentController = self.parent as? CourseContentPageViewController {
             if let ratingController = ratingController {
@@ -147,9 +154,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             }
         }
     }
-
+    
     private func loadVideoIfNecessary() {
-         if let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID), loader.hasBacking {
+        if let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID), loader.hasBacking {
             videoController.play(video: video)
         }
         else if !loader.hasBacking {
@@ -185,6 +192,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
         
+        rotateDeviceMessageView?.snp_remakeConstraints {make in
+            make.top.equalTo(videoController.view.snp_bottom)
+            make.leading.equalTo(contentView!)
+            make.trailing.equalTo(contentView!)
+            make.bottom.equalTo(snp_bottomLayoutGuideTop)
+        }
+        
         videoTranscriptView?.transcriptTableView.snp_remakeConstraints { make in
             make.top.equalTo(videoController.view.snp_bottom)
             make.leading.equalTo(contentView!)
@@ -198,9 +212,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         contentView?.snp_remakeConstraints {make in
             make.edges.equalTo(view)
         }
-
+        
         let playerHeight = view.bounds.size.height - (navigationController?.toolbar.bounds.height ?? 0)
-
+        
         videoController.view.snp_remakeConstraints {make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
@@ -213,6 +227,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
             make.bottom.equalTo(view)
+        }
+        
+        rotateDeviceMessageView?.snp_remakeConstraints {make in
+            make.height.equalTo(0.0)
         }
     }
     
@@ -261,7 +279,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         if videoController.isFullScreen {
-
+            
             if newCollection.verticalSizeClass == .regular {
                 videoController.setFullscreen(fullscreen: false, animated: true, with: currentOrientation(), forceRotate: false)
             }
@@ -283,10 +301,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             videoController.setFullscreen(fullscreen: !UIDevice.current.orientation.isPortrait, animated: true, with: currentOrientation(), forceRotate: false)
         }
         else if UIDevice.current.orientation.isLandscape {
-             videoController.setFullscreen(fullscreen: true, animated: true, with: currentOrientation(), forceRotate: false)
+            videoController.setFullscreen(fullscreen: true, animated: true, with: currentOrientation(), forceRotate: false)
         }
     }
-
+    
     //MARK: - VideoTranscriptDelegate methods
     func didSelectSubtitleAtInterval(time: TimeInterval) {
         videoController.resume(at: time)
@@ -321,7 +339,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
     }
-
+    
     func playerDidStopPlaying(videoPlayer: VideoPlayer, duration: Double, currentTime: Double) {
         if let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID) {
             environment.interface?.markLastPlayedInterval(Float(currentTime), forVideo: video)

@@ -349,6 +349,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveCurrentTime()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         stop()
