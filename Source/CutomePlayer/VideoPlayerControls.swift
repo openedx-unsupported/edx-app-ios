@@ -20,17 +20,14 @@ protocol VideoPlayerControlsDelegate {
 }
 
 class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
+
+    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
-    var video : OEXHelperVideoDownload? {
-        didSet {
-            startBufferedTimer()
-        }
-    }
+    private let environment : Environment
     private var playerSettings : OEXVideoPlayerSettings = OEXVideoPlayerSettings()
     private var isControlsHidden: Bool = true
     private var subtitleActivated : Bool = false
     private var bufferedTimer: Timer?
-    private var dataInterface = OEXInterface.shared()
     private let videoPlayerController: VideoPlayer
     var delegate : VideoPlayerControlsDelegate?
     private let previousButtonSize = CGSize(width: 42.0, height: 42.0)
@@ -40,7 +37,13 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private let settingButtonSize = CGSize(width: 24.0, height: 24.0)
     private let fullScreenButtonSize = CGSize(width: 20.0, height: 20.0)
     private let tableSettingSize = CGSize(width: 110.0, height: 100.0)
-    private let nextButtonSizeSize = CGSize(width: 42.0, height: 42.0)
+    private let nextButtonSize = CGSize(width: 42.0, height: 42.0)
+    
+    var video : OEXHelperVideoDownload? {
+        didSet {
+            startBufferedTimer()
+        }
+    }
     
     lazy private var subTitleLabel : UILabel = {
         let label = UILabel()
@@ -50,7 +53,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.layer.cornerRadius = 5
         label.layer.rasterizationScale = UIScreen.main.scale
         label.textAlignment = .center
-        label.font = OEXStyles.shared().sansSerif(ofSize: 12)
+        label.font = self.environment.styles.sansSerif(ofSize: 12)
         label.layer.shouldRasterize = true
         return label
     }()
@@ -192,14 +195,14 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.layer.shadowRadius = 1
         label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         label.layer.shadowOpacity = 0.8
-        label.font = OEXStyles.shared().semiBoldSansSerif(ofSize: 12.0)
+        label.font = self.environment.styles.semiBoldSansSerif(ofSize: 12.0)
         return label
     }()
     
     lazy private var videoTitleLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .clear
-        label.font = OEXStyles.shared().semiBoldSansSerif(ofSize: 16.0)
+        label.font = self.environment.styles.semiBoldSansSerif(ofSize: 16.0)
         label.textAlignment = .left
         label.textColor = .white
         label.text = Strings.untitled
@@ -214,7 +217,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         return UIColor.black.withAlphaComponent(0.7)
     }
     
-    init(with player: VideoPlayer) {
+    init(environment : Environment, player: VideoPlayer) {
+        self.environment = environment
         videoPlayerController = player
         super.init(frame: CGRect.zero)
         playerSettings.delegate = self
@@ -349,8 +353,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         
         btnNext.snp_makeConstraints { make in
-            make.height.equalTo(nextButtonSizeSize.height)
-            make.width.equalTo(nextButtonSizeSize.width)
+            make.height.equalTo(nextButtonSize.height)
+            make.width.equalTo(nextButtonSize.width)
             make.trailing.equalTo(self).inset(StandardVerticalMargin)
             make.centerY.equalTo(self.snp_centerY)
         }
@@ -450,7 +454,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         else {
             activateSubTitles()
             if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-                OEXAnalytics.shared().trackTranscriptLanguage(videoId, currentTime: videoPlayerController.currentTime, language: language, courseID: courseId, unitURL: unitUrl)
+                environment.analytics.trackTranscriptLanguage(videoId, currentTime: videoPlayerController.currentTime, language: language, courseID: courseId, unitURL: unitUrl)
             }
         }
     }
@@ -465,23 +469,22 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     func activateSubTitles() {
-        subtitleActivated = true
-        showSubtiles(show: true)
-        OEXAnalytics.shared().trackShowTranscript(video?.summary?.videoID ?? "", currentTime: videoPlayerController.currentTime, courseID: video?.course_id ?? "", unitURL: video?.summary?.unitURL ?? "")
+        showSubTitles(show: true)
+        environment.analytics.trackShowTranscript(video?.summary?.videoID ?? "", currentTime: videoPlayerController.currentTime, courseID: video?.course_id ?? "", unitURL: video?.summary?.unitURL ?? "")
     }
 
     func deAvtivateSubTitles() {
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            OEXAnalytics.shared().trackHideTranscript(videoId, currentTime: videoPlayerController.currentTime, courseID: courseId, unitURL: unitUrl)
+            environment.analytics.trackHideTranscript(videoId, currentTime: videoPlayerController.currentTime, courseID: courseId, unitURL: unitUrl)
         }
-        dataInterface.selectedCCIndex = -1
+        environment.interface?.selectedCCIndex = -1
         subTitleLabel.text = ""
-        subtitleActivated = false
-        showSubtiles(show: false)
+        showSubTitles(show: false)
     }
     
-    private func showSubtiles(show: Bool) {
-        subTitleLabel.isHidden = !show;
+    private func showSubTitles(show: Bool) {
+        subTitleLabel.isHidden = !show
+        subtitleActivated = show
     }
     
     @objc private func monitorBufferedMovie() {
@@ -489,9 +492,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         let totalTime = floor(videoPlayerController.duration.seconds)
         let time = secondaryProgress/totalTime
         if time.isNaN {
-            if !videoPlayerController.videoPlayer.isPlaying {
-            
-             stopBufferedTimer()
+            if !videoPlayerController.isPlaying {
+                stopBufferedTimer()
             }
         }
         durationSlider.secondaryProgress = Float(time)
@@ -506,16 +508,16 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
    func nextButtonClicked() {
         autoHide()
-        dataInterface.selectedCCIndex = -1;
-        dataInterface.selectedVideoSpeedIndex = -1;
+        environment.interface?.selectedCCIndex = -1;
+        environment.interface?.selectedVideoSpeedIndex = -1;
         videoPlayerController.resetPlayerView()
         NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_NEXT), object: self)
     }
     
    func previousButtonClicked() {
         autoHide()
-        dataInterface.selectedCCIndex = -1;
-        dataInterface.selectedVideoSpeedIndex = -1;
+        environment.interface?.selectedCCIndex = -1;
+        environment.interface?.selectedVideoSpeedIndex = -1;
         videoPlayerController.resetPlayerView()
         NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_PREVIOUS), object: self)
     }

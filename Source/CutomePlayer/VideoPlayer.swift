@@ -15,26 +15,29 @@ private enum PlayerState {
          stop
 }
 
+private let currentItemStatusKey = "currentItem.status"
+private let currentItemPlaybackLikelyToKeepUpKey = "currentItem.playbackLikelyToKeepUp"
+
 protocol VideoPlayerControllerDelegate {
     func playerDidLoadTranscripts(videoPlayer:VideoPlayer, transcripts: [TranscriptObject])
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer)
-    func playerDidStopPlaying(videoPlayer: VideoPlayer, duration: Double, currentTime: Double)
-    func playerDidTimedOut(videoPlayer: VideoPlayer)
+    func playerDidTimeout(videoPlayer: VideoPlayer)
     func playerDidFinishPlaying(videoPlayer: VideoPlayer)
+    func playerFailed(videoPlayer: VideoPlayer, errorMessage: String)
 }
 
 private var playbackLikelyToKeepUpContext = 0
 class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManagerDelegate {
     
-    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider
+    typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
-    let environment : Environment
-    var playerControls: VideoPlayerControls?
+    private let environment : Environment
+    fileprivate var playerControls: VideoPlayerControls?
     var playerDelegate : VideoPlayerControllerDelegate?
     var isFullScreen : Bool = false
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
-    let videoPlayer = AVPlayer()
+    private let videoPlayer = AVPlayer()
     private let loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
@@ -42,10 +45,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private var playerTimeBeforeSeek:TimeInterval = 0
     private var playerState: PlayerState = .stop
     private var isObserverAdded: Bool = false
-    private let currentItemStatusKey = "currentItem.status"
+    private let playerTimeOutInterval:TimeInterval = 60.0
+    
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
     
-    var video : OEXHelperVideoDownload? {
+    private var video : OEXHelperVideoDownload? {
         didSet {
             initializeSubtitles()
         }
@@ -53,7 +57,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     lazy fileprivate var movieBackgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.black
+        view.backgroundColor = .black
         view.alpha = 0.5
         return view
     }()
@@ -71,6 +75,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         return videoPlayer.currentItem?.duration ?? CMTime()
     }
     
+    var isPlaying: Bool {
+        return rate != 0
+    }
+    
     var currentTime: TimeInterval {
         return videoPlayer.currentItem?.currentTime().seconds ?? 0
     }
@@ -86,13 +94,13 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         return result
     }
     
-    var leftSwipeGestureRecognizer : UISwipeGestureRecognizer = {
+    private var leftSwipeGestureRecognizer : UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer()
         gesture.direction = .left
         return gesture
     }()
     
-    var rightSwipeGestureRecognizer : UISwipeGestureRecognizer = {
+    private var rightSwipeGestureRecognizer : UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer()
         gesture.direction = .right
         return gesture
@@ -117,7 +125,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
    private func addObservers() {
         if !isObserverAdded {
             isObserverAdded = true
-            videoPlayer.addObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp",
+            videoPlayer.addObserver(self, forKeyPath: currentItemPlaybackLikelyToKeepUpKey,
                                     options: .new, context: &playbackLikelyToKeepUpContext)
         
             videoPlayer.addObserver(self, forKeyPath: currentItemStatusKey,
@@ -129,9 +137,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 self?.observeProgress(elapsedTime: elapsedTime)
                 } as AnyObject
             
-            NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIApplicationWillResignActive.rawValue) {[weak self] (notification, _, _) in
-                self?.pause()
-                self?.playerControls?.setPlayPauseButtonState(isSelected: true)
+            NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIApplicationWillResignActive.rawValue) {(notification, observer, _) in
+                observer.pause()
+                observer.playerControls?.setPlayPauseButtonState(isSelected: true)
             }
         }
     }
@@ -149,7 +157,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         view.addSubview(playerView)
         playerView.playerLayer.player = videoPlayer
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
-        playerControls = VideoPlayerControls(with: self)
+        playerControls = VideoPlayerControls(environment: environment, player: self)
         playerControls?.delegate = self
         if let controls = playerControls {
             playerView.addSubview(controls)
@@ -205,60 +213,58 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     private func setConstraints() {
-        if let playerControls = playerControls {
-            playerControls.snp_makeConstraints() { make in
-                make.edges.equalTo(playerView)
-            }
-            loadingIndicatorView.snp_makeConstraints() { make in
-                make.center.equalTo(playerView.center)
-                make.height.equalTo(loadingIndicatorViewSize.height)
-                make.width.equalTo(loadingIndicatorViewSize.width)
-            }
+        playerControls?.snp_makeConstraints() { make in
+            make.edges.equalTo(playerView)
+        }
+        loadingIndicatorView.snp_makeConstraints() { make in
+            make.center.equalTo(playerView.center)
+            make.height.equalTo(loadingIndicatorViewSize.height)
+            make.width.equalTo(loadingIndicatorViewSize.width)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        defaultScreenOrientation()
+        applyScreenOrientation()
     }
     
-    private func defaultScreenOrientation() {
+    private func applyScreenOrientation() {
         if isVerticallyCompact() {
-            setFullscreen(fullscreen: true, animated: false, with: UIInterfaceOrientation.portrait, forceRotate: false)
+            setFullscreen(fullscreen: true, animated: false, with: .portrait, forceRotate: false)
         }
     }
     
      func play(video : OEXHelperVideoDownload) {
+        guard let videoURL = video.summary?.videoURL, var url = URL(string: videoURL) else {
+            return
+        }
+        
         playerControls?.video = video
         self.video = video
-        if let videoURL = video.summary?.videoURL {
-            var url : URL? = URL(string:videoURL)
-            let fileManager = FileManager.default
-            let path = "\(video.filePath).mp4"
-            let fileExists : Bool = fileManager.fileExists(atPath: path)
-            if fileExists {
-                url = URL(fileURLWithPath: path)
-            }
-            if video.downloadState == .complete && !fileExists {
-                return
-            }
-            if let url = url {
-                let playerItem = AVPlayerItem(url: url)
-                videoPlayer.replaceCurrentItem(with: playerItem)
-                addObservers()
-            }
-            
-            let timeInterval = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
-            play(at: timeInterval)
-            playerControls?.isTapButtonHidden = true
-            NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, object: videoPlayer.currentItem as Any) {[weak self] (notification, _, _) in
-                self?.playerDidFinishPlaying(note: notification)
-            }
-            perform(#selector(movieTimedOut), with: nil, afterDelay: 60)
+    
+        let fileManager = FileManager.default
+        let path = "\(video.filePath).mp4"
+        let fileExists : Bool = fileManager.fileExists(atPath: path)
+        if fileExists {
+            url = URL(fileURLWithPath: path)
         }
+        else if video.downloadState == .complete {
+            playerDelegate?.playerFailed(videoPlayer: self, errorMessage: Strings.videoContentNotAvailable)
+        }
+        
+        let playerItem = AVPlayerItem(url: url)
+        videoPlayer.replaceCurrentItem(with: playerItem)
+        addObservers()
+        let timeInterval = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
+        play(at: timeInterval)
+        playerControls?.isTapButtonHidden = true
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, object: videoPlayer.currentItem as Any) {(notification, observer, _) in
+            observer.playerDidFinishPlaying(note: notification)
+        }
+        perform(#selector(movieTimedOut), with: nil, afterDelay: playerTimeOutInterval)
     }
     
-    func play(at timeInterval: TimeInterval) {
+    private func play(at timeInterval: TimeInterval) {
         videoPlayer.play()
         lastElapsedTime = timeInterval
         var resumeObserver: AnyObject?
@@ -276,7 +282,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
    @objc private func movieTimedOut() {
         stop()
-        playerDelegate?.playerDidTimedOut(videoPlayer: self)
+        playerDelegate?.playerDidTimeout(videoPlayer: self)
     }
     
     private func resume() {
@@ -298,12 +304,16 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private func saveCurrentTime() {
         lastElapsedTime = currentTime
-        playerDelegate?.playerDidStopPlaying(videoPlayer: self, duration: duration.seconds, currentTime: currentTime)
+        if let video = video {
+            environment.interface?.markLastPlayedInterval(Float(currentTime), forVideo: video)
+            let state = doublesWithinEpsilon(left: duration.seconds, right: currentTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
+            environment.interface?.markVideoState(state, forVideo: video)
+        }
     }
     
     private func stop() {
         saveCurrentTime()
-        videoPlayer.actionAtItemEnd = AVPlayerActionAtItemEnd.pause
+        videoPlayer.actionAtItemEnd = .pause
         videoPlayer.replaceCurrentItem(with: nil)
         playerState = .stop
     }
@@ -312,7 +322,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         return transcriptManager?.transcript(at: elapseTime) ?? ""
     }
     
-    func addGestures() {
+    fileprivate func addGestures() {
         
         if let _ = playerView.gestureRecognizers?.contains(leftSwipeGestureRecognizer), let _ = playerView.gestureRecognizers?.contains(rightSwipeGestureRecognizer) {
             removeGestures()
@@ -332,7 +342,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    func removeGestures() {
+    private func removeGestures() {
         playerView.removeGestureRecognizer(leftSwipeGestureRecognizer)
         playerView.removeGestureRecognizer(rightSwipeGestureRecognizer)
         
@@ -395,7 +405,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     // MARK: Player control delegate method
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool) {
-        if videoPlayer.isPlaying {
+        if playerState == .playing {
             pause()
             environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video)
         }
@@ -472,6 +482,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSpeed(videoId, currentTime: currentTime, courseID: courseId, unitURL: unitUrl, oldSpeed: String(format: "%.1f", oldSpeed), newSpeed: String.init(format: "%.1f", playbackRate))
         }
+    }
+    
+    func hideAndShowControls(isHidden: Bool) {
+        playerControls?.hideAndShowControls(isHidden: isHidden)
     }
 }
 
@@ -554,11 +568,5 @@ extension VideoPlayer {
             movieBackgroundView.frame = backgroundFrame
             view.frame = movieFrame
         }
-    }
-}
-
-extension AVPlayer {
-    var isPlaying: Bool {
-        return rate != 0 && error == nil
     }
 }

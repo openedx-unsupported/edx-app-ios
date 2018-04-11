@@ -16,7 +16,7 @@ class TranscriptManager: NSObject {
     
     typealias Environment = OEXInterfaceProvider
     
-    let environment : Environment
+    private let environment : Environment
     private let video: OEXHelperVideoDownload
     private let transcriptParser = TranscriptParser()
     private var transcripts: [TranscriptObject] = []
@@ -32,9 +32,19 @@ class TranscriptManager: NSObject {
         super.init()
     }
     
+    private var captionURL: String {
+        var url: String = ""
+        if let ccSelectedLanguage = OEXInterface.getCCSelectedLanguage(), let transcriptURL = video.summary?.transcripts?[ccSelectedLanguage] as? String, !ccSelectedLanguage.isEmpty, !transcriptURL.isEmpty{
+            url = transcriptURL
+        }
+        else if let transcriptURL = video.summary?.transcripts?.values.first as? String  {
+            url = transcriptURL
+        }
+        return url
+    }
+    
     private func initializeSubtitle() {
-        let captionURL = getCaptionURL()
-        getClosedCaptioningFile(atURL: captionURL)
+        closedCaptioning(atURL: captionURL)
         NotificationCenter.default.oex_addObserver(observer: self, name: DL_COMPLETE) { (notification, _, _) -> Void in
             self.downloadedTranscript(note: notification)
         }
@@ -42,25 +52,13 @@ class TranscriptManager: NSObject {
     
     private func downloadedTranscript(note: NSNotification) {
         if let task = note.userInfo?[DL_COMPLETE_N_TASK] as? URLSessionDownloadTask, let taskURL = task.response?.url {
-            let captionURL = getCaptionURL()
             if taskURL.absoluteString == captionURL {
-                getClosedCaptioningFile(atURL: captionURL)
+                closedCaptioning(atURL: captionURL)
             }
         }
     }
     
-    private func getCaptionURL() -> String {
-        var captionURL: String = ""
-        if let ccSelectedLanguage = OEXInterface.getCCSelectedLanguage(), let url = video.summary?.transcripts?[ccSelectedLanguage] as? String, !ccSelectedLanguage.isEmpty, !url.isEmpty{
-            captionURL = url
-        }
-        else if let url = video.summary?.transcripts?.values.first as? String  {
-            captionURL = url
-        }
-        return captionURL
-    }
-    
-   private func getClosedCaptioningFile(atURL URLString: String?) {
+   private func closedCaptioning(atURL URLString: String?) {
         if let localFile: String = OEXFileUtility.filePath(forRequestKey: URLString) {
             var transcriptString = ""
             // File to string

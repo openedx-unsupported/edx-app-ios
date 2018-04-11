@@ -12,7 +12,7 @@ import UIKit
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerControllerDelegate {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     let environment : Environment
     let blockID : CourseBlockID?
@@ -86,7 +86,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         contentView?.addSubview(rotateDeviceMessageView!)
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction {[weak self] _ in
-            self?.videoController.playerControls?.hideAndShowControls(isHidden: true)
+            self?.videoController.hideAndShowControls(isHidden: true)
         }
         rotateDeviceMessageView?.addGestureRecognizer(tapGesture)
         if environment.config.isVideoTranscriptEnabled {
@@ -264,7 +264,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func validateSubtitleTimer() {
-        if !subtitleTimer.isValid && videoController.playerControls != nil {
+        if !subtitleTimer.isValid {
             subtitleTimer = Timer.scheduledTimer(timeInterval: 1.0,
                                                  target: self,
                                                  selector: #selector(highlightSubtitle),
@@ -357,12 +357,21 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         environment.router?.showAppReviewIfNeeded(fromController: self)
     }
     
-    func playerDidTimedOut(videoPlayer: VideoPlayer) {
+    func playerDidTimeout(videoPlayer: VideoPlayer) {
         if videoPlayer.isFullScreen {
             UIAlertController().showAlert(withTitle: Strings.timeoutCheckInternetConnection, message: "", cancelButtonTitle: Strings.close, onViewController: self)
         }
         else {
             showOverlay(withMessage: Strings.timeoutCheckInternetConnection)
+        }
+    }
+    
+    func playerFailed(videoPlayer: VideoPlayer, errorMessage: String) {
+        if videoPlayer.isFullScreen {
+            UIAlertController().showAlert(withTitle: errorMessage, message: "", cancelButtonTitle: Strings.close, onViewController: self)
+        }
+        else {
+            showOverlay(withMessage: errorMessage)
         }
     }
 }

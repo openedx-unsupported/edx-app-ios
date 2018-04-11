@@ -10,7 +10,7 @@ import UIKit
 
 class CustomSlider: UISlider {
     
-    var progressView = UIProgressView()
+   private var progressView = UIProgressView()
 
     override init(frame: CGRect) {
         super.init(frame: CGRect.zero)
@@ -27,15 +27,6 @@ class CustomSlider: UISlider {
         }
         get {
             return progressView.progressTintColor ?? UIColor.clear
-        }
-    }
-    
-    var secondaryTrackImage: UIImage {
-        set {
-            progressView.progressImage = newValue
-        }
-        get {
-            return progressView.progressImage ?? UIImage()
         }
     }
     
