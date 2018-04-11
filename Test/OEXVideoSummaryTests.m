@@ -200,7 +200,7 @@
 
 - (void)testSupportedYoutubeHLSEncodingDownload {
     NSDictionary *youtube = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.youtube.com/watch?v=abc123"];
-    NSDictionary *hls = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.m3u8"];
+    NSDictionary *hls = [self encodingWithName:OEXVideoEncodingHLS andUrl:@"https://www.example.com/video.m3u8"];
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncodings:@[youtube, hls] andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
@@ -210,7 +210,7 @@
 
 - (void)testSupportedYoutubeHLSEncodingAllSourcesDownload {
     NSDictionary *youtube = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.youtube.com/watch?v=abc123"];
-    NSDictionary *hls = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.m3u8"];
+    NSDictionary *hls = [self encodingWithName:OEXVideoEncodingHLS andUrl:@"https://www.example.com/video.m3u8"];
     NSArray *all_sources = @[
         @"https://www.example.com/video.m3u8",
         @"https://player.vimeo.com/external/225003478.m3u8?s=6438b130458bd0eb38f7625ffa26623caee8ff7c",
@@ -228,7 +228,7 @@
 
 - (void)testSupportedFallbackEncodingDownloadPipelineEnabled {
     NSDictionary *youtube = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.youtube.com/watch?v=abc123"];
-    NSDictionary *hls = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.m3u8"];
+    NSDictionary *hls = [self encodingWithName:OEXVideoEncodingHLS andUrl:@"https://www.example.com/video.m3u8"];
     NSArray *all_sources = @[@"https://www.example.com/video.mp4"];
     OEXVideoSummary *summary = nil;
 

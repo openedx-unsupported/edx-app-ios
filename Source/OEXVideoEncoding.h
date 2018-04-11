@@ -14,6 +14,7 @@ extern NSString* const OEXVideoEncodingYoutube;
 extern NSString* const OEXVideoEncodingFallback;
 extern NSString* const OEXVideoEncodingMobileHigh;
 extern NSString* const OEXVideoEncodingMobileLow;
+extern NSString* const OEXVideoEncodingHLS;
 
 @interface OEXVideoEncoding : NSObject
 
