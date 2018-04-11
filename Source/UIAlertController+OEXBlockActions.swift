@@ -16,6 +16,20 @@ extension UIAlertController {
     
     //MARK:- Init Methods
     
+    @discardableResult func showAlert(with title: String?,
+                                   message: String?,
+                                   preferredStyle: UIAlertControllerStyle,
+                                   cancelButtonTitle: String?,
+                                   destructiveButtonTitle: String?,
+                                   otherButtonsTitle: [String]?,
+                                   tapBlock: ((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?, textFieldWithConfigurationHandler: ((_ textField: UITextField) -> Void)? = nil) -> UIAlertController?{
+        
+        guard let controller = topMostController() else { return nil }
+        
+        return showIn(viewController: controller, title: title, message: message, preferredStyle: preferredStyle, cancelButtonTitle: cancelButtonTitle, destructiveButtonTitle: destructiveButtonTitle, otherButtonsTitle: otherButtonsTitle, tapBlock: tapBlock)
+    }
+    
+    
     @discardableResult func showIn(viewController pController: UIViewController,
                                    title: String?,
                                    message: String?,

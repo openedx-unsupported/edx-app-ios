@@ -127,6 +127,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             isObserverAdded = true
             videoPlayer.addObserver(self, forKeyPath: currentItemPlaybackLikelyToKeepUpKey,
                                     options: .new, context: &playbackLikelyToKeepUpContext)
+            
         
             videoPlayer.addObserver(self, forKeyPath: currentItemStatusKey,
                                     options: .new, context: nil)
@@ -251,9 +252,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         else if video.downloadState == .complete {
             playerDelegate?.playerFailed(videoPlayer: self, errorMessage: Strings.videoContentNotAvailable)
         }
-        
         let playerItem = AVPlayerItem(url: url)
         videoPlayer.replaceCurrentItem(with: playerItem)
+        loadingIndicatorView.startAnimating()
         addObservers()
         let timeInterval = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
         play(at: timeInterval)

@@ -29,18 +29,19 @@ class TranscriptParser: NSObject {
     
     private(set) var transcripts: [TranscriptObject] = []
     
-    func parse(subTitlesString: String, completion: SubTitleParsingCompletion) {
+    func parse(transcript: String, completion: SubTitleParsingCompletion) {
         transcripts.removeAll()
-        if subTitlesString.isEmpty {
+        if transcript.isEmpty {
             completion(false, NSError(domain:"", code:-1, userInfo:[ NSLocalizedDescriptionKey: "Invalid Format"]))
             return
         }
         
-        var components = subTitlesString.components(separatedBy: "\r\n\r\n")
+        let transcriptString = transcript.replacingOccurrences(of: "\r", with:"\n")
+        var components = transcriptString.components(separatedBy: "\r\n\r\n")
         
         // Fall back to \n\n separation
         if components.count == 1 {
-            components = subTitlesString.components(separatedBy: "\n\n")
+            components = transcriptString.components(separatedBy: "\n\n")
         }
         
         for component in components {

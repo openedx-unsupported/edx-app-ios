@@ -60,14 +60,12 @@ class TranscriptManager: NSObject {
     
    private func closedCaptioning(atURL URLString: String?) {
         if let localFile: String = OEXFileUtility.filePath(forRequestKey: URLString) {
-            var transcriptString = ""
             // File to string
             if FileManager.default.fileExists(atPath: localFile) {
                 // File to string
                 do {
                     let transcript = try String(contentsOfFile: localFile, encoding: .utf8)
-                    transcriptString = transcript.replacingOccurrences(of: "\r", with:"\n")
-                    transcriptParser.parse(subTitlesString: transcriptString, completion: { (success, error) in
+                    transcriptParser.parse(transcript: transcript, completion: { (success, error) in
                         transcripts = transcriptParser.transcripts
                         delegate?.transcriptsLoaded(manager: self, transcripts: transcripts)
                     })

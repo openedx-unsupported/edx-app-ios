@@ -58,8 +58,6 @@ NSString* const OEXSavedAppVersionKey = @"OEXSavedAppVersionKey";
 //Cached Data
 @property (nonatomic, assign) int commonDownloadProgress;
 
-@property (nonatomic, strong) NSArray<OEXHelperVideoDownload*>* multipleDownloadArray;
-
 @property(nonatomic, strong) NSTimer* timer;
 
 @property (nonatomic, strong, nullable) NSArray<UserCourseEnrollment*>* courses;
@@ -360,7 +358,6 @@ static OEXInterface* _sharedInterface = nil;
     return nil;
 }
 
-
 - (BOOL)canDownloadVideos:(NSArray*)videos {
     double totalSpaceRequired = 0;
     //Total space
@@ -371,21 +368,19 @@ static OEXInterface* _sharedInterface = nil;
     }
     totalSpaceRequired = totalSpaceRequired / 1024 / 1024 / 1024;
     if(!userAllowedLargeDownload && totalSpaceRequired > 1) {
-        self.multipleDownloadArray = videos;
-        UIViewController *controller = [self topMostController];
+        UIViewController *controller = [[[UIViewController alloc] init] topMostController];
         if (controller) {
-            [[UIAlertController alloc] showInViewController:controller title:[Strings largeDownloadTitle] message:[Strings largeDownloadMessage] preferredStyle:UIAlertControllerStyleAlert cancelButtonTitle:[Strings cancel] destructiveButtonTitle:nil otherButtonsTitle:@[[Strings acceptLargeVideoDownload]] tapBlock:^(UIAlertController * _Nonnull alertController, UIAlertAction * _Nonnull alert, NSInteger buttonIndex) {
+            [[UIAlertController alloc] showAlertWith:[Strings largeDownloadTitle] message:[Strings largeDownloadMessage] preferredStyle:UIAlertControllerStyleAlert cancelButtonTitle:[Strings cancel] destructiveButtonTitle:nil otherButtonsTitle:@[[Strings acceptLargeVideoDownload]] tapBlock:^(UIAlertController* _Nonnull alertController, UIAlertAction* _Nonnull alert, NSInteger buttonIndex) {
                 if(buttonIndex == 1) {
                     userAllowedLargeDownload = true;
-                    NSInteger count = [self downloadVideos:_multipleDownloadArray];
+                    NSInteger count = [self downloadVideos:videos];
                     if(count > 0) {
                         [[NSNotificationCenter defaultCenter] postNotificationName:FL_MESSAGE
                                                                             object:self
-                                                                          userInfo:@{FL_ARRAY: _multipleDownloadArray}];
+                                                                          userInfo:@{FL_ARRAY: videos}];
                     }
                 }
                 else {
-                    self.multipleDownloadArray = nil;
                     userAllowedLargeDownload = false;
                     if (downloadVideosCompletionHandler) {
                         downloadVideosCompletionHandler(true);

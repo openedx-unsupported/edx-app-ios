@@ -16,7 +16,7 @@ class TranscriptParserTests: XCTestCase {
         let expectation = self.expectation(description: "Parsing Transcript")
     
         let transcriptParser = TranscriptParser()
-        transcriptParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
+        transcriptParser.parse(transcript: TranscriptDataFactory.validTranscriptString) { (success, error) in
             XCTAssertTrue(success)
             XCTAssertEqual(transcriptParser.transcripts.count, 11)
             expectation.fulfill()
@@ -35,7 +35,7 @@ class TranscriptParserTests: XCTestCase {
     func testPartialCaptions() {
         let expectation = self.expectation(description: "Parsing Transcript")
         let transcriptParser = TranscriptParser()
-        transcriptParser.parse(subTitlesString: TranscriptDataFactory.partialTranscriptString) { (success, error) in
+        transcriptParser.parse(transcript: TranscriptDataFactory.partialTranscriptString) { (success, error) in
             XCTAssertTrue(success)
             XCTAssertEqual(transcriptParser.transcripts.count, 10)
             expectation.fulfill()
@@ -54,7 +54,7 @@ class TranscriptParserTests: XCTestCase {
     func testInvalidCaptions() {
         let expectation = self.expectation(description: "Parsing Transcript")
         let transcriptParser = TranscriptParser()
-        transcriptParser.parse(subTitlesString: TranscriptDataFactory.invalidTranscriptString) { (success, error) in
+        transcriptParser.parse(transcript: TranscriptDataFactory.invalidTranscriptString) { (success, error) in
             XCTAssertFalse(success)
             expectation.fulfill()
             if error != nil {
@@ -72,7 +72,7 @@ class TranscriptParserTests: XCTestCase {
     func testEmptyCaptions() {
         let expectation = self.expectation(description: "Parsing Transcript")
         let transcriptParser = TranscriptParser()
-        transcriptParser.parse(subTitlesString: TranscriptDataFactory.emptyTranscriptString) { (success, error) in
+        transcriptParser.parse(transcript: TranscriptDataFactory.emptyTranscriptString) { (success, error) in
             XCTAssertFalse(success)
             XCTAssertEqual(transcriptParser.transcripts.count, 0)
             expectation.fulfill()

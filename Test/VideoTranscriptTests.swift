@@ -20,7 +20,7 @@ class VideoTranscriptTests: XCTestCase {
         XCTAssertTrue(transcriptView.transcriptTableView.isHidden)
         
         let transcriptParser = TranscriptParser()
-        transcriptParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
+        transcriptParser.parse(transcript: TranscriptDataFactory.validTranscriptString) { (success, error) in
             if success {
                 transcriptView.updateTranscript(transcript: transcriptParser.transcripts)
             }
@@ -35,7 +35,7 @@ class VideoTranscriptTests: XCTestCase {
         let transcriptView = VideoTranscript(environment: environment)
         
         let transcriptParser = TranscriptParser()
-        transcriptParser.parse(subTitlesString: TranscriptDataFactory.validTranscriptString) { (success, error) in
+        transcriptParser.parse(transcript: TranscriptDataFactory.validTranscriptString) { (success, error) in
             if success {
                 transcriptView.updateTranscript(transcript: transcriptParser.transcripts)
             }
