@@ -43,8 +43,12 @@ class TranscriptManager: NSObject {
         return url
     }
     
-    private func initializeSubtitle() {
+    func loadTranscripts() {
         closedCaptioning(atURL: captionURL)
+    }
+    
+    private func initializeSubtitle() {
+        loadTranscripts()
         NotificationCenter.default.oex_addObserver(observer: self, name: DL_COMPLETE) { (notification, _, _) -> Void in
             self.downloadedTranscript(note: notification)
         }

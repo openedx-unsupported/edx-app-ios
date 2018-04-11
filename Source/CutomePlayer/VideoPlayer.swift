@@ -46,6 +46,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private var playerState: PlayerState = .stop
     private var isObserverAdded: Bool = false
     private let playerTimeOutInterval:TimeInterval = 60.0
+    private let preferredTimescale:Int32 = 100
     
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
     
@@ -291,9 +292,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func resume(at time: TimeInterval) {
-        videoPlayer.currentItem?.seek(to: CMTimeMakeWithSeconds(time, 100), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
+        videoPlayer.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
             (completed: Bool) -> Void in
             self?.videoPlayer.play()
+            self?.playerState = .playing
+            let speed = OEXInterface.getCCSelectedPlaybackSpeed()
+            self?.rate = OEXInterface.getOEXVideoSpeed(speed)
         }
     }
     
@@ -422,7 +426,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
         let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
         playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
-        videoPlayer.seek(to: CMTimeMakeWithSeconds(backTime, 100)) { [weak self]
+        videoPlayer.seek(to: CMTimeMakeWithSeconds(backTime, preferredTimescale)) { [weak self]
             (completed: Bool) -> Void in
             self?.videoPlayer.play()
         }
@@ -458,7 +462,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
         playerControls.updateTimeLabel(elapsedTime: elapsedTime, duration: videoDuration)
         
-        videoPlayer.seek(to: CMTimeMakeWithSeconds(elapsedTime, 100)) { [weak self]
+        videoPlayer.seek(to: CMTimeMakeWithSeconds(elapsedTime, preferredTimescale)) { [weak self]
             (completed: Bool) -> Void in
             if self?.playerState == .playing {
                 playerControls.autoHide()
@@ -476,12 +480,27 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed) {
         let oldSpeed = rate
+        pause()
         let playbackRate = OEXInterface.getOEXVideoSpeed(speed)
         OEXInterface.setCCSelectedPlaybackSpeed(speed)
-        rate = playbackRate
+        resume()
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSpeed(videoId, currentTime: currentTime, courseID: courseId, unitURL: unitUrl, oldSpeed: String(format: "%.1f", oldSpeed), newSpeed: String.init(format: "%.1f", playbackRate))
+        }
+    }
+    
+    func captionUpdate(playerControls: VideoPlayerControls, language: String) {
+        OEXInterface.setCCSelectedLanguage(language)
+        if language.isEmpty {
+            playerControls.deAvtivateSubTitles()
+        }
+        else {
+            transcriptManager?.loadTranscripts()
+            playerControls.activateSubTitles()
+            if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+                environment.analytics.trackTranscriptLanguage(videoId, currentTime: currentTime, language: language, courseID: courseId, unitURL: unitUrl)
+            }
         }
     }
     

@@ -17,6 +17,7 @@ protocol VideoPlayerControlsDelegate {
     func sliderValueChanged(playerControls: VideoPlayerControls)
     func sliderTouchBegan(playerControls: VideoPlayerControls)
     func sliderTouchEnded(playerControls: VideoPlayerControls)
+    func captionUpdate(playerControls: VideoPlayerControls, language: String)
 }
 
 class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
@@ -440,6 +441,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     func showSubSettings(chooser: UIAlertController) {
+        tableSettings.isHidden = true
         let controller = firstAvailableUIViewController()
         
         chooser.configurePresentationController(withSourceView: btnSettings)
@@ -447,19 +449,11 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     func setCaption(language: String) {
-        OEXInterface.setCCSelectedLanguage(language)
-        if language == "" {
-            deAvtivateSubTitles()
-        }
-        else {
-            activateSubTitles()
-            if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-                environment.analytics.trackTranscriptLanguage(videoId, currentTime: videoPlayerController.currentTime, language: language, courseID: courseId, unitURL: unitUrl)
-            }
-        }
+        delegate?.captionUpdate(playerControls: self, language: language)
     }
     
     func setPlaybackSpeed(speed: OEXVideoSpeed) {
+        setPlayPauseButtonState(isSelected:false)
         delegate?.setPlayBackSpeed(playerControls: self, speed: speed)
     }
     
