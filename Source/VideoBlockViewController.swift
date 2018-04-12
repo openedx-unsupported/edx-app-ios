@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-class VideoBlockViewController : UIViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerControllerDelegate {
+class VideoBlockViewController : UIViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
     
@@ -105,10 +105,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadVideoIfNecessary()
     }
     
     override func viewDidAppear(_ animated : Bool) {
+        
+        loadVideoIfNecessary()
         
         // There's a weird OS bug where the bottom layout guide doesn't get set properly until
         // the layout cycle after viewDidAppear so cause a layout cycle
@@ -331,7 +332,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         return .allButUpsideDown
     }
     
-    //MARK: - VideoPlayerControllerDelegate methods
+    //MARK: - VideoPlayerDelegate methods
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer) {
         videoPlayer.view.snp_remakeConstraints {make in
             make.top.equalTo(snp_topLayoutGuideBottom)
@@ -366,7 +367,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         }
     }
     
-    func playerFailed(videoPlayer: VideoPlayer, errorMessage: String) {
+    func playerDidFailedPlaying(videoPlayer: VideoPlayer, errorMessage: String) {
         if videoPlayer.isFullScreen {
             UIAlertController().showAlert(withTitle: errorMessage, message: "", cancelButtonTitle: Strings.close, onViewController: self)
         }

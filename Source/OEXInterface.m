@@ -368,27 +368,24 @@ static OEXInterface* _sharedInterface = nil;
     }
     totalSpaceRequired = totalSpaceRequired / 1024 / 1024 / 1024;
     if(!userAllowedLargeDownload && totalSpaceRequired > 1) {
-        UIViewController *controller = [[[UIViewController alloc] init] topMostController];
-        if (controller) {
-            [[UIAlertController alloc] showAlertWith:[Strings largeDownloadTitle] message:[Strings largeDownloadMessage] preferredStyle:UIAlertControllerStyleAlert cancelButtonTitle:[Strings cancel] destructiveButtonTitle:nil otherButtonsTitle:@[[Strings acceptLargeVideoDownload]] tapBlock:^(UIAlertController* _Nonnull alertController, UIAlertAction* _Nonnull alert, NSInteger buttonIndex) {
-                if(buttonIndex == 1) {
-                    userAllowedLargeDownload = true;
-                    NSInteger count = [self downloadVideos:videos];
-                    if(count > 0) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:FL_MESSAGE
-                                                                            object:self
-                                                                          userInfo:@{FL_ARRAY: videos}];
-                    }
+        [[UIAlertController alloc] showAlertWith:[Strings largeDownloadTitle] message:[Strings largeDownloadMessage] preferredStyle:UIAlertControllerStyleAlert cancelButtonTitle:[Strings cancel] destructiveButtonTitle:nil otherButtonsTitle:@[[Strings acceptLargeVideoDownload]] tapBlock:^(UIAlertController* _Nonnull alertController, UIAlertAction* _Nonnull alert, NSInteger buttonIndex) {
+            if(buttonIndex == 1) {
+                userAllowedLargeDownload = true;
+                NSInteger count = [self downloadVideos:videos];
+                if(count > 0) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:FL_MESSAGE
+                                                                        object:self
+                                                                      userInfo:@{FL_ARRAY: videos}];
                 }
-                else {
-                    userAllowedLargeDownload = false;
-                    if (downloadVideosCompletionHandler) {
-                        downloadVideosCompletionHandler(true);
-                        downloadVideosCompletionHandler = nil;
-                    }
+            }
+            else {
+                userAllowedLargeDownload = false;
+                if (downloadVideosCompletionHandler) {
+                    downloadVideosCompletionHandler(true);
+                    downloadVideosCompletionHandler = nil;
                 }
-            } textFieldWithConfigurationHandler:nil];
-        }
+            }
+        } textFieldWithConfigurationHandler:nil];
         
         return NO;
     }

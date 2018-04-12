@@ -18,12 +18,12 @@ private enum PlayerState {
 private let currentItemStatusKey = "currentItem.status"
 private let currentItemPlaybackLikelyToKeepUpKey = "currentItem.playbackLikelyToKeepUp"
 
-protocol VideoPlayerControllerDelegate {
+protocol VideoPlayerDelegate {
     func playerDidLoadTranscripts(videoPlayer:VideoPlayer, transcripts: [TranscriptObject])
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer)
     func playerDidTimeout(videoPlayer: VideoPlayer)
     func playerDidFinishPlaying(videoPlayer: VideoPlayer)
-    func playerFailed(videoPlayer: VideoPlayer, errorMessage: String)
+    func playerDidFailedPlaying(videoPlayer: VideoPlayer, errorMessage: String)
 }
 
 private var playbackLikelyToKeepUpContext = 0
@@ -33,7 +33,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private let environment : Environment
     fileprivate var playerControls: VideoPlayerControls?
-    var playerDelegate : VideoPlayerControllerDelegate?
+    var playerDelegate : VideoPlayerDelegate?
     var isFullScreen : Bool = false
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
@@ -95,16 +95,32 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         return result
     }
     
-    private var leftSwipeGestureRecognizer : UISwipeGestureRecognizer = {
+    private lazy var leftSwipeGestureRecognizer : UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer()
         gesture.direction = .left
+        gesture.addAction { _ in
+            self.playerControls?.nextButtonClicked()
+        }
+        
+        return gesture
+    }()
+
+    private lazy var rightSwipeGestureRecognizer : UISwipeGestureRecognizer = {
+        let gesture = UISwipeGestureRecognizer()
+        gesture.direction = .right
+        gesture.addAction { _ in
+            self.playerControls?.previousButtonClicked()
+        }
+        
         return gesture
     }()
     
-    private var rightSwipeGestureRecognizer : UISwipeGestureRecognizer = {
-        let gesture = UISwipeGestureRecognizer()
-        gesture.direction = .right
-        return gesture
+    // Adding this accessibilityPlayerView for the player accessibility voice over
+    private let accessibilityPlayerView : UIView = {
+       let view = UIView()
+        view.backgroundColor = UIColor.clear
+        
+        return view
     }()
     
     init(environment : Environment) {
@@ -143,7 +159,15 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 observer.pause()
                 observer.playerControls?.setPlayPauseButtonState(isSelected: true)
             }
+
+            NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibilityVoiceOverStatusChanged, action: { (_, observer, _) in
+                observer.voiceOverStatusChanged()
+            })
         }
+    }
+    
+    private func voiceOverStatusChanged() {
+        hideAndShowControls(isHidden: !UIAccessibilityIsVoiceOverRunning())
     }
     
     private func observeProgress(elapsedTime: CMTime) {
@@ -157,6 +181,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
    private func createPlayer() {
         view.addSubview(playerView)
+    
+        // Adding this accessibilityPlayerView just for the accibility voice over
+        playerView.addSubview(accessibilityPlayerView)
+        accessibilityPlayerView.isAccessibilityElement = true
+        accessibilityPlayerView.accessibilityLabel = Strings.accessibilityVideo
+    
         playerView.playerLayer.player = videoPlayer
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
         playerControls = VideoPlayerControls(environment: environment, player: self)
@@ -171,7 +201,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
    private func initializeSubtitles() {
-        if let video = video {
+        if let video = video, transcriptManager == nil {
             transcriptManager = TranscriptManager(environment: environment, video: video)
             transcriptManager?.delegate = self
             
@@ -195,9 +225,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             }
         }
         else if keyPath == currentItemStatusKey {
-            if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber {
-                let newStatus: AVPlayerItemStatus
-                newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.intValue)!
+            if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber, let newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.intValue) {
                 switch newStatus {
                 case .readyToPlay:
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
@@ -222,6 +250,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             make.center.equalTo(playerView.center)
             make.height.equalTo(loadingIndicatorViewSize.height)
             make.width.equalTo(loadingIndicatorViewSize.width)
+        }
+        
+        accessibilityPlayerView.snp_makeConstraints { (make) in
+            make.edges.equalTo(playerView)
         }
     }
     
@@ -251,7 +283,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             url = URL(fileURLWithPath: path)
         }
         else if video.downloadState == .complete {
-            playerDelegate?.playerFailed(videoPlayer: self, errorMessage: Strings.videoContentNotAvailable)
+            playerDelegate?.playerDidFailedPlaying(videoPlayer: self, errorMessage: Strings.videoContentNotAvailable)
         }
         let playerItem = AVPlayerItem(url: url)
         videoPlayer.replaceCurrentItem(with: playerItem)
@@ -333,12 +365,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             removeGestures()
         }
         
-        leftSwipeGestureRecognizer.addAction {[weak self] _ in
-            self?.playerControls?.nextButtonClicked()
-        }
-        rightSwipeGestureRecognizer.addAction {[weak self] _ in
-            self?.playerControls?.previousButtonClicked()
-        }
         playerView.addGestureRecognizer(leftSwipeGestureRecognizer)
         playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
         
@@ -362,7 +388,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 videoPlayer.removeTimeObserver(observer)
                 timeObserver = nil
             }
-            videoPlayer.removeObserver(self, forKeyPath: "currentItem.playbackLikelyToKeepUp")
+            videoPlayer.removeObserver(self, forKeyPath: currentItemPlaybackLikelyToKeepUpKey)
             videoPlayer.removeObserver(self, forKeyPath: currentItemStatusKey)
             NotificationCenter.default.removeObserver(self)
             isObserverAdded = false
@@ -437,12 +463,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func fullscreenPressed(playerControls: VideoPlayerControls) {
-        if (UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation)) {
-            setFullscreen(fullscreen: !isFullScreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:true)
-        }
-        else {
-            setFullscreen(fullscreen: !isFullScreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:false)
-        }
+        setFullscreen(fullscreen: !isFullScreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:!isVerticallyCompact())
     }
     
     func sliderValueChanged(playerControls: VideoPlayerControls) {
@@ -454,7 +475,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     func sliderTouchBegan(playerControls: VideoPlayerControls) {
         playerTimeBeforeSeek = currentTime
         videoPlayer.pause()
-        NSObject.cancelPreviousPerformRequests(withTarget:playerControls)
+        NSObject.cancelPreviousPerformRequests(withTarget: playerControls)
     }
     
     func sliderTouchEnded(playerControls: VideoPlayerControls) {
@@ -481,12 +502,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed) {
         let oldSpeed = rate
         pause()
-        let playbackRate = OEXInterface.getOEXVideoSpeed(speed)
         OEXInterface.setCCSelectedPlaybackSpeed(speed)
         resume()
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSpeed(videoId, currentTime: currentTime, courseID: courseId, unitURL: unitUrl, oldSpeed: String(format: "%.1f", oldSpeed), newSpeed: String.init(format: "%.1f", playbackRate))
+            environment.analytics.trackVideoSpeed(videoId, currentTime: currentTime, courseID: courseId, unitURL: unitUrl, oldSpeed: String(format: "%.1f", oldSpeed), newSpeed: String.init(format: "%.1f", rate))
         }
     }
     

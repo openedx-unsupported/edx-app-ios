@@ -44,25 +44,25 @@ class TranscriptManager: NSObject {
     }
     
     func loadTranscripts() {
-        closedCaptioning(atURL: captionURL)
+        closedCaptioning(at: captionURL)
     }
     
     private func initializeSubtitle() {
         loadTranscripts()
-        NotificationCenter.default.oex_addObserver(observer: self, name: DL_COMPLETE) { (notification, _, _) -> Void in
-            self.downloadedTranscript(note: notification)
+        NotificationCenter.default.oex_addObserver(observer: self, name: DL_COMPLETE) { (notification, observer, _) -> Void in
+            observer.downloadedTranscript(notification: notification)
         }
     }
     
-    private func downloadedTranscript(note: NSNotification) {
-        if let task = note.userInfo?[DL_COMPLETE_N_TASK] as? URLSessionDownloadTask, let taskURL = task.response?.url {
+    private func downloadedTranscript(notification: NSNotification) {
+        if let task = notification.userInfo?[DL_COMPLETE_N_TASK] as? URLSessionDownloadTask, let taskURL = task.response?.url {
             if taskURL.absoluteString == captionURL {
-                closedCaptioning(atURL: captionURL)
+                closedCaptioning(at: captionURL)
             }
         }
     }
     
-   private func closedCaptioning(atURL URLString: String?) {
+   private func closedCaptioning(at URLString: String?) {
         if let localFile: String = OEXFileUtility.filePath(forRequestKey: URLString) {
             // File to string
             if FileManager.default.fileExists(atPath: localFile) {

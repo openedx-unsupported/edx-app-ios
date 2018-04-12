@@ -182,6 +182,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
                 weakSelf.autoHide()
                 weakSelf.delegate?.fullscreenPressed(playerControls: weakSelf)
             }
+            self?.updateFullScreenButtonImage()
+
         }, for: .touchUpInside)
         return button
     }()
@@ -369,14 +371,15 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     private func setPlayerControlAccessibilityID() {
-         durationSlider.accessibilityLabel = Strings.accessibilitySeekBar
-         btnPrevious.accessibilityLabel = Strings.previous
-         btnNext.accessibilityLabel = Strings.next
-         rewindButton.accessibilityLabel = Strings.accessibilityRewind
-         rewindButton.accessibilityHint = Strings.accessibilityRewindHint
-         btnSettings.accessibilityLabel = Strings.accessibilitySettings
-         fullScreenButton.accessibilityLabel = Strings.accessibilityFullscreen
-         tapButton.isAccessibilityElement = false
+        durationSlider.accessibilityLabel = Strings.accessibilitySeekBar
+        btnPrevious.accessibilityLabel = Strings.previous
+        btnNext.accessibilityLabel = Strings.next
+        rewindButton.accessibilityLabel = Strings.accessibilityRewind
+        rewindButton.accessibilityHint = Strings.accessibilityRewindHint
+        btnSettings.accessibilityLabel = Strings.accessibilitySettings
+        fullScreenButton.accessibilityLabel = Strings.accessibilityFullscreen
+        playPauseButton.setAccessibilityLabelsForStateNormal(normalStateLabel: Strings.accessibilityPause, selectedStateLabel: Strings.accessibilityPlay)
+        tapButton.isAccessibilityElement = false
     }
 
     private func updateSubtTitleConstraints() {
@@ -392,7 +395,9 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     @objc func autoHide() {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
-        perform(#selector(hideAndShowControls(isHidden:)), with: 1, afterDelay: 3.0)
+        if !UIAccessibilityIsVoiceOverRunning() {
+            perform(#selector(hideAndShowControls(isHidden:)), with: 1, afterDelay: 3.0)
+        }
     }
     
     @objc func hideAndShowControls(isHidden: Bool) {
@@ -425,6 +430,17 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
     }
     
+    func updateFullScreenButtonImage() {
+        if videoPlayerController.isFullScreen {
+            fullScreenButton.setImage(UIImage.ShrinkIcon(), for: .normal)
+            fullScreenButton.accessibilityLabel = Strings.accessibilityExitFullscreen
+        }
+        else {
+            fullScreenButton.setImage(UIImage.ExpandIcon(), for: .normal)
+            fullScreenButton.accessibilityLabel = Strings.accessibilityFullscreen
+        }
+    }
+    
     private func contentTapped() {
         if tableSettings.isHidden {
             hideAndShowControls(isHidden: !isControlsHidden)
@@ -453,7 +469,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     func setPlaybackSpeed(speed: OEXVideoSpeed) {
-        setPlayPauseButtonState(isSelected:false)
+        setPlayPauseButtonState(isSelected: false)
         delegate?.setPlayBackSpeed(playerControls: self, speed: speed)
     }
     
@@ -500,19 +516,19 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         btnPrevious.isEnabled = !isHidden
     }
     
-   func nextButtonClicked() {
-        autoHide()
-        environment.interface?.selectedCCIndex = -1;
-        environment.interface?.selectedVideoSpeedIndex = -1;
-        videoPlayerController.resetPlayerView()
-        NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_NEXT), object: self)
+    func nextButtonClicked() {
+        resetAndNotifyPlayer(with: NOTIFICATION_VIDEO_PLAYER_NEXT)
     }
     
-   func previousButtonClicked() {
+    func previousButtonClicked() {
+        resetAndNotifyPlayer(with: NOTIFICATION_VIDEO_PLAYER_PREVIOUS)
+    }
+    
+    func resetAndNotifyPlayer(with name: String) {
         autoHide()
         environment.interface?.selectedCCIndex = -1;
         environment.interface?.selectedVideoSpeedIndex = -1;
         videoPlayerController.resetPlayerView()
-        NotificationCenter.default.post(name: Notification.Name(rawValue:NOTIFICATION_VIDEO_PLAYER_PREVIOUS), object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue:name), object: self)
     }
 }
