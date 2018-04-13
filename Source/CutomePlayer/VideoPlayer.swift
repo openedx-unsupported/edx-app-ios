@@ -324,12 +324,14 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func resume(at time: TimeInterval) {
-        videoPlayer.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
-            (completed: Bool) -> Void in
-            self?.videoPlayer.play()
-            self?.playerState = .playing
-            let speed = OEXInterface.getCCSelectedPlaybackSpeed()
-            self?.rate = OEXInterface.getOEXVideoSpeed(speed)
+        if videoPlayer.currentItem?.status == .readyToPlay {
+            videoPlayer.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
+                (completed: Bool) -> Void in
+                self?.videoPlayer.play()
+                self?.playerState = .playing
+                let speed = OEXInterface.getCCSelectedPlaybackSpeed()
+                self?.rate = OEXInterface.getOEXVideoSpeed(speed)
+            }
         }
     }
     
@@ -541,17 +543,28 @@ extension VideoPlayer {
             if let containerBounds = container?.bounds {
                 movieBackgroundView.frame = containerBounds
             }
-            container?.addSubview(movieBackgroundView)
-            if !(movieBackgroundView.subviews.contains(playerView)) {
-                movieBackgroundView.addSubview(playerView)
-                movieBackgroundView.layer.insertSublayer(playerView.playerLayer, at: 0)
-                addGestures()
-                playerControls?.showHideNextPrevious(isHidden: false)
+            
+            
+            if let _ = container?.subviews.contains(movieBackgroundView) {
+                movieBackgroundView.removeFromSuperview()
             }
+            if let subviews = container?.subviews, !subviews.contains(movieBackgroundView){
+                container?.addSubview(movieBackgroundView)
+            }
+        
             UIView.animate(withDuration: animated ? 0.1 : 0.0, delay: 0.0, options: .curveLinear, animations: {[weak self]() -> Void in
                 self?.movieBackgroundView.alpha = 1.0
                 }, completion: {[weak self](_ finished: Bool) -> Void in
                     self?.view.alpha = 0.0
+                    if let owner = self {
+                        if !(owner.movieBackgroundView.subviews.contains(owner.playerView)) {
+                            owner.movieBackgroundView.addSubview(owner.playerView)
+                            owner.movieBackgroundView.layer.insertSublayer(owner.playerView.playerLayer, at: 0)
+                            owner.addGestures()
+                            owner.playerControls?.showHideNextPrevious(isHidden: false)
+                            owner.hideAndShowControls(isHidden: false)
+                        }
+                    }
                     self?.rotateMoviePlayer(for: deviceOrientation, animated: animated, forceRotate: rotate, completion: {[weak self]() -> Void in
                         UIView.animate(withDuration: animated ? 0.1 : 0.0, delay: 0.0, options: .curveLinear, animations: {[weak self]() -> Void in
                             self?.view.alpha = 1.0
