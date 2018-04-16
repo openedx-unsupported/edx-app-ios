@@ -72,6 +72,15 @@
                      }};
 }
 
+- (OEXVideoSummary*) videoPipelineEnabledSummaryWith: (NSDictionary*)dictionary {
+    OEXConfig *origConfig = [OEXConfig sharedConfig];
+    OEXConfig *overrideConfig = [[OEXConfig alloc] initWithDictionary:@{@"USING_VIDEO_PIPELINE": @YES}];
+    [OEXConfig setSharedConfig:overrideConfig];
+    OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:dictionary];
+    [OEXConfig setSharedConfig:origConfig];
+    return summary;
+}
+
 - (void)testParser {
     NSString* sectionURL = @"http://edx/some_section";
     NSString* category = @"video";
@@ -160,7 +169,10 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue(summary.isDownloadableVideo);
+    XCTAssertNotNil(summary.downloadURL);
 }
 
 - (void)testSupportedHLSEncoding {
@@ -168,7 +180,10 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:hls andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertFalse(summary.isDownloadableVideo);
+    XCTAssertNil(summary.downloadURL);
 }
 
 - (void)testSupportedFallbackEncoding {
@@ -176,7 +191,10 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncoding:fallback andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue(summary.isDownloadableVideo);
+    XCTAssertNotNil(summary.downloadURL);
 }
 
 - (void)testUnSupportedFallbackEncoding {
@@ -193,6 +211,7 @@
     
     XCTAssertFalse(summary.isSupportedVideo);
     XCTAssertFalse(summary.isDownloadableVideo);
+    XCTAssertNil(summary.downloadURL);
     XCTAssertTrue(summary.isYoutubeVideo);
 }
 
@@ -200,16 +219,13 @@
     NSDictionary *hls = [self encodingWithName:OEXVideoEncodingHLS andUrl:@"https://www.example.com/video.m3u8"];
     NSDictionary *mobileLow = [self encodingWithName:OEXVideoEncodingMobileLow andUrl:@"https://www.example.com/video.mp4"];
     NSDictionary *fallback = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.mp4"];
-    
-    OEXConfig *origConfig = [OEXConfig sharedConfig];
-    OEXConfig *overrideConfig = [[OEXConfig alloc] initWithDictionary:@{@"USING_VIDEO_PIPELINE": @YES}];
-    
-    [OEXConfig setSharedConfig:overrideConfig];
-    OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncodings:@[hls, mobileLow, fallback] andOnlyOnWeb:false]];
-    [OEXConfig setSharedConfig:origConfig];
-    
+    OEXVideoSummary *summary = [self videoPipelineEnabledSummaryWith:[self summaryWithEncodings:@[hls, mobileLow, fallback] andOnlyOnWeb:false]];
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue(summary.isDownloadableVideo);
+    XCTAssertNotNil(summary.downloadURL);
+    XCTAssertNotEqual(summary.downloadURL, summary.videoURL);
     XCTAssertEqual(summary.preferredEncoding.name, OEXVideoEncodingHLS);
 }
 
@@ -219,7 +235,10 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncodings:@[youtube, fallback] andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue(summary.isDownloadableVideo);
+    XCTAssertNotNil(summary.downloadURL);
     XCTAssertFalse(summary.isYoutubeVideo);
 }
 
@@ -229,7 +248,10 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncodings:@[youtube, hls] andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertFalse(summary.isDownloadableVideo);
+    XCTAssertNil(summary.downloadURL);
     XCTAssertFalse(summary.isYoutubeVideo);
 }
 
@@ -239,7 +261,10 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncodings:@[youtube, hlsInFallback] andOnlyOnWeb:false]];
     
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertFalse(summary.isDownloadableVideo);
+    XCTAssertNil(summary.downloadURL);
     XCTAssertFalse(summary.isYoutubeVideo);
 }
 
@@ -255,8 +280,11 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:summaryDict];
 
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue([summary.videoURL isEqualToString:all_sources[0]]);
     XCTAssertTrue(summary.isDownloadableVideo);
+    XCTAssertNotNil(summary.downloadURL);
     XCTAssertTrue([summary.downloadURL isEqualToString:all_sources[2]]);
     XCTAssertFalse(summary.isYoutubeVideo);
 }
@@ -273,6 +301,8 @@
     OEXVideoSummary *summary = [[OEXVideoSummary alloc] initWithDictionary:summaryDict];
     
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue([summary.videoURL isEqualToString:all_sources[0]]);
     XCTAssertTrue(summary.isDownloadableVideo);
     XCTAssertTrue([summary.downloadURL isEqualToString:all_sources[2]]);
@@ -283,17 +313,13 @@
     NSDictionary *youtube = [self encodingWithName:OEXVideoEncodingYoutube andUrl:@"https://www.youtube.com/watch?v=abc123"];
     NSDictionary *hls = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.m3u8"];
     NSArray *all_sources = @[@"https://www.example.com/video.mp4"];
-    OEXVideoSummary *summary = nil;
-
-    OEXConfig *origConfig = [OEXConfig sharedConfig];
-    OEXConfig *overrideConfig = [[OEXConfig alloc] initWithDictionary:@{@"USING_VIDEO_PIPELINE": @YES}];
-
-    [OEXConfig setSharedConfig:overrideConfig];
-    summary = [[OEXVideoSummary alloc] initWithDictionary:[self summaryWithEncodings:@[youtube, hls] andOnlyOnWeb:false andAllSources:all_sources]];
-    [OEXConfig setSharedConfig:origConfig];
-    
+    OEXVideoSummary *summary = [self videoPipelineEnabledSummaryWith:[self summaryWithEncodings:@[youtube, hls] andOnlyOnWeb:false andAllSources:all_sources]];
     XCTAssertTrue(summary.isSupportedVideo);
+    XCTAssertNotNil(summary.videoURL);
+    XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertFalse(summary.isDownloadableVideo);
+    XCTAssertNil(summary.downloadURL);
     XCTAssertFalse(summary.isYoutubeVideo);
 }
+
 @end
