@@ -560,7 +560,6 @@
 		9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */; };
 		9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */; };
 		9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */; };
-		9E17EFD31BC65B7600C903CC /* UIAppearance+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */; };
 		9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */; };
 		9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */; };
 		9E4E6C3F1B4BBB5C0034F7EB /* LastAccessedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */; };
@@ -1420,8 +1419,6 @@
 		9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerButton.swift; sourceTree = "<group>"; };
 		9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownBlockViewController.swift; sourceTree = "<group>"; };
 		9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedFeed.swift; sourceTree = "<group>"; };
-		9E17EFD11BC65B7600C903CC /* UIAppearance+Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAppearance+Swift.h"; sourceTree = "<group>"; };
-		9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAppearance+Swift.m"; sourceTree = "<group>"; };
 		9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessibilityCLButton.swift; path = ../AccessibilityCLButton.swift; sourceTree = "<group>"; };
 		9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Accessibility.swift"; sourceTree = "<group>"; };
 		9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastAccessedProvider.swift; sourceTree = "<group>"; };
@@ -2407,8 +2404,6 @@
 				77DCD23A1C2B14BA00CAEBB5 /* UITableView+Layout.swift */,
 				774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */,
 				9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */,
-				9E17EFD11BC65B7600C903CC /* UIAppearance+Swift.h */,
-				9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */,
 				9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */,
 				9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */,
 				9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */,
@@ -4367,7 +4362,6 @@
 				77DCD23B1C2B14BA00CAEBB5 /* UITableView+Layout.swift in Sources */,
 				77509D941BE1710200B10CD3 /* TZStackView.swift in Sources */,
 				B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */,
-				9E17EFD31BC65B7600C903CC /* UIAppearance+Swift.m in Sources */,
 				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
 				775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */,
 				223DD6BB1F9F5A4B004A21B9 /* CourseDashboardViewController.swift in Sources */,

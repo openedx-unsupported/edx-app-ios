@@ -56,7 +56,6 @@
 #import "OEXUserDetails.h"
 #import "OEXVideoEncoding.h"
 #import "OEXVideoSummary.h"
-#import "UIAppearance+Swift.h"
 #import "OEXCourseInfoViewController.h"
 #import "OEXVideoPathEntry.h"
 
