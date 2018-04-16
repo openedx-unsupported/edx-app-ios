@@ -250,6 +250,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload) {
         navigationItem.title = block.displayName
+        videoController.videoTitle = block.displayName
         DispatchQueue.main.async {[weak self] _ in
             self?.loadController.state = .Loaded
         }
@@ -279,17 +280,20 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        if videoController.isFullScreen {
-            
-            if newCollection.verticalSizeClass == .regular {
-                videoController.setFullscreen(fullscreen: false, animated: true, with: currentOrientation(), forceRotate: false)
+        DispatchQueue.main.async {[weak self] _ in
+            if let weakSelf = self {
+                if weakSelf.videoController.isFullScreen {
+                    if newCollection.verticalSizeClass == .regular {
+                        weakSelf.videoController.setFullscreen(fullscreen: false, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
+                    }
+                    else {
+                        weakSelf.videoController.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
+                    }
+                }
+                else if newCollection.verticalSizeClass == .compact {
+                    weakSelf.videoController.setFullscreen(fullscreen: true, animated: true, with: weakSelf.currentOrientation(), forceRotate: false)
+                }
             }
-            else {
-                videoController.setFullscreen(fullscreen: true, animated: true, with: currentOrientation(), forceRotate: false)
-            }
-        }
-        else if newCollection.verticalSizeClass == .compact {
-            videoController.setFullscreen(fullscreen: true, animated: true, with: currentOrientation(), forceRotate: false)
         }
     }
     

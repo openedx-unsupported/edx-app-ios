@@ -145,6 +145,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.setAttributedTitle(title: UIImage.PlayTitle(), forState: .selected, animated: true)
         button.oex_addAction({[weak self] (action) in
                 if let weakSelf = self {
+                    weakSelf.tableSettings.isHidden = true
                     button.isSelected = !button.isSelected
                     weakSelf.delegate?.playPausePressed(playerControls: weakSelf, isPlaying: button.isSelected)
                     weakSelf.autoHide()
@@ -182,8 +183,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
                 weakSelf.autoHide()
                 weakSelf.delegate?.fullscreenPressed(playerControls: weakSelf)
             }
-            self?.updateFullScreenButtonImage()
-
         }, for: .touchUpInside)
         return button
     }()
@@ -213,6 +212,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.layer.shadowRadius = 1
         label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         label.layer.shadowOpacity = 0.8
+        label.text = self.videoPlayerController.videoTitle
         return label
     }()
 
@@ -287,6 +287,19 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     private func setConstraints() {
+        topBar.snp_makeConstraints { make in
+            make.leading.equalTo(self)
+            make.top.equalTo(self)
+            make.width.equalTo(self)
+            make.height.equalTo(StandardFooterHeight)
+        }
+        
+        videoTitleLabel.snp_makeConstraints { make in
+            make.leading.equalTo(topBar.snp_leading).offset(StandardVerticalMargin)
+            make.height.equalTo(rewindButtonSize.height)
+            make.centerY.equalTo(topBar.snp_centerY)
+        }
+        
         bottomBar.snp_makeConstraints { make in
             make.leading.equalTo(self)
             make.bottom.equalTo(self)
@@ -414,8 +427,12 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             self?.btnNext.isUserInteractionEnabled = !isHidden
             self?.btnPrevious.alpha = alpha
             self?.btnPrevious.isUserInteractionEnabled = !isHidden
+            
             if (!isHidden) {
                 self?.autoHide()
+            }
+            else {
+                self?.tableSettings.isHidden = true
             }
         }, completion: {[weak self] _ in
             self?.updateSubtTitleConstraints()
@@ -514,6 +531,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         btnNext.isEnabled = !isHidden
         btnPrevious.isHidden = isHidden
         btnPrevious.isEnabled = !isHidden
+        topBar.isHidden = isHidden
     }
     
     func nextButtonClicked() {
@@ -528,7 +546,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         autoHide()
         environment.interface?.selectedCCIndex = -1;
         environment.interface?.selectedVideoSpeedIndex = -1;
-        videoPlayerController.resetPlayerView()
         NotificationCenter.default.post(name: Notification.Name(rawValue:name), object: self)
     }
 }

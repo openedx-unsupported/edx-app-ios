@@ -34,7 +34,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private let environment : Environment
     fileprivate var playerControls: VideoPlayerControls?
     var playerDelegate : VideoPlayerDelegate?
-    var isFullScreen : Bool = false
+    var isFullScreen : Bool = false {
+        didSet {
+            playerControls?.updateFullScreenButtonImage()
+        }
+    }
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
     private let videoPlayer = AVPlayer()
@@ -47,12 +51,15 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private var isObserverAdded: Bool = false
     private let playerTimeOutInterval:TimeInterval = 60.0
     private let preferredTimescale:Int32 = 100
+    fileprivate var isVisible: Bool = false
+    var videoTitle: String = Strings.untitled
     
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
     
     private var video : OEXHelperVideoDownload? {
         didSet {
             initializeSubtitles()
+            createControls()
         }
     }
     
@@ -189,15 +196,24 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
         playerView.playerLayer.player = videoPlayer
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
-        playerControls = VideoPlayerControls(environment: environment, player: self)
-        playerControls?.delegate = self
-        if let controls = playerControls {
-            playerView.addSubview(controls)
-        }
         playerView.addSubview(loadingIndicatorView)
         
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
         setConstraints()
+    }
+    
+    private func createControls() {
+        if playerControls == nil {
+            playerControls = VideoPlayerControls(environment: environment, player: self)
+            playerControls?.delegate = self
+            playerControls?.video = video
+            if let controls = playerControls {
+                playerView.addSubview(controls)
+            }
+            playerControls?.snp_makeConstraints() { make in
+                make.edges.equalTo(playerView)
+            }
+        }
     }
     
    private func initializeSubtitles() {
@@ -243,9 +259,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     private func setConstraints() {
-        playerControls?.snp_makeConstraints() { make in
-            make.edges.equalTo(playerView)
-        }
         loadingIndicatorView.snp_makeConstraints() { make in
             make.center.equalTo(playerView.center)
             make.height.equalTo(loadingIndicatorViewSize.height)
@@ -257,14 +270,17 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isVisible = true
         applyScreenOrientation()
     }
     
     private func applyScreenOrientation() {
         if isVerticallyCompact() {
-            setFullscreen(fullscreen: true, animated: false, with: .portrait, forceRotate: false)
+            DispatchQueue.main.async {[weak self] _ in
+                self?.setFullscreen(fullscreen: true, animated: false, with: .portrait, forceRotate: false)
+            }
         }
     }
     
@@ -273,7 +289,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             return
         }
         
-        playerControls?.video = video
         self.video = video
     
         let fileManager = FileManager.default
@@ -399,6 +414,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        isVisible = false
         saveCurrentTime()
     }
     
@@ -406,6 +422,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         super.viewDidDisappear(animated)
         stop()
         removeObservers()
+        resetPlayerView()
     }
     
     override func didReceiveMemoryWarning() {
@@ -465,7 +482,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func fullscreenPressed(playerControls: VideoPlayerControls) {
-        setFullscreen(fullscreen: !isFullScreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:!isVerticallyCompact())
+        DispatchQueue.main.async {[weak self] _ in
+            if let weakSelf = self {
+                weakSelf.setFullscreen(fullscreen: !weakSelf.isFullScreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:!weakSelf.isVerticallyCompact())
+            }
+        }
     }
     
     func sliderValueChanged(playerControls: VideoPlayerControls) {
@@ -533,6 +554,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
 
 extension VideoPlayer {
     func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
+        // UIPageViewController keep multiple viewControllers simultanously for smooth switching
+        // on view transitioning this method calls for every viewController which cause framing issue for fullscreen mode
+        // as we are using rootViewController of keyWindow for fullscreen mode.
+        // We introduce the variable isVisible to track the visible viewController during pagination.
+        if !isVisible { return }
         isFullScreen = fullscreen
         if fullscreen {
             var keyWindow: UIWindow? = UIApplication.shared.keyWindow
@@ -540,18 +566,13 @@ extension VideoPlayer {
                 keyWindow = UIApplication.shared.windows[0]
             }
             let container: UIView? = keyWindow?.rootViewController?.view
-            if let containerBounds = container?.bounds {
+            if let containerBounds = container?.bounds, movieBackgroundView.frame == .zero {
                 movieBackgroundView.frame = containerBounds
-            }
-            
-            
-            if let _ = container?.subviews.contains(movieBackgroundView) {
-                movieBackgroundView.removeFromSuperview()
             }
             if let subviews = container?.subviews, !subviews.contains(movieBackgroundView){
                 container?.addSubview(movieBackgroundView)
             }
-        
+            
             UIView.animate(withDuration: animated ? 0.1 : 0.0, delay: 0.0, options: .curveLinear, animations: {[weak self]() -> Void in
                 self?.movieBackgroundView.alpha = 1.0
                 }, completion: {[weak self](_ finished: Bool) -> Void in
@@ -562,7 +583,6 @@ extension VideoPlayer {
                             owner.movieBackgroundView.layer.insertSublayer(owner.playerView.playerLayer, at: 0)
                             owner.addGestures()
                             owner.playerControls?.showHideNextPrevious(isHidden: false)
-                            owner.hideAndShowControls(isHidden: false)
                         }
                     }
                     self?.rotateMoviePlayer(for: deviceOrientation, animated: animated, forceRotate: rotate, completion: {[weak self]() -> Void in
