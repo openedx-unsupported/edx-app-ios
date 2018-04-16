@@ -535,14 +535,14 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     func nextButtonClicked() {
-        resetAndNotifyPlayer(with: NOTIFICATION_VIDEO_PLAYER_NEXT)
+        changeBlock(with: NOTIFICATION_VIDEO_PLAYER_NEXT)
     }
     
     func previousButtonClicked() {
-        resetAndNotifyPlayer(with: NOTIFICATION_VIDEO_PLAYER_PREVIOUS)
+        changeBlock(with: NOTIFICATION_VIDEO_PLAYER_PREVIOUS)
     }
     
-    func resetAndNotifyPlayer(with name: String) {
+    private func changeBlock(with name: String) {
         autoHide()
         environment.interface?.selectedCCIndex = -1;
         environment.interface?.selectedVideoSpeedIndex = -1;
