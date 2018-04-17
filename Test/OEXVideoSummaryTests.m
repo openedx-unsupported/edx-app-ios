@@ -173,6 +173,7 @@
     XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue(summary.isDownloadableVideo);
     XCTAssertNotNil(summary.downloadURL);
+    XCTAssertNotEqual(summary.downloadURL, @"");
 }
 
 - (void)testSupportedHLSEncoding {
@@ -195,6 +196,7 @@
     XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue(summary.isDownloadableVideo);
     XCTAssertNotNil(summary.downloadURL);
+    XCTAssertNotEqual(summary.downloadURL, @"");
 }
 
 - (void)testUnSupportedFallbackEncoding {
@@ -225,6 +227,7 @@
     XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue(summary.isDownloadableVideo);
     XCTAssertNotNil(summary.downloadURL);
+    XCTAssertNotEqual(summary.downloadURL, @"");
     XCTAssertNotEqual(summary.downloadURL, summary.videoURL);
     XCTAssertEqual(summary.preferredEncoding.name, OEXVideoEncodingHLS);
 }
@@ -239,6 +242,7 @@
     XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertTrue(summary.isDownloadableVideo);
     XCTAssertNotNil(summary.downloadURL);
+    XCTAssertNotEqual(summary.downloadURL, @"");
     XCTAssertFalse(summary.isYoutubeVideo);
 }
 
@@ -285,6 +289,7 @@
     XCTAssertTrue([summary.videoURL isEqualToString:all_sources[0]]);
     XCTAssertTrue(summary.isDownloadableVideo);
     XCTAssertNotNil(summary.downloadURL);
+    XCTAssertNotEqual(summary.downloadURL, @"");
     XCTAssertTrue([summary.downloadURL isEqualToString:all_sources[2]]);
     XCTAssertFalse(summary.isYoutubeVideo);
 }
