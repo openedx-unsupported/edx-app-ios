@@ -35,7 +35,6 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         if(trackEventsAllowed.contains(event.displayName)) {
             var parameters: [String: Any] = [key_app_name : value_app_name]
             parameters[key_name] = event.name
-            parameters[AnswerCategoryKey] = event.category
             parameters[OEXAnalyticsKeyOrientation] =  currentOrientationValue
 
             if properties.count > 0 {
@@ -44,6 +43,10 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
 
             if !event.label.isEmpty {
                 parameters[AnswerLabelKey] = event.label
+            }
+
+            if !event.category.isEmpty {
+                parameters[AnswerCategoryKey] = event.category
             }
 
             if let component = component {
@@ -70,8 +73,12 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     private func trackSpecialEvent(event: OEXAnalyticsEvent, additionalInfo: [String : Any]) {
         switch event.displayName {
         case AnalyticsDisplayName.UserLogin.rawValue:
+            // remove values from parameters those will be sending in special params
+            var parameters = additionalInfo
+            parameters.removeValue(forKey: key_method)
+
             if let method = additionalInfo[key_method] {
-                Answers.logLogin(withMethod: method as? String, success: true, customAttributes: additionalInfo)
+                Answers.logLogin(withMethod: method as? String, success: true, customAttributes: parameters)
             }
             break
         case AnalyticsDisplayName.SharedCourse.rawValue:
