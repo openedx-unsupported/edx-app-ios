@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol VideoTranscriptDelegate {
+protocol VideoTranscriptDelegate: class {
     func didSelectSubtitleAtInterval(time: TimeInterval)
 }
 
@@ -20,7 +20,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     var transcripts = [TranscriptObject]()
     
     let environment : Environment
-    var delegate : VideoTranscriptDelegate?
+    weak var delegate : VideoTranscriptDelegate?
     
     //Maintain the cell index highlighted currently
     var highlightedIndex = 0

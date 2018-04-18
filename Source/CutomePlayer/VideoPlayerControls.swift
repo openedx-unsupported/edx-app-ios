@@ -9,7 +9,7 @@
 import UIKit
 import CoreMedia
 
-protocol VideoPlayerControlsDelegate {
+protocol VideoPlayerControlsDelegate: class {
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool)
     func seekBackwardPressed(playerControls: VideoPlayerControls)
     func fullscreenPressed(playerControls: VideoPlayerControls)
@@ -29,8 +29,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private var isControlsHidden: Bool = true
     private var subtitleActivated : Bool = false
     private var bufferedTimer: Timer?
-    private let videoPlayerController: VideoPlayer
-    var delegate : VideoPlayerControlsDelegate?
+    weak private var videoPlayerController: VideoPlayer?
+    weak var delegate : VideoPlayerControlsDelegate?
     private let previousButtonSize = CGSize(width: 42.0, height: 42.0)
     private let rewindButtonSize = CGSize(width: 42.0, height: 42.0)
     private let durationSliderHeight: CGFloat = 34.0
@@ -43,6 +43,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     var video : OEXHelperVideoDownload? {
         didSet {
             startBufferedTimer()
+            playerSettings.optionsTable.reloadData()
         }
     }
     
@@ -212,7 +213,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.layer.shadowRadius = 1
         label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         label.layer.shadowOpacity = 0.8
-        label.text = self.videoPlayerController.videoTitle
+        label.text = self.videoPlayerController?.videoTitle
         return label
     }()
 
@@ -281,8 +282,9 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     private func stopBufferedTimer() {
-        if let timer = bufferedTimer, timer.isValid {
+        if bufferedTimer?.isValid ?? false {
             bufferedTimer?.invalidate()
+            bufferedTimer = nil
         }
     }
     
@@ -440,15 +442,17 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     func updateTimeLabel(elapsedTime: Float64, duration: Float64) {
-        let totalTime: Float64 = CMTimeGetSeconds(videoPlayerController.duration)
+        guard let duration = videoPlayerController?.duration else { return }
+        let totalTime: Float64 = CMTimeGetSeconds (duration)
+        
         timeRemainingLabel.text = String(format: "%02d:%02d / %02d:%02d", ((lround(elapsedTime) / 60) % 60), lround(elapsedTime) % 60, ((lround(totalTime) / 60) % 60), lround(totalTime) % 60)
         if subtitleActivated {
-            subTitleLabel.text = videoPlayerController.subTitle(at: elapsedTime)
+            subTitleLabel.text = videoPlayerController?.subTitle(at: elapsedTime)
         }
     }
     
     func updateFullScreenButtonImage() {
-        if videoPlayerController.isFullScreen {
+        if videoPlayerController?.isFullScreen ?? false {
             fullScreenButton.setImage(UIImage.ShrinkIcon(), for: .normal)
             fullScreenButton.accessibilityLabel = Strings.accessibilityExitFullscreen
         }
@@ -497,12 +501,12 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     func activateSubTitles() {
         showSubTitles(show: true)
-        environment.analytics.trackShowTranscript(video?.summary?.videoID ?? "", currentTime: videoPlayerController.currentTime, courseID: video?.course_id ?? "", unitURL: video?.summary?.unitURL ?? "")
+        environment.analytics.trackShowTranscript(video?.summary?.videoID ?? "", currentTime: videoPlayerController?.currentTime ?? 0.0, courseID: video?.course_id ?? "", unitURL: video?.summary?.unitURL ?? "")
     }
 
     func deAvtivateSubTitles() {
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackHideTranscript(videoId, currentTime: videoPlayerController.currentTime, courseID: courseId, unitURL: unitUrl)
+            environment.analytics.trackHideTranscript(videoId, currentTime: videoPlayerController?.currentTime ?? 0.0, courseID: courseId, unitURL: unitUrl)
         }
         environment.interface?.selectedCCIndex = -1
         subTitleLabel.text = ""
@@ -515,11 +519,11 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     @objc private func monitorBufferedMovie() {
-        let secondaryProgress = floor(videoPlayerController.playableDuration)
-        let totalTime = floor(videoPlayerController.duration.seconds)
+        let secondaryProgress = floor(videoPlayerController?.playableDuration ?? 0.0)
+        let totalTime = floor(videoPlayerController?.duration.seconds ?? 0.0)
         let time = secondaryProgress/totalTime
         if time.isNaN {
-            if !videoPlayerController.isPlaying {
+            if !(videoPlayerController?.isPlaying ?? true) {
                 stopBufferedTimer()
             }
         }
@@ -547,5 +551,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         environment.interface?.selectedCCIndex = -1;
         environment.interface?.selectedVideoSpeedIndex = -1;
         NotificationCenter.default.post(name: Notification.Name(rawValue:name), object: self)
+    }
+    
+    func reset() {
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
+        stopBufferedTimer()
     }
 }

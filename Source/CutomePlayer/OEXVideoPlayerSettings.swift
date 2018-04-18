@@ -39,54 +39,56 @@ private func setupTable(table: UITableView) {
 @objc class OEXVideoPlayerSettings : NSObject {
     
     let optionsTable: UITableView = UITableView(frame: CGRect.zero, style: .plain)
-    public lazy var settings: [OEXVideoPlayerSetting] = {
-        self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
-        
-        let rows:[RowType] = [("0.5x",  OEXVideoSpeed.slow), ("1.0x", OEXVideoSpeed.default), ("1.5x", OEXVideoSpeed.fast), ("2.0x", OEXVideoSpeed.xFast)]
-        let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows:rows , isSelected: { (row) -> Bool in
-            var selected = false
-            let savedSpeed = OEXInterface.getCCSelectedPlaybackSpeed()
-            
-            let speed = rows[row].value as! OEXVideoSpeed
-            
-            selected = savedSpeed == speed
-            
-            return selected
-            }) {[weak self] value in
-                let speed = value as! OEXVideoSpeed
-                self?.delegate?.setPlaybackSpeed(speed: speed)
-        }
-        
-        if let transcripts: [String: String] = self.delegate?.videoInfo()?.transcripts as? [String: String] {
-            var rows = [RowType]()
-            for lang: String in transcripts.keys {
-                let locale = NSLocale(localeIdentifier: lang)
-                let displayLang: String = locale.displayName(forKey: NSLocale.Key.languageCode, value: lang)!
-                let item: RowType = (title: displayLang, value: lang)
-                rows.append(item)
-            }
-            
-            let cc = OEXVideoPlayerSetting(title: "Closed Captions", rows: rows, isSelected: { (row) -> Bool in
-                var selected = false
-                if let selectedLanguage:String = OEXInterface.getCCSelectedLanguage() {
-                    let lang = rows[row].value as! String
-                    selected = selectedLanguage == lang
-                }
-                return selected
-            }) {[weak self] value in
-                var language : String = value as! String
-                if language == OEXInterface.getCCSelectedLanguage() && language != "" {
-                    language = ""
-                }
-                self?.delegate?.setCaption(language: language)
-            }
-            return [cc, speeds]
-        } else {
-            return [speeds]
-        }
-    }()
     weak var delegate: VideoPlayerSettingsDelegate?
-
+    private var transcritps: [String: String]?
+    var settings: [OEXVideoPlayerSetting]  {
+        get {
+            self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
+            let rows:[RowType] = [("0.5x",  OEXVideoSpeed.slow), ("1.0x", OEXVideoSpeed.default), ("1.5x", OEXVideoSpeed.fast), ("2.0x", OEXVideoSpeed.xFast)]
+            let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows:rows , isSelected: { (row) -> Bool in
+                var selected = false
+                let savedSpeed = OEXInterface.getCCSelectedPlaybackSpeed()
+    
+                let speed = rows[row].value as! OEXVideoSpeed
+    
+                selected = savedSpeed == speed
+    
+                return selected
+                }) {[weak self] value in
+                    let speed = value as! OEXVideoSpeed
+                    self?.delegate?.setPlaybackSpeed(speed: speed)
+            }
+    
+            if let transcripts: [String: String] = self.delegate?.videoInfo()?.transcripts as? [String: String] {
+                var rows = [RowType]()
+                for lang: String in transcripts.keys {
+                    let locale = NSLocale(localeIdentifier: lang)
+                    let displayLang: String = locale.displayName(forKey: NSLocale.Key.languageCode, value: lang)!
+                    let item: RowType = (title: displayLang, value: lang)
+                    rows.append(item)
+                }
+    
+                let cc = OEXVideoPlayerSetting(title: "Closed Captions", rows: rows, isSelected: { (row) -> Bool in
+                    var selected = false
+                    if let selectedLanguage:String = OEXInterface.getCCSelectedLanguage() {
+                        let lang = rows[row].value as! String
+                        selected = selectedLanguage == lang
+                    }
+                    return selected
+                }) {[weak self] value in
+                    var language : String = value as! String
+                    if language == OEXInterface.getCCSelectedLanguage() && language != "" {
+                        language = ""
+                    }
+                    self?.delegate?.setCaption(language: language)
+                }
+                return [cc, speeds]
+            } else {
+                return [speeds]
+            }
+        }
+    }
+    
     func updateMargins() {
         optionsTable.layoutMargins = EdgeInsets.zero
     }

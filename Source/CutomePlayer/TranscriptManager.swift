@@ -20,7 +20,7 @@ class TranscriptManager: NSObject {
     private let video: OEXHelperVideoDownload
     private let transcriptParser = TranscriptParser()
     private var transcripts: [TranscriptObject] = []
-    var delegate: TranscriptManagerDelegate? {
+    weak var delegate: TranscriptManagerDelegate? {
         didSet {
             initializeSubtitle()
         }
