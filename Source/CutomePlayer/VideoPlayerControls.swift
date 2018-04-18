@@ -25,7 +25,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     private let environment : Environment
-    private var playerSettings : OEXVideoPlayerSettings = OEXVideoPlayerSettings()
+    private var playerSettings : VideoPlayerSettings = VideoPlayerSettings()
     private var isControlsHidden: Bool = true
     private var subtitleActivated : Bool = false
     private var bufferedTimer: Timer?

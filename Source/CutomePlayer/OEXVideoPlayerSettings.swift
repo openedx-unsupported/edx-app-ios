@@ -1,5 +1,5 @@
 //
-//  OEXVideoPlayerSettings.swift
+//  VideoPlayerSettings.swift
 //  edX
 //
 //  Created by Michael Katz on 9/9/15.
@@ -18,7 +18,7 @@ public struct OEXVideoPlayerSetting {
     let callback: (_ value: Any)->()
 }
 
-@objc protocol VideoPlayerSettingsDelegate {
+protocol VideoPlayerSettingsDelegate: class {
     func showSubSettings(chooser: UIAlertController)
     func setCaption(language: String)
     func setPlaybackSpeed(speed: OEXVideoSpeed)
@@ -36,11 +36,10 @@ private func setupTable(table: UITableView) {
     table.register(UINib(nibName: "OEXClosedCaptionTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
 }
 
-@objc class OEXVideoPlayerSettings : NSObject {
+class VideoPlayerSettings : NSObject {
     
     let optionsTable: UITableView = UITableView(frame: CGRect.zero, style: .plain)
     weak var delegate: VideoPlayerSettingsDelegate?
-    private var transcritps: [String: String]?
     var settings: [OEXVideoPlayerSetting]  {
         get {
             self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
@@ -101,7 +100,7 @@ private func setupTable(table: UITableView) {
     }
 }
 
-extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
+extension VideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

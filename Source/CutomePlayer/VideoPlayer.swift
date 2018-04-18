@@ -51,7 +51,13 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private var isObserverAdded: Bool = false
     private let playerTimeOutInterval:TimeInterval = 60.0
     private let preferredTimescale:Int32 = 100
+    
+    // UIPageViewController keep multiple viewControllers simultanously for smooth switching
+    // on view transitioning this method calls for every viewController which cause framing issue for fullscreen mode
+    // as we are using rootViewController of keyWindow for fullscreen mode.
+    // We introduce the variable isVisible to track the visible viewController during pagination.
     fileprivate var isVisible: Bool = false
+    
     var videoTitle: String = Strings.untitled
     
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
@@ -553,16 +559,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     deinit {
         removeObservers()
-        videoPlayer.replaceCurrentItem(with: nil)
     }
 }
 
 extension VideoPlayer {
     func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
-        // UIPageViewController keep multiple viewControllers simultanously for smooth switching
-        // on view transitioning this method calls for every viewController which cause framing issue for fullscreen mode
-        // as we are using rootViewController of keyWindow for fullscreen mode.
-        // We introduce the variable isVisible to track the visible viewController during pagination.
         if !isVisible { return }
         isFullScreen = fullscreen
         if fullscreen {

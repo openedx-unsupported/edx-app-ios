@@ -124,8 +124,6 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 #define SCREEN_WIDTH [[UIScreen mainScreen] bounds].size.width
 #define SCREEN_HEIGHT [[UIScreen mainScreen] bounds].size.height
 
-#define IS_IOS8 [[[UIDevice currentDevice] systemVersion] integerValue] >= 8
-
 #define IS_IPHONE_4 ( [ [ UIScreen mainScreen ] bounds ].size.height == 480 )
 #define IS_IPHONE_5 ( [ [ UIScreen mainScreen ] bounds ].size.height == 568 )
 #define IS_IPHONE_6 ( [ [ UIScreen mainScreen ] bounds ].size.height == 667 )

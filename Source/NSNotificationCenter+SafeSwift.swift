@@ -48,7 +48,7 @@ extension NotificationCenter {
         let removable = observer.oex_performAction {
             listener.remove()
         }
-        self.addObserver(listener, selector: #selector(NotificationListener.notificationFired(notification:)), name: NSNotification.Name(rawValue: name), object: object)
+        addObserver(listener, selector: #selector(NotificationListener.notificationFired(notification:)), name: NSNotification.Name(rawValue: name), object: object)
         
         return BlockRemovable { removable.remove() }
     }
