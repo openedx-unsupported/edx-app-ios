@@ -206,7 +206,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if controls == nil {
             controls = VideoPlayerControls(environment: environment, player: self)
             controls?.delegate = self
-            controls?.video = video
             if let controls = controls {
                 playerView.addSubview(controls)
             }
@@ -289,6 +288,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             return
         }
         self.video = video
+        controls?.video = video
         let fileManager = FileManager.default
         let path = "\(video.filePath).mp4"
         let fileExists : Bool = fileManager.fileExists(atPath: path)
@@ -427,13 +427,13 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func resetPlayer() {
+        movieBackgroundView.removeFromSuperview()
         stop()
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
         controls?.reset()
     }
     
     func resetPlayerView() {
-        movieBackgroundView.removeFromSuperview()
         if !(view.subviews.contains(playerView)) {
             playerDelegate?.playerWillMoveFromWindow(videoPlayer: self)
             view.addSubview(playerView)
@@ -605,6 +605,7 @@ extension VideoPlayer {
                     UIView.animate(withDuration: animated ? 0.1 : 0.0, delay: 0.0, options: .curveLinear, animations: {[weak self]() -> Void in
                         self?.movieBackgroundView.alpha = 0.0
                         }, completion: {[weak self](_ finished: Bool) -> Void in
+                            self?.movieBackgroundView.removeFromSuperview()
                             self?.resetPlayerView()
                     })
             })
