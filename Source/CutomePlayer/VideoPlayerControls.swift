@@ -25,11 +25,11 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     private let environment : Environment
-    private var playerSettings : VideoPlayerSettings = VideoPlayerSettings()
+    private var settings : VideoPlayerSettings = VideoPlayerSettings()
     private var isControlsHidden: Bool = true
     private var subtitleActivated : Bool = false
     private var bufferedTimer: Timer?
-    weak private var videoPlayerController: VideoPlayer?
+    weak private var videoPlayer: VideoPlayer?
     weak var delegate : VideoPlayerControlsDelegate?
     private let previousButtonSize = CGSize(width: 42.0, height: 42.0)
     private let rewindButtonSize = CGSize(width: 42.0, height: 42.0)
@@ -43,7 +43,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     var video : OEXHelperVideoDownload? {
         didSet {
             startBufferedTimer()
-            playerSettings.optionsTable.reloadData()
+            settings.optionsTable.reloadData()
         }
     }
     
@@ -134,9 +134,9 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }()
     
     lazy private var tableSettings: UITableView = {
-        let tableView = self.playerSettings.optionsTable
+        let tableView = self.settings.optionsTable
         tableView.isHidden = true
-        self.playerSettings.delegate = self
+        self.settings.delegate = self
         return tableView
     }()
     
@@ -213,7 +213,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.layer.shadowRadius = 1
         label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         label.layer.shadowOpacity = 0.8
-        label.text = self.videoPlayerController?.videoTitle
+        label.text = self.videoPlayer?.videoTitle
         return label
     }()
 
@@ -223,9 +223,9 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     init(environment : Environment, player: VideoPlayer) {
         self.environment = environment
-        videoPlayerController = player
+        videoPlayer = player
         super.init(frame: CGRect.zero)
-        playerSettings.delegate = self
+        settings.delegate = self
         backgroundColor = .clear
         addSubviews()
         setConstraints()
@@ -442,17 +442,17 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     func updateTimeLabel(elapsedTime: Float64, duration: Float64) {
-        guard let duration = videoPlayerController?.duration else { return }
+        guard let duration = videoPlayer?.duration else { return }
         let totalTime: Float64 = CMTimeGetSeconds (duration)
         
         timeRemainingLabel.text = String(format: "%02d:%02d / %02d:%02d", ((lround(elapsedTime) / 60) % 60), lround(elapsedTime) % 60, ((lround(totalTime) / 60) % 60), lround(totalTime) % 60)
         if subtitleActivated {
-            subTitleLabel.text = videoPlayerController?.subTitle(at: elapsedTime)
+            subTitleLabel.text = videoPlayer?.subTitle(at: elapsedTime)
         }
     }
     
     func updateFullScreenButtonImage() {
-        if videoPlayerController?.isFullScreen ?? false {
+        if videoPlayer?.isFullScreen ?? false {
             fullScreenButton.setImage(UIImage.ShrinkIcon(), for: .normal)
             fullScreenButton.accessibilityLabel = Strings.accessibilityExitFullscreen
         }
@@ -501,12 +501,12 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     func activateSubTitles() {
         showSubTitles(show: true)
-        environment.analytics.trackShowTranscript(video?.summary?.videoID ?? "", currentTime: videoPlayerController?.currentTime ?? 0.0, courseID: video?.course_id ?? "", unitURL: video?.summary?.unitURL ?? "")
+        environment.analytics.trackShowTranscript(video?.summary?.videoID ?? "", currentTime: videoPlayer?.currentTime ?? 0.0, courseID: video?.course_id ?? "", unitURL: video?.summary?.unitURL ?? "")
     }
 
     func deAvtivateSubTitles() {
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackHideTranscript(videoId, currentTime: videoPlayerController?.currentTime ?? 0.0, courseID: courseId, unitURL: unitUrl)
+            environment.analytics.trackHideTranscript(videoId, currentTime: videoPlayer?.currentTime ?? 0.0, courseID: courseId, unitURL: unitUrl)
         }
         environment.interface?.selectedCCIndex = -1
         subTitleLabel.text = ""
@@ -519,11 +519,11 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     @objc private func monitorBufferedMovie() {
-        let secondaryProgress = floor(videoPlayerController?.playableDuration ?? 0.0)
-        let totalTime = floor(videoPlayerController?.duration.seconds ?? 0.0)
+        let secondaryProgress = floor(videoPlayer?.playableDuration ?? 0.0)
+        let totalTime = floor(videoPlayer?.duration.seconds ?? 0.0)
         let time = secondaryProgress/totalTime
         if time.isNaN {
-            if !(videoPlayerController?.isPlaying ?? true) {
+            if !(videoPlayer?.isPlaying ?? true) {
                 stopBufferedTimer()
             }
         }
