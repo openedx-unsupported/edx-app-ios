@@ -475,10 +475,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
         let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
         playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
-        player.seek(to: CMTimeMakeWithSeconds(backTime, preferredTimescale)) { [weak self]
-            (completed: Bool) -> Void in
-            self?.player.play()
-        }
+        seek(to: CMTimeMakeWithSeconds(backTime, preferredTimescale))
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
@@ -509,20 +506,22 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let videoDuration = CMTimeGetSeconds(duration)
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
         playerControls.updateTimeLabel(elapsedTime: elapsedTime, duration: videoDuration)
-        
-        player.seek(to: CMTimeMakeWithSeconds(elapsedTime, preferredTimescale)) { [weak self]
+        seek(to: CMTimeMakeWithSeconds(elapsedTime, preferredTimescale))
+        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+            environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:currentTime - playerTimeBeforeSeek, oldTime:playerTimeBeforeSeek, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
+        }
+    }
+    
+    func seek(to time: CMTime) {
+        player.seek(to: time) { [weak self]
             (completed: Bool) -> Void in
             if self?.playerState == .playing {
-                playerControls.autoHide()
+                self?.controls?.autoHide()
                 self?.player.play()
             }
             else {
                 self?.saveCurrentTime()
             }
-        }
-        
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:currentTime - playerTimeBeforeSeek, oldTime:playerTimeBeforeSeek, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
         }
     }
     

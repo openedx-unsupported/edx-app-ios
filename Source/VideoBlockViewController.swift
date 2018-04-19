@@ -308,7 +308,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     //MARK: - VideoTranscriptDelegate methods
     func didSelectSubtitleAtInterval(time: TimeInterval) {
-        videoController.resume(at: time)
+        videoController.seek(to: CMTimeMakeWithSeconds(time, 100))
     }
     
     //MARK: - RatingDelegate
