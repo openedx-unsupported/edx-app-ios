@@ -15,10 +15,10 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     private let AnswerCategoryKey = "category"
     private let AnswerLabelKey = "label"
 
-    let trackEventsAllowed = [AnalyticsDisplayName.EnrolledCourseSuccess.rawValue, AnalyticsDisplayName.RegistrationSuccess.rawValue, AnalyticsDisplayName.UserLogin.rawValue, AnalyticsDisplayName.SharedCourse.rawValue]
-    let specialEvents = [AnalyticsDisplayName.UserLogin.rawValue, AnalyticsDisplayName.SharedCourse.rawValue]
+    private let trackEventsAllowed = [AnalyticsDisplayName.EnrolledCourseSuccess.rawValue, AnalyticsDisplayName.RegistrationSuccess.rawValue, AnalyticsDisplayName.UserLogin.rawValue, AnalyticsDisplayName.SharedCourse.rawValue]
+    private let specialEvents = [AnalyticsDisplayName.UserLogin.rawValue, AnalyticsDisplayName.SharedCourse.rawValue]
     
-    var currentOrientationValue : String {
+    private var currentOrientationValue : String {
         return UIInterfaceOrientationIsLandscape(UIApplication.shared.statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
     
@@ -74,11 +74,11 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         switch event.displayName {
         case AnalyticsDisplayName.UserLogin.rawValue:
             // remove values from parameters those will be sending in special params
-            var parameters = additionalInfo
-            parameters.removeValue(forKey: key_method)
+            var attributes = additionalInfo
+            attributes.removeValue(forKey: key_method)
 
             if let method = additionalInfo[key_method] {
-                Answers.logLogin(withMethod: method as? String, success: true, customAttributes: parameters)
+                Answers.logLogin(withMethod: method as? String, success: true, customAttributes: attributes)
             }
             break
         case AnalyticsDisplayName.SharedCourse.rawValue:
@@ -88,13 +88,13 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
             let courseID = additionalInfo[key_course_id] as? String
 
             // remove values from parameters those will be sending in special params
-            var parameters = additionalInfo
-            parameters.removeValue(forKey: "type")
-            parameters.removeValue(forKey: key_name)
-            parameters.removeValue(forKey: AnswerCategoryKey)
-            parameters.removeValue(forKey: key_course_id)
+            var attributes = additionalInfo
+            attributes.removeValue(forKey: "type")
+            attributes.removeValue(forKey: key_name)
+            attributes.removeValue(forKey: AnswerCategoryKey)
+            attributes.removeValue(forKey: key_course_id)
 
-            Answers.logShare(withMethod: method, contentName: name, contentType: category, contentId: courseID, customAttributes: parameters)
+            Answers.logShare(withMethod: method, contentName: name, contentType: category, contentId: courseID, customAttributes: attributes)
 
             break
         default:
