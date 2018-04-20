@@ -33,37 +33,37 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     func trackEvent(_ event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : Any]) {
 
         if(trackEventsAllowed.contains(event.displayName)) {
-            var parameters: [String: Any] = [key_app_name : value_app_name]
-            parameters[key_name] = event.name
-            parameters[OEXAnalyticsKeyOrientation] =  currentOrientationValue
+            var attributes: [String: Any] = [key_app_name : value_app_name]
+            attributes[key_name] = event.name
+            attributes[OEXAnalyticsKeyOrientation] =  currentOrientationValue
 
             if properties.count > 0 {
-                parameters = parameters.concat(dictionary: properties)
+                attributes = attributes.concat(dictionary: properties)
             }
 
             if !event.label.isEmpty {
-                parameters[AnswerLabelKey] = event.label
+                attributes[AnswerLabelKey] = event.label
             }
 
             if !event.category.isEmpty {
-                parameters[AnswerCategoryKey] = event.category
+                attributes[AnswerCategoryKey] = event.category
             }
 
             if let component = component {
-                parameters[key_component] = component
+                attributes[key_component] = component
             }
             if let courseID = event.courseID {
-                parameters[key_course_id] = courseID
+                attributes[key_course_id] = courseID
             }
             if let browserURL = event.openInBrowserURL {
-                parameters[key_open_in_browser] = browserURL
+                attributes[key_open_in_browser] = browserURL
             }
 
             if specialEvents.contains(event.displayName) {
-                trackSpecialEvent(event: event, additionalInfo: parameters)
+                trackSpecialEvent(event: event, additionalInfo: attributes)
             }
             else {
-                Answers.logCustomEvent(withName: event.displayName, customAttributes: parameters)
+                Answers.logCustomEvent(withName: event.displayName, customAttributes: attributes)
             }
         }
     }
