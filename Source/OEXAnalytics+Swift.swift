@@ -178,9 +178,11 @@ extension OEXAnalytics {
 
     func trackCourseShared(courseID: String, url: String, type: String) {
         let event = OEXAnalyticsEvent()
+        event.courseID = courseID;
         event.name = AnalyticsEventName.SharedCourse.rawValue
         event.displayName = AnalyticsDisplayName.SharedCourse.rawValue
         event.category = AnalyticsCategory.SocialSharing.rawValue
-        trackEvent(event, forComponent: nil, withInfo: ["name" : courseID, "url": url, "type": type])
+        trackEvent(event, forComponent: nil, withInfo: ["url": url, "type": type])
     }
 }
+
