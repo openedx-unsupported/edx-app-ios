@@ -56,7 +56,6 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         setupView()
     }
     
-    @available(iOS 8.0, *)
     override func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         

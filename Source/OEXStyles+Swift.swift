@@ -56,15 +56,7 @@ extension OEXStyles {
         UISegmentedControl.appearance().tintColor = self.primaryXLightColor()
         
         UINavigationBar.appearance().isTranslucent = false
-
-        if #available(iOS 9.0, *) {
-            UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.classForCoder() as! UIAppearanceContainer.Type]).defaultTextAttributes = searchBarTextStyle.attributes
-            
-        }
-        else {
-            //Make sure we remove UIAppearance+Swift.h+m when we drop iOS8 support
-            UITextField.my_appearanceWhenContained(in: UISearchBar.classForCoder() as! UIAppearanceContainer.Type).defaultTextAttributes = searchBarTextStyle.attributes
-        }
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.classForCoder() as! UIAppearanceContainer.Type]).defaultTextAttributes = searchBarTextStyle.attributes
     }
     
     ///**Warning:** Not from style guide. Do not add more uses
@@ -172,10 +164,14 @@ extension UISearchBar {
 }
 
 //Convenience computed properties for margins
-var StandardHorizontalMargin : CGFloat {
+var StandardHorizontalMargin: CGFloat {
     return OEXStyles.shared().standardHorizontalMargin()
 }
 
-var StandardVerticalMargin : CGFloat {
+var StandardVerticalMargin: CGFloat {
     return OEXStyles.shared().standardVerticalMargin
+}
+
+var StandardFooterHeight: CGFloat {
+    return OEXStyles.shared().standardFooterHeight
 }

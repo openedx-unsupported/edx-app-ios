@@ -1,5 +1,5 @@
 //
-//  OEXVideoPlayerSettings.swift
+//  VideoPlayerSettings.swift
 //  edX
 //
 //  Created by Michael Katz on 9/9/15.
@@ -18,11 +18,11 @@ public struct OEXVideoPlayerSetting {
     let callback: (_ value: Any)->()
 }
 
-@objc protocol OEXVideoPlayerSettingsDelegate {
+protocol VideoPlayerSettingsDelegate: class {
     func showSubSettings(chooser: UIAlertController)
     func setCaption(language: String)
     func setPlaybackSpeed(speed: OEXVideoSpeed)
-    func videoInfo() -> OEXVideoSummary
+    func videoInfo() -> OEXVideoSummary?
 }
 
 private func setupTable(table: UITableView) {
@@ -36,73 +36,71 @@ private func setupTable(table: UITableView) {
     table.register(UINib(nibName: "OEXClosedCaptionTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
 }
 
-@objc class OEXVideoPlayerSettings : NSObject {
+class VideoPlayerSettings : NSObject {
     
     let optionsTable: UITableView = UITableView(frame: CGRect.zero, style: .plain)
-    public lazy var settings: [OEXVideoPlayerSetting] = {
-        self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
-        
-        let rows:[RowType] = [("0.5x",  OEXVideoSpeed.slow), ("1.0x", OEXVideoSpeed.default), ("1.5x", OEXVideoSpeed.fast), ("2.0x", OEXVideoSpeed.xFast)]
-        let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows:rows , isSelected: { (row) -> Bool in
-            var selected = false
-            let savedSpeed = OEXInterface.getCCSelectedPlaybackSpeed()
-            
-            let speed = rows[row].value as! OEXVideoSpeed
-            
-            selected = savedSpeed == speed
-            
-            return selected
-            }) {[weak self] value in
-                let speed = value as! OEXVideoSpeed
-                self?.delegate?.setPlaybackSpeed(speed: speed)
-        }
-        
-        if let transcripts: [String: String] = self.delegate?.videoInfo().transcripts as? [String: String] {
-            var rows = [RowType]()
-            for lang: String in transcripts.keys {
-                let locale = NSLocale(localeIdentifier: lang)
-                let displayLang: String = locale.displayName(forKey: NSLocale.Key.languageCode, value: lang)!
-                let item: RowType = (title: displayLang, value: lang)
-                rows.append(item)
-            }
-            
-            let cc = OEXVideoPlayerSetting(title: "Closed Captions", rows: rows, isSelected: { (row) -> Bool in
+    weak var delegate: VideoPlayerSettingsDelegate?
+    var settings: [OEXVideoPlayerSetting]  {
+        get {
+            self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
+            let rows:[RowType] = [("0.5x",  OEXVideoSpeed.slow), ("1.0x", OEXVideoSpeed.default), ("1.5x", OEXVideoSpeed.fast), ("2.0x", OEXVideoSpeed.xFast)]
+            let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows:rows , isSelected: { (row) -> Bool in
                 var selected = false
-                if let selectedLanguage:String = OEXInterface.getCCSelectedLanguage() {
-                    let lang = rows[row].value as! String
-                    selected = selectedLanguage == lang
-                }
+                let savedSpeed = OEXInterface.getCCSelectedPlaybackSpeed()
+    
+                let speed = rows[row].value as! OEXVideoSpeed
+    
+                selected = savedSpeed == speed
+    
                 return selected
-            }) {[weak self] value in
-                var language : String = value as! String
-                if language == OEXInterface.getCCSelectedLanguage() && language != "" {
-                    language = ""
-                }
-                self?.delegate?.setCaption(language: language)
+                }) {[weak self] value in
+                    let speed = value as! OEXVideoSpeed
+                    self?.delegate?.setPlaybackSpeed(speed: speed)
             }
-            return [cc, speeds]
-        } else {
-            return [speeds]
+    
+            if let transcripts: [String: String] = self.delegate?.videoInfo()?.transcripts as? [String: String] {
+                var rows = [RowType]()
+                for lang: String in transcripts.keys {
+                    let locale = NSLocale(localeIdentifier: lang)
+                    let displayLang: String = locale.displayName(forKey: NSLocale.Key.languageCode, value: lang)!
+                    let item: RowType = (title: displayLang, value: lang)
+                    rows.append(item)
+                }
+    
+                let cc = OEXVideoPlayerSetting(title: "Closed Captions", rows: rows, isSelected: { (row) -> Bool in
+                    var selected = false
+                    if let selectedLanguage:String = OEXInterface.getCCSelectedLanguage() {
+                        let lang = rows[row].value as! String
+                        selected = selectedLanguage == lang
+                    }
+                    return selected
+                }) {[weak self] value in
+                    var language : String = value as! String
+                    if language == OEXInterface.getCCSelectedLanguage() && language != "" {
+                        language = ""
+                    }
+                    self?.delegate?.setCaption(language: language)
+                }
+                return [cc, speeds]
+            } else {
+                return [speeds]
+            }
         }
-    }()
-    weak var delegate: OEXVideoPlayerSettingsDelegate?
-
+    }
+    
     func updateMargins() {
         optionsTable.layoutMargins = EdgeInsets.zero
     }
     
-    init(delegate: OEXVideoPlayerSettingsDelegate, videoInfo: OEXVideoSummary) {
-        self.delegate = delegate
-
+    override init() {
         super.init()
-        
         optionsTable.dataSource = self
         optionsTable.delegate = self
         setupTable(table: optionsTable)
     }
 }
 
-extension OEXVideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
+extension VideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

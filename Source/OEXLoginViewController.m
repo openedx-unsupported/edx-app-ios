@@ -40,7 +40,7 @@
 
 #define USER_EMAIL @"USERNAME"
 
-@interface OEXLoginViewController () <UIAlertViewDelegate>
+@interface OEXLoginViewController ()
 {
     CGPoint originalOffset;     // store the offset of the scrollview.
     UITextField* activeField;   // assign textfield object which is in active state.
@@ -394,26 +394,26 @@
 
 - (IBAction)troubleLoggingClicked:(id)sender {
     if(self.reachable) {
-        [self.view setUserInteractionEnabled:NO];
-
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:[Strings resetPasswordTitle]
-                                                        message:[Strings resetPasswordPopupText]
-                                                       delegate:self
-                                              cancelButtonTitle:[Strings cancel]
-                                              otherButtonTitles:[Strings ok], nil];
-
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        UITextField* textfield = [alert textFieldAtIndex:0];
-        textfield.keyboardType = UIKeyboardTypeEmailAddress;
-
-        if([self.tf_EmailID.text length] > 0) {
-            UITextField* tf = [alert textFieldAtIndex:0];
-            [[alert textFieldAtIndex:0] setAttributedPlaceholder:[_placeHolderStyle attributedStringWithText:[Strings emailAddressPrompt]]];
-            tf.text = self.tf_EmailID.text;
-        }
-
-        alert.tag = 1001;
-        [alert show];
+        [[UIAlertController alloc] showInViewController:self title:[Strings resetPasswordTitle] message:[Strings resetPasswordPopupText] preferredStyle:UIAlertControllerStyleAlert cancelButtonTitle:[Strings cancel] destructiveButtonTitle:nil otherButtonsTitle:@[[Strings ok]] tapBlock:^(UIAlertController* alertController, UIAlertAction* alertAction, NSInteger buttonIndex) {
+            if ( buttonIndex == 1 ) {
+                UITextField* emailTextField = alertController.textFields.firstObject;
+                if (!emailTextField || [emailTextField.text length] == 0 || ![emailTextField.text oex_isValidEmailAddress]) {
+                    [[UIAlertController alloc] showAlertWithTitle:[Strings floatingErrorTitle] message:[Strings invalidEmailMessage] onViewController:self.navigationController];
+                }
+                else {
+                    self.str_ForgotEmail = emailTextField.text;
+                    [self presentViewController:[UIAlertController alertControllerWithTitle:[Strings resetPasswordTitle] message:[Strings waitingForResponse] preferredStyle:UIAlertControllerStyleAlert] animated:YES completion:^{
+                        [self resetPassword];
+                    }];
+                }
+            }
+        } textFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.keyboardType = UIKeyboardTypeEmailAddress;
+            if([self.tf_EmailID.text length] > 0) {
+                [textField setAttributedPlaceholder:[_placeHolderStyle attributedStringWithText:[Strings emailAddressPrompt]]];
+                textField.text = self.tf_EmailID.text;
+            }
+        }];
     }
     else {
         // error
@@ -631,69 +631,39 @@
     [_tf_Password resignFirstResponder];
 }
 
-#pragma mark UIAlertView Delegate
-
-- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [self.view setUserInteractionEnabled:YES];
-
-    if(alertView.tag == 1001) {
-        UITextField* EmailtextField = [alertView textFieldAtIndex:0];
-
-        if(buttonIndex == 1) {
-            if([EmailtextField.text length] == 0 || ![EmailtextField.text oex_isValidEmailAddress]) {
-                [[UIAlertController alloc] showAlertWithTitle:[Strings floatingErrorTitle] message:[Strings invalidEmailMessage] onViewController:self.navigationController];
-            }
-            else {
-                self.str_ForgotEmail = [[NSString alloc] init];
-
-                self.str_ForgotEmail = EmailtextField.text;
-
-                [self.view setUserInteractionEnabled:NO];
-
-                [[UIAlertController alloc] showAlertWithTitle:[Strings resetPasswordTitle]
-                                              message:[Strings waitingForResponse]
-                                     onViewController:self.navigationController];
-                [self resetPassword];
-            }
-        }
-    }
-}
-
 - (void)resetPassword {
-    [OEXAuthentication resetPasswordWithEmailId:self.str_ForgotEmail completionHandler:^(NSData* data, NSURLResponse* response, NSError* error)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^{
-                [self.view setUserInteractionEnabled:YES];
-
-                if(!error) {
-                    NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
-                    if(httpResp.statusCode == 200) {
-                        [[[UIAlertView alloc] initWithTitle:[Strings resetPasswordConfirmationTitle]
-                                                    message:[Strings resetPasswordConfirmationMessage]
-
-                                                   delegate:self
-                                          cancelButtonTitle:nil
-                                          otherButtonTitles:[Strings ok], nil] show];
-                    }
-                    else if(httpResp.statusCode <= 400 && httpResp.statusCode < 500) {
-                        NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:nil];
-                        NSString* responseStr = [[dictionary objectForKey:@"email"] firstObject];
-                        [[UIAlertController alloc]
-                         showAlertWithTitle:[Strings floatingErrorTitle]
-                                    message:responseStr onViewController:self.navigationController];
-                    }
-                    else if(httpResp.statusCode >= 500) {
-                        NSString* responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                        [[UIAlertController alloc] showAlertWithTitle:[Strings floatingErrorTitle] message:responseStr onViewController:self.navigationController];
-                        
-                    }
-                }
-                else {
-                    [[UIAlertController alloc]
-                     showAlertWithTitle:[Strings floatingErrorTitle] message:[error localizedDescription] onViewController:self.navigationController];
-                }
-            });
-    }];
+    [OEXAuthentication resetPasswordWithEmailId:self.str_ForgotEmail completionHandler:^(NSData *data, NSURLResponse *response, NSError* error)
+     {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [self dismissViewControllerAnimated:YES completion:^{
+                 
+                 if(!error) {
+                     NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
+                     if(httpResp.statusCode == 200) {
+                         [[UIAlertController alloc]
+                          showAlertWithTitle:[Strings resetPasswordConfirmationTitle]
+                          message:[Strings resetPasswordConfirmationMessage] onViewController:self.navigationController];
+                     }
+                     else if(httpResp.statusCode <= 400 && httpResp.statusCode < 500) {
+                         NSDictionary* dictionary = [NSJSONSerialization oex_JSONObjectWithData:data error:nil];
+                         NSString* responseStr = [[dictionary objectForKey:@"email"] firstObject];
+                         [[UIAlertController alloc]
+                          showAlertWithTitle:[Strings floatingErrorTitle]
+                          message:responseStr onViewController:self.navigationController];
+                     }
+                     else if(httpResp.statusCode >= 500) {
+                         NSString* responseStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                         [[UIAlertController alloc] showAlertWithTitle:[Strings floatingErrorTitle] message:responseStr onViewController:self.navigationController];
+                         
+                     }
+                 }
+                 else {
+                     [[UIAlertController alloc]
+                      showAlertWithTitle:[Strings floatingErrorTitle] message:[error localizedDescription] onViewController:self.navigationController];
+                 }
+             }];
+         });
+     }];
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {

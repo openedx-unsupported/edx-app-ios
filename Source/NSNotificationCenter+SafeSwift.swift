@@ -31,6 +31,14 @@ private class NotificationListener : NSObject, Removable {
 
 extension NotificationCenter {
     @discardableResult func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
+        return self.observer(observer: observer, name: name, action: action)
+    }
+    
+    @discardableResult func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, object: Any, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
+        return self.observer(observer: observer, name: name, object: object, action: action)
+    }
+    
+    private func observer<Observer : NSObject>(observer : Observer, name : String, object: Any? = nil, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
         let listener = NotificationListener()
         listener.action = {[weak observer] (notification, removable) in
             if let observer = observer {
@@ -40,7 +48,7 @@ extension NotificationCenter {
         let removable = observer.oex_performAction {
             listener.remove()
         }
-        self.addObserver(listener, selector: #selector(NotificationListener.notificationFired(notification:)), name: NSNotification.Name(rawValue: name), object: nil)
+        addObserver(listener, selector: #selector(NotificationListener.notificationFired(notification:)), name: NSNotification.Name(rawValue: name), object: object)
         
         return BlockRemovable { removable.remove() }
     }

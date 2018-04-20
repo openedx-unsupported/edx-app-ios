@@ -16,16 +16,36 @@ extension UIAlertController {
     
     //MARK:- Init Methods
     
-    func showIn(viewController pController: UIViewController,
-                              title: String?,
-                              message: String?,
-                              preferredStyle: UIAlertControllerStyle,
-                              cancelButtonTitle: String?,
-                              destructiveButtonTitle: String?,
-                              otherButtonsTitle: [String]?,
-                              tapBlock: ((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?) -> UIAlertController{
+    @discardableResult func showAlert(with title: String?,
+                                   message: String?,
+                                   preferredStyle: UIAlertControllerStyle,
+                                   cancelButtonTitle: String?,
+                                   destructiveButtonTitle: String?,
+                                   otherButtonsTitle: [String]?,
+                                   tapBlock: ((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?, textFieldWithConfigurationHandler: ((_ textField: UITextField) -> Void)? = nil) -> UIAlertController?{
+        
+        guard let controller = topMostController() else { return nil }
+        
+        return showIn(viewController: controller, title: title, message: message, preferredStyle: preferredStyle, cancelButtonTitle: cancelButtonTitle, destructiveButtonTitle: destructiveButtonTitle, otherButtonsTitle: otherButtonsTitle, tapBlock: tapBlock)
+    }
+    
+    
+    @discardableResult func showIn(viewController pController: UIViewController,
+                                   title: String?,
+                                   message: String?,
+                                   preferredStyle: UIAlertControllerStyle,
+                                   cancelButtonTitle: String?,
+                                   destructiveButtonTitle: String?,
+                                   otherButtonsTitle: [String]?,
+                                   tapBlock: ((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?, textFieldWithConfigurationHandler: ((_ textField: UITextField) -> Void)? = nil) -> UIAlertController{
         
         let controller = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+        
+        if let textFieldHandler = textFieldWithConfigurationHandler {
+            controller.addTextField() { textField in
+                textFieldHandler(textField)
+            }
+        }
         
         if let cancelText = cancelButtonTitle {
             let cancelAction = UIAlertAction(title: cancelText, style: UIAlertActionStyle.cancel, handler: { (action) in
@@ -61,31 +81,30 @@ extension UIAlertController {
         return controller
         
     }
-    
     @discardableResult func showAlert(withTitle title: String?,
-                            message: String?,
-                            cancelButtonTitle: String?,
-                            onViewController viewController: UIViewController) -> UIAlertController{
-
+                                      message: String?,
+                                      cancelButtonTitle: String?,
+                                      onViewController viewController: UIViewController) -> UIAlertController{
+        
         return self.showIn(viewController: viewController,
-                                         title: title,
-                                         message: message,
-                                         preferredStyle: UIAlertControllerStyle.alert,
-                                         cancelButtonTitle: cancelButtonTitle,
-                                         destructiveButtonTitle: nil,
-                                         otherButtonsTitle: nil,
-                                         tapBlock: nil)
+                           title: title,
+                           message: message,
+                           preferredStyle: UIAlertControllerStyle.alert,
+                           cancelButtonTitle: cancelButtonTitle,
+                           destructiveButtonTitle: nil,
+                           otherButtonsTitle: nil,
+                           tapBlock: nil)
         
     }
     
     @discardableResult func showAlert(withTitle title: String?,
-                            message: String?,
-                            onViewController viewController: UIViewController) -> UIAlertController{
+                                      message: String?,
+                                      onViewController viewController: UIViewController) -> UIAlertController{
         
         return self.showAlert(withTitle: title,
-                                       message: message,
-                                       cancelButtonTitle: Strings.ok,
-                                       onViewController: viewController)
+                              message: message,
+                              cancelButtonTitle: Strings.ok,
+                              onViewController: viewController)
         
     }
     
@@ -96,21 +115,21 @@ extension UIAlertController {
                                       tapBlock:((_ controller: UIAlertController, _ action: UIAlertAction, _ buttonIndex: Int) -> ())?) -> UIAlertController{
         
         return showIn(viewController: viewController,
-                           title: title,
-                           message: message,
-                           preferredStyle: UIAlertControllerStyle.alert,
-                           cancelButtonTitle: cancelButtonTitle,
-                           destructiveButtonTitle: nil,
-                           otherButtonsTitle: nil,
-                           tapBlock: tapBlock)
+                      title: title,
+                      message: message,
+                      preferredStyle: UIAlertControllerStyle.alert,
+                      cancelButtonTitle: cancelButtonTitle,
+                      destructiveButtonTitle: nil,
+                      otherButtonsTitle: nil,
+                      tapBlock: tapBlock)
         
     }
     
     //MARK:- Add Action Methods
     
     func addButton(withTitle title: String,
-                                  style: UIAlertActionStyle,
-                                  actionBlock: ((_ action: UIAlertAction) -> ())?) {
+                   style: UIAlertActionStyle,
+                   actionBlock: ((_ action: UIAlertAction) -> ())?) {
         let alertAction = UIAlertAction(title: title, style: style, handler: { (action) in
             if let tap = actionBlock {
                 tap(action)
@@ -120,7 +139,7 @@ extension UIAlertController {
     }
     
     func addButton(withTitle title: String,
-                            actionBlock: ((_ action: UIAlertAction) -> ())?) {
+                   actionBlock: ((_ action: UIAlertAction) -> ())?) {
         let alertAction = UIAlertAction(title: title, style: UIAlertActionStyle.default, handler: { (action) in
             if let tap = actionBlock {
                 tap(action)
@@ -148,3 +167,4 @@ extension UIAlertController {
     }
     
 }
+

@@ -100,20 +100,27 @@
 		223DD6BB1F9F5A4B004A21B9 /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DD6BA1F9F5A4B004A21B9 /* CourseDashboardViewController.swift */; };
 		2240FD541FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */; };
 		2240FD561FF266E4001D6589 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD551FF266E4001D6589 /* TabBarItem.swift */; };
+		224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224F1F522067B4E0009B3639 /* CustomSlider.swift */; };
+		2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254EF02207610FF00BA183C /* CustomPlayerButton.swift */; };
 		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
+		227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A6204EBF26007AA396 /* VideoPlayerControls.swift */; };
+		227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A92057C0AA007AA396 /* TranscriptParser.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		227812BC1EF297D3000D25EF /* test-movie.m4v in Resources */ = {isa = PBXBuildFile; fileRef = 77FDF4151B0269F600E8C639 /* test-movie.m4v */; };
+		2283C7532060EF8600A2E9BE /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2283C7522060EF8600A2E9BE /* MathUtilities.swift */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
 		228E0B8D1F431F7B0073E6FA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228E0B8C1F431F7B0073E6FA /* AccountViewController.swift */; };
 		228E0B8F1F43208C0073E6FA /* AccountViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228E0B8E1F43208C0073E6FA /* AccountViewCell.swift */; };
+		2294A54A206E637100D64FFC /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2294A549206E637000D64FFC /* VideoPlayer.swift */; };
+		22A1B6FF206CFFA3001C1704 /* TranscriptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1B6FE206CFFA3001C1704 /* TranscriptManager.swift */; };
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
-		22B6EF851FB4684A00480A38 /* CourseTabBarLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseTabBarLoadStateViewController.swift */; };
-		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
+		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
 		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
 		22DCA5031F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */; };
+		22E6A219207AA54600D50EDE /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E6A218207AA54600D50EDE /* PlayerView.swift */; };
 		22F8A9101F45EFAF0025E18A /* AccountViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */; };
 		22F8A9141F4708A50025E18A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A9131F4708A50025E18A /* Main.storyboard */; };
 		46CECC3A1B041CDC0073C63A /* CourseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseCardView.swift */; };
@@ -142,7 +149,7 @@
 		6960892B1D53935500EE66DD /* courseCertificate.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089281D53935500EE66DD /* courseCertificate.png */; };
 		6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 696089291D53935500EE66DD /* courseCertificate@2x.png */; };
 		6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6960892A1D53935500EE66DD /* courseCertificate@3x.png */; };
-		6975C4BD1E42085300AF014D /* CLVideoPlayerControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6975C4BC1E42085300AF014D /* CLVideoPlayerControlsTests.swift */; };
+		6975C4BD1E42085300AF014D /* TranscriptParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6975C4BC1E42085300AF014D /* TranscriptParserTests.swift */; };
 		697652261D9BA7C80031FF8B /* OEXColorsDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697652251D9BA7C80031FF8B /* OEXColorsDataFactory.swift */; };
 		697B5A011D92D9CD002C3ABD /* TestCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391321C973CEC00FA959C /* TestCredentials.swift */; };
 		697B5A021D92DA17002C3ABD /* RegistrationAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 775391831CA0600700FA959C /* RegistrationAPITests.swift */; };
@@ -248,7 +255,6 @@
 		770848BA1B200C76002FEEEE /* ViewTopMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848B91B200C76002FEEEE /* ViewTopMessageController.swift */; };
 		770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BB1B209EF4002FEEEE /* BorderStyle.swift */; };
 		770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */; };
-		770848C41B21334F002FEEEE /* OEXMathUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 770848C31B21334F002FEEEE /* OEXMathUtilities.m */; };
 		77092C731B421BD0004AA1A1 /* ContainerNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77092C721B421BD0004AA1A1 /* ContainerNavigationController.swift */; };
 		77092C751B42E4C1004AA1A1 /* UIStatusBarStyle+Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77092C741B42E461004AA1A1 /* UIStatusBarStyle+Styles.swift */; };
 		770A27931A69933D00DFC6FF /* NSArray+OEXSafeAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 770A27921A69933D00DFC6FF /* NSArray+OEXSafeAccess.m */; };
@@ -554,7 +560,6 @@
 		9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */; };
 		9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */; };
 		9E1081081B8B7EEC00888746 /* PaginatedFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */; };
-		9E17EFD31BC65B7600C903CC /* UIAppearance+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */; };
 		9E1D952E1B678E4700ABE764 /* AccessibilityCLButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */; };
 		9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */; };
 		9E4E6C3F1B4BBB5C0034F7EB /* LastAccessedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */; };
@@ -588,10 +593,6 @@
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
 		B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */; };
 		B47780591AADA95400436DB4 /* Terms-and-Services.htm in Resources */ = {isa = PBXBuildFile; fileRef = B47780581AADA95400436DB4 /* Terms-and-Services.htm */; };
-		B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405219753C6C00019D1F /* CLVideoPlayer.m */; };
-		B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405419753C6C00019D1F /* CLVideoPlayerControls.m */; };
-		B498405C19753C6C00019D1F /* CLButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B498405819753C6C00019D1F /* CLButton.m */; };
-		B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B49A390A1975919C00850002 /* OEXCustomSlider.m */; };
 		B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */; };
 		B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */; };
 		B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */; };
@@ -652,7 +653,6 @@
 		BECB7B1F1924C0C3009C77F1 /* OEXAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */; };
 		BECB7B2F1924C0C3009C77F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B0E1924C0C3009C77F1 /* Foundation.framework */; };
 		BECB7B301924C0C3009C77F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B121924C0C3009C77F1 /* UIKit.framework */; };
-		BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B501924C9FB009C77F1 /* OEXVideoPlayerInterface.m */; };
 		BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */; };
 		BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEEBF82196AAACF00EF2C35 /* Localizable.strings */; };
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
@@ -903,18 +903,25 @@
 		223DD6BA1F9F5A4B004A21B9 /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
 		2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolledTabBarViewControllerTest.swift; sourceTree = "<group>"; };
 		2240FD551FF266E4001D6589 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
+		224F1F522067B4E0009B3639 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		2254EF02207610FF00BA183C /* CustomPlayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerButton.swift; sourceTree = "<group>"; };
 		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
+		227386A6204EBF26007AA396 /* VideoPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerControls.swift; sourceTree = "<group>"; };
+		227386A92057C0AA007AA396 /* TranscriptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptParser.swift; sourceTree = "<group>"; };
+		2283C7522060EF8600A2E9BE /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		228E0B8C1F431F7B0073E6FA /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		228E0B8E1F43208C0073E6FA /* AccountViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewCell.swift; sourceTree = "<group>"; };
+		2294A549206E637000D64FFC /* VideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
+		22A1B6FE206CFFA3001C1704 /* TranscriptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptManager.swift; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
-		22B6EF841FB4684A00480A38 /* CourseTabBarLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseTabBarLoadStateViewController.swift; sourceTree = "<group>"; };
-		22B85A33203EEE1E0071AD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardLoadStateViewController.swift; sourceTree = "<group>"; };
+		22B85A33203EEE1E0071AD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		22D73B5C1ED575C000220280 /* course-dates.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "course-dates.js"; sourceTree = "<group>"; };
 		22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSectionTableViewCellTests.swift; sourceTree = "<group>"; };
+		22E6A218207AA54600D50EDE /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountViewControllerTest.swift; path = ../Source/AccountViewControllerTest.swift; sourceTree = "<group>"; };
 		22F8A9131F4708A50025E18A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardView.swift; sourceTree = "<group>"; };
@@ -945,7 +952,7 @@
 		696089281D53935500EE66DD /* courseCertificate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courseCertificate.png; sourceTree = "<group>"; };
 		696089291D53935500EE66DD /* courseCertificate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@2x.png"; sourceTree = "<group>"; };
 		6960892A1D53935500EE66DD /* courseCertificate@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "courseCertificate@3x.png"; sourceTree = "<group>"; };
-		6975C4BC1E42085300AF014D /* CLVideoPlayerControlsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLVideoPlayerControlsTests.swift; sourceTree = "<group>"; };
+		6975C4BC1E42085300AF014D /* TranscriptParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscriptParserTests.swift; sourceTree = "<group>"; };
 		697652251D9BA7C80031FF8B /* OEXColorsDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsDataFactory.swift; sourceTree = "<group>"; };
 		697B5A081D92DB3F002C3ABD /* RegistrationFormAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegistrationFormAPI.swift; path = Source/Core/Code/RegistrationFormAPI.swift; sourceTree = SOURCE_ROOT; };
 		6987A86A1D6C57C100E9D183 /* OEXColorsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColorsTests.swift; sourceTree = "<group>"; };
@@ -1051,8 +1058,6 @@
 		770848B91B200C76002FEEEE /* ViewTopMessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTopMessageController.swift; sourceTree = "<group>"; };
 		770848BB1B209EF4002FEEEE /* BorderStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderStyle.swift; sourceTree = "<group>"; };
 		770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestEnvironmentBuilder.swift; sourceTree = "<group>"; };
-		770848C21B21334F002FEEEE /* OEXMathUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXMathUtilities.h; sourceTree = "<group>"; };
-		770848C31B21334F002FEEEE /* OEXMathUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXMathUtilities.m; sourceTree = "<group>"; };
 		77092C721B421BD0004AA1A1 /* ContainerNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNavigationController.swift; sourceTree = "<group>"; };
 		77092C741B42E461004AA1A1 /* UIStatusBarStyle+Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStatusBarStyle+Styles.swift"; sourceTree = "<group>"; };
 		770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+OEXSafeAccess.h"; sourceTree = "<group>"; };
@@ -1414,8 +1419,6 @@
 		9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinnerButton.swift; sourceTree = "<group>"; };
 		9E0D4BD21B0C84F800B2417D /* CourseUnknownBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseUnknownBlockViewController.swift; sourceTree = "<group>"; };
 		9E1081071B8B7EEC00888746 /* PaginatedFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedFeed.swift; sourceTree = "<group>"; };
-		9E17EFD11BC65B7600C903CC /* UIAppearance+Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAppearance+Swift.h"; sourceTree = "<group>"; };
-		9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAppearance+Swift.m"; sourceTree = "<group>"; };
 		9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessibilityCLButton.swift; path = ../AccessibilityCLButton.swift; sourceTree = "<group>"; };
 		9E1D95311B68CEA000ABE764 /* UIButton+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Accessibility.swift"; sourceTree = "<group>"; };
 		9E4E6C3E1B4BBB5C0034F7EB /* LastAccessedProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LastAccessedProvider.swift; sourceTree = "<group>"; };
@@ -1455,14 +1458,6 @@
 		B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtility.m; sourceTree = "<group>"; };
 		B42DA18A1A153A0500E3AD4E /* OEXFileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFileUtility.h; sourceTree = "<group>"; };
 		B47780581AADA95400436DB4 /* Terms-and-Services.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms-and-Services.htm"; sourceTree = "<group>"; };
-		B498405119753C6C00019D1F /* CLVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLVideoPlayer.h; sourceTree = "<group>"; };
-		B498405219753C6C00019D1F /* CLVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLVideoPlayer.m; sourceTree = "<group>"; };
-		B498405319753C6C00019D1F /* CLVideoPlayerControls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLVideoPlayerControls.h; sourceTree = "<group>"; };
-		B498405419753C6C00019D1F /* CLVideoPlayerControls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLVideoPlayerControls.m; sourceTree = "<group>"; };
-		B498405719753C6C00019D1F /* CLButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLButton.h; sourceTree = "<group>"; };
-		B498405819753C6C00019D1F /* CLButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLButton.m; sourceTree = "<group>"; };
-		B49A39091975919C00850002 /* OEXCustomSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEXCustomSlider.h; path = ../OEXCustomSlider.h; sourceTree = "<group>"; };
-		B49A390A1975919C00850002 /* OEXCustomSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OEXCustomSlider.m; path = ../OEXCustomSlider.m; sourceTree = "<group>"; };
 		B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OEXReplaceNull.h"; sourceTree = "<group>"; };
 		B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEXReplaceNull.m"; sourceTree = "<group>"; };
@@ -1561,8 +1556,6 @@
 		BECB7B1E1924C0C3009C77F1 /* OEXAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OEXAppDelegate.m; sourceTree = "<group>"; };
 		BECB7B2C1924C0C3009C77F1 /* edXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = edXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BECB7B351924C0C3009C77F1 /* edXTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "edXTests-Info.plist"; sourceTree = "<group>"; };
-		BECB7B4F1924C9FB009C77F1 /* OEXVideoPlayerInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXVideoPlayerInterface.h; sourceTree = "<group>"; };
-		BECB7B501924C9FB009C77F1 /* OEXVideoPlayerInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXVideoPlayerInterface.m; sourceTree = "<group>"; };
 		BECB7B671924EE11009C77F1 /* OEXLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLoginViewController.h; sourceTree = "<group>"; };
 		BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLoginViewController.m; sourceTree = "<group>"; };
 		C1061FFC436565270CDA40E3 /* Pods-edXTests.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.profile.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.profile.xcconfig"; sourceTree = "<group>"; };
@@ -1975,6 +1968,14 @@
 			name = "Tab Layout Dashboard";
 			sourceTree = "<group>";
 		};
+		227386A82057C01B007AA396 /* SubtitleParser */ = {
+			isa = PBXGroup;
+			children = (
+				227386A92057C0AA007AA396 /* TranscriptParser.swift */,
+			);
+			name = SubtitleParser;
+			sourceTree = "<group>";
+		};
 		228E0B891F43137D0073E6FA /* Account View */ = {
 			isa = PBXGroup;
 			children = (
@@ -2362,8 +2363,6 @@
 				1AC147361BCEB14900E0A230 /* CGRect+OEXHelpers.swift */,
 				778C72F01B17C30000FC3F68 /* Dictionary+Functional.swift */,
 				77567B511AC5EFE800877A7B /* OEXCast.h */,
-				770848C21B21334F002FEEEE /* OEXMathUtilities.h */,
-				770848C31B21334F002FEEEE /* OEXMathUtilities.m */,
 				770A27941A6995DF00DFC6FF /* NSArray+OEXFunctional.h */,
 				770A27951A6995DF00DFC6FF /* NSArray+OEXFunctional.m */,
 				770A27911A69933D00DFC6FF /* NSArray+OEXSafeAccess.h */,
@@ -2405,8 +2404,6 @@
 				77DCD23A1C2B14BA00CAEBB5 /* UITableView+Layout.swift */,
 				774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */,
 				9E0CC1021BA9574E00A1CFDB /* SpinnerButton.swift */,
-				9E17EFD11BC65B7600C903CC /* UIAppearance+Swift.h */,
-				9E17EFD21BC65B7600C903CC /* UIAppearance+Swift.m */,
 				9EC0AC7E1BCE371D00291B64 /* UIButton+Animations.swift */,
 				9EEB85A61BD6564E000F3E9E /* PressableCustomButton.swift */,
 				9EC6E0FD1BDE106500729704 /* IrregularBorderView.swift */,
@@ -2415,6 +2412,7 @@
 				E03E6A181D38EC7500944AAA /* UIView+UIViewController.swift */,
 				E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */,
 				B78823AB1FC709BD00F9CD61 /* String+Validation.swift */,
+				2283C7522060EF8600A2E9BE /* MathUtilities.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -2852,6 +2850,7 @@
 		9EAFFA211B2F00B600B100AB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				227386A82057C01B007AA396 /* SubtitleParser */,
 				7712732A1BA8885E008BA397 /* Logger+OEXObjC.h */,
 				7712732B1BA8885F008BA397 /* Logger+OEXObjC.m */,
 				77691FA11B3B4596003922F2 /* UIColor+OEXHex.h */,
@@ -2919,18 +2918,16 @@
 		B498404F19753C1400019D1F /* CutomePlayer */ = {
 			isa = PBXGroup;
 			children = (
-				B49A39091975919C00850002 /* OEXCustomSlider.h */,
-				B49A390A1975919C00850002 /* OEXCustomSlider.m */,
-				B498405119753C6C00019D1F /* CLVideoPlayer.h */,
-				B498405219753C6C00019D1F /* CLVideoPlayer.m */,
-				B498405319753C6C00019D1F /* CLVideoPlayerControls.h */,
-				B498405419753C6C00019D1F /* CLVideoPlayerControls.m */,
+				2294A549206E637000D64FFC /* VideoPlayer.swift */,
 				1AB676AD1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift */,
-				B498405719753C6C00019D1F /* CLButton.h */,
-				B498405819753C6C00019D1F /* CLButton.m */,
 				9E1D952D1B678E4700ABE764 /* AccessibilityCLButton.swift */,
 				19A1339119CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.h */,
 				19A1339219CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.m */,
+				227386A6204EBF26007AA396 /* VideoPlayerControls.swift */,
+				224F1F522067B4E0009B3639 /* CustomSlider.swift */,
+				22A1B6FE206CFFA3001C1704 /* TranscriptManager.swift */,
+				2254EF02207610FF00BA183C /* CustomPlayerButton.swift */,
+				22E6A218207AA54600D50EDE /* PlayerView.swift */,
 			);
 			path = CutomePlayer;
 			sourceTree = "<group>";
@@ -3315,7 +3312,7 @@
 				694D34A11D76B75F0047F3F4 /* UIAlertController+OEXBlockActionsTests.swift */,
 				E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */,
 				698C6D771E2619E4009156BB /* VideoTranscriptTests.swift */,
-				6975C4BC1E42085300AF014D /* CLVideoPlayerControlsTests.swift */,
+				6975C4BC1E42085300AF014D /* TranscriptParserTests.swift */,
 				69AD2B8B1E4B1CA000029B9B /* RatingViewControllerTests.swift */,
 				699FF8551E5AFACF00AD98A5 /* OEXInterface+AppReviewTests.swift */,
 				E024AFFF1EC4589800498ECA /* WhatsNewViewControllerTests.swift */,
@@ -3366,8 +3363,6 @@
 		BECB7B4C1924C9EA009C77F1 /* Video Player */ = {
 			isa = PBXGroup;
 			children = (
-				BECB7B4F1924C9FB009C77F1 /* OEXVideoPlayerInterface.h */,
-				BECB7B501924C9FB009C77F1 /* OEXVideoPlayerInterface.m */,
 				69C12C651E07F5F8004E7261 /* VideoTranscript.swift */,
 				69F5FACA1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift */,
 			);
@@ -4106,13 +4101,12 @@
 				1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */,
 				778F17851C10A1B50099BF93 /* CourseCatalogDetailViewController.swift in Sources */,
 				770A3D451AF0167A008F09D9 /* UIControl+OEXBlockActions.m in Sources */,
-				770848C41B21334F002FEEEE /* OEXMathUtilities.m in Sources */,
+				22E6A219207AA54600D50EDE /* PlayerView.swift in Sources */,
 				F22A0ABB1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift in Sources */,
 				9EC6E1001BDE40E100729704 /* OEXCourse+Swift.swift in Sources */,
 				7706AAC11BCFEEBF00728432 /* NSAttributedString+Formatting.swift in Sources */,
 				778D53351B3D96E900441A98 /* ListCursor.swift in Sources */,
 				E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */,
-				B498405919753C6C00019D1F /* CLVideoPlayer.m in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
 				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,
 				778F177C1C0D12780099BF93 /* CourseCatalogAPI.swift in Sources */,
@@ -4122,6 +4116,7 @@
 				2240FD561FF266E4001D6589 /* TabBarItem.swift in Sources */,
 				E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */,
 				7778F0981ABB1A6C00B4CDA0 /* NSError+OEXKnownErrors.m in Sources */,
+				224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */,
 				223972E11FE92BB500B2BBEC /* EnrolledTabBarViewController.swift in Sources */,
 				B4B6D6041A949EFC000F44E8 /* OEXRegistrationRestriction.m in Sources */,
 				77BFD86A1BB9E15B001D7BE5 /* Strings.swift in Sources */,
@@ -4198,6 +4193,7 @@
 				80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */,
 				775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
+				227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */,
 				775434891AD8121200635A40 /* OEXParsePushProvider.m in Sources */,
 				1AAD95F61CEA222500BBF70C /* StartupViewController.swift in Sources */,
 				1A5501A21BBA323700D5F9DD /* ProfileBanner.swift in Sources */,
@@ -4267,19 +4263,20 @@
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
 				77AFD1111C1B4F79001985FD /* NSString+TestExamples.m in Sources */,
 				9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */,
-				B498405C19753C6C00019D1F /* CLButton.m in Sources */,
 				770C514B1B1685E3009B9696 /* HTMLBlockViewController.swift in Sources */,
 				46CECC3A1B041CDC0073C63A /* CourseCardView.swift in Sources */,
 				9ED105441B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift in Sources */,
+				2294A54A206E637100D64FFC /* VideoPlayer.swift in Sources */,
 				199627831945AB5B0022C489 /* OEXCustomTextField.m in Sources */,
 				193B50481945A0520038E11C /* OEXCustomLabel.m in Sources */,
 				77000A371A76EF8C007D306C /* NSString+OEXValidation.m in Sources */,
 				9EC0AC7F1BCE371D00291B64 /* UIButton+Animations.swift in Sources */,
 				E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */,
 				9ED168B01B29A9EF00AA7B5B /* CouseLastAccessed.swift in Sources */,
+				227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */,
 				1AAD95F81CEB725900BBF70C /* OEXTextStyle+Swift.swift in Sources */,
 				1A67E5411BD7D61800C53401 /* Feed.swift in Sources */,
-				BECB7B521924C9FB009C77F1 /* OEXVideoPlayerInterface.m in Sources */,
+				22A1B6FF206CFFA3001C1704 /* TranscriptManager.swift in Sources */,
 				B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */,
 				9E1D95321B68CEA000ABE764 /* UIButton+Accessibility.swift in Sources */,
 				223895D21F25CF76005B9C15 /* SwipeCellActionView.swift in Sources */,
@@ -4350,7 +4347,6 @@
 				77D5F43F1C1F1C8F0079E228 /* OEXCourse+TestData.swift in Sources */,
 				77ADF4AC1AC1F31200AC8955 /* OEXExternalAuthOptionsView.m in Sources */,
 				1A3F456C1BED00FB0077A40C /* IconButton.swift in Sources */,
-				B498405A19753C6C00019D1F /* CLVideoPlayerControls.m in Sources */,
 				7773D1A91B1E557D0037214B /* OEXVideoEncoding.m in Sources */,
 				77092C731B421BD0004AA1A1 /* ContainerNavigationController.swift in Sources */,
 				B4132C10195AAFBE00F50B46 /* OEXAuthentication.m in Sources */,
@@ -4366,7 +4362,6 @@
 				77DCD23B1C2B14BA00CAEBB5 /* UITableView+Layout.swift in Sources */,
 				77509D941BE1710200B10CD3 /* TZStackView.swift in Sources */,
 				B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */,
-				9E17EFD31BC65B7600C903CC /* UIAppearance+Swift.m in Sources */,
 				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,
 				775DF41A1AFAB04300F96B2F /* CourseDataManager.swift in Sources */,
 				223DD6BB1F9F5A4B004A21B9 /* CourseDashboardViewController.swift in Sources */,
@@ -4402,14 +4397,15 @@
 				7793764F1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift in Sources */,
 				77E648591C91235A00B6740D /* OEXConfig+AppFeatures.swift in Sources */,
 				E0A1A0311E93A78E00510488 /* ConstraintDescription.swift in Sources */,
+				2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */,
 				77E00B711B82A06F00573622 /* GrowingTextViewController.swift in Sources */,
 				BD7C6C421DCA33540004D135 /* OEXFontsDataFactory.swift in Sources */,
 				223895D11F25CF76005B9C15 /* SwipeAnimator.swift in Sources */,
 				771273301BA8FAD2008BA397 /* OEXAnalytics+Swift.swift in Sources */,
+				2283C7532060EF8600A2E9BE /* MathUtilities.swift in Sources */,
 				77E6487F1C9133C600B6740D /* SessionUsernameProvider.swift in Sources */,
 				E03E6A171D38EB9000944AAA /* SnackbarViews.swift in Sources */,
 				77C901A71BBDDD630016E468 /* TableCellStyle.swift in Sources */,
-				B49A390B1975919C00850002 /* OEXCustomSlider.m in Sources */,
 				7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */,
 				7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */,
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,
@@ -4507,7 +4503,7 @@
 				E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */,
 				775391461C9763D000FA959C /* Result+Assertions.swift in Sources */,
 				773CC0251BE42EAC00DDC127 /* UserProfileEditViewControllerTests.swift in Sources */,
-				6975C4BD1E42085300AF014D /* CLVideoPlayerControlsTests.swift in Sources */,
+				6975C4BD1E42085300AF014D /* TranscriptParserTests.swift in Sources */,
 				770A27AA1A70261F00DFC6FF /* NSObject+OEXReplaceNullTests.m in Sources */,
 				770A279F1A6F164800DFC6FF /* OEXVideoPathEntryTests.m in Sources */,
 				7CB46D271D58E567005110AB /* UserPreferenceManagerTests.swift in Sources */,
@@ -4729,7 +4725,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = edX;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
@@ -4760,7 +4756,7 @@
 				GCC_PREFIX_HEADER = "Source/edX-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Source/edX-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
@@ -4848,7 +4844,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
@@ -4882,7 +4878,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
@@ -4915,7 +4911,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
@@ -4940,7 +4936,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/Test/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
@@ -4964,7 +4960,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/Test/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
@@ -4987,7 +4983,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/Test/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCoreTests;
@@ -5009,7 +5005,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Test/EndToEnd/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
@@ -5034,7 +5030,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Test/EndToEnd/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
@@ -5058,7 +5054,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Test/EndToEnd/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.EndToEndTests;
@@ -5118,7 +5114,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = edX;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -5168,7 +5164,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = edX;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
@@ -5199,7 +5195,7 @@
 				GCC_PREFIX_HEADER = "Source/edX-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Source/edX-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
@@ -5238,7 +5234,7 @@
 				GCC_PREFIX_HEADER = "Source/edX-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "Source/edX-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";

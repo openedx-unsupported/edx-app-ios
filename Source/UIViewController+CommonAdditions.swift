@@ -21,7 +21,7 @@ extension UIViewController {
         return UIApplication.shared.statusBarOrientation
     }
 
-    func topMostController() -> UIViewController? {
+    @objc func topMostController() -> UIViewController? {
         var topController = UIApplication.shared.keyWindow?.rootViewController
         while ((topController?.presentedViewController) != nil) {
             topController = topController?.presentedViewController

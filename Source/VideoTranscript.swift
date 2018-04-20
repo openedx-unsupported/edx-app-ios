@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol VideoTranscriptDelegate {
+protocol VideoTranscriptDelegate: class {
     func didSelectSubtitleAtInterval(time: TimeInterval)
 }
 
@@ -17,9 +17,10 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider
     
     let transcriptTableView = UITableView(frame: CGRect.zero, style: .plain)
-    var transcriptArray = [AnyObject]()
+    var transcripts = [TranscriptObject]()
+    
     let environment : Environment
-    var delegate : VideoTranscriptDelegate?
+    weak var delegate : VideoTranscriptDelegate?
     
     //Maintain the cell index highlighted currently
     var highlightedIndex = 0
@@ -53,18 +54,18 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     //MARK: - UITableview methods
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return transcriptArray.count
+        return transcripts.count
     }
     
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VideoTranscriptTableViewCell.cellIdentifier) as! VideoTranscriptTableViewCell
         cell.applyStandardSeparatorInsets()
-        cell.setTranscriptText(text: (transcriptArray[indexPath.row] as? [String: AnyObject])?[CLVideoPlayerkText] as? String, highlighted: indexPath.row == highlightedIndex)
+        cell.setTranscriptText(text: transcripts[indexPath.row].text, highlighted: indexPath.row == highlightedIndex)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didSelectSubtitleAtInterval(time: (transcriptArray[indexPath.row] as? [String: AnyObject])?[CLVideoPlayerkStart] as! TimeInterval)
+        delegate?.didSelectSubtitleAtInterval(time: transcripts[indexPath.row].start)
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -73,16 +74,16 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
         draggingTimer = Timer.scheduledTimer(timeInterval: dragDelay, target: self, selector: #selector(invalidateDragging), userInfo: nil, repeats: false)
     }
     
-    func updateTranscript(transcript: [AnyObject]) {
+    func updateTranscript(transcript: [TranscriptObject]) {
         if transcript.count > 0 {
-            transcriptArray = transcript
+            transcripts = transcript
             transcriptTableView.reloadData()
             transcriptTableView.isHidden = false
         }
     }
     
-    func highlightSubtitleForTime(time: TimeInterval?) {
-        if let index = getTranscriptIndexForTime(time: time), index != highlightedIndex{
+    func highlightSubtitle(for time: TimeInterval?) {
+        if let index = getTranscriptIndex(for: time), index != highlightedIndex{
             highlightedIndex = index
             transcriptTableView.reloadData()
             if !isTableDragged {
@@ -91,8 +92,11 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
         }
     }
     
-    func getTranscriptIndexForTime(time: TimeInterval?) -> Int? {
-        return transcriptArray.index(where: { time ?? 0 >= ($0 as? [String: AnyObject])?[CLVideoPlayerkStart] as? Double ?? 0 && time ?? 0 <= ($0 as? [String: AnyObject])?[CLVideoPlayerkEnd] as? Double ?? 0 })
+    func getTranscriptIndex(for time: TimeInterval?) -> Int? {
+        guard let time = time else {
+            return nil
+        }
+        return transcripts.index(where: { time >= $0.start && time <= $0.end })
     }
     
     func invalidateDragging(){

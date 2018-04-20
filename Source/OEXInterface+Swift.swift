@@ -34,5 +34,4 @@ extension OEXInterface : LastAccessedProvider {
         
         return videos.filter { $0.summary?.isDownloadableVideo ?? false }
     }
-    
 }

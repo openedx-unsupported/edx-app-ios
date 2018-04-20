@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class AccessibilityCLButton: CLButton {
+class AccessibilityCLButton: CustomPlayerButton {
 
     private var selectedAccessibilityLabel : String?
     private var normalAccessibilityLabel : String?
