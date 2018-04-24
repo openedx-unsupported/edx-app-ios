@@ -231,6 +231,13 @@
 }
 
 - (NSNumber*)size {
+    for(NSString* name in [OEXVideoEncoding knownEncodingNames]) {
+        OEXVideoEncoding* encoding = self.encodings[name];
+        if (encoding.name && ![encoding.name isEqualToString:OEXVideoEncodingHLS]) {
+            return encoding.size;
+        }
+    }
+
     return self.preferredEncoding.size;
 }
 
