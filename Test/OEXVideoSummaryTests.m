@@ -236,7 +236,7 @@
     XCTAssertNotEqual(summary.downloadURL, summary.videoURL);
     XCTAssertEqual(summary.preferredEncoding.name, OEXVideoEncodingHLS);
     XCTAssertNotNil(summary.size);
-    NSNumber *hlsSize =(NSNumber *) [hls objectForKey:@"file_size"];
+    NSNumber *hlsSize = (NSNumber *) [hls objectForKey:@"file_size"];
     XCTAssertNotEqual(summary.size.integerValue, hlsSize.integerValue);
     XCTAssertEqual(summary.size.integerValue, mobileLowSize.integerValue);
 }
