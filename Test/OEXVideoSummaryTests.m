@@ -185,6 +185,7 @@
     XCTAssertNotEqual(summary.videoURL, @"");
     XCTAssertFalse(summary.isDownloadableVideo);
     XCTAssertNil(summary.downloadURL);
+    XCTAssertEqual(summary.size.intValue, 0);
 }
 
 - (void)testSupportedFallbackEncoding {
@@ -219,7 +220,11 @@
 
 -(void) testPrefferedHLSEncodingDownloadPipelineEnabled {
     NSDictionary *hls = [self encodingWithName:OEXVideoEncodingHLS andUrl:@"https://www.example.com/video.m3u8"];
-    NSDictionary *mobileLow = [self encodingWithName:OEXVideoEncodingMobileLow andUrl:@"https://www.example.com/video.mp4"];
+    NSNumber *mobileLowSize = [NSNumber numberWithInt:3];
+    NSDictionary *mobileLow = @{OEXVideoEncodingMobileLow: @{
+                                        @"file_size": mobileLowSize,
+                                        @"url": @"https://www.example.com/video.mp4"
+                                        }};
     NSDictionary *fallback = [self encodingWithName:OEXVideoEncodingFallback andUrl:@"https://www.example.com/video.mp4"];
     OEXVideoSummary *summary = [self videoPipelineEnabledSummaryWith:[self summaryWithEncodings:@[hls, mobileLow, fallback] andOnlyOnWeb:false]];
     XCTAssertTrue(summary.isSupportedVideo);
@@ -230,6 +235,10 @@
     XCTAssertNotEqual(summary.downloadURL, @"");
     XCTAssertNotEqual(summary.downloadURL, summary.videoURL);
     XCTAssertEqual(summary.preferredEncoding.name, OEXVideoEncodingHLS);
+    XCTAssertNotNil(summary.size);
+    NSNumber *hlsSize = (NSNumber *) [hls objectForKey:@"file_size"];
+    XCTAssertNotEqual(summary.size.integerValue, hlsSize.integerValue);
+    XCTAssertEqual(summary.size.integerValue, mobileLowSize.integerValue);
 }
 
 - (void)testSupportedYoutubeFallbackEncodingDownload {
