@@ -32,7 +32,7 @@
 
 NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXExternalRegistrationWithExistingAccountNotification";
 
-@interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate, UITextViewDelegate>
+@interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate, AgreementTextViewDelegate>
 
 /// Contents are id <OEXRegistrationFieldController>
 @property (strong, nonatomic) NSArray* fieldControllers;
@@ -42,7 +42,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (strong, nonatomic) id <OEXExternalAuthProvider> externalProvider;
 @property (copy, nonatomic) NSString* externalAccessToken;
 @property (strong, nonatomic) UIButton* registerButton;
-@property (strong, nonatomic) UITextView* agreementTextView;
+@property (strong, nonatomic) AgreementTextView* agreementTextView;
 @property (strong, nonatomic) UIButton* toggleOptionalFieldsButton;
 @property (strong, nonatomic) UIImageView* optionalFieldsSeparator;
 @property (strong, nonatomic) UIActivityIndicatorView* progressIndicator;
@@ -172,21 +172,17 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 -(void) setUpAgreementTextView {
-    self.agreementTextView = [[UITextView alloc] init];
-    [self.agreementTextView setupAgreementForSignUpScreen];
-    [self.agreementTextView setUserInteractionEnabled:true];
-    [self.agreementTextView setScrollEnabled:false];
-    [self.agreementTextView setEditable:false];
-    self.agreementTextView.delegate = self;
+    self.agreementTextView = [[AgreementTextView alloc] init];
+    [self.agreementTextView setupFor:AgreementTypeSignUp];
+    self.agreementTextView.agreementDelegate = self;
     CGSize size = [self.agreementTextView sizeThatFits:CGSizeMake(self.scrollView.frame.size.width - 2 * self.styles.formMargin, CGFLOAT_MAX)];
-    CGRect frame = CGRectMake(0, 0, size.width, size.height + 15);
-    self.agreementTextView.frame = frame;
+    self.agreementTextView.frame = CGRectMake(0, 0, size.width, size.height + [[OEXStyles sharedStyles] standardHorizontalMargin]);;
 }
 
-- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
-    OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:URL];
+// MARK: AgreementTextViewDelegate
+- (void)agreementTextView:(AgreementTextView *)textView didTap:(NSURL *)url {
+    OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
     [self presentViewController:viewController animated:YES completion:nil];
-    return false;
 }
 
 - (void)useHeadingView:(UIView*)headingView {
@@ -334,7 +330,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     
     [self.scrollView addSubview:self.agreementTextView];
     [self.agreementTextView setFrame:CGRectMake(horizontalSpacing, offset + 10, self.agreementTextView.frame.size.width, self.agreementTextView.frame.size.height)];
-    offset = offset + self.agreementTextView.frame.size.height + 30;
+    offset = offset + self.agreementTextView.frame.size.height + [[OEXStyles sharedStyles] standardHorizontalMargin] * 2;
     [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }
 

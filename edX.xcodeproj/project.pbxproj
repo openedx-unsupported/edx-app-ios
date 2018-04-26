@@ -633,7 +633,7 @@
 		B78823B01FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */; };
 		B78B233C20908A5100F8D976 /* privacy_policy.htm in Resources */ = {isa = PBXBuildFile; fileRef = B78B233A20908A5000F8D976 /* privacy_policy.htm */; };
 		B78B233D20908A5100F8D976 /* Mobile_App_Eula.htm in Resources */ = {isa = PBXBuildFile; fileRef = B78B233B20908A5000F8D976 /* Mobile_App_Eula.htm */; };
-		B78B233F20908C3D00F8D976 /* UITextView+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78B233E20908C3D00F8D976 /* UITextView+Swift.swift */; };
+		B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78B233E20908C3D00F8D976 /* AgreementTextView.swift */; };
 		BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */; };
 		BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */; };
 		BD7C6C401DCA329A0004D135 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = BD7C6C3F1DCA329A0004D135 /* fonts.json */; };
@@ -1529,7 +1529,7 @@
 		B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldControllerFactory.swift; sourceTree = "<group>"; };
 		B78B233A20908A5000F8D976 /* privacy_policy.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacy_policy.htm; sourceTree = "<group>"; };
 		B78B233B20908A5000F8D976 /* Mobile_App_Eula.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Mobile_App_Eula.htm; sourceTree = "<group>"; };
-		B78B233E20908C3D00F8D976 /* UITextView+Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Swift.swift"; sourceTree = "<group>"; };
+		B78B233E20908C3D00F8D976 /* AgreementTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementTextView.swift; sourceTree = "<group>"; };
 		BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsTests.swift; sourceTree = "<group>"; };
 		BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFonts.swift; sourceTree = "<group>"; };
 		BD7C6C3F1DCA329A0004D135 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
@@ -2359,7 +2359,6 @@
 		776459831A0968F0008404CC /* Library Additions */ = {
 			isa = PBXGroup;
 			children = (
-				B78B233E20908C3D00F8D976 /* UITextView+Swift.swift */,
 				021AD6241F150BA3009AF653 /* Dictionary+SafeAccess.swift */,
 				77DCD23C1C2B434200CAEBB5 /* UIViewController+Overlay.swift */,
 				7706AAC01BCFEEBF00728432 /* NSAttributedString+Formatting.swift */,
@@ -2559,6 +2558,7 @@
 				694D349F1D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift */,
 				77AF07761CB42AC400A42704 /* TabContainerView.swift */,
 				E03E6A161D38EB9000944AAA /* SnackbarViews.swift */,
+				B78B233E20908C3D00F8D976 /* AgreementTextView.swift */,
 			);
 			name = "Helper Views";
 			sourceTree = "<group>";
@@ -4308,7 +4308,7 @@
 				77C182AA1CD2E46900AE1474 /* TablePaginationManipulator.swift in Sources */,
 				0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */,
 				77DCD2391C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift in Sources */,
-				B78B233F20908C3D00F8D976 /* UITextView+Swift.swift in Sources */,
+				B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */,
 				E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */,
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
 				69F998571E6FEB2400CDFA9C /* OEXAnalytics+AppReview.swift in Sources */,

@@ -8,17 +8,23 @@
 
 import UIKit
 
-private enum AgreementType {
-    case signIn
+@objc enum AgreementType: UInt {
+    case signIn = 0
     case signUp
 }
 
-extension UITextView {
+@objc protocol AgreementTextViewDelegate: class {
+    func agreementTextView(_ textView: AgreementTextView, didTap url: URL)
+}
+
+class AgreementTextView: UITextView {
     
-    private func setupAgreement(for type: AgreementType) {
+    weak var agreementDelegate: AgreementTextViewDelegate?
+    
+    @objc func setup(for type: AgreementType) {
         let style = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
         style.lineBreakMode = .byWordWrapping
-        style.alignment = .left
+        style.alignment = .center
         let platformName = OEXConfig.shared().platformName()
         let prefix: String
         switch type {
@@ -42,14 +48,16 @@ extension UITextView {
             attributedString = attributedString.addLink(on: privacyPolicyText, value: privacyPolicyUrl)
         }
         attributedText = attributedString
+        isUserInteractionEnabled = true
+        isScrollEnabled = false
+        isEditable = false
+        delegate = self
     }
-    
-    @objc func setupAgreementForSignInScreen() {
-        setupAgreement(for: .signIn)
+}
+
+extension AgreementTextView: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+        agreementDelegate?.agreementTextView(self, didTap: URL)
+        return false
     }
-    
-    @objc func setupAgreementForSignUpScreen() {
-        setupAgreement(for: .signUp)
-    }
-    
 }

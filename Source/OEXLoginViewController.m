@@ -36,7 +36,7 @@
 
 #define USER_EMAIL @"USERNAME"
 
-@interface OEXLoginViewController () <UITextViewDelegate>
+@interface OEXLoginViewController () <AgreementTextViewDelegate>
 {
     CGPoint originalOffset;     // store the offset of the scrollview.
     UITextField* activeField;   // assign textfield object which is in active state.
@@ -66,7 +66,7 @@
 @property (weak, nonatomic, nullable) IBOutlet UIScrollView* scroll_Main;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Map;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Logo;
-@property (weak, nonatomic) IBOutlet UITextView *agreementTextView;
+@property (weak, nonatomic) IBOutlet AgreementTextView *agreementTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *agreementTextViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *agreementTextViewTop;
 @property (weak, nonatomic, nullable) IBOutlet UIActivityIndicatorView* activityIndicator;
@@ -180,14 +180,10 @@
 }
 
 -(void) setUpAgreementTextView {
-    [self.agreementTextView setupAgreementForSignInScreen];
-    [self.agreementTextView layoutIfNeeded];
-    [self.agreementTextView setUserInteractionEnabled:true];
-    [self.agreementTextView setScrollEnabled:false];
-    [self.agreementTextView setEditable:false];
-    self.agreementTextView.delegate = self;
+    [self.agreementTextView setupFor:AgreementTypeSignIn];
+    self.agreementTextView.agreementDelegate = self;
     // To adjust textView according to its content size.
-    self.agreementTextViewHeight.constant = self.agreementTextView.contentSize.height + 15;
+    self.agreementTextViewHeight.constant = self.agreementTextView.contentSize.height + [[OEXStyles sharedStyles] standardHorizontalMargin];
 }
 
     //setting accessibility identifiers for developer automation use
@@ -323,10 +319,10 @@
     }
 }
 
-- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
-    OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:URL];
+// MARK: AgreementTextViewDelegate
+- (void)agreementTextView:(AgreementTextView *)textView didTap:(NSURL *)url {
+    OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
     [self presentViewController:viewController animated:YES completion:nil];
-    return false;
 }
 
 #pragma mark IBActions
