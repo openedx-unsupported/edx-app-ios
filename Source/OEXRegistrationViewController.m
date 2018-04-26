@@ -180,7 +180,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 // MARK: AgreementTextViewDelegate
-- (void)agreementTextView:(AgreementTextView *)textView didTap:(NSURL *)url {
+- (void)agreementTextView:(AgreementTextView *)textView didSelect:(NSURL *)url {
     OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
     [self presentViewController:viewController animated:YES completion:nil];
 }

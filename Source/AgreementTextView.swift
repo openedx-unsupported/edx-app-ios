@@ -1,5 +1,5 @@
 //
-//  UITextView+Swift.swift
+//  AgreementTextView.swift
 //  edX
 //
 //  Created by Zeeshan Arif on 4/25/18.
@@ -9,12 +9,12 @@
 import UIKit
 
 @objc enum AgreementType: UInt {
-    case signIn = 0
-    case signUp
+    case signIn,
+         signUp
 }
 
 @objc protocol AgreementTextViewDelegate: class {
-    func agreementTextView(_ textView: AgreementTextView, didTap url: URL)
+    func agreementTextView(_ textView: AgreementTextView, didSelect url: URL)
 }
 
 class AgreementTextView: UITextView {
@@ -57,7 +57,7 @@ class AgreementTextView: UITextView {
 
 extension AgreementTextView: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        agreementDelegate?.agreementTextView(self, didTap: URL)
+        agreementDelegate?.agreementTextView(self, didSelect: URL)
         return false
     }
 }
