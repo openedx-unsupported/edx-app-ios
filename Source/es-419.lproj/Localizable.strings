@@ -156,6 +156,18 @@
 "ADD_RESPONSE"="Añadir respuesta";
 /* Add your post button title used in discussion's add a post textview */
 "ADD_YOUR_POST"="Añadir su publicación";
+/*Agreement text*/
+"AGREEMENT_TEXT"="you agree to the {eula} and {tos} and acknowledge the {privacy_policy}.";
+/*Agreement text prefix for user on signin screen*/
+"AGREEMENT_TEXT_PREFIX_SIGNIN"="By signing-in to this app, ";
+/*Agreement text prefix for user on signup screen*/
+"AGREEMENT_TEXT_PREFIX_SIGNUP"="By creating an account, ";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT_LINK_TEXT_EULA"="{platform_name} End User License Agreement";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT_LINK_TEXT_TOS"="{platform_name} Terms of Service and Honor Code";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT_LINK_TEXT_PRIVACY_POLICY"="Privacy Policy";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Permitir";
 /* Filtering option to show all discussion posts */
@@ -582,14 +594,10 @@
 "RECENT_ACTIVITY" = "Actividad reciente";
 /* Section title to display recently downloaded videos */
 "RECENT_VIDEOS"="Videos recientes";
-/* Create account agreement. Followed by agreement name like "End User License Agreement */
-"REDIRECT_TEXT" = "Al iniciar sesión en esta app, está aceptando los ";
 /* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
 "REFINE" = "Refinar:";
 /* Button title when responses are closed for a thread */
 "RESPONSES_CLOSED"="Las respuestas ya están cerradas para esta publicación";
-/* Title of registration agreement */
-"REGISTRATION_AGREEMENT_BUTTON_TITLE"="Términos del servicio y Código de honor de {platform_name}";
 /* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
 "REGISTRATION_AGREEMENT_MESSAGE"="Al crear una cuenta, usted acepta los ";
 /* Button text allowing user create an account */

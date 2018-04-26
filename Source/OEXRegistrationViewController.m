@@ -32,27 +32,21 @@
 
 NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXExternalRegistrationWithExistingAccountNotification";
 
-@interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate>
+@interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate, UITextViewDelegate>
 
 /// Contents are id <OEXRegistrationFieldController>
 @property (strong, nonatomic) NSArray* fieldControllers;
-
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
-
 // Used in auth from an external provider
 @property (strong, nonatomic) UIView* currentHeadingView;
 @property (strong, nonatomic) id <OEXExternalAuthProvider> externalProvider;
 @property (copy, nonatomic) NSString* externalAccessToken;
-
 @property (strong, nonatomic) UIButton* registerButton;
-@property (strong, nonatomic) UILabel* agreementLabel;
-@property (strong, nonatomic) UIButton* agreementLink;
+@property (strong, nonatomic) UITextView* agreementTextView;
 @property (strong, nonatomic) UIButton* toggleOptionalFieldsButton;
 @property (strong, nonatomic) UIImageView* optionalFieldsSeparator;
 @property (strong, nonatomic) UIActivityIndicatorView* progressIndicator;
-
 @property (assign, nonatomic) BOOL isShowingOptionalFields;
-
 @property (strong, nonatomic) OEXRegistrationStyles* styles;
 @property (strong, nonatomic) OEXTextStyle *toggleButtonStyle;
 
@@ -96,8 +90,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     //set accessibility identifiers for the developer automation use
 - (void)setAccessibilityIdentifiers {
     self.registerButton.accessibilityIdentifier = @"RegistrationViewController:register-button";
-    self.agreementLabel.accessibilityIdentifier = @"RegistrationViewController:agreement-label";
-    self.agreementLink.accessibilityIdentifier = @"RegistrationViewController:agreement-link-button";
+    self.agreementTextView.accessibilityIdentifier = @"RegistrationViewController:agreement-text-view";
     self.toggleOptionalFieldsButton.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-button";
     self.optionalFieldsSeparator.accessibilityIdentifier = @"RegistrationViewController:toggle-optional-field-separator-image-view";
     self.progressIndicator.accessibilityIdentifier = @"RegistrationViewController:progress-indicator";
@@ -136,8 +129,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)initializeViews {
 
-    NSString* platform = self.environment.config.platformName;
-
     ////Create and initalize 'btnCreateAccount' button
     self.registerButton = [[UIButton alloc] init];
     
@@ -153,27 +144,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.registerButton addSubview:self.progressIndicator];
     [self.progressIndicator hidesWhenStopped];
     self.optionalFieldsSeparator = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"separator3"]];
-    //Initialize label above agreement view
-    self.agreementLabel = [[UILabel alloc] init];
-    self.agreementLabel.font = [self.environment.styles sansSerifOfSize:10.f];
-    self.agreementLabel.textAlignment = NSTextAlignmentCenter;
-    self.agreementLabel.numberOfLines = 0;
-    self.agreementLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.agreementLabel.isAccessibilityElement = NO;
-    self.agreementLabel.text = [Strings registrationAgreementMessage];
-    self.agreementLink = [[UIButton alloc] init];
-    [self.agreementLink setTitle:[Strings registrationAgreementButtonTitleWithPlatformName:platform] forState:UIControlStateNormal];
-    [self.agreementLink.titleLabel setFont:[self.environment.styles semiBoldSansSerifOfSize:10]];
-    [self.agreementLink setTitleColor:[UIColor colorWithRed:0.16 green:0.44 blue:0.84 alpha:1] forState:UIControlStateNormal];
-    self.agreementLink.accessibilityTraits = UIAccessibilityTraitLink;
-    self.agreementLink.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.agreementLink.titleLabel.textAlignment = NSTextAlignmentCenter;
     
-    [self.agreementLink oex_addAction:^(id  _Nonnull control) {
-        [self agreementButtonTapped:nil];
-    } forEvents:UIControlEventTouchUpInside];
-    self.agreementLink.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationAgreementMessage],[Strings registrationAgreementButtonTitleWithPlatformName:platform]];
-
+    [self setUpAgreementTextView];
+    
     //This button will show and hide optional fields
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
@@ -196,6 +169,24 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         headingView.delegate = self;
         [self useHeadingView:headingView];
     }
+}
+
+-(void) setUpAgreementTextView {
+    self.agreementTextView = [[UITextView alloc] init];
+    [self.agreementTextView setupAgreementForSignUpScreen];
+    [self.agreementTextView setUserInteractionEnabled:true];
+    [self.agreementTextView setScrollEnabled:false];
+    [self.agreementTextView setEditable:false];
+    self.agreementTextView.delegate = self;
+    CGSize size = [self.agreementTextView sizeThatFits:CGSizeMake(self.scrollView.frame.size.width - 2 * self.styles.formMargin, CGFLOAT_MAX)];
+    CGRect frame = CGRectMake(0, 0, size.width, size.height + 15);
+    self.agreementTextView.frame = frame;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:URL];
+    [self presentViewController:viewController animated:YES completion:nil];
+    return false;
 }
 
 - (void)useHeadingView:(UIView*)headingView {
@@ -341,14 +332,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.scrollView addSubview:self.registerButton];
     offset = offset + 40;
     
-    NSInteger buttonLabelSpacing = 10;
-    
-    [self.agreementLabel setFrame:CGRectMake(horizontalSpacing, offset + buttonLabelSpacing, width - 2 * horizontalSpacing, 20)];
-    [self.scrollView addSubview:self.agreementLabel];
-    offset = offset + self.agreementLabel.frame.size.height;
-    [self.scrollView addSubview:self.agreementLink];
-    [self.agreementLink setFrame:CGRectMake(horizontalSpacing, offset, contentWidth, 40)];
-    offset = offset + self.agreementLink.frame.size.height;
+    [self.scrollView addSubview:self.agreementTextView];
+    [self.agreementTextView setFrame:CGRectMake(horizontalSpacing, offset + 10, self.agreementTextView.frame.size.width, self.agreementTextView.frame.size.height)];
+    offset = offset + self.agreementTextView.frame.size.height + 30;
     [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }
 

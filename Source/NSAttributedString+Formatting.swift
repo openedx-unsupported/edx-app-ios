@@ -8,6 +8,23 @@
 
 import Foundation
 
+extension NSAttributedString {
+    func addLink(on subString: String, value: URL) -> NSAttributedString {
+        if string.contains(find: subString) {
+            let mutableAttributedString = NSMutableAttributedString(attributedString: self)
+            let range = (string as NSString).range(of: subString)
+            let attributes = [
+                NSLinkAttributeName: value,
+                NSForegroundColorAttributeName: OEXStyles.shared().primaryBaseColor()
+                ] as [String : Any]
+            mutableAttributedString.addAttributes(attributes, range: range)
+            return mutableAttributedString
+        }
+        
+        return self
+    }
+}
+
 extension OEXTextStyle {
 
     func apply(f : @escaping (String) -> String) -> ((NSAttributedString) -> NSAttributedString) {
