@@ -22,7 +22,7 @@ class AgreementTextView: UITextView {
     weak var agreementDelegate: AgreementTextViewDelegate?
     
     @objc func setup(for type: AgreementType) {
-        let style = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
         style.lineBreakMode = .byWordWrapping
         style.alignment = .center
         let platformName = OEXConfig.shared().platformName()

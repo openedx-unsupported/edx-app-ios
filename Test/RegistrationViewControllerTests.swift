@@ -1,5 +1,5 @@
 //
-//  OEXRegistrationViewControllerTests.swift
+//  RegistrationViewControllerTests.swift
 //  edX
 //
 //  Created by Akiva Leffert on 2/5/16.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import edX
 
-class OEXRegistrationViewControllerTests: SnapshotTestCase {
+class RegistrationViewControllerTests: SnapshotTestCase {
 
     func testAnalyticsEmitted() {
         let environment = TestRouterEnvironment()

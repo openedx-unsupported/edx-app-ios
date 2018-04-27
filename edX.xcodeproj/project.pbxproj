@@ -414,7 +414,7 @@
 		778F177E1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F177D1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift */; };
 		778F17831C0E06640099BF93 /* TestRouterEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17811C0E06480099BF93 /* TestRouterEnvironment.swift */; };
 		778F17851C10A1B50099BF93 /* CourseCatalogDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17841C10A1B50099BF93 /* CourseCatalogDetailViewController.swift */; };
-		7791C4ED1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7791C4EC1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift */; };
+		7791C4ED1C651E9D0005745B /* RegistrationViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7791C4EC1C651E9D0005745B /* RegistrationViewControllerTests.swift */; };
 		7793764D1BED27D000900A8C /* BasicAuthCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7793764C1BED27D000900A8C /* BasicAuthCredential.swift */; };
 		7793764F1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7793764E1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift */; };
 		779376551BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779376541BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift */; };
@@ -1254,7 +1254,7 @@
 		778F177D1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCatalogViewControllerTests.swift; sourceTree = "<group>"; };
 		778F17811C0E06480099BF93 /* TestRouterEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestRouterEnvironment.swift; sourceTree = "<group>"; };
 		778F17841C10A1B50099BF93 /* CourseCatalogDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCatalogDetailViewController.swift; sourceTree = "<group>"; };
-		7791C4EC1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXRegistrationViewControllerTests.swift; sourceTree = "<group>"; };
+		7791C4EC1C651E9D0005745B /* RegistrationViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewControllerTests.swift; sourceTree = "<group>"; };
 		7793764C1BED27D000900A8C /* BasicAuthCredential.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicAuthCredential.swift; sourceTree = "<group>"; };
 		7793764E1BED404C00900A8C /* OEXConfig+URLCredentialProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXConfig+URLCredentialProvider.swift"; sourceTree = "<group>"; };
 		779376541BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXConfig+URLCredentialProviderTests.swift"; sourceTree = "<group>"; };
@@ -3225,7 +3225,7 @@
 				77ADB7921C92228D006A66A1 /* XCTestCase+Stream.swift */,
 				7745B4001C88DD0900E76ACD /* ServerChangedCheckerTests.swift */,
 				7765025A1C73B90C007384E7 /* EmailTemplateTests.swift */,
-				7791C4EC1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift */,
+				7791C4EC1C651E9D0005745B /* RegistrationViewControllerTests.swift */,
 				779998221C3C1EE00058E5FE /* EnrolledCoursesViewControllerTests.swift */,
 				7742F8D91C3C9785009E555A /* EnrollmentConfigTests.swift */,
 				778B40DC1C2F85BC0009F33E /* FeedTests.swift */,
@@ -4531,7 +4531,7 @@
 				2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */,
 				227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */,
 				1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */,
-				7791C4ED1C651E9D0005745B /* OEXRegistrationViewControllerTests.swift in Sources */,
+				7791C4ED1C651E9D0005745B /* RegistrationViewControllerTests.swift in Sources */,
 				E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */,
 				7706AAC31BCFF28B00728432 /* NSAttributedString+FormattingTests.swift in Sources */,
 				77FEF2241C8A0A45009DFDB3 /* OEXFileUtility+TestAdditions.m in Sources */,

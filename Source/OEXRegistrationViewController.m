@@ -65,6 +65,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.agreementTextView = [[AgreementTextView alloc] init];
     self.loadController = [[LoadStateViewController alloc] init];
     [self.loadController setupInControllerWithController:self contentView:self.scrollView];
     
@@ -172,7 +173,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 -(void) setUpAgreementTextView {
-    self.agreementTextView = [[AgreementTextView alloc] init];
     [self.agreementTextView setupFor:AgreementTypeSignUp];
     self.agreementTextView.agreementDelegate = self;
     CGSize size = [self.agreementTextView sizeThatFits:CGSizeMake(self.scrollView.frame.size.width - 2 * self.styles.formMargin, CGFLOAT_MAX)];
