@@ -472,7 +472,6 @@
 		77D7FD261B04ED45002ACA8C /* Icon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D7FD251B04ED45002ACA8C /* Icon.swift */; };
 		77D7FD281B04FEC8002ACA8C /* SnapshotTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D7FD271B04FEC8002ACA8C /* SnapshotTestCase.swift */; };
 		77DC295E1ABC9D4400FAD22C /* NSObject+OEXReplaceNull.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */; };
-		77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */; };
 		77DCD2391C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DCD2381C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift */; };
 		77DCD23B1C2B14BA00CAEBB5 /* UITableView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DCD23A1C2B14BA00CAEBB5 /* UITableView+Layout.swift */; };
 		77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DCD23C1C2B434200CAEBB5 /* UIViewController+Overlay.swift */; };
@@ -603,7 +602,6 @@
 		B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E91A9B182900DD603A /* OEXConfigTests.m */; };
 		B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285EC1A9B429200DD603A /* OEXNetworkUtility.m */; };
 		B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */; };
-		B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E41A9490E9000F44E8 /* OEXLoginSplashViewController.m */; };
 		B4B6D5E91A9490FC000F44E8 /* OEXRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */; };
 		B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */; };
 		B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B6D5F31A949EFC000F44E8 /* OEXRegistrationDescription.m */; };
@@ -631,6 +629,7 @@
 		B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */; };
 		B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AB1FC709BD00F9CD61 /* String+Validation.swift */; };
 		B78823B01FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */; };
+		B78B23432093074E00F8D976 /* LoginSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78B23422093074D00F8D976 /* LoginSplashViewController.swift */; };
 		BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */; };
 		BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */; };
 		BD7C6C401DCA329A0004D135 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = BD7C6C3F1DCA329A0004D135 /* fonts.json */; };
@@ -1323,7 +1322,6 @@
 		77D76BFC1AA5076D00C51C2C /* OEXLocalizedString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLocalizedString.m; sourceTree = "<group>"; };
 		77D7FD251B04ED45002ACA8C /* Icon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Icon.swift; sourceTree = "<group>"; };
 		77D7FD271B04FEC8002ACA8C /* SnapshotTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotTestCase.swift; sourceTree = "<group>"; };
-		77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXLoginSplashViewController.xib; sourceTree = "<group>"; };
 		77DCD2381C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolledCoursesFooterView.swift; sourceTree = "<group>"; };
 		77DCD23A1C2B14BA00CAEBB5 /* UITableView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Layout.swift"; sourceTree = "<group>"; };
 		77DCD23C1C2B434200CAEBB5 /* UIViewController+Overlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Overlay.swift"; sourceTree = "<group>"; };
@@ -1478,8 +1476,6 @@
 		B4B285EC1A9B429200DD603A /* OEXNetworkUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNetworkUtility.m; sourceTree = "<group>"; };
 		B4B6C80B1A9C7AEA004F0FAF /* OEXPlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPlaceholderTextView.h; sourceTree = "<group>"; };
 		B4B6C80C1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPlaceholderTextView.m; sourceTree = "<group>"; };
-		B4B6D5E31A9490E9000F44E8 /* OEXLoginSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXLoginSplashViewController.h; sourceTree = "<group>"; };
-		B4B6D5E41A9490E9000F44E8 /* OEXLoginSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXLoginSplashViewController.m; sourceTree = "<group>"; };
 		B4B6D5E61A9490FC000F44E8 /* OEXRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXRegistrationViewController.h; sourceTree = "<group>"; };
 		B4B6D5E71A9490FC000F44E8 /* OEXRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewController.m; sourceTree = "<group>"; };
 		B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEXRegistrationViewController.xib; sourceTree = "<group>"; };
@@ -1524,6 +1520,7 @@
 		B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldController.swift; sourceTree = "<group>"; };
 		B78823AB1FC709BD00F9CD61 /* String+Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Validation.swift"; sourceTree = "<group>"; };
 		B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldControllerFactory.swift; sourceTree = "<group>"; };
+		B78B23422093074D00F8D976 /* LoginSplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginSplashViewController.swift; sourceTree = "<group>"; };
 		BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsTests.swift; sourceTree = "<group>"; };
 		BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFonts.swift; sourceTree = "<group>"; };
 		BD7C6C3F1DCA329A0004D135 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
@@ -2420,8 +2417,7 @@
 		7769071F1AD5EED600F5E7EB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				B4B6D5E31A9490E9000F44E8 /* OEXLoginSplashViewController.h */,
-				B4B6D5E41A9490E9000F44E8 /* OEXLoginSplashViewController.m */,
+				B78B23422093074D00F8D976 /* LoginSplashViewController.swift */,
 				1AAD95F51CEA222500BBF70C /* StartupViewController.swift */,
 				BECB7B671924EE11009C77F1 /* OEXLoginViewController.h */,
 				BECB7B681924EE11009C77F1 /* OEXLoginViewController.m */,
@@ -2509,7 +2505,6 @@
 			isa = PBXGroup;
 			children = (
 				19A1339319CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib */,
-				77DC295F1ABCA0F200FAD22C /* OEXLoginSplashViewController.xib */,
 				19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */,
 				198826E71952FE39005D4D8A /* OEXOpenInBrowserViewController.xib */,
 				B4B6D5E81A9490FC000F44E8 /* OEXRegistrationViewController.xib */,
@@ -3750,7 +3745,6 @@
 				69ECC60E1D50D1170030CF87 /* Icon-60@3x.png in Resources */,
 				E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */,
 				69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */,
-				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
 				B47780591AADA95400436DB4 /* Terms-and-Services.htm in Resources */,
@@ -4108,7 +4102,6 @@
 				778D53351B3D96E900441A98 /* ListCursor.swift in Sources */,
 				E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
-				B4B6D5E51A9490E9000F44E8 /* OEXLoginSplashViewController.m in Sources */,
 				778F177C1C0D12780099BF93 /* CourseCatalogAPI.swift in Sources */,
 				B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */,
 				773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */,
@@ -4319,6 +4312,7 @@
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
+				B78B23432093074E00F8D976 /* LoginSplashViewController.swift in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
 				B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */,

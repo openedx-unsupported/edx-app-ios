@@ -16,7 +16,6 @@
 #import "OEXConfig.h"
 #import "OEXFindCoursesViewController.h"
 #import "OEXInterface.h"
-#import "OEXLoginSplashViewController.h"
 #import "OEXLoginViewController.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXRegistrationViewController.h"
@@ -198,7 +197,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (BOOL)t_showingLogin {
-    return [self.currentContentController isKindOfClass:[OEXLoginSplashViewController class]];
+    return [self.currentContentController isKindOfClass:[LoginSplashViewController class]];
 }
 
 @end

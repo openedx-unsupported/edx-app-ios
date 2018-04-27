@@ -60,7 +60,6 @@
 #import "OEXVideoPathEntry.h"
 
 #import "Reachability.h"
-#import "OEXLoginSplashViewController.h"
 
 #import "UIBarButtonItem+OEXBlockActions.h"
 #import "UIControl+OEXBlockActions.h"

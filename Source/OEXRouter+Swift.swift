@@ -326,7 +326,7 @@ extension OEXRouter {
         else if environment.config.newLogistrationFlowEnabled {
             splashController = StartupViewController(environment: environment)
         } else {
-            splashController = OEXLoginSplashViewController(environment: environment)
+            splashController = LoginSplashViewController(environment: environment)
         }
         
         makeContentControllerCurrent(splashController)
