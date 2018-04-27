@@ -25,7 +25,6 @@
 #import "OEXRegistrationFormField.h"
 #import "OEXRegistrationStyles.h"
 #import "OEXRegisteringUserDetails.h"
-#import "OEXUserLicenseAgreementViewController.h"
 #import "OEXUsingExternalAuthHeadingView.h"
 #import "OEXRegistrationAgreement.h"
 
@@ -485,8 +484,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (void)agreementButtonTapped:(id)sender {
     NSURL* url = [[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
-    OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
-    [self presentViewController:viewController animated:YES completion:nil];
+    [self.environment.router showAgreementWebViewControllerWith:url from:self];
 }
 
 - (void)showProgress:(BOOL)status {

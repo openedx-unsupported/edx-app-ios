@@ -48,7 +48,7 @@ import UIKit
     
     
     // MARK: Properties
-    let environment: RouterEnvironment
+    private let environment: RouterEnvironment
     
     override var shouldAutorotate: Bool {
         return false

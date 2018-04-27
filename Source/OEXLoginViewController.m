@@ -34,7 +34,6 @@
 #import "OEXNetworkUtility.h"
 #import "OEXSession.h"
 #import "OEXUserDetails.h"
-#import "OEXUserLicenseAgreementViewController.h"
 #import "Reachability.h"
 #import "OEXStyles.h"
 
@@ -44,7 +43,6 @@
 {
     CGPoint originalOffset;     // store the offset of the scrollview.
     UITextField* activeField;   // assign textfield object which is in active state.
-
 }
 @property (nonatomic, strong) NSString* str_ForgotEmail;
 @property (nonatomic, strong) NSString* signInID;
@@ -388,8 +386,7 @@
 #pragma mark IBActions
 - (IBAction)openEULA:(id)sender {
     NSURL* url = [[NSBundle mainBundle] URLForResource:@"Terms-and-Services" withExtension:@"htm"];
-    OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
-    [self presentViewController:viewController animated:YES completion:nil];
+    [self.environment.router showAgreementWebViewControllerWith:url from:self];
 }
 
 - (IBAction)troubleLoggingClicked:(id)sender {

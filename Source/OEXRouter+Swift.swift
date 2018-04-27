@@ -348,7 +348,12 @@ extension OEXRouter {
             environment.networkManager.taskForRequest(networkRequest) { result in }
         }
     }
-
+    
+    @objc func showAgreementWebViewController(with url: URL, from controller : UIViewController) {
+        let agreementController = AgreementWebViewController(with: url)
+        controller.present(agreementController, animated: true, completion: nil)
+    }
+    
     // MARK: - Debug
     func showDebugPane() {
         let debugMenu = DebugMenuViewController(environment: environment)
