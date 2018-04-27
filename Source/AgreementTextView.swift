@@ -29,20 +29,20 @@ class AgreementTextView: UITextView {
         let prefix: String
         switch type {
         case .signIn:
-            prefix = Strings.agreementTextPrefixSignin
+            prefix = Strings.Agreement.textPrefixSignin
             break
         case .signUp:
-            prefix = Strings.agreementTextPrefixSignup
+            prefix = Strings.Agreement.textPrefixSignup
             break
         }
-        let eulaText = Strings.agreementLinkTextEula(platformName: platformName)
-        let tosText = Strings.agreementLinkTextTos(platformName: platformName)
-        let privacyPolicyText = Strings.agreementLinkTextPrivacyPolicy
-        let agreementText = "\(prefix)\(Strings.agreementText(eula: eulaText, tos: tosText, privacyPolicy: privacyPolicyText))"
+        let eulaText = Strings.Agreement.linkTextEula(platformName: platformName)
+        let tosText = Strings.Agreement.linkTextTos(platformName: platformName)
+        let privacyPolicyText = Strings.Agreement.linkTextPrivacyPolicy
+        let agreementText = "\(prefix)\(Strings.Agreement.text(eula: eulaText, tos: tosText, privacyPolicy: privacyPolicyText))"
         var attributedString = style.attributedString(withText: agreementText)
-        if let eulaUrl = Bundle.main.url(forResource: "Mobile_App_Eula", withExtension: "htm"),
-            let tosUrl = Bundle.main.url(forResource: "Terms-and-Services", withExtension: "htm"),
-            let privacyPolicyUrl = Bundle.main.url(forResource: "privacy_policy", withExtension: "htm") {
+        if let eulaUrl = Bundle.main.url(forResource: "MobileAppEula", withExtension: "htm"),
+            let tosUrl = Bundle.main.url(forResource: "TermsOfServices", withExtension: "htm"),
+            let privacyPolicyUrl = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "htm") {
             attributedString = attributedString.addLink(on: eulaText, value: eulaUrl)
             attributedString = attributedString.addLink(on: tosText, value: tosUrl)
             attributedString = attributedString.addLink(on: privacyPolicyText, value: privacyPolicyUrl)

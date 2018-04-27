@@ -157,17 +157,17 @@
 /* Add your post button title used in discussion's add a post textview */
 "ADD_YOUR_POST"="Add your post";
 /*Agreement text*/
-"AGREEMENT_TEXT"="you agree to the {eula} and {tos} and acknowledge the {privacy_policy}.";
+"AGREEMENT.TEXT"="you agree to the {eula} and {tos} and acknowledge the {privacy_policy}.";
 /*Agreement text prefix for user on signin screen*/
-"AGREEMENT_TEXT_PREFIX_SIGNIN"="By signing-in to this app, ";
+"AGREEMENT.TEXT_PREFIX_SIGNIN"="By signing-in to this app, ";
 /*Agreement text prefix for user on signup screen*/
-"AGREEMENT_TEXT_PREFIX_SIGNUP"="By creating an account, ";
+"AGREEMENT.TEXT_PREFIX_SIGNUP"="By creating an account, ";
 /*Link Text for End Use License Agreement*/
-"AGREEMENT_LINK_TEXT_EULA"="{platform_name} End User License Agreement";
+"AGREEMENT.LINK_TEXT_EULA"="{platform_name} End User License Agreement";
 /*Link Text for End Use License Agreement*/
-"AGREEMENT_LINK_TEXT_TOS"="{platform_name} Terms of Service and Honor Code";
+"AGREEMENT.LINK_TEXT_TOS"="{platform_name} Terms of Service and Honor Code";
 /*Link Text for End Use License Agreement*/
-"AGREEMENT_LINK_TEXT_PRIVACY_POLICY"="Privacy Policy";
+"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="Privacy Policy";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
 /* Filtering option to show all discussion posts */

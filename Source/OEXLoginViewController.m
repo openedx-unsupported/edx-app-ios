@@ -183,7 +183,7 @@
     [self.agreementTextView setupFor:AgreementTypeSignIn];
     self.agreementTextView.agreementDelegate = self;
     // To adjust textView according to its content size.
-    self.agreementTextViewHeight.constant = self.agreementTextView.contentSize.height + [[OEXStyles sharedStyles] standardHorizontalMargin];
+    self.agreementTextViewHeight.constant = self.agreementTextView.contentSize.height + [self.environment.styles standardHorizontalMargin];
 }
 
     //setting accessibility identifiers for developer automation use
@@ -287,7 +287,7 @@
     self.tf_Password.text = @"";
     self.tf_EmailID.accessibilityLabel = nil;
     self.tf_Password.accessibilityLabel = nil;
-    OEXMutableTextStyle *forgotButtonStyle = [[OEXMutableTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[[OEXStyles sharedStyles] primaryBaseColor]];
+    OEXTextStyle *forgotButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles primaryBaseColor]];
     [self.btn_TroubleLogging setAttributedTitle:[forgotButtonStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
 
     [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
@@ -319,7 +319,7 @@
     }
 }
 
-// MARK: AgreementTextViewDelegate
+#pragma mark AgreementTextViewDelegate
 - (void)agreementTextView:(AgreementTextView *)textView didSelect:(NSURL *)url {
     OEXUserLicenseAgreementViewController* viewController = [[OEXUserLicenseAgreementViewController alloc] initWithContentURL:url];
     [self presentViewController:viewController animated:YES completion:nil];
