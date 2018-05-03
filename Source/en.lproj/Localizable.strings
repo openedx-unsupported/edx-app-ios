@@ -156,6 +156,18 @@
 "ADD_RESPONSE"="Add response";
 /* Add your post button title used in discussion's add a post textview */
 "ADD_YOUR_POST"="Add your post";
+/*Agreement text*/
+"AGREEMENT.TEXT"="you agree to the {eula} and {tos} and acknowledge the {privacy_policy}.";
+/*Agreement text prefix for user on signin screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNIN"="By signing-in to this app, ";
+/*Agreement text prefix for user on signup screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNUP"="By creating an account, ";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_EULA"="{platform_name} End User License Agreement";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_TOS"="{platform_name} Terms of Service and Honor Code";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="Privacy Policy";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Allow";
 /* Filtering option to show all discussion posts */
@@ -393,7 +405,7 @@
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
 "ENROLLMENT_LIST.NO_ENROLLMENT" = "It looks like you are not enrolled in any courses yet.";
 /* Prompt indicating user needs to enter an email address */
-"ENTER_EMAIL"="Please enter your user name or e-mail address and try again.";
+"ENTER_EMAIL"="Please enter your username or e-mail address and try again.";
 /* Prompt indicating user needs to enter a password */
 "ENTER_PASSWORD"="Please enter your password and try again.";
 /* Text used when the post is visible to everyone */
@@ -441,7 +453,7 @@
 /* Overlay error shown when logging in with an invalid email address */
 "INVALID_EMAIL_MESSAGE"="Please make sure your e-mail address is formatted correctly and try again.";
 /* Overlay error shown when logging in with an invalid username or password */
-"INVALID_USERNAME_PASSWORD"="Please make sure that your user name or e-mail address and password are correct and try again.";
+"INVALID_USERNAME_PASSWORD"="Please make sure that your username or e-mail address and password are correct and try again.";
 /* Alert dialog text asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_MESSAGE"="The videos you've selected are larger than 1 GB. Do you want to download these videos?";
 /* Alert dialog title when asking whether it's okay to download large videos */
@@ -582,14 +594,10 @@
 "RECENT_ACTIVITY" = "Recent Activity";
 /* Section title to display recently downloaded videos */
 "RECENT_VIDEOS"="Recent Videos";
-/* Create account agreement. Followed by agreement name like "End User License Agreement */
-"REDIRECT_TEXT" = "By signing in to this app, you agree to the";
 /* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
 "REFINE" = "Refine:";
 /* Button title when responses are closed for a thread */
 "RESPONSES_CLOSED"="Responses are closed for this post";
-/* Title of registration agreement */
-"REGISTRATION_AGREEMENT_BUTTON_TITLE"="{platform_name} Terms of Service and Honor Code";
 /* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
 "REGISTRATION_AGREEMENT_MESSAGE"="By creating an account, you agree to the ";
 /* Button text allowing user create an account */
@@ -718,7 +726,7 @@
 /* Placeholder title for course content with no title */
 "UNTITLED"="Untitled";
 /* Hint text for login field */
-"USERNAME_PLACEHOLDER" = "User name or e-mail address";
+"USERNAME_PLACEHOLDER" = "Username or e-mail address";
 /*Error message when operation failed with unknow error*/
 "UNKNOWN_ERROR" = "Your action could not be completed.";
 /* Screen title showing a user's account */
