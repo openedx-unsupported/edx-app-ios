@@ -631,6 +631,7 @@
 		B78B233C20908A5100F8D976 /* PrivacyPolicy.htm in Resources */ = {isa = PBXBuildFile; fileRef = B78B233A20908A5000F8D976 /* PrivacyPolicy.htm */; };
 		B78B233D20908A5100F8D976 /* MobileAppEula.htm in Resources */ = {isa = PBXBuildFile; fileRef = B78B233B20908A5000F8D976 /* MobileAppEula.htm */; };
 		B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78B233E20908C3D00F8D976 /* AgreementTextView.swift */; };
+		B7A1EA83209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */; };
 		B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */; };
 		B7CCC71E209B16B100A66923 /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */; };
 		B7CCC71F209B16B100A66923 /* ConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FC209B16B000A66923 /* ConstraintDescription.swift */; };
@@ -1546,6 +1547,7 @@
 		B78B233A20908A5000F8D976 /* PrivacyPolicy.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PrivacyPolicy.htm; sourceTree = "<group>"; };
 		B78B233B20908A5000F8D976 /* MobileAppEula.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MobileAppEula.htm; sourceTree = "<group>"; };
 		B78B233E20908C3D00F8D976 /* AgreementTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementTextView.swift; sourceTree = "<group>"; };
+		B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+SafeAreaLayoutGuide.swift"; sourceTree = "<group>"; };
 		B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
 		B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutConstraintItem.swift; sourceTree = "<group>"; };
 		B7CCC6FC209B16B000A66923 /* ConstraintDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintDescription.swift; sourceTree = "<group>"; };
@@ -3046,9 +3048,18 @@
 			path = "Registration Field Views";
 			sourceTree = "<group>";
 		};
+		B7A1EA81209C417000BD369A /* SnapKitExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */,
+			);
+			path = SnapKitExtensions;
+			sourceTree = "<group>";
+		};
 		B7CCC6F9209B16B000A66923 /* SnapKit */ = {
 			isa = PBXGroup;
 			children = (
+				B7A1EA81209C417000BD369A /* SnapKitExtensions */,
 				B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */,
 				B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */,
 				B7CCC6FC209B16B000A66923 /* ConstraintDescription.swift */,
@@ -4446,6 +4457,7 @@
 				1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */,
 				223A98FC1FA8610B0018DF67 /* AdditionalTabBarViewController.swift in Sources */,
 				77F76A6E1B0BD32A00ED3E39 /* OEXSession+Authorization.swift in Sources */,
+				B7A1EA83209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift in Sources */,
 				228E0B8F1F43208C0073E6FA /* AccountViewCell.swift in Sources */,
 				9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */,
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,

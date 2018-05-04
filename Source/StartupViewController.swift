@@ -143,14 +143,9 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let bottomBar = BottomBarView(environment: environment)
         view.addSubview(bottomBar)
         bottomBar.snp.makeConstraints { (make) in
-            if #available(iOS 11, *) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide)
-            }
-            else {
-                make.bottom.equalTo(view)
-            }
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.bottom.equalTo(safeBottom)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
         }
 
     }

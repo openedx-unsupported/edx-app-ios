@@ -299,16 +299,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.width.equalTo(filterButton.snp.width)
         }
         newPostButton.snp.remakeConstraints{ (make) -> Void in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
             make.height.equalTo(context?.allowsPosting ?? false ? OEXStyles.shared().standardFooterHeight : 0)
             make.top.equalTo(contentView.snp.bottom)
-            if #available(iOS 11, *) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide)
-            }
-            else {
-                make.bottom.equalTo(view)
-            }
+            make.bottom.equalTo(safeBottom)
         }
         
         tableView.snp.remakeConstraints { (make) -> Void in

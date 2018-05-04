@@ -119,12 +119,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     
     private func setConstraints() {
         containerView.snp.makeConstraints {make in
-            if #available(iOS 11, *) {
-                make.edges.equalTo(view.safeAreaLayoutGuide)
-            }
-            else {
-                make.edges.equalTo(view)
-            }
+            make.edges.equalTo(safeEdges)
         }
         
         headerLabel.snp.makeConstraints { make in

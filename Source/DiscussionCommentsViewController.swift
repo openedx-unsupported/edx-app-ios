@@ -410,29 +410,24 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     func setConstraints() {
         contentView.snp.makeConstraints { (make) -> Void in
-            make.leading.equalTo(view.snp.leading)
-            make.top.equalTo(view)
-            make.trailing.equalTo(view.snp.trailing)
+            make.leading.equalTo(safeLeading)
+            make.top.equalTo(safeTop)
+            make.trailing.equalTo(safeTrailing)
             make.bottom.equalTo(addCommentButton.snp.top)
         }
         
         addCommentButton.snp.makeConstraints{ (make) -> Void in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
             make.height.equalTo(OEXStyles.shared().standardFooterHeight)
-            if #available(iOS 11, *) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide)
-            }
-            else {
-                make.bottom.equalTo(view)
-            }
+            make.bottom.equalTo(safeBottom)
         }
         
         tableView.snp.makeConstraints { (make) -> Void in
-            make.leading.equalTo(view.snp.leading)
-            make.top.equalTo(view)
-            make.trailing.equalTo(view.snp.trailing)
-            make.bottom.equalTo(addCommentButton.snp.top)
+            make.leading.equalTo(contentView)
+            make.top.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.bottom.equalTo(contentView)
         }
         
     }

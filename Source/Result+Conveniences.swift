@@ -20,7 +20,7 @@ public func Failure<A>(e : NSError = NSError.oex_unknownError()) -> Result<A> {
 extension Optional {
 
     /// Converts an optional to an error, using `error` if the `self` is `nil`
-    func toResult( error : @autoclosure (Void) -> NSError?) -> Result<Wrapped> {
+    func toResult( error : @autoclosure () -> NSError?) -> Result<Wrapped> {
         if let v = self {
             return Success(v: v)
         }

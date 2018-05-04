@@ -300,15 +300,10 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         addResponseButton.contentVerticalAlignment = .center
         view.addSubview(addResponseButton)
         addResponseButton.snp.makeConstraints{ (make) -> Void in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
             make.height.equalTo(OEXStyles.shared().standardFooterHeight)
-            if #available(iOS 11, *) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide)
-            }
-            else {
-                make.bottom.equalTo(view)
-            }
+            make.bottom.equalTo(safeBottom)
             make.top.equalTo(tableView.snp.bottom)
         }
         

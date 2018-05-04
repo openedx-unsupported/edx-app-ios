@@ -223,12 +223,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.top.equalTo(videoController.view.snp.bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
-            if #available(iOS 11, *) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide)
-            }
-            else {
-                make.bottom.equalTo(view)
-            }
+            make.bottom.equalTo(safeBottom)
         }
         
         rotateDeviceMessageView?.snp.remakeConstraints {make in

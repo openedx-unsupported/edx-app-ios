@@ -158,14 +158,9 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
         
         webView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(notificationBar.snp.bottom)
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
-            if #available(iOS 11, *) {
-                make.bottom.equalTo(view.safeAreaLayoutGuide)
-            }
-            else {
-                make.bottom.equalTo(view)
-            }
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
+            make.bottom.equalTo(safeBottom)
         }
     }
     
