@@ -89,14 +89,14 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
             make.edges.equalTo(self.view)
         }
         
-        searchBar.snp.makeConstraints { (make) -> Void in
+        searchBar.snp.makeConstraints { make in
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(searchBarSeparator.snp.top)
         }
         
-        searchBarSeparator.snp.makeConstraints { (make) -> Void in
+        searchBarSeparator.snp.makeConstraints { make in
             make.height.equalTo(OEXStyles.dividerSize())
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)

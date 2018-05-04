@@ -91,7 +91,7 @@ public class CourseOutlineHeaderView: UIView {
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
         }
         
-        subtitleLabel.snp.makeConstraints { (make) -> Void in
+        subtitleLabel.snp.makeConstraints { make in
             make.centerY.equalTo(self).offset(subtitleLabelCenterYOffset)
             make.leading.equalTo(messageView)
             make.trailing.lessThanOrEqualTo(viewButton.snp.leading).offset(-10)

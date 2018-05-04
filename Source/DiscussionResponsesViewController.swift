@@ -165,9 +165,9 @@ class DiscussionResponseCell: UITableViewCell {
     
     override func updateConstraints() {
         if endorsedByButton.isHidden {
-            bodyTextView.snp.updateConstraints({ (make) in
+            bodyTextView.snp.remakeConstraints { make in
                 make.bottom.equalTo(separatorLine.snp.top).offset(-StandardVerticalMargin)
-            })
+            }
         }
         
         super.updateConstraints()
@@ -299,7 +299,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         addResponseButton.contentVerticalAlignment = .center
         view.addSubview(addResponseButton)
-        addResponseButton.snp.makeConstraints{ (make) -> Void in
+        addResponseButton.snp.makeConstraints{ make in
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
             make.height.equalTo(OEXStyles.shared().standardFooterHeight)
@@ -623,9 +623,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             cell.endorsedByButton.setAttributedTitle(formatedTitle, for: .normal)
             
-            cell.endorsedByButton.snp.updateConstraints({ (make) in
+            cell.endorsedByButton.snp.updateConstraints { make in
                 make.width.equalTo(formatedTitle.singleLineWidth() + StandardHorizontalMargin)
-            })
+            }
         }
         
         DiscussionHelper.styleAuthorDetails(author: response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: cell.authorNameLabel, dateLabel: cell.dateLabel, authorButton: cell.authorButton, imageView: cell.authorProfileImage, viewController: self, router: environment.router)

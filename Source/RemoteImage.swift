@@ -204,7 +204,7 @@ extension UIImageView {
         self.spinner = spinner
         
         superview?.addSubview(spinner)
-        spinner.snp.makeConstraints { (make) -> Void in
+        spinner.snp.makeConstraints { make in
             make.center.equalTo(snp.center)
         }
         spinner.startAnimating()

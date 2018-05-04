@@ -98,13 +98,13 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func applyPortraitConstraints() {
-        messageView?.snp.remakeConstraints { (make) -> Void in
+        messageView?.snp.remakeConstraints { make in
             make.edges.equalTo(view)
         }
     }
     
     private func applyLandscapeConstraints() {
-        messageView?.snp.remakeConstraints { (make) -> Void in
+        messageView?.snp.remakeConstraints { make in
             make.edges.equalTo(view)
             let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
             make.bottom.equalTo(view.snp.bottom).offset(-barHeight)

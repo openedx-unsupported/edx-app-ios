@@ -48,13 +48,13 @@ public class VersionUpgradeView: UIView {
             make.trailing.equalTo(self).offset(-StandardHorizontalMargin)
         }
         
-        upgradeButton.snp.makeConstraints { (make) in
+        upgradeButton.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom)
             make.trailing.equalTo(self).offset(-StandardHorizontalMargin)
             make.bottom.equalTo(self).offset(-StandardVerticalMargin)
         }
         
-        dismissButton.snp.makeConstraints { (make) in
+        dismissButton.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom)
             make.trailing.equalTo(upgradeButton.snp.leading).offset(-StandardHorizontalMargin)
             make.bottom.equalTo(self).offset(-StandardVerticalMargin)
@@ -134,13 +134,13 @@ public class OfflineView: UIView {
             make.centerY.equalTo(reloadButton)
         }
         
-        reloadButton.snp.makeConstraints { (make) in
+        reloadButton.snp.makeConstraints { make in
             make.top.equalTo(messageLabel)
             make.trailing.equalTo(self).offset(-StandardHorizontalMargin)
             make.bottom.equalTo(self).offset(-StandardVerticalMargin)
         }
         
-        dismissButton.snp.makeConstraints { (make) in
+        dismissButton.snp.makeConstraints { make in
             make.top.equalTo(reloadButton)
             make.trailing.equalTo(reloadButton.snp.leading).offset(-StandardHorizontalMargin)
             make.bottom.equalTo(self).offset(-StandardVerticalMargin)

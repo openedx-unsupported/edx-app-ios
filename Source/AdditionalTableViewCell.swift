@@ -69,18 +69,18 @@ class AdditionalTableViewCell: UITableViewCell {
             make.edges.equalTo(contentView)
         }
         
-        iconView.snp.makeConstraints { (make) -> Void in
+        iconView.snp.makeConstraints { make in
             make.leading.equalTo(container).offset(ICON_MARGIN)
             make.centerY.equalTo(container)
         }
         
-        titleLabel.snp.makeConstraints { (make) -> Void in
+        titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(container).offset(LABEL_MARGIN)
             make.trailing.lessThanOrEqualTo(container)
             make.top.equalTo(container).offset(LABEL_SIZE_HEIGHT)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
-        detailLabel.snp.makeConstraints { (make) -> Void in
+        detailLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel)
             make.trailing.lessThanOrEqualTo(container)
             make.top.equalTo(titleLabel.snp.bottom)

@@ -263,12 +263,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private func setConstraints() {
         loadingIndicatorView.snp.makeConstraints() { make in
-            make.center.equalTo(playerView.center)
+            make.center.equalToSuperview()
             make.height.equalTo(loadingIndicatorViewSize.height)
             make.width.equalTo(loadingIndicatorViewSize.width)
         }
         
-        accessibilityPlayerView.snp.makeConstraints { (make) in
+        accessibilityPlayerView.snp.makeConstraints { make in
             make.edges.equalTo(playerView)
         }
     }

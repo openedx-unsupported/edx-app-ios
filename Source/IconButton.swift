@@ -35,10 +35,10 @@ class IconButton : UIControl {
         addSubview(imageView)
         addSubview(titleLabel)
 
-        imageView.snp.makeConstraints { (make) -> Void in
-            make.baseline.equalTo(titleLabel.snp.baseline).offset(2)
+        imageView.snp.makeConstraints { make in
+            make.lastBaseline.equalTo(titleLabel.snp.lastBaseline).offset(2)
         }
-        titleLabel.snp.makeConstraints { (make) -> Void in
+        titleLabel.snp.makeConstraints { make in
             make.centerY.equalTo(self)
             make.leading.equalTo(imageView.snp.trailing).offset(spacing)
             make.trailing.equalTo(self)

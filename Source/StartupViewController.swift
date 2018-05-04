@@ -74,7 +74,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         logoImageView.accessibilityIdentifier = "StartUpViewController:logo-image-view"
         view.addSubview(logoImageView)
 
-        logoImageView.snp.makeConstraints { (make) in
+        logoImageView.snp.makeConstraints { make in
             make.leading.equalTo(2*StandardHorizontalMargin)
             make.centerY.equalTo(view.snp.bottom).dividedBy(6.0)
             make.width.equalTo((logo?.size.width ?? 0) / 2)
@@ -89,7 +89,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         messageLabel.accessibilityIdentifier = "StartUpViewController:message-label"
         view.addSubview(messageLabel)
         
-        messageLabel.snp.makeConstraints { (make) in
+        messageLabel.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(3 * StandardVerticalMargin)
             make.leading.equalTo(logoImageView)
             make.trailing.equalTo(view).offset(-2 * StandardHorizontalMargin)
@@ -101,7 +101,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let borderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment.styles.primaryBaseColor())
         searchView.applyBorderStyle(style: borderStyle)
 
-        searchView.snp.makeConstraints { (make) in
+        searchView.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom).offset(6*StandardVerticalMargin)
             make.leading.equalTo(messageLabel)
             make.trailing.equalTo(messageLabel)
@@ -115,7 +115,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         
         searchView.addSubview(searchImageView)
         
-        searchImageView.snp.makeConstraints { (make) in
+        searchImageView.snp.makeConstraints { make in
             make.leading.equalTo(StandardHorizontalMargin)
             make.centerY.equalTo(searchView)
             make.width.equalTo(15)
@@ -132,7 +132,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         searchTextField.defaultTextAttributes = environment.styles.textFieldStyle(with: .large, color: environment.styles.primaryBaseColor()).attributes
         searchView.addSubview(searchTextField)
         
-        searchTextField.snp.makeConstraints { (make) in
+        searchTextField.snp.makeConstraints { make in
             make.leading.equalTo(searchImageView.snp.trailing).offset(StandardHorizontalMargin)
             make.trailing.equalTo(searchView).offset(-StandardHorizontalMargin)
             make.centerY.equalTo(searchView)
@@ -142,7 +142,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private func setupBottomBar() {
         let bottomBar = BottomBarView(environment: environment)
         view.addSubview(bottomBar)
-        bottomBar.snp.makeConstraints { (make) in
+        bottomBar.snp.makeConstraints { make in
             make.bottom.equalTo(safeBottom)
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
@@ -208,19 +208,19 @@ private class BottomBarView: UIView, NSCopying {
 
         addSubview(bottomBar)
 
-        bottomBar.snp.makeConstraints { (make) in
+        bottomBar.snp.makeConstraints { make in
             make.edges.equalTo(self)
             make.height.equalTo(BottomBarHeight)
         }
         
-        signInButton.snp.makeConstraints { (make) in
+        signInButton.snp.makeConstraints { make in
             make.top.equalTo(bottomBar).offset(BottomBarMargin)
             make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
             make.trailing.equalTo(bottomBar).offset(-BottomBarMargin)
             make.width.equalTo(95)
         }
         
-        registerButton.snp.makeConstraints { (make) in
+        registerButton.snp.makeConstraints { make in
             make.top.equalTo(bottomBar).offset(BottomBarMargin)
             make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
             make.leading.equalTo(bottomBar).offset(BottomBarMargin)

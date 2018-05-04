@@ -319,7 +319,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         case .full:
             if shouldHideTableViewHeader { return }
             var constraintView: UIView = courseCard            
-            courseCard.snp.remakeConstraints { (make) in
+            courseCard.snp.remakeConstraints { make in
                 let screenWidth = UIScreen.main.bounds.size.width
                 var height: CGFloat = 0
                 let screenHeight = UIScreen.main.bounds.size.height
@@ -335,7 +335,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             }
             
             if let courseCertificateView = courseCertificateView {
-                courseCertificateView.snp.remakeConstraints { (make) -> Void in
+                courseCertificateView.snp.remakeConstraints { make in
                     make.trailing.equalTo(courseCard)
                     make.leading.equalTo(courseCard)
                     make.height.equalTo(CourseCertificateView.height)
@@ -344,7 +344,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 constraintView = courseCertificateView
             }
             
-            lastAccessedView.snp.remakeConstraints { (make) -> Void in
+            lastAccessedView.snp.remakeConstraints { make in
                 make.trailing.equalTo(courseCard)
                 make.leading.equalTo(courseCard)
                 make.top.equalTo(constraintView.snp.bottom)
@@ -363,10 +363,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 tableView.tableHeaderView = nil
                 return
             }
-            courseVideosHeaderView?.snp.makeConstraints({ make in
+            courseVideosHeaderView?.snp.makeConstraints { make in
                 make.edges.equalTo(headerContainer)
                 make.height.equalTo(CourseVideosHeaderView.height)
-            })
+            }
             courseVideosHeaderView?.refreshView()
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
             break

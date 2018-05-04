@@ -67,10 +67,10 @@ class ProfileImageView: UIImageView {
         
         insertSubview(blurView, at: 0)
         blurView.contentView.addSubview(vibView)
-        vibView.snp.makeConstraints { (make) -> Void in
+        vibView.snp.makeConstraints { make in
             make.edges.equalTo(vibView.superview!)
         }
-        blurView.snp.makeConstraints { (make) -> Void in
+        blurView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
         

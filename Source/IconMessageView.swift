@@ -128,7 +128,7 @@ class IconMessageView : UIView {
     }
     
     override func updateConstraints() {
-        container.snp.makeConstraints { (make) -> Void in
+        container.snp.makeConstraints { make in
             make.center.equalTo(self)
             make.leading.greaterThanOrEqualTo(self)
             make.trailing.lessThanOrEqualTo(self)
@@ -136,13 +136,13 @@ class IconMessageView : UIView {
             make.bottom.lessThanOrEqualTo(self)
         }
         
-        iconView.snp.updateConstraints { (make) -> Void in
+        iconView.snp.remakeConstraints { make in
             make.leading.equalTo(container)
             make.trailing.equalTo(container)
             make.top.equalTo(container)
         }
         
-        messageView.snp.remakeConstraints { (make) -> Void in
+        messageView.snp.remakeConstraints { make in
             make.top.equalTo(self.iconView.snp.bottom).offset(IconMessageMargin)
             make.centerX.equalTo(container)
             make.width.equalTo(IconMessageTextWidth)
@@ -152,7 +152,7 @@ class IconMessageView : UIView {
         }
         
         if hasBottomButton {
-            bottomButton.snp.remakeConstraints { (make) -> Void in
+            bottomButton.snp.remakeConstraints { make in
                 make.top.equalTo(self.messageView.snp.bottom).offset(MessageButtonMargin)
                 make.centerX.equalTo(container)
                 make.bottom.equalTo(container)

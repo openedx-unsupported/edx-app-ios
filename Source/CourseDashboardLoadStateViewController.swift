@@ -29,7 +29,7 @@ class CourseDashboardLoadStateViewController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(contentView)
-        contentView.snp.makeConstraints { (make) in
+        contentView.snp.makeConstraints { make in
             make.edges.equalTo(view)
         }
         

@@ -58,23 +58,23 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private func addConstraints() {
-        typeLabel.snp.makeConstraints { (make) -> Void in
+        typeLabel.snp.makeConstraints { make in
             make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
             make.top.equalTo(titleLabel)
         }
         
-        titleLabel.snp.makeConstraints { (make) -> Void in
+        titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(typeLabel.snp.trailing).offset(StandardHorizontalMargin)
             make.top.equalTo(contentView).offset(StandardVerticalMargin)
         }
         
-        countLabel.snp.makeConstraints { (make) -> Void in
+        countLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel)
             make.leading.greaterThanOrEqualTo(titleLabel.snp.trailing).offset(StandardHorizontalMargin)
             make.trailing.equalTo(contentView).offset(-StandardHorizontalMargin)
         }
         
-        infoLabel.snp.makeConstraints { (make) -> Void in
+        infoLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp.bottom)
             make.bottom.equalTo(contentView).offset(-StandardVerticalMargin)

@@ -133,18 +133,18 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
     }
     
     private func setConstraints() {
-        notificationLabel.snp.makeConstraints { (make) -> Void in
+        notificationLabel.snp.makeConstraints { make in
             make.leading.equalTo(notificationBar.snp.leading).offset(notificationLabelLeadingOffset)
             make.centerY.equalTo(notificationBar)
             make.trailing.equalTo(notificationSwitch)
         }
         
-        notificationSwitch.snp.makeConstraints { (make) -> Void in
+        notificationSwitch.snp.makeConstraints { make in
             make.centerY.equalTo(notificationBar)
             make.trailing.equalTo(notificationBar).offset(notificationLabelTrailingOffset)
         }
         
-        notificationBar.snp.makeConstraints { (make) -> Void in
+        notificationBar.snp.makeConstraints { make in
             make.top.equalTo(self.view)
             make.leading.equalTo(self.view)
             make.trailing.equalTo(self.view)
@@ -156,7 +156,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
             }
         }
         
-        webView.snp.makeConstraints { (make) -> Void in
+        webView.snp.makeConstraints { make in
             make.top.equalTo(notificationBar.snp.bottom)
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)

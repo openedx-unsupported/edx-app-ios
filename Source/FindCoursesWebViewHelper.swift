@@ -74,11 +74,11 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
 
             if let bar = bottomBar {
                 container.view.insertSubview(bar, at: 0)
-                bar.snp.makeConstraints({ (make) in
+                bar.snp.makeConstraints { make in
                     make.leading.equalTo(container.view)
                     make.trailing.equalTo(container.view)
                     make.bottom.equalTo(container.view)
-                })
+                }
             }
         }
     }

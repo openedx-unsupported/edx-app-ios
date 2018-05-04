@@ -156,15 +156,15 @@ class LoadStateViewController : UIViewController {
     }
     
     override func updateViewConstraints() {
-        loadingView.snp.updateConstraints {make in
+        loadingView.snp.remakeConstraints {make in
             make.center.equalTo(view)
         }
         
-        messageView.snp.updateConstraints {make in
+        messageView.snp.remakeConstraints {make in
             make.center.equalTo(view)
         }
         
-        view.snp.updateConstraints { make in
+        view.snp.remakeConstraints { make in
             if let superview = view.superview {
                 make.edges.equalTo(superview).inset(insets)
             }

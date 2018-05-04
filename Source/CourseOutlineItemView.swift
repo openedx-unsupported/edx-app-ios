@@ -131,7 +131,7 @@ public class CourseOutlineItemView: UIView {
     }
     
     override public func updateConstraints() {
-        leadingImageButton.snp.updateConstraints { (make) -> Void in
+        leadingImageButton.snp.remakeConstraints { make in
             make.centerY.equalTo(self)
             if hasLeadingImageIcon {
                 make.leading.equalTo(self).offset(StandardHorizontalMargin)
@@ -143,7 +143,7 @@ public class CourseOutlineItemView: UIView {
         }
         
         let shouldOffsetTitle = !(subtitleLabel.text?.isEmpty ?? true)
-        titleLabel.snp.updateConstraints { (make) -> Void in
+        titleLabel.snp.remakeConstraints { make in
             let titleOffset = shouldOffsetTitle ? TitleOffsetCenterY : 0
             make.centerY.equalTo(self).offset(titleOffset)
             if hasLeadingImageIcon {
@@ -162,7 +162,7 @@ public class CourseOutlineItemView: UIView {
     private func resetContraints(withBlockType type: CourseBlockType?){
         guard let blockType = type else { return }
         
-        subtitleLabel.snp.remakeConstraints{ (make) -> Void in
+        subtitleLabel.snp.remakeConstraints{ make in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             if case CourseBlockType.Section = blockType {
                 make.leading.equalTo(checkmark.snp.leading).offset(20)
@@ -184,14 +184,14 @@ public class CourseOutlineItemView: UIView {
         
         // For performance only add the static constraints once
         
-        checkmark.snp.makeConstraints { (make) -> Void in
+        checkmark.snp.makeConstraints { make in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             make.leading.equalTo(titleLabel)
             make.trailing.lessThanOrEqualTo(trailingContainer.snp.leading).offset(5)
             make.size.equalTo(CGSize(width: SmallIconSize, height: SmallIconSize))
         }
         
-        subtitleLabel.snp.makeConstraints { (make) -> Void in
+        subtitleLabel.snp.makeConstraints { make in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             
             if checkmark.isHidden {
@@ -202,12 +202,12 @@ public class CourseOutlineItemView: UIView {
             }
         }
         
-        videoSizeLabel.snp.makeConstraints { (make) -> Void in
+        videoSizeLabel.snp.makeConstraints { make in
             make.centerY.equalTo(self).offset(SubtitleOffsetCenterY)
             make.leading.equalTo(subtitleLabel.snp.trailing).offset(StandardHorizontalMargin)
         }
 
-        trailingContainer.snp.makeConstraints { (make) -> Void in
+        trailingContainer.snp.makeConstraints { make in
             make.trailing.equalTo(self.snp.trailing).offset(CellOffsetTrailing)
             make.centerY.equalTo(self)
         }
@@ -220,7 +220,7 @@ public class CourseOutlineItemView: UIView {
                 trailingContainer.addSubview(view)
                 view.snp.makeConstraints {make in
                     // required to prevent long titles from compressing this
-                    make.edges.equalTo(trailingContainer).priorityRequired()
+                    make.edges.equalTo(trailingContainer).priority(.required)
                 }
             }
             setNeedsLayout()

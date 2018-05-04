@@ -50,7 +50,7 @@ class DiscussionTopicCell: UITableViewCell {
         self.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         self.contentView.addSubview(titleLabel)
 
-        self.titleLabel.snp.makeConstraints { (make) -> Void in
+        self.titleLabel.snp.makeConstraints { make in
             make.trailing.equalTo(self.contentView).offset(-StandardHorizontalMargin)
             make.top.equalTo(self.contentView).offset(StandardVerticalMargin)
             make.bottom.equalTo(self.contentView).offset(-StandardVerticalMargin)
@@ -77,8 +77,7 @@ private extension String {
 }
 
 extension UITableViewCell {
-    
-    fileprivate func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
+    func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
         return CGFloat(depth + 1) * StandardHorizontalMargin
     }
 }

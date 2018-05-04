@@ -92,23 +92,23 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         
         container.snp.makeConstraints { make -> Void in
             make.leading.equalTo(self)
-            make.trailing.equalTo(self).priorityRequired()
+            make.trailing.equalTo(self).priority(.required)
             make.bottom.equalTo(self).offset(-OEXStyles.dividerSize())
         }
-        coverImageView.snp.makeConstraints { (make) -> Void in
+        coverImageView.snp.makeConstraints { make in
             make.top.equalTo(self)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.height.equalTo(coverImageView.snp.width).multipliedBy(coverImageAspectRatio).priorityLow()
+            make.height.equalTo(coverImageView.snp.width).multipliedBy(coverImageAspectRatio).priority(.low)
             make.bottom.equalTo(self)
         }
-        dateLabel.snp.makeConstraints { (make) -> Void in
+        dateLabel.snp.makeConstraints { make in
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(container).offset(-verticalMargin)
             make.trailing.equalTo(titleLabel)
         }
-        bottomLine.snp.makeConstraints { (make) -> Void in
+        bottomLine.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)
@@ -135,7 +135,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             }
         }
         
-        titleLabel.snp.remakeConstraints { (make) -> Void in
+        titleLabel.snp.remakeConstraints { make in
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             if let accessory = titleAccessoryView {
                 make.trailing.lessThanOrEqualTo(accessory).offset(-StandardHorizontalMargin)

@@ -79,28 +79,28 @@ class DiscussionCommentCell: UITableViewCell {
     
     private func setConstraints() {
         
-        containerView.snp.makeConstraints { (make) -> Void in
+        containerView.snp.makeConstraints { make in
             make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(0, StandardHorizontalMargin, 0, StandardHorizontalMargin))
         }
         
-        authorProfileImage.snp.makeConstraints { (make) in
+        authorProfileImage.snp.makeConstraints { make in
             make.leading.equalTo(containerView).offset(StandardHorizontalMargin)
             make.top.equalTo(containerView).offset(StandardVerticalMargin)
             make.width.equalTo(UserProfileImageSize.width)
             make.height.equalTo(UserProfileImageSize.height)
         }
         
-        authorNameLabel.snp.makeConstraints { (make) in
+        authorNameLabel.snp.makeConstraints { make in
             make.top.equalTo(authorProfileImage)
             make.leading.equalTo(authorProfileImage.snp.trailing).offset(StandardHorizontalMargin)
         }
         
-        dateLabel.snp.makeConstraints { (make) in
+        dateLabel.snp.makeConstraints { make in
             make.top.equalTo(authorNameLabel.snp.bottom)
             make.leading.equalTo(authorNameLabel)
         }
         
-        authorButton.snp.makeConstraints { (make) -> Void in
+        authorButton.snp.makeConstraints { make in
             make.top.equalTo(authorProfileImage)
             make.leading.equalTo(contentView)
             make.bottom.equalTo(authorProfileImage)
@@ -108,23 +108,23 @@ class DiscussionCommentCell: UITableViewCell {
             make.trailing.equalTo(authorNameLabel)
         }
         
-        endorsedLabel.snp.makeConstraints { (make) -> Void in
+        endorsedLabel.snp.makeConstraints { make in
             make.leading.equalTo(dateLabel)
             make.top.equalTo(dateLabel.snp.bottom)
         }
         
-        bodyTextView.snp.makeConstraints { (make) -> Void in
+        bodyTextView.snp.makeConstraints { make in
             make.top.equalTo(authorProfileImage.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(authorProfileImage)
             make.trailing.equalTo(containerView).offset(-StandardHorizontalMargin)
         }
         
-        commentCountOrReportIconButton.snp.makeConstraints { (make) -> Void in
+        commentCountOrReportIconButton.snp.makeConstraints { make in
             make.trailing.equalTo(containerView).offset(-OEXStyles.shared().standardHorizontalMargin())
             make.top.equalTo(authorNameLabel)
         }
         
-        divider.snp.makeConstraints { (make) -> Void in
+        divider.snp.makeConstraints { make in
             make.top.equalTo(bodyTextView.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
@@ -134,7 +134,7 @@ class DiscussionCommentCell: UITableViewCell {
     }
     
     func useResponse(response : DiscussionComment, viewController : DiscussionCommentsViewController) {
-        divider.snp.updateConstraints { (make) in
+        divider.snp.updateConstraints { make in
             make.height.equalTo(StandardVerticalMargin)
         }
         bodyTextView.attributedText = commentTextStyle.markdownString(withText: response.renderedBody)
@@ -156,7 +156,7 @@ class DiscussionCommentCell: UITableViewCell {
     }
     
     func useComment(comment : DiscussionComment, inViewController viewController : DiscussionCommentsViewController, index: NSInteger) {
-        divider.snp.updateConstraints { (make) in
+        divider.snp.updateConstraints { make in
             make.height.equalTo(2)
         }
         bodyTextView.attributedText = commentTextStyle.markdownString(withText: comment.renderedBody)
@@ -211,7 +211,7 @@ class DiscussionCommentCell: UITableViewCell {
         let buttonTitle = NSAttributedString.joinInNaturalLayout(attributedStrings: [reportIcon, reportTitle])
         button.setAttributedTitle(buttonTitle, for: .normal)
         
-        button.snp.remakeConstraints { (make) in
+        button.snp.remakeConstraints { make in
             make.top.equalTo(contentView).offset(StandardVerticalMargin)
             make.width.equalTo(buttonTitle.singleLineWidth() + StandardHorizontalMargin)
             make.trailing.equalTo(contentView).offset(-2*StandardHorizontalMargin)
@@ -409,21 +409,21 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     func setConstraints() {
-        contentView.snp.makeConstraints { (make) -> Void in
+        contentView.snp.makeConstraints { make in
             make.leading.equalTo(safeLeading)
             make.top.equalTo(safeTop)
             make.trailing.equalTo(safeTrailing)
             make.bottom.equalTo(addCommentButton.snp.top)
         }
         
-        addCommentButton.snp.makeConstraints{ (make) -> Void in
+        addCommentButton.snp.makeConstraints{ make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.height.equalTo(OEXStyles.shared().standardFooterHeight)
             make.bottom.equalTo(safeBottom)
         }
         
-        tableView.snp.makeConstraints { (make) -> Void in
+        tableView.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.top.equalTo(contentView)
             make.trailing.equalTo(contentView)

@@ -68,19 +68,19 @@ class JSONFormBuilder {
             descriptionLabel.numberOfLines = 0
             descriptionLabel.preferredMaxLayoutWidth = 200 //value doesn't seem to matter as long as it's small enough
             
-            titleLabel.snp.makeConstraints { (make) -> Void in
+            titleLabel.snp.makeConstraints { make in
                 make.leading.equalTo(contentView.snp.leadingMargin)
                 make.top.equalTo(contentView.snp.topMargin)
                 make.trailing.equalTo(contentView.snp.trailingMargin)
             }
             
-            typeControl.snp.makeConstraints { (make) -> Void in
+            typeControl.snp.makeConstraints { make in
                 make.top.equalTo(titleLabel.snp.bottom).offset(6)
                 make.leading.equalTo(contentView.snp.leadingMargin)
                 make.trailing.equalTo(contentView.snp.trailingMargin)
             }
             
-            descriptionLabel.snp.makeConstraints { (make) -> Void in
+            descriptionLabel.snp.makeConstraints { make in
                 make.top.equalTo(typeControl.snp.bottom).offset(6)
                 make.leading.equalTo(contentView.snp.leadingMargin)
                 make.trailing.equalTo(contentView.snp.trailingMargin)
@@ -142,7 +142,7 @@ class JSONFormBuilder {
         func setup() {
             accessoryType = .disclosureIndicator
             contentView.addSubview(choiceView)
-            choiceView.snp.makeConstraints { (make) -> Void in
+            choiceView.snp.makeConstraints { make in
                 make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin))
             }
         }
@@ -171,7 +171,7 @@ class JSONFormBuilder {
         func setup() {
             accessoryType = .disclosureIndicator
             contentView.addSubview(choiceView)
-            choiceView.snp.makeConstraints { (make) -> Void in
+            choiceView.snp.makeConstraints { make in
                 make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin))
             }
         }

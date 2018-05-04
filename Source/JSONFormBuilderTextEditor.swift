@@ -45,7 +45,7 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
     private func setupViews() {
         view.addSubview(textView)
         
-        textView.snp.makeConstraints { (make) -> Void in
+        textView.snp.makeConstraints { make in
             make.top.equalTo(view.snp.topMargin).offset(15)
             make.leading.equalTo(view.snp.leadingMargin)
             make.trailing.equalTo(view.snp.trailingMargin)

@@ -249,7 +249,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func setConstraints() {
-        contentView.snp.remakeConstraints { (make) -> Void in
+        contentView.snp.remakeConstraints { make in
             if  context?.allowsPosting ?? false {
                 make.top.equalTo(view)
             }
@@ -259,27 +259,27 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             //The bottom is equal to newPostButton.snp.top
         }
         
-        headerView.snp.remakeConstraints { (make) -> Void in
+        headerView.snp.remakeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.top.equalTo(contentView)
             make.height.equalTo(context?.allowsPosting ?? false ? 40 : 0)
         }
         
-        searchBar?.snp.remakeConstraints({ (make) -> Void in
+        searchBar?.snp.remakeConstraints { make in
             make.top.equalTo(view)
             make.trailing.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.bottom.equalTo(contentView.snp.top)
-        })
+        }
         
-        refineLabel.snp.remakeConstraints { (make) -> Void in
+        refineLabel.snp.remakeConstraints { make in
             make.leadingMargin.equalTo(headerView).offset(StandardHorizontalMargin)
             make.centerY.equalTo(headerView)
         }
         refineLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
         
-        headerButtonHolderView.snp.remakeConstraints { (make) -> Void in
+        headerButtonHolderView.snp.remakeConstraints { make in
             make.leading.equalTo(refineLabel.snp.trailing)
             make.trailing.equalTo(headerView)
             make.bottom.equalTo(headerView)
@@ -287,18 +287,18 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         
-        filterButton.snp.remakeConstraints{ (make) -> Void in
+        filterButton.snp.remakeConstraints{ make in
             make.leading.equalTo(headerButtonHolderView)
             make.trailing.equalTo(sortButton.snp.leading)
             make.centerY.equalTo(headerButtonHolderView)
         }
         
-        sortButton.snp.remakeConstraints{ (make) -> Void in
+        sortButton.snp.remakeConstraints{ make in
             make.trailingMargin.equalTo(headerButtonHolderView)
             make.centerY.equalTo(headerButtonHolderView)
             make.width.equalTo(filterButton.snp.width)
         }
-        newPostButton.snp.remakeConstraints{ (make) -> Void in
+        newPostButton.snp.remakeConstraints{ make in
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
             make.height.equalTo(context?.allowsPosting ?? false ? OEXStyles.shared().standardFooterHeight : 0)
@@ -306,14 +306,14 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.bottom.equalTo(safeBottom)
         }
         
-        tableView.snp.remakeConstraints { (make) -> Void in
+        tableView.snp.remakeConstraints { make in
             make.leading.equalTo(contentView)
             make.top.equalTo(viewSeparator.snp.bottom)
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(newPostButton.snp.top)
         }
         
-        viewSeparator.snp.remakeConstraints{ (make) -> Void in
+        viewSeparator.snp.remakeConstraints{ make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.height.equalTo(OEXStyles.dividerSize())

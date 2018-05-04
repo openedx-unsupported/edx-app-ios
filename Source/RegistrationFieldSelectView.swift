@@ -51,7 +51,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
             }, for: UIControlEvents.touchUpInside)
         self.addSubview(tapButton)
         
-        tapButton.snp.makeConstraints { (make) in
+        tapButton.snp.makeConstraints { make in
             make.top.equalTo(textInputField)
             make.leading.equalTo(textInputField)
             make.trailing.equalTo(textInputField)
