@@ -126,24 +126,24 @@ class UserProfileEditViewController: UITableViewController {
         bannerWrapper.addSubview(banner)
         bannerWrapper.addSubview(toast)
         
-        toast.snp_makeConstraints { (make) -> Void in
+        toast.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(bannerWrapper)
             make.trailing.equalTo(bannerWrapper)
             make.leading.equalTo(bannerWrapper)
             make.height.equalTo(0)
         }
         
-        banner.snp_makeConstraints { (make) -> Void in
+        banner.snp.makeConstraints { (make) -> Void in
             make.trailing.equalTo(bannerWrapper)
             make.leading.equalTo(bannerWrapper)
             make.bottom.equalTo(bannerWrapper)
-            make.top.equalTo(toast.snp_bottom)
+            make.top.equalTo(toast.snp.bottom)
         }
         
         let bottomLine = UIView()
         bottomLine.backgroundColor = OEXStyles.shared().neutralLight()
         bannerWrapper.addSubview(bottomLine)
-        bottomLine.snp_makeConstraints { (make) -> Void in
+        bottomLine.snp.makeConstraints { (make) -> Void in
             make.left.equalTo(bannerWrapper)
             make.right.equalTo(bannerWrapper)
             make.height.equalTo(1)
@@ -202,7 +202,7 @@ class UserProfileEditViewController: UITableViewController {
             let fieldDescription = field.title!
             
             view.addSubview(spinner)
-            spinner.snp_makeConstraints { (make) -> Void in
+            spinner.snp.makeConstraints { (make) -> Void in
                 make.center.equalTo(view)
             }
             
@@ -316,7 +316,7 @@ class UserProfileEditViewController: UITableViewController {
     
     private func setToastHeight(toastHeight: CGFloat) {
         toast.isHidden = toastHeight <= 1
-        toast.snp_updateConstraints(closure: { (make) -> Void in
+        toast.snp.updateConstraints({ (make) -> Void in
             make.height.equalTo(toastHeight)
         })
         var headerFrame = self.tableView.tableHeaderView!.frame
@@ -348,16 +348,16 @@ private class ErrorToastView : UIView {
         
         messageLabel.adjustsFontSizeToFitWidth = true
         
-        errorLabel.snp_makeConstraints { (make) -> Void in
+        errorLabel.snp.makeConstraints { (make) -> Void in
             make.leading.equalTo(self)
             make.height.equalTo(self)
-            make.width.equalTo(errorLabel.snp_height)
+            make.width.equalTo(errorLabel.snp.height)
         }
         
-        messageLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(errorLabel.snp_trailing).offset(10)
+        messageLabel.snp.makeConstraints { (make) -> Void in
+            make.leading.equalTo(errorLabel.snp.trailing).offset(10)
             make.trailing.equalTo(self).offset(-10)
-            make.centerY.equalTo(self.snp_centerY)
+            make.centerY.equalTo(self.snp.centerY)
         }
     }
     

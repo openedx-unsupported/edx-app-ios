@@ -64,7 +64,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     }
     
     private func setConstraints() {
-        webController.view.snp_makeConstraints { (make) -> Void in
+        webController.view.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(view)
         }
     }

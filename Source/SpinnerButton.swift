@@ -29,13 +29,13 @@ class SpinnerButton: UIButton {
         self.addSubview(spinnerView)
         self.titleLabel?.adjustsFontSizeToFitWidth = true
         
-        spinnerView.snp_updateConstraints { (make) -> Void in
+        spinnerView.snp.updateConstraints { (make) -> Void in
             make.centerY.equalTo(self)
             make.width.equalTo(spinnerView.intrinsicContentSize.width)
             if let label = titleLabel {
-                make.leading.equalTo(label.snp_trailing).offset(SpinnerHorizontalMargin).priorityLow()
+                make.leading.equalTo(label.snp.trailing).offset(SpinnerHorizontalMargin).priorityLow()
             }
-            make.trailing.equalTo(self.snp_trailing).offset(-SpinnerHorizontalMargin).priorityHigh()
+            make.trailing.equalTo(self.snp.trailing).offset(-SpinnerHorizontalMargin).priorityHigh()
         }
         self.setNeedsUpdateConstraints()
         if !showProgress { spinnerView.isHidden = true }

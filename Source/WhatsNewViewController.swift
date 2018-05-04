@@ -118,28 +118,33 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     }
     
     private func setConstraints() {
-        containerView.snp_makeConstraints {make in
-            make.edges.equalTo(view)
+        containerView.snp.makeConstraints {make in
+            if #available(iOS 11, *) {
+                make.edges.equalTo(view.safeAreaLayoutGuide)
+            }
+            else {
+                make.edges.equalTo(view)
+            }
         }
         
-        headerLabel.snp_makeConstraints { make in
+        headerLabel.snp.makeConstraints { make in
             make.top.equalTo(containerView).offset(topSpace)
             make.centerX.equalTo(containerView)
         }
         
-        closeButton.snp_makeConstraints { make in
+        closeButton.snp.makeConstraints { make in
             make.top.equalTo(containerView).offset(topSpace)
             make.trailing.equalTo(containerView)
         }
         
-        pageController.view.snp_makeConstraints { make in
-            make.top.equalTo(headerLabel.snp_bottom).offset(StandardVerticalMargin)
+        pageController.view.snp.makeConstraints { make in
+            make.top.equalTo(headerLabel.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(containerView)
             make.trailing.equalTo(containerView)
             make.leading.equalTo(containerView)
         }
         
-        doneButton.snp_makeConstraints { make in
+        doneButton.snp.makeConstraints { make in
             make.bottom.equalTo(containerView).offset(-StandardVerticalMargin / 2)
             make.trailing.equalTo(containerView).offset(-StandardHorizontalMargin)
         }

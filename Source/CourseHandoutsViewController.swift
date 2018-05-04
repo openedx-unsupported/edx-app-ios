@@ -65,7 +65,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
     }
     
     private func setConstraints() {
-        webView.snp_makeConstraints { (make) -> Void in
+        webView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(self.view)
         }
     }

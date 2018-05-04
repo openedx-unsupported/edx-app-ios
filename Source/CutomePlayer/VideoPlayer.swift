@@ -214,7 +214,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if let controls = controls {
             playerView.addSubview(controls)
         }
-        controls?.snp_makeConstraints() { make in
+        controls?.snp.makeConstraints() { make in
             make.edges.equalTo(playerView)
         }
     }
@@ -262,13 +262,13 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     private func setConstraints() {
-        loadingIndicatorView.snp_makeConstraints() { make in
+        loadingIndicatorView.snp.makeConstraints() { make in
             make.center.equalTo(playerView.center)
             make.height.equalTo(loadingIndicatorViewSize.height)
             make.width.equalTo(loadingIndicatorViewSize.width)
         }
         
-        accessibilityPlayerView.snp_makeConstraints { (make) in
+        accessibilityPlayerView.snp.makeConstraints { (make) in
             make.edges.equalTo(playerView)
         }
     }

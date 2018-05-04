@@ -52,20 +52,20 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
 
                 container.view.insertSubview(searchBar, at: 0)
 
-                searchBar.snp_makeConstraints{ make in
+                searchBar.snp.makeConstraints{ make in
                     make.leading.equalTo(container.view)
                     make.trailing.equalTo(container.view)
                     make.top.equalTo(container.view)
                 }
-                webviewTop = searchBar.snp_bottom
+                webviewTop = searchBar.snp.bottom
             } else {
-                webviewTop = container.view.snp_top
+                webviewTop = container.view.snp.top
             }
 
 
             container.view.insertSubview(webView, at: 0)
 
-            webView.snp_makeConstraints { make in
+            webView.snp.makeConstraints { make in
                 make.leading.equalTo(container.view)
                 make.trailing.equalTo(container.view)
                 make.bottom.equalTo(container.view)
@@ -74,7 +74,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
 
             if let bar = bottomBar {
                 container.view.insertSubview(bar, at: 0)
-                bar.snp_makeConstraints(closure: { (make) in
+                bar.snp.makeConstraints({ (make) in
                     make.leading.equalTo(container.view)
                     make.trailing.equalTo(container.view)
                     make.bottom.equalTo(container.view)

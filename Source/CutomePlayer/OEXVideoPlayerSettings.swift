@@ -31,7 +31,7 @@ private func setupTable(table: UITableView) {
     table.layer.shadowRadius = 1.0
     table.layer.shadowOffset = CGSize(width: 1, height: 1)
     table.layer.shadowOpacity = 0.8
-    table.separatorInset = EdgeInsets.zero
+    table.separatorInset = .zero
     
     table.register(UINib(nibName: "OEXClosedCaptionTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
 }
@@ -89,7 +89,7 @@ class VideoPlayerSettings : NSObject {
     }
     
     func updateMargins() {
-        optionsTable.layoutMargins = EdgeInsets.zero
+        optionsTable.layoutMargins = .zero
     }
     
     override init() {

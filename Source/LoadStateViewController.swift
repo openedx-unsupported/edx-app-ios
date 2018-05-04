@@ -83,7 +83,7 @@ class LoadStateViewController : UIViewController {
         }
     }
     
-    var insets : UIEdgeInsets = EdgeInsets.zero {
+    var insets : UIEdgeInsets = .zero {
         didSet {
             self.view.setNeedsUpdateConstraints()
         }
@@ -156,15 +156,15 @@ class LoadStateViewController : UIViewController {
     }
     
     override func updateViewConstraints() {
-        loadingView.snp_updateConstraints {make in
+        loadingView.snp.updateConstraints {make in
             make.center.equalTo(view)
         }
         
-        messageView.snp_updateConstraints {make in
+        messageView.snp.updateConstraints {make in
             make.center.equalTo(view)
         }
         
-        view.snp_updateConstraints { make in
+        view.snp.updateConstraints { make in
             if let superview = view.superview {
                 make.edges.equalTo(superview).inset(insets)
             }

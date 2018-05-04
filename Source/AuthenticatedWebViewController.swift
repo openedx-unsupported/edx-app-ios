@@ -143,7 +143,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         
         self.state = webController.initialContentState
         self.view.addSubview(webController.view)
-        webController.view.snp_makeConstraints {make in
+        webController.view.snp.makeConstraints {make in
             make.edges.equalTo(self.view)
         }
         self.loadController.setupInController(controller: self, contentView: webController.view)
@@ -194,8 +194,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             headerInsets.view = newValue
             if let headerView = newValue {
                 webController.view.addSubview(headerView)
-                headerView.snp_makeConstraints {make in
-                    make.top.equalTo(self.snp_topLayoutGuideBottom)
+                headerView.snp.makeConstraints {make in
+                    make.top.equalTo(topLayoutGuide.snp.bottom)
                     make.leading.equalTo(webController.view)
                     make.trailing.equalTo(webController.view)
                 }

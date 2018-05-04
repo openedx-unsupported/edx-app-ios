@@ -82,26 +82,26 @@ class CropViewController: UIViewController {
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.Profile.cropAndResizePicture)
         view.addSubview(titleLabel)
         
-        titleLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(view.snp_topMargin).offset(20)
-            make.centerX.equalTo(view.snp_centerX)
+        titleLabel.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(view.snp.topMargin).offset(20)
+            make.centerX.equalTo(view.snp.centerX)
         }
       
-        scrollView.snp_makeConstraints { (make) -> Void in
+        scrollView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(view)
             make.left.equalTo(view)
             make.right.equalTo(view)
             make.bottom.equalTo(view)
         }
         
-        toolbar.snp_makeConstraints { (make) -> Void in
+        toolbar.snp.makeConstraints { (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             make.bottom.equalTo(view)
             make.height.equalTo(50)
         }
         
-        circleView.snp_makeConstraints { (make) -> Void in
+        circleView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(scrollView)
         }
         

@@ -31,7 +31,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         
         var depth : UInt = 0 {
             didSet {
-                optionLabel.snp_updateConstraints { (make) -> Void in
+                optionLabel.snp.updateConstraints { (make) -> Void in
                     make.leading.equalTo(contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
                     
                 }
@@ -41,7 +41,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             contentView.addSubview(optionLabel)
-            optionLabel.snp_makeConstraints { (make) -> Void in
+            optionLabel.snp.makeConstraints { (make) -> Void in
                 make.centerY.equalTo(contentView)
                 make.leading.equalTo(contentView)
             }
@@ -88,9 +88,9 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
     }
     
     private func setConstraints() {
-        tableView?.snp_updateConstraints { (make) -> Void in
+        tableView?.snp.updateConstraints { (make) -> Void in
             make.edges.equalTo(view)
-            make.height.equalTo(view.snp_height).offset(-2)
+            make.height.equalTo(view.snp.height).offset(-2)
         }
     }
 

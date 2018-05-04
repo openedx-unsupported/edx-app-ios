@@ -85,25 +85,25 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         searchBar.delegate = searchBarDelegate
         
-        contentView.snp_makeConstraints {make in
+        contentView.snp.makeConstraints {make in
             make.edges.equalTo(self.view)
         }
         
-        searchBar.snp_makeConstraints { (make) -> Void in
+        searchBar.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(searchBarSeparator.snp_top)
+            make.bottom.equalTo(searchBarSeparator.snp.top)
         }
         
-        searchBarSeparator.snp_makeConstraints { (make) -> Void in
+        searchBarSeparator.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(OEXStyles.dividerSize())
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(tableView.snp_top)
+            make.bottom.equalTo(tableView.snp.top)
         }
         
-        tableView.snp_makeConstraints { make -> Void in
+        tableView.snp.makeConstraints { make -> Void in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)

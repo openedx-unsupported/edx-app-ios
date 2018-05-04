@@ -40,7 +40,7 @@ class CourseCertificateCell: UITableViewCell {
 
         applyStandardSeparatorInsets()
         contentView.addSubview(certificateView)
-        certificateView.snp_makeConstraints(closure: { (make) -> Void in
+        certificateView.snp.makeConstraints({ (make) -> Void in
             make.edges.equalTo(contentView)
         })
     }

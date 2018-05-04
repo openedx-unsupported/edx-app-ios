@@ -27,7 +27,7 @@ private class StatusMessageView : UIView {
         
         self.backgroundColor = OEXStyles.shared().neutralDark().withAlphaComponent(0.75)
         messageLabel.attributedText = statusMessageStyle.attributedString(withText: message)
-        messageLabel.snp_makeConstraints { make in
+        messageLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(margin)
             make.leading.equalTo(self).offset(margin)
             make.trailing.equalTo(self).offset(-margin)
@@ -59,12 +59,12 @@ extension UIViewController {
         view.addSubview(container)
         container.addSubview(messageView)
         
-        container.snp_makeConstraints {make in
-            make.top.equalTo(topLayoutGuide)
+        container.snp.makeConstraints {make in
+            make.top.equalTo(topLayoutGuide.snp.bottom)
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
         }
-        messageView.snp_makeConstraints {make in
+        messageView.snp.makeConstraints {make in
             make.edges.equalTo(container)
         }
         
@@ -113,12 +113,12 @@ extension UIViewController {
         view.addSubview(container)
         container.addSubview(snackBarView)
         
-        container.snp_makeConstraints {make in
-            make.bottom.equalTo(bottomLayoutGuide)
+        container.snp.makeConstraints {make in
+            make.bottom.equalTo(bottomLayoutGuide.snp.top)
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
         }
-        snackBarView.snp_makeConstraints {make in
+        snackBarView.snp.makeConstraints {make in
             make.edges.equalTo(container)
         }
         

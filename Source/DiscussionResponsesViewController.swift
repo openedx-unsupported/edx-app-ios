@@ -165,8 +165,8 @@ class DiscussionResponseCell: UITableViewCell {
     
     override func updateConstraints() {
         if endorsedByButton.isHidden {
-            bodyTextView.snp_updateConstraints(closure: { (make) in
-                make.bottom.equalTo(separatorLine.snp_top).offset(-StandardVerticalMargin)
+            bodyTextView.snp.updateConstraints({ (make) in
+                make.bottom.equalTo(separatorLine.snp.top).offset(-StandardVerticalMargin)
             })
         }
         
@@ -299,12 +299,17 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         addResponseButton.contentVerticalAlignment = .center
         view.addSubview(addResponseButton)
-        addResponseButton.snp_makeConstraints{ (make) -> Void in
+        addResponseButton.snp.makeConstraints{ (make) -> Void in
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             make.height.equalTo(OEXStyles.shared().standardFooterHeight)
-            make.bottom.equalTo(view.snp_bottom)
-            make.top.equalTo(tableView.snp_bottom)
+            if #available(iOS 11, *) {
+                make.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
+            else {
+                make.bottom.equalTo(view)
+            }
+            make.top.equalTo(tableView.snp.bottom)
         }
         
         tableView.estimatedRowHeight = 160.0
@@ -623,7 +628,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             cell.endorsedByButton.setAttributedTitle(formatedTitle, for: .normal)
             
-            cell.endorsedByButton.snp_updateConstraints(closure: { (make) in
+            cell.endorsedByButton.snp.updateConstraints({ (make) in
                 make.width.equalTo(formatedTitle.singleLineWidth() + StandardHorizontalMargin)
             })
         }

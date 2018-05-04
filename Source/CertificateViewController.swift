@@ -34,7 +34,7 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
         super.viewDidLoad()
 
         view.addSubview(webView)
-        webView.snp_makeConstraints { (make) -> Void in
+        webView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(self.view)
         }
 

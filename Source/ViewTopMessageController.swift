@@ -12,14 +12,14 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
 
     weak public var insetsDelegate : ContentInsetsSourceDelegate?
     
-    private let containerView = UIView(frame: CGRect.zero)
+    private let containerView = UIView(frame: .zero)
     fileprivate let messageView : UIView
     
     private var wasActive : Bool = false
     
-    private let active : (Void) -> Bool
+    private let active : () -> Bool
     
-    public init(messageView: UIView, active : @escaping (Void) -> Bool) {
+    public init(messageView: UIView, active : @escaping () -> Bool) {
         self.active = active
         self.messageView = messageView
         
@@ -42,26 +42,26 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
     
     final public func setupInController(controller : UIViewController) {
         controller.view.addSubview(containerView)
-        containerView.snp_makeConstraints {make in
+        containerView.snp.makeConstraints {make in
             make.leading.equalTo(controller.view)
             make.trailing.equalTo(controller.view)
-            make.top.equalTo(controller.snp_topLayoutGuideBottom)
+            make.top.equalTo(controller.topLayoutGuide.snp.bottom)
             make.height.equalTo(messageView)
         }
     }
     
     final private func update() {
-        messageView.snp_remakeConstraints { make in
+        messageView.snp.remakeConstraints { make in
             make.leading.equalTo(containerView)
             make.trailing.equalTo(containerView)
             
             if active() {
                 containerView.isUserInteractionEnabled = true
-                make.top.equalTo(containerView.snp_top)
+                make.top.equalTo(containerView.snp.top)
             }
             else {
                 containerView.isUserInteractionEnabled = false
-                make.bottom.equalTo(containerView.snp_top)
+                make.bottom.equalTo(containerView.snp.top)
             }
         }
         messageView.setNeedsLayout()

@@ -319,7 +319,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         case .full:
             if shouldHideTableViewHeader { return }
             var constraintView: UIView = courseCard            
-            courseCard.snp_remakeConstraints { (make) in
+            courseCard.snp.remakeConstraints { (make) in
                 let screenWidth = UIScreen.main.bounds.size.width
                 var height: CGFloat = 0
                 let screenHeight = UIScreen.main.bounds.size.height
@@ -335,19 +335,19 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             }
             
             if let courseCertificateView = courseCertificateView {
-                courseCertificateView.snp_remakeConstraints { (make) -> Void in
+                courseCertificateView.snp.remakeConstraints { (make) -> Void in
                     make.trailing.equalTo(courseCard)
                     make.leading.equalTo(courseCard)
                     make.height.equalTo(CourseCertificateView.height)
-                    make.top.equalTo(constraintView.snp_bottom)
+                    make.top.equalTo(constraintView.snp.bottom)
                 }
                 constraintView = courseCertificateView
             }
             
-            lastAccessedView.snp_remakeConstraints { (make) -> Void in
+            lastAccessedView.snp.remakeConstraints { (make) -> Void in
                 make.trailing.equalTo(courseCard)
                 make.leading.equalTo(courseCard)
-                make.top.equalTo(constraintView.snp_bottom)
+                make.top.equalTo(constraintView.snp.bottom)
                 let height = lastAccess ? (isVerticallyCompact() ? lassAccessViewLandscapeHeight : lassAccessViewPortraitHeight) : 0
                 make.height.equalTo(height)
                 make.bottom.equalTo(headerContainer)
@@ -363,7 +363,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
                 tableView.tableHeaderView = nil
                 return
             }
-            courseVideosHeaderView?.snp_makeConstraints(closure: { make in
+            courseVideosHeaderView?.snp.makeConstraints({ make in
                 make.edges.equalTo(headerContainer)
                 make.height.equalTo(CourseVideosHeaderView.height)
             })

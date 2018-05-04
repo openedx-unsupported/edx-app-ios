@@ -108,7 +108,7 @@ open class OEXStream<A> : StreamDependency {
     }
     
     
-    fileprivate func joinHandlers<A>(success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : ((Void) -> Void)?) -> (Result<A>) -> Void {
+    fileprivate func joinHandlers<A>(success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : (() -> Void)?) -> (Result<A>) -> Void {
         return {
             switch $0 {
             case let .success(v):
@@ -157,7 +157,7 @@ open class OEXStream<A> : StreamDependency {
     /// - parameter success: The action to fire when the stream receives a Success result.
     /// - parameter failure: The action to fire when the stream receives a Failure result.
     /// - parameter finally: An action that will be executed after both the success and failure actions
-    @discardableResult  open func listen(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : ((Void) -> Void)? = nil) -> Removable {
+    @discardableResult  open func listen(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : (() -> Void)? = nil) -> Removable {
         return listen(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action: joinHandlers(success:success, failure:failure, finally:finally))
     }
     
@@ -168,7 +168,7 @@ open class OEXStream<A> : StreamDependency {
     /// - parameter success: The action to fire when the stream receives a Success result.
     /// - parameter success: The action to fire when the stream receives a Failure result.
     /// - parameter finally: An action that will be executed after both the success and failure actions
-    @discardableResult open func listenOnce(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : ((Void) -> Void)? = nil) -> Removable {
+    @discardableResult open func listenOnce(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, success : @escaping (A) -> Void, failure : @escaping (NSError) -> Void, finally : (() -> Void)? = nil) -> Removable {
 
         return listenOnce(owner, fireIfAlreadyLoaded: fireIfAlreadyLoaded, action : joinHandlers(success:success, failure:failure, finally:finally))
     }

@@ -42,8 +42,16 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(contentView)
-        contentView.snp_makeConstraints {make in
-            make.edges.equalTo(view)
+        contentView.snp.makeConstraints {make in
+            if #available(iOS 11, *) {
+                make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+                make.leading.equalTo(view)
+                make.trailing.equalTo(view)
+                make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            }
+            else {
+                make.edges.equalTo(view)
+            }
         }
         addBackBarButtonItem()
         view.backgroundColor = environment.styles.standardBackgroundColor()
