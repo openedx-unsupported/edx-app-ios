@@ -79,19 +79,18 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func addConstraints() {
-        contentView.snp.makeConstraints {make in
-            make.edges.equalTo(view)
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
         }
         
-        tableView.snp.makeConstraints { make -> Void in
+        tableView.snp.makeConstraints { make in
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(versionLabel.snp.top)
         }
         
-        versionLabel.snp.makeConstraints { make -> Void in
-            make.width.equalTo(contentView.snp.width)
+        versionLabel.snp.makeConstraints { make in
             make.top.equalTo(tableView.snp.bottom)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)

@@ -59,12 +59,12 @@ extension UIViewController {
         view.addSubview(container)
         container.addSubview(messageView)
         
-        container.snp.makeConstraints {make in
+        container.snp.makeConstraints { make in
             make.top.equalTo(topLayoutGuide.snp.bottom)
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
         }
-        messageView.snp.makeConstraints {make in
+        messageView.snp.makeConstraints { make in
             make.edges.equalTo(container)
         }
         
@@ -113,12 +113,12 @@ extension UIViewController {
         view.addSubview(container)
         container.addSubview(snackBarView)
         
-        container.snp.makeConstraints {make in
+        container.snp.makeConstraints { make in
             make.bottom.equalTo(bottomLayoutGuide.snp.top)
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
         }
-        snackBarView.snp.makeConstraints {make in
+        snackBarView.snp.makeConstraints { make in
             make.edges.equalTo(container)
         }
         

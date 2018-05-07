@@ -47,7 +47,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         self.loadController.setupInController(controller: self, contentView: tableController.view)
         
         self.view.addSubview(tableController.view)
-        tableController.view.snp.makeConstraints {make in
+        tableController.view.snp.makeConstraints { make in
             make.edges.equalTo(self.view)
         }
         

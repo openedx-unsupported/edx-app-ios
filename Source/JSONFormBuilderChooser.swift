@@ -65,7 +65,7 @@ class JSONFormTableViewController<T>: UITableViewController {
             }
             
             let size = label.sizeThatFits(CGSize(width: 240, height: CGFloat.greatestFiniteMagnitude))
-            headerView.frame = CGRect(origin: CGPoint.zero, size: size)
+            headerView.frame = CGRect(origin: .zero, size: size)
             
             tableView.tableHeaderView = headerView
         }

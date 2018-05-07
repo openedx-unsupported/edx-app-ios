@@ -85,8 +85,8 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         searchBar.delegate = searchBarDelegate
         
-        contentView.snp.makeConstraints {make in
-            make.edges.equalTo(self.view)
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
         }
         
         searchBar.snp.makeConstraints { make in
@@ -103,7 +103,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
             make.bottom.equalTo(tableView.snp.top)
         }
         
-        tableView.snp.makeConstraints { make -> Void in
+        tableView.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)

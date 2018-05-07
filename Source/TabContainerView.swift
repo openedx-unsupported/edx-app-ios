@@ -33,7 +33,7 @@ class TabContainerView : UIView {
         stackView.spacing = StandardVerticalMargin
 
         addSubview(stackView)
-        stackView.snp.makeConstraints {make in
+        stackView.snp.makeConstraints { make in
             make.leading.equalTo(self.snp.leadingMargin)
             make.trailing.equalTo(self.snp.trailingMargin)
             make.top.equalTo(self.snp.topMargin)

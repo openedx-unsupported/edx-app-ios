@@ -42,7 +42,7 @@ public class ViewTopMessageController : NSObject, ContentInsetsSource {
     
     final public func setupInController(controller : UIViewController) {
         controller.view.addSubview(containerView)
-        containerView.snp.makeConstraints {make in
+        containerView.snp.makeConstraints { make in
             make.leading.equalTo(controller.view)
             make.trailing.equalTo(controller.view)
             make.top.equalTo(controller.topLayoutGuide.snp.bottom)

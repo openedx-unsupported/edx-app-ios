@@ -65,7 +65,7 @@ class AdditionalTableViewCell: UITableViewCell {
         
         iconView.tintColor = OEXStyles.shared().neutralLight()
         
-        container.snp.makeConstraints { make -> Void in
+        container.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
         

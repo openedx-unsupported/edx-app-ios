@@ -90,7 +90,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         dateLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
         dateLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
         
-        container.snp.makeConstraints { make -> Void in
+        container.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self).priority(.required)
             make.bottom.equalTo(self).offset(-OEXStyles.dividerSize())
@@ -115,7 +115,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
             make.top.equalTo(container.snp.bottom)
         }
         
-        overlayContainer.snp.makeConstraints {make in
+        overlayContainer.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.top.equalTo(self)
@@ -224,7 +224,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     
     func addCenteredOverlay(view : UIView) {
         addSubview(view)
-        view.snp.makeConstraints {make in
+        view.snp.makeConstraints { make in
             make.center.equalTo(overlayContainer)
         }
     }

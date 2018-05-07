@@ -69,7 +69,7 @@ public class CourseOutlineHeaderView: UIView {
         backgroundColor = styles.primaryXLightColor()
         bottomDivider.backgroundColor = contrastColor
         
-        bottomDivider.snp.makeConstraints {make in
+        bottomDivider.snp.makeConstraints { make in
             make.bottom.equalTo(self)
             make.height.equalTo(OEXStyles.dividerSize())
             make.leading.equalTo(self)

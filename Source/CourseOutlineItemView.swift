@@ -218,7 +218,7 @@ public class CourseOutlineItemView: UIView {
             oldValue?.removeFromSuperview()
             if let view = trailingView {
                 trailingContainer.addSubview(view)
-                view.snp.makeConstraints {make in
+                view.snp.makeConstraints { make in
                     // required to prevent long titles from compressing this
                     make.edges.equalTo(trailingContainer).priority(.required)
                 }

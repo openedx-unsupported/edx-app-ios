@@ -46,7 +46,7 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
     override func updateViewConstraints() {
         super.updateViewConstraints()
         
-        postsController.view.snp.remakeConstraints {make in
+        postsController.view.snp.remakeConstraints { make in
             make.top.equalTo(safeTop)
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)

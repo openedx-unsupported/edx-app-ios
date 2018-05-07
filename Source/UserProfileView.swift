@@ -145,7 +145,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             make.width.equalTo(scrollView)
         }
 
-        bottomBackground.snp.makeConstraints {make in
+        bottomBackground.snp.makeConstraints { make in
             make.edges.equalTo(bioSystemMessage)
         }
 

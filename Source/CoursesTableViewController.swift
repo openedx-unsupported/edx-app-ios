@@ -23,7 +23,7 @@ class CourseCardCell : UITableViewCell {
         
         self.contentView.addSubview(courseView)
         
-        courseView.snp.makeConstraints {make in
+        courseView.snp.makeConstraints { make in
             make.top.equalTo(self.contentView).offset(CourseCardCell.margin)
             make.bottom.equalTo(self.contentView)
             make.leading.equalTo(self.contentView).offset(horizMargin)
@@ -80,7 +80,7 @@ class CoursesTableViewController: UITableViewController {
         self.tableView.backgroundColor = OEXStyles.shared().neutralXLight()
         self.tableView.accessibilityIdentifier = "courses-table-view"
         
-        self.tableView.snp.makeConstraints {make in
+        self.tableView.snp.makeConstraints { make in
             make.edges.equalTo(self.view)
         }
         

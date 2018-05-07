@@ -118,7 +118,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     }
     
     private func setConstraints() {
-        containerView.snp.makeConstraints {make in
+        containerView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
         

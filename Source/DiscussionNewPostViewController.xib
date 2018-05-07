@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -30,7 +31,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Chh-nF-8q0">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfF-mI-0iG" userLabel="Light Background">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="94"/>
@@ -125,11 +126,11 @@
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
-                                    <exclude reference="84C-2D-4Fe"/>
-                                    <exclude reference="DPk-Bs-xhr"/>
                                     <exclude reference="haU-Jz-Tzz"/>
                                     <exclude reference="hQS-pl-IM0"/>
                                     <exclude reference="pbf-yL-DLS"/>
+                                    <exclude reference="84C-2D-4Fe"/>
+                                    <exclude reference="DPk-Bs-xhr"/>
                                 </mask>
                             </variation>
                         </view>
@@ -142,7 +143,6 @@
                         <constraint firstAttribute="trailing" secondItem="NfF-mI-0iG" secondAttribute="trailing" id="GTm-cu-0JX"/>
                         <constraint firstItem="oNE-F5-bG9" firstAttribute="top" secondItem="Chh-nF-8q0" secondAttribute="top" constant="78" id="GaX-zT-Obt"/>
                         <constraint firstItem="NfF-mI-0iG" firstAttribute="leading" secondItem="Chh-nF-8q0" secondAttribute="leading" id="HYc-aG-ZId"/>
-                        <constraint firstAttribute="bottom" secondItem="NfF-mI-0iG" secondAttribute="bottom" constant="386" id="MaV-bA-Lwa"/>
                         <constraint firstItem="oNE-F5-bG9" firstAttribute="top" secondItem="Xnh-1e-AOk" secondAttribute="bottom" constant="16" id="OY2-6u-84s"/>
                         <constraint firstItem="Xnh-1e-AOk" firstAttribute="top" secondItem="8hN-h8-6cJ" secondAttribute="bottom" constant="16" id="Ocp-av-WO7"/>
                         <constraint firstAttribute="bottom" secondItem="oNE-F5-bG9" secondAttribute="bottom" id="XFd-ZZ-No3"/>
@@ -153,6 +153,7 @@
                         <constraint firstItem="8hN-h8-6cJ" firstAttribute="top" secondItem="Chh-nF-8q0" secondAttribute="top" constant="10" id="lo3-er-WP8"/>
                         <constraint firstItem="8hN-h8-6cJ" firstAttribute="leading" secondItem="Chh-nF-8q0" secondAttribute="leading" constant="20" id="mDI-7O-TfP"/>
                         <constraint firstAttribute="centerX" secondItem="8hN-h8-6cJ" secondAttribute="centerX" id="mzM-ei-byO"/>
+                        <constraint firstAttribute="bottom" secondItem="oNE-F5-bG9" secondAttribute="bottom" constant="321" id="rIB-o1-Plm"/>
                         <constraint firstItem="Xnh-1e-AOk" firstAttribute="leading" secondItem="knU-Bg-aDr" secondAttribute="leading" id="uBC-Bq-VAi"/>
                         <constraint firstAttribute="trailing" secondItem="oNE-F5-bG9" secondAttribute="trailing" id="ycd-Od-LYv"/>
                         <constraint firstItem="Xnh-1e-AOk" firstAttribute="trailing" secondItem="knU-Bg-aDr" secondAttribute="trailing" id="zqz-jF-Cgl"/>
@@ -167,12 +168,13 @@
                 </scrollView>
             </subviews>
             <constraints>
-                <constraint firstItem="Chh-nF-8q0" firstAttribute="leading" secondItem="t2q-hX-mYu" secondAttribute="leading" id="KSg-Q0-0gA"/>
-                <constraint firstItem="Chh-nF-8q0" firstAttribute="top" secondItem="t2q-hX-mYu" secondAttribute="top" id="LMp-4C-Q8G"/>
-                <constraint firstAttribute="bottom" secondItem="Chh-nF-8q0" secondAttribute="bottom" id="r2B-Um-l49"/>
-                <constraint firstAttribute="trailing" secondItem="Chh-nF-8q0" secondAttribute="trailing" id="y9r-Cy-RRY"/>
+                <constraint firstItem="Chh-nF-8q0" firstAttribute="bottom" secondItem="pSi-cJ-YPi" secondAttribute="bottom" id="3hV-Nf-Nxd"/>
+                <constraint firstItem="pSi-cJ-YPi" firstAttribute="top" secondItem="Chh-nF-8q0" secondAttribute="top" id="H9N-tH-4zR"/>
+                <constraint firstItem="Chh-nF-8q0" firstAttribute="trailing" secondItem="pSi-cJ-YPi" secondAttribute="trailing" id="R3X-rl-KPG"/>
+                <constraint firstItem="Chh-nF-8q0" firstAttribute="leading" secondItem="pSi-cJ-YPi" secondAttribute="leading" id="RwC-vH-EGI"/>
             </constraints>
             <nil key="simulatedBottomBarMetrics"/>
+            <viewLayoutGuide key="safeArea" id="pSi-cJ-YPi"/>
             <point key="canvasLocation" x="251" y="-281"/>
         </view>
     </objects>

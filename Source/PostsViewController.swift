@@ -251,11 +251,11 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private func setConstraints() {
         contentView.snp.remakeConstraints { make in
             if  context?.allowsPosting ?? false {
-                make.top.equalTo(view)
+                make.top.equalTo(safeTop)
             }
             //Else the top is equal to searchBar.snp.bottom
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
             //The bottom is equal to newPostButton.snp.top
         }
         
@@ -267,7 +267,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         searchBar?.snp.remakeConstraints { make in
-            make.top.equalTo(view)
+            make.top.equalTo(safeTop)
             make.trailing.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.bottom.equalTo(contentView.snp.top)

@@ -35,20 +35,20 @@ class EnrolledCoursesFooterView : UIView {
         container.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         container.applyBorderStyle(style: BorderStyle())
         
-        container.snp.makeConstraints {make in
+        container.snp.makeConstraints { make in
             make.top.equalTo(self).offset(CourseCardCell.margin)
             make.bottom.equalTo(self)
             make.leading.equalTo(self).offset(CourseCardCell.margin)
             make.trailing.equalTo(self).offset(-CourseCardCell.margin)
         }
         
-        self.promptLabel.snp.makeConstraints {make in
+        self.promptLabel.snp.makeConstraints { make in
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             make.trailing.equalTo(container).offset(-StandardHorizontalMargin)
             make.top.equalTo(container).offset(StandardVerticalMargin)
         }
         
-        self.findCoursesButton.snp.makeConstraints {make in
+        self.findCoursesButton.snp.makeConstraints { make in
             make.leading.equalTo(promptLabel)
             make.trailing.equalTo(promptLabel)
             make.top.equalTo(promptLabel.snp.bottom).offset(StandardVerticalMargin)

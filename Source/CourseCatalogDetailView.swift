@@ -60,7 +60,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     func setup() {
         addSubview(descriptionView)
         descriptionView.scrollView.addSubview(container)
-        descriptionView.snp.makeConstraints {make in
+        descriptionView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
         container.snp.makeConstraints { make in
@@ -126,7 +126,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     private func fieldSeparator() -> UIView {
         let view = UIView()
         view.backgroundColor = OEXStyles.shared().neutralLight()
-        view.snp.makeConstraints {make in
+        view.snp.makeConstraints { make in
             make.height.equalTo(OEXStyles.dividerSize())
         }
         return view

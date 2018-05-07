@@ -46,40 +46,37 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
 
             let searchbarEnabled = (config?.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false) && showSearch
 
-            let webviewTop: ConstraintItem
+            var webviewTop: ConstraintItem = container.safeTop
+            var webViewBottom: ConstraintItem = container.safeBottom
             if searchbarEnabled {
                 searchBar.delegate = self
-
                 container.view.insertSubview(searchBar, at: 0)
 
                 searchBar.snp.makeConstraints{ make in
-                    make.leading.equalTo(container.view)
-                    make.trailing.equalTo(container.view)
-                    make.top.equalTo(container.view)
+                    make.leading.equalTo(container.safeLeading)
+                    make.trailing.equalTo(container.safeTrailing)
+                    make.top.equalTo(container.safeTop)
                 }
                 webviewTop = searchBar.snp.bottom
-            } else {
-                webviewTop = container.view.snp.top
             }
-
-
             container.view.insertSubview(webView, at: 0)
-
-            webView.snp.makeConstraints { make in
-                make.leading.equalTo(container.view)
-                make.trailing.equalTo(container.view)
-                make.bottom.equalTo(container.view)
-                make.top.equalTo(webviewTop)
-            }
-
             if let bar = bottomBar {
                 container.view.insertSubview(bar, at: 0)
                 bar.snp.makeConstraints { make in
-                    make.leading.equalTo(container.view)
-                    make.trailing.equalTo(container.view)
-                    make.bottom.equalTo(container.view)
+                    make.leading.equalTo(container.safeLeading)
+                    make.trailing.equalTo(container.safeTrailing)
+                    make.bottom.equalTo(container.safeBottom)
                 }
+                webViewBottom = bar.snp.top
             }
+            
+            webView.snp.makeConstraints { make in
+                make.leading.equalTo(container.safeLeading)
+                make.trailing.equalTo(container.safeTrailing)
+                make.bottom.equalTo(webViewBottom)
+                make.top.equalTo(webviewTop)
+            }
+            
         }
     }
 

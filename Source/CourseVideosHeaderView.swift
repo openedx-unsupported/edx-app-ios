@@ -335,7 +335,7 @@ class CourseVideosHeaderView: UIView {
             make.centerY.equalTo(snp.centerY)
         }
         
-        downloadProgressView.snp.makeConstraints {make in
+        downloadProgressView.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)

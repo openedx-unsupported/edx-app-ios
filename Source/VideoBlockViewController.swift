@@ -178,18 +178,18 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func applyPortraitConstraints() {
-        contentView?.snp.remakeConstraints {make in
-            make.edges.equalTo(view)
+        contentView?.snp.remakeConstraints { make in
+            make.edges.equalTo(safeEdges)
         }
         
-        videoController.view.snp.remakeConstraints {make in
+        videoController.view.snp.remakeConstraints { make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
             make.top.equalTo(topLayoutGuide.snp.bottom)
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
         
-        rotateDeviceMessageView?.snp.remakeConstraints {make in
+        rotateDeviceMessageView?.snp.remakeConstraints { make in
             make.top.equalTo(videoController.view.snp.bottom)
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
@@ -206,13 +206,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func applyLandscapeConstraints() {
-        contentView?.snp.remakeConstraints {make in
-            make.edges.equalTo(view)
+        contentView?.snp.remakeConstraints { make in
+            make.edges.equalTo(safeEdges)
         }
         
         let playerHeight = view.bounds.size.height - (navigationController?.toolbar.bounds.height ?? 0)
         
-        videoController.view.snp.remakeConstraints {make in
+        videoController.view.snp.remakeConstraints { make in
             make.leading.equalTo(contentView!)
             make.trailing.equalTo(contentView!)
             make.top.equalTo(topLayoutGuide.snp.bottom)
@@ -226,7 +226,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.bottom.equalTo(safeBottom)
         }
         
-        rotateDeviceMessageView?.snp.remakeConstraints {make in
+        rotateDeviceMessageView?.snp.remakeConstraints { make in
             make.height.equalTo(0.0)
         }
     }
@@ -334,7 +334,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     //MARK: - VideoPlayerDelegate methods
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer) {
-        videoPlayer.view.snp.remakeConstraints {make in
+        videoPlayer.view.snp.remakeConstraints { make in
             make.top.equalTo(topLayoutGuide.snp.bottom)
             make.width.equalTo(view.bounds.size.width)
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
