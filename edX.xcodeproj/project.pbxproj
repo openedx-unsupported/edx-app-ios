@@ -97,6 +97,9 @@
 		223DD6BB1F9F5A4B004A21B9 /* CourseDashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DD6BA1F9F5A4B004A21B9 /* CourseDashboardViewController.swift */; };
 		2240FD541FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */; };
 		2240FD561FF266E4001D6589 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD551FF266E4001D6589 /* TabBarItem.swift */; };
+		2245C9F8209C591B0097B23F /* MobileAppEula.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2245C9FA209C591B0097B23F /* MobileAppEula.htm */; };
+		2245C9FC209C592A0097B23F /* PrivacyPolicy.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2245C9FE209C592A0097B23F /* PrivacyPolicy.htm */; };
+		2245CA00209C59340097B23F /* TermsOfServices.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2245CA02209C59340097B23F /* TermsOfServices.htm */; };
 		224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224F1F522067B4E0009B3639 /* CustomSlider.swift */; };
 		2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254EF02207610FF00BA183C /* CustomPlayerButton.swift */; };
 		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
@@ -589,7 +592,6 @@
 		B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B419295D1A8A3F1900448AD5 /* OEXNetworkManager.m */; };
 		B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */; };
 		B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */; };
-		B47780591AADA95400436DB4 /* TermsOfServices.htm in Resources */ = {isa = PBXBuildFile; fileRef = B47780581AADA95400436DB4 /* TermsOfServices.htm */; };
 		B4A24D0D19EE8A6600CE5010 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */; };
 		B4B285D91A9A48D500DD603A /* OEXGoogleConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */; };
 		B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */; };
@@ -628,8 +630,6 @@
 		B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */; };
 		B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AB1FC709BD00F9CD61 /* String+Validation.swift */; };
 		B78823B01FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */; };
-		B78B233C20908A5100F8D976 /* PrivacyPolicy.htm in Resources */ = {isa = PBXBuildFile; fileRef = B78B233A20908A5000F8D976 /* PrivacyPolicy.htm */; };
-		B78B233D20908A5100F8D976 /* MobileAppEula.htm in Resources */ = {isa = PBXBuildFile; fileRef = B78B233B20908A5000F8D976 /* MobileAppEula.htm */; };
 		B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78B233E20908C3D00F8D976 /* AgreementTextView.swift */; };
 		BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */; };
 		BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */; };
@@ -900,6 +900,12 @@
 		223DD6BA1F9F5A4B004A21B9 /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
 		2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolledTabBarViewControllerTest.swift; sourceTree = "<group>"; };
 		2240FD551FF266E4001D6589 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
+		2245C9F9209C591B0097B23F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
+		2245C9FB209C591D0097B23F /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "es-419"; path = "es-419.lproj/MobileAppEula.htm"; sourceTree = "<group>"; };
+		2245C9FD209C592A0097B23F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
+		2245C9FF209C592D0097B23F /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "es-419"; path = "es-419.lproj/PrivacyPolicy.htm"; sourceTree = "<group>"; };
+		2245CA01209C59340097B23F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
+		2245CA03209C59370097B23F /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "es-419"; path = "es-419.lproj/TermsOfServices.htm"; sourceTree = "<group>"; };
 		224F1F522067B4E0009B3639 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		2254EF02207610FF00BA183C /* CustomPlayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerButton.swift; sourceTree = "<group>"; };
 		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
@@ -1454,7 +1460,6 @@
 		B41F22BA1A113D3D0022E01F /* OEXDownloadManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDownloadManager.m; sourceTree = "<group>"; };
 		B42DA1881A1539F000E3AD4E /* OEXFileUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFileUtility.m; sourceTree = "<group>"; };
 		B42DA18A1A153A0500E3AD4E /* OEXFileUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFileUtility.h; sourceTree = "<group>"; };
-		B47780581AADA95400436DB4 /* TermsOfServices.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = TermsOfServices.htm; sourceTree = "<group>"; };
 		B4A24D0C19EE8A6600CE5010 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		B4A9EA211966A2FA00AAB3DB /* NSObject+OEXReplaceNull.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+OEXReplaceNull.h"; sourceTree = "<group>"; };
 		B4A9EA221966A2FA00AAB3DB /* NSObject+OEXReplaceNull.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+OEXReplaceNull.m"; sourceTree = "<group>"; };
@@ -1521,8 +1526,6 @@
 		B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldController.swift; sourceTree = "<group>"; };
 		B78823AB1FC709BD00F9CD61 /* String+Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Validation.swift"; sourceTree = "<group>"; };
 		B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldControllerFactory.swift; sourceTree = "<group>"; };
-		B78B233A20908A5000F8D976 /* PrivacyPolicy.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PrivacyPolicy.htm; sourceTree = "<group>"; };
-		B78B233B20908A5000F8D976 /* MobileAppEula.htm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = MobileAppEula.htm; sourceTree = "<group>"; };
 		B78B233E20908C3D00F8D976 /* AgreementTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementTextView.swift; sourceTree = "<group>"; };
 		BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsTests.swift; sourceTree = "<group>"; };
 		BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFonts.swift; sourceTree = "<group>"; };
@@ -3199,11 +3202,11 @@
 		BECB7B151924C0C3009C77F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				B78B233B20908A5000F8D976 /* MobileAppEula.htm */,
-				B78B233A20908A5000F8D976 /* PrivacyPolicy.htm */,
+				2245C9FA209C591B0097B23F /* MobileAppEula.htm */,
+				2245C9FE209C592A0097B23F /* PrivacyPolicy.htm */,
+				2245CA02209C59340097B23F /* TermsOfServices.htm */,
 				773A04691AF289650076532C /* edX-Bridging-Header.h */,
 				BEEEBF82196AAACF00EF2C35 /* Localizable.strings */,
-				B47780581AADA95400436DB4 /* TermsOfServices.htm */,
 				BECB7B161924C0C3009C77F1 /* edX-Info.plist */,
 				BECB7B1A1924C0C3009C77F1 /* main.m */,
 				BECB7B1C1924C0C3009C77F1 /* edX-Prefix.pch */,
@@ -3705,6 +3708,7 @@
 				69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */,
 				69ECC60F1D50D1170030CF87 /* arrow_next@2x.png in Resources */,
 				69ECC6451D50D1170030CF87 /* separator.png in Resources */,
+				2245CA00209C59340097B23F /* TermsOfServices.htm in Resources */,
 				69ECC6131D50D1170030CF87 /* loginScreenImage.png in Resources */,
 				E0E27FC21EC469A800D1AEFE /* WhatsNew.json in Resources */,
 				69ECC6011D50D1170030CF87 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
@@ -3722,6 +3726,7 @@
 				69ECC61D1D50D1170030CF87 /* bt_logout_default.png in Resources */,
 				69ECC6501D50D1170030CF87 /* Default@2x.png in Resources */,
 				69ECC6341D50D1170030CF87 /* ic_next_deactive.png in Resources */,
+				2245C9FC209C592A0097B23F /* PrivacyPolicy.htm in Resources */,
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
 				69ECC6421D50D1170030CF87 /* logo@2x.png in Resources */,
@@ -3737,6 +3742,7 @@
 				6926CDAC1D59BE3600A16E22 /* ic_next.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
 				9ED269D21AF114B900328A34 /* OEXLoginViewController.storyboard in Resources */,
+				2245C9F8209C591B0097B23F /* MobileAppEula.htm in Resources */,
 				69ECC62C1D50D1170030CF87 /* ic_back.png in Resources */,
 				69ECC60E1D50D1170030CF87 /* Icon-60@3x.png in Resources */,
 				E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */,
@@ -3744,11 +3750,9 @@
 				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
-				B47780591AADA95400436DB4 /* TermsOfServices.htm in Resources */,
 				22F8A9141F4708A50025E18A /* Main.storyboard in Resources */,
 				69ECC64A1D50D1170030CF87 /* launchBackground.png in Resources */,
 				69ECC6201D50D1170030CF87 /* bt_signin_deactive.png in Resources */,
-				B78B233D20908A5100F8D976 /* MobileAppEula.htm in Resources */,
 				69ECC62F1D50D1170030CF87 /* ic_cancel@3x.png in Resources */,
 				198826E91952FE39005D4D8A /* OEXOpenInBrowserViewController.xib in Resources */,
 				69ECC63C1D50D1170030CF87 /* icon_facebook_white.png in Resources */,
@@ -3761,7 +3765,6 @@
 				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
 				22D73B5D1ED575C000220280 /* course-dates.js in Resources */,
 				BD7C6C401DCA329A0004D135 /* fonts.json in Resources */,
-				B78B233C20908A5100F8D976 /* PrivacyPolicy.htm in Resources */,
 				69ECC6021D50D1170030CF87 /* OpenSans-Italic.ttf in Resources */,
 				69ECC6481D50D1170030CF87 /* separator5.png in Resources */,
 				69ECC6141D50D1170030CF87 /* bt_blue2.png in Resources */,
@@ -4643,6 +4646,33 @@
 				E08CC57E1F33269D0092ACED /* es-419 */,
 			);
 			name = languages.json;
+			sourceTree = "<group>";
+		};
+		2245C9FA209C591B0097B23F /* MobileAppEula.htm */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2245C9F9209C591B0097B23F /* en */,
+				2245C9FB209C591D0097B23F /* es-419 */,
+			);
+			name = MobileAppEula.htm;
+			sourceTree = "<group>";
+		};
+		2245C9FE209C592A0097B23F /* PrivacyPolicy.htm */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2245C9FD209C592A0097B23F /* en */,
+				2245C9FF209C592D0097B23F /* es-419 */,
+			);
+			name = PrivacyPolicy.htm;
+			sourceTree = "<group>";
+		};
+		2245CA02209C59340097B23F /* TermsOfServices.htm */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2245CA01209C59340097B23F /* en */,
+				2245CA03209C59370097B23F /* es-419 */,
+			);
+			name = TermsOfServices.htm;
 			sourceTree = "<group>";
 		};
 		BEEEBF82196AAACF00EF2C35 /* Localizable.strings */ = {
