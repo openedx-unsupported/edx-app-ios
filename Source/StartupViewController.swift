@@ -19,7 +19,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private let logoImageView = UIImageView()
     private let searchView = UIView()
     private let messageLabel = UILabel()
-
     private let environment: Environment
 
     init(environment: Environment) {
@@ -46,6 +45,8 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             self?.view.endEditing(true)
         }
         view.addGestureRecognizer(tapGesture)
+
+        addObservers()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -54,15 +55,38 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     override var shouldAutorotate: Bool {
-        return false
+        return true
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+        return .allButUpsideDown
     }
     
     // MARK: - View Setup
 
+    private func keyboardWillShow(notification: NSNotification) {
+
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if view.frame.size.height - (searchView.frame.origin.y + searchView.frame.size.height) < keyboardSize.height  {
+                let difference = keyboardSize.height - (view.frame.size.height - (searchView.frame.origin.y + searchView.frame.size.height)) + StandardVerticalMargin
+                view.frame.origin.y = -difference
+            }
+        }
+    }
+
+    private func keyboardWillHide() {
+        view.frame.origin.y = 0
+    }
+
+    private func addObservers() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillShow.rawValue) { (notification, observer, _) in
+            observer.keyboardWillShow(notification: notification)
+        }
+
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillHide.rawValue) { (_, observer, _) in
+            observer.keyboardWillHide()
+        }
+    }
 
     private func setupLogo() {
         let logo = UIImage(named: "logo")
