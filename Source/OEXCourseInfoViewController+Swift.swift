@@ -33,6 +33,15 @@ extension OEXCourseInfoViewController {
                 environment.analytics.trackCourseEnrollment(courseId: courseID, name: AnalyticsEventName.CourseEnrollmentSuccess.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseSuccess.rawValue)
                 self?.showMainScreen(withMessage: Strings.findCoursesEnrollmentSuccessfulMessage, courseID: courseID)
             }
+            else if response.response?.httpStatusCode.is4xx ?? false, let owner = self {
+                    UIAlertController().showIn(viewController: owner, title: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, preferredStyle: UIAlertControllerStyle.alert, cancelButtonTitle: Strings.cancel, destructiveButtonTitle:nil, otherButtonsTitle: [Strings.ok], tapBlock: { (_, _, buttonIndex) in
+                        if buttonIndex == 1 {
+                            if let url = URL(string: String(format:"%@/courses/%@", environment.config.apiHostURL()?.absoluteString ?? "", courseID)) {
+                                UIApplication.shared.openURL(url)
+                            }
+                        }
+                    })
+            }
             else {
                 self?.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
             }
