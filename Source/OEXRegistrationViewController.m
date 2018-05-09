@@ -32,7 +32,7 @@
 
 NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXExternalRegistrationWithExistingAccountNotification";
 
-@interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate, AgreementTextViewDelegate>
+@interface OEXRegistrationViewController () <OEXExternalRegistrationOptionsViewDelegate, AgreementTextViewDelegate, InterfaceOrientationOverriding>
 
 /// Contents are id <OEXRegistrationFieldController>
 @property (strong, nonatomic) NSArray* fieldControllers;
@@ -485,11 +485,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (BOOL) shouldAutorotate {
-    return false;
+    return true;
 }
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 #pragma mark - Scolling on Keyboard Hide/Show
