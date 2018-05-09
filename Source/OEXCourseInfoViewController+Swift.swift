@@ -12,7 +12,7 @@ extension OEXCourseInfoViewController {
  
     func enrollInCourse(courseID: String, emailOpt: Bool) {
         
-        let environment = OEXRouter.shared().environment;
+        let environment = OEXRouter.shared().environment
         environment.analytics.trackCourseEnrollment(courseId: courseID, name: AnalyticsEventName.CourseEnrollmentClicked.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseClicked.rawValue)
         
         guard let _ = OEXSession.shared()?.currentUser else {
@@ -33,17 +33,20 @@ extension OEXCourseInfoViewController {
                 environment.analytics.trackCourseEnrollment(courseId: courseID, name: AnalyticsEventName.CourseEnrollmentSuccess.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseSuccess.rawValue)
                 self?.showMainScreen(withMessage: Strings.findCoursesEnrollmentSuccessfulMessage, courseID: courseID)
             }
-            else if response.response?.httpStatusCode.is4xx ?? false, let owner = self {
-                    UIAlertController().showIn(viewController: owner, title: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, preferredStyle: UIAlertControllerStyle.alert, cancelButtonTitle: Strings.cancel, destructiveButtonTitle:nil, otherButtonsTitle: [Strings.ok], tapBlock: { (_, _, buttonIndex) in
-                        if buttonIndex == 1 {
-                            if let url = URL(string: String(format:"%@/courses/%@", environment.config.apiHostURL()?.absoluteString ?? "", courseID)) {
-                                UIApplication.shared.openURL(url)
-                            }
-                        }
-                    })
+            else if response.response?.httpStatusCode.is4xx ?? false {
+                self?.showCourseEnrollmentFailureAlert(for: courseID)
             }
             else {
                 self?.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
+            }
+        }
+    }
+    
+    func showCourseEnrollmentFailureAlert(for courseID: String) {
+        let alertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesEnrollmentFailureErrorDescriptionForAlertview, cancelButtonTitle: Strings.cancel, onViewController: self)
+        alertView.addButton(withTitle: Strings.ok) { _ in
+            if let url = URL(string: String(format:"%@/courses/%@", OEXRouter.shared().environment.config.apiHostURL()?.absoluteString ?? "", courseID)), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
             }
         }
     }
