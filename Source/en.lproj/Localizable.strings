@@ -427,7 +427,7 @@
 /* Overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="An error occurred while creating the new course enrollment";
 /* AlertView message shown when enrolling in a course fails */
-"FIND_COURSES_ENROLLMENT_FAILURE_ERROR_DESCRIPTION_FOR_ALERTVIEW"="We are unable to enroll you in this course at this time using the edX mobile application. Please try again on the web";
+"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="We are unable to enroll you in this course at this time using the edX mobile application. Please try again on the web";
 /* Title of overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Enrollment Error";
 /* Title of overlay message shown when enrolling in a course succeeds */
@@ -518,6 +518,8 @@
 "OFFLINE" = "Offline";
 /* Alert dialog okay button */
 "OK"="OK";
+/* Alert dialog button */
+"GO_TO_WEB"= "Go to Web";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="View in Safari";
 /* Button title allowing user to open current page in their web browser */

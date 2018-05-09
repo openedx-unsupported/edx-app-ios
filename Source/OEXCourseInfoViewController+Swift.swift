@@ -43,8 +43,8 @@ extension OEXCourseInfoViewController {
     }
     
     func showCourseEnrollmentFailureAlert(for courseID: String) {
-        let alertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesEnrollmentFailureErrorDescriptionForAlertview, cancelButtonTitle: Strings.cancel, onViewController: self)
-        alertView.addButton(withTitle: Strings.ok) { _ in
+        let alertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, cancelButtonTitle: Strings.cancel, onViewController: self)
+        alertView.addButton(withTitle: Strings.goToWeb) { _ in
             if let url = URL(string: String(format:"%@/courses/%@", OEXRouter.shared().environment.config.apiHostURL()?.absoluteString ?? "", courseID)), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.openURL(url)
             }

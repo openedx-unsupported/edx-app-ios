@@ -125,7 +125,6 @@ class CourseCatalogDetailViewController: UIViewController {
             if response.response?.httpStatusCode.is2xx ?? false {
                 self?.environment.analytics.trackCourseEnrollment(courseId:courseID, name: AnalyticsEventName.CourseEnrollmentSuccess.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseSuccess.rawValue)
                 self?.showCourseScreen(message: Strings.findCoursesEnrollmentSuccessfulMessage)
-                   self?.showCourseEnrollmentFailureAlert(for: courseID)
             }
             else if response.response?.httpStatusCode.is4xx ?? false {
                 self?.showCourseEnrollmentFailureAlert(for: courseID)
@@ -138,8 +137,8 @@ class CourseCatalogDetailViewController: UIViewController {
     }
     
     func showCourseEnrollmentFailureAlert(for courseID: String) {
-        let alertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesEnrollmentFailureErrorDescriptionForAlertview, cancelButtonTitle: Strings.cancel, onViewController: self)
-        alertView.addButton(withTitle: Strings.ok) { _ in
+        let alertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, cancelButtonTitle: Strings.cancel, onViewController: self)
+        alertView.addButton(withTitle: Strings.goToWeb) { _ in
             if let url = URL(string: String(format:"%@/courses/%@", OEXRouter.shared().environment.config.apiHostURL()?.absoluteString ?? "", courseID)), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.openURL(url)
             }
