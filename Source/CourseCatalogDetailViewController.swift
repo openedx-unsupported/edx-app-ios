@@ -13,8 +13,9 @@ import edXCore
 
 class CourseCatalogDetailViewController: UIViewController {
     private let courseID: String
+    fileprivate var enrollmentFailureAlertView: UIAlertController?
     
-    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXStylesProvider
+    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXStylesProvider & OEXConfigProvider
     
     private let environment: Environment
     private lazy var loadController = LoadStateViewController()
@@ -137,11 +138,12 @@ class CourseCatalogDetailViewController: UIViewController {
     }
     
     func showCourseEnrollmentFailureAlert(for courseID: String) {
-        let alertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, cancelButtonTitle: Strings.cancel, onViewController: self)
-        alertView.addButton(withTitle: Strings.goToWeb) { _ in
-            if let url = URL(string: String(format:"%@/courses/%@", OEXRouter.shared().environment.config.apiHostURL()?.absoluteString ?? "", courseID)), UIApplication.shared.canOpenURL(url) {
+        enrollmentFailureAlertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, cancelButtonTitle: Strings.cancel, onViewController: self)
+        enrollmentFailureAlertView?.addButton(withTitle: Strings.goToWeb) {[weak self] _ in
+            if let url = URL(string: String(format:"%@/courses/%@", self?.environment.config.apiHostURL()?.absoluteString ?? "", courseID)), UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.openURL(url)
             }
+            
         }
     }
 }
@@ -160,4 +162,7 @@ extension CourseCatalogDetailViewController {
         enrollInCourse(completion: completion)
     }
     
+    func t_isShowingAlertView() -> Bool{
+        return enrollmentFailureAlertView?.visible ?? false
+    }
 }

@@ -144,7 +144,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             
             let expectations = expectation(description: "enrollment finishes")
             controller.t_enrollInCourse(completion: { () -> Void in
-                XCTAssertFalse(controller.t_isShowingOverlayMessage)
+                XCTAssertTrue(controller.t_isShowingAlertView())
                 expectations.fulfill()
             })
             waitForExpectations()
