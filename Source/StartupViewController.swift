@@ -79,7 +79,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     private func addObservers() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillShow.rawValue) { (notification, observer, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardDidShow.rawValue) { (notification, observer, _) in
             observer.keyboardWillShow(notification: notification)
         }
 
