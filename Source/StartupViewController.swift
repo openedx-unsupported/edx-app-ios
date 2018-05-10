@@ -65,7 +65,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     // MARK: - View Setup
 
     private func keyboardWillShow(notification: NSNotification) {
-
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if view.frame.size.height - (searchView.frame.origin.y + searchView.frame.size.height) < keyboardSize.height  {
                 let difference = keyboardSize.height - (view.frame.size.height - (searchView.frame.origin.y + searchView.frame.size.height)) + StandardVerticalMargin
@@ -260,6 +259,10 @@ private class BottomBarView: UIView, NSCopying {
     
     func showRegistration() {
         environment?.router?.showSignUpScreen(from: firstAvailableUIViewController(), completion: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
