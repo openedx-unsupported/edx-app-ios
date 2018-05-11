@@ -24,7 +24,7 @@ static NSString* const OEXFindCoursesCourseInfoPath = @"course_info/";
 static NSString* const OEXFindCoursesPathIDKey = @"path_id";
 static NSString* const OEXFindCoursePathPrefix = @"course/";
 
-@interface OEXFindCoursesViewController () <FindCoursesWebViewHelperDelegate>
+@interface OEXFindCoursesViewController () <FindCoursesWebViewHelperDelegate, InterfaceOrientationOverriding>
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) UIView* bottomBar;
@@ -119,6 +119,14 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [OEXStyles sharedStyles].standardStatusBarStyle;
+}
+
+- (BOOL) shouldAutorotate {
+    return true;
+}
+
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 @end
