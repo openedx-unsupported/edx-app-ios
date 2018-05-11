@@ -19,7 +19,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private let logoImageView = UIImageView()
     private let searchView = UIView()
     private let messageLabel = UILabel()
-
     private let environment: Environment
 
     init(environment: Environment) {
@@ -46,6 +45,8 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             self?.view.endEditing(true)
         }
         view.addGestureRecognizer(tapGesture)
+
+        addObservers()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -54,15 +55,37 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     override var shouldAutorotate: Bool {
-        return false
+        return true
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+        return .allButUpsideDown
     }
     
     // MARK: - View Setup
 
+    private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if view.frame.size.height - (searchView.frame.origin.y + searchView.frame.size.height) < keyboardSize.height  {
+                let difference = keyboardSize.height - (view.frame.size.height - (searchView.frame.origin.y + searchView.frame.size.height)) + StandardVerticalMargin
+                view.frame.origin.y = -difference
+            }
+        }
+    }
+
+    private func keyboardWillHide() {
+        view.frame.origin.y = 0
+    }
+
+    private func addObservers() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardDidShow.rawValue) { (notification, observer, _) in
+            observer.keyboardWillShow(notification: notification)
+        }
+
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillHide.rawValue) { (_, observer, _) in
+            observer.keyboardWillHide()
+        }
+    }
 
     private func setupLogo() {
         let logo = UIImage(named: "logo")
@@ -75,7 +98,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         view.addSubview(logoImageView)
 
         logoImageView.snp.makeConstraints { make in
-            make.leading.equalTo(2*StandardHorizontalMargin)
+            make.leading.equalTo(safeLeading).offset(2*StandardHorizontalMargin)
             make.centerY.equalTo(view.snp.bottom).dividedBy(6.0)
             make.width.equalTo((logo?.size.width ?? 0) / 2)
             make.height.equalTo((logo?.size.height ?? 0) / 2)
@@ -92,7 +115,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         messageLabel.snp.makeConstraints { make in
             make.top.equalTo(logoImageView.snp.bottom).offset(3 * StandardVerticalMargin)
             make.leading.equalTo(logoImageView)
-            make.trailing.equalTo(view).offset(-2 * StandardHorizontalMargin)
+            make.trailing.equalTo(safeTrailing).offset(-2 * StandardHorizontalMargin)
         }
     }
     
@@ -236,6 +259,10 @@ private class BottomBarView: UIView, NSCopying {
     
     func showRegistration() {
         environment?.router?.showSignUpScreen(from: firstAvailableUIViewController(), completion: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
