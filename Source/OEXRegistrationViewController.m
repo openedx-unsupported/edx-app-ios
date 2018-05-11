@@ -176,7 +176,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.agreementTextView setupFor:AgreementTypeSignUp];
     self.agreementTextView.agreementDelegate = self;
     CGSize size = [self.agreementTextView sizeThatFits:CGSizeMake(self.scrollView.frame.size.width - 2 * self.styles.formMargin, CGFLOAT_MAX)];
-    self.agreementTextView.frame = CGRectMake(0, 0, size.width, size.height + [[OEXStyles sharedStyles] standardHorizontalMargin]);;
+    self.agreementTextView.frame = CGRectMake(0, 0, size.width, size.height + [[OEXStyles sharedStyles] standardHorizontalMargin]);
 }
 
 // MARK: AgreementTextViewDelegate
@@ -329,7 +329,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     offset = offset + 40;
     
     [self.scrollView addSubview:self.agreementTextView];
-    [self.agreementTextView setFrame:CGRectMake(horizontalSpacing, offset + 10, self.agreementTextView.frame.size.width, self.agreementTextView.frame.size.height)];
+    [self.agreementTextView setFrame:CGRectMake(horizontalSpacing, offset + 10, width - 40, self.agreementTextView.frame.size.height)];
     offset = offset + self.agreementTextView.frame.size.height + [[OEXStyles sharedStyles] standardHorizontalMargin] * 2;
     [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }
