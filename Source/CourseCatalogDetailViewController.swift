@@ -128,7 +128,7 @@ class CourseCatalogDetailViewController: UIViewController {
                 self?.showCourseScreen(message: Strings.findCoursesEnrollmentSuccessfulMessage)
             }
             else if response.response?.httpStatusCode.is4xx ?? false {
-                self?.showCourseEnrollmentFailureAlert(for: courseID)
+                self?.showCourseEnrollmentFailureAlert()
             }
             else {
                 self?.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
@@ -137,8 +137,8 @@ class CourseCatalogDetailViewController: UIViewController {
         }
     }
     
-    func showCourseEnrollmentFailureAlert(for courseID: String) {
-        enrollmentFailureAlertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, cancelButtonTitle: Strings.ok, onViewController: self)
+    func showCourseEnrollmentFailureAlert() {
+        enrollmentFailureAlertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription(platformName: environment.config.platformName()), cancelButtonTitle: Strings.ok, onViewController: self)
     }
 }
 // Testing only

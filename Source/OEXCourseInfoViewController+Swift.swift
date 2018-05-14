@@ -34,7 +34,7 @@ extension OEXCourseInfoViewController {
                 self?.showMainScreen(withMessage: Strings.findCoursesEnrollmentSuccessfulMessage, courseID: courseID)
             }
             else if response.response?.httpStatusCode.is4xx ?? false {
-                self?.showCourseEnrollmentFailureAlert(for: courseID)
+                self?.showCourseEnrollmentFailureAlert()
             }
             else {
                 self?.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
@@ -42,7 +42,7 @@ extension OEXCourseInfoViewController {
         }
     }
     
-    func showCourseEnrollmentFailureAlert(for courseID: String) {
-        UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, cancelButtonTitle: Strings.cancel, onViewController: self)
+    func showCourseEnrollmentFailureAlert() {
+        UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription(platformName: OEXConfig.shared().platformName()), cancelButtonTitle: Strings.ok, onViewController: self)
     }
 }
