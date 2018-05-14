@@ -138,13 +138,7 @@ class CourseCatalogDetailViewController: UIViewController {
     }
     
     func showCourseEnrollmentFailureAlert(for courseID: String) {
-        enrollmentFailureAlertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, cancelButtonTitle: Strings.cancel, onViewController: self)
-        enrollmentFailureAlertView?.addButton(withTitle: Strings.goToWeb) {[weak self] _ in
-            if let url = URL(string: String(format:"%@/courses/%@", self?.environment.config.apiHostURL()?.absoluteString ?? "", courseID)), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.openURL(url)
-            }
-            
-        }
+        enrollmentFailureAlertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription, cancelButtonTitle: Strings.ok, onViewController: self)
     }
 }
 // Testing only
