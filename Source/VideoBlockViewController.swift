@@ -178,51 +178,53 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func applyPortraitConstraints() {
-        contentView?.snp.remakeConstraints { make in
+        guard let contentView = contentView else { return }
+        contentView.snp.remakeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
         
         videoController.view.snp.remakeConstraints { make in
-            make.leading.equalTo(contentView!)
-            make.trailing.equalTo(contentView!)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
             make.top.equalTo(topLayoutGuide.snp.bottom)
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
         
         rotateDeviceMessageView?.snp.remakeConstraints { make in
             make.top.equalTo(videoController.view.snp.bottom)
-            make.leading.equalTo(contentView!)
-            make.trailing.equalTo(contentView!)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
             make.bottom.equalTo(bottomLayoutGuide.snp.top)
         }
         
         videoTranscriptView?.transcriptTableView.snp.remakeConstraints { make in
             make.top.equalTo(videoController.view.snp.bottom)
-            make.leading.equalTo(contentView!)
-            make.trailing.equalTo(contentView!)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
             let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
             make.bottom.equalTo(view.snp.bottom).offset(-barHeight)
         }
     }
     
     private func applyLandscapeConstraints() {
-        contentView?.snp.remakeConstraints { make in
+        guard let contentView = contentView else { return }
+        contentView.snp.remakeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
         
         let playerHeight = view.bounds.size.height - (navigationController?.toolbar.bounds.height ?? 0)
         
         videoController.view.snp.remakeConstraints { make in
-            make.leading.equalTo(contentView!)
-            make.trailing.equalTo(contentView!)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
             make.top.equalTo(topLayoutGuide.snp.bottom)
             make.height.equalTo(playerHeight)
         }
         
         videoTranscriptView?.transcriptTableView.snp.remakeConstraints { make in
             make.top.equalTo(videoController.view.snp.bottom)
-            make.leading.equalTo(contentView!)
-            make.trailing.equalTo(contentView!)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
             make.bottom.equalTo(safeBottom)
         }
         

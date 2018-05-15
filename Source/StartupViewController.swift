@@ -125,7 +125,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         searchView.applyBorderStyle(style: borderStyle)
 
         searchView.snp.makeConstraints { make in
-            make.top.equalTo(messageLabel.snp.bottom).offset(6*StandardVerticalMargin)
+            make.top.equalTo(messageLabel.snp.bottom).offset(6 * StandardVerticalMargin)
             make.leading.equalTo(messageLabel)
             make.trailing.equalTo(messageLabel)
             make.height.equalTo(45)
