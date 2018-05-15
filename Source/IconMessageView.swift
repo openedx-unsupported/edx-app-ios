@@ -38,11 +38,11 @@ class IconMessageView : UIView {
     
     init(icon : Icon? = nil, message : String? = nil) {
         
-        container = UIView(frame: CGRect.zero)
-        iconView = UIImageView(frame: CGRect.zero)
-        messageView = UILabel(frame : CGRect.zero)
+        container = UIView(frame: .zero)
+        iconView = UIImageView(frame: .zero)
+        messageView = UILabel(frame : .zero)
         bottomButton = UIButton(type: .system)
-        super.init(frame: CGRect.zero)
+        super.init(frame: .zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -143,7 +143,7 @@ class IconMessageView : UIView {
         }
         
         messageView.snp.remakeConstraints { make in
-            make.top.equalTo(self.iconView.snp.bottom).offset(IconMessageMargin)
+            make.top.equalTo(iconView.snp.bottom).offset(IconMessageMargin)
             make.centerX.equalTo(container)
             make.width.equalTo(IconMessageTextWidth)
             if !hasBottomButton {
@@ -153,7 +153,7 @@ class IconMessageView : UIView {
         
         if hasBottomButton {
             bottomButton.snp.remakeConstraints { make in
-                make.top.equalTo(self.messageView.snp.bottom).offset(MessageButtonMargin)
+                make.top.equalTo(messageView.snp.bottom).offset(MessageButtonMargin)
                 make.centerX.equalTo(container)
                 make.bottom.equalTo(container)
             }

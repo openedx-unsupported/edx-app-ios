@@ -287,18 +287,18 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         
         
-        filterButton.snp.remakeConstraints{ make in
+        filterButton.snp.remakeConstraints { make in
             make.leading.equalTo(headerButtonHolderView)
             make.trailing.equalTo(sortButton.snp.leading)
             make.centerY.equalTo(headerButtonHolderView)
         }
         
-        sortButton.snp.remakeConstraints{ make in
+        sortButton.snp.remakeConstraints { make in
             make.trailingMargin.equalTo(headerButtonHolderView)
             make.centerY.equalTo(headerButtonHolderView)
             make.width.equalTo(filterButton.snp.width)
         }
-        newPostButton.snp.remakeConstraints{ make in
+        newPostButton.snp.remakeConstraints { make in
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
             make.height.equalTo(context?.allowsPosting ?? false ? OEXStyles.shared().standardFooterHeight : 0)
@@ -313,7 +313,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
             make.bottom.equalTo(newPostButton.snp.top)
         }
         
-        viewSeparator.snp.remakeConstraints{ make in
+        viewSeparator.snp.remakeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.height.equalTo(OEXStyles.dividerSize())

@@ -171,7 +171,7 @@ class RegistrationFormFieldView: UIView {
             make.leading.equalTo(textInputLabel)
             make.trailing.equalTo(textInputLabel)
             make.top.equalTo(errorLabel.snp.bottom).offset(StandardVerticalMargin/2.0)
-            make.bottom.equalTo(snp.bottom).inset(StandardVerticalMargin)
+            make.bottom.equalTo(self).inset(StandardVerticalMargin)
         }
     }
     

@@ -645,12 +645,11 @@ extension VideoPlayer {
         
         if animated {
             UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
-                if let weakSelf = self {
-                    
-                    weakSelf.movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
-                    weakSelf.movieBackgroundView.frame = weakSelf.movieBackgroundFrame
-                    weakSelf.view.frame = movieFrame
-                }
+                    if let weakSelf = self {
+                        weakSelf.movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
+                        weakSelf.movieBackgroundView.frame = weakSelf.movieBackgroundFrame
+                        weakSelf.view.frame = movieFrame
+                    }
                 }, completion: nil)
         }
         else {
