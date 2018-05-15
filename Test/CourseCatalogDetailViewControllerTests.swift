@@ -109,7 +109,28 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     
     // MARK: Enrollment
     
-    func testEnrollmentFailureShowsError() {
+    func testEnrollmentFailureShowsOverlayMessage() {
+        let course = OEXCourse.freshCourse()
+        let (environment, controller) = setupWithCourse(course)
+        environment.mockEnrollmentManager.enrollments = []
+        
+        // load the course
+        inScreenDisplayContext(controller) {
+            waitForStream(controller.t_loaded)
+            
+            // try to enroll with a bad request
+            environment.mockNetworkManager.interceptWhenMatching({(_ : NetworkRequest<UserCourseEnrollment>) in return true}, statusCode: 501, error: NSError.oex_unknownError())
+            
+            let expectations = expectation(description: "enrollment finishes")
+            controller.t_enrollInCourse(completion: { () -> Void in
+                XCTAssertTrue(controller.t_isShowingOverlayMessage)
+                expectations.fulfill()
+            })
+            waitForExpectations()
+        }
+    }
+    
+    func testEnrollmentFailureShowsAlertMessage() {
         let course = OEXCourse.freshCourse()
         let (environment, controller) = setupWithCourse(course)
         environment.mockEnrollmentManager.enrollments = []
@@ -123,11 +144,10 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             
             let expectations = expectation(description: "enrollment finishes")
             controller.t_enrollInCourse(completion: { () -> Void in
-                XCTAssertTrue(controller.t_isShowingOverlayMessage)
+                XCTAssertTrue(controller.t_isShowingAlertView())
                 expectations.fulfill()
             })
             waitForExpectations()
-            
         }
     }
     

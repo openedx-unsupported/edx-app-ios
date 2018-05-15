@@ -13,8 +13,9 @@ import edXCore
 
 class CourseCatalogDetailViewController: UIViewController {
     private let courseID: String
+    fileprivate var enrollmentFailureAlertView: UIAlertController?
     
-    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXStylesProvider
+    typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXStylesProvider & OEXConfigProvider
     
     private let environment: Environment
     private lazy var loadController = LoadStateViewController()
@@ -126,11 +127,18 @@ class CourseCatalogDetailViewController: UIViewController {
                 self?.environment.analytics.trackCourseEnrollment(courseId:courseID, name: AnalyticsEventName.CourseEnrollmentSuccess.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseSuccess.rawValue)
                 self?.showCourseScreen(message: Strings.findCoursesEnrollmentSuccessfulMessage)
             }
+            else if response.response?.httpStatusCode.is4xx ?? false {
+                self?.showCourseEnrollmentFailureAlert()
+            }
             else {
                 self?.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
             }
             completion()
         }
+    }
+    
+    func showCourseEnrollmentFailureAlert() {
+        enrollmentFailureAlertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription(platformName: environment.config.platformName()), cancelButtonTitle: Strings.ok, onViewController: self)
     }
 }
 // Testing only
@@ -148,4 +156,7 @@ extension CourseCatalogDetailViewController {
         enrollInCourse(completion: completion)
     }
     
+    func t_isShowingAlertView() -> Bool{
+        return enrollmentFailureAlertView?.visible ?? false
+    }
 }
