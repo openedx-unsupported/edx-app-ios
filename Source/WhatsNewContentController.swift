@@ -68,6 +68,7 @@ class WhatsNewContentController: UIViewController {
         screenImageView.contentMode = .scaleAspectFit
         titleLabel.textAlignment = .center
         titleLabel.adjustsFontSizeToFitWidth = true
+        messageLabel.textAlignment = .center
         messageLabel.numberOfLines = 0
         messageLabel.adjustsFontSizeToFitWidth = true
         
