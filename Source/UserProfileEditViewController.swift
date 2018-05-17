@@ -91,7 +91,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
     var disabledFields = [String]()
     var imagePicker: ProfilePictureTaker?
     var banner: ProfileBanner!
-    lazy var tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self

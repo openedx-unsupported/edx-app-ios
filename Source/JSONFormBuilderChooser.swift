@@ -23,7 +23,7 @@ private let cellIdentifier = "Cell"
 
 class JSONFormViewController<T>: UIViewController {
     /** Options Selector Table */
-    lazy var tableView = UITableView()
+    private lazy var tableView = UITableView()
     var dataSource: ChooserDataSource<T>?
     var instructions: String?
     var subInstructions: String?

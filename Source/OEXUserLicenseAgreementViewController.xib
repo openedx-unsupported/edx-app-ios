@@ -74,24 +74,18 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="jsf-vB-Psj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1pH-lB-6nM"/>
                 <constraint firstAttribute="centerY" secondItem="pMz-QC-2nz" secondAttribute="centerY" id="2lh-bO-H1e"/>
                 <constraint firstItem="jsf-vB-Psj" firstAttribute="bottom" secondItem="0Dh-ug-p6y" secondAttribute="bottom" id="4js-45-jAt"/>
-                <constraint firstItem="r7T-Mv-Iru" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="KVv-H2-aWo"/>
+                <constraint firstItem="r7T-Mv-Iru" firstAttribute="leading" secondItem="0Dh-ug-p6y" secondAttribute="leading" id="Mwq-ja-fPf"/>
+                <constraint firstItem="r7T-Mv-Iru" firstAttribute="trailing" secondItem="0Dh-ug-p6y" secondAttribute="trailing" id="NNj-9m-tm7"/>
                 <constraint firstAttribute="centerX" secondItem="pMz-QC-2nz" secondAttribute="centerX" id="VbL-xW-yeZ"/>
-                <constraint firstAttribute="trailing" secondItem="r7T-Mv-Iru" secondAttribute="trailing" id="bzE-lh-l52"/>
-                <constraint firstItem="jsf-vB-Psj" firstAttribute="top" secondItem="r7T-Mv-Iru" secondAttribute="bottom" id="gZv-z8-Uhi"/>
-                <constraint firstAttribute="trailing" secondItem="jsf-vB-Psj" secondAttribute="trailing" id="lVU-F0-DVd"/>
+                <constraint firstItem="jsf-vB-Psj" firstAttribute="trailing" secondItem="r7T-Mv-Iru" secondAttribute="trailing" id="fFT-8H-TNc"/>
+                <constraint firstItem="jsf-vB-Psj" firstAttribute="leading" secondItem="r7T-Mv-Iru" secondAttribute="leading" id="hgQ-1L-83D"/>
                 <constraint firstItem="0Dh-ug-p6y" firstAttribute="top" secondItem="r7T-Mv-Iru" secondAttribute="top" id="nvb-QD-eHN"/>
                 <constraint firstItem="jsf-vB-Psj" firstAttribute="top" secondItem="r7T-Mv-Iru" secondAttribute="bottom" id="xes-fC-zgs"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <viewLayoutGuide key="safeArea" id="0Dh-ug-p6y"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="gZv-z8-Uhi"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="533" y="275"/>
         </view>
     </objects>
