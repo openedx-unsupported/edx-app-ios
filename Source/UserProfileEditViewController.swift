@@ -82,7 +82,7 @@ extension UserProfile : FormData {
     }
 }
 
-class UserProfileEditViewController: UITableViewController {
+class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     typealias Environment = OEXAnalyticsProvider & DataManagerProvider & NetworkManagerProvider & OEXStylesProvider
     
@@ -91,7 +91,14 @@ class UserProfileEditViewController: UITableViewController {
     var disabledFields = [String]()
     var imagePicker: ProfilePictureTaker?
     var banner: ProfileBanner!
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        return tableView
+    }()
     let footer = UIView()
+    
     
     init(profile: UserProfile, environment: Environment) {
         self.profile = profile
@@ -156,19 +163,16 @@ class UserProfileEditViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        addSubViews()
         title = Strings.Profile.editTitle
         navigationItem.backBarButtonItem?.title = " "
         
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44
-        
-        
         tableView.tableHeaderView = makeHeader()
         tableView.tableFooterView = footer //get rid of extra lines when the content is shorter than a screen
-        if #available(iOS 9.0, *) {
-            tableView.cellLayoutMarginsFollowReadableWidth = false
-        }
+        tableView.cellLayoutMarginsFollowReadableWidth = false
+
         
         if let form = JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView: tableView)
@@ -176,6 +180,18 @@ class UserProfileEditViewController: UITableViewController {
         }
         addBackBarButtonItem()
     }
+    
+    private func addSubViews() {
+        view.addSubview(tableView)
+        setConstraints()
+    }
+    
+    private func setConstraints() {
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
+        }
+    }
+    
     
     private func addBackBarButtonItem() {
         let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: .plain, target: nil, action: nil)
@@ -233,15 +249,15 @@ class UserProfileEditViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fields.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let field = fields[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: field.cellIdentifier, for: indexPath as IndexPath)
         cell.selectionStyle = UITableViewCellSelectionStyle.none
@@ -273,12 +289,12 @@ class UserProfileEditViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let field = fields[indexPath.row]
         field.takeAction(data: profile, controller: self)
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let field = fields[indexPath.row]
         let enabled = !disabledFields.contains(field.name)
         cell.isUserInteractionEnabled = enabled

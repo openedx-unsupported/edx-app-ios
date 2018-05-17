@@ -30,7 +30,7 @@ class CourseDashboardLoadStateViewController: UIViewController {
         
         view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
-            make.edges.equalTo(view)
+            make.edges.equalTo(safeEdges)
         }
         
         view.backgroundColor = environment.styles.standardBackgroundColor()

@@ -33,8 +33,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = environment.styles.standardBackgroundColor()
         setupLogo()
         setupMessageLabel()
         setupSearchView()

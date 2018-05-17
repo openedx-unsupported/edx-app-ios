@@ -67,7 +67,7 @@ class AdditionalTabBarViewController: UIViewController, UITableViewDataSource, U
         tableView.register(AdditionalTableViewCell.self, forCellReuseIdentifier: AdditionalTableViewCell.identifier)
         
         tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view)
+            make.edges.equalTo(safeEdges)
         }
     }
     

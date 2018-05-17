@@ -252,7 +252,6 @@
 		77056C3E1B3F320800D9DB4A /* DetailToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77056C3D1B3F320800D9DB4A /* DetailToolbarButton.swift */; };
 		7706AAC11BCFEEBF00728432 /* NSAttributedString+Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7706AAC01BCFEEBF00728432 /* NSAttributedString+Formatting.swift */; };
 		7706AAC31BCFF28B00728432 /* NSAttributedString+FormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */; };
-		770848BA1B200C76002FEEEE /* ViewTopMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848B91B200C76002FEEEE /* ViewTopMessageController.swift */; };
 		770848BC1B209EF4002FEEEE /* BorderStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BB1B209EF4002FEEEE /* BorderStyle.swift */; };
 		770848BF1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */; };
 		77092C731B421BD0004AA1A1 /* ContainerNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77092C721B421BD0004AA1A1 /* ContainerNavigationController.swift */; };
@@ -1085,7 +1084,6 @@
 		77056C3D1B3F320800D9DB4A /* DetailToolbarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailToolbarButton.swift; sourceTree = "<group>"; };
 		7706AAC01BCFEEBF00728432 /* NSAttributedString+Formatting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Formatting.swift"; sourceTree = "<group>"; };
 		7706AAC21BCFF28B00728432 /* NSAttributedString+FormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+FormattingTests.swift"; sourceTree = "<group>"; };
-		770848B91B200C76002FEEEE /* ViewTopMessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewTopMessageController.swift; sourceTree = "<group>"; };
 		770848BB1B209EF4002FEEEE /* BorderStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderStyle.swift; sourceTree = "<group>"; };
 		770848BE1B20D5F9002FEEEE /* TestEnvironmentBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestEnvironmentBuilder.swift; sourceTree = "<group>"; };
 		77092C721B421BD0004AA1A1 /* ContainerNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerNavigationController.swift; sourceTree = "<group>"; };
@@ -2509,7 +2507,6 @@
 				773B1D411B1F48F100B861DF /* CourseOutlineHeaderView.swift */,
 				77503E8D1B287DBF00C47229 /* KeyboardInsetsSource.swift */,
 				7784C68A1B03BA1E00529C7C /* LoadStateViewController.swift */,
-				770848B91B200C76002FEEEE /* ViewTopMessageController.swift */,
 				9EAB5BE81B564C2F00CA9F3C /* ProgressController.swift */,
 			);
 			name = "Controller Helpers";
@@ -4304,7 +4301,6 @@
 				77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */,
 				B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */,
 				198826E81952FE39005D4D8A /* OEXOpenInBrowserViewController.m in Sources */,
-				770848BA1B200C76002FEEEE /* ViewTopMessageController.swift in Sources */,
 				E02F65691E8B94CC000D1C4E /* TZStackViewAlignment.swift in Sources */,
 				B7CCC725209B16B100A66923 /* ConstraintMakerFinalizable.swift in Sources */,
 				778B82EC1A520F2A0040D9E0 /* OEXEnvironment.m in Sources */,

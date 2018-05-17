@@ -86,7 +86,7 @@ class WhatsNewContentController: UIViewController {
     
     private func setConstraints() {
         containerView.snp.makeConstraints { make in
-            make.edges.equalTo(view)
+            make.edges.equalTo(safeEdges)
         }
         
         imageContainer.snp.makeConstraints { make in

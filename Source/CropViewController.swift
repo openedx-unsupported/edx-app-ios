@@ -83,21 +83,18 @@ class CropViewController: UIViewController {
         view.addSubview(titleLabel)
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.topMargin).offset(20)
+            make.top.equalTo(safeTop).offset(20)
             make.centerX.equalTo(view.snp.centerX)
         }
       
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(view)
-            make.left.equalTo(view)
-            make.right.equalTo(view)
-            make.bottom.equalTo(view)
+            make.edges.equalTo(safeEdges)
         }
         
         toolbar.snp.makeConstraints { make in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
-            make.bottom.equalTo(view)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
+            make.bottom.equalTo(safeBottom)
             make.height.equalTo(50)
         }
         

@@ -165,9 +165,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.estimatedRowHeight = 150
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.applyStandardSeparatorInsets()
-        if #available(iOS 9.0, *) {
-            tableView.cellLayoutMarginsFollowReadableWidth = false
-        }
+        tableView.cellLayoutMarginsFollowReadableWidth = false
         
         filterButton.oex_addAction(
             {[weak self] _ in

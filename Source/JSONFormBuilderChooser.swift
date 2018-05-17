@@ -21,9 +21,9 @@ private class JSONFormTableSelectionCell: UITableViewCell {
 
 private let cellIdentifier = "Cell"
 
-/** Options Selector Table */
-class JSONFormTableViewController<T>: UITableViewController {
-    
+class JSONFormViewController<T>: UIViewController {
+    /** Options Selector Table */
+    lazy var tableView = UITableView()
     var dataSource: ChooserDataSource<T>?
     var instructions: String?
     var subInstructions: String?
@@ -77,12 +77,22 @@ class JSONFormTableViewController<T>: UITableViewController {
         tableView.register(JSONFormTableSelectionCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
-        if #available(iOS 9.0, *) {
-            tableView.cellLayoutMarginsFollowReadableWidth = false
-        }
+        tableView.cellLayoutMarginsFollowReadableWidth = false
         makeAndInstallHeader()
+        addSubViews()
     }
 
+    private func addSubViews() {
+        view.addSubview(tableView)
+        setConstraints()
+    }
+    
+    private func setConstraints() {
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         OEXAnalytics.shared().trackScreen(withName: OEXAnalyticsScreenChooseFormValue + " " + (title ?? ""))

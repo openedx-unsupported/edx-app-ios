@@ -281,7 +281,7 @@ class JSONFormBuilder {
         }
         
         private func selectAction(data: FormData, controller: UIViewController) {
-            let selectionController = JSONFormTableViewController<String>()
+            let selectionController = JSONFormViewController<String>()
             var tableData = [ChooserDatum<String>]()
             
             if let rangeMin:Int = options?["range_min"]?.int, let rangeMax:Int = options?["range_max"]?.int {

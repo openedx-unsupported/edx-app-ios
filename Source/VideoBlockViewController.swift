@@ -186,7 +186,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         videoController.view.snp.remakeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.top.equalTo(topLayoutGuide.snp.bottom)
+            make.top.equalTo(safeTop)
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }
         
@@ -194,7 +194,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             make.top.equalTo(videoController.view.snp.bottom)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top)
+            make.bottom.equalTo(safeBottom)
         }
         
         videoTranscriptView?.transcriptTableView.snp.remakeConstraints { make in
@@ -217,7 +217,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         videoController.view.snp.remakeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.top.equalTo(topLayoutGuide.snp.bottom)
+            make.top.equalTo(safeTop)
             make.height.equalTo(playerHeight)
         }
         
@@ -337,7 +337,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     //MARK: - VideoPlayerDelegate methods
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer) {
         videoPlayer.view.snp.remakeConstraints { make in
-            make.top.equalTo(topLayoutGuide.snp.bottom)
+            make.top.equalTo(safeTop)
             make.width.equalTo(view.bounds.size.width)
             make.height.equalTo(view.bounds.size.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         }

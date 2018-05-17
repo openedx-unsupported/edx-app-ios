@@ -81,7 +81,7 @@ class CoursesTableViewController: UITableViewController {
         self.tableView.accessibilityIdentifier = "courses-table-view"
         
         self.tableView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view)
+            make.edges.equalTo(safeEdges)
         }
         
         tableView.estimatedRowHeight = 200

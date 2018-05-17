@@ -66,12 +66,11 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
     
     private func setConstraints() {
         webView.snp.makeConstraints { make in
-            make.edges.equalTo(self.view)
+            make.edges.equalTo(safeEdges)
         }
     }
     
     private func setStyles() {
-        self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         self.navigationItem.title = Strings.courseHandouts
     }
     

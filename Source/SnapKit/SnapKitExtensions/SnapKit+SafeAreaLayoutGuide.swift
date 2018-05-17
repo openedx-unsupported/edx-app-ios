@@ -9,8 +9,8 @@
 import Foundation
 
 extension UIViewController {
-    typealias SafeConstraintItem = ConstraintAttributesDSL & ConstraintDSL
-    var safeConstraintItem: SafeConstraintItem {
+    private typealias SafeConstraintItem = ConstraintAttributesDSL & ConstraintDSL
+    private var safeConstraintItem: SafeConstraintItem {
         if #available(iOS 11, *) {
             return view.safeAreaLayoutGuide.snp
         }
