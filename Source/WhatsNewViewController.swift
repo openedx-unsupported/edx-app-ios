@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UIPageViewControllerDataSource, InterfaceOrientationOverriding {
     private let containerView: UIView = UIView()
     private let closeButton = UIButton(type: .system)
     private let headerLabel = UILabel()
@@ -148,7 +148,15 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle(barStyle : nil)
     }
-    
+
+    override var shouldAutorotate: Bool {
+        return true
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
+    }
+
     private func contentController(withItem item: WhatsNew?, direction: UIPageViewControllerNavigationDirection)-> UIViewController {
         // UIPageController DataSource methods calling is different in voice over and in normal flow. 
         // In VO UIPageController didn't required viewControllerAfter but it does in normal flow.
