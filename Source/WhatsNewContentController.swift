@@ -48,6 +48,10 @@ class WhatsNewContentController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         setConstraints()
         applyGradient()
     }
@@ -64,6 +68,7 @@ class WhatsNewContentController: UIViewController {
         screenImageView.contentMode = .scaleAspectFit
         titleLabel.textAlignment = .center
         titleLabel.adjustsFontSizeToFitWidth = true
+        messageLabel.textAlignment = .center
         messageLabel.numberOfLines = 0
         messageLabel.adjustsFontSizeToFitWidth = true
         
@@ -85,6 +90,7 @@ class WhatsNewContentController: UIViewController {
     }
     
     private func setConstraints() {
+        
         containerView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
