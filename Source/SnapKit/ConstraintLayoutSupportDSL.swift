@@ -1,7 +1,7 @@
 //
 //  SnapKit
 //
-//  Copyright (c) 2011-2015 SnapKit Team - https://github.com/SnapKit
+//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,22 +27,30 @@
     import AppKit
 #endif
 
-/**
- Used to define `NSLayoutRelation`
- */
-internal enum ConstraintRelation: Int {
-    case equal = 1, lessThanOrEqualTo, greaterThanOrEqualTo
+
+@available(iOS 8.0, *)
+public struct ConstraintLayoutSupportDSL: ConstraintDSL {
     
-    internal var layoutRelation: NSLayoutRelation {
-        get {
-            switch(self) {
-            case .lessThanOrEqualTo:
-                return .lessThanOrEqual
-            case .greaterThanOrEqualTo:
-                return .greaterThanOrEqual
-            default:
-                return .equal
-            }
-        }
+    public var target: AnyObject? {
+        return self.support
+    }
+    
+    internal let support: ConstraintLayoutSupport
+    
+    internal init(support: ConstraintLayoutSupport) {
+        self.support = support
+        
+    }
+    
+    public var top: ConstraintItem {
+        return ConstraintItem(target: self.target, attributes: ConstraintAttributes.top)
+    }
+    
+    public var bottom: ConstraintItem {
+        return ConstraintItem(target: self.target, attributes: ConstraintAttributes.bottom)
+    }
+    
+    public var height: ConstraintItem {
+        return ConstraintItem(target: self.target, attributes: ConstraintAttributes.height)
     }
 }

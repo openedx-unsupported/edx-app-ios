@@ -91,9 +91,6 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         didSet {
             containerView.applyBorderStyle(style: BorderStyle())
             answerLabel.isHidden = !isEndorsed
-            responseTitle.snp_updateConstraints { (make) -> Void in
-                make.top.equalTo(authorProfileImage.snp_bottom).offset(StandardVerticalMargin)
-            }
         }
     }
     
@@ -258,13 +255,16 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
             navigationItemTitle = Strings.addResponse
             responseTitle.attributedText = responseTitleStyle.attributedString(withText: thread.title)
             contentTextView.accessibilityLabel = Strings.addAResponse
+            responseTitle.snp.makeConstraints { make in
+                make.top.equalTo(authorProfileImage.snp.bottom).offset(StandardVerticalMargin)
+            }
             self.isEndorsed = false
         case let .Comment(comment):
             buttonTitle = Strings.addComment
             titleText = Strings.addAComment
             navigationItemTitle = Strings.addComment
             contentTextView.accessibilityLabel = Strings.addAComment
-            responseTitle.snp_makeConstraints{ (make) -> Void in
+            responseTitle.snp.makeConstraints{ make in
                 make.height.equalTo(0)
             }
             self.isEndorsed = comment.endorsed

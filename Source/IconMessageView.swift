@@ -38,11 +38,11 @@ class IconMessageView : UIView {
     
     init(icon : Icon? = nil, message : String? = nil) {
         
-        container = UIView(frame: CGRect.zero)
-        iconView = UIImageView(frame: CGRect.zero)
-        messageView = UILabel(frame : CGRect.zero)
+        container = UIView(frame: .zero)
+        iconView = UIImageView(frame: .zero)
+        messageView = UILabel(frame : .zero)
         bottomButton = UIButton(type: .system)
-        super.init(frame: CGRect.zero)
+        super.init(frame: .zero)
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
@@ -128,7 +128,7 @@ class IconMessageView : UIView {
     }
     
     override func updateConstraints() {
-        container.snp_makeConstraints { (make) -> Void in
+        container.snp.makeConstraints { make in
             make.center.equalTo(self)
             make.leading.greaterThanOrEqualTo(self)
             make.trailing.lessThanOrEqualTo(self)
@@ -136,14 +136,14 @@ class IconMessageView : UIView {
             make.bottom.lessThanOrEqualTo(self)
         }
         
-        iconView.snp_updateConstraints { (make) -> Void in
+        iconView.snp.remakeConstraints { make in
             make.leading.equalTo(container)
             make.trailing.equalTo(container)
             make.top.equalTo(container)
         }
         
-        messageView.snp_remakeConstraints { (make) -> Void in
-            make.top.equalTo(self.iconView.snp_bottom).offset(IconMessageMargin)
+        messageView.snp.remakeConstraints { make in
+            make.top.equalTo(iconView.snp.bottom).offset(IconMessageMargin)
             make.centerX.equalTo(container)
             make.width.equalTo(IconMessageTextWidth)
             if !hasBottomButton {
@@ -152,8 +152,8 @@ class IconMessageView : UIView {
         }
         
         if hasBottomButton {
-            bottomButton.snp_remakeConstraints { (make) -> Void in
-                make.top.equalTo(self.messageView.snp_bottom).offset(MessageButtonMargin)
+            bottomButton.snp.remakeConstraints { make in
+                make.top.equalTo(messageView.snp.bottom).offset(MessageButtonMargin)
                 make.centerX.equalTo(container)
                 make.bottom.equalTo(container)
             }

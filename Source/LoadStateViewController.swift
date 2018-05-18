@@ -83,9 +83,9 @@ class LoadStateViewController : UIViewController {
         }
     }
     
-    var insets : UIEdgeInsets = EdgeInsets.zero {
+    var insets : UIEdgeInsets = .zero {
         didSet {
-            self.view.setNeedsUpdateConstraints()
+            view.setNeedsUpdateConstraints()
         }
     }
     
@@ -104,7 +104,7 @@ class LoadStateViewController : UIViewController {
     }
     
     override func loadView() {
-        self.view = PassthroughView()
+        view = PassthroughView()
     }
     
     func setupInController(controller : UIViewController, contentView : UIView) {
@@ -116,7 +116,7 @@ class LoadStateViewController : UIViewController {
         
         controller.view.addSubview(loadingView)
         controller.view.addSubview(messageView)
-        controller.view.addSubview(self.view)
+        controller.view.addSubview(view)
         
         if isSupportingReload() {
             delegate = controller as? LoadStateViewReloadSupport
@@ -130,7 +130,7 @@ class LoadStateViewController : UIViewController {
     }
     
     func isSupportingReload() -> Bool {
-        if let _ = self.parent as? LoadStateViewReloadSupport as? UIViewController {
+        if let _ = parent as? LoadStateViewReloadSupport as? UIViewController {
             return true
         }
         
@@ -146,8 +146,8 @@ class LoadStateViewController : UIViewController {
         
         state = .Initial
         
-        self.view.setNeedsUpdateConstraints()
-        self.view.isUserInteractionEnabled = false
+        view.setNeedsUpdateConstraints()
+        view.isUserInteractionEnabled = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -156,15 +156,15 @@ class LoadStateViewController : UIViewController {
     }
     
     override func updateViewConstraints() {
-        loadingView.snp_updateConstraints {make in
+        loadingView.snp.remakeConstraints { make in
             make.center.equalTo(view)
         }
         
-        messageView.snp_updateConstraints {make in
+        messageView.snp.remakeConstraints { make in
             make.center.equalTo(view)
         }
         
-        view.snp_updateConstraints { make in
+        view.snp.remakeConstraints { make in
             if let superview = view.superview {
                 make.edges.equalTo(superview).inset(insets)
             }

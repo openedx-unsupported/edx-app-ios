@@ -30,7 +30,6 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = environment.styles.standardBackgroundColor()
         addChildViewController(webController)
         webController.didMove(toParentViewController: self)
         view.addSubview(webController.view)
@@ -64,8 +63,8 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     }
     
     private func setConstraints() {
-        webController.view.snp_makeConstraints { (make) -> Void in
-            make.edges.equalTo(view)
+        webController.view.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
         }
     }
     

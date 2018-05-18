@@ -1,7 +1,7 @@
 //
 //  SnapKit
 //
-//  Copyright (c) 2011-2015 SnapKit Team - https://github.com/SnapKit
+//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,37 +27,40 @@
     import AppKit
 #endif
 
-/**
- Used to add extra information to the actual `NSLayoutConstraint`'s that will UIKit/AppKit will utilize
- */
-public class LayoutConstraint: NSLayoutConstraint {
+
+@available(iOS 9.0, OSX 10.11, *)
+public struct ConstraintLayoutGuideDSL: ConstraintAttributesDSL {
     
-    internal var snp_constraint: Constraint? = nil
+    @discardableResult
+    public func prepareConstraints(_ closure: (_ make: ConstraintMaker) -> Void) -> [Constraint] {
+        return ConstraintMaker.prepareConstraints(item: self.guide, closure: closure)
+    }
+    
+    public func makeConstraints(_ closure: (_ make: ConstraintMaker) -> Void) {
+        ConstraintMaker.makeConstraints(item: self.guide, closure: closure)
+    }
+    
+    public func remakeConstraints(_ closure: (_ make: ConstraintMaker) -> Void) {
+        ConstraintMaker.remakeConstraints(item: self.guide, closure: closure)
+    }
+    
+    public func updateConstraints(_ closure: (_ make: ConstraintMaker) -> Void) {
+        ConstraintMaker.updateConstraints(item: self.guide, closure: closure)
+    }
+    
+    public func removeConstraints() {
+        ConstraintMaker.removeConstraints(item: self.guide)
+    }
+    
+    public var target: AnyObject? {
+        return self.guide
+    }
+    
+    internal let guide: ConstraintLayoutGuide
+    
+    internal init(guide: ConstraintLayoutGuide) {
+        self.guide = guide
+        
+    }
     
 }
-
-internal func ==(left: LayoutConstraint, right: LayoutConstraint) -> Bool {
-    if left.firstItem !== right.firstItem {
-        return false
-    }
-    if left.secondItem !== right.secondItem {
-        return false
-    }
-    if left.firstAttribute != right.firstAttribute {
-        return false
-    }
-    if left.secondAttribute != right.secondAttribute {
-        return false
-    }
-    if left.relation != right.relation {
-        return false
-    }
-    if left.priority != right.priority {
-        return false
-    }
-    if left.multiplier != right.multiplier {
-        return false
-    }
-    return true
-}
-

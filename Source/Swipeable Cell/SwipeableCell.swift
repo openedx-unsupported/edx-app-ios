@@ -170,12 +170,12 @@ class SwipeableCell: UITableViewCell {
         let actionsView = SwipeCellActionView(maxSize: bounds.size, orientation: orientation, actions: actionButtons)
         actionsView.delegate = self
         addSubview(actionsView)
-        actionsView.snp_makeConstraints(closure: { (make) in
+        actionsView.snp.makeConstraints { make in
             make.height.equalTo(self)
             make.width.equalTo(100)
             make.centerY.equalTo(self)
-            make.leading.equalTo(snp_trailing)
-        })
+            make.leading.equalTo(snp.trailing)
+        }
         self.actionsView = actionsView
     }
     

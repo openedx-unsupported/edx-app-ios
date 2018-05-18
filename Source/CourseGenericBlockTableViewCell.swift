@@ -14,7 +14,7 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
-        content.snp_makeConstraints { (make) -> Void in
+        content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
     }

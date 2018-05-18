@@ -98,36 +98,36 @@ class RatingContainerView: UIView {
     
     private func setupConstraints() {
         
-        contentView.snp_remakeConstraints { (make) in
-            make.edges.equalTo(snp_edges)
+        contentView.snp.remakeConstraints { make in
+            make.edges.equalTo(snp.edges)
         }
         
-        descriptionLabel.snp_remakeConstraints { (make) in
-            make.top.equalTo(contentView.snp_top).offset(30)
-            make.left.equalTo(contentView.snp_left).offset(viewHorizontalMargin)
-            make.right.equalTo(contentView.snp_right).inset(viewHorizontalMargin)
+        descriptionLabel.snp.remakeConstraints { make in
+            make.top.equalTo(contentView.snp.top).offset(30)
+            make.left.equalTo(contentView.snp.left).offset(viewHorizontalMargin)
+            make.right.equalTo(contentView.snp.right).inset(viewHorizontalMargin)
         }
         
-        ratingView.snp_remakeConstraints { (make) in
-            make.top.equalTo(descriptionLabel.snp_bottom).offset(StandardVerticalMargin*2)
-            make.left.greaterThanOrEqualTo(contentView.snp_left).offset(viewHorizontalMargin)
-            make.right.greaterThanOrEqualTo(contentView.snp_right).inset(viewHorizontalMargin)
-            make.centerX.equalTo(contentView.snp_centerX)
+        ratingView.snp.remakeConstraints { make in
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(StandardVerticalMargin*2)
+            make.left.greaterThanOrEqualTo(contentView.snp.left).offset(viewHorizontalMargin)
+            make.right.greaterThanOrEqualTo(contentView.snp.right).inset(viewHorizontalMargin)
+            make.centerX.equalTo(contentView.snp.centerX)
         }
         
-        submitButton.snp_remakeConstraints { (make) in
-            make.left.equalTo(contentView.snp_left)
-            make.right.equalTo(contentView.snp_right)
-            make.bottom.equalTo(contentView.snp_bottom)
+        submitButton.snp.remakeConstraints { make in
+            make.left.equalTo(contentView.snp.left)
+            make.right.equalTo(contentView.snp.right)
+            make.bottom.equalTo(contentView.snp.bottom)
             make.height.equalTo(40)
-            make.top.equalTo(ratingView.snp_bottom).offset(StandardVerticalMargin*2)
+            make.top.equalTo(ratingView.snp.bottom).offset(StandardVerticalMargin*2)
         }
         
-        closeButton.snp_remakeConstraints { (make) in
+        closeButton.snp.remakeConstraints { make in
             make.height.equalTo(30)
             make.width.equalTo(30)
-            make.right.equalTo(contentView.snp_right).offset(8)
-            make.top.equalTo(contentView.snp_top).offset(-StandardVerticalMargin)
+            make.right.equalTo(contentView.snp.right).offset(8)
+            make.top.equalTo(contentView.snp.top).offset(-StandardVerticalMargin)
             
         }
     }

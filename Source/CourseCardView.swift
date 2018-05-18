@@ -90,36 +90,36 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         dateLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
         dateLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
         
-        container.snp_makeConstraints { make -> Void in
+        container.snp.makeConstraints { make in
             make.leading.equalTo(self)
-            make.trailing.equalTo(self).priorityRequired()
+            make.trailing.equalTo(self).priority(.required)
             make.bottom.equalTo(self).offset(-OEXStyles.dividerSize())
         }
-        coverImageView.snp_makeConstraints { (make) -> Void in
+        coverImageView.snp.makeConstraints { make in
             make.top.equalTo(self)
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
-            make.height.equalTo(coverImageView.snp_width).multipliedBy(coverImageAspectRatio).priorityLow()
+            make.height.equalTo(coverImageView.snp.width).multipliedBy(coverImageAspectRatio).priority(.low)
             make.bottom.equalTo(self)
         }
-        dateLabel.snp_makeConstraints { (make) -> Void in
+        dateLabel.snp.makeConstraints { make in
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
-            make.top.equalTo(titleLabel.snp_bottom).offset(StandardVerticalMargin)
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(container).offset(-verticalMargin)
             make.trailing.equalTo(titleLabel)
         }
-        bottomLine.snp_makeConstraints { (make) -> Void in
+        bottomLine.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)
-            make.top.equalTo(container.snp_bottom)
+            make.top.equalTo(container.snp.bottom)
         }
         
-        overlayContainer.snp_makeConstraints {make in
+        overlayContainer.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.top.equalTo(self)
-            make.bottom.equalTo(container.snp_top)
+            make.bottom.equalTo(container.snp.top)
         }
         
         let tapGesture = UITapGestureRecognizer {[weak self] _ in self?.cardTapped() }
@@ -129,13 +129,13 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     
     override func updateConstraints() {
         if let accessory = titleAccessoryView {
-            accessory.snp_remakeConstraints { make in
+            accessory.snp.remakeConstraints { make in
                 make.trailing.equalTo(container).offset(-StandardHorizontalMargin)
                 make.centerY.equalTo(container)
             }
         }
         
-        titleLabel.snp_remakeConstraints { (make) -> Void in
+        titleLabel.snp.remakeConstraints { make in
             make.leading.equalTo(container).offset(StandardHorizontalMargin)
             if let accessory = titleAccessoryView {
                 make.trailing.lessThanOrEqualTo(accessory).offset(-StandardHorizontalMargin)
@@ -224,7 +224,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     
     func addCenteredOverlay(view : UIView) {
         addSubview(view)
-        view.snp_makeConstraints {make in
+        view.snp.makeConstraints { make in
             make.center.equalTo(overlayContainer)
         }
     }

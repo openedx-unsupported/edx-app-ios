@@ -21,9 +21,9 @@ private class JSONFormTableSelectionCell: UITableViewCell {
 
 private let cellIdentifier = "Cell"
 
-/** Options Selector Table */
-class JSONFormTableViewController<T>: UITableViewController {
-    
+class JSONFormViewController<T>: UIViewController {
+    /** Options Selector Table */
+    private lazy var tableView = UITableView()
     var dataSource: ChooserDataSource<T>?
     var instructions: String?
     var subInstructions: String?
@@ -57,15 +57,15 @@ class JSONFormTableViewController<T>: UITableViewController {
             label.numberOfLines = 0
             
             headerView.addSubview(label)
-            label.snp_makeConstraints(closure: { (make) -> Void in
-                make.top.equalTo(headerView.snp_topMargin)
-                make.bottom.equalTo(headerView.snp_bottomMargin)
-                make.leading.equalTo(headerView.snp_leading).offset(20)
-                make.trailing.equalTo(headerView.snp_trailing).inset(20)
-            })
+            label.snp.makeConstraints { make in
+                make.top.equalTo(headerView.snp.topMargin)
+                make.bottom.equalTo(headerView.snp.bottomMargin)
+                make.leading.equalTo(headerView.snp.leading).offset(20)
+                make.trailing.equalTo(headerView.snp.trailing).inset(20)
+            }
             
             let size = label.sizeThatFits(CGSize(width: 240, height: CGFloat.greatestFiniteMagnitude))
-            headerView.frame = CGRect(origin: CGPoint.zero, size: size)
+            headerView.frame = CGRect(origin: .zero, size: size)
             
             tableView.tableHeaderView = headerView
         }
@@ -77,12 +77,22 @@ class JSONFormTableViewController<T>: UITableViewController {
         tableView.register(JSONFormTableSelectionCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.dataSource = dataSource
         tableView.delegate = dataSource
-        if #available(iOS 9.0, *) {
-            tableView.cellLayoutMarginsFollowReadableWidth = false
-        }
+        tableView.cellLayoutMarginsFollowReadableWidth = false
         makeAndInstallHeader()
+        addSubViews()
     }
 
+    private func addSubViews() {
+        view.addSubview(tableView)
+        setConstraints()
+    }
+    
+    private func setConstraints() {
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         OEXAnalytics.shared().trackScreen(withName: OEXAnalyticsScreenChooseFormValue + " " + (title ?? ""))

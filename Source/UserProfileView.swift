@@ -99,45 +99,45 @@ class UserProfileView : UIView, UIScrollViewDelegate {
     }
 
     private func setupConstraints() {
-        scrollView.snp_makeConstraints { (make) -> Void in
+        scrollView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
-        avatarImage.snp_makeConstraints { (make) -> Void in
-            make.width.equalTo(avatarImage.snp_height)
+        avatarImage.snp.makeConstraints { make in
+            make.width.equalTo(avatarImage.snp.height)
             make.width.equalTo(166)
             make.centerX.equalTo(scrollView)
-            make.top.equalTo(scrollView.snp_topMargin).offset(20)
+            make.top.equalTo(scrollView.snp.topMargin).offset(20)
         }
 
-        usernameLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(avatarImage.snp_bottom).offset(margin)
+        usernameLabel.snp.makeConstraints { make in
+            make.top.equalTo(avatarImage.snp.bottom).offset(margin)
             make.centerX.equalTo(scrollView)
         }
         
-        messageLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(usernameLabel.snp_bottom).offset(margin).priorityHigh()
+        messageLabel.snp.makeConstraints { make in
+            make.top.equalTo(usernameLabel.snp.bottom).offset(margin).priority(.high)
             make.centerX.equalTo(scrollView)
         }
 
-        languageLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(messageLabel.snp_bottom)
+        languageLabel.snp.makeConstraints { make in
+            make.top.equalTo(messageLabel.snp.bottom)
             make.centerX.equalTo(scrollView)
         }
 
-        countryLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(languageLabel.snp_bottom)
+        countryLabel.snp.makeConstraints { make in
+            make.top.equalTo(languageLabel.snp.bottom)
             make.centerX.equalTo(scrollView)
         }
 
-        tabs.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(countryLabel.snp_bottom).offset(35).priorityHigh()
+        tabs.snp.makeConstraints { make in
+            make.top.equalTo(countryLabel.snp.bottom).offset(35).priority(.high)
             make.bottom.equalTo(scrollView)
             make.leading.equalTo(scrollView)
             make.trailing.equalTo(scrollView)
             make.width.equalTo(scrollView)
         }
 
-        bioSystemMessage.snp_makeConstraints { (make) -> Void in
+        bioSystemMessage.snp.makeConstraints { make in
             make.top.equalTo(tabs)
             make.bottom.greaterThanOrEqualTo(self)
             make.leading.equalTo(scrollView)
@@ -145,11 +145,11 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             make.width.equalTo(scrollView)
         }
 
-        bottomBackground.snp_makeConstraints {make in
+        bottomBackground.snp.makeConstraints { make in
             make.edges.equalTo(bioSystemMessage)
         }
 
-        header.snp_makeConstraints { (make) -> Void in
+        header.snp.makeConstraints { make in
             make.top.equalTo(scrollView)
             make.leading.equalTo(scrollView)
             make.trailing.equalTo(scrollView)
