@@ -40,9 +40,9 @@ class AgreementTextView: UITextView {
         let privacyPolicyText = Strings.Agreement.linkTextPrivacyPolicy
         let agreementText = "\(prefix)\(Strings.Agreement.text(eula: eulaText, tos: tosText, privacyPolicy: privacyPolicyText))"
         var attributedString = style.attributedString(withText: agreementText)
-        if let eulaUrl = Bundle.main.url(forResource: "MobileAppEula", withExtension: "htm"),
-            let tosUrl = Bundle.main.url(forResource: "TermsOfServices", withExtension: "htm"),
-            let privacyPolicyUrl = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "htm") {
+        if let eulaUrl = OEXConfig.shared().agreementURLsConfig.eulaURL,
+            let tosUrl = OEXConfig.shared().agreementURLsConfig.tosURL,
+            let privacyPolicyUrl = OEXConfig.shared().agreementURLsConfig.privacyPolicyURL {
             attributedString = attributedString.addLink(on: eulaText, value: eulaUrl)
             attributedString = attributedString.addLink(on: tosText, value: tosUrl)
             attributedString = attributedString.addLink(on: privacyPolicyText, value: privacyPolicyUrl)
