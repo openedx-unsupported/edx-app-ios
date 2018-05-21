@@ -1,7 +1,7 @@
 //
 //  SnapKit
 //
-//  Copyright (c) 2011-2015 SnapKit Team - https://github.com/SnapKit
+//  Copyright (c) 2011-Present SnapKit Team - https://github.com/SnapKit
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -27,49 +27,40 @@
     import AppKit
 #endif
 
-/**
- Used to assist in building a constraint
- */
-public class ConstraintItem {
-    
-    internal init(object: AnyObject?, attributes: ConstraintAttributes) {
-        self.object = object
-        self.attributes = attributes
-    }
-    
-    internal weak var object: AnyObject?
-    internal var attributes: ConstraintAttributes
-    
-    internal var view: View? {
-        return self.object as? View
-    }
-    
-    @available(iOS 7.0, *)
-    internal var layoutSupport: LayoutSupport? {
-        return self.object as? LayoutSupport
-    }
-    
-    #if os(iOS) || os(tvOS)
-    @available(iOS 9.0, *)
-    internal var layoutguide: UILayoutGuide? {
-        return self.object as? UILayoutGuide
-    }
-    #endif
+
+public protocol ConstraintRelatableTarget {
 }
 
+extension Int: ConstraintRelatableTarget {
+}
 
-internal func ==(left: ConstraintItem, right: ConstraintItem) -> Bool {
-    if left.object == nil {
-        return false
-    }
-    if right.object == nil {
-        return false
-    }
-    if left.object !== right.object {
-        return false
-    }
-    if left.attributes != right.attributes {
-        return false
-    }
-    return true
+extension UInt: ConstraintRelatableTarget {
+}
+
+extension Float: ConstraintRelatableTarget {
+}
+
+extension Double: ConstraintRelatableTarget {
+}
+
+extension CGFloat: ConstraintRelatableTarget {
+}
+
+extension CGSize: ConstraintRelatableTarget {
+}
+
+extension CGPoint: ConstraintRelatableTarget {
+}
+
+extension ConstraintInsets: ConstraintRelatableTarget {
+}
+
+extension ConstraintItem: ConstraintRelatableTarget {
+}
+
+extension ConstraintView: ConstraintRelatableTarget {
+}
+
+@available(iOS 9.0, OSX 10.11, *)
+extension ConstraintLayoutGuide: ConstraintRelatableTarget {
 }

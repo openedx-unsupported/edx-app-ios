@@ -48,8 +48,8 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         self.loadController.setupInController(controller: self, contentView: tableController.view)
         
         self.view.addSubview(tableController.view)
-        tableController.view.snp_makeConstraints {make in
-            make.edges.equalTo(self.view)
+        tableController.view.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
         }
         
         self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()

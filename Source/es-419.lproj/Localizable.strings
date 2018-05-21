@@ -426,6 +426,8 @@
 "FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="Ya está inscrito en este curso";
 /* Overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="Ocurrió un error al crear su inscripción al curso";
+/* AlertView message shown when enrolling in a course fails */
+"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="We are unable to enroll you in this course at this time using the {platform_name} mobile application. Please try again on your web browser";
 /* Title of overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Error en la inscripción";
 /* Title of overlay message shown when enrolling in a course succeeds */

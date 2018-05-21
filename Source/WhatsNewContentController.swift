@@ -48,6 +48,10 @@ class WhatsNewContentController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         setConstraints()
         applyGradient()
     }
@@ -64,6 +68,7 @@ class WhatsNewContentController: UIViewController {
         screenImageView.contentMode = .scaleAspectFit
         titleLabel.textAlignment = .center
         titleLabel.adjustsFontSizeToFitWidth = true
+        messageLabel.textAlignment = .center
         messageLabel.numberOfLines = 0
         messageLabel.adjustsFontSizeToFitWidth = true
         
@@ -85,11 +90,12 @@ class WhatsNewContentController: UIViewController {
     }
     
     private func setConstraints() {
-        containerView.snp_makeConstraints { make in
-            make.edges.equalTo(view)
+        
+        containerView.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
         }
         
-        imageContainer.snp_makeConstraints { make in
+        imageContainer.snp.makeConstraints { make in
             make.top.equalTo(containerView)
             make.trailing.equalTo(containerView)
             make.leading.equalTo(containerView)
@@ -97,29 +103,29 @@ class WhatsNewContentController: UIViewController {
             make.height.equalTo(height)
         }
         
-        infoContainer.snp_makeConstraints { make in
-            make.top.equalTo(imageContainer.snp_bottom)
+        infoContainer.snp.makeConstraints { make in
+            make.top.equalTo(imageContainer.snp.bottom)
             make.trailing.equalTo(containerView)
             make.leading.equalTo(containerView)
             make.bottom.equalTo(containerView)
         }
         
-        screenImageView.snp_makeConstraints { make in
+        screenImageView.snp.makeConstraints { make in
             make.top.equalTo(imageContainer).offset(2*StandardVerticalMargin)
             make.bottom.equalTo(imageContainer)
             make.trailing.equalTo(imageContainer).offset(-LeftRightMargin)
             make.leading.equalTo(imageContainer).offset(LeftRightMargin)
         }
         
-        titleLabel.snp_makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalTo(infoContainer).offset(2*StandardVerticalMargin)
             make.centerX.equalTo(infoContainer)
             make.trailing.lessThanOrEqualTo(infoContainer).offset(-LeftRightMargin)
             make.leading.lessThanOrEqualTo(infoContainer).offset(LeftRightMargin)
         }
         
-        messageLabel.snp_makeConstraints { make in
-            make.top.equalTo(titleLabel.snp_bottom).offset(StandardVerticalMargin)
+        messageLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.lessThanOrEqualTo(infoContainer).offset(-StandardVerticalMargin)
             make.centerX.equalTo(infoContainer)
             make.trailing.lessThanOrEqualTo(infoContainer).offset(-LeftRightMargin)

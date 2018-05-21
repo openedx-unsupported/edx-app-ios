@@ -69,15 +69,15 @@ public class CourseOutlineHeaderView: UIView {
         backgroundColor = styles.primaryXLightColor()
         bottomDivider.backgroundColor = contrastColor
         
-        bottomDivider.snp_makeConstraints {make in
+        bottomDivider.snp.makeConstraints { make in
             make.bottom.equalTo(self)
             make.height.equalTo(OEXStyles.dividerSize())
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
         }
         
-        viewButton.snp_makeConstraints { make in
-            make.trailing.equalTo(self.snp_trailing).offset(-StandardHorizontalMargin)
+        viewButton.snp.makeConstraints { make in
+            make.trailing.equalTo(self.snp.trailing).offset(-StandardHorizontalMargin)
             make.centerY.equalTo(self)
             make.top.equalTo(self).offset(5)
             make.bottom.equalTo(self).offset(-5)
@@ -85,16 +85,16 @@ public class CourseOutlineHeaderView: UIView {
 
         viewButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
         
-        messageView.snp_makeConstraints { make in
+        messageView.snp.makeConstraints { make in
             let situationalCenterYOffset = hasSubtitle ? titleLabelCenterYOffset : 0
             make.centerY.equalTo(self).offset(situationalCenterYOffset)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
         }
         
-        subtitleLabel.snp_makeConstraints { (make) -> Void in
+        subtitleLabel.snp.makeConstraints { make in
             make.centerY.equalTo(self).offset(subtitleLabelCenterYOffset)
             make.leading.equalTo(messageView)
-            make.trailing.lessThanOrEqualTo(viewButton.snp_leading).offset(-10)
+            make.trailing.lessThanOrEqualTo(viewButton.snp.leading).offset(-10)
         }
         subtitleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
     }

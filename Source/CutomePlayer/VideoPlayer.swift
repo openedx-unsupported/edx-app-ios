@@ -51,6 +51,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private var isObserverAdded: Bool = false
     private let playerTimeOutInterval:TimeInterval = 60.0
     private let preferredTimescale:Int32 = 100
+    fileprivate let fullScreenContainerView: UIView?
     
     // UIPageViewController keep multiple viewControllers simultanously for smooth switching
     // on view transitioning this method calls for every viewController which cause framing issue for fullscreen mode
@@ -137,6 +138,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     init(environment : Environment) {
         self.environment = environment
+        if let keyWindow = UIApplication.shared.keyWindow {
+            fullScreenContainerView = keyWindow.rootViewController?.view
+        }
+        else {
+            fullScreenContainerView = UIApplication.shared.windows[0].rootViewController?.view
+        }
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -214,7 +221,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if let controls = controls {
             playerView.addSubview(controls)
         }
-        controls?.snp_makeConstraints() { make in
+        controls?.snp.makeConstraints() { make in
             make.edges.equalTo(playerView)
         }
     }
@@ -262,13 +269,13 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     private func setConstraints() {
-        loadingIndicatorView.snp_makeConstraints() { make in
-            make.center.equalTo(playerView.center)
+        loadingIndicatorView.snp.makeConstraints() { make in
+            make.center.equalToSuperview()
             make.height.equalTo(loadingIndicatorViewSize.height)
             make.width.equalTo(loadingIndicatorViewSize.width)
         }
         
-        accessibilityPlayerView.snp_makeConstraints { (make) in
+        accessibilityPlayerView.snp.makeConstraints { make in
             make.edges.equalTo(playerView)
         }
     }
@@ -560,20 +567,29 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
 }
 
 extension VideoPlayer {
+    
+    var movieBackgroundFrame: CGRect {
+        if #available(iOS 11, *) {
+            if let safeBounds = fullScreenContainerView?.safeAreaLayoutGuide.layoutFrame {
+                return safeBounds
+            }
+        }
+        else if let containerBounds = fullScreenContainerView?.bounds {
+            return containerBounds
+        }
+        return .zero
+    }
+    
     func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         if !isVisible { return }
         isFullScreen = fullscreen
         if fullscreen {
-            var keyWindow: UIWindow? = UIApplication.shared.keyWindow
-            if keyWindow == nil {
-                keyWindow = UIApplication.shared.windows[0]
+            
+            if movieBackgroundView.frame == .zero {
+                movieBackgroundView.frame = movieBackgroundFrame
             }
-            let container: UIView? = keyWindow?.rootViewController?.view
-            if let containerBounds = container?.bounds, movieBackgroundView.frame == .zero {
-                movieBackgroundView.frame = containerBounds
-            }
-            if let subviews = container?.subviews, !subviews.contains(movieBackgroundView){
-                container?.addSubview(movieBackgroundView)
+            if let subviews = fullScreenContainerView?.subviews, !subviews.contains(movieBackgroundView){
+                fullScreenContainerView?.addSubview(movieBackgroundView)
             }
             
             UIView.animate(withDuration: animated ? 0.1 : 0.0, delay: 0.0, options: .curveLinear, animations: {[weak self]() -> Void in
@@ -612,37 +628,33 @@ extension VideoPlayer {
     
     func rotateMoviePlayer(for orientation: UIInterfaceOrientation, animated: Bool, forceRotate rotate: Bool, completion: (() -> Void)? = nil) {
         var angle: Double = 0
-        
-        let windowSize = UIScreen.main.bounds.size
-        
-        var backgroundFrame: CGRect = CGRect(x: 0, y: 0, width: windowSize.width, height: windowSize.height)
-        var movieFrame: CGRect = CGRect(x: 0, y: 0, width: backgroundFrame.size.width, height: backgroundFrame.size.height)
+        var movieFrame: CGRect = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.width, height: movieBackgroundFrame.height)
         
         // Used to rotate the view on Fulscreen button click
         // Rotate it forcefully as the orientation is on the UIDeviceOrientation
         if rotate && orientation == .landscapeLeft {
             angle = Double.pi/2
             // MOB-1053
-            backgroundFrame = CGRect(x: 0, y: 0, width: windowSize.width, height: windowSize.height)
-            movieFrame = CGRect(x: 0, y: 0, width: backgroundFrame.size.height, height: backgroundFrame.size.width);
+            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width)
         }
         else if rotate && orientation == .landscapeRight {
             angle = -Double.pi/2
             // MOB-1053
-            backgroundFrame = CGRect(x: 0, y: 0, width: windowSize.width, height: windowSize.height)
-            movieFrame = CGRect(x: 0, y: 0, width: backgroundFrame.size.height, height: backgroundFrame.size.width);
+            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width)
         }
         
         if animated {
-            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: {[weak self]() -> Void in
-                self?.movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
-                self?.movieBackgroundView.frame = backgroundFrame
-                self?.view.frame = movieFrame
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
+                    if let weakSelf = self {
+                        weakSelf.movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
+                        weakSelf.movieBackgroundView.frame = weakSelf.movieBackgroundFrame
+                        weakSelf.view.frame = movieFrame
+                    }
                 }, completion: nil)
         }
         else {
             movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
-            movieBackgroundView.frame = backgroundFrame
+            movieBackgroundView.frame = movieBackgroundFrame
             view.frame = movieFrame
         }
     }

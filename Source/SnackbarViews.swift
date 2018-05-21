@@ -42,21 +42,21 @@ public class VersionUpgradeView: UIView {
     }
     
     private func addConstraints() {
-        messageLabel.snp_makeConstraints { make in
+        messageLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(StandardVerticalMargin)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.equalTo(self).offset(-StandardHorizontalMargin)
         }
         
-        upgradeButton.snp_makeConstraints { (make) in
-            make.top.equalTo(messageLabel.snp_bottom)
+        upgradeButton.snp.makeConstraints { make in
+            make.top.equalTo(messageLabel.snp.bottom)
             make.trailing.equalTo(self).offset(-StandardHorizontalMargin)
             make.bottom.equalTo(self).offset(-StandardVerticalMargin)
         }
         
-        dismissButton.snp_makeConstraints { (make) in
-            make.top.equalTo(messageLabel.snp_bottom)
-            make.trailing.equalTo(upgradeButton.snp_leading).offset(-StandardHorizontalMargin)
+        dismissButton.snp.makeConstraints { make in
+            make.top.equalTo(messageLabel.snp.bottom)
+            make.trailing.equalTo(upgradeButton.snp.leading).offset(-StandardHorizontalMargin)
             make.bottom.equalTo(self).offset(-StandardVerticalMargin)
         }
     }
@@ -127,22 +127,22 @@ public class OfflineView: UIView {
     
     
     private func addConstraints() {
-        messageLabel.snp_makeConstraints { make in
+        messageLabel.snp.makeConstraints { make in
             make.top.equalTo(self).offset(StandardVerticalMargin)
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
             make.trailing.lessThanOrEqualTo(dismissButton).offset(-StandardHorizontalMargin)
             make.centerY.equalTo(reloadButton)
         }
         
-        reloadButton.snp_makeConstraints { (make) in
+        reloadButton.snp.makeConstraints { make in
             make.top.equalTo(messageLabel)
             make.trailing.equalTo(self).offset(-StandardHorizontalMargin)
             make.bottom.equalTo(self).offset(-StandardVerticalMargin)
         }
         
-        dismissButton.snp_makeConstraints { (make) in
+        dismissButton.snp.makeConstraints { make in
             make.top.equalTo(reloadButton)
-            make.trailing.equalTo(reloadButton.snp_leading).offset(-StandardHorizontalMargin)
+            make.trailing.equalTo(reloadButton.snp.leading).offset(-StandardHorizontalMargin)
             make.bottom.equalTo(self).offset(-StandardVerticalMargin)
         }
     }

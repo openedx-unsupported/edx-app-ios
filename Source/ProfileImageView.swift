@@ -59,7 +59,7 @@ class ProfileImageView: UIImageView {
         let vibView = UIVisualEffectView(effect: vib)
         let spinner = SpinnerView(size: .Medium, color: .White)
         vibView.contentView.addSubview(spinner)
-        spinner.snp_makeConstraints {make in
+        spinner.snp.makeConstraints { make in
             make.center.equalTo(spinner.superview!)
         }
         
@@ -67,10 +67,10 @@ class ProfileImageView: UIImageView {
         
         insertSubview(blurView, at: 0)
         blurView.contentView.addSubview(vibView)
-        vibView.snp_makeConstraints { (make) -> Void in
+        vibView.snp.makeConstraints { make in
             make.edges.equalTo(vibView.superview!)
         }
-        blurView.snp_makeConstraints { (make) -> Void in
+        blurView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
         

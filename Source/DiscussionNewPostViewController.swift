@@ -155,7 +155,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         let dropdownLabel = UILabel()
         dropdownLabel.attributedText = Icon.Dropdown.attributedTextWithStyle(style: titleTextStyle)
         topicButton.addSubview(dropdownLabel)
-        dropdownLabel.snp_makeConstraints { (make) -> Void in
+        dropdownLabel.snp.makeConstraints { make in
             make.trailing.equalTo(topicButton).offset(-insets.right)
             make.top.equalTo(topicButton).offset(topicButton.frame.size.height / 2.0 - 5.0)
         }
@@ -300,11 +300,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.optionsViewController?.selectedOptionIndex = self.selectedTopicIndex()
         self.view.addSubview(self.optionsViewController!.view)
         
-        self.optionsViewController!.view.snp_makeConstraints { (make) -> Void in
+        self.optionsViewController!.view.snp.makeConstraints { make in
             make.trailing.equalTo(self.topicButton)
             make.leading.equalTo(self.topicButton)
-            make.top.equalTo(self.topicButton.snp_bottom).offset(-3)
-            make.bottom.equalTo(self.view.snp_bottom)
+            make.top.equalTo(self.topicButton.snp.bottom).offset(-3)
+            make.bottom.equalTo(safeBottom)
         }
         
         self.optionsViewController?.view.alpha = 0.0

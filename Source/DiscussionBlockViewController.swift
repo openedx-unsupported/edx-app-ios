@@ -46,12 +46,12 @@ class DiscussionBlockViewController: UIViewController,CourseBlockViewController 
     override func updateViewConstraints() {
         super.updateViewConstraints()
         
-        postsController.view.snp_remakeConstraints {make in
-            make.top.equalTo(view)
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+        postsController.view.snp.remakeConstraints { make in
+            make.top.equalTo(safeTop)
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
             let barHeight = navigationController?.toolbar.frame.size.height ?? 0.0
-            make.bottom.equalTo(view).offset(-barHeight)
+            make.bottom.equalTo(safeBottom).offset(-barHeight)
         }
     }
 }

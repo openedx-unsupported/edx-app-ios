@@ -71,9 +71,9 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     }
     
     private func setupConstraints() {
-        ratingContainerView.snp_remakeConstraints { (make) in
-            make.centerX.equalTo(view.snp_centerX)
-            make.centerY.equalTo(view.snp_centerY)
+        ratingContainerView.snp.remakeConstraints { make in
+            make.centerX.equalTo(view.snp.centerX)
+            make.centerY.equalTo(view.snp.centerY)
             make.width.equalTo(275)
         }
     }

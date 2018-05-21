@@ -303,44 +303,44 @@ class CourseVideosHeaderView: UIView {
     
     private func setConstraints() {
         
-        imageView.snp_makeConstraints { make in
+        imageView.snp.makeConstraints { make in
             make.leading.equalTo(self).offset(StandardHorizontalMargin)
-            make.centerY.equalTo(snp_centerY)
+            make.centerY.equalTo(snp.centerY)
             make.height.equalTo(20)
             make.width.equalTo(20)
         }
         
-        spinner.snp_makeConstraints { make in
+        spinner.snp.makeConstraints { make in
             make.edges.equalTo(imageView)
         }
         
-        titleLabel.snp_makeConstraints { make in
-            make.leading.equalTo(imageView.snp_trailing).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(toggleSwitch.snp_leading).offset(-StandardHorizontalMargin)
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(imageView.snp.trailing).offset(StandardHorizontalMargin)
+            make.trailing.equalTo(toggleSwitch.snp.leading).offset(-StandardHorizontalMargin)
             make.top.equalTo(self).offset(1.5 * StandardVerticalMargin)
         }
         
-        subTitleLabel.snp_makeConstraints { make in
+        subTitleLabel.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(titleLabel)
-            make.top.equalTo(titleLabel.snp_bottom).offset(StandardVerticalMargin / 2)
+            make.top.equalTo(titleLabel.snp.bottom).offset(StandardVerticalMargin / 2)
         }
         
-        showDownloadsButton.snp_makeConstraints { make in
+        showDownloadsButton.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
         
-        toggleSwitch.snp_makeConstraints { make in
+        toggleSwitch.snp.makeConstraints { make in
             make.trailing.equalTo(self).inset(StandardHorizontalMargin)
-            make.centerY.equalTo(snp_centerY)
+            make.centerY.equalTo(snp.centerY)
         }
         
-        downloadProgressView.snp_makeConstraints {make in
+        downloadProgressView.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)
             make.height.equalTo(2)
-            make.top.equalTo(subTitleLabel.snp_bottom).offset(1.5 * StandardVerticalMargin)
+            make.top.equalTo(subTitleLabel.snp.bottom).offset(1.5 * StandardVerticalMargin)
         }
     }
     

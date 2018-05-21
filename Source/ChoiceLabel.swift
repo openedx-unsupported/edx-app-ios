@@ -39,7 +39,7 @@ class ChoiceLabel : UIView {
         stack.alignment = .center
         stack.spacing = StandardHorizontalMargin
         self.addSubview(stack)
-        stack.snp_makeConstraints {make in
+        stack.snp.makeConstraints { make in
             make.top.equalTo(self).offset(StandardVerticalMargin)
             make.bottom.equalTo(self).offset(-StandardVerticalMargin)
             make.leading.equalTo(self)
@@ -49,8 +49,8 @@ class ChoiceLabel : UIView {
         iconView.contentMode = iconView.isRightToLeft ? .right : .left
         iconView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
         iconView.tintColor = titleTextStyle.color
-        iconView.snp_makeConstraints { make in
-            make.width.equalTo(type(of: self).minIconSize).priorityMedium()
+        iconView.snp.makeConstraints { make in
+            make.width.equalTo(type(of: self).minIconSize).priority(.medium)
         }
         iconView.isHidden = true
         

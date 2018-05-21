@@ -71,7 +71,7 @@ public func responseCacheKeyForRequest(_ request : URLRequest) -> String? {
 
 @objc public protocol ResponseCache : NSObjectProtocol {
     func fetchCacheEntryWithRequest(_ request : URLRequest, completion : @escaping (ResponseCacheEntry?) -> Void)
-    func setCacheResponse(_ response : HTTPURLResponse, withData data : Data?, forRequest request : URLRequest, completion : ((Void) -> Void)?)
+    func setCacheResponse(_ response : HTTPURLResponse, withData data : Data?, forRequest request : URLRequest, completion : (() -> Void)?)
 }
 
 @objc public protocol PathProvider {
@@ -139,7 +139,7 @@ open class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverD
         }
     }
     
-    open func setCacheResponse(_ response : HTTPURLResponse, withData data : Data?, forRequest request : URLRequest, completion : ((Void) -> Void)? = nil) {
+    open func setCacheResponse(_ response : HTTPURLResponse, withData data : Data?, forRequest request : URLRequest, completion : (() -> Void)? = nil) {
         let entry = ResponseCacheEntry(data: data, response: response)
         let path = self.pathProvider.pathForRequestKey(responseCacheKeyForRequest(request))
         queue.async {
