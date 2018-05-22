@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseCatalogViewController: UIViewController, CoursesTableViewControllerDelegate {
+class CourseCatalogViewController: UIViewController, CoursesTableViewControllerDelegate, InterfaceOrientationOverriding {
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXConfigProvider & OEXAnalyticsProvider
     
     private let environment : Environment
@@ -94,6 +94,14 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
             let error = NSError.oex_error(with: .unknown, message: Strings.findCoursesNoAvailableCourses)
             loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
         }
+    }
+
+    override var shouldAutorotate: Bool {
+        return true
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
 }
 

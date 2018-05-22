@@ -11,7 +11,7 @@ import UIKit
 
 import edXCore
 
-class CourseCatalogDetailViewController: UIViewController {
+class CourseCatalogDetailViewController: UIViewController, InterfaceOrientationOverriding {
     private let courseID: String
     fileprivate var enrollmentFailureAlertView: UIAlertController?
     
@@ -139,6 +139,14 @@ class CourseCatalogDetailViewController: UIViewController {
     
     func showCourseEnrollmentFailureAlert() {
         enrollmentFailureAlertView = UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription(platformName: environment.config.platformName()), cancelButtonTitle: Strings.ok, onViewController: self)
+    }
+
+    override var shouldAutorotate: Bool {
+        return true
+    }
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
 }
 // Testing only

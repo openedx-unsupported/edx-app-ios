@@ -70,11 +70,11 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     }
     
     override var shouldAutorotate: Bool {
-        return false
+        return true
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+        return .allButUpsideDown
     }
     
     private func prepareTabViewData() {
