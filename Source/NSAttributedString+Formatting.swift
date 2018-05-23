@@ -54,7 +54,7 @@ extension String {
     // This method returns a new string made by replacing in the `String`
     // all HTML character entity references with the corresponding
     // character.
-    var stringByDecodingHTMLEntities : String {
+    var decodingHTMLEntities: String {
         var index = startIndex
         let characterEntities : [String: Character] = [
             
@@ -316,14 +316,12 @@ extension String {
             "&diams;"    : "\u{2666}",
             
             ]
-        
-        // ===== Utility functions =====
-        
+
         // Convert the number in the string to the corresponding
         // Unicode character, e.g.
-        //    decodeNumeric("64", 10)   --> "@"
-        //    decodeNumeric("20ac", 16) --> "€"
-        func decodeNumeric(_ string : String, base : Int) -> Character? {
+        //    decode(numeric:"64", 10)   --> "@"
+        //    decode(numeric:"20ac", 16) --> "€"
+        func decode(numeric string : String, base : Int) -> Character? {
             guard let code = UInt32(string, radix: base),
                 let uniScalar = UnicodeScalar(code) else { return nil }
             return Character(uniScalar)
@@ -335,24 +333,21 @@ extension String {
         //     decode("&#x20ac;") --> "€"
         //     decode("&lt;")     --> "<"
         //     decode("&foo;")    --> nil
-        func decode(_ entity : String) -> Character? {
+        func decode(entity: String) -> Character? {
             if entity.hasPrefix("&#x") || entity.hasPrefix("&#X"){
-                return decodeNumeric(entity.substring(with: entity.index(entity.startIndex, offsetBy: 3) ..< entity.index(entity.endIndex, offsetBy: -1)), base: 16)
+                return decode(numeric: entity.substring(with: entity.index(entity.startIndex, offsetBy: 3) ..< entity.index(entity.endIndex, offsetBy: -1)), base: 16)
             } else if entity.hasPrefix("&#") {
-                return decodeNumeric(entity.substring(with: entity.index(entity.startIndex, offsetBy: 2) ..< entity.index(entity.endIndex, offsetBy: -1)), base: 10)
+                return decode(numeric: entity.substring(with: entity.index(entity.startIndex, offsetBy: 2) ..< entity.index(entity.endIndex, offsetBy: -1)), base: 10)
             } else {
                 return characterEntities[entity]
             }
         }
         
-        func filterString(_ encodedString: String) -> String {
-            if encodedString.contains(find: "&&") {
-                return encodedString.replace(string: "&&", replacement: "&")
-            }
-            return encodedString
+        func filter(string encodedString: String) -> String {
+            return encodedString.replace(string: "&&", replacement: "&")
         }
         
-        func decodingHTMLEntities(_ encodedString: String) -> String{
+        func decoding(htmlEntities encodedString: String) -> String {
             var result = ""
             var position = startIndex
             
@@ -367,7 +362,7 @@ extension String {
             if let semiRange = encodedString.range(of: ";", range: position ..< encodedString.endIndex) {
                 let entity = encodedString[position ..< semiRange.upperBound]
                 position = semiRange.upperBound
-                if let decoded = decode(entity) {
+                if let decoded = decode(entity: entity) {
                     index = ampRange.lowerBound
                     // Replace by decoded character:
                     result.append(decoded)
@@ -381,9 +376,9 @@ extension String {
             
             // Copy remaining characters to `result`:
             result.append(encodedString[position ..< encodedString.endIndex])
-            return decodingHTMLEntities(filterString(result))
+            return decoding(htmlEntities:filter(string: result))
         }
 
-        return decodingHTMLEntities(self)
+        return decoding(htmlEntities: self)
     }
 }
