@@ -230,11 +230,11 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
 }
 
 extension CourseCardView {
-    static func cardHeight(leftMargen: CGFloat = 0, rightMargen: CGFloat = 0) -> CGFloat {
+    static func cardHeight(leftMargin: CGFloat = 0, rightMargin: CGFloat = 0) -> CGFloat {
         let screenWidth = UIScreen.main.bounds.size.width
         var height: CGFloat = 0
         let screenHeight = UIScreen.main.bounds.size.height
-        let halfScreenHeight = (screenHeight / 2.0) - (leftMargen + rightMargen)
+        let halfScreenHeight = (screenHeight / 2.0) - (leftMargin + rightMargin)
         let ratioedHeight = screenWidth * defaultCoverImageAspectRatio
         height = CGFloat(Int(halfScreenHeight > ratioedHeight ? ratioedHeight : halfScreenHeight))
         return height

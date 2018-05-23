@@ -28,7 +28,7 @@ class CourseCardCell : UITableViewCell {
             make.bottom.equalTo(contentView)
             make.leading.equalTo(contentView).offset(horizMargin)
             make.trailing.equalTo(contentView).offset(-horizMargin)
-            make.height.equalTo(CourseCardView.cardHeight(leftMargen: CourseCardCell.margin, rightMargen: CourseCardCell.margin))
+            make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
         
         courseView.applyBorderStyle(style: courseCardBorderStyle)
