@@ -622,6 +622,8 @@
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
 		B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
+		B70BCFDF20B42630005F0D19 /* subjects.json in Resources */ = {isa = PBXBuildFile; fileRef = B70BCFE120B42630005F0D19 /* subjects.json */; };
+		B70BCFE420B426B3005F0D19 /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70BCFE320B426B3005F0D19 /* Subject.swift */; };
 		B75E8F5E20A5B1EB00685F58 /* Default-Landscape-375w-812h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75E8F5D20A5B1EA00685F58 /* Default-Landscape-375w-812h@3x.png */; };
 		B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */; };
 		B760E5562010DD6800ECACAB /* BulkDownloadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */; };
@@ -1544,6 +1546,9 @@
 		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
 		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
 		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
+		B70BCFE020B42630005F0D19 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/subjects.json; sourceTree = "<group>"; };
+		B70BCFE220B42638005F0D19 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/subjects.json"; sourceTree = "<group>"; };
+		B70BCFE320B426B3005F0D19 /* Subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
 		B75E8F5D20A5B1EA00685F58 /* Default-Landscape-375w-812h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-375w-812h@3x.png"; sourceTree = "<group>"; };
 		B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseVideosHeaderView.swift; sourceTree = "<group>"; };
 		B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkDownloadHelper.swift; sourceTree = "<group>"; };
@@ -3051,6 +3056,15 @@
 			name = "Registration Field Controllers";
 			sourceTree = "<group>";
 		};
+		B70BCFDC20B41C38005F0D19 /* SubjectsDiscovery */ = {
+			isa = PBXGroup;
+			children = (
+				B70BCFE120B42630005F0D19 /* subjects.json */,
+				B70BCFE320B426B3005F0D19 /* Subject.swift */,
+			);
+			path = SubjectsDiscovery;
+			sourceTree = "<group>";
+		};
 		B78823A21FC6F59A00F9CD61 /* Registration Field Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -3246,6 +3260,7 @@
 		BECB7B141924C0C3009C77F1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				B70BCFDC20B41C38005F0D19 /* SubjectsDiscovery */,
 				228E0B891F43137D0073E6FA /* Account View */,
 				1972E3B619BF474900085F08 /* Analytics */,
 				69EFBB011E361BE600FF66C4 /* App Review */,
@@ -3828,6 +3843,7 @@
 				E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */,
 				B75E8F5E20A5B1EB00685F58 /* Default-Landscape-375w-812h@3x.png in Resources */,
 				69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */,
+				B70BCFDF20B42630005F0D19 /* subjects.json in Resources */,
 				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
@@ -4357,6 +4373,7 @@
 				77AFD1111C1B4F79001985FD /* NSString+TestExamples.m in Sources */,
 				9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */,
 				770C514B1B1685E3009B9696 /* HTMLBlockViewController.swift in Sources */,
+				B70BCFE420B426B3005F0D19 /* Subject.swift in Sources */,
 				46CECC3A1B041CDC0073C63A /* CourseCardView.swift in Sources */,
 				B7CCC732209B16B100A66923 /* ConstraintMaker.swift in Sources */,
 				9ED105441B3AAC5B00D244FF /* BlockViewControllerCacheManager.swift in Sources */,
@@ -4779,6 +4796,15 @@
 				2245CA03209C59370097B23F /* es-419 */,
 			);
 			name = TermsOfServices.htm;
+			sourceTree = "<group>";
+		};
+		B70BCFE120B42630005F0D19 /* subjects.json */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B70BCFE020B42630005F0D19 /* en */,
+				B70BCFE220B42638005F0D19 /* es-419 */,
+			);
+			name = subjects.json;
 			sourceTree = "<group>";
 		};
 		BEEEBF82196AAACF00EF2C35 /* Localizable.strings */ = {
