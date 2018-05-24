@@ -8,7 +8,6 @@
 
 import UIKit
 
-private let defaultAspectRatio:CGFloat = 0.533
 private let lassAccessViewPortraitHeight:CGFloat = 72
 private let lassAccessViewLandscapeHeight:CGFloat = 52
 
@@ -320,18 +319,10 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             if shouldHideTableViewHeader { return }
             var constraintView: UIView = courseCard            
             courseCard.snp.remakeConstraints { make in
-                let screenWidth = UIScreen.main.bounds.size.width
-                var height: CGFloat = 0
-                let screenHeight = UIScreen.main.bounds.size.height
-                let halfScreenHeight = screenHeight / 2.0
-                let ratioedHeight = screenWidth * defaultAspectRatio
-                height = CGFloat(Int(halfScreenHeight > ratioedHeight ? ratioedHeight : halfScreenHeight))
-                
                 make.trailing.equalTo(headerContainer)
                 make.leading.equalTo(headerContainer)
-                make.width.equalTo(screenWidth)
                 make.top.equalTo(headerContainer)
-                make.height.equalTo(height)
+                make.height.equalTo(CourseCardView.cardHeight())
             }
             
             if let courseCertificateView = courseCertificateView {
