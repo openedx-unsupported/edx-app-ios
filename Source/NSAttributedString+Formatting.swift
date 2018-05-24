@@ -321,7 +321,7 @@ extension String {
         // Unicode character, e.g.
         //    decode(numeric:"64", 10)   --> "@"
         //    decode(numeric:"20ac", 16) --> "€"
-        func decode(numeric string : String, base : Int) -> Character? {
+        func decode(numeric string: String, base: Int) -> Character? {
             guard let code = UInt32(string, radix: base),
                 let uniScalar = UnicodeScalar(code) else { return nil }
             return Character(uniScalar)
@@ -334,7 +334,7 @@ extension String {
         //     decode("&lt;")     --> "<"
         //     decode("&foo;")    --> nil
         func decode(entity: String) -> Character? {
-            if entity.hasPrefix("&#x") || entity.hasPrefix("&#X"){
+            if entity.hasPrefix("&#x") || entity.hasPrefix("&#X") {
                 return decode(numeric: entity.substring(with: entity.index(entity.startIndex, offsetBy: 3) ..< entity.index(entity.endIndex, offsetBy: -1)), base: 16)
             } else if entity.hasPrefix("&#") {
                 return decode(numeric: entity.substring(with: entity.index(entity.startIndex, offsetBy: 2) ..< entity.index(entity.endIndex, offsetBy: -1)), base: 10)
