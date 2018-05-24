@@ -18,8 +18,6 @@
 		1904A1511A1386C2006A5524 /* OEXStorageFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A14A1A1386C2006A5524 /* OEXStorageFactory.m */; };
 		1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1913DD3C194B267000573977 /* OEXDownloadViewController.m */; };
 		1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = 1913DD4319502E5D00573977 /* OEXVideoSummary.m */; };
-		1918AFAE1948357700F40345 /* OEXLastAccessedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918AFAD1948357700F40345 /* OEXLastAccessedTableViewCell.m */; };
-		1918AFB11948359300F40345 /* OEXCourseDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918AFB01948359300F40345 /* OEXCourseDetailTableViewCell.m */; };
 		191A00201940560D004F7902 /* OEXDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A001F1940560D004F7902 /* OEXDataParser.m */; };
 		191A002419405B91004F7902 /* OEXUserDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002319405B91004F7902 /* OEXUserDetails.m */; };
 		191A002B19405E1B004F7902 /* OEXCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = 191A002A19405E1B004F7902 /* OEXCourse.m */; };
@@ -543,7 +541,6 @@
 		80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80056C991B0CDE1A0004D85C /* DiscussionResponsesViewController.swift */; };
 		805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8053290F1B0E80E50093B177 /* DiscussionResponses.storyboard */; };
 		805329121B0EA2DC0093B177 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805329111B0EA2DC0093B177 /* QuartzCore.framework */; };
-		890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */; };
 		8B900B2EB01D16A88A33BBF5 /* libPods-edX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C088336C8983E1C003D89D /* libPods-edX.a */; };
 		8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */; };
 		8F562F8C1A1F44FC00320DB3 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F562F8B1A1F44FC00320DB3 /* AddressBook.framework */; };
@@ -622,8 +619,13 @@
 		B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E61A6FBAA300427D1D /* OEXAccessToken.m */; };
 		B4D5C7EC1A6FBAA300427D1D /* OEXPersistentCredentialStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7E81A6FBAA300427D1D /* OEXPersistentCredentialStorage.m */; };
 		B4D5C7ED1A6FBAA300427D1D /* OEXSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */; };
-		B70BCFDF20B42630005F0D19 /* subjects.json in Resources */ = {isa = PBXBuildFile; fileRef = B70BCFE120B42630005F0D19 /* subjects.json */; };
 		B70BCFE420B426B3005F0D19 /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70BCFE320B426B3005F0D19 /* Subject.swift */; };
+		B70BD00420B57AF3005F0D19 /* SubjectsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70BD00320B57AF3005F0D19 /* SubjectsCollectionView.swift */; };
+		B70BD00620B57B93005F0D19 /* SubjectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70BD00520B57B93005F0D19 /* SubjectCollectionViewCell.swift */; };
+		B70BD00720B57E89005F0D19 /* OEXTabBarItemsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BE45DA8E192623F4003BD39B /* OEXTabBarItemsCell.m */; };
+		B70BD00820B57E8C005F0D19 /* OEXLastAccessedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918AFAD1948357700F40345 /* OEXLastAccessedTableViewCell.m */; };
+		B70BD00920B57E8F005F0D19 /* OEXCourseDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1918AFB01948359300F40345 /* OEXCourseDetailTableViewCell.m */; };
+		B70BD00A20B57E92005F0D19 /* OEXCourseInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 890D027E1967343A002CE7EC /* OEXCourseInfoCell.m */; };
 		B75E8F5E20A5B1EB00685F58 /* Default-Landscape-375w-812h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75E8F5D20A5B1EA00685F58 /* Default-Landscape-375w-812h@3x.png */; };
 		B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */; };
 		B760E5562010DD6800ECACAB /* BulkDownloadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */; };
@@ -633,6 +635,13 @@
 		B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AB1FC709BD00F9CD61 /* String+Validation.swift */; };
 		B78823B01FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */; };
 		B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78B233E20908C3D00F8D976 /* AgreementTextView.swift */; };
+		B793455D20B584F500DBFC33 /* subjects.json in Resources */ = {isa = PBXBuildFile; fileRef = B793455F20B584F500DBFC33 /* subjects.json */; };
+		B793456320B5860700DBFC33 /* language.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456120B5860400DBFC33 /* language.jpg */; };
+		B793456420B5860700DBFC33 /* humanities.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456220B5860500DBFC33 /* humanities.jpg */; };
+		B793456820B5860E00DBFC33 /* computer-science.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456520B5860C00DBFC33 /* computer-science.jpg */; };
+		B793456920B5860E00DBFC33 /* data-analysis-statistics.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456620B5860C00DBFC33 /* data-analysis-statistics.jpg */; };
+		B793456A20B5860E00DBFC33 /* business-management.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456720B5860D00DBFC33 /* business-management.jpg */; };
+		B793456C20B596FC00DBFC33 /* SubjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */; };
 		B7A1EA83209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */; };
 		B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */; };
 		B7CCC71E209B16B100A66923 /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */; };
@@ -680,7 +689,6 @@
 		BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0EE286192B78C400F9FF98 /* CoreTelephony.framework */; };
 		BE0EE289192B78CF00F9FF98 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0EE288192B78CF00F9FF98 /* SystemConfiguration.framework */; };
 		BE0EE28B192B78DA00F9FF98 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BE0EE28A192B78DA00F9FF98 /* libz.dylib */; };
-		BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BE45DA8E192623F4003BD39B /* OEXTabBarItemsCell.m */; };
 		BE54F19C195F080E005D069F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = BE54F19B195F080E005D069F /* Reachability.m */; };
 		BE8163F61954244E00F9A2C5 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE8163F51954244E00F9A2C5 /* MessageUI.framework */; };
 		BECB7B0F1924C0C3009C77F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECB7B0E1924C0C3009C77F1 /* Foundation.framework */; };
@@ -1546,9 +1554,9 @@
 		B4D5C7E91A6FBAA300427D1D /* OEXSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSession.h; sourceTree = "<group>"; };
 		B4D5C7EA1A6FBAA300427D1D /* OEXSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSession.m; sourceTree = "<group>"; };
 		B4D5C7EE1A6FBAC300427D1D /* OEXAccessToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXAccessToken.h; sourceTree = "<group>"; };
-		B70BCFE020B42630005F0D19 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/subjects.json; sourceTree = "<group>"; };
-		B70BCFE220B42638005F0D19 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/subjects.json"; sourceTree = "<group>"; };
 		B70BCFE320B426B3005F0D19 /* Subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
+		B70BD00320B57AF3005F0D19 /* SubjectsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsCollectionView.swift; sourceTree = "<group>"; };
+		B70BD00520B57B93005F0D19 /* SubjectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectCollectionViewCell.swift; sourceTree = "<group>"; };
 		B75E8F5D20A5B1EA00685F58 /* Default-Landscape-375w-812h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-375w-812h@3x.png"; sourceTree = "<group>"; };
 		B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseVideosHeaderView.swift; sourceTree = "<group>"; };
 		B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkDownloadHelper.swift; sourceTree = "<group>"; };
@@ -1558,6 +1566,14 @@
 		B78823AB1FC709BD00F9CD61 /* String+Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Validation.swift"; sourceTree = "<group>"; };
 		B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldControllerFactory.swift; sourceTree = "<group>"; };
 		B78B233E20908C3D00F8D976 /* AgreementTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementTextView.swift; sourceTree = "<group>"; };
+		B793455E20B584F500DBFC33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/subjects.json; sourceTree = "<group>"; };
+		B793456020B584F800DBFC33 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/subjects.json"; sourceTree = "<group>"; };
+		B793456120B5860400DBFC33 /* language.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = language.jpg; sourceTree = "<group>"; };
+		B793456220B5860500DBFC33 /* humanities.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = humanities.jpg; sourceTree = "<group>"; };
+		B793456520B5860C00DBFC33 /* computer-science.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "computer-science.jpg"; sourceTree = "<group>"; };
+		B793456620B5860C00DBFC33 /* data-analysis-statistics.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "data-analysis-statistics.jpg"; sourceTree = "<group>"; };
+		B793456720B5860D00DBFC33 /* business-management.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "business-management.jpg"; sourceTree = "<group>"; };
+		B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsViewController.swift; sourceTree = "<group>"; };
 		B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+SafeAreaLayoutGuide.swift"; sourceTree = "<group>"; };
 		B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
 		B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutConstraintItem.swift; sourceTree = "<group>"; };
@@ -3059,8 +3075,11 @@
 		B70BCFDC20B41C38005F0D19 /* SubjectsDiscovery */ = {
 			isa = PBXGroup;
 			children = (
-				B70BCFE120B42630005F0D19 /* subjects.json */,
+				B793455220B5848E00DBFC33 /* Resources */,
 				B70BCFE320B426B3005F0D19 /* Subject.swift */,
+				B70BD00320B57AF3005F0D19 /* SubjectsCollectionView.swift */,
+				B70BD00520B57B93005F0D19 /* SubjectCollectionViewCell.swift */,
+				B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */,
 			);
 			path = SubjectsDiscovery;
 			sourceTree = "<group>";
@@ -3072,6 +3091,19 @@
 				B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */,
 			);
 			path = "Registration Field Views";
+			sourceTree = "<group>";
+		};
+		B793455220B5848E00DBFC33 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B793456220B5860500DBFC33 /* humanities.jpg */,
+				B793456120B5860400DBFC33 /* language.jpg */,
+				B793456720B5860D00DBFC33 /* business-management.jpg */,
+				B793456520B5860C00DBFC33 /* computer-science.jpg */,
+				B793456620B5860C00DBFC33 /* data-analysis-statistics.jpg */,
+				B793455F20B584F500DBFC33 /* subjects.json */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		B7A1EA81209C417000BD369A /* SnapKitExtensions */ = {
@@ -3843,7 +3875,7 @@
 				E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */,
 				B75E8F5E20A5B1EB00685F58 /* Default-Landscape-375w-812h@3x.png in Resources */,
 				69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */,
-				B70BCFDF20B42630005F0D19 /* subjects.json in Resources */,
+				B793455D20B584F500DBFC33 /* subjects.json in Resources */,
 				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
@@ -3902,11 +3934,15 @@
 				69ECC6071D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				69ECC60C1D50D1170030CF87 /* Icon-40@3x.png in Resources */,
 				6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */,
+				B793456820B5860E00DBFC33 /* computer-science.jpg in Resources */,
 				BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */,
 				69ECC63A1D50D1170030CF87 /* ic_watched@2x.png in Resources */,
+				B793456320B5860700DBFC33 /* language.jpg in Resources */,
 				69ECC6061D50D1170030CF87 /* OpenSans-Semibold.ttf in Resources */,
+				B793456920B5860E00DBFC33 /* data-analysis-statistics.jpg in Resources */,
 				22137E39203D5F2F005029F3 /* screen_2.png in Resources */,
 				E039A8031F74C0D80064ABDB /* loginScreenImage~ipad.png in Resources */,
+				B793456420B5860700DBFC33 /* humanities.jpg in Resources */,
 				69ECC63B1D50D1170030CF87 /* ic_watched@3x.png in Resources */,
 				E0E27FC41EC46D4000D1AEFE /* test_screen_1.png in Resources */,
 				E04A93291F13846B00D4615D /* InfoPlist.strings in Resources */,
@@ -3917,6 +3953,7 @@
 				6926CDB11D59BE3600A16E22 /* ic_seek_thumb@2x.png in Resources */,
 				69ECC6351D50D1170030CF87 /* ic_next_default.png in Resources */,
 				B7CCC740209B1F9E00A66923 /* Default-375w-812h@3x.png in Resources */,
+				B793456A20B5860E00DBFC33 /* business-management.jpg in Resources */,
 				69ECC6311D50D1170030CF87 /* ic_download.png in Resources */,
 				69ECC6001D50D1170030CF87 /* OpenSans-ExtraBold.ttf in Resources */,
 				BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */,
@@ -4208,6 +4245,7 @@
 				B7CCC73B209B16B100A66923 /* LayoutConstraint.swift in Sources */,
 				B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */,
 				773A04801AF2E6DA0076532C /* CourseOutlineTableSource.swift in Sources */,
+				B70BD00920B57E8F005F0D19 /* OEXCourseDetailTableViewCell.m in Sources */,
 				191A002B19405E1B004F7902 /* OEXCourse.m in Sources */,
 				2240FD561FF266E4001D6589 /* TabBarItem.swift in Sources */,
 				E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */,
@@ -4221,6 +4259,7 @@
 				BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */,
 				2231FF4D1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift in Sources */,
 				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
+				B70BD00720B57E89005F0D19 /* OEXTabBarItemsCell.m in Sources */,
 				E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */,
 				5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */,
 				B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */,
@@ -4236,12 +4275,12 @@
 				9EDCC51E1B395BDE00A4F39D /* CourseInfoAPI.swift in Sources */,
 				7758FFDE1C32FD6A0072355B /* EnrollmentShared.swift in Sources */,
 				5D43B1861B0C1F9200448B52 /* PostTableViewCell.swift in Sources */,
-				1918AFAE1948357700F40345 /* OEXLastAccessedTableViewCell.m in Sources */,
 				774BC7F41B4B0D700084F902 /* DiscussionTopic.swift in Sources */,
 				E054B09D1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift in Sources */,
 				1913DD4419502E5D00573977 /* OEXVideoSummary.m in Sources */,
 				9EAB5BE91B564C2F00CA9F3C /* ProgressController.swift in Sources */,
 				B7CCC71F209B16B100A66923 /* ConstraintDescription.swift in Sources */,
+				B70BD00820B57E8C005F0D19 /* OEXLastAccessedTableViewCell.m in Sources */,
 				771273271BA36B76008BA397 /* LoggingAnalyticsTracker.swift in Sources */,
 				9E4E6C411B4BDB5C0034F7EB /* MockLastAccessedProvider.swift in Sources */,
 				9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */,
@@ -4271,7 +4310,6 @@
 				B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */,
 				BE0D454A192DD4F800D720D6 /* OEXNetworkInterface.m in Sources */,
 				B419295E1A8A3F1900448AD5 /* OEXNetworkManager.m in Sources */,
-				890D027F1967343A002CE7EC /* OEXCourseInfoCell.m in Sources */,
 				E0A2461D1D5CA6950066C766 /* LogoutApi.swift in Sources */,
 				E02E59EF1F0E231000060AE0 /* VersionParser.swift in Sources */,
 				770A27961A6995DF00DFC6FF /* NSArray+OEXFunctional.m in Sources */,
@@ -4325,7 +4363,6 @@
 				B41F22BB1A113D3D0022E01F /* OEXDownloadManager.m in Sources */,
 				B4B6D61B1A949F0F000F44E8 /* OEXRegistrationFieldCheckBoxView.m in Sources */,
 				77FDF4111AFBF0C300E8C639 /* VideoBlockViewController.swift in Sources */,
-				1918AFB11948359300F40345 /* OEXCourseDetailTableViewCell.m in Sources */,
 				77AFD11C1C1B76D0001985FD /* NSObject+SafeKVO.swift in Sources */,
 				9EE684CB1B3D5FAB00C7B157 /* CourseHandoutsViewController.swift in Sources */,
 				7C2DD5511D4A790F006148E0 /* UserPreferenceAPI.swift in Sources */,
@@ -4338,9 +4375,9 @@
 				69F5FACB1E28B0AD00F6ACC6 /* VideoTranscriptTableViewCell.swift in Sources */,
 				699FF8501E559E6B00AD98A5 /* OEXInterface+AppReview.swift in Sources */,
 				773A04781AF2D5DE0076532C /* CourseOutlineViewController.swift in Sources */,
+				B70BD00620B57B93005F0D19 /* SubjectCollectionViewCell.swift in Sources */,
 				B4D5C7EB1A6FBAA300427D1D /* OEXAccessToken.m in Sources */,
 				7C2DD5531D4A8669006148E0 /* UserPreferenceManager.swift in Sources */,
-				BE45DA8F192623F4003BD39B /* OEXTabBarItemsCell.m in Sources */,
 				777DE71A1C1656ED0068E280 /* CourseCatalogDetailView.swift in Sources */,
 				775EB3AC1B1FC37C009526A8 /* SpinnerView.swift in Sources */,
 				B760E5562010DD6800ECACAB /* BulkDownloadHelper.swift in Sources */,
@@ -4365,8 +4402,10 @@
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
 				1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */,
 				E06292751F7BAFFF006D5EFC /* BranchConfig.swift in Sources */,
+				B70BD00420B57AF3005F0D19 /* SubjectsCollectionView.swift in Sources */,
 				1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */,
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
+				B793456C20B596FC00DBFC33 /* SubjectsViewController.swift in Sources */,
 				B7CCC734209B16B100A66923 /* ConstraintLayoutGuideDSL.swift in Sources */,
 				77E6486C1C912BD600B6740D /* Logger+OEXObjC.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
@@ -4551,6 +4590,7 @@
 				698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */,
 				694D34A01D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift in Sources */,
 				E06292771F7BB452006D5EFC /* FabricKits.swift in Sources */,
+				B70BD00A20B57E92005F0D19 /* OEXCourseInfoCell.m in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
 				77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */,
 				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
@@ -4798,11 +4838,11 @@
 			name = TermsOfServices.htm;
 			sourceTree = "<group>";
 		};
-		B70BCFE120B42630005F0D19 /* subjects.json */ = {
+		B793455F20B584F500DBFC33 /* subjects.json */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B70BCFE020B42630005F0D19 /* en */,
-				B70BCFE220B42638005F0D19 /* es-419 */,
+				B793455E20B584F500DBFC33 /* en */,
+				B793456020B584F800DBFC33 /* es-419 */,
 			);
 			name = subjects.json;
 			sourceTree = "<group>";

@@ -24,7 +24,7 @@ public class Subject {
         guard let name = json[Keys.name].string,
             let imageName = json[Keys.imageName].string,
             let filter = json[Keys.filter].string,
-            let type = json[Keys.imageName].string,
+            let type = json[Keys.type].string,
             let subjectType = SubjectType(rawValue: type) else {
             return nil
         }
