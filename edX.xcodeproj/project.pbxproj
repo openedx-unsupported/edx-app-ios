@@ -636,13 +636,15 @@
 		B78823B01FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823AF1FC80CBB00F9CD61 /* RegistrationFieldControllerFactory.swift */; };
 		B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78B233E20908C3D00F8D976 /* AgreementTextView.swift */; };
 		B793455D20B584F500DBFC33 /* subjects.json in Resources */ = {isa = PBXBuildFile; fileRef = B793455F20B584F500DBFC33 /* subjects.json */; };
-		B793456320B5860700DBFC33 /* language.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456120B5860400DBFC33 /* language.jpg */; };
-		B793456420B5860700DBFC33 /* humanities.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456220B5860500DBFC33 /* humanities.jpg */; };
-		B793456820B5860E00DBFC33 /* computer-science.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456520B5860C00DBFC33 /* computer-science.jpg */; };
-		B793456920B5860E00DBFC33 /* data-analysis-statistics.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456620B5860C00DBFC33 /* data-analysis-statistics.jpg */; };
-		B793456A20B5860E00DBFC33 /* business-management.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B793456720B5860D00DBFC33 /* business-management.jpg */; };
 		B793456C20B596FC00DBFC33 /* SubjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */; };
 		B7A1EA83209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */; };
+		B7C5DB3220B6B21400D80AD2 /* computer-science.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB2D20B6B21300D80AD2 /* computer-science.png */; };
+		B7C5DB3320B6B21400D80AD2 /* business-management.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB2E20B6B21400D80AD2 /* business-management.png */; };
+		B7C5DB3420B6B21400D80AD2 /* language.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB2F20B6B21400D80AD2 /* language.png */; };
+		B7C5DB3520B6B21400D80AD2 /* data-analysis-statistics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB3020B6B21400D80AD2 /* data-analysis-statistics.png */; };
+		B7C5DB3620B6B21400D80AD2 /* humanities.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB3120B6B21400D80AD2 /* humanities.png */; };
+		B7C5DB3820B6C73700D80AD2 /* PopularSubjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB3720B6C73700D80AD2 /* PopularSubjectsViewController.swift */; };
+		B7C5DB3A20B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB3920B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift */; };
 		B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */; };
 		B7CCC71E209B16B100A66923 /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */; };
 		B7CCC71F209B16B100A66923 /* ConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FC209B16B000A66923 /* ConstraintDescription.swift */; };
@@ -1568,13 +1570,15 @@
 		B78B233E20908C3D00F8D976 /* AgreementTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementTextView.swift; sourceTree = "<group>"; };
 		B793455E20B584F500DBFC33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/subjects.json; sourceTree = "<group>"; };
 		B793456020B584F800DBFC33 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/subjects.json"; sourceTree = "<group>"; };
-		B793456120B5860400DBFC33 /* language.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = language.jpg; sourceTree = "<group>"; };
-		B793456220B5860500DBFC33 /* humanities.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = humanities.jpg; sourceTree = "<group>"; };
-		B793456520B5860C00DBFC33 /* computer-science.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "computer-science.jpg"; sourceTree = "<group>"; };
-		B793456620B5860C00DBFC33 /* data-analysis-statistics.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "data-analysis-statistics.jpg"; sourceTree = "<group>"; };
-		B793456720B5860D00DBFC33 /* business-management.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "business-management.jpg"; sourceTree = "<group>"; };
 		B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsViewController.swift; sourceTree = "<group>"; };
 		B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+SafeAreaLayoutGuide.swift"; sourceTree = "<group>"; };
+		B7C5DB2D20B6B21300D80AD2 /* computer-science.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "computer-science.png"; sourceTree = "<group>"; };
+		B7C5DB2E20B6B21400D80AD2 /* business-management.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "business-management.png"; sourceTree = "<group>"; };
+		B7C5DB2F20B6B21400D80AD2 /* language.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = language.png; sourceTree = "<group>"; };
+		B7C5DB3020B6B21400D80AD2 /* data-analysis-statistics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "data-analysis-statistics.png"; sourceTree = "<group>"; };
+		B7C5DB3120B6B21400D80AD2 /* humanities.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = humanities.png; sourceTree = "<group>"; };
+		B7C5DB3720B6C73700D80AD2 /* PopularSubjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularSubjectsViewController.swift; sourceTree = "<group>"; };
+		B7C5DB3920B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAllSubjectsCollectionViewCell.swift; sourceTree = "<group>"; };
 		B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
 		B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutConstraintItem.swift; sourceTree = "<group>"; };
 		B7CCC6FC209B16B000A66923 /* ConstraintDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintDescription.swift; sourceTree = "<group>"; };
@@ -3079,7 +3083,9 @@
 				B70BCFE320B426B3005F0D19 /* Subject.swift */,
 				B70BD00320B57AF3005F0D19 /* SubjectsCollectionView.swift */,
 				B70BD00520B57B93005F0D19 /* SubjectCollectionViewCell.swift */,
+				B7C5DB3920B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift */,
 				B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */,
+				B7C5DB3720B6C73700D80AD2 /* PopularSubjectsViewController.swift */,
 			);
 			path = SubjectsDiscovery;
 			sourceTree = "<group>";
@@ -3096,11 +3102,11 @@
 		B793455220B5848E00DBFC33 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B793456220B5860500DBFC33 /* humanities.jpg */,
-				B793456120B5860400DBFC33 /* language.jpg */,
-				B793456720B5860D00DBFC33 /* business-management.jpg */,
-				B793456520B5860C00DBFC33 /* computer-science.jpg */,
-				B793456620B5860C00DBFC33 /* data-analysis-statistics.jpg */,
+				B7C5DB2E20B6B21400D80AD2 /* business-management.png */,
+				B7C5DB2D20B6B21300D80AD2 /* computer-science.png */,
+				B7C5DB3020B6B21400D80AD2 /* data-analysis-statistics.png */,
+				B7C5DB3120B6B21400D80AD2 /* humanities.png */,
+				B7C5DB2F20B6B21400D80AD2 /* language.png */,
 				B793455F20B584F500DBFC33 /* subjects.json */,
 			);
 			path = Resources;
@@ -3834,6 +3840,7 @@
 				B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */,
 				69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */,
 				69ECC60F1D50D1170030CF87 /* arrow_next@2x.png in Resources */,
+				B7C5DB3520B6B21400D80AD2 /* data-analysis-statistics.png in Resources */,
 				69ECC6451D50D1170030CF87 /* separator.png in Resources */,
 				2245CA00209C59340097B23F /* TermsOfServices.htm in Resources */,
 				69ECC6131D50D1170030CF87 /* loginScreenImage.png in Resources */,
@@ -3892,6 +3899,7 @@
 				69ECC6521D50D1170030CF87 /* inline-content.css in Resources */,
 				69ECC64C1D50D1170030CF87 /* Default-568h@2x.png in Resources */,
 				69ECC6471D50D1170030CF87 /* separator3.png in Resources */,
+				B7C5DB3620B6B21400D80AD2 /* humanities.png in Resources */,
 				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
 				22D73B5D1ED575C000220280 /* course-dates.js in Resources */,
 				BD7C6C401DCA329A0004D135 /* fonts.json in Resources */,
@@ -3903,6 +3911,7 @@
 				69ECC6391D50D1170030CF87 /* ic_unwatched@3x.png in Resources */,
 				69ECC61B1D50D1170030CF87 /* bt_logout_active.png in Resources */,
 				69ECC6291D50D1170030CF87 /* check@2x.png in Resources */,
+				B7C5DB3320B6B21400D80AD2 /* business-management.png in Resources */,
 				E0DB52C720A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png in Resources */,
 				22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */,
 				E021F46C1F739599007A26E7 /* loginScreenImage@2x~ipad.png in Resources */,
@@ -3914,6 +3923,7 @@
 				69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */,
 				69ECC6041D50D1170030CF87 /* OpenSans-LightItalic.ttf in Resources */,
 				E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */,
+				B7C5DB3220B6B21400D80AD2 /* computer-science.png in Resources */,
 				69ECC64F1D50D1170030CF87 /* Default-Landscape@3x.png in Resources */,
 				E039A8041F74C0D80064ABDB /* logo~ipad.png in Resources */,
 				69ECC6331D50D1170030CF87 /* ic_lms_blue.png in Resources */,
@@ -3934,18 +3944,15 @@
 				69ECC6071D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				69ECC60C1D50D1170030CF87 /* Icon-40@3x.png in Resources */,
 				6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */,
-				B793456820B5860E00DBFC33 /* computer-science.jpg in Resources */,
 				BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */,
 				69ECC63A1D50D1170030CF87 /* ic_watched@2x.png in Resources */,
-				B793456320B5860700DBFC33 /* language.jpg in Resources */,
 				69ECC6061D50D1170030CF87 /* OpenSans-Semibold.ttf in Resources */,
-				B793456920B5860E00DBFC33 /* data-analysis-statistics.jpg in Resources */,
 				22137E39203D5F2F005029F3 /* screen_2.png in Resources */,
 				E039A8031F74C0D80064ABDB /* loginScreenImage~ipad.png in Resources */,
-				B793456420B5860700DBFC33 /* humanities.jpg in Resources */,
 				69ECC63B1D50D1170030CF87 /* ic_watched@3x.png in Resources */,
 				E0E27FC41EC46D4000D1AEFE /* test_screen_1.png in Resources */,
 				E04A93291F13846B00D4615D /* InfoPlist.strings in Resources */,
+				B7C5DB3420B6B21400D80AD2 /* language.png in Resources */,
 				19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */,
 				805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */,
 				22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */,
@@ -3953,7 +3960,6 @@
 				6926CDB11D59BE3600A16E22 /* ic_seek_thumb@2x.png in Resources */,
 				69ECC6351D50D1170030CF87 /* ic_next_default.png in Resources */,
 				B7CCC740209B1F9E00A66923 /* Default-375w-812h@3x.png in Resources */,
-				B793456A20B5860E00DBFC33 /* business-management.jpg in Resources */,
 				69ECC6311D50D1170030CF87 /* ic_download.png in Resources */,
 				69ECC6001D50D1170030CF87 /* OpenSans-ExtraBold.ttf in Resources */,
 				BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */,
@@ -4437,6 +4443,7 @@
 				778B40D91C2F62520009F33E /* EnrollmentManager.swift in Sources */,
 				22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */,
 				774B393B1B5EEF8A00595D33 /* UIAlertController+Selection.swift in Sources */,
+				B7C5DB3820B6C73700D80AD2 /* PopularSubjectsViewController.swift in Sources */,
 				69EFBB0B1E36259D00FF66C4 /* RatingViewController.swift in Sources */,
 				1AC147391BCEC09F00E0A230 /* UIImage+OEXHelpers.swift in Sources */,
 				775DF4181AFAAC8C00F96B2F /* DataManager.swift in Sources */,
@@ -4575,6 +4582,7 @@
 				E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */,
 				E0ED96E71D6EED1C00B48B64 /* OEXCourseInfoViewController+Swift.swift in Sources */,
 				773B1D421B1F48F100B861DF /* CourseOutlineHeaderView.swift in Sources */,
+				B7C5DB3A20B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift in Sources */,
 				778B61061B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift in Sources */,
 				B4B6D6011A949EFC000F44E8 /* OEXRegistrationError.m in Sources */,
 				1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */,

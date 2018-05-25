@@ -18,8 +18,10 @@ class SubjectsViewController: UIViewController {
     }()
     
     lazy var collectionView: SubjectsCollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layout.itemSize = CGSize(width: self.view.frame.width - 2 * StandardHorizontalMargin, height: 60)
+        layout.scrollDirection = .vertical
         let collectionView = SubjectsCollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.accessibilityIdentifier = "SubjectsViewController:collection-view"
         return collectionView

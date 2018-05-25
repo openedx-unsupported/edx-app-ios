@@ -9,17 +9,19 @@
 import UIKit
 
 class SubjectCollectionViewCell: UICollectionViewCell {
-    static let identifier = "SubjectCollectionViewCellIdentifier"
+    static let identifier = "SubjectCollectionViewCell"
+    private let subjectNameStyle = OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
     
     private(set) var subject: Subject? {
         didSet {
             imageView.image = subject?.image ?? nil
-            subjectNameLabel.text = subject?.name ?? ""
+            subjectNameLabel.attributedText = subjectNameStyle.attributedString(withText: subject?.name ?? "")
         }
     }
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.layer.cornerRadius = 5
         imageView.accessibilityIdentifier = "SubjectCollectionViewCell:image-view"
         return imageView
     }()
@@ -33,6 +35,7 @@ class SubjectCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.backgroundColor = UIColor.lightGray
         addSubviews()
     }
     
