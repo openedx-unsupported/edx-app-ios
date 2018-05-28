@@ -24,17 +24,18 @@ class CourseCardCell : UITableViewCell {
         self.contentView.addSubview(courseView)
         
         courseView.snp.makeConstraints { make in
-            make.top.equalTo(self.contentView).offset(CourseCardCell.margin)
-            make.bottom.equalTo(self.contentView)
-            make.leading.equalTo(self.contentView).offset(horizMargin)
-            make.trailing.equalTo(self.contentView).offset(-horizMargin)
+            make.top.equalTo(contentView).offset(CourseCardCell.margin)
+            make.bottom.equalTo(contentView)
+            make.leading.equalTo(contentView).offset(horizMargin)
+            make.trailing.equalTo(contentView).offset(-horizMargin)
+            make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
         
         courseView.applyBorderStyle(style: courseCardBorderStyle)
         
-        self.contentView.backgroundColor = OEXStyles.shared().neutralXLight()
+        contentView.backgroundColor = OEXStyles.shared().neutralXLight()
         
-        self.selectionStyle = .none
+        selectionStyle = .none
     }
     
     required init?(coder aDecoder: NSCoder) {
