@@ -264,8 +264,9 @@ extension OEXRouter {
         self.environment.analytics.trackUserFindsCourses()
     }
     
-    func showAllSubjects(from controller: UIViewController? = nil) {
+    func showAllSubjects(from controller: UIViewController? = nil, subjectDelegate: SubjectsCollectionViewDelegate?) {
         let subjectsVC = SubjectsViewController()
+        subjectsVC.subjectsDelegate = subjectDelegate
         controller?.navigationController?.pushViewController(subjectsVC, animated: true)
     }
     

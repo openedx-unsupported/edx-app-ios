@@ -20,12 +20,15 @@ class SubjectsViewController: UIViewController {
     lazy var collectionView: SubjectsCollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: self.view.frame.width - 2 * StandardHorizontalMargin, height: 60)
+        layout.itemSize = CGSize(width: 110, height: 60)
         layout.scrollDirection = .vertical
-        let collectionView = SubjectsCollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = SubjectsCollectionView(with: SubjectDataModel(), collectionViewLayout: layout)
         collectionView.accessibilityIdentifier = "SubjectsViewController:collection-view"
+        collectionView.subjectsDelegate = self
         return collectionView
     }()
+    
+    weak var subjectsDelegate: SubjectsCollectionViewDelegate?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -38,6 +41,7 @@ class SubjectsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = Strings.browseBySubject
         collectionView.reloadData()
     }
     
@@ -67,6 +71,13 @@ class SubjectsViewController: UIViewController {
 extension SubjectsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         collectionView.filter(with: searchText)
+    }
+}
+
+extension SubjectsViewController: SubjectsCollectionViewDelegate {
+    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
+        subjectsDelegate?.subjectsCollectionView(collectionView, didSelect: subject)
+        navigationController?.popViewController(animated: true)
     }
 }
 

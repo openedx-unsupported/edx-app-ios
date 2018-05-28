@@ -10,17 +10,24 @@ import UIKit
 
 protocol SubjectsCollectionViewDelegate: class {
     func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject)
-    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, showAllSubjects: Bool )
+    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, showAllSubjects: Bool)
+}
+extension SubjectsCollectionViewDelegate {
+    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, showAllSubjects: Bool) {
+        //this is a empty implementation to allow this method to be optional
+    }
 }
 
 class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    var subjectDataModel: SubjectDataModel?
     var subjects: [Subject] = []
     var filteredSubjects: [Subject] = []
     weak var subjectsDelegate: SubjectsCollectionViewDelegate?
     
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
+    init(with subjectDataModel: SubjectDataModel, collectionViewLayout layout: UICollectionViewLayout) {
+        self.subjectDataModel = subjectDataModel
+        super.init(frame: .zero, collectionViewLayout: layout)
         setup()
     }
     
@@ -39,7 +46,8 @@ class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
     }
     
     func loadSubjects() {
-        subjects = SubjectDataModel().subjects
+        guard let subjectDataModel = subjectDataModel else { return }
+        subjects = subjectDataModel.subjects
         filteredSubjects = subjects
     }
     
@@ -71,7 +79,8 @@ class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
 class PopularSubjectsCollectionView: SubjectsCollectionView {
     
     override func loadSubjects() {
-        subjects = SubjectDataModel().popularSubjects
+        guard let subjectDataModel = subjectDataModel else { return }
+        subjects = subjectDataModel.popularSubjects
         filteredSubjects = subjects
     }
     

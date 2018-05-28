@@ -20,16 +20,23 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     
     let webView : WKWebView = WKWebView()
     let searchBar = UISearchBar()
+    lazy var popularSubjectsController: PopularSubjectsViewController = {
+        let controller = PopularSubjectsViewController()
+        controller.collectionView.subjectsDelegate = self
+        return controller
+    }()
     private var loadController = LoadStateViewController()
     
     private var request : NSURLRequest? = nil
     var searchBaseURL: URL?
     let searchQuery:String?
-    
-
+    var subjectFilter: String? = nil
     let bottomBar: UIView?
+    var urlObservation: NSKeyValueObservation?
+    var subjectDiscoveryEnabled: Bool = false
+    private let popularSubjectsHeight: CGFloat = 113
     
-    init(config : OEXConfig?, delegate : FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?) {
+    init(config : OEXConfig?, delegate : FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
         self.config = config
         self.delegate = delegate
         self.bottomBar = bottomBar
@@ -45,8 +52,9 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
             loadController.setupInController(controller: container, contentView: webView)
 
             let searchbarEnabled = (config?.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false) && showSearch
+            subjectDiscoveryEnabled = (config?.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && OEXSession.shared()?.currentUser != nil && showSubjects
 
-            var webViewTop: ConstraintItem = container.safeTop
+            var topConstraintItem: ConstraintItem = container.safeTop
             var webViewBottom: ConstraintItem = container.safeBottom
             if searchbarEnabled {
                 searchBar.delegate = self
@@ -57,8 +65,35 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
                     make.trailing.equalTo(container.safeTrailing)
                     make.top.equalTo(container.safeTop)
                 }
-                webViewTop = searchBar.snp.bottom
+                topConstraintItem = searchBar.snp.bottom
             }
+            
+            if subjectDiscoveryEnabled {
+                container.addChildViewController(popularSubjectsController)
+                container.view.insertSubview(popularSubjectsController.view, at: 0)
+                popularSubjectsController.didMove(toParentViewController: container)
+                
+                // Add observation.
+                urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
+                    
+                    guard let weakSelf = self, let url = webView.url?.absoluteString else { return }
+                    let height: CGFloat = (url.contains(find: "search_query=") || url.contains(find: "subject")) ? 0 : weakSelf.popularSubjectsHeight
+                    weakSelf.popularSubjectsController.view.snp.updateConstraints() { make in
+                        make.height.equalTo(height)
+                    }
+                    weakSelf.popularSubjectsController.view.isHidden = height == 0
+                })
+                
+                popularSubjectsController.view.snp.makeConstraints { make in
+                    make.leading.equalTo(container.safeLeading).offset(StandardVerticalMargin)
+                    make.trailing.equalTo(container.safeTrailing)
+                    make.top.equalTo(topConstraintItem)
+                    make.height.equalTo(popularSubjectsHeight)
+                }
+                
+                topConstraintItem = popularSubjectsController.view.snp.bottom
+            }
+            
             container.view.insertSubview(webView, at: 0)
             if let bar = bottomBar {
                 container.view.insertSubview(bar, at: 0)
@@ -74,7 +109,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
                 make.leading.equalTo(container.safeLeading)
                 make.trailing.equalTo(container.safeTrailing)
                 make.bottom.equalTo(webViewBottom)
-                make.top.equalTo(webViewTop)
+                make.top.equalTo(topConstraintItem)
             }
             
         }
@@ -161,6 +196,29 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         }
     }
 
+    deinit {
+        urlObservation?.invalidate()
+    }
+    
+}
+
+extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate {
+    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
+        guard let url = webView.url as NSURL?,
+            let searchURL = searchBaseURL,
+            var params: [String: String] = url.oex_queryParameters() as? [String : String] else { return }
+        params["subject"] = subject.filter
+        if let newURL = buildQuery(baseURL: searchURL.URLString, params: params) {
+            loadRequest(withURL: newURL)
+        }
+    }
+    
+    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, showAllSubjects: Bool) {
+        guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else {
+            return
+        }
+        OEXRouter.shared().showAllSubjects(from: container, subjectDelegate: self)
+    }
 }
 
 extension FindCoursesWebViewHelper: UISearchBarDelegate {
@@ -171,11 +229,33 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
 
-        guard let searchTerms = searchBar.text, let searchURL = searchBaseURL else { return }
-        if let URL = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, toolbarString: searchTerms) {
+        guard let url = webView.url as NSURL?,
+            let searchTerms = searchBar.text,
+            let searchURL = searchBaseURL,
+            var params: [String: String] = url.oex_queryParameters() as? [String : String]
+            else {
+                return
+        }
+        let items = searchTerms.components(separatedBy: " ")
+        let escapedItems = items.flatMap { $0.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)  }
+        let searchTerm = escapedItems.joined(separator: "+")
+        params["search_query"] = searchTerm
+        if let URL = buildQuery(baseURL: searchURL.URLString, params: params) {
             loadRequest(withURL: URL)
         }
     }
+    
+    func buildQuery(baseURL: String, params: [String: String]) -> URL? {
+        var query = baseURL
+        for param in params {
+            let join = query.contains("?") ? "&" : "?"
+            query = query + join + param.key + "=" + param.value
+        }
+        
+        return URL(string: query)
+    }
+    
+    
 
     @objc static func buildQuery(baseURL: String, toolbarString: String) -> URL? {
         let items = toolbarString.components(separatedBy: " ")
@@ -186,7 +266,6 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
             newQuery = baseURL + "&" + searchTerm
         } else {
             newQuery = baseURL + "?" + searchTerm
-
         }
         return URL(string: newQuery)
     }

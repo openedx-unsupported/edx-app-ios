@@ -145,8 +145,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
             let footer = EnrolledCoursesFooterView()
             footer.findCoursesAction = {[weak self] in
-                self?.environment.router?.showAllSubjects(from: self)
-//                self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
+                self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
             }
             
             footer.sizeToFit()

@@ -69,7 +69,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:NO searchQuery:nil];
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:NO searchQuery:nil showSubjects:NO];
     [self.webViewHelper loadWithURL:self.courseInfoURL];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 }

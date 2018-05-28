@@ -25,7 +25,7 @@ class PopularSubjectsViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.itemSize = CGSize(width: 140, height: 60)
         layout.scrollDirection = .horizontal
-        let collectionView = PopularSubjectsCollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = PopularSubjectsCollectionView(with: SubjectDataModel(), collectionViewLayout: layout)
         collectionView.accessibilityIdentifier = "PopularSubjectsViewController:collection-view"
         return collectionView
     }()

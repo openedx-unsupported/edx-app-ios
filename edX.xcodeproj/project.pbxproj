@@ -638,13 +638,44 @@
 		B793455D20B584F500DBFC33 /* subjects.json in Resources */ = {isa = PBXBuildFile; fileRef = B793455F20B584F500DBFC33 /* subjects.json */; };
 		B793456C20B596FC00DBFC33 /* SubjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */; };
 		B7A1EA83209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */; };
-		B7C5DB3220B6B21400D80AD2 /* computer-science.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB2D20B6B21300D80AD2 /* computer-science.png */; };
-		B7C5DB3320B6B21400D80AD2 /* business-management.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB2E20B6B21400D80AD2 /* business-management.png */; };
-		B7C5DB3420B6B21400D80AD2 /* language.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB2F20B6B21400D80AD2 /* language.png */; };
-		B7C5DB3520B6B21400D80AD2 /* data-analysis-statistics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB3020B6B21400D80AD2 /* data-analysis-statistics.png */; };
-		B7C5DB3620B6B21400D80AD2 /* humanities.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB3120B6B21400D80AD2 /* humanities.png */; };
 		B7C5DB3820B6C73700D80AD2 /* PopularSubjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB3720B6C73700D80AD2 /* PopularSubjectsViewController.swift */; };
 		B7C5DB3A20B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB3920B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift */; };
+		B7C5DB3C20BAB1FF00D80AD2 /* SubjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB3B20BAB1FF00D80AD2 /* SubjectTests.swift */; };
+		B7C5DB5C20BB4AAC00D80AD2 /* TestSubjects.json in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB5B20BB4AAB00D80AD2 /* TestSubjects.json */; };
+		B7C5DB5E20BB4BA800D80AD2 /* SubjectDataModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB5D20BB4BA700D80AD2 /* SubjectDataModelTests.swift */; };
+		B7C5DB6020BB503F00D80AD2 /* SubjectsCollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB5F20BB503F00D80AD2 /* SubjectsCollectionViewTests.swift */; };
+		B7C5DB6220BB554B00D80AD2 /* SubjectsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */; };
+		B7C5DBA620BC0C2300D80AD2 /* physics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8720BC0C1100D80AD2 /* physics.png */; };
+		B7C5DBA720BC0C2300D80AD2 /* music.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8820BC0C1200D80AD2 /* music.png */; };
+		B7C5DBA820BC0C2300D80AD2 /* humanities.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8920BC0C1200D80AD2 /* humanities.png */; };
+		B7C5DBA920BC0C2300D80AD2 /* energy.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8A20BC0C1300D80AD2 /* energy.png */; };
+		B7C5DBAA20BC0C2300D80AD2 /* economics-finance.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8B20BC0C1300D80AD2 /* economics-finance.png */; };
+		B7C5DBAB20BC0C2300D80AD2 /* science.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8C20BC0C1300D80AD2 /* science.png */; };
+		B7C5DBAC20BC0C2300D80AD2 /* communication.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8D20BC0C1400D80AD2 /* communication.png */; };
+		B7C5DBAD20BC0C2300D80AD2 /* food-nutrition.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8E20BC0C1400D80AD2 /* food-nutrition.png */; };
+		B7C5DBAE20BC0C2300D80AD2 /* language.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8F20BC0C1400D80AD2 /* language.png */; };
+		B7C5DBAF20BC0C2300D80AD2 /* education.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9020BC0C1500D80AD2 /* education.png */; };
+		B7C5DBB020BC0C2300D80AD2 /* architecture.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9120BC0C1500D80AD2 /* architecture.png */; };
+		B7C5DBB120BC0C2300D80AD2 /* electronics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9220BC0C1600D80AD2 /* electronics.png */; };
+		B7C5DBB220BC0C2300D80AD2 /* computer-science.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9320BC0C1600D80AD2 /* computer-science.png */; };
+		B7C5DBB320BC0C2300D80AD2 /* data-science.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9420BC0C1600D80AD2 /* data-science.png */; };
+		B7C5DBB420BC0C2300D80AD2 /* math.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9520BC0C1700D80AD2 /* math.png */; };
+		B7C5DBB520BC0C2300D80AD2 /* biology.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9620BC0C1700D80AD2 /* biology.png */; };
+		B7C5DBB620BC0C2300D80AD2 /* social-sciences.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9720BC0C1800D80AD2 /* social-sciences.png */; };
+		B7C5DBB720BC0C2300D80AD2 /* history.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9820BC0C1800D80AD2 /* history.png */; };
+		B7C5DBB820BC0C2300D80AD2 /* chemistry.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9920BC0C1900D80AD2 /* chemistry.png */; };
+		B7C5DBB920BC0C2300D80AD2 /* design.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9A20BC0C1900D80AD2 /* design.png */; };
+		B7C5DBBA20BC0C2300D80AD2 /* business.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9B20BC0C1A00D80AD2 /* business.png */; };
+		B7C5DBBB20BC0C2300D80AD2 /* engineering.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9C20BC0C1A00D80AD2 /* engineering.png */; };
+		B7C5DBBC20BC0C2300D80AD2 /* ethics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9D20BC0C1B00D80AD2 /* ethics.png */; };
+		B7C5DBBD20BC0C2300D80AD2 /* health.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9E20BC0C1C00D80AD2 /* health.png */; };
+		B7C5DBBE20BC0C2300D80AD2 /* law.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9F20BC0C1D00D80AD2 /* law.png */; };
+		B7C5DBBF20BC0C2300D80AD2 /* philosophy-ethics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA020BC0C1D00D80AD2 /* philosophy-ethics.png */; };
+		B7C5DBC020BC0C2300D80AD2 /* environmental-studies.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA120BC0C1E00D80AD2 /* environmental-studies.png */; };
+		B7C5DBC120BC0C2300D80AD2 /* medicine.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA220BC0C1F00D80AD2 /* medicine.png */; };
+		B7C5DBC220BC0C2300D80AD2 /* literature.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA320BC0C2000D80AD2 /* literature.png */; };
+		B7C5DBC320BC0C2300D80AD2 /* art.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA420BC0C2100D80AD2 /* art.png */; };
+		B7C5DBC420BC0C2300D80AD2 /* philanthropy.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA520BC0C2200D80AD2 /* philanthropy.png */; };
 		B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */; };
 		B7CCC71E209B16B100A66923 /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */; };
 		B7CCC71F209B16B100A66923 /* ConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FC209B16B000A66923 /* ConstraintDescription.swift */; };
@@ -1572,13 +1603,44 @@
 		B793456020B584F800DBFC33 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/subjects.json"; sourceTree = "<group>"; };
 		B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsViewController.swift; sourceTree = "<group>"; };
 		B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+SafeAreaLayoutGuide.swift"; sourceTree = "<group>"; };
-		B7C5DB2D20B6B21300D80AD2 /* computer-science.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "computer-science.png"; sourceTree = "<group>"; };
-		B7C5DB2E20B6B21400D80AD2 /* business-management.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "business-management.png"; sourceTree = "<group>"; };
-		B7C5DB2F20B6B21400D80AD2 /* language.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = language.png; sourceTree = "<group>"; };
-		B7C5DB3020B6B21400D80AD2 /* data-analysis-statistics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "data-analysis-statistics.png"; sourceTree = "<group>"; };
-		B7C5DB3120B6B21400D80AD2 /* humanities.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = humanities.png; sourceTree = "<group>"; };
 		B7C5DB3720B6C73700D80AD2 /* PopularSubjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularSubjectsViewController.swift; sourceTree = "<group>"; };
 		B7C5DB3920B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAllSubjectsCollectionViewCell.swift; sourceTree = "<group>"; };
+		B7C5DB3B20BAB1FF00D80AD2 /* SubjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectTests.swift; sourceTree = "<group>"; };
+		B7C5DB5B20BB4AAB00D80AD2 /* TestSubjects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestSubjects.json; sourceTree = "<group>"; };
+		B7C5DB5D20BB4BA700D80AD2 /* SubjectDataModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectDataModelTests.swift; sourceTree = "<group>"; };
+		B7C5DB5F20BB503F00D80AD2 /* SubjectsCollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsCollectionViewTests.swift; sourceTree = "<group>"; };
+		B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsViewControllerTests.swift; sourceTree = "<group>"; };
+		B7C5DB8720BC0C1100D80AD2 /* physics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = physics.png; sourceTree = "<group>"; };
+		B7C5DB8820BC0C1200D80AD2 /* music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = music.png; sourceTree = "<group>"; };
+		B7C5DB8920BC0C1200D80AD2 /* humanities.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = humanities.png; sourceTree = "<group>"; };
+		B7C5DB8A20BC0C1300D80AD2 /* energy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = energy.png; sourceTree = "<group>"; };
+		B7C5DB8B20BC0C1300D80AD2 /* economics-finance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "economics-finance.png"; sourceTree = "<group>"; };
+		B7C5DB8C20BC0C1300D80AD2 /* science.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = science.png; sourceTree = "<group>"; };
+		B7C5DB8D20BC0C1400D80AD2 /* communication.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = communication.png; sourceTree = "<group>"; };
+		B7C5DB8E20BC0C1400D80AD2 /* food-nutrition.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "food-nutrition.png"; sourceTree = "<group>"; };
+		B7C5DB8F20BC0C1400D80AD2 /* language.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = language.png; sourceTree = "<group>"; };
+		B7C5DB9020BC0C1500D80AD2 /* education.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = education.png; sourceTree = "<group>"; };
+		B7C5DB9120BC0C1500D80AD2 /* architecture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = architecture.png; sourceTree = "<group>"; };
+		B7C5DB9220BC0C1600D80AD2 /* electronics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = electronics.png; sourceTree = "<group>"; };
+		B7C5DB9320BC0C1600D80AD2 /* computer-science.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "computer-science.png"; sourceTree = "<group>"; };
+		B7C5DB9420BC0C1600D80AD2 /* data-science.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "data-science.png"; sourceTree = "<group>"; };
+		B7C5DB9520BC0C1700D80AD2 /* math.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = math.png; sourceTree = "<group>"; };
+		B7C5DB9620BC0C1700D80AD2 /* biology.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = biology.png; sourceTree = "<group>"; };
+		B7C5DB9720BC0C1800D80AD2 /* social-sciences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "social-sciences.png"; sourceTree = "<group>"; };
+		B7C5DB9820BC0C1800D80AD2 /* history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = history.png; sourceTree = "<group>"; };
+		B7C5DB9920BC0C1900D80AD2 /* chemistry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chemistry.png; sourceTree = "<group>"; };
+		B7C5DB9A20BC0C1900D80AD2 /* design.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = design.png; sourceTree = "<group>"; };
+		B7C5DB9B20BC0C1A00D80AD2 /* business.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = business.png; sourceTree = "<group>"; };
+		B7C5DB9C20BC0C1A00D80AD2 /* engineering.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = engineering.png; sourceTree = "<group>"; };
+		B7C5DB9D20BC0C1B00D80AD2 /* ethics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethics.png; sourceTree = "<group>"; };
+		B7C5DB9E20BC0C1C00D80AD2 /* health.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = health.png; sourceTree = "<group>"; };
+		B7C5DB9F20BC0C1D00D80AD2 /* law.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = law.png; sourceTree = "<group>"; };
+		B7C5DBA020BC0C1D00D80AD2 /* philosophy-ethics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "philosophy-ethics.png"; sourceTree = "<group>"; };
+		B7C5DBA120BC0C1E00D80AD2 /* environmental-studies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "environmental-studies.png"; sourceTree = "<group>"; };
+		B7C5DBA220BC0C1F00D80AD2 /* medicine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medicine.png; sourceTree = "<group>"; };
+		B7C5DBA320BC0C2000D80AD2 /* literature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = literature.png; sourceTree = "<group>"; };
+		B7C5DBA420BC0C2100D80AD2 /* art.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = art.png; sourceTree = "<group>"; };
+		B7C5DBA520BC0C2200D80AD2 /* philanthropy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = philanthropy.png; sourceTree = "<group>"; };
 		B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
 		B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutConstraintItem.swift; sourceTree = "<group>"; };
 		B7CCC6FC209B16B000A66923 /* ConstraintDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintDescription.swift; sourceTree = "<group>"; };
@@ -2848,6 +2910,7 @@
 			isa = PBXGroup;
 			children = (
 				E0E27FC31EC46D4000D1AEFE /* test_screen_1.png */,
+				B7C5DB5B20BB4AAB00D80AD2 /* TestSubjects.json */,
 				E0E27FC11EC469A800D1AEFE /* WhatsNew.json */,
 				69DD264F1D8FC55C00CF7E87 /* RegistrationForm.json */,
 				E02DE7CA1C85E15A0086943F /* DiscussionPosts.json */,
@@ -3102,11 +3165,37 @@
 		B793455220B5848E00DBFC33 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B7C5DB2E20B6B21400D80AD2 /* business-management.png */,
-				B7C5DB2D20B6B21300D80AD2 /* computer-science.png */,
-				B7C5DB3020B6B21400D80AD2 /* data-analysis-statistics.png */,
-				B7C5DB3120B6B21400D80AD2 /* humanities.png */,
-				B7C5DB2F20B6B21400D80AD2 /* language.png */,
+				B7C5DB9120BC0C1500D80AD2 /* architecture.png */,
+				B7C5DBA420BC0C2100D80AD2 /* art.png */,
+				B7C5DB9620BC0C1700D80AD2 /* biology.png */,
+				B7C5DB9B20BC0C1A00D80AD2 /* business.png */,
+				B7C5DB9920BC0C1900D80AD2 /* chemistry.png */,
+				B7C5DB8D20BC0C1400D80AD2 /* communication.png */,
+				B7C5DB9320BC0C1600D80AD2 /* computer-science.png */,
+				B7C5DB9420BC0C1600D80AD2 /* data-science.png */,
+				B7C5DB9A20BC0C1900D80AD2 /* design.png */,
+				B7C5DB8B20BC0C1300D80AD2 /* economics-finance.png */,
+				B7C5DB9020BC0C1500D80AD2 /* education.png */,
+				B7C5DB9220BC0C1600D80AD2 /* electronics.png */,
+				B7C5DB8A20BC0C1300D80AD2 /* energy.png */,
+				B7C5DB9C20BC0C1A00D80AD2 /* engineering.png */,
+				B7C5DBA120BC0C1E00D80AD2 /* environmental-studies.png */,
+				B7C5DB9D20BC0C1B00D80AD2 /* ethics.png */,
+				B7C5DB8E20BC0C1400D80AD2 /* food-nutrition.png */,
+				B7C5DB9E20BC0C1C00D80AD2 /* health.png */,
+				B7C5DB9820BC0C1800D80AD2 /* history.png */,
+				B7C5DB8920BC0C1200D80AD2 /* humanities.png */,
+				B7C5DB8F20BC0C1400D80AD2 /* language.png */,
+				B7C5DB9F20BC0C1D00D80AD2 /* law.png */,
+				B7C5DBA320BC0C2000D80AD2 /* literature.png */,
+				B7C5DB9520BC0C1700D80AD2 /* math.png */,
+				B7C5DBA220BC0C1F00D80AD2 /* medicine.png */,
+				B7C5DB8820BC0C1200D80AD2 /* music.png */,
+				B7C5DBA520BC0C2200D80AD2 /* philanthropy.png */,
+				B7C5DBA020BC0C1D00D80AD2 /* philosophy-ethics.png */,
+				B7C5DB8720BC0C1100D80AD2 /* physics.png */,
+				B7C5DB8C20BC0C1300D80AD2 /* science.png */,
+				B7C5DB9720BC0C1800D80AD2 /* social-sciences.png */,
 				B793455F20B584F500DBFC33 /* subjects.json */,
 			);
 			path = Resources;
@@ -3476,6 +3565,10 @@
 				223A5F1F1FA9AA8F008C9963 /* CourseDashboardViewControllerTests.swift */,
 				2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */,
 				2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */,
+				B7C5DB3B20BAB1FF00D80AD2 /* SubjectTests.swift */,
+				B7C5DB5D20BB4BA700D80AD2 /* SubjectDataModelTests.swift */,
+				B7C5DB5F20BB503F00D80AD2 /* SubjectsCollectionViewTests.swift */,
+				B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
@@ -3836,11 +3929,12 @@
 				69ECC6171D50D1170030CF87 /* bt_google.png in Resources */,
 				69ECC62E1D50D1170030CF87 /* ic_cancel.png in Resources */,
 				69ECC64E1D50D1170030CF87 /* Default-414w-736h@3x.png in Resources */,
+				B7C5DBA720BC0C2300D80AD2 /* music.png in Resources */,
 				22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */,
 				B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */,
 				69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */,
 				69ECC60F1D50D1170030CF87 /* arrow_next@2x.png in Resources */,
-				B7C5DB3520B6B21400D80AD2 /* data-analysis-statistics.png in Resources */,
+				B7C5DB5C20BB4AAC00D80AD2 /* TestSubjects.json in Resources */,
 				69ECC6451D50D1170030CF87 /* separator.png in Resources */,
 				2245CA00209C59340097B23F /* TermsOfServices.htm in Resources */,
 				69ECC6131D50D1170030CF87 /* loginScreenImage.png in Resources */,
@@ -3851,9 +3945,11 @@
 				69ECC6461D50D1170030CF87 /* separator1.png in Resources */,
 				69ECC6491D50D1170030CF87 /* share.pdf in Resources */,
 				69ECC64D1D50D1170030CF87 /* Default-375w-667h@2x.png in Resources */,
+				B7C5DBB020BC0C2300D80AD2 /* architecture.png in Resources */,
 				6926CDAF1D59BE3600A16E22 /* ic_progressbar.png in Resources */,
 				6987A86D1D6C67DB00E9D183 /* colors.json in Resources */,
 				6926CDAD1D59BE3600A16E22 /* ic_previous_press.png in Resources */,
+				B7C5DBBA20BC0C2300D80AD2 /* business.png in Resources */,
 				69ECC6401D50D1170030CF87 /* iTunesArtwork in Resources */,
 				69ECC6441D50D1170030CF87 /* loginScreenImage@2x.png in Resources */,
 				6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */,
@@ -3866,52 +3962,74 @@
 				69ECC6421D50D1170030CF87 /* logo@2x.png in Resources */,
 				69ECC61A1D50D1170030CF87 /* bt_grey_default.png in Resources */,
 				69ECC6161D50D1170030CF87 /* bt_facebook_RTL.png in Resources */,
+				B7C5DBB920BC0C2300D80AD2 /* design.png in Resources */,
 				69ECC6411D50D1170030CF87 /* iTunesArtwork@2x in Resources */,
 				6926CDAE1D59BE3600A16E22 /* ic_previous.png in Resources */,
+				B7C5DBAE20BC0C2300D80AD2 /* language.png in Resources */,
 				69ECC61E1D50D1170030CF87 /* bt_scrollbar_tap.png in Resources */,
 				69ECC62B1D50D1170030CF87 /* downloading.png in Resources */,
 				69ECC60D1D50D1170030CF87 /* Icon-60@2x.png in Resources */,
 				69ECC60A1D50D1170030CF87 /* Icon-29@3x.png in Resources */,
+				B7C5DBB620BC0C2300D80AD2 /* social-sciences.png in Resources */,
 				69ECC6191D50D1170030CF87 /* bt_grey_deactive.png in Resources */,
 				6926CDAC1D59BE3600A16E22 /* ic_next.png in Resources */,
+				B7C5DBC220BC0C2300D80AD2 /* literature.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
 				9ED269D21AF114B900328A34 /* OEXLoginViewController.storyboard in Resources */,
 				2245C9F8209C591B0097B23F /* MobileAppEula.htm in Resources */,
+				B7C5DBB520BC0C2300D80AD2 /* biology.png in Resources */,
 				69ECC62C1D50D1170030CF87 /* ic_back.png in Resources */,
+				B7C5DBBC20BC0C2300D80AD2 /* ethics.png in Resources */,
 				69ECC60E1D50D1170030CF87 /* Icon-60@3x.png in Resources */,
 				E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */,
 				B75E8F5E20A5B1EB00685F58 /* Default-Landscape-375w-812h@3x.png in Resources */,
 				69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */,
 				B793455D20B584F500DBFC33 /* subjects.json in Resources */,
 				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
+				B7C5DBBD20BC0C2300D80AD2 /* health.png in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
+				B7C5DBBF20BC0C2300D80AD2 /* philosophy-ethics.png in Resources */,
 				22F8A9141F4708A50025E18A /* Main.storyboard in Resources */,
 				69ECC64A1D50D1170030CF87 /* launchBackground.png in Resources */,
 				69ECC6201D50D1170030CF87 /* bt_signin_deactive.png in Resources */,
 				69ECC62F1D50D1170030CF87 /* ic_cancel@3x.png in Resources */,
 				198826E91952FE39005D4D8A /* OEXOpenInBrowserViewController.xib in Resources */,
 				69ECC63C1D50D1170030CF87 /* icon_facebook_white.png in Resources */,
+				B7C5DBAC20BC0C2300D80AD2 /* communication.png in Resources */,
 				69ECC6381D50D1170030CF87 /* ic_unwatched@2x.png in Resources */,
 				E0DB52CF20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png in Resources */,
+				B7C5DBA820BC0C2300D80AD2 /* humanities.png in Resources */,
+				B7C5DBB320BC0C2300D80AD2 /* data-science.png in Resources */,
 				69ECC6281D50D1170030CF87 /* check.png in Resources */,
 				5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */,
+				B7C5DBB420BC0C2300D80AD2 /* math.png in Resources */,
 				69ECC6521D50D1170030CF87 /* inline-content.css in Resources */,
 				69ECC64C1D50D1170030CF87 /* Default-568h@2x.png in Resources */,
+				B7C5DBB720BC0C2300D80AD2 /* history.png in Resources */,
+				B7C5DBBE20BC0C2300D80AD2 /* law.png in Resources */,
+				B7C5DBC120BC0C2300D80AD2 /* medicine.png in Resources */,
 				69ECC6471D50D1170030CF87 /* separator3.png in Resources */,
-				B7C5DB3620B6B21400D80AD2 /* humanities.png in Resources */,
 				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
+				B7C5DBAD20BC0C2300D80AD2 /* food-nutrition.png in Resources */,
 				22D73B5D1ED575C000220280 /* course-dates.js in Resources */,
+				B7C5DBB820BC0C2300D80AD2 /* chemistry.png in Resources */,
+				B7C5DBB220BC0C2300D80AD2 /* computer-science.png in Resources */,
+				B7C5DBAB20BC0C2300D80AD2 /* science.png in Resources */,
+				B7C5DBAF20BC0C2300D80AD2 /* education.png in Resources */,
+				B7C5DBA620BC0C2300D80AD2 /* physics.png in Resources */,
 				BD7C6C401DCA329A0004D135 /* fonts.json in Resources */,
 				69ECC6021D50D1170030CF87 /* OpenSans-Italic.ttf in Resources */,
 				69ECC6481D50D1170030CF87 /* separator5.png in Resources */,
 				69ECC6141D50D1170030CF87 /* bt_blue2.png in Resources */,
+				B7C5DBC420BC0C2300D80AD2 /* philanthropy.png in Resources */,
 				69ECC6321D50D1170030CF87 /* ic_download_arrow.png in Resources */,
+				B7C5DBBB20BC0C2300D80AD2 /* engineering.png in Resources */,
 				69ECC6091D50D1170030CF87 /* Icon-29@2x.png in Resources */,
+				B7C5DBB120BC0C2300D80AD2 /* electronics.png in Resources */,
 				69ECC6391D50D1170030CF87 /* ic_unwatched@3x.png in Resources */,
 				69ECC61B1D50D1170030CF87 /* bt_logout_active.png in Resources */,
 				69ECC6291D50D1170030CF87 /* check@2x.png in Resources */,
-				B7C5DB3320B6B21400D80AD2 /* business-management.png in Resources */,
 				E0DB52C720A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png in Resources */,
 				22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */,
 				E021F46C1F739599007A26E7 /* loginScreenImage@2x~ipad.png in Resources */,
@@ -3923,9 +4041,10 @@
 				69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */,
 				69ECC6041D50D1170030CF87 /* OpenSans-LightItalic.ttf in Resources */,
 				E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */,
-				B7C5DB3220B6B21400D80AD2 /* computer-science.png in Resources */,
 				69ECC64F1D50D1170030CF87 /* Default-Landscape@3x.png in Resources */,
 				E039A8041F74C0D80064ABDB /* logo~ipad.png in Resources */,
+				B7C5DBC020BC0C2300D80AD2 /* environmental-studies.png in Resources */,
+				B7C5DBAA20BC0C2300D80AD2 /* economics-finance.png in Resources */,
 				69ECC6331D50D1170030CF87 /* ic_lms_blue.png in Resources */,
 				69ECC6511D50D1170030CF87 /* handouts-announcements.css in Resources */,
 				69ECC6431D50D1170030CF87 /* logo@3x.png in Resources */,
@@ -3935,6 +4054,7 @@
 				69ECC6051D50D1170030CF87 /* OpenSans-Regular.ttf in Resources */,
 				1A03DEA31BBC72BA006783FB /* countries.json in Resources */,
 				E0DB52C920A1F36600150FF5 /* Default-Landscape-568h@2x.png in Resources */,
+				B7C5DBC320BC0C2300D80AD2 /* art.png in Resources */,
 				69ECC63F1D50D1170030CF87 /* icon_google_white@2x.png in Resources */,
 				69ECC6301D50D1170030CF87 /* ic_circle.png in Resources */,
 				69ECC64B1D50D1170030CF87 /* placeholderCourseCardImage.png in Resources */,
@@ -3952,9 +4072,9 @@
 				69ECC63B1D50D1170030CF87 /* ic_watched@3x.png in Resources */,
 				E0E27FC41EC46D4000D1AEFE /* test_screen_1.png in Resources */,
 				E04A93291F13846B00D4615D /* InfoPlist.strings in Resources */,
-				B7C5DB3420B6B21400D80AD2 /* language.png in Resources */,
 				19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */,
 				805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */,
+				B7C5DBA920BC0C2300D80AD2 /* energy.png in Resources */,
 				22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */,
 				6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */,
 				6926CDB11D59BE3600A16E22 /* ic_seek_thumb@2x.png in Resources */,
@@ -4633,6 +4753,7 @@
 				77AFD11D1C1B7721001985FD /* NSObject+SafeKVOTests.swift in Sources */,
 				778B40DB1C2F64680009F33E /* EnrollmentManagerTests.swift in Sources */,
 				B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */,
+				B7C5DB6020BB503F00D80AD2 /* SubjectsCollectionViewTests.swift in Sources */,
 				77864DD71B1002A800182FC2 /* MockNetworkManager.swift in Sources */,
 				778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */,
 				778F177E1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift in Sources */,
@@ -4653,6 +4774,7 @@
 				775DF4151AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift in Sources */,
 				77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */,
 				22F8A9101F45EFAF0025E18A /* AccountViewControllerTest.swift in Sources */,
+				B7C5DB5E20BB4BA800D80AD2 /* SubjectDataModelTests.swift in Sources */,
 				77503E981B2F53C300C47229 /* StreamTests.swift in Sources */,
 				778F17711C0CFD310099BF93 /* OEXRouterTests.swift in Sources */,
 				773B1D491B1F818300B861DF /* XCTestCase+Async.swift in Sources */,
@@ -4666,6 +4788,7 @@
 				E06292791F7E349D006D5EFC /* BranchConfigTests.swift in Sources */,
 				773CC01F1BE29D5100DDC127 /* UserProfileManagerTests.swift in Sources */,
 				773CC0231BE2C4C200DDC127 /* MockUserProfileManager.swift in Sources */,
+				B7C5DB3C20BAB1FF00D80AD2 /* SubjectTests.swift in Sources */,
 				E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */,
 				775391461C9763D000FA959C /* Result+Assertions.swift in Sources */,
 				773CC0251BE42EAC00DDC127 /* UserProfileEditViewControllerTests.swift in Sources */,
@@ -4680,6 +4803,7 @@
 				770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */,
 				77FFA2C31AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m in Sources */,
 				77000A391A76EFF2007D306C /* NSString+OEXValidationTests.m in Sources */,
+				B7C5DB6220BB554B00D80AD2 /* SubjectsViewControllerTests.swift in Sources */,
 				F2586E061CF5F8C7007C1118 /* NetworkManager+AuthenticatorTests.swift in Sources */,
 				194E01931A54204B00A0CFAE /* OEXFormEncodingTests.m in Sources */,
 				775EB3AA1B1FBF58009526A8 /* CourseOutlineHeaderViewTests.swift in Sources */,
