@@ -68,6 +68,11 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
             make.leading.equalTo(descriptionView)
             make.trailing.equalTo(descriptionView)
         }
+
+        courseCard.snp.makeConstraints { make in
+            make.height.equalTo(CourseCardView.cardHeight())
+        }
+
         container.spacing = margin
         for stack in [container, fieldsList, insetContainer] {
             stack.axis = .vertical

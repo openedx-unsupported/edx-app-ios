@@ -8,21 +8,20 @@
 
 import UIKit
 
+private let defaultCoverImageAspectRatio:CGFloat = 0.533
+
 @IBDesignable
 class CourseCardView: UIView, UIGestureRecognizerDelegate {
     private let arrowHeight = 15.0
     private let verticalMargin = 10
-    private let defaultCoverImageAspectRatio:CGFloat = 0.533
-
-    var course: OEXCourse?
-    
     private let coverImageView = UIImageView()
     private let container = UIView()
     private let titleLabel = UILabel()
     private let dateLabel = UILabel()
     private let bottomLine = UIView()
     private let overlayContainer = UIView()
-    
+
+    var course: OEXCourse?
     var tapAction : ((CourseCardView) -> ())?
     
     private var titleTextStyle : OEXTextStyle {
@@ -227,6 +226,18 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         view.snp.makeConstraints { make in
             make.center.equalTo(overlayContainer)
         }
+    }
+}
+
+extension CourseCardView {
+    static func cardHeight(leftMargin: CGFloat = 0, rightMargin: CGFloat = 0) -> CGFloat {
+        let screenWidth = UIScreen.main.bounds.size.width
+        var height: CGFloat = 0
+        let screenHeight = UIScreen.main.bounds.size.height
+        let halfScreenHeight = (screenHeight / 2.0) - (leftMargin + rightMargin)
+        let ratioedHeight = screenWidth * defaultCoverImageAspectRatio
+        height = CGFloat(Int(halfScreenHeight > ratioedHeight ? ratioedHeight : halfScreenHeight))
+        return height
     }
 }
 

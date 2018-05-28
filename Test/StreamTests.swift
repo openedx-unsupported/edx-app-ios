@@ -351,9 +351,9 @@ class StreamTests: XCTestCase {
         sink.send("first")
         XCTAssertTrue(delayed.active)
         
-        // Sleep for .05 seconds to make sure the sends are far enough apart to be listened to
+        // Sleep for .1 seconds to make sure the sends are far enough apart to be listened to
         // separately
-        usleep(50000)
+        usleep(100000)
         
         sink.send("second")
         waitForStream(delayed) {
