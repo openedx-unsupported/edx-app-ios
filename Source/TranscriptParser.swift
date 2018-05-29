@@ -68,13 +68,11 @@ class TranscriptParser: NSObject {
                 textLineScanResult = scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &textResult)
             }
             
-            if let start = startResult,
-                let end = endResult,
-                let startTimeInterval = timeInterval(from: start as String),
-                let endTimeInterval = timeInterval(from: end as String),
+            if let start = startResult as String?,
+                let end = endResult as String?,
                 startTimeScanResult, endTimeScanResult, indexScanSuccess, dividerScanSuccess {
-                if textLineScanResult, let text = textResult {
-                    let transcript = TranscriptObject(with: text as String, start: startTimeInterval, end: endTimeInterval, index: indexResult)
+                if textLineScanResult, let text = textResult as String? {
+                    let transcript = TranscriptObject(with: text, start: timeInterval(from: start), end: timeInterval(from: end), index: indexResult)
                     transcripts.append(transcript)
                 }
             }
@@ -87,29 +85,21 @@ class TranscriptParser: NSObject {
         completion(true, nil)
     }
     
-    private func timeInterval(from timeString: String) -> TimeInterval? {
+    private func timeInterval(from timeString: String) -> TimeInterval {
         let scanner = Scanner(string: timeString)
-        var hoursResult: Int = 0
-        var minutesResult: Int = 0
-        var secondsResult: NSString?
-        var millisecondsResult: NSString?
+        var hours: Int = 0
+        var minutes: Int = 0
+        var seconds: Int = 0
+        var milliSeconds: Int = 0
         
         // Extract time components from string
-        scanner.scanInt(&hoursResult)
-        scanner.scanLocation += 1
-        scanner.scanInt(&minutesResult)
-        scanner.scanLocation += 1
-        scanner.scanUpTo(",", into: &secondsResult)
-        scanner.scanLocation += 1
-        scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &millisecondsResult)
-        
-        if let secondsString = secondsResult as String?,
-            let seconds = Int(secondsString),
-            let millisecondsString = millisecondsResult as String?,
-            let milliseconds = Int(millisecondsString) {
-            let timeInterval: Double = Double(hoursResult) * 3600.0 + Double(minutesResult) * 60.0 + Double(seconds) + Double(Double(milliseconds)/1000.0)
-            return timeInterval as TimeInterval
-        }
-        return nil
+        scanner.scanInt(&hours)
+        scanner.scanString(":", into: nil)
+        scanner.scanInt(&minutes)
+        scanner.scanString(":", into: nil)
+        scanner.scanInt(&seconds)
+        scanner.scanString(",", into: nil)
+        scanner.scanInt(&milliSeconds)
+        return (Double(hours) * 3600.0 + Double(minutes) * 60.0 + Double(seconds) + Double(Double(milliSeconds)/1000.0)) as TimeInterval
     }
 }
