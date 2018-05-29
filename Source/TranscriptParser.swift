@@ -68,11 +68,11 @@ class TranscriptParser: NSObject {
                 textLineScanResult = scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &textResult)
             }
             
-            if let start = startResult,
-                let end = endResult,
+            if let start = startResult as String?,
+                let end = endResult as String?,
                 startTimeScanResult, endTimeScanResult, indexScanSuccess, dividerScanSuccess {
-                if textLineScanResult, let text = textResult {
-                    let transcript = TranscriptObject(with: text as String, start: timeInterval(from: start as String), end: timeInterval(from: end as String), index: indexResult)
+                if textLineScanResult, let text = textResult as String? {
+                    let transcript = TranscriptObject(with: text, start: timeInterval(from: start), end: timeInterval(from: end), index: indexResult)
                     transcripts.append(transcript)
                 }
             }
