@@ -57,29 +57,27 @@ extension String {
                 break
             }
 
-            let escapableContent = self[delimiterRange.upperBound ..< semicolonRange.lowerBound]
-            let escapableContentString = String(escapableContent)
+            let decodableString = self[delimiterRange.upperBound ..< semicolonRange.lowerBound]
             let replacementString: String
 
-            if (escapableContentString?.hasPrefix("#")) ?? false {
-
-                guard let unescapedNumber = escapableContentString?.unescapeAsNumber else {
+            if decodableString.hasPrefix("#") {
+                guard let decodedNumber = decodableString.decodeAsNumber else {
                     result += self[delimiterRange.lowerBound ..< semicolonRange.upperBound]
                     cursorPosition = semicolonRange.upperBound
                     continue
                 }
 
-                replacementString = unescapedNumber
+                replacementString = decodedNumber
 
             } else {
 
-                guard let contentString = escapableContentString, let unescapedCharacter = HTMLUnescapingTable[contentString] else {
+                guard let decodedCharacter = HTMLDecodingTable[decodableString] else {
                     result += self[delimiterRange.lowerBound ..< semicolonRange.upperBound]
                     cursorPosition = semicolonRange.upperBound
                     continue
                 }
 
-                replacementString = unescapedCharacter
+                replacementString = decodedCharacter
 
             }
 
@@ -95,7 +93,7 @@ extension String {
         return result
     }
 
-    private var unescapeAsNumber: String? {
+    private var decodeAsNumber: String? {
         let isHexadecimal = hasPrefix("#X") || hasPrefix("#x")
         let radix = isHexadecimal ? 16 : 10
 
