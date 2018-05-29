@@ -8,14 +8,14 @@ extension String {
     ///
     /// ### Examples
     ///
-    /// | String | Result | Format |
-    /// |--------|--------|--------|
-    /// | `&amp;` | `&` | Keyword entity |
-    /// | `&#931;` | `Σ` | Decimal entity |
-    /// | `&#x10d;` | `č` | Hexadecimal entity |
-    /// | `&#127482;&#127480;` | `🇺🇸` | Combined decimal entities (extented grapheme cluster) |
-    /// | `a` | `a` | Not an entity |
-    /// | `&` | `&` | Not an entity |
+    /// | String               | Result | Format |
+    /// |----------------------|--------|--------|
+    /// | `&amp;`              | `&`    | Keyword entity |
+    /// | `&#931;`             | `Σ`    | Decimal entity |
+    /// | `&#x10d;`            | `č`    | Hexadecimal entity |
+    /// | `&#127482;&#127480;` | `🇺🇸'   | Combined decimal entities (extented grapheme cluster) |
+    /// | `a`                  | `a`    | Not an entity |
+    /// | `&`                  | `&`    | Not an entity |
     ///
     
     

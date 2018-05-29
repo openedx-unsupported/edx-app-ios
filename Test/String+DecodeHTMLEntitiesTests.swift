@@ -20,5 +20,6 @@ class String_DecodeHTMLEntitiesTests: XCTestCase {
         XCTAssertEqual("we&amp;#39;ve done with option &one; & &two;".decodingHTMLEntities, "we've done with option &one; & &two;")
         XCTAssertEqual("&#x3C;p&#x3E;&#x22;caf&#xE9;&#x22;&#x3C;/p&#x3E;".decodingHTMLEntities, "<p>\"café\"</p>")
         XCTAssertEqual("&lt;script&gt;alert(&quot;abc&quot;)&lt;/script&gt;".decodingHTMLEntities, "<script>alert(\"abc\")</script>")
+        XCTAssertEqual("&#127482;&#127480; is superpower.".decodingHTMLEntities, "🇺🇸 is superpower.")
     }
 }
