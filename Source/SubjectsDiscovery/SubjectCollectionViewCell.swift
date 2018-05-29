@@ -30,12 +30,12 @@ class SubjectCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.accessibilityIdentifier = "SubjectCollectionViewCell:subject-name-label"
         label.numberOfLines = 0
+        label.textAlignment = .center
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = UIColor.lightGray
         addSubviews()
     }
     
@@ -56,8 +56,8 @@ class SubjectCollectionViewCell: UICollectionViewCell {
         
         subjectNameLabel.snp.makeConstraints { make in
             make.height.lessThanOrEqualToSuperview().offset(StandardHorizontalMargin)
-            make.width.lessThanOrEqualToSuperview().offset(StandardHorizontalMargin)
-            make.center.equalToSuperview()
+            make.width.equalTo(imageView).inset(StandardVerticalMargin)
+            make.center.equalTo(imageView)
         }
     }
     

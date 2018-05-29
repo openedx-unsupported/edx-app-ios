@@ -38,6 +38,7 @@ class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
     
     private func setup() {
         register(SubjectCollectionViewCell.self, forCellWithReuseIdentifier: SubjectCollectionViewCell.identifier)
+        register(ViewAllSubjectsCollectionViewCell.self, forCellWithReuseIdentifier: ViewAllSubjectsCollectionViewCell.identifier)
         delegate = self
         dataSource = self
         loadSubjects()
@@ -90,12 +91,8 @@ class PopularSubjectsCollectionView: SubjectsCollectionView {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row >= filteredSubjects.count {
-            
-            // MARK: TODO
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SubjectCollectionViewCell.identifier, for: indexPath) as! SubjectCollectionViewCell
-            cell.configure(subject: filteredSubjects[0])
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ViewAllSubjectsCollectionViewCell.identifier, for: indexPath) as! ViewAllSubjectsCollectionViewCell
             return cell
-//            return UICollectionViewCell() // View All Subjects Cell
         }
         return super.collectionView(collectionView, cellForItemAt: indexPath)
     }

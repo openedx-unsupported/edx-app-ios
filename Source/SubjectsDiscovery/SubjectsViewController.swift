@@ -18,11 +18,7 @@ class SubjectsViewController: UIViewController {
     }()
     
     lazy var collectionView: SubjectsCollectionView = {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 110, height: 60)
-        layout.scrollDirection = .vertical
-        let collectionView = SubjectsCollectionView(with: SubjectDataModel(), collectionViewLayout: layout)
+        let collectionView = SubjectsCollectionView(with: SubjectDataModel(), collectionViewLayout: self.subjectsLayout)
         collectionView.accessibilityIdentifier = "SubjectsViewController:collection-view"
         collectionView.subjectsDelegate = self
         return collectionView
@@ -66,6 +62,32 @@ class SubjectsViewController: UIViewController {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.collectionViewLayout.invalidateLayout()
+        collectionView.collectionViewLayout = subjectsLayout
+    }
+    
+    private var subjectsLayout: UICollectionViewLayout {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.scrollDirection = .vertical
+        let noOfCells: CGFloat = isVerticallyCompact() ? 3 : 2
+        let itemWidth = (view.frame.width - noOfCells * 20) / noOfCells
+        layout.itemSize = CGSize(width: itemWidth, height: 60)
+        return layout
+    }
+    
+}
+
+extension SubjectsViewController: InterfaceOrientationOverriding {
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
+    }
 }
 
 extension SubjectsViewController: UISearchBarDelegate {

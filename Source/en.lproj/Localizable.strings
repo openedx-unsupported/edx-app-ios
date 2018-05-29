@@ -769,6 +769,8 @@
 "VIEW" = "View";
 /* Button linking to course announcements */
 "VIEW_HANDOUTS" = "View course handouts";
+/*text for view all subjects label*/
+"VIEW_ALL_SUBJECTS" = "View All Subjects";
 /* Discussion vote - {count} is a number of votes */
 "VOTE##{one}"="{count} Vote";
 /* Discussion vote - {count} is a number of votes */
