@@ -1,53 +1,5 @@
 import Foundation
 
-// MARK: Escaping
-
-public extension String {
-
-    ///
-    /// Returns a copy of the current `String` where every character incompatible with HTML Unicode
-    /// encoding (UTF-16 or UTF-8) is replaced by a decimal HTML entity.
-    ///
-    /// ### Examples
-    ///
-    /// | String | Result | Format |
-    /// |--------|--------|--------|
-    /// | `&` | `&#38;` | Decimal entity (part of the Unicode special characters) |
-    /// | `Σ` | `Σ` | Not escaped (Unicode compliant) |
-    /// | `🇺🇸` | `🇺🇸` | Not escaped (Unicode compliant) |
-    /// | `a` | `a` | Not escaped (alphanumerical) |
-    ///
-
-    public var addingUnicodeEntities: String {
-        return unicodeScalars.reduce("") { $0 + $1.escapingIfNeeded }
-    }
-
-    ///
-    /// Returns a copy of the current `String` where every character incompatible with HTML ASCII
-    /// encoding is replaced by a decimal HTML entity.
-    ///
-    /// ### Examples
-    ///
-    /// | String | Result | Format |
-    /// |--------|--------|--------|
-    /// | `&` | `&#38;` | Decimal entity |
-    /// | `Σ` | `&#931;` | Decimal entity |
-    /// | `🇺🇸` | `&#127482;&#127480;` | Combined decimal entities (extented grapheme cluster) |
-    /// | `a` | `a` | Not escaped (alphanumerical) |
-    ///
-    /// ### Performance
-    ///
-    /// If your webpage is unicode encoded (UTF-16 or UTF-8) use `addingUnicodeEntities` instead,
-    /// as it is faster and produces a less bloated and more readable HTML.
-    ///
-
-    public var addingASCIIEntities: String {
-        return unicodeScalars.reduce("") { $0 + $1.escapingForASCII }
-    }
-}
-
-// MARK: - Unescaping
-
 extension String {
 
     ///
@@ -71,7 +23,7 @@ extension String {
         var encodedString = self
         var startPosition = encodedString.startIndex
         
-        while let matchingRegexRange = encodedString.range(of: "(&#?[a-zA-Z0-9]+;)", options: .regularExpression, range: startPosition ..< encodedString.endIndex, locale: nil){
+        while let matchingRegexRange = encodedString.range(of: "(&#?[a-zA-Z0-9]+;)", options: .regularExpression, range: startPosition ..< encodedString.endIndex, locale: nil) {
             let encodedText = encodedString[matchingRegexRange.lowerBound ..< matchingRegexRange.upperBound]
             let decodedText = encodedText.removingHTMLEntities
             if  decodedText != encodedText {
@@ -86,11 +38,11 @@ extension String {
     }
 
     private var removingHTMLEntities: String {
-        guard self.contains("&") else {
+        guard contains("&") else {
             return self
         }
 
-        var result = String()
+        var result = ""
         var cursorPosition = startIndex
 
         while let delimiterRange = range(of: "&", range: cursorPosition ..< endIndex) {
@@ -111,7 +63,7 @@ extension String {
 
             if (escapableContentString?.hasPrefix("#")) ?? false {
 
-                guard let unescapedNumber = escapableContentString?.unescapeAsNumber() else {
+                guard let unescapedNumber = escapableContentString?.unescapeAsNumber else {
                     result += self[delimiterRange.lowerBound ..< semicolonRange.upperBound]
                     cursorPosition = semicolonRange.upperBound
                     continue
@@ -143,7 +95,7 @@ extension String {
         return result
     }
 
-    private func unescapeAsNumber() -> String? {
+    private var unescapeAsNumber: String? {
         let isHexadecimal = hasPrefix("#X") || hasPrefix("#x")
         let radix = isHexadecimal ? 16 : 10
 
@@ -156,34 +108,5 @@ extension String {
         }
 
         return String(scalar)
-    }
-}
-
-// MARK: - UnicodeScalar+Escape
-
-extension UnicodeScalar {
-
-    /// Returns the decimal HTML entity for this Unicode scalar.
-    public var htmlEscaped: String {
-        return "&#" + String(value) + ";"
-    }
-
-    /// The scalar escaped for ASCII encoding.
-    fileprivate var escapingForASCII: String {
-        return isASCII ? escapingIfNeeded : htmlEscaped
-    }
-
-    ///
-    /// Escapes the scalar only if it needs to be escaped for Unicode pages.
-    ///
-    /// [Reference](http://wonko.com/post/html-escaping)
-    /// 
-
-    fileprivate var escapingIfNeeded: String {
-
-        switch value {
-        case 33, 34, 36, 37, 38, 39, 43, 44, 60, 61, 62, 64, 91, 93, 96, 123, 125: return htmlEscaped
-        default: return String(self)
-        }
     }
 }

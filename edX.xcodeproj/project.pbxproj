@@ -123,6 +123,7 @@
 		22E6A219207AA54600D50EDE /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E6A218207AA54600D50EDE /* PlayerView.swift */; };
 		22F6A15B20B7E62D009C3F4A /* String+DecodeHTMLEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F6A15720B7E62C009C3F4A /* String+DecodeHTMLEntities.swift */; };
 		22F6A15C20B7E62D009C3F4A /* Mappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F6A15820B7E62C009C3F4A /* Mappings.swift */; };
+		22F6A15F20BD2D06009C3F4A /* String+DecodeHTMLEntitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */; };
 		22F8A9101F45EFAF0025E18A /* AccountViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */; };
 		22F8A9141F4708A50025E18A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A9131F4708A50025E18A /* Main.storyboard */; };
 		46CECC3A1B041CDC0073C63A /* CourseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseCardView.swift */; };
@@ -955,6 +956,7 @@
 		22E6A218207AA54600D50EDE /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		22F6A15720B7E62C009C3F4A /* String+DecodeHTMLEntities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+DecodeHTMLEntities.swift"; sourceTree = "<group>"; };
 		22F6A15820B7E62C009C3F4A /* Mappings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mappings.swift; sourceTree = "<group>"; };
+		22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DecodeHTMLEntitiesTests.swift"; sourceTree = "<group>"; };
 		22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountViewControllerTest.swift; path = ../Source/AccountViewControllerTest.swift; sourceTree = "<group>"; };
 		22F8A9131F4708A50025E18A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardView.swift; sourceTree = "<group>"; };
@@ -3437,6 +3439,7 @@
 				223A5F1F1FA9AA8F008C9963 /* CourseDashboardViewControllerTests.swift */,
 				2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */,
 				2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */,
+				22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
@@ -4711,6 +4714,7 @@
 				77691FB01B3C820B003922F2 /* CourseOutlineViewControllerTests.swift in Sources */,
 				2240FD541FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift in Sources */,
 				E02165AF1E39D3040058D685 /* UIImage_OEXHelpersTests.swift in Sources */,
+				22F6A15F20BD2D06009C3F4A /* String+DecodeHTMLEntitiesTests.swift in Sources */,
 				69AD2B8D1E4B1CE500029B9B /* RatingViewControllerTests.swift in Sources */,
 				770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */,
 				77F76A741B0CE01E00ED3E39 /* MockCourseDataManager.swift in Sources */,
