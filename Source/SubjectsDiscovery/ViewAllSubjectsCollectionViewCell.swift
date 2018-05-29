@@ -10,13 +10,13 @@ import UIKit
 
 class ViewAllSubjectsCollectionViewCell: UICollectionViewCell {
     static let identifier = "ViewAllSubjectsCollectionViewCell"
-    private let viewAllSubjectsStyle = OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
     
     lazy var viewAllSubjectsLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .center
         label.accessibilityIdentifier = "ViewAllSubjectsCollectionViewCell:view-all-subjects-label"
-        label.attributedText = self.viewAllSubjectsStyle.attributedString(withText: Strings.viewAllSubjects)
+        let viewAllSubjectsStyle = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
+        viewAllSubjectsStyle.alignment = .center
+        label.attributedText = viewAllSubjectsStyle.attributedString(withText: Strings.viewAllSubjects)
         label.numberOfLines = 0
         return label
     }()

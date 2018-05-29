@@ -8,19 +8,19 @@
  {
  "name": "Art & Culture",
  "image_name": "art",
- "filter": "Art%20%26%20Culture",
+ "filter": "Art & Culture",
  "type": "normal"
  },
  {
  "name": "Biology & Life Sciences",
  "image_name": "biology",
- "filter": "Biology%20%26%20Life%20Sciences",
+ "filter": "Biology & Life Sciences",
  "type": "normal"
  },
  {
  "name": "Business & Management",
  "image_name": "business",
- "filter": "Business%20%26%20Management",
+ "filter": "Business & Management",
  "type": "popular"
  },
  {
@@ -38,13 +38,13 @@
  {
  "name": "Computer Science",
  "image_name": "computer-science",
- "filter": "Computer%20Science",
+ "filter": "Computer Science",
  "type": "popular"
  },
  {
  "name": "Data Analysis & Statistics",
  "image_name": "data-science",
- "filter": "Data%20Analysis%20%26%20Statistics",
+ "filter": "Data Analysis & Statistics",
  "type": "popular"
  },
  {
@@ -56,13 +56,13 @@
  {
  "name": "Economics & Finance",
  "image_name": "economics-finance",
- "filter": "Economics%20%26%20Finance",
+ "filter": "Economics & Finance",
  "type": "normal"
  },
  {
  "name": "Education & Teacher Training",
  "image_name": "education",
- "filter": "Education%20%26%20Teacher%20Training",
+ "filter": "Education & Teacher Training",
  "type": "normal"
  },
  {
@@ -74,7 +74,7 @@
  {
  "name": "Energy & Earth Sciences",
  "image_name": "energy",
- "filter": "Energy%20%26%20Earth%20Sciences",
+ "filter": "Energy & Earth Sciences",
  "type": "normal"
  },
  {
@@ -86,7 +86,7 @@
  {
  "name": "Environmental Studies",
  "image_name": "environmental-studies",
- "filter": "Environmental%20Studies",
+ "filter": "Environmental Studies",
  "type": "normal"
  },
  {
@@ -98,13 +98,13 @@
  {
  "name": "Food & Nutrition",
  "image_name": "food-nutrition",
- "filter": "Food%20%26%20Nutrition",
+ "filter": "Food & Nutrition",
  "type": "normal"
  },
  {
  "name": "Health & Safety",
  "image_name": "health",
- "filter": "Health%20%26%20Safety",
+ "filter": "Health & Safety",
  "type": "normal"
  },
  {
@@ -164,7 +164,7 @@
  {
  "name": "Philosophy & Ethics",
  "image_name": "philosophy-ethics",
- "filter": "Philosophy%20%26%20Ethics",
+ "filter": "Philosophy & Ethics",
  "type": "normal"
  },
  {
@@ -182,7 +182,7 @@
  {
  "name": "Social Sciences",
  "image_name": "social-sciences",
- "filter": "Social%20Sciences",
+ "filter": "Social Sciences",
  "type": "normal"
  }
 ]

@@ -10,10 +10,11 @@ import UIKit
 
 class SubjectCollectionViewCell: UICollectionViewCell {
     static let identifier = "SubjectCollectionViewCell"
-    private let subjectNameStyle = OEXTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
     
     private(set) var subject: Subject? {
         didSet {
+            let subjectNameStyle = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
+            subjectNameStyle.alignment = .center
             imageView.image = subject?.image ?? nil
             subjectNameLabel.attributedText = subjectNameStyle.attributedString(withText: subject?.name ?? "")
         }
@@ -30,7 +31,6 @@ class SubjectCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.accessibilityIdentifier = "SubjectCollectionViewCell:subject-name-label"
         label.numberOfLines = 0
-        label.textAlignment = .center
         return label
     }()
     

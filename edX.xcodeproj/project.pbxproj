@@ -676,6 +676,7 @@
 		B7C5DBC220BC0C2300D80AD2 /* literature.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA320BC0C2000D80AD2 /* literature.png */; };
 		B7C5DBC320BC0C2300D80AD2 /* art.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA420BC0C2100D80AD2 /* art.png */; };
 		B7C5DBC420BC0C2300D80AD2 /* philanthropy.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA520BC0C2200D80AD2 /* philanthropy.png */; };
+		B7C5DBC720BD507B00D80AD2 /* FindCoursesWebViewHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DBC520BD503C00D80AD2 /* FindCoursesWebViewHelperTests.swift */; };
 		B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */; };
 		B7CCC71E209B16B100A66923 /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */; };
 		B7CCC71F209B16B100A66923 /* ConstraintDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FC209B16B000A66923 /* ConstraintDescription.swift */; };
@@ -1641,6 +1642,7 @@
 		B7C5DBA320BC0C2000D80AD2 /* literature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = literature.png; sourceTree = "<group>"; };
 		B7C5DBA420BC0C2100D80AD2 /* art.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = art.png; sourceTree = "<group>"; };
 		B7C5DBA520BC0C2200D80AD2 /* philanthropy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = philanthropy.png; sourceTree = "<group>"; };
+		B7C5DBC520BD503C00D80AD2 /* FindCoursesWebViewHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCoursesWebViewHelperTests.swift; sourceTree = "<group>"; };
 		B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
 		B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutConstraintItem.swift; sourceTree = "<group>"; };
 		B7CCC6FC209B16B000A66923 /* ConstraintDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintDescription.swift; sourceTree = "<group>"; };
@@ -3512,6 +3514,7 @@
 				779376541BF15A8F00900A8C /* OEXConfig+URLCredentialProviderTests.swift */,
 				77AE2F611ABB71840027E799 /* OEXFileUtilityTests.m */,
 				9CA725F31A8E1B56009244A6 /* OEXFindCoursesTests.m */,
+				B7C5DBC520BD503C00D80AD2 /* FindCoursesWebViewHelperTests.swift */,
 				7778F0941ABA2C3600B4CDA0 /* OEXRegistrationFieldEmailViewTests.m */,
 				77F76A6F1B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift */,
 				194E018F1A54204A00A0CFAE /* OEXDBTests.m */,
@@ -4750,6 +4753,7 @@
 				1A373E8F1C457DBB00E3AAAA /* MockRouter.swift in Sources */,
 				77236EEF1C21C3D5006AC1A4 /* PaginatorTests.swift in Sources */,
 				699FF8561E5AFACF00AD98A5 /* OEXInterface+AppReviewTests.swift in Sources */,
+				B7C5DBC720BD507B00D80AD2 /* FindCoursesWebViewHelperTests.swift in Sources */,
 				77AFD11D1C1B7721001985FD /* NSObject+SafeKVOTests.swift in Sources */,
 				778B40DB1C2F64680009F33E /* EnrollmentManagerTests.swift in Sources */,
 				B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */,

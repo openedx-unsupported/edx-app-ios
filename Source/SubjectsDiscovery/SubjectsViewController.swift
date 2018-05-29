@@ -28,6 +28,7 @@ class SubjectsViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        addObserver()
         addSubviews()
     }
     
@@ -39,6 +40,12 @@ class SubjectsViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.title = Strings.browseBySubject
         collectionView.reloadData()
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIDeviceOrientationDidChange.rawValue) { [weak self] (_, _, _) in
+            self?.refreshLayout()
+        }
     }
     
     private func addSubviews() {
@@ -62,8 +69,7 @@ class SubjectsViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    private func refreshLayout() {
         collectionView.collectionViewLayout.invalidateLayout()
         collectionView.collectionViewLayout = subjectsLayout
     }
@@ -76,6 +82,10 @@ class SubjectsViewController: UIViewController {
         let itemWidth = (view.frame.width - noOfCells * 20) / noOfCells
         layout.itemSize = CGSize(width: itemWidth, height: 60)
         return layout
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }

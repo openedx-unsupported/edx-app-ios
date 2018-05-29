@@ -9,6 +9,11 @@
 import UIKit
 import WebKit
 
+enum ParameterKeys {
+    static let searchQuery = "search_query"
+    static let subject = "subject"
+}
+
 @objc protocol FindCoursesWebViewHelperDelegate : class {
     func webViewHelper(helper : FindCoursesWebViewHelper, shouldLoadLinkWithRequest request: NSURLRequest) -> Bool
     func containingControllerForWebViewHelper(helper : FindCoursesWebViewHelper) -> UIViewController
@@ -36,7 +41,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     var subjectDiscoveryEnabled: Bool = false
     private let popularSubjectsHeight: CGFloat = 113
     
-    init(config : OEXConfig?, delegate : FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
+    init(config: OEXConfig?, delegate: FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
         self.config = config
         self.delegate = delegate
         self.bottomBar = bottomBar
@@ -77,7 +82,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
                 urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
                     
                     guard let weakSelf = self, let url = webView.url?.absoluteString else { return }
-                    let height: CGFloat = (url.contains(find: "search_query=") || url.contains(find: "subject")) ? 0 : weakSelf.popularSubjectsHeight
+                    let height: CGFloat = (url.contains(find: "\(ParameterKeys.searchQuery)=") || url.contains(find: "\(ParameterKeys.subject)=")) ? 0 : weakSelf.popularSubjectsHeight
                     weakSelf.popularSubjectsController.view.snp.updateConstraints() { make in
                         make.height.equalTo(height)
                     }
@@ -126,8 +131,12 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
 
     public func load(withURL url: URL) {
         var discoveryURL = url
-        if let searchQuery = searchQuery, let searchURL = searchBaseURL, let url = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, toolbarString: searchQuery) {
-            discoveryURL = url
+        
+        if let searchURL = searchBaseURL, let searchQuery = searchQuery, var params = (url as NSURL).oex_queryParameters() as? [String : String] {
+            params[ParameterKeys.searchQuery] = searchQuery.addingPercentEncodingForRFC3986
+            if let urlWithQuery = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
+                discoveryURL = urlWithQuery
+            }
         }
 
         loadRequest(withURL: discoveryURL)
@@ -207,8 +216,8 @@ extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate {
         guard let url = webView.url as NSURL?,
             let searchURL = searchBaseURL,
             var params: [String: String] = url.oex_queryParameters() as? [String : String] else { return }
-        params["subject"] = subject.filter
-        if let newURL = buildQuery(baseURL: searchURL.URLString, params: params) {
+        params[ParameterKeys.subject] = subject.filter.addingPercentEncodingForRFC3986
+        if let newURL = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
             loadRequest(withURL: newURL)
         }
     }
@@ -230,22 +239,20 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
         searchBar.resignFirstResponder()
 
         guard let url = webView.url as NSURL?,
-            let searchTerms = searchBar.text,
+            let searchText = searchBar.text,
             let searchURL = searchBaseURL,
             var params: [String: String] = url.oex_queryParameters() as? [String : String]
             else {
                 return
         }
-        let items = searchTerms.components(separatedBy: " ")
-        let escapedItems = items.flatMap { $0.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)  }
-        let searchTerm = escapedItems.joined(separator: "+")
-        params["search_query"] = searchTerm
-        if let URL = buildQuery(baseURL: searchURL.URLString, params: params) {
+        
+        params[ParameterKeys.searchQuery] = searchText.addingPercentEncodingForRFC3986
+        if let URL = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
             loadRequest(withURL: URL)
         }
     }
     
-    func buildQuery(baseURL: String, params: [String: String]) -> URL? {
+    static func buildQuery(baseURL: String, params: [String: String]) -> URL? {
         var query = baseURL
         for param in params {
             let join = query.contains("?") ? "&" : "?"
@@ -255,18 +262,20 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
         return URL(string: query)
     }
     
-    
+}
 
-    @objc static func buildQuery(baseURL: String, toolbarString: String) -> URL? {
-        let items = toolbarString.components(separatedBy: " ")
-        let escapedItems = items.flatMap { $0.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)  }
-        let searchTerm = "search_query=" + escapedItems.joined(separator: "+")
-        let newQuery: String
-        if baseURL.contains("?") {
-            newQuery = baseURL + "&" + searchTerm
-        } else {
-            newQuery = baseURL + "?" + searchTerm
-        }
-        return URL(string: newQuery)
+extension String {
+    //  Section 2.3 of RFC 3986 lists the characters that you should not percent encode as they have no special meaning in a URL:
+    //
+    //  ALPHA / DIGIT / “-” / “.” / “_” / “~”
+    //
+    //  Section 3.4 also explains that since a query will often itself include a URL it is preferable to not percent encode the slash (“/”) and question mark (“?”)
+    
+    var addingPercentEncodingForRFC3986: String {
+        let unreserved = "-._~/?"
+        var allowed: CharacterSet = .alphanumerics
+        allowed.insert(charactersIn: unreserved)
+        return addingPercentEncoding(withAllowedCharacters: allowed) ?? ""
     }
+    
 }
