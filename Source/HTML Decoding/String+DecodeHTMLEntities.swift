@@ -1,5 +1,6 @@
 import Foundation
 
+/// Source: https://github.com/alexaubry/HTMLString
 extension String {
 
     ///
