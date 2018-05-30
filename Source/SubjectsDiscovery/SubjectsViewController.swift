@@ -9,7 +9,7 @@
 import UIKit
 
 class SubjectsViewController: UIViewController {
-
+    
     lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.delegate = self
@@ -24,11 +24,17 @@ class SubjectsViewController: UIViewController {
         return collectionView
     }()
     
+    fileprivate var showsCancelButton: Bool = true {
+        didSet {
+            searchBar.setShowsCancelButton(showsCancelButton, animated: true)
+        }
+    }
+    
     weak var subjectsDelegate: SubjectsCollectionViewDelegate?
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        addObserver()
+        addObservers()
         addSubviews()
     }
     
@@ -38,14 +44,25 @@ class SubjectsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = OEXStyles.shared().neutralWhite()
         navigationItem.title = Strings.browseBySubject
         collectionView.reloadData()
     }
     
-    private func addObserver() {
+    private func addObservers() {
+        
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIDeviceOrientationDidChange.rawValue) { [weak self] (_, _, _) in
             self?.refreshLayout()
         }
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillShow.rawValue) { [weak self] (notification, _, _) in
+            self?.keyboardWillShow(notification: notification)
+        }
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillHide.rawValue) { [weak self] (notification, _, _) in
+            self?.keyboardWillHide(notification: notification)
+        }
+        
     }
     
     private func addSubviews() {
@@ -69,7 +86,7 @@ class SubjectsViewController: UIViewController {
         }
     }
     
-    private func refreshLayout() {
+    func refreshLayout() {
         collectionView.collectionViewLayout.invalidateLayout()
         collectionView.collectionViewLayout = subjectsLayout
     }
@@ -82,6 +99,10 @@ class SubjectsViewController: UIViewController {
         let itemWidth = (view.frame.width - noOfCells * 20) / noOfCells
         layout.itemSize = CGSize(width: itemWidth, height: 60)
         return layout
+    }
+    
+    fileprivate func hideKeyboard() {
+        view.endEditing(true)
     }
     
     deinit {
@@ -101,13 +122,48 @@ extension SubjectsViewController: InterfaceOrientationOverriding {
 }
 
 extension SubjectsViewController: UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         collectionView.filter(with: searchText)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        showsCancelButton = true
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        showsCancelButton = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        hideKeyboard()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        hideKeyboard()
+    }
+}
+
+// MARK: Keyboard Handling
+extension SubjectsViewController {
+    fileprivate func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            collectionView.snp.updateConstraints { make in
+                make.bottom.equalTo(safeBottom).offset(-keyboardSize.height)
+            }
+        }
+    }
+    
+    fileprivate func keyboardWillHide(notification: NSNotification) {
+        collectionView.snp.updateConstraints { make in
+            make.bottom.equalTo(safeBottom)
+        }
     }
 }
 
 extension SubjectsViewController: SubjectsCollectionViewDelegate {
     func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
+        hideKeyboard()
         subjectsDelegate?.subjectsCollectionView(collectionView, didSelect: subject)
         navigationController?.popViewController(animated: true)
     }
