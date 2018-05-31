@@ -447,7 +447,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         
         timeRemainingLabel.text = String(format: "%02d:%02d / %02d:%02d", ((lround(elapsedTime) / 60) % 60), lround(elapsedTime) % 60, ((lround(totalTime) / 60) % 60), lround(totalTime) % 60)
         if subtitleActivated {
-            subTitleLabel.text = videoPlayer?.subTitle(at: elapsedTime)
+            subTitleLabel.text = videoPlayer?.subTitle(at: elapsedTime).decodingHTMLEntities
         }
     }
     
