@@ -7,7 +7,7 @@
 //
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class RouterEnvironment;
 extern NSString* const OEXFindCoursesLinkURLScheme;
 
 typedef NS_ENUM(NSInteger, OEXFindCoursesBaseType) {
@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, OEXFindCoursesBaseType) {
 };
 
 @interface OEXFindCoursesViewController : UIViewController
-- (instancetype) initWithBottomBar:(UIView* _Nullable)bottomBar searchQuery:(nullable NSString*)searchQuery;
+- (instancetype) initWithEnvironment:(RouterEnvironment* _Nullable)environment bottomBar:(UIView* _Nullable)bottomBar searchQuery:(nullable NSString*)searchQuery;
 @property (nonatomic) OEXFindCoursesBaseType startURL;
 @end
 

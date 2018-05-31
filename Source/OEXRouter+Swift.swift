@@ -274,7 +274,7 @@ extension OEXRouter {
         let controller: UIViewController
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
-            controller = OEXFindCoursesViewController(bottomBar: bottomBar, searchQuery: searchQuery)
+            controller =  OEXFindCoursesViewController(environment: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         case .Native, .None:
             controller = CourseCatalogViewController(environment: environment)
         }

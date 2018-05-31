@@ -7,9 +7,7 @@
 //
 
 #import "OEXFindCoursesViewController.h"
-
 #import "edX-Swift.h"
-
 #import "OEXConfig.h"
 #import "OEXCourseInfoViewController.h"
 #import "OEXDownloadViewController.h"
@@ -29,14 +27,16 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) UIView* bottomBar;
 @property (strong, nonatomic) NSString* searchQuery;
+@property (strong, nonatomic) RouterEnvironment* environment;
 
 @end
 
 @implementation OEXFindCoursesViewController
 
-- (instancetype) initWithBottomBar:(UIView*)bottomBar searchQuery:(nullable NSString *)searchQuery {
+- (instancetype) initWithEnvironment:(RouterEnvironment*)environment bottomBar:(UIView*)bottomBar searchQuery:(nullable NSString *)searchQuery  {
     self = [super init];
     if (self) {
+        _environment = environment;
         _bottomBar = bottomBar;
         _searchQuery = searchQuery;
     }
@@ -48,7 +48,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     self.navigationItem.title = [self courseDiscoveryTitle];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.backBarButtonItem.accessibilityIdentifier = @"FindCoursesViewController:cancel-bar-button-item";
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:_bottomBar showSearch:YES searchQuery:_searchQuery showSubjects:YES];
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_bottomBar showSearch:YES searchQuery:_searchQuery showSubjects:YES];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 
     self.webViewHelper.searchBaseURL = [self enrollmentConfig].webviewConfig.searchURL;
@@ -90,7 +90,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 - (void)showCourseInfoWithPathID:(NSString*)coursePathID {
     // FindCoursesWebViewHelper and OEXCourseInfoViewController are showing bottom bars so each should have their own copy of botombar view
     
-    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:coursePathID bottomBar:[_bottomBar copy]];
+    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithEnvironment: self.environment pathID:coursePathID bottomBar:[_bottomBar copy]];
     [self.navigationController pushViewController:courseInfoViewController animated:YES];
 }
 

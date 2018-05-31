@@ -7,10 +7,11 @@
 //
 
 NS_ASSUME_NONNULL_BEGIN
+@class RouterEnvironment;
 
 @interface OEXCourseInfoViewController : UIViewController
 
-- (instancetype)initWithPathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar;
+- (instancetype)initWithEnvironment:(RouterEnvironment* _Nullable)environment pathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar;
 - (void)showMainScreenWithMessage:(NSString*)message courseID:(NSString*)courseID;
 @end
 

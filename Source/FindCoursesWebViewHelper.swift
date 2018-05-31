@@ -20,7 +20,9 @@ enum ParameterKeys {
 }
 
 class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
-    let config : OEXConfig?
+    
+    typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider
+    let environment: Environment?
     weak var delegate : FindCoursesWebViewHelperDelegate?
     
     let webView : WKWebView = WKWebView()
@@ -41,8 +43,8 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     var subjectDiscoveryEnabled: Bool = false
     private let popularSubjectsHeight: CGFloat = 113
     
-    init(config: OEXConfig?, delegate: FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
-        self.config = config
+    init(environment: Environment?, delegate: FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
+        self.environment = environment
         self.delegate = delegate
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
@@ -56,8 +58,8 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         if let container = delegate?.containingControllerForWebViewHelper(helper: self) {
             loadController.setupInController(controller: container, contentView: webView)
 
-            let searchbarEnabled = (config?.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false) && showSearch
-            subjectDiscoveryEnabled = (config?.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && OEXSession.shared()?.currentUser != nil && showSubjects
+            let searchbarEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false) && showSearch
+            subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && environment?.session.currentUser != nil && showSubjects
 
             var topConstraintItem: ConstraintItem = container.safeTop
             var webViewBottom: ConstraintItem = container.safeBottom
@@ -122,7 +124,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
 
 
     private var courseInfoTemplate : String {
-        return config?.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate ?? ""
+        return environment?.config.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate ?? ""
     }
     
     var isWebViewLoaded : Bool {
@@ -197,7 +199,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if let credential = config?.URLCredentialForHost(challenge.protectionSpace.host as NSString) {
+        if let credential = environment?.config.URLCredentialForHost(challenge.protectionSpace.host as NSString) {
             completionHandler(.useCredential, credential)
         }
         else {

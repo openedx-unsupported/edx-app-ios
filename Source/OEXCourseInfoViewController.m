@@ -33,14 +33,16 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;
 @property (strong,nonatomic, nullable) UIView *bottomBar;
+@property (strong, nonatomic) RouterEnvironment* environment;
 
 @end
 
 @implementation OEXCourseInfoViewController
 
-- (instancetype)initWithPathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar {
+- (instancetype)initWithEnvironment:(RouterEnvironment* _Nullable)environment pathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar {
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
+        self.environment = environment;
         self.pathID = pathID;
         self.bottomBar = bottomBar;
         self.navigationItem.title = [self courseDiscoveryTitle];
@@ -69,7 +71,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:NO searchQuery:nil showSubjects:NO];
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar showSearch:NO searchQuery:nil showSubjects:NO];
     [self.webViewHelper loadWithURL:self.courseInfoURL];
     self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
 }
