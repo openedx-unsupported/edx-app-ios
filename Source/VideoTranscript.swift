@@ -60,7 +60,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VideoTranscriptTableViewCell.cellIdentifier) as! VideoTranscriptTableViewCell
         cell.applyStandardSeparatorInsets()
-        cell.setTranscriptText(text: transcripts[indexPath.row].text, highlighted: indexPath.row == highlightedIndex)
+        cell.setTranscriptText(text: transcripts[indexPath.row].text.decodingHTMLEntities, highlighted: indexPath.row == highlightedIndex)
         return cell
     }
     

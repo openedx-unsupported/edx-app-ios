@@ -20,7 +20,7 @@ class FindCoursesWebViewHelperTests: XCTestCase {
         XCTAssertEqual(expectedURL, output)
     }
     
-    func testSearchQueryAlreadyHasQuery() {
+    func testSearchQueryHasAlreadyQueryString() {
         let baseURL = "http://www.fakex.com/course?subject=test"
         let params: [String: String] = ["search_query": "test course".addingPercentEncodingForRFC3986]
         let expected = "http://www.fakex.com/course?subject=test&search_query=test%20course"

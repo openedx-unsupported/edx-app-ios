@@ -71,7 +71,7 @@ class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
     }
     
     func filter(with string: String) {
-        filteredSubjects = string == "" ? subjects : subjects.filter { $0.name.lowercased().contains(find: string.lowercased()) }
+        filteredSubjects = string.isEmpty ? subjects : subjects.filter { $0.name.lowercased().contains(find: string.lowercased()) }
         reloadData()
     }
     
