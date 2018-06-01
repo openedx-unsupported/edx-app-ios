@@ -19,28 +19,27 @@ enum ParameterKeys {
     func containingControllerForWebViewHelper(helper : FindCoursesWebViewHelper) -> UIViewController
 }
 
-class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
+class FindCoursesWebViewHelper: NSObject {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider
-    let environment: Environment?
+    fileprivate let environment: Environment?
     weak var delegate : FindCoursesWebViewHelperDelegate?
     
-    let webView : WKWebView = WKWebView()
-    let searchBar = UISearchBar()
-    lazy var popularSubjectsController: PopularSubjectsViewController = {
+    fileprivate let webView : WKWebView = WKWebView()
+    fileprivate let searchBar = UISearchBar()
+    fileprivate lazy var popularSubjectsController: PopularSubjectsViewController = {
         let controller = PopularSubjectsViewController()
         controller.collectionView.subjectsDelegate = self
         return controller
     }()
-    private var loadController = LoadStateViewController()
+    fileprivate var loadController = LoadStateViewController()
     
-    private var request : NSURLRequest? = nil
+    fileprivate var request : NSURLRequest? = nil
     var searchBaseURL: URL?
-    let searchQuery:String?
-    var subjectFilter: String? = nil
+    fileprivate let searchQuery:String?
     let bottomBar: UIView?
-    var urlObservation: NSKeyValueObservation?
-    var subjectDiscoveryEnabled: Bool = false
+    private var urlObservation: NSKeyValueObservation?
+    private var subjectDiscoveryEnabled: Bool = false
     private let popularSubjectsHeight: CGFloat = 113
     
     init(environment: Environment?, delegate: FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
@@ -58,12 +57,12 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         if let container = delegate?.containingControllerForWebViewHelper(helper: self) {
             loadController.setupInController(controller: container, contentView: webView)
 
-            let searchbarEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled ?? false) && showSearch
+            let searchBarEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.nativeSearchBarEnabled ?? false) && showSearch
             subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && environment?.session.currentUser != nil && showSubjects
 
             var topConstraintItem: ConstraintItem = container.safeTop
             var webViewBottom: ConstraintItem = container.safeBottom
-            if searchbarEnabled {
+            if searchBarEnabled {
                 searchBar.delegate = self
                 container.view.insertSubview(searchBar, at: 0)
 
@@ -150,7 +149,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         self.request = request
     }
 
-    private func showError(error : NSError) {
+    fileprivate func showError(error : NSError) {
         let buttonInfo = MessageButtonInfo(title: Strings.reload) {[weak self] _ in
             if let request = self?.request {
                 self?.webView.load(request as URLRequest)
@@ -160,10 +159,17 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
         self.loadController.state = LoadState.failed(error: error, buttonInfo: buttonInfo)
     }
     
+    deinit {
+        urlObservation?.invalidate()
+    }
+    
+}
+
+extension FindCoursesWebViewHelper: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         let request = navigationAction.request
         let capturedLink = navigationAction.navigationType == .linkActivated && (self.delegate?.webViewHelper(helper: self, shouldLoadLinkWithRequest: request as NSURLRequest) ?? true)
-
+        
         let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
         if let URL = request.url, outsideLink || capturedLink {
             UIApplication.shared.openURL(URL)
@@ -189,7 +195,7 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
             bar.superview?.bringSubview(toFront: bar)
         }
     }
-
+    
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         showError(error: error as NSError)
     }
@@ -206,11 +212,6 @@ class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
             completionHandler(.performDefaultHandling, nil)
         }
     }
-
-    deinit {
-        urlObservation?.invalidate()
-    }
-    
 }
 
 extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate {

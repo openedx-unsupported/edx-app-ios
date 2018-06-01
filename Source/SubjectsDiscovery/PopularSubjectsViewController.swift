@@ -10,13 +10,12 @@ import UIKit
 
 class PopularSubjectsViewController: UIViewController {
 
-    private let titleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
-    
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.accessibilityIdentifier = "PopularSubjectsViewController:title-label"
         label.numberOfLines = 0
-        label.attributedText = self.titleStyle.attributedString(withText: Strings.browseBySubject)
+        let titleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
+        label.attributedText = titleStyle.attributedString(withText: Strings.browseBySubject)
         return label
     }()
     
