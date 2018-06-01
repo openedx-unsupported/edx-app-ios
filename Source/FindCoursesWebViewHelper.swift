@@ -21,7 +21,7 @@ enum ParameterKeys {
 
 class FindCoursesWebViewHelper: NSObject, WKNavigationDelegate {
     
-    typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider
+    typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider
     let environment: Environment?
     weak var delegate : FindCoursesWebViewHelperDelegate?
     
@@ -228,7 +228,7 @@ extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate {
         guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else {
             return
         }
-        OEXRouter.shared().showAllSubjects(from: container, subjectDelegate: self)
+        environment?.router?.showAllSubjects(from: container, subjectDelegate: self)
     }
 }
 

@@ -49,7 +49,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.backBarButtonItem.accessibilityIdentifier = @"FindCoursesViewController:cancel-bar-button-item";
     self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_bottomBar showSearch:YES searchQuery:_searchQuery showSubjects:YES];
-    self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
+    self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
 
     self.webViewHelper.searchBaseURL = [self enrollmentConfig].webviewConfig.searchURL;
     NSURL* urlToLoad = nil;
@@ -76,15 +76,15 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if ([[OEXSession sharedSession] currentUser]) {
+    if ([self.environment.session currentUser]) {
         [self.webViewHelper.bottomBar removeFromSuperview];
     }
     
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenFindCourses];
+    [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenFindCourses];
 }
 
 - (EnrollmentConfig*)enrollmentConfig {
-    return [[OEXConfig sharedConfig] courseEnrollmentConfig];
+    return [self.environment.config courseEnrollmentConfig];
 }
 
 - (void)showCourseInfoWithPathID:(NSString*)coursePathID {
@@ -118,7 +118,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return [OEXStyles sharedStyles].standardStatusBarStyle;
+    return self.environment.styles.standardStatusBarStyle;
 }
 
 - (BOOL) shouldAutorotate {
