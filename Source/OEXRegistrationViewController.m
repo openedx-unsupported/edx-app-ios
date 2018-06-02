@@ -173,7 +173,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 -(void) setUpAgreementTextView {
-    [self.agreementTextView setupFor:AgreementTypeSignUp];
+    [self.agreementTextView setupFor:AgreementTypeSignUp config:self.environment.config];
     self.agreementTextView.agreementDelegate = self;
     CGSize size = [self.agreementTextView sizeThatFits:CGSizeMake(self.scrollView.frame.size.width - 2 * self.styles.formMargin, CGFLOAT_MAX)];
     self.agreementTextView.frame = CGRectMake(0, 0, size.width, size.height + [[OEXStyles sharedStyles] standardHorizontalMargin]);

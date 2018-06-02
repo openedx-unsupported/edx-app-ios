@@ -14,9 +14,9 @@ class AgreementURLsConfigTests : XCTestCase {
     func testAgreementURLsConfig() {
         // In case the configuration values are provided, they should be used instead of the
         // fallback values.
-        let eulaUrl = "https://www.google.com/chrome/privacy/eula_text.html"
-        let tosUrl = "https://policies.google.com/terms"
-        let privacyPolicyUrl = "https://www.google.com/chrome/privacy/privacy_text.html"
+        let eulaUrl = "https://example-eula.com"
+        let tosUrl = "https://example-tos.com"
+        let privacyPolicyUrl = "https://example-policy.com"
         let configDictionary = [
             "AGREEMENT_URLS" : [
                 "EULA_URL": eulaUrl,
@@ -55,7 +55,7 @@ class AgreementURLsConfigTests : XCTestCase {
         // In the case where some of the config values are overridden, the AgreementURLsConfig
         // should be populated with fallback values for the remaining values.
         
-        let eulaUrlOverride = "https://www.google.com/chrome/privacy/eula_text.html"
+        let eulaUrlOverride = "https://example-eula.com"
         let configDictionary = [
             "AGREEMENT_URLS" : [
                 "EULA_URL": eulaUrlOverride

@@ -23,21 +23,21 @@ class AgreementURLsConfig : NSObject {
             self.eulaURL = URL(string: eulaURL)
         }
         else {
-            self.eulaURL = Bundle.main.url(forResource: "MobileAppEula", withExtension: "htm")
+            eulaURL = Bundle.main.url(forResource: "MobileAppEula", withExtension: "htm")
         }
         
         if let tosURL = dictionary[AgreementURLsKeys.tosURL] as? String {
             self.tosURL = URL(string: tosURL)
         }
         else {
-            self.tosURL = Bundle.main.url(forResource: "TermsOfServices", withExtension: "htm")
+            tosURL = Bundle.main.url(forResource: "TermsOfServices", withExtension: "htm")
         }
         
         if let privacyPolicyURL = dictionary[AgreementURLsKeys.privacyPolicyURL] as? String {
             self.privacyPolicyURL = URL(string: privacyPolicyURL)
         }
         else {
-            self.privacyPolicyURL = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "htm")
+            privacyPolicyURL = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "htm")
         }
     }
 }
