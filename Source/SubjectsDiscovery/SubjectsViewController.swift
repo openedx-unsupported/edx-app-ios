@@ -10,6 +10,8 @@ import UIKit
 
 class SubjectsViewController: UIViewController {
     
+    typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
+    
     lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.delegate = self
@@ -31,8 +33,10 @@ class SubjectsViewController: UIViewController {
     }
     
     weak var subjectsDelegate: SubjectsCollectionViewDelegate?
+    private let environment: Environment
     
-    init() {
+    init(environment: Environment) {
+        self.environment = environment
         super.init(nibName: nil, bundle: nil)
         addObservers()
         addSubviews()
@@ -44,9 +48,14 @@ class SubjectsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = OEXStyles.shared().neutralWhite()
+        view.backgroundColor = environment.styles.neutralWhite()
         navigationItem.title = Strings.browseBySubject
         collectionView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.SubjectsDiscovery.rawValue)
     }
     
     private func addObservers() {

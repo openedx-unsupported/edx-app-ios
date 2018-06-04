@@ -265,7 +265,7 @@ extension OEXRouter {
     }
     
     func showAllSubjects(from controller: UIViewController? = nil, subjectDelegate: SubjectsCollectionViewDelegate?) {
-        let subjectsVC = SubjectsViewController()
+        let subjectsVC = SubjectsViewController(environment:environment)
         subjectsVC.subjectsDelegate = subjectDelegate
         controller?.navigationController?.pushViewController(subjectsVC, animated: true)
     }

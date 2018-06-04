@@ -21,7 +21,7 @@ enum ParameterKeys {
 
 class FindCoursesWebViewHelper: NSObject {
     
-    typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider
+    typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider
     fileprivate let environment: Environment?
     weak var delegate : FindCoursesWebViewHelperDelegate?
     
@@ -220,6 +220,7 @@ extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate {
             let searchURL = searchBaseURL,
             var params: [String: String] = url.oex_queryParameters() as? [String : String] else { return }
         params[ParameterKeys.subject] = subject.filter.addingPercentEncodingForRFC3986
+        environment?.analytics.trackSubjectDiscovery(subjectID: subject.filter)
         if let newURL = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
             loadRequest(withURL: newURL)
         }
@@ -229,6 +230,7 @@ extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate {
         guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else {
             return
         }
+        environment?.analytics.trackSubjectDiscovery(subjectID: "View All Subjects")
         environment?.router?.showAllSubjects(from: container, subjectDelegate: self)
     }
 }
