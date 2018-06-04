@@ -180,7 +180,7 @@
 }
 
 -(void) setUpAgreementTextView {
-    [self.agreementTextView setupFor:AgreementTypeSignIn];
+    [self.agreementTextView setupFor:AgreementTypeSignIn config:self.environment.config];
     self.agreementTextView.agreementDelegate = self;
     // To adjust textView according to its content size.
     self.agreementTextViewHeight.constant = self.agreementTextView.contentSize.height + [self.environment.styles standardHorizontalMargin];

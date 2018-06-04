@@ -21,11 +21,11 @@ class AgreementTextView: UITextView {
     
     weak var agreementDelegate: AgreementTextViewDelegate?
     
-    @objc func setup(for type: AgreementType) {
+    @objc func setup(for type: AgreementType, config: OEXConfig?) {
         let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
         style.lineBreakMode = .byWordWrapping
         style.alignment = .center
-        let platformName = OEXConfig.shared().platformName()
+        let platformName = config?.platformName() ?? ""
         let prefix: String
         switch type {
         case .signIn:
@@ -40,9 +40,9 @@ class AgreementTextView: UITextView {
         let privacyPolicyText = Strings.Agreement.linkTextPrivacyPolicy
         let agreementText = "\(prefix)\(Strings.Agreement.text(eula: eulaText, tos: tosText, privacyPolicy: privacyPolicyText))"
         var attributedString = style.attributedString(withText: agreementText)
-        if let eulaUrl = Bundle.main.url(forResource: "MobileAppEula", withExtension: "htm"),
-            let tosUrl = Bundle.main.url(forResource: "TermsOfServices", withExtension: "htm"),
-            let privacyPolicyUrl = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "htm") {
+        if let eulaUrl = config?.agreementURLsConfig.eulaURL,
+            let tosUrl = config?.agreementURLsConfig.tosURL,
+            let privacyPolicyUrl = config?.agreementURLsConfig.privacyPolicyURL {
             attributedString = attributedString.addLink(on: eulaText, value: eulaUrl)
             attributedString = attributedString.addLink(on: tosText, value: tosUrl)
             attributedString = attributedString.addLink(on: privacyPolicyText, value: privacyPolicyUrl)
