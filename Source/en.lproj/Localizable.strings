@@ -22,6 +22,8 @@
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to select";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "By";
+/* Accessibility hint for subject name label */
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {name}";
 /* Accessibility hint for bulk download switch when in new state */
 "ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Toggling the switch on, will download all videos of this course";
 /* Accessibility hint for bulk download switch when in new partial or downloading state */
@@ -46,6 +48,8 @@
 "ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Double tap to unfollow.";
 /* Acessibility hint for the show downloads button. */
 "ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Double tap to view current downloads";
+/* Accessibility hint for view all subjects label*/
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Double tap to view all subjects";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Downloads in progress: {percent_complete}";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
@@ -687,6 +691,8 @@
 "STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Create your Account";
 /* Explore Subjects button text on the first screen */
 "STARTUP_EXPLORE_SUBJECTS"="Explore Subjects";
+/*Placeholder text for subjects searchbar*/
+"SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK.OPTION_TITLE" = "Submit Feedback";
 /* Support message email title */

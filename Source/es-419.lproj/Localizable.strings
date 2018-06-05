@@ -22,6 +22,8 @@
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Toque para seleccionar";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "Por";
+/* Accessibility hint for subject name label */
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {name}";
 /* Accessibility hint for bulk download switch when in new state */
 "ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Toggling the switch on, will download all videos of this course";
 /* Accessibility hint for bulk download switch when in new partial or downloading state */
@@ -144,6 +146,8 @@
 "ACCOMPLISHMENTS.TITLE" = "Logros";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "He ganado una insignia en {platform_name}! Dale un vistazo";
+/* Accessibility hint for view all subjects label*/
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Double tap to view all subjects";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Añadir comentario";
 /* Add a response button title used in discussion's responses screen */
@@ -687,6 +691,8 @@
 "STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Create your Account";
 /* Explore Subjects button text on the first screen */
 "STARTUP_EXPLORE_SUBJECTS"="Explorar temas";
+/*Placeholder text for subjects searchbar*/
+"SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK.OPTION_TITLE" = "Enviar comentario";
 /* Support message email title */

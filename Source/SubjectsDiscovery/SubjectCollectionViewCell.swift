@@ -63,6 +63,7 @@ class SubjectCollectionViewCell: UICollectionViewCell {
     
     func configure(subject: Subject) {
         self.subject = subject
+        subjectNameLabel.accessibilityHint = Strings.Accessibility.browserBySubjectHint(name: subject.name)
     }
     
 }

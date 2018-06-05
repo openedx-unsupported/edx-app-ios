@@ -16,6 +16,7 @@ class SubjectsViewController: UIViewController {
         let searchBar = UISearchBar()
         searchBar.delegate = self
         searchBar.accessibilityIdentifier = "SubjectsViewController:search-bar"
+        searchBar.placeholder = Strings.subjectSearchBarPlaceholder
         return searchBar
     }()
     
@@ -134,6 +135,7 @@ extension SubjectsViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         collectionView.filter(with: searchText)
+        searchBar.accessibilityLabel = searchText.isEmpty ? Strings.subjectSearchBarPlaceholder : searchText
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {

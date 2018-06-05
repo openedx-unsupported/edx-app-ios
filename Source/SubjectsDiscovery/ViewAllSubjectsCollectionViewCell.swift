@@ -14,6 +14,7 @@ class ViewAllSubjectsCollectionViewCell: UICollectionViewCell {
     lazy var viewAllSubjectsLabel: UILabel = {
         let label = UILabel()
         label.accessibilityIdentifier = "ViewAllSubjectsCollectionViewCell:view-all-subjects-label"
+        label.accessibilityHint = Strings.Accessibility.viewAllSubjectsHint
         let viewAllSubjectsStyle = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
         viewAllSubjectsStyle.alignment = .center
         label.attributedText = viewAllSubjectsStyle.attributedString(withText: Strings.viewAllSubjects)
