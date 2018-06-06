@@ -22,7 +22,7 @@ class PopularSubjectsViewController: UIViewController {
     lazy var collectionView: PopularSubjectsCollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 140, height: 60)
+        layout.itemSize = CGSize(width: SubjectCollectionViewCell.defaultWidth, height: SubjectCollectionViewCell.defaultHeight)
         layout.scrollDirection = .horizontal
         let collectionView = PopularSubjectsCollectionView(with: SubjectDataModel(), collectionViewLayout: layout)
         collectionView.accessibilityIdentifier = "PopularSubjectsViewController:collection-view"
@@ -61,7 +61,7 @@ class PopularSubjectsViewController: UIViewController {
             make.leading.equalTo(titleLabel).offset(-10)
             make.trailing.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp.bottom)
-            make.height.equalTo(80)
+            make.height.equalTo(90)
             make.bottom.equalTo(view)
         }
     }

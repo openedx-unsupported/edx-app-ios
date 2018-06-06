@@ -24,8 +24,9 @@ class ViewAllSubjectsCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubviews()
         contentView.backgroundColor = OEXStyles.shared().primaryBaseColor()
+        contentView.layer.cornerRadius = 5.0
+        addSubviews()
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -107,7 +107,7 @@ class SubjectsViewController: UIViewController {
         layout.scrollDirection = .vertical
         let noOfCells: CGFloat = isVerticallyCompact() ? 3 : 2
         let itemWidth = (view.frame.width - noOfCells * 20) / noOfCells
-        layout.itemSize = CGSize(width: itemWidth, height: 60)
+        layout.itemSize = CGSize(width: itemWidth, height: SubjectCollectionViewCell.defaultHeight)
         return layout
     }
     

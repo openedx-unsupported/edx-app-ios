@@ -24,8 +24,8 @@ class FindCoursesWebViewHelper: NSObject {
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider
     fileprivate let environment: Environment?
     weak var delegate : FindCoursesWebViewHelperDelegate?
-    
-    fileprivate let webView : WKWebView = WKWebView()
+    fileprivate let contentView = UIView()
+    fileprivate let webView = WKWebView()
     fileprivate let searchBar = UISearchBar()
     fileprivate lazy var popularSubjectsController: PopularSubjectsViewController = {
         let controller = PopularSubjectsViewController()
@@ -40,14 +40,13 @@ class FindCoursesWebViewHelper: NSObject {
     let bottomBar: UIView?
     private var urlObservation: NSKeyValueObservation?
     private var subjectDiscoveryEnabled: Bool = false
-    private let popularSubjectsHeight: CGFloat = 113
+    private var popularSubjectsHeight: CGFloat = 125
     
     init(environment: Environment?, delegate: FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
         self.environment = environment
         self.delegate = delegate
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
-        
         super.init()
         
         webView.navigationDelegate = self
@@ -55,44 +54,42 @@ class FindCoursesWebViewHelper: NSObject {
         webView.accessibilityIdentifier = "find-courses-webview"
 
         if let container = delegate?.containingControllerForWebViewHelper(helper: self) {
-            loadController.setupInController(controller: container, contentView: webView)
+            container.view.addSubview(contentView)
+            contentView.snp.makeConstraints { make in
+                make.edges.equalTo(container.safeEdges)
+            }
+            loadController.setupInController(controller: container, contentView: contentView)
 
             let searchBarEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.nativeSearchBarEnabled ?? false) && showSearch
             subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && environment?.session.currentUser != nil && showSubjects
 
-            var topConstraintItem: ConstraintItem = container.safeTop
-            var webViewBottom: ConstraintItem = container.safeBottom
+            var topConstraintItem: ConstraintItem = contentView.snp.top
+            var webViewBottom: ConstraintItem = contentView.snp.bottom
             if searchBarEnabled {
                 searchBar.delegate = self
-                container.view.insertSubview(searchBar, at: 0)
+                contentView.addSubview(searchBar)
 
                 searchBar.snp.makeConstraints{ make in
-                    make.leading.equalTo(container.safeLeading)
-                    make.trailing.equalTo(container.safeTrailing)
-                    make.top.equalTo(container.safeTop)
+                    make.leading.equalTo(contentView)
+                    make.trailing.equalTo(contentView)
+                    make.top.equalTo(contentView)
                 }
                 topConstraintItem = searchBar.snp.bottom
             }
             
             if subjectDiscoveryEnabled {
                 container.addChildViewController(popularSubjectsController)
-                container.view.insertSubview(popularSubjectsController.view, at: 0)
+                contentView.addSubview(popularSubjectsController.view)
                 popularSubjectsController.didMove(toParentViewController: container)
                 
                 // Add observation.
                 urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
-                    
-                    guard let weakSelf = self, let url = webView.url?.absoluteString else { return }
-                    let height: CGFloat = (url.contains(find: "\(ParameterKeys.searchQuery)=") || url.contains(find: "\(ParameterKeys.subject)=")) ? 0 : weakSelf.popularSubjectsHeight
-                    weakSelf.popularSubjectsController.view.snp.updateConstraints() { make in
-                        make.height.equalTo(height)
-                    }
-                    weakSelf.popularSubjectsController.view.isHidden = height == 0
+                    self?.showOrHideSubjects()
                 })
                 
                 popularSubjectsController.view.snp.makeConstraints { make in
-                    make.leading.equalTo(container.safeLeading).offset(StandardVerticalMargin)
-                    make.trailing.equalTo(container.safeTrailing)
+                    make.leading.equalTo(contentView).offset(StandardVerticalMargin)
+                    make.trailing.equalTo(contentView)
                     make.top.equalTo(topConstraintItem)
                     make.height.equalTo(popularSubjectsHeight)
                 }
@@ -100,27 +97,51 @@ class FindCoursesWebViewHelper: NSObject {
                 topConstraintItem = popularSubjectsController.view.snp.bottom
             }
             
-            container.view.insertSubview(webView, at: 0)
+            contentView.addSubview(webView)
             if let bar = bottomBar {
-                container.view.insertSubview(bar, at: 0)
+                contentView.addSubview(bar)
                 bar.snp.makeConstraints { make in
-                    make.leading.equalTo(container.safeLeading)
-                    make.trailing.equalTo(container.safeTrailing)
-                    make.bottom.equalTo(container.safeBottom)
+                    make.leading.equalTo(contentView)
+                    make.trailing.equalTo(contentView)
+                    make.bottom.equalTo(contentView)
                 }
                 webViewBottom = bar.snp.top
             }
             
             webView.snp.makeConstraints { make in
-                make.leading.equalTo(container.safeLeading)
-                make.trailing.equalTo(container.safeTrailing)
+                make.leading.equalTo(contentView)
+                make.trailing.equalTo(contentView)
                 make.bottom.equalTo(webViewBottom)
                 make.top.equalTo(topConstraintItem)
             }
-            
+            addObserver()
         }
     }
-
+    
+    private func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIDeviceOrientationDidChange.rawValue) { [weak self] (_, _, _) in
+            self?.showOrHideSubjects()
+        }
+    }
+    
+    private func showOrHideSubjects() {
+        let hideSubjectsView = isIphoneAndVerticallyCompact || isQueried
+        let height: CGFloat = hideSubjectsView ? 0 : popularSubjectsHeight
+        popularSubjectsController.view.snp.updateConstraints() { make in
+            make.height.equalTo(height)
+        }
+        popularSubjectsController.view.isHidden = hideSubjectsView
+    }
+    
+    private var isIphoneAndVerticallyCompact: Bool {
+        guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else { return false }
+        return container.isVerticallyCompact() && UIDevice.current.userInterfaceIdiom == .phone
+    }
+    
+    private var isQueried: Bool {
+        guard let url = webView.url?.absoluteString else { return false }
+        return url.contains(find: "\(ParameterKeys.subject)=")
+    }
 
     private var courseInfoTemplate : String {
         return environment?.config.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate ?? ""
@@ -161,6 +182,7 @@ class FindCoursesWebViewHelper: NSObject {
     
     deinit {
         urlObservation?.invalidate()
+        NotificationCenter.default.removeObserver(self)
     }
     
 }

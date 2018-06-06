@@ -10,6 +10,8 @@ import UIKit
 
 class SubjectCollectionViewCell: UICollectionViewCell {
     static let identifier = "SubjectCollectionViewCell"
+    static let defaultHeight: CGFloat = 70
+    static let defaultWidth: CGFloat = 150
     
     private(set) var subject: Subject? {
         didSet {
@@ -23,6 +25,8 @@ class SubjectCollectionViewCell: UICollectionViewCell {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 5
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.accessibilityIdentifier = "SubjectCollectionViewCell:image-view"
         return imageView
     }()
@@ -51,7 +55,10 @@ class SubjectCollectionViewCell: UICollectionViewCell {
     
     private func setConstraints() {
         imageView.snp.makeConstraints { make in
-            make.edges.equalTo(contentView)
+            make.leading.equalTo(contentView)
+            make.trailing.equalTo(contentView)
+            make.height.equalTo(SubjectCollectionViewCell.defaultHeight)
+            make.center.equalToSuperview()
         }
         
         subjectNameLabel.snp.makeConstraints { make in

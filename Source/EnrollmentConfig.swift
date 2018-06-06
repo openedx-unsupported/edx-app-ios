@@ -20,7 +20,7 @@ private enum EnrollmentKeys: String, RawStringExtractable {
     case ExploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
     case CourseInfoURLTemplate = "COURSE_INFO_URL_TEMPLATE"
     case NativeSearchBarEnabled = "SEARCH_BAR_ENABLED"
-    case SubjectDiscoveryEnabled = "SUBJECT_DISCOVERY"
+    case SubjectDiscoveryEnabled = "SUBJECT_DISCOVERY_ENABLED"
     case EnrollmentType = "TYPE"
     case Webview = "WEBVIEW"
 }
