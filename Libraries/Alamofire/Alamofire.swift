@@ -160,8 +160,8 @@ public enum ParameterEncoding {
     }
 
     func escape(_ string: String) -> String {
-        let characterSet = NSCharacterSet(charactersIn: ":&=;+!@#$()',*").inverted
-        return string.addingPercentEncoding(withAllowedCharacters: characterSet) ?? ""
+        let legalURLCharactersToBeEscaped: CFString = ":&=;+!@#$()',*" as CFString
+        return CFURLCreateStringByAddingPercentEscapes(nil, string as CFString!, nil, legalURLCharactersToBeEscaped, CFStringBuiltInEncodings.UTF8.rawValue) as String
     }
 }
 
