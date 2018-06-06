@@ -15,7 +15,7 @@ class ViewAllSubjectsCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.accessibilityIdentifier = "ViewAllSubjectsCollectionViewCell:view-all-subjects-label"
         label.accessibilityHint = Strings.Accessibility.viewAllSubjectsHint
-        let viewAllSubjectsStyle = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
+        let viewAllSubjectsStyle = OEXMutableTextStyle(weight: .semiBold, size: UIDevice.current.userInterfaceIdiom == .pad ? .large : .base, color: OEXStyles.shared().neutralWhite())
         viewAllSubjectsStyle.alignment = .center
         label.attributedText = viewAllSubjectsStyle.attributedString(withText: Strings.viewAllSubjects)
         label.numberOfLines = 0

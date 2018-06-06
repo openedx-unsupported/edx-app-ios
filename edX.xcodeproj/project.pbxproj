@@ -632,6 +632,68 @@
 		B75E8F5E20A5B1EB00685F58 /* Default-Landscape-375w-812h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B75E8F5D20A5B1EA00685F58 /* Default-Landscape-375w-812h@3x.png */; };
 		B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */; };
 		B760E5562010DD6800ECACAB /* BulkDownloadHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */; };
+		B7715DD320C85D5F007F29D6 /* environmental-studies@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9420C85D5E007F29D6 /* environmental-studies@3x.png */; };
+		B7715DD420C85D5F007F29D6 /* music@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9520C85D5E007F29D6 /* music@3x.png */; };
+		B7715DD520C85D5F007F29D6 /* chemistry@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9620C85D5E007F29D6 /* chemistry@3x.png */; };
+		B7715DD620C85D5F007F29D6 /* art@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9720C85D5E007F29D6 /* art@3x.png */; };
+		B7715DD720C85D5F007F29D6 /* language@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9820C85D5E007F29D6 /* language@3x.png */; };
+		B7715DD820C85D5F007F29D6 /* business@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9920C85D5E007F29D6 /* business@3x.png */; };
+		B7715DD920C85D5F007F29D6 /* economics-finance@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9A20C85D5E007F29D6 /* economics-finance@3x.png */; };
+		B7715DDA20C85D5F007F29D6 /* data-science@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9B20C85D5E007F29D6 /* data-science@3x.png */; };
+		B7715DDB20C85D5F007F29D6 /* philanthropy@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9C20C85D5E007F29D6 /* philanthropy@3x.png */; };
+		B7715DDC20C85D5F007F29D6 /* humanities@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9D20C85D5E007F29D6 /* humanities@3x.png */; };
+		B7715DDD20C85D5F007F29D6 /* energy@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9E20C85D5E007F29D6 /* energy@3x.png */; };
+		B7715DDE20C85D5F007F29D6 /* law@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715D9F20C85D5E007F29D6 /* law@3x.png */; };
+		B7715DDF20C85D5F007F29D6 /* electronics@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA020C85D5E007F29D6 /* electronics@3x.png */; };
+		B7715DE020C85D5F007F29D6 /* math@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA120C85D5E007F29D6 /* math@3x.png */; };
+		B7715DE120C85D5F007F29D6 /* food-nutrition@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA220C85D5E007F29D6 /* food-nutrition@3x.png */; };
+		B7715DE220C85D5F007F29D6 /* social-sciences@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA320C85D5E007F29D6 /* social-sciences@3x.png */; };
+		B7715DE320C85D5F007F29D6 /* design@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA420C85D5E007F29D6 /* design@3x.png */; };
+		B7715DE420C85D5F007F29D6 /* ethics@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA520C85D5E007F29D6 /* ethics@3x.png */; };
+		B7715DE520C85D5F007F29D6 /* physics@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA620C85D5E007F29D6 /* physics@3x.png */; };
+		B7715DE620C85D5F007F29D6 /* communication@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA720C85D5E007F29D6 /* communication@3x.png */; };
+		B7715DE720C85D5F007F29D6 /* architecture@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA820C85D5E007F29D6 /* architecture@3x.png */; };
+		B7715DE820C85D5F007F29D6 /* education@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DA920C85D5E007F29D6 /* education@3x.png */; };
+		B7715DE920C85D5F007F29D6 /* history@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DAA20C85D5E007F29D6 /* history@3x.png */; };
+		B7715DEA20C85D5F007F29D6 /* literature@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DAB20C85D5E007F29D6 /* literature@3x.png */; };
+		B7715DEB20C85D5F007F29D6 /* medicine@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DAC20C85D5E007F29D6 /* medicine@3x.png */; };
+		B7715DEC20C85D5F007F29D6 /* biology@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DAD20C85D5E007F29D6 /* biology@3x.png */; };
+		B7715DED20C85D5F007F29D6 /* engineering@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DAE20C85D5E007F29D6 /* engineering@3x.png */; };
+		B7715DEE20C85D5F007F29D6 /* philosophy-ethics@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DAF20C85D5E007F29D6 /* philosophy-ethics@3x.png */; };
+		B7715DEF20C85D5F007F29D6 /* science@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DB020C85D5E007F29D6 /* science@3x.png */; };
+		B7715DF020C85D5F007F29D6 /* computer-science@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DB120C85D5E007F29D6 /* computer-science@3x.png */; };
+		B7715DF120C85D5F007F29D6 /* health@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DB220C85D5E007F29D6 /* health@3x.png */; };
+		B7715DF220C85D5F007F29D6 /* economics-finance@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DB420C85D5E007F29D6 /* economics-finance@2x.png */; };
+		B7715DF320C85D5F007F29D6 /* business@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DB520C85D5E007F29D6 /* business@2x.png */; };
+		B7715DF420C85D5F007F29D6 /* language@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DB620C85D5E007F29D6 /* language@2x.png */; };
+		B7715DF520C85D5F007F29D6 /* art@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DB720C85D5E007F29D6 /* art@2x.png */; };
+		B7715DF620C85D5F007F29D6 /* chemistry@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DB820C85D5E007F29D6 /* chemistry@2x.png */; };
+		B7715DF720C85D5F007F29D6 /* music@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DB920C85D5E007F29D6 /* music@2x.png */; };
+		B7715DF820C85D5F007F29D6 /* environmental-studies@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DBA20C85D5E007F29D6 /* environmental-studies@2x.png */; };
+		B7715DF920C85D5F007F29D6 /* math@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DBB20C85D5E007F29D6 /* math@2x.png */; };
+		B7715DFA20C85D5F007F29D6 /* electronics@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DBC20C85D5E007F29D6 /* electronics@2x.png */; };
+		B7715DFB20C85D5F007F29D6 /* law@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DBD20C85D5E007F29D6 /* law@2x.png */; };
+		B7715DFC20C85D5F007F29D6 /* energy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DBE20C85D5E007F29D6 /* energy@2x.png */; };
+		B7715DFD20C85D5F007F29D6 /* humanities@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DBF20C85D5E007F29D6 /* humanities@2x.png */; };
+		B7715DFE20C85D5F007F29D6 /* philanthropy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC020C85D5E007F29D6 /* philanthropy@2x.png */; };
+		B7715DFF20C85D5F007F29D6 /* data-science@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC120C85D5E007F29D6 /* data-science@2x.png */; };
+		B7715E0020C85D5F007F29D6 /* education@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC220C85D5E007F29D6 /* education@2x.png */; };
+		B7715E0120C85D5F007F29D6 /* architecture@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC320C85D5E007F29D6 /* architecture@2x.png */; };
+		B7715E0220C85D5F007F29D6 /* communication@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC420C85D5E007F29D6 /* communication@2x.png */; };
+		B7715E0320C85D5F007F29D6 /* ethics@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC520C85D5E007F29D6 /* ethics@2x.png */; };
+		B7715E0420C85D5F007F29D6 /* physics@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC620C85D5E007F29D6 /* physics@2x.png */; };
+		B7715E0520C85D5F007F29D6 /* design@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC720C85D5E007F29D6 /* design@2x.png */; };
+		B7715E0620C85D5F007F29D6 /* social-sciences@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC820C85D5E007F29D6 /* social-sciences@2x.png */; };
+		B7715E0720C85D5F007F29D6 /* food-nutrition@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DC920C85D5E007F29D6 /* food-nutrition@2x.png */; };
+		B7715E0820C85D5F007F29D6 /* health@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DCA20C85D5E007F29D6 /* health@2x.png */; };
+		B7715E0920C85D5F007F29D6 /* computer-science@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DCB20C85D5E007F29D6 /* computer-science@2x.png */; };
+		B7715E0A20C85D5F007F29D6 /* philosophy-ethics@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DCC20C85D5E007F29D6 /* philosophy-ethics@2x.png */; };
+		B7715E0B20C85D5F007F29D6 /* science@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DCD20C85D5E007F29D6 /* science@2x.png */; };
+		B7715E0C20C85D5F007F29D6 /* biology@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DCE20C85D5E007F29D6 /* biology@2x.png */; };
+		B7715E0D20C85D5F007F29D6 /* engineering@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DCF20C85D5E007F29D6 /* engineering@2x.png */; };
+		B7715E0E20C85D5F007F29D6 /* medicine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DD020C85D5E007F29D6 /* medicine@2x.png */; };
+		B7715E0F20C85D5F007F29D6 /* literature@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DD120C85D5E007F29D6 /* literature@2x.png */; };
+		B7715E1020C85D5F007F29D6 /* history@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7715DD220C85D5E007F29D6 /* history@2x.png */; };
 		B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */; };
 		B78823A61FC6F59A00F9CD61 /* RegistrationTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */; };
 		B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */; };
@@ -648,37 +710,6 @@
 		B7C5DB5E20BB4BA800D80AD2 /* SubjectDataModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB5D20BB4BA700D80AD2 /* SubjectDataModelTests.swift */; };
 		B7C5DB6020BB503F00D80AD2 /* SubjectsCollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB5F20BB503F00D80AD2 /* SubjectsCollectionViewTests.swift */; };
 		B7C5DB6220BB554B00D80AD2 /* SubjectsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */; };
-		B7C5DBA620BC0C2300D80AD2 /* physics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8720BC0C1100D80AD2 /* physics.png */; };
-		B7C5DBA720BC0C2300D80AD2 /* music.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8820BC0C1200D80AD2 /* music.png */; };
-		B7C5DBA820BC0C2300D80AD2 /* humanities.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8920BC0C1200D80AD2 /* humanities.png */; };
-		B7C5DBA920BC0C2300D80AD2 /* energy.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8A20BC0C1300D80AD2 /* energy.png */; };
-		B7C5DBAA20BC0C2300D80AD2 /* economics-finance.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8B20BC0C1300D80AD2 /* economics-finance.png */; };
-		B7C5DBAB20BC0C2300D80AD2 /* science.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8C20BC0C1300D80AD2 /* science.png */; };
-		B7C5DBAC20BC0C2300D80AD2 /* communication.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8D20BC0C1400D80AD2 /* communication.png */; };
-		B7C5DBAD20BC0C2300D80AD2 /* food-nutrition.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8E20BC0C1400D80AD2 /* food-nutrition.png */; };
-		B7C5DBAE20BC0C2300D80AD2 /* language.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB8F20BC0C1400D80AD2 /* language.png */; };
-		B7C5DBAF20BC0C2300D80AD2 /* education.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9020BC0C1500D80AD2 /* education.png */; };
-		B7C5DBB020BC0C2300D80AD2 /* architecture.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9120BC0C1500D80AD2 /* architecture.png */; };
-		B7C5DBB120BC0C2300D80AD2 /* electronics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9220BC0C1600D80AD2 /* electronics.png */; };
-		B7C5DBB220BC0C2300D80AD2 /* computer-science.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9320BC0C1600D80AD2 /* computer-science.png */; };
-		B7C5DBB320BC0C2300D80AD2 /* data-science.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9420BC0C1600D80AD2 /* data-science.png */; };
-		B7C5DBB420BC0C2300D80AD2 /* math.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9520BC0C1700D80AD2 /* math.png */; };
-		B7C5DBB520BC0C2300D80AD2 /* biology.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9620BC0C1700D80AD2 /* biology.png */; };
-		B7C5DBB620BC0C2300D80AD2 /* social-sciences.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9720BC0C1800D80AD2 /* social-sciences.png */; };
-		B7C5DBB720BC0C2300D80AD2 /* history.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9820BC0C1800D80AD2 /* history.png */; };
-		B7C5DBB820BC0C2300D80AD2 /* chemistry.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9920BC0C1900D80AD2 /* chemistry.png */; };
-		B7C5DBB920BC0C2300D80AD2 /* design.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9A20BC0C1900D80AD2 /* design.png */; };
-		B7C5DBBA20BC0C2300D80AD2 /* business.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9B20BC0C1A00D80AD2 /* business.png */; };
-		B7C5DBBB20BC0C2300D80AD2 /* engineering.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9C20BC0C1A00D80AD2 /* engineering.png */; };
-		B7C5DBBC20BC0C2300D80AD2 /* ethics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9D20BC0C1B00D80AD2 /* ethics.png */; };
-		B7C5DBBD20BC0C2300D80AD2 /* health.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9E20BC0C1C00D80AD2 /* health.png */; };
-		B7C5DBBE20BC0C2300D80AD2 /* law.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB9F20BC0C1D00D80AD2 /* law.png */; };
-		B7C5DBBF20BC0C2300D80AD2 /* philosophy-ethics.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA020BC0C1D00D80AD2 /* philosophy-ethics.png */; };
-		B7C5DBC020BC0C2300D80AD2 /* environmental-studies.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA120BC0C1E00D80AD2 /* environmental-studies.png */; };
-		B7C5DBC120BC0C2300D80AD2 /* medicine.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA220BC0C1F00D80AD2 /* medicine.png */; };
-		B7C5DBC220BC0C2300D80AD2 /* literature.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA320BC0C2000D80AD2 /* literature.png */; };
-		B7C5DBC320BC0C2300D80AD2 /* art.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA420BC0C2100D80AD2 /* art.png */; };
-		B7C5DBC420BC0C2300D80AD2 /* philanthropy.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DBA520BC0C2200D80AD2 /* philanthropy.png */; };
 		B7C5DBC720BD507B00D80AD2 /* FindCoursesWebViewHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DBC520BD503C00D80AD2 /* FindCoursesWebViewHelperTests.swift */; };
 		B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */; };
 		B7CCC71E209B16B100A66923 /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */; };
@@ -1600,6 +1631,68 @@
 		B75E8F5D20A5B1EA00685F58 /* Default-Landscape-375w-812h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-375w-812h@3x.png"; sourceTree = "<group>"; };
 		B760E553200DD6E800ECACAB /* CourseVideosHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseVideosHeaderView.swift; sourceTree = "<group>"; };
 		B760E5552010DD6800ECACAB /* BulkDownloadHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulkDownloadHelper.swift; sourceTree = "<group>"; };
+		B7715D9420C85D5E007F29D6 /* environmental-studies@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "environmental-studies@3x.png"; sourceTree = "<group>"; };
+		B7715D9520C85D5E007F29D6 /* music@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "music@3x.png"; sourceTree = "<group>"; };
+		B7715D9620C85D5E007F29D6 /* chemistry@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chemistry@3x.png"; sourceTree = "<group>"; };
+		B7715D9720C85D5E007F29D6 /* art@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "art@3x.png"; sourceTree = "<group>"; };
+		B7715D9820C85D5E007F29D6 /* language@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "language@3x.png"; sourceTree = "<group>"; };
+		B7715D9920C85D5E007F29D6 /* business@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "business@3x.png"; sourceTree = "<group>"; };
+		B7715D9A20C85D5E007F29D6 /* economics-finance@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "economics-finance@3x.png"; sourceTree = "<group>"; };
+		B7715D9B20C85D5E007F29D6 /* data-science@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "data-science@3x.png"; sourceTree = "<group>"; };
+		B7715D9C20C85D5E007F29D6 /* philanthropy@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "philanthropy@3x.png"; sourceTree = "<group>"; };
+		B7715D9D20C85D5E007F29D6 /* humanities@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "humanities@3x.png"; sourceTree = "<group>"; };
+		B7715D9E20C85D5E007F29D6 /* energy@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "energy@3x.png"; sourceTree = "<group>"; };
+		B7715D9F20C85D5E007F29D6 /* law@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "law@3x.png"; sourceTree = "<group>"; };
+		B7715DA020C85D5E007F29D6 /* electronics@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "electronics@3x.png"; sourceTree = "<group>"; };
+		B7715DA120C85D5E007F29D6 /* math@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "math@3x.png"; sourceTree = "<group>"; };
+		B7715DA220C85D5E007F29D6 /* food-nutrition@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "food-nutrition@3x.png"; sourceTree = "<group>"; };
+		B7715DA320C85D5E007F29D6 /* social-sciences@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "social-sciences@3x.png"; sourceTree = "<group>"; };
+		B7715DA420C85D5E007F29D6 /* design@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "design@3x.png"; sourceTree = "<group>"; };
+		B7715DA520C85D5E007F29D6 /* ethics@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ethics@3x.png"; sourceTree = "<group>"; };
+		B7715DA620C85D5E007F29D6 /* physics@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "physics@3x.png"; sourceTree = "<group>"; };
+		B7715DA720C85D5E007F29D6 /* communication@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "communication@3x.png"; sourceTree = "<group>"; };
+		B7715DA820C85D5E007F29D6 /* architecture@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "architecture@3x.png"; sourceTree = "<group>"; };
+		B7715DA920C85D5E007F29D6 /* education@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "education@3x.png"; sourceTree = "<group>"; };
+		B7715DAA20C85D5E007F29D6 /* history@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history@3x.png"; sourceTree = "<group>"; };
+		B7715DAB20C85D5E007F29D6 /* literature@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "literature@3x.png"; sourceTree = "<group>"; };
+		B7715DAC20C85D5E007F29D6 /* medicine@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "medicine@3x.png"; sourceTree = "<group>"; };
+		B7715DAD20C85D5E007F29D6 /* biology@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "biology@3x.png"; sourceTree = "<group>"; };
+		B7715DAE20C85D5E007F29D6 /* engineering@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "engineering@3x.png"; sourceTree = "<group>"; };
+		B7715DAF20C85D5E007F29D6 /* philosophy-ethics@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "philosophy-ethics@3x.png"; sourceTree = "<group>"; };
+		B7715DB020C85D5E007F29D6 /* science@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "science@3x.png"; sourceTree = "<group>"; };
+		B7715DB120C85D5E007F29D6 /* computer-science@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "computer-science@3x.png"; sourceTree = "<group>"; };
+		B7715DB220C85D5E007F29D6 /* health@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "health@3x.png"; sourceTree = "<group>"; };
+		B7715DB420C85D5E007F29D6 /* economics-finance@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "economics-finance@2x.png"; sourceTree = "<group>"; };
+		B7715DB520C85D5E007F29D6 /* business@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "business@2x.png"; sourceTree = "<group>"; };
+		B7715DB620C85D5E007F29D6 /* language@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "language@2x.png"; sourceTree = "<group>"; };
+		B7715DB720C85D5E007F29D6 /* art@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "art@2x.png"; sourceTree = "<group>"; };
+		B7715DB820C85D5E007F29D6 /* chemistry@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chemistry@2x.png"; sourceTree = "<group>"; };
+		B7715DB920C85D5E007F29D6 /* music@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "music@2x.png"; sourceTree = "<group>"; };
+		B7715DBA20C85D5E007F29D6 /* environmental-studies@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "environmental-studies@2x.png"; sourceTree = "<group>"; };
+		B7715DBB20C85D5E007F29D6 /* math@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "math@2x.png"; sourceTree = "<group>"; };
+		B7715DBC20C85D5E007F29D6 /* electronics@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "electronics@2x.png"; sourceTree = "<group>"; };
+		B7715DBD20C85D5E007F29D6 /* law@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "law@2x.png"; sourceTree = "<group>"; };
+		B7715DBE20C85D5E007F29D6 /* energy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "energy@2x.png"; sourceTree = "<group>"; };
+		B7715DBF20C85D5E007F29D6 /* humanities@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "humanities@2x.png"; sourceTree = "<group>"; };
+		B7715DC020C85D5E007F29D6 /* philanthropy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "philanthropy@2x.png"; sourceTree = "<group>"; };
+		B7715DC120C85D5E007F29D6 /* data-science@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "data-science@2x.png"; sourceTree = "<group>"; };
+		B7715DC220C85D5E007F29D6 /* education@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "education@2x.png"; sourceTree = "<group>"; };
+		B7715DC320C85D5E007F29D6 /* architecture@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "architecture@2x.png"; sourceTree = "<group>"; };
+		B7715DC420C85D5E007F29D6 /* communication@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "communication@2x.png"; sourceTree = "<group>"; };
+		B7715DC520C85D5E007F29D6 /* ethics@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ethics@2x.png"; sourceTree = "<group>"; };
+		B7715DC620C85D5E007F29D6 /* physics@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "physics@2x.png"; sourceTree = "<group>"; };
+		B7715DC720C85D5E007F29D6 /* design@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "design@2x.png"; sourceTree = "<group>"; };
+		B7715DC820C85D5E007F29D6 /* social-sciences@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "social-sciences@2x.png"; sourceTree = "<group>"; };
+		B7715DC920C85D5E007F29D6 /* food-nutrition@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "food-nutrition@2x.png"; sourceTree = "<group>"; };
+		B7715DCA20C85D5E007F29D6 /* health@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "health@2x.png"; sourceTree = "<group>"; };
+		B7715DCB20C85D5E007F29D6 /* computer-science@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "computer-science@2x.png"; sourceTree = "<group>"; };
+		B7715DCC20C85D5E007F29D6 /* philosophy-ethics@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "philosophy-ethics@2x.png"; sourceTree = "<group>"; };
+		B7715DCD20C85D5E007F29D6 /* science@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "science@2x.png"; sourceTree = "<group>"; };
+		B7715DCE20C85D5E007F29D6 /* biology@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "biology@2x.png"; sourceTree = "<group>"; };
+		B7715DCF20C85D5E007F29D6 /* engineering@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "engineering@2x.png"; sourceTree = "<group>"; };
+		B7715DD020C85D5E007F29D6 /* medicine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "medicine@2x.png"; sourceTree = "<group>"; };
+		B7715DD120C85D5E007F29D6 /* literature@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "literature@2x.png"; sourceTree = "<group>"; };
+		B7715DD220C85D5E007F29D6 /* history@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history@2x.png"; sourceTree = "<group>"; };
 		B78823A31FC6F59A00F9CD61 /* RegistrationFormFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFormFieldView.swift; sourceTree = "<group>"; };
 		B78823A41FC6F59A00F9CD61 /* RegistrationTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationTextField.swift; sourceTree = "<group>"; };
 		B78823A71FC6F69900F9CD61 /* RegistrationFieldController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationFieldController.swift; sourceTree = "<group>"; };
@@ -1617,37 +1710,6 @@
 		B7C5DB5D20BB4BA700D80AD2 /* SubjectDataModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectDataModelTests.swift; sourceTree = "<group>"; };
 		B7C5DB5F20BB503F00D80AD2 /* SubjectsCollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsCollectionViewTests.swift; sourceTree = "<group>"; };
 		B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsViewControllerTests.swift; sourceTree = "<group>"; };
-		B7C5DB8720BC0C1100D80AD2 /* physics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = physics.png; sourceTree = "<group>"; };
-		B7C5DB8820BC0C1200D80AD2 /* music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = music.png; sourceTree = "<group>"; };
-		B7C5DB8920BC0C1200D80AD2 /* humanities.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = humanities.png; sourceTree = "<group>"; };
-		B7C5DB8A20BC0C1300D80AD2 /* energy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = energy.png; sourceTree = "<group>"; };
-		B7C5DB8B20BC0C1300D80AD2 /* economics-finance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "economics-finance.png"; sourceTree = "<group>"; };
-		B7C5DB8C20BC0C1300D80AD2 /* science.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = science.png; sourceTree = "<group>"; };
-		B7C5DB8D20BC0C1400D80AD2 /* communication.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = communication.png; sourceTree = "<group>"; };
-		B7C5DB8E20BC0C1400D80AD2 /* food-nutrition.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "food-nutrition.png"; sourceTree = "<group>"; };
-		B7C5DB8F20BC0C1400D80AD2 /* language.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = language.png; sourceTree = "<group>"; };
-		B7C5DB9020BC0C1500D80AD2 /* education.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = education.png; sourceTree = "<group>"; };
-		B7C5DB9120BC0C1500D80AD2 /* architecture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = architecture.png; sourceTree = "<group>"; };
-		B7C5DB9220BC0C1600D80AD2 /* electronics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = electronics.png; sourceTree = "<group>"; };
-		B7C5DB9320BC0C1600D80AD2 /* computer-science.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "computer-science.png"; sourceTree = "<group>"; };
-		B7C5DB9420BC0C1600D80AD2 /* data-science.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "data-science.png"; sourceTree = "<group>"; };
-		B7C5DB9520BC0C1700D80AD2 /* math.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = math.png; sourceTree = "<group>"; };
-		B7C5DB9620BC0C1700D80AD2 /* biology.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = biology.png; sourceTree = "<group>"; };
-		B7C5DB9720BC0C1800D80AD2 /* social-sciences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "social-sciences.png"; sourceTree = "<group>"; };
-		B7C5DB9820BC0C1800D80AD2 /* history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = history.png; sourceTree = "<group>"; };
-		B7C5DB9920BC0C1900D80AD2 /* chemistry.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chemistry.png; sourceTree = "<group>"; };
-		B7C5DB9A20BC0C1900D80AD2 /* design.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = design.png; sourceTree = "<group>"; };
-		B7C5DB9B20BC0C1A00D80AD2 /* business.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = business.png; sourceTree = "<group>"; };
-		B7C5DB9C20BC0C1A00D80AD2 /* engineering.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = engineering.png; sourceTree = "<group>"; };
-		B7C5DB9D20BC0C1B00D80AD2 /* ethics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ethics.png; sourceTree = "<group>"; };
-		B7C5DB9E20BC0C1C00D80AD2 /* health.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = health.png; sourceTree = "<group>"; };
-		B7C5DB9F20BC0C1D00D80AD2 /* law.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = law.png; sourceTree = "<group>"; };
-		B7C5DBA020BC0C1D00D80AD2 /* philosophy-ethics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "philosophy-ethics.png"; sourceTree = "<group>"; };
-		B7C5DBA120BC0C1E00D80AD2 /* environmental-studies.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "environmental-studies.png"; sourceTree = "<group>"; };
-		B7C5DBA220BC0C1F00D80AD2 /* medicine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = medicine.png; sourceTree = "<group>"; };
-		B7C5DBA320BC0C2000D80AD2 /* literature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = literature.png; sourceTree = "<group>"; };
-		B7C5DBA420BC0C2100D80AD2 /* art.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = art.png; sourceTree = "<group>"; };
-		B7C5DBA520BC0C2200D80AD2 /* philanthropy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = philanthropy.png; sourceTree = "<group>"; };
 		B7C5DBC520BD503C00D80AD2 /* FindCoursesWebViewHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCoursesWebViewHelperTests.swift; sourceTree = "<group>"; };
 		B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
 		B7CCC6FB209B16B000A66923 /* LayoutConstraintItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayoutConstraintItem.swift; sourceTree = "<group>"; };
@@ -3171,6 +3233,91 @@
 			path = SubjectsDiscovery;
 			sourceTree = "<group>";
 		};
+		B7715D9220C85D5E007F29D6 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				B7715D9320C85D5E007F29D6 /* 3x */,
+				B7715DB320C85D5E007F29D6 /* 2x */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		B7715D9320C85D5E007F29D6 /* 3x */ = {
+			isa = PBXGroup;
+			children = (
+				B7715D9420C85D5E007F29D6 /* environmental-studies@3x.png */,
+				B7715D9520C85D5E007F29D6 /* music@3x.png */,
+				B7715D9620C85D5E007F29D6 /* chemistry@3x.png */,
+				B7715D9720C85D5E007F29D6 /* art@3x.png */,
+				B7715D9820C85D5E007F29D6 /* language@3x.png */,
+				B7715D9920C85D5E007F29D6 /* business@3x.png */,
+				B7715D9A20C85D5E007F29D6 /* economics-finance@3x.png */,
+				B7715D9B20C85D5E007F29D6 /* data-science@3x.png */,
+				B7715D9C20C85D5E007F29D6 /* philanthropy@3x.png */,
+				B7715D9D20C85D5E007F29D6 /* humanities@3x.png */,
+				B7715D9E20C85D5E007F29D6 /* energy@3x.png */,
+				B7715D9F20C85D5E007F29D6 /* law@3x.png */,
+				B7715DA020C85D5E007F29D6 /* electronics@3x.png */,
+				B7715DA120C85D5E007F29D6 /* math@3x.png */,
+				B7715DA220C85D5E007F29D6 /* food-nutrition@3x.png */,
+				B7715DA320C85D5E007F29D6 /* social-sciences@3x.png */,
+				B7715DA420C85D5E007F29D6 /* design@3x.png */,
+				B7715DA520C85D5E007F29D6 /* ethics@3x.png */,
+				B7715DA620C85D5E007F29D6 /* physics@3x.png */,
+				B7715DA720C85D5E007F29D6 /* communication@3x.png */,
+				B7715DA820C85D5E007F29D6 /* architecture@3x.png */,
+				B7715DA920C85D5E007F29D6 /* education@3x.png */,
+				B7715DAA20C85D5E007F29D6 /* history@3x.png */,
+				B7715DAB20C85D5E007F29D6 /* literature@3x.png */,
+				B7715DAC20C85D5E007F29D6 /* medicine@3x.png */,
+				B7715DAD20C85D5E007F29D6 /* biology@3x.png */,
+				B7715DAE20C85D5E007F29D6 /* engineering@3x.png */,
+				B7715DAF20C85D5E007F29D6 /* philosophy-ethics@3x.png */,
+				B7715DB020C85D5E007F29D6 /* science@3x.png */,
+				B7715DB120C85D5E007F29D6 /* computer-science@3x.png */,
+				B7715DB220C85D5E007F29D6 /* health@3x.png */,
+			);
+			path = 3x;
+			sourceTree = "<group>";
+		};
+		B7715DB320C85D5E007F29D6 /* 2x */ = {
+			isa = PBXGroup;
+			children = (
+				B7715DB420C85D5E007F29D6 /* economics-finance@2x.png */,
+				B7715DB520C85D5E007F29D6 /* business@2x.png */,
+				B7715DB620C85D5E007F29D6 /* language@2x.png */,
+				B7715DB720C85D5E007F29D6 /* art@2x.png */,
+				B7715DB820C85D5E007F29D6 /* chemistry@2x.png */,
+				B7715DB920C85D5E007F29D6 /* music@2x.png */,
+				B7715DBA20C85D5E007F29D6 /* environmental-studies@2x.png */,
+				B7715DBB20C85D5E007F29D6 /* math@2x.png */,
+				B7715DBC20C85D5E007F29D6 /* electronics@2x.png */,
+				B7715DBD20C85D5E007F29D6 /* law@2x.png */,
+				B7715DBE20C85D5E007F29D6 /* energy@2x.png */,
+				B7715DBF20C85D5E007F29D6 /* humanities@2x.png */,
+				B7715DC020C85D5E007F29D6 /* philanthropy@2x.png */,
+				B7715DC120C85D5E007F29D6 /* data-science@2x.png */,
+				B7715DC220C85D5E007F29D6 /* education@2x.png */,
+				B7715DC320C85D5E007F29D6 /* architecture@2x.png */,
+				B7715DC420C85D5E007F29D6 /* communication@2x.png */,
+				B7715DC520C85D5E007F29D6 /* ethics@2x.png */,
+				B7715DC620C85D5E007F29D6 /* physics@2x.png */,
+				B7715DC720C85D5E007F29D6 /* design@2x.png */,
+				B7715DC820C85D5E007F29D6 /* social-sciences@2x.png */,
+				B7715DC920C85D5E007F29D6 /* food-nutrition@2x.png */,
+				B7715DCA20C85D5E007F29D6 /* health@2x.png */,
+				B7715DCB20C85D5E007F29D6 /* computer-science@2x.png */,
+				B7715DCC20C85D5E007F29D6 /* philosophy-ethics@2x.png */,
+				B7715DCD20C85D5E007F29D6 /* science@2x.png */,
+				B7715DCE20C85D5E007F29D6 /* biology@2x.png */,
+				B7715DCF20C85D5E007F29D6 /* engineering@2x.png */,
+				B7715DD020C85D5E007F29D6 /* medicine@2x.png */,
+				B7715DD120C85D5E007F29D6 /* literature@2x.png */,
+				B7715DD220C85D5E007F29D6 /* history@2x.png */,
+			);
+			path = 2x;
+			sourceTree = "<group>";
+		};
 		B78823A21FC6F59A00F9CD61 /* Registration Field Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -3183,37 +3330,7 @@
 		B793455220B5848E00DBFC33 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B7C5DB9120BC0C1500D80AD2 /* architecture.png */,
-				B7C5DBA420BC0C2100D80AD2 /* art.png */,
-				B7C5DB9620BC0C1700D80AD2 /* biology.png */,
-				B7C5DB9B20BC0C1A00D80AD2 /* business.png */,
-				B7C5DB9920BC0C1900D80AD2 /* chemistry.png */,
-				B7C5DB8D20BC0C1400D80AD2 /* communication.png */,
-				B7C5DB9320BC0C1600D80AD2 /* computer-science.png */,
-				B7C5DB9420BC0C1600D80AD2 /* data-science.png */,
-				B7C5DB9A20BC0C1900D80AD2 /* design.png */,
-				B7C5DB8B20BC0C1300D80AD2 /* economics-finance.png */,
-				B7C5DB9020BC0C1500D80AD2 /* education.png */,
-				B7C5DB9220BC0C1600D80AD2 /* electronics.png */,
-				B7C5DB8A20BC0C1300D80AD2 /* energy.png */,
-				B7C5DB9C20BC0C1A00D80AD2 /* engineering.png */,
-				B7C5DBA120BC0C1E00D80AD2 /* environmental-studies.png */,
-				B7C5DB9D20BC0C1B00D80AD2 /* ethics.png */,
-				B7C5DB8E20BC0C1400D80AD2 /* food-nutrition.png */,
-				B7C5DB9E20BC0C1C00D80AD2 /* health.png */,
-				B7C5DB9820BC0C1800D80AD2 /* history.png */,
-				B7C5DB8920BC0C1200D80AD2 /* humanities.png */,
-				B7C5DB8F20BC0C1400D80AD2 /* language.png */,
-				B7C5DB9F20BC0C1D00D80AD2 /* law.png */,
-				B7C5DBA320BC0C2000D80AD2 /* literature.png */,
-				B7C5DB9520BC0C1700D80AD2 /* math.png */,
-				B7C5DBA220BC0C1F00D80AD2 /* medicine.png */,
-				B7C5DB8820BC0C1200D80AD2 /* music.png */,
-				B7C5DBA520BC0C2200D80AD2 /* philanthropy.png */,
-				B7C5DBA020BC0C1D00D80AD2 /* philosophy-ethics.png */,
-				B7C5DB8720BC0C1100D80AD2 /* physics.png */,
-				B7C5DB8C20BC0C1300D80AD2 /* science.png */,
-				B7C5DB9720BC0C1800D80AD2 /* social-sciences.png */,
+				B7715D9220C85D5E007F29D6 /* Images */,
 				B793455F20B584F500DBFC33 /* subjects.json */,
 			);
 			path = Resources;
@@ -3945,15 +4062,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				E021F46D1F739599007A26E7 /* logo@2x~ipad.png in Resources */,
+				B7715DE320C85D5F007F29D6 /* design@3x.png in Resources */,
 				69ECC6151D50D1170030CF87 /* bt_facebook.png in Resources */,
+				B7715DE820C85D5F007F29D6 /* education@3x.png in Resources */,
+				B7715DD520C85D5F007F29D6 /* chemistry@3x.png in Resources */,
 				69ECC6171D50D1170030CF87 /* bt_google.png in Resources */,
 				69ECC62E1D50D1170030CF87 /* ic_cancel.png in Resources */,
 				69ECC64E1D50D1170030CF87 /* Default-414w-736h@3x.png in Resources */,
-				B7C5DBA720BC0C2300D80AD2 /* music.png in Resources */,
+				B7715DF420C85D5F007F29D6 /* language@2x.png in Resources */,
+				B7715DE220C85D5F007F29D6 /* social-sciences@3x.png in Resources */,
 				22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */,
 				B4B6D5EA1A9490FC000F44E8 /* OEXRegistrationViewController.xib in Resources */,
+				B7715DDF20C85D5F007F29D6 /* electronics@3x.png in Resources */,
 				69ECC5FE1D50D1170030CF87 /* OpenSans-Bold.ttf in Resources */,
 				69ECC60F1D50D1170030CF87 /* arrow_next@2x.png in Resources */,
+				B7715DE020C85D5F007F29D6 /* math@3x.png in Resources */,
 				B7C5DB5C20BB4AAC00D80AD2 /* TestSubjects.json in Resources */,
 				69ECC6451D50D1170030CF87 /* separator.png in Resources */,
 				2245CA00209C59340097B23F /* TermsOfServices.htm in Resources */,
@@ -3965,107 +4088,118 @@
 				69ECC6461D50D1170030CF87 /* separator1.png in Resources */,
 				69ECC6491D50D1170030CF87 /* share.pdf in Resources */,
 				69ECC64D1D50D1170030CF87 /* Default-375w-667h@2x.png in Resources */,
-				B7C5DBB020BC0C2300D80AD2 /* architecture.png in Resources */,
+				B7715E0C20C85D5F007F29D6 /* biology@2x.png in Resources */,
 				6926CDAF1D59BE3600A16E22 /* ic_progressbar.png in Resources */,
 				6987A86D1D6C67DB00E9D183 /* colors.json in Resources */,
+				B7715DDC20C85D5F007F29D6 /* humanities@3x.png in Resources */,
 				6926CDAD1D59BE3600A16E22 /* ic_previous_press.png in Resources */,
-				B7C5DBBA20BC0C2300D80AD2 /* business.png in Resources */,
+				B7715E0220C85D5F007F29D6 /* communication@2x.png in Resources */,
 				69ECC6401D50D1170030CF87 /* iTunesArtwork in Resources */,
 				69ECC6441D50D1170030CF87 /* loginScreenImage@2x.png in Resources */,
+				B7715DEB20C85D5F007F29D6 /* medicine@3x.png in Resources */,
 				6960892C1D53935500EE66DD /* courseCertificate@2x.png in Resources */,
 				69ECC61D1D50D1170030CF87 /* bt_logout_default.png in Resources */,
+				B7715DEA20C85D5F007F29D6 /* literature@3x.png in Resources */,
 				69ECC6501D50D1170030CF87 /* Default@2x.png in Resources */,
+				B7715DE920C85D5F007F29D6 /* history@3x.png in Resources */,
+				B7715DD420C85D5F007F29D6 /* music@3x.png in Resources */,
+				B7715DE120C85D5F007F29D6 /* food-nutrition@3x.png in Resources */,
 				69ECC6341D50D1170030CF87 /* ic_next_deactive.png in Resources */,
 				2245C9FC209C592A0097B23F /* PrivacyPolicy.htm in Resources */,
+				B7715DF520C85D5F007F29D6 /* art@2x.png in Resources */,
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
 				69ECC6421D50D1170030CF87 /* logo@2x.png in Resources */,
+				B7715DF220C85D5F007F29D6 /* economics-finance@2x.png in Resources */,
+				B7715E0020C85D5F007F29D6 /* education@2x.png in Resources */,
+				B7715E0620C85D5F007F29D6 /* social-sciences@2x.png in Resources */,
 				69ECC61A1D50D1170030CF87 /* bt_grey_default.png in Resources */,
+				B7715DF320C85D5F007F29D6 /* business@2x.png in Resources */,
 				69ECC6161D50D1170030CF87 /* bt_facebook_RTL.png in Resources */,
-				B7C5DBB920BC0C2300D80AD2 /* design.png in Resources */,
 				69ECC6411D50D1170030CF87 /* iTunesArtwork@2x in Resources */,
 				6926CDAE1D59BE3600A16E22 /* ic_previous.png in Resources */,
-				B7C5DBAE20BC0C2300D80AD2 /* language.png in Resources */,
 				69ECC61E1D50D1170030CF87 /* bt_scrollbar_tap.png in Resources */,
 				69ECC62B1D50D1170030CF87 /* downloading.png in Resources */,
 				69ECC60D1D50D1170030CF87 /* Icon-60@2x.png in Resources */,
+				B7715DD720C85D5F007F29D6 /* language@3x.png in Resources */,
 				69ECC60A1D50D1170030CF87 /* Icon-29@3x.png in Resources */,
-				B7C5DBB620BC0C2300D80AD2 /* social-sciences.png in Resources */,
 				69ECC6191D50D1170030CF87 /* bt_grey_deactive.png in Resources */,
 				6926CDAC1D59BE3600A16E22 /* ic_next.png in Resources */,
-				B7C5DBC220BC0C2300D80AD2 /* literature.png in Resources */,
 				19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */,
+				B7715DF620C85D5F007F29D6 /* chemistry@2x.png in Resources */,
 				9ED269D21AF114B900328A34 /* OEXLoginViewController.storyboard in Resources */,
 				2245C9F8209C591B0097B23F /* MobileAppEula.htm in Resources */,
-				B7C5DBB520BC0C2300D80AD2 /* biology.png in Resources */,
 				69ECC62C1D50D1170030CF87 /* ic_back.png in Resources */,
-				B7C5DBBC20BC0C2300D80AD2 /* ethics.png in Resources */,
 				69ECC60E1D50D1170030CF87 /* Icon-60@3x.png in Resources */,
 				E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */,
 				B75E8F5E20A5B1EB00685F58 /* Default-Landscape-375w-812h@3x.png in Resources */,
 				69ECC5FD1D50D1170030CF87 /* FontAwesome.otf in Resources */,
+				B7715E0E20C85D5F007F29D6 /* medicine@2x.png in Resources */,
+				B7715E0F20C85D5F007F29D6 /* literature@2x.png in Resources */,
+				B7715E0720C85D5F007F29D6 /* food-nutrition@2x.png in Resources */,
+				B7715DE620C85D5F007F29D6 /* communication@3x.png in Resources */,
+				B7715DD820C85D5F007F29D6 /* business@3x.png in Resources */,
+				B7715DDE20C85D5F007F29D6 /* law@3x.png in Resources */,
+				B7715E0420C85D5F007F29D6 /* physics@2x.png in Resources */,
 				B793455D20B584F500DBFC33 /* subjects.json in Resources */,
 				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
-				B7C5DBBD20BC0C2300D80AD2 /* health.png in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
+				B7715DEF20C85D5F007F29D6 /* science@3x.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
-				B7C5DBBF20BC0C2300D80AD2 /* philosophy-ethics.png in Resources */,
 				22F8A9141F4708A50025E18A /* Main.storyboard in Resources */,
 				69ECC64A1D50D1170030CF87 /* launchBackground.png in Resources */,
 				69ECC6201D50D1170030CF87 /* bt_signin_deactive.png in Resources */,
 				69ECC62F1D50D1170030CF87 /* ic_cancel@3x.png in Resources */,
 				198826E91952FE39005D4D8A /* OEXOpenInBrowserViewController.xib in Resources */,
 				69ECC63C1D50D1170030CF87 /* icon_facebook_white.png in Resources */,
-				B7C5DBAC20BC0C2300D80AD2 /* communication.png in Resources */,
+				B7715DE720C85D5F007F29D6 /* architecture@3x.png in Resources */,
 				69ECC6381D50D1170030CF87 /* ic_unwatched@2x.png in Resources */,
 				E0DB52CF20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png in Resources */,
-				B7C5DBA820BC0C2300D80AD2 /* humanities.png in Resources */,
-				B7C5DBB320BC0C2300D80AD2 /* data-science.png in Resources */,
 				69ECC6281D50D1170030CF87 /* check.png in Resources */,
+				B7715DFA20C85D5F007F29D6 /* electronics@2x.png in Resources */,
 				5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */,
-				B7C5DBB420BC0C2300D80AD2 /* math.png in Resources */,
 				69ECC6521D50D1170030CF87 /* inline-content.css in Resources */,
 				69ECC64C1D50D1170030CF87 /* Default-568h@2x.png in Resources */,
-				B7C5DBB720BC0C2300D80AD2 /* history.png in Resources */,
-				B7C5DBBE20BC0C2300D80AD2 /* law.png in Resources */,
-				B7C5DBC120BC0C2300D80AD2 /* medicine.png in Resources */,
 				69ECC6471D50D1170030CF87 /* separator3.png in Resources */,
 				1A55019C1BBA30C900D5F9DD /* profiles.json in Resources */,
-				B7C5DBAD20BC0C2300D80AD2 /* food-nutrition.png in Resources */,
+				B7715DDB20C85D5F007F29D6 /* philanthropy@3x.png in Resources */,
 				22D73B5D1ED575C000220280 /* course-dates.js in Resources */,
-				B7C5DBB820BC0C2300D80AD2 /* chemistry.png in Resources */,
-				B7C5DBB220BC0C2300D80AD2 /* computer-science.png in Resources */,
-				B7C5DBAB20BC0C2300D80AD2 /* science.png in Resources */,
-				B7C5DBAF20BC0C2300D80AD2 /* education.png in Resources */,
-				B7C5DBA620BC0C2300D80AD2 /* physics.png in Resources */,
+				B7715DED20C85D5F007F29D6 /* engineering@3x.png in Resources */,
 				BD7C6C401DCA329A0004D135 /* fonts.json in Resources */,
 				69ECC6021D50D1170030CF87 /* OpenSans-Italic.ttf in Resources */,
 				69ECC6481D50D1170030CF87 /* separator5.png in Resources */,
 				69ECC6141D50D1170030CF87 /* bt_blue2.png in Resources */,
-				B7C5DBC420BC0C2300D80AD2 /* philanthropy.png in Resources */,
 				69ECC6321D50D1170030CF87 /* ic_download_arrow.png in Resources */,
-				B7C5DBBB20BC0C2300D80AD2 /* engineering.png in Resources */,
+				B7715E1020C85D5F007F29D6 /* history@2x.png in Resources */,
 				69ECC6091D50D1170030CF87 /* Icon-29@2x.png in Resources */,
-				B7C5DBB120BC0C2300D80AD2 /* electronics.png in Resources */,
+				B7715E0820C85D5F007F29D6 /* health@2x.png in Resources */,
 				69ECC6391D50D1170030CF87 /* ic_unwatched@3x.png in Resources */,
 				69ECC61B1D50D1170030CF87 /* bt_logout_active.png in Resources */,
 				69ECC6291D50D1170030CF87 /* check@2x.png in Resources */,
+				B7715DD320C85D5F007F29D6 /* environmental-studies@3x.png in Resources */,
+				B7715DFE20C85D5F007F29D6 /* philanthropy@2x.png in Resources */,
+				B7715DFB20C85D5F007F29D6 /* law@2x.png in Resources */,
 				E0DB52C720A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png in Resources */,
 				22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */,
 				E021F46C1F739599007A26E7 /* loginScreenImage@2x~ipad.png in Resources */,
 				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 				BD837BB81DC8D5D400341EFD /* Icon-76.png in Resources */,
+				B7715E0920C85D5F007F29D6 /* computer-science@2x.png in Resources */,
 				69ECC63E1D50D1170030CF87 /* icon_google_white.png in Resources */,
+				B7715DEC20C85D5F007F29D6 /* biology@3x.png in Resources */,
 				69ECC63D1D50D1170030CF87 /* icon_facebook_white@2x.png in Resources */,
 				69ECC6361D50D1170030CF87 /* ic_partiallywatched@2x.png in Resources */,
+				B7715DE520C85D5F007F29D6 /* physics@3x.png in Resources */,
 				69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */,
 				69ECC6041D50D1170030CF87 /* OpenSans-LightItalic.ttf in Resources */,
 				E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */,
 				69ECC64F1D50D1170030CF87 /* Default-Landscape@3x.png in Resources */,
+				B7715DDA20C85D5F007F29D6 /* data-science@3x.png in Resources */,
 				E039A8041F74C0D80064ABDB /* logo~ipad.png in Resources */,
-				B7C5DBC020BC0C2300D80AD2 /* environmental-studies.png in Resources */,
-				B7C5DBAA20BC0C2300D80AD2 /* economics-finance.png in Resources */,
+				B7715DEE20C85D5F007F29D6 /* philosophy-ethics@3x.png in Resources */,
+				B7715DDD20C85D5F007F29D6 /* energy@3x.png in Resources */,
 				69ECC6331D50D1170030CF87 /* ic_lms_blue.png in Resources */,
+				B7715DE420C85D5F007F29D6 /* ethics@3x.png in Resources */,
 				69ECC6511D50D1170030CF87 /* handouts-announcements.css in Resources */,
 				69ECC6431D50D1170030CF87 /* logo@3x.png in Resources */,
 				69ECC6031D50D1170030CF87 /* OpenSans-Light.ttf in Resources */,
@@ -4073,35 +4207,49 @@
 				69ECC6101D50D1170030CF87 /* profilePhotoPlaceholder.png in Resources */,
 				69ECC6051D50D1170030CF87 /* OpenSans-Regular.ttf in Resources */,
 				1A03DEA31BBC72BA006783FB /* countries.json in Resources */,
+				B7715E0320C85D5F007F29D6 /* ethics@2x.png in Resources */,
 				E0DB52C920A1F36600150FF5 /* Default-Landscape-568h@2x.png in Resources */,
-				B7C5DBC320BC0C2300D80AD2 /* art.png in Resources */,
 				69ECC63F1D50D1170030CF87 /* icon_google_white@2x.png in Resources */,
+				B7715DD620C85D5F007F29D6 /* art@3x.png in Resources */,
 				69ECC6301D50D1170030CF87 /* ic_circle.png in Resources */,
+				B7715DF120C85D5F007F29D6 /* health@3x.png in Resources */,
 				69ECC64B1D50D1170030CF87 /* placeholderCourseCardImage.png in Resources */,
 				E021F46F1F739806007A26E7 /* Default-Portrait@2x~ipad.png in Resources */,
 				69ECC61F1D50D1170030CF87 /* bt_signin_active.png in Resources */,
+				B7715DFF20C85D5F007F29D6 /* data-science@2x.png in Resources */,
 				6960892B1D53935500EE66DD /* courseCertificate.png in Resources */,
+				B7715DF020C85D5F007F29D6 /* computer-science@3x.png in Resources */,
+				B7715E0A20C85D5F007F29D6 /* philosophy-ethics@2x.png in Resources */,
 				69ECC6071D50D1170030CF87 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				69ECC60C1D50D1170030CF87 /* Icon-40@3x.png in Resources */,
+				B7715E0120C85D5F007F29D6 /* architecture@2x.png in Resources */,
 				6926CDAB1D59BE3600A16E22 /* ic_next_press.png in Resources */,
 				BEEEBF80196AAACF00EF2C35 /* Localizable.strings in Resources */,
 				69ECC63A1D50D1170030CF87 /* ic_watched@2x.png in Resources */,
 				69ECC6061D50D1170030CF87 /* OpenSans-Semibold.ttf in Resources */,
 				22137E39203D5F2F005029F3 /* screen_2.png in Resources */,
+				B7715DFD20C85D5F007F29D6 /* humanities@2x.png in Resources */,
 				E039A8031F74C0D80064ABDB /* loginScreenImage~ipad.png in Resources */,
 				69ECC63B1D50D1170030CF87 /* ic_watched@3x.png in Resources */,
 				E0E27FC41EC46D4000D1AEFE /* test_screen_1.png in Resources */,
+				B7715E0D20C85D5F007F29D6 /* engineering@2x.png in Resources */,
 				E04A93291F13846B00D4615D /* InfoPlist.strings in Resources */,
 				19A1339519CAAC21003ADD24 /* OEXClosedCaptionTableViewCell.xib in Resources */,
+				B7715DF720C85D5F007F29D6 /* music@2x.png in Resources */,
 				805329101B0E80E50093B177 /* DiscussionResponses.storyboard in Resources */,
-				B7C5DBA920BC0C2300D80AD2 /* energy.png in Resources */,
+				B7715DFC20C85D5F007F29D6 /* energy@2x.png in Resources */,
 				22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */,
 				6960892D1D53935500EE66DD /* courseCertificate@3x.png in Resources */,
+				B7715DD920C85D5F007F29D6 /* economics-finance@3x.png in Resources */,
 				6926CDB11D59BE3600A16E22 /* ic_seek_thumb@2x.png in Resources */,
 				69ECC6351D50D1170030CF87 /* ic_next_default.png in Resources */,
+				B7715DF820C85D5F007F29D6 /* environmental-studies@2x.png in Resources */,
+				B7715E0B20C85D5F007F29D6 /* science@2x.png in Resources */,
 				B7CCC740209B1F9E00A66923 /* Default-375w-812h@3x.png in Resources */,
+				B7715DF920C85D5F007F29D6 /* math@2x.png in Resources */,
 				69ECC6311D50D1170030CF87 /* ic_download.png in Resources */,
 				69ECC6001D50D1170030CF87 /* OpenSans-ExtraBold.ttf in Resources */,
+				B7715E0520C85D5F007F29D6 /* design@2x.png in Resources */,
 				BD837BB91DC8D5D400341EFD /* Icon-76@2x.png in Resources */,
 				BD837BBB1DC8D5DF00341EFD /* Icon-40.png in Resources */,
 				69ECC60B1D50D1170030CF87 /* Icon-40@2x.png in Resources */,

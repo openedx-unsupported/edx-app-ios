@@ -40,7 +40,9 @@ class FindCoursesWebViewHelper: NSObject {
     let bottomBar: UIView?
     private var urlObservation: NSKeyValueObservation?
     private var subjectDiscoveryEnabled: Bool = false
-    private var popularSubjectsHeight: CGFloat = 125
+    private var popularSubjectsHeight: CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? 145 : 125
+    }
     
     init(environment: Environment?, delegate: FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
         self.environment = environment

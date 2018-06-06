@@ -61,7 +61,7 @@ class PopularSubjectsViewController: UIViewController {
             make.leading.equalTo(titleLabel).offset(-10)
             make.trailing.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp.bottom)
-            make.height.equalTo(90)
+            make.height.equalTo(SubjectCollectionViewCell.defaultHeight + 20)
             make.bottom.equalTo(view)
         }
     }
