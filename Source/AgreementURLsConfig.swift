@@ -7,7 +7,7 @@
 
 import Foundation
 
-private enum AgreementURLsKeys: String, RawStringExtractable {
+fileprivate enum AgreementURLsKeys: String, RawStringExtractable {
     case eulaURL = "EULA_URL"
     case tosURL = "TOS_URL"
     case privacyPolicyURL = "PRIVACY_POLICY_URL"

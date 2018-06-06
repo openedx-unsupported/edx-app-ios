@@ -108,8 +108,11 @@ class CropViewController: UIViewController {
         }
         tap.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(tap)
-        
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: false)
+
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
     }
   
     private func buildToolbar() -> UIToolbar {

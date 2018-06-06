@@ -15,7 +15,7 @@ enum EnrollmentType : String {
     case None = "none"
 }
 
-private enum EnrollmentKeys: String, RawStringExtractable {
+fileprivate enum EnrollmentKeys: String, RawStringExtractable {
     case CourseSearchURL = "COURSE_SEARCH_URL"
     case ExploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
     case CourseInfoURLTemplate = "COURSE_INFO_URL_TEMPLATE"

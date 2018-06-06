@@ -830,7 +830,7 @@ extension NSDate {
     
     private var shouldDisplayTimeSpan : Bool {
         let currentDate = NSDate()
-        return currentDate.days(from: self as Date!) < 7
+        return currentDate.days(from: self as Date?) < 7
     }
     
     public var displayDate : String {

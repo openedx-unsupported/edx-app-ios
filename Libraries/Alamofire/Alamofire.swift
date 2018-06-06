@@ -160,8 +160,8 @@ public enum ParameterEncoding {
     }
 
     func escape(_ string: String) -> String {
-        let legalURLCharactersToBeEscaped: CFString = ":&=;+!@#$()',*" as CFString
-        return CFURLCreateStringByAddingPercentEscapes(nil, string as CFString!, nil, legalURLCharactersToBeEscaped, CFStringBuiltInEncodings.UTF8.rawValue) as String
+        let characterSet = NSCharacterSet(charactersIn: ":&=;+!@#$()',*").inverted
+        return string.addingPercentEncoding(withAllowedCharacters: characterSet) ?? ""
     }
 }
 
@@ -385,7 +385,7 @@ open class Manager {
         public var sessionDidFinishEventsForBackgroundURLSession: ((Foundation.URLSession?) -> Void)?
 
         public func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-            sessionDidBecomeInvalidWithError?(session, error as NSError!)
+            sessionDidBecomeInvalidWithError?(session, error as NSError?)
         }
 
         public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -457,7 +457,7 @@ open class Manager {
 
         public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
             if taskDidComplete != nil {
-                taskDidComplete!(session, task, error as NSError!)
+                taskDidComplete!(session, task, error as NSError?)
             } else if let delegate = self[task] {
                 delegate.urlSession(session, task: task, didCompleteWithError: error)
 
@@ -1428,7 +1428,7 @@ extension Request {
 
             if encoding == nil {
                 if let encodingName = response?.textEncodingName {
-                    encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding(encodingName as CFString!)))
+                    encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringConvertIANACharSetNameToEncoding(encodingName as CFString?)))
                 }
             }
 

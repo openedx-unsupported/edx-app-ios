@@ -47,15 +47,15 @@ class SegmentAnalyticsTracker : NSObject, OEXAnalyticsTracker {
             context[key_open_in_browser] = browserURL
         }
         
-        var info : [String : AnyObject] = [
-            key_data : properties as AnyObject,
-            key_context : context as AnyObject,
-            key_name : event.name as AnyObject,
-            OEXAnalyticsKeyOrientation : currentOrientationValue as AnyObject
+        var info : [String : Any] = [
+            key_data : properties,
+            key_context : context,
+            key_name : event.name,
+            OEXAnalyticsKeyOrientation : currentOrientationValue
         ]
-        
-        info[GoogleCategoryKey] = event.category as AnyObject
-        info[GoogleLabelKey] = event.label as AnyObject
+
+        info[GoogleCategoryKey] = event.category
+        info[GoogleLabelKey] = event.label
 
         if let userID = OEXSession.shared()?.currentUser?.userId {
             info[AnalyticsEventDataKey.UserID.rawValue] = userID
