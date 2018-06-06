@@ -1,3 +1,7 @@
 ignore:
  - "Pods/.*" # ignore pods from code coverage
  - "Libraries/.*" # ignore third party libraries from code coverage
+
+patch:
+    default:
+    	enabled: no # disbaling patch coverage
