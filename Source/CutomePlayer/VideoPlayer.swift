@@ -8,6 +8,7 @@
 
 import UIKit
 import AVKit
+import CoreMedia
 
 private enum PlayerState {
     case playing,
