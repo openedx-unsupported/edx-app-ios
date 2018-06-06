@@ -8,6 +8,7 @@
 
 import UIKit
 import AVKit
+import AVFoundation
 
 //Apple recommends a convenient way of using AVPlayerLayer in iOS as the backing layer for a UIView, in this way we can update playerLayer constraints
 class PlayerView: UIView {
