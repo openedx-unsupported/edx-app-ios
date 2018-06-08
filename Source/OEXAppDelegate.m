@@ -93,25 +93,6 @@
     return [topController supportedInterfaceOrientations];
 }
 
-
-- (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
-    BOOL handled = false;
-    if (self.environment.config.facebookConfig.enabled) {
-        handled = [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
-        if(handled) {
-            return handled;
-        }
-
-    }
-    
-    if (self.environment.config.googleConfig.enabled){
-        handled = [[GIDSignIn sharedInstance] handleURL:url sourceApplication:sourceApplication annotation:annotation];
-        [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:YES];
-    }
-   
-    return handled;
-}
-
 // Respond to URI scheme links
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     // pass the url to the handle deep link call

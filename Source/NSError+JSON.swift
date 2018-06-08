@@ -18,7 +18,7 @@ enum APIErrorCode : String {
     case OAuth2NotProvided = "token_not_provided"
 }
 
-private enum ErrorFields: String, RawStringExtractable {
+fileprivate enum ErrorFields: String, RawStringExtractable {
     case Code = "error_code"
     case DeveloperMessage = "developer_message"
 }
