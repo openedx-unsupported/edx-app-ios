@@ -153,7 +153,7 @@ class VideoPlayerTests: XCTestCase {
     func testSubtitleLanguage() {
         let expectations = expectation(description: "player ready to play")
         loadVideoPlayer()
-        let removable = addNotificationObserver(observer: self, name: "TestNotificationForPlayerReadyStateVideoPlayer.swift") { (_, _, removable) -> Void in
+        let removable = addNotificationObserver(observer: self, name: "TestNotificationForPlayerReadyState") { (_, _, removable) -> Void in
             expectations.fulfill()
         }
         waitForExpectations()

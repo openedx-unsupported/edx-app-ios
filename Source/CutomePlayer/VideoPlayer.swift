@@ -251,7 +251,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 switch newStatus {
                 case .readyToPlay:
                     
-                    //This notification call specifically for test cases
+                    //This notification call specifically for test cases in readyToPlay state
                     perform(#selector(postNotification), with: nil, afterDelay: 0.5)
                     
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
