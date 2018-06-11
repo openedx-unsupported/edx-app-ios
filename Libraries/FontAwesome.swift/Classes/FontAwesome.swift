@@ -658,6 +658,6 @@ public enum FontAwesome: String {
 
 public extension String {
   public static func fontAwesomeIconWithName(name: FontAwesome) -> String {
-    return name.rawValue.substring(to: name.rawValue.characters.index(name.rawValue.startIndex, offsetBy: 1))
+    return name.rawValue.substring(to: name.rawValue.index(name.rawValue.startIndex, offsetBy: 1))
   }
 }

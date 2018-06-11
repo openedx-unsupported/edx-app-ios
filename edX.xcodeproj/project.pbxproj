@@ -124,6 +124,8 @@
 		22F6A15F20BD2D06009C3F4A /* String+DecodeHTMLEntitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */; };
 		22F8A9101F45EFAF0025E18A /* AccountViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */; };
 		22F8A9141F4708A50025E18A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22F8A9131F4708A50025E18A /* Main.storyboard */; };
+		3F92D6E420B1996800A69806 /* AgreementURLsConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */; };
+		3F92D6E620B19C9B00A69806 /* AgreementURLsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F92D6E520B19C9B00A69806 /* AgreementURLsConfig.swift */; };
 		46CECC3A1B041CDC0073C63A /* CourseCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC391B041CDC0073C63A /* CourseCardView.swift */; };
 		46CECC3C1B041D270073C63A /* AdditionalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3B1B041D270073C63A /* AdditionalTableViewCell.swift */; };
 		46CECC401B041FCA0073C63A /* DiscussionTopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46CECC3F1B041FCA0073C63A /* DiscussionTopicsViewController.swift */; };
@@ -1034,6 +1036,8 @@
 		22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+DecodeHTMLEntitiesTests.swift"; sourceTree = "<group>"; };
 		22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountViewControllerTest.swift; path = ../Source/AccountViewControllerTest.swift; sourceTree = "<group>"; };
 		22F8A9131F4708A50025E18A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AgreementURLsConfigTests.swift; path = Test/AgreementURLsConfigTests.swift; sourceTree = SOURCE_ROOT; };
+		3F92D6E520B19C9B00A69806 /* AgreementURLsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AgreementURLsConfig.swift; sourceTree = "<group>"; };
 		46CECC391B041CDC0073C63A /* CourseCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardView.swift; sourceTree = "<group>"; };
 		46CECC3B1B041D270073C63A /* AdditionalTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTableViewCell.swift; sourceTree = "<group>"; };
 		46CECC3D1B041FAF0073C63A /* DiscussionTopicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionTopicCell.swift; sourceTree = "<group>"; };
@@ -3099,6 +3103,7 @@
 		B44A52791A63E57A00943542 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				3F92D6E520B19C9B00A69806 /* AgreementURLsConfig.swift */,
 				7742F8DC1C3C979D009E555A /* EnrollmentConfig.swift */,
 				775434841AD73D1900635A40 /* OEXParseConfig.h */,
 				775434851AD73D1900635A40 /* OEXParseConfig.m */,
@@ -3582,6 +3587,7 @@
 		BECB7B331924C0C3009C77F1 /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */,
 				22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */,
 				E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */,
 				7768745A1CDCCB1E001DFB77 /* RemoteImageTests.swift */,
@@ -3967,7 +3973,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = edX;
 				TargetAttributes = {
 					77E6478D1C90C10300B6740D = {
@@ -4740,6 +4746,7 @@
 				77C182AC1CD2E60E00AE1474 /* StackPaginationManipulator.swift in Sources */,
 				5D7EACC81B3E202C000A6C36 /* DiscussionAPI.swift in Sources */,
 				77EA92261BB4590A00EC625A /* DownloadsAccessoryView.swift in Sources */,
+				3F92D6E620B19C9B00A69806 /* AgreementURLsConfig.swift in Sources */,
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
 				77C182AA1CD2E46900AE1474 /* TablePaginationManipulator.swift in Sources */,
 				0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */,
@@ -5029,6 +5036,7 @@
 				773181401B6C23F9000CC050 /* DiscussionTopic+DataFactory.swift in Sources */,
 				E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */,
 				77C6BBC81CB43A6D0026C37B /* TabContainerViewTests.swift in Sources */,
+				3F92D6E420B1996800A69806 /* AgreementURLsConfigTests.swift in Sources */,
 				223A5F201FA9AA8F008C9963 /* CourseDashboardViewControllerTests.swift in Sources */,
 				021AD6281F166F78009AF653 /* CourseCatalogDetailViewControllerTests.swift in Sources */,
 				770A27A11A6F172300DFC6FF /* OEXVideoSummaryTests.m in Sources */,
@@ -5194,12 +5202,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -5578,12 +5588,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -5634,12 +5646,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

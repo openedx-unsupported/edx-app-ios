@@ -13,9 +13,9 @@ public protocol ContentInsetsSourceDelegate : class {
 }
 
 public protocol ContentInsetsSource : class {
-    var currentInsets : UIEdgeInsets { get }
-    weak var insetsDelegate : ContentInsetsSourceDelegate? { get set }
-    var affectsScrollIndicators : Bool { get }
+    var currentInsets: UIEdgeInsets { get }
+    var insetsDelegate: ContentInsetsSourceDelegate? { get set }
+    var affectsScrollIndicators: Bool { get }
 }
 
 
