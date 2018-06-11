@@ -1,3 +1,4 @@
+
 //
 //  VideoPlayer.swift
 //  edX
@@ -11,8 +12,8 @@ import AVKit
 
 private enum PlayerState {
     case playing,
-         paused,
-         stop
+    paused,
+    stop
 }
 
 private let currentItemStatusKey = "currentItem.status"
@@ -41,7 +42,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
-    private let player = AVPlayer()
+    fileprivate let player = AVPlayer()
     private let loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
@@ -51,7 +52,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private var isObserverAdded: Bool = false
     private let playerTimeOutInterval:TimeInterval = 60.0
     private let preferredTimescale:Int32 = 100
-    fileprivate let fullScreenContainerView: UIView?
+    fileprivate var fullScreenContainerView: UIView?
     
     // UIPageViewController keep multiple viewControllers simultanously for smooth switching
     // on view transitioning this method calls for every viewController which cause framing issue for fullscreen mode
@@ -63,7 +64,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
     
-    private var video : OEXHelperVideoDownload? {
+    fileprivate var video : OEXHelperVideoDownload? {
         didSet {
             initializeSubtitles()
         }
@@ -117,7 +118,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         
         return gesture
     }()
-
+    
     private lazy var rightSwipeGestureRecognizer : UISwipeGestureRecognizer = {
         let gesture = UISwipeGestureRecognizer()
         gesture.direction = .right
@@ -130,7 +131,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     // Adding this accessibilityPlayerView for the player accessibility voice over
     private let accessibilityPlayerView : UIView = {
-       let view = UIView()
+        let view = UIView()
         view.backgroundColor = UIColor.clear
         
         return view
@@ -138,12 +139,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     init(environment : Environment) {
         self.environment = environment
-        if let keyWindow = UIApplication.shared.keyWindow {
-            fullScreenContainerView = keyWindow.rootViewController?.view
-        }
-        else {
-            fullScreenContainerView = UIApplication.shared.windows[0].rootViewController?.view
-        }
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -159,16 +155,16 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         createControls()
     }
     
-   private func addObservers() {
+    private func addObservers() {
         if !isObserverAdded {
             isObserverAdded = true
             player.addObserver(self, forKeyPath: currentItemPlaybackLikelyToKeepUpKey,
-                                    options: .new, context: &playbackLikelyToKeepUpContext)
+                               options: .new, context: &playbackLikelyToKeepUpContext)
             
-        
+            
             player.addObserver(self, forKeyPath: currentItemStatusKey,
-                                    options: .new, context: nil)
-        
+                               options: .new, context: nil)
+            
             let timeInterval: CMTime = CMTimeMakeWithSeconds(1.0, 10)
             timeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval, queue: DispatchQueue.main) { [weak self]
                 (elapsedTime: CMTime) -> Void in
@@ -179,7 +175,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 observer.pause()
                 observer.controls?.setPlayPauseButtonState(isSelected: true)
             }
-
+            
             NotificationCenter.default.oex_addObserver(observer: self, name: UIAccessibilityVoiceOverStatusChanged, action: { (_, observer, _) in
                 observer.voiceOverStatusChanged()
             })
@@ -199,18 +195,18 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-   private func createPlayer() {
+    private func createPlayer() {
         view.addSubview(playerView)
-
+        
         // Adding this accessibilityPlayerView just for the accibility voice over
         playerView.addSubview(accessibilityPlayerView)
         accessibilityPlayerView.isAccessibilityElement = true
         accessibilityPlayerView.accessibilityLabel = Strings.accessibilityVideo
-
+        
         playerView.playerLayer.player = player
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
         playerView.addSubview(loadingIndicatorView)
-
+        
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
         setConstraints()
     }
@@ -226,17 +222,17 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-   private func initializeSubtitles() {
+    private func initializeSubtitles() {
         if let video = video, transcriptManager == nil {
             transcriptManager = TranscriptManager(environment: environment, video: video)
             transcriptManager?.delegate = self
-
+            
             if let ccSelectedLanguage = OEXInterface.getCCSelectedLanguage(), let transcriptURL = video.summary?.transcripts?[ccSelectedLanguage] as? String, !ccSelectedLanguage.isEmpty, !transcriptURL.isEmpty {
                 controls?.activateSubTitles()
             }
         }
     }
-
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         playerView.frame = view.bounds
@@ -254,6 +250,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber, let newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.intValue) {
                 switch newStatus {
                 case .readyToPlay:
+                    
+                    //This notification call specifically for test cases
+                    perform(#selector(postNotification), with: nil, afterDelay: 0.5)
+                    
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
                     controls?.isTapButtonHidden = false
                     break
@@ -266,6 +266,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 }
             }
         }
+    }
+    
+    @objc private func postNotification() {
+        //This notification call specifically for test cases in readyToPlay state
+        NotificationCenter.default.post(name: Notification.Name.init("TestNotificationForPlayerReadyState"), object: nil)
     }
     
     private func setConstraints() {
@@ -294,7 +299,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-     func play(video : OEXHelperVideoDownload) {
+    func play(video : OEXHelperVideoDownload) {
         guard let videoURL = video.summary?.videoURL, var url = URL(string: videoURL) else {
             return
         }
@@ -335,10 +340,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                     self?.player.removeTimeObserver(observer)
                 }
             }
-        } as AnyObject
+            } as AnyObject
     }
     
-   @objc private func movieTimedOut() {
+    @objc private func movieTimedOut() {
         stop()
         playerDelegate?.playerDidTimeout(videoPlayer: self)
     }
@@ -408,7 +413,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-   private func removeObservers() {
+    private func removeObservers() {
         if isObserverAdded {
             if let observer = timeObserver {
                 player.removeTimeObserver(observer)
@@ -532,11 +537,20 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed) {
-        let oldSpeed = rate
+    func setVideoSpeed(speed: OEXVideoSpeed) {
         pause()
         OEXInterface.setCCSelectedPlaybackSpeed(speed)
         resume()
+    }
+    
+    func hideAndShowControls(isHidden: Bool) {
+        controls?.hideAndShowControls(isHidden: isHidden)
+    }
+    
+    // MARK: VideoPlayer Controls Delegate Methods
+    func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed) {
+        let oldSpeed = rate
+        setVideoSpeed(speed: speed)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSpeed(videoId, currentTime: currentTime, courseID: courseId, unitURL: unitUrl, oldSpeed: String(format: "%.1f", oldSpeed), newSpeed: String.init(format: "%.1f", rate))
@@ -555,10 +569,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 environment.analytics.trackTranscriptLanguage(videoId, currentTime: currentTime, language: language, courseID: courseId, unitURL: unitUrl)
             }
         }
-    }
-    
-    func hideAndShowControls(isHidden: Bool) {
-        controls?.hideAndShowControls(isHidden: isHidden)
     }
     
     deinit {
@@ -585,9 +595,19 @@ extension VideoPlayer {
         isFullScreen = fullscreen
         if fullscreen {
             
+            if let keyWindow = UIApplication.shared.keyWindow {
+                fullScreenContainerView = keyWindow.rootViewController?.view
+            }
+            else {
+                fullScreenContainerView = UIApplication.shared.windows[0].rootViewController?.view
+            }
+            
+            
             if movieBackgroundView.frame == .zero {
                 movieBackgroundView.frame = movieBackgroundFrame
             }
+            
+            
             if let subviews = fullScreenContainerView?.subviews, !subviews.contains(movieBackgroundView){
                 fullScreenContainerView?.addSubview(movieBackgroundView)
             }
@@ -645,17 +665,54 @@ extension VideoPlayer {
         
         if animated {
             UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
-                    if let weakSelf = self {
-                        weakSelf.movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
-                        weakSelf.movieBackgroundView.frame = weakSelf.movieBackgroundFrame
-                        weakSelf.view.frame = movieFrame
-                    }
+                if let weakSelf = self {
+                    weakSelf.movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
+                    weakSelf.movieBackgroundView.frame = weakSelf.movieBackgroundFrame
+                    weakSelf.view.frame = movieFrame
+                }
                 }, completion: nil)
         }
         else {
             movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
             movieBackgroundView.frame = movieBackgroundFrame
             view.frame = movieFrame
+        }
+    }
+}
+
+// Specific for test cases
+extension VideoPlayer {
+    var t_controls : VideoPlayerControls? {
+        return controls
+    }
+    
+    var t_video : OEXHelperVideoDownload? {
+        return video
+    }
+    
+    var t_playerCurrentState : AVPlayerItemStatus {
+        return player.currentItem?.status ?? .unknown
+    }
+    
+    var t_playBackSpeed : OEXVideoSpeed {
+        set {
+            setVideoSpeed(speed: newValue)
+        }
+        get {
+            return OEXInterface.getCCSelectedPlaybackSpeed()
+        }
+    }
+    
+    var t_subtitleActivated: Bool {
+        return controls?.t_subtitleActivated ?? false
+    }
+    
+    var t_captionLanguage: String {
+        set {
+            controls?.setCaption(language: newValue)
+        }
+        get {
+            return OEXInterface.getCCSelectedLanguage() ?? "en"
         }
     }
 }
