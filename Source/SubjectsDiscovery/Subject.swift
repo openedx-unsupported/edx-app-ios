@@ -21,10 +21,10 @@ public class Subject {
     let type: SubjectType
     
     init?(with json: JSON) {
-        guard let name = json[Keys.name].string,
-            let imageName = json[Keys.imageName].string,
-            let filter = json[Keys.filter].string,
-            let type = json[Keys.type].string,
+        guard let name = json["name"].string,
+            let imageName = json["image_name"].string,
+            let filter = json["filter"].string,
+            let type = json["type"].string,
             let subjectType = SubjectType(rawValue: type) else {
             return nil
         }
@@ -35,12 +35,6 @@ public class Subject {
         self.type = subjectType
     }
     
-    private enum Keys {
-        static let name = "name"
-        static let imageName = "image_name"
-        static let filter = "filter"
-        static let type = "type"
-    }
 }
 
 private let FileName = "subjects"
@@ -53,13 +47,13 @@ public class SubjectDataModel {
     
     init(fileName name: String? = FileName) {
         do {
-            if let subjectsJSON = try loadJSON(jsonFile: name ?? FileName).array {
-                for json in subjectsJSON {
-                    if let subject = Subject(with: json) {
-                        subjects.append(subject)
-                    }
+            guard let json = try loadJSON(jsonFile: name ?? FileName).array else { return }
+            for object in json {
+                if let subject = Subject(with: object) {
+                    subjects.append(subject)
                 }
             }
+            
         } catch {
             //Assert to crash on development
             assert(false, "Unable to load \(String(describing: name)).json")

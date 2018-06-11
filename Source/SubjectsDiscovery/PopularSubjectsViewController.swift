@@ -19,15 +19,26 @@ class PopularSubjectsViewController: UIViewController {
         return label
     }()
     
-    lazy var collectionView: PopularSubjectsCollectionView = {
+    fileprivate lazy var collectionView: PopularSubjectsCollectionView = {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let defaultMargin = SubjectCollectionViewCell.defaultMargin
+        layout.sectionInset = UIEdgeInsets(top: defaultMargin, left: defaultMargin, bottom: defaultMargin, right: defaultMargin)
         layout.itemSize = CGSize(width: SubjectCollectionViewCell.defaultWidth, height: SubjectCollectionViewCell.defaultHeight)
         layout.scrollDirection = .horizontal
         let collectionView = PopularSubjectsCollectionView(with: SubjectDataModel(), collectionViewLayout: layout)
         collectionView.accessibilityIdentifier = "PopularSubjectsViewController:collection-view"
         return collectionView
     }()
+    
+    var subjectsDelegate: SubjectsCollectionViewDelegate? {
+        get {
+            return collectionView.subjectsDelegate
+        }
+        set {
+            collectionView.subjectsDelegate = newValue
+        }
+    }
+    
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -58,10 +69,10 @@ class PopularSubjectsViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.leading.equalTo(titleLabel).offset(-10)
+            make.leading.equalTo(titleLabel).offset(-SubjectCollectionViewCell.defaultMargin)
             make.trailing.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp.bottom)
-            make.height.equalTo(SubjectCollectionViewCell.defaultHeight + 20)
+            make.height.equalTo(SubjectCollectionViewCell.defaultHeight + 2 * SubjectCollectionViewCell.defaultMargin)
             make.bottom.equalTo(view)
         }
     }

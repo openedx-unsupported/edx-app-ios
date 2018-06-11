@@ -12,7 +12,7 @@ class SubjectsViewController: UIViewController {
     
     typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
     
-    lazy var searchBar: UISearchBar = {
+    private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.delegate = self
         searchBar.accessibilityIdentifier = "SubjectsViewController:search-bar"
@@ -20,7 +20,7 @@ class SubjectsViewController: UIViewController {
         return searchBar
     }()
     
-    lazy var collectionView: SubjectsCollectionView = {
+    fileprivate lazy var collectionView: SubjectsCollectionView = {
         let collectionView = SubjectsCollectionView(with: SubjectDataModel(), collectionViewLayout: self.subjectsLayout)
         collectionView.accessibilityIdentifier = "SubjectsViewController:collection-view"
         collectionView.subjectsDelegate = self
@@ -90,8 +90,8 @@ class SubjectsViewController: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.leading.equalTo(safeLeading)
-            make.trailing.equalTo(safeTrailing)
+            make.leading.equalTo(searchBar)
+            make.trailing.equalTo(searchBar)
             make.bottom.equalTo(safeBottom)
         }
     }
@@ -103,10 +103,11 @@ class SubjectsViewController: UIViewController {
     
     private var subjectsLayout: UICollectionViewLayout {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let defaultMargin = SubjectCollectionViewCell.defaultMargin
+        layout.sectionInset = UIEdgeInsets(top: defaultMargin, left: defaultMargin, bottom: defaultMargin, right: defaultMargin)
         layout.scrollDirection = .vertical
         let noOfCells: CGFloat = isVerticallyCompact() ? 3 : 2
-        let itemWidth = (view.frame.width - noOfCells * 20) / noOfCells
+        let itemWidth = (view.frame.width - noOfCells * 2 * defaultMargin) / noOfCells
         layout.itemSize = CGSize(width: itemWidth, height: SubjectCollectionViewCell.defaultHeight)
         return layout
     }
@@ -119,9 +120,6 @@ class SubjectsViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-}
-
-extension SubjectsViewController: InterfaceOrientationOverriding {
     override var shouldAutorotate: Bool {
         return true
     }
@@ -129,6 +127,20 @@ extension SubjectsViewController: InterfaceOrientationOverriding {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
     }
+    
+    private func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        collectionView.snp.updateConstraints { make in
+            make.bottom.equalTo(safeBottom).offset(-keyboardSize.height)
+        }
+    }
+    
+    private func keyboardWillHide(notification: NSNotification) {
+        collectionView.snp.updateConstraints { make in
+            make.bottom.equalTo(safeBottom)
+        }
+    }
+    
 }
 
 extension SubjectsViewController: UISearchBarDelegate {
@@ -155,26 +167,8 @@ extension SubjectsViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: Keyboard Handling
-extension SubjectsViewController {
-    fileprivate func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            collectionView.snp.updateConstraints { make in
-                make.bottom.equalTo(safeBottom).offset(-keyboardSize.height)
-            }
-        }
-    }
-    
-    fileprivate func keyboardWillHide(notification: NSNotification) {
-        collectionView.snp.updateConstraints { make in
-            make.bottom.equalTo(safeBottom)
-        }
-    }
-}
-
 extension SubjectsViewController: SubjectsCollectionViewDelegate {
     func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
-        hideKeyboard()
         subjectsDelegate?.subjectsCollectionView(collectionView, didSelect: subject)
         navigationController?.popViewController(animated: true)
     }

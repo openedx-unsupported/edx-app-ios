@@ -23,7 +23,7 @@
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "By";
 /* Accessibility hint for subject name label */
-"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {name}";
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {subject_name}";
 /* Accessibility hint for bulk download switch when in new state */
 "ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Toggling the switch on, will download all videos of this course";
 /* Accessibility hint for bulk download switch when in new partial or downloading state */

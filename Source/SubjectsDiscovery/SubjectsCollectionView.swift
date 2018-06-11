@@ -10,23 +10,23 @@ import UIKit
 
 protocol SubjectsCollectionViewDelegate: class {
     func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject)
-    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, showAllSubjects: Bool)
+    func didSelectViewAllSubjects(_ collectionView: SubjectsCollectionView)
 }
 extension SubjectsCollectionViewDelegate {
-    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, showAllSubjects: Bool) {
+    func didSelectViewAllSubjects(_ collectionView: SubjectsCollectionView) {
         //this is a empty implementation to allow this method to be optional
     }
 }
 
 class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var subjectDataModel: SubjectDataModel?
-    var subjects: [Subject] = []
+    fileprivate var dataModel: SubjectDataModel?
+    fileprivate var subjects: [Subject] = []
     var filteredSubjects: [Subject] = []
     weak var subjectsDelegate: SubjectsCollectionViewDelegate?
     
-    init(with subjectDataModel: SubjectDataModel, collectionViewLayout layout: UICollectionViewLayout) {
-        self.subjectDataModel = subjectDataModel
+    init(with dataModel: SubjectDataModel, collectionViewLayout layout: UICollectionViewLayout) {
+        self.dataModel = dataModel
         super.init(frame: .zero, collectionViewLayout: layout)
         setup()
     }
@@ -42,14 +42,14 @@ class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
         delegate = self
         dataSource = self
         loadSubjects()
-        reloadData()
         backgroundColor = .clear
     }
     
     func loadSubjects() {
-        guard let subjectDataModel = subjectDataModel else { return }
-        subjects = subjectDataModel.subjects
+        guard let dataModel = dataModel else { return }
+        subjects = dataModel.subjects
         filteredSubjects = subjects
+        reloadData()
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -80,8 +80,8 @@ class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
 class PopularSubjectsCollectionView: SubjectsCollectionView {
     
     override func loadSubjects() {
-        guard let subjectDataModel = subjectDataModel else { return }
-        subjects = subjectDataModel.popularSubjects
+        guard let dataModel = dataModel else { return }
+        subjects = dataModel.popularSubjects
         filteredSubjects = subjects
     }
     
@@ -99,7 +99,7 @@ class PopularSubjectsCollectionView: SubjectsCollectionView {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row >= filteredSubjects.count {
-            subjectsDelegate?.subjectsCollectionView(self, showAllSubjects: true)
+            subjectsDelegate?.didSelectViewAllSubjects(self)
         }
         else {
             super.collectionView(collectionView, didSelectItemAt: indexPath)

@@ -16,18 +16,18 @@ class SubjectCollectionViewCell: UICollectionViewCell {
     static var defaultWidth: CGFloat {
         return UIDevice.current.userInterfaceIdiom == .pad ? 200 : 150
     }
+    static let defaultMargin: CGFloat = 10
     
     private(set) var subject: Subject? {
         didSet {
-            
-            let subjectNameStyle = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
-            subjectNameStyle.alignment = .center
-            imageView.image = subject?.image ?? nil
-            subjectNameLabel.attributedText = subjectNameStyle.attributedString(withText: subject?.name ?? "")
+            let style = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
+            style.alignment = .center
+            imageView.image = subject?.image
+            nameLabel.attributedText = style.attributedString(withText: subject?.name ?? "")
         }
     }
     
-    lazy var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 5
         imageView.contentMode = .scaleAspectFill
@@ -36,7 +36,7 @@ class SubjectCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    lazy var subjectNameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.accessibilityIdentifier = "SubjectCollectionViewCell:subject-name-label"
         label.numberOfLines = 0
@@ -54,7 +54,7 @@ class SubjectCollectionViewCell: UICollectionViewCell {
     
     private func addSubviews() {
         contentView.addSubview(imageView)
-        contentView.addSubview(subjectNameLabel)
+        contentView.addSubview(nameLabel)
         setConstraints()
     }
     
@@ -66,16 +66,16 @@ class SubjectCollectionViewCell: UICollectionViewCell {
             make.center.equalToSuperview()
         }
         
-        subjectNameLabel.snp.makeConstraints { make in
-            make.height.lessThanOrEqualToSuperview().offset(StandardHorizontalMargin)
-            make.width.equalTo(imageView).inset(StandardVerticalMargin)
+        nameLabel.snp.makeConstraints { make in
+            make.height.lessThanOrEqualToSuperview().offset(StandardVerticalMargin)
+            make.width.equalTo(imageView).inset(StandardHorizontalMargin)
             make.center.equalTo(imageView)
         }
     }
     
     func configure(subject: Subject) {
         self.subject = subject
-        subjectNameLabel.accessibilityHint = Strings.Accessibility.browserBySubjectHint(name: subject.name)
+        nameLabel.accessibilityHint = Strings.Accessibility.browserBySubjectHint(subjectName: subject.name)
     }
     
 }

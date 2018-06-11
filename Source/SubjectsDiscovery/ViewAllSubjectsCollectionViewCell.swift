@@ -15,9 +15,9 @@ class ViewAllSubjectsCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.accessibilityIdentifier = "ViewAllSubjectsCollectionViewCell:view-all-subjects-label"
         label.accessibilityHint = Strings.Accessibility.viewAllSubjectsHint
-        let viewAllSubjectsStyle = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
-        viewAllSubjectsStyle.alignment = .center
-        label.attributedText = viewAllSubjectsStyle.attributedString(withText: Strings.viewAllSubjects)
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
+        style.alignment = .center
+        label.attributedText = style.attributedString(withText: Strings.viewAllSubjects)
         label.numberOfLines = 0
         return label
     }()
@@ -40,8 +40,8 @@ class ViewAllSubjectsCollectionViewCell: UICollectionViewCell {
     
     private func setConstraints() {
         viewAllSubjectsLabel.snp.makeConstraints { make in
-            make.height.lessThanOrEqualToSuperview().offset(StandardHorizontalMargin)
-            make.width.lessThanOrEqualTo(contentView).inset(StandardVerticalMargin)
+            make.height.lessThanOrEqualToSuperview().offset(StandardVerticalMargin)
+            make.width.lessThanOrEqualTo(contentView).inset(StandardHorizontalMargin)
             make.center.equalToSuperview()
         }
     }
