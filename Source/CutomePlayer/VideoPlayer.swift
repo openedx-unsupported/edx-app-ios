@@ -12,8 +12,8 @@ import AVKit
 
 private enum PlayerState {
     case playing,
-    paused,
-    stop
+         paused,
+         stop
 }
 
 private let currentItemStatusKey = "currentItem.status"
