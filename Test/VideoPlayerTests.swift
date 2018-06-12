@@ -122,11 +122,11 @@ class VideoPlayerTests: XCTestCase {
         loadVideoPlayer()
         let removable = addNotificationObserver(observer: self, name: "TestNotificationForPlayerReadyState") { (_, _, removable) -> Void in
             expectations.fulfill()
+            self.videoPlayer.seek(to: 5.0)
         }
         waitForExpectations()
         removable.remove()
-        videoPlayer.seek(to: 5.0)
-        
+
         // we have to give margin of at least 3-4 seconds as if we seek the video
         // backward or forward at specific time the player actually start to run
         // maximum or minimum 3-4 seconds before or after.
