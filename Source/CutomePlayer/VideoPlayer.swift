@@ -252,7 +252,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 case .readyToPlay:
                     
                     //This notification call specifically for test cases in readyToPlay state
-                    perform(#selector(postNotification), with: nil, afterDelay: 0.5)
+                    perform(#selector(postNotification), with: nil, afterDelay: 1.0)
                     
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
                     controls?.isTapButtonHidden = false
