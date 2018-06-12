@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SubjectsViewControllerDelegate: class {
+    func subjectsViewController(_ controller: SubjectsViewController, didSelect subject: Subject)
+}
+
 class SubjectsViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
@@ -16,7 +20,7 @@ class SubjectsViewController: UIViewController, InterfaceOrientationOverriding {
         let searchBar = UISearchBar()
         searchBar.delegate = self
         searchBar.accessibilityIdentifier = "SubjectsViewController:search-bar"
-        searchBar.placeholder = Strings.subjectSearchBarPlaceholder
+        searchBar.placeholder = Strings.Discovery.subjectSearchBarPlaceholder
         return searchBar
     }()
     
@@ -33,7 +37,7 @@ class SubjectsViewController: UIViewController, InterfaceOrientationOverriding {
         }
     }
     fileprivate let subjects = SubjectDataModel().subjects
-    weak var subjectsDelegate: SubjectsCollectionViewDelegate?
+    weak var delegate: SubjectsViewControllerDelegate?
     private let environment: Environment
     
     init(environment: Environment) {
@@ -50,8 +54,7 @@ class SubjectsViewController: UIViewController, InterfaceOrientationOverriding {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = environment.styles.neutralWhite()
-        navigationItem.title = Strings.browseBySubject
-        collectionView.reloadData()
+        navigationItem.title = Strings.Discovery.browseBySubject
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -152,7 +155,7 @@ extension SubjectsViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filter(with: searchText)
-        searchBar.accessibilityLabel = searchText.isEmpty ? Strings.subjectSearchBarPlaceholder : searchText
+        searchBar.accessibilityLabel = searchText.isEmpty ? Strings.Discovery.subjectSearchBarPlaceholder : searchText
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -174,7 +177,7 @@ extension SubjectsViewController: UISearchBarDelegate {
 
 extension SubjectsViewController: SubjectsCollectionViewDelegate {
     func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
-        subjectsDelegate?.subjectsCollectionView(collectionView, didSelect: subject)
+        delegate?.subjectsViewController(self, didSelect: subject)
         navigationController?.popViewController(animated: true)
     }
 }

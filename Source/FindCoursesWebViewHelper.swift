@@ -67,23 +67,21 @@ class FindCoursesWebViewHelper: NSObject {
             make.edges.equalTo(container.safeEdges)
         }
         loadController.setupInController(controller: container, contentView: contentView)
-        refresh()
+        refreshView()
     }
     
-    @objc func refresh() {
+    @objc func refreshView() {
         guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else { return }
-        urlObservation?.invalidate()
         contentView.subviews.forEach { $0.removeFromSuperview() }
-        
         let isUserLoggedIn = environment?.session.currentUser != nil
-        
+
         subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && isUserLoggedIn && showSubjects
-        
+
         var topConstraintItem: ConstraintItem = contentView.snp.top
         if searchBarEnabled {
             searchBar.delegate = self
             contentView.addSubview(searchBar)
-            
+
             searchBar.snp.makeConstraints{ make in
                 make.leading.equalTo(contentView)
                 make.trailing.equalTo(contentView)
@@ -91,27 +89,21 @@ class FindCoursesWebViewHelper: NSObject {
             }
             topConstraintItem = searchBar.snp.bottom
         }
-        
+
         if subjectDiscoveryEnabled {
             container.addChildViewController(subjectsController)
             contentView.addSubview(subjectsController.view)
             subjectsController.didMove(toParentViewController: container)
-            
-            // Add observation.
-            urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
-                self?.updateSubjectsVisibility()
-            })
-            
-            subjectsController.view.snp.makeConstraints { make in
+            subjectsController.view.snp.remakeConstraints { make in
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView)
                 make.top.equalTo(topConstraintItem)
                 make.height.equalTo(subjectsViewHeight)
             }
-            
+
             topConstraintItem = subjectsController.view.snp.bottom
         }
-        
+
         contentView.addSubview(webView)
         if let bar = bottomBar, !isUserLoggedIn {
             contentView.addSubview(bar)
@@ -121,22 +113,38 @@ class FindCoursesWebViewHelper: NSObject {
                 make.bottom.equalTo(contentView)
             }
         }
-        
+
         webView.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(container.safeBottom)
+            make.bottom.equalTo(contentView)
             make.top.equalTo(topConstraintItem)
+        }
+
+        addObserver()
+    }
+    
+    private func addObserver() {
+        if subjectDiscoveryEnabled {
+            // Add observation.
+            urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
+                self?.updateSubjectsVisibility()
+            })
         }
     }
     
     @objc func updateSubjectsVisibility() {
-        let hideSubjectsView = isiPhoneAndVerticallyCompact || isWebViewQueriedSubjects
-        let height: CGFloat = hideSubjectsView ? 0 : subjectsViewHeight
-        subjectsController.view.snp.updateConstraints() { make in
-            make.height.equalTo(height)
+        if contentView.subviews.contains(subjectsController.view) {
+            let hideSubjectsView = isiPhoneAndVerticallyCompact || isWebViewQueriedSubject
+            let height: CGFloat = hideSubjectsView ? 0 : subjectsViewHeight
+            subjectsController.view.snp.remakeConstraints { make in
+                make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
+                make.trailing.equalTo(contentView)
+                make.top.equalTo(searchBarEnabled ? searchBar.snp.bottom : contentView)
+                make.height.equalTo(height)
+            }
+            subjectsController.view.isHidden = hideSubjectsView
         }
-        subjectsController.view.isHidden = hideSubjectsView
     }
     
     private var isiPhoneAndVerticallyCompact: Bool {
@@ -144,7 +152,7 @@ class FindCoursesWebViewHelper: NSObject {
         return container.isVerticallyCompact() && UIDevice.current.userInterfaceIdiom == .phone
     }
     
-    private var isWebViewQueriedSubjects: Bool {
+    private var isWebViewQueriedSubject: Bool {
         guard let url = webView.url?.absoluteString else { return false }
         return url.contains(find: "\(QueryParameterKeys.subject)=")
     }
@@ -246,9 +254,9 @@ extension FindCoursesWebViewHelper: WKNavigationDelegate {
     }
 }
 
-extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate, PopularSubjectsViewControllerDelegate {
+extension FindCoursesWebViewHelper: SubjectsViewControllerDelegate, PopularSubjectsViewControllerDelegate {
     
-    private func filter(with subject: Subject) {
+    private func filterCourses(with subject: Subject) {
         guard let searchURL = searchBaseURL,
             var params = params else { return }
         set(value: subject.filter, for: QueryParameterKeys.subject, in: &params)
@@ -261,23 +269,19 @@ extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate, PopularSubje
     private func viewAllSubjects() {
         guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else { return }
         environment?.analytics.trackSubjectDiscovery(subjectID: "View All Subjects")
-        environment?.router?.showAllSubjects(from: container, subjectDelegate: self)
+        environment?.router?.showAllSubjects(from: container, delegate: self)
     }
     
-    func popularSubjectsViewController(controller viewController: PopularSubjectsViewController, didSelect subject: Subject) {
-        filter(with: subject)
+    func popularSubjectsViewController(_ viewController: PopularSubjectsViewController, didSelect subject: Subject) {
+        filterCourses(with: subject)
     }
     
-    func didSelectViewAllSubjects(controller viewController: PopularSubjectsViewController) {
+    func didSelectViewAllSubjects(_ viewController: PopularSubjectsViewController) {
         viewAllSubjects()
     }
     
-    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
-        filter(with: subject)
-    }
-    
-    func didSelectViewAllSubjects(_ collectionView: SubjectsCollectionView) {
-        viewAllSubjects()
+    func subjectsViewController(_ controller: SubjectsViewController, didSelect subject: Subject) {
+        filterCourses(with: subject)
     }
     
 }

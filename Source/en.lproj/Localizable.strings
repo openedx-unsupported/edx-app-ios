@@ -212,8 +212,6 @@
 "APP_REVIEW.MESSAGE_SUBJECT" = "Customer Review";
 /*Asteric for marking fields required*/
 "ASTERIC" = "*";
-/*Text for browse by subject label on subject discovery */
-"BROWSE_BY_SUBJECT" = "Browse By Subject";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
 "BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
@@ -322,6 +320,12 @@
 "DASHBOARD.COURSE_IMPORTANT_DATES"="Dates";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Keep track of deadlines and stay on track";
+/*Text for browse by subject label on subject discovery */
+"DISCOVERY.BROWSE_BY_SUBJECT" = "Browse By Subject";
+/*Placeholder text for subjects searchbar*/
+"DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
+/*Label text for view all subjects cell*/
+"DISCOVERY.VIEW_ALL_SUBJECTS" = "View All Subjects";
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="due today at {due_date} {time_zone}";
 /* Text describing the course due date*/
@@ -691,8 +695,6 @@
 "STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Create your Account";
 /* Explore Subjects button text on the first screen */
 "STARTUP_EXPLORE_SUBJECTS"="Explore Subjects";
-/*Placeholder text for subjects searchbar*/
-"SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
 /* Button allowing user to submit feedback about the app via email */
 "SUBMIT_FEEDBACK.OPTION_TITLE" = "Submit Feedback";
 /* Support message email title */
@@ -775,8 +777,6 @@
 "VIEW" = "View";
 /* Button linking to course announcements */
 "VIEW_HANDOUTS" = "View course handouts";
-/*Label text for view all subjects cell*/
-"VIEW_ALL_SUBJECTS" = "View All Subjects";
 /* Discussion vote - {count} is a number of votes */
 "VOTE##{one}"="{count} Vote";
 /* Discussion vote - {count} is a number of votes */

@@ -9,8 +9,8 @@
 import UIKit
 
 protocol PopularSubjectsViewControllerDelegate: class {
-    func popularSubjectsViewController(controller viewController: PopularSubjectsViewController, didSelect subject: Subject)
-    func didSelectViewAllSubjects(controller viewController: PopularSubjectsViewController)
+    func popularSubjectsViewController(_ controller: PopularSubjectsViewController, didSelect subject: Subject)
+    func didSelectViewAllSubjects(_ viewController: PopularSubjectsViewController)
 }
 
 class PopularSubjectsViewController: UIViewController, SubjectsCollectionViewDelegate {
@@ -20,7 +20,7 @@ class PopularSubjectsViewController: UIViewController, SubjectsCollectionViewDel
         label.accessibilityIdentifier = "PopularSubjectsViewController:title-label"
         label.numberOfLines = 0
         let titleStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
-        label.attributedText = titleStyle.attributedString(withText: Strings.browseBySubject)
+        label.attributedText = titleStyle.attributedString(withText: Strings.Discovery.browseBySubject)
         return label
     }()
     
@@ -63,7 +63,6 @@ class PopularSubjectsViewController: UIViewController, SubjectsCollectionViewDel
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             make.top.equalTo(view).offset(StandardVerticalMargin)
-            make.height.equalTo(25)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -74,12 +73,12 @@ class PopularSubjectsViewController: UIViewController, SubjectsCollectionViewDel
             make.bottom.equalTo(view)
         }
     }
-    
+    // MARK: SubjectsCollectionViewDelegate
     func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
-        delegate?.popularSubjectsViewController(controller: self, didSelect: subject)
+        delegate?.popularSubjectsViewController(self, didSelect: subject)
     }
     
     func didSelectViewAllSubjects(_ collectionView: SubjectsCollectionView) {
-        delegate?.didSelectViewAllSubjects(controller: self)
+        delegate?.didSelectViewAllSubjects(self)
     }
 }

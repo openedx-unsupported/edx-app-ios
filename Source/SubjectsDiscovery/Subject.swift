@@ -16,7 +16,7 @@ enum SubjectType: String {
 public class Subject {
     
     let name: String
-    let image: UIImage
+    private(set) var image: UIImage?
     let filter: String
     let type: SubjectType
     
@@ -29,7 +29,7 @@ public class Subject {
             return nil
         }
         
-        image = UIImage(named: imageName) ?? #imageLiteral(resourceName: "logo.png")
+        image = UIImage(named: imageName)
         self.name = name
         self.filter = filter
         self.type = subjectType

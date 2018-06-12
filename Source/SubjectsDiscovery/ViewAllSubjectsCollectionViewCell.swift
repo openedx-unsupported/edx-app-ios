@@ -11,13 +11,13 @@ import UIKit
 class ViewAllSubjectsCollectionViewCell: UICollectionViewCell {
     static let identifier = "ViewAllSubjectsCollectionViewCell"
     
-    lazy var viewAllSubjectsLabel: UILabel = {
+    private lazy var subjectsLabel: UILabel = {
         let label = UILabel()
         label.accessibilityIdentifier = "ViewAllSubjectsCollectionViewCell:view-all-subjects-label"
         label.accessibilityHint = Strings.Accessibility.viewAllSubjectsHint
         let style = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
         style.alignment = .center
-        label.attributedText = style.attributedString(withText: Strings.viewAllSubjects)
+        label.attributedText = style.attributedString(withText: Strings.Discovery.viewAllSubjects)
         label.numberOfLines = 0
         return label
     }()
@@ -34,12 +34,12 @@ class ViewAllSubjectsCollectionViewCell: UICollectionViewCell {
     }
     
     private func addSubviews() {
-        contentView.addSubview(viewAllSubjectsLabel)
+        contentView.addSubview(subjectsLabel)
         setConstraints()
     }
     
     private func setConstraints() {
-        viewAllSubjectsLabel.snp.makeConstraints { make in
+        subjectsLabel.snp.makeConstraints { make in
             make.height.lessThanOrEqualToSuperview().offset(StandardVerticalMargin)
             make.width.lessThanOrEqualTo(contentView).inset(StandardHorizontalMargin)
             make.center.equalToSuperview()
