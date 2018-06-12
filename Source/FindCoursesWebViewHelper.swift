@@ -38,6 +38,8 @@ class FindCoursesWebViewHelper: NSObject {
     var searchBaseURL: URL?
     fileprivate let searchQuery:String?
     let bottomBar: UIView?
+    private let searchBarEnabled: Bool
+    private let showSubjects: Bool
     private var urlObservation: NSKeyValueObservation?
     private var subjectDiscoveryEnabled: Bool = false
     private var subjectsViewHeight: CGFloat {
@@ -52,6 +54,8 @@ class FindCoursesWebViewHelper: NSObject {
         self.delegate = delegate
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
+        self.showSubjects = showSubjects
+        searchBarEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.nativeSearchBarEnabled ?? false) && showSearch
         super.init()
         webView.navigationDelegate = self
         webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
@@ -63,9 +67,17 @@ class FindCoursesWebViewHelper: NSObject {
             make.edges.equalTo(container.safeEdges)
         }
         loadController.setupInController(controller: container, contentView: contentView)
+        refresh()
+    }
+    
+    @objc func refresh() {
+        guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else { return }
+        urlObservation?.invalidate()
+        contentView.subviews.forEach { $0.removeFromSuperview() }
         
-        let searchBarEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.nativeSearchBarEnabled ?? false) && showSearch
-        subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && environment?.session.currentUser != nil && showSubjects
+        let isUserLoggedIn = environment?.session.currentUser != nil
+        
+        subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && isUserLoggedIn && showSubjects
         
         var topConstraintItem: ConstraintItem = contentView.snp.top
         if searchBarEnabled {
@@ -101,7 +113,7 @@ class FindCoursesWebViewHelper: NSObject {
         }
         
         contentView.addSubview(webView)
-        if let bar = bottomBar {
+        if let bar = bottomBar, !isUserLoggedIn {
             contentView.addSubview(bar)
             bar.snp.makeConstraints { make in
                 make.leading.equalTo(contentView)
@@ -116,7 +128,6 @@ class FindCoursesWebViewHelper: NSObject {
             make.bottom.equalTo(container.safeBottom)
             make.top.equalTo(topConstraintItem)
         }
-        
     }
     
     @objc func updateSubjectsVisibility() {
@@ -149,14 +160,18 @@ class FindCoursesWebViewHelper: NSObject {
     public func load(withURL url: URL) {
         var discoveryURL = url
         
-        if let searchURL = searchBaseURL, let searchQuery = searchQuery, var params = (url as NSURL).oex_queryParameters() as? [String : String] {
-            params[QueryParameterKeys.searchQuery] = searchQuery.addingPercentEncodingForRFC3986
+        if let searchURL = searchBaseURL, let searchQuery = searchQuery, var params = params {
+            set(value: searchQuery, for: QueryParameterKeys.searchQuery, in: &params)
             if let url = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
                 discoveryURL = url
             }
         }
 
         loadRequest(withURL: discoveryURL)
+    }
+    
+    fileprivate func set(value: String, for key: String, in params: inout [String: String]) {
+        params[key] = value.addingPercentEncodingForRFC3986
     }
 
     fileprivate func loadRequest(withURL url: URL) {
@@ -236,7 +251,7 @@ extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate, PopularSubje
     private func filter(with subject: Subject) {
         guard let searchURL = searchBaseURL,
             var params = params else { return }
-        params[QueryParameterKeys.subject] = subject.filter.addingPercentEncodingForRFC3986
+        set(value: subject.filter, for: QueryParameterKeys.subject, in: &params)
         environment?.analytics.trackSubjectDiscovery(subjectID: subject.filter)
         if let url = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
             loadRequest(withURL: url)
@@ -278,8 +293,7 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
         guard let searchText = searchBar.text,
             let searchURL = searchBaseURL,
             var params = params else { return }
-        
-        params[QueryParameterKeys.searchQuery] = searchText.addingPercentEncodingForRFC3986
+        set(value: searchText, for: QueryParameterKeys.searchQuery, in: &params)
         if let URL = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
             loadRequest(withURL: URL)
         }

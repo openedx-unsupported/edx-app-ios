@@ -82,7 +82,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [super viewWillAppear:animated];
     
     if ([self.environment.session currentUser]) {
-        [self.webViewHelper.bottomBar removeFromSuperview];
+        [self.webViewHelper refresh];
     }
     
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenFindCourses];

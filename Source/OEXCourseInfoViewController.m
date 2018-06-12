@@ -80,7 +80,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     [super viewWillAppear:animated];
     
     if ([self.environment.session currentUser]) {
-        [self.webViewHelper.bottomBar removeFromSuperview];
+        [self.webViewHelper refresh];
     }
     
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenCourseInfo];
