@@ -61,7 +61,7 @@ class OEXVideoSummaryTestDataFactory {
         let video4 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
         
         let videoSummaries = [video1, video2, video3, video4]
-        var videosArray : [OEXHelperVideoDownload] = []
+        var videosArray: [OEXHelperVideoDownload] = []
         var helperVideoDownload : OEXHelperVideoDownload
         for videoSummary in videoSummaries {
             helperVideoDownload = OEXHelperVideoDownload()

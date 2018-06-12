@@ -252,7 +252,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 case .readyToPlay:
                     
                     //This notification call specifically for test cases in readyToPlay state
-                    perform(#selector(postNotification), with: nil, afterDelay: 1.0)
+                    perform(#selector(t_postNotification), with: nil, afterDelay: 1.0)
                     
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
                     controls?.isTapButtonHidden = false
@@ -266,11 +266,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 }
             }
         }
-    }
-    
-    @objc private func postNotification() {
-        //This notification call specifically for test cases in readyToPlay state
-        NotificationCenter.default.post(name: Notification.Name.init("TestNotificationForPlayerReadyState"), object: nil)
     }
     
     private func setConstraints() {
@@ -602,11 +597,9 @@ extension VideoPlayer {
                 fullScreenContainerView = UIApplication.shared.windows[0].rootViewController?.view
             }
             
-            
             if movieBackgroundView.frame == .zero {
                 movieBackgroundView.frame = movieBackgroundFrame
             }
-            
             
             if let subviews = fullScreenContainerView?.subviews, !subviews.contains(movieBackgroundView){
                 fullScreenContainerView?.addSubview(movieBackgroundView)
@@ -714,5 +707,10 @@ extension VideoPlayer {
         get {
             return OEXInterface.getCCSelectedLanguage() ?? "en"
         }
+    }
+    
+    @objc fileprivate func t_postNotification() {
+        //This notification call specifically for test cases in readyToPlay state
+        NotificationCenter.default.post(name: Notification.Name.init("TestNotificationForPlayerReadyState"), object: nil)
     }
 }
