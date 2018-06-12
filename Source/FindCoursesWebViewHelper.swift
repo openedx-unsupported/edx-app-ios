@@ -29,7 +29,7 @@ class FindCoursesWebViewHelper: NSObject {
     fileprivate let searchBar = UISearchBar()
     fileprivate lazy var subjectsController: PopularSubjectsViewController = {
         let controller = PopularSubjectsViewController()
-        controller.subjectsDelegate = self
+        controller.delegate = self
         return controller
     }()
     fileprivate var loadController = LoadStateViewController()
@@ -231,8 +231,9 @@ extension FindCoursesWebViewHelper: WKNavigationDelegate {
     }
 }
 
-extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate {
-    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
+extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate, PopularSubjectsViewControllerDelegate {
+    
+    private func filter(with subject: Subject) {
         guard let searchURL = searchBaseURL,
             var params = params else { return }
         params[QueryParameterKeys.subject] = subject.filter.addingPercentEncodingForRFC3986
@@ -242,11 +243,28 @@ extension FindCoursesWebViewHelper: SubjectsCollectionViewDelegate {
         }
     }
     
-    func didSelectViewAllSubjects(_ collectionView: SubjectsCollectionView) {
+    private func viewAllSubjects() {
         guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else { return }
         environment?.analytics.trackSubjectDiscovery(subjectID: "View All Subjects")
         environment?.router?.showAllSubjects(from: container, subjectDelegate: self)
     }
+    
+    func popularSubjectsViewController(controller viewController: PopularSubjectsViewController, didSelect subject: Subject) {
+        filter(with: subject)
+    }
+    
+    func didSelectViewAllSubjects(controller viewController: PopularSubjectsViewController) {
+        viewAllSubjects()
+    }
+    
+    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
+        filter(with: subject)
+    }
+    
+    func didSelectViewAllSubjects(_ collectionView: SubjectsCollectionView) {
+        viewAllSubjects()
+    }
+    
 }
 
 extension FindCoursesWebViewHelper: UISearchBarDelegate {

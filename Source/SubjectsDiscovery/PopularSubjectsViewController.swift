@@ -8,7 +8,12 @@
 
 import UIKit
 
-class PopularSubjectsViewController: UIViewController {
+protocol PopularSubjectsViewControllerDelegate: class {
+    func popularSubjectsViewController(controller viewController: PopularSubjectsViewController, didSelect subject: Subject)
+    func didSelectViewAllSubjects(controller viewController: PopularSubjectsViewController)
+}
+
+class PopularSubjectsViewController: UIViewController, SubjectsCollectionViewDelegate {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -27,17 +32,11 @@ class PopularSubjectsViewController: UIViewController {
         layout.scrollDirection = .horizontal
         let collectionView = PopularSubjectsCollectionView(with: SubjectDataModel().popularSubjects, collectionViewLayout: layout)
         collectionView.accessibilityIdentifier = "PopularSubjectsViewController:collection-view"
+        collectionView.subjectsDelegate = self
         return collectionView
     }()
     
-    var subjectsDelegate: SubjectsCollectionViewDelegate? {
-        get {
-            return collectionView.subjectsDelegate
-        }
-        set {
-            collectionView.subjectsDelegate = newValue
-        }
-    }
+    weak var delegate: PopularSubjectsViewControllerDelegate?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -75,5 +74,12 @@ class PopularSubjectsViewController: UIViewController {
             make.bottom.equalTo(view)
         }
     }
-
+    
+    func subjectsCollectionView(_ collectionView: SubjectsCollectionView, didSelect subject: Subject) {
+        delegate?.popularSubjectsViewController(controller: self, didSelect: subject)
+    }
+    
+    func didSelectViewAllSubjects(_ collectionView: SubjectsCollectionView) {
+        delegate?.didSelectViewAllSubjects(controller: self)
+    }
 }
