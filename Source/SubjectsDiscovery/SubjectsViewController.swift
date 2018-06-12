@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SubjectsViewController: UIViewController {
+class SubjectsViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXStylesProvider
     
@@ -21,7 +21,7 @@ class SubjectsViewController: UIViewController {
     }()
     
     fileprivate lazy var collectionView: SubjectsCollectionView = {
-        let collectionView = SubjectsCollectionView(with: SubjectDataModel(), collectionViewLayout: self.subjectsLayout)
+        let collectionView = SubjectsCollectionView(with: self.subjects, collectionViewLayout: self.subjectsLayout)
         collectionView.accessibilityIdentifier = "SubjectsViewController:collection-view"
         collectionView.subjectsDelegate = self
         return collectionView
@@ -32,7 +32,7 @@ class SubjectsViewController: UIViewController {
             searchBar.setShowsCancelButton(showsCancelButton, animated: true)
         }
     }
-    
+    fileprivate let subjects = SubjectDataModel().subjects
     weak var subjectsDelegate: SubjectsCollectionViewDelegate?
     private let environment: Environment
     
@@ -59,11 +59,12 @@ class SubjectsViewController: UIViewController {
         environment.analytics.trackScreen(withName: AnalyticsScreenName.SubjectsDiscovery.rawValue)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        refreshLayout()
+    }
+    
     private func addObservers() {
-        
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIDeviceOrientationDidChange.rawValue) { [weak self] (_, _, _) in
-            self?.refreshLayout()
-        }
         
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillShow.rawValue) { [weak self] (notification, _, _) in
             self?.keyboardWillShow(notification: notification)
@@ -145,8 +146,12 @@ class SubjectsViewController: UIViewController {
 
 extension SubjectsViewController: UISearchBarDelegate {
     
+    func filter(with string: String) {
+        collectionView.subjects = string.isEmpty ? subjects : subjects.filter { $0.name.lowercased().contains(find: string.lowercased()) }
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        collectionView.filter(with: searchText)
+        filter(with: searchText)
         searchBar.accessibilityLabel = searchText.isEmpty ? Strings.subjectSearchBarPlaceholder : searchText
     }
     

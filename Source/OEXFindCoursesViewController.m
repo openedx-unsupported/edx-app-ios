@@ -64,6 +64,11 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     }
     [self.webViewHelper loadWithURL:urlToLoad];
 }
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self.webViewHelper updateSubjectsVisibility];
+}
     
 -(NSString *) courseDiscoveryTitle {
     if ([[self enrollmentConfig] isCourseDiscoveryNative]) {

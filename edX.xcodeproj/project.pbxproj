@@ -710,7 +710,6 @@
 		B7C5DB3C20BAB1FF00D80AD2 /* SubjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB3B20BAB1FF00D80AD2 /* SubjectTests.swift */; };
 		B7C5DB5C20BB4AAC00D80AD2 /* TestSubjects.json in Resources */ = {isa = PBXBuildFile; fileRef = B7C5DB5B20BB4AAB00D80AD2 /* TestSubjects.json */; };
 		B7C5DB5E20BB4BA800D80AD2 /* SubjectDataModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB5D20BB4BA700D80AD2 /* SubjectDataModelTests.swift */; };
-		B7C5DB6020BB503F00D80AD2 /* SubjectsCollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB5F20BB503F00D80AD2 /* SubjectsCollectionViewTests.swift */; };
 		B7C5DB6220BB554B00D80AD2 /* SubjectsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */; };
 		B7C5DBC720BD507B00D80AD2 /* FindCoursesWebViewHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DBC520BD503C00D80AD2 /* FindCoursesWebViewHelperTests.swift */; };
 		B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */; };
@@ -1712,7 +1711,6 @@
 		B7C5DB3B20BAB1FF00D80AD2 /* SubjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectTests.swift; sourceTree = "<group>"; };
 		B7C5DB5B20BB4AAB00D80AD2 /* TestSubjects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestSubjects.json; sourceTree = "<group>"; };
 		B7C5DB5D20BB4BA700D80AD2 /* SubjectDataModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectDataModelTests.swift; sourceTree = "<group>"; };
-		B7C5DB5F20BB503F00D80AD2 /* SubjectsCollectionViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsCollectionViewTests.swift; sourceTree = "<group>"; };
 		B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsViewControllerTests.swift; sourceTree = "<group>"; };
 		B7C5DBC520BD503C00D80AD2 /* FindCoursesWebViewHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindCoursesWebViewHelperTests.swift; sourceTree = "<group>"; };
 		B7CCC6FA209B16B000A66923 /* ConstraintMultiplierTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintMultiplierTarget.swift; sourceTree = "<group>"; };
@@ -3709,7 +3707,6 @@
 				2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */,
 				B7C5DB3B20BAB1FF00D80AD2 /* SubjectTests.swift */,
 				B7C5DB5D20BB4BA700D80AD2 /* SubjectDataModelTests.swift */,
-				B7C5DB5F20BB503F00D80AD2 /* SubjectsCollectionViewTests.swift */,
 				B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */,
 				22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */,
 			);
@@ -4931,7 +4928,6 @@
 				77AFD11D1C1B7721001985FD /* NSObject+SafeKVOTests.swift in Sources */,
 				778B40DB1C2F64680009F33E /* EnrollmentManagerTests.swift in Sources */,
 				B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */,
-				B7C5DB6020BB503F00D80AD2 /* SubjectsCollectionViewTests.swift in Sources */,
 				77864DD71B1002A800182FC2 /* MockNetworkManager.swift in Sources */,
 				778CC8271BBEDD9700DCCAE4 /* MockAnalyticsTracker.swift in Sources */,
 				778F177E1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift in Sources */,

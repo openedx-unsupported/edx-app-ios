@@ -68,7 +68,6 @@ class FindCoursesWebViewHelper: NSObject {
         subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && environment?.session.currentUser != nil && showSubjects
         
         var topConstraintItem: ConstraintItem = contentView.snp.top
-        var webViewBottom: ConstraintItem = contentView.snp.bottom
         if searchBarEnabled {
             searchBar.delegate = self
             contentView.addSubview(searchBar)
@@ -109,26 +108,18 @@ class FindCoursesWebViewHelper: NSObject {
                 make.trailing.equalTo(contentView)
                 make.bottom.equalTo(contentView)
             }
-            webViewBottom = bar.snp.top
         }
         
         webView.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(webViewBottom)
+            make.bottom.equalTo(container.safeBottom)
             make.top.equalTo(topConstraintItem)
         }
-        addObserver()
         
     }
     
-    private func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIDeviceOrientationDidChange.rawValue) { [weak self] (_, _, _) in
-            self?.updateSubjectsVisibility()
-        }
-    }
-    
-    private func updateSubjectsVisibility() {
+    @objc func updateSubjectsVisibility() {
         let hideSubjectsView = isiPhoneAndVerticallyCompact || isWebViewQueriedSubjects
         let height: CGFloat = hideSubjectsView ? 0 : subjectsViewHeight
         subjectsController.view.snp.updateConstraints() { make in

@@ -20,13 +20,16 @@ extension SubjectsCollectionViewDelegate {
 
 class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
     
-    fileprivate var dataModel: SubjectDataModel?
-    fileprivate var subjects: [Subject] = []
-    var filteredSubjects: [Subject] = []
+    var subjects: [Subject] = [] {
+        didSet {
+            reloadData()
+        }
+    }
+    
     weak var subjectsDelegate: SubjectsCollectionViewDelegate?
     
-    init(with dataModel: SubjectDataModel, collectionViewLayout layout: UICollectionViewLayout) {
-        self.dataModel = dataModel
+    init(with subjects: [Subject], collectionViewLayout layout: UICollectionViewLayout) {
+        self.subjects = subjects
         super.init(frame: .zero, collectionViewLayout: layout)
         setup()
     }
@@ -41,15 +44,7 @@ class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
         register(ViewAllSubjectsCollectionViewCell.self, forCellWithReuseIdentifier: ViewAllSubjectsCollectionViewCell.identifier)
         delegate = self
         dataSource = self
-        loadSubjects()
         backgroundColor = .clear
-    }
-    
-    func loadSubjects() {
-        guard let dataModel = dataModel else { return }
-        subjects = dataModel.subjects
-        filteredSubjects = subjects
-        reloadData()
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -57,40 +52,29 @@ class SubjectsCollectionView: UICollectionView, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filteredSubjects.count
+        return subjects.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SubjectCollectionViewCell.identifier, for: indexPath) as! SubjectCollectionViewCell
-        cell.configure(subject: filteredSubjects[indexPath.row])
+        cell.configure(subject: subjects[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        subjectsDelegate?.subjectsCollectionView(self, didSelect: filteredSubjects[indexPath.row])
-    }
-    
-    func filter(with string: String) {
-        filteredSubjects = string.isEmpty ? subjects : subjects.filter { $0.name.lowercased().contains(find: string.lowercased()) }
-        reloadData()
+        subjectsDelegate?.subjectsCollectionView(self, didSelect: subjects[indexPath.row])
     }
     
 }
 
 class PopularSubjectsCollectionView: SubjectsCollectionView {
     
-    override func loadSubjects() {
-        guard let dataModel = dataModel else { return }
-        subjects = dataModel.popularSubjects
-        filteredSubjects = subjects
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filteredSubjects.count + 1
+        return subjects.count + 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row >= filteredSubjects.count {
+        if indexPath.row >= subjects.count {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ViewAllSubjectsCollectionViewCell.identifier, for: indexPath) as! ViewAllSubjectsCollectionViewCell
             return cell
         }
@@ -98,7 +82,7 @@ class PopularSubjectsCollectionView: SubjectsCollectionView {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row >= filteredSubjects.count {
+        if indexPath.row >= subjects.count {
             subjectsDelegate?.didSelectViewAllSubjects(self)
         }
         else {

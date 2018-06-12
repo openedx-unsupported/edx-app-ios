@@ -25,7 +25,7 @@ class PopularSubjectsViewController: UIViewController {
         layout.sectionInset = UIEdgeInsets(top: defaultMargin, left: defaultMargin, bottom: defaultMargin, right: defaultMargin)
         layout.itemSize = CGSize(width: SubjectCollectionViewCell.defaultWidth, height: SubjectCollectionViewCell.defaultHeight)
         layout.scrollDirection = .horizontal
-        let collectionView = PopularSubjectsCollectionView(with: SubjectDataModel(), collectionViewLayout: layout)
+        let collectionView = PopularSubjectsCollectionView(with: SubjectDataModel().popularSubjects, collectionViewLayout: layout)
         collectionView.accessibilityIdentifier = "PopularSubjectsViewController:collection-view"
         return collectionView
     }()
@@ -38,7 +38,6 @@ class PopularSubjectsViewController: UIViewController {
             collectionView.subjectsDelegate = newValue
         }
     }
-    
     
     init() {
         super.init(nibName: nil, bundle: nil)
