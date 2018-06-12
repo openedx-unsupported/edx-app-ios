@@ -40,7 +40,6 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
         let updateStream = BackedStream<Void>()
         
         inScreenNavigationContext(controller) {
-            DispatchQueue.main.async {
                 let blockLoadedStream = controller.t_setup()
                 updateStream.backWithStream(blockLoadedStream)
                 updateStream.listen(controller) {[weak controller] _ in
@@ -52,7 +51,6 @@ class CourseOutlineViewControllerTests: SnapshotTestCase {
                         expectations.fulfill()
                     }
                 }
-            }
             self.waitForExpectations()
         }
     }
