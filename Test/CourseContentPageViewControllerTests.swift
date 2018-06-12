@@ -48,19 +48,6 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                     }
                 }
             }
-            
-            
-//            DispatchQueue.main.async() {
-//                let blockLoadedStream = controller.t_blockIDForCurrentViewController()
-//                blockLoadedStream.listen(controller) {blockID in
-//                    if let next = verifier?(blockID.value, controller) {
-//                        next(expectation)
-//                    }
-//                    else {
-//                        expectation.fulfill()
-//                    }
-//                }
-//            }
             self.waitForExpectations()
         }
         return controller
