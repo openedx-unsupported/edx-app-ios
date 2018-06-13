@@ -84,4 +84,8 @@ extension OEXConfig {
     var isAnnouncementsEnabled: Bool {
         return bool(forKey: "ANNOUNCEMENTS_ENABLED")
     }
+    
+    var openLinksInsideAppEnabled: Bool {
+        return bool(forKey: "OPEN_LINKS_INSIDE_APP_ENABLED")
+    }
 }
