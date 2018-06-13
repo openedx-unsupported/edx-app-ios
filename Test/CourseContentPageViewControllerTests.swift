@@ -36,7 +36,8 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         inScreenNavigationContext(controller) {
             let expectation = self.expectation(description: "course loaded")
-            DispatchQueue.main.async() {
+            let after = DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: after) {
                 let blockLoadedStream = controller.t_blockIDForCurrentViewController()
                 blockLoadedStream.listen(controller) {blockID in
                     if let next = verifier?(blockID.value, controller) {
