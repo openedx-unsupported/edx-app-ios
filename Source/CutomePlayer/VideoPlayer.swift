@@ -252,7 +252,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 case .readyToPlay:
                     
                     //This notification call specifically for test cases in readyToPlay state
-                    perform(#selector(t_postNotification), with: nil, afterDelay: 1.0)
+                    //perform(#selector(t_postNotification), with: nil, afterDelay: 1.0)
+                    t_postNotification()
                     
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
                     controls?.isTapButtonHidden = false
@@ -431,12 +432,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         super.viewDidDisappear(animated)
         resetPlayer()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+        
     private func resetPlayer() {
         movieBackgroundView.removeFromSuperview()
         stop()
@@ -711,6 +707,6 @@ extension VideoPlayer {
     
     @objc fileprivate func t_postNotification() {
         //This notification call specifically for test cases in readyToPlay state
-        NotificationCenter.default.post(name: Notification.Name.init("TestNotificationForPlayerReadyState"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name.init("PlayerStatusDidChangedToReadyState"), object: nil)
     }
 }
