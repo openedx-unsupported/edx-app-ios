@@ -22,7 +22,7 @@ class SubjectCollectionViewCell: UICollectionViewCell {
         didSet {
             let style = OEXMutableTextStyle(weight: .semiBold, size: .base, color: OEXStyles.shared().neutralWhite())
             style.alignment = .center
-            imageView.image = subject?.image
+            imageView.image = subject?.image ?? #imageLiteral(resourceName: "logo.png")
             nameLabel.attributedText = style.attributedString(withText: subject?.name ?? "")
         }
     }

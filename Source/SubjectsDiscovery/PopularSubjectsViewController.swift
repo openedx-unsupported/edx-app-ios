@@ -10,7 +10,7 @@ import UIKit
 
 protocol PopularSubjectsViewControllerDelegate: class {
     func popularSubjectsViewController(_ controller: PopularSubjectsViewController, didSelect subject: Subject)
-    func didSelectViewAllSubjects(_ viewController: PopularSubjectsViewController)
+    func didSelectViewAllSubjects(_ controller: PopularSubjectsViewController)
 }
 
 class PopularSubjectsViewController: UIViewController, SubjectsCollectionViewDelegate {

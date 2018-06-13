@@ -94,7 +94,7 @@ class FindCoursesWebViewHelper: NSObject {
             container.addChildViewController(subjectsController)
             contentView.addSubview(subjectsController.view)
             subjectsController.didMove(toParentViewController: container)
-            subjectsController.view.snp.remakeConstraints { make in
+            subjectsController.view.snp.makeConstraints { make in
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView)
                 make.top.equalTo(topConstraintItem)
@@ -272,11 +272,11 @@ extension FindCoursesWebViewHelper: SubjectsViewControllerDelegate, PopularSubje
         environment?.router?.showAllSubjects(from: container, delegate: self)
     }
     
-    func popularSubjectsViewController(_ viewController: PopularSubjectsViewController, didSelect subject: Subject) {
+    func popularSubjectsViewController(_ controller: PopularSubjectsViewController, didSelect subject: Subject) {
         filterCourses(with: subject)
     }
     
-    func didSelectViewAllSubjects(_ viewController: PopularSubjectsViewController) {
+    func didSelectViewAllSubjects(_ controller: PopularSubjectsViewController) {
         viewAllSubjects()
     }
     
