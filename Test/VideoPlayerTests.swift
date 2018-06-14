@@ -33,7 +33,9 @@ class VideoPlayerTests: XCTestCase {
             videoPlayer = VideoPlayer(environment: environment)
             videoPlayer?.view.layoutIfNeeded()
             if let video = environment.interface?.stateForVideo(withID: CourseOutlineTestDataFactory.knownLocalVideoID, courseID: course.course_id!) {
-                videoPlayer?.play(video: video)
+                DispatchQueue.main.async { () -> Void in
+                    self.videoPlayer?.play(video: video)
+                }
             }
             let expectations = expectation(description: "player ready to play")
             let removable = addNotificationObserver(observer: self, name: PlayerStatusDidChangedToReadyState) { (_, _, removable) -> Void in
@@ -42,7 +44,7 @@ class VideoPlayerTests: XCTestCase {
                     completion?(videoPlayer)
                 }
             }
-            waitForExpectations(timeout: 30, handler: nil)
+            waitForExpectations()
             removable.remove()
     }
     
