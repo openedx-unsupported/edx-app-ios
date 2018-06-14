@@ -122,7 +122,7 @@ Whitelabel Script
 5. In that separate dir, optionally create your resource directory and files.  e.g., to update the colors.json file: ::
 
     mkdir -p ../my-app-config/Resources/Colors
-    cp Sources/Resources/Colors/colors.json ../my-app-config/Resources/Colors/
+    cp Source/Resources/Colors/colors.json ../my-app-config/Resources/Colors/
     # edit ../my-app-config/Resources/Colors/colors.json as required
 
 6. Run the `whitelabel.py` script to apply your whitelabel changes to the current branch. ::
