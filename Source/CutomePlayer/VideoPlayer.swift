@@ -64,7 +64,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
     
-    fileprivate var video : OEXHelperVideoDownload? {
+    fileprivate var video: OEXHelperVideoDownload? {
         didSet {
             initializeSubtitles()
         }
@@ -252,8 +252,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 case .readyToPlay:
                     
                     //This notification call specifically for test cases in readyToPlay state
-                    //perform(#selector(t_postNotification), with: nil, afterDelay: 1.0)
-                    t_postNotification()
+                    perform(#selector(t_postNotification), with: nil, afterDelay: 10.0)
                     
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
                     controls?.isTapButtonHidden = false
@@ -295,7 +294,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    func play(video : OEXHelperVideoDownload) {
+    func play(video: OEXHelperVideoDownload) {
         guard let videoURL = video.summary?.videoURL, var url = URL(string: videoURL) else {
             return
         }
@@ -360,7 +359,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    private func pause() {
+    fileprivate func pause() {
         player.pause()
         playerState = .paused
         saveCurrentTime()
@@ -375,7 +374,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    private func stop() {
+    fileprivate func stop() {
         saveCurrentTime()
         player.actionAtItemEnd = .pause
         player.replaceCurrentItem(with: nil)
@@ -539,7 +538,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     // MARK: VideoPlayer Controls Delegate Methods
-    func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed) {
+    func setPlayBackSpeed(playerControls: VideoPlayerControls, speed: OEXVideoSpeed) {
         let oldSpeed = rate
         setVideoSpeed(speed: speed)
         
@@ -586,12 +585,7 @@ extension VideoPlayer {
         isFullScreen = fullscreen
         if fullscreen {
             
-            if let keyWindow = UIApplication.shared.keyWindow {
-                fullScreenContainerView = keyWindow.rootViewController?.view
-            }
-            else {
-                fullScreenContainerView = UIApplication.shared.windows[0].rootViewController?.view
-            }
+            fullScreenContainerView = UIApplication.shared.keyWindow?.rootViewController?.view ?? UIApplication.shared.windows[0].rootViewController?.view
             
             if movieBackgroundView.frame == .zero {
                 movieBackgroundView.frame = movieBackgroundFrame
@@ -703,6 +697,10 @@ extension VideoPlayer {
         get {
             return OEXInterface.getCCSelectedLanguage() ?? "en"
         }
+    }
+    
+    func t_pause() {
+        pause()
     }
     
     @objc fileprivate func t_postNotification() {

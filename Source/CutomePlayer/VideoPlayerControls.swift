@@ -436,7 +436,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             else {
                 self?.tableSettings.isHidden = true
             }
-            }, completion: {[weak self] _ in
+            }, completion: { [weak self] _ in
                 self?.updateSubtTitleConstraints()
         })
     }
