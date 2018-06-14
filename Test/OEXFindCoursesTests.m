@@ -35,7 +35,7 @@
 @implementation OEXFindCoursesTests
 
 -(void)testFindCoursesURLRecognition{
-    FindCoursesWebViewHelper* helper = [[FindCoursesWebViewHelper alloc] initWithConfig:nil delegate:nil bottomBar:nil showSearch:YES searchQuery:nil];
+    FindCoursesWebViewHelper* helper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:nil delegate:nil bottomBar:nil showSearch:YES searchQuery:nil showSubjects:YES];
     OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
     NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
     BOOL successCorrect = ![findCoursesViewController webViewHelperWithHelper:helper shouldLoadLinkWithRequest:testURLRequestCorrect];
@@ -58,7 +58,7 @@
 
 -(void)testEnrollURLParsing{
     NSURL *testEnrollURL = [NSURL URLWithString:@"edxapp://enroll?course_id=course-v1:BerkeleyX+GG101x-2+1T2015&email_opt_in=false"];
-    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"abc" bottomBar:nil];
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithEnvironment:nil pathID:@"abc" bottomBar:nil];
     
     NSString* courseID = nil;
     BOOL emailOptIn = true;
@@ -71,29 +71,9 @@
 
 // Disabled for now since this test makes bad assumptions about the current configuration
 -(void)disable_testCourseInfoURLTemplateSubstitution{
-    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"science-happiness-uc-berkeleyx-gg101x" bottomBar:nil];
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithEnvironment:nil pathID:@"science-happiness-uc-berkeleyx-gg101x" bottomBar:nil];
     NSString *courseURLString = [courseInfoViewController courseURLString];
     XCTAssertEqualObjects(courseURLString, @"https://webview.edx.org/course/science-happiness-uc-berkeleyx-gg101x", @"Course Info URL incorrectly determined");
-}
-
-- (void) testSearchQueryBare {
-    NSString* baseURL = @"http://www.fakex.com/course";
-    NSString* queryString = @"mobile linux";
-
-    NSString* expected = @"http://www.fakex.com/course?search_query=mobile+linux";
-    NSURL* expectedURL = [NSURL URLWithString:expected];
-    NSURL* output = [FindCoursesWebViewHelper buildQueryWithBaseURL:baseURL toolbarString:queryString];
-    XCTAssertEqualObjects(output, expectedURL);
-}
-
-- (void) testSearchQueryAlreadyHasQuery {
-    NSString* baseURL = @"http://www.fakex.com/course?type=mobile";
-    NSString* queryString = @"mobile linux";
-
-    NSString* expected = @"http://www.fakex.com/course?type=mobile&search_query=mobile+linux";
-    NSURL* expectedURL = [NSURL URLWithString:expected];
-    NSURL* output = [FindCoursesWebViewHelper buildQueryWithBaseURL:baseURL toolbarString:queryString];
-    XCTAssertEqualObjects(output, expectedURL);
 }
 
 @end
