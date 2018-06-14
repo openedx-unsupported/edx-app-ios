@@ -42,7 +42,7 @@ class VideoPlayerTests: XCTestCase {
                     completion?(videoPlayer)
                 }
             }
-            waitForExpectations()
+            waitForExpectations(timeout: 30, handler: nil)
             removable.remove()
     }
     
