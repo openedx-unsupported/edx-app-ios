@@ -515,7 +515,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func seek(to time: Double) {
-        player.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale)) { [weak self]
+        player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
             (completed: Bool) -> Void in
             if self?.playerState == .playing {
                 self?.controls?.autoHide()
@@ -524,6 +524,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             else {
                 self?.saveCurrentTime()
             }
+            NotificationCenter.default.post(name: Notification.Name.init("test"), object: nil)
         }
     }
     
@@ -701,6 +702,10 @@ extension VideoPlayer {
     
     func t_pause() {
         pause()
+    }
+    
+    func t_stop() {
+        stop()
     }
     
     @objc fileprivate func t_postNotification() {
