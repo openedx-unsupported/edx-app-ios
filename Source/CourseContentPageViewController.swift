@@ -48,7 +48,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     ///Manages the caching of the viewControllers that have been viewed atleast once.
     ///Removes the ViewControllers from memory in case of a memory warning
     private let cacheManager : BlockViewControllerCacheManager
-    
+    private var transitionInProgress: Bool = false
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil, forMode mode: CourseOutlineMode) {
         self.environment = environment
         self.blockID = rootID
@@ -284,9 +284,19 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         // disabling user interation while setting viewControllers of UIPageViewController
         view.isUserInteractionEnabled = false
         navigationController?.toolbar.isUserInteractionEnabled = false
+    
         DispatchQueue.main.async { [weak self] in
-            self?.setViewControllers(controllers, direction: direction, animated: animated, completion: competion)
-            self?.updateNavigationForEnteredController(controller: controllers.first)
+            if self?.transitionInProgress == false {
+                self?.transitionInProgress = true
+                self?.setViewControllers(controllers, direction: direction, animated: animated, completion: { (finished) in
+                    if finished {
+                        self?.updateNavigationForEnteredController(controller: controllers.first)
+                        self?.view.isUserInteractionEnabled = true
+                        self?.navigationController?.toolbar.isUserInteractionEnabled = true
+                        self?.transitionInProgress = !finished
+                    }
+                })
+            }
         }
     }
     
