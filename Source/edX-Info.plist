@@ -124,11 +124,8 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-<<<<<<< HEAD
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-=======
->>>>>>> 073c7389... rc/2.14.1, update EULA,privacy Policy and Term & condition text and add spanish translations
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
