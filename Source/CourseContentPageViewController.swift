@@ -284,19 +284,16 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         // disabling user interation while setting viewControllers of UIPageViewController
         view.isUserInteractionEnabled = false
         navigationController?.toolbar.isUserInteractionEnabled = false
-    
-        DispatchQueue.main.async { [weak self] in
-            if self?.transitionInProgress == false {
-                self?.transitionInProgress = true
-                self?.setViewControllers(controllers, direction: direction, animated: animated, completion: { (finished) in
-                    if finished {
-                        self?.updateNavigationForEnteredController(controller: controllers.first)
-                        self?.view.isUserInteractionEnabled = true
-                        self?.navigationController?.toolbar.isUserInteractionEnabled = true
-                        self?.transitionInProgress = !finished
-                    }
-                })
-            }
+        if transitionInProgress == false {
+            transitionInProgress = true
+            setViewControllers(controllers, direction: direction, animated: animated, completion: {[weak self] (finished) in
+                if finished {
+                    self?.updateNavigationForEnteredController(controller: controllers.first)
+                    self?.view.isUserInteractionEnabled = true
+                    self?.navigationController?.toolbar.isUserInteractionEnabled = true
+                    self?.transitionInProgress = !finished
+                }
+            })
         }
     }
     
