@@ -98,22 +98,22 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             XCTAssertTrue(controller.t_nextButtonEnabled, "First child should have next button enabled")
             return nil
         }
-        let after = DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: after) {
             // Traverse through the entire child list going forward
             // verifying that we're viewing the right thing
             for childID in childIDs[1 ..< childIDs.count] {
                 controller.t_goForward()
                 let testExpectation = self.expectation(description: "controller went forward")
-                    controller.t_blockIDForCurrentViewController().listen(controller) {
+                let after = DispatchTime.now() + Double(Int64(0.6 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: after) {
+                        controller.t_blockIDForCurrentViewController().listen(controller) {
                         testExpectation.fulfill()
                         XCTAssertEqual($0.value!, childID)
                     }
+                }
                 self.waitForExpectations()
                 XCTAssertTrue(controller.t_prevButtonEnabled)
                 XCTAssertEqual(controller.t_nextButtonEnabled, childID != childIDs.last!)
             }
-        }
     }
     
     func testPrevButton() {
@@ -133,8 +133,11 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             controller.t_goBackward()
             
             let testExpectation = expectation(description: "controller went backward")
-            controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
-                testExpectation.fulfill()
+            let after = DispatchTime.now() + Double(Int64(0.6 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+            DispatchQueue.main.asyncAfter(deadline: after) {
+                controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
+                    testExpectation.fulfill()
+                }
             }
             self.waitForExpectations()
         }
@@ -167,25 +170,25 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
         
     }
-    
+
     func testPageAnalyticsEmitted() {
         let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
         let childID = childIDs.first
         
         let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root)
-        
-        let after = DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: after) {
             // Traverse through the entire child list going backward
             // verifying that we're viewing the right thing
             for _ in childIDs[1 ..< childIDs.count] {
                 controller.t_goForward()
                 
                 let testExpectation = self.expectation(description: "controller went backward")
+                let after = DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: after) {
                     controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
                         testExpectation.fulfill()
                     }
+                }
                 self.waitForExpectations()
             }
         
@@ -204,7 +207,6 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 XCTAssertEqual(self.outline.root, event.properties[OEXAnalyticsKeyCourseID] as? CourseBlockID)
                 XCTAssertEqual(event.event.name, OEXAnalyticsEventComponentViewed)
             }
-        }
 
     }
 
