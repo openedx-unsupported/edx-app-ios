@@ -293,7 +293,7 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        
+        environment?.analytics.trackCourseSearch(search: searchBar.text ?? "", action: "discovery_tab")
         guard let searchText = searchBar.text,
             let searchURL = searchBaseURL,
             var params = params else { return }
