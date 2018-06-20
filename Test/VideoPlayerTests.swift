@@ -33,7 +33,8 @@ class VideoPlayerTests: XCTestCase {
             videoPlayer = VideoPlayer(environment: environment)
             videoPlayer?.view.layoutIfNeeded()
             if let video = environment.interface?.stateForVideo(withID: CourseOutlineTestDataFactory.knownLocalVideoID, courseID: course.course_id!) {
-                DispatchQueue.main.async { () -> Void in
+                let after = DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: after) {
                     self.videoPlayer?.play(video: video)
                 }
             }
