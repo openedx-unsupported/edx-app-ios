@@ -36,7 +36,8 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         
         inScreenNavigationContext(controller) {
             let expectation = self.expectation(description: "course loaded")
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+            
+            wait(for: 0.5) {
                 let blockLoadedStream = controller.t_blockIDForCurrentViewController()
                 blockLoadedStream.listen(controller) {blockID in
                     if let next = verifier?(blockID.value, controller) {
@@ -102,7 +103,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         for childID in childIDs[1 ..< childIDs.count] {
             controller.t_goForward()
             let testExpectation = self.expectation(description: "controller went forward")
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.6 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+            wait(for: 0.5) {
                     controller.t_blockIDForCurrentViewController().listen(controller) {
                     testExpectation.fulfill()
                     XCTAssertEqual($0.value!, childID)
@@ -131,7 +132,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             controller.t_goBackward()
             
             let testExpectation = expectation(description: "controller went backward")
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.6 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+            wait(for: 0.6) {
                 controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
                     testExpectation.fulfill()
                 }
@@ -179,7 +180,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 controller.t_goForward()
                 
                 let testExpectation = self.expectation(description: "controller went backward")
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+                wait(for: 0.5) {
                     controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
                         testExpectation.fulfill()
                     }
@@ -213,6 +214,12 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         loadAndVerifyControllerWithInitialChild(childID, parentID: parent) { (blockID, controller) in
             self.assertSnapshotValidWithContent(controller.navigationController!)
             return nil
+        }
+    }
+    
+    private func wait(for duration: Double, completion: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(duration * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+            completion()
         }
     }
 }
