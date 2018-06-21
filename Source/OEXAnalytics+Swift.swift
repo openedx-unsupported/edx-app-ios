@@ -29,6 +29,7 @@ public enum AnalyticsDisplayName : String {
     case BulkDownloadToggleOff = "Bulk Download Toggle Off"
     case SharedCourse = "Shared a course"
     case SubjectsDiscovery = "Subject Discovery"
+    case CourseSearch = "Discovery: Courses Search"
 }
 
 public enum AnalyticsEventName: String {
@@ -53,6 +54,7 @@ public enum AnalyticsEventName: String {
     case BulkDownloadToggleOff = "edx.bi.app.videos.download.toggle.off"
     case SharedCourse = "edx.bi.app.course.shared"
     case SubjectClicked = "edx.bi.app.discover.subject.clicked"
+    case CourseSearch = "edx.bi.app.discovery.courses_search"
 }
 
 public enum AnalyticsScreenName: String {
@@ -196,6 +198,15 @@ extension OEXAnalytics {
         event.category = AnalyticsCategory.Discovery.rawValue
         
         trackEvent(event, forComponent: nil, withInfo: [ AnalyticsEventDataKey.SubjectID.rawValue : subjectID ])
+    }
+
+    func trackCourseSearch(search query: String, action: String) {
+        let event = OEXAnalyticsEvent()
+        event.name = AnalyticsEventName.CourseSearch.rawValue
+        event.displayName = AnalyticsDisplayName.CourseSearch.rawValue
+        event.category = AnalyticsCategory.Discovery.rawValue
+        event.label = query
+        trackEvent(event, forComponent: nil, withInfo: ["action": action, "app_version": Bundle.main.oex_buildVersionString()])
     }
     
 }

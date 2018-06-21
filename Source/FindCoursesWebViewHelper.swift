@@ -21,7 +21,7 @@ fileprivate enum QueryParameterKeys {
 
 class FindCoursesWebViewHelper: NSObject {
     
-    typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider
+    typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
     fileprivate let environment: Environment?
     weak var delegate: FindCoursesWebViewHelperDelegate?
     fileprivate let contentView = UIView()
@@ -293,7 +293,11 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        
+        var action = "landing_screen"
+        if let _ = environment?.session.currentUser {
+            action = "discovery_tab"
+        }
+        environment?.analytics.trackCourseSearch(search: searchBar.text ?? "", action: action)
         guard let searchText = searchBar.text,
             let searchURL = searchBaseURL,
             var params = params else { return }
