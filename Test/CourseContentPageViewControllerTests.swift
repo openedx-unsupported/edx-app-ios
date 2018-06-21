@@ -187,7 +187,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 self.waitForExpectations()
             }
         
-            let pageEvents = self.environment.eventTracker.events.flatMap {(e : MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
+            let pageEvents = self.environment.eventTracker.events.flatMap { (e : MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
                 if let event = e.asEvent, event.event.name == OEXAnalyticsEventComponentViewed {
                     return event
                 }
