@@ -181,14 +181,14 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 
                 let testExpectation = self.expectation(description: "controller went backward")
                 wait(for: 0.5) {
-                    controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
+                    controller.t_blockIDForCurrentViewController().listen(controller) { blockID in
                         testExpectation.fulfill()
                     }
                 }
                 self.waitForExpectations()
             }
         
-            let pageEvents = self.environment.eventTracker.events.flatMap { (e : MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
+            let pageEvents = environment.eventTracker.events.flatMap { (e: MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
                 if let event = e.asEvent, event.event.name == OEXAnalyticsEventComponentViewed {
                     return event
                 }

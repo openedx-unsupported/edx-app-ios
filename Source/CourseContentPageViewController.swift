@@ -279,7 +279,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
     }
     
-    private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewControllerNavigationDirection, animated:Bool, completion: ((Bool) -> Swift.Void)? = nil) {
+    private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewControllerNavigationDirection, animated:Bool, completion: ((Bool) -> Void)? = nil) {
         // setViewControllers is being called in async thread so user may intract with UIPageController in that duration so
         // disabling user interation while setting viewControllers of UIPageViewController
         
@@ -289,7 +289,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         view.isUserInteractionEnabled = false
         navigationController?.toolbar.isUserInteractionEnabled = false
         
-        DispatchQueue.main.async {[weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.setViewControllers(controllers, direction: direction, animated: animated, completion: {[weak self] (finished) in
                 if finished {
                     self?.updateNavigationForEnteredController(controller: controllers.first)
