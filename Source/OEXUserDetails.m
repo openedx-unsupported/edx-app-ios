@@ -60,10 +60,6 @@ static NSString* const OEXUserDetailsUrlKey = @"url";
         _userId = [userDetailsDictionary objectForKey:OEXUserDetailsUserIdKey];
         _name = [userDetailsDictionary objectForKey:OEXUserDetailsNameKey];
         _url = [userDetailsDictionary objectForKey:OEXUserDetailsUrlKey];
-
-        if ([_name isKindOfClass:[NSNull class]]) {
-            _name = @"";
-        }
     }
 
     return self;

@@ -212,6 +212,8 @@
 "APP_REVIEW.MESSAGE_SUBJECT" = "Customer Review";
 /*Asteric for marking fields required*/
 "ASTERIC" = "*";
+/* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
+"AUTH_PROVIDER_ERROR" = "This {auth_provider} account is not linked with any {platform_name} account. Please register.";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
 "BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
