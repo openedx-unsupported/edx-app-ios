@@ -15,7 +15,8 @@ class OEXVideoSummaryTestDataFactory {
     
     /// A video that can be accessed from the file system
     static func localVideoWithID(_ videoID : String, pathIDs: [String], encodings: [AnyHashable:Any]? = nil) -> OEXVideoSummary {
-        let videoPath : String = Bundle(for: self).url(forResource: "test-movie", withExtension: "mp4")!.absoluteString
+        var videoPath : String = Bundle(for: self).path(forResource: "test-movie", ofType: ".mp4")!
+        videoPath = videoPath.replacingOccurrences(of: ".mp4", with: "")
         let info : [AnyHashable: Any] = [
             "section_url": "url://to/nowhere",
             "path": [

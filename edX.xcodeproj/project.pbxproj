@@ -114,11 +114,10 @@
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
 		22AFEADA20CE8DE60071067E /* VideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */; };
-		22AFEADC20CE8FBA0071067E /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22AFEADB20CE8FB90071067E /* test-movie.mp4 */; };
-		22AFEADD20CE92750071067E /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22AFEADB20CE8FB90071067E /* test-movie.mp4 */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
 		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
 		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
+		22DACEE920E2540F007AD5D5 /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22AFEADB20CE8FB90071067E /* test-movie.mp4 */; };
 		22DCA5031F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */; };
 		22E6A219207AA54600D50EDE /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E6A218207AA54600D50EDE /* PlayerView.swift */; };
 		22F6A15B20B7E62D009C3F4A /* String+DecodeHTMLEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F6A15720B7E62C009C3F4A /* String+DecodeHTMLEntities.swift */; };
@@ -4145,7 +4144,6 @@
 				B793455D20B584F500DBFC33 /* subjects.json in Resources */,
 				77DC29601ABCA0F200FAD22C /* OEXLoginSplashViewController.xib in Resources */,
 				69ECC6181D50D1170030CF87 /* bt_google_RTL.png in Resources */,
-				22AFEADC20CE8FBA0071067E /* test-movie.mp4 in Resources */,
 				B71AA19F20CEF64D00700C5E /* food-nutrition@3x.png in Resources */,
 				6926CDB01D59BE3600A16E22 /* ic_seek_thumb.png in Resources */,
 				22F8A9141F4708A50025E18A /* Main.storyboard in Resources */,
@@ -4268,11 +4266,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22AFEADD20CE92750071067E /* test-movie.mp4 in Resources */,
 				77E6489D1C91D92400B6740D /* CourseStatusInfo.json in Resources */,
 				69AC76AF1D8FF45F007FF866 /* RegistrationForm.json in Resources */,
 				77E6489E1C91D92D00B6740D /* DiscussionPosts.json in Resources */,
 				775716B51CB7FF660091AB10 /* sample-badge.png in Resources */,
+				22DACEE920E2540F007AD5D5 /* test-movie.mp4 in Resources */,
 				B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
