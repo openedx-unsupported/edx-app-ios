@@ -81,7 +81,7 @@ class VideoPlayerTests: XCTestCase {
             videoPlayer.t_controls?.durationSliderValue = 1.01
             videoPlayer.seekBackwardPressed(playerControls: videoPlayer.t_controls!)
             let currentTime = videoPlayer.currentTime
-            self?.stopPlayer()
+//            self?.stopPlayer()
 
             XCTAssertGreaterThanOrEqual(currentTime, 4)
         }
