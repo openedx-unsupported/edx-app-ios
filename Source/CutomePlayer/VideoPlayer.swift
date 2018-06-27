@@ -343,7 +343,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerDelegate?.playerDidTimeout(videoPlayer: self)
     }
     
-    private func resume() {
+    fileprivate func resume() {
         resume(at: lastElapsedTime)
     }
     
@@ -706,6 +706,10 @@ extension VideoPlayer {
     
     func t_stop() {
         stop()
+    }
+    
+    func t_resume() {
+        resume()
     }
     
     @objc fileprivate func t_postNotification() {
