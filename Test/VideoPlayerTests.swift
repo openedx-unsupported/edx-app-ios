@@ -93,7 +93,7 @@ class VideoPlayerTests: XCTestCase {
             videoPlayer.seekBackwardPressed(playerControls: videoPlayer.t_controls!)
             let currentTime = videoPlayer.currentTime
 
-            XCTAssertGreaterThanOrEqual(currentTime, 3)
+            XCTAssertGreaterThanOrEqual(currentTime, 3.93)
         }
     }
     
@@ -105,7 +105,7 @@ class VideoPlayerTests: XCTestCase {
             let currentTime = videoPlayer.currentTime
             self?.stopPlayer()
 
-            XCTAssertGreaterThanOrEqual(currentTime, 32)
+            XCTAssertGreaterThanOrEqual(currentTime, 33.934)
         }
     }
     
