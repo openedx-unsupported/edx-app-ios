@@ -29,15 +29,15 @@ class VideoPlayerTests: XCTestCase {
         environment.interface?.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideoWithoutEncodings(CourseOutlineTestDataFactory.knownLocalVideoID)])
     }
 
-    func loadVideoPlayer(_ completion: ((_ videoPlayer : VideoPlayer) -> Void)? = nil) {
+    func loadVideoPlayer(_ completion: ( (_ videoPlayer : VideoPlayer) -> Void)? = nil) {
             videoPlayer = VideoPlayer(environment: environment)
             videoPlayer?.view.layoutIfNeeded()
             if let video = environment.interface?.stateForVideo(withID: CourseOutlineTestDataFactory.knownLocalVideoID, courseID: course.course_id!) {
                     self.videoPlayer?.play(video: video)
             }
             let expectations = expectation(description: "player ready to play")
-            let removable = addNotificationObserver(observer: self, name: PlayerStatusDidChangedToReadyState) { (_, _, removable) -> Void in
-                if let videoPlayer = self.videoPlayer {
+            let removable = addNotificationObserver(observer: self, name: PlayerStatusDidChangedToReadyState) { [weak self] _ in
+                if let videoPlayer = self?.videoPlayer {
                     completion?(videoPlayer)
                 }
                 expectations.fulfill()
@@ -55,7 +55,7 @@ class VideoPlayerTests: XCTestCase {
     // Video player has three states unknown, readyToPlay, failed.
     // For successful play the state should be readyToPlay
     func testVideoPlay() {
-        loadVideoPlayer { (videoPlayer) in
+        loadVideoPlayer { videoPlayer in
             XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
         }
     }
@@ -64,7 +64,7 @@ class VideoPlayerTests: XCTestCase {
     // We have to check the rate of player for the video paused state
     // if the rate is zero, mean the video is currently not playing.
     func testVideoPause() {
-        loadVideoPlayer { (videoPlayer) in
+        loadVideoPlayer { videoPlayer in
             videoPlayer.t_pause()
             
             XCTAssertEqual(videoPlayer.rate, 0)
@@ -73,7 +73,7 @@ class VideoPlayerTests: XCTestCase {
     
     // Test the video is resume successfully
     func testVideoResume() {
-        loadVideoPlayer { (videoPlayer) in
+        loadVideoPlayer { videoPlayer in
             videoPlayer.seek(to: 10.168155555555558)
             videoPlayer.t_controls?.durationSliderValue = 1.01
             let  pauseTime = videoPlayer.currentTime
@@ -87,7 +87,7 @@ class VideoPlayerTests: XCTestCase {
     
     // Test the backwarward seek functionality
     func testSeekBackword() {
-        loadVideoPlayer { (videoPlayer) in
+        loadVideoPlayer { videoPlayer in
             videoPlayer.seek(to: 34.168155555555558)
             videoPlayer.t_controls?.durationSliderValue = 1.01
             videoPlayer.seekBackwardPressed(playerControls: videoPlayer.t_controls!)
@@ -99,7 +99,7 @@ class VideoPlayerTests: XCTestCase {
     
     // Test the seeking functionality 
     func testSeeking() {
-        loadVideoPlayer {[weak self] (videoPlayer) in
+        loadVideoPlayer { [weak self] (videoPlayer) in
             videoPlayer.seek(to: 34.168155555555558)
             videoPlayer.t_controls?.durationSliderValue = 1.01
             let currentTime = videoPlayer.currentTime
@@ -111,7 +111,7 @@ class VideoPlayerTests: XCTestCase {
     
     // Test for video speed setting
     func testVideoSpeedSetting() {
-        loadVideoPlayer { (videoPlayer) in
+        loadVideoPlayer { videoPlayer in
             let defaultPlaybackSpeed = OEXInterface.getCCSelectedPlaybackSpeed()
             XCTAssertEqual(videoPlayer.t_playBackSpeed, defaultPlaybackSpeed)
             videoPlayer.t_playBackSpeed = .fast
@@ -126,7 +126,7 @@ class VideoPlayerTests: XCTestCase {
     
     // Test the activation and deactivation of subtitles
     func testSubtitleActivation() {
-        loadVideoPlayer { (videoPlayer) in
+        loadVideoPlayer { videoPlayer in
             videoPlayer.t_controls?.activateSubTitles()
             XCTAssertTrue(videoPlayer.t_subtitleActivated)
             videoPlayer.t_controls?.deAvtivateSubTitles()
@@ -136,7 +136,7 @@ class VideoPlayerTests: XCTestCase {
     
     // Test the subtitle language setting
     func testSubtitleLanguage() {
-        loadVideoPlayer { (videoPlayer) in
+        loadVideoPlayer { videoPlayer in
             let currentSelectedLanguage = OEXInterface.getCCSelectedLanguage() ?? "en"
             videoPlayer.t_captionLanguage = "en"
             XCTAssertEqual(videoPlayer.t_captionLanguage, "en")

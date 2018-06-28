@@ -61,17 +61,7 @@ class OEXVideoSummaryTestDataFactory {
         let video3 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot2", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
         let video4 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
         
-        let videoSummaries = [video1, video2, video3, video4]
-        var videosArray: [OEXHelperVideoDownload] = []
-        var helperVideoDownload : OEXHelperVideoDownload
-        for videoSummary in videoSummaries {
-            helperVideoDownload = OEXHelperVideoDownload()
-            helperVideoDownload.summary = videoSummary
-            helperVideoDownload.filePath = videoSummary.videoURL ?? ""
-            videosArray.append(helperVideoDownload)
-        }
-        
-        return videosArray
+        return OEXVideoSummaryTestDataFactory.videoSummaries(summaries: [video1, video2, video3, video4])
     }
     
     static func localCourseVideoWithoutEncodings(_ videoID: String) -> [OEXHelperVideoDownload]{
@@ -80,10 +70,13 @@ class OEXVideoSummaryTestDataFactory {
         let video2 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"])
         let video3 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"])
         
-        let videoSummaries = [video1, video2, video3]
+        return OEXVideoSummaryTestDataFactory.videoSummaries(summaries: [video1, video2, video3])
+    }
+    
+    private static func videoSummaries(summaries:[OEXVideoSummary]) ->[OEXHelperVideoDownload] {
         var videosArray : [OEXHelperVideoDownload] = []
         var helperVideoDownload : OEXHelperVideoDownload
-        for videoSummary in videoSummaries {
+        for videoSummary in summaries {
             helperVideoDownload = OEXHelperVideoDownload()
             helperVideoDownload.summary = videoSummary
             helperVideoDownload.filePath = videoSummary.videoURL ?? ""
@@ -92,5 +85,4 @@ class OEXVideoSummaryTestDataFactory {
         
         return videosArray
     }
-    
 }

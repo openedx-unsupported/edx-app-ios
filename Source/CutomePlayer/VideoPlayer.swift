@@ -524,7 +524,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             else {
                 self?.saveCurrentTime()
             }
-            NotificationCenter.default.post(name: Notification.Name.init("test"), object: nil)
         }
     }
     
@@ -666,19 +665,19 @@ extension VideoPlayer {
 
 // Specific for test cases
 extension VideoPlayer {
-    var t_controls : VideoPlayerControls? {
+    var t_controls: VideoPlayerControls? {
         return controls
     }
     
-    var t_video : OEXHelperVideoDownload? {
+    var t_video: OEXHelperVideoDownload? {
         return video
     }
     
-    var t_playerCurrentState : AVPlayerItemStatus {
+    var t_playerCurrentState: AVPlayerItemStatus {
         return player.currentItem?.status ?? .unknown
     }
     
-    var t_playBackSpeed : OEXVideoSpeed {
+    var t_playBackSpeed: OEXVideoSpeed {
         set {
             setVideoSpeed(speed: newValue)
         }
