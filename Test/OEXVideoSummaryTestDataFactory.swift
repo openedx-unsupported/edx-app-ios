@@ -14,8 +14,8 @@ import Foundation
 class OEXVideoSummaryTestDataFactory {
     
     /// A video that can be accessed from the file system
-    static func localVideoWithID(_ videoID : String, pathIDs: [String], encodings: [AnyHashable:Any]? = nil) -> OEXVideoSummary {
-        var videoPath : String = Bundle(for: self).path(forResource: "test-movie", ofType: ".mp4")!
+    static func localVideoWithID(_ videoID: String, pathIDs: [String], encodings: [AnyHashable:Any]? = nil) -> OEXVideoSummary {
+        var videoPath: String = Bundle(for: self).path(forResource: "test-movie", ofType: ".mp4")!
         videoPath = videoPath.replacingOccurrences(of: ".mp4", with: "")
         let info : [AnyHashable: Any] = [
             "section_url": "url://to/nowhere",
@@ -47,7 +47,7 @@ class OEXVideoSummaryTestDataFactory {
                 "size": 0,
                 "duration" : 100,
                 "encoded_videos": encodings ?? [:],
-                "transcripts":["en": TranscriptDataFactory.validTranscriptString]
+                "transcripts": ["en": TranscriptDataFactory.validTranscriptString]
             ]
         ]
         return OEXVideoSummary(dictionary: info)
