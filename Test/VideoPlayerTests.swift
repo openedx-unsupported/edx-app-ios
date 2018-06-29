@@ -99,7 +99,7 @@ class VideoPlayerTests: XCTestCase {
     
     // Test the seeking functionality 
     func testSeeking() {
-        loadVideoPlayer { [weak self] (videoPlayer) in
+        loadVideoPlayer { [weak self] videoPlayer in
             videoPlayer.seek(to: 34.168155555555558)
             videoPlayer.t_controls?.durationSliderValue = 1.01
             let currentTime = videoPlayer.currentTime
