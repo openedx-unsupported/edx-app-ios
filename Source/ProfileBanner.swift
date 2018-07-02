@@ -43,15 +43,15 @@ class ProfileBanner: UIView {
         
         usernameLabel.setContentHuggingPriority(1, for: .horizontal)
         
-        shortProfView.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(self.snp_leadingMargin)
+        shortProfView.snp.makeConstraints { make in
+            make.leading.equalTo(self.snp.leadingMargin)
             make.height.equalTo(40)
-            make.width.equalTo(shortProfView.snp_height)
+            make.width.equalTo(shortProfView.snp.height)
             make.centerY.equalTo(self)
         }
         
-        usernameLabel.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(shortProfView.snp_trailing).offset(6)
+        usernameLabel.snp.makeConstraints { make in
+            make.leading.equalTo(shortProfView.snp.trailing).offset(6)
             make.centerY.equalTo(shortProfView)
         }
         
@@ -62,11 +62,11 @@ class ProfileBanner: UIView {
             changeButton.setIconAndTitle(icon: Icon.Camera, title: Strings.Profile.changePictureButton)
             changeButton.accessibilityHint = Strings.Profile.changePictureAccessibilityHint
             
-            changeButton.snp_makeConstraints(closure: { (make) -> Void in
+            changeButton.snp.makeConstraints { make in
                 make.centerY.equalTo(shortProfView)
-                make.trailing.equalTo(self.snp_trailingMargin).priorityHigh()
-                make.leading.equalTo(usernameLabel).priorityLow()
-            })
+                make.trailing.equalTo(snp.trailingMargin).priority(.high)
+                make.leading.equalTo(usernameLabel).priority(.low)
+            }
             
             changeButton.oex_addAction({ [weak self] _ in
                 self?.changeCallback?()

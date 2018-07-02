@@ -82,26 +82,23 @@ class CropViewController: UIViewController {
         titleLabel.attributedText = titleStyle.attributedString(withText: Strings.Profile.cropAndResizePicture)
         view.addSubview(titleLabel)
         
-        titleLabel.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(view.snp_topMargin).offset(20)
-            make.centerX.equalTo(view.snp_centerX)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(safeTop).offset(20)
+            make.centerX.equalTo(view.snp.centerX)
         }
       
-        scrollView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(view)
-            make.left.equalTo(view)
-            make.right.equalTo(view)
-            make.bottom.equalTo(view)
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
         }
         
-        toolbar.snp_makeConstraints { (make) -> Void in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
-            make.bottom.equalTo(view)
+        toolbar.snp.makeConstraints { make in
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
+            make.bottom.equalTo(safeBottom)
             make.height.equalTo(50)
         }
         
-        circleView.snp_makeConstraints { (make) -> Void in
+        circleView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView)
         }
         
@@ -111,8 +108,11 @@ class CropViewController: UIViewController {
         }
         tap.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(tap)
-        
-        UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.default, animated: false)
+
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
     }
   
     private func buildToolbar() -> UIToolbar {

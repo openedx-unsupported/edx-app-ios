@@ -49,28 +49,28 @@ class AccomplishmentView : UIView {
             shareAction?()
         }, for: .touchUpInside)
 
-        imageView.snp_makeConstraints {make in
+        imageView.snp.makeConstraints { make in
             make.size.equalTo(CGSize(width: 50, height: 50))
             make.leading.equalTo(self)
             make.top.equalTo(self).offset(StandardVerticalMargin)
             make.bottom.lessThanOrEqualTo(self).offset(-StandardVerticalMargin)
         }
 
-        textStack.snp_makeConstraints {make in
-            make.leading.equalTo(imageView.snp_trailing).offset(StandardHorizontalMargin)
+        textStack.snp.makeConstraints { make in
+            make.leading.equalTo(imageView.snp.trailing).offset(StandardHorizontalMargin)
             make.top.equalTo(self)
             make.bottom.lessThanOrEqualTo(self)
         }
 
         if sharing {
-            shareButton.snp_makeConstraints {make in
-                make.leading.equalTo(textStack.snp_trailing).offset(StandardHorizontalMargin)
+            shareButton.snp.makeConstraints { make in
+                make.leading.equalTo(textStack.snp.trailing).offset(StandardHorizontalMargin)
                 make.centerY.equalTo(imageView)
                 make.trailing.equalTo(self)
             }
         }
         else {
-            textStack.snp_makeConstraints {make in
+            textStack.snp.makeConstraints { make in
                 make.trailing.equalTo(self)
             }
         }
@@ -129,7 +129,7 @@ class AccomplishmentsView : UIView {
         stack.axis = .vertical
         stack.alignment = .fill
         stack.spacing = StandardVerticalMargin
-        stack.snp_makeConstraints {make in
+        stack.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
         paginator.stream.listen(self, success: {[weak self] accomplishments in

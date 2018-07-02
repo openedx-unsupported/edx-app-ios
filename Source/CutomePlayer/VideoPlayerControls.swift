@@ -289,97 +289,97 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     private func setConstraints() {
-        topBar.snp_makeConstraints { make in
+        topBar.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.top.equalTo(self)
             make.width.equalTo(self)
             make.height.equalTo(StandardFooterHeight)
         }
         
-        videoTitleLabel.snp_makeConstraints { make in
-            make.leading.equalTo(topBar.snp_leading).offset(StandardVerticalMargin)
+        videoTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(topBar.snp.leading).offset(StandardVerticalMargin)
             make.height.equalTo(rewindButtonSize.height)
-            make.centerY.equalTo(topBar.snp_centerY)
+            make.centerY.equalTo(topBar.snp.centerY)
         }
         
-        bottomBar.snp_makeConstraints { make in
+        bottomBar.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.bottom.equalTo(self)
             make.width.equalTo(self)
             make.height.equalTo(StandardFooterHeight)
         }
         
-        rewindButton.snp_makeConstraints { make in
+        rewindButton.snp.makeConstraints { make in
             make.leading.equalTo(self).offset(StandardVerticalMargin)
             make.height.equalTo(rewindButtonSize.height)
             make.width.equalTo(rewindButtonSize.width)
-            make.centerY.equalTo(bottomBar.snp_centerY)
+            make.centerY.equalTo(bottomBar.snp.centerY)
         }
         
-        durationSlider.snp_makeConstraints { make in
-            make.leading.equalTo(rewindButton.snp_trailing).offset(StandardVerticalMargin)
+        durationSlider.snp.makeConstraints { make in
+            make.leading.equalTo(rewindButton.snp.trailing).offset(StandardVerticalMargin)
             make.height.equalTo(durationSliderHeight)
-            make.centerY.equalTo(bottomBar.snp_centerY)
+            make.centerY.equalTo(bottomBar.snp.centerY)
         }
         
         timeRemainingLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        timeRemainingLabel.snp_makeConstraints { make in
-            make.leading.equalTo(durationSlider.snp_trailing).offset(StandardVerticalMargin)
-            make.centerY.equalTo(bottomBar.snp_centerY)
+        timeRemainingLabel.snp.makeConstraints { make in
+            make.leading.equalTo(durationSlider.snp.trailing).offset(StandardVerticalMargin)
+            make.centerY.equalTo(bottomBar.snp.centerY)
             make.width.equalTo(timeRemainingLabelSize.width)
             make.height.equalTo(timeRemainingLabelSize.height)
         }
         
-        btnSettings.snp_makeConstraints { make in
-            make.leading.equalTo(timeRemainingLabel.snp_trailing).offset(StandardVerticalMargin)
+        btnSettings.snp.makeConstraints { make in
+            make.leading.equalTo(timeRemainingLabel.snp.trailing).offset(StandardVerticalMargin)
             make.height.equalTo(settingButtonSize.height)
             make.width.equalTo(settingButtonSize.width)
-            make.centerY.equalTo(bottomBar.snp_centerY)
+            make.centerY.equalTo(bottomBar.snp.centerY)
         }
         
-        fullScreenButton.snp_makeConstraints { make in
-            make.leading.equalTo(btnSettings.snp_trailing).offset(StandardVerticalMargin)
+        fullScreenButton.snp.makeConstraints { make in
+            make.leading.equalTo(btnSettings.snp.trailing).offset(StandardVerticalMargin)
             make.height.equalTo(fullScreenButtonSize.height)
             make.width.equalTo(fullScreenButtonSize.width)
             make.trailing.equalTo(self).inset(StandardVerticalMargin)
-            make.centerY.equalTo(bottomBar.snp_centerY)
+            make.centerY.equalTo(bottomBar.snp.centerY)
         }
         
-        tableSettings.snp_makeConstraints { make in
+        tableSettings.snp.makeConstraints { make in
             make.height.equalTo(tableSettingSize.height)
             make.width.equalTo(tableSettingSize.width)
-            make.bottom.equalTo(btnSettings.snp_top).offset(-StandardVerticalMargin)
-            make.centerX.equalTo(btnSettings.snp_centerX).offset(-StandardFooterHeight)
+            make.bottom.equalTo(btnSettings.snp.top).offset(-StandardVerticalMargin)
+            make.centerX.equalTo(btnSettings.snp.centerX).offset(-StandardFooterHeight)
         }
         
-        tapButton.snp_makeConstraints { make in
+        tapButton.snp.makeConstraints { make in
             make.leading.equalTo(self)
             make.trailing.equalTo(self)
             make.top.equalTo(self)
-            make.bottom.equalTo(bottomBar.snp_top)
+            make.bottom.equalTo(bottomBar.snp.top)
         }
         
-        btnPrevious.snp_makeConstraints { make in
+        btnPrevious.snp.makeConstraints { make in
             make.leading.equalTo(self).offset(StandardVerticalMargin)
             make.height.equalTo(previousButtonSize.height)
             make.width.equalTo(previousButtonSize.width)
-            make.centerY.equalTo(self.snp_centerY)
+            make.centerY.equalTo(self.snp.centerY)
         }
         
-        playPauseButton.snp_makeConstraints { make in
-            make.center.equalTo(self.snp_center)
+        playPauseButton.snp.makeConstraints { make in
+            make.center.equalTo(self.snp.center)
         }
         
-        btnNext.snp_makeConstraints { make in
+        btnNext.snp.makeConstraints { make in
             make.height.equalTo(nextButtonSize.height)
             make.width.equalTo(nextButtonSize.width)
             make.trailing.equalTo(self).inset(StandardVerticalMargin)
-            make.centerY.equalTo(self.snp_centerY)
+            make.centerY.equalTo(self.snp.centerY)
         }
         
-        subTitleLabel.snp_makeConstraints { make in
-            make.bottom.equalTo(bottomBar.snp_top).offset(StandardHorizontalMargin*2)
-            make.centerX.equalTo(snp_centerX)
+        subTitleLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(bottomBar.snp.top).offset(StandardHorizontalMargin*2)
+            make.centerX.equalTo(snp.centerX)
             make.leadingMargin.greaterThanOrEqualTo(StandardVerticalMargin*2)
             make.trailingMargin.lessThanOrEqualTo(StandardVerticalMargin*2)
         }
@@ -398,9 +398,9 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
 
     private func updateSubtTitleConstraints() {
-        subTitleLabel.snp_updateConstraints { make in
+        subTitleLabel.snp.updateConstraints { make in
             let bottomOffset = isControlsHidden ? 30 : -StandardVerticalMargin
-            make.bottom.equalTo(bottomBar.snp_top).offset(bottomOffset)
+            make.bottom.equalTo(bottomBar.snp.top).offset(bottomOffset)
         }
     }
     
@@ -447,7 +447,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         
         timeRemainingLabel.text = String(format: "%02d:%02d / %02d:%02d", ((lround(elapsedTime) / 60) % 60), lround(elapsedTime) % 60, ((lround(totalTime) / 60) % 60), lround(totalTime) % 60)
         if subtitleActivated {
-            subTitleLabel.text = videoPlayer?.subTitle(at: elapsedTime)
+            subTitleLabel.text = videoPlayer?.subTitle(at: elapsedTime).decodingHTMLEntities
         }
     }
     

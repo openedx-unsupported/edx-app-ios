@@ -68,23 +68,23 @@ class JSONFormBuilder {
             descriptionLabel.numberOfLines = 0
             descriptionLabel.preferredMaxLayoutWidth = 200 //value doesn't seem to matter as long as it's small enough
             
-            titleLabel.snp_makeConstraints { (make) -> Void in
-                make.leading.equalTo(contentView.snp_leadingMargin)
-                make.top.equalTo(contentView.snp_topMargin)
-                make.trailing.equalTo(contentView.snp_trailingMargin)
+            titleLabel.snp.makeConstraints { make in
+                make.leading.equalTo(contentView.snp.leadingMargin)
+                make.top.equalTo(contentView.snp.topMargin)
+                make.trailing.equalTo(contentView.snp.trailingMargin)
             }
             
-            typeControl.snp_makeConstraints { (make) -> Void in
-                make.top.equalTo(titleLabel.snp_bottom).offset(6)
-                make.leading.equalTo(contentView.snp_leadingMargin)
-                make.trailing.equalTo(contentView.snp_trailingMargin)
+            typeControl.snp.makeConstraints { make in
+                make.top.equalTo(titleLabel.snp.bottom).offset(6)
+                make.leading.equalTo(contentView.snp.leadingMargin)
+                make.trailing.equalTo(contentView.snp.trailingMargin)
             }
             
-            descriptionLabel.snp_makeConstraints { (make) -> Void in
-                make.top.equalTo(typeControl.snp_bottom).offset(6)
-                make.leading.equalTo(contentView.snp_leadingMargin)
-                make.trailing.equalTo(contentView.snp_trailingMargin)
-                make.bottom.equalTo(contentView.snp_bottomMargin)
+            descriptionLabel.snp.makeConstraints { make in
+                make.top.equalTo(typeControl.snp.bottom).offset(6)
+                make.leading.equalTo(contentView.snp.leadingMargin)
+                make.trailing.equalTo(contentView.snp.trailingMargin)
+                make.bottom.equalTo(contentView.snp.bottomMargin)
             }
         }
         
@@ -142,7 +142,7 @@ class JSONFormBuilder {
         func setup() {
             accessoryType = .disclosureIndicator
             contentView.addSubview(choiceView)
-            choiceView.snp_makeConstraints { (make) -> Void in
+            choiceView.snp.makeConstraints { make in
                 make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin))
             }
         }
@@ -171,7 +171,7 @@ class JSONFormBuilder {
         func setup() {
             accessoryType = .disclosureIndicator
             contentView.addSubview(choiceView)
-            choiceView.snp_makeConstraints { (make) -> Void in
+            choiceView.snp.makeConstraints { make in
                 make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin))
             }
         }
@@ -281,7 +281,7 @@ class JSONFormBuilder {
         }
         
         private func selectAction(data: FormData, controller: UIViewController) {
-            let selectionController = JSONFormTableViewController<String>()
+            let selectionController = JSONFormViewController<String>()
             var tableData = [ChooserDatum<String>]()
             
             if let rangeMin:Int = options?["range_min"]?.int, let rangeMax:Int = options?["range_max"]?.int {

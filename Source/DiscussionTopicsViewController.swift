@@ -71,9 +71,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         // Set up tableView
         tableView.dataSource = self
         tableView.delegate = self
-        if #available(iOS 9.0, *) {
-            tableView.cellLayoutMarginsFollowReadableWidth = false
-        }
+        tableView.cellLayoutMarginsFollowReadableWidth = false
         
         searchBar.applyStandardStyles(withPlaceholder: Strings.searchAllPosts)
         
@@ -85,25 +83,25 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         searchBar.delegate = searchBarDelegate
         
-        contentView.snp_makeConstraints {make in
-            make.edges.equalTo(self.view)
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(safeEdges)
         }
         
-        searchBar.snp_makeConstraints { (make) -> Void in
+        searchBar.snp.makeConstraints { make in
             make.top.equalTo(contentView)
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(searchBarSeparator.snp_top)
+            make.bottom.equalTo(searchBarSeparator.snp.top)
         }
         
-        searchBarSeparator.snp_makeConstraints { (make) -> Void in
+        searchBarSeparator.snp.makeConstraints { make in
             make.height.equalTo(OEXStyles.dividerSize())
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
-            make.bottom.equalTo(tableView.snp_top)
+            make.bottom.equalTo(tableView.snp.top)
         }
         
-        tableView.snp_makeConstraints { make -> Void in
+        tableView.snp.makeConstraints { make in
             make.leading.equalTo(contentView)
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)

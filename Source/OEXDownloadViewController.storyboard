@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,10 +14,6 @@
         <scene sceneID="kTx-oA-stb">
             <objects>
                 <viewController storyboardIdentifier="OEXDownloadViewController" id="XWu-3H-rbC" customClass="OEXDownloadViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="VIK-HV-yQJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="LIj-us-gK9"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="xcH-2Q-KBk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -112,11 +109,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="nBN-qA-hl1" secondAttribute="trailing" id="NCj-N5-QJj"/>
-                            <constraint firstItem="nBN-qA-hl1" firstAttribute="leading" secondItem="xcH-2Q-KBk" secondAttribute="leading" id="QS2-vs-fcB"/>
-                            <constraint firstItem="LIj-us-gK9" firstAttribute="top" secondItem="nBN-qA-hl1" secondAttribute="bottom" id="rVn-rw-csA"/>
-                            <constraint firstItem="VIK-HV-yQJ" firstAttribute="top" secondItem="nBN-qA-hl1" secondAttribute="top" id="tkU-nO-ZmY"/>
+                            <constraint firstItem="QQa-Bm-1LZ" firstAttribute="trailing" secondItem="nBN-qA-hl1" secondAttribute="trailing" id="NCj-N5-QJj"/>
+                            <constraint firstItem="nBN-qA-hl1" firstAttribute="leading" secondItem="QQa-Bm-1LZ" secondAttribute="leading" id="QS2-vs-fcB"/>
+                            <constraint firstItem="QQa-Bm-1LZ" firstAttribute="bottom" secondItem="nBN-qA-hl1" secondAttribute="bottom" id="rVn-rw-csA"/>
+                            <constraint firstItem="QQa-Bm-1LZ" firstAttribute="top" secondItem="nBN-qA-hl1" secondAttribute="top" id="tkU-nO-ZmY"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="QQa-Bm-1LZ"/>
                     </view>
                     <navigationItem key="navigationItem" id="jP2-95-LLh"/>
                     <nil key="simulatedTopBarMetrics"/>

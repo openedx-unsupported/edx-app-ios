@@ -34,7 +34,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     let insetsController = ContentInsetsController()
     // used to offset the overview webview content which is at the bottom
     // below the rest of the content
-    private let topContentInsets = ConstantInsetsSource(insets: EdgeInsets.zero, affectsScrollIndicators: false)
+    private let topContentInsets = ConstantInsetsSource(insets: .zero, affectsScrollIndicators: false)
     
     var action: ((_ completion : @escaping () -> Void) -> Void)?
     
@@ -60,14 +60,19 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     func setup() {
         addSubview(descriptionView)
         descriptionView.scrollView.addSubview(container)
-        descriptionView.snp_makeConstraints {make in
+        descriptionView.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
-        container.snp_makeConstraints { make in
+        container.snp.makeConstraints { make in
             make.top.equalTo(descriptionView)
             make.leading.equalTo(descriptionView)
             make.trailing.equalTo(descriptionView)
         }
+
+        courseCard.snp.makeConstraints { make in
+            make.height.equalTo(CourseCardView.cardHeight())
+        }
+
         container.spacing = margin
         for stack in [container, fieldsList, insetContainer] {
             stack.axis = .vertical
@@ -126,7 +131,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     private func fieldSeparator() -> UIView {
         let view = UIView()
         view.backgroundColor = OEXStyles.shared().neutralLight()
-        view.snp_makeConstraints {make in
+        view.snp.makeConstraints { make in
             make.height.equalTo(OEXStyles.dividerSize())
         }
         return view

@@ -1,6 +1,6 @@
 language: objective-c  
 
-osx_image: xcode9.2
+osx_image: xcode9.3
 before_script:
         - rvm get head || true # https://github.com/travis-ci/travis-ci/issues/6307
 
@@ -18,19 +18,19 @@ script:
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
-    - if [ $TRAVIS_BRANCH == "master" ]; then
-        pip install virtualenv;
-        virtualenv ~/env;
-        source ~/env/bin/activate;
-        pip install transifex-client;
-        sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc;
-        tx push --source --no-interactive;
-        fi
+    - pip install virtualenv
+    - virtualenv ~/env;
+    - source ~/env/bin/activate
+    # Install Transifex client and push strings to Transifex
+    # Reference: https://docs.transifex.com/integrations/github#section-integrating-with-travis-ci
+    - pip install transifex-client
+    - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc;
+    - tx push --source --no-interactive
     - sleep 5 # https://github.com/travis-ci/travis-ci/issues/4725
 
 branches:
     only:
-        - /.*/
+        - master
 
 notifications:
   email: true

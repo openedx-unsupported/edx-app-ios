@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1108" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="SIO-jm-HLG">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="KSL-zR-AIM">
                     <rect key="frame" x="117" y="46" width="141" height="65"/>
@@ -64,27 +65,28 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <accessibility key="accessibilityConfiguration" identifier="splash-screen"/>
             <constraints>
+                <constraint firstItem="dCr-uy-BzX" firstAttribute="top" secondItem="SIO-jm-HLG" secondAttribute="top" id="2QO-Yy-Lzb"/>
                 <constraint firstItem="AEY-cT-K95" firstAttribute="top" relation="greaterThanOrEqual" secondItem="KSL-zR-AIM" secondAttribute="bottom" id="3V1-HQ-qtm"/>
                 <constraint firstAttribute="centerX" secondItem="AEY-cT-K95" secondAttribute="centerX" id="4Xu-hT-26y"/>
                 <constraint firstItem="KSL-zR-AIM" firstAttribute="top" secondItem="IfH-km-N4o" secondAttribute="top" constant="46" id="6sf-dG-AbH"/>
-                <constraint firstItem="SIO-jm-HLG" firstAttribute="leading" secondItem="IfH-km-N4o" secondAttribute="leading" id="Bsg-oC-pBY"/>
+                <constraint firstItem="SIO-jm-HLG" firstAttribute="trailing" secondItem="dCr-uy-BzX" secondAttribute="trailing" id="8x1-ce-Spy"/>
                 <constraint firstAttribute="bottom" secondItem="dJC-c2-JVU" secondAttribute="bottom" constant="42" id="C4S-jf-BpE"/>
+                <constraint firstItem="dCr-uy-BzX" firstAttribute="bottom" secondItem="SIO-jm-HLG" secondAttribute="bottom" id="DQv-MB-IWM"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="KSL-zR-AIM" secondAttribute="trailing" id="EH1-hG-q2R"/>
+                <constraint firstItem="SIO-jm-HLG" firstAttribute="leading" secondItem="dCr-uy-BzX" secondAttribute="leading" id="IIu-zy-blT"/>
                 <constraint firstItem="KSL-zR-AIM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IfH-km-N4o" secondAttribute="leading" id="Tch-Lw-XMn"/>
                 <constraint firstAttribute="centerX" secondItem="dJC-c2-JVU" secondAttribute="centerX" id="cab-Re-AdF"/>
-                <constraint firstAttribute="trailing" secondItem="SIO-jm-HLG" secondAttribute="trailing" id="eLh-Tn-tSv"/>
                 <constraint firstAttribute="centerX" secondItem="KSL-zR-AIM" secondAttribute="centerX" id="fNT-bT-cQp"/>
-                <constraint firstItem="SIO-jm-HLG" firstAttribute="top" secondItem="IfH-km-N4o" secondAttribute="top" id="grJ-04-MQe"/>
                 <constraint firstItem="dJC-c2-JVU" firstAttribute="top" secondItem="AEY-cT-K95" secondAttribute="bottom" constant="26" id="nyP-Mu-POU"/>
-                <constraint firstAttribute="bottom" secondItem="SIO-jm-HLG" secondAttribute="bottom" id="zpC-Ar-QjG"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="dCr-uy-BzX"/>
         </view>
         <view contentMode="scaleToFill" id="rUI-CX-Fgz">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="i5X-EW-cXo">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="eOT-x6-9R0">
                     <rect key="frame" x="117" y="46" width="141" height="65"/>
@@ -128,18 +130,19 @@
             <constraints>
                 <constraint firstItem="eOT-x6-9R0" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rUI-CX-Fgz" secondAttribute="leading" id="1JO-N8-Yqn"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="eOT-x6-9R0" secondAttribute="trailing" id="4Fq-iK-15e"/>
-                <constraint firstItem="i5X-EW-cXo" firstAttribute="top" secondItem="rUI-CX-Fgz" secondAttribute="top" id="4xk-Ta-Jtp"/>
                 <constraint firstAttribute="centerX" secondItem="8TK-pN-GGc" secondAttribute="centerX" id="7Cl-fd-Y8y"/>
-                <constraint firstItem="i5X-EW-cXo" firstAttribute="leading" secondItem="rUI-CX-Fgz" secondAttribute="leading" id="F6x-4h-x3S"/>
+                <constraint firstItem="i5X-EW-cXo" firstAttribute="leading" secondItem="YS8-8P-3fI" secondAttribute="leading" id="At4-Yg-rtT"/>
                 <constraint firstAttribute="centerX" secondItem="eOT-x6-9R0" secondAttribute="centerX" id="I1E-jc-SNe"/>
-                <constraint firstAttribute="trailing" secondItem="i5X-EW-cXo" secondAttribute="trailing" id="I9e-2a-ENY"/>
                 <constraint firstAttribute="centerX" secondItem="fPC-WR-1Zh" secondAttribute="centerX" id="Ox0-wN-P5U"/>
                 <constraint firstItem="8TK-pN-GGc" firstAttribute="top" relation="greaterThanOrEqual" secondItem="eOT-x6-9R0" secondAttribute="bottom" id="PaL-zb-CyX"/>
+                <constraint firstItem="i5X-EW-cXo" firstAttribute="bottom" secondItem="YS8-8P-3fI" secondAttribute="bottom" id="RYn-P7-lmY"/>
+                <constraint firstItem="i5X-EW-cXo" firstAttribute="trailing" secondItem="YS8-8P-3fI" secondAttribute="trailing" id="SGJ-tC-WUI"/>
                 <constraint firstAttribute="bottom" secondItem="fPC-WR-1Zh" secondAttribute="bottom" constant="42" id="Wgi-H2-0cz"/>
-                <constraint firstAttribute="bottom" secondItem="i5X-EW-cXo" secondAttribute="bottom" id="dH0-mc-sTB"/>
                 <constraint firstItem="fPC-WR-1Zh" firstAttribute="top" secondItem="8TK-pN-GGc" secondAttribute="bottom" constant="26" id="kyX-HJ-cO7"/>
                 <constraint firstItem="eOT-x6-9R0" firstAttribute="top" secondItem="rUI-CX-Fgz" secondAttribute="top" constant="46" id="qha-rd-Igh"/>
+                <constraint firstItem="YS8-8P-3fI" firstAttribute="top" secondItem="i5X-EW-cXo" secondAttribute="top" id="zN0-nv-rSJ"/>
             </constraints>
+            <viewLayoutGuide key="safeArea" id="YS8-8P-3fI"/>
         </view>
     </objects>
     <resources>

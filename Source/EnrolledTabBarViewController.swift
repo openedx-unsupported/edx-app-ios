@@ -70,11 +70,11 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     }
     
     override var shouldAutorotate: Bool {
-        return false
+        return true
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
+        return .allButUpsideDown
     }
     
     private func prepareTabViewData() {
@@ -140,13 +140,13 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             profileView.addSubview(userProfileImageView)
             profileView.addSubview(profileButton)
             
-            profileButton.snp_makeConstraints { (make) in
+            profileButton.snp.makeConstraints { make in
                 make.edges.equalTo(profileView)
                 make.width.equalTo(UserProfileImageSize.width)
                 make.height.equalTo(UserProfileImageSize.height)
             }
             
-            userProfileImageView.snp_makeConstraints { (make) in
+            userProfileImageView.snp.makeConstraints { make in
                 make.edges.equalTo(profileView)
                 make.width.equalTo(UserProfileImageSize.width)
                 make.height.equalTo(UserProfileImageSize.height)

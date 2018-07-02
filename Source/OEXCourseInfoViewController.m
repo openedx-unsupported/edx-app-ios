@@ -28,19 +28,21 @@ static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
 static NSString* const OEXCourseEnrollURLEmailOptInKey = @"email_opt_in";
 static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
-@interface OEXCourseInfoViewController () <FindCoursesWebViewHelperDelegate>
+@interface OEXCourseInfoViewController () <FindCoursesWebViewHelperDelegate, InterfaceOrientationOverriding>
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;
 @property (strong,nonatomic, nullable) UIView *bottomBar;
+@property (strong, nonatomic) RouterEnvironment* environment;
 
 @end
 
 @implementation OEXCourseInfoViewController
 
-- (instancetype)initWithPathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar {
+- (instancetype)initWithEnvironment:(RouterEnvironment* _Nullable)environment pathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar {
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
+        self.environment = environment;
         self.pathID = pathID;
         self.bottomBar = bottomBar;
         self.navigationItem.title = [self courseDiscoveryTitle];
@@ -55,7 +57,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (EnrollmentConfig*)enrollmentConfig {
-    return [[OEXConfig sharedConfig] courseEnrollmentConfig];
+    return [self.environment.config courseEnrollmentConfig];
 }
     
 -(NSString *) courseDiscoveryTitle {
@@ -69,19 +71,19 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithConfig:[OEXConfig sharedConfig] delegate:self bottomBar:self.bottomBar showSearch:NO searchQuery:nil];
+    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar showSearch:NO searchQuery:nil showSubjects:NO];
     [self.webViewHelper loadWithURL:self.courseInfoURL];
-    self.view.backgroundColor = [[OEXStyles sharedStyles] standardBackgroundColor];
+    self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if ([[OEXSession sharedSession] currentUser]) {
-        [self.webViewHelper.bottomBar removeFromSuperview];
+    if ([self.environment.session currentUser]) {
+        [self.webViewHelper refreshView];
     }
     
-    [[OEXAnalytics sharedAnalytics] trackScreenWithName:OEXAnalyticsScreenCourseInfo];
+    [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenCourseInfo];
 }
 
 - (BOOL)webViewHelperWithHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
@@ -108,7 +110,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (void)showMainScreenWithMessage:(NSString*)message courseID:(NSString*)courseID {
-    [[OEXRouter sharedRouter] showMyCoursesAnimated:YES pushingCourseWithID:courseID];
+    [self.environment.router showMyCoursesAnimated:YES pushingCourseWithID:courseID];
     [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:0.5];
 }
 
@@ -118,6 +120,14 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     if ([self isRootModal]) {
         [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
     }
+}
+
+- (BOOL) shouldAutorotate {
+    return true;
+}
+
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 @end

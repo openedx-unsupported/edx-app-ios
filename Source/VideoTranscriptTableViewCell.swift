@@ -32,11 +32,11 @@ class VideoTranscriptTableViewCell: UITableViewCell {
         titleLabel.numberOfLines = 0
         titleLabel.preferredMaxLayoutWidth = bounds.width
         self.addSubview(titleLabel)
-        titleLabel.snp_remakeConstraints { make in
-            make.left.equalTo(self.snp_left).offset(20.0)
-            make.right.equalTo(self.snp_right).offset(-20.0)
-            make.top.equalTo(self.snp_top).offset(10.0)
-            make.bottom.equalTo(self.snp_bottom).offset(-10.0)
+        titleLabel.snp.remakeConstraints { make in
+            make.left.equalTo(self.snp.left).offset(20.0)
+            make.right.equalTo(self.snp.right).offset(-20.0)
+            make.top.equalTo(self.snp.top).offset(10.0)
+            make.bottom.equalTo(self.snp.bottom).offset(-10.0)
         }
     }
     

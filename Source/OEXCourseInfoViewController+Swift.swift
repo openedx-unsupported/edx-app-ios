@@ -12,7 +12,7 @@ extension OEXCourseInfoViewController {
  
     func enrollInCourse(courseID: String, emailOpt: Bool) {
         
-        let environment = OEXRouter.shared().environment;
+        let environment = OEXRouter.shared().environment
         environment.analytics.trackCourseEnrollment(courseId: courseID, name: AnalyticsEventName.CourseEnrollmentClicked.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseClicked.rawValue)
         
         guard let _ = OEXSession.shared()?.currentUser else {
@@ -33,9 +33,16 @@ extension OEXCourseInfoViewController {
                 environment.analytics.trackCourseEnrollment(courseId: courseID, name: AnalyticsEventName.CourseEnrollmentSuccess.rawValue, displayName: AnalyticsDisplayName.EnrolledCourseSuccess.rawValue)
                 self?.showMainScreen(withMessage: Strings.findCoursesEnrollmentSuccessfulMessage, courseID: courseID)
             }
+            else if response.response?.httpStatusCode.is4xx ?? false {
+                self?.showCourseEnrollmentFailureAlert()
+            }
             else {
                 self?.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
             }
         }
+    }
+    
+    func showCourseEnrollmentFailureAlert() {
+        UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription(platformName: OEXConfig.shared().platformName()), cancelButtonTitle: Strings.ok, onViewController: self)
     }
 }

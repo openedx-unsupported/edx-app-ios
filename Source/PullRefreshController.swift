@@ -17,7 +17,7 @@ public class PullRefreshView : UIView {
         spinner.stopAnimating()
         super.init(frame : CGRect.zero)
         addSubview(spinner)
-        spinner.snp_makeConstraints {make in
+        spinner.snp.makeConstraints { make in
             make.centerX.equalTo(self)
             make.centerY.equalTo(self).offset(10)
         }
@@ -59,8 +59,8 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     
     public func setupInScrollView(scrollView : UIScrollView) {
         scrollView.addSubview(self.view)
-        self.view.snp_makeConstraints {make in
-            make.bottom.equalTo(scrollView.snp_top)
+        self.view.snp.makeConstraints { make in
+            make.bottom.equalTo(scrollView.snp.top)
             make.leading.equalTo(scrollView)
             make.trailing.equalTo(scrollView)
             make.width.equalTo(scrollView)

@@ -309,9 +309,6 @@ static OEXInterface* _sharedInterface = nil;
     else if([URLString isEqualToString:URL_COURSE_ENROLLMENTS]) {
         URLString = [_network URLStringForType:URL_COURSE_ENROLLMENTS];
     }
-    else if([URLString rangeOfString:URL_VIDEO_SRT_FILE].location != NSNotFound) {      // For Closed Captioning
-        [_network downloadWithURLString:URLString];
-    }
     else if([OEXInterface isURLForImage:URLString]) {
         return NO;
     }

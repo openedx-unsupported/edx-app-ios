@@ -22,6 +22,8 @@
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to select";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "By";
+/* Accessibility hint for subject name label */
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {subject_name}";
 /* Accessibility hint for bulk download switch when in new state */
 "ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Toggling the switch on, will download all videos of this course";
 /* Accessibility hint for bulk download switch when in new partial or downloading state */
@@ -46,6 +48,8 @@
 "ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Double tap to unfollow.";
 /* Acessibility hint for the show downloads button. */
 "ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Double tap to view current downloads";
+/* Accessibility hint for view all subjects label*/
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Double tap to view all subjects";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Downloads in progress: {percent_complete}";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
@@ -318,6 +322,12 @@
 "DASHBOARD.COURSE_IMPORTANT_DATES"="Dates";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Keep track of deadlines and stay on track";
+/*Text for browse by subject label on subject discovery */
+"DISCOVERY.BROWSE_BY_SUBJECT" = "Browse By Subject";
+/*Placeholder text for subjects searchbar*/
+"DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
+/*Label text for view all subjects cell*/
+"DISCOVERY.VIEW_ALL_SUBJECTS" = "View All Subjects";
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="due today at {due_date} {time_zone}";
 /* Text describing the course due date*/
@@ -428,6 +438,8 @@
 "FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="You are already enrolled in this course";
 /* Overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="An error occurred while creating the new course enrollment";
+/* AlertView message shown when enrolling in a course fails */
+"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="We are unable to enroll you in this course at this time using the {platform_name} mobile application. Please try again on your web browser";
 /* Title of overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Enrollment Error";
 /* Title of overlay message shown when enrolling in a course succeeds */

@@ -18,8 +18,8 @@ extension XCUIElement {
         self.tap()
 
         if let stringValue = self.value as? String {
-            let deleteString = stringValue.characters.map { _ in "\u{8}" }.joined(separator: "")
-            if deleteString.characters.count > 0 {
+            let deleteString = stringValue.map { _ in "\u{8}" }.joined(separator: "")
+            if deleteString.count > 0 {
                 self.typeText(deleteString)
             }
         }

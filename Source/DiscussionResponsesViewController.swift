@@ -165,9 +165,9 @@ class DiscussionResponseCell: UITableViewCell {
     
     override func updateConstraints() {
         if endorsedByButton.isHidden {
-            bodyTextView.snp_updateConstraints(closure: { (make) in
-                make.bottom.equalTo(separatorLine.snp_top).offset(-StandardVerticalMargin)
-            })
+            bodyTextView.snp.remakeConstraints { make in
+                make.bottom.equalTo(separatorLine.snp.top).offset(-StandardVerticalMargin)
+            }
         }
         
         super.updateConstraints()
@@ -299,12 +299,12 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         addResponseButton.contentVerticalAlignment = .center
         view.addSubview(addResponseButton)
-        addResponseButton.snp_makeConstraints{ (make) -> Void in
-            make.leading.equalTo(view)
-            make.trailing.equalTo(view)
+        addResponseButton.snp.makeConstraints{ make in
+            make.leading.equalTo(safeLeading)
+            make.trailing.equalTo(safeTrailing)
             make.height.equalTo(OEXStyles.shared().standardFooterHeight)
-            make.bottom.equalTo(view.snp_bottom)
-            make.top.equalTo(tableView.snp_bottom)
+            make.bottom.equalTo(safeBottom)
+            make.top.equalTo(tableView.snp.bottom)
         }
         
         tableView.estimatedRowHeight = 160.0
@@ -623,9 +623,9 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             
             cell.endorsedByButton.setAttributedTitle(formatedTitle, for: .normal)
             
-            cell.endorsedByButton.snp_updateConstraints(closure: { (make) in
+            cell.endorsedByButton.snp.updateConstraints { make in
                 make.width.equalTo(formatedTitle.singleLineWidth() + StandardHorizontalMargin)
-            })
+            }
         }
         
         DiscussionHelper.styleAuthorDetails(author: response.author, authorLabel: response.authorLabel, createdAt: response.createdAt, hasProfileImage: response.hasProfileImage, imageURL: response.imageURL, authoNameLabel: cell.authorNameLabel, dateLabel: cell.dateLabel, authorButton: cell.authorButton, imageView: cell.authorProfileImage, viewController: self, router: environment.router)
@@ -830,7 +830,7 @@ extension NSDate {
     
     private var shouldDisplayTimeSpan : Bool {
         let currentDate = NSDate()
-        return currentDate.days(from: self as Date!) < 7
+        return currentDate.days(from: self as Date?) < 7
     }
     
     public var displayDate : String {

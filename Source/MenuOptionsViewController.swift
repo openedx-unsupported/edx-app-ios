@@ -13,14 +13,6 @@ protocol MenuOptionsViewControllerDelegate : class {
     func menuOptionsController(controller : MenuOptionsViewController, canSelectOptionAtIndex index: Int) -> Bool
 }
 
-//TODO: Remove this (duplicate) when swift compiler recognizes this extension from DiscussionTopicCell.swift
-extension UITableViewCell {
-    
-    fileprivate func indentationOffsetForDepth(itemDepth depth : UInt) -> CGFloat {
-        return CGFloat(depth + 1) * StandardHorizontalMargin
-    }
-}
-
 public class MenuOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     class MenuOptionTableViewCell : UITableViewCell {
@@ -31,9 +23,8 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         
         var depth : UInt = 0 {
             didSet {
-                optionLabel.snp_updateConstraints { (make) -> Void in
-                    make.leading.equalTo(contentView).offset(self.indentationOffsetForDepth(itemDepth: depth))
-                    
+                optionLabel.snp.updateConstraints { make in
+                    make.leading.equalTo(contentView).offset(indentationOffsetForDepth(itemDepth: depth))
                 }
             }
         }
@@ -41,9 +32,9 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             contentView.addSubview(optionLabel)
-            optionLabel.snp_makeConstraints { (make) -> Void in
-                make.centerY.equalTo(contentView)
+            optionLabel.snp.makeConstraints { make in
                 make.leading.equalTo(contentView)
+                make.centerY.equalTo(contentView)
             }
         }
         
@@ -57,7 +48,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         let label : String
     }
     
-    static let menuItemHeight: CGFloat = 30.0
+    private let menuItemHeight: CGFloat = 30.0
 
     private var tableView: UITableView?
     var options: [MenuOption] = []
@@ -79,18 +70,16 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         tableView?.layer.borderColor = OEXStyles.shared().neutralLight().cgColor
         tableView?.layer.borderWidth = 1.0
         tableView?.applyStandardSeparatorInsets()
-        if #available(iOS 9.0, *) {
-            tableView?.cellLayoutMarginsFollowReadableWidth = false
-        }
+        tableView?.cellLayoutMarginsFollowReadableWidth = false
         view.addSubview(tableView!)
         
         setConstraints()
     }
     
     private func setConstraints() {
-        tableView?.snp_updateConstraints { (make) -> Void in
+        tableView?.snp.remakeConstraints { make in
             make.edges.equalTo(view)
-            make.height.equalTo(view.snp_height).offset(-2)
+            make.height.equalTo(view.snp.height).offset(-2)
         }
     }
 
@@ -156,7 +145,7 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
     // MARK: - Table view delegate
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 30
+        return menuItemHeight
     }
     
 }
