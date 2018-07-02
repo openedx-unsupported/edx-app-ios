@@ -347,7 +347,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 #pragma mark ExternalRegistrationOptionsDelegate
 
 - (void)optionsView:(OEXExternalRegistrationOptionsView *)view choseProvider:(id<OEXExternalAuthProvider>)provider {
-    [provider authorizeServiceFromController:self requestingUserDetails:YES withCompletion:^(NSString *accessToken, OEXRegisteringUserDetails *userProfile, NSError *error) {
+    [provider authorizeServiceFromController:self requestingUserDetails:YES withCompletion:^(NSString *accessToken, OEXRegisteringUserDetails *userDetails, NSError *error) {
         if(error == nil) {
             [view beginIndicatingActivity];
             self.view.userInteractionEnabled = NO;
@@ -361,10 +361,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                     }];
                 }
                 else {
-                    // No account already, so continue registration process
-                    UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:CGRectZero serviceName:provider.displayName];
-                    [self useHeadingView:headingView];
-                    [self receivedFields:userProfile fromProvider:provider withAccessToken:accessToken];
+                    [self configureViewForSocial:provider accessToken:accessToken userDetails:userDetails];
                 }
             }];
         }
@@ -377,6 +374,17 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
             // Do nothing. Typically this happens because the user hits cancel and so they know it didn't work already
         }
     }];
+}
+
+- (void) configureViewForSocial:(id<OEXExternalAuthProvider>)provider accessToken:(NSString *) accessToken userDetails:(OEXRegisteringUserDetails *) userDetails {
+    // No account already, so continue registration process
+    __block OEXRegistrationViewController *blockSelf = self;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:CGRectZero serviceName:provider.displayName];
+        [blockSelf useHeadingView:headingView];
+        [blockSelf receivedFields:userDetails fromProvider:provider withAccessToken:accessToken];
+    });
 }
 
 - (void)receivedFields:(OEXRegisteringUserDetails*)profile fromProvider:(id <OEXExternalAuthProvider>)provider withAccessToken:(NSString*)accessToken {
