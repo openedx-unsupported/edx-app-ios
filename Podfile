@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '9.0'
+#platform :ios, '9.0'
 
 source 'https://github.com/CocoaPods/Specs.git'
 
@@ -26,5 +26,13 @@ target 'edXTests' do
     pod 'FBSnapshotTestCase/Core', '= 2.0.1'
     pod 'OCMock', '~> 3.1'
     pod 'OHHTTPStubs', '~> 4.0'
+end 
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
+        end
+    end
 end 
 
