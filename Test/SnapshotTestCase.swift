@@ -63,9 +63,9 @@ class SnapshotTestCase : FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
         // Run "./gradlew recordSnapshots --continue" to regenerate all snapshots
-        #if RECORD_SNAPSHOTS
+        //#if RECORD_SNAPSHOTS
             recordMode = true
-        #endif
+        //#endif
     }
     
     var screenSize : CGSize {

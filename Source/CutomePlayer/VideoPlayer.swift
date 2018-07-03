@@ -233,7 +233,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    override func viewWillLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewWillLayoutSubviews()
         playerView.frame = view.bounds
     }
@@ -454,12 +454,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerDelegate?.playerDidFinishPlaying(videoPlayer: self)
     }
     
-    // MARK: TransctiptManagerDelegate method
+    // MARK:- TransctiptManagerDelegate method
     func transcriptsLoaded(manager: TranscriptManager, transcripts: [TranscriptObject]) {
         playerDelegate?.playerDidLoadTranscripts(videoPlayer: self, transcripts: transcripts)
     }
     
-    // MARK: Player control delegate method
+    // MARK:- Player control delegate method
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool) {
         if playerState == .playing {
             pause()
@@ -527,7 +527,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    func setVideoSpeed(speed: OEXVideoSpeed) {
+    fileprivate func setVideoSpeed(speed: OEXVideoSpeed) {
         pause()
         OEXInterface.setCCSelectedPlaybackSpeed(speed)
         resume()
@@ -537,7 +537,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         controls?.hideAndShowControls(isHidden: isHidden)
     }
     
-    // MARK: VideoPlayer Controls Delegate Methods
+    // MARK:- VideoPlayer Controls Delegate Methods
     func setPlayBackSpeed(playerControls: VideoPlayerControls, speed: OEXVideoSpeed) {
         let oldSpeed = rate
         setVideoSpeed(speed: speed)
@@ -713,6 +713,6 @@ extension VideoPlayer {
     
     @objc fileprivate func t_postNotification() {
         //This notification call specifically for test cases in readyToPlay state
-        NotificationCenter.default.post(name: Notification.Name.init("PlayerStatusDidChangedToReadyState"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name.init("TestPlayerStatusDidChangedToReadyState"), object: nil)
     }
 }

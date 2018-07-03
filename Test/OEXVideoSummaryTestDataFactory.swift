@@ -61,7 +61,9 @@ class OEXVideoSummaryTestDataFactory {
         let video3 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot2", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
         let video4 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
         
-        return OEXVideoSummaryTestDataFactory.videos(with: [video1, video2, video3, video4])
+        let video5 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"], "mobile_high":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
+        
+        return OEXVideoSummaryTestDataFactory.videos(with: [video1, video2, video3, video4, video5])
     }
     
     static func localCourseVideoWithoutEncodings(_ videoID: String) -> [OEXHelperVideoDownload]{
