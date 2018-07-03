@@ -13,9 +13,9 @@ PODS:
     - Fabric (~> 1.6.3)
   - DateTools (1.6.1)
   - Fabric (1.6.12)
-  - FBSDKCoreKit (4.17.0):
+  - FBSDKCoreKit (4.31.1):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.17.0):
+  - FBSDKLoginKit (4.31.1):
     - FBSDKCoreKit
   - FBSnapshotTestCase/Core (2.0.1)
   - Firebase/Core (3.11.0):
@@ -83,8 +83,8 @@ DEPENDENCIES:
   - Crashlytics (~> 3.2)
   - DateTools (~> 1.6.1)
   - Fabric (~> 1.5)
-  - FBSDKCoreKit (~> 4.6)
-  - FBSDKLoginKit (~> 4.6)
+  - FBSDKCoreKit (~> 4.31.1)
+  - FBSDKLoginKit (~> 4.31.1)
   - FBSnapshotTestCase/Core (= 2.0.1)
   - Firebase/Core (= 3.11.0)
   - GoogleSignIn (~> 2.4)
@@ -103,8 +103,8 @@ SPEC CHECKSUMS:
   Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
   Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
-  FBSDKCoreKit: 30a21d2d7b92984b3d80497113433c00824c35e9
-  FBSDKLoginKit: 42b7129ac0373ca99eaf4cbebf4d07bd42371f59
+  FBSDKCoreKit: e08ccfcefa7bc1347a07c276dac9bf6c7fe57024
+  FBSDKLoginKit: 99797ac39252fef6f72600b886f6ee60b4b29cab
   FBSnapshotTestCase: bdb997ab2397495205f11156d4d444606daebd27
   Firebase: b8134e285eb33201115bc688bc5d7f112923bc1f
   FirebaseAnalytics: 9c67af0ebeb8d2146c9b4ea2616439affa947b58
@@ -112,7 +112,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: ba1e640935235e5fac39dfa816fe7660e72e1a8a
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   GoogleAppUtilities: a8a552aa74f6597f805e45b5a3962766c3134973
-  GoogleAuthUtilities: '049ffd3a297cdffd271451b82fd4e75304f15ef3'
+  GoogleAuthUtilities: 049ffd3a297cdffd271451b82fd4e75304f15ef3
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleInterchangeUtilities: d5bc4d88d5b661ab72f9d70c58d02ca8c27ad1f7
   GoogleNetworkingUtilities: 3edd3a8161347494f2da60ea0deddc8a472d94cb
@@ -128,6 +128,6 @@ SPEC CHECKSUMS:
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 03ef7a5643965212c6ca9ed7d65385950ca4a989
 
-PODFILE CHECKSUM: 79b2666a498bcfc3d404241e4776964e27bec7fd
+PODFILE CHECKSUM: b510d19e57e2e6171c42c3f8e55492aa1cf7542b
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.4.0

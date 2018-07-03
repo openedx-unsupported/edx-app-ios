@@ -110,11 +110,11 @@ typedef NS_ENUM(NSUInteger, FBSDKInternalUtilityVersionShift)
   return value;
 }
 
-+ (unsigned long)currentTimeInMilliseconds
++ (uint64_t)currentTimeInMilliseconds
 {
   struct timeval time;
   gettimeofday(&time, NULL);
-  return (time.tv_sec * 1000) + (time.tv_usec / 1000);
+  return ((uint64_t)time.tv_sec * 1000) + (time.tv_usec / 1000);
 }
 
 + (BOOL)dictionary:(NSMutableDictionary *)dictionary
@@ -493,11 +493,7 @@ static NSMapTable *_transientObjects;
   dispatch_once(&onceToken, ^{
     [FBSDKInternalUtility checkRegisteredCanOpenURLScheme:FBSDK_CANOPENURL_FACEBOOK];
   });
-  NSURLComponents *components = [[NSURLComponents alloc] init];
-  components.scheme = FBSDK_CANOPENURL_FACEBOOK;
-  components.path = @"/";
-  return [[UIApplication sharedApplication]
-          canOpenURL:components.URL];
+  return [self _canOpenURLScheme:FBSDK_CANOPENURL_FACEBOOK];
 }
 
 + (BOOL)isMessengerAppInstalled
@@ -506,12 +502,16 @@ static NSMapTable *_transientObjects;
   dispatch_once(&onceToken, ^{
     [FBSDKInternalUtility checkRegisteredCanOpenURLScheme:FBSDK_CANOPENURL_MESSENGER];
   });
-  NSURLComponents *components = [[NSURLComponents alloc] init];
-  components.scheme = FBSDK_CANOPENURL_MESSENGER;
-  components.path = @"/";
-  return [[UIApplication sharedApplication]
-          canOpenURL:components.URL];
+  return [self _canOpenURLScheme:FBSDK_CANOPENURL_MESSENGER];
+}
 
++ (BOOL)isMSQRDPlayerAppInstalled
+{
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    [FBSDKInternalUtility checkRegisteredCanOpenURLScheme:FBSDK_CANOPENURL_MSQRD_PLAYER];
+  });
+  return [self _canOpenURLScheme:FBSDK_CANOPENURL_MSQRD_PLAYER];
 }
 
 #pragma mark - Object Lifecycle
@@ -583,6 +583,14 @@ static NSMapTable *_transientObjects;
   return object;
 }
 
++ (BOOL)_canOpenURLScheme:(NSString *)scheme
+{
+  NSURLComponents *components = [[NSURLComponents alloc] init];
+  components.scheme = scheme;
+  components.path = @"/";
+  return [[UIApplication sharedApplication] canOpenURL:components.URL];
+}
+
 + (void)validateAppID
 {
   if (![FBSDKSettings appID]) {
@@ -622,10 +630,34 @@ static NSMapTable *_transientObjects;
   }
 }
 
++ (UIWindow *)findWindow
+{
+  UIWindow *window = [UIApplication sharedApplication].keyWindow;
+  if (window == nil || window.windowLevel != UIWindowLevelNormal) {
+    for (window in [UIApplication sharedApplication].windows) {
+      if (window.windowLevel == UIWindowLevelNormal) {
+        break;
+      }
+    }
+  }
+  if (window == nil) {
+    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                       formatString:@"Unable to find a valid UIWindow", nil];
+  }
+  return window;
+}
 
 + (UIViewController *)topMostViewController
 {
-  UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+  UIWindow *keyWindow = [self findWindow];
+  // SDK expects a key window at this point, if it is not, make it one
+  if (keyWindow !=  nil && !keyWindow.isKeyWindow) {
+    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                       formatString:@"Unable to obtain a key window, marking %@ as keyWindow", keyWindow.description];
+    [keyWindow makeKeyWindow];
+  }
+
+  UIViewController *topController = keyWindow.rootViewController;
   while (topController.presentedViewController) {
     topController = topController.presentedViewController;
   }
@@ -682,11 +714,7 @@ static NSMapTable *_transientObjects;
 
   if (![self isRegisteredCanOpenURLScheme:urlScheme]){
     NSString *reason = [NSString stringWithFormat:@"%@ is missing from your Info.plist under LSApplicationQueriesSchemes and is required for iOS 9.0", urlScheme];
-#ifdef __IPHONE_9_0
-    @throw [NSException exceptionWithName:@"InvalidOperationException" reason:reason userInfo:nil];
-#else
     [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors logEntry:reason];
-#endif
   }
 }
 
