@@ -75,7 +75,7 @@ class FindCoursesWebViewHelper: NSObject {
         contentView.subviews.forEach { $0.removeFromSuperview() }
         let isUserLoggedIn = environment?.session.currentUser != nil
 
-        subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && isUserLoggedIn && showSubjects
+        subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.subjectDiscoveryEnabled ?? false) && isUserLoggedIn && showSubjects
 
         var topConstraintItem: ConstraintItem = contentView.snp.top
         if searchBarEnabled {
