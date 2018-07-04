@@ -107,8 +107,8 @@ class VideoPlayerTests: XCTestCase {
             videoPlayer.seek(to: 34.168155555555558)
             videoPlayer.t_controls?.durationSliderValue = 1.01
             let currentTime = videoPlayer.currentTime
-            XCTAssertGreaterThan(videoPlayer.rate, 0)
             XCTAssertGreaterThanOrEqual(currentTime, 33.934)
+            XCTAssertGreaterThan(videoPlayer.rate, 0)
         }
     }
     
