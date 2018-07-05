@@ -264,11 +264,17 @@ extension OEXRouter {
         self.environment.analytics.trackUserFindsCourses()
     }
     
+    func showAllSubjects(from controller: UIViewController? = nil, delegate: SubjectsViewControllerDelegate?) {
+        let subjectsVC = SubjectsViewController(environment:environment)
+        subjectsVC.delegate = delegate
+        controller?.navigationController?.pushViewController(subjectsVC, animated: true)
+    }
+    
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController {
         let controller: UIViewController
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
-            controller = OEXFindCoursesViewController(bottomBar: bottomBar, searchQuery: searchQuery)
+            controller =  OEXFindCoursesViewController(environment: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         case .Native, .None:
             controller = CourseCatalogViewController(environment: environment)
         }

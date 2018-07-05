@@ -42,7 +42,7 @@ class EnrollmentConfigTests : XCTestCase {
         XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.searchURL!.absoluteString, sampleSearchURL)
         XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate!, sampleInfoURLTemplate)
         XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.exploreSubjectsURL!.absoluteString, sampleExploreURL)
-        XCTAssertTrue(config.courseEnrollmentConfig.webviewConfig.nativeSearchbarEnabled)
+        XCTAssertTrue(config.courseEnrollmentConfig.webviewConfig.nativeSearchBarEnabled)
     }
 
 }

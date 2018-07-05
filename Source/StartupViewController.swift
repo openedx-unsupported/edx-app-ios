@@ -19,7 +19,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private let logoImageView = UIImageView()
     private let searchView = UIView()
     private let messageLabel = UILabel()
-    private let environment: Environment
+    fileprivate let environment: Environment
 
     init(environment: Environment) {
         self.environment = environment
@@ -267,6 +267,7 @@ private class BottomBarView: UIView, NSCopying {
 extension StartupViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        environment.analytics.trackCourseSearch(search: textField.text ?? "", action: "landing_screen")
         showCourses(with: textField.text)
         textField.text = nil
         return true

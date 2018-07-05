@@ -1,0 +1,26 @@
+[
+ {
+ "name": "Test 11",
+ "image_name": "test11",
+ "filter": "test11",
+ "type": "normal"
+ },
+ {
+ "name": "Test 12",
+ "image_name": "test12",
+ "filter": "test12",
+ "type": "popular"
+ },
+ {
+ "name": "Test 21",
+ "image_name": "test21",
+ "filter": "test21",
+ "type": "normal"
+ },
+ {
+ "name": "Test 22",
+ "image_name": "test22",
+ "filter": "test22",
+ "type": "popular"
+ }
+]

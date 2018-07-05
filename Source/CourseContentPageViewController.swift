@@ -48,7 +48,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     ///Manages the caching of the viewControllers that have been viewed atleast once.
     ///Removes the ViewControllers from memory in case of a memory warning
     private let cacheManager : BlockViewControllerCacheManager
-    
+    private var transitionInProgress: Bool = false
     public init(environment : Environment, courseID : CourseBlockID, rootID : CourseBlockID?, initialChildID: CourseBlockID? = nil, forMode mode: CourseOutlineMode) {
         self.environment = environment
         self.blockID = rootID
@@ -116,7 +116,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             success : {[weak self] cursor -> Void in
                 if let owner = self, let controller = owner.controllerForBlock(block: cursor.current.block)
                 {
-                    owner.setPageControllers(with: [controller], direction: .forward, animated: false, competion: { [weak self] (finished) in
+                    owner.setPageControllers(with: [controller], direction: .forward, animated: false, completion: { [weak self] (finished) in
                         self?.view.isUserInteractionEnabled = true
                         self?.navigationController?.toolbar.isUserInteractionEnabled = true
                     })
@@ -272,21 +272,31 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let currentController = viewControllers?.first,
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
-            setPageControllers(with: [nextController], direction: direction, animated: true, competion: { [weak self] (finished) in
+            setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
                 self?.view.isUserInteractionEnabled = true
                 self?.navigationController?.toolbar.isUserInteractionEnabled = true
             })
         }
     }
     
-    private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewControllerNavigationDirection, animated:Bool, competion: ((Bool) -> Swift.Void)? = nil) {
+    private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewControllerNavigationDirection, animated:Bool, completion: ((Bool) -> Void)? = nil) {
         // setViewControllers is being called in async thread so user may intract with UIPageController in that duration so
         // disabling user interation while setting viewControllers of UIPageViewController
+        
+        if transitionInProgress { return }
+        
+        transitionInProgress = true
         view.isUserInteractionEnabled = false
         navigationController?.toolbar.isUserInteractionEnabled = false
+        
         DispatchQueue.main.async { [weak self] in
-            self?.setViewControllers(controllers, direction: direction, animated: animated, completion: competion)
-            self?.updateNavigationForEnteredController(controller: controllers.first)
+            self?.setViewControllers(controllers, direction: direction, animated: animated, completion: {[weak self] (finished) in
+                if finished {
+                    self?.updateNavigationForEnteredController(controller: controllers.first)
+                    self?.transitionInProgress = !finished
+                    completion?(finished)
+                }
+            })
         }
     }
     
