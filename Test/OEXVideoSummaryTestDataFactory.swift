@@ -14,8 +14,9 @@ import Foundation
 class OEXVideoSummaryTestDataFactory {
     
     /// A video that can be accessed from the file system
-    static func localVideoWithID(_ videoID : String, pathIDs: [String]) -> OEXVideoSummary {
-        let videoPath : String = Bundle(for: self).url(forResource: "test-movie", withExtension: "m4v")!.absoluteString
+    static func localVideoWithID(_ videoID: String, pathIDs: [String], encodings: [AnyHashable:Any]? = nil) -> OEXVideoSummary {
+        var videoPath: String = Bundle(for: self).path(forResource: "test-movie", ofType: ".mp4")!
+        videoPath = videoPath.replacingOccurrences(of: ".mp4", with: "")
         let info : [AnyHashable: Any] = [
             "section_url": "url://to/nowhere",
             "path": [
@@ -45,12 +46,8 @@ class OEXVideoSummaryTestDataFactory {
                 "id": videoID,
                 "size": 0,
                 "duration" : 100,
-                "encoded_videos":[
-                "mobile_low":[
-                    "file_size":3700000,
-                    "url":"https://www.example.com/video.mp4"
-                    ]
-                ]
+                "encoded_videos": encodings ?? [:],
+                "transcripts": ["en": TranscriptDataFactory.validTranscriptString]
             ]
         ]
         return OEXVideoSummary(dictionary: info)
@@ -58,22 +55,35 @@ class OEXVideoSummaryTestDataFactory {
     
     // This method create the mock video objects
     static func localCourseVideos(_ videoID : String) -> [OEXHelperVideoDownload]{
-
+        
+        let video1 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
+        let video2 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
+        let video3 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot2", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
+        let video4 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
+        
+        let video5 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"], "mobile_high":["file_size":3700000, "url":"https://www.example.com/video.mp4"]])
+        
+        return OEXVideoSummaryTestDataFactory.videos(with: [video1, video2, video3, video4, video5])
+    }
+    
+    static func localCourseVideoWithoutEncodings(_ videoID: String) -> [OEXHelperVideoDownload]{
+        
         let video1 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"])
         let video2 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot1", "section1dot1"])
-        let video3 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section1dot2", "section1dot1"])
-        let video4 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"])
+        let video3 = OEXVideoSummaryTestDataFactory.localVideoWithID(videoID, pathIDs: ["chapterid1", "section2dot1", "section1dot1"])
         
-        let videoSummaries = [video1, video2, video3, video4]
-        var videosArray : [OEXHelperVideoDownload] = []
-        var helperVideoDownload : OEXHelperVideoDownload
-        for videoSummary in videoSummaries {
-            helperVideoDownload = OEXHelperVideoDownload()
+        return OEXVideoSummaryTestDataFactory.videos(with: [video1, video2, video3])
+    }
+    
+    private static func videos(with summaries:[OEXVideoSummary]) ->[OEXHelperVideoDownload] {
+        var videosArray: [OEXHelperVideoDownload] = []
+        for videoSummary in summaries {
+            let helperVideoDownload = OEXHelperVideoDownload()
             helperVideoDownload.summary = videoSummary
+            helperVideoDownload.filePath = videoSummary.videoURL ?? ""
             videosArray.append(helperVideoDownload)
         }
         
         return videosArray
     }
 }
-
