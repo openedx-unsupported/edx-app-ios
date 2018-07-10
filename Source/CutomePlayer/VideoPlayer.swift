@@ -472,15 +472,17 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func seekBackwardPressed(playerControls: VideoPlayerControls) {
-        let oldTime = currentTime
-        let videoDuration = CMTimeGetSeconds(duration)
-        let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
-        let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
-        playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
-        seek(to: backTime)
-        
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+        if player.currentItem?.status == .readyToPlay {
+            let oldTime = currentTime
+            let videoDuration = CMTimeGetSeconds(duration)
+            let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
+            let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
+            playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
+            seek(to: backTime)
+            
+            if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+                environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+            }
         }
     }
     
@@ -515,14 +517,16 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func seek(to time: Double) {
-        player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
-            (completed: Bool) -> Void in
-            if self?.playerState == .playing {
-                self?.controls?.autoHide()
-                self?.player.play()
-            }
-            else {
-                self?.saveCurrentTime()
+        if player.currentItem?.status == .readyToPlay {
+            player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
+                (completed: Bool) -> Void in
+                if self?.playerState == .playing {
+                    self?.controls?.autoHide()
+                    self?.player.play()
+                }
+                else {
+                    self?.saveCurrentTime()
+                }
             }
         }
     }
