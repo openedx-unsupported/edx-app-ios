@@ -38,7 +38,7 @@ open class CourseOutlineTestDataFactory {
                 "block1": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block1", minifiedBlockID: "123456", name : "Block 1", multiDevice : true),
                 "block2": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block2", minifiedBlockID: "123456", name : "Block 2", multiDevice : true),
                 "block3": CourseBlock(type: CourseBlockType.Problem, children : [], blockID : "block3", minifiedBlockID: "123456", name : "Block 3", multiDevice : true),
-                "block4": CourseBlock(type: CourseBlockType.Video(OEXVideoSummaryTestDataFactory.localVideoWithID("block4", pathIDs: ["chapter1", "section1.1", "unit2"])), children : [], blockID : "block4", minifiedBlockID: "123456", name : "Block 4", blockCounts : ["video" : 1], multiDevice : true),
+                "block4": CourseBlock(type: CourseBlockType.Video(OEXVideoSummaryTestDataFactory.localVideoWithID("block4", pathIDs: ["chapter1", "section1.1", "unit2"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]] )), children : [], blockID : "block4", minifiedBlockID: "123456", name : "Block 4", blockCounts : ["video" : 1], multiDevice : true),
                 "block5": CourseBlock(type: CourseBlockType.Unknown("something"), children : [], blockID : "block5", minifiedBlockID: "123456", name : "Block 5", multiDevice : false)
             ])
     }
