@@ -11,7 +11,7 @@ import Foundation
 extension OEXInterface {
     @objc public func formatEnrollmentURL(with url : NSMutableString) -> NSMutableString {
         guard let username = OEXSession.shared()?.currentUser?.username else {
-            url.appendFormat("%@/%@%@?format=json", URL_USER_DETAILS, "edx", URL_COURSE_ENROLLMENTS)
+            url.appendFormat("%@/%@%@?format=json", URL_USER_DETAILS, "test", URL_COURSE_ENROLLMENTS)
             return url
         }
         
