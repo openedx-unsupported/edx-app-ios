@@ -98,7 +98,7 @@
         [URLString appendFormat:@"%@/%@?format=json", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
     }
     else if([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
-        URLString = [[OEXInterface sharedInterface] formatEnrollmentWithUrl:URLString];
+        URLString = [[OEXInterface sharedInterface] formatEnrollmentURLWith:URLString];
     }
     else {
         URLString = [NSMutableString stringWithString:type];
