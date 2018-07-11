@@ -21,13 +21,13 @@ protocol VideoPlayerControlsDelegate: class {
 }
 
 class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
-
+    
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     private let environment : Environment
-    private var settings : VideoPlayerSettings = VideoPlayerSettings()
-    private var isControlsHidden: Bool = true
-    private var subtitleActivated : Bool = false
+    fileprivate var settings = VideoPlayerSettings()
+    private var isControlsHidden = true
+    fileprivate var subtitleActivated = false
     private var bufferedTimer: Timer?
     weak private var videoPlayer: VideoPlayer?
     weak var delegate : VideoPlayerControlsDelegate?
@@ -89,7 +89,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             if let weakSelf = self {
                 weakSelf.delegate?.seekBackwardPressed(playerControls: weakSelf)
             }
-        }, for: .touchUpInside)
+            }, for: .touchUpInside)
         return button
     }()
     
@@ -103,22 +103,22 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             if let weakSelf = self {
                 weakSelf.delegate?.sliderValueChanged(playerControls: weakSelf)
             }
-        }, for: .valueChanged)
+            }, for: .valueChanged)
         slider.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
                 weakSelf.delegate?.sliderTouchBegan(playerControls: weakSelf)
             }
-        }, for: .touchDown)
+            }, for: .touchDown)
         slider.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
                 weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
             }
-        }, for: .touchUpInside)
+            }, for: .touchUpInside)
         slider.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
                 weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
             }
-        }, for: .touchUpOutside)
+            }, for: .touchUpOutside)
         
         return slider
     }()
@@ -129,7 +129,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.tintColor = .white
         button.oex_addAction({[weak self] (action) in
             self?.settingsButtonClicked()
-        }, for: .touchUpInside)
+            }, for: .touchUpInside)
         return button
     }()
     
@@ -145,12 +145,12 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.setAttributedTitle(title: UIImage.PauseTitle(), forState: .normal, animated: true)
         button.setAttributedTitle(title: UIImage.PlayTitle(), forState: .selected, animated: true)
         button.oex_addAction({[weak self] (action) in
-                if let weakSelf = self {
-                    weakSelf.tableSettings.isHidden = true
-                    button.isSelected = !button.isSelected
-                    weakSelf.delegate?.playPausePressed(playerControls: weakSelf, isPlaying: button.isSelected)
-                    weakSelf.autoHide()
-                }
+            if let weakSelf = self {
+                weakSelf.tableSettings.isHidden = true
+                button.isSelected = !button.isSelected
+                weakSelf.delegate?.playPausePressed(playerControls: weakSelf, isPlaying: button.isSelected)
+                weakSelf.autoHide()
+            }
             }, for: .touchUpInside)
         return button
     }()
@@ -161,7 +161,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.setImage(UIImage(named: "ic_next_press"), for: .highlighted)
         button.oex_addAction({[weak self] (action) in
             self?.nextButtonClicked()
-        }, for: .touchUpInside)
+            }, for: .touchUpInside)
         return button
     }()
     
@@ -171,7 +171,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.setImage(UIImage(named: "ic_previous_press"), for: .highlighted)
         button.oex_addAction({[weak self] (action) in
             self?.previousButtonClicked()
-        }, for: .touchUpInside)
+            }, for: .touchUpInside)
         return button
     }()
     
@@ -184,7 +184,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
                 weakSelf.autoHide()
                 weakSelf.delegate?.fullscreenPressed(playerControls: weakSelf)
             }
-        }, for: .touchUpInside)
+            }, for: .touchUpInside)
         return button
     }()
     
@@ -216,7 +216,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.text = self.videoPlayer?.videoTitle
         return label
     }()
-
+    
     private var barColor: UIColor {
         return UIColor.black.withAlphaComponent(0.7)
     }
@@ -396,7 +396,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         playPauseButton.setAccessibilityLabelsForStateNormal(normalStateLabel: Strings.accessibilityPause, selectedStateLabel: Strings.accessibilityPlay)
         tapButton.isAccessibilityElement = false
     }
-
+    
     private func updateSubtTitleConstraints() {
         subTitleLabel.snp.updateConstraints { make in
             let bottomOffset = isControlsHidden ? 30 : -StandardVerticalMargin
@@ -436,8 +436,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             else {
                 self?.tableSettings.isHidden = true
             }
-        }, completion: {[weak self] _ in
-            self?.updateSubtTitleConstraints()
+            }, completion: { [weak self] _ in
+                self?.updateSubtTitleConstraints()
         })
     }
     
@@ -503,7 +503,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         showSubTitles(show: true)
         environment.analytics.trackShowTranscript(video?.summary?.videoID ?? "", currentTime: videoPlayer?.currentTime ?? 0.0, courseID: video?.course_id ?? "", unitURL: video?.summary?.unitURL ?? "")
     }
-
+    
     func deAvtivateSubTitles() {
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackHideTranscript(videoId, currentTime: videoPlayer?.currentTime ?? 0.0, courseID: courseId, unitURL: unitUrl)
@@ -556,5 +556,17 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     func reset() {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
         stopBufferedTimer()
+    }
+}
+
+// Specific for test cases
+extension VideoPlayerControls {
+    
+    var t_playerSettings: VideoPlayerSettings {
+        return settings
+    }
+    
+    var t_subtitleActivated: Bool {
+        return subtitleActivated
     }
 }

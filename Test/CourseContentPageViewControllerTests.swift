@@ -52,7 +52,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
         return controller
     }
-    
+
     func testDefaultToFirstChild() {
         let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 1, "Need at least two children for this test")
