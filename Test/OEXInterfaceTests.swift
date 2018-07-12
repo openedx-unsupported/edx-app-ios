@@ -36,7 +36,6 @@ class OEXInterfaceTests: XCTestCase {
             let includesOrgCodeInQueryParams = enrollmentUrl.range(of: organizationCode).location != NSNotFound
             let notIncludesTestAsUsername = enrollmentUrl.range(of: "test").location == NSNotFound
             
-            XCTAssertNil(enrollmentUrl)
             XCTAssertTrue(includesOrgInQueryParams)
             XCTAssertTrue(includesOrgCodeInQueryParams)
             XCTAssertTrue(notIncludesTestAsUsername)
@@ -53,7 +52,6 @@ class OEXInterfaceTests: XCTestCase {
             let notIncludesOrgInQueryParams = enrollmentUrl.range(of:"?org=").location == NSNotFound
             let inlcudesTestAsUsername = enrollmentUrl.range(of: "test").location != NSNotFound
             
-            XCTAssertNil(enrollmentUrl)
             XCTAssertTrue(notIncludesOrgInQueryParams)
             XCTAssertTrue(inlcudesTestAsUsername)
         }
@@ -69,7 +67,6 @@ class OEXInterfaceTests: XCTestCase {
         let notIncludesOrgInQueryParams = enrollmentUrl.range(of:"?org=").location == NSNotFound
         let notIncludesTestAsUsername = enrollmentUrl.range(of: "test").location == NSNotFound
         
-        XCTAssertNil(enrollmentUrl)
         XCTAssertTrue(notIncludesOrgInQueryParams)
         XCTAssertTrue(notIncludesTestAsUsername)
     }
@@ -83,7 +80,6 @@ class OEXInterfaceTests: XCTestCase {
         let notIncludesOrgInQueryParams = enrollmentUrl.range(of:"?org=").location == NSNotFound
         let includesTestAsUsername = enrollmentUrl.range(of: "test").location == NSNotFound
         
-        XCTAssertNil(enrollmentUrl)
         XCTAssertTrue(notIncludesOrgInQueryParams)
         XCTAssertTrue(includesTestAsUsername)
     }
