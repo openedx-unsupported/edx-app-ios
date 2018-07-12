@@ -11,14 +11,14 @@ import Foundation
 extension OEXInterface {
     @objc public func formatEnrollmentURL(with url : NSMutableString) -> NSMutableString {
         guard let username = OEXSession.shared()?.currentUser?.username else {
-            url.appendFormat("%@/%@%@?format=json", URL_USER_DETAILS, "test", URL_COURSE_ENROLLMENTS)
+            url.appendFormat("%@/%@%@", URL_USER_DETAILS, "test", URL_COURSE_ENROLLMENTS)
             return url
         }
         
         if let orgCode = OEXConfig.shared().organizationCode() {
-            url.appendFormat("%@/%@%@?org=%@&format=json", URL_USER_DETAILS, username, URL_COURSE_ENROLLMENTS, orgCode)
+            url.appendFormat("%@/%@%@?org=%@", URL_USER_DETAILS, username, URL_COURSE_ENROLLMENTS, orgCode)
         } else {
-            url.appendFormat("%@/%@%@?format=json", URL_USER_DETAILS, username, URL_COURSE_ENROLLMENTS)
+            url.appendFormat("%@/%@%@", URL_USER_DETAILS, username, URL_COURSE_ENROLLMENTS)
         }
         
         return url

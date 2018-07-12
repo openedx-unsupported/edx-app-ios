@@ -1,14 +1,14 @@
 //
-//  OEXInterface+SwiftTests.swift
+//  OEXInterfaceTests.swift
 //  edXTests
 //
-//  Created by Jose Antonio Gonzalez on 2018/07/11.
+//  Created by Jose Antonio Gonzalez on 2018/07/12.
 //  Copyright © 2018 edX. All rights reserved.
 //
 
 import XCTest
 
-class OEXInterface_SwiftTests: XCTestCase {
+class OEXInterfaceTests: XCTestCase {
     
     let interface = OEXInterface()
     let config = OEXConfig()

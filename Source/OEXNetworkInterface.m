@@ -95,14 +95,13 @@
     NSMutableString* URLString = [OEXConfig sharedConfig].apiHostURL.absoluteString.mutableCopy;
 
     if([type isEqualToString:URL_USER_DETAILS]) {
-        [URLString appendFormat:@"%@/%@?format=json", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
+        [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
     }
     else if([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
         URLString = [[OEXInterface sharedInterface] formatEnrollmentURLWith:URLString];
     }
     else {
         URLString = [NSMutableString stringWithString:type];
-        [URLString appendString:@"?format=json"];
     }
 
     return URLString;
