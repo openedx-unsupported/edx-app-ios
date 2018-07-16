@@ -9,13 +9,15 @@
 import UIKit
 
 private enum TabBarOptions: Int {
-    case Course, CourseCatalog, Debug
-    static let options = [Course, CourseCatalog, Debug]
+    case Course, MyPrograms, CourseCatalog, Debug
+    static let options = [Course, MyPrograms, CourseCatalog, Debug]
     
     func title(config: OEXConfig? = nil) -> String {
         switch self {
         case .Course:
             return Strings.courses
+        case .MyPrograms:
+            return "My Programs"
         case .CourseCatalog:
             return config?.courseEnrollmentConfig.type == .Native ? Strings.findCourses : Strings.discover
         case .Debug:
@@ -84,6 +86,10 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             switch option {
             case .Course:
                 item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+                tabBarItems.append(item)
+            case .MyPrograms:
+                guard environment.config.isMyProgramsEnabled else { break }
+                item = TabBarItem(title: option.title(), viewController: MyProgramsWebViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
                 guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }

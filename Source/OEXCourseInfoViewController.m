@@ -28,33 +28,34 @@ static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
 static NSString* const OEXCourseEnrollURLEmailOptInKey = @"email_opt_in";
 static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
-@interface OEXCourseInfoViewController () <FindCoursesWebViewHelperDelegate, InterfaceOrientationOverriding>
+@interface OEXCourseInfoViewController () <WebViewDelegate, InterfaceOrientationOverriding>
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;
 @property (strong,nonatomic, nullable) UIView *bottomBar;
 @property (strong, nonatomic) RouterEnvironment* environment;
+@property (strong, nonatomic) NSURL* courseInfoURL;
 
 @end
 
 @implementation OEXCourseInfoViewController
 
-- (instancetype)initWithEnvironment:(RouterEnvironment* _Nullable)environment pathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar {
+- (instancetype)initWithEnvironment:(RouterEnvironment* _Nullable)environment courseInfoURL:(NSURL*)courseInfoURL bottomBar:(nullable UIView*) bottomBar {
     self = [super initWithNibName:nil bundle:nil];
     if(self != nil) {
         self.environment = environment;
-        self.pathID = pathID;
+        self.courseInfoURL = courseInfoURL;
         self.bottomBar = bottomBar;
         self.navigationItem.title = [self courseDiscoveryTitle];
     }
     return self;
 }
 
-- (NSURL*)courseInfoURL {
-    NSString* urlString = [[self enrollmentConfig].webviewConfig.courseInfoURLTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
-    NSURL* URL = [NSURL URLWithString:urlString];
-    return URL;
-}
+//- (NSURL*)courseInfoURL {
+//    NSString* urlString = [[self enrollmentConfig].webviewConfig.courseInfoURLTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
+//    NSURL* URL = [NSURL URLWithString:urlString];
+//    return URL;
+//}
 
 - (EnrollmentConfig*)enrollmentConfig {
     return [self.environment.config courseEnrollmentConfig];
@@ -86,41 +87,54 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenCourseInfo];
 }
 
-- (BOOL)webViewHelperWithHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
-    NSString* courseID = nil;
-    BOOL emailOptIn = false;
-    [self parseURL:request.URL getCourseID:&courseID emailOptIn:&emailOptIn];
-    if(courseID != nil) {
-        [self  enrollInCourseWithCourseID:courseID emailOpt:emailOptIn];
-        return NO;
+- (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {
+    NSURL *url = request.URL;
+    if (url) {
+        BOOL didNavigate = [self.environment.router navigateTo:url from:self bottomBar: self.bottomBar];
+        return !didNavigate;
     }
     return YES;
 }
 
-- (UIViewController *)containingControllerForWebViewHelperWithHelper:(FindCoursesWebViewHelper *)helper {
+- (UIViewController * _Nonnull)webViewContainingController {
     return self;
 }
 
-- (void)parseURL:(NSURL*)url getCourseID:(NSString* __autoreleasing*)courseID emailOptIn:(BOOL*)emailOptIn {
-    if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesEnrollPath]) {
-        NSDictionary* queryParameters = url.oex_queryParameters;
-        *courseID = queryParameters[OEXCourseEnrollURLCourseIDKey];
-        *emailOptIn = [queryParameters[OEXCourseEnrollURLEmailOptInKey] boolValue];
-    }
-}
-
-- (void)showMainScreenWithMessage:(NSString*)message courseID:(NSString*)courseID {
-    [self.environment.router showMyCoursesAnimated:YES pushingCourseWithID:courseID];
-    [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:0.5];
-}
-
-- (void)postEnrollmentSuccessNotification:(NSString*)message {
-    [[NSNotificationCenter defaultCenter] postNotificationName:EnrollmentShared.successNotification object:message];
-    
-    if ([self isRootModal]) {
-        [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-    }
-}
+//- (BOOL)webViewHelperWithHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
+//    NSString* courseID = nil;
+//    BOOL emailOptIn = false;
+//    [self parseURL:request.URL getCourseID:&courseID emailOptIn:&emailOptIn];
+//    if(courseID != nil) {
+//        [self  enrollInCourseWithCourseID:courseID emailOpt:emailOptIn];
+//        return NO;
+//    }
+//    return YES;
+//}
+//
+//- (UIViewController *)containingControllerForWebViewHelperWithHelper:(FindCoursesWebViewHelper *)helper {
+//    return self;
+//}
+//
+//- (void)parseURL:(NSURL*)url getCourseID:(NSString* __autoreleasing*)courseID emailOptIn:(BOOL*)emailOptIn {
+//    if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesEnrollPath]) {
+//        NSDictionary* queryParameters = url.oex_queryParameters;
+//        *courseID = queryParameters[OEXCourseEnrollURLCourseIDKey];
+//        *emailOptIn = [queryParameters[OEXCourseEnrollURLEmailOptInKey] boolValue];
+//    }
+//}
+//
+//- (void)showMainScreenWithMessage:(NSString*)message courseID:(NSString*)courseID {
+//    [self.environment.router showMyCoursesAnimated:YES pushingCourseWithID:courseID];
+//    [self performSelector:@selector(postEnrollmentSuccessNotification:) withObject:message afterDelay:0.5];
+//}
+//
+//- (void)postEnrollmentSuccessNotification:(NSString*)message {
+//    [[NSNotificationCenter defaultCenter] postNotificationName:EnrollmentShared.successNotification object:message];
+//    
+//    if ([self isRootModal]) {
+//        [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+//    }
+//}
 
 - (BOOL) shouldAutorotate {
     return true;

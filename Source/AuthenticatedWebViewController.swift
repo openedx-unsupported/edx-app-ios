@@ -96,6 +96,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private let headerInsets : HeaderViewInsets
+    weak var webViewDelegate: WebViewDelegate?
     
     private lazy var webController : WebContentController = {
         let controller = WKWebViewContentController()
@@ -247,7 +248,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .linkActivated, .formSubmitted, .formResubmitted:
-            if let URL = navigationAction.request.url {
+            if let URL = navigationAction.request.url, webViewDelegate?.webView(webView, shouldLoad: navigationAction.request) ?? true {
                 UIApplication.shared.openURL(URL)
             }
             decisionHandler(.cancel)
