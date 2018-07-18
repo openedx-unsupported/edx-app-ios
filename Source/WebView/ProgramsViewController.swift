@@ -1,5 +1,5 @@
 //
-//  MyProgramsWebViewController.swift
+//  ProgramsViewController.swift
 //  edX
 //
 //  Created by Zeeshan Arif on 7/13/18.
@@ -12,7 +12,7 @@ import WebKit
 let myProgramsBaseURL = "https://courses.edx.org/dashboard"
 let myProgramsPath = "/programs_fragment/?mobile_only=true"
 
-class MyProgramsWebViewController: UIViewController {
+class ProgramsViewController: UIViewController {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider
     fileprivate let environment: Environment?
@@ -39,6 +39,7 @@ class MyProgramsWebViewController: UIViewController {
 
     // MARK:- Methods -
     func setupView() {
+        title = Strings.programs
         addChildViewController(webController)
         webController.didMove(toParentViewController: self)
         view.addSubview(webController.view)
@@ -60,13 +61,48 @@ class MyProgramsWebViewController: UIViewController {
         webController.loadRequest(request: request)
     }
     
+    fileprivate func enrollPorgramCourse(url: URL) {
+        if let urlData = CourseHelper.parse(url: url), let courseId = urlData.courseId {
+            CourseHelper.enrollInCourse(courseID: courseId, emailOpt: urlData.emailOptIn, from: self)
+        }
+    }
+    
+    @objc
+    fileprivate func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) -> Bool {
+        guard let appURLHost = CourseHelper.appURLHostIfValid(url: url) else { return false }
+        switch appURLHost {
+        case .courseDetail:
+            if let courseDetailPath = CourseHelper.getCourseDetailPath(from: url) {
+                environment?.router?.showCourseDetails(from: controller, with: courseDetailPath, bottomBar: bottomBar)
+            }
+            break
+        case .enrolledCourseDetail:
+            if let urlData = CourseHelper.parse(url: url), let courseId = urlData.courseId {
+                environment?.router?.showCourseWithID(courseID: courseId, fromController: controller, animated: true)
+            }
+            break
+        case .enrolledProgramDetail:
+            if let programDetailsURL = CourseHelper.getEnrolledProgramDetailsURL(from: url) {
+                environment?.router?.showEnrolledProgramDetails(with: programDetailsURL, from: controller)
+            }
+            break
+        default: break
+        }
+        return true
+    }
 }
 
-extension MyProgramsWebViewController: WebViewDelegate {
+extension ProgramsViewController: WebViewDelegate {
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
-        let didNavigate = environment?.router?.navigate(to: url, from: self, bottomBar: nil) ?? false
-        return !didNavigate
+        if let appURLHost = CourseHelper.appURLHostIfValid(url: url), appURLHost == .courseEnrollment {
+            enrollPorgramCourse(url: url)
+        }
+        else {
+            let didNavigate = navigate(to: url, from: self, bottomBar: nil)
+            return !didNavigate
+        }
+        return true
     }
     
     func webViewContainingController() -> UIViewController {

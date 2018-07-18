@@ -360,5 +360,15 @@ extension OEXRouter {
         let debugMenu = DebugMenuViewController(environment: environment)
         showContentStack(withRootController: debugMenu, animated: true)
     }
+    
+    public func showEnrolledProgramDetails(with url: URL, from controller: UIViewController) {
+        let programDetailsController = ProgramsViewController(environment: environment, programDetailsURL: url)
+        controller.navigationController?.pushViewController(programDetailsController, animated: true)
+    }
+    
+    public func showCourseDetails(from controller: UIViewController, with coursePathID: String, bottomBar: UIView?) {
+        let courseInfoViewController = OEXCourseInfoViewController(environment: environment, pathID: coursePathID, bottomBar: bottomBar?.copy() as? UIView)
+        controller.navigationController?.pushViewController(courseInfoViewController, animated: true)
+    }
 }
 

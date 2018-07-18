@@ -92,28 +92,6 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     return [self.environment.config courseEnrollmentConfig];
 }
 
-//- (void)showCourseInfoWithPathID:(NSString*)coursePathID {
-//    // FindCoursesWebViewHelper and OEXCourseInfoViewController are showing bottom bars so each should have their own copy of botombar view
-//
-//    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithEnvironment: self.environment pathID:coursePathID bottomBar:[_bottomBar copy]];
-//    [self.navigationController pushViewController:courseInfoViewController animated:YES];
-//}
-
-
-
-//- (BOOL) webViewHelperWithHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
-//    NSString* coursePathID = [self getCoursePathIDFromURL:request.URL];
-//    if(coursePathID != nil) {
-//        [self showCourseInfoWithPathID:coursePathID];
-//        return NO;
-//    }
-//    return YES;
-//}
-
-//- (UIViewController*)containingControllerForWebViewHelperWithHelper:(FindCoursesWebViewHelper *)helper {
-//    return self;
-//}
-
 - (NSString*)getCoursePathIDFromURL:(NSURL*)url {
     if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesCourseInfoPath]) {
         NSString* path = url.oex_queryParameters[OEXFindCoursesPathIDKey];
@@ -137,10 +115,10 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {
-    NSURL *url = request.URL;
-    if (url) {
-        BOOL didNavigate = [self.environment.router navigateTo:url from:self bottomBar: self.bottomBar];
-        return !didNavigate;
+    NSString* coursePathID = [CourseHelper getCourseDetailPathFrom:request.URL];
+    if(coursePathID != nil) {
+        [self.environment.router showCourseDetailsFrom:self with:coursePathID bottomBar:[_bottomBar copy]];
+        return NO;
     }
     return YES;
 }

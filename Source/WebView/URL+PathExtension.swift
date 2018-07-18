@@ -35,5 +35,4 @@ extension URL {
         }
         return queryParameters
     }
-    
 }

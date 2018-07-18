@@ -14,11 +14,6 @@ fileprivate enum QueryParameterKeys {
     static let subject = "subject"
 }
 
-@objc protocol FindCoursesWebViewHelperDelegate : class {
-    func webViewHelper(helper : FindCoursesWebViewHelper, shouldLoadLinkWithRequest request: NSURLRequest) -> Bool
-    func containingControllerForWebViewHelper(helper : FindCoursesWebViewHelper) -> UIViewController
-}
-
 class FindCoursesWebViewHelper: NSObject {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
@@ -317,6 +312,12 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
         return URL(string: query)
     }
     
+}
+
+extension FindCoursesWebViewHelper {
+    var t_webView: WKWebView {
+        return webView
+    }
 }
 
 extension String {

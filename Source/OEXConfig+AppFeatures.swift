@@ -86,6 +86,6 @@ extension OEXConfig {
     }
     
     var isMyProgramsEnabled: Bool {
-        return bool(forKey: "MY_PROGRAMS_ENABLED")
+        return bool(forKey: "PROGRAMS_ENABLED")
     }
 }

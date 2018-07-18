@@ -37,6 +37,13 @@ private protocol WebContentController {
     func resetState()
 }
 
+@objc
+protocol WebViewDelegate: class {
+    func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool
+    func webViewContainingController() -> UIViewController
+}
+
+
 // A class should implement AlwaysRequireAuthenticationOverriding protocol if it always require authentication.
 protocol AuthenticatedWebViewControllerRequireAuthentication {
 }

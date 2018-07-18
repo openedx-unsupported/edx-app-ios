@@ -17,7 +17,7 @@ private enum TabBarOptions: Int {
         case .Course:
             return Strings.courses
         case .MyPrograms:
-            return "My Programs"
+            return Strings.programs
         case .CourseCatalog:
             return config?.courseEnrollmentConfig.type == .Native ? Strings.findCourses : Strings.discover
         case .Debug:
@@ -89,7 +89,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
                 tabBarItems.append(item)
             case .MyPrograms:
                 guard environment.config.isMyProgramsEnabled else { break }
-                item = TabBarItem(title: option.title(), viewController: MyProgramsWebViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(), viewController: ProgramsViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
                 guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }
