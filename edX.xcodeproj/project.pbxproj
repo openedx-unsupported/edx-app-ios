@@ -39,7 +39,6 @@
 		19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */; };
 		19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */; };
 		19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */ = {isa = PBXBuildFile; fileRef = 19E1F02A1A272DDC00C2E1BE /* LastAccessed.m */; };
-		1A03DEA31BBC72BA006783FB /* countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A03DEA51BBC72BA006783FB /* countries.json */; };
 		1A1181E41BB462D700CFE52B /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1181E31BB462D700CFE52B /* RemoteImage.swift */; };
 		1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */; };
 		1A2CCDAB1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */; };
@@ -951,7 +950,6 @@
 		19DC02011A1E13AA00A874D3 /* OEXAnalyticsData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsData.h; sourceTree = "<group>"; };
 		19E1F0291A272DDC00C2E1BE /* LastAccessed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastAccessed.h; sourceTree = "<group>"; };
 		19E1F02A1A272DDC00C2E1BE /* LastAccessed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastAccessed.m; sourceTree = "<group>"; };
-		1A03DEA41BBC72BA006783FB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/countries.json; sourceTree = "<group>"; };
 		1A1181E31BB462D700CFE52B /* RemoteImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 		1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXIcon.swift"; sourceTree = "<group>"; };
 		1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+Profiles.swift"; sourceTree = "<group>"; };
@@ -1836,7 +1834,6 @@
 		E08CC57A1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E08CC57B1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		E08CC57C1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/profiles.json"; sourceTree = "<group>"; };
-		E08CC57D1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/countries.json"; sourceTree = "<group>"; };
 		E08CC57E1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/languages.json"; sourceTree = "<group>"; };
 		E08CC57F1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/whats_new.json"; sourceTree = "<group>"; };
 		E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoController.swift; sourceTree = "<group>"; };
@@ -2122,7 +2119,6 @@
 				1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */,
 				1AFEB1B41BBD5B7D004C471D /* JSON Forms */,
 				1A55019E1BBA30C900D5F9DD /* profiles.json */,
-				1A03DEA51BBC72BA006783FB /* countries.json */,
 				1AFEB1BB1BBD88F3004C471D /* languages.json */,
 			);
 			name = "User Profiles";
@@ -4214,7 +4210,6 @@
 				5D836DC91B2FA12E00411CAB /* DiscussionNewCommentViewController.xib in Resources */,
 				69ECC6101D50D1170030CF87 /* profilePhotoPlaceholder.png in Resources */,
 				69ECC6051D50D1170030CF87 /* OpenSans-Regular.ttf in Resources */,
-				1A03DEA31BBC72BA006783FB /* countries.json in Resources */,
 				B71AA1C920CEF64D00700C5E /* science@2x.png in Resources */,
 				B71AA1A120CEF64D00700C5E /* design@3x.png in Resources */,
 				E0DB52C920A1F36600150FF5 /* Default-Landscape-568h@2x.png in Resources */,
@@ -5113,15 +5108,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1A03DEA51BBC72BA006783FB /* countries.json */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1A03DEA41BBC72BA006783FB /* en */,
-				E08CC57D1F33269D0092ACED /* es-419 */,
-			);
-			name = countries.json;
-			sourceTree = "<group>";
-		};
 		1A55019E1BBA30C900D5F9DD /* profiles.json */ = {
 			isa = PBXVariantGroup;
 			children = (
