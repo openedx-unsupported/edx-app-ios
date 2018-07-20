@@ -72,7 +72,10 @@ class CourseHelper: NSObject {
     
     class func showMainScreen(with message: String, and courseId: String, from controller: UIViewController) {
         OEXRouter.shared().showMyCourses(animated: true, pushingCourseWithID: courseId)
-        perform(#selector(postEnrollmentSuccessNotification), with: message, afterDelay: 0.5)
+        let delay = DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delay) {
+           postEnrollmentSuccessNotification(message: message, from: controller)
+        }
     }
     
     class func postEnrollmentSuccessNotification(message: String, from controller: UIViewController) {
