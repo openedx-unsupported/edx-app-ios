@@ -29,6 +29,7 @@ public struct VideoCompletionApi {
         return NetworkRequest(
             method: .POST,
             path: "/api/completion/v1/completion-batch",
+            requiresAuth: true,
             body: body,
             deserializer: .noContent(videoCompletionDeserializer)
         )
