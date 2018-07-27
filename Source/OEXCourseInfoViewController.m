@@ -91,7 +91,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     BOOL emailOptIn = false;
     [self parseURL:request.URL getCourseID:&courseID emailOptIn:&emailOptIn];
     if(courseID != nil) {
-        [CourseHelper enrollInCourseWithCourseID:courseID emailOpt:emailOptIn from:self];
+        [CourseDiscoveryHelper enrollInCourseWithCourseID:courseID emailOpt:emailOptIn from:self];
         return NO;
     }
     return YES;
@@ -100,6 +100,9 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (UIViewController * _Nonnull)webViewContainingController {
     return self;
 }
+
+- (void)webView:(WKWebView *)webView didFail:(NSError *)error { }
+- (void)webView:(WKWebView *)webView didFinish:(BOOL)didFinish {}
 
 - (void)parseURL:(NSURL*)url getCourseID:(NSString* __autoreleasing*)courseID emailOptIn:(BOOL*)emailOptIn {
     if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesEnrollPath]) {

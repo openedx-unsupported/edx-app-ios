@@ -15,7 +15,7 @@ extension URL {
     }
     
     var isValidAppURLScheme: Bool {
-        return self.scheme ?? "" == AppURLString.appURLScheme.rawValue ? true : false
+        return self.scheme ?? "" == URIString.appURLScheme.rawValue ? true : false
     }
     
     var queryParameters: [String: Any]? {

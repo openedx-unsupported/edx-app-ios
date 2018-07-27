@@ -1,5 +1,5 @@
 //
-//  CourseHelper.swift
+//  CourseDiscoveryHelper.swift
 //  edX
 //
 //  Created by Salman on 17/07/2018.
@@ -8,51 +8,51 @@
 
 import UIKit
 
-enum AppURLString: String {
+enum URIString: String {
     case appURLScheme = "edxapp"
     case pathPlaceHolder = "{path_id}"
     case coursePathPrefix = "course/"
 }
 
-enum AppURLParameterKey: String, RawStringExtractable {
+fileprivate enum URLParameterKeys: String, RawStringExtractable {
     case pathId = "path_id";
     case courseId = "course_id"
     case emailOptIn = "email_opt_in"
 }
 
 // Define Your Hosts Here
-enum AppURLHost: String {
+enum WebviewActions: String {
     case courseEnrollment = "enroll"
     case courseDetail = "course_info"
     case enrolledCourseDetail = "enrolled_course_info"
     case enrolledProgramDetail = "enrolled_program_info"
 }
 
-class CourseHelper: NSObject {
+class CourseDiscoveryHelper: NSObject {
 
-     class func appURLHostIfValid(url: URL) -> AppURLHost? {
-        guard url.isValidAppURLScheme, let appURLHost = AppURLHost(rawValue: url.appURLHost) else {
+     class func appURL(url: URL) -> WebviewActions? {
+        guard url.isValidAppURLScheme, let url = WebviewActions(rawValue: url.appURLHost) else {
             return nil
         }
-        return appURLHost
+        return url
     }
     
-    class func getCourseDetailPath(from url: URL) -> String? {
-        guard url.isValidAppURLScheme, url.appURLHost == AppURLHost.courseDetail.rawValue, let path = url.queryParameters?[AppURLParameterKey.pathId] as? String else {
+    @objc class func getDetailPath(from url: URL) -> String? {
+        guard url.isValidAppURLScheme, url.appURLHost == WebviewActions.courseDetail.rawValue, let path = url.queryParameters?[URLParameterKeys.pathId] as? String else {
             return nil
         }
         
         // the site sends us things of the form "course/<path_id>" we only want the path id
-        return path.replacingOccurrences(of: AppURLString.coursePathPrefix.rawValue, with: "")
+        return path.replacingOccurrences(of: URIString.coursePathPrefix.rawValue, with: "")
     }
     
     class func parse(url: URL) -> (courseId: String?, emailOptIn: Bool)? {
-        guard url.isValidAppURLScheme, (url.appURLHost == AppURLHost.courseEnrollment.rawValue || url.appURLHost == AppURLHost.enrolledCourseDetail
+        guard url.isValidAppURLScheme, (url.appURLHost == WebviewActions.courseEnrollment.rawValue || url.appURLHost == WebviewActions.enrolledCourseDetail
             .rawValue) else {
                 return nil
         }
-        let courseId = url.queryParameters?[AppURLParameterKey.courseId] as? String
-        let emailOptIn = url.queryParameters?[AppURLParameterKey.emailOptIn] as? Bool
+        let courseId = url.queryParameters?[URLParameterKeys.courseId] as? String
+        let emailOptIn = url.queryParameters?[URLParameterKeys.emailOptIn] as? Bool
         return (courseId , emailOptIn ?? false)
     }
     
@@ -60,13 +60,13 @@ class CourseHelper: NSObject {
         UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription(platformName: OEXConfig.shared().platformName()), cancelButtonTitle: Strings.ok, onViewController: controller)
     }
     
-    class func getEnrolledProgramDetailsURL(from url: URL) -> URL? {
+    class func programDetailURL(from url: URL) -> URL? {
         guard url.isValidAppURLScheme,
-            let path = url.queryParameters?[AppURLParameterKey.pathId] as? String else {
+            let path = url.queryParameters?[URLParameterKeys.pathId] as? String else {
                 return nil
         }
         let myProgramDetailURL = "https://courses.edx.org/dashboard/{path_id}?mobile_only=true"
-        let programDetailUrlString = myProgramDetailURL.replacingOccurrences(of: AppURLString.pathPlaceHolder.rawValue, with: path)
+        let programDetailUrlString = myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: path)
         return URL(string: programDetailUrlString)
     }
     

@@ -258,6 +258,7 @@ extension OEXRouter {
         let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery)
         if let fromController = fromController {
             fromController.tabBarController?.selectedIndex = 1
+            
         } else {
             showControllerFromStartupScreen(controller: controller)
         }
@@ -361,13 +362,14 @@ extension OEXRouter {
         showContentStack(withRootController: debugMenu, animated: true)
     }
     
-    public func showEnrolledProgramDetails(with url: URL, from controller: UIViewController) {
+    public func showProgramDetails(with url: URL, from controller: UIViewController) {
         let programDetailsController = ProgramsViewController(environment: environment, programDetailsURL: url)
         controller.navigationController?.pushViewController(programDetailsController, animated: true)
     }
     
     public func showCourseDetails(from controller: UIViewController, with coursePathID: String, bottomBar: UIView?) {
         let courseInfoViewController = OEXCourseInfoViewController(environment: environment, pathID: coursePathID, bottomBar: bottomBar?.copy() as? UIView)
+        controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         controller.navigationController?.pushViewController(courseInfoViewController, animated: true)
     }
 }

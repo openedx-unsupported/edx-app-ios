@@ -194,7 +194,11 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
             controller.configurePresentationController(withSourceView: shareButton)
             present(controller, animated: true, completion: nil)
         }
-    }    
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension UITabBarController {

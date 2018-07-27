@@ -37,12 +37,12 @@ private protocol WebContentController {
     func resetState()
 }
 
-@objc
-protocol WebViewDelegate: class {
+@objc protocol WebViewDelegate: class {
+    func webView(_ webView: WKWebView, didFinish: Bool)
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool
     func webViewContainingController() -> UIViewController
+    func webView(_ webView: WKWebView, didFail error: Error)
 }
-
 
 // A class should implement AlwaysRequireAuthenticationOverriding protocol if it always require authentication.
 protocol AuthenticatedWebViewControllerRequireAuthentication {
@@ -134,6 +134,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false
+        webController.view.accessibilityIdentifier = "AuthenticatedWebViewController:authenticated-web-view"
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -298,6 +299,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             if delegate?.authenticatedWebViewController(authenticatedController: self, didFinishLoading: webView) == nil {
               loadController.state = .Loaded
             }
+            webViewDelegate?.webView(webView, didFinish: true)
         case .NeedingSession:
             state = .CreatingSession
             loadOAuthRefreshRequest()
@@ -307,11 +309,19 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        showError(error: error as NSError?)
+        guard let delegate = webViewDelegate else {
+            showError(error: error as NSError?)
+            return
+        }
+        delegate.webView(webView, didFail: error)
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        showError(error: error as NSError?)
+        guard let delegate = webViewDelegate else {
+            showError(error: error as NSError?)
+            return
+        }
+        delegate.webView(webView, didFail: error)
     }
     
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {

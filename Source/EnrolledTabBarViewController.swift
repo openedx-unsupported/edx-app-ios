@@ -9,14 +9,14 @@
 import UIKit
 
 private enum TabBarOptions: Int {
-    case Course, MyPrograms, CourseCatalog, Debug
-    static let options = [Course, MyPrograms, CourseCatalog, Debug]
+    case Course, Programs, CourseCatalog, Debug
+    static let options = [Course, Programs, CourseCatalog, Debug]
     
     func title(config: OEXConfig? = nil) -> String {
         switch self {
         case .Course:
             return Strings.courses
-        case .MyPrograms:
+        case .Programs:
             return Strings.programs
         case .CourseCatalog:
             return config?.courseEnrollmentConfig.type == .Native ? Strings.findCourses : Strings.discover
@@ -87,8 +87,8 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             case .Course:
                 item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-            case .MyPrograms:
-                guard environment.config.isMyProgramsEnabled else { break }
+            case .Programs:
+                guard environment.config.isProgramsEnabled else { break }
                 item = TabBarItem(title: option.title(), viewController: ProgramsViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
@@ -117,6 +117,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
             controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize), selectedImage: tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize))
+            controller.tabBarItem.accessibilityIdentifier = "EnrolledTabBarViewController:tab-bar-item"
             controllers.append(controller)
         }
         viewControllers = controllers
@@ -176,6 +177,13 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         accountButton.oex_setAction { [weak self] in
             self?.environment.router?.showAccount(controller: self, modalTransitionStylePresent: true)
         }
+    }
+    
+    func getCourseCatalougeIndex() -> Int {
+        let index = tabBarItems.index {
+            $0.detailText == Strings.Dashboard.courseCourseDetail
+        }
+        return index ?? 0
     }
 }
 
