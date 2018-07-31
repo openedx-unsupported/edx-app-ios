@@ -9,17 +9,13 @@
 import UIKit
 import WebKit
 
-let myProgramsBaseURL = "https://courses.edx.org/dashboard"
-let myProgramsPath = "/programs_fragment/?mobile_only=true"
-
-class ProgramsViewController: UIViewController {
+class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider & ReachabilityProvider
     fileprivate let environment: Environment
     private let webController: AuthenticatedWebViewController
     private let programDetailsURL: URL?
     fileprivate var request: NSURLRequest? = nil
-    fileprivate var loadController = LoadStateViewController()
     
     init(environment: Environment, programDetailsURL: URL? = nil) {
         webController = AuthenticatedWebViewController(environment: environment)
@@ -37,9 +33,6 @@ class ProgramsViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         loadPrograms()
-
-        loadController.setupInController(controller: self, contentView: webController.view)
-        loadController.state = .Initial
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,10 +57,11 @@ class ProgramsViewController: UIViewController {
             urlToLoad = programDetailsURL
         }
         else {
-            guard let myProgramsURL  = URL(string: "\(myProgramsBaseURL)\(myProgramsPath)") else { return }
+            guard let myProgramsURL  =  environment.config.programsURL() else { return }
             urlToLoad = myProgramsURL
         }
         request = NSURLRequest(url: urlToLoad)
+        
         if let request = request {
             webController.loadRequest(request: request)
         }
@@ -101,15 +95,13 @@ class ProgramsViewController: UIViewController {
         }
         return true
     }
+
+    override var shouldAutorotate: Bool {
+        return true
+    }
     
-    fileprivate func showError(error : NSError) {
-        let buttonInfo = MessageButtonInfo(title: Strings.reload) {[weak self] _ in
-            if let request = self?.request {
-                self?.webController.loadRequest(request: request)
-                self?.loadController.state = .Initial
-            }
-        }
-        self.loadController.state = LoadState.failed(error: error, buttonInfo: buttonInfo)
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
     }
 }
 
@@ -128,13 +120,5 @@ extension ProgramsViewController: WebViewDelegate {
     
     func webViewContainingController() -> UIViewController {
         return self
-    }
-    
-    func webView(_ webView: WKWebView, didFinish: Bool) {
-        loadController.state = .Loaded
-    }
-    
-    func webView(_ webView: WKWebView, didFail error: Error) {
-        showError(error: error as NSError)
     }
 }

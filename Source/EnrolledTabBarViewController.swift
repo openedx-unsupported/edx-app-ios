@@ -40,6 +40,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     private let UserProfileImageSize = CGSize(width: 30, height: 30)
     private var profileFeed: Feed<UserProfile>?
     private let tabBarImageFontSize : CGFloat = 20
+    static var CourseCatalogIndex: Int = 1
     
     private var screenTitle: String {
         guard let option = TabBarOptions.options.first else {return Strings.courses}
@@ -95,6 +96,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
                 guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }
                 item = TabBarItem(title: option.title(config: environment.config), viewController: router.discoveryViewController(), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
+                EnrolledTabBarViewController.CourseCatalogIndex = tabBarItems.count - 1
             case .Debug:
                 if environment.config.shouldShowDebug() {
                     item = TabBarItem(title: option.title(), viewController: DebugMenuViewController(environment: environment), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
@@ -177,13 +179,6 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         accountButton.oex_setAction { [weak self] in
             self?.environment.router?.showAccount(controller: self, modalTransitionStylePresent: true)
         }
-    }
-    
-    func getCourseCatalougeIndex() -> Int {
-        let index = tabBarItems.index {
-            $0.detailText == Strings.Dashboard.courseCourseDetail
-        }
-        return index ?? 0
     }
 }
 

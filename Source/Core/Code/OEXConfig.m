@@ -16,6 +16,7 @@ static NSString* const OEXEnvironmentDisplayName = @"ENVIRONMENT_DISPLAY_NAME";
 static NSString* const OEXPlatformName = @"PLATFORM_NAME";
 static NSString* const OEXPlatformDestinationName = @"PLATFORM_DESTINATION_NAME";
 static NSString* const OEXFeedbackEmailAddress = @"FEEDBACK_EMAIL_ADDRESS";
+static NSString* const ProgramsURL = @"PROGRAMS_URL";
 static NSString* const OEXOrganizationCode = @"ORGANIZATION_CODE";
 
 static NSString* const OEXOAuthClientID = @"OAUTH_CLIENT_ID";
@@ -121,6 +122,10 @@ static OEXConfig* sSharedConfig;
 
 - (NSString*)oauthClientID {
     return [self stringForKey:OEXOAuthClientID];
+}
+
+- (NSURL*)programsURL {
+    return [NSURL URLWithString:[self stringForKey:ProgramsURL]];
 }
 
 #pragma mark - Debug

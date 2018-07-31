@@ -32,16 +32,12 @@ private protocol WebContentController {
     var initialContentState : AuthenticatedWebViewController.State { get }
     
     func loadURLRequest(request : NSURLRequest)
-    
-    func clearDelegate()
     func resetState()
 }
 
 @objc protocol WebViewDelegate: class {
-    func webView(_ webView: WKWebView, didFinish: Bool)
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool
     func webViewContainingController() -> UIViewController
-    func webView(_ webView: WKWebView, didFail error: Error)
 }
 
 // A class should implement AlwaysRequireAuthenticationOverriding protocol if it always require authentication.
@@ -61,10 +57,6 @@ private class WKWebViewContentController : WebContentController {
     
     var scrollView : UIScrollView {
         return webView.scrollView
-    }
-    
-    func clearDelegate() {
-        return webView.navigationDelegate = nil
     }
     
     func loadURLRequest(request: NSURLRequest) {
@@ -97,7 +89,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         case NeedingSession
     }
 
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider
     var delegate: AuthenticatedWebViewControllerDelegate?
     internal let environment : Environment
     private let loadController : LoadStateViewController
@@ -145,7 +137,6 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         // Prevent crash due to stale back pointer, since WKWebView's UIScrollView apparently doesn't
         // use weak for its delegate
         webController.scrollView.delegate = nil
-        webController.clearDelegate()
     }
     
     override public func viewDidLoad() {
@@ -188,7 +179,13 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     public func showError(error : NSError?, icon : Icon? = nil, message : String? = nil) {
-        loadController.state = LoadState.failed(error: error, icon : icon, message : message)
+        let buttonInfo = MessageButtonInfo(title: Strings.reload) {[weak self] _ in
+            if let request = self?.contentRequest, self?.environment.reachability.isReachable() ?? false {
+                self?.loadController.state = .Initial
+                self?.webController.loadURLRequest(request: request)
+            }
+        }
+        loadController.state = LoadState.failed(error: error, icon: icon, message: message, buttonInfo: buttonInfo)
         refreshAccessibility()
     }
     
@@ -299,7 +296,6 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             if delegate?.authenticatedWebViewController(authenticatedController: self, didFinishLoading: webView) == nil {
               loadController.state = .Loaded
             }
-            webViewDelegate?.webView(webView, didFinish: true)
         case .NeedingSession:
             state = .CreatingSession
             loadOAuthRefreshRequest()
@@ -309,19 +305,11 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        guard let delegate = webViewDelegate else {
             showError(error: error as NSError?)
-            return
-        }
-        delegate.webView(webView, didFail: error)
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        guard let delegate = webViewDelegate else {
-            showError(error: error as NSError?)
-            return
-        }
-        delegate.webView(webView, didFail: error)
+          showError(error: error as NSError?)
     }
     
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -337,6 +325,5 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             completionHandler(.performDefaultHandling, nil)
         }
     }
-
 }
 

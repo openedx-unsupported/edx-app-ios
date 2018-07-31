@@ -3495,10 +3495,10 @@
 			children = (
 				E052F5A81D9953BB009F6B6F /* edX.entitlements */,
 				77E647B11C90C21100B6740D /* App */,
-				77E6478F1C90C10300B6740D /* Core */,
 				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
 				BECB7B0C1924C0C3009C77F1 /* Products */,
+				77E6478F1C90C10300B6740D /* Core */,
 				01AAC8755C861B14E810FE8B /* Pods */,
 			);
 			sourceTree = "<group>";
