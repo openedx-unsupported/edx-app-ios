@@ -14,13 +14,13 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider & ReachabilityProvider
     fileprivate let environment: Environment
     private let webController: AuthenticatedWebViewController
-    private let programDetailsURL: URL?
+    private let programsURL: URL
     fileprivate var request: NSURLRequest? = nil
     
-    init(environment: Environment, programDetailsURL: URL? = nil) {
+    init(environment: Environment, programsURL: URL) {
         webController = AuthenticatedWebViewController(environment: environment)
         self.environment = environment
-        self.programDetailsURL = programDetailsURL
+        self.programsURL = programsURL
         super.init(nibName: nil, bundle: nil)
         webController.webViewDelegate = self
     }
@@ -52,16 +52,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
     }
     
     func loadPrograms() {
-        let urlToLoad: URL
-        if let programDetailsURL = programDetailsURL {
-            urlToLoad = programDetailsURL
-        }
-        else {
-            guard let myProgramsURL  =  environment.config.programsURL() else { return }
-            urlToLoad = myProgramsURL
-        }
-        request = NSURLRequest(url: urlToLoad)
-        
+        request = NSURLRequest(url: programsURL)
         if let request = request {
             webController.loadRequest(request: request)
         }

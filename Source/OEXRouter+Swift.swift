@@ -371,7 +371,7 @@ extension OEXRouter {
     }
     
     public func showProgramDetails(with url: URL, from controller: UIViewController) {
-        let programDetailsController = ProgramsViewController(environment: environment, programDetailsURL: url)
+        let programDetailsController = ProgramsViewController(environment: environment, programsURL: url)
         controller.navigationController?.pushViewController(programDetailsController, animated: true)
     }
     

@@ -89,8 +89,8 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
                 item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .Programs:
-                guard environment.config.isProgramsEnabled else { break }
-                item = TabBarItem(title: option.title(), viewController: ProgramsViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+                guard environment.config.isProgramsEnabled, let programsURL = environment.config.programsURL() else { break }
+                item = TabBarItem(title: option.title(), viewController: ProgramsViewController(environment: environment, programsURL: programsURL), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
                 guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }
