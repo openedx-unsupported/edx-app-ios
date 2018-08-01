@@ -90,6 +90,14 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)makeContentControllerCurrent:(UIViewController*)controller {
+    
+    NSArray *childControllers = [self.containerViewController childViewControllers];
+    for (UIViewController *chController in childControllers) {
+        [chController willMoveToParentViewController:nil];
+        [chController.view removeFromSuperview];
+        [chController removeFromParentViewController];
+    }
+    
     [self.containerViewController addChildViewController:controller];
     [self.containerViewController.view addSubview:controller.view];
     [controller.view mas_makeConstraints:^(MASConstraintMaker *make) {

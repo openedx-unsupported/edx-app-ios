@@ -64,8 +64,8 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
         }
     }
     
-    fileprivate func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) -> Bool {
-        guard let appURLHost = CourseDiscoveryHelper.appURL(url: url) else { return false }
+    fileprivate func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) {
+        guard let appURLHost = CourseDiscoveryHelper.appURL(url: url) else { return  }
         switch appURLHost {
         case .courseDetail:
             if let courseDetailPath = CourseDiscoveryHelper.getDetailPath(from: url) {
@@ -84,7 +84,6 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
             break
         default: break
         }
-        return true
     }
 
     override var shouldAutorotate: Bool {
@@ -103,10 +102,9 @@ extension ProgramsViewController: WebViewDelegate {
             enrollPorgramCourse(url: url)
         }
         else {
-            let didNavigate = navigate(to: url, from: self, bottomBar: nil)
-            return !didNavigate
+            navigate(to: url, from: self, bottomBar: nil)
         }
-        return true
+        return false
     }
     
     func webViewContainingController() -> UIViewController {
