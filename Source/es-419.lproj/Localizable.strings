@@ -331,7 +331,7 @@
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="debido hoy a las {due_date} {time_zone}";
 /* Text describing the course due date*/
-"COURSE_DUE_DATE"="debido {due date}";
+"COURSE_DUE_DATE"="debido {due_date}";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Terminado {end_date}";
 /* Label indicating that a course will end */
