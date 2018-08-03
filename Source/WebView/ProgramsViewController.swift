@@ -87,7 +87,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
     }
 }
 
-extension ProgramsViewController: WebViewDelegate {
+extension ProgramsViewController: WebViewContentControllerDelegate {
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
         if let appURLHost = CourseDiscoveryHelper.appURL(url: url), appURLHost == .courseEnrollment {

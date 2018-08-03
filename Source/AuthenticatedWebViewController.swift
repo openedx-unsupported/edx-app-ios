@@ -35,7 +35,7 @@ private protocol WebContentController {
     func resetState()
 }
 
-@objc protocol WebViewDelegate: class {
+@objc protocol WebViewContentControllerDelegate: class {
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool
     func webViewContainingController() -> UIViewController
 }
@@ -95,7 +95,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private let headerInsets : HeaderViewInsets
-    weak var webViewDelegate: WebViewDelegate?
+    weak var webViewDelegate: WebViewContentControllerDelegate?
     
     private lazy var webController : WebContentController = {
         let controller = WKWebViewContentController()

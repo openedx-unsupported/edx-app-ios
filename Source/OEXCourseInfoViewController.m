@@ -28,7 +28,7 @@ static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
 static NSString* const OEXCourseEnrollURLEmailOptInKey = @"email_opt_in";
 static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
-@interface OEXCourseInfoViewController () <WebViewDelegate, InterfaceOrientationOverriding>
+@interface OEXCourseInfoViewController () <WebViewContentControllerDelegate, InterfaceOrientationOverriding>
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;

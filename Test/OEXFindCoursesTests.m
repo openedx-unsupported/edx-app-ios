@@ -19,11 +19,11 @@
 
 // TODO: Refactor so these are either on a separate object owned by the controller and hence testable
 // or exposed through a special Test interface
-@interface OEXFindCoursesViewController (TestCategory) <WebViewDelegate>
+@interface OEXFindCoursesViewController (TestCategory) <WebViewContentControllerDelegate>
 -(NSString *)getCoursePathIDFromURL:(NSURL *)url;
 @end
 
-@interface OEXCourseInfoViewController (TestCategory) <WebViewDelegate>
+@interface OEXCourseInfoViewController (TestCategory) <WebViewContentControllerDelegate>
 - (NSString*)courseURLString;
 -(void)parseURL:(NSURL *)url getCourseID:(NSString *__autoreleasing *)courseID emailOptIn:(BOOL *)emailOptIn;
 @end
