@@ -15,7 +15,6 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
     fileprivate let environment: Environment
     private let webController: AuthenticatedWebViewController
     private let programsURL: URL
-    fileprivate var request: NSURLRequest? = nil
     
     init(environment: Environment, programsURL: URL) {
         webController = AuthenticatedWebViewController(environment: environment)
@@ -34,13 +33,9 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
         setupView()
         loadPrograms()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
 
     // MARK:- Methods -
-    func setupView() {
+    private func setupView() {
         title = Strings.programs
         navigationController?.navigationItem.backBarButtonItem?.title = nil
         addChildViewController(webController)
@@ -51,14 +46,11 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
         }
     }
     
-    func loadPrograms() {
-        request = NSURLRequest(url: programsURL)
-        if let request = request {
-            webController.loadRequest(request: request)
-        }
+    private func loadPrograms() {
+        webController.loadRequest(request: NSURLRequest(url: programsURL))
     }
     
-    fileprivate func enrollPorgramCourse(url: URL) {
+    fileprivate func enrollInCourse(with url: URL) {
         if let urlData = CourseDiscoveryHelper.parse(url: url), let courseId = urlData.courseId {
             CourseDiscoveryHelper.enrollInCourse(courseID: courseId, emailOpt: urlData.emailOptIn, from: self)
         }
@@ -99,7 +91,7 @@ extension ProgramsViewController: WebViewDelegate {
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
         if let appURLHost = CourseDiscoveryHelper.appURL(url: url), appURLHost == .courseEnrollment {
-            enrollPorgramCourse(url: url)
+            enrollInCourse(with: url)
         }
         else {
             navigate(to: url, from: self, bottomBar: nil)

@@ -9,14 +9,14 @@
 import UIKit
 
 private enum TabBarOptions: Int {
-    case Course, Programs, CourseCatalog, Debug
-    static let options = [Course, Programs, CourseCatalog, Debug]
+    case Course, Program, CourseCatalog, Debug
+    static let options = [Course, Program, CourseCatalog, Debug]
     
     func title(config: OEXConfig? = nil) -> String {
         switch self {
         case .Course:
             return Strings.courses
-        case .Programs:
+        case .Program:
             return Strings.programs
         case .CourseCatalog:
             return config?.courseEnrollmentConfig.type == .Native ? Strings.findCourses : Strings.discover
@@ -40,7 +40,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     private let UserProfileImageSize = CGSize(width: 30, height: 30)
     private var profileFeed: Feed<UserProfile>?
     private let tabBarImageFontSize : CGFloat = 20
-    static var CourseCatalogIndex: Int = 1
+    static var courseCatalogIndex: Int = 0
     
     private var screenTitle: String {
         guard let option = TabBarOptions.options.first else {return Strings.courses}
@@ -88,15 +88,15 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             case .Course:
                 item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-            case .Programs:
-                guard environment.config.isProgramsEnabled, let programsURL = environment.config.programsURL() else { break }
+            case .Program:
+                guard environment.config.programConfig.programEnabled, let programsURL = environment.config.programConfig.programURL else { break }
                 item = TabBarItem(title: option.title(), viewController: ProgramsViewController(environment: environment, programsURL: programsURL), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
                 guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }
                 item = TabBarItem(title: option.title(config: environment.config), viewController: router.discoveryViewController(), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-                EnrolledTabBarViewController.CourseCatalogIndex = tabBarItems.count - 1
+                EnrolledTabBarViewController.courseCatalogIndex = tabBarItems.count - 1
             case .Debug:
                 if environment.config.shouldShowDebug() {
                     item = TabBarItem(title: option.title(), viewController: DebugMenuViewController(environment: environment), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)

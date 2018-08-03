@@ -100,6 +100,7 @@
 		2245CA00209C59340097B23F /* TermsOfServices.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2245CA02209C59340097B23F /* TermsOfServices.htm */; };
 		224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224F1F522067B4E0009B3639 /* CustomSlider.swift */; };
 		2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254EF02207610FF00BA183C /* CustomPlayerButton.swift */; };
+		2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94D2111BADC005F7C8C /* ProgramConfig.swift */; };
 		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
 		227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A6204EBF26007AA396 /* VideoPlayerControls.swift */; };
 		227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A92057C0AA007AA396 /* TranscriptParser.swift */; };
@@ -1017,6 +1018,7 @@
 		2245CA03209C59370097B23F /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "es-419"; path = "es-419.lproj/TermsOfServices.htm"; sourceTree = "<group>"; };
 		224F1F522067B4E0009B3639 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		2254EF02207610FF00BA183C /* CustomPlayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerButton.swift; sourceTree = "<group>"; };
+		2255C94D2111BADC005F7C8C /* ProgramConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfig.swift; sourceTree = "<group>"; };
 		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
 		227386A6204EBF26007AA396 /* VideoPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerControls.swift; sourceTree = "<group>"; };
 		227386A92057C0AA007AA396 /* TranscriptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptParser.swift; sourceTree = "<group>"; };
@@ -3132,6 +3134,7 @@
 				E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */,
 				E06292741F7BAFFF006D5EFC /* BranchConfig.swift */,
 				E06292761F7BB452006D5EFC /* FabricKits.swift */,
+				2255C94D2111BADC005F7C8C /* ProgramConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -4913,6 +4916,7 @@
 				773B1D421B1F48F100B861DF /* CourseOutlineHeaderView.swift in Sources */,
 				B7A09BD520F88FBC00A6C249 /* ProgramsViewController.swift in Sources */,
 				B7C5DB3A20B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift in Sources */,
+				2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */,
 				778B61061B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift in Sources */,
 				B4B6D6011A949EFC000F44E8 /* OEXRegistrationError.m in Sources */,
 				1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */,

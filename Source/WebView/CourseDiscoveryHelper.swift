@@ -62,10 +62,9 @@ class CourseDiscoveryHelper: NSObject {
     
     class func programDetailURL(from url: URL) -> URL? {
         guard url.isValidAppURLScheme,
-            let path = url.queryParameters?[URLParameterKeys.pathId] as? String else {
+            let path = url.queryParameters?[URLParameterKeys.pathId] as? String,  let myProgramDetailURL = OEXRouter.shared().environment.config.programConfig.programDetailURL else {
                 return nil
         }
-        let myProgramDetailURL = "https://courses.edx.org/dashboard/{path_id}?mobile_only=true"
         let programDetailUrlString = myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: path)
         return URL(string: programDetailUrlString)
     }

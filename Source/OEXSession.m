@@ -14,6 +14,8 @@
 #import "OEXFileUtility.h"
 #import "OEXPersistentCredentialStorage.h"
 #import "OEXUserDetails.h"
+#import <WebKit/WebKit.h>
+
 
 NSString* const OEXSessionStartedNotification = @"OEXSessionStartedNotification";
 NSString* const OEXSessionStartedUserDetailsKey = @"OEXSessionStartedUserDetailsKey";
@@ -89,6 +91,12 @@ static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
     self.token = nil;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:OEXSessionEndedNotification object:nil];
+    [self removeWebData];
+}
+
+- (void)removeWebData {
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+    [WKWebsiteDataStore.defaultDataStore removeDataOfTypes:WKWebsiteDataStore.allWebsiteDataTypes modifiedSince:date completionHandler:^{}];
 }
 
 #pragma mark Migrations

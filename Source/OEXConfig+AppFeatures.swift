@@ -84,8 +84,4 @@ extension OEXConfig {
     var isAnnouncementsEnabled: Bool {
         return bool(forKey: "ANNOUNCEMENTS_ENABLED")
     }
-    
-    var isProgramsEnabled: Bool {
-        return bool(forKey: "PROGRAMS_ENABLED")
-    }
 }

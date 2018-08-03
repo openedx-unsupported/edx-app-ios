@@ -101,9 +101,6 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     return self;
 }
 
-- (void)webView:(WKWebView *)webView didFail:(NSError *)error { }
-- (void)webView:(WKWebView *)webView didFinish:(BOOL)didFinish {}
-
 - (void)parseURL:(NSURL*)url getCourseID:(NSString* __autoreleasing*)courseID emailOptIn:(BOOL*)emailOptIn {
     if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesEnrollPath]) {
         NSDictionary* queryParameters = url.oex_queryParameters;

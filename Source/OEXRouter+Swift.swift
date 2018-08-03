@@ -258,7 +258,7 @@ extension OEXRouter {
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil, searchQuery: String? = nil) {
         let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery)
         if let fromController = fromController {
-            fromController.tabBarController?.selectedIndex = EnrolledTabBarViewController.CourseCatalogIndex
+            fromController.tabBarController?.selectedIndex = EnrolledTabBarViewController.courseCatalogIndex
         } else {
             showControllerFromStartupScreen(controller: controller)
         }
@@ -342,18 +342,10 @@ extension OEXRouter {
     func pushViewController(controller: UIViewController, fromController: UIViewController) {
         fromController.navigationController?.pushViewController(controller, animated: true)
     }
-
-    /// Remove web data saved in the app, such as caches, cookies.
-    func removeWebData() {
-        let websiteDataTypes = WKWebsiteDataStore.allWebsiteDataTypes()
-        let date = NSDate(timeIntervalSince1970: 0)
-        WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes, modifiedSince: date as Date, completionHandler: {})
-    }
     
     public func logout() {
         invalidateToken()
         environment.session.closeAndClear()
-        removeWebData()
         showLoggedOutScreen()
     }
     
