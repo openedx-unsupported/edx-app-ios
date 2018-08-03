@@ -156,6 +156,13 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         if let request = self.contentRequest {
             loadRequest(request: request)
         }
+        
+        //Remove all website data on session end notification
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionEnded.rawValue) { (_, observer, _) in
+            let date = Date(timeIntervalSince1970: 0)
+            WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: date, completionHandler: {
+            })
+        }
     }
     
     private func resetState() {
