@@ -93,10 +93,10 @@ class CourseDiscoveryHelper: NSObject {
             OEXRouter.shared().showSignUpScreen(from: controller, completion: {
                 self.enrollInCourse(courseID: courseID, emailOpt: emailOpt, from: controller)
             })
-            return;
+            return
         }
         
-        if let _ = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID) {
+        guard let _ = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID) else {
             showMainScreen(with: Strings.findCoursesAlreadyEnrolledMessage, and: courseID, from: controller)
             return
         }
