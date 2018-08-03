@@ -48,7 +48,6 @@ NSString * const BRANCH_REQUEST_KEY_APP_VERSION = @"app_version";
 NSString * const BRANCH_REQUEST_KEY_OS = @"os";
 NSString * const BRANCH_REQUEST_KEY_OS_VERSION = @"os_version";
 NSString * const BRANCH_REQUEST_KEY_URI_SCHEME = @"uri_scheme";
-NSString * const BRANCH_REQUEST_KEY_UPDATE = @"update";
 NSString * const BRANCH_REQUEST_KEY_LINK_IDENTIFIER = @"link_identifier";
 NSString * const BRANCH_REQUEST_KEY_CHECKED_FACEBOOK_APPLINKS = @"facebook_app_link_checked";
 NSString * const BRANCH_REQUEST_KEY_CHECKED_APPLE_AD_ATTRIBUTION = @"apple_ad_attribution_checked";
@@ -63,6 +62,7 @@ NSString * const BRANCH_REQUEST_KEY_LOG = @"log";
 NSString * const BRANCH_REQUEST_KEY_INSTRUMENTATION = @"instrumentation";
 
 NSString * const BRANCH_REQUEST_ENDPOINT_SET_IDENTITY = @"profile";
+NSString * const BRANCH_REQUEST_ENDPOINT_APP_LINK_SETTINGS = @"app-link-settings";
 NSString * const BRANCH_REQUEST_ENDPOINT_LOGOUT = @"logout";
 NSString * const BRANCH_REQUEST_ENDPOINT_USER_COMPLETED_ACTION = @"event";
 NSString * const BRANCH_REQUEST_ENDPOINT_LOAD_REWARDS = @"credits";
@@ -95,6 +95,8 @@ NSString * const BRANCH_LINK_DATA_KEY_OG_IMAGE_URL = @"$og_image_url";
 NSString * const BRANCH_LINK_DATA_KEY_TITLE = @"+spotlight_title";
 NSString * const BRANCH_LINK_DATA_KEY_DESCRIPTION = @"+spotlight_description";
 NSString * const BRANCH_LINK_DATA_KEY_PUBLICLY_INDEXABLE = @"$publicly_indexable";
+NSString * const BRANCH_LINK_DATA_KEY_LOCALLY_INDEXABLE = @"$locally_indexable";
+
 NSString * const BRANCH_LINK_DATA_KEY_TYPE = @"+spotlight_type";
 NSString * const BRANCH_LINK_DATA_KEY_THUMBNAIL_URL = @"+spotlight_thumbnail_url";
 NSString * const BRANCH_LINK_DATA_KEY_KEYWORDS = @"$keywords";
@@ -136,3 +138,5 @@ NSString * const BRANCH_REQUEST_KEY_SEARCH_AD = @"search_ad_encoded";
 NSString * const BRANCH_CRASHLYTICS_SDK_VERSION_KEY = @"io.branch.sdk.version";
 NSString * const BRANCH_CRASHLYTICS_FINGERPRINT_ID_KEY = @"io.branch.device.fingerprintid";
 NSString * const BRANCH_CRASHLYTICS_LOW_MEMORY_KEY = @"io.branch.device.lowmemory";
+
+NSString * const BRANCH_REQUEST_KEY_EXTERNAL_INTENT_URI = @"external_intent_uri";
