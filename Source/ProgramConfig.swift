@@ -10,7 +10,7 @@ import UIKit
 
 fileprivate enum ProgramKeys: String, RawStringExtractable {
     case ProgramURL = "PROGRAM_URL"
-    case ProgramDetailURL = "PROGRAM_DETAIL_URL"
+    case ProgramDetailURL = "PROGRAM_DETAIL_URL_TEMPLATE"
     case ProgramEnabled = "PROGRAM_ENABLED"
 }
 

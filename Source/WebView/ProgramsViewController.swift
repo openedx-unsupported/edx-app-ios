@@ -37,7 +37,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
     // MARK:- Methods -
     private func setupView() {
         title = Strings.programs
-        navigationController?.navigationItem.backBarButtonItem?.title = nil
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         addChildViewController(webController)
         webController.didMove(toParentViewController: self)
         view.addSubview(webController.view)
@@ -50,13 +50,24 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
         webController.loadRequest(request: NSURLRequest(url: programsURL))
     }
     
-    fileprivate func enrollInCourse(with url: URL) {
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .allButUpsideDown
+    }
+}
+
+extension ProgramsViewController: WebViewNavigationControllerDelegate {
+    
+    private func enrollInCourse(with url: URL) {
         if let urlData = CourseDiscoveryHelper.parse(url: url), let courseId = urlData.courseId {
             CourseDiscoveryHelper.enrollInCourse(courseID: courseId, emailOpt: urlData.emailOptIn, from: self)
         }
     }
     
-    fileprivate func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) {
+    private func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) {
         guard let appURLHost = CourseDiscoveryHelper.appURL(url: url) else { return  }
         switch appURLHost {
         case .courseDetail:
@@ -77,17 +88,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
         default: break
         }
     }
-
-    override var shouldAutorotate: Bool {
-        return true
-    }
     
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .allButUpsideDown
-    }
-}
-
-extension ProgramsViewController: WebViewContentControllerDelegate {
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
         if let appURLHost = CourseDiscoveryHelper.appURL(url: url), appURLHost == .courseEnrollment {
