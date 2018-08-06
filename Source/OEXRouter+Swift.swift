@@ -346,6 +346,7 @@ extension OEXRouter {
     public func logout() {
         invalidateToken()
         environment.session.closeAndClear()
+        environment.session.removeAllWebData()
         showLoggedOutScreen()
     }
     

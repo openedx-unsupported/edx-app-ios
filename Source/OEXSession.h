@@ -35,6 +35,7 @@ extern NSString* const OEXSessionEndedNotification;
 - (void)loadTokenFromStore;
 - (void)saveAccessToken:(OEXAccessToken*)token userDetails:(OEXUserDetails*)userDetails;
 - (void)closeAndClearSession;
+- (void)removeAllWebData;
 
 - (void)performMigrations;
 

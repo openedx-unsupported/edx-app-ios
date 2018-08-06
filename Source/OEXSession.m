@@ -93,6 +93,11 @@ static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
     [[NSNotificationCenter defaultCenter] postNotificationName:OEXSessionEndedNotification object:nil];
 }
 
+- (void)removeAllWebData {
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:0];
+    [WKWebsiteDataStore.defaultDataStore removeDataOfTypes:WKWebsiteDataStore.allWebsiteDataTypes modifiedSince:date completionHandler:^{}];
+}
+
 #pragma mark Migrations
 
 // See https://openedx.atlassian.net/browse/MA-791
