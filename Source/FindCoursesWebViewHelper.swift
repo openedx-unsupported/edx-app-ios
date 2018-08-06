@@ -18,7 +18,7 @@ class FindCoursesWebViewHelper: NSObject {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
     fileprivate let environment: Environment?
-    weak var delegate: WebViewNavigationControllerDelegate?
+    weak var delegate: WebViewNavigationDelegate?
     fileprivate let contentView = UIView()
     fileprivate let webView = WKWebView()
     fileprivate let searchBar = UISearchBar()
@@ -44,7 +44,7 @@ class FindCoursesWebViewHelper: NSObject {
         return (webView.url as NSURL?)?.oex_queryParameters() as? [String : String]
     }
     
-    init(environment: Environment?, delegate: WebViewNavigationControllerDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
+    init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
         self.environment = environment
         self.delegate = delegate
         self.bottomBar = bottomBar

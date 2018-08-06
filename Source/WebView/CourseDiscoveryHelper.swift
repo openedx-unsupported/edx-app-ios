@@ -1,3 +1,4 @@
+
 //
 //  CourseDiscoveryHelper.swift
 //  edX
@@ -37,7 +38,7 @@ class CourseDiscoveryHelper: NSObject {
         return url
     }
     
-    @objc class func getDetailPath(from url: URL) -> String? {
+    @objc class func detailPathID(from url: URL) -> String? {
         guard url.isValidAppURLScheme, url.appURLHost == WebviewActions.courseDetail.rawValue, let path = url.queryParameters?[URLParameterKeys.pathId] as? String else {
             return nil
         }
@@ -52,7 +53,8 @@ class CourseDiscoveryHelper: NSObject {
                 return nil
         }
         let courseId = url.queryParameters?[URLParameterKeys.courseId] as? String
-        let emailOptIn = url.queryParameters?[URLParameterKeys.emailOptIn] as? Bool
+        let emailOptIn = (url.queryParameters?[URLParameterKeys.emailOptIn] as? String).flatMap {Bool($0)}
+    
         return (courseId , emailOptIn ?? false)
     }
     
@@ -60,9 +62,9 @@ class CourseDiscoveryHelper: NSObject {
         UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription(platformName: OEXConfig.shared().platformName()), cancelButtonTitle: Strings.ok, onViewController: controller)
     }
     
-    class func programDetailURL(from url: URL) -> URL? {
+    class func programDetailURL(from url: URL, config: OEXConfig) -> URL? {
         guard url.isValidAppURLScheme,
-            let path = url.queryParameters?[URLParameterKeys.pathId] as? String,  let myProgramDetailURL = OEXRouter.shared().environment.config.programConfig.programDetailURL else {
+            let path = url.queryParameters?[URLParameterKeys.pathId] as? String,  let myProgramDetailURL = config.programConfig.programDetailURL else {
                 return nil
         }
         let programDetailUrlString = myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: path)

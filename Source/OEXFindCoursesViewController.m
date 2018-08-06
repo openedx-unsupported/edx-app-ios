@@ -22,7 +22,7 @@ static NSString* const OEXFindCoursesCourseInfoPath = @"course_info/";
 static NSString* const OEXFindCoursesPathIDKey = @"path_id";
 static NSString* const OEXFindCoursePathPrefix = @"course/";
 
-@interface OEXFindCoursesViewController () <WebViewNavigationControllerDelegate, InterfaceOrientationOverriding>
+@interface OEXFindCoursesViewController () <WebViewNavigationDelegate, InterfaceOrientationOverriding>
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) UIView* bottomBar;
@@ -115,7 +115,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {
-    NSString* coursePathID = [CourseDiscoveryHelper getDetailPathFrom:request.URL];
+    NSString* coursePathID = [CourseDiscoveryHelper detailPathIDFrom:request.URL];
     if(coursePathID != nil) {
         [self.environment.router showCourseDetailsFrom:self with:coursePathID bottomBar:[_bottomBar copy]];
         return NO;

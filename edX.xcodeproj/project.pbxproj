@@ -101,6 +101,8 @@
 		224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224F1F522067B4E0009B3639 /* CustomSlider.swift */; };
 		2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254EF02207610FF00BA183C /* CustomPlayerButton.swift */; };
 		2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94D2111BADC005F7C8C /* ProgramConfig.swift */; };
+		2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */; };
+		2255C95221185D21005F7C8C /* CourseDiscoveryHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */; };
 		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
 		227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A6204EBF26007AA396 /* VideoPlayerControls.swift */; };
 		227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A92057C0AA007AA396 /* TranscriptParser.swift */; };
@@ -1019,6 +1021,8 @@
 		224F1F522067B4E0009B3639 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		2254EF02207610FF00BA183C /* CustomPlayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerButton.swift; sourceTree = "<group>"; };
 		2255C94D2111BADC005F7C8C /* ProgramConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfig.swift; sourceTree = "<group>"; };
+		2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfigTests.swift; sourceTree = "<group>"; };
+		2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDiscoveryHelperTests.swift; sourceTree = "<group>"; };
 		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
 		227386A6204EBF26007AA396 /* VideoPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerControls.swift; sourceTree = "<group>"; };
 		227386A92057C0AA007AA396 /* TranscriptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptParser.swift; sourceTree = "<group>"; };
@@ -3730,6 +3734,8 @@
 				B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */,
 				22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */,
 				22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */,
+				2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */,
+				2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
@@ -5048,6 +5054,7 @@
 				E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */,
 				7706AAC31BCFF28B00728432 /* NSAttributedString+FormattingTests.swift in Sources */,
 				77FEF2241C8A0A45009DFDB3 /* OEXFileUtility+TestAdditions.m in Sources */,
+				2255C95221185D21005F7C8C /* CourseDiscoveryHelperTests.swift in Sources */,
 				772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */,
 				E024B0001EC4589800498ECA /* WhatsNewViewControllerTests.swift in Sources */,
 				771273321BA9DF8F008BA397 /* OEXTextStyleTests.swift in Sources */,
@@ -5091,6 +5098,7 @@
 				77BC6F451CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift in Sources */,
 				778345511B45D697009C7853 /* ContentInsetsControllerTests.swift in Sources */,
 				77AFD10E1C1A75A5001985FD /* UserAgentGenerationOperation.swift in Sources */,
+				2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */,
 				77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */,
 				77503E901B2882C800C47229 /* KeyboardInsetsSourceTests.swift in Sources */,
 				7765025D1C77CAE8007384E7 /* NSDate+TestDates.swift in Sources */,

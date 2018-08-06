@@ -59,7 +59,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
     }
 }
 
-extension ProgramsViewController: WebViewNavigationControllerDelegate {
+extension ProgramsViewController: WebViewNavigationDelegate {
     
     private func enrollInCourse(with url: URL) {
         if let urlData = CourseDiscoveryHelper.parse(url: url), let courseId = urlData.courseId {
@@ -71,7 +71,7 @@ extension ProgramsViewController: WebViewNavigationControllerDelegate {
         guard let appURLHost = CourseDiscoveryHelper.appURL(url: url) else { return  }
         switch appURLHost {
         case .courseDetail:
-            if let courseDetailPath = CourseDiscoveryHelper.getDetailPath(from: url) {
+            if let courseDetailPath = CourseDiscoveryHelper.detailPathID(from: url) {
                 environment.router?.showCourseDetails(from: controller, with: courseDetailPath, bottomBar: bottomBar)
             }
             break
@@ -81,7 +81,7 @@ extension ProgramsViewController: WebViewNavigationControllerDelegate {
             }
             break
         case .enrolledProgramDetail:
-            if let programDetailsURL = CourseDiscoveryHelper.programDetailURL(from: url) {
+            if let programDetailsURL = CourseDiscoveryHelper.programDetailURL(from: url, config: environment.config) {
                 environment.router?.showProgramDetails(with: programDetailsURL, from: controller)
             }
             break
