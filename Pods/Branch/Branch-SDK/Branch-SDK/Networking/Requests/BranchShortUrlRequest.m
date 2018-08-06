@@ -31,7 +31,7 @@
 @implementation BranchShortUrlRequest
 
 - (id)initWithTags:(NSArray *)tags alias:(NSString *)alias type:(BranchLinkType)type matchDuration:(NSInteger)duration channel:(NSString *)channel feature:(NSString *)feature stage:(NSString *)stage campaign:campaign params:(NSDictionary *)params linkData:(BNCLinkData *)linkData linkCache:(BNCLinkCache *)linkCache callback:(callbackWithUrl)callback {
-    if (self = [super init]) {
+    if ((self = [super init])) {
         _tags = tags;
         _alias = alias;
         _type = type;
@@ -56,7 +56,7 @@
     BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
     params[BRANCH_REQUEST_KEY_DEVICE_FINGERPRINT_ID] = preferenceHelper.deviceFingerprintID;
     
-    if (!_isSpotlightRequest && _alias.length == 0) {
+    if (!_isSpotlightRequest) {
         params[BRANCH_REQUEST_KEY_BRANCH_IDENTITY] = preferenceHelper.identityID;
     }
     params[BRANCH_REQUEST_KEY_SESSION_ID] = preferenceHelper.sessionID;
@@ -92,23 +92,23 @@
     NSMutableString *longUrl = [[NSMutableString alloc] initWithFormat:@"%@?", userUrl];
     
     for (NSString *tag in self.tags) {
-        [longUrl appendFormat:@"tags=%@&", tag];
+        [longUrl appendFormat:@"tags=%@&", [BNCEncodingUtils stringByPercentEncodingStringForQuery:tag]];
     }
     
     if ([self.alias length]) {
-        [longUrl appendFormat:@"alias=%@&", self.alias];
+        [longUrl appendFormat:@"alias=%@&", [BNCEncodingUtils stringByPercentEncodingStringForQuery:self.alias]];
     }
     
     if ([self.channel length]) {
-        [longUrl appendFormat:@"channel=%@&", self.channel];
+        [longUrl appendFormat:@"channel=%@&", [BNCEncodingUtils stringByPercentEncodingStringForQuery:self.channel]];
     }
     
     if ([self.feature length]) {
-        [longUrl appendFormat:@"feature=%@&", self.feature];
+        [longUrl appendFormat:@"feature=%@&", [BNCEncodingUtils stringByPercentEncodingStringForQuery:self.feature]];
     }
     
     if ([self.stage length]) {
-        [longUrl appendFormat:@"stage=%@&", self.stage];
+        [longUrl appendFormat:@"stage=%@&", [BNCEncodingUtils stringByPercentEncodingStringForQuery:self.stage]];
     }
     if (self.type) {
         [longUrl appendFormat:@"type=%ld&", (long)self.type];
@@ -127,7 +127,7 @@
 #pragma mark - NSCoding methods
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    if (self = [super initWithCoder:decoder]) {
+    if ((self = [super initWithCoder:decoder])) {
         _tags = [decoder decodeObjectForKey:@"tags"];
         _alias = [decoder decodeObjectForKey:@"alias"];
         _type = [decoder decodeIntegerForKey:@"type"];

@@ -3928,7 +3928,6 @@
 				77BDD65E1A44BD7300EA2A9C /* Process Config */,
 				77B4BAF31A52152A00B14C39 /* Upload Debugging Symbols */,
 				77E647AC1C90C10400B6740D /* Embed Frameworks */,
-				945763D7D42BB9F3F81F0156 /* [CP] Embed Pods Frameworks */,
 				A5227C8DDB2ED6310729C274 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -3949,8 +3948,6 @@
 				BECB7B281924C0C3009C77F1 /* Sources */,
 				BECB7B291924C0C3009C77F1 /* Frameworks */,
 				BECB7B2A1924C0C3009C77F1 /* Resources */,
-				9904497836E3E6F8251859B2 /* [CP] Embed Pods Frameworks */,
-				95744DC2F2D933AE0E8F2C96 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4369,51 +4366,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "rm -f \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n\"${SRCROOT}/script/Localizations.swift\" \"${SRCROOT}/Source/en.lproj/Localizable.strings\" \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\nchmod -w \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n";
-		};
-		945763D7D42BB9F3F81F0156 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-edX/Pods-edX-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		95744DC2F2D933AE0E8F2C96 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-edXTests/Pods-edXTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9904497836E3E6F8251859B2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-edXTests/Pods-edXTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		A5227C8DDB2ED6310729C274 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -5270,26 +5222,9 @@
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Analytics\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Bolts\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Branch\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Parse\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Smartling.i18n\"",
-					"\"${PODS_ROOT}/GoogleAnalytics/Libraries\"",
-					"\"${PODS_ROOT}/GoogleAuthUtilities/Libraries\"",
-					"\"${PODS_ROOT}/GoogleIDFASupport/Libraries\"",
-					"\"${PODS_ROOT}/GoogleSignIn/Libraries\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
-				PODS_CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
@@ -5732,26 +5667,9 @@
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Analytics\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Bolts\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Branch\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Parse\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Smartling.i18n\"",
-					"\"${PODS_ROOT}/GoogleAnalytics/Libraries\"",
-					"\"${PODS_ROOT}/GoogleAuthUtilities/Libraries\"",
-					"\"${PODS_ROOT}/GoogleIDFASupport/Libraries\"",
-					"\"${PODS_ROOT}/GoogleSignIn/Libraries\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
-				PODS_CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
@@ -5790,26 +5708,9 @@
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Analytics\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Bolts\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Branch\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Parse\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Smartling.i18n\"",
-					"\"${PODS_ROOT}/GoogleAnalytics/Libraries\"",
-					"\"${PODS_ROOT}/GoogleAuthUtilities/Libraries\"",
-					"\"${PODS_ROOT}/GoogleIDFASupport/Libraries\"",
-					"\"${PODS_ROOT}/GoogleSignIn/Libraries\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
-				PODS_CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
