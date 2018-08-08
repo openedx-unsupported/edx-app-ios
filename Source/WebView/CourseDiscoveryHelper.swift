@@ -48,8 +48,7 @@ class CourseDiscoveryHelper: NSObject {
     }
     
     class func parse(url: URL) -> (courseId: String?, emailOptIn: Bool)? {
-        guard url.isValidAppURLScheme, (url.appURLHost == WebviewActions.courseEnrollment.rawValue || url.appURLHost == WebviewActions.enrolledCourseDetail
-            .rawValue) else {
+        guard url.isValidAppURLScheme else {
                 return nil
         }
         let courseId = url.queryParameters?[URLParameterKeys.courseId] as? String
@@ -63,8 +62,7 @@ class CourseDiscoveryHelper: NSObject {
     }
     
     class func programDetailURL(from url: URL, config: OEXConfig) -> URL? {
-        guard url.isValidAppURLScheme,
-            let path = url.queryParameters?[URLParameterKeys.pathId] as? String,  let myProgramDetailURL = config.programConfig.programDetailURL else {
+        guard url.isValidAppURLScheme, let path = url.queryParameters?[URLParameterKeys.pathId] as? String,  let myProgramDetailURL = config.programConfig.programDetailURL else {
                 return nil
         }
         let programDetailUrlString = myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: path)

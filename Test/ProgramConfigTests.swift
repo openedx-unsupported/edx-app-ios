@@ -11,9 +11,17 @@ import XCTest
 
 class ProgramConfigTests: XCTestCase {
     
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testNoProgramConfig() {
+        let config = OEXConfig(dictionary:[:])
+        XCTAssertNil(config.programConfig.programURL)
+        XCTAssertNil(config.programConfig.programDetailURL)
+    }
+    
+    func testEmptyProgramConfig() {
+        let config = OEXConfig(dictionary:["PROGRAM":[:]])
+        XCTAssertNil(config.programConfig.programURL)
+        XCTAssertNil(config.programConfig.programDetailURL)
+        XCTAssertFalse(config.programConfig.programEnabled)
     }
     
     func testProgramConfig() {

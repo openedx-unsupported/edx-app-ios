@@ -9,11 +9,14 @@
 import XCTest
 @testable import edX
 
-let sampleInvalidProgramDetailURL = "//course_info?path_id=course/usmx-corporate-finance"
-let sampleEnrolledProgramDetailURL = "edxapp://enrolled_program_info?path_id=programs/a3951294-926b-4247-8c3c-51c1e4347a15/details_fragment"
-let sampleEnrolledCourseDetailURL = "edxapp://enrolled_course_info?course_id=course-v1:USMx+BUMM612+2T2018"
-let sampleProgramCourseURL = "edxapp://course_info?path_id=course/usmx-corporate-finance"
-let sampleCourseEnrollmentURL = "edxapp://enroll?course_id=course-v1:USMx+BUMM610+3T2018&email_opt_in=true"
+private let sampleInvalidProgramDetailURL = "//course_info?path_id=course/usmx-corporate-finance"
+private let sampleEnrolledProgramDetailURL = "edxapp://enrolled_program_info?path_id=programs/a3951294-926b-4247-8c3c-51c1e4347a15/details_fragment"
+private let sampleEnrolledCourseDetailURL = "edxapp://enrolled_course_info?course_id=course-v1:USMx+BUMM612+2T2018"
+private let sampleProgramCourseURL = "edxapp://course_info?path_id=course/usmx-corporate-finance"
+private let sampleCourseEnrollmentURL = "edxapp://enroll?course_id=course-v1:USMx+BUMM610+3T2018&email_opt_in=true"
+private let sampleProgramURL = "https://courses.edx.org/dashboard/programs_fragment/?mobile_only=true"
+private let sampleInvalidProgramURLTemplate = "https://courses.edx.org/dashboard/mobile_only=true"
+private let sampleProgramURLTemplate = "https://courses.edx.org/dashboard/{path_id}?mobile_only=true"
 
 private extension OEXConfig {
     
@@ -70,19 +73,20 @@ class CourseDiscoveryHelperTests: XCTestCase {
     }
     
     func testParseURLFail() {
-        var urlData = CourseDiscoveryHelper.parse(url: URL(string: sampleProgramCourseURL)!)
-        XCTAssertNil(urlData)
-        urlData = CourseDiscoveryHelper.parse(url: URL(string: sampleInvalidProgramDetailURL)!)
+        let urlData = CourseDiscoveryHelper.parse(url: URL(string: sampleInvalidProgramDetailURL)!)
         XCTAssertNil(urlData)
     }
     
     func testProgramURL(){
-        var config = OEXConfig(programURL: "https://courses.edx.org/dashboard/programs_fragment/?mobile_only=true", programDetailURLTemplate: "https://courses.edx.org/dashboard/{path_id}?mobile_only=true", programEnabled: true)
+        var config = OEXConfig(programURL: sampleProgramURL, programDetailURLTemplate: sampleProgramURLTemplate, programEnabled: true)
 
         var url = CourseDiscoveryHelper.programDetailURL(from: URL(string: sampleEnrolledProgramDetailURL)!, config: config)
         XCTAssertEqual(url?.absoluteString, "https://courses.edx.org/dashboard/programs/a3951294-926b-4247-8c3c-51c1e4347a15/details_fragment?mobile_only=true")
 
-        config = OEXConfig(programURL:"https://courses.edx.org/dashboard/programs_fragment/?mobile_only=true", programEnabled: true)
+        url = CourseDiscoveryHelper.programDetailURL(from: URL(string: sampleInvalidProgramURLTemplate)!, config: config)
+        XCTAssertNil(url)
+        
+        config = OEXConfig(programURL:sampleProgramURLTemplate, programEnabled: true)
         url = CourseDiscoveryHelper.programDetailURL(from: URL(string: sampleEnrolledProgramDetailURL)!, config: config)
         XCTAssertNil(url)
     }
