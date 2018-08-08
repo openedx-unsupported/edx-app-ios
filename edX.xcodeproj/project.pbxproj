@@ -81,6 +81,8 @@
 		1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */; };
 		1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */; };
 		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
+		220B1D332119B5190048ACBA /* OEXMicrosoftSocial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220B1D322119B5190048ACBA /* OEXMicrosoftSocial.swift */; };
+		220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220B1D342119B8380048ACBA /* OEXMicrosoftAuthProvider.swift */; };
 		22137E39203D5F2F005029F3 /* screen_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22137E38203D5F2E005029F3 /* screen_2.png */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
@@ -993,6 +995,8 @@
 		1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderTextEditor.swift; sourceTree = "<group>"; };
 		1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureTaker.swift; sourceTree = "<group>"; };
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
+		220B1D322119B5190048ACBA /* OEXMicrosoftSocial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEXMicrosoftSocial.swift; sourceTree = "<group>"; };
+		220B1D342119B8380048ACBA /* OEXMicrosoftAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEXMicrosoftAuthProvider.swift; sourceTree = "<group>"; };
 		22137E38203D5F2E005029F3 /* screen_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_2.png; sourceTree = "<group>"; };
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
@@ -2742,6 +2746,7 @@
 				77ADF4A11AC1AF9800AC8955 /* OEXFacebookAuthProvider.h */,
 				77ADF4A21AC1AF9800AC8955 /* OEXFacebookAuthProvider.m */,
 				77ADF49F1AC1AD1200AC8955 /* OEXExternalAuthProvider.h */,
+				220B1D342119B8380048ACBA /* OEXMicrosoftAuthProvider.swift */,
 			);
 			name = Providers;
 			sourceTree = "<group>";
@@ -3038,6 +3043,7 @@
 				8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */,
 				8FE04B4B1A1E2637007F88B8 /* OEXFBSocial.h */,
 				8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */,
+				220B1D322119B5190048ACBA /* OEXMicrosoftSocial.swift */,
 			);
 			name = SocialLogin;
 			sourceTree = "<group>";
@@ -4027,6 +4033,7 @@
 			knownRegions = (
 				en,
 				"es-419",
+				Base,
 			);
 			mainGroup = BECB7B021924C0C3009C77F1;
 			productRefGroup = BECB7B0C1924C0C3009C77F1 /* Products */;
@@ -4669,6 +4676,7 @@
 				B7CCC72A209B16B100A66923 /* ConstraintConfig.swift in Sources */,
 				B7CCC72B209B16B100A66923 /* UILayoutSupport+Extensions.swift in Sources */,
 				9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */,
+				220B1D332119B5190048ACBA /* OEXMicrosoftSocial.swift in Sources */,
 				1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */,
 				77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */,
 				B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */,
@@ -4906,6 +4914,7 @@
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,
+				220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */,
 				9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */,

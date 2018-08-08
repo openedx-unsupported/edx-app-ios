@@ -116,7 +116,7 @@
                                    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
                                           annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
     }
-    
+
     return handled;
 }
 

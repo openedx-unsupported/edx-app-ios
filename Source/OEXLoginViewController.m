@@ -122,6 +122,11 @@
     return ![OEXNetworkUtility isOnZeroRatedNetwork] && [self.environment.config googleConfig].enabled;
 }
 
+- (BOOL)isMicrosoftEnabled {
+    // TODO configuration for enable
+    return false;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -135,6 +140,10 @@
         [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
 
+    if([self isMicrosoftEnabled]) {
+        [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
+    }
+    
     __weak __typeof(self) owner = self;
     OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers tapAction:^(id<OEXExternalAuthProvider> provider) {
         [owner externalLoginWithProvider:provider];
