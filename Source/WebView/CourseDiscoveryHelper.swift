@@ -96,7 +96,7 @@ class CourseDiscoveryHelper: NSObject {
             return
         }
         
-        guard let _ = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID) else {
+        if let _ = environment.dataManager.enrollmentManager.enrolledCourseWithID(courseID: courseID) {
             showMainScreen(with: Strings.findCoursesAlreadyEnrolledMessage, and: courseID, from: controller)
             return
         }
