@@ -81,7 +81,7 @@
 		1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */; };
 		1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */; };
 		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
-		220B1D332119B5190048ACBA /* OEXMicrosoftSocial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220B1D322119B5190048ACBA /* OEXMicrosoftSocial.swift */; };
+		220B1D332119B5190048ACBA /* MicrosoftSocial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220B1D322119B5190048ACBA /* MicrosoftSocial.swift */; };
 		220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220B1D342119B8380048ACBA /* OEXMicrosoftAuthProvider.swift */; };
 		22137E39203D5F2F005029F3 /* screen_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22137E38203D5F2E005029F3 /* screen_2.png */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
@@ -115,6 +115,8 @@
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
+		22ABBA0A211C07710001020B /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22ABBA09211C07710001020B /* MSAL.framework */; };
+		22ABBA0C211C16420001020B /* MicrosoftConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22ABBA0B211C16420001020B /* MicrosoftConfig.swift */; };
 		22AFEADA20CE8DE60071067E /* VideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
 		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
@@ -995,7 +997,7 @@
 		1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderTextEditor.swift; sourceTree = "<group>"; };
 		1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureTaker.swift; sourceTree = "<group>"; };
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
-		220B1D322119B5190048ACBA /* OEXMicrosoftSocial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEXMicrosoftSocial.swift; sourceTree = "<group>"; };
+		220B1D322119B5190048ACBA /* MicrosoftSocial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftSocial.swift; sourceTree = "<group>"; };
 		220B1D342119B8380048ACBA /* OEXMicrosoftAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEXMicrosoftAuthProvider.swift; sourceTree = "<group>"; };
 		22137E38203D5F2E005029F3 /* screen_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_2.png; sourceTree = "<group>"; };
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
@@ -1031,6 +1033,8 @@
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
+		22ABBA09211C07710001020B /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = MSAL/MSAL.framework; sourceTree = "<group>"; };
+		22ABBA0B211C16420001020B /* MicrosoftConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftConfig.swift; sourceTree = "<group>"; };
 		22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTests.swift; sourceTree = "<group>"; };
 		22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardLoadStateViewController.swift; sourceTree = "<group>"; };
 		22B85A33203EEE1E0071AD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -1899,6 +1903,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22ABBA0A211C07710001020B /* MSAL.framework in Frameworks */,
 				776F39291B4EF4CD00ED11E3 /* WebKit.framework in Frameworks */,
 				805329121B0EA2DC0093B177 /* QuartzCore.framework in Frameworks */,
 				8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */,
@@ -3043,7 +3048,7 @@
 				8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */,
 				8FE04B4B1A1E2637007F88B8 /* OEXFBSocial.h */,
 				8FE04B4C1A1E2637007F88B8 /* OEXFBSocial.m */,
-				220B1D322119B5190048ACBA /* OEXMicrosoftSocial.swift */,
+				220B1D322119B5190048ACBA /* MicrosoftSocial.swift */,
 			);
 			name = SocialLogin;
 			sourceTree = "<group>";
@@ -3134,6 +3139,7 @@
 				E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */,
 				E06292741F7BAFFF006D5EFC /* BranchConfig.swift */,
 				E06292761F7BB452006D5EFC /* FabricKits.swift */,
+				22ABBA0B211C16420001020B /* MicrosoftConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -3510,6 +3516,7 @@
 		BECB7B0D1924C0C3009C77F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				22ABBA09211C07710001020B /* MSAL.framework */,
 				776F39281B4EF4CD00ED11E3 /* WebKit.framework */,
 				805329111B0EA2DC0093B177 /* QuartzCore.framework */,
 				77ACA1C81A323C2500039AD1 /* Crashlytics.framework */,
@@ -4561,6 +4568,7 @@
 				9EC6E1001BDE40E100729704 /* OEXCourse+Swift.swift in Sources */,
 				7706AAC11BCFEEBF00728432 /* NSAttributedString+Formatting.swift in Sources */,
 				778D53351B3D96E900441A98 /* ListCursor.swift in Sources */,
+				22ABBA0C211C16420001020B /* MicrosoftConfig.swift in Sources */,
 				B7CCC735209B16B100A66923 /* ConstraintView+Extensions.swift in Sources */,
 				E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */,
 				B4B6D62A1A949F1B000F44E8 /* OEXRegistrationFieldSelectController.m in Sources */,
@@ -4676,7 +4684,7 @@
 				B7CCC72A209B16B100A66923 /* ConstraintConfig.swift in Sources */,
 				B7CCC72B209B16B100A66923 /* UILayoutSupport+Extensions.swift in Sources */,
 				9EEB85A71BD6564E000F3E9E /* PressableCustomButton.swift in Sources */,
-				220B1D332119B5190048ACBA /* OEXMicrosoftSocial.swift in Sources */,
+				220B1D332119B5190048ACBA /* MicrosoftSocial.swift in Sources */,
 				1A3671F51BB03C7A00704032 /* OEXRearTableViewController.swift in Sources */,
 				77DCD23D1C2B434200CAEBB5 /* UIViewController+Overlay.swift in Sources */,
 				B760E554200DD6E800ECACAB /* CourseVideosHeaderView.swift in Sources */,
@@ -5285,6 +5293,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
+					"$(PROJECT_DIR)/MSAL",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -5748,6 +5757,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
+					"$(PROJECT_DIR)/MSAL",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Source/edX-Prefix.pch";
@@ -5805,6 +5815,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Libraries/",
+					"$(PROJECT_DIR)/MSAL",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

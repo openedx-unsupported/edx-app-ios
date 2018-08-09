@@ -36,6 +36,8 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     func authorizeService(from controller: UIViewController, requestingUserDetails loadUserDetails: Bool, withCompletion completion: @escaping (String, OEXRegisteringUserDetails, Error) -> Void) {
+     
+        
         
     }
     

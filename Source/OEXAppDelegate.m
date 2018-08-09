@@ -36,6 +36,7 @@
 #import "OEXRouter.h"
 #import "OEXSession.h"
 #import "OEXSegmentConfig.h"
+#import <MSAL/MSAL.h>
 
 @interface OEXAppDelegate () <UIApplicationDelegate>
 
@@ -115,6 +116,10 @@
         handled = [[GIDSignIn sharedInstance] handleURL:url
                                    sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
                                           annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+    }
+    
+    if (self.environment.config.microsoftConfig.enabled) {
+        [MSALPublicClientApplication handleMSALResponse:url];
     }
 
     return handled;
