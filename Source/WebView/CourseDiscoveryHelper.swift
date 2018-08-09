@@ -31,7 +31,7 @@ enum WebviewActions: String {
 
 class CourseDiscoveryHelper: NSObject {
 
-     class func appURL(url: URL) -> WebviewActions? {
+     class func urlAction(from url: URL) -> WebviewActions? {
         guard url.isValidAppURLScheme, let url = WebviewActions(rawValue: url.appURLHost) else {
             return nil
         }
@@ -57,19 +57,19 @@ class CourseDiscoveryHelper: NSObject {
         return (courseId , emailOptIn ?? false)
     }
     
-    class func showCourseEnrollmentFailureAlert(controller: UIViewController) {
+    private class func showCourseEnrollmentFailureAlert(controller: UIViewController) {
         UIAlertController().showAlert(withTitle: Strings.findCoursesEnrollmentErrorTitle, message: Strings.findCoursesUnableToEnrollErrorDescription(platformName: OEXConfig.shared().platformName()), cancelButtonTitle: Strings.ok, onViewController: controller)
     }
     
     class func programDetailURL(from url: URL, config: OEXConfig) -> URL? {
-        guard url.isValidAppURLScheme, let path = url.queryParameters?[URLParameterKeys.pathId] as? String,  let myProgramDetailURL = config.programConfig.programDetailURL else {
+        guard url.isValidAppURLScheme, let path = url.queryParameters?[URLParameterKeys.pathId] as? String,  let myProgramDetailURL = config.programConfig.ProgramDetailURLTemplate else {
                 return nil
         }
         let programDetailUrlString = myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: path)
         return URL(string: programDetailUrlString)
     }
     
-    class func showMainScreen(with message: String, and courseId: String, from controller: UIViewController) {
+    private class func showMainScreen(with message: String, and courseId: String, from controller: UIViewController) {
         OEXRouter.shared().showMyCourses(animated: true, pushingCourseWithID: courseId)
         let delay = DispatchTime.now() + Double(Int64(0.5 * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
         DispatchQueue.main.asyncAfter(deadline: delay) {
@@ -77,7 +77,7 @@ class CourseDiscoveryHelper: NSObject {
         }
     }
     
-    class func postEnrollmentSuccessNotification(message: String, from controller: UIViewController) {
+    private class func postEnrollmentSuccessNotification(message: String, from controller: UIViewController) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: EnrollmentShared.successNotification), object: message)
         if controller.isModal() {
             controller.view.window?.rootViewController?.dismiss(animated: true, completion: nil)

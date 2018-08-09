@@ -10,19 +10,19 @@ import UIKit
 
 fileprivate enum ProgramKeys: String, RawStringExtractable {
     case ProgramURL = "PROGRAM_URL"
-    case ProgramDetailURL = "PROGRAM_DETAIL_URL_TEMPLATE"
+    case ProgramDetailURLTemplate = "PROGRAM_DETAIL_URL_TEMPLATE"
     case ProgramEnabled = "PROGRAM_ENABLED"
 }
 
 class ProgramConfig: NSObject {
 
     let programURL: URL?
-    let programDetailURL: String?
+    let ProgramDetailURLTemplate: String?
     let programEnabled: Bool
    
     init(dictionary: [String:AnyObject]) {
         programURL = (dictionary[ProgramKeys.ProgramURL] as? String).flatMap { URL(string:$0)}
-        programDetailURL = dictionary[ProgramKeys.ProgramDetailURL] as? String
+        ProgramDetailURLTemplate = dictionary[ProgramKeys.ProgramDetailURLTemplate] as? String
         programEnabled = dictionary[ProgramKeys.ProgramEnabled] as? Bool ?? false
     }
 }

@@ -68,8 +68,8 @@ extension ProgramsViewController: WebViewNavigationDelegate {
     }
     
     private func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) {
-        guard let appURLHost = CourseDiscoveryHelper.appURL(url: url) else { return  }
-        switch appURLHost {
+        guard let urlAction = CourseDiscoveryHelper.urlAction(from: url) else { return  }
+        switch urlAction {
         case .courseDetail:
             if let courseDetailPath = CourseDiscoveryHelper.detailPathID(from: url) {
                 environment.router?.showCourseDetails(from: controller, with: courseDetailPath, bottomBar: bottomBar)
@@ -91,7 +91,7 @@ extension ProgramsViewController: WebViewNavigationDelegate {
     
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
-        if let appURLHost = CourseDiscoveryHelper.appURL(url: url), appURLHost == .courseEnrollment {
+        if let urlAction = CourseDiscoveryHelper.urlAction(from: url), urlAction == .courseEnrollment {
             enrollInCourse(with: url)
         }
         else {
