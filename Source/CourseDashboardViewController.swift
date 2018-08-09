@@ -46,6 +46,12 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         }
         delegate = self
         progressController.hideProgessView()
+        
+        NotificationCenter.default.oex_addObserver(observer:self , name: EnrollmentShared.successNotification) { (notification, observer, _) in
+            if let message = notification.object as? String {
+                observer.showOverlay(withMessage: message)
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -188,7 +194,11 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
             controller.configurePresentationController(withSourceView: shareButton)
             present(controller, animated: true, completion: nil)
         }
-    }    
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension UITabBarController {

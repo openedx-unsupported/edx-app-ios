@@ -32,9 +32,12 @@ private protocol WebContentController {
     var initialContentState : AuthenticatedWebViewController.State { get }
     
     func loadURLRequest(request : NSURLRequest)
-    
-    func clearDelegate()
     func resetState()
+}
+
+@objc protocol WebViewNavigationDelegate: class {
+    func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool
+    func webViewContainingController() -> UIViewController
 }
 
 // A class should implement AlwaysRequireAuthenticationOverriding protocol if it always require authentication.
@@ -54,10 +57,6 @@ private class WKWebViewContentController : WebContentController {
     
     var scrollView : UIScrollView {
         return webView.scrollView
-    }
-    
-    func clearDelegate() {
-        return webView.navigationDelegate = nil
     }
     
     func loadURLRequest(request: NSURLRequest) {
@@ -90,12 +89,13 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         case NeedingSession
     }
 
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider
     var delegate: AuthenticatedWebViewControllerDelegate?
     internal let environment : Environment
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private let headerInsets : HeaderViewInsets
+    weak var webViewDelegate: WebViewNavigationDelegate?
     
     private lazy var webController : WebContentController = {
         let controller = WKWebViewContentController()
@@ -126,6 +126,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false
+        webController.view.accessibilityIdentifier = "AuthenticatedWebViewController:authenticated-web-view"
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -136,7 +137,6 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         // Prevent crash due to stale back pointer, since WKWebView's UIScrollView apparently doesn't
         // use weak for its delegate
         webController.scrollView.delegate = nil
-        webController.clearDelegate()
     }
     
     override public func viewDidLoad() {
@@ -179,7 +179,13 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     public func showError(error : NSError?, icon : Icon? = nil, message : String? = nil) {
-        loadController.state = LoadState.failed(error: error, icon : icon, message : message)
+        let buttonInfo = MessageButtonInfo(title: Strings.reload) {[weak self] _ in
+            if let request = self?.contentRequest, self?.environment.reachability.isReachable() ?? false {
+                self?.loadController.state = .Initial
+                self?.webController.loadURLRequest(request: request)
+            }
+        }
+        loadController.state = LoadState.failed(error: error, icon: icon, message: message, buttonInfo: buttonInfo)
         refreshAccessibility()
     }
     
@@ -247,7 +253,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .linkActivated, .formSubmitted, .formResubmitted:
-            if let URL = navigationAction.request.url {
+            if let URL = navigationAction.request.url, webViewDelegate?.webView(webView, shouldLoad: navigationAction.request) ?? true {
                 UIApplication.shared.openURL(URL)
             }
             decisionHandler(.cancel)
@@ -299,11 +305,11 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        showError(error: error as NSError?)
+            showError(error: error as NSError?)
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        showError(error: error as NSError?)
+          showError(error: error as NSError?)
     }
     
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -319,6 +325,5 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             completionHandler(.performDefaultHandling, nil)
         }
     }
-
 }
 

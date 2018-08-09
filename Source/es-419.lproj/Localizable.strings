@@ -398,6 +398,8 @@
 "DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
 /*Discover in left drawer(used for courses and programs discovery)*/
 "DISCOVER"="Exploración";
+/*Title for the programs in tabbar and navigation bar*/
+"PROGRAMS"="Programs";
 /*Debug option title in tabbar */
 "DEBUG"="Debug";
 /* Error message shown when email address is not properly formatted */
