@@ -70,7 +70,7 @@ class MicrosoftSocial: NSObject {
             accessToken = result.accessToken
             //send this token to server to get content after authentication
         } else {
-            completionHandler(nil, error)
+            completionHandler?(nil, error)
         }
     }
     
