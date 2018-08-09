@@ -26,7 +26,7 @@ private extension OEXConfig {
             "PROGRAM" : [
                 "PROGRAM_URL": programURL,
                 "PROGRAM_DETAIL_URL_TEMPLATE": programDetailURLTemplate,
-                "PROGRAM_ENABLED": enabled
+                "ENABLED": enabled
                 ]
             ]
         )

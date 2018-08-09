@@ -17,12 +17,12 @@ fileprivate enum ProgramKeys: String, RawStringExtractable {
 class ProgramConfig: NSObject {
 
     let programURL: URL?
-    let ProgramDetailURLTemplate: String?
+    let programDetailURLTemplate: String?
     let enabled: Bool
    
     init(dictionary: [String:AnyObject]) {
         programURL = (dictionary[ProgramKeys.ProgramURL] as? String).flatMap { URL(string:$0)}
-        ProgramDetailURLTemplate = dictionary[ProgramKeys.ProgramDetailURLTemplate] as? String
+        programDetailURLTemplate = dictionary[ProgramKeys.ProgramDetailURLTemplate] as? String
         enabled = dictionary[ProgramKeys.Enabled] as? Bool ?? false
     }
 }

@@ -62,7 +62,7 @@ class CourseDiscoveryHelper: NSObject {
     }
     
     class func programDetailURL(from url: URL, config: OEXConfig) -> URL? {
-        guard url.isValidAppURLScheme, let path = url.queryParameters?[URLParameterKeys.pathId] as? String,  let myProgramDetailURL = config.programConfig.ProgramDetailURLTemplate else {
+        guard url.isValidAppURLScheme, let path = url.queryParameters?[URLParameterKeys.pathId] as? String,  let myProgramDetailURL = config.programConfig.programDetailURLTemplate else {
                 return nil
         }
         let programDetailUrlString = myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: path)
