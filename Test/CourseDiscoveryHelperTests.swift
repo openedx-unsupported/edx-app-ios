@@ -21,12 +21,12 @@ private let sampleProgramDetailURL = "https://example.com/dashboard/programs/a39
 
 private extension OEXConfig {
     
-    convenience init(programURL: String = "", programDetailURLTemplate:String = "", programEnabled: Bool = false) {
+    convenience init(programURL: String = "", programDetailURLTemplate:String = "", enabled: Bool = false) {
         self.init(dictionary: [
             "PROGRAM" : [
                 "PROGRAM_URL": programURL,
                 "PROGRAM_DETAIL_URL_TEMPLATE": programDetailURLTemplate,
-                "PROGRAM_ENABLED": programEnabled
+                "PROGRAM_ENABLED": enabled
                 ]
             ]
         )
@@ -79,7 +79,7 @@ class CourseDiscoveryHelperTests: XCTestCase {
     }
     
     func testProgramURL(){
-        var config = OEXConfig(programURL: sampleProgramURL, programDetailURLTemplate: sampleProgramURLTemplate, programEnabled: true)
+        var config = OEXConfig(programURL: sampleProgramURL, programDetailURLTemplate: sampleProgramURLTemplate, enabled: true)
 
         var url = CourseDiscoveryHelper.programDetailURL(from: URL(string: sampleEnrolledProgramDetailURL)!, config: config)
         XCTAssertEqual(url?.absoluteString, sampleProgramDetailURL)
@@ -87,7 +87,7 @@ class CourseDiscoveryHelperTests: XCTestCase {
         url = CourseDiscoveryHelper.programDetailURL(from: URL(string: sampleInvalidProgramURLTemplate)!, config: config)
         XCTAssertNil(url)
         
-        config = OEXConfig(programURL:sampleProgramURLTemplate, programEnabled: true)
+        config = OEXConfig(programURL:sampleProgramURLTemplate, enabled: true)
         url = CourseDiscoveryHelper.programDetailURL(from: URL(string: sampleEnrolledProgramDetailURL)!, config: config)
         XCTAssertNil(url)
     }

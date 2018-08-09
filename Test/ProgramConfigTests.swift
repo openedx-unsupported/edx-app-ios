@@ -15,14 +15,14 @@ class ProgramConfigTests: XCTestCase {
         let config = OEXConfig(dictionary:[:])
         XCTAssertNil(config.programConfig.programURL)
         XCTAssertNil(config.programConfig.ProgramDetailURLTemplate)
-        XCTAssertFalse(config.programConfig.programEnabled)
+        XCTAssertFalse(config.programConfig.enabled)
     }
     
     func testEmptyProgramConfig() {
         let config = OEXConfig(dictionary:["PROGRAM":[:]])
         XCTAssertNil(config.programConfig.programURL)
         XCTAssertNil(config.programConfig.ProgramDetailURLTemplate)
-        XCTAssertFalse(config.programConfig.programEnabled)
+        XCTAssertFalse(config.programConfig.enabled)
     }
     
     func testProgramConfig() {
@@ -39,6 +39,6 @@ class ProgramConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertEqual(config.programConfig.programURL?.absoluteString, programUrl)
         XCTAssertEqual(config.programConfig.ProgramDetailURLTemplate, programDetailUrlTemplate)
-        XCTAssertTrue(config.programConfig.programEnabled)
+        XCTAssertTrue(config.programConfig.enabled)
     }
 }
