@@ -11,7 +11,7 @@ import UIKit
 fileprivate enum ProgramKeys: String, RawStringExtractable {
     case ProgramURL = "PROGRAM_URL"
     case ProgramDetailURLTemplate = "PROGRAM_DETAIL_URL_TEMPLATE"
-    case ProgramEnabled = "PROGRAM_ENABLED"
+    case ProgramEnabled = "ENABLED"
 }
 
 class ProgramConfig: NSObject {
