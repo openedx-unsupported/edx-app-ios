@@ -6,32 +6,29 @@
 //  Copyright (c) 2014 Branch Metrics. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#include <sys/utsname.h>
 #import "BNCPreferenceHelper.h"
 #import "BNCSystemObserver.h"
-#import <UIKit/UIDevice.h>
-#import <UIKit/UIScreen.h>
-#import <SystemConfiguration/SystemConfiguration.h>
 #import "BNCLog.h"
+#if __has_feature(modules)
+@import UIKit;
+@import SystemConfiguration;
+@import Darwin.POSIX.sys.utsname;
+#else
+#import <UIKit/UIKit.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <sys/utsname.h>
+#endif
 
 @implementation BNCSystemObserver
 
-+ (NSString *)getUniqueHardwareId:(BOOL *)isReal isDebug:(BOOL)debug andType:(NSString **)type {
++ (NSString *)getUniqueHardwareId:(BOOL *)isReal
+                          isDebug:(BOOL)debug
+                          andType:(NSString *__autoreleasing*)type {
     NSString *uid = nil;
     *isReal = YES;
 
-    Class ASIdentifierManagerClass = NSClassFromString(@"ASIdentifierManager");
-    if (ASIdentifierManagerClass && !debug) {
-        SEL sharedManagerSelector = NSSelectorFromString(@"sharedManager");
-        id sharedManager = ((id (*)(id, SEL))[ASIdentifierManagerClass methodForSelector:sharedManagerSelector])(ASIdentifierManagerClass, sharedManagerSelector);
-        SEL advertisingIdentifierSelector = NSSelectorFromString(@"advertisingIdentifier");
-        NSUUID *uuid = ((NSUUID* (*)(id, SEL))[sharedManager methodForSelector:advertisingIdentifierSelector])(sharedManager, advertisingIdentifierSelector);
-        uid = [uuid UUIDString];
-        // limit ad tracking is enabled. iOS 10+
-        if ([uid isEqualToString:@"00000000-0000-0000-0000-000000000000"]) {
-            uid = nil;
-        }
+    if (!debug) {
+        uid = [self getAdId];
         *type = @"idfa";
     }
 
@@ -44,6 +41,29 @@
         uid = [[NSUUID UUID] UUIDString];
         *type = @"random";
         *isReal = NO;
+    }
+
+    return uid;
+}
+
++ (NSString*) getAdId {
+    NSString *uid = nil;
+
+    Class ASIdentifierManagerClass = NSClassFromString(@"ASIdentifierManager");
+    if (ASIdentifierManagerClass) {
+        SEL sharedManagerSelector = NSSelectorFromString(@"sharedManager");
+        id sharedManager =
+            ((id (*)(id, SEL))[ASIdentifierManagerClass methodForSelector:sharedManagerSelector])
+                (ASIdentifierManagerClass, sharedManagerSelector);
+        SEL advertisingIdentifierSelector = NSSelectorFromString(@"advertisingIdentifier");
+        NSUUID *uuid =
+            ((NSUUID* (*)(id, SEL))[sharedManager methodForSelector:advertisingIdentifierSelector])
+                (sharedManager, advertisingIdentifierSelector);
+        uid = [uuid UUIDString];
+        // limit ad tracking is enabled. iOS 10+
+        if ([uid isEqualToString:@"00000000-0000-0000-0000-000000000000"]) {
+            uid = nil;
+        }
     }
 
     return uid;
@@ -135,176 +155,16 @@
 
 + (NSNumber *)getScreenWidth {
     UIScreen *mainScreen = [UIScreen mainScreen];
-    float scaleFactor = mainScreen.scale;
+    CGFloat scaleFactor = mainScreen.scale;
     CGFloat width = mainScreen.bounds.size.width * scaleFactor;
     return [NSNumber numberWithInteger:(NSInteger)width];
 }
 
 + (NSNumber *)getScreenHeight {
     UIScreen *mainScreen = [UIScreen mainScreen];
-    float scaleFactor = mainScreen.scale;
+    CGFloat scaleFactor = mainScreen.scale;
     CGFloat height = mainScreen.bounds.size.height * scaleFactor;
     return [NSNumber numberWithInteger:(NSInteger)height];
-}
-
-#pragma mark - getUpdateState Suite
-
-+ (NSNumber*) getUpdateState {
-
-    NSDate * buildDate = [self appBuildDate];
-    NSDate * appInstallDate = [self appInstallDate];
-    NSString *storedAppVersion = [BNCPreferenceHelper preferenceHelper].appVersion;
-    NSString *currentAppVersion = [self getAppVersion];
-
-    BNCUpdateState result =
-        [self updateStateWithBuildDate:buildDate
-            appInstallDate:appInstallDate
-            storedAppVersion:storedAppVersion
-            currentAppVersion:currentAppVersion];
-
-#if 0 // Display an alert for testing.  Only for debugging.
-    NSString *message = @"No result.";
-    switch (result) {
-        case BNCUpdateStateInstall:     message = @"New install.";      break;
-        case BNCUpdateStateNonUpdate:   message = @"Non-update.";       break;
-        case BNCUpdateStateUpdate:      message = @"App update.";       break;
-        default:                        message = @"Invalid value.";    break;
-    }
-    message =
-        [NSString stringWithFormat:@"iOS: %@\n%@",
-            [UIDevice currentDevice].systemVersion,
-            message];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *alert =
-            [[UIAlertView alloc]
-                initWithTitle:@"Update State"
-                message:message
-                delegate:nil
-                cancelButtonTitle:@"OK"
-                otherButtonTitles:nil];
-        [alert show];
-    });
-#endif
-
-    return @(result);
-}
-
-+ (BNCUpdateState) updateStateWithBuildDate:(NSDate*)buildDate
-                             appInstallDate:(NSDate*)appInstallDate
-                           storedAppVersion:(NSString*)storedAppVersion
-                          currentAppVersion:(NSString*)currentAppVersion {
-
-    if (storedAppVersion) {
-        if (currentAppVersion && [storedAppVersion isEqualToString:currentAppVersion])
-            return BNCUpdateStateNonUpdate;
-        else
-            return BNCUpdateStateUpdate;
-    }
-
-    if (buildDate && [buildDate timeIntervalSince1970] <= 0.0) {
-        // Invalid buildDate.
-        buildDate = nil;
-    }
-    if (appInstallDate && [appInstallDate timeIntervalSince1970] <= 0.0) {
-        // Invalid appInstallDate.
-        appInstallDate = nil;
-    }
-
-    if (!(buildDate && appInstallDate)) {
-        return BNCUpdateStateInstall;
-    }
-
-    if ([buildDate compare:appInstallDate] > 0) {
-        return BNCUpdateStateUpdate;
-    }
-
-    if ([appInstallDate timeIntervalSinceNow] > (-60.0 * 60.0 * 24.0)) {
-        return BNCUpdateStateInstall;
-    }
-
-    return BNCUpdateStateNonUpdate;
-}
-
-+ (NSDate*) appInstallDate {
-    //  Get the app install date:
-
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error = nil;
-    NSURL *libraryURL =
-        [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] firstObject];
-    NSDictionary *attributes = [fileManager attributesOfItemAtPath:libraryURL.path error:&error];
-    if (error) {
-        BNCLogError(@"Can't get library date: %@.", error);
-        return nil;
-    }
-    NSDate *installDate = [attributes fileCreationDate];
-    if (installDate == nil || [installDate timeIntervalSince1970] <= 0.0) {
-        BNCLogError(@"Invalid install date.");
-        return nil;
-    }
-    return installDate;
-}
-
-+ (NSDate*) dateForPathComponent:(NSString*)component inURLs:(NSArray<NSURL*>*)fileInfoURLs {
-    BOOL success = NO;
-    NSError *error = nil;
-    NSDate *buildDate = nil;
-    for (NSURL *fileInfoURL in fileInfoURLs) {
-        if ([[fileInfoURL lastPathComponent] isEqualToString:component]) {
-            success = [fileInfoURL getResourceValue:&buildDate
-                forKey:NSURLCreationDateKey
-                error:&error];
-            break;
-        }
-    }
-    if (!success || error) {
-        BNCLogWarning(@"Can't retrieve bundle attributes. Success: %d Error: %@.", success, error);
-        return nil;
-    }
-    return buildDate;
-}
-
-+ (NSDate*) appBuildDate {
-    //  Get the build date:
-
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-
-    NSError *error = nil;
-    NSString *bundleRoot = [[NSBundle mainBundle] bundlePath];
-    if (!bundleRoot) bundleRoot = @".";
-    NSURL *bundleRootURL = [NSURL URLWithString:[@"file://" stringByAppendingString:bundleRoot]];
-    if (bundleRootURL == nil) return nil;
-    NSArray *fileInfoURLs =
-        [fileManager contentsOfDirectoryAtURL:bundleRootURL
-            includingPropertiesForKeys:@[ NSURLCreationDateKey ]
-            options:0
-            error:&error];            
-    if (error) {
-        BNCLogError(@"Error retreiving bundle info: %@.", error);
-        return nil;
-    }
-    NSDate *buildDate = nil;
-    buildDate = [self dateForPathComponent:@"_CodeSignature" inURLs:fileInfoURLs];
-    if (!buildDate) {
-        buildDate = [self dateForPathComponent:@"META-INF" inURLs:fileInfoURLs];
-    }
-    if (!buildDate) {
-        buildDate = [self dateForPathComponent:@"PkgInfo" inURLs:fileInfoURLs];
-    }
-    if (!buildDate) {
-        buildDate = [self dateForPathComponent:@"xctest" inURLs:fileInfoURLs];
-    }
-    if (buildDate == nil || [buildDate timeIntervalSince1970] <= 0.0) {
-        BNCLogError(@"Invalid build date.");
-        return nil;
-    }
-    return buildDate;
-}
-
-+ (void)setUpdateState {
-    NSString *currentAppVersion = [BNCSystemObserver getAppVersion];
-    [BNCPreferenceHelper preferenceHelper].appVersion = currentAppVersion;
-    [[BNCPreferenceHelper preferenceHelper] synchronize];
 }
 
 @end

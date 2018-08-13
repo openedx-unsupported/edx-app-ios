@@ -19,11 +19,11 @@
 
 // TODO: Refactor so these are either on a separate object owned by the controller and hence testable
 // or exposed through a special Test interface
-@interface OEXFindCoursesViewController (TestCategory) <FindCoursesWebViewHelperDelegate>
+@interface OEXFindCoursesViewController (TestCategory) <WebViewNavigationDelegate>
 -(NSString *)getCoursePathIDFromURL:(NSURL *)url;
 @end
 
-@interface OEXCourseInfoViewController (TestCategory) <FindCoursesWebViewHelperDelegate>
+@interface OEXCourseInfoViewController (TestCategory) <WebViewNavigationDelegate>
 - (NSString*)courseURLString;
 -(void)parseURL:(NSURL *)url getCourseID:(NSString *__autoreleasing *)courseID emailOptIn:(BOOL *)emailOptIn;
 @end
@@ -35,18 +35,16 @@
 @implementation OEXFindCoursesTests
 
 -(void)testFindCoursesURLRecognition{
-    FindCoursesWebViewHelper* helper = [[FindCoursesWebViewHelper alloc] initWithConfig:nil delegate:nil bottomBar:nil showSearch:YES searchQuery:nil];
+    FindCoursesWebViewHelper* helper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:nil delegate:nil bottomBar:nil showSearch:YES searchQuery:nil showSubjects:YES];
     OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
     NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
-    BOOL successCorrect = ![findCoursesViewController webViewHelperWithHelper:helper shouldLoadLinkWithRequest:testURLRequestCorrect];
-    
+    BOOL successCorrect = ![findCoursesViewController webView:helper.t_webView shouldLoad:testURLRequestCorrect];
     XCTAssert(successCorrect, @"Correct URL not recognized");
     
     NSURLRequest *testURLRequestWrong = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapps://course_infos?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
-    BOOL successWrong = [findCoursesViewController webViewHelperWithHelper:helper shouldLoadLinkWithRequest:testURLRequestWrong];
+    BOOL successWrong = [findCoursesViewController webView:helper.t_webView shouldLoad:testURLRequestWrong];
     XCTAssert(successWrong, @"Wrong URL not recognized");
 }
-
 
 -(void)testPathIDParsing{
     NSURL *testURL = [NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"];
@@ -58,42 +56,15 @@
 
 -(void)testEnrollURLParsing{
     NSURL *testEnrollURL = [NSURL URLWithString:@"edxapp://enroll?course_id=course-v1:BerkeleyX+GG101x-2+1T2015&email_opt_in=false"];
-    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"abc" bottomBar:nil];
-    
+    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithEnvironment:nil pathID:@"abc" bottomBar:nil];
+
     NSString* courseID = nil;
     BOOL emailOptIn = true;
-    
+
     [courseInfoViewController parseURL:testEnrollURL getCourseID:&courseID emailOptIn:&emailOptIn];
 
     XCTAssertEqualObjects(courseID, @"course-v1:BerkeleyX+GG101x-2+1T2015", @"Course ID incorrectly parsed");
     XCTAssertEqual(emailOptIn, false, @"Email Opt-In incorrectly parsed");
-}
-
-// Disabled for now since this test makes bad assumptions about the current configuration
--(void)disable_testCourseInfoURLTemplateSubstitution{
-    OEXCourseInfoViewController *courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithPathID:@"science-happiness-uc-berkeleyx-gg101x" bottomBar:nil];
-    NSString *courseURLString = [courseInfoViewController courseURLString];
-    XCTAssertEqualObjects(courseURLString, @"https://webview.edx.org/course/science-happiness-uc-berkeleyx-gg101x", @"Course Info URL incorrectly determined");
-}
-
-- (void) testSearchQueryBare {
-    NSString* baseURL = @"http://www.fakex.com/course";
-    NSString* queryString = @"mobile linux";
-
-    NSString* expected = @"http://www.fakex.com/course?search_query=mobile+linux";
-    NSURL* expectedURL = [NSURL URLWithString:expected];
-    NSURL* output = [FindCoursesWebViewHelper buildQueryWithBaseURL:baseURL toolbarString:queryString];
-    XCTAssertEqualObjects(output, expectedURL);
-}
-
-- (void) testSearchQueryAlreadyHasQuery {
-    NSString* baseURL = @"http://www.fakex.com/course?type=mobile";
-    NSString* queryString = @"mobile linux";
-
-    NSString* expected = @"http://www.fakex.com/course?type=mobile&search_query=mobile+linux";
-    NSURL* expectedURL = [NSURL URLWithString:expected];
-    NSURL* output = [FindCoursesWebViewHelper buildQueryWithBaseURL:baseURL toolbarString:queryString];
-    XCTAssertEqualObjects(output, expectedURL);
 }
 
 @end

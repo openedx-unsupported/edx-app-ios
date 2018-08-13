@@ -11,7 +11,7 @@ import WebKit
 
 class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate, InterfaceOrientationOverriding {
     
-    public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider
+    public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider
     private var webController: AuthenticatedWebViewController
     private let courseID: String
     private let environment: Environment

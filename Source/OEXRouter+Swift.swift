@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import WebKit
 
 // The router is an indirection point for navigation throw our app.
 
@@ -257,18 +258,24 @@ extension OEXRouter {
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil, searchQuery: String? = nil) {
         let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery)
         if let fromController = fromController {
-            fromController.tabBarController?.selectedIndex = 1
+            fromController.tabBarController?.selectedIndex = EnrolledTabBarViewController.courseCatalogIndex
         } else {
             showControllerFromStartupScreen(controller: controller)
         }
         self.environment.analytics.trackUserFindsCourses()
     }
     
+    func showAllSubjects(from controller: UIViewController? = nil, delegate: SubjectsViewControllerDelegate?) {
+        let subjectsVC = SubjectsViewController(environment:environment)
+        subjectsVC.delegate = delegate
+        controller?.navigationController?.pushViewController(subjectsVC, animated: true)
+    }
+    
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController {
         let controller: UIViewController
         switch environment.config.courseEnrollmentConfig.type {
         case .Webview:
-            controller = OEXFindCoursesViewController(bottomBar: bottomBar, searchQuery: searchQuery)
+            controller =  OEXFindCoursesViewController(environment: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         case .Native, .None:
             controller = CourseCatalogViewController(environment: environment)
         }
@@ -335,10 +342,11 @@ extension OEXRouter {
     func pushViewController(controller: UIViewController, fromController: UIViewController) {
         fromController.navigationController?.pushViewController(controller, animated: true)
     }
-
+    
     public func logout() {
         invalidateToken()
         environment.session.closeAndClear()
+        environment.session.removeAllWebData()
         showLoggedOutScreen()
     }
     
@@ -353,6 +361,17 @@ extension OEXRouter {
     func showDebugPane() {
         let debugMenu = DebugMenuViewController(environment: environment)
         showContentStack(withRootController: debugMenu, animated: true)
+    }
+    
+    public func showProgramDetails(with url: URL, from controller: UIViewController) {
+        let programDetailsController = ProgramsViewController(environment: environment, programsURL: url)
+        controller.navigationController?.pushViewController(programDetailsController, animated: true)
+    }
+    
+    public func showCourseDetails(from controller: UIViewController, with coursePathID: String, bottomBar: UIView?) {
+        let courseInfoViewController = OEXCourseInfoViewController(environment: environment, pathID: coursePathID, bottomBar: bottomBar?.copy() as? UIView)
+        controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        controller.navigationController?.pushViewController(courseInfoViewController, animated: true)
     }
 }
 

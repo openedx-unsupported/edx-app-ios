@@ -22,7 +22,7 @@
 @implementation BranchSetIdentityRequest
 
 - (id)initWithUserId:(NSString *)userId callback:(callbackWithParams)callback {
-    if (self = [super init]) {
+    if ((self = [super init])) {
         _userId = userId;
         _callback = callback;
         _shouldCallCallback = YES;
@@ -54,7 +54,7 @@
     }
     
     BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
-    preferenceHelper.identityID = response.data[BRANCH_RESPONSE_KEY_BRANCH_IDENTITY];
+    preferenceHelper.identityID = BNCStringFromWireFormat(response.data[BRANCH_RESPONSE_KEY_BRANCH_IDENTITY]);
     preferenceHelper.userUrl = response.data[BRANCH_RESPONSE_KEY_USER_URL];
     preferenceHelper.userIdentity = self.userId;
     if (response.data[BRANCH_RESPONSE_KEY_SESSION_ID]) {
@@ -77,16 +77,14 @@
 // No need to do anything with callback, as the callback itself is gone after the end of a run
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    if (self = [super initWithCoder:decoder]) {
+    if ((self = [super initWithCoder:decoder])) {
         _userId = [decoder decodeObjectForKey:@"userId"];
     }
-    
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder:coder];
-    
     [coder encodeObject:self.userId forKey:@"userId"];
 }
 

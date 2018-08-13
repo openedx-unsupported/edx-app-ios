@@ -259,8 +259,6 @@
         [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
         [self.activityIndicator stopAnimating];
         [self.view setUserInteractionEnabled:YES];
-
-        self.authProvider = nil;
     }
 }
 
@@ -274,8 +272,6 @@
     else if(![facebookManager isLogin] && [self.authProvider isKindOfClass:[OEXFacebookAuthProvider class]]) {
         [self handleActivationDuringLogin];
     }
-
-    self.authProvider = nil;
     [[OEXGoogleSocial sharedInstance] setHandledOpenUrl:NO];
 }
 
@@ -418,9 +414,12 @@
         else if(httpResp.statusCode == OEXHTTPStatusCode426UpgradeRequired) {
             [self showUpdateRequiredMessage];
         }
+        else if (httpResp.statusCode == OEXHTTPStatusCode400BadRequest) {
+            NSString *errorMessage = [Strings authProviderErrorWithAuthProvider:self.authProvider.displayName platformName:self.environment.config.platformName];
+            [self loginFailedWithErrorMessage:errorMessage title:nil];
+        }
         else if(httpResp.statusCode >= 400 && httpResp.statusCode <= 500) {
-            NSString* errorStr = [Strings invalidUsernamePassword];
-                [self loginFailedWithErrorMessage:errorStr title:nil];
+                [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{

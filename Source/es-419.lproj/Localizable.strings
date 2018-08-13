@@ -22,6 +22,8 @@
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Toque para seleccionar";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "Por";
+/* Accessibility hint for subject name label */
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {subject_name}";
 /* Accessibility hint for bulk download switch when in new state */
 "ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Toggling the switch on, will download all videos of this course";
 /* Accessibility hint for bulk download switch when in new partial or downloading state */
@@ -144,6 +146,8 @@
 "ACCOMPLISHMENTS.TITLE" = "Logros";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "He ganado una insignia en {platform_name}! Dale un vistazo";
+/* Accessibility hint for view all subjects label*/
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Double tap to view all subjects";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Añadir comentario";
 /* Add a response button title used in discussion's responses screen */
@@ -208,6 +212,8 @@
 "APP_REVIEW.MESSAGE_SUBJECT" = "Crítica del cliente";
 /*Asteric for marking fields required*/
 "ASTERIC" = "*";
+/* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
+"AUTH_PROVIDER_ERROR" = "This {auth_provider} account is not linked with any {platform_name} account. Please register.";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
 "BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
@@ -316,10 +322,16 @@
 "DASHBOARD.COURSE_IMPORTANT_DATES"="Fechas";
 /* Text describing the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Realice un seguimiento de los plazos y cumpla con lo planeado";
+/*Text for browse by subject label on subject discovery */
+"DISCOVERY.BROWSE_BY_SUBJECT" = "Browse By Subject";
+/*Placeholder text for subjects searchbar*/
+"DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
+/*Label text for view all subjects cell*/
+"DISCOVERY.VIEW_ALL_SUBJECTS" = "View All Subjects";
 /* Text describing the course due date for same day*/
 "COURSE_DUE_DATE_SAME_DAY"="debido hoy a las {due_date} {time_zone}";
 /* Text describing the course due date*/
-"COURSE_DUE_DATE"="debido {due date}";
+"COURSE_DUE_DATE"="debido {due_date}";
 /* Label indicated that a course has ended */
 "COURSE_ENDED"="Terminado {end_date}";
 /* Label indicating that a course will end */
@@ -386,6 +398,8 @@
 "DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
 /*Discover in left drawer(used for courses and programs discovery)*/
 "DISCOVER"="Exploración";
+/*Title for the programs in tabbar and navigation bar*/
+"PROGRAMS"="Programs";
 /*Debug option title in tabbar */
 "DEBUG"="Debug";
 /* Error message shown when email address is not properly formatted */
