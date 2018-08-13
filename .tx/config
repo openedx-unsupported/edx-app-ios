@@ -19,12 +19,6 @@ file_filter = Source/<lang>.proj/profiles.json
 source_file = Source/en.lproj/profiles.json
 source_lang = en
 
-[edx-mobile-apps.app-localizable-countries]
-type = KEYVALUEJSON
-file_filter = Source/<lang>.proj/countries.json
-source_file = Source/en.lproj/countries.json
-source_lang = en
-
 [edx-mobile-apps.app-localizable-languages]
 type = KEYVALUEJSON
 file_filter = Source/<lang>.proj/languages.json

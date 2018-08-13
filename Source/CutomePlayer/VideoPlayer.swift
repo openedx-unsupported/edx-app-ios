@@ -478,7 +478,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
         playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
         seek(to: backTime)
-        
+
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
@@ -515,6 +515,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func seek(to time: Double) {
+        if player.currentItem?.status != .readyToPlay { return }
+
         player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
             (completed: Bool) -> Void in
             if self?.playerState == .playing {

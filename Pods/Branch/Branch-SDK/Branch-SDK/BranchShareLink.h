@@ -6,7 +6,6 @@
 //  Copyright © 2017 Branch Metrics. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "BranchUniversalObject.h"
 @class BranchShareLink;
 
@@ -61,12 +60,15 @@ parameters can be changed depending on the activity that the user selects.
 /**
 Creates a BranchShareLink object.
 
-@oaram universalObject  The Branch Universal Object the will be shared.
+@param universalObject  The Branch Universal Object the will be shared.
 @param linkProperties   The link properties that the link will have.
 */
-- (instancetype _Nullable) initWithUniversalObject:(BranchUniversalObject*_Nonnull)universalObject
-                                    linkProperties:(BranchLinkProperties*_Nonnull)linkProperties;
+- (instancetype _Nonnull) initWithUniversalObject:(BranchUniversalObject*_Nonnull)universalObject
+                                    linkProperties:(BranchLinkProperties*_Nonnull)linkProperties
+                                    NS_DESIGNATED_INITIALIZER;
 
+- (instancetype _Nonnull) init NS_UNAVAILABLE;
++ (instancetype _Nonnull) new NS_UNAVAILABLE;
 
 ///Returns an array of activity item providers, one for the Branch Universal Object,
 ///one for the share text (if provided), and one for the shareObject (if provided).
@@ -75,11 +77,11 @@ Creates a BranchShareLink object.
 /**
 Presents a UIActivityViewController that shares the Branch link.
 
-@oaram viewController   The parent view controller from which to present the the activity sheet.
-@param anchor           The anchor point for the activity sheet. Used for iPad form factors.
+@param viewController           The parent view controller from which to present the the activity sheet.
+@param anchorViewOrButtonItem   The anchor point for the activity sheet. Used for iPad form factors.
 */
 - (void) presentActivityViewControllerFromViewController:(UIViewController*_Nullable)viewController
-                                                  anchor:(UIBarButtonItem*_Nullable)anchor;
+                                                  anchor:(id _Nullable)anchorViewOrButtonItem;
 
 ///The title for the share sheet.
 @property (nonatomic, strong) NSString*_Nullable title;
@@ -91,6 +93,10 @@ Presents a UIActivityViewController that shares the Branch link.
 ///An additional, user defined, non-typed, object to be shared.
 ///This object can be changed later when the `branchShareSheetWillShare:` delegate method is called.
 @property (nonatomic, strong) id _Nullable shareObject;
+
+///Sets an email subject line for the share activity. If the Branch link property already has an
+///email subject, that attribute takes precedence over this field.
+@property (nonatomic, strong) NSString*_Nullable emailSubject;
 
 ///The resulting Branch URL that was shared.
 @property (nonatomic, strong, readonly) NSURL*_Nullable shareURL;

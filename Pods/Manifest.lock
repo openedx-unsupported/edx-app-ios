@@ -6,13 +6,13 @@ PODS:
   - Bolts/AppLinks (1.8.4):
     - Bolts/Tasks
   - Bolts/Tasks (1.8.4)
-  - Branch (0.17.9):
-    - Branch/Core (= 0.17.9)
-  - Branch/Core (0.17.9)
-  - Crashlytics (3.8.5):
-    - Fabric (~> 1.6.3)
+  - Branch (0.23.5):
+    - Branch/Core (= 0.23.5)
+  - Branch/Core (0.23.5)
+  - Crashlytics (3.10.1):
+    - Fabric (~> 1.7.5)
   - DateTools (1.6.1)
-  - Fabric (1.6.12)
+  - Fabric (1.7.6)
   - FBSDKCoreKit (4.31.1):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.31.1):
@@ -26,10 +26,10 @@ PODS:
     - FirebaseInstanceID (~> 1.0)
     - GoogleInterchangeUtilities (~> 1.2)
     - GoogleSymbolUtilities (~> 1.1)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseCore (3.4.6):
     - GoogleInterchangeUtilities (~> 1.2)
-    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseInstanceID (1.0.8)
   - GoogleAnalytics (3.17.0)
   - GoogleAppUtilities (1.1.2):
@@ -49,7 +49,7 @@ PODS:
     - GoogleUtilities (~> 1.0)
   - GoogleSymbolUtilities (1.1.2)
   - GoogleToolboxForMac/Defines (2.1.0)
-  - GoogleToolboxForMac/NSData+zlib (2.1.0):
+  - "GoogleToolboxForMac/NSData+zlib (2.1.0)":
     - GoogleToolboxForMac/Defines (= 2.1.0)
   - GoogleUtilities (1.3.2):
     - GoogleSymbolUtilities (~> 1.1)
@@ -79,10 +79,10 @@ PODS:
 
 DEPENDENCIES:
   - Analytics (~> 3.0.0)
-  - Branch (= 0.17.9)
-  - Crashlytics (~> 3.2)
+  - Branch (= 0.23.5)
+  - Crashlytics (~> 3.10.1)
   - DateTools (~> 1.6.1)
-  - Fabric (~> 1.5)
+  - Fabric (~> 1.7.6)
   - FBSDKCoreKit (~> 4.31.1)
   - FBSDKLoginKit (~> 4.31.1)
   - FBSnapshotTestCase/Core (= 2.0.1)
@@ -96,13 +96,46 @@ DEPENDENCIES:
   - Segment-GoogleAnalytics (~> 1.0.0)
   - Smartling.i18n (~> 1.0)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Analytics
+    - Bolts
+    - Branch
+    - Crashlytics
+    - DateTools
+    - Fabric
+    - FBSDKCoreKit
+    - FBSDKLoginKit
+    - FBSnapshotTestCase
+    - Firebase
+    - FirebaseAnalytics
+    - FirebaseCore
+    - FirebaseInstanceID
+    - GoogleAnalytics
+    - GoogleAppUtilities
+    - GoogleAuthUtilities
+    - GoogleIDFASupport
+    - GoogleInterchangeUtilities
+    - GoogleNetworkingUtilities
+    - GoogleSignIn
+    - GoogleSymbolUtilities
+    - GoogleToolboxForMac
+    - GoogleUtilities
+    - Masonry
+    - NewRelicAgent
+    - OCMock
+    - OHHTTPStubs
+    - Parse
+    - Segment-GoogleAnalytics
+    - Smartling.i18n
+
 SPEC CHECKSUMS:
   Analytics: b342fb4f43fa4f97ca6f4358b44d3295217ba294
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
-  Branch: 38100c961f1838d0b0dbd7377839d530374762ff
-  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
+  Branch: d92cc14a602a9c4142435d782efa741dc136d0b5
+  Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
-  Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
+  Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
   FBSDKCoreKit: e08ccfcefa7bc1347a07c276dac9bf6c7fe57024
   FBSDKLoginKit: 99797ac39252fef6f72600b886f6ee60b4b29cab
   FBSnapshotTestCase: bdb997ab2397495205f11156d4d444606daebd27
@@ -128,6 +161,6 @@ SPEC CHECKSUMS:
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 03ef7a5643965212c6ca9ed7d65385950ca4a989
 
-PODFILE CHECKSUM: b510d19e57e2e6171c42c3f8e55492aa1cf7542b
+PODFILE CHECKSUM: 141834ebc97f9504fda03974d39642a181a2827f
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

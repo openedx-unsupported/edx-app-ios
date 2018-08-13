@@ -289,13 +289,28 @@ class JSONFormBuilder {
                 let titles = range.map { String($0)} .reversed()
                 tableData = titles.map { ChooserDatum(value: $0, title: $0, attributedTitle: nil) }
             } else if let file = options?["reference"]?.string {
-                do {
-                    let json = try loadJSON(jsonFile: file)
-                    if let values = json.array {
-                        tableData = values.map { ChooserDatum(value: $0["value"].string!, title: $0["name"].string, attributedTitle: nil)}
+                if file == "countries" {
+                    let locale = Locale.current
+                    let codes = Locale.isoRegionCodes
+                    for code in codes {
+                        let name = locale.localizedString(forRegionCode: code) ?? ""
+                        tableData.append(ChooserDatum(value: code, title: name, attributedTitle: nil))
                     }
-                } catch {
-                    Logger.logError("JSON", "Error parsing JSON: \(error)")
+                    tableData = tableData.sorted(by: { $0.title ?? "" < $1.title ?? "" })
+                }
+                else {
+                    do {
+                        let json = try loadJSON(jsonFile: file)
+                        if let values = json.array {
+                            for value in values {
+                                for (code, name) in value {
+                                    tableData.append(ChooserDatum(value: code, title: name.rawString(), attributedTitle: nil))
+                                }
+                            }
+                        }
+                    } catch {
+                        Logger.logError("JSON", "Error parsing JSON: \(error)")
+                    }
                 }
             }
             
