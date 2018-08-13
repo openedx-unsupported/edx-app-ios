@@ -39,7 +39,6 @@
 		19BB62301A9C656B007DBF47 /* OEXMySettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BB622E1A9C656B007DBF47 /* OEXMySettingsViewController.m */; };
 		19BB62311A9C656B007DBF47 /* OEXMySettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 19BB622F1A9C656B007DBF47 /* OEXMySettingsViewController.xib */; };
 		19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */ = {isa = PBXBuildFile; fileRef = 19E1F02A1A272DDC00C2E1BE /* LastAccessed.m */; };
-		1A03DEA31BBC72BA006783FB /* countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 1A03DEA51BBC72BA006783FB /* countries.json */; };
 		1A1181E41BB462D700CFE52B /* RemoteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A1181E31BB462D700CFE52B /* RemoteImage.swift */; };
 		1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */; };
 		1A2CCDAB1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */; };
@@ -100,11 +99,15 @@
 		2245CA00209C59340097B23F /* TermsOfServices.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2245CA02209C59340097B23F /* TermsOfServices.htm */; };
 		224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224F1F522067B4E0009B3639 /* CustomSlider.swift */; };
 		2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254EF02207610FF00BA183C /* CustomPlayerButton.swift */; };
+		2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94D2111BADC005F7C8C /* ProgramConfig.swift */; };
+		2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */; };
+		2255C95221185D21005F7C8C /* CourseDiscoveryHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */; };
 		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
 		227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A6204EBF26007AA396 /* VideoPlayerControls.swift */; };
 		227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A92057C0AA007AA396 /* TranscriptParser.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
 		2283C7532060EF8600A2E9BE /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2283C7522060EF8600A2E9BE /* MathUtilities.swift */; };
+		2285121720FDC365006A4736 /* CourseDiscoveryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2285121620FDC365006A4736 /* CourseDiscoveryHelper.swift */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
 		228E0B8D1F431F7B0073E6FA /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228E0B8C1F431F7B0073E6FA /* AccountViewController.swift */; };
 		228E0B8F1F43208C0073E6FA /* AccountViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228E0B8E1F43208C0073E6FA /* AccountViewCell.swift */; };
@@ -706,6 +709,8 @@
 		B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78B233E20908C3D00F8D976 /* AgreementTextView.swift */; };
 		B793455D20B584F500DBFC33 /* subjects.json in Resources */ = {isa = PBXBuildFile; fileRef = B793455F20B584F500DBFC33 /* subjects.json */; };
 		B793456C20B596FC00DBFC33 /* SubjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */; };
+		B7A09BD520F88FBC00A6C249 /* ProgramsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A09BD420F88FBC00A6C249 /* ProgramsViewController.swift */; };
+		B7A09BDC20F8CAFB00A6C249 /* URL+PathExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A09BDB20F8CAFB00A6C249 /* URL+PathExtension.swift */; };
 		B7A1EA83209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */; };
 		B7C5DB3820B6C73700D80AD2 /* PopularSubjectsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB3720B6C73700D80AD2 /* PopularSubjectsViewController.swift */; };
 		B7C5DB3A20B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7C5DB3920B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift */; };
@@ -834,7 +839,6 @@
 		E0DB52CF20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E0DB52CE20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png */; };
 		E0E27FC21EC469A800D1AEFE /* WhatsNew.json in Resources */ = {isa = PBXBuildFile; fileRef = E0E27FC11EC469A800D1AEFE /* WhatsNew.json */; };
 		E0E27FC41EC46D4000D1AEFE /* test_screen_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E0E27FC31EC46D4000D1AEFE /* test_screen_1.png */; };
-		E0ED96E71D6EED1C00B48B64 /* OEXCourseInfoViewController+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0ED96E61D6EED1C00B48B64 /* OEXCourseInfoViewController+Swift.swift */; };
 		E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */ = {isa = PBXBuildFile; fileRef = E0EEC6E91F1CD279006C8D62 /* whats_new.json */; };
 		E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */; };
 		E0FCFCC91EC59DB2000B969C /* WhatsNewObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */; };
@@ -952,7 +956,6 @@
 		19DC02011A1E13AA00A874D3 /* OEXAnalyticsData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXAnalyticsData.h; sourceTree = "<group>"; };
 		19E1F0291A272DDC00C2E1BE /* LastAccessed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastAccessed.h; sourceTree = "<group>"; };
 		19E1F02A1A272DDC00C2E1BE /* LastAccessed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastAccessed.m; sourceTree = "<group>"; };
-		1A03DEA41BBC72BA006783FB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/countries.json; sourceTree = "<group>"; };
 		1A1181E31BB462D700CFE52B /* RemoteImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteImage.swift; sourceTree = "<group>"; };
 		1A22CD8F1B90B31A005B07D0 /* UIImage+OEXIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+OEXIcon.swift"; sourceTree = "<group>"; };
 		1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXAnalytics+Profiles.swift"; sourceTree = "<group>"; };
@@ -1016,10 +1019,14 @@
 		2245CA03209C59370097B23F /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "es-419"; path = "es-419.lproj/TermsOfServices.htm"; sourceTree = "<group>"; };
 		224F1F522067B4E0009B3639 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		2254EF02207610FF00BA183C /* CustomPlayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerButton.swift; sourceTree = "<group>"; };
+		2255C94D2111BADC005F7C8C /* ProgramConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfig.swift; sourceTree = "<group>"; };
+		2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfigTests.swift; sourceTree = "<group>"; };
+		2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDiscoveryHelperTests.swift; sourceTree = "<group>"; };
 		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
 		227386A6204EBF26007AA396 /* VideoPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerControls.swift; sourceTree = "<group>"; };
 		227386A92057C0AA007AA396 /* TranscriptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptParser.swift; sourceTree = "<group>"; };
 		2283C7522060EF8600A2E9BE /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
+		2285121620FDC365006A4736 /* CourseDiscoveryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDiscoveryHelper.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
 		228E0B8C1F431F7B0073E6FA /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		228E0B8E1F43208C0073E6FA /* AccountViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewCell.swift; sourceTree = "<group>"; };
@@ -1709,6 +1716,8 @@
 		B793455E20B584F500DBFC33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/subjects.json; sourceTree = "<group>"; };
 		B793456020B584F800DBFC33 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/subjects.json"; sourceTree = "<group>"; };
 		B793456B20B596FC00DBFC33 /* SubjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectsViewController.swift; sourceTree = "<group>"; };
+		B7A09BD420F88FBC00A6C249 /* ProgramsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsViewController.swift; sourceTree = "<group>"; };
+		B7A09BDB20F8CAFB00A6C249 /* URL+PathExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+PathExtension.swift"; sourceTree = "<group>"; };
 		B7A1EA82209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnapKit+SafeAreaLayoutGuide.swift"; sourceTree = "<group>"; };
 		B7C5DB3720B6C73700D80AD2 /* PopularSubjectsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularSubjectsViewController.swift; sourceTree = "<group>"; };
 		B7C5DB3920B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAllSubjectsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1838,7 +1847,6 @@
 		E08CC57A1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E08CC57B1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		E08CC57C1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/profiles.json"; sourceTree = "<group>"; };
-		E08CC57D1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/countries.json"; sourceTree = "<group>"; };
 		E08CC57E1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/languages.json"; sourceTree = "<group>"; };
 		E08CC57F1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/whats_new.json"; sourceTree = "<group>"; };
 		E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoController.swift; sourceTree = "<group>"; };
@@ -1859,7 +1867,6 @@
 		E0DB52CE20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		E0E27FC11EC469A800D1AEFE /* WhatsNew.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WhatsNew.json; sourceTree = "<group>"; };
 		E0E27FC31EC46D4000D1AEFE /* test_screen_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test_screen_1.png; path = Data/test_screen_1.png; sourceTree = "<group>"; };
-		E0ED96E61D6EED1C00B48B64 /* OEXCourseInfoViewController+Swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXCourseInfoViewController+Swift.swift"; sourceTree = "<group>"; };
 		E0EEC6E81F1CD279006C8D62 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/whats_new.json; sourceTree = "<group>"; };
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
 		E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObjectTests.swift; sourceTree = "<group>"; };
@@ -2124,7 +2131,6 @@
 				1A2CCDAA1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift */,
 				1AFEB1B41BBD5B7D004C471D /* JSON Forms */,
 				1A55019E1BBA30C900D5F9DD /* profiles.json */,
-				1A03DEA51BBC72BA006783FB /* countries.json */,
 				1AFEB1BB1BBD88F3004C471D /* languages.json */,
 			);
 			name = "User Profiles";
@@ -3047,6 +3053,7 @@
 		9C9B7F701A8CC68D00A857B2 /* Course Enrollment */ = {
 			isa = PBXGroup;
 			children = (
+				B7A09BD820F8B02100A6C249 /* WebView */,
 				7758FFDD1C32FD6A0072355B /* EnrollmentShared.swift */,
 				77D6A9A31C28F32900E67CCF /* CoursesAPI.swift */,
 				777DE7191C1656ED0068E280 /* CourseCatalogDetailView.swift */,
@@ -3060,7 +3067,6 @@
 				9C9B7F641A8CC68400A857B2 /* OEXFindCoursesViewController.m */,
 				9C9B7F651A8CC68400A857B2 /* OEXCourseInfoViewController.h */,
 				9C9B7F661A8CC68400A857B2 /* OEXCourseInfoViewController.m */,
-				E0ED96E61D6EED1C00B48B64 /* OEXCourseInfoViewController+Swift.swift */,
 			);
 			name = "Course Enrollment";
 			sourceTree = "<group>";
@@ -3130,6 +3136,7 @@
 				E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */,
 				E06292741F7BAFFF006D5EFC /* BranchConfig.swift */,
 				E06292761F7BB452006D5EFC /* FabricKits.swift */,
+				2255C94D2111BADC005F7C8C /* ProgramConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -3344,6 +3351,16 @@
 			path = "Subjects JSON";
 			sourceTree = "<group>";
 		};
+		B7A09BD820F8B02100A6C249 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				B7A09BD420F88FBC00A6C249 /* ProgramsViewController.swift */,
+				B7A09BDB20F8CAFB00A6C249 /* URL+PathExtension.swift */,
+				2285121620FDC365006A4736 /* CourseDiscoveryHelper.swift */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		B7A1EA81209C417000BD369A /* SnapKitExtensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -3483,10 +3500,10 @@
 			children = (
 				E052F5A81D9953BB009F6B6F /* edX.entitlements */,
 				77E647B11C90C21100B6740D /* App */,
-				77E6478F1C90C10300B6740D /* Core */,
 				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
 				BECB7B0C1924C0C3009C77F1 /* Products */,
+				77E6478F1C90C10300B6740D /* Core */,
 				01AAC8755C861B14E810FE8B /* Pods */,
 			);
 			sourceTree = "<group>";
@@ -3716,6 +3733,8 @@
 				22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */,
 				22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */,
 				BD0507AD20F74D4200B0DB65 /* OEXInterfaceTests.swift */,
+				2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */,
+				2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
@@ -3935,7 +3954,6 @@
 				77BDD65E1A44BD7300EA2A9C /* Process Config */,
 				77B4BAF31A52152A00B14C39 /* Upload Debugging Symbols */,
 				77E647AC1C90C10400B6740D /* Embed Frameworks */,
-				945763D7D42BB9F3F81F0156 /* [CP] Embed Pods Frameworks */,
 				A5227C8DDB2ED6310729C274 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -3956,8 +3974,6 @@
 				BECB7B281924C0C3009C77F1 /* Sources */,
 				BECB7B291924C0C3009C77F1 /* Frameworks */,
 				BECB7B2A1924C0C3009C77F1 /* Resources */,
-				9904497836E3E6F8251859B2 /* [CP] Embed Pods Frameworks */,
-				95744DC2F2D933AE0E8F2C96 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4217,7 +4233,6 @@
 				5D836DC91B2FA12E00411CAB /* DiscussionNewCommentViewController.xib in Resources */,
 				69ECC6101D50D1170030CF87 /* profilePhotoPlaceholder.png in Resources */,
 				69ECC6051D50D1170030CF87 /* OpenSans-Regular.ttf in Resources */,
-				1A03DEA31BBC72BA006783FB /* countries.json in Resources */,
 				B71AA1C920CEF64D00700C5E /* science@2x.png in Resources */,
 				B71AA1A120CEF64D00700C5E /* design@3x.png in Resources */,
 				E0DB52C920A1F36600150FF5 /* Default-Landscape-568h@2x.png in Resources */,
@@ -4377,51 +4392,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "rm -f \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n\"${SRCROOT}/script/Localizations.swift\" \"${SRCROOT}/Source/en.lproj/Localizable.strings\" \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\nchmod -w \"${BUILT_PRODUCTS_DIR}/Strings.swift\"\n";
-		};
-		945763D7D42BB9F3F81F0156 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-edX/Pods-edX-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		95744DC2F2D933AE0E8F2C96 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-edXTests/Pods-edXTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9904497836E3E6F8251859B2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-edXTests/Pods-edXTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		A5227C8DDB2ED6310729C274 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -4689,6 +4659,7 @@
 				7C2DD5511D4A790F006148E0 /* UserPreferenceAPI.swift in Sources */,
 				9E0D4BD31B0C84F800B2417D /* CourseUnknownBlockViewController.swift in Sources */,
 				19E1F02B1A272DDC00C2E1BE /* LastAccessed.m in Sources */,
+				2285121720FDC365006A4736 /* CourseDiscoveryHelper.swift in Sources */,
 				7784C68B1B03BA1E00529C7C /* LoadStateViewController.swift in Sources */,
 				B7CCC73D209B16B100A66923 /* ConstraintLayoutSupportDSL.swift in Sources */,
 				778F176C1C0CF57F0099BF93 /* RouterEnvironment.swift in Sources */,
@@ -4724,6 +4695,7 @@
 				1940D8CB1A230E25000318A3 /* OEXAnalytics.m in Sources */,
 				1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */,
 				E06292751F7BAFFF006D5EFC /* BranchConfig.swift in Sources */,
+				B7A09BDC20F8CAFB00A6C249 /* URL+PathExtension.swift in Sources */,
 				B70BD00420B57AF3005F0D19 /* SubjectsCollectionView.swift in Sources */,
 				1AC147371BCEB14900E0A230 /* CGRect+OEXHelpers.swift in Sources */,
 				7714A2601AB37CF7004C2254 /* OEXRegistrationFieldError.m in Sources */,
@@ -4897,9 +4869,10 @@
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
 				69C12C661E07F5F8004E7261 /* VideoTranscript.swift in Sources */,
 				E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */,
-				E0ED96E71D6EED1C00B48B64 /* OEXCourseInfoViewController+Swift.swift in Sources */,
 				773B1D421B1F48F100B861DF /* CourseOutlineHeaderView.swift in Sources */,
+				B7A09BD520F88FBC00A6C249 /* ProgramsViewController.swift in Sources */,
 				B7C5DB3A20B75BFB00D80AD2 /* ViewAllSubjectsCollectionViewCell.swift in Sources */,
+				2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */,
 				778B61061B06BD2100489532 /* NSNotificationCenter+SafeSwift.swift in Sources */,
 				B4B6D6011A949EFC000F44E8 /* OEXRegistrationError.m in Sources */,
 				1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */,
@@ -5031,6 +5004,7 @@
 				E03402241C7F2308003EB9B7 /* DiscussionTestsDataFactory.swift in Sources */,
 				7706AAC31BCFF28B00728432 /* NSAttributedString+FormattingTests.swift in Sources */,
 				77FEF2241C8A0A45009DFDB3 /* OEXFileUtility+TestAdditions.m in Sources */,
+				2255C95221185D21005F7C8C /* CourseDiscoveryHelperTests.swift in Sources */,
 				772619BA1ADDC68E005BD7E4 /* OEXMockUserDefaults.m in Sources */,
 				E024B0001EC4589800498ECA /* WhatsNewViewControllerTests.swift in Sources */,
 				771273321BA9DF8F008BA397 /* OEXTextStyleTests.swift in Sources */,
@@ -5074,6 +5048,7 @@
 				77BC6F451CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift in Sources */,
 				778345511B45D697009C7853 /* ContentInsetsControllerTests.swift in Sources */,
 				77AFD10E1C1A75A5001985FD /* UserAgentGenerationOperation.swift in Sources */,
+				2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */,
 				77567B4F1AC5EBFE00877A7B /* OEXMockAnalyticsTracker.m in Sources */,
 				77503E901B2882C800C47229 /* KeyboardInsetsSourceTests.swift in Sources */,
 				7765025D1C77CAE8007384E7 /* NSDate+TestDates.swift in Sources */,
@@ -5117,15 +5092,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1A03DEA51BBC72BA006783FB /* countries.json */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1A03DEA41BBC72BA006783FB /* en */,
-				E08CC57D1F33269D0092ACED /* es-419 */,
-			);
-			name = countries.json;
-			sourceTree = "<group>";
-		};
 		1A55019E1BBA30C900D5F9DD /* profiles.json */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -5288,26 +5254,9 @@
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Analytics\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Bolts\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Branch\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Parse\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Smartling.i18n\"",
-					"\"${PODS_ROOT}/GoogleAnalytics/Libraries\"",
-					"\"${PODS_ROOT}/GoogleAuthUtilities/Libraries\"",
-					"\"${PODS_ROOT}/GoogleIDFASupport/Libraries\"",
-					"\"${PODS_ROOT}/GoogleSignIn/Libraries\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
-				PODS_CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
@@ -5750,26 +5699,9 @@
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Analytics\"",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Bolts\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Branch\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Parse\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Smartling.i18n\"",
-					"\"${PODS_ROOT}/GoogleAnalytics/Libraries\"",
-					"\"${PODS_ROOT}/GoogleAuthUtilities/Libraries\"",
-					"\"${PODS_ROOT}/GoogleIDFASupport/Libraries\"",
-					"\"${PODS_ROOT}/GoogleSignIn/Libraries\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
-				PODS_CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";
@@ -5808,26 +5740,9 @@
 				INFOPLIST_FILE = "Source/edX-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$PODS_CONFIGURATION_BUILD_DIR/Analytics\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Bolts\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Branch\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/DateTools\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Masonry\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Parse\"",
-					"\"${PODS_CONFIGURATION_BUILD_DIR}/Smartling.i18n\"",
-					"\"${PODS_ROOT}/GoogleAnalytics/Libraries\"",
-					"\"${PODS_ROOT}/GoogleAuthUtilities/Libraries\"",
-					"\"${PODS_ROOT}/GoogleIDFASupport/Libraries\"",
-					"\"${PODS_ROOT}/GoogleSignIn/Libraries\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "";
-				PODS_CONFIGURATION_BUILD_DIR = "$PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.mobile;
 				PRODUCT_NAME = edX;
 				PROVISIONING_PROFILE = "";

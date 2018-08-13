@@ -11,6 +11,70 @@
 #import "BNCLog.h"
 #import <CommonCrypto/CommonDigest.h>
 
+#pragma mark BNCWireFormat
+
+NSDate* BNCDateFromWireFormat(id object) {
+    NSDate *date = nil;
+    if ([object respondsToSelector:@selector(doubleValue)]) {
+        NSTimeInterval t = [object doubleValue];
+        date = [NSDate dateWithTimeIntervalSince1970:t/1000.0];
+    }
+    return date;
+}
+
+NSNumber* BNCWireFormatFromDate(NSDate *date) {
+    NSNumber *number = nil;
+    NSTimeInterval t = [date timeIntervalSince1970];
+    if (date && t != 0.0 ) {
+        number = [NSNumber numberWithLongLong:(long long)(t*1000.0)];
+    }
+    return number;
+}
+
+NSString* BNCStringFromWireFormat(id object) {
+    if ([object isKindOfClass:NSString.class])
+        return object;
+    else
+    if ([object respondsToSelector:@selector(stringValue)])
+        return [object stringValue];
+    else
+    if ([object respondsToSelector:@selector(description)])
+        return [object description];
+    return nil;
+}
+
+NSString* BNCWireFormatFromString(NSString *string) {
+    return string;
+}
+
+#pragma mark - BNCKeyValue
+
+@implementation BNCKeyValue
+
++ (BNCKeyValue*) key:(NSString*)key value:(NSString*)value {
+    BNCKeyValue *kv = [[BNCKeyValue alloc] init];
+    kv.key = key;
+    kv.value = value;
+    return kv;
+}
+
+- (NSString*) description {
+    return [NSString stringWithFormat:@"<%@, %@>", self.key, self.value];
+}
+
+- (BOOL) isEqual:(id)rawObject {
+    BNCKeyValue *object = rawObject;
+    return
+        [object isKindOfClass:[BNCKeyValue class]] &&
+        [self.key isEqualToString:object.key] &&
+        [self.value isEqualToString:object.value]
+        ;
+}
+
+@end
+
+#pragma mark - BNCEncodingUtils
+
 @implementation BNCEncodingUtils
 
 #pragma mark - Base 64 Encoding
@@ -74,11 +138,11 @@
 }
 
 + (NSString *)sanitizedStringFromString:(NSString *)dirtyString {
-    NSString *cleanString = [[[[dirtyString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""]
-                                            stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"]
-                                            stringByReplacingOccurrencesOfString:@"’" withString:@"'"]
-                                            stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
-
+    NSString *dirtyCopy = [dirtyString copy]; // dirtyString seems to get dealloc'ed sometimes. Make a copy.
+    NSString *cleanString = [[[[dirtyCopy stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""]
+                                          stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"]
+                                          stringByReplacingOccurrencesOfString:@"’" withString:@"'"]
+                                          stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
     return cleanString;
 }
 
@@ -113,8 +177,14 @@
             string = NO;
         }
         else if ([obj isKindOfClass:[NSNumber class]]) {
-            value = [obj stringValue];
             string = NO;
+            if (obj == (id)kCFBooleanFalse)
+                value = @"false";
+            else
+            if (obj == (id)kCFBooleanTrue)
+                value = @"true";
+            else
+                value = [obj stringValue];
         }
         else if ([obj isKindOfClass:[NSNull class]]) {
             value = @"null";
@@ -251,7 +321,17 @@
     return queryString;
 }
 
-#pragma mark - Param Decoding methods
++ (NSString*) stringByPercentDecodingString:(NSString *)string {
+    return [string stringByRemovingPercentEncoding];
+}
+
++ (NSString*) stringByPercentEncodingStringForQuery:(NSString *)string {
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:
+                [NSCharacterSet URLQueryAllowedCharacterSet]];
+}
+
+#pragma mark - Param Decoding Methods
+
 + (NSDictionary *)decodeJsonDataToDictionary:(NSData *)jsonData {
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
@@ -353,8 +433,8 @@
     if (!bytes) goto exit;
 
     int highValue = -1;
-    uint8_t *p = (uint8_t*) [inputData bytes];
-    for (long i = 0; i < inputData.length; ++i) {
+    const uint8_t *p = (const uint8_t*) [inputData bytes];
+    for (NSUInteger i = 0; i < inputData.length; ++i) {
         int value = -1;
         if (*p >= '0' && *p <= '9')
             value = *p - '0';
@@ -387,10 +467,47 @@
 
 exit:
     if (bytes) {
-        BNCLogAssert(b-bytes<=length);
+        BNCLogAssert((size_t)(b-bytes)<=length);
         free(bytes);
     }
     return data;
+}
+
+#pragma mark - URL QueryItems
+
++ (NSArray<BNCKeyValue*>*) queryItems:(NSURL*)URL {
+    NSMutableArray* keyValues = [NSMutableArray new];
+    if (!URL) return keyValues;
+
+    NSArray *queryItems = [[URL query] componentsSeparatedByString:@"&"];
+    for (NSString* itemPair in queryItems) {
+
+        BNCKeyValue *keyValue = [BNCKeyValue new];
+        NSRange range = [itemPair rangeOfString:@"="];
+        if (range.location == NSNotFound) {
+            if (itemPair.length)
+                keyValue.key = itemPair;
+        } else {
+            keyValue.key = [itemPair substringWithRange:NSMakeRange(0, range.location)];
+            NSRange r = NSMakeRange(range.location+1, itemPair.length-range.location-1);
+            if (r.length > 0)
+                keyValue.value = [itemPair substringWithRange:r];
+        }
+
+        keyValue.key = [BNCEncodingUtils stringByPercentDecodingString:keyValue.key];
+        keyValue.key = [keyValue.key stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+        keyValue.value = [BNCEncodingUtils stringByPercentDecodingString:keyValue.value];
+        keyValue.value = [keyValue.value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+        if (keyValue.key.length || keyValue.value.length) {
+            if (keyValue.key == nil) keyValue.key = @"";
+            if (keyValue.value == nil) keyValue.value = @"";
+            [keyValues addObject:keyValue];
+        }
+    }
+
+    return keyValues;
 }
 
 @end

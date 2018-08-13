@@ -22,7 +22,7 @@ static NSString* const OEXFindCoursesCourseInfoPath = @"course_info/";
 static NSString* const OEXFindCoursesPathIDKey = @"path_id";
 static NSString* const OEXFindCoursePathPrefix = @"course/";
 
-@interface OEXFindCoursesViewController () <FindCoursesWebViewHelperDelegate, InterfaceOrientationOverriding>
+@interface OEXFindCoursesViewController () <WebViewNavigationDelegate, InterfaceOrientationOverriding>
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) UIView* bottomBar;
@@ -92,26 +92,6 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     return [self.environment.config courseEnrollmentConfig];
 }
 
-- (void)showCourseInfoWithPathID:(NSString*)coursePathID {
-    // FindCoursesWebViewHelper and OEXCourseInfoViewController are showing bottom bars so each should have their own copy of botombar view
-    
-    OEXCourseInfoViewController* courseInfoViewController = [[OEXCourseInfoViewController alloc] initWithEnvironment: self.environment pathID:coursePathID bottomBar:[_bottomBar copy]];
-    [self.navigationController pushViewController:courseInfoViewController animated:YES];
-}
-
-- (BOOL) webViewHelperWithHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
-    NSString* coursePathID = [self getCoursePathIDFromURL:request.URL];
-    if(coursePathID != nil) {
-        [self showCourseInfoWithPathID:coursePathID];
-        return NO;
-    }
-    return YES;
-}
-
-- (UIViewController*)containingControllerForWebViewHelperWithHelper:(FindCoursesWebViewHelper *)helper {
-    return self;
-}
-
 - (NSString*)getCoursePathIDFromURL:(NSURL*)url {
     if([url.scheme isEqualToString:OEXFindCoursesLinkURLScheme] && [url.oex_hostlessPath isEqualToString:OEXFindCoursesCourseInfoPath]) {
         NSString* path = url.oex_queryParameters[OEXFindCoursesPathIDKey];
@@ -132,6 +112,19 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {
+    NSString* coursePathID = [CourseDiscoveryHelper detailPathIDFrom:request.URL];
+    if(coursePathID != nil) {
+        [self.environment.router showCourseDetailsFrom:self with:coursePathID bottomBar:[_bottomBar copy]];
+        return NO;
+    }
+    return YES;
+}
+
+- (UIViewController * _Nonnull)webViewContainingController {
+    return self;
 }
 
 @end

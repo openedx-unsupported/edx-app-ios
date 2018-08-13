@@ -28,7 +28,7 @@ static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
 static NSString* const OEXCourseEnrollURLEmailOptInKey = @"email_opt_in";
 static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
-@interface OEXCourseInfoViewController () <FindCoursesWebViewHelperDelegate, InterfaceOrientationOverriding>
+@interface OEXCourseInfoViewController () <WebViewNavigationDelegate, InterfaceOrientationOverriding>
 
 @property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;
@@ -86,18 +86,18 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenCourseInfo];
 }
 
-- (BOOL)webViewHelperWithHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
+- (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {
     NSString* courseID = nil;
     BOOL emailOptIn = false;
     [self parseURL:request.URL getCourseID:&courseID emailOptIn:&emailOptIn];
     if(courseID != nil) {
-        [self  enrollInCourseWithCourseID:courseID emailOpt:emailOptIn];
+        [CourseDiscoveryHelper enrollInCourseWithCourseID:courseID emailOpt:emailOptIn from:self];
         return NO;
     }
     return YES;
 }
 
-- (UIViewController *)containingControllerForWebViewHelperWithHelper:(FindCoursesWebViewHelper *)helper {
+- (UIViewController * _Nonnull)webViewContainingController {
     return self;
 }
 
@@ -116,7 +116,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
 - (void)postEnrollmentSuccessNotification:(NSString*)message {
     [[NSNotificationCenter defaultCenter] postNotificationName:EnrollmentShared.successNotification object:message];
-    
+
     if ([self isRootModal]) {
         [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
     }

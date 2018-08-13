@@ -14,16 +14,11 @@ fileprivate enum QueryParameterKeys {
     static let subject = "subject"
 }
 
-@objc protocol FindCoursesWebViewHelperDelegate : class {
-    func webViewHelper(helper : FindCoursesWebViewHelper, shouldLoadLinkWithRequest request: NSURLRequest) -> Bool
-    func containingControllerForWebViewHelper(helper : FindCoursesWebViewHelper) -> UIViewController
-}
-
 class FindCoursesWebViewHelper: NSObject {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
     fileprivate let environment: Environment?
-    weak var delegate: FindCoursesWebViewHelperDelegate?
+    weak var delegate: WebViewNavigationDelegate?
     fileprivate let contentView = UIView()
     fileprivate let webView = WKWebView()
     fileprivate let searchBar = UISearchBar()
@@ -49,7 +44,7 @@ class FindCoursesWebViewHelper: NSObject {
         return (webView.url as NSURL?)?.oex_queryParameters() as? [String : String]
     }
     
-    init(environment: Environment?, delegate: FindCoursesWebViewHelperDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
+    init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
         self.environment = environment
         self.delegate = delegate
         self.bottomBar = bottomBar
@@ -61,7 +56,7 @@ class FindCoursesWebViewHelper: NSObject {
         webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
         webView.accessibilityIdentifier = "find-courses-webview"
         
-        guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else { return }
+        guard let container = delegate?.webViewContainingController() else { return }
         container.view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(container.safeEdges)
@@ -71,7 +66,7 @@ class FindCoursesWebViewHelper: NSObject {
     }
     
     @objc func refreshView() {
-        guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else { return }
+        guard let container = delegate?.webViewContainingController() else { return }
         contentView.subviews.forEach { $0.removeFromSuperview() }
         let isUserLoggedIn = environment?.session.currentUser != nil
 
@@ -148,7 +143,7 @@ class FindCoursesWebViewHelper: NSObject {
     }
     
     private var isiPhoneAndVerticallyCompact: Bool {
-        guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else { return false }
+        guard let container = delegate?.webViewContainingController() else { return false }
         return container.isVerticallyCompact() && UIDevice.current.userInterfaceIdiom == .phone
     }
     
@@ -208,7 +203,7 @@ class FindCoursesWebViewHelper: NSObject {
 extension FindCoursesWebViewHelper: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         let request = navigationAction.request
-        let capturedLink = navigationAction.navigationType == .linkActivated && (self.delegate?.webViewHelper(helper: self, shouldLoadLinkWithRequest: request as NSURLRequest) ?? true)
+        let capturedLink = navigationAction.navigationType == .linkActivated && (delegate?.webView(webView, shouldLoad: request) ?? true)
         
         let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
         if let URL = request.url, outsideLink || capturedLink {
@@ -267,7 +262,7 @@ extension FindCoursesWebViewHelper: SubjectsViewControllerDelegate, PopularSubje
     }
     
     private func viewAllSubjects() {
-        guard let container = delegate?.containingControllerForWebViewHelper(helper: self) else { return }
+        guard let container = delegate?.webViewContainingController() else { return }
         environment?.analytics.trackSubjectDiscovery(subjectID: "View All Subjects")
         environment?.router?.showAllSubjects(from: container, delegate: self)
     }
@@ -317,6 +312,12 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
         return URL(string: query)
     }
     
+}
+
+extension FindCoursesWebViewHelper {
+    var t_webView: WKWebView {
+        return webView
+    }
 }
 
 extension String {
