@@ -26,6 +26,13 @@ class OEXInterfaceTests: XCTestCase {
     
     func testEnrollmentUrlWithUserAndWithOrganization() {
         for organizationCode in ["edX", "acme"] {
+            let storage = OEXMockCredentialStorage()
+            storage.storedAccessToken = OEXAccessToken.fake()
+            storage.storedUserDetails = OEXUserDetails.freshUser()
+            let session  = OEXSession(credentialStore: storage)
+            session.loadTokenFromStore()
+            OEXSession.setShared(session)
+            
             let config = OEXConfig(dictionary: ["ORGANIZATION_CODE": organizationCode])
             let environment = TestRouterEnvironment(config: config, interface: nil)
             environment.logInTestUser()
@@ -58,6 +65,13 @@ class OEXInterfaceTests: XCTestCase {
     }
     
     func testEnrollmentUrlWithUserAndWithoutOrganization() {
+        let storage = OEXMockCredentialStorage()
+        storage.storedAccessToken = OEXAccessToken.fake()
+        storage.storedUserDetails = OEXUserDetails.freshUser()
+        let session  = OEXSession(credentialStore: storage)
+        session.loadTokenFromStore()
+        OEXSession.setShared(session)
+        
         let config = OEXConfig()
         let environment = TestRouterEnvironment(config: config, interface: nil)
         environment.logInTestUser()
