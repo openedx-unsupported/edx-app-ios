@@ -38,8 +38,7 @@ class OEXInterfaceTests: XCTestCase {
         
         for organizationCode in ["edX", "acme"] {
             let config = OEXConfig(dictionary: ["ORGANIZATION_CODE": organizationCode])
-            let environment = TestRouterEnvironment(config: config, interface: nil)
-            environment.logInTestUser()
+            let _ = TestRouterEnvironment(config: config, interface: nil)
             
             let URLString = NSMutableString(string: baseUrl)
             let enrollmentUrl = interface.formatEnrollmentURL(with: URLString)
@@ -74,8 +73,7 @@ class OEXInterfaceTests: XCTestCase {
         mockSessionCredentials()
         
         let config = OEXConfig()
-        let environment = TestRouterEnvironment(config: config, interface: nil)
-        environment.logInTestUser()
+        let _ = TestRouterEnvironment(config: config, interface: nil)
         
         let URLString = NSMutableString(string: baseUrl)
         let enrollmentUrl = interface.formatEnrollmentURL(with: URLString)
