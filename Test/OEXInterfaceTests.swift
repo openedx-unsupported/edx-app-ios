@@ -34,9 +34,9 @@ class OEXInterfaceTests: XCTestCase {
     }
     
     func testEnrollmentUrlWithUserAndWithOrganization() {
+        mockSessionCredentials()
+        
         for organizationCode in ["edX", "acme"] {
-            mockSessionCredentials()
-            
             let config = OEXConfig(dictionary: ["ORGANIZATION_CODE": organizationCode])
             let environment = TestRouterEnvironment(config: config, interface: nil)
             environment.logInTestUser()
@@ -50,9 +50,9 @@ class OEXInterfaceTests: XCTestCase {
             XCTAssertTrue(includesOrgInQueryParams)
             XCTAssertTrue(includesOrgCodeInQueryParams)
             XCTAssertTrue(notIncludesTestAsUsername)
-            
-            OEXSession().closeAndClear()
         }
+        
+        OEXSession().closeAndClear()
     }
     
     func testEnrollmentUrlWithoutUserAndWithOrganization() {
@@ -63,10 +63,10 @@ class OEXInterfaceTests: XCTestCase {
             let URLString = NSMutableString(string: baseUrl)
             let enrollmentUrl = interface.formatEnrollmentURL(with: URLString)
             let notIncludesOrgInQueryParams = enrollmentUrl.range(of:"?org=").location == NSNotFound
-            let inlcudesTestAsUsername = enrollmentUrl.range(of: "test").location != NSNotFound
+            let includesTestAsUsername = enrollmentUrl.range(of: "test").location != NSNotFound
             
             XCTAssertTrue(notIncludesOrgInQueryParams)
-            XCTAssertTrue(inlcudesTestAsUsername)
+            XCTAssertTrue(includesTestAsUsername)
         }
     }
     
@@ -95,7 +95,7 @@ class OEXInterfaceTests: XCTestCase {
         let URLString = NSMutableString(string: baseUrl)
         let enrollmentUrl = interface.formatEnrollmentURL(with: URLString)
         let notIncludesOrgInQueryParams = enrollmentUrl.range(of:"?org=").location == NSNotFound
-        let includesTestAsUsername = enrollmentUrl.range(of: "test").location == NSNotFound
+        let includesTestAsUsername = enrollmentUrl.range(of: "test").location != NSNotFound
         
         XCTAssertTrue(notIncludesOrgInQueryParams)
         XCTAssertTrue(includesTestAsUsername)
