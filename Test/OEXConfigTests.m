@@ -16,7 +16,6 @@
 #import "OEXFacebookConfig.h"
 #import "OEXGoogleConfig.h"
 #import "OEXNewRelicConfig.h"
-#import "OEXParseConfig.h"
 #import "OEXSegmentConfig.h"
 #import "OEXZeroRatingConfig.h"
 
@@ -182,38 +181,6 @@
     OEXNewRelicConfig *newRelicConfig=[config newRelicConfig];
     XCTAssert(newRelicConfig.enabled,@"New Relic config should be enabled");
     XCTAssertNotNil(newRelicConfig.apiKey,@"New Relic config api key should not be nil");
-}
-
-
-// Parse
-
-- (void)testParseNoConfig {
-    NSDictionary* configDictionary = @{};
-    OEXConfig* config = [[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXParseConfig* parseConfig = [config parseConfig];
-    XCTAssertFalse(parseConfig.notificationsEnabled);
-    XCTAssertNil(parseConfig.applicationID);
-    XCTAssertNil(parseConfig.clientKey);
-}
-
-- (void)testParseEmptyConfig {
-    NSDictionary* configDictionary = @{@"PARSE" : @{}};
-    OEXConfig* config = [[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXParseConfig* parseConfig = [config parseConfig];
-    XCTAssertFalse(parseConfig.notificationsEnabled);
-    XCTAssertNil(parseConfig.applicationID);
-    XCTAssertNil(parseConfig.clientKey);
-}
-
-- (void)testParseEnabledConfig {
-    NSString* clientKey = @"a key!";
-    NSString* appID = @"an id!";
-    NSDictionary* configDictionary = @{@"PARSE" : @{@"NOTIFICATIONS_ENABLED" : @YES, @"CLIENT_KEY" : clientKey, @"APPLICATION_ID" : appID}};
-    OEXConfig* config = [[OEXConfig alloc] initWithDictionary:configDictionary];
-    OEXParseConfig* parseConfig = [config parseConfig];
-    XCTAssertTrue(parseConfig.notificationsEnabled);
-    XCTAssertEqualObjects(clientKey, parseConfig.clientKey);
-    XCTAssertEqualObjects(appID, parseConfig.applicationID);
 }
 
 //SegmentIO
