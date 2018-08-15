@@ -81,7 +81,7 @@ class IOSHelper {
     def addURLScheme(scheme, plist) {
         def body = [
             'CFBundleTypeRole' : 'Editor',
-            'CFBundleURLSchemes' : [scheme]
+            'CFBundleURLSchemes' : scheme
         ]
 
         def existing = plist['CFBundleURLTypes']
@@ -114,7 +114,7 @@ class IOSHelper {
         }
 
         plist["FacebookAppID"] = key
-        def scheme = "fb" + key
+        def scheme = ["fb" + key]
         addURLScheme(scheme, plist)
     }
 
@@ -147,9 +147,19 @@ class IOSHelper {
         }
 
         // Google login schemes are the reverse DNS of the api key
-        def scheme = key.tokenize('.').reverse().join('.')
+        def scheme = [key.tokenize('.').reverse().join('.')]
         addURLScheme(scheme, plist)
     }
+
+    def addMicrosoftConfig(config, plist) {
+        def microsoft = config['MICROSOFT'] ?: [:] 
+        def key = microsoft['MICROSOFT_APP_ID']
+        if(!key) {
+           return
+        }
+        def scheme = ["msal" + key, "auth"] 
+        addURLScheme(scheme, plist)
+   }
 
 }
 
@@ -190,6 +200,7 @@ task applyConfig << {
     helper.addFacebookConfig(config, plist)
     helper.addFabricConfig(config, plist)
     helper.addGoogleConfig(config, plist)
+    helper.addMicrosoftConfig(config, plist)
     helper.writeInfoPlist(plist)
 
     // double check that the config file actually got made

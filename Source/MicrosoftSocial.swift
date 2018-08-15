@@ -18,12 +18,11 @@ class MicrosoftSocial: NSObject {
     private var completionHandler: MSLoginCompletionHandler?
     private var applicationContext: MSALPublicClientApplication = MSALPublicClientApplication.init()
     var accessToken = ""
+    var result: MSALResult?
     
     //TODO: move in config
-    let kClientID = "bdec02cb-c8a0-40b9-a964-a816f42fd070"
     let kAuthority = "https://login.microsoftonline.com/common/v2.0"
     let kScopes: [String] = ["https://graph.microsoft.com/user.read"]
-    
 
     private override init() {
 //        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionEnded.rawValue, action: { (_, observer, _) in
@@ -33,9 +32,7 @@ class MicrosoftSocial: NSObject {
     
     func loginFromController(controller: UIViewController, completionHandler: @escaping MSLoginCompletionHandler) {
         self.completionHandler = completionHandler
-        
         setUpApplicationContext()
-        
         do {
             // We check to see if we have a current signed-in user. If we don't, then we need to sign someone in.
             // We throw an interactionRequired so that we trigger the interactive sign-in.
@@ -44,9 +41,9 @@ class MicrosoftSocial: NSObject {
                 throw NSError.init(domain: "MSALErrorDomain", code: MSALErrorCode.interactionRequired.rawValue, userInfo: nil)
             } else {
                 // Acquire a token for an existing user silently
-                //try application.acquireTokenSilent(forScopes: kScopes, user: applicationContext.users().first, authority: kAuthority) { [weak self] (result, error) in
-                
-                //}
+                try applicationContext.acquireTokenSilent(forScopes: kScopes, user: applicationContext.users().first, authority: kAuthority) { [weak self] (result, error) in
+                    self?.handleResponse(result: result, error: error)
+                }
             }
         } catch let error as NSError {
             // interactionRequired means we need to ask the user to sign in. This usually happens
@@ -62,12 +59,13 @@ class MicrosoftSocial: NSObject {
         } catch {
             handleResponse(result: nil, error: error)
         }
-        
     }
     
     private func handleResponse(result: MSALResult?, error: Error?) {
         if let result = result {
+            self.result = result
             accessToken = result.accessToken
+            completionHandler?(accessToken, error)
             //send this token to server to get content after authentication
         } else {
             completionHandler?(nil, error)
@@ -77,9 +75,16 @@ class MicrosoftSocial: NSObject {
     private func setUpApplicationContext() {
         do {
             // Initialize a MSALPublicClientApplication with a given clientID and authority
-            applicationContext = try MSALPublicClientApplication.init(clientId: kClientID, authority: kAuthority)
+            let clientID = OEXConfig.shared().microsoftConfig.appID
+            applicationContext = try MSALPublicClientApplication.init(clientId: clientID, authority: kAuthority)
         } catch {
             // catch error
+        }
+    }
+    
+    func requestUserProfileInfo(comletion: (_ user: MSALUser) -> Void) {
+        if let user = result?.user {
+            comletion(user)
         }
     }
 }

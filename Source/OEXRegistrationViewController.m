@@ -165,6 +165,11 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     if(self.environment.config.facebookConfig.enabled) {
         [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
+    
+    if(self.environment.config.microsoftConfig.enabled) {
+        [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
+    }
+    
     if(providers.count > 0) {
         OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:CGRectZero providers:providers];
         headingView.delegate = self;

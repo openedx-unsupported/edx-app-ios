@@ -124,7 +124,7 @@
 
 - (BOOL)isMicrosoftEnabled {
     // TODO configuration for enable
-    return false;
+    return [self.environment.config microsoftConfig].enabled;
 }
 
 - (void)viewDidLoad {
@@ -364,6 +364,7 @@
 }
 
 - (IBAction)loginClicked:(id)sender {
+    
     [self.view setUserInteractionEnabled:NO];
 
     if(!self.reachable) {

@@ -120,6 +120,7 @@
 		22AFEADA20CE8DE60071067E /* VideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
 		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
+		22C82943211DC1C900AE3A48 /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 22ABBA09211C07710001020B /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
 		22DACEEE20E270A2007AD5D5 /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22DACEED20E270A1007AD5D5 /* test-movie.mp4 */; };
 		22DACEEF20E270FC007AD5D5 /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22DACEED20E270A1007AD5D5 /* test-movie.mp4 */; };
@@ -886,6 +887,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
+				22C82943211DC1C900AE3A48 /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;

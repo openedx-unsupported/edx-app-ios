@@ -31,7 +31,7 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
     self = [super initWithFrame:frame];
     if(self != nil) {
         
-        self.rowSpacing = [[OEXStyles sharedStyles] standardVerticalMargin];
+        self.rowSpacing = [[OEXStyles sharedStyles] standardVerticalMargin] + 5;
         self.optionButtons = [providers oex_map:^id(id <OEXExternalAuthProvider> provider) {
             self.itemsPerRow += 1;
             UIButton* button = [provider freshAuthButton];
@@ -63,7 +63,7 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
     }
     else {
         CGFloat height = 30;
-        NSUInteger rows = (self.optionButtons.count + self.optionButtons.count - 1) / self.itemsPerRow;
+        NSUInteger rows = (self.optionButtons.count + self.optionButtons.count) / self.itemsPerRow;
 
 
         return CGSizeMake(UIViewNoIntrinsicMetric, rows * height + self.rowSpacing * (rows - 1));

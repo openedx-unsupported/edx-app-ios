@@ -10,13 +10,16 @@ import UIKit
 
 fileprivate enum MicrosoftKeys: String, RawStringExtractable {
     case MicrosoftLoginEnabled = "MICROSOFT_LOGIN_ENABLED"
+    case MicrosoftAppID = "MICROSOFT_APP_ID"
 }
 
 class MicrosoftConfig: NSObject {
     let enabled: Bool
+    let appID: String?
     
     init(dictionary: [String: AnyObject]) {
         enabled = dictionary[MicrosoftKeys.MicrosoftLoginEnabled] as? Bool ?? true
+        appID = dictionary[MicrosoftKeys.MicrosoftAppID] as? String
     }
 }
 
