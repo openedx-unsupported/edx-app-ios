@@ -163,7 +163,7 @@ static OEXInterface* _sharedInterface = nil;
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
     }
     else if([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
-        URLString = [self formatEnrollmentURLWith:URLString];
+        URLString = [self formatEnrollmentURLWith:[OEXConfig sharedConfig] url:URLString];
     }
     else {
         return nil;
