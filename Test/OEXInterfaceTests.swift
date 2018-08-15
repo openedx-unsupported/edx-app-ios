@@ -14,6 +14,7 @@ class OEXInterfaceTests: XCTestCase {
     
     let interface = OEXInterface()
     let baseUrl = "https://courses.edx.org"
+    let organizationCode = "edX"
     var defaultsMockRemover : OEXRemovable!
     
     override func setUp() {
@@ -36,37 +37,33 @@ class OEXInterfaceTests: XCTestCase {
     func testEnrollmentUrlWithUserAndWithOrganization() {
         mockSessionCredentials()
         
-        for organizationCode in ["edX", "acme"] {
-            let config = OEXConfig(dictionary: ["ORGANIZATION_CODE": organizationCode])
-            let _ = TestRouterEnvironment(config: config, interface: nil)
-            
-            let URLString = NSMutableString(string: baseUrl)
-            let enrollmentUrl = interface.formatEnrollmentURL(with: URLString)
-            let includesOrgInQueryParams = enrollmentUrl.range(of:"?org=").location != NSNotFound
-            let includesOrgCodeInQueryParams = enrollmentUrl.range(of: organizationCode).location != NSNotFound
-            let notIncludesTestAsUsername = enrollmentUrl.range(of: "test").location == NSNotFound
-            
-            XCTAssertTrue(includesOrgInQueryParams)
-            XCTAssertTrue(includesOrgCodeInQueryParams)
-            XCTAssertTrue(notIncludesTestAsUsername)
-        }
+        let config = OEXConfig(dictionary: ["ORGANIZATION_CODE": organizationCode])
+        let _ = TestRouterEnvironment(config: config, interface: nil)
+        
+        let URLString = NSMutableString(string: baseUrl)
+        let enrollmentUrl = interface.formatEnrollmentURL(with: URLString)
+        let includesOrgInQueryParams = enrollmentUrl.range(of:"?org=").location != NSNotFound
+        let includesOrgCodeInQueryParams = enrollmentUrl.range(of: organizationCode).location != NSNotFound
+        let notIncludesTestAsUsername = enrollmentUrl.range(of: "test").location == NSNotFound
+        
+        XCTAssertTrue(includesOrgInQueryParams)
+        XCTAssertTrue(includesOrgCodeInQueryParams)
+        XCTAssertTrue(notIncludesTestAsUsername)
         
         OEXSession().closeAndClear()
     }
     
     func testEnrollmentUrlWithoutUserAndWithOrganization() {
-        for organizationCode in ["edX", "acme"] {
-            let config = OEXConfig(dictionary: ["ORGANIZATION_CODE": organizationCode])
-            let _ = TestRouterEnvironment(config: config, interface: nil)
-            
-            let URLString = NSMutableString(string: baseUrl)
-            let enrollmentUrl = interface.formatEnrollmentURL(with: URLString)
-            let notIncludesOrgInQueryParams = enrollmentUrl.range(of:"?org=").location == NSNotFound
-            let includesTestAsUsername = enrollmentUrl.range(of: "test").location != NSNotFound
-            
-            XCTAssertTrue(notIncludesOrgInQueryParams)
-            XCTAssertTrue(includesTestAsUsername)
-        }
+        let config = OEXConfig(dictionary: ["ORGANIZATION_CODE": organizationCode])
+        let _ = TestRouterEnvironment(config: config, interface: nil)
+        
+        let URLString = NSMutableString(string: baseUrl)
+        let enrollmentUrl = interface.formatEnrollmentURL(with: URLString)
+        let notIncludesOrgInQueryParams = enrollmentUrl.range(of:"?org=").location == NSNotFound
+        let includesTestAsUsername = enrollmentUrl.range(of: "test").location != NSNotFound
+        
+        XCTAssertTrue(notIncludesOrgInQueryParams)
+        XCTAssertTrue(includesTestAsUsername)
     }
     
     func testEnrollmentUrlWithUserAndWithoutOrganization() {
