@@ -753,6 +753,7 @@
 		B7CCC73D209B16B100A66923 /* ConstraintLayoutSupportDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC71B209B16B000A66923 /* ConstraintLayoutSupportDSL.swift */; };
 		B7CCC73E209B16B100A66923 /* ConstraintMakerRelatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC71C209B16B000A66923 /* ConstraintMakerRelatable.swift */; };
 		B7CCC740209B1F9E00A66923 /* Default-375w-812h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CCC73F209B1F9E00A66923 /* Default-375w-812h@3x.png */; };
+		BD0507AE20F74D4200B0DB65 /* OEXInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0507AD20F74D4200B0DB65 /* OEXInterfaceTests.swift */; };
 		BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */; };
 		BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */; };
 		BD7C6C401DCA329A0004D135 /* fonts.json in Resources */ = {isa = PBXBuildFile; fileRef = BD7C6C3F1DCA329A0004D135 /* fonts.json */; };
@@ -1760,6 +1761,7 @@
 		B7CCC71B209B16B000A66923 /* ConstraintLayoutSupportDSL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintLayoutSupportDSL.swift; sourceTree = "<group>"; };
 		B7CCC71C209B16B000A66923 /* ConstraintMakerRelatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintMakerRelatable.swift; sourceTree = "<group>"; };
 		B7CCC73F209B1F9E00A66923 /* Default-375w-812h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-375w-812h@3x.png"; sourceTree = "<group>"; };
+		BD0507AD20F74D4200B0DB65 /* OEXInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEXInterfaceTests.swift; sourceTree = "<group>"; };
 		BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsTests.swift; sourceTree = "<group>"; };
 		BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFonts.swift; sourceTree = "<group>"; };
 		BD7C6C3F1DCA329A0004D135 /* fonts.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = fonts.json; sourceTree = "<group>"; };
@@ -3730,6 +3732,7 @@
 				B7C5DB6120BB554B00D80AD2 /* SubjectsViewControllerTests.swift */,
 				22F6A15E20BD2D05009C3F4A /* String+DecodeHTMLEntitiesTests.swift */,
 				22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */,
+				BD0507AD20F74D4200B0DB65 /* OEXInterfaceTests.swift */,
 				2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */,
 				2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */,
 			);
@@ -5057,6 +5060,7 @@
 				E02165AF1E39D3040058D685 /* UIImage_OEXHelpersTests.swift in Sources */,
 				22F6A15F20BD2D06009C3F4A /* String+DecodeHTMLEntitiesTests.swift in Sources */,
 				69AD2B8D1E4B1CE500029B9B /* RatingViewControllerTests.swift in Sources */,
+				BD0507AE20F74D4200B0DB65 /* OEXInterfaceTests.swift in Sources */,
 				770A27A71A700E1600DFC6FF /* OEXVideoSummary+OEXTestDataFactory.m in Sources */,
 				77F76A741B0CE01E00ED3E39 /* MockCourseDataManager.swift in Sources */,
 			);
