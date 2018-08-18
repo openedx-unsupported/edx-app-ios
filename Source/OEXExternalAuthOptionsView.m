@@ -17,7 +17,7 @@
 #import "OEXFacebookAuthProvider.h"
 #import "OEXGoogleAuthProvider.h"
 
-static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
+static CGFloat OEXExternalAuthButtonAspectRatio = 3.2;
 
 @interface OEXExternalAuthOptionsView ()
 
@@ -63,9 +63,7 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
     }
     else {
         CGFloat height = 30;
-        NSUInteger rows = (self.optionButtons.count + self.optionButtons.count) / self.itemsPerRow;
-
-
+        NSUInteger rows = rows = (self.optionButtons.count + self.optionButtons.count) / self.itemsPerRow;
         return CGSizeMake(UIViewNoIntrinsicMetric, rows * height + self.rowSpacing * (rows - 1));
     }
 }
@@ -103,7 +101,7 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
     
     while(!fits) {
         NSUInteger itemsPerRow = [self itemsPerRow:rows];
-        CGFloat rowHeight = [self rowHeightWithRowCount:rows];
+        CGFloat rowHeight = (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) || UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 30 : [self rowHeightWithRowCount:rows];
         CGFloat width = [self itemWidthWithHeight:rowHeight];
         CGFloat requiredWidth = itemsPerRow * width;
         if(requiredWidth < self.bounds.size.width) {
@@ -112,7 +110,6 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
                 NSUInteger itemsInRow = [self itemsInRow:row withMaxItemsPerRow:itemsPerRow itemCount:self.optionButtons.count];
                 NSUInteger column = idx % itemsPerRow;
                 CGFloat y = rowHeight * row + self.rowSpacing * row;
-
                 CGFloat interItemSpacing = (self.bounds.size.width - width * itemsInRow) / (itemsInRow + 1);
                 CGFloat x = column * width + (column + 1) * interItemSpacing;
                 obj.frame = CGRectMake(x, y, width, rowHeight);

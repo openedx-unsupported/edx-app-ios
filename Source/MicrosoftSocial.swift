@@ -13,16 +13,14 @@ typealias MSLoginCompletionHandler = (_ accessToken: String?, _ error: Error?) -
 
 class MicrosoftSocial: NSObject {
 
-    //Singleton
     static let shared = MicrosoftSocial()
     private var completionHandler: MSLoginCompletionHandler?
     private var applicationContext: MSALPublicClientApplication = MSALPublicClientApplication.init()
-    var accessToken = ""
+    private var accessToken = ""
     var result: MSALResult?
     
-    //TODO: move in config
-    let kAuthority = "https://login.microsoftonline.com/common/v2.0"
-    let kScopes: [String] = ["https://graph.microsoft.com/user.read"]
+    private let kAuthority = "https://login.microsoftonline.com/common/v2.0"
+    private let kScopes: [String] = ["https://graph.microsoft.com/user.read"]
 
     private override init() {
 //        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionEnded.rawValue, action: { (_, observer, _) in
@@ -46,10 +44,6 @@ class MicrosoftSocial: NSObject {
                 }
             }
         } catch let error as NSError {
-            // interactionRequired means we need to ask the user to sign in. This usually happens
-            // when the user's Refresh Token is expired or if the user has changed their password
-            // among other possible reasons.
-            
             if error.code == MSALErrorCode.interactionRequired.rawValue {
                 applicationContext.acquireToken(forScopes: self.kScopes) { [weak self] (result, error) in
                     self?.handleResponse(result: result, error: error)
@@ -66,7 +60,6 @@ class MicrosoftSocial: NSObject {
             self.result = result
             accessToken = result.accessToken
             completionHandler?(accessToken, error)
-            //send this token to server to get content after authentication
         } else {
             completionHandler?(nil, error)
         }
@@ -77,14 +70,27 @@ class MicrosoftSocial: NSObject {
             // Initialize a MSALPublicClientApplication with a given clientID and authority
             let clientID = OEXConfig.shared().microsoftConfig.appID
             applicationContext = try MSALPublicClientApplication.init(clientId: clientID, authority: kAuthority)
-        } catch {
-            // catch error
+        } catch let error as NSError {
+            completionHandler?(nil, error)
         }
     }
     
     func requestUserProfileInfo(comletion: (_ user: MSALUser) -> Void) {
         if let user = result?.user {
             comletion(user)
+        }
+    }
+    
+    func signout() {
+        do {
+            
+            // Removes all tokens from the cache for this application for the provided user
+            // first parameter:   The user to remove from the cache
+            
+            try applicationContext.remove(self.applicationContext.users().first)
+            
+        } catch let error {
+            print("Received error signing user out:: \(error)")
         }
     }
 }

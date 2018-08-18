@@ -29,4 +29,3 @@ extension OEXConfig {
         return MicrosoftConfig(dictionary: self[key] as? [String:AnyObject] ?? [:])
     }
 }
-

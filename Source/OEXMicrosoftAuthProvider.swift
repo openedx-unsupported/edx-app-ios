@@ -34,7 +34,6 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     func authorizeService(from controller: UIViewController, requestingUserDetails loadUserDetails: Bool, withCompletion completion: @escaping (String?, OEXRegisteringUserDetails?, Error?) -> Void) {
-        
         MicrosoftSocial.shared.loginFromController(controller: controller) { (token, error) in
             if let error = error {
                 completion(token, nil, error)
@@ -50,7 +49,5 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
                 completion(token, nil, error)
             }
         }
-
     }
-    
 }
