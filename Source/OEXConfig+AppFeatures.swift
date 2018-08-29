@@ -49,15 +49,6 @@ extension OEXConfig {
         // By default registration is enabled
         return bool(forKey: "REGISTRATION_ENABLED", defaultValue: true)
     }
-    
-    var isFirebaseEnabled: Bool {
-        let filePath = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") ?? ""
-        if FileManager.default.fileExists(atPath: filePath) {
-            return bool(forKey: "FIREBASE_ENABLED")
-        }
-        
-        return false
-    }
         
     var isVideoTranscriptEnabled : Bool {
         return bool(forKey: "VIDEO_TRANSCRIPT_ENABLED")

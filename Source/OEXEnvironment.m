@@ -70,11 +70,11 @@
                 [analytics addTracker:[[SegmentAnalyticsTracker alloc] init]];
             }
             
-            if (env.config.isFirebaseEnabled) {
+            if (env.config.firebaseConfig.analyticsEnabled) {
                 [analytics addTracker:[[FirebaseAnalyticsTracker alloc] init]];
             }
             
-            if((segmentConfig.apiKey != nil && segmentConfig.isEnabled) || env.config.isFirebaseEnabled) {
+            if((segmentConfig.apiKey != nil && segmentConfig.isEnabled) || env.config.firebaseConfig.analyticsEnabled) {
                 [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
             }
             
