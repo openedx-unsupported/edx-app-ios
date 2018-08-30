@@ -834,6 +834,10 @@
 		E0DB52C720A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E0DB52C620A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png */; };
 		E0DB52C920A1F36600150FF5 /* Default-Landscape-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E0DB52C820A1F36600150FF5 /* Default-Landscape-568h@2x.png */; };
 		E0DB52CF20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = E0DB52CE20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png */; };
+		E0E163EC21368A1D00DAE9F0 /* FirebaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */; };
+		E0E163EE21368A4F00DAE9F0 /* FirebaseConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */; };
+		E0E163F021368A6300DAE9F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E0E163EF21368A6300DAE9F0 /* GoogleService-Info.plist */; };
+		E0E163F1213690D200DAE9F0 /* FirebaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */; };
 		E0E27FC21EC469A800D1AEFE /* WhatsNew.json in Resources */ = {isa = PBXBuildFile; fileRef = E0E27FC11EC469A800D1AEFE /* WhatsNew.json */; };
 		E0E27FC41EC46D4000D1AEFE /* test_screen_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E0E27FC31EC46D4000D1AEFE /* test_screen_1.png */; };
 		E0EEC6E71F1CD279006C8D62 /* whats_new.json in Resources */ = {isa = PBXBuildFile; fileRef = E0EEC6E91F1CD279006C8D62 /* whats_new.json */; };
@@ -1857,6 +1861,9 @@
 		E0DB52C620A1EFF900150FF5 /* Default-Landscape-375w-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-375w-667h@2x.png"; sourceTree = "<group>"; };
 		E0DB52C820A1F36600150FF5 /* Default-Landscape-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape-568h@2x.png"; sourceTree = "<group>"; };
 		E0DB52CE20A1F8C100150FF5 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseConfig.swift; sourceTree = "<group>"; };
+		E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseConfigTests.swift; sourceTree = "<group>"; };
+		E0E163EF21368A6300DAE9F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E0E27FC11EC469A800D1AEFE /* WhatsNew.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = WhatsNew.json; sourceTree = "<group>"; };
 		E0E27FC31EC46D4000D1AEFE /* test_screen_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = test_screen_1.png; path = Data/test_screen_1.png; sourceTree = "<group>"; };
 		E0EEC6E81F1CD279006C8D62 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/whats_new.json; sourceTree = "<group>"; };
@@ -2993,6 +3000,7 @@
 		77FDF4171B0269FA00E8C639 /* Test Data */ = {
 			isa = PBXGroup;
 			children = (
+				E0E163EF21368A6300DAE9F0 /* GoogleService-Info.plist */,
 				22DACEED20E270A1007AD5D5 /* test-movie.mp4 */,
 				E0E27FC31EC46D4000D1AEFE /* test_screen_1.png */,
 				B7C5DB5B20BB4AAB00D80AD2 /* TestSubjects.json */,
@@ -3105,6 +3113,7 @@
 			children = (
 				3F92D6E520B19C9B00A69806 /* AgreementURLsConfig.swift */,
 				7742F8DC1C3C979D009E555A /* EnrollmentConfig.swift */,
+				E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */,
 				778B82EA1A520F2A0040D9E0 /* OEXEnvironment.h */,
 				778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */,
 				1A8172501C3C1F2E007262AA /* OEXConfig.swift */,
@@ -3597,6 +3606,7 @@
 			children = (
 				3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */,
 				22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */,
+				E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */,
 				E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */,
 				7768745A1CDCCB1E001DFB77 /* RemoteImageTests.swift */,
 				77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */,
@@ -4279,6 +4289,7 @@
 				77E6489E1C91D92D00B6740D /* DiscussionPosts.json in Resources */,
 				775716B51CB7FF660091AB10 /* sample-badge.png in Resources */,
 				B4B6D64B1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
+				E0E163F021368A6300DAE9F0 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4687,6 +4698,7 @@
 				B7CCC734209B16B100A66923 /* ConstraintLayoutGuideDSL.swift in Sources */,
 				77E6486C1C912BD600B6740D /* Logger+OEXObjC.m in Sources */,
 				77000A4A1A7757E0007D306C /* NSDate+OEXComparisons.m in Sources */,
+				E0E163EC21368A1D00DAE9F0 /* FirebaseConfig.swift in Sources */,
 				77AFD1111C1B4F79001985FD /* NSString+TestExamples.m in Sources */,
 				9E5EDA691AFB603A002ADC64 /* CourseAnnouncementsViewController.swift in Sources */,
 				770C514B1B1685E3009B9696 /* HTMLBlockViewController.swift in Sources */,
@@ -4930,6 +4942,7 @@
 				B7C5DB5E20BB4BA800D80AD2 /* SubjectDataModelTests.swift in Sources */,
 				77503E981B2F53C300C47229 /* StreamTests.swift in Sources */,
 				778F17711C0CFD310099BF93 /* OEXRouterTests.swift in Sources */,
+				E0E163EE21368A4F00DAE9F0 /* FirebaseConfigTests.swift in Sources */,
 				773B1D491B1F818300B861DF /* XCTestCase+Async.swift in Sources */,
 				E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */,
 				775434971AD8635200635A40 /* OEXUserDetails+OEXTestDataFactory.m in Sources */,
@@ -4972,6 +4985,7 @@
 				E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */,
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
 				77E2097F1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m in Sources */,
+				E0E163F1213690D200DAE9F0 /* FirebaseConfig.swift in Sources */,
 				77F76A701B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift in Sources */,
 				7702A3731BF54D9E00D2A63F /* OEXMySettingsViewControllerTests.swift in Sources */,
 				773CC0271BEBCB0100DDC127 /* CourseCardViewModelTests.swift in Sources */,

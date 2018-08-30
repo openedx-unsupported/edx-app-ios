@@ -199,7 +199,7 @@
     }
     
     //Initialize Firebase
-    if (config.isFirebaseEnabled) {
+    if (config.firebaseConfig.analyticsEnabled) {
         [FIRApp configure];
         [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
     }
