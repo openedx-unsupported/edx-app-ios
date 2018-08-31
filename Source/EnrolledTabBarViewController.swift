@@ -90,7 +90,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
                 tabBarItems.append(item)
             case .Program:
                 guard environment.config.programConfig.enabled, let programsURL = environment.config.programConfig.programURL else { break }
-                item = TabBarItem(title: option.title(), viewController: ProgramsViewController(environment: environment, programsURL: programsURL), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
+                item = TabBarItem(title: option.title(), viewController: ProgramsViewController(environment: environment, programsURL: programsURL), icon: Icon.Clone, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
             case .CourseCatalog:
                 guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }

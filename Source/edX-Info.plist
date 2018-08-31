@@ -94,7 +94,7 @@
 	<string>so you can select a profile image</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>FontAwesome.otf</string>
+		<string>FontAwesome.ttf</string>
 		<string>OpenSans-Italic.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
 		<string>OpenSans-Semibold.ttf</string>
