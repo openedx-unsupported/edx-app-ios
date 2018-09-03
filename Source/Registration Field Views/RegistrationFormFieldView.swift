@@ -53,7 +53,6 @@ class RegistrationFormFieldView: UIView {
         textArea.textContainer.lineFragmentPadding = 0.0
         textArea.autocapitalizationType = .none
         textArea.applyStandardBorderStyle()
-        textArea.delegate = self
         textArea.accessibilityIdentifier = "\(self.accessibilityIdPrefix)-text-input-area"
         return textArea
     }()
@@ -231,11 +230,5 @@ class RegistrationFormFieldView: UIView {
             break
         }
         return nil
-    }
-}
-
-extension RegistrationFormFieldView: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        valueDidChange()
     }
 }

@@ -131,6 +131,9 @@ class PostTableViewCell: UITableViewCell {
         countLabel.isHidden = !NSNumber(value: thread.unreadCommentCount).boolValue
         
         setAccessibility(thread: thread)
+
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {
