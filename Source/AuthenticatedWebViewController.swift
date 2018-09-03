@@ -60,6 +60,12 @@ private class WKWebViewContentController : WebContentController {
     }
     
     func loadURLRequest(request: NSURLRequest) {
+        // If the view initialize before registering userAgent the request goes without the required userAgent,
+        // to solve this we are setting customeUserAgent here.
+        if let _ = webView.customUserAgent?.isEmpty, let userAgent = UserDefaults.standard.string(forKey: "UserAgent") {
+            webView.customUserAgent = userAgent
+        }
+    
         webView.load(request as URLRequest)
     }
     
