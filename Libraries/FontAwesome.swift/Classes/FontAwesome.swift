@@ -33,7 +33,7 @@ private class FontLoader {
             // If this framework is added using CocoaPods, resources is placed under a subdirectory
             fontURL = bundle.url(forResource: name, withExtension: "otf", subdirectory: "FontAwesome.swift.bundle")!
         } else {
-            fontURL = bundle.url(forResource: name, withExtension: "otf")!
+            fontURL = bundle.url(forResource: name, withExtension: "ttf")!
         }
         
         let data = try! Data(contentsOf: fontURL)
@@ -654,6 +654,7 @@ public enum FontAwesome: String {
   case Yen = "\u{f157}C"
   case Youtube = "\u{f167}"
   case YoutubePlay = "\u{f16a}"
+  case Clone = "\u{f24d}"
 }
 
 public extension String {

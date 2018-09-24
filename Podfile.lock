@@ -69,8 +69,6 @@ PODS:
   - OHHTTPStubs/NSURLSession (4.8.0):
     - OHHTTPStubs/Core
   - OHHTTPStubs/OHPathHelpers (4.8.0)
-  - Parse (1.14.2):
-    - Bolts/Tasks (~> 1.8)
   - Segment-GoogleAnalytics (1.0.1):
     - Analytics (~> 3.0.0)
     - GoogleAnalytics (~> 3.14)
@@ -92,7 +90,6 @@ DEPENDENCIES:
   - NewRelicAgent (~> 4.1)
   - OCMock (~> 3.1)
   - OHHTTPStubs (~> 4.0)
-  - Parse (~> 1.7)
   - Segment-GoogleAnalytics (~> 1.0.0)
   - Smartling.i18n (~> 1.0)
 
@@ -125,7 +122,6 @@ SPEC REPOS:
     - NewRelicAgent
     - OCMock
     - OHHTTPStubs
-    - Parse
     - Segment-GoogleAnalytics
     - Smartling.i18n
 
@@ -157,10 +153,9 @@ SPEC CHECKSUMS:
   NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
   OCMock: f3f61e6eaa16038c30caa5798c5e49d3307b6f22
   OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
-  Parse: 4335d65f40cb3d43190d723144bbe1afb9c38230
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 03ef7a5643965212c6ca9ed7d65385950ca4a989
 
-PODFILE CHECKSUM: 141834ebc97f9504fda03974d39642a181a2827f
+PODFILE CHECKSUM: eda74bbefd122dd9e380080e147a02b94c38ba12
 
 COCOAPODS: 1.5.3

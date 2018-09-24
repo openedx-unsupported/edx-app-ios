@@ -6,15 +6,11 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import <Parse/Parse.h>
-
 #import "OEXPushNotificationManager.h"
 
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXConfig.h"
-#import "OEXParseConfig.h"
 #import "OEXPushListener.h"
-#import "OEXParsePushProvider.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXSession.h"
 
@@ -67,32 +63,30 @@
 
 - (void)addProvider:(id <OEXPushProvider>)provider withSession:(OEXSession *)session {
     [self.providers addObject:provider];
-    if(session.currentUser != nil) {
-        [provider sessionStartedWithUserDetails:session.currentUser settingsManager:self.settingsManager];
-    }
+    //FIXME:- Uncomment this code when we do have a push notification provider
+//    if(session.currentUser != nil) {
+//        [provider sessionStartedWithUserDetails:session.currentUser settingsManager:self.settingsManager];
+//    }
 }
 
 - (void)addProvidersForConfiguration:(OEXConfig *)config withSession:(OEXSession *)session {
-    OEXParseConfig* parseConfig = config.parseConfig;
-    if(parseConfig.notificationsEnabled) {
-        [Parse setApplicationId:parseConfig.applicationID clientKey:parseConfig.clientKey];
-        OEXParsePushProvider* provider = [[OEXParsePushProvider alloc] init];
-        [self addProvider:provider withSession:session];
-    }
+
 }
 
 - (void)sessionStartedWithUserDetails:(OEXUserDetails*)userDetails {
-    for(id <OEXPushProvider> provider in self.providers) {
-        [provider sessionStartedWithUserDetails:userDetails settingsManager:self.settingsManager];
-    }
+    //FIXME:- Uncomment this code when we do have a push notification provider
+//    for(id <OEXPushProvider> provider in self.providers) {
+//        [provider sessionStartedWithUserDetails:userDetails settingsManager:self.settingsManager];
+//    }
 
     [self performRegistration];
 }
 
 - (void)sessionEnded {
-    for(id <OEXPushProvider> provider in self.providers) {
-        [provider sessionEnded];
-    }
+    //FIXME:- Uncomment this code when we do have a push notification provider
+//    for(id <OEXPushProvider> provider in self.providers) {
+//        [provider sessionEnded];
+//    }
 }
 
 - (void)didReceiveLocalNotificationWithUserInfo:(NSDictionary *)userInfo {
@@ -108,15 +102,17 @@
 }
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    for(id <OEXPushProvider> provider in self.providers) {
-        [provider didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-    }
+    //FIXME:- Uncomment this code when we do have a push provider
+//    for(id <OEXPushProvider> provider in self.providers) {
+//        [provider didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+//    }
 }
 
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    for(id <OEXPushProvider> provider in self.providers) {
-        [provider didFailToRegisterForRemoteNotificationsWithError:error];
-    }
+    //FIXME:- Uncomment this code when we do have a push provider
+//    for(id <OEXPushProvider> provider in self.providers) {
+//        [provider didFailToRegisterForRemoteNotificationsWithError:error];
+//    }
 }
 
 @end
