@@ -117,8 +117,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 if let owner = self, let controller = owner.controllerForBlock(block: cursor.current.block)
                 {
                     owner.setPageControllers(with: [controller], direction: .forward, animated: false, completion: { [weak self] (finished) in
-                        self?.view.isUserInteractionEnabled = true
-                        self?.navigationController?.toolbar.isUserInteractionEnabled = true
+                        self?.updateTransitionState(is: false)
                     })
                 }
                 else {
@@ -273,8 +272,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
             setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
-                self?.view.isUserInteractionEnabled = true
-                self?.navigationController?.toolbar.isUserInteractionEnabled = true
+                self?.updateTransitionState(is: false)
             })
         }
     }
@@ -285,9 +283,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         
         if transitionInProgress { return }
         
-        transitionInProgress = true
-        view.isUserInteractionEnabled = false
-        navigationController?.toolbar.isUserInteractionEnabled = false
+        updateTransitionState(is: true)
         
         DispatchQueue.main.async { [weak self] in
             self?.setViewControllers(controllers, direction: direction, animated: animated, completion: {[weak self] (finished) in
@@ -298,6 +294,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                 }
             })
         }
+    }
+
+    private func updateTransitionState(is transitioning: Bool) {
+        transitionInProgress = transitioning
+        view.isUserInteractionEnabled = !transitioning
+        navigationController?.toolbar.isUserInteractionEnabled = !transitioning
     }
     
     public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -310,6 +312,12 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         self.updateNavigationForEnteredController(controller: pageViewController.viewControllers?.first)
+        updateTransitionState(is: false)
+    }
+
+    public func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        updateTransitionState(is: true)
+
     }
     
     func controllerForBlock(block : CourseBlock) -> UIViewController? {
