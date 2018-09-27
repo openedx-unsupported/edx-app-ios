@@ -263,7 +263,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
                 if case navigationAction.navigationType = WKNavigationType.linkActivated, environment.config.openLinksInsideAppEnabled {
                     let urlString = URL.absoluteString
                     guard let apiHostUrlString = environment.config.apiHostURL()?.absoluteString else {
-                        UIApplication.shared.openURL(URL)
+                        return UIApplication.shared.openURL(URL)
                     }
                     
                     if ((urlString.range(of: apiHostUrlString)) != nil) {
