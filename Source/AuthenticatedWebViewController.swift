@@ -258,20 +258,18 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
-        case .linkActivated:
+        case .formSubmitted, .formResubmitted, .linkActivated:
             if let URL = navigationAction.request.url, webViewDelegate?.webView(webView, shouldLoad: navigationAction.request) ?? true {
-                if (self.environment.config.openLinksInsideAppEnabled) {
+                if case navigationAction.navigationType = WKNavigationType.linkActivated, environment.config.openLinksInsideAppEnabled {
                     let urlString = URL.absoluteString
-                    let apiHostUrlString = self.environment.config.apiHostURL()!.absoluteString
+                    guard let apiHostUrlString = environment.config.apiHostURL()?.absoluteString else {
+                        UIApplication.shared.openURL(URL)
+                    }
+                    
                     if ((urlString.range(of: apiHostUrlString)) != nil) {
                         return decisionHandler(.allow)
                     }
                 }
-                UIApplication.shared.openURL(URL)
-            }
-            decisionHandler(.cancel)
-        case .formSubmitted, .formResubmitted:
-            if let URL = navigationAction.request.url, webViewDelegate?.webView(webView, shouldLoad: navigationAction.request) ?? true {
                 UIApplication.shared.openURL(URL)
             }
             decisionHandler(.cancel)
