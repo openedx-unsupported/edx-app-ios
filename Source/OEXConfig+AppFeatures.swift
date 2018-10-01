@@ -76,7 +76,7 @@ extension OEXConfig {
         return bool(forKey: "ANNOUNCEMENTS_ENABLED")
     }
     
-    var openLinksInsideAppEnabled: Bool {
-        return bool(forKey: "OPEN_LINKS_INSIDE_APP_ENABLED")
+    var openHtmlLinksInsideAppEnabled: Bool {
+        return bool(forKey: "OPEN_HTML_LINKS_INSIDE_APP_ENABLED")
     }
 }
