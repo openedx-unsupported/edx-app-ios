@@ -31,5 +31,4 @@ class DeepLink: NSObject {
         screenName = dictionary[DeepLinkKeys.ScreenName] as? String
         type = DeepLinkType(rawValue: screenName ?? "")
     }
-    
 }
