@@ -33,9 +33,8 @@ class RegistrationTextField: UITextField {
     }
     
     private func setupTextField() {
-        background = #imageLiteral(resourceName: "bt_grey_default.png")
-        layer.cornerRadius = 4
-        borderStyle = .none
+        backgroundColor = .clear
+        borderStyle = .roundedRect
     }
 }
 
