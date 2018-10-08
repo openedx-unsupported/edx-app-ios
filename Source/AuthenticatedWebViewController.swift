@@ -260,12 +260,10 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         switch navigationAction.navigationType {
         case .formSubmitted, .formResubmitted, .linkActivated:
             if let URL = navigationAction.request.url, webViewDelegate?.webView(webView, shouldLoad: navigationAction.request) ?? true {
-                if case navigationAction.navigationType = WKNavigationType.linkActivated, environment.config.openHtmlLinksInsideAppEnabled {
+                if case navigationAction.navigationType = WKNavigationType.linkActivated, environment.config.openWebLinksInsideAppEnabled {
                     let urlString = URL.absoluteString
-                    if let apiHostUrlString = environment.config.apiHostURL()?.absoluteString {
-                        if ((urlString.range(of: apiHostUrlString)) != nil) {
-                            return decisionHandler(.allow)
-                        }
+                    if let apiHostUrlString = environment.config.apiHostURL()?.absoluteString, urlString.range(of: apiHostUrlString) != nil {
+                        return decisionHandler(.allow)
                     }
                 }
                 UIApplication.shared.openURL(URL)
