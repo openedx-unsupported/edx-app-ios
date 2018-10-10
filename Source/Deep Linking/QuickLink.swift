@@ -13,6 +13,7 @@ enum DeepLinkType: String {
     case CourseVideo = "course_video"
     case CourseDiscussion = "course_discussion"
     case CourseDates = "course_date"
+    case None = "none"
 }
 
 fileprivate enum DeepLinkKeys: String, RawStringExtractable {
@@ -29,6 +30,6 @@ class DeepLink: NSObject {
     init(dictionary:[String:Any]) {
         courseId = dictionary[DeepLinkKeys.CourseId] as? String
         screenName = dictionary[DeepLinkKeys.ScreenName] as? String
-        type = DeepLinkType(rawValue: screenName ?? "")
+        type = DeepLinkType(rawValue: screenName ?? "none")
     }
 }

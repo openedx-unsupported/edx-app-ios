@@ -12,14 +12,17 @@ import UIKit
 @objc class DeepLinkManager: NSObject {
 
     static let sharedInstance = DeepLinkManager()
+    typealias Environment = OEXSessionProvider & OEXRouterProvider & OEXSessionProvider
+    var environment: Environment?
     
     private override init() {
         super.init()
     }
 
-    func processDeepLink(with params: [String: Any]) {
+    func processDeepLink(with params: [String: Any], environment: Environment) {
+        self.environment = environment
         let deepLink = DeepLink(dictionary: params)
-        guard let deepLinkType = deepLink.type else {
+        guard let deepLinkType = deepLink.type, deepLink.type != .None else {
             return
         }
         if isUserLoggedin() {
@@ -34,22 +37,17 @@ import UIKit
         if let presentedViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostController(), !(presentedViewController.childViewControllers[0].isKind(of: OEXLoginViewController.self)) {
             presentedViewController.dismiss(animated: false, completion: nil)
         }
-        OEXRouter.shared().environment.router?.showLoginScreen(from: nil, completion: nil)
+        environment?.router?.showLoginScreen(from: nil, completion: nil)
     }
     
     private func isUserLoggedin() -> Bool {
-        if let _ = OEXRouter.shared().environment.session.currentUser {
-            return true
-        }
-        else {
-            return false
-        }
+        return environment?.session.currentUser != nil
     }
     
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
             switch type {
             case .CourseDashboard:
-                OEXRouter.shared().showMyCourses(animated: true, pushingCourseWithID: link.courseId)
+                environment?.router?.showMyCourses(animated: true, pushingCourseWithID: link.courseId)
                 break
             default:
                 break
