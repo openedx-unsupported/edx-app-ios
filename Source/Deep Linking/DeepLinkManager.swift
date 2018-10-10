@@ -47,12 +47,19 @@ import UIKit
     }
     
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
-            switch type {
-            case .CourseDashboard:
-                OEXRouter.shared().showMyCourses(animated: true, pushingCourseWithID: link.courseId)
-                break
-            default:
-                break
-            }
+        switch type {
+        case .CourseDashboard:
+            OEXRouter.shared().showMyCourses(animated: true, pushingCourseWithID: link.courseId)
+            break
+        case .CourseVideo:
+            OEXRouter.shared().showCourseDashboard(with: link.courseId ?? "", type: type)
+            break
+        case .CourseDiscussion:
+            OEXRouter.shared().showCourseDashboard(with: link.courseId ?? "", type: type)
+            break
+        case .CourseDates:
+            OEXRouter.shared().showCourseDashboard(with: link.courseId ?? "", type: type)
+            break
+        }
     }
 }
