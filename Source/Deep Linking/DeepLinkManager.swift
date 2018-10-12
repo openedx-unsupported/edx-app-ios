@@ -12,7 +12,7 @@ import UIKit
 @objc class DeepLinkManager: NSObject {
 
     static let sharedInstance = DeepLinkManager()
-    typealias Environment = OEXSessionProvider & OEXRouterProvider & OEXSessionProvider
+    typealias Environment = OEXSessionProvider & OEXRouterProvider
     var environment: Environment?
     
     private override init() {
@@ -22,9 +22,10 @@ import UIKit
     func processDeepLink(with params: [String: Any], environment: Environment) {
         self.environment = environment
         let deepLink = DeepLink(dictionary: params)
-        guard let deepLinkType = deepLink.type, deepLink.type != .None else {
+        guard let deepLinkType = deepLink.type, deepLinkType != .None else {
             return
         }
+        
         if isUserLoggedin() {
             navigateToDeepLink(with: deepLinkType, link: deepLink)
         }

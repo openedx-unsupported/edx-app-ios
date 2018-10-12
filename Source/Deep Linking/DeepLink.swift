@@ -10,9 +10,6 @@ import UIKit
 
 enum DeepLinkType: String {
     case CourseDashboard = "course_dashboard"
-    case CourseVideo = "course_video"
-    case CourseDiscussion = "course_discussion"
-    case CourseDates = "course_date"
     case None = "none"
 }
 
@@ -30,6 +27,6 @@ class DeepLink: NSObject {
     init(dictionary:[String:Any]) {
         courseId = dictionary[DeepLinkKeys.CourseId] as? String
         screenName = dictionary[DeepLinkKeys.ScreenName] as? String
-        type = DeepLinkType(rawValue: screenName ?? "none")
+        type = DeepLinkType(rawValue: screenName ?? DeepLinkType.None.rawValue)
     }
 }
