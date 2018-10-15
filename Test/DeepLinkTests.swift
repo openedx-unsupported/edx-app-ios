@@ -32,4 +32,19 @@ class DeepLinkTests: XCTestCase {
         XCTAssertEqual(deepLink.screenName, testScreenName)
         XCTAssertEqual(deepLink.type, .CourseDashboard)
     }
+    
+    func testInvalidScreenName() {
+        let testCourseId = "course-id:test_course"
+        let testScreenName = "invalid_name"
+        let parameters = [
+            "course_id": testCourseId,
+            "screen_name": testScreenName,
+            ]
+        let deepLink = DeepLink(dictionary: parameters)
+        XCTAssertNotNil(deepLink.courseId)
+        XCTAssertNotNil(deepLink.screenName)
+        XCTAssertEqual(deepLink.courseId, testCourseId)
+        XCTAssertEqual(deepLink.screenName, testScreenName)
+        XCTAssertEqual(deepLink.type, .None)
+    }
 }

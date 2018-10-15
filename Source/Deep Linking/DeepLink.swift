@@ -27,6 +27,6 @@ class DeepLink: NSObject {
     init(dictionary:[String:Any]) {
         courseId = dictionary[DeepLinkKeys.CourseId] as? String
         screenName = dictionary[DeepLinkKeys.ScreenName] as? String
-        type = DeepLinkType(rawValue: screenName ?? DeepLinkType.None.rawValue)
+        type = DeepLinkType(rawValue: screenName ?? DeepLinkType.None.rawValue) ?? .None
     }
 }
