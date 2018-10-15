@@ -10,9 +10,9 @@ import Foundation
 import edX
 
 open class MockAnalyticsEventRecord : NSObject {
-    open let event: OEXAnalyticsEvent
-    open let component: String?
-    open let properties: [String : AnyObject]
+    public let event: OEXAnalyticsEvent
+    public let component: String?
+    public let properties: [String : AnyObject]
     
     init(event : OEXAnalyticsEvent, component: String?, properties: [String:AnyObject]) {
         self.event = event
@@ -22,10 +22,10 @@ open class MockAnalyticsEventRecord : NSObject {
 }
 
 open class MockAnalyticsScreenRecord : NSObject {
-    open let screenName: String
-    open let value: String?
-    open let courseID: String?
-    open let additionalInfo: NSDictionary?
+    public let screenName: String
+    public let value: String?
+    public let courseID: String?
+    public let additionalInfo: NSDictionary?
     
     init(screenName : String, courseID: String?, value: String?, additionalInfo: NSDictionary?) {
         self.screenName = screenName
