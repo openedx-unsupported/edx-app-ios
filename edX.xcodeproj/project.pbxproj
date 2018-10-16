@@ -82,6 +82,7 @@
 		1AFEB1B91BBD88F3004C471D /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AFEB1BB1BBD88F3004C471D /* languages.json */; };
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
+		222C39202167761F0038E388 /* DeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222C391F2167761F0038E388 /* DeepLinkTests.swift */; };
 		2231FF4D1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2231FF4C1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift */; };
 		223895CF1F25CF76005B9C15 /* SwipeableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CB1F25CF76005B9C15 /* SwipeableCell.swift */; };
 		223895D01F25CF76005B9C15 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */; };
@@ -102,6 +103,8 @@
 		2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */; };
 		2255C95221185D21005F7C8C /* CourseDiscoveryHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */; };
 		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
+		2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54721634AC8001EA1E6 /* DeepLink.swift */; };
+		2271C54A21634E40001EA1E6 /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54921634E40001EA1E6 /* DeepLinkManager.swift */; };
 		227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A6204EBF26007AA396 /* VideoPlayerControls.swift */; };
 		227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A92057C0AA007AA396 /* TranscriptParser.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
@@ -999,6 +1002,7 @@
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
+		222C391F2167761F0038E388 /* DeepLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkTests.swift; sourceTree = "<group>"; };
 		2231FF4C1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerAnalyticsTracker.swift; sourceTree = "<group>"; };
 		223895CB1F25CF76005B9C15 /* SwipeableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeableCell.swift; sourceTree = "<group>"; };
 		223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
@@ -1022,6 +1026,8 @@
 		2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfigTests.swift; sourceTree = "<group>"; };
 		2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDiscoveryHelperTests.swift; sourceTree = "<group>"; };
 		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
+		2271C54721634AC8001EA1E6 /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
+		2271C54921634E40001EA1E6 /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		227386A6204EBF26007AA396 /* VideoPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerControls.swift; sourceTree = "<group>"; };
 		227386A92057C0AA007AA396 /* TranscriptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptParser.swift; sourceTree = "<group>"; };
 		2283C7522060EF8600A2E9BE /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
@@ -2189,6 +2195,15 @@
 				22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */,
 			);
 			name = "Tab Layout Dashboard";
+			sourceTree = "<group>";
+		};
+		2271C54621634A5F001EA1E6 /* Deep Linking */ = {
+			isa = PBXGroup;
+			children = (
+				2271C54721634AC8001EA1E6 /* DeepLink.swift */,
+				2271C54921634E40001EA1E6 /* DeepLinkManager.swift */,
+			);
+			path = "Deep Linking";
 			sourceTree = "<group>";
 		};
 		227386A82057C01B007AA396 /* SubtitleParser */ = {
@@ -3542,6 +3557,7 @@
 		BECB7B141924C0C3009C77F1 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				2271C54621634A5F001EA1E6 /* Deep Linking */,
 				B70BCFDC20B41C38005F0D19 /* SubjectsDiscovery */,
 				228E0B891F43137D0073E6FA /* Account View */,
 				1972E3B619BF474900085F08 /* Analytics */,
@@ -3730,6 +3746,7 @@
 				BD0507AD20F74D4200B0DB65 /* OEXInterfaceTests.swift */,
 				2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */,
 				2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */,
+				222C391F2167761F0038E388 /* DeepLinkTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
@@ -4759,6 +4776,7 @@
 				B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */,
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */,
+				2271C54A21634E40001EA1E6 /* DeepLinkManager.swift in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
@@ -4872,6 +4890,7 @@
 				77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */,
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
+				2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */,
@@ -4980,6 +4999,7 @@
 				7753914B1C98A16600FA959C /* VideoBlockViewControllerTests.swift in Sources */,
 				E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */,
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
+				222C39202167761F0038E388 /* DeepLinkTests.swift in Sources */,
 				77E2097F1AF032CC0071316D /* UIControl+OEXBlockActionsTests.m in Sources */,
 				E0E163F1213690D200DAE9F0 /* FirebaseConfig.swift in Sources */,
 				77F76A701B0BD5EC00ED3E39 /* OEXSession+AuthorizationTests.swift in Sources */,
