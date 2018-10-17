@@ -12,16 +12,20 @@ import UIKit
 @objc class DeepLinkManager: NSObject {
 
     static let sharedInstance = DeepLinkManager()
+    typealias Environment = OEXSessionProvider & OEXRouterProvider
+    var environment: Environment?
     
     private override init() {
         super.init()
     }
 
-    func processDeepLink(with params: [String: Any]) {
+    func processDeepLink(with params: [String: Any], environment: Environment) {
+        self.environment = environment
         let deepLink = DeepLink(dictionary: params)
-        guard let deepLinkType = deepLink.type else {
+        guard let deepLinkType = deepLink.type, deepLinkType != .None else {
             return
         }
+        
         if isUserLoggedin() {
             navigateToDeepLink(with: deepLinkType, link: deepLink)
         }
@@ -34,32 +38,21 @@ import UIKit
         if let presentedViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostController(), !(presentedViewController.childViewControllers[0].isKind(of: OEXLoginViewController.self)) {
             presentedViewController.dismiss(animated: false, completion: nil)
         }
-        OEXRouter.shared().environment.router?.showLoginScreen(from: nil, completion: nil)
+        environment?.router?.showLoginScreen(from: nil, completion: nil)
     }
     
     private func isUserLoggedin() -> Bool {
-        if let _ = OEXRouter.shared().environment.session.currentUser {
-            return true
-        }
-        else {
-            return false
-        }
+        return environment?.session.currentUser != nil
     }
     
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
-        switch type {
-        case .CourseDashboard:
-            OEXRouter.shared().showMyCourses(animated: true, pushingCourseWithID: link.courseId)
-            break
-        case .CourseVideo:
-            OEXRouter.shared().showCourseDashboard(with: link.courseId ?? "", type: type)
-            break
-        case .CourseDiscussion:
-            OEXRouter.shared().showCourseDashboard(with: link.courseId ?? "", type: type)
-            break
-        case .CourseDates:
-            OEXRouter.shared().showCourseDashboard(with: link.courseId ?? "", type: type)
-            break
-        }
+            switch type {
+            case .CourseDashboard, .CourseVideos:
+                environment?.router?.showCourseDashboard(with: link.courseId ?? "", type: link.type ?? .None)
+                break
+                
+            default:
+                break
+            }
     }
 }

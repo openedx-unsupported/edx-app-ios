@@ -163,7 +163,9 @@ class FindCoursesWebViewHelper: NSObject {
     public func load(withURL url: URL) {
         var discoveryURL = url
         
-        if let searchURL = searchBaseURL, let searchQuery = searchQuery, var params = params {
+        if let searchURL = searchBaseURL, let searchQuery = searchQuery {
+            searchBar.text = searchQuery
+            var params = self.params ?? [:]
             set(value: searchQuery, for: QueryParameterKeys.searchQuery, in: &params)
             if let url = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
                 discoveryURL = url

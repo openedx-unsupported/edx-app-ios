@@ -207,16 +207,10 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         return 0
     }
     
-    func switchTabView(with type: DeepLinkType) {
+    func switchTab(with type: DeepLinkType) {
         switch type {
-        case .CourseVideo:
+        case .CourseVideos:
             selectedIndex = getViewController(with: CourseOutlineViewController.self)
-            break
-        case .CourseDiscussion:
-            selectedIndex = getViewController(with: DiscussionTopicsViewController.self)
-            break
-        case .CourseDates:
-            selectedIndex = getViewController(with: CourseDatesViewController.self)
             break
         default:
             selectedIndex = 0

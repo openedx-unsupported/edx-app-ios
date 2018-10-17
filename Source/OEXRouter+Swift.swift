@@ -141,7 +141,7 @@ extension OEXRouter {
         showContentStack(withRootController: controller, animated: true)
         let dashboardController = CourseDashboardViewController(environment: environment, courseID: courseID)
         controller.navigationController?.pushViewController(dashboardController, animated: true)
-        dashboardController.switchTabView(with: type)
+        dashboardController.switchTab(with: type)
     }
     
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, thread : DiscussionThread, isDiscussionBlackedOut: Bool) {

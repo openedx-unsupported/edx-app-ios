@@ -103,7 +103,7 @@
 		2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */; };
 		2255C95221185D21005F7C8C /* CourseDiscoveryHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */; };
 		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
-		2271C54821634AC8001EA1E6 /* QuickLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54721634AC8001EA1E6 /* QuickLink.swift */; };
+		2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54721634AC8001EA1E6 /* DeepLink.swift */; };
 		2271C54A21634E40001EA1E6 /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54921634E40001EA1E6 /* DeepLinkManager.swift */; };
 		227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A6204EBF26007AA396 /* VideoPlayerControls.swift */; };
 		227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A92057C0AA007AA396 /* TranscriptParser.swift */; };
@@ -1026,7 +1026,7 @@
 		2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfigTests.swift; sourceTree = "<group>"; };
 		2255C95121185D21005F7C8C /* CourseDiscoveryHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDiscoveryHelperTests.swift; sourceTree = "<group>"; };
 		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
-		2271C54721634AC8001EA1E6 /* QuickLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickLink.swift; sourceTree = "<group>"; };
+		2271C54721634AC8001EA1E6 /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		2271C54921634E40001EA1E6 /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		227386A6204EBF26007AA396 /* VideoPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerControls.swift; sourceTree = "<group>"; };
 		227386A92057C0AA007AA396 /* TranscriptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptParser.swift; sourceTree = "<group>"; };
@@ -2200,7 +2200,7 @@
 		2271C54621634A5F001EA1E6 /* Deep Linking */ = {
 			isa = PBXGroup;
 			children = (
-				2271C54721634AC8001EA1E6 /* QuickLink.swift */,
+				2271C54721634AC8001EA1E6 /* DeepLink.swift */,
 				2271C54921634E40001EA1E6 /* DeepLinkManager.swift */,
 			);
 			path = "Deep Linking";
@@ -4890,7 +4890,7 @@
 				77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */,
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
-				2271C54821634AC8001EA1E6 /* QuickLink.swift in Sources */,
+				2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,
 				77E648781C91330D00B6740D /* Result+Conveniences.swift in Sources */,
