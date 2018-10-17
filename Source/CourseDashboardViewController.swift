@@ -196,6 +196,28 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         }
     }
     
+    func getViewController(with controller: AnyClass) -> Int{
+        if let viewControllers = viewControllers {
+            for i in 1..<viewControllers.count {
+                if viewControllers[i].isKind(of: controller) {
+                    return i
+                }
+            }
+        }
+        return 0
+    }
+    
+    func switchTab(with type: DeepLinkType) {
+        switch type {
+        case .CourseVideos:
+            selectedIndex = getViewController(with: CourseOutlineViewController.self)
+            break
+        default:
+            selectedIndex = 0
+         break
+        }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
