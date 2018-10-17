@@ -10,6 +10,7 @@ import UIKit
 
 enum DeepLinkType: String {
     case CourseDashboard = "course_dashboard"
+    case CourseVideos = "course_videos"
     case None = "none"
 }
 
