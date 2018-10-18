@@ -212,6 +212,8 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         case .CourseVideos:
             selectedIndex = getViewController(with: CourseOutlineViewController.self)
             break
+        case .Discussions:
+            selectedIndex = getViewController(with: DiscussionTopicsViewController.self)
         default:
             selectedIndex = 0
          break
