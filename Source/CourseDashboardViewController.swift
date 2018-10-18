@@ -196,7 +196,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         }
     }
     
-    func getViewController(with controller: AnyClass) -> Int{
+    private func getViewController(with controller: AnyClass) -> Int{
         if let viewControllers = viewControllers {
             for i in 1..<viewControllers.count {
                 if viewControllers[i].isKind(of: controller) {
@@ -207,6 +207,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         return 0
     }
     
+// MARK: Deep Linking
     func switchTab(with type: DeepLinkType) {
         switch type {
         case .CourseVideos:

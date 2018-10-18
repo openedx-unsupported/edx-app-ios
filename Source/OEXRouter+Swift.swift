@@ -136,7 +136,9 @@ extension OEXRouter {
         showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller, forMode: .video)
     }
     
-    func showCourseDashboard(with courseID: String, type: DeepLinkType) {
+    // MARK: Deep Linking
+    //Method can be use to navigate on particular tab of course dashboard with deep link type
+    func showCourseWithDeepLink(type: DeepLinkType, courseID: String) {
         let controller = EnrolledTabBarViewController(environment: environment)
         showContentStack(withRootController: controller, animated: true)
         let dashboardController = CourseDashboardViewController(environment: environment, courseID: courseID)
