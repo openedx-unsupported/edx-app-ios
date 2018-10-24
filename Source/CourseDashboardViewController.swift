@@ -196,7 +196,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         }
     }
     
-    private func getViewController(with controller: AnyClass) -> Int{
+    func tabBarViewControllerIndex(with controller: AnyClass) -> Int {
         if let viewControllers = viewControllers {
             for i in 1..<viewControllers.count {
                 if viewControllers[i].isKind(of: controller) {
@@ -211,10 +211,10 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
     func switchTab(with type: DeepLinkType) {
         switch type {
         case .CourseVideos:
-            selectedIndex = getViewController(with: CourseOutlineViewController.self)
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self)
             break
         case .Discussions:
-            selectedIndex = getViewController(with: DiscussionTopicsViewController.self)
+            selectedIndex = tabBarViewControllerIndex(with: DiscussionTopicsViewController.self)
         default:
             selectedIndex = 0
          break
