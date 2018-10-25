@@ -22,16 +22,13 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
         self.programsURL = programsURL
         super.init(nibName: nil, bundle: nil)
         webController.webViewDelegate = self
+
+        setupView()
+        loadPrograms()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupView()
-        loadPrograms()
     }
 
     // MARK:- Methods -
