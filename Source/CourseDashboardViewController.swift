@@ -196,11 +196,18 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         }
     }
     
-    func tabBarViewControllerIndex(with controller: AnyClass) -> Int {
+    func tabBarViewControllerIndex(with controller: AnyClass, courseOutlineMode: CourseOutlineMode? = .full) -> Int {
         if let viewControllers = viewControllers {
-            for i in 1..<viewControllers.count {
+            for i in 0..<viewControllers.count {
                 if viewControllers[i].isKind(of: controller) {
-                    return i
+                    if  viewControllers[i].isKind(of: CourseOutlineViewController.self)  {
+                        let viewController = viewControllers[i]
+                        if let courseOutlineViewController = viewController as? CourseOutlineViewController, courseOutlineViewController.courseOutlineMode == courseOutlineMode {
+                            return i
+                        }
+                    } else {
+                        return i
+                    }
                 }
             }
         }
@@ -210,8 +217,10 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
 // MARK: Deep Linking
     func switchTab(with type: DeepLinkType) {
         switch type {
+        case .CourseDashboard:
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
         case .CourseVideos:
-            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self)
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)
             break
         case .Discussions:
             selectedIndex = tabBarViewControllerIndex(with: DiscussionTopicsViewController.self)
