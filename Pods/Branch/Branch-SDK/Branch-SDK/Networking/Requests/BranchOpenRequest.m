@@ -63,7 +63,7 @@
     [self safeSetValue:preferenceHelper.universalLinkUrl forKey:BRANCH_REQUEST_KEY_UNIVERSAL_LINK_URL onDict:params];
     [self safeSetValue:preferenceHelper.externalIntentURI forKey:BRANCH_REQUEST_KEY_EXTERNAL_INTENT_URI onDict:params];
     if (preferenceHelper.limitFacebookTracking)
-        params[@"limit_facebook_tracking"] = CFBridgingRelease(kCFBooleanTrue);
+        params[@"limit_facebook_tracking"] = (__bridge NSNumber*) kCFBooleanTrue;
 
     NSMutableDictionary *cdDict = [[NSMutableDictionary alloc] init];
     BranchContentDiscoveryManifest *contentDiscoveryManifest = [BranchContentDiscoveryManifest getInstance];
@@ -89,7 +89,11 @@
     params[@"first_install_time"] = BNCWireFormatFromDate(application.firstInstallDate);
     params[@"update"] = [self.class appUpdateState];
 
-    [serverInterface postRequest:params url:[preferenceHelper getAPIURL:BRANCH_REQUEST_ENDPOINT_OPEN] key:key callback:callback];
+    [serverInterface postRequest:params
+        url:[preferenceHelper
+        getAPIURL:BRANCH_REQUEST_ENDPOINT_OPEN]
+        key:key
+        callback:callback];
 }
 
 typedef NS_ENUM(NSInteger, BNCUpdateState) {
@@ -133,6 +137,16 @@ typedef NS_ENUM(NSInteger, BNCUpdateState) {
 }
 
 - (void)processResponse:(BNCServerResponse *)response error:(NSError *)error {
+    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
+    if (error && preferenceHelper.blacklistURLOpen) {
+        // Ignore this response from the server. Dummy up a response:
+        error = nil;
+        response.data = @{
+            BRANCH_RESPONSE_KEY_SESSION_DATA: @{
+                BRANCH_RESPONSE_KEY_CLICKED_BRANCH_LINK: @0
+            }
+        };
+    } else
     if (error) {
         [BranchOpenRequest releaseOpenResponseLock];
         if (self.callback) {
@@ -141,7 +155,6 @@ typedef NS_ENUM(NSInteger, BNCUpdateState) {
         return;
     }
 
-    BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
     NSDictionary *data = response.data;
     
     // Handle possibly mis-parsed identity.
@@ -219,16 +232,16 @@ typedef NS_ENUM(NSInteger, BNCUpdateState) {
     }
 
     NSString *referringURL = nil;
-    if (preferenceHelper.universalLinkUrl) {
+    if (preferenceHelper.universalLinkUrl.length) {
         referringURL = preferenceHelper.universalLinkUrl;
     }
-    else if (preferenceHelper.externalIntentURI) {
+    else if (preferenceHelper.externalIntentURI.length) {
         referringURL = preferenceHelper.externalIntentURI;
     }
     else {
         NSDictionary *sessionDataDict = [BNCEncodingUtils decodeJsonStringToDictionary:sessionData];
         NSString *link = sessionDataDict[BRANCH_RESPONSE_KEY_BRANCH_REFERRING_LINK];
-        if (link) referringURL = link;
+        if (link.length) referringURL = link;
     }
 
     // Clear link identifiers so they don't get reused on the next open
@@ -239,6 +252,7 @@ typedef NS_ENUM(NSInteger, BNCUpdateState) {
     preferenceHelper.externalIntentURI = nil;
     preferenceHelper.appleSearchAdNeedsSend = NO;
     preferenceHelper.referringURL = referringURL;
+    preferenceHelper.blacklistURLOpen = NO;
 
     NSString *string = BNCStringFromWireFormat(data[BRANCH_RESPONSE_KEY_BRANCH_IDENTITY]);
     if (string) preferenceHelper.identityID = string;
