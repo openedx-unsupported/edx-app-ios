@@ -121,11 +121,15 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
                 return
             }
         }
+
+        markVideoComplete()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         subtitleTimer.invalidate()
+
+
     }
     
     func setAccessibility() {
@@ -384,9 +388,6 @@ extension VideoBlockViewController {
     func markVideoComplete() {
         guard let username = environment.session.currentUser?.username, let blockID = blockID else { return }
         let networkRequest = VideoCompletionApi.videoCompletion(username: username, courseID: courseID, blockID: blockID)
-        environment.networkManager.taskForRequest(networkRequest) {
-            result in
-            print(result)
-        }
+        environment.networkManager.taskForRequest(networkRequest) { result in }
     }
 }
