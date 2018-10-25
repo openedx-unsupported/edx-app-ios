@@ -121,8 +121,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
                 return
             }
         }
-
-        markVideoComplete()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
