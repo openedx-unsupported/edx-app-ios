@@ -28,8 +28,8 @@ ___
   + [Library installation](#installation)
   + [Register for Branch key](#register-your-app)
   + [Add your Branch key](#add-your-branch-key-to-your-project)
-  + [Register a URI scheme](#register-a-uri-scheme-direct-deep-linking-optional-but-recommended)
-  + [Support Universal Links](#support-universal-linking-ios-9)
+  + [Register a URI scheme](#register-a-uri-scheme)
+  + [Support Universal Links](#support-universal-linking-ios-9-and-above)
 
 3. Branch general methods
   + [Get a Branch singleton](#get-a-singleton-branch-instance)
@@ -41,6 +41,7 @@ ___
   + [Logging a user out](#logout)
   + [Tracking user actions and events](#tracking-user-actions-and-events)
   + [Apple Search Ad Attribution](#apple-search-ads)
+  + [Enable or Disable User Tracking](#enable-or-disable-user-tracking)
 
 4. Branch Universal Objects
   + [Instantiate a Branch Universal Object](#branch-universal-object)
@@ -154,15 +155,20 @@ Note: If you used Fabric to install Branch as a kit, your Branch keys will be in
 
 ![Branch Fabric Keys](docs/images/branch-fabric-key-plist.png)
 
-### Register a URI Scheme Direct Deep Linking (Optional but Recommended)
+### Register a URI Scheme
 
-You can register your app to respond to direct deep links (yourapp:// in a mobile browser) by adding a URI scheme in the YourProject-Info.plist file. Make sure to change **yourapp** to a unique string that represents your app name.
+Register your app to respond to direct deep links (yourapp:// in a mobile browser) by adding a URI scheme in the YourProject-Info.plist file. Make sure to change **yourapp** to a unique string that represents your app name.
 
 1. In Xcode, click on YourProject-Info.plist on the left.
 1. Find URL Types and click the right arrow. (If it doesn't exist, right click anywhere and choose Add Row. Scroll down and choose URL Types).
-1. Add "yourapp," where yourapp is a unique string for your app, as an item in URL Schemes as below:
+1. Add "yourapp," where yourapp is a unique string for your app, as an item in URL Schemes as below.
+
+   _Caution: Your apps URI scheme must be the first scheme defined (item 0) in the list._
+
+   If you have multiple schemes defined, such as a Facebook login URI, make your app's URI scheme the first one in the list so the Branch SDK knows the URI specific to your app.
 
 ![URL Scheme Demo](https://s3-us-west-1.amazonaws.com/branchhost/urlScheme.png)
+
 
 Alternatively, you can add the URI scheme in your project's Info page.
 
@@ -225,7 +231,23 @@ Branch *branch = [Branch getInstance];
 let branch: Branch = Branch.getInstance()
 ```
 
-##### Testing
+### Testing
+
+#### Test your Branch Integration
+
+Test your Branch Integration by calling `validateSDKIntegration` in your AppDelegate. Check your Xcode logs to make sure all the SDK Integration tests pass. Make sure to comment out or remove `validateSDKIntegration` in your production build.
+
+```swift
+Branch.getInstance().validateSDKIntegration()
+```
+
+```objc
+[[Branch getInstance] validateSDKIntegration];
+```
+
+##### Test Deeplink routing for your Branch links
+
+Append `?bnc_validate=true` to any of your app's Branch links and click it on your mobile device (not the Simulator!) to start the test. For instance, to validate a link like: `"https://<yourapp\>.app.link/NdJ6nFzRbK"` click on: `"https://<yourapp\>.app.link/NdJ6nFzRbK?bnc_validate=true"`
 
 ###### Objective-C
 
@@ -319,9 +341,9 @@ func application(_ application: UIApplication, open url: URL, sourceApplication:
 }
 
 func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-    Branch.getInstance().continue(userActivity)
+    let handledByBranch = Branch.getInstance().continue(userActivity)
 
-    return true
+    return handledByBranch
 }
 
 func application(_ application: UIApplication, didReceiveRemoteNotification launchOptions: [AnyHashable: Any]) -> Void {
@@ -582,7 +604,7 @@ The `BranchEvent` class can be simple to use. For example:
 ###### Objective-C
 
 ```objc
-[BranchEvent.standardEvent(BranchStandardEventAddToCart) logEvent];
+[[BranchEvent standardEvent:BranchStandardEventAddToCart] logEvent];
 ```
 
 ###### Swift
@@ -596,7 +618,7 @@ For best results use the Branch standard event names defined in `BranchEvent.h`.
 ###### Objective-C
 
 ```objc
-[BranchEvent.customEventWithName(@"User_Scanned_Item") logEvent];
+[[BranchEvent customEventWithName:@"User_Scanned_Item"] logEvent];
 ```
 
 ###### Swift
@@ -722,7 +744,7 @@ statistics, such as total installs, referrals, and app link statistics.
 Call this method to enable checking for Apple Search Ads before Branch initialization.  This method
 must be called before you initialize your Branch session.
 
-Note that this will add about 1 second from call to initSession to callback due to Apple's latency.
+Note that this can add up to 10 seconds from call to initSession to callback due to Apple's latency.
 
 ###### Objective-C
 ```objc
@@ -751,6 +773,20 @@ Warning: This should not be used in production.
 Branch.getInstance().setAppleSearchAdsDebugMode
 ```
 
+### Enable or Disable User Tracking
+In order to comply with tracking requirements, you can disable tracking at the SDK level. Simply call:
+
+```objc
+[Branch setTrackingDisabled:YES];
+```
+
+```swift
+Branch.setTrackingDisabled(true)
+```
+
+This will prevent any Branch network requests from being sent, except when deep linking. If someone clicks a Branch link, but does not want to be tracked, we will return the deep linking data back to the app but without capturing any tracking information.
+
+In do-not-track mode, you will still be able to create & share links. The links will not have identifiable information and will be long format links. Event tracking won’t pass data back to the server if a user has expressed to not be tracked. You can change this behavior at any time by calling the above function. The trackingDisabled state is saved and persisted across app runs.
 
 ## Branch Universal Object (for deep links, content analytics and indexing)
 

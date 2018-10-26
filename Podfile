@@ -18,7 +18,7 @@ pod 'FBSDKCoreKit', '~> 4.31.1'
 pod 'FBSDKLoginKit', '~> 4.31.1'
 pod 'Smartling.i18n', '~> 1.0'
 pod 'Firebase/Core', '= 3.11.0'
-pod 'Branch', '= 0.23.5'
+pod 'Branch', '= 0.25.5'
 end
 
 target 'edXTests' do

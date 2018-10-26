@@ -196,6 +196,41 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         }
     }
     
+    func tabBarViewControllerIndex(with controller: AnyClass, courseOutlineMode: CourseOutlineMode? = .full) -> Int {
+        guard let viewControllers = viewControllers else {
+            return 0
+        }
+    
+        for i in 0..<viewControllers.count {
+            if viewControllers[i].isKind(of: controller) {
+                if  viewControllers[i].isKind(of: CourseOutlineViewController.self)  {
+                    if let viewController = viewControllers[i] as? CourseOutlineViewController, viewController.courseOutlineMode == courseOutlineMode {
+                        return i
+                    }
+                } else {
+                    return i
+                }
+            }
+        }
+        return 0
+    }
+    
+// MARK: Deep Linking
+    func switchTab(with type: DeepLinkType) {
+        switch type {
+        case .CourseDashboard:
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+        case .CourseVideos:
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)
+            break
+        case .Discussions:
+            selectedIndex = tabBarViewControllerIndex(with: DiscussionTopicsViewController.self)
+        default:
+            selectedIndex = 0
+         break
+        }
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }

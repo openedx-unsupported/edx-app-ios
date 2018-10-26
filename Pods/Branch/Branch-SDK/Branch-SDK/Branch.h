@@ -66,7 +66,7 @@
  Indicates this link is being used to trigger a deal, like a discounted rate.
 
  `BRANCH_FEATURE_TAG_GIFT`
- Indicates this link is being used to sned a gift to another user.
+ Indicates this link is being used to send a gift to another user.
  */
 extern NSString * const BRANCH_FEATURE_TAG_SHARE;
 extern NSString * const BRANCH_FEATURE_TAG_REFERRAL;
@@ -229,6 +229,8 @@ typedef NS_ENUM(NSUInteger, BranchCreditHistoryOrder) {
 
 /// @return Returns the current Branch key.
 + (NSString*) branchKey;
+
++ (BOOL) branchKeyIsSet;
 
 /**
  * By default, the Branch SDK will include the device fingerprint ID as metadata in Crashlytics
@@ -678,6 +680,29 @@ typedef NS_ENUM(NSUInteger, BranchCreditHistoryOrder) {
 
 - (void)setInstallRequestDelay:(NSInteger)installRequestDelay;
 
+/**
+ Disables the Branch SDK from tracking the user. This is useful for GDPR privacy compliance.
+
+ When tracking is disabled, the Branch SDK will clear the Branch defaults of user identifying
+ information and prevent Branch from making any Branch network calls that will track the user.
+
+ Note that:
+
+ * Opening Branch deep links with an explicit URL will work.
+ * Deferred deep linking will not work.
+ * Generating short links will not work and will return long links instead.
+ * Sending user tracking events such as `userCompletedAction`, `BranchCommerceEvents`, and
+   `BranchEvents` will fail.
+ * User rewards and credits will not work.
+ * Setting a user identity and logging a user identity out will not work.
+
+ @param disabled    If set to `true` then tracking will be disabled.
+ @warning This will prevent most of the Branch SDK functionality.
+*/
++ (void) setTrackingDisabled:(BOOL)disabled;
+
+///Returns the current tracking state.
++ (BOOL) trackingDisabled;
 
 #pragma mark - Session Item methods
 
@@ -1606,7 +1631,23 @@ typedef NS_ENUM(NSUInteger, BranchCreditHistoryOrder) {
 - (void) sendServerRequest:(BNCServerRequest*)request;
 - (void) sendServerRequestWithoutSession:(BNCServerRequest*)request;
 
+/**
+ This is the block that is called each time a new Branch session is started. It is automatically set
+ when Branch is initialized with `initSessionWithLaunchOptions:andRegisterDeepLinkHandler`.
+ */
+@property (copy,   nonatomic) void(^ sessionInitWithParamsCallback) (NSDictionary * params, NSError * error);
+
+/**
+ This is the block that is called each time a new Branch session is started. It is automatically set
+ when Branch is initialized with `initSessionWithLaunchOptions:andRegisterDeepLinkHandlerUsingBranchUniversalObject`.
+
+ The difference with this callback from `sessionInitWithParamsCallback` is that it is called with a
+ BranchUniversalObject.
+ */
+@property (copy,   nonatomic) void (^ sessionInitWithBranchUniversalObjectCallback)
+        (BranchUniversalObject * universalObject, BranchLinkProperties * linkProperties, NSError * error);
+
 // Read-only property exposed for unit testing.
-@property (strong, readonly) BNCServerInterface *serverInterface;
+@property (strong, readonly) BNCServerInterface* serverInterface;
 - (void) clearNetworkQueue;
 @end
