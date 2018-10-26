@@ -197,17 +197,18 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
     }
     
     func tabBarViewControllerIndex(with controller: AnyClass, courseOutlineMode: CourseOutlineMode? = .full) -> Int {
-        if let viewControllers = viewControllers {
-            for i in 0..<viewControllers.count {
-                if viewControllers[i].isKind(of: controller) {
-                    if  viewControllers[i].isKind(of: CourseOutlineViewController.self)  {
-                        let viewController = viewControllers[i]
-                        if let courseOutlineViewController = viewController as? CourseOutlineViewController, courseOutlineViewController.courseOutlineMode == courseOutlineMode {
-                            return i
-                        }
-                    } else {
+        guard let viewControllers = viewControllers else {
+            return 0
+        }
+    
+        for i in 0..<viewControllers.count {
+            if viewControllers[i].isKind(of: controller) {
+                if  viewControllers[i].isKind(of: CourseOutlineViewController.self)  {
+                    if let viewController = viewControllers[i] as? CourseOutlineViewController, viewController.courseOutlineMode == courseOutlineMode {
                         return i
                     }
+                } else {
+                    return i
                 }
             }
         }
