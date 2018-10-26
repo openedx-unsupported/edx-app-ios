@@ -145,7 +145,13 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(dashboardController, animated: true)
         dashboardController.switchTab(with: type)
     }
-    
+
+    func showPrograms(with type: DeepLinkType) {
+        let controller = EnrolledTabBarViewController(environment: environment)
+        showContentStack(withRootController: controller, animated: false)
+        controller.switchTab(with: type)
+    }
+
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, thread : DiscussionThread, isDiscussionBlackedOut: Bool) {
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController

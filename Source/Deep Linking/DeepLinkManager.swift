@@ -46,13 +46,14 @@ import UIKit
     }
     
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
-            switch type {
-            case .CourseDashboard, .CourseVideos, .Discussions:
-                environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
-                break
-                
-            default:
-                break
-            }
+        switch type {
+        case .CourseDashboard, .CourseVideos, .Discussions:
+            environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
+            break
+        case .Programs:
+            environment?.router?.showPrograms(with: type)
+        default:
+            break
+        }
     }
 }
