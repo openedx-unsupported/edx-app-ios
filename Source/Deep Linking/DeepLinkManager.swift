@@ -50,7 +50,9 @@ import UIKit
             case .CourseDashboard, .CourseVideos, .Discussions:
                 environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
                 break
-                
+            case .Account:
+                environment?.router?.showAccount()
+                break
             default:
                 break
             }
