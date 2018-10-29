@@ -24,7 +24,6 @@ public struct VideoCompletionApi {
             "course_key": courseID,
             "blocks" : [ blockID: 1.0]
             ]))
-        print("formated: \(body)")
 
         return NetworkRequest(
             method: .POST,
