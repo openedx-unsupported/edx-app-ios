@@ -1,5 +1,5 @@
 //
-//  UIView+UITabBarController.swift
+//  UITabBarController+TabBarControllerIndex.swift
 //  edX
 //
 //  Created by Salman on 30/10/2018.
