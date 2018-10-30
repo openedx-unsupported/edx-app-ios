@@ -180,20 +180,6 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             self?.environment.router?.showAccount(controller: self, modalTransitionStylePresent: true)
         }
     }
-
-    // MARK: Deep Linking
-    func tabBarViewControllerIndex(with controller: AnyClass) -> Int {
-        guard let viewControllers = viewControllers else {
-            return 0
-        }
-        
-        for i in 0..<viewControllers.count {
-            if viewControllers[i].isKind(of: controller) {
-                    return i
-            }
-        }
-        return 0
-    }
     
     func switchTab(with type: DeepLinkType) {
         switch type {
