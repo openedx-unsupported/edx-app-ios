@@ -126,8 +126,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         subtitleTimer.invalidate()
-
-
     }
     
     func setAccessibility() {
