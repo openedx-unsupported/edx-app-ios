@@ -12,7 +12,7 @@ import UIKit
 @objc class DeepLinkManager: NSObject {
 
     static let sharedInstance = DeepLinkManager()
-    typealias Environment = OEXSessionProvider & OEXRouterProvider
+    typealias Environment = OEXSessionProvider & OEXRouterProvider & OEXConfigProvider
     var environment: Environment?
     
     private override init() {
@@ -45,12 +45,21 @@ import UIKit
         return environment?.session.currentUser != nil
     }
     
+    private func dismissOpenedViews() {
+        if let presentedViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostController() {
+            presentedViewController.dismiss(animated: false, completion: nil)
+        }
+    }
+    
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
         switch type {
         case .CourseDashboard, .CourseVideos, .Discussions:
+            dismissOpenedViews()
             environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
             break
         case .Programs:
+            guard environment?.config.programConfig.enabled ?? false else { return }
+            dismissOpenedViews()
             environment?.router?.showPrograms(with: type)
         default:
             break
