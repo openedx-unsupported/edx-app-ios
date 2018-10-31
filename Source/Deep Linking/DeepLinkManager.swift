@@ -51,7 +51,7 @@ import UIKit
                 environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
                 break
             case .Account:
-                environment?.router?.showAccount()
+                environment?.router?.showAccount(controller: UIApplication.shared.keyWindow?.rootViewController?.topMostController(), modalTransitionStylePresent: true)
                 break
             default:
                 break
