@@ -180,6 +180,17 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             self?.environment.router?.showAccount(controller: self, modalTransitionStylePresent: true)
         }
     }
+    
+    // MARK: Deep Linking
+    func switchTab(with type: DeepLinkType) {
+        switch type {
+        case .Programs:
+            selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
+        default:
+            selectedIndex = 0
+            break
+        }
+    }
 }
 
 extension EnrolledTabBarViewController {

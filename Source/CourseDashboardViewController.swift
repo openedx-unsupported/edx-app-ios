@@ -195,7 +195,22 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
             present(controller, animated: true, completion: nil)
         }
     }
-        
+    
+    // MARK: Deep Linking
+    func switchTab(with type: DeepLinkType) {
+        switch type {
+        case .CourseDashboard:
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+        case .CourseVideos:
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)
+            break
+        case .Discussions:
+            selectedIndex = tabBarViewControllerIndex(with: DiscussionTopicsViewController.self)
+        default:
+            selectedIndex = 0
+            break
+        }
+    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -288,23 +303,4 @@ extension UITabBarController {
         }
         return 0
     }
-    
-    // MARK: Deep Linking
-    func switchTab(with type: DeepLinkType) {
-        switch type {
-        case .CourseDashboard:
-            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
-        case .CourseVideos:
-            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)
-            break
-        case .Discussions:
-            selectedIndex = tabBarViewControllerIndex(with: DiscussionTopicsViewController.self)
-        case .Programs:
-            selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
-        default:
-            selectedIndex = 0
-            break
-        }
-    }
-
 }
