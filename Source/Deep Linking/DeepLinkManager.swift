@@ -45,8 +45,8 @@ import UIKit
         return environment?.session.currentUser != nil
     }
     
-    private func dismissOpenedViews() {
-        if let presentedViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostController() {
+    private func dismissPresentedView() {
+        if let presentedViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostController(), presentedViewController.isModal() {
             presentedViewController.dismiss(animated: false, completion: nil)
         }
     }
@@ -54,12 +54,12 @@ import UIKit
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
         switch type {
         case .CourseDashboard, .CourseVideos, .Discussions:
-            dismissOpenedViews()
+            dismissPresentedView()
             environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
             break
         case .Programs:
             guard environment?.config.programConfig.enabled ?? false else { return }
-            dismissOpenedViews()
+            dismissPresentedView()
             environment?.router?.showPrograms(with: type)
         default:
             break
