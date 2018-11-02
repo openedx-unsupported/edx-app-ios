@@ -190,6 +190,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             selectedIndex = 0
             break
         }
+        navigationItem.title = titleOfViewController(index: selectedIndex)
     }
 }
 

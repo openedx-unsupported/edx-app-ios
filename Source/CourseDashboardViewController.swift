@@ -303,4 +303,12 @@ extension UITabBarController {
         }
         return 0
     }
+    
+    func titleOfViewController(index: Int) -> String {
+        guard let viewControllers = viewControllers else {
+            return ""
+        }
+
+        return viewControllers[index].navigationItem.title ?? ""
+    }
 }
