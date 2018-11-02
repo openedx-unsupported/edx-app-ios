@@ -46,7 +46,7 @@ import UIKit
     }
     
     private func dismissPresentedView() {
-        if let presentedViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostController(), presentedViewController.isModal() {
+        if let presentedViewController = UIApplication.shared.keyWindow?.rootViewController {
             presentedViewController.dismiss(animated: false, completion: nil)
         }
     }
