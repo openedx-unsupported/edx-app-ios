@@ -39,6 +39,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
         _environment = environment;
         _bottomBar = bottomBar;
         _searchQuery = searchQuery;
+
+        [self loadCourseDiscovery];
     }
     return self;
 }
@@ -48,6 +50,9 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     self.navigationItem.title = [self courseDiscoveryTitle];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.navigationItem.backBarButtonItem.accessibilityIdentifier = @"FindCoursesViewController:cancel-bar-button-item";
+}
+
+- (void) loadCourseDiscovery {
     self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_bottomBar showSearch:YES searchQuery:_searchQuery showSubjects:YES];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
 
@@ -62,6 +67,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
             urlToLoad = [self enrollmentConfig].webviewConfig.exploreSubjectsURL;
             break;
     }
+    
     [self.webViewHelper loadWithURL:urlToLoad];
 }
 

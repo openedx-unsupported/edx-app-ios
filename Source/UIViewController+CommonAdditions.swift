@@ -21,10 +21,19 @@ extension UIViewController {
         return UIApplication.shared.statusBarOrientation
     }
 
+    //TODO: This method need to return the top most VC  even if the base is simple UIViewController
     @objc func topMostController() -> UIViewController? {
         var topController = UIApplication.shared.keyWindow?.rootViewController
-        while ((topController?.presentedViewController) != nil) {
-            topController = topController?.presentedViewController
+        while true {
+            if let presented = topController?.presentedViewController {
+                topController = presented
+            } else if let nav = topController as? UINavigationController {
+                topController = nav.visibleViewController
+            } else if let tab = topController as? UITabBarController {
+                topController = tab.selectedViewController
+            } else {
+                break
+            }
         }
         
         return topController
@@ -35,6 +44,7 @@ extension UIViewController {
             (presentingViewController?.presentedViewController == self
             || isRootModal()
             || tabBarController?.presentingViewController is UITabBarController)
+            || self is UIActivityViewController
     }
     
     func isRootModal() -> Bool {

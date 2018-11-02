@@ -12,7 +12,7 @@ import UIKit
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider & NetworkManagerProvider
     
     let environment : Environment
     let blockID : CourseBlockID?
@@ -358,6 +358,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     func playerDidFinishPlaying(videoPlayer: VideoPlayer) {
         environment.router?.showAppReviewIfNeeded(fromController: self)
+        markVideoComplete()
     }
     
     func playerDidTimeout(videoPlayer: VideoPlayer) {
@@ -376,5 +377,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         else {
             showOverlay(withMessage: errorMessage)
         }
+    }
+}
+
+extension VideoBlockViewController {
+    func markVideoComplete() {
+        guard let username = environment.session.currentUser?.username, let blockID = blockID else { return }
+        let networkRequest = VideoCompletionApi.videoCompletion(username: username, courseID: courseID, blockID: blockID)
+        environment.networkManager.taskForRequest(networkRequest) { _ in }
     }
 }
