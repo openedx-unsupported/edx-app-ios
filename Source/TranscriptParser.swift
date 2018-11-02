@@ -36,7 +36,8 @@ class TranscriptParser: NSObject {
             return
         }
         
-        let transcriptString = transcript.replacingOccurrences(of: "\r", with:"\n")
+        var transcriptString = transcript.replacingOccurrences(of: "\r\n", with:"\n")
+        transcriptString = transcriptString.replacingOccurrences(of: "\r", with:"\n")
         var components = transcriptString.components(separatedBy: "\r\n\r\n")
         
         // Fall back to \n\n separation
@@ -65,7 +66,7 @@ class TranscriptParser: NSObject {
             var textLineScanResult = false
             if scanner.scanLocation + 1 < component.count {
                 scanner.scanLocation += 1
-                textLineScanResult = scanner.scanUpToCharacters(from: CharacterSet.newlines, into: &textResult)
+                textLineScanResult = scanner.scanUpTo("", into: &textResult)
             }
             
             if let start = startResult as String?,
