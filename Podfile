@@ -23,6 +23,7 @@ pod 'Firebase/InAppMessagingDisplay'
 pod 'Firebase/Analytics'
 pod 'Firebase/Performance'
 pod 'Branch', '= 0.25.5'
+pod 'youtube-ios-player-helper', '~> 0.1.6'
 end
 
 target 'edXTests' do

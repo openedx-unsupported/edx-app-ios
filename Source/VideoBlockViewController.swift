@@ -32,7 +32,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         self.environment = environment
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         loadController = LoadStateViewController()
-        videoController = VideoPlayer(environment: environment)
+        let block = courseQuerier.blockWithID(id: blockID)
+        if environment.config.youtubeVideoConfig.enabled && (block.value?.type.asVideo?.isYoutubeVideo)! {
+            videoController = YoutubeVideoPlayer(environment: environment)
+        }else{
+            videoController = VideoPlayer(environment: environment)
+        }
         super.init(nibName: nil, bundle: nil)
         addChild(videoController)
         videoController.didMove(toParent: self)
@@ -53,13 +58,20 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     func addLoadListener() {
         loader.listen (self,
                        success : { [weak self] block in
-                        if let video = block.type.asVideo, video.isYoutubeVideo,
-                            let url = block.blockURL
-                        {
-                            self?.showYoutubeMessage(url: url)
+                        guard let video = self?.environment.interface?.stateForVideo(withID: self?.blockID, courseID : self?.courseID)else {
+                            self?.showError(error: nil)
+                            return
                         }
-                        else if
-                            let video = self?.environment.interface?.stateForVideo(withID: self?.blockID, courseID : self?.courseID), block.type.asVideo?.preferredEncoding != nil
+                        if (video.summary?.isYoutubeVideo)! {
+                            if (self?.environment.config.youtubeVideoConfig.enabled)!{
+                                self?.showLoadedBlock(block: block, forVideo: video)
+                            }
+                            else {
+                                let url = block.blockURL
+                                self?.showYoutubeMessage(url: url!)
+                            }
+                        }
+                        else if block.type.asVideo?.preferredEncoding != nil
                         {
                             self?.showLoadedBlock(block: block, forVideo: video)
                         }
@@ -378,6 +390,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             showOverlay(withMessage: errorMessage)
         }
     }
+
 }
 
 extension VideoBlockViewController {

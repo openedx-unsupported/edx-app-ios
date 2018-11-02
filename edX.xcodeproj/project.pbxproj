@@ -852,6 +852,9 @@
 		E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */; };
 		E0FCFCC91EC59DB2000B969C /* WhatsNewObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */; };
 		E0FF457920FDD24400109662 /* VideoCompletionApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FF457820FDD24400109662 /* VideoCompletionApi.swift */; };
+		E40AEA73218D074700049C39 /* YoutubeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40AEA72218D074600049C39 /* YoutubeConfig.swift */; };
+		E40AEA75218D076200049C39 /* YoutubeVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40AEA74218D076200049C39 /* YoutubeVideoPlayer.swift */; };
+		E473C3D0215E90E800D2ADEB /* YoutubeVideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E473C3CF215E90E800D2ADEB /* YoutubeVideoPlayerTests.swift */; };
 		F22A0ABB1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22A0ABA1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift */; };
 		F22A0ABD1CE660B300D50DFF /* LoginApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = F22A0ABC1CE660B300D50DFF /* LoginApi.swift */; };
 		F2586E061CF5F8C7007C1118 /* NetworkManager+AuthenticatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2808CF91CF374FA002EAD1D /* NetworkManager+AuthenticatorTests.swift */; };
@@ -1949,6 +1952,9 @@
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
 		E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObjectTests.swift; sourceTree = "<group>"; };
 		E0FF457820FDD24400109662 /* VideoCompletionApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCompletionApi.swift; sourceTree = "<group>"; };
+		E40AEA72218D074600049C39 /* YoutubeConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeConfig.swift; sourceTree = "<group>"; };
+		E40AEA74218D076200049C39 /* YoutubeVideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeVideoPlayer.swift; sourceTree = "<group>"; };
+		E473C3CF215E90E800D2ADEB /* YoutubeVideoPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoPlayerTests.swift; sourceTree = "<group>"; };
 		E638C306F51AA4045D332D34 /* Pods-edXTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F22A0ABA1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Authenticators.swift"; sourceTree = "<group>"; };
 		F22A0ABC1CE660B300D50DFF /* LoginApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginApi.swift; sourceTree = SOURCE_ROOT; };
@@ -3215,6 +3221,7 @@
 				E06292761F7BB452006D5EFC /* FabricKits.swift */,
 				2255C94D2111BADC005F7C8C /* ProgramConfig.swift */,
 				22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */,
+				E40AEA72218D074600049C39 /* YoutubeConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -3232,6 +3239,7 @@
 				22A1B6FE206CFFA3001C1704 /* TranscriptManager.swift */,
 				2254EF02207610FF00BA183C /* CustomPlayerButton.swift */,
 				22E6A218207AA54600D50EDE /* PlayerView.swift */,
+				E40AEA74218D076200049C39 /* YoutubeVideoPlayer.swift */,
 			);
 			path = CutomePlayer;
 			sourceTree = "<group>";
@@ -3689,6 +3697,7 @@
 		BECB7B331924C0C3009C77F1 /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E473C3CF215E90E800D2ADEB /* YoutubeVideoPlayerTests.swift */,
 				3F92D6E320B1996800A69806 /* AgreementURLsConfigTests.swift */,
 				22F8A90F1F45EFAF0025E18A /* AccountViewControllerTest.swift */,
 				E0E163ED21368A4F00DAE9F0 /* FirebaseConfigTests.swift */,
@@ -4986,6 +4995,7 @@
 				5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */,
 				1AFEB1B11BBD51EE004C471D /* JSONFormBuilderChooser.swift in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
+				E40AEA73218D074700049C39 /* YoutubeConfig.swift in Sources */,
 				B7CCC730209B16B100A66923 /* ConstraintOffsetTarget.swift in Sources */,
 				E076A5C21C7DB624008A99C6 /* DiscussionResponsesDataController.swift in Sources */,
 				1A5AC5801B94ED0D00885187 /* CourseCardViewModel.swift in Sources */,
@@ -5015,6 +5025,7 @@
 				225474162201B765000E5957 /* SegmentItem.swift in Sources */,
 				9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */,
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
+				E40AEA75218D076200049C39 /* YoutubeVideoPlayer.swift in Sources */,
 				69C12C661E07F5F8004E7261 /* VideoTranscript.swift in Sources */,
 				E03E6A151D38C91F00944AAA /* OfflineSupportViewController.swift in Sources */,
 				773B1D421B1F48F100B861DF /* CourseOutlineHeaderView.swift in Sources */,
@@ -5103,6 +5114,7 @@
 				7765025B1C73B90C007384E7 /* EmailTemplateTests.swift in Sources */,
 				771FA0161B4588D80067F22D /* CourseDataManagerTests.swift in Sources */,
 				E03E6A221D38F77C00944AAA /* OfflineSupportViewControllerTests.swift in Sources */,
+				E473C3D0215E90E800D2ADEB /* YoutubeVideoPlayerTests.swift in Sources */,
 				77BC6F431CB82E1D00F0A8C1 /* CourseOutlineTestDataFactory.swift in Sources */,
 				77124FDB1CA5A706002DA012 /* SessionUsernameProviderTests.swift in Sources */,
 				E06292791F7E349D006D5EFC /* BranchConfigTests.swift in Sources */,
