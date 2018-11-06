@@ -35,36 +35,110 @@ import UIKit
     }
     
     private func showLoginScreen() {
-        if let presentedViewController = UIApplication.shared.keyWindow?.rootViewController?.topMostController(), !(presentedViewController.childViewControllers[0].isKind(of: OEXLoginViewController.self)) {
-            presentedViewController.dismiss(animated: false, completion: nil)
+        if let topViewController = topMostViewController(), !topViewController.isKind(of: OEXLoginViewController.self) {
+            dismissPresentedView(controller: topViewController)
+            environment?.router?.showLoginScreen(from: nil, completion: nil)
         }
-        environment?.router?.showLoginScreen(from: nil, completion: nil)
     }
-    
+        
     private func isUserLoggedin() -> Bool {
         return environment?.session.currentUser != nil
     }
     
-    private func dismissPresentedView() {
-        if let presentedViewController = UIApplication.shared.keyWindow?.rootViewController {
-            presentedViewController.dismiss(animated: false, completion: nil)
+    private func linkTypeOfView(controller: UIViewController) -> DeepLinkType {
+        if controller.isKind(of: CourseOutlineViewController.self), let courseOutlineViewController = controller as? CourseOutlineViewController {
+            return courseOutlineViewController.courseOutlineMode == .full ? .CourseDashboard : .CourseVideos
+        }
+        else if controller.isKind(of: ProgramsViewController.self) {
+            return .Programs
+        } else if controller.isKind(of: DiscussionTopicsViewController.self) {
+            return .Discussions
+        } else if controller.isKind(of: AccountViewController.self) {
+            return .Account
+        }
+        
+        return .None
+    }
+    
+    private func classTypeOfView(linkType: DeepLinkType) -> AnyClass? {
+        var classType: AnyClass?
+        switch linkType {
+        case .CourseDashboard, .CourseVideos:
+            classType = CourseOutlineViewController.self
+            break
+        case .Discussions:
+            classType = DiscussionTopicsViewController.self
+            break
+        case .Programs:
+            classType = ProgramsViewController.self
+            break
+        case .Account:
+            classType = AccountViewController.self
+            break
+        default:
+            break
+        }
+        return classType
+    }
+    
+    private func showCourseDashboardViewController(with link: DeepLink) {
+        guard let topViewController = topMostViewController() else {
+            return
+        }
+        
+        if let parentViewController = topViewController.parent, parentViewController.isKind(of: CourseDashboardViewController.self), let courseDashboardView = parentViewController as? CourseDashboardViewController, courseDashboardView.getCourseId() == link.courseId {
+            
+            if !viewAlreadyDisplay(type: link.type ?? .None) {
+                courseDashboardView.switchTab(with: link.type ?? .None)
+            }
+        } else {
+            dismissPresentedView(controller: topViewController)
+            environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
         }
     }
     
+    private func showPrograms(with link: DeepLink) {
+        if !viewAlreadyDisplay(type: link.type ?? .None), let topViewController = topMostViewController() {
+            dismissPresentedView(controller: topViewController)
+            environment?.router?.showPrograms(with: link.type ?? .None)
+        }
+    }
+
+    private func showAccountViewController(with link: DeepLink) {
+        if !viewAlreadyDisplay(type: link.type ?? .None), let topViewController = topMostViewController() {
+            dismissPresentedView(controller: topViewController)
+            environment?.router?.showAccount(controller:UIApplication.shared.keyWindow?.rootViewController, modalTransitionStylePresent: true)
+        }
+    }
+    
+    private func topMostViewController() -> UIViewController? {
+        return UIApplication.shared.keyWindow?.rootViewController?.topMostController()
+    }
+    
+    private func viewAlreadyDisplay(type: DeepLinkType) -> Bool {
+        guard let topViewController = topMostViewController(), let ClassType = classTypeOfView(linkType: type) else {
+            return false
+        }
+        
+        return (topViewController.isKind(of: ClassType) && linkTypeOfView(controller: topViewController) == type)
+    }
+    
+    private func dismissPresentedView(controller: UIViewController) {
+        if controller.isModal() || controller.isRootModal() {
+            controller.dismiss(animated: false, completion: nil)
+        }
+    }
+
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
         switch type {
         case .CourseDashboard, .CourseVideos, .Discussions:
-            dismissPresentedView()
-            environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
+            showCourseDashboardViewController(with: link)
             break
         case .Programs:
             guard environment?.config.programConfig.enabled ?? false else { return }
-            dismissPresentedView()
-            environment?.router?.showPrograms(with: type)
+            showPrograms(with: link)
         case .Account:
-            dismissPresentedView()
-            environment?.router?.showAccount(controller:
-            UIApplication.shared.keyWindow?.rootViewController, modalTransitionStylePresent: true)
+            showAccountViewController(with: link)
         break
         default:
             break

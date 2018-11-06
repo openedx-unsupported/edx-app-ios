@@ -212,6 +212,10 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         }
     }
     
+    func getCourseId() -> String {
+        return courseID
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
