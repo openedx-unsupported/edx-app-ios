@@ -46,14 +46,14 @@ import UIKit
     }
     
     private func linkType(for controller: UIViewController) -> DeepLinkType {
-        if controller.isKind(of: CourseOutlineViewController.self), let courseOutlineViewController = controller as? CourseOutlineViewController {
+        if let courseOutlineViewController = controller as? CourseOutlineViewController {
             return courseOutlineViewController.courseOutlineMode == .full ? .CourseDashboard : .CourseVideos
         }
-        else if controller.isKind(of: ProgramsViewController.self) {
+        else if controller is ProgramsViewController {
             return .Programs
-        } else if controller.isKind(of: DiscussionTopicsViewController.self) {
+        } else if controller is DiscussionTopicsViewController {
             return .Discussions
-        } else if controller.isKind(of: AccountViewController.self) {
+        } else if controller is AccountViewController {
             return .Account
         }
         
@@ -86,9 +86,9 @@ import UIKit
             return
         }
         
-        if let parentViewController = topViewController.parent, parentViewController.isKind(of: CourseDashboardViewController.self), let courseDashboardView = parentViewController as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
+        if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
             
-            if !viewAlreadyDisplayed(of: link.type ?? .None) {
+            if !controllerAlreadyDisplayed(for: link.type ?? .None) {
                 courseDashboardView.switchTab(with: link.type ?? .None)
             }
         } else {
@@ -98,24 +98,24 @@ import UIKit
     }
     
     private func showPrograms(with link: DeepLink) {
-        if !viewAlreadyDisplayed(of: link.type ?? .None), let topViewController = topMostViewController {
+        if !controllerAlreadyDisplayed(for: link.type ?? .None), let topViewController = topMostViewController {
             dismissPresentedView(controller: topViewController)
             environment?.router?.showPrograms(with: link.type ?? .None)
         }
     }
 
     private func showAccountViewController(with link: DeepLink) {
-        if !viewAlreadyDisplayed(of: link.type ?? .None), let topViewController = topMostViewController {
+        if !controllerAlreadyDisplayed(for: link.type ?? .None), let topViewController = topMostViewController {
             dismissPresentedView(controller: topViewController)
             environment?.router?.showAccount(controller:UIApplication.shared.keyWindow?.rootViewController, modalTransitionStylePresent: true)
         }
     }
     
     private var topMostViewController: UIViewController? {
-        return UIApplication.shared.keyWindow?.rootViewController?.topMostController()
+        return UIApplication.shared.topMostController()
     }
     
-    private func viewAlreadyDisplayed(of type: DeepLinkType) -> Bool {
+    private func controllerAlreadyDisplayed(for type: DeepLinkType) -> Bool {
         guard let topViewController = topMostViewController, let ClassType = classType(for: type) else {
             return false
         }

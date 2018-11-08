@@ -20,26 +20,7 @@ extension UIViewController {
     func currentOrientation() -> UIInterfaceOrientation {
         return UIApplication.shared.statusBarOrientation
     }
-
-    @objc func topMostController() -> UIViewController?  {
-        guard var topController = UIApplication.shared.keyWindow?.rootViewController?.childViewControllers.first else {
-            return nil
-        }
-        while true {
-            if let presented = topController.presentedViewController {
-                topController = presented
-            } else if let nav = topController as? UINavigationController {
-                topController = nav.visibleViewController ?? topController
-            } else if let tab = topController as? UITabBarController {
-                topController = tab.selectedViewController ?? topController
-            } else {
-                break
-            }
-        }
-        
-        return topController
-    }
-        
+    
     func isModal() -> Bool {
         return (navigationController?.viewControllers.index(of: self) == 0) &&
             (presentingViewController?.presentedViewController == self
