@@ -107,7 +107,7 @@ import UIKit
     private func showAccountViewController(with link: DeepLink) {
         if !viewAlreadyDisplayed(of: link.type ?? .None), let topViewController = topMostViewController {
             dismissPresentedView(controller: topViewController)
-            environment?.router?.showAccount(controller:topViewController, modalTransitionStylePresent: true)
+            environment?.router?.showAccount(controller:UIApplication.shared.keyWindow?.rootViewController, modalTransitionStylePresent: true)
         }
     }
     
