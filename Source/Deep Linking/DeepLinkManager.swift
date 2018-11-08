@@ -36,7 +36,7 @@ import UIKit
     
     private func showLoginScreen() {
         if let topViewController = topMostViewController, !topViewController.isKind(of: OEXLoginViewController.self) {
-            dismissPresentedView(controller: topViewController)
+            dismiss(controller: topViewController)
             environment?.router?.showLoginScreen(from: nil, completion: nil)
         }
     }
@@ -92,21 +92,21 @@ import UIKit
                 courseDashboardView.switchTab(with: link.type ?? .None)
             }
         } else {
-            dismissPresentedView(controller: topViewController)
+            dismiss(controller: topViewController)
             environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
         }
     }
     
     private func showPrograms(with link: DeepLink) {
         if !controllerAlreadyDisplayed(for: link.type ?? .None), let topViewController = topMostViewController {
-            dismissPresentedView(controller: topViewController)
+            dismiss(controller: topViewController)
             environment?.router?.showPrograms(with: link.type ?? .None)
         }
     }
 
     private func showAccountViewController(with link: DeepLink) {
         if !controllerAlreadyDisplayed(for: link.type ?? .None), let topViewController = topMostViewController {
-            dismissPresentedView(controller: topViewController)
+            dismiss(controller: topViewController)
             environment?.router?.showAccount(controller:UIApplication.shared.keyWindow?.rootViewController, modalTransitionStylePresent: true)
         }
     }
@@ -123,7 +123,7 @@ import UIKit
         return (topViewController.isKind(of: ClassType) && linkType(for: topViewController) == type)
     }
     
-    private func dismissPresentedView(controller: UIViewController) {
+    private func dismiss(controller: UIViewController) {
         if controller.isModal() || controller.isRootModal() {
             controller.dismiss(animated: false, completion: nil)
         }
