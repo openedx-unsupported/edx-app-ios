@@ -12,7 +12,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
     
      typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
-    private let courseID: String
+    public let courseID: String
     fileprivate var course: OEXCourse?
     private let environment: Environment
     fileprivate var tabBarItems : [TabBarItem] = []
@@ -210,10 +210,6 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
             selectedIndex = 0
             break
         }
-    }
-    
-    func getCourseId() -> String {
-        return courseID
     }
     
     deinit {

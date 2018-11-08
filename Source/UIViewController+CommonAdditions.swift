@@ -39,8 +39,8 @@ extension UIViewController {
         return topController
     }
     */
-    @objc func topMostController() ->UIViewController?  {
-        guard var topController = UIApplication.shared.keyWindow?.rootViewController?.childViewControllers[0] else {
+    @objc func topMostController() -> UIViewController?  {
+        guard var topController = UIApplication.shared.keyWindow?.rootViewController?.childViewControllers.first else {
             return nil
         }
         while true {
@@ -56,6 +56,25 @@ extension UIViewController {
         }
         
         return topController
+    }
+    
+    func baseViewController() -> UIViewController? {
+        guard var topViewController = self.parent else {
+            return nil
+        }
+        while true {
+            if let presented = topViewController.presentedViewController {
+                topViewController = presented
+            } else if let nav = topViewController as? UINavigationController {
+                topViewController = nav.visibleViewController ?? topViewController
+            } else if let tab = topViewController as? UITabBarController {
+                topViewController = tab.selectedViewController ?? topViewController
+            } else {
+                break
+            }
+        }
+        
+        return topViewController
     }
     
     func isModal() -> Bool {

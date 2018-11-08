@@ -35,7 +35,7 @@ import UIKit
     }
     
     private func showLoginScreen() {
-        if let topViewController = topMostViewController(), !topViewController.isKind(of: OEXLoginViewController.self) {
+        if let topViewController = topMostViewController, !topViewController.isKind(of: OEXLoginViewController.self) {
             dismissPresentedView(controller: topViewController)
             environment?.router?.showLoginScreen(from: nil, completion: nil)
         }
@@ -45,7 +45,7 @@ import UIKit
         return environment?.session.currentUser != nil
     }
     
-    private func linkTypeOfView(controller: UIViewController) -> DeepLinkType {
+    private func linkType(for controller: UIViewController) -> DeepLinkType {
         if controller.isKind(of: CourseOutlineViewController.self), let courseOutlineViewController = controller as? CourseOutlineViewController {
             return courseOutlineViewController.courseOutlineMode == .full ? .CourseDashboard : .CourseVideos
         }
@@ -60,7 +60,7 @@ import UIKit
         return .None
     }
     
-    private func classTypeOfView(linkType: DeepLinkType) -> AnyClass? {
+    private func classType(for linkType: DeepLinkType) -> AnyClass? {
         var classType: AnyClass?
         switch linkType {
         case .CourseDashboard, .CourseVideos:
@@ -82,13 +82,13 @@ import UIKit
     }
     
     private func showCourseDashboardViewController(with link: DeepLink) {
-        guard let topViewController = topMostViewController() else {
+        guard let topViewController = topMostViewController else {
             return
         }
         
-        if let parentViewController = topViewController.parent, parentViewController.isKind(of: CourseDashboardViewController.self), let courseDashboardView = parentViewController as? CourseDashboardViewController, courseDashboardView.getCourseId() == link.courseId {
+        if let parentViewController = topViewController.parent, parentViewController.isKind(of: CourseDashboardViewController.self), let courseDashboardView = parentViewController as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
             
-            if !viewAlreadyDisplay(type: link.type ?? .None) {
+            if !viewAlreadyDisplayed(of: link.type ?? .None) {
                 courseDashboardView.switchTab(with: link.type ?? .None)
             }
         } else {
@@ -98,29 +98,29 @@ import UIKit
     }
     
     private func showPrograms(with link: DeepLink) {
-        if !viewAlreadyDisplay(type: link.type ?? .None), let topViewController = topMostViewController() {
+        if !viewAlreadyDisplayed(of: link.type ?? .None), let topViewController = topMostViewController {
             dismissPresentedView(controller: topViewController)
             environment?.router?.showPrograms(with: link.type ?? .None)
         }
     }
 
     private func showAccountViewController(with link: DeepLink) {
-        if !viewAlreadyDisplay(type: link.type ?? .None), let topViewController = topMostViewController() {
+        if !viewAlreadyDisplayed(of: link.type ?? .None), let topViewController = topMostViewController {
             dismissPresentedView(controller: topViewController)
-            environment?.router?.showAccount(controller:UIApplication.shared.keyWindow?.rootViewController, modalTransitionStylePresent: true)
+            environment?.router?.showAccount(controller:topViewController, modalTransitionStylePresent: true)
         }
     }
     
-    private func topMostViewController() -> UIViewController? {
+    private var topMostViewController: UIViewController? {
         return UIApplication.shared.keyWindow?.rootViewController?.topMostController()
     }
     
-    private func viewAlreadyDisplay(type: DeepLinkType) -> Bool {
-        guard let topViewController = topMostViewController(), let ClassType = classTypeOfView(linkType: type) else {
+    private func viewAlreadyDisplayed(of type: DeepLinkType) -> Bool {
+        guard let topViewController = topMostViewController, let ClassType = classType(for: type) else {
             return false
         }
         
-        return (topViewController.isKind(of: ClassType) && linkTypeOfView(controller: topViewController) == type)
+        return (topViewController.isKind(of: ClassType) && linkType(for: topViewController) == type)
     }
     
     private func dismissPresentedView(controller: UIViewController) {
