@@ -20,25 +20,7 @@ extension UIViewController {
     func currentOrientation() -> UIInterfaceOrientation {
         return UIApplication.shared.statusBarOrientation
     }
-/*
-    //TODO: This method need to return the top most VC  even if the base is simple UIViewController
-    @objc func topMostController() -> UIViewController? {
-        var topController = UIApplication.shared.keyWindow?.rootViewController
-        while true {
-            if let presented = topController?.presentedViewController {
-                topController = presented
-            } else if let nav = topController as? UINavigationController {
-                topController = nav.visibleViewController
-            } else if let tab = topController as? UITabBarController {
-                topController = tab.selectedViewController
-            } else {
-                break
-            }
-        }
-        
-        return topController
-    }
-    */
+
     @objc func topMostController() -> UIViewController?  {
         guard var topController = UIApplication.shared.keyWindow?.rootViewController?.childViewControllers.first else {
             return nil
@@ -57,26 +39,7 @@ extension UIViewController {
         
         return topController
     }
-    
-    func baseViewController() -> UIViewController? {
-        guard var topViewController = self.parent else {
-            return nil
-        }
-        while true {
-            if let presented = topViewController.presentedViewController {
-                topViewController = presented
-            } else if let nav = topViewController as? UINavigationController {
-                topViewController = nav.visibleViewController ?? topViewController
-            } else if let tab = topViewController as? UITabBarController {
-                topViewController = tab.selectedViewController ?? topViewController
-            } else {
-                break
-            }
-        }
         
-        return topViewController
-    }
-    
     func isModal() -> Bool {
         return (navigationController?.viewControllers.index(of: self) == 0) &&
             (presentingViewController?.presentedViewController == self
