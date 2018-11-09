@@ -35,7 +35,7 @@ import UIKit
     }
     
     private func showLoginScreen() {
-        if let topViewController = topMostViewController, !topViewController.isKind(of: OEXLoginViewController.self) {
+        if let topViewController = topMostViewController, !(topViewController is OEXLoginViewController) {
             dismiss(controller: topViewController)
             environment?.router?.showLoginScreen(from: nil, completion: nil)
         }
