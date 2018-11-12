@@ -60,27 +60,6 @@ import UIKit
         return .None
     }
     
-    private func classType(for linkType: DeepLinkType) -> AnyClass? {
-        var classType: AnyClass?
-        switch linkType {
-        case .CourseDashboard, .CourseVideos:
-            classType = CourseOutlineViewController.self
-            break
-        case .Discussions:
-            classType = DiscussionTopicsViewController.self
-            break
-        case .Programs:
-            classType = ProgramsViewController.self
-            break
-        case .Account:
-            classType = AccountViewController.self
-            break
-        default:
-            break
-        }
-        return classType
-    }
-    
     private func showCourseDashboardViewController(with link: DeepLink) {
         guard let topViewController = topMostViewController else {
             return
@@ -116,11 +95,11 @@ import UIKit
     }
     
     private func controllerAlreadyDisplayed(for type: DeepLinkType) -> Bool {
-        guard let topViewController = topMostViewController, let ClassType = classType(for: type) else {
+        guard let topViewController = topMostViewController else {
             return false
         }
         
-        return (topViewController.isKind(of: ClassType) && linkType(for: topViewController) == type)
+        return linkType(for: topViewController) == type
     }
     
     private func dismiss(controller: UIViewController) {
