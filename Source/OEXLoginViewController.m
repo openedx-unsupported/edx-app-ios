@@ -66,6 +66,8 @@
 @property (weak, nonatomic, nullable) IBOutlet UIScrollView* scroll_Main;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Map;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Logo;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* usernameTitleLabel;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* passowrdTitleLabel;
 @property (weak, nonatomic) IBOutlet AgreementTextView *agreementTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *agreementTextViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *agreementTextViewTop;
@@ -277,8 +279,8 @@
 
 - (void)setToDefaultProperties {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.tf_EmailID.attributedPlaceholder = [_placeHolderStyle attributedStringWithText:[Strings usernamePlaceholder]];
-    self.tf_Password.attributedPlaceholder = [_placeHolderStyle attributedStringWithText:[Strings passwordPlaceholder]];
+    self.usernameTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[Strings usernamePlaceholder]];
+    self.passowrdTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[Strings passwordPlaceholder]];
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
     self.tf_EmailID.accessibilityLabel = nil;
