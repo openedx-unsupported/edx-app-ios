@@ -83,26 +83,49 @@ extension OEXCourse {
             guard let end = end else {
                 return nil
             }
-            
+
+            if let auditExpiry = audit_expiry_date as NSDate?{
+                let formattedExpiryDate = (DateFormatting.format(asMonthDayString: auditExpiry as NSDate)) ?? ""
+
+                if isAuditExpired {
+                  let days = auditExpiry.daysAgo()
+                    if days <= 30 {
+                        return Strings.Course.auditExpiredDaysAgo(days: "\(days)")
+                    }
+                    else {
+                        return Strings.Course.auditExpiredOn(expiryDate: formattedExpiryDate)
+                    }
+                }
+                else {
+                let days = auditExpiry.daysUntil()
+                    if days <= 30 {
+                        return Strings.Course.auditExpiresInDays(days: "\(days)")
+                    }
+                    else {
+                        return Strings.Course.auditExpiresOn(expiryDate: formattedExpiryDate)
+                    }
+                }
+            }
+
             let formattedEndDate = (DateFormatting.format(asMonthDayString: end as NSDate)) ?? ""
             
             // If Old date is older than current date
             if isEndDateOld {
-                return Strings.courseEnded(endDate: formattedEndDate)
+                return Strings.Course.ended(endDate: formattedEndDate)
             }
             else{
-                return Strings.courseEnding(endDate: formattedEndDate)
+                return Strings.Course.ending(endDate: formattedEndDate)
             }
         }
         else {  // Start date is newer than current date
             switch start_display_info.type {
             case .string where start_display_info.displayDate != nil:
-                return Strings.starting(startDate: start_display_info.displayDate!)
+                return Strings.Course.starting(startDate: start_display_info.displayDate!)
             case .timestamp where start_display_info.date != nil:
                 let formattedStartDate = DateFormatting.format(asMonthDayString: start_display_info.date! as NSDate)
-                return Strings.starting(startDate: formattedStartDate ?? "")
+                return Strings.Course.starting(startDate: formattedStartDate ?? "")
             case .none, .timestamp, .string:
-                return Strings.starting(startDate: Strings.soon)
+                return Strings.Course.starting(startDate: Strings.soon)
             }
         }
     }

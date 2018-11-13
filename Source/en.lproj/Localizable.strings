@@ -298,6 +298,20 @@
 "COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Course dates are not currently available.";
+/* Label for date when course starts */
+"COURSE.STARTING" = "Starting {start_date}";
+/* Label indicating that a course will end */
+"COURSE.ENDING" = "Ending {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Ended {end_date}";
+/*Course audit will expires in n days*/
+"COURSE.AUDIT_EXPIRES_IN_DAYS" = "Course expires in {days} days";
+/*Course audit will expires on date*/
+"COURSE.AUDIT_EXPIRES_ON" = "Course expires on {expiry_date}";
+/*Course audit expired n days ago*/
+"COURSE.AUDIT_EXPIRED_DAYS_AGO" = "Course expired {days} days ago";
+/*Course audit expired on date*/
+"COURSE.AUDIT_EXPIRED_ON" = "Course expired on {expiry_date}";
 /* Title text for the Announcements section within the course dashboard */
 "DASHBOARD.COURSE_ANNOUNCEMENTS"="Announcements";
 /* Text describing the Announcements section within the course dashboard */
@@ -332,10 +346,6 @@
 "COURSE_DUE_DATE_SAME_DAY"="due today at {due_date} {time_zone}";
 /* Text describing the course due date*/
 "COURSE_DUE_DATE"="due {due_date}";
-/* Label indicated that a course has ended */
-"COURSE_ENDED"="Ended {end_date}";
-/* Label indicating that a course will end */
-"COURSE_ENDING"="Ending {end_date}";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Show Full Course";
 /* Option to show only video course content. Constrasts with 'Show All Course Content'. */
@@ -359,7 +369,7 @@
 /* Title of button to allow user to follow a discussion post */
 "DISCUSSION_FOLLOW"="Follow";
 /* Title of action to report a discussion post/response/comment to the course staff */
-"DISCUSSION_REPORT"="Report";
+"DISCUSSION_REPORT"="Report";try
 /* Discussion response overlay message when new response added */
 "DISCUSSION_THREAD_POSTED" = "Your response has been added.";
 /* Title of the navigation bar when entering the course discussion */
@@ -687,8 +697,8 @@
 "SOON"="Soon";
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
-/* Label for date when course starts */
-"STARTING"="Starting {start_date}";
+///* Label for date when course starts */
+//"STARTING"="Starting {start_date}";
 /* Info message text on the startup screen */
 "STARTUP.INFO_MESSAGE_TEXT"="Free courses from the world's best universities in your pocket.";
 /*Placeholder text for search textfield on the startup screen*/

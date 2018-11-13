@@ -48,7 +48,7 @@ NSString* const OEXErrorDomain = @"org.edx.error";
 
 @implementation OEXCoursewareAccessError
 
-- (id)initWithCoursewareAccess:(OEXCoursewareAccess*)access displayInfo:(nullable OEXCourseStartDisplayInfo*)displayInfo {
+- (id)initWithCoursewareAccess:(OEXCoursewareAccess*)access displayInfo:(nullable OEXCourseStartDisplayInfo*)displayInfo auditExpiryDate:(nullable NSString *)auditExpiryDate {
     self = [super initWithDomain: OEXErrorDomain
             code:OEXErrorCodeCoursewareAccess
             userInfo:@{
@@ -57,6 +57,7 @@ NSString* const OEXErrorDomain = @"org.edx.error";
     if(self != nil) {
         self.access = access;
         self.displayInfo = displayInfo;
+        self.auditExpiryDate = auditExpiryDate;
     }
     return self;
 }
@@ -83,10 +84,21 @@ NSString* const OEXErrorDomain = @"org.edx.error";
                 return [style attributedStringWithText: [Strings courseNotStarted]];
             }
         }
+        case OEXAuditExpired: {
+            NSAttributedString*(^template)(NSAttributedString*) =
+            [style applyWithF:^(NSString* s){ return [Strings courseWillStartAtDate:s]; }];
+
+            NSAttributedString* styledDate = [style.withWeight(OEXTextWeightBold) attributedStringWithText:self.auditExpiryDate];
+            NSAttributedString* message = template(styledDate);
+
+            return message;
+        }
+
         case OEXMilestoneError:
         case OEXVisibilityError:
         case OEXUnknownError:
             return [style attributedStringWithText: self.access.user_message ?: [Strings coursewareUnavailable]];
+
     }
 
 }

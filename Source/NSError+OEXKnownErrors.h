@@ -41,9 +41,10 @@ typedef NS_ENUM(NSUInteger, OEXErrorCode) {
 
 @interface OEXCoursewareAccessError : NSError <OEXAttributedErrorMessageCarrying>
 
-- (id)initWithCoursewareAccess:(OEXCoursewareAccess*)access displayInfo:(nullable OEXCourseStartDisplayInfo*)info;
+- (id)initWithCoursewareAccess:(OEXCoursewareAccess*)access displayInfo:(nullable OEXCourseStartDisplayInfo*)info auditExpiryDate:(nullable NSString *) auditExpiryDate;
 
 @property (readonly, nonatomic) OEXCoursewareAccessError* error;
+@property (nonatomic) NSString* auditExpiryDate;
 
 @end
 
