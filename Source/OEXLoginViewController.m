@@ -287,8 +287,8 @@
     self.passwordTitleLabel.isAccessibilityElement = false;
     self.tf_EmailID.accessibilityLabel = [Strings usernamePlaceholder];
     self.tf_Password.accessibilityLabel = [Strings passwordPlaceholder];
-    self.tf_EmailID.accessibilityHint = @"Required";
-    self.tf_Password.accessibilityHint = @"Required";
+    self.tf_EmailID.accessibilityHint = [Strings accessibilityRequiredInput];
+    self.tf_Password.accessibilityHint = [Strings accessibilityRequiredInput];
     OEXTextStyle *forgotButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles primaryBaseColor]];
     [self.btn_TroubleLogging setAttributedTitle:[forgotButtonStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
 

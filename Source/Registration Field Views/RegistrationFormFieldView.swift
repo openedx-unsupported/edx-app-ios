@@ -135,7 +135,7 @@ class RegistrationFormFieldView: UIView {
     func refreshAccessibilty() {
         guard let formField = formField else { return }
         let errorAccessibility = errorMessage ?? "" != "" ? ",\(Strings.Accessibility.errorText), \(errorMessage ?? "")" : ""
-        let requiredOrOptionalAccessibility = isRequired ? Strings.Accessibility.requiredInput : Strings.Accessibility.optionalInput
+        let requiredOrOptionalAccessibility = isRequired ? Strings.accessibilityRequiredInput : Strings.Accessibility.optionalInput
         textInputView.accessibilityLabel = formField.label
         textInputView.accessibilityHint = "\(requiredOrOptionalAccessibility),\(formField.instructions)\(errorAccessibility)"
     }

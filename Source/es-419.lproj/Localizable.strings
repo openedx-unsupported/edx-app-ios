@@ -76,10 +76,10 @@
 "ACCESSIBILITY_USER_AVATAR" = "Su imagen de avatar";
 /* Accessibility label for Problem Icon in the Courseware screens */
 "ACCESSIBILITY_PROBLEM" = "Problema";
-/* Required text needs to be added for accesibility*/
-"ACCESSIBILITY.REQUIRED_INPUT"="Requerido";
 /* Optional text needs to be added for accesibility*/
 "ACCESSIBILITY.OPTIONAL_INPUT"="Opcional";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY_REQUIRED_INPUT"="Requerido";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Retroceder";
 /* Call to action for Rewind Button in the Video Player */
