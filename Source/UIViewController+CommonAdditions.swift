@@ -27,6 +27,7 @@ extension UIViewController {
             || isRootModal()
             || tabBarController?.presentingViewController is UITabBarController)
             || self is UIActivityViewController
+            || self is UIAlertController
     }
     
     func isRootModal() -> Bool {

@@ -8,6 +8,7 @@
 
 import UIKit
 
+typealias DismissCompletion = () -> Void
 
 @objc class DeepLinkManager: NSObject {
 
@@ -36,8 +37,9 @@ import UIKit
     
     private func showLoginScreen() {
         if let topViewController = topMostViewController, !(topViewController is OEXLoginViewController) {
-            dismiss(controller: topViewController)
-            environment?.router?.showLoginScreen(from: nil, completion: nil)
+            dismiss() { [weak self] in
+                self?.environment?.router?.showLoginScreen(from: nil, completion: nil)
+            }
         }
     }
         
@@ -66,27 +68,31 @@ import UIKit
         }
         
         if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
-            
             if !controllerAlreadyDisplayed(for: link.type ?? .None) {
                 courseDashboardView.switchTab(with: link.type ?? .None)
             }
         } else {
-            dismiss(controller: topViewController)
-            environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
+            dismiss() { [weak self] in
+                self?.environment?.router?.showCourseWithDeepLink(type: link.type ?? .None, courseID: link.courseId ?? "")
+            }
         }
     }
     
     private func showPrograms(with link: DeepLink) {
-        if !controllerAlreadyDisplayed(for: link.type ?? .None), let topViewController = topMostViewController {
-            dismiss(controller: topViewController)
-            environment?.router?.showPrograms(with: link.type ?? .None)
+        if !controllerAlreadyDisplayed(for: link.type ?? .None) {
+            dismiss() { [weak self] in
+                self?.environment?.router?.showPrograms(with: link.type ?? .None)
+            }
         }
     }
 
     private func showAccountViewController(with link: DeepLink) {
-        if !controllerAlreadyDisplayed(for: link.type ?? .None), let topViewController = topMostViewController {
-            dismiss(controller: topViewController)
-            environment?.router?.showAccount(controller:UIApplication.shared.keyWindow?.rootViewController, modalTransitionStylePresent: true)
+        if !controllerAlreadyDisplayed(for: link.type ?? .None) {
+            dismiss() { [weak self] in
+                if let topViewController = self?.topMostViewController {
+                    self?.environment?.router?.showAccount(controller:topViewController, modalTransitionStylePresent: true)
+                }
+            }
         }
     }
     
@@ -95,16 +101,17 @@ import UIKit
     }
     
     private func controllerAlreadyDisplayed(for type: DeepLinkType) -> Bool {
-        guard let topViewController = topMostViewController else {
-            return false
-        }
-        
+        guard let topViewController = topMostViewController else { return false }
+
         return linkType(for: topViewController) == type
     }
     
-    private func dismiss(controller: UIViewController) {
-        if controller.isModal() || controller.isRootModal() {
-            controller.dismiss(animated: false, completion: nil)
+    private func dismiss(completion: @escaping DismissCompletion) {
+        if let rootController = UIApplication.shared.keyWindow?.rootViewController, rootController.presentedViewController != nil {
+            rootController.dismiss(animated: false, completion: completion)
+        }
+        else {
+            completion()
         }
     }
 
