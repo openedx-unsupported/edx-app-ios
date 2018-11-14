@@ -59,15 +59,15 @@
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_PassGreyTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_ActivityIndTop;
 
-@property (weak, nonatomic, nullable) IBOutlet UITextField* tf_EmailID;
-@property (weak, nonatomic, nullable) IBOutlet UITextField* tf_Password;
+@property (weak, nonatomic, nullable) IBOutlet LogistrationTextField* tf_EmailID;
+@property (weak, nonatomic, nullable) IBOutlet LogistrationTextField* tf_Password;
 @property (weak, nonatomic, nullable) IBOutlet UIButton* btn_TroubleLogging;
 @property (weak, nonatomic, nullable) IBOutlet UIButton* btn_Login;
 @property (weak, nonatomic, nullable) IBOutlet UIScrollView* scroll_Main;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Map;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Logo;
 @property (weak, nonatomic, nullable) IBOutlet UILabel* usernameTitleLabel;
-@property (weak, nonatomic, nullable) IBOutlet UILabel* passowrdTitleLabel;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* passwordTitleLabel;
 @property (weak, nonatomic) IBOutlet AgreementTextView *agreementTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *agreementTextViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *agreementTextViewTop;
@@ -279,12 +279,16 @@
 
 - (void)setToDefaultProperties {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.usernameTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[Strings usernamePlaceholder]];
-    self.passowrdTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[Strings passwordPlaceholder]];
+    self.usernameTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings usernamePlaceholder],[Strings asteric]]];
+    self.passwordTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings passwordPlaceholder],[Strings asteric]]];
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
-    self.tf_EmailID.accessibilityLabel = nil;
-    self.tf_Password.accessibilityLabel = nil;
+    self.usernameTitleLabel.isAccessibilityElement = false;
+    self.passwordTitleLabel.isAccessibilityElement = false;
+    self.tf_EmailID.accessibilityLabel = [Strings usernamePlaceholder];
+    self.tf_Password.accessibilityLabel = [Strings passwordPlaceholder];
+    self.tf_EmailID.accessibilityHint = @"Required";
+    self.tf_Password.accessibilityHint = @"Required";
     OEXTextStyle *forgotButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles primaryBaseColor]];
     [self.btn_TroubleLogging setAttributedTitle:[forgotButtonStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
 
@@ -295,7 +299,6 @@
 
     if(username) {
         _tf_EmailID.text = username;
-        _tf_EmailID.accessibilityLabel = [Strings usernamePlaceholder];
     }
 }
 
@@ -620,25 +623,6 @@
         [textField resignFirstResponder];
     }
 
-    return YES;
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if ([textField isEqual:_tf_EmailID] && [textField.text isEqualToString:@""] && string.length > 0) {
-        textField.accessibilityLabel = [Strings usernamePlaceholder];
-    }
-    else if([textField isEqual:_tf_EmailID] && [string isEqualToString:@""] && textField.text.length == 1) {
-        textField.accessibilityLabel = nil;
-    }
-    
-    
-    if ([textField isEqual:_tf_Password] && [textField.text isEqualToString:@""] && string.length > 0) {
-        textField.accessibilityLabel = [Strings passwordPlaceholder];
-    }
-    else if([textField isEqual:_tf_Password] && [string isEqualToString:@""] && textField.text.length == 1) {
-        textField.accessibilityLabel = nil;
-    }
-    
     return YES;
 }
 

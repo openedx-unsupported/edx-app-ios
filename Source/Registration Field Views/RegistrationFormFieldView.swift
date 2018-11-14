@@ -38,8 +38,8 @@ class RegistrationFormFieldView: UIView {
     }()
     
     // Used in child class
-    lazy var textInputField: RegistrationTextField = {
-        let textField = RegistrationTextField()
+    lazy var textInputField: LogistrationTextField = {
+        let textField = LogistrationTextField()
         textField.defaultTextAttributes = OEXStyles.shared().textFieldStyle(with: .base).attributes
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
