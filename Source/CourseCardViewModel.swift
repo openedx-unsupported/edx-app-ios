@@ -98,7 +98,7 @@ extension OEXCourse {
                 }
                 else {
                 let days = auditExpiry.daysUntil()
-                    if days <= 30 {
+                    if days <= timeSpan {
                         return Strings.Course.auditExpiresInDays(days: "\(days)")
                     }
                     else {
