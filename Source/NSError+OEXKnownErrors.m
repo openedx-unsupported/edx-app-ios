@@ -48,7 +48,7 @@ NSString* const OEXErrorDomain = @"org.edx.error";
 
 @implementation OEXCoursewareAccessError
 
-- (id)initWithCoursewareAccess:(OEXCoursewareAccess*)access displayInfo:(nullable OEXCourseStartDisplayInfo*)displayInfo auditExpiryDate:(nullable NSString *)auditExpiryDate {
+- (id)initWithCoursewareAccess:(OEXCoursewareAccess*)access displayInfo:(nullable OEXCourseStartDisplayInfo*)displayInfo {
     self = [super initWithDomain: OEXErrorDomain
             code:OEXErrorCodeCoursewareAccess
             userInfo:@{
@@ -57,7 +57,6 @@ NSString* const OEXErrorDomain = @"org.edx.error";
     if(self != nil) {
         self.access = access;
         self.displayInfo = displayInfo;
-        self.auditExpiryDate = auditExpiryDate;
     }
     return self;
 }
@@ -85,13 +84,7 @@ NSString* const OEXErrorDomain = @"org.edx.error";
             }
         }
         case OEXAuditExpired: {
-            NSAttributedString*(^template)(NSAttributedString*) =
-            [style applyWithF:^(NSString* s){ return [Strings courseWillStartAtDate:s]; }];
-
-            NSAttributedString* styledDate = [style.withWeight(OEXTextWeightBold) attributedStringWithText:self.auditExpiryDate];
-            NSAttributedString* message = template(styledDate);
-
-            return message;
+            return [style attributedStringWithText: [Strings courseAuditExpiredErrorMessage]];
         }
 
         case OEXMilestoneError:

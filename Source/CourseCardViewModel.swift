@@ -80,16 +80,16 @@ extension OEXCourse {
     var nextRelevantDate : String?  {
         // If start date is older than current date
         if isStartDateOld {
-            guard let end = end else {
-                return nil
-            }
 
             if let auditExpiry = audit_expiry_date as NSDate?{
                 let formattedExpiryDate = (DateFormatting.format(asMonthDayString: auditExpiry as NSDate)) ?? ""
-
+                let timeSpan = 30 // number of days
                 if isAuditExpired {
                   let days = auditExpiry.daysAgo()
-                    if days <= 30 {
+                    if days <= timeSpan {
+                        if days < 1 { // showing time
+                            return Strings.Course.auditExpiredAgo(timeDuaration: auditExpiry.displayDate)
+                        }
                         return Strings.Course.auditExpiredDaysAgo(days: "\(days)")
                     }
                     else {
@@ -105,6 +105,10 @@ extension OEXCourse {
                         return Strings.Course.auditExpiresOn(expiryDate: formattedExpiryDate)
                     }
                 }
+            }
+
+            guard let end = end else {
+                return nil
             }
 
             let formattedEndDate = (DateFormatting.format(asMonthDayString: end as NSDate)) ?? ""

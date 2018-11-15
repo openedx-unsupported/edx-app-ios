@@ -332,10 +332,24 @@
 "COURSE_DUE_DATE_SAME_DAY"="debido hoy a las {due_date} {time_zone}";
 /* Text describing the course due date*/
 "COURSE_DUE_DATE"="debido {due_date}";
-/* Label indicated that a course has ended */
-"COURSE_ENDED"="Terminado {end_date}";
+/* Label for date when course starts */
+"COURSE.STARTING"="Comenzando el {start_date}";
 /* Label indicating that a course will end */
-"COURSE_ENDING"="Tarmina {end_date}";
+"COURSE.ENDING"="Tarmina {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Terminado {end_date}";
+/*Course audit will expires in n days*/
+"COURSE.AUDIT_EXPIRES_IN_DAYS" = "Course access expires in {days} days";
+/*Course audit will expires on date*/
+"COURSE.AUDIT_EXPIRES_ON" = "Course access expires on {expiry_date}";
+/*Course audit expired n days ago*/
+"COURSE.AUDIT_EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
+/*Course audit expired in less than 24 hours*/
+"COURSE.AUDIT_EXPIRED_AGO" = "Course access expired {time_duaration}";
+/*Course audit expired on date*/
+"COURSE.AUDIT_EXPIRED_ON" = "Course access expired on {expiry_date}";
+/*Error meessage on course content screen if course audit expires*/
+"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Mostrar curso completo";
 /* Option to show only video course content. Constrasts with 'Show All Course Content'. */
@@ -687,8 +701,6 @@
 "SOON"="Proximamente";
 /* Label for posts pinned by Staff */
 "STAFF"="EQUIPO DEL CURSO";
-/* Label for date when course starts */
-"STARTING"="Comenzando el {start_date}";
 /* Info message text on the startup screen */
 "STARTUP.INFO_MESSAGE_TEXT"="Free courses from the world's best universities in your pocket.";
 /*Placeholder text for search textfield on the startup screen*/
