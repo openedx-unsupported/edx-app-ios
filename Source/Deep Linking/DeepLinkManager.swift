@@ -23,9 +23,7 @@ typealias DismissCompletion = () -> Void
     func processDeepLink(with params: [String: Any], environment: Environment) {
         self.environment = environment
         let deepLink = DeepLink(dictionary: params)
-        guard let deepLinkType = deepLink.type, deepLinkType != .None else {
-            return
-        }
+        guard let deepLinkType = deepLink.type, deepLinkType != .None else { return }
         
         if isUserLoggedin() {
             navigateToDeepLink(with: deepLinkType, link: deepLink)
@@ -36,10 +34,11 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showLoginScreen() {
-        if let topViewController = topMostViewController, !(topViewController is OEXLoginViewController) {
-            dismiss() { [weak self] in
-                self?.environment?.router?.showLoginScreen(from: nil, completion: nil)
-            }
+        guard let topViewController = topMostViewController,
+            !(topViewController is OEXLoginViewController) else { return }
+    
+        dismiss() { [weak self] in
+            self?.environment?.router?.showLoginScreen(from: nil, completion: nil)
         }
     }
         
@@ -63,9 +62,7 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showCourseDashboardViewController(with link: DeepLink) {
-        guard let topViewController = topMostViewController else {
-            return
-        }
+        guard let topViewController = topMostViewController else { return }
         
         if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
             if !controllerAlreadyDisplayed(for: link.type ?? .None) {
@@ -79,19 +76,19 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showPrograms(with link: DeepLink) {
-        if !controllerAlreadyDisplayed(for: link.type ?? .None) {
-            dismiss() { [weak self] in
-                self?.environment?.router?.showPrograms(with: link.type ?? .None)
-            }
+        guard !controllerAlreadyDisplayed(for: link.type ?? .None) else { return}
+        
+        dismiss() { [weak self] in
+            self?.environment?.router?.showPrograms(with: link.type ?? .None)
         }
     }
 
     private func showAccountViewController(with link: DeepLink) {
-        if !controllerAlreadyDisplayed(for: link.type ?? .None) {
-            dismiss() { [weak self] in
-                if let topViewController = self?.topMostViewController {
-                    self?.environment?.router?.showAccount(controller:topViewController, modalTransitionStylePresent: true)
-                }
+        guard !controllerAlreadyDisplayed(for: link.type ?? .None) else { return}
+    
+        dismiss() { [weak self] in
+            if let topViewController = self?.topMostViewController {
+                self?.environment?.router?.showAccount(controller:topViewController, modalTransitionStylePresent: true)
             }
         }
     }
