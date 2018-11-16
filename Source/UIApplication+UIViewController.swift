@@ -11,8 +11,8 @@ import UIKit
 extension UIApplication {
 
     @objc func topMostController() -> UIViewController?  {
-        guard var topController = self.keyWindow?.rootViewController?.childViewControllers.first else {
-            return nil
+        guard var topController = keyWindow?.rootViewController?.childViewControllers.first else {
+            return keyWindow?.rootViewController
         }
         while true {
             if let presented = topController.presentedViewController {
