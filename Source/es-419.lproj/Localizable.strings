@@ -538,8 +538,8 @@
 "OPEN_IN_BROWSER_TITLE"="Mostrando solo videos";
 /* Button label to bring up course finder */
 "OR_SIGN_IN_WITH"="O iniciar sesión con";
-/* Login screen password field placeholder text */
-"PASSWORD_PLACEHOLDER" = "Contraseñas";
+/* Login screen password field title text */
+"PASSWORD_TITLE_TEXT" = "Contraseñas";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_CONTINUE"="Continuar";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
@@ -741,8 +741,8 @@
 "UNREAD"="No leído";
 /* Placeholder title for course content with no title */
 "UNTITLED"="Sin título";
-/* Hint text for login field */
-"USERNAME_PLACEHOLDER" = "Nombre de usuario o correo electrónico";
+/* Title text for login field */
+"USERNAME_TITLE_TEXT" = "Nombre de usuario o correo electrónico";
 /*Error message when operation failed with unknow error*/
 "UNKNOWN_ERROR" = "Su acción no pudo ser completada.";
 /* Screen title showing a user's account */

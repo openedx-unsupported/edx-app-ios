@@ -279,14 +279,14 @@
 
 - (void)setToDefaultProperties {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.usernameTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings usernamePlaceholder],[Strings asteric]]];
-    self.passwordTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings passwordPlaceholder],[Strings asteric]]];
+    self.usernameTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings usernameTitleText],[Strings asteric]]];
+    self.passwordTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings passwordTitleText],[Strings asteric]]];
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
     self.usernameTitleLabel.isAccessibilityElement = false;
     self.passwordTitleLabel.isAccessibilityElement = false;
-    self.tf_EmailID.accessibilityLabel = [Strings usernamePlaceholder];
-    self.tf_Password.accessibilityLabel = [Strings passwordPlaceholder];
+    self.tf_EmailID.accessibilityLabel = [Strings usernameTitleText];
+    self.tf_Password.accessibilityLabel = [Strings passwordTitleText];
     self.tf_EmailID.accessibilityHint = [Strings accessibilityRequiredInput];
     self.tf_Password.accessibilityHint = [Strings accessibilityRequiredInput];
     OEXTextStyle *forgotButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles primaryBaseColor]];
