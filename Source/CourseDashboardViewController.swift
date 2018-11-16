@@ -12,7 +12,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
     
      typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
-    private let courseID: String
+    let courseID: String
     fileprivate var course: OEXCourse?
     private let environment: Environment
     fileprivate var tabBarItems : [TabBarItem] = []
@@ -199,12 +199,12 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
     // MARK: Deep Linking
     func switchTab(with type: DeepLinkType) {
         switch type {
-        case .CourseDashboard:
+        case .courseDashboard:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
-        case .CourseVideos:
+        case .courseVideos:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)
             break
-        case .Discussions:
+        case .discussions:
             selectedIndex = tabBarViewControllerIndex(with: DiscussionTopicsViewController.self)
         default:
             selectedIndex = 0

@@ -184,7 +184,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     // MARK: Deep Linking
     func switchTab(with type: DeepLinkType) {
         switch type {
-        case .Programs:
+        case .programs:
             selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
         default:
             selectedIndex = 0

@@ -123,6 +123,7 @@
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
 		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
 		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
+		22D9BE5621945B4300FE1EB5 /* UIApplication+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */; };
 		22DACEEE20E270A2007AD5D5 /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22DACEED20E270A1007AD5D5 /* test-movie.mp4 */; };
 		22DACEEF20E270FC007AD5D5 /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22DACEED20E270A1007AD5D5 /* test-movie.mp4 */; };
 		22DCA5031F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */; };
@@ -1046,6 +1047,7 @@
 		22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardLoadStateViewController.swift; sourceTree = "<group>"; };
 		22B85A33203EEE1E0071AD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		22D73B5C1ED575C000220280 /* course-dates.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "course-dates.js"; sourceTree = "<group>"; };
+		22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+UIViewController.swift"; sourceTree = "<group>"; };
 		22DACEED20E270A1007AD5D5 /* test-movie.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = "test-movie.mp4"; path = "Data/test-movie.mp4"; sourceTree = "<group>"; };
 		22DCA5021F0E6B41009E64D7 /* CourseSectionTableViewCellTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseSectionTableViewCellTests.swift; sourceTree = "<group>"; };
 		22E6A218207AA54600D50EDE /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
@@ -2667,6 +2669,7 @@
 				E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */,
 				B78823AB1FC709BD00F9CD61 /* String+Validation.swift */,
 				2283C7522060EF8600A2E9BE /* MathUtilities.swift */,
+				22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -4632,6 +4635,7 @@
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
 				80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */,
 				775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */,
+				22D9BE5621945B4300FE1EB5 /* UIApplication+UIViewController.swift in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
 				227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */,
 				1AAD95F61CEA222500BBF70C /* StartupViewController.swift in Sources */,

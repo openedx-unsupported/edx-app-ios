@@ -9,11 +9,12 @@
 import UIKit
 
 enum DeepLinkType: String {
-    case CourseDashboard = "course_dashboard"
-    case CourseVideos = "course_videos"
-    case Discussions = "course_discussion"
-    case Programs = "program"
-    case None = "none"
+    case courseDashboard = "course_dashboard"
+    case courseVideos = "course_videos"
+    case discussions = "course_discussion"
+    case programs = "program"
+    case account = "account"
+    case none = "none"
 }
 
 fileprivate enum DeepLinkKeys: String, RawStringExtractable {
@@ -25,11 +26,11 @@ class DeepLink: NSObject {
 
     let courseId: String?
     let screenName: String?
-    let type: DeepLinkType?
+    private(set) var type: DeepLinkType = .none
     
     init(dictionary:[String:Any]) {
         courseId = dictionary[DeepLinkKeys.CourseId] as? String
         screenName = dictionary[DeepLinkKeys.ScreenName] as? String
-        type = DeepLinkType(rawValue: screenName ?? DeepLinkType.None.rawValue) ?? .None
+        type = DeepLinkType(rawValue: screenName ?? DeepLinkType.none.rawValue) ?? .none
     }
 }
