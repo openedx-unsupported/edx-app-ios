@@ -38,8 +38,8 @@ class RegistrationFormFieldView: UIView {
     }()
     
     // Used in child class
-    lazy var textInputField: RegistrationTextField = {
-        let textField = RegistrationTextField()
+    lazy var textInputField: LogistrationTextField = {
+        let textField = LogistrationTextField()
         textField.defaultTextAttributes = OEXStyles.shared().textFieldStyle(with: .base).attributes
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
@@ -135,7 +135,7 @@ class RegistrationFormFieldView: UIView {
     func refreshAccessibilty() {
         guard let formField = formField else { return }
         let errorAccessibility = errorMessage ?? "" != "" ? ",\(Strings.Accessibility.errorText), \(errorMessage ?? "")" : ""
-        let requiredOrOptionalAccessibility = isRequired ? Strings.Accessibility.requiredInput : Strings.Accessibility.optionalInput
+        let requiredOrOptionalAccessibility = isRequired ? Strings.accessibilityRequiredInput : Strings.Accessibility.optionalInput
         textInputView.accessibilityLabel = formField.label
         textInputView.accessibilityHint = "\(requiredOrOptionalAccessibility),\(formField.instructions)\(errorAccessibility)"
     }

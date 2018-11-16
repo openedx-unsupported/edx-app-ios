@@ -72,7 +72,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         let errorAccessibility = errorMessage ?? "" != "" ? ",\(Strings.Accessibility.errorText), \(errorMessage ?? "")" : ""
         tapButton.accessibilityLabel = String(format: "%@, %@", formField.label, Strings.accessibilityDropdownTrait)
         tapButton.accessibilityTraits = UIAccessibilityTraitNone
-        let accessibilitHintText = isRequired ? String(format: "%@, %@, %@, %@", Strings.Accessibility.requiredInput,formField.instructions, errorAccessibility , Strings.accessibilityShowsDropdownHint) : String(format: "%@, %@, %@, %@", Strings.Accessibility.optionalInput,formField.instructions,errorAccessibility , Strings.accessibilityShowsDropdownHint)
+        let accessibilitHintText = isRequired ? String(format: "%@, %@, %@, %@", Strings.accessibilityRequiredInput,formField.instructions, errorAccessibility , Strings.accessibilityShowsDropdownHint) : String(format: "%@, %@, %@, %@", Strings.Accessibility.optionalInput,formField.instructions,errorAccessibility , Strings.accessibilityShowsDropdownHint)
         tapButton.accessibilityHint = accessibilitHintText
         textInputField.isAccessibilityElement = false
         textInputField.accessibilityIdentifier = "RegistrationFieldSelectView:text-input-field"

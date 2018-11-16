@@ -1,5 +1,5 @@
 //
-//  RegistrationTextField.swift
+//  LogistrationTextField.swift
 //  edX
 //
 //  Created by Muhammad Zeeshan Arif on 14/11/2017.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegistrationTextField: UITextField {
+@objc class LogistrationTextField: UITextField {
     
     private let padding = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8);
     override func textRect(forBounds bounds: CGRect) -> CGRect {
