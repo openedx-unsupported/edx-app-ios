@@ -300,20 +300,34 @@
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Course dates are not currently available.";
 /* Label for date when course starts */
 "COURSE.STARTING" = "Starting {start_date}";
-/* Label indicating that a course will end */
+/* Label for date when course end */
 "COURSE.ENDING" = "Ending {end_date}";
 /* Label indicated that a course has ended */
 "COURSE.ENDED"="Ended {end_date}";
-/*Course audit will expires in n days*/
-"COURSE.AUDIT_EXPIRES_IN_DAYS" = "Course access expires in {days} days";
-/*Course audit will expires on date*/
-"COURSE.AUDIT_EXPIRES_ON" = "Course access expires on {expiry_date}";
-/*Course audit expired n days ago*/
-"COURSE.AUDIT_EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
-/*Course audit expired in less than 24 hours*/
-"COURSE.AUDIT_EXPIRED_AGO" = "Course access expired {time_duaration}";
-/*Course audit expired on date*/
-"COURSE.AUDIT_EXPIRED_ON" = "Course access expired on {expiry_date}";
+/* Course audit will expires on date*/
+"COURSE.AUDIT.EXPIRES_ON" = "Course access expires on {expiry_date}";
+/* Course audit will expires in {time_duration}*/
+"COURSE.AUDIT.EXPIRES_IN" = "Course access expires in {time_duration}";
+/* Course audit expired n days ago*/
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
+/* Course audit expired in less than 24 hours*/
+"COURSE.AUDIT.EXPIRED_AGO" = "Course access expired {time_duaration}";
+/* Course audit expired on date*/
+"COURSE.AUDIT.EXPIRED_ON" = "Course access expired on {expiry_date}";
+/* Course audit expiry in n number of days*/
+"COURSE.AUDIT.DAYS" = "{days} days";
+/* 1 hour remaining in course audit expiry*/
+"COURSE.AUDIT.ONE_HOUR" = "1 hour";
+/* More than 1 hours remaining in course audit expiry*/
+"COURSE.AUDIT.HOURS" = "{hours} hours";
+/* 1 minutes remaining in course audit expiry*/
+"COURSE.AUDIT.ONE_MINUTE" = "1 minute";
+/* More than 1 minutes remaining in course audit expiry*/
+"COURSE.AUDIT.MINUTES" = "{minutes} minutes";
+/* 1 second remaining in course audit expiry*/
+"COURSE.AUDIT.ONE_SECOND" = "1 second";
+/* More than 1 seconds remaining in course audit expiry*/
+"COURSE.AUDIT.SECOUNDS" = "{seconds} seconds";
 /*Error meessage on course content screen if course audit expires*/
 "COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
 /* Title text for the Announcements section within the course dashboard */
@@ -701,8 +715,6 @@
 "SOON"="Soon";
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
-///* Label for date when course starts */
-//"STARTING"="Starting {start_date}";
 /* Info message text on the startup screen */
 "STARTUP.INFO_MESSAGE_TEXT"="Free courses from the world's best universities in your pocket.";
 /*Placeholder text for search textfield on the startup screen*/

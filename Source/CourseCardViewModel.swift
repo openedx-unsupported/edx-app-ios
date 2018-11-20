@@ -81,30 +81,8 @@ extension OEXCourse {
         // If start date is older than current date
         if isStartDateOld {
 
-            if let auditExpiry = audit_expiry_date as NSDate?{
-                let formattedExpiryDate = (DateFormatting.format(asMonthDayString: auditExpiry as NSDate)) ?? ""
-                let timeSpan = 30 // number of days
-                if isAuditExpired {
-                  let days = auditExpiry.daysAgo()
-                    if days <= timeSpan {
-                        if days < 1 { // showing time
-                            return Strings.Course.auditExpiredAgo(timeDuaration: auditExpiry.displayDate)
-                        }
-                        return Strings.Course.auditExpiredDaysAgo(days: "\(days)")
-                    }
-                    else {
-                        return Strings.Course.auditExpiredOn(expiryDate: formattedExpiryDate)
-                    }
-                }
-                else {
-                let days = auditExpiry.daysUntil()
-                    if days <= timeSpan {
-                        return Strings.Course.auditExpiresInDays(days: "\(days)")
-                    }
-                    else {
-                        return Strings.Course.auditExpiresOn(expiryDate: formattedExpiryDate)
-                    }
-                }
+            if let _ = audit_expiry_date as NSDate?{
+                return formattedAuditExpiryDate
             }
 
             guard let end = end else {
@@ -133,5 +111,68 @@ extension OEXCourse {
             }
         }
     }
-    
+
+    private var formattedAuditExpiryDate: String {
+        guard let auditExpiry = audit_expiry_date as NSDate? else {return "" }
+
+        let formattedExpiryDate = (DateFormatting.format(asMonthDayString: auditExpiry as NSDate)) ?? ""
+        let timeSpan = 30 // number of days
+        if isAuditExpired {
+            let days = auditExpiry.daysAgo()
+            if days <= timeSpan {
+                if days < 1 { // showing time for better readability
+                    return Strings.Course.Audit.expiredAgo(timeDuaration: auditExpiry.displayDate)
+                }
+                return Strings.Course.Audit.expiredDaysAgo(days: "\(days)")
+            }
+            else {
+                return Strings.Course.Audit.expiredOn(expiryDate: formattedExpiryDate)
+            }
+        }
+        else {
+            let days = auditExpiry.daysUntil()
+            if days <= timeSpan {
+                if days < 1 {
+                    return Strings.Course.Audit.expiresIn(timeDuration: remainingTime)
+                }
+                return Strings.Course.Audit.expiresIn(timeDuration: Strings.Course.Audit.days(days: "\(days)"))
+            }
+            else {
+                return Strings.Course.Audit.expiresOn(expiryDate: formattedExpiryDate)
+            }
+        }
+    }
+
+    private var remainingTime: String {
+        let calendar = NSCalendar.current
+        let unitFlags = Set<Calendar.Component>([.second,.minute,.hour])
+
+        let components = calendar.dateComponents(unitFlags, from: Date(), to: audit_expiry_date ?? Date())
+        let hours = components.hour ?? 0
+        let minutes = components.minute ?? 0
+        let seconds = components.second ?? 0
+
+        if hours == 1 {
+            return Strings.Course.Audit.oneHour
+        }
+        else if (hours > 1){
+            return Strings.Course.Audit.hours(hours: "\(hours)")
+        }
+
+        if minutes == 1 {
+            return Strings.Course.Audit.oneMinute
+        }
+        else if (minutes > 1) {
+            return Strings.Course.Audit.minutes(minutes: "\(minutes)")
+        }
+
+        if seconds == 1 {
+            return Strings.Course.Audit.oneSecond
+        }
+        else if (seconds > 1){
+            return Strings.Course.Audit.secounds(seconds: "\(seconds)")
+        }
+
+        return ""
+    }
 }
