@@ -166,7 +166,7 @@ class OEXRearTableViewController : UITableViewController {
         if (indexPath.row == OEXRearViewOptions.Debug.rawValue && !environment.config.shouldShowDebug()) {
             return 0
         }
-        else if indexPath.row == OEXRearViewOptions.CourseCatalog.rawValue && !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+        else if indexPath.row == OEXRearViewOptions.CourseCatalog.rawValue && !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled {
             return 0
         }
         return super.tableView(tableView, heightForRowAt: indexPath)

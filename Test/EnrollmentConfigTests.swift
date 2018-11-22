@@ -29,20 +29,64 @@ class EnrollmentConfigTests : XCTestCase {
         let configDictionary = [
             "COURSE_ENROLLMENT": [
                 "TYPE": "webview",
-                "WEBVIEW" : [
-                    "COURSE_SEARCH_URL" : sampleSearchURL,
+                "WEBVIEW": [
+                    "SEARCH_URL": sampleSearchURL,
                     "EXPLORE_SUBJECTS_URL": sampleExploreURL,
-                    "COURSE_INFO_URL_TEMPLATE" : sampleInfoURLTemplate,
-                    "SEARCH_BAR_ENABLED" : true
+                    "DETAIL_TEMPLATE": sampleInfoURLTemplate,
+                    "SEARCH_BAR_ENABLED": true
                 ]
             ]
         ]
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertEqual(config.courseEnrollmentConfig.type, EnrollmentType.Webview)
-        XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.searchURL!.absoluteString, sampleSearchURL)
-        XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate!, sampleInfoURLTemplate)
-        XCTAssertEqual(config.courseEnrollmentConfig.webviewConfig.exploreSubjectsURL!.absoluteString, sampleExploreURL)
-        XCTAssertTrue(config.courseEnrollmentConfig.webviewConfig.nativeSearchBarEnabled)
+        XCTAssertEqual(config.courseEnrollmentConfig.webview.searchURL!.absoluteString, sampleSearchURL)
+        XCTAssertEqual(config.courseEnrollmentConfig.webview.detailTemplate!, sampleInfoURLTemplate)
+        XCTAssertEqual(config.courseEnrollmentConfig.webview.exploreSubjectsURL!.absoluteString, sampleExploreURL)
+        XCTAssertTrue(config.courseEnrollmentConfig.webview.searchbarEnabled)
+    }
+    
+    func testProgramEnrollmentNoConfig() {
+        let config = OEXConfig(dictionary:[:])
+        XCTAssertFalse(config.programEnrollment.isProgramDiscoveryEnabled)
+        XCTAssertEqual(config.programEnrollment.type, .None)
+    }
+    
+    func testProgramEnrollmentEmptyConfig() {
+        let config = OEXConfig(dictionary:["PROGRAM_ENROLLMENT":[:]])
+        XCTAssertFalse(config.programEnrollment.isProgramDiscoveryEnabled)
+        XCTAssertEqual(config.programEnrollment.type, .None)
+    }
+    
+    func testInvalidProgramEnrollment() {
+        let configDictionary = [
+            "PROGRAM_ENROLLMENT": [
+                "TYPE": "invalid"
+            ]
+        ]
+        let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertFalse(config.programEnrollment.isProgramDiscoveryEnabled)
+        XCTAssertEqual(config.programEnrollment.type, .None)
+    }
+    
+    func testProgramEnrollmentWebview() {
+        let sampleSearchURL = "http://example.com/program-search"
+        let sampleDetailTemplate = "http://example.com/{path_id}"
+        let configDictionary = [
+            "PROGRAM_ENROLLMENT": [
+                "TYPE": "webview",
+                "WEBVIEW": [
+                    "SEARCH_URL": sampleSearchURL,
+                    "DETAIL_TEMPLATE": sampleDetailTemplate,
+                    "SEARCH_BAR_ENABLED": true
+                ]
+            ]
+        ]
+        let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.programEnrollment.isProgramDiscoveryEnabled)
+        XCTAssertEqual(config.programEnrollment.type, .Webview)
+        XCTAssertEqual(config.programEnrollment.webview.detailTemplate!, sampleDetailTemplate)
+        XCTAssertEqual(config.programEnrollment.webview.searchURL!.absoluteString, sampleSearchURL)
+        XCTAssertTrue(config.programEnrollment.webview.searchbarEnabled)
     }
 
 }

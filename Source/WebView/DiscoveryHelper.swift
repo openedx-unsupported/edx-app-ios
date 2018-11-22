@@ -1,6 +1,6 @@
 
 //
-//  CourseDiscoveryHelper.swift
+//  DiscoveryHelper.swift
 //  edX
 //
 //  Created by Salman on 17/07/2018.
@@ -27,9 +27,10 @@ enum WebviewActions: String {
     case courseDetail = "course_info"
     case enrolledCourseDetail = "enrolled_course_info"
     case enrolledProgramDetail = "enrolled_program_info"
+    case programDetail = "program_info"
 }
 
-class CourseDiscoveryHelper: NSObject {
+class DiscoveryHelper: NSObject {
 
      class func urlAction(from url: URL) -> WebviewActions? {
         guard url.isValidAppURLScheme, let url = WebviewActions(rawValue: url.appURLHost) else {
@@ -113,6 +114,54 @@ class CourseDiscoveryHelper: NSObject {
             else {
                 controller.showOverlay(withMessage: Strings.findCoursesEnrollmentErrorDescription)
             }
+        }
+    }
+    
+    class func programDetailPathId(from url: URL) -> String? {
+        guard url.isValidAppURLScheme,
+            url.appURLHost == WebviewActions.programDetail.rawValue,
+            let path = url.queryParameters?[URLParameterKeys.pathId] as? String else {
+            return nil
+        }
+        return path
+    }
+    
+}
+
+extension DiscoveryHelper {
+    private class func enrollInCourse(with url: URL, from controller: UIViewController) {
+        if let urlData = parse(url: url), let courseId = urlData.courseId {
+            enrollInCourse(courseID: courseId, emailOpt: urlData.emailOptIn, from: controller)
+        }
+    }
+    
+    class func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) {
+        guard let urlAction = urlAction(from: url) else { return }
+        let environment = OEXRouter.shared().environment;
+        switch urlAction {
+        case .courseEnrollment:
+            enrollInCourse(with: url, from: controller)
+            break
+        case .courseDetail:
+            if let courseDetailPath = detailPathID(from: url) {
+                environment.router?.showCourseDetails(from: controller, with: courseDetailPath, bottomBar: bottomBar)
+            }
+            break
+        case .enrolledCourseDetail:
+            if let urlData = parse(url: url), let courseId = urlData.courseId {
+                environment.router?.showCourseWithID(courseID: courseId, fromController: controller, animated: true)
+            }
+            break
+        case .enrolledProgramDetail:
+            if let programDetailsURL = programDetailURL(from: url, config: environment.config) {
+                environment.router?.showProgramDetails(with: programDetailsURL, from: controller)
+            }
+            break
+        case .programDetail:
+            if let pathId = programDetailPathId(from: url) {
+                environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar)
+            }
+            break
         }
     }
 }

@@ -95,7 +95,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
 
     private func addFindCoursesButton() {
-        if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+        if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled {
             let findcoursesButton = UIBarButtonItem(barButtonSystemItem: .search, target: nil, action: nil)
             findcoursesButton.accessibilityLabel = Strings.findCourses
             navigationItem.rightBarButtonItem = findcoursesButton
@@ -142,7 +142,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private func setupFooter() {
-        if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+        if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled {
             let footer = EnrolledCoursesFooterView()
             footer.findCoursesAction = {[weak self] in
                 self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
@@ -157,7 +157,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private func enrollmentsEmptyState() {
-        if !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+        if !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled {
             let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
             loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
         }

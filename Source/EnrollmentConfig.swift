@@ -9,49 +9,55 @@
 import Foundation
 import edXCore
 
-enum EnrollmentType : String {
+enum EnrollmentType: String {
     case Native = "native"
     case Webview = "webview"
     case None = "none"
 }
 
-fileprivate enum EnrollmentKeys: String, RawStringExtractable {
-    case CourseSearchURL = "COURSE_SEARCH_URL"
-    case ExploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
-    case CourseInfoURLTemplate = "COURSE_INFO_URL_TEMPLATE"
-    case NativeSearchBarEnabled = "SEARCH_BAR_ENABLED"
-    case SubjectDiscoveryEnabled = "SUBJECT_DISCOVERY_ENABLED"
+enum EnrollmentKeys: String, RawStringExtractable {
     case EnrollmentType = "TYPE"
     case Webview = "WEBVIEW"
+    case CourseSearchURL = "SEARCH_URL"
+    case DetailTemplate = "DETAIL_TEMPLATE"
+    case SearchBarEnabled = "SEARCH_BAR_ENABLED"
+    case Course = "COURSE_ENROLLMENT"
+    case SubjectDiscoveryEnabled = "SUBJECT_DISCOVERY_ENABLED"
+    case ExploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
+    case Program = "PROGRAM_ENROLLMENT"
 }
 
-class EnrollmentWebviewConfig : NSObject {
+class EnrollmentWebviewConfig: NSObject {
     let searchURL: NSURL?
     let exploreSubjectsURL: NSURL?
-    let courseInfoURLTemplate: String?
-    let nativeSearchBarEnabled: Bool
+    let detailTemplate: String?
+    let searchbarEnabled: Bool
     let subjectDiscoveryEnabled: Bool
     
     init(dictionary: [String: AnyObject]) {
         searchURL = (dictionary[EnrollmentKeys.CourseSearchURL] as? String).flatMap { NSURL(string:$0)}
-        courseInfoURLTemplate = dictionary[EnrollmentKeys.CourseInfoURLTemplate] as? String
-        nativeSearchBarEnabled = dictionary[EnrollmentKeys.NativeSearchBarEnabled] as? Bool ?? false
+        detailTemplate = dictionary[EnrollmentKeys.DetailTemplate] as? String
+        searchbarEnabled = dictionary[EnrollmentKeys.SearchBarEnabled] as? Bool ?? false
         subjectDiscoveryEnabled = dictionary[EnrollmentKeys.SubjectDiscoveryEnabled] as? Bool ?? false
         exploreSubjectsURL = (dictionary[EnrollmentKeys.ExploreSubjectsURL] as? String).flatMap { NSURL(string:$0)}
     }
 }
 
-class EnrollmentConfig : NSObject {
-    let type: EnrollmentType
-    let webviewConfig: EnrollmentWebviewConfig
-    
-    init(dictionary: [String: AnyObject]) {
-        self.type = (dictionary[EnrollmentKeys.EnrollmentType] as? String).flatMap { EnrollmentType(rawValue: $0) } ?? .None
-        self.webviewConfig = EnrollmentWebviewConfig(dictionary: dictionary[EnrollmentKeys.Webview] as? [String: AnyObject] ?? [:])
+class EnrollmentConfig: NSObject {
+    private(set) var type: EnrollmentType
+    let webview: EnrollmentWebviewConfig
+        
+    var isCourseDiscoveryEnabled: Bool {
+        return type != .None
     }
     
-    @discardableResult func isCourseDiscoveryEnabled()-> Bool {
-        return self.type != .None
+    var isProgramDiscoveryEnabled: Bool {
+        return type == .Webview
+    }
+    
+    init(dictionary: [String: AnyObject]) {
+        type = (dictionary[EnrollmentKeys.EnrollmentType] as? String).flatMap { EnrollmentType(rawValue: $0) } ?? .None
+        webview = EnrollmentWebviewConfig(dictionary: dictionary[EnrollmentKeys.Webview] as? [String: AnyObject] ?? [:])
     }
     
     // Associated swift enums can not be used in objective-c, that's why this extra function needed
@@ -60,9 +66,13 @@ class EnrollmentConfig : NSObject {
     }
 }
 
-private let key = "COURSE_ENROLLMENT"
 extension OEXConfig {
-    var courseEnrollmentConfig : EnrollmentConfig {
-        return EnrollmentConfig(dictionary: self[key] as? [String:AnyObject] ?? [:])
+    
+    var programEnrollment: EnrollmentConfig {
+        return EnrollmentConfig(dictionary: self[EnrollmentKeys.Program.rawValue] as? [String:AnyObject] ?? [:])
+    }
+    
+    var courseEnrollmentConfig: EnrollmentConfig {
+        return EnrollmentConfig(dictionary: self[EnrollmentKeys.Course.rawValue] as? [String:AnyObject] ?? [:])
     }
 }
