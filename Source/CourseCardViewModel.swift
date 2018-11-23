@@ -91,13 +91,7 @@ extension OEXCourse {
 
             let formattedEndDate = (DateFormatting.format(asMonthDayString: end as NSDate)) ?? ""
             
-            // If Old date is older than current date
-            if isEndDateOld {
-                return Strings.Course.ended(endDate: formattedEndDate)
-            }
-            else{
-                return Strings.Course.ending(endDate: formattedEndDate)
-            }
+            return isEndDateOld ? Strings.Course.ended(endDate: formattedEndDate) : Strings.Course.ending(endDate: formattedEndDate)
         }
         else {  // Start date is newer than current date
             switch start_display_info.type {
@@ -155,7 +149,7 @@ extension OEXCourse {
         if hours == 1 {
             return Strings.Course.Audit.oneHour
         }
-        else if (hours > 1){
+        else if (hours > 1) {
             return Strings.Course.Audit.hours(hours: "\(hours)")
         }
 
@@ -169,7 +163,7 @@ extension OEXCourse {
         if seconds == 1 {
             return Strings.Course.Audit.oneSecond
         }
-        else if (seconds > 1){
+        else if (seconds > 1) {
             return Strings.Course.Audit.secounds(seconds: "\(seconds)")
         }
 
