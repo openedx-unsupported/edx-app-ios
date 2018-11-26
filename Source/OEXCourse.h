@@ -39,8 +39,8 @@ OEXStartType OEXStartTypeForString(NSString* type);
 
 @interface OEXCourse : NSObject
 
-- (id)initWithDictionary:(NSDictionary*)info;
-- (instancetype) initWithDictionary:(NSDictionary*)info auditExpiryDate:(nullable NSString *) auditExpiryDate;
+- (id)initWithDictionary:(NSDictionary *)info;
+- (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate;
 // TODO: Rename these to CamelCase (MK - eh just make this swift)
 @property (readonly, nonatomic, strong, nullable) OEXLatestUpdates* latest_updates;
 @property (readonly, nonatomic, strong, nullable) NSDate* end;
