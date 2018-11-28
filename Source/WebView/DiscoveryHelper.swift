@@ -80,7 +80,7 @@ class DiscoveryHelper: NSObject {
     
     private class func postEnrollmentSuccessNotification(message: String, from controller: UIViewController) {
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: EnrollmentShared.successNotification), object: message)
-        if controller.isModal() {
+        if controller.isModal() || controller.isRootModal() {
             controller.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
         }
     }

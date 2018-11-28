@@ -15,7 +15,7 @@ class ProgramDetailViewController: UIViewController {
     
     private let environment: Environment
     private let pathId: String
-    private let bottomBar: UIView?
+    fileprivate let bottomBar: UIView?
     private(set) var webviewHelper: DiscoveryWebViewHelper?
     private var enrollmentConfig: EnrollmentConfig? {
         return environment.config.programEnrollment
@@ -58,7 +58,7 @@ extension ProgramDetailViewController: WebViewNavigationDelegate {
     
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
-        DiscoveryHelper.navigate(to: url, from: self, bottomBar: nil)
+        DiscoveryHelper.navigate(to: url, from: self, bottomBar: bottomBar)
         return false
     }
     
