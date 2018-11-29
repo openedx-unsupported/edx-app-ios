@@ -754,7 +754,6 @@
 		B7CCC740209B1F9E00A66923 /* Default-375w-812h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CCC73F209B1F9E00A66923 /* Default-375w-812h@3x.png */; };
 		B7EC83BF21A2D34600D6A89C /* FindProgramsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EC83BE21A2D34600D6A89C /* FindProgramsViewController.swift */; };
 		B7EC83C121A2DE9E00D6A89C /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EC83C021A2DE9E00D6A89C /* DiscoveryViewController.swift */; };
-		B7EC83C321A35C5A00D6A89C /* FindProgramDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EC83C221A35C5A00D6A89C /* FindProgramDetailViewController.swift */; };
 		BD0507AE20F74D4200B0DB65 /* OEXInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0507AD20F74D4200B0DB65 /* OEXInterfaceTests.swift */; };
 		BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */; };
 		BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */; };
@@ -1766,7 +1765,6 @@
 		B7CCC73F209B1F9E00A66923 /* Default-375w-812h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-375w-812h@3x.png"; sourceTree = "<group>"; };
 		B7EC83BE21A2D34600D6A89C /* FindProgramsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindProgramsViewController.swift; sourceTree = "<group>"; };
 		B7EC83C021A2DE9E00D6A89C /* DiscoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryViewController.swift; sourceTree = "<group>"; };
-		B7EC83C221A35C5A00D6A89C /* FindProgramDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindProgramDetailViewController.swift; sourceTree = "<group>"; };
 		BD0507AD20F74D4200B0DB65 /* OEXInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEXInterfaceTests.swift; sourceTree = "<group>"; };
 		BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsTests.swift; sourceTree = "<group>"; };
 		BD7C6C3D1DCA32360004D135 /* OEXFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFonts.swift; sourceTree = "<group>"; };
@@ -3086,7 +3084,6 @@
 				9C9B7F661A8CC68400A857B2 /* OEXCourseInfoViewController.m */,
 				B7EC83BE21A2D34600D6A89C /* FindProgramsViewController.swift */,
 				B7EC83C021A2DE9E00D6A89C /* DiscoveryViewController.swift */,
-				B7EC83C221A35C5A00D6A89C /* FindProgramDetailViewController.swift */,
 			);
 			name = "Course Enrollment";
 			sourceTree = "<group>";
@@ -4899,7 +4896,6 @@
 				B4B6D6011A949EFC000F44E8 /* OEXRegistrationError.m in Sources */,
 				1904A14D1A1386C2006A5524 /* edXDB.xcdatamodel in Sources */,
 				228E0B8D1F431F7B0073E6FA /* AccountViewController.swift in Sources */,
-				B7EC83C321A35C5A00D6A89C /* FindProgramDetailViewController.swift in Sources */,
 				E03E6A191D38EC7500944AAA /* UIView+UIViewController.swift in Sources */,
 				77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */,
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
