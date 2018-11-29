@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class FindProgramsViewController: UIViewController {
+class FindProgramsViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
     

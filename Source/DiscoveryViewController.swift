@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscoveryViewController: UIViewController {
+class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding {
     
     private enum segment: Int {
         case courses = 0
