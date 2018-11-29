@@ -151,7 +151,7 @@ extension OEXCourse {
         let seconds = components.second ?? 0
 
         if hours >= 1 {
-//            return Strings.Course.Audit.remaing
+            return Strings.courseAuditRemainingHours(hours: hours)
         }
 
         if minutes >= 1 {
