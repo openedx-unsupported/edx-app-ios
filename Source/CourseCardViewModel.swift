@@ -81,7 +81,7 @@ extension OEXCourse {
         // If start date is older than current date
         if isStartDateOld {
 
-            if let _ = audit_expiry_date{
+            if let _ = audit_expiry_date {
                 return formattedAuditExpiryDate
             }
 
@@ -151,7 +151,7 @@ extension OEXCourse {
         let seconds = components.second ?? 0
 
         if hours >= 1 {
-            return Strings.courseAuditRemainingHours(hours: hours)
+//            return Strings.Course.Audit.remaing
         }
 
         if minutes >= 1 {
