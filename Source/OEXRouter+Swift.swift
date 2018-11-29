@@ -289,7 +289,6 @@ extension OEXRouter {
     }
     
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {
-        
         if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled && environment.config.programEnrollment.isProgramDiscoveryEnabled {
             return DiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
@@ -299,12 +298,11 @@ extension OEXRouter {
         else if environment.config.programEnrollment.isProgramDiscoveryEnabled {
             return FindProgramsViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
-        
         return nil
     }
     
     func showProgramDetail(from controller: UIViewController, with pathId: String, bottomBar: UIView?) {
-        let programDetailViewController = ProgramDetailViewController(with: environment, pathId: pathId, bottomBar: bottomBar)
+        let programDetailViewController = FindProgramDetailViewController(with: environment, pathId: pathId, bottomBar: bottomBar)
         pushViewController(controller: programDetailViewController, fromController: controller)
     }
 

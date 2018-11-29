@@ -97,9 +97,7 @@ class DiscoveryViewController: UIViewController {
                 assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
             }
         }, for: .valueChanged)
-        
         navigationItem.title = Strings.discover
-        
     }
     
     private func addSubViews() {

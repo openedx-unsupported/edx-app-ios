@@ -34,7 +34,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 
 @implementation OEXFindCoursesViewController
 
-- (instancetype) initWithEnvironment:(RouterEnvironment*)environment showBottomBar:(BOOL) showBottomBar bottomBar:(UIView*)bottomBar searchQuery:(nullable NSString *)searchQuery  {
+- (instancetype) initWithEnvironment:(RouterEnvironment *)environment showBottomBar:(BOOL) showBottomBar bottomBar:(UIView *)bottomBar searchQuery:(nullable NSString *)searchQuery  {
     self = [super init];
     if (self) {
         _environment = environment;

@@ -1,5 +1,5 @@
 //
-//  ProgramDetailViewController.swift
+//  FindProgramDetailViewController.swift
 //  edX
 //
 //  Created by Zeeshan Arif on 11/20/18.
@@ -9,7 +9,7 @@
 import Foundation
 import WebKit
 
-class ProgramDetailViewController: UIViewController {
+class FindProgramDetailViewController: UIViewController {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
     
@@ -54,7 +54,7 @@ class ProgramDetailViewController: UIViewController {
     }
 }
 
-extension ProgramDetailViewController: WebViewNavigationDelegate {
+extension FindProgramDetailViewController: WebViewNavigationDelegate {
     
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
