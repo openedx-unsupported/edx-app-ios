@@ -74,7 +74,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar showSearch:NO searchQuery:nil showSubjects:NO discoveryType: DiscoveryTypeCourses];
     [self.webViewHelper loadWithURL:self.courseInfoURL];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
-    [self addBackButton];
+    [self addBackBarButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated {

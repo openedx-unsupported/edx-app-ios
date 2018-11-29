@@ -70,5 +70,4 @@ extension FindProgramsViewController: WebViewNavigationDelegate {
         return self
     }
     
-    
 }

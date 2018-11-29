@@ -50,7 +50,7 @@ class FindProgramDetailViewController: UIViewController, InterfaceOrientationOve
         if environment.session.currentUser != nil {
             webviewHelper?.refreshView()
         }
-        addBackButton()
+        addBackBarButton()
     }
 }
 
