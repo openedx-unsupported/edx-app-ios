@@ -51,21 +51,23 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
         navigationItem.title = Strings.discover
         if let pathId = pathId {
             addBackBarButton()
-            webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: bottomBar, showSearch: false, searchQuery: nil, discoveryType: .programs)
             if let detailTemplate = enrollmentConfig?.webview.detailTemplate?.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathId),
                 let url = URL(string: detailTemplate) {
-                webviewHelper?.load(withURL: url)
+                load(url: url)
             }
-            
         }
         else {
-            webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: true, searchQuery: searchQuery, discoveryType: .programs)
             if let url = enrollmentConfig?.webview.searchURL as URL? {
                 webviewHelper?.searchBaseURL = url
-                webviewHelper?.load(withURL: url)
+                load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, showSearch: true)
             }
         }
         
+    }
+    
+    private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false) {
+        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: showSearch, searchQuery: searchQuery, discoveryType: .programs)
+        webviewHelper?.load(withURL: url)
     }
     
     override func viewWillAppear(_ animated: Bool) {
