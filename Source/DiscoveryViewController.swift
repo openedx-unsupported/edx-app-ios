@@ -117,7 +117,6 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     }
     
     private func setupBottomBar() {
-        
         guard let bottomBar = bottomBar,
             environment.session.currentUser == nil else { return }
         view.addSubview(bottomBar)
@@ -127,11 +126,9 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
             make.bottom.equalTo(view)
         }
         bottomBar.bringSubview(toFront: view)
-        
     }
     
     private func setupConstraints() {
-        
         segmentedControl.snp.makeConstraints { make in
             make.height.equalTo(segmentControlHeight)
             make.leading.equalTo(view).offset(StandardHorizontalMargin)
@@ -145,7 +142,6 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
             make.top.equalTo(segmentedControl.snp.bottom).offset(StandardVerticalMargin)
             make.bottom.equalTo(view).offset(bottomSpace)
         }
-        
     }
     
 }
