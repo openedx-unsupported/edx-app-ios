@@ -56,11 +56,9 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
                 load(url: url)
             }
         }
-        else {
-            if let url = enrollmentConfig?.webview.searchURL as URL? {
-                webviewHelper?.searchBaseURL = url
-                load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, showSearch: true)
-            }
+        else if let url = enrollmentConfig?.webview.searchURL as URL? {
+            webviewHelper?.searchBaseURL = url
+            load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, showSearch: true)
         }
         
     }
@@ -79,6 +77,7 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
 }
 
 extension FindProgramsViewController: WebViewNavigationDelegate {
+    
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
         DiscoveryHelper.navigate(to: url, from: self, bottomBar: bottomBar)
@@ -88,5 +87,4 @@ extension FindProgramsViewController: WebViewNavigationDelegate {
     func webViewContainingController() -> UIViewController {
         return self
     }
-    
 }
