@@ -55,12 +55,17 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
                 let url = URL(string: detailTemplate) {
                 load(url: url)
             }
+            else {
+                assert(false, "Unable to make detail URL.")
+            }
         }
         else if let url = enrollmentConfig?.webview.searchURL as URL? {
             webviewHelper?.searchBaseURL = url
             load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, showSearch: true)
         }
-        
+        else {
+            assert(false, "Unable to get search URL.")
+        }
     }
     
     private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false) {
