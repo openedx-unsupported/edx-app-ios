@@ -50,16 +50,26 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
         super.viewDidLoad()
         navigationItem.title = Strings.discover
         if let pathId = pathId {
-            addBackBarButton()
-            if let detailTemplate = enrollmentConfig?.webview.detailTemplate?.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathId),
-                let url = URL(string: detailTemplate) {
-                load(url: url)
-            }
-            else {
-                assert(false, "Unable to make detail URL.")
-            }
+            loadProgramDetails(with: pathId)
         }
-        else if let url = enrollmentConfig?.webview.searchURL as URL? {
+        else {
+            loadPrograms(with: enrollmentConfig?.webview.searchURL as URL?)
+        }
+    }
+    
+    private func loadProgramDetails(with pathId: String) {
+        addBackBarButton()
+        if let detailTemplate = enrollmentConfig?.webview.detailTemplate?.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathId),
+            let url = URL(string: detailTemplate) {
+            load(url: url)
+        }
+        else {
+            assert(false, "Unable to make detail URL.")
+        }
+    }
+    
+    private func loadPrograms(with url: URL?) {
+        if let url = url {
             webviewHelper?.searchBaseURL = url
             load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, showSearch: true)
         }
