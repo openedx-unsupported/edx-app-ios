@@ -221,10 +221,17 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             }
             if let bio = profile.bio {
                 bioText.attributedText = bioStyle.attributedString(withText: bio)
+                bioText.isAccessibilityElement = true
+                bioText.accessibilityLabel = Strings.Accessibility.Account.bioLabel
+
             } else {
                 let message = messageStyle.attributedString(withText: Strings.Profile.noBio)
                 bioSystemMessage.attributedText = message
                 bioSystemMessage.isHidden = false
+                let accessibilityLabelText = "\(Strings.Accessibility.Account.bioLabel), \(Strings.Profile.noBio)"
+                bioSystemMessage.accessibilityLabel = accessibilityLabelText
+                bioSystemMessage.isAccessibilityElement = true
+                bioText.isAccessibilityElement = false
             }
         }
 
