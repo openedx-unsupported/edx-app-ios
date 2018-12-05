@@ -141,7 +141,7 @@
 /*Accessibility text for close button*/
 "ACCESSIBILITY.CLOSE_LABEL"="Cerrado";
 /*Accessibility text for profile button*/
-"ACCESSIBILITY.PROFILE_LABEL"="Pofile";
+"ACCESSIBILITY.PROFILE_LABEL"="Perfil";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Logros";
 /* Default text template when user shares an accomplishment */
