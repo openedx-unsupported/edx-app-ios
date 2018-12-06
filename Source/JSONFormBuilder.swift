@@ -67,6 +67,9 @@ class JSONFormBuilder {
             descriptionLabel.textAlignment = .natural
             descriptionLabel.numberOfLines = 0
             descriptionLabel.preferredMaxLayoutWidth = 200 //value doesn't seem to matter as long as it's small enough
+
+            typeControl.tintColor = OEXStyles.shared().primaryBaseColor()
+            typeControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: UIControlState.selected)
             
             titleLabel.snp.makeConstraints { make in
                 make.leading.equalTo(contentView.snp.leadingMargin)
