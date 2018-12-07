@@ -593,7 +593,7 @@
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Unidad anterior";
 /* A10y hint for the change picture button. */
-"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Cargue una nueva foto de perfil";
+"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Double tap to change profile photo";
 /* Change picture button text on edit profile screen. */
 "PROFILE.CHANGE_PICTURE_BUTTON" = "Cambiar";
 /* Text for use a photo already in library for user profile photo alert */
