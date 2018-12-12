@@ -28,4 +28,13 @@ extension UIApplication {
         
         return topController
     }
+    
+    func isPreferredContentSizeCategoryLarge() -> Bool {
+        return ((UIApplication.shared.preferredContentSizeCategory.rawValue == "UICTContentSizeCategoryXL") ||
+            (UIApplication.shared.preferredContentSizeCategory.rawValue == "UICTContentSizeCategoryXXL") ||
+            (UIApplication.shared.preferredContentSizeCategory.rawValue == "UICTContentSizeCategoryXXXL") ||
+            (UIApplication.shared.preferredContentSizeCategory.rawValue == "UICTContentSizeCategoryAccessibilityXL") ||
+            (UIApplication.shared.preferredContentSizeCategory.rawValue == "UICTContentSizeCategoryAccessibilityXXL") ||
+            (UIApplication.shared.preferredContentSizeCategory.rawValue == "UICTContentSizeCategoryAccessibilityXXXL"))
+    }
 }

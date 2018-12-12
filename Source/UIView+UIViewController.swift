@@ -27,4 +27,37 @@ extension UIView {
         
         return nil
     }
+    
+    func updateFontsOfSubviews(v: UIView) {
+        let subviews = v.subviews
+        guard subviews.count > 0 else {
+            return
+        }
+        for subview in subviews {
+            if let view = subview as? UILabel  {
+                if let style = view.font.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+                    view.font = UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style))
+                }
+            } else if let view = subview as? UITextField {
+                if let style = view.font?.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+                    view.font = UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style))
+                }
+            } else if let view = subview as? UITextView {
+                if let style = view.font?.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+                    view.font = UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style))
+                }
+            }  else if let view = subview as? UIButton {
+                if let style = view.titleLabel?.font.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+                    let attributeText = view.titleLabel?.attributedText
+                    var attributes = attributeText?.attributes(at: 0, longestEffectiveRange: nil, in: NSMakeRange(0, attributeText?.length ?? 0))
+                    attributes![NSFontAttributeName] = UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style))
+                    let mutableAtrributedText = NSMutableAttributedString(string: view.titleLabel?.text ?? "" , attributes: attributes)
+                    view.setAttributedTitle(mutableAtrributedText, for: .normal)
+                }
+            }
+            else {
+                updateFontsOfSubviews(v: subview)
+            }
+        }
+    }
 }
