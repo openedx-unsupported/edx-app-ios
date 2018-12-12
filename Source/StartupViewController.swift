@@ -20,6 +20,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private let searchView = UIView()
     private let messageLabel = UILabel()
     fileprivate let environment: Environment
+    
 
     init(environment: Environment) {
         self.environment = environment
@@ -168,7 +169,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             make.leading.equalTo(safeLeading)
             make.trailing.equalTo(safeTrailing)
         }
-
     }
 
     fileprivate func showCourses(with searchQuery: String?) {
@@ -180,11 +180,21 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 private class BottomBarView: UIView, NSCopying {
     typealias Environment = OEXRouterProvider & OEXStylesProvider
     private var environment : Environment?
-    
+    let bottomBar = TZStackView()
+    let signInButton = UIButton()
+    let registerButton = UIButton()
+
     init(frame: CGRect = CGRect.zero, environment:Environment?) {
         super.init(frame:frame)
         self.environment = environment
         makeBottomBar()
+        addObserver()
+    }
+    
+    func addObserver() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_FOR_DYNAMIC_TEXT_TYPE_UPDATE) {[weak self] (_, _, _) in
+            self?.updateContraints()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -197,12 +207,8 @@ private class BottomBarView: UIView, NSCopying {
     }
     
     private func makeBottomBar() {
-        let bottomBar = UIView()
-        let signInButton = UIButton()
-        let registerButton = UIButton()
 
         bottomBar.backgroundColor = environment?.styles.standardBackgroundColor()
-        
         let signInBorderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment?.styles.primaryBaseColor())
         signInButton.applyBorderStyle(style: signInBorderStyle)
         signInButton.accessibilityIdentifier = "StartUpViewController:sign-in-button"
@@ -223,31 +229,50 @@ private class BottomBarView: UIView, NSCopying {
         registerButton.oex_addAction({ [weak self] _ in
             self?.showRegistration()
             }, for: .touchUpInside, analyticsEvent: signUpEvent)
+    
+        bottomBar.spacing = 10
+        bottomBar.addArrangedSubview(registerButton)
+        bottomBar.layoutMarginsRelativeArrangement = true
+        bottomBar.addArrangedSubview(signInButton)
         
-        bottomBar.addSubview(registerButton)
-        bottomBar.addSubview(signInButton)
-
         addSubview(bottomBar)
-
+        updateContraints()
+    }
+    
+    func updateContraints() {
         bottomBar.snp.makeConstraints { make in
             make.edges.equalTo(self)
-            make.height.equalTo(BottomBarHeight)
         }
         
-        signInButton.snp.makeConstraints { make in
-            make.top.equalTo(bottomBar).offset(BottomBarMargin)
-            make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
-            make.trailing.equalTo(bottomBar).offset(-BottomBarMargin)
-            make.width.equalTo(95)
+        if registerButton.titleLabel?.font.isPreferredSizeLarge() ?? false {
+            signInButton.snp.removeConstraints()
+            registerButton.snp.removeConstraints()
+            bottomBar.axis = .vertical
+            bottomBar.snp.remakeConstraints { make in
+                make.edges.equalTo(self)
+             //   make.height.equalTo(BottomBarHeight)
+            }
+        } else {
+            bottomBar.axis = .horizontal
+            bottomBar.snp.remakeConstraints { make in
+                make.edges.equalTo(self)
+                make.height.equalTo(BottomBarHeight)
+            }
+            
+            signInButton.snp.makeConstraints { make in
+                make.top.equalTo(bottomBar).offset(BottomBarMargin)
+                make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
+                make.trailing.equalTo(bottomBar).offset(-BottomBarMargin)
+                make.width.equalTo(95)
+            }
+            
+            registerButton.snp.makeConstraints { make in
+                make.top.equalTo(bottomBar).offset(BottomBarMargin)
+                make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
+                make.leading.equalTo(bottomBar).offset(BottomBarMargin)
+                make.trailing.equalTo(signInButton.snp.leading).offset(-BottomBarMargin)
+            }
         }
-        
-        registerButton.snp.makeConstraints { make in
-            make.top.equalTo(bottomBar).offset(BottomBarMargin)
-            make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
-            make.leading.equalTo(bottomBar).offset(BottomBarMargin)
-            make.trailing.equalTo(signInButton.snp.leading).offset(-BottomBarMargin)
-        }
-
     }
     
     //MARK: - Actions

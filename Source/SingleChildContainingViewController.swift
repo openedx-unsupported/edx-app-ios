@@ -24,5 +24,17 @@ class SingleChildContainingViewController : UIViewController {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return self.childViewControllers.last?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
     }
+    
+    override func viewDidLoad() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIContentSizeCategoryDidChange.rawValue) { [weak self] (_, _, _) in
+            if let weakSelf = self {
+                weakSelf.view.updateFontsOfSubviews(v: weakSelf.view)
+                weakSelf.view.layoutIfNeeded()
+            }
+            
+           NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_FOR_DYNAMIC_TEXT_TYPE_UPDATE)))
+        }
+        
+    }
 
 }
