@@ -113,6 +113,22 @@
     }
 }
 
++(OEXTextSize)textSizeForPointSize:(int)size {
+    switch (size) {
+        case 14: return OEXTextSizeBase;
+        case 28: return OEXTextSizeXXXXLarge;
+        case 24: return OEXTextSizeXXXLarge;
+        case 21: return OEXTextSizeXXLarge;
+        case 18: return OEXTextSizeXLarge;
+        case 16: return OEXTextSizeLarge;
+        case 9: return  OEXTextSizeXXXSmall;
+        case 10: return OEXTextSizeXXSmall;
+        case 11: return OEXTextSizeXSmall;
+        case 12: return OEXTextSizeSmall;
+        default: return OEXTextSizeBase;
+    }
+}
+
 - (UIFont*)fontWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size {
     CGFloat pointSize = [[self class] pointSizeForTextSize:size];
     switch (weight) {

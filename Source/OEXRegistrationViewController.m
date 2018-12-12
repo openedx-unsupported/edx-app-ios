@@ -152,6 +152,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
     [self.toggleOptionalFieldsButton setAttributedTitle: [self.toggleButtonStyle attributedStringWithText:[Strings registrationShowOptionalFields]] forState:UIControlStateNormal];
+    // We made adjustsFontSizeToFitWidth as true to fix the dynamic type text
+    [self.toggleOptionalFieldsButton.titleLabel setAdjustsFontSizeToFitWidth:true];
     [self.toggleOptionalFieldsButton addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
 
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] init];
