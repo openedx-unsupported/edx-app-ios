@@ -56,6 +56,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
     }
     
     static func canShowWhatsNew(environment: RouterEnvironment?) -> Bool {
+        return false
         let appVersion = Version(version: Bundle.main.oex_buildVersionString())
         let savedAppVersion = Version(version: environment?.interface?.getSavedAppVersionForWhatsNew() ?? "")
         let validDiff = appVersion.isNMinorVersionsDiff(otherVersion: savedAppVersion, minorVersionDiff: 1)
