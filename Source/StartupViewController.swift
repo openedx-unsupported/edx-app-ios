@@ -21,7 +21,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private let messageLabel = UILabel()
     fileprivate let environment: Environment
     
-
     init(environment: Environment) {
         self.environment = environment
 
@@ -51,6 +50,10 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenLaunch)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE)))
     }
 
     override var shouldAutorotate: Bool {
@@ -180,9 +183,9 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 private class BottomBarView: UIView, NSCopying {
     typealias Environment = OEXRouterProvider & OEXStylesProvider
     private var environment : Environment?
-    let bottomBar = TZStackView()
-    let signInButton = UIButton()
-    let registerButton = UIButton()
+    private let bottomBar = TZStackView()
+    private let signInButton = UIButton()
+    private let registerButton = UIButton()
 
     init(frame: CGRect = CGRect.zero, environment:Environment?) {
         super.init(frame:frame)
@@ -192,8 +195,8 @@ private class BottomBarView: UIView, NSCopying {
     }
     
     func addObserver() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_FOR_DYNAMIC_TEXT_TYPE_UPDATE) {[weak self] (_, _, _) in
-            self?.updateContraints()
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE) {(_, observer, _) in
+            observer.updateContraints()
         }
     }
     
@@ -244,13 +247,12 @@ private class BottomBarView: UIView, NSCopying {
             make.edges.equalTo(self)
         }
         
-        if registerButton.titleLabel?.font.isPreferredSizeLarge() ?? false {
+        if registerButton.titleLabel?.font.isPreferredSizeLarge() ?? false  && !UIDevice.current.orientation.isLandscape {
             signInButton.snp.removeConstraints()
             registerButton.snp.removeConstraints()
             bottomBar.axis = .vertical
             bottomBar.snp.remakeConstraints { make in
                 make.edges.equalTo(self)
-             //   make.height.equalTo(BottomBarHeight)
             }
         } else {
             bottomBar.axis = .horizontal

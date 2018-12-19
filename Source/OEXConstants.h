@@ -43,7 +43,7 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 #define NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE @"RegistrationFormFieldValueDidChange"
 
 // Dynamic Text Type Notification
-# define NOTIFICATION_FOR_DYNAMIC_TEXT_TYPE_UPDATE @"DynamicTextTypeUpdateNotification"
+# define NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE @"DynamicTextTypeUpdateNotification"
 
 //courses and videos
 #define CAV_KEY_COURSE @"course"

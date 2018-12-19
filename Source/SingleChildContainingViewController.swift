@@ -25,16 +25,23 @@ class SingleChildContainingViewController : UIViewController {
         return self.childViewControllers.last?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
     }
     
-    override func viewDidLoad() {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nil, bundle: nil)
+        handleDynamicTypeNotification()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func handleDynamicTypeNotification() {
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIContentSizeCategoryDidChange.rawValue) { [weak self] (_, _, _) in
             if let weakSelf = self {
                 weakSelf.view.updateFontsOfSubviews(v: weakSelf.view)
                 weakSelf.view.layoutIfNeeded()
             }
             
-           NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_FOR_DYNAMIC_TEXT_TYPE_UPDATE)))
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE)))
         }
-        
     }
-
 }

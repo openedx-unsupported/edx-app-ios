@@ -71,6 +71,8 @@ extension UIFont {
         }
     }
     
+    // We are restricting the accessibility sizes for each style,
+    // otherwise the text become extra large and breaks the UI
     private func dynamicTextSize(for size: CGFloat) -> CGFloat {
         let style = textStyle(for: size)
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)
