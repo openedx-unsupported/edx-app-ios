@@ -25,11 +25,19 @@ extension UIFont {
     }
     
     func preferredFont() -> UIFont? {
-        if let style = self.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+        if let style = fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
             return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: style))
         }
         
         return nil
+    }
+    
+    func preferredFont(with style: UIFontTextStyle) -> UIFont {
+         return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: .subheadline))
+    }
+    
+    func styleAttribute() -> UIFontTextStyle? {
+         return fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle
     }
     
     func preferredFontSize(textStyle: UIFontTextStyle) -> CGFloat {
@@ -63,7 +71,6 @@ extension UIFont {
     func isPreferredSizeLarge () -> Bool {
         return UIApplication.shared.isPreferredContentSizeCategoryLarge()
     }
-    
     
     private func dynamicSizeAdjustmentFactor(with style: UIFontTextStyle) -> CGFloat {
         switch style {
