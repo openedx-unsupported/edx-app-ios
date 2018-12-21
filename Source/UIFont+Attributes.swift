@@ -24,6 +24,14 @@ extension UIFont {
         return preferredFontSize(textStyle: .body)
     }
     
+    func preferredFont() -> UIFont? {
+        if let style = self.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+            return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: style))
+        }
+        
+        return nil
+    }
+    
     func preferredFontSize(textStyle: UIFontTextStyle) -> CGFloat {
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: textStyle)
         let pointSize = fontDescriptor.pointSize - dynamicSizeAdjustmentFactor(with: textStyle)
@@ -55,6 +63,7 @@ extension UIFont {
     func isPreferredSizeLarge () -> Bool {
         return UIApplication.shared.isPreferredContentSizeCategoryLarge()
     }
+    
     
     private func dynamicSizeAdjustmentFactor(with style: UIFontTextStyle) -> CGFloat {
         switch style {
@@ -103,29 +112,28 @@ extension UIFont {
     }
     
     private func textStyle(for size: CGFloat) -> UIFontTextStyle {
-        switch size {
-        case 9:
+        
+        switch OEXTextStyle.textSize(forPointSize: Int32(size)) {
+        case .xxxSmall:
             return .caption2
-        case 10:
+        case .xxSmall:
             return .caption1
-        case 11:
+        case .xSmall:
             return .footnote
-        case 12:
+        case .small:
             return .subheadline
-        case 14:
+        case .base:
             return .callout
-        case 16:
+        case .large:
             return .body
-        case 18:
+        case .xLarge:
             return .title3
-        case 21:
+        case .xxLarge:
             return .title2
-        case 24:
+        case .xxxLarge:
             return .title1
-        case 28:
+        case .xxxxLarge:
             return .title1
-        default:
-            return .callout
         }
     }
 }

@@ -50,6 +50,7 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 - (id)init NS_SWIFT_UNAVAILABLE("Use the designated initializer weight:size:color");
 
 + (CGFloat)pointSizeForTextSize:(OEXTextSize)size;
++(OEXTextSize)textSizeForPointSize:(int)size;
 
 @property (readonly, assign, nonatomic) NSTextAlignment alignment;
 @property (readonly, assign, nonatomic) OEXLetterSpacing letterSpacing;

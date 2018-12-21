@@ -28,44 +28,53 @@ extension UIView {
         return nil
     }
     
-    func updateFontsOfSubviews(v: UIView) {
-        if (v.superview is UITabBar) || (v.superview is UINavigationBar) {
-            return
-        } else {
-            let subviews = v.subviews
-            guard subviews.count > 0 else {
-                return
-            }
+    func handleDynamicTypeNotification() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIContentSizeCategoryDidChange.rawValue) { (_, observer, _) in
+                observer.updateFontsOfSubviews(v: observer)
+                observer.layoutIfNeeded()
             
-            for subview in subviews {
-                if let view = subview as? UILabel {
-                    if let style = view.font.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
-                           view.font = UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style))
-                    }
-                } else if let view = subview as? UITextField {
-                    if let style = view.font?.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
-                        view.font = UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style))
-                    }
-                } else if let view = subview as? UITextView {
-                    if let style = view.font?.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
-                        view.font = UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style))
-                    }
-                }  else if let view = subview as? UIButton {
-                    if let style = view.titleLabel?.font.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
-                        if let attributeText = view.titleLabel?.attributedText, attributeText.length > 0 {
-                            let attributes = attributeText.attributes(at: 0, longestEffectiveRange: nil, in: NSMakeRange(0, attributeText.length))
-                            let mutableAtrributedText = NSMutableAttributedString(string: view.titleLabel?.text ?? "" , attributes: attributes)
-                            mutableAtrributedText.addAttribute(NSFontAttributeName, value: UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style)), range: NSMakeRange(0, mutableAtrributedText.length))
-                            view.setAttributedTitle(mutableAtrributedText, for: .normal)
-                        }
-                    }
-                } else if let view = subview as? UISegmentedControl {
-                    let font =  UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline), size: UIFont().preferredFontSize(textStyle: .subheadline))
-                    view.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE)))
+        }
+    }
+    
+    func updateFontsOfSubviews(v: UIView) {
+        if (v.superview is UITabBar) {
+            return
+        }
+        let subviews = v.subviews
+        guard subviews.count > 0 else {
+            return
+        }
+        
+        for subview in subviews {
+            if let view = subview as? UILabel {
+                if let font = view.font.preferredFont() {
+                    view.font = font
                 }
-                else {
-                    updateFontsOfSubviews(v: subview)
+                
+            } else if let view = subview as? UITextField {
+                if let font = view.font?.preferredFont() {
+                    view.font = font
                 }
+            } else if let view = subview as? UITextView {
+                if let font = view.font?.preferredFont() {
+                    view.font = font
+                }
+            }  else if let view = subview as? UIButton {
+                if let style = view.titleLabel?.font.fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+                    if let attributeText = view.titleLabel?.attributedText, attributeText.length > 0 {
+                        let attributes = attributeText.attributes(at: 0, longestEffectiveRange: nil, in: NSMakeRange(0, attributeText.length))
+                        let mutableAtrributedText = NSMutableAttributedString(string: view.titleLabel?.text ?? "" , attributes: attributes)
+                        mutableAtrributedText.addAttribute(NSFontAttributeName, value: UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style)), range: NSMakeRange(0, mutableAtrributedText.length))
+                        view.setAttributedTitle(mutableAtrributedText, for: .normal)
+                    }
+                }
+            } else if let view = subview as? UISegmentedControl {
+                let font =  UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline), size: UIFont().preferredFontSize(textStyle: .subheadline))
+                view.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
+            }
+            else {
+                updateFontsOfSubviews(v: subview)
             }
         }
     }

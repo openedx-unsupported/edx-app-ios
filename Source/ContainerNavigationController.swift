@@ -27,7 +27,7 @@ class ForwardingNavigationController: UINavigationController, StatusBarOverridin
     
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
-        handleDynamicTypeNotification()
+        view.handleDynamicTypeNotification()
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -36,17 +36,6 @@ class ForwardingNavigationController: UINavigationController, StatusBarOverridin
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func handleDynamicTypeNotification() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIContentSizeCategoryDidChange.rawValue) { [weak self] (_, _, _) in
-            if let weakSelf = self {
-                weakSelf.view.updateFontsOfSubviews(v: weakSelf.view)
-                weakSelf.view.layoutIfNeeded()
-            }
-            
-            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE)))
-        }
     }
     
     override var childViewControllerForStatusBarStyle: UIViewController? {

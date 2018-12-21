@@ -20,10 +20,11 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private let searchView = UIView()
     private let messageLabel = UILabel()
     fileprivate let environment: Environment
+    private let bottomBar: BottomBarView
     
     init(environment: Environment) {
         self.environment = environment
-
+        bottomBar = BottomBarView(environment: environment)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,7 +54,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE)))
+        bottomBar.updateContraints()
     }
 
     override var shouldAutorotate: Bool {
@@ -165,7 +166,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     private func setupBottomBar() {
-        let bottomBar = BottomBarView(environment: environment)
         view.addSubview(bottomBar)
         bottomBar.snp.makeConstraints { make in
             make.bottom.equalTo(safeBottom)
@@ -247,7 +247,7 @@ private class BottomBarView: UIView, NSCopying {
             make.edges.equalTo(self)
         }
         
-        if registerButton.titleLabel?.font.isPreferredSizeLarge() ?? false  && !UIDevice.current.orientation.isLandscape {
+        if registerButton.titleLabel?.font.isPreferredSizeLarge() ?? false  && (firstAvailableUIViewController()?.isVerticallyCompact())! {
             signInButton.snp.removeConstraints()
             registerButton.snp.removeConstraints()
             bottomBar.axis = .vertical
