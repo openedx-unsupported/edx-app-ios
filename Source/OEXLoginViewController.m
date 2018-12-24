@@ -242,8 +242,6 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:UIApplicationDidBecomeActiveNotification object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDynamicTypeText:) name:NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE object:nil];
-    
     //Tap to dismiss keyboard
     UIGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(tappedToDismiss)];
@@ -263,12 +261,6 @@
         [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
         [self.activityIndicator stopAnimating];
         [self.view setUserInteractionEnabled:YES];
-    }
-}
-
-- (void)updateDynamicTypeText:(NSNotification*)notification {
-    if ([self.usernameTitleLabel.font isPreferredSizeLarge]) {
-        self.usernameTitleLabel.adjustsFontSizeToFitWidth = true;
     }
 }
 

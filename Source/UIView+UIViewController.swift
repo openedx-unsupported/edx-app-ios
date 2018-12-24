@@ -51,7 +51,7 @@ extension UIView {
                 view.font = font
             }
             else if let view = subview as? UITextField, let font = view.font?.preferredFont() {
-                    view.font = font
+                view.font = font
             }
             else if let view = subview as? UITextView, let font = view.font?.preferredFont() {
                     view.font = font
