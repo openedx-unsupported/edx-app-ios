@@ -46,6 +46,7 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
                 tapAction(provider);
             } forEvents:UIControlEventTouchUpInside];
             [self addSubview:button];
+            [button.titleLabel setAdjustsFontSizeToFitWidth:true];
             return button;
         }];
         

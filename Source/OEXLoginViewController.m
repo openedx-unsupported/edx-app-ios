@@ -241,7 +241,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:UIApplicationDidBecomeActiveNotification object:nil];
-
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDynamicTypeText:) name:NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE object:nil];
+    
     //Tap to dismiss keyboard
     UIGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(tappedToDismiss)];
@@ -264,6 +266,12 @@
     }
 }
 
+- (void)updateDynamicTypeText:(NSNotification*)notification {
+    if ([self.usernameTitleLabel.font isPreferredSizeLarge]) {
+        self.usernameTitleLabel.adjustsFontSizeToFitWidth = true;
+    }
+}
+
 - (void)setSignInToDefaultState:(NSNotification*)notification {
     OEXFBSocial *facebookManager = [[OEXFBSocial alloc]init];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
@@ -283,6 +291,9 @@
     self.passwordTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings passwordTitleText],[Strings asteric]]];
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
+    // We made adjustsFontSizeToFitWidth as true to fix the dynamic type text
+    self.usernameTitleLabel.adjustsFontSizeToFitWidth = true;
+    self.passwordTitleLabel.adjustsFontSizeToFitWidth = true;
     self.usernameTitleLabel.isAccessibilityElement = false;
     self.passwordTitleLabel.isAccessibilityElement = false;
     self.tf_EmailID.accessibilityLabel = [Strings usernameTitleText];
