@@ -47,13 +47,13 @@ extension UIView {
         }
         
         for subview in subviews {
-            if let label = subview as? UILabel, let font = label.font.preferredFont() {
+            if let label = subview as? UILabel, let font = label.font.preferredFont {
                 label.font = font
             }
-            else if let textField = subview as? UITextField, let font = textField.font?.preferredFont() {
+            else if let textField = subview as? UITextField, let font = textField.font?.preferredFont {
                 textField.font = font
             }
-            else if let textView = subview as? UITextView, let font = textView.font?.preferredFont() {
+            else if let textView = subview as? UITextView, let font = textView.font?.preferredFont {
                     textView.font = font
             }
             else if let button = subview as? UIButton {

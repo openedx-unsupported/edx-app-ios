@@ -247,7 +247,7 @@ private class BottomBarView: UIView, NSCopying {
             make.edges.equalTo(self)
         }
         
-        if registerButton.titleLabel?.font.isPreferredSizeLarge() ?? false  && !(UIDevice.current.orientation.isLandscape) {
+        if registerButton.titleLabel?.font.isPreferredSizeLarge ?? false  && !(UIDevice.current.orientation.isLandscape) {
             signInButton.snp.removeConstraints()
             registerButton.snp.removeConstraints()
             bottomBar.axis = .vertical

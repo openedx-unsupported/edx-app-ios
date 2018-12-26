@@ -14,22 +14,26 @@ extension UIFont {
         return fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle
     }
     
+    var isPreferredSizeLarge: Bool {
+        return UIApplication.shared.isPreferredContentSizeCategoryLarge
+    }
+    
+    var preferredFont: UIFont? {
+        guard let style = styleAttribute else {
+            return nil
+        }
+        
+        return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: style))
+    }
+    
     func preferredDescriptor(name: String, size: CGFloat) -> UIFontDescriptor {
         let style = textStyle(for: size)
         let preferrredFontSize = preferredFontSize(textStyle: style)
         return UIFontDescriptor(fontAttributes: [UIFontDescriptorNameAttribute: name, UIFontDescriptorSizeAttribute: preferrredFontSize, UIFontDescriptorTextStyleAttribute: style])
     }
     
-    func preferredFont() -> UIFont? {
-        if let style = styleAttribute {
-            return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: style))
-        }
-        
-        return nil
-    }
-    
     func preferredFont(with style: UIFontTextStyle) -> UIFont {
-         return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: .subheadline))
+         return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: style))
     }
     
     func preferredFontSize(descriptor: UIFontDescriptor) -> CGFloat {
@@ -68,9 +72,6 @@ extension UIFont {
         }
     }
     
-    func isPreferredSizeLarge () -> Bool {
-        return UIApplication.shared.isPreferredContentSizeCategoryLarge()
-    }
     
     // This method is a bridge between apple standard sizes and edX standard sizes.
     // For example Apple default size for callout style is 16 but edX mobile App default size is 14.

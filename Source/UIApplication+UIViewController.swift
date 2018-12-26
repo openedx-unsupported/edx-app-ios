@@ -29,7 +29,7 @@ extension UIApplication {
         return topController
     }
     
-    func isPreferredContentSizeCategoryLarge() -> Bool {
+    var isPreferredContentSizeCategoryLarge: Bool {
         let preferredContentSize = UIApplication.shared.preferredContentSizeCategory.rawValue
         return ((preferredContentSize == "UICTContentSizeCategoryXL") ||
             (preferredContentSize == "UICTContentSizeCategoryXXL") ||
