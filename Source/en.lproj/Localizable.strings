@@ -331,7 +331,7 @@
 /* 1 second remaining in course audit expiry*/
 "COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} second";
 /* More than 1 seconds remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_SECOUNDS" = "{seconds} seconds";
+"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} seconds";
 /*Error meessage on course content screen if course audit expires*/
 "COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
 /* Title text for the Announcements section within the course dashboard */
