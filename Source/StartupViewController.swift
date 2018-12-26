@@ -242,7 +242,7 @@ private class BottomBarView: UIView, NSCopying {
         updateContraints()
     }
     
-    func updateContraints() {
+    fileprivate func updateContraints() {
         bottomBar.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }

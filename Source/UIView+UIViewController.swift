@@ -47,28 +47,28 @@ extension UIView {
         }
         
         for subview in subviews {
-            if let view = subview as? UILabel, let font = view.font.preferredFont() {
-                view.font = font
+            if let label = subview as? UILabel, let font = label.font.preferredFont() {
+                label.font = font
             }
-            else if let view = subview as? UITextField, let font = view.font?.preferredFont() {
-                view.font = font
+            else if let textField = subview as? UITextField, let font = textField.font?.preferredFont() {
+                textField.font = font
             }
-            else if let view = subview as? UITextView, let font = view.font?.preferredFont() {
-                    view.font = font
+            else if let textView = subview as? UITextView, let font = textView.font?.preferredFont() {
+                    textView.font = font
             }
-            else if let view = subview as? UIButton {
-                if let style = view.titleLabel?.font.styleAttribute() {
-                    if let attributeText = view.titleLabel?.attributedText, attributeText.length > 0 {
+            else if let button = subview as? UIButton {
+                if let style = button.titleLabel?.font.styleAttribute {
+                    if let attributeText = button.titleLabel?.attributedText, attributeText.length > 0 {
                         let attributes = attributeText.attributes(at: 0, longestEffectiveRange: nil, in: NSMakeRange(0, attributeText.length))
-                        let mutableAtrributedText = NSMutableAttributedString(string: view.titleLabel?.text ?? "" , attributes: attributes)
+                        let mutableAtrributedText = NSMutableAttributedString(string: button.titleLabel?.text ?? "" , attributes: attributes)
                         mutableAtrributedText.addAttribute(NSFontAttributeName, value: UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style)), range: NSMakeRange(0, mutableAtrributedText.length))
-                        view.setAttributedTitle(mutableAtrributedText, for: .normal)
+                        button.setAttributedTitle(mutableAtrributedText, for: .normal)
                     }
                 }
             }
-            else if let view = subview as? UISegmentedControl {
+            else if let segmentControl = subview as? UISegmentedControl {
                 let font =  UIFont().preferredFont(with: .subheadline)
-                view.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
+                segmentControl.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
             }
             else {
                 updateFontsOfSubviews(view: subview)

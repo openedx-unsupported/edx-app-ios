@@ -10,22 +10,18 @@ import UIKit
 
 extension UIFont {
 
+    var styleAttribute: UIFontTextStyle? {
+        return fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle
+    }
+    
     func preferredDescriptor(name: String, size: CGFloat) -> UIFontDescriptor {
         let style = textStyle(for: size)
         let preferrredFontSize = preferredFontSize(textStyle: style)
         return UIFontDescriptor(fontAttributes: [UIFontDescriptorNameAttribute: name, UIFontDescriptorSizeAttribute: preferrredFontSize, UIFontDescriptorTextStyleAttribute: style])
     }
     
-    func preferredFontSize(descriptor: UIFontDescriptor) -> CGFloat {
-        if let style = descriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
-            return preferredFontSize(textStyle: style)
-        }
-        
-        return preferredFontSize(textStyle: .body)
-    }
-    
     func preferredFont() -> UIFont? {
-        if let style = fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+        if let style = styleAttribute {
             return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: style))
         }
         
@@ -36,8 +32,12 @@ extension UIFont {
          return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: .subheadline))
     }
     
-    func styleAttribute() -> UIFontTextStyle? {
-         return fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle
+    func preferredFontSize(descriptor: UIFontDescriptor) -> CGFloat {
+        if let style = descriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+            return preferredFontSize(textStyle: style)
+        }
+        
+        return preferredFontSize(textStyle: .body)
     }
     
     func preferredFontSize(textStyle: UIFontTextStyle) -> CGFloat {
@@ -72,6 +72,8 @@ extension UIFont {
         return UIApplication.shared.isPreferredContentSizeCategoryLarge()
     }
     
+    // This method is a bridge between apple standard sizes and edX standard sizes.
+    // For example Apple default size for callout style is 16 but edX mobile App default size is 14.
     private func dynamicSizeAdjustmentFactor(with style: UIFontTextStyle) -> CGFloat {
         switch style {
         case .caption2, .caption1, .footnote, .callout, .title3:
@@ -87,8 +89,7 @@ extension UIFont {
         }
     }
     
-    // We are restricting the accessibility sizes for each style,
-    // otherwise the text become extra large and breaks the UI
+    // We are supporting maximum dynamic size up to XXXLarge for each style
     private func dynamicTextSize(for size: CGFloat) -> CGFloat {
         let style = textStyle(for: size)
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: style)
