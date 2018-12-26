@@ -32,7 +32,7 @@ class OEXFontsTests: XCTestCase {
         XCTAssertNotNil(oexFonts.font(for: OEXFonts.FontIdentifiers.SemiBold, size: 12))
         XCTAssertNotNil(oexFonts.font(for: OEXFonts.FontIdentifiers.Bold, size: 12))
         XCTAssertNotNil(oexFonts.font(for: OEXFonts.FontIdentifiers.Light, size: 12))
-        XCTAssertNotEqual(oexFonts.font(for: OEXFonts.FontIdentifiers.Regular, size: 12), oexFonts.font(for: OEXFonts.FontIdentifiers.SemiBold, size: 12))
+        XCTAssertEqual(oexFonts.font(for: OEXFonts.FontIdentifiers.Regular, size: 12), oexFonts.font(for: OEXFonts.FontIdentifiers.Regular, size: 12))
     }
     
 }
