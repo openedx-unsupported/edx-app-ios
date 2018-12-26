@@ -96,6 +96,7 @@
 		2245C9F8209C591B0097B23F /* MobileAppEula.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2245C9FA209C591B0097B23F /* MobileAppEula.htm */; };
 		2245C9FC209C592A0097B23F /* PrivacyPolicy.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2245C9FE209C592A0097B23F /* PrivacyPolicy.htm */; };
 		2245CA00209C59340097B23F /* TermsOfServices.htm in Resources */ = {isa = PBXBuildFile; fileRef = 2245CA02209C59340097B23F /* TermsOfServices.htm */; };
+		224D457921B90753003A382C /* UIFont+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224D457821B90753003A382C /* UIFont+Attributes.swift */; };
 		224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224F1F522067B4E0009B3639 /* CustomSlider.swift */; };
 		2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254EF02207610FF00BA183C /* CustomPlayerButton.swift */; };
 		2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94D2111BADC005F7C8C /* ProgramConfig.swift */; };
@@ -1019,6 +1020,7 @@
 		2245C9FF209C592D0097B23F /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "es-419"; path = "es-419.lproj/PrivacyPolicy.htm"; sourceTree = "<group>"; };
 		2245CA01209C59340097B23F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
 		2245CA03209C59370097B23F /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "es-419"; path = "es-419.lproj/TermsOfServices.htm"; sourceTree = "<group>"; };
+		224D457821B90753003A382C /* UIFont+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Attributes.swift"; sourceTree = "<group>"; };
 		224F1F522067B4E0009B3639 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
 		2254EF02207610FF00BA183C /* CustomPlayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerButton.swift; sourceTree = "<group>"; };
 		2255C94D2111BADC005F7C8C /* ProgramConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfig.swift; sourceTree = "<group>"; };
@@ -2665,6 +2667,7 @@
 				B78823AB1FC709BD00F9CD61 /* String+Validation.swift */,
 				2283C7522060EF8600A2E9BE /* MathUtilities.swift */,
 				22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */,
+				224D457821B90753003A382C /* UIFont+Attributes.swift */,
 			);
 			name = "Library Additions";
 			sourceTree = "<group>";
@@ -4015,6 +4018,7 @@
 					};
 					77E647961C90C10300B6740D = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 57UCUYGPA2;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -4875,6 +4879,7 @@
 				7772BE7A1AF41E660081CA7A /* CourseBlockViewController.swift in Sources */,
 				7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */,
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,
+				224D457921B90753003A382C /* UIFont+Attributes.swift in Sources */,
 				777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */,
 				9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */,
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
@@ -5443,7 +5448,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/Test/SupportingFiles/Info.plist;
@@ -5467,7 +5472,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/Test/SupportingFiles/Info.plist;
@@ -5490,7 +5495,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 57UCUYGPA2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/Test/SupportingFiles/Info.plist;

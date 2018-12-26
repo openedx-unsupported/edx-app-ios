@@ -41,11 +41,19 @@ public class OEXFonts: NSObject {
         return OEXFontsDataFactory.fonts as [String : AnyObject]
     }
     
-    public func font(forIdentifier identifier: FontIdentifiers, size: CGFloat) -> UIFont {
-        if let fontName = fontsDictionary[getIdentifier(identifier: identifier)] as? String {
-            return UIFont(name: fontName, size: size)!
+    private func fontName(identifier: FontIdentifiers) -> String {
+        guard let fontName = fontsDictionary[getIdentifier(identifier: identifier)] as? String  else {
+            return getIdentifier(identifier: FontIdentifiers.Irregular)
         }
-        return UIFont(name:getIdentifier(identifier: FontIdentifiers.Irregular), size: size)!
+        return fontName
+    }
+    
+    public func font(for identifier: FontIdentifiers, size: CGFloat) -> UIFont {
+        
+        let preferredFontDescriptor = UIFont().preferredDescriptor(name: fontName(identifier: identifier), size: size)
+        let preferredFontSize = UIFont().preferredFontSize(descriptor: preferredFontDescriptor)
+        
+        return UIFont(descriptor: preferredFontDescriptor, size: preferredFontSize)
     }
     
     private func getIdentifier(identifier: FontIdentifiers) -> String {
