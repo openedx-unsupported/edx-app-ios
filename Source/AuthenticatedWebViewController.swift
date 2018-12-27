@@ -26,6 +26,7 @@ class HeaderViewInsets : ContentInsetsSource {
 private protocol WebContentController {
     var view : UIView {get}
     var scrollView : UIScrollView {get}
+    var isLoading: Bool {get}
     
     var alwaysRequiresOAuthUpdate : Bool { get}
     
@@ -81,6 +82,10 @@ private class WKWebViewContentController : WebContentController {
     var initialContentState : AuthenticatedWebViewController.State {
         return AuthenticatedWebViewController.State.LoadingContent
     }
+
+    var isLoading: Bool {
+        return webView.isLoading
+    }
 }
 
 private let OAuthExchangePath = "/oauth2/login/"
@@ -133,6 +138,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         
         automaticallyAdjustsScrollViewInsets = false
         webController.view.accessibilityIdentifier = "AuthenticatedWebViewController:authenticated-web-view"
+        addObservers()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -143,25 +149,38 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         // Prevent crash due to stale back pointer, since WKWebView's UIScrollView apparently doesn't
         // use weak for its delegate
         webController.scrollView.delegate = nil
+        NotificationCenter.default.removeObserver(self)
     }
     
     override public func viewDidLoad() {
-        
-        self.state = webController.initialContentState
-        self.view.addSubview(webController.view)
+        super.viewDidLoad()
+
+        state = webController.initialContentState
+        view.addSubview(webController.view)
         webController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
-        self.loadController.setupInController(controller: self, contentView: webController.view)
+        loadController.setupInController(controller: self, contentView: webController.view)
         webController.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         webController.scrollView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        insetsController.setupInController(owner: self, scrollView: webController.scrollView)
         
-        self.insetsController.setupInController(owner: self, scrollView: webController.scrollView)
-        
-        
-        if let request = self.contentRequest {
+        if let request = contentRequest {
             loadRequest(request: request)
         }
+    }
+
+    private func addObservers() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE) { (_, observer, _) in
+            observer.reload()
+        }
+    }
+
+    public func reload() {
+        guard let request = contentRequest, !webController.isLoading else { return }
+
+        state = .LoadingContent
+        loadRequest(request: request)
     }
     
     private func resetState() {
@@ -332,4 +351,3 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         }
     }
 }
-
