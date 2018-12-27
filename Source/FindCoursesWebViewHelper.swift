@@ -127,7 +127,7 @@ class FindCoursesWebViewHelper: NSObject {
             })
         }
 
-        NotificationCenter.default.oex_addObserver(observer: self, name: "UIContentSizeCategoryDidChangeNotification") { (_, observer, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE) { (_, observer, _) in
             observer.reload()
         }
     }
