@@ -26,6 +26,7 @@ class HeaderViewInsets : ContentInsetsSource {
 private protocol WebContentController {
     var view : UIView {get}
     var scrollView : UIScrollView {get}
+    var isLoading: Bool {get}
     
     var alwaysRequiresOAuthUpdate : Bool { get}
     
@@ -80,6 +81,10 @@ private class WKWebViewContentController : WebContentController {
     
     var initialContentState : AuthenticatedWebViewController.State {
         return AuthenticatedWebViewController.State.LoadingContent
+    }
+
+    var isLoading: Bool {
+        return webView.isLoading
     }
 }
 
@@ -172,7 +177,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
 
     public func reload() {
-        guard let request = contentRequest else { return }
+        guard let request = contentRequest, !webController.isLoading else { return }
 
         state = .LoadingContent
         loadRequest(request: request)
