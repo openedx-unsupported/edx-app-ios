@@ -24,5 +24,14 @@ class SingleChildContainingViewController : UIViewController {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return self.childViewControllers.last?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
     }
-
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nil, bundle: nil)
+        view.handleDynamicTypeNotification()        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }

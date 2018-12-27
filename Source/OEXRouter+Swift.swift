@@ -178,9 +178,8 @@ extension OEXRouter {
         if let delegate = controller as? DiscussionNewCommentViewControllerDelegate {
             newCommentViewController.delegate = delegate
         }
-        
-        let navigationController = UINavigationController(rootViewController: newCommentViewController)
-        controller.present(navigationController, animated: true, completion: nil)
+
+    controller.present(ForwardingNavigationController(rootViewController: newCommentViewController), animated: true, completion: nil)
     }
     
     func showPostsFromController(controller : UIViewController, courseID : String, topic: DiscussionTopic) {
@@ -209,8 +208,8 @@ extension OEXRouter {
         if let delegate = controller as? DiscussionNewPostViewControllerDelegate {
             newPostController.delegate = delegate
         }
-        let navigationController = UINavigationController(rootViewController: newPostController)
-        controller.present(navigationController, animated: true, completion: nil)
+        
+        controller.present(ForwardingNavigationController(rootViewController: newPostController), animated: true, completion: nil)
     }
     
     func showHandoutsFromController(controller : UIViewController, courseID : String) {

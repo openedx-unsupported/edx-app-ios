@@ -241,7 +241,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:UIApplicationDidBecomeActiveNotification object:nil];
-
+    
     //Tap to dismiss keyboard
     UIGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(tappedToDismiss)];
@@ -283,6 +283,9 @@
     self.passwordTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings passwordTitleText],[Strings asteric]]];
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
+    // We made adjustsFontSizeToFitWidth as true to fix the dynamic type text
+    self.usernameTitleLabel.adjustsFontSizeToFitWidth = true;
+    self.passwordTitleLabel.adjustsFontSizeToFitWidth = true;
     self.usernameTitleLabel.isAccessibilityElement = false;
     self.passwordTitleLabel.isAccessibilityElement = false;
     self.tf_EmailID.accessibilityLabel = [Strings usernameTitleText];
