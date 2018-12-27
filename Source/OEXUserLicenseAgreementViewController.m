@@ -40,9 +40,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [_closeButton setTitle:[Strings close] forState:UIControlStateNormal];
-    NSURLRequest* request = [[NSURLRequest alloc] initWithURL:self.contentUrl];
     webView.delegate = self;
+    [self loadURL];
+    [self addObserver];
+}
+
+- (void)addObserver {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reload)
+                                                 name:NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE object:nil];
+}
+
+- (void)loadURL {
+    NSURLRequest* request = [[NSURLRequest alloc] initWithURL:self.contentUrl];
     [webView loadRequest:request];
+}
+
+- (void)reload {
+    if (!webView.isLoading) {
+        [webView reload];
+    }
 }
 
 - (IBAction)closeButtonTapped:(id)sender {
