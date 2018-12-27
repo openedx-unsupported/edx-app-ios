@@ -133,7 +133,7 @@ class FindCoursesWebViewHelper: NSObject {
     }
 
     private func reload() {
-        guard let URL = webView.url else { return }
+        guard let URL = webView.url, !webView.isLoading else { return }
 
         loadController.state = .Initial
         loadRequest(withURL: URL)
