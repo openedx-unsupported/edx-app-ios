@@ -126,6 +126,17 @@ class FindCoursesWebViewHelper: NSObject {
                 self?.updateSubjectsVisibility()
             })
         }
+
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE) { (_, observer, _) in
+            observer.reload()
+        }
+    }
+
+    private func reload() {
+        guard let URL = webView.url, !webView.isLoading else { return }
+
+        loadController.state = .Initial
+        loadRequest(withURL: URL)
     }
     
     @objc func updateSubjectsVisibility() {
