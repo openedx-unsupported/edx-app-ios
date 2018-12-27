@@ -133,7 +133,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         
         automaticallyAdjustsScrollViewInsets = false
         webController.view.accessibilityIdentifier = "AuthenticatedWebViewController:authenticated-web-view"
-        handleDynamicTypeNotification()
+        addObservers()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -165,8 +165,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         }
     }
 
-    private func handleDynamicTypeNotification() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: "UIContentSizeCategoryDidChangeNotification") { (_, observer, _) in
+    private func addObservers() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE) { (_, observer, _) in
             observer.reload()
         }
     }
