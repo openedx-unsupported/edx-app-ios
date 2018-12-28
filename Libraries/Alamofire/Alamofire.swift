@@ -79,7 +79,7 @@ public enum ParameterEncoding {
             return (urlRequest.urlRequest, nil)
         }
 
-        var mutableURLRequest: NSMutableURLRequest! = (urlRequest.urlRequest as NSURLRequest).mutableCopy() as! NSMutableURLRequest
+        var mutableURLRequest: NSMutableURLRequest! = (urlRequest.urlRequest as NSURLRequest).mutableCopy() as? NSMutableURLRequest
         var error: NSError? = nil
 
         switch self {
@@ -227,7 +227,7 @@ open class Manager {
     /**
         A shared instance of `Manager`, used by top-level Alamofire request methods, and suitable for use directly for any ad hoc requests.
     */
-    open static let sharedInstance: Manager = {
+    public static let sharedInstance: Manager = {
         let configuration: URLSessionConfiguration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = Manager.defaultHTTPHeaders
 
@@ -239,7 +239,7 @@ open class Manager {
 
         :returns: The default header values.
     */
-    open static let defaultHTTPHeaders: [String: String] = {
+    public static let defaultHTTPHeaders: [String: String] = {
         // Accept-Encoding HTTP Header; see http://tools.ietf.org/html/rfc7230#section-4.2.3
         let acceptEncoding: String = "gzip;q=1.0,compress;q=0.5"
 
@@ -283,10 +283,10 @@ open class Manager {
     fileprivate let queue = DispatchQueue(label: "", attributes: [])
 
     /// The underlying session.
-    open let session: URLSession
+    public let session: URLSession
 
     /// The session delegate handling all the task and session delegate callbacks.
-    open let delegate: SessionDelegate
+    public let delegate: SessionDelegate
 
     /// Whether to start requests immediately after being constructed. `true` by default.
     open var startRequestsImmediately: Bool = true
@@ -586,7 +586,7 @@ open class Request {
     open var task: URLSessionTask { return delegate.task }
 
     /// The session belonging to the underlying task.
-    open let session: URLSession
+    public let session: URLSession
 
     /// The request sent or to be sent to the server.
     open var request: URLRequest { return task.originalRequest! }
@@ -820,7 +820,7 @@ open class Request {
     }
 
     class DataTaskDelegate: TaskDelegate, URLSessionDataDelegate {
-        var dataTask: URLSessionDataTask! { return task as! URLSessionDataTask }
+        var dataTask: URLSessionDataTask! { return task as? URLSessionDataTask }
 
         fileprivate var mutableData: NSMutableData
         override var data: Data? {
@@ -1145,7 +1145,7 @@ extension Manager {
 
 extension Request {
     class UploadTaskDelegate: DataTaskDelegate {
-        var uploadTask: URLSessionUploadTask! { return task as! URLSessionUploadTask }
+        var uploadTask: URLSessionUploadTask? { return task as? URLSessionUploadTask }
         var uploadProgress: ((Int64, Int64, Int64) -> Void)!
 
         // MARK: NSURLSessionTaskDelegate
@@ -1271,7 +1271,7 @@ extension Request {
     }
 
     class DownloadTaskDelegate: TaskDelegate, URLSessionDownloadDelegate {
-        var downloadTask: URLSessionDownloadTask! { return task as! URLSessionDownloadTask }
+        var downloadTask: URLSessionDownloadTask! { return task as? URLSessionDownloadTask }
         var downloadProgress: ((Int64, Int64, Int64) -> Void)?
 
         var resumeData: Data?

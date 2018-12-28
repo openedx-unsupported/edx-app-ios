@@ -29,7 +29,7 @@ open class Logger : NSObject {
     fileprivate let printAllKey = "OEXLoggerPrintAll"
     fileprivate let domainsKey = "OEXLoggerDomains"
     
-    open static var sharedLogger : Logger = Logger()
+    public static var sharedLogger : Logger = Logger()
     
     public enum Level : String {
         case Debug = "DEBUG" // Never commit anything with this. Easy way to add logs that are obviously meant to be removed

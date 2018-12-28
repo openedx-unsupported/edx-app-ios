@@ -76,7 +76,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     override func viewWillAppear(_ animated: Bool) {
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
         showVersionUpgradeSnackBarIfNecessary()
-
         super.viewWillAppear(animated)
         hideSnackBarForFullScreenError()
         showWhatsNewIfNeeded()

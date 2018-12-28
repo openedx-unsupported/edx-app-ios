@@ -299,6 +299,8 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         let enabled = !disabledFields.contains(field.name)
         cell.isUserInteractionEnabled = enabled
         cell.backgroundColor = enabled ? UIColor.clear : OEXStyles.shared().neutralXLight()
+
+        enabled ? (cell.accessibilityHint = nil) : (cell.accessibilityHint = Strings.Accessibility.disabledHint)
     }
     
     private func disableLimitedProfileCells(disabled: Bool) {

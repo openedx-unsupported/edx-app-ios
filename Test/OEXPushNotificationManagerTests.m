@@ -139,8 +139,8 @@
 
     [[self.provider expect] sessionEnded];
 
-    [self.session closeAndClearSession];
-//FIXME:- Uncomment this code when we do have a push notification provider
+//    FIXME:- Uncomment this code when we do have a push notification provider
+//    [self.session closeAndClearSession];
 //    OCMVerifyAll(self.provider);
 }
 

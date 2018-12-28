@@ -174,12 +174,12 @@ open class NetworkManager : NSObject {
         case outdatedVersionError = -2
     }
     
-    open static let NETWORK = "NETWORK" // Logger key
+    public static let NETWORK = "NETWORK" // Logger key
     
     public typealias JSONInterceptor = (_ _response : HTTPURLResponse, _ _json : JSON) -> Result<JSON>
     public typealias Authenticator = (_ _response: HTTPURLResponse?, _ _data: Data) -> AuthenticationAction
     
-    open let baseURL : URL
+    public let baseURL : URL
     
     fileprivate let authorizationHeaderProvider: AuthorizationHeaderProvider?
     fileprivate let credentialProvider : URLCredentialProvider?
@@ -195,7 +195,7 @@ open class NetworkManager : NSObject {
         self.cache = cache
     }
     
-    open static var unknownError : NSError { return NSError.oex_unknownNetworkError() }
+    public static var unknownError : NSError { return NSError.oex_unknownNetworkError() }
     
     /// Allows you to add a processing pass to any JSON response.
     /// Typically used to check for errors that can be sent by any request

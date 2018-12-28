@@ -24,6 +24,20 @@ protocol StatusBarOverriding {
 /// A simple UINavigationController subclass that can forward status bar
 /// queries to its children should they opt into that by implementing the ContainedNavigationController protocol
 class ForwardingNavigationController: UINavigationController, StatusBarOverriding {
+    
+    override init(rootViewController: UIViewController) {
+        super.init(rootViewController: rootViewController)
+        view.handleDynamicTypeNotification()
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override var childViewControllerForStatusBarStyle: UIViewController? {
         if let controller = viewControllers.last as? StatusBarOverriding as? UIViewController {
             return controller

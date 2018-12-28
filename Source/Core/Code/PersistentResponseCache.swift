@@ -19,11 +19,11 @@ import UIKit
 // Use @objc so that if we move this between modules again, any new cache entries
 // will reference the same class
 @objc(OEXResponseCacheEntry) open class ResponseCacheEntry : NSObject, NSCoding {
-    open let data : Data?
-    open let headers : [String:String]
-    open let statusCode : Int
-    open let URL : Foundation.URL?
-    open let creationDate : Date
+    public let data : Data?
+    public let headers : [String:String]
+    public let statusCode : Int
+    public let URL : Foundation.URL?
+    public let creationDate : Date
     
     public convenience init(data : Data?, response : HTTPURLResponse) {
         self.init(data : data, headers : response.allHeaderFields as? [String:String] ?? [:], statusCode : response.statusCode, URL : response.url)

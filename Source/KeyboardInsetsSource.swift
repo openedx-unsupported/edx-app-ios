@@ -11,10 +11,11 @@ import UIKit
 extension UIViewAnimationCurve {
     var asAnimationOptions : UIViewAnimationOptions {
         switch(self) {
-        case .easeIn: return UIViewAnimationOptions.curveEaseIn
-        case .easeOut: return UIViewAnimationOptions.curveEaseOut
-        case .easeInOut: return UIViewAnimationOptions.curveEaseInOut
-        case .linear: return UIViewAnimationOptions.curveLinear
+        case .easeIn: return .curveEaseIn
+        case .easeOut: return .curveEaseOut
+        case .easeInOut: return .curveEaseInOut
+        case .linear: return .curveLinear
+        default: return .curveEaseIn
         }
     }
 }

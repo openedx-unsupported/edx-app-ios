@@ -14,7 +14,7 @@ open class CourseOutlineTestDataFactory {
     // This is temporarily part of the edX target instead of the edXTests target so we can use it as a fixture
     // during development. When that is not being done any more we should hook it up to the test target only
     
-    open static func freshCourseOutline(_ courseID : String) -> CourseOutline {
+    public static func freshCourseOutline(_ courseID : String) -> CourseOutline {
         return CourseOutline(
             root : courseID,
             blocks : [

@@ -140,12 +140,21 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
     return self;
 }
 
+- (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate {
+    self.audit_expiry_date = [DateFormatting dateWithServerString:auditExpiryDate];
+    return [self initWithDictionary:info];
+}
+
 - (BOOL)isStartDateOld {
     return [self.start_display_info.date oex_isInThePast];
 }
 
 - (BOOL)isEndDateOld {
     return [self.end oex_isInThePast];
+}
+
+- (BOOL) isAuditExpired {
+    return [self.audit_expiry_date oex_isInThePast];
 }
 
 - (CourseMediaInfo*)courseImageMediaInfo {
