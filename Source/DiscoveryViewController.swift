@@ -11,8 +11,8 @@ import UIKit
 class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding {
     
     private enum segment: Int {
-        case courses = 0
-        case programs = 1
+        case courses
+        case programs
     }
     
     private var environment: RouterEnvironment
