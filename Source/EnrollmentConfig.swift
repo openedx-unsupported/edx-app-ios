@@ -16,15 +16,16 @@ enum EnrollmentType: String {
 }
 
 enum EnrollmentKeys: String, RawStringExtractable {
+    case Enrollment = "ENROLLMENT"
     case EnrollmentType = "TYPE"
     case Webview = "WEBVIEW"
     case CourseSearchURL = "SEARCH_URL"
     case DetailTemplate = "DETAIL_TEMPLATE"
     case SearchBarEnabled = "SEARCH_BAR_ENABLED"
-    case Course = "COURSE_ENROLLMENT"
+    case Course = "COURSE"
     case SubjectDiscoveryEnabled = "SUBJECT_DISCOVERY_ENABLED"
     case ExploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
-    case Program = "PROGRAM_ENROLLMENT"
+    case Program = "PROGRAM"
 }
 
 class EnrollmentWebviewConfig: NSObject {
@@ -44,20 +45,19 @@ class EnrollmentWebviewConfig: NSObject {
 }
 
 class EnrollmentConfig: NSObject {
-    private(set) var type: EnrollmentType
-    let webview: EnrollmentWebviewConfig
-        
-    var isCourseDiscoveryEnabled: Bool {
-        return type != .None
-    }
-    
-    var isProgramDiscoveryEnabled: Bool {
-        return type == .Webview
-    }
+    let course: CourseEnrollment
+    let program: ProgramEnrollment
     
     init(dictionary: [String: AnyObject]) {
-        type = (dictionary[EnrollmentKeys.EnrollmentType] as? String).flatMap { EnrollmentType(rawValue: $0) } ?? .None
-        webview = EnrollmentWebviewConfig(dictionary: dictionary[EnrollmentKeys.Webview] as? [String: AnyObject] ?? [:])
+        course = CourseEnrollment(dictionary: dictionary[EnrollmentKeys.Course] as? [String: AnyObject] ?? [:])
+        program = ProgramEnrollment(with: course, dictionary: dictionary[EnrollmentKeys.Program] as? [String: AnyObject] ?? [:])
+    }
+}
+
+class CourseEnrollment: Enrollment {
+    
+    var isEnabled: Bool {
+        return type != .None
     }
     
     // Associated swift enums can not be used in objective-c, that's why this extra function needed
@@ -66,13 +66,33 @@ class EnrollmentConfig: NSObject {
     }
 }
 
-extension OEXConfig {
+class ProgramEnrollment: Enrollment {
     
-    var programEnrollment: EnrollmentConfig {
-        return EnrollmentConfig(dictionary: self[EnrollmentKeys.Program.rawValue] as? [String:AnyObject] ?? [:])
+    private let courseEnrollment: CourseEnrollment
+    
+    init(with courseEnrollment: CourseEnrollment, dictionary: [String : AnyObject]) {
+        self.courseEnrollment = courseEnrollment
+        super.init(dictionary: dictionary)
     }
     
-    var courseEnrollmentConfig: EnrollmentConfig {
-        return EnrollmentConfig(dictionary: self[EnrollmentKeys.Course.rawValue] as? [String:AnyObject] ?? [:])
+    var isEnabled: Bool {
+        return courseEnrollment.type == .Webview && type == .Webview
+    }
+}
+
+class Enrollment: NSObject {
+    private(set) var type: EnrollmentType
+    let webview: EnrollmentWebviewConfig
+    
+    init(dictionary: [String: AnyObject]) {
+        type = (dictionary[EnrollmentKeys.EnrollmentType] as? String).flatMap { EnrollmentType(rawValue: $0) } ?? .None
+        webview = EnrollmentWebviewConfig(dictionary: dictionary[EnrollmentKeys.Webview] as? [String: AnyObject] ?? [:])
+    }
+}
+
+extension OEXConfig {
+    
+    var enrollment: EnrollmentConfig {
+        return EnrollmentConfig(dictionary: self[EnrollmentKeys.Enrollment.rawValue] as? [String:AnyObject] ?? [:])
     }
 }

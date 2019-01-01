@@ -57,8 +57,10 @@ class DiscoveryWebViewHelper: NSObject {
         self.searchQuery = searchQuery
         self.showSubjects = showSubjects
         self.discoveryType = discoveryType
-        searchBarEnabled = (environment?.config.courseEnrollmentConfig.webview.searchbarEnabled ?? false) && showSearch
+        let enrollmentConfig = discoveryType == .programs ? environment?.config.enrollment.program : environment?.config.enrollment.course
+        searchBarEnabled = (enrollmentConfig?.webview.searchbarEnabled ?? false) && showSearch
         super.init()
+        searchBar.placeholder = discoveryType == .programs ? Strings.searchProgramsPlaceholderText : Strings.searchCoursesPlaceholderText
         webView.navigationDelegate = self
         webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
         webView.accessibilityIdentifier = discoveryType == .courses ? "find-courses-webview" : "find-programs-webview"
@@ -77,7 +79,7 @@ class DiscoveryWebViewHelper: NSObject {
         contentView.subviews.forEach { $0.removeFromSuperview() }
         let isUserLoggedIn = environment?.session.currentUser != nil
 
-        subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webview.subjectDiscoveryEnabled ?? false) && isUserLoggedIn && showSubjects && discoveryType == .courses
+        subjectDiscoveryEnabled = (environment?.config.enrollment.course.webview.subjectDiscoveryEnabled ?? false) && isUserLoggedIn && showSubjects && discoveryType == .courses
 
         var topConstraintItem: ConstraintItem = contentView.snp.top
         if searchBarEnabled {
@@ -171,7 +173,7 @@ class DiscoveryWebViewHelper: NSObject {
     }
 
     private var courseInfoTemplate : String {
-        return environment?.config.courseEnrollmentConfig.webview.detailTemplate ?? ""
+        return environment?.config.enrollment.course.webview.detailTemplate ?? ""
     }
     
     var isWebViewLoaded : Bool {

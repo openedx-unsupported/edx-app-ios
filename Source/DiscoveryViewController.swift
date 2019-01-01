@@ -21,9 +21,6 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         guard let bottomBar = bottomBar else { return StandardVerticalMargin }
         return bottomBar.frame.height + StandardVerticalMargin
     }
-    private var segmentTitleTextStyle: OEXTextStyle {
-        return OEXTextStyle(weight : .normal, size: .small, color: self.environment.styles.neutralDark())
-    }
     private let bottomBar: UIView?
     private let searchQuery: String?
     
@@ -37,13 +34,10 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         return control
     }()
     
-    lazy var containerView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    lazy var containerView = UIView()
     
     lazy var coursesController: UIViewController = {
-        return self.environment.config.courseEnrollmentConfig.type == .Webview ? OEXFindCoursesViewController(environment: self.environment, showBottomBar: false, bottomBar: self.bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
+        return self.environment.config.enrollment.course.type == .Webview ? OEXFindCoursesViewController(environment: self.environment, showBottomBar: false, bottomBar: self.bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
     }()
     
     lazy var programsController: UIViewController = {
@@ -82,22 +76,25 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
             if let segmentedControl = control as? UISegmentedControl {
                 switch segmentedControl.selectedSegmentIndex {
                 case segment.courses.rawValue:
-                    self?.coursesController.view.isHidden = false
-                    self?.programsController.view.isHidden = true
+                    self?.courseVisibility(hide:false)
                     break
                 case segment.programs.rawValue:
-                    self?.programsController.view.isHidden = false
-                    self?.coursesController.view.isHidden = true
+                    self?.courseVisibility(hide:true)
                     break
                 default:
                     assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
                 }
             }
             else {
-                assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
+                assert(true, "Invalid control")
             }
         }, for: .valueChanged)
         navigationItem.title = Strings.discover
+    }
+    
+    private func courseVisibility(hide: Bool) {
+        coursesController.view.isHidden = hide
+        programsController.view.isHidden = !hide
     }
     
     private func addSubViews() {

@@ -271,14 +271,14 @@ extension OEXRouter {
     }
     
     func showCourseCatalog(fromController: UIViewController? = nil, bottomBar: UIView? = nil, searchQuery: String? = nil) {
-        if let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery) {
-            if let fromController = fromController {
-                fromController.tabBarController?.selectedIndex = EnrolledTabBarViewController.courseCatalogIndex
-            } else {
-                showControllerFromStartupScreen(controller: controller)
-            }
-            self.environment.analytics.trackUserFindsCourses()
+        guard let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery) else { return }
+        if let fromController = fromController {
+            fromController.tabBarController?.selectedIndex = EnrolledTabBarViewController.courseCatalogIndex
+        } else {
+            showControllerFromStartupScreen(controller: controller)
         }
+        self.environment.analytics.trackUserFindsCourses()
+        
     }
     
     func showAllSubjects(from controller: UIViewController? = nil, delegate: SubjectsViewControllerDelegate?) {
@@ -288,13 +288,16 @@ extension OEXRouter {
     }
     
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {
-        if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled && environment.config.programEnrollment.isProgramDiscoveryEnabled {
+        let isCourseDiscoveryEnabled = environment.config.enrollment.course.isEnabled
+        let isProgramDiscoveryEnabled = environment.config.enrollment.program.isEnabled
+        
+        if isCourseDiscoveryEnabled && isProgramDiscoveryEnabled {
             return DiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
-        else if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled {
-            return environment.config.courseEnrollmentConfig.type == .Webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
+        else if isCourseDiscoveryEnabled {
+            return environment.config.enrollment.course.type == .Webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
         }
-        else if environment.config.programEnrollment.isProgramDiscoveryEnabled {
+        else if isProgramDiscoveryEnabled {
             return FindProgramsViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
         return nil

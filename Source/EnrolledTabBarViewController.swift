@@ -19,7 +19,7 @@ private enum TabBarOptions: Int {
         case .Program:
             return Strings.programs
         case .CourseCatalog:
-            return config?.courseEnrollmentConfig.type == .Native ? Strings.findCourses : Strings.discover
+            return config?.enrollment.course.type == .Native ? Strings.findCourses : Strings.discover
         case .Debug:
             return Strings.debug
         }

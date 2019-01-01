@@ -108,7 +108,7 @@ class OEXRearTableViewController : UITableViewController {
     }
     
     private func courseCatalogTitle() -> String {
-        switch environment.config.courseEnrollmentConfig.type {
+        switch environment.config.enrollment.course.type {
         case .Native:
             return Strings.findCourses
         default:
@@ -166,7 +166,7 @@ class OEXRearTableViewController : UITableViewController {
         if (indexPath.row == OEXRearViewOptions.Debug.rawValue && !environment.config.shouldShowDebug()) {
             return 0
         }
-        else if indexPath.row == OEXRearViewOptions.CourseCatalog.rawValue && !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled {
+        else if indexPath.row == OEXRearViewOptions.CourseCatalog.rawValue && !environment.config.enrollment.course.isEnabled {
             return 0
         }
         return super.tableView(tableView, heightForRowAt: indexPath)

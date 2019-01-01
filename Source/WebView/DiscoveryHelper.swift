@@ -143,24 +143,20 @@ extension DiscoveryHelper {
             enrollInCourse(with: url, from: controller)
             break
         case .courseDetail:
-            if let courseDetailPath = detailPathID(from: url) {
-                environment.router?.showCourseDetails(from: controller, with: courseDetailPath, bottomBar: bottomBar)
-            }
+            guard let courseDetailPath = detailPathID(from: url) else { return }
+            environment.router?.showCourseDetails(from: controller, with: courseDetailPath, bottomBar: bottomBar)
             break
         case .enrolledCourseDetail:
-            if let urlData = parse(url: url), let courseId = urlData.courseId {
-                environment.router?.showCourseWithID(courseID: courseId, fromController: controller, animated: true)
-            }
+            guard let urlData = parse(url: url), let courseId = urlData.courseId else { return }
+            environment.router?.showCourseWithID(courseID: courseId, fromController: controller, animated: true)
             break
         case .enrolledProgramDetail:
-            if let programDetailsURL = programDetailURL(from: url, config: environment.config) {
-                environment.router?.showProgramDetails(with: programDetailsURL, from: controller)
-            }
+            guard let programDetailsURL = programDetailURL(from: url, config: environment.config) else { return }
+            environment.router?.showProgramDetails(with: programDetailsURL, from: controller)
             break
         case .programDetail:
-            if let pathId = programDetailPathId(from: url) {
-                environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar)
-            }
+            guard let pathId = programDetailPathId(from: url) else { return }
+            environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar)
             break
         }
     }

@@ -14,13 +14,13 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
     
     private let environment: Environment
-    fileprivate var showBottomBar: Bool = true
-    fileprivate let searchQuery: String?
+    private var showBottomBar: Bool = true
+    private let searchQuery: String?
     fileprivate let bottomBar: UIView?
-    private(set) var pathId: String?
-    private(set) var webviewHelper: DiscoveryWebViewHelper?
-    private var enrollmentConfig: EnrollmentConfig? {
-        return environment.config.programEnrollment
+    private var pathId: String?
+    private var webviewHelper: DiscoveryWebViewHelper?
+    private var enrollmentConfig: ProgramEnrollment? {
+        return environment.config.enrollment.program
     }
     
     // MARK:- Initializer -
@@ -70,16 +70,16 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
     
     private func loadPrograms(with url: URL?) {
         if let url = url {
-            webviewHelper?.searchBaseURL = url
-            load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, showSearch: true)
+            load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, showSearch: true, searchBaseURL: url)
         }
         else {
             assert(false, "Unable to get search URL.")
         }
     }
     
-    private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false) {
+    private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false, searchBaseURL: URL? = nil) {
         webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: showSearch, searchQuery: searchQuery, discoveryType: .programs)
+        webviewHelper?.searchBaseURL = searchBaseURL
         webviewHelper?.load(withURL: url)
     }
     

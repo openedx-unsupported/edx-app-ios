@@ -96,8 +96,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenFindCourses];
 }
 
-- (EnrollmentConfig*)enrollmentConfig {
-    return [self.environment.config courseEnrollmentConfig];
+- (CourseEnrollment*)enrollmentConfig {
+    return [self.environment.config.enrollment course];
 }
 
 - (NSString*)getCoursePathIDFromURL:(NSURL*)url {

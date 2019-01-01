@@ -56,8 +56,8 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     return URL;
 }
 
-- (EnrollmentConfig*)enrollmentConfig {
-    return [self.environment.config courseEnrollmentConfig];
+- (CourseEnrollment*)enrollmentConfig {
+    return [self.environment.config.enrollment course];
 }
     
 -(NSString *) courseDiscoveryTitle {
