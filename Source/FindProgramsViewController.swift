@@ -53,7 +53,7 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
             loadProgramDetails(with: pathId)
         }
         else {
-            loadPrograms(with: enrollmentConfig?.webview.searchURL as URL?)
+            loadPrograms(with: enrollmentConfig?.webview.searchURL)
         }
     }
     
