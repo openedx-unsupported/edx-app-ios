@@ -60,8 +60,8 @@ class CourseEnrollment: Enrollment {
         return type != .None
     }
     
-    // Associated swift enums can not be used in objective-c, that's why this extra function needed
-    func isCourseDiscoveryNative() -> Bool {
+    // Associated swift enums can not be used in objective-c, that's why this extra computed property needed
+    var isCourseDiscoveryNative: Bool {
         return type == .Native
     }
 }
