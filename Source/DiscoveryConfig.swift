@@ -23,7 +23,7 @@ enum DiscoveryKeys: String, RawStringExtractable {
     case DetailTemplate = "DETAIL_TEMPLATE"
     case SearchEnabled = "SEARCH_ENABLED"
     case Course = "COURSE"
-    case SubjectDiscoveryEnabled = "SUBJECT_DISCOVERY_ENABLED"
+    case SubjectFilterEnabled = "SUBJECT_FILTER_ENABLED"
     case ExploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
     case Program = "PROGRAM"
 }
@@ -33,13 +33,13 @@ class DiscoveryWebviewConfig: NSObject {
     let exploreSubjectsURL: URL?
     let detailTemplate: String?
     let searchEnabled: Bool
-    let subjectDiscoveryEnabled: Bool
+    let subjectFilterEnabled: Bool
     
     init(dictionary: [String: AnyObject]) {
         baseURL = (dictionary[DiscoveryKeys.BaseURL] as? String).flatMap { URL(string:$0)}
         detailTemplate = dictionary[DiscoveryKeys.DetailTemplate] as? String
         searchEnabled = dictionary[DiscoveryKeys.SearchEnabled] as? Bool ?? false
-        subjectDiscoveryEnabled = dictionary[DiscoveryKeys.SubjectDiscoveryEnabled] as? Bool ?? false
+        subjectFilterEnabled = dictionary[DiscoveryKeys.SubjectFilterEnabled] as? Bool ?? false
         exploreSubjectsURL = (dictionary[DiscoveryKeys.ExploreSubjectsURL] as? String).flatMap { URL(string:$0)}
     }
 }

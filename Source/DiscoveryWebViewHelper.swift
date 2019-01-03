@@ -83,7 +83,7 @@ class DiscoveryWebViewHelper: NSObject {
         contentView.subviews.forEach { $0.removeFromSuperview() }
         let isUserLoggedIn = environment?.session.currentUser != nil
 
-        subjectDiscoveryEnabled = (environment?.config.discovery.course.webview.subjectDiscoveryEnabled ?? false) && isUserLoggedIn && showSubjects && discoveryType == .course
+        subjectDiscoveryEnabled = (environment?.config.discovery.course.webview.subjectFilterEnabled ?? false) && isUserLoggedIn && showSubjects && discoveryType == .course
 
         var topConstraintItem: ConstraintItem = contentView.snp.top
         if searchBarEnabled {
