@@ -67,7 +67,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, 
 extension ProgramsViewController: AuthenticatedWebViewControllerDelegate {
     func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView) {
         refreshController.endRefreshing()
-        webController.setLoadControllerState(withState: LoadState.Loaded)
+        webController.setLoadControllerState(withState: .Loaded)
     }
 }
 
