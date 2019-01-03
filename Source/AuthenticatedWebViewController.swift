@@ -115,6 +115,10 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     
     }()
     
+    var scrollView: UIScrollView {
+        return webController.scrollView
+    }
+    
     private var state = State.CreatingSession
     
     private var contentRequest : NSURLRequest? = nil
