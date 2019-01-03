@@ -9,12 +9,13 @@
 import UIKit
 import WebKit
 
-class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
+class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, PullRefreshControllerDelegate {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider & ReachabilityProvider
     fileprivate let environment: Environment
-    private let webController: AuthenticatedWebViewController
+    fileprivate let webController: AuthenticatedWebViewController
     private let programsURL: URL
+    fileprivate let refreshController = PullRefreshController()
     
     init(environment: Environment, programsURL: URL) {
         webController = AuthenticatedWebViewController(environment: environment)
@@ -22,7 +23,7 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
         self.programsURL = programsURL
         super.init(nibName: nil, bundle: nil)
         webController.webViewDelegate = self
-
+        webController.delegate = self
         setupView()
         loadPrograms()
     }
@@ -41,6 +42,8 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
         webController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
+        refreshController.setupInScrollView(scrollView: webController.scrollView)
+        refreshController.delegate = self
     }
     
     private func loadPrograms() {
@@ -53,6 +56,18 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding {
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+    
+    //MARK: PullRefreshControllerDelegate
+    public func refreshControllerActivated(controller: PullRefreshController) {
+        loadPrograms()
+    }
+}
+
+extension ProgramsViewController: AuthenticatedWebViewControllerDelegate {
+    func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView) {
+        refreshController.endRefreshing()
+        webController.setLoadControllerState(withState: .Loaded)
     }
 }
 
