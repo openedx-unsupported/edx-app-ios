@@ -288,23 +288,23 @@ extension OEXRouter {
     }
     
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {
-        let isCourseDiscoveryEnabled = environment.config.enrollment.course.isEnabled
-        let isProgramDiscoveryEnabled = environment.config.enrollment.program.isEnabled
+        let isCourseDiscoveryEnabled = environment.config.discovery.course.isEnabled
+        let isProgramDiscoveryEnabled = environment.config.discovery.program.isEnabled
         
         if isCourseDiscoveryEnabled && isProgramDiscoveryEnabled {
             return DiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
         else if isCourseDiscoveryEnabled {
-            return environment.config.enrollment.course.type == .Webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
+            return environment.config.discovery.course.type == .Webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
         }
         else if isProgramDiscoveryEnabled {
-            return FindProgramsViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
+            return ProgramsDiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
         return nil
     }
     
     func showProgramDetail(from controller: UIViewController, with pathId: String, bottomBar: UIView?) {
-        let programDetailViewController = FindProgramsViewController(with: environment, pathId: pathId, bottomBar: bottomBar)
+        let programDetailViewController = ProgramsDiscoveryViewController(with: environment, pathId: pathId, bottomBar: bottomBar)
         pushViewController(controller: programDetailViewController, fromController: controller)
     }
 

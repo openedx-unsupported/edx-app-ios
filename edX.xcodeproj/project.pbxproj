@@ -323,8 +323,8 @@
 		773CC0231BE2C4C200DDC127 /* MockUserProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773CC0221BE2C4C200DDC127 /* MockUserProfileManager.swift */; };
 		773CC0251BE42EAC00DDC127 /* UserProfileEditViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773CC0241BE40EB900DDC127 /* UserProfileEditViewControllerTests.swift */; };
 		773CC0271BEBCB0100DDC127 /* CourseCardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773CC0261BEBCB0100DDC127 /* CourseCardViewModelTests.swift */; };
-		7742F8DB1C3C9788009E555A /* EnrollmentConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742F8D91C3C9785009E555A /* EnrollmentConfigTests.swift */; };
-		7742F8DD1C3C979D009E555A /* EnrollmentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742F8DC1C3C979D009E555A /* EnrollmentConfig.swift */; };
+		7742F8DB1C3C9788009E555A /* DiscoveryConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742F8D91C3C9785009E555A /* DiscoveryConfigTests.swift */; };
+		7742F8DD1C3C979D009E555A /* DiscoveryConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742F8DC1C3C979D009E555A /* DiscoveryConfig.swift */; };
 		7745B4011C88DD0900E76ACD /* ServerChangedCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7745B4001C88DD0900E76ACD /* ServerChangedCheckerTests.swift */; };
 		7748F5781AEAB5C200767700 /* OEXSwitchStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */; };
 		774B39391B5DD85A00595D33 /* UIView+LayoutDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 774B39381B5DD85A00595D33 /* UIView+LayoutDirection.swift */; };
@@ -753,7 +753,7 @@
 		B7CCC73D209B16B100A66923 /* ConstraintLayoutSupportDSL.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC71B209B16B000A66923 /* ConstraintLayoutSupportDSL.swift */; };
 		B7CCC73E209B16B100A66923 /* ConstraintMakerRelatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7CCC71C209B16B000A66923 /* ConstraintMakerRelatable.swift */; };
 		B7CCC740209B1F9E00A66923 /* Default-375w-812h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B7CCC73F209B1F9E00A66923 /* Default-375w-812h@3x.png */; };
-		B7EC83BF21A2D34600D6A89C /* FindProgramsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EC83BE21A2D34600D6A89C /* FindProgramsViewController.swift */; };
+		B7EC83BF21A2D34600D6A89C /* ProgramsDiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EC83BE21A2D34600D6A89C /* ProgramsDiscoveryViewController.swift */; };
 		B7EC83C121A2DE9E00D6A89C /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EC83C021A2DE9E00D6A89C /* DiscoveryViewController.swift */; };
 		BD0507AE20F74D4200B0DB65 /* OEXInterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0507AD20F74D4200B0DB65 /* OEXInterfaceTests.swift */; };
 		BD3838541DD1CA7E00805697 /* OEXFontsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */; };
@@ -807,7 +807,7 @@
 		E04848321CFDA10600BE00E1 /* DiscussionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */; };
 		E04848361D000DD600BE00E1 /* PostsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */; };
 		E04A93291F13846B00D4615D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E04A932B1F13846B00D4615D /* InfoPlist.strings */; };
-		E04F56861E9E0A5B0088C65E /* EnrollmentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742F8DC1C3C979D009E555A /* EnrollmentConfig.swift */; };
+		E04F56861E9E0A5B0088C65E /* DiscoveryConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742F8DC1C3C979D009E555A /* DiscoveryConfig.swift */; };
 		E054B09D1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = E054B09C1EC2E8C900FACBA6 /* OEXInterface+WhatsNew.swift */; };
 		E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E054B09E1EC3178200FACBA6 /* screen_1.png */; };
 		E055D53D1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */; };
@@ -1263,8 +1263,8 @@
 		773CC0221BE2C4C200DDC127 /* MockUserProfileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUserProfileManager.swift; sourceTree = "<group>"; };
 		773CC0241BE40EB900DDC127 /* UserProfileEditViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileEditViewControllerTests.swift; sourceTree = "<group>"; };
 		773CC0261BEBCB0100DDC127 /* CourseCardViewModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCardViewModelTests.swift; sourceTree = "<group>"; };
-		7742F8D91C3C9785009E555A /* EnrollmentConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrollmentConfigTests.swift; sourceTree = "<group>"; };
-		7742F8DC1C3C979D009E555A /* EnrollmentConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrollmentConfig.swift; sourceTree = "<group>"; };
+		7742F8D91C3C9785009E555A /* DiscoveryConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryConfigTests.swift; sourceTree = "<group>"; };
+		7742F8DC1C3C979D009E555A /* DiscoveryConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryConfig.swift; sourceTree = "<group>"; };
 		7745B4001C88DD0900E76ACD /* ServerChangedCheckerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerChangedCheckerTests.swift; sourceTree = "<group>"; };
 		7748F5761AEAB5C100767700 /* OEXSwitchStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSwitchStyle.h; sourceTree = "<group>"; };
 		7748F5771AEAB5C100767700 /* OEXSwitchStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSwitchStyle.m; sourceTree = "<group>"; };
@@ -1765,7 +1765,7 @@
 		B7CCC71B209B16B000A66923 /* ConstraintLayoutSupportDSL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintLayoutSupportDSL.swift; sourceTree = "<group>"; };
 		B7CCC71C209B16B000A66923 /* ConstraintMakerRelatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintMakerRelatable.swift; sourceTree = "<group>"; };
 		B7CCC73F209B1F9E00A66923 /* Default-375w-812h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-375w-812h@3x.png"; sourceTree = "<group>"; };
-		B7EC83BE21A2D34600D6A89C /* FindProgramsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindProgramsViewController.swift; sourceTree = "<group>"; };
+		B7EC83BE21A2D34600D6A89C /* ProgramsDiscoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsDiscoveryViewController.swift; sourceTree = "<group>"; };
 		B7EC83C021A2DE9E00D6A89C /* DiscoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryViewController.swift; sourceTree = "<group>"; };
 		BD0507AD20F74D4200B0DB65 /* OEXInterfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEXInterfaceTests.swift; sourceTree = "<group>"; };
 		BD3838531DD1CA7E00805697 /* OEXFontsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXFontsTests.swift; sourceTree = "<group>"; };
@@ -3085,7 +3085,7 @@
 				9C9B7F641A8CC68400A857B2 /* OEXFindCoursesViewController.m */,
 				9C9B7F651A8CC68400A857B2 /* OEXCourseInfoViewController.h */,
 				9C9B7F661A8CC68400A857B2 /* OEXCourseInfoViewController.m */,
-				B7EC83BE21A2D34600D6A89C /* FindProgramsViewController.swift */,
+				B7EC83BE21A2D34600D6A89C /* ProgramsDiscoveryViewController.swift */,
 				B7EC83C021A2DE9E00D6A89C /* DiscoveryViewController.swift */,
 			);
 			name = "Course Enrollment";
@@ -3133,7 +3133,7 @@
 		B44A52791A63E57A00943542 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				7742F8DC1C3C979D009E555A /* EnrollmentConfig.swift */,
+				7742F8DC1C3C979D009E555A /* DiscoveryConfig.swift */,
 				3F92D6E520B19C9B00A69806 /* AgreementURLsConfig.swift */,
 				E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */,
 				778B82EA1A520F2A0040D9E0 /* OEXEnvironment.h */,
@@ -3641,7 +3641,7 @@
 				7765025A1C73B90C007384E7 /* EmailTemplateTests.swift */,
 				7791C4EC1C651E9D0005745B /* RegistrationViewControllerTests.swift */,
 				779998221C3C1EE00058E5FE /* EnrolledCoursesViewControllerTests.swift */,
-				7742F8D91C3C9785009E555A /* EnrollmentConfigTests.swift */,
+				7742F8D91C3C9785009E555A /* DiscoveryConfigTests.swift */,
 				778B40DC1C2F85BC0009F33E /* FeedTests.swift */,
 				778B40DA1C2F64680009F33E /* EnrollmentManagerTests.swift */,
 				7CB46D251D58E4FF005110AB /* UserPreferenceManagerTests.swift */,
@@ -4509,7 +4509,7 @@
 				77E6484E1C91024C00B6740D /* FeatureTestCase.swift in Sources */,
 				7753912F1C973ADA00FA959C /* NSUUID+Username.swift in Sources */,
 				77E6484D1C91024C00B6740D /* EnrolledCoursesInteractor.swift in Sources */,
-				E04F56861E9E0A5B0088C65E /* EnrollmentConfig.swift in Sources */,
+				E04F56861E9E0A5B0088C65E /* DiscoveryConfig.swift in Sources */,
 				77E648511C91024C00B6740D /* SplashScreenInteractor.swift in Sources */,
 				77E648501C91024C00B6740D /* LoginScreenInteractor.swift in Sources */,
 				77E6484B1C91024C00B6740D /* AppLaunchInteractor.swift in Sources */,
@@ -4525,7 +4525,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */,
-				7742F8DD1C3C979D009E555A /* EnrollmentConfig.swift in Sources */,
+				7742F8DD1C3C979D009E555A /* DiscoveryConfig.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
 				1AB539FC1C0396770065501F /* OEXAnayltics+Certificates.swift in Sources */,
 				1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */,
@@ -4628,7 +4628,7 @@
 				1AB676AE1BA0964B002AD0EB /* OEXVideoPlayerSettings.swift in Sources */,
 				9EA4788B1BE76A7700393FA6 /* DiscussionSearchBarDelegate.swift in Sources */,
 				22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */,
-				B7EC83BF21A2D34600D6A89C /* FindProgramsViewController.swift in Sources */,
+				B7EC83BF21A2D34600D6A89C /* ProgramsDiscoveryViewController.swift in Sources */,
 				E02F656A1E8B94CC000D1C4E /* TZStackViewDistribution.swift in Sources */,
 				77D76BFD1AA5076D00C51C2C /* OEXLocalizedString.m in Sources */,
 				E0D159971EB87700005E2A76 /* WhatsNewObject.swift in Sources */,
@@ -4994,7 +4994,7 @@
 				7CB46D271D58E567005110AB /* UserPreferenceManagerTests.swift in Sources */,
 				77D705FC1B7C0DEC00ABCB70 /* OEXCourseTests.swift in Sources */,
 				77567B551AC5F06F00877A7B /* OEXSafeCastTests.m in Sources */,
-				7742F8DB1C3C9788009E555A /* EnrollmentConfigTests.swift in Sources */,
+				7742F8DB1C3C9788009E555A /* DiscoveryConfigTests.swift in Sources */,
 				7745B4011C88DD0900E76ACD /* ServerChangedCheckerTests.swift in Sources */,
 				770A27981A6F12B200DFC6FF /* NSArray+OEXFunctionalTests.m in Sources */,
 				77FFA2C31AC30C1500B4D69B /* NSAttributedString+OEXFormattingTests.m in Sources */,

@@ -94,11 +94,11 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private var isCourseDiscoveryEnabled: Bool {
-        return environment.config.enrollment.course.isEnabled
+        return environment.config.discovery.course.isEnabled
     }
 
     private func addFindCoursesButton() {
-        if environment.config.enrollment.course.isEnabled {
+        if environment.config.discovery.course.isEnabled {
             let findcoursesButton = UIBarButtonItem(barButtonSystemItem: .search, target: nil, action: nil)
             findcoursesButton.accessibilityLabel = Strings.findCourses
             navigationItem.rightBarButtonItem = findcoursesButton

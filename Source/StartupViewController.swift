@@ -123,9 +123,9 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
     
     private func setupSearchView() {
-        let courseEnrollmentEnabled = environment.config.enrollment.course.isEnabled
+        let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
         guard courseEnrollmentEnabled ||
-            environment.config.enrollment.program.isEnabled else { return }
+            environment.config.discovery.program.isEnabled else { return }
         
         view.addSubview(searchView)
         let borderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment.styles.primaryBaseColor())

@@ -55,18 +55,18 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
 
 - (void) loadCourseDiscovery {
-    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_showBottomBar ? _bottomBar : nil showSearch:YES searchQuery:_searchQuery showSubjects:YES discoveryType: DiscoveryTypeCourses];
+    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:_showBottomBar ? _bottomBar : nil showSearch:YES searchQuery:_searchQuery showSubjects:YES discoveryType: DiscoveryTypeCourse];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
 
-    self.webViewHelper.searchBaseURL = [self enrollmentConfig].webview.searchURL;
+    self.webViewHelper.baseURL = [self discoveryConfig].webview.baseURL;
     NSURL* urlToLoad = nil;
     switch (self.startURL) {
         case OEXFindCoursesBaseTypeFindCourses:
-            urlToLoad = [self enrollmentConfig].webview.searchURL;
+            urlToLoad = [self discoveryConfig].webview.baseURL;
             break;
         case OEXFindCoursesBaseTypeExploreSubjects:
             self.navigationItem.title = [Strings startupExploreSubjects];
-            urlToLoad = [self enrollmentConfig].webview.exploreSubjectsURL;
+            urlToLoad = [self discoveryConfig].webview.exploreSubjectsURL;
             break;
     }
     
@@ -79,7 +79,7 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
 }
     
 -(NSString *) courseDiscoveryTitle {
-    if ([[self enrollmentConfig] isCourseDiscoveryNative]) {
+    if ([[self discoveryConfig] isCourseDiscoveryNative]) {
         return [Strings findCourses];
     }
     
@@ -96,8 +96,8 @@ static NSString* const OEXFindCoursePathPrefix = @"course/";
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenFindCourses];
 }
 
-- (CourseEnrollment*)enrollmentConfig {
-    return [self.environment.config.enrollment course];
+- (CourseDiscovery*)discoveryConfig {
+    return [self.environment.config.discovery course];
 }
 
 - (NSString*)getCoursePathIDFromURL:(NSURL*)url {

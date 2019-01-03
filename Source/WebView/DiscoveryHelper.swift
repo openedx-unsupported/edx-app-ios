@@ -135,29 +135,30 @@ extension DiscoveryHelper {
         }
     }
     
-    class func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) {
-        guard let urlAction = urlAction(from: url) else { return }
+    class func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) -> Bool {
+        guard let urlAction = urlAction(from: url) else { return false }
         let environment = OEXRouter.shared().environment;
         switch urlAction {
         case .courseEnrollment:
             enrollInCourse(with: url, from: controller)
             break
         case .courseDetail:
-            guard let courseDetailPath = detailPathID(from: url) else { return }
+            guard let courseDetailPath = detailPathID(from: url) else { return false }
             environment.router?.showCourseDetails(from: controller, with: courseDetailPath, bottomBar: bottomBar)
             break
         case .enrolledCourseDetail:
-            guard let urlData = parse(url: url), let courseId = urlData.courseId else { return }
+            guard let urlData = parse(url: url), let courseId = urlData.courseId else { return false }
             environment.router?.showCourseWithID(courseID: courseId, fromController: controller, animated: true)
             break
         case .enrolledProgramDetail:
-            guard let programDetailsURL = programDetailURL(from: url, config: environment.config) else { return }
+            guard let programDetailsURL = programDetailURL(from: url, config: environment.config) else { return false }
             environment.router?.showProgramDetails(with: programDetailsURL, from: controller)
             break
         case .programDetail:
-            guard let pathId = programDetailPathId(from: url) else { return }
+            guard let pathId = programDetailPathId(from: url) else { return false }
             environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar)
             break
         }
+        return true
     }
 }

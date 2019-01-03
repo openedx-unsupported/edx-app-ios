@@ -1,5 +1,5 @@
 //
-//  FindProgramsViewController.swift
+//  ProgramsDiscoveryViewController.swift
 //  edX
 //
 //  Created by Zeeshan Arif on 11/19/18.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class FindProgramsViewController: UIViewController, InterfaceOrientationOverriding {
+class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
     
@@ -19,8 +19,8 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
     fileprivate let bottomBar: UIView?
     private var pathId: String?
     private var webviewHelper: DiscoveryWebViewHelper?
-    private var enrollmentConfig: ProgramEnrollment? {
-        return environment.config.enrollment.program
+    private var discoveryConfig: ProgramDiscovery? {
+        return environment.config.discovery.program
     }
     
     // MARK:- Initializer -
@@ -53,13 +53,13 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
             loadProgramDetails(with: pathId)
         }
         else {
-            loadPrograms(with: enrollmentConfig?.webview.searchURL)
+            loadPrograms(with: discoveryConfig?.webview.baseURL)
         }
     }
     
     private func loadProgramDetails(with pathId: String) {
         addBackBarButton()
-        if let detailTemplate = enrollmentConfig?.webview.detailTemplate?.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathId),
+        if let detailTemplate = discoveryConfig?.webview.detailTemplate?.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathId),
             let url = URL(string: detailTemplate) {
             load(url: url)
         }
@@ -78,8 +78,8 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
     }
     
     private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false, searchBaseURL: URL? = nil) {
-        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: showSearch, searchQuery: searchQuery, discoveryType: .programs)
-        webviewHelper?.searchBaseURL = searchBaseURL
+        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: showSearch, searchQuery: searchQuery, discoveryType: .program)
+        webviewHelper?.baseURL = searchBaseURL
         webviewHelper?.load(withURL: url)
     }
     
@@ -91,12 +91,11 @@ class FindProgramsViewController: UIViewController, InterfaceOrientationOverridi
     }
 }
 
-extension FindProgramsViewController: WebViewNavigationDelegate {
+extension ProgramsDiscoveryViewController: WebViewNavigationDelegate {
     
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
-        DiscoveryHelper.navigate(to: url, from: self, bottomBar: bottomBar)
-        return false
+        return !DiscoveryHelper.navigate(to: url, from: self, bottomBar: bottomBar)
     }
     
     func webViewContainingController() -> UIViewController {

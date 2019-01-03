@@ -37,11 +37,11 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     lazy var containerView = UIView()
     
     lazy var coursesController: UIViewController = {
-        return self.environment.config.enrollment.course.type == .Webview ? OEXFindCoursesViewController(environment: self.environment, showBottomBar: false, bottomBar: self.bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
+        return self.environment.config.discovery.course.type == .Webview ? OEXFindCoursesViewController(environment: self.environment, showBottomBar: false, bottomBar: self.bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
     }()
     
     lazy var programsController: UIViewController = {
-        return FindProgramsViewController(with: self.environment, showBottomBar: false, bottomBar: self.bottomBar)
+        return ProgramsDiscoveryViewController(with: self.environment, showBottomBar: false, bottomBar: self.bottomBar)
     }()
     
     init(with environment: RouterEnvironment, bottomBar: UIView?, searchQuery: String?) {
@@ -72,10 +72,10 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
             if let segmentedControl = control as? UISegmentedControl {
                 switch segmentedControl.selectedSegmentIndex {
                 case segment.courses.rawValue:
-                    self?.courseVisibility(hide:false)
+                    self?.courseVisibility(hide: false)
                     break
                 case segment.programs.rawValue:
-                    self?.courseVisibility(hide:true)
+                    self?.courseVisibility(hide: true)
                     break
                 default:
                     assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")

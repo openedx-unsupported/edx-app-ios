@@ -60,8 +60,7 @@ extension ProgramsViewController: WebViewNavigationDelegate {
     
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
-        DiscoveryHelper.navigate(to: url, from: self, bottomBar: nil)
-        return false
+        return !DiscoveryHelper.navigate(to: url, from: self, bottomBar: nil)
     }
     
     func webViewContainingController() -> UIViewController {
