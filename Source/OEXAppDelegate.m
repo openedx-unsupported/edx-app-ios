@@ -198,7 +198,8 @@
     
     //Initialize Firebase
     if (config.firebaseConfig.analyticsEnabled) {
-        [FIRApp configure];
+        FIROptions *options = [[FIROptions alloc] initWithGoogleAppID:config.firebaseConfig.googleAppId bundleID:@"" GCMSenderID:config.firebaseConfig.gcmSenderId APIKey:config.firebaseConfig.apiKey clientID:config.firebaseConfig.clientId trackingID:@"" androidClientID:@"" databaseURL:@"" storageBucket:@"" deepLinkURLScheme:@""];
+        [FIRApp configureWithOptions:options];
         [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
     }
 
