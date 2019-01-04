@@ -93,6 +93,6 @@ class DiscoveryBase: NSObject {
 extension OEXConfig {
     
     var discovery: DiscoveryConfig {
-        return DiscoveryConfig(dictionary: self[DiscoveryKeys.Discovery] as? [String:AnyObject] ?? [:])
+        return DiscoveryConfig(dictionary: self[DiscoveryKeys.Discovery.rawValue] as? [String:AnyObject] ?? [:])
     }
 }
