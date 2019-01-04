@@ -17,6 +17,11 @@ class FirebaseConfigTests: XCTestCase {
         XCTAssertFalse(config.firebaseConfig.enabled)
         XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
+        XCTAssertEqual(config.firebaseConfig.apiKey, "")
+        XCTAssertEqual(config.firebaseConfig.clientID, "")
+        XCTAssertEqual(config.firebaseConfig.gcmSenderID, "")
+        XCTAssertEqual(config.firebaseConfig.googleAppID, "")
+        
     }
 
     func testEmptyFirebaseConfig() {
@@ -24,6 +29,10 @@ class FirebaseConfigTests: XCTestCase {
         XCTAssertFalse(config.firebaseConfig.enabled)
         XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
+        XCTAssertEqual(config.firebaseConfig.apiKey, "")
+        XCTAssertEqual(config.firebaseConfig.clientID, "")
+        XCTAssertEqual(config.firebaseConfig.gcmSenderID, "")
+        XCTAssertEqual(config.firebaseConfig.googleAppID, "")
     }
 
     func testFirebaseConfig() {
@@ -31,7 +40,11 @@ class FirebaseConfigTests: XCTestCase {
             "FIREBASE" : [
                 "ENABLED": true,
                 "ANALYTICS_ENABLED": true,
-                "CLOUD_MESSAGING_ENABLED": true
+                "CLOUD_MESSAGING_ENABLED": true,
+                "GCM_SENDER_ID": "608417025925",
+                "API_KEY": "Zhk6QiW7EbQW0WxJ5mzzZV9hDN8xEo",
+                "CLIENT_ID": "6i9smf15pi4baevepjrsscmbht9bg2ah.apps.googleusercontent.com",
+                "GOOGLE_APP_ID": "608417025925:ios:c04089bb49270266"
             ]
         ]
 
@@ -39,6 +52,10 @@ class FirebaseConfigTests: XCTestCase {
         XCTAssertTrue(config.firebaseConfig.enabled)
         XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
+        XCTAssertEqual(config.firebaseConfig.apiKey, "Zhk6QiW7EbQW0WxJ5mzzZV9hDN8xEo")
+        XCTAssertEqual(config.firebaseConfig.clientID, "6i9smf15pi4baevepjrsscmbht9bg2ah.apps.googleusercontent.com")
+        XCTAssertEqual(config.firebaseConfig.gcmSenderID, "608417025925")
+        XCTAssertEqual(config.firebaseConfig.googleAppID, "608417025925:ios:c04089bb49270266")
     }
 
     func testFirebaseDisableConfig() {

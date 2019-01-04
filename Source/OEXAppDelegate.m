@@ -198,9 +198,8 @@
     
     //Initialize Firebase
     if (config.firebaseConfig.analyticsEnabled) {
-        FIROptions *options = [[FIROptions alloc] initWithGoogleAppID:config.firebaseConfig.googleAppId bundleID:@"" GCMSenderID:config.firebaseConfig.gcmSenderId APIKey:config.firebaseConfig.apiKey clientID:config.firebaseConfig.clientId trackingID:@"" androidClientID:@"" databaseURL:@"" storageBucket:@"" deepLinkURLScheme:@""];
+        FIROptions *options = [[FIROptions alloc] initWithGoogleAppID:config.firebaseConfig.googleAppID bundleID:[[NSBundle mainBundle] bundleIdentifier] GCMSenderID:config.firebaseConfig.gcmSenderID APIKey:config.firebaseConfig.apiKey clientID:config.firebaseConfig.clientID trackingID:@"" androidClientID:@"" databaseURL:@"" storageBucket:@"" deepLinkURLScheme:@""];
         [FIRApp configureWithOptions:options];
-        [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
     }
 
     //NewRelic Initialization with edx key

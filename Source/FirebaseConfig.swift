@@ -13,19 +13,19 @@ fileprivate enum FirebaseKeys: String, RawStringExtractable {
     case analyticsEnabled = "ANALYTICS_ENABLED"
     case cloudMessagingEnabled = "CLOUD_MESSAGING_ENABLED"
     case apiKey = "API_KEY"
-    case clientId = "CLIENT_ID"
-    case googleAppId = "GOOGLE_APP_ID"
-    case gcmSenderId = "GCM_SENDER_ID"
+    case clientID = "CLIENT_ID"
+    case googleAppID = "GOOGLE_APP_ID"
+    case gcmSenderID = "GCM_SENDER_ID"
 }
 
 class FirebaseConfig: NSObject {
     var enabled: Bool = false
     var analyticsEnabled: Bool = false
     var cloudMessagingEnabled: Bool = false
-    var apiKey: String = ""
-    var clientId: String = ""
-    var googleAppId: String = ""
-    var gcmSenderId: String = ""
+    var apiKey: String
+    var clientID: String
+    var googleAppID: String
+    var gcmSenderID: String
     
     init(dictionary: [String: AnyObject]) {
         enabled = dictionary[FirebaseKeys.enabled] as? Bool ?? false
@@ -34,9 +34,9 @@ class FirebaseConfig: NSObject {
         self.analyticsEnabled = enabled && analyticsEnabled
         self.cloudMessagingEnabled = enabled && cloudMessagingEnabled
         apiKey = dictionary[FirebaseKeys.apiKey] as? String ?? ""
-        clientId = dictionary[FirebaseKeys.clientId] as? String ?? ""
-        googleAppId = dictionary[FirebaseKeys.googleAppId] as? String ?? ""
-        gcmSenderId = dictionary[FirebaseKeys.gcmSenderId] as? String ?? ""
+        clientID = dictionary[FirebaseKeys.clientID] as? String ?? ""
+        googleAppID = dictionary[FirebaseKeys.googleAppID] as? String ?? ""
+        gcmSenderID = dictionary[FirebaseKeys.gcmSenderID] as? String ?? ""
     }
 }
 
