@@ -66,6 +66,7 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         else {
             assert(false, "Unable to make detail URL.")
         }
+        environment.analytics.trackDiscoverProgramInfoEvent(with: pathId)
     }
     
     private func loadPrograms(with url: URL?) {
@@ -75,6 +76,7 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         else {
             assert(false, "Unable to get search URL.")
         }
+        environment.analytics.trackDiscoverProgramsEvent()
     }
     
     private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false, searchBaseURL: URL? = nil) {

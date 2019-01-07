@@ -29,6 +29,8 @@ public enum AnalyticsDisplayName : String {
     case BulkDownloadToggleOff = "Bulk Download Toggle Off"
     case SharedCourse = "Shared a course"
     case SubjectsDiscovery = "Subject Discovery"
+    case DiscoverProgram = "Discover Program"
+    case ProgramInfo = "Discovery: Program Info"
     case CourseSearch = "Discovery: Courses Search"
 }
 
@@ -55,6 +57,8 @@ public enum AnalyticsEventName: String {
     case SharedCourse = "edx.bi.app.course.shared"
     case SubjectClicked = "edx.bi.app.discover.subject.clicked"
     case CourseSearch = "edx.bi.app.discovery.courses_search"
+    case DiscoverProgram = "edx.bi.app.discovery.program"
+    case ProgramInfo = "edx.bi.app.discovery.program_info"
 }
 
 public enum AnalyticsScreenName: String {
@@ -207,6 +211,22 @@ extension OEXAnalytics {
         event.category = AnalyticsCategory.Discovery.rawValue
         event.label = query
         trackEvent(event, forComponent: nil, withInfo: ["action": action, "app_version": Bundle.main.oex_buildVersionString()])
+    }
+    
+    func trackDiscoverProgramsEvent() {
+        let event = OEXAnalyticsEvent()
+        event.category = AnalyticsCategory.Discovery.rawValue
+        event.name = AnalyticsEventName.DiscoverProgram.rawValue
+        event.displayName = AnalyticsDisplayName.DiscoverProgram.rawValue
+        trackEvent(event, forComponent: nil, withInfo: [:])
+    }
+    
+    func trackDiscoverProgramInfoEvent(with pathId: String) {
+        let event = OEXAnalyticsEvent()
+        event.category = AnalyticsCategory.Discovery.rawValue
+        event.name = AnalyticsEventName.ProgramInfo.rawValue
+        event.displayName = AnalyticsDisplayName.ProgramInfo.rawValue
+        trackEvent(event, forComponent: nil, withInfo: ["path_id": pathId])
     }
     
 }
