@@ -57,6 +57,23 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if environment.session.currentUser != nil {
+            webviewHelper?.refreshView()
+        }
+        logScreenEvent()
+    }
+    
+    private func logScreenEvent() {
+        if let _ = pathId {
+            environment.analytics.trackScreen(withName: AnalyticsScreenName.ProgramInfo.rawValue)
+        }
+        else {
+            environment.analytics.trackScreen(withName: AnalyticsScreenName.DiscoverProgram.rawValue)
+        }
+    }
+    
     private func loadProgramDetails(with pathId: String) {
         addBackBarButton()
         if let detailTemplate = discoveryConfig?.webview.detailTemplate?.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathId),
@@ -66,7 +83,6 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         else {
             assert(false, "Unable to make detail URL.")
         }
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.ProgramInfo.rawValue)
     }
     
     private func loadPrograms(with url: URL?) {
@@ -76,7 +92,6 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         else {
             assert(false, "Unable to get search URL.")
         }
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.DiscoverProgram.rawValue)
     }
     
     private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false, searchBaseURL: URL? = nil) {
@@ -85,12 +100,6 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         webviewHelper?.load(withURL: url)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if environment.session.currentUser != nil {
-            webviewHelper?.refreshView()
-        }
-    }
 }
 
 extension ProgramsDiscoveryViewController: WebViewNavigationDelegate {
