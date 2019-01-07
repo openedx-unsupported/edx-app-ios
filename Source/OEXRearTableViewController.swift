@@ -109,7 +109,7 @@ class OEXRearTableViewController : UITableViewController {
     
     private func courseCatalogTitle() -> String {
         switch environment.config.discovery.course.type {
-        case .Native:
+        case .native:
             return Strings.findCourses
         default:
             return Strings.discover

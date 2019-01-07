@@ -14,23 +14,23 @@ class DiscoveryConfigTests: XCTestCase {
     func testDiscoveryNoConfig() {
         let config = OEXConfig(dictionary:[:])
         XCTAssertFalse(config.discovery.course.isEnabled)
-        XCTAssertEqual(config.discovery.course.type, .None)
+        XCTAssertEqual(config.discovery.course.type, .none)
         XCTAssertFalse(config.discovery.program.isEnabled)
-        XCTAssertEqual(config.discovery.program.type, .None)
+        XCTAssertEqual(config.discovery.program.type, .none)
     }
     
     func testDiscoveryEmptyConfig() {
         let config = OEXConfig(dictionary:["DISCOVERY":[:]])
         XCTAssertFalse(config.discovery.course.isEnabled)
-        XCTAssertEqual(config.discovery.course.type, .None)
+        XCTAssertEqual(config.discovery.course.type, .none)
         XCTAssertFalse(config.discovery.program.isEnabled)
-        XCTAssertEqual(config.discovery.program.type, .None)
+        XCTAssertEqual(config.discovery.program.type, .none)
     }
     
     func testCourseAndProgramDiscoveryEmptyConfig() {
         let config = OEXConfig(dictionary:["DISCOVERY":["COURSE":[:],"PROGRAM":[:]]])
-        XCTAssertEqual(config.discovery.course.type, .None)
-        XCTAssertEqual(config.discovery.program.type, .None)
+        XCTAssertEqual(config.discovery.course.type, .none)
+        XCTAssertEqual(config.discovery.program.type, .none)
     }
     
     func testInvalidCourseDiscovery() {
@@ -43,7 +43,7 @@ class DiscoveryConfigTests: XCTestCase {
         ]
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertFalse(config.discovery.course.isEnabled)
-        XCTAssertEqual(config.discovery.course.type, .None)
+        XCTAssertEqual(config.discovery.course.type, .none)
     }
     
     func testCourseDiscoveryWebview() {
@@ -65,7 +65,7 @@ class DiscoveryConfigTests: XCTestCase {
             ]
         ]
         let config = OEXConfig(dictionary: configDictionary)
-        XCTAssertEqual(config.discovery.course.type, .Webview)
+        XCTAssertEqual(config.discovery.course.type, .webview)
         XCTAssertEqual(config.discovery.course.webview.baseURL!.absoluteString, sampleBaseURL)
         XCTAssertEqual(config.discovery.course.webview.detailTemplate!, sampleInfoURLTemplate)
         XCTAssertEqual(config.discovery.course.webview.exploreSubjectsURL!.absoluteString, sampleExploreURL)
@@ -82,7 +82,7 @@ class DiscoveryConfigTests: XCTestCase {
         ]
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertFalse(config.discovery.program.isEnabled)
-        XCTAssertEqual(config.discovery.program.type, .None)
+        XCTAssertEqual(config.discovery.program.type, .none)
     }
     
     func testProgramDiscoveryWithOutCourseDiscovery() {
@@ -131,11 +131,11 @@ class DiscoveryConfigTests: XCTestCase {
         
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.discovery.program.isEnabled)
-        XCTAssertEqual(config.discovery.program.type, .Webview)
+        XCTAssertEqual(config.discovery.program.type, .webview)
         XCTAssertEqual(config.discovery.program.webview.detailTemplate!, sampleDetailTemplate)
         XCTAssertEqual(config.discovery.program.webview.baseURL!.absoluteString, sampleBaseURL)
         XCTAssertTrue(config.discovery.program.webview.searchEnabled)
-        XCTAssertEqual(config.discovery.course.type, .Webview)
+        XCTAssertEqual(config.discovery.course.type, .webview)
         XCTAssertEqual(config.discovery.course.webview.baseURL!.absoluteString, sampleCourseBaseURL)
         XCTAssertEqual(config.discovery.course.webview.detailTemplate!, sampleInfoURLTemplate)
         XCTAssertEqual(config.discovery.course.webview.exploreSubjectsURL!.absoluteString, sampleExploreURL)

@@ -10,22 +10,22 @@ import Foundation
 import edXCore
 
 enum DiscoveryConfigType: String {
-    case Native = "native"
-    case Webview = "webview"
-    case None = "none"
+    case native = "native"
+    case webview = "webview"
+    case none = "none"
 }
 
 enum DiscoveryKeys: String, RawStringExtractable {
-    case Discovery = "DISCOVERY"
-    case DiscoveryType = "TYPE"
-    case Webview = "WEBVIEW"
-    case BaseURL = "BASE_URL"
-    case DetailTemplate = "DETAIL_TEMPLATE"
-    case SearchEnabled = "SEARCH_ENABLED"
-    case Course = "COURSE"
-    case SubjectFilterEnabled = "SUBJECT_FILTER_ENABLED"
-    case ExploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
-    case Program = "PROGRAM"
+    case discovery = "DISCOVERY"
+    case discoveryType = "TYPE"
+    case webview = "WEBVIEW"
+    case baseURL = "BASE_URL"
+    case detailTemplate = "DETAIL_TEMPLATE"
+    case searchEnabled = "SEARCH_ENABLED"
+    case course = "COURSE"
+    case subjectFilterEnabled = "SUBJECT_FILTER_ENABLED"
+    case exploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
+    case program = "PROGRAM"
 }
 
 class DiscoveryWebviewConfig: NSObject {
@@ -36,11 +36,11 @@ class DiscoveryWebviewConfig: NSObject {
     let subjectFilterEnabled: Bool
     
     init(dictionary: [String: AnyObject]) {
-        baseURL = (dictionary[DiscoveryKeys.BaseURL] as? String).flatMap { URL(string:$0)}
-        detailTemplate = dictionary[DiscoveryKeys.DetailTemplate] as? String
-        searchEnabled = dictionary[DiscoveryKeys.SearchEnabled] as? Bool ?? false
-        subjectFilterEnabled = dictionary[DiscoveryKeys.SubjectFilterEnabled] as? Bool ?? false
-        exploreSubjectsURL = (dictionary[DiscoveryKeys.ExploreSubjectsURL] as? String).flatMap { URL(string:$0)}
+        baseURL = (dictionary[DiscoveryKeys.baseURL] as? String).flatMap { URL(string:$0)}
+        detailTemplate = dictionary[DiscoveryKeys.detailTemplate] as? String
+        searchEnabled = dictionary[DiscoveryKeys.searchEnabled] as? Bool ?? false
+        subjectFilterEnabled = dictionary[DiscoveryKeys.subjectFilterEnabled] as? Bool ?? false
+        exploreSubjectsURL = (dictionary[DiscoveryKeys.exploreSubjectsURL] as? String).flatMap { URL(string:$0)}
     }
 }
 
@@ -49,20 +49,20 @@ class DiscoveryConfig: NSObject {
     let program: ProgramDiscovery
     
     init(dictionary: [String: AnyObject]) {
-        course = CourseDiscovery(dictionary: dictionary[DiscoveryKeys.Course] as? [String: AnyObject] ?? [:])
-        program = ProgramDiscovery(with: course, dictionary: dictionary[DiscoveryKeys.Program] as? [String: AnyObject] ?? [:])
+        course = CourseDiscovery(dictionary: dictionary[DiscoveryKeys.course] as? [String: AnyObject] ?? [:])
+        program = ProgramDiscovery(with: course, dictionary: dictionary[DiscoveryKeys.program] as? [String: AnyObject] ?? [:])
     }
 }
 
 class CourseDiscovery: DiscoveryBase {
     
     var isEnabled: Bool {
-        return type != .None
+        return type != .none
     }
     
     // Associated swift enums can not be used in objective-c, that's why this extra computed property needed
     var isCourseDiscoveryNative: Bool {
-        return type == .Native
+        return type == .native
     }
 }
 
@@ -76,7 +76,7 @@ class ProgramDiscovery: DiscoveryBase {
     }
     
     var isEnabled: Bool {
-        return courseDiscovery.type == .Webview && type == .Webview
+        return courseDiscovery.type == .webview && type == .webview
     }
 }
 
@@ -85,14 +85,14 @@ class DiscoveryBase: NSObject {
     let webview: DiscoveryWebviewConfig
     
     init(dictionary: [String: AnyObject]) {
-        type = (dictionary[DiscoveryKeys.DiscoveryType] as? String).flatMap { DiscoveryConfigType(rawValue: $0) } ?? .None
-        webview = DiscoveryWebviewConfig(dictionary: dictionary[DiscoveryKeys.Webview] as? [String: AnyObject] ?? [:])
+        type = (dictionary[DiscoveryKeys.discoveryType] as? String).flatMap { DiscoveryConfigType(rawValue: $0) } ?? .none
+        webview = DiscoveryWebviewConfig(dictionary: dictionary[DiscoveryKeys.webview] as? [String: AnyObject] ?? [:])
     }
 }
 
 extension OEXConfig {
     
     var discovery: DiscoveryConfig {
-        return DiscoveryConfig(dictionary: self[DiscoveryKeys.Discovery.rawValue] as? [String:AnyObject] ?? [:])
+        return DiscoveryConfig(dictionary: self[DiscoveryKeys.discovery.rawValue] as? [String:AnyObject] ?? [:])
     }
 }

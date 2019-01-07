@@ -295,7 +295,7 @@ extension OEXRouter {
             return DiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
         else if isCourseDiscoveryEnabled {
-            return environment.config.discovery.course.type == .Webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
+            return environment.config.discovery.course.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
         }
         else if isProgramDiscoveryEnabled {
             return ProgramsDiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)

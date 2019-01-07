@@ -37,7 +37,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     lazy var containerView = UIView()
     
     lazy var coursesController: UIViewController = {
-        return self.environment.config.discovery.course.type == .Webview ? OEXFindCoursesViewController(environment: self.environment, showBottomBar: false, bottomBar: self.bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
+        return self.environment.config.discovery.course.type == .webview ? OEXFindCoursesViewController(environment: self.environment, showBottomBar: false, bottomBar: self.bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
     }()
     
     lazy var programsController: UIViewController = {
