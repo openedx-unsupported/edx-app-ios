@@ -66,7 +66,7 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         else {
             assert(false, "Unable to make detail URL.")
         }
-        environment.analytics.trackProgramInfoScreen()
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.ProgramInfo.rawValue)
     }
     
     private func loadPrograms(with url: URL?) {
@@ -76,7 +76,7 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         else {
             assert(false, "Unable to get search URL.")
         }
-        environment.analytics.trackProgramsDiscoveryScreen()
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.DiscoverProgram.rawValue)
     }
     
     private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false, searchBaseURL: URL? = nil) {

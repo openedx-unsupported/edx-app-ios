@@ -211,13 +211,5 @@ extension OEXAnalytics {
         trackEvent(event, forComponent: nil, withInfo: ["action": action, "app_version": Bundle.main.oex_buildVersionString()])
     }
     
-    func trackProgramsDiscoveryScreen() {
-        trackScreen(withName: AnalyticsScreenName.DiscoverProgram.rawValue)
-    }
-    
-    func trackProgramInfoScreen() {
-        trackScreen(withName: AnalyticsScreenName.ProgramInfo.rawValue)
-    }
-    
 }
 
