@@ -133,16 +133,34 @@ class DiscoveryWebViewHelper: NSObject {
     }
     
     private func addObserver() {
-        if subjectDiscoveryEnabled {
-            // Add observation.
-            urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
-                self?.updateSubjectsVisibility()
-            })
-        }
-
+        // Add URL change oberver on webview, so URL change of webview can be tracked and handled.
+        urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
+            self?.handleURLChangeNotification()
+        })
+        
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE) { (_, observer, _) in
             observer.reload()
         }
+    }
+    
+    private func handleURLChangeNotification() {
+        switch discoveryType {
+        case .course:
+            if subjectDiscoveryEnabled {
+                updateSubjectsVisibility()
+            }
+            break
+        case .program:
+            if !URLHasSearchFilter {
+                searchBar.text = nil
+            }
+        }
+    }
+    
+    private var URLHasSearchFilter: Bool {
+        guard let URL = webView.url?.absoluteString else { return false }
+        
+        return URL.contains(find: QueryParameterKeys.searchQuery)
     }
 
     private func reload() {
