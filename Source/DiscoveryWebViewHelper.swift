@@ -311,6 +311,14 @@ extension DiscoveryWebViewHelper: UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         return true
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard discoveryType == .program,
+            searchText.isEmpty,
+            webView.url != baseURL,
+            let baseURL = baseURL else { return }
+        loadRequest(withURL: baseURL)
+    }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
