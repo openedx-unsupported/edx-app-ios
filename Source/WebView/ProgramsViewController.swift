@@ -73,43 +73,9 @@ extension ProgramsViewController: AuthenticatedWebViewControllerDelegate {
 
 extension ProgramsViewController: WebViewNavigationDelegate {
     
-    private func enrollInCourse(with url: URL) {
-        if let urlData = CourseDiscoveryHelper.parse(url: url), let courseId = urlData.courseId {
-            CourseDiscoveryHelper.enrollInCourse(courseID: courseId, emailOpt: urlData.emailOptIn, from: self)
-        }
-    }
-    
-    private func navigate(to url: URL, from controller: UIViewController, bottomBar: UIView?) {
-        guard let urlAction = CourseDiscoveryHelper.urlAction(from: url) else { return  }
-        switch urlAction {
-        case .courseDetail:
-            if let courseDetailPath = CourseDiscoveryHelper.detailPathID(from: url) {
-                environment.router?.showCourseDetails(from: controller, with: courseDetailPath, bottomBar: bottomBar)
-            }
-            break
-        case .enrolledCourseDetail:
-            if let urlData = CourseDiscoveryHelper.parse(url: url), let courseId = urlData.courseId {
-                environment.router?.showCourseWithID(courseID: courseId, fromController: controller, animated: true)
-            }
-            break
-        case .enrolledProgramDetail:
-            if let programDetailsURL = CourseDiscoveryHelper.programDetailURL(from: url, config: environment.config) {
-                environment.router?.showProgramDetails(with: programDetailsURL, from: controller)
-            }
-            break
-        default: break
-        }
-    }
-    
     func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool {
         guard let url = request.url else { return true }
-        if let urlAction = CourseDiscoveryHelper.urlAction(from: url), urlAction == .courseEnrollment {
-            enrollInCourse(with: url)
-        }
-        else {
-            navigate(to: url, from: self, bottomBar: nil)
-        }
-        return false
+        return !DiscoveryHelper.navigate(to: url, from: self, bottomBar: nil)
     }
     
     func webViewContainingController() -> UIViewController {

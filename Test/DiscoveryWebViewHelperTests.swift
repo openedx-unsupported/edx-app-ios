@@ -1,5 +1,5 @@
 //
-//  FindCoursesWebViewHelperTests.swift
+//  DiscoveryWebViewHelperTests.swift
 //  edX
 //
 //  Created by Zeeshan Arif on 5/29/18.
@@ -8,14 +8,14 @@
 
 @testable import edX
 
-class FindCoursesWebViewHelperTests: XCTestCase {
+class DiscoveryWebViewHelperTests: XCTestCase {
     
     func testBuildQueryString() {
         let baseURL = "http://www.fakex.com/course"
         let params: [String: String] = ["search_query": "test".addingPercentEncodingForRFC3986]
         let expected = "http://www.fakex.com/course?search_query=test"
         let expectedURL = URL(string: expected)
-        let output = FindCoursesWebViewHelper.buildQuery(baseURL: baseURL, params: params)
+        let output = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL, params: params)
         
         XCTAssertEqual(expectedURL, output)
     }
@@ -25,7 +25,7 @@ class FindCoursesWebViewHelperTests: XCTestCase {
         let params: [String: String] = ["search_query": "test course".addingPercentEncodingForRFC3986]
         let expected = "http://www.fakex.com/course?subject=test&search_query=test%20course"
         let expectedURL = URL(string: expected)
-        let output = FindCoursesWebViewHelper.buildQuery(baseURL: baseURL, params: params)
+        let output = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL, params: params)
         
         XCTAssertEqual(expectedURL, output)
     }

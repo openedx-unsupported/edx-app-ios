@@ -30,7 +30,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
 @interface OEXCourseInfoViewController () <WebViewNavigationDelegate, InterfaceOrientationOverriding>
 
-@property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
+@property (strong, nonatomic) DiscoveryWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;
 @property (strong,nonatomic, nullable) UIView *bottomBar;
 @property (strong, nonatomic) RouterEnvironment* environment;
@@ -51,17 +51,17 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (NSURL*)courseInfoURL {
-    NSString* urlString = [[self enrollmentConfig].webviewConfig.courseInfoURLTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
+    NSString* urlString = [[self discoveryConfig].webview.detailTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
     NSURL* URL = [NSURL URLWithString:urlString];
     return URL;
 }
 
-- (EnrollmentConfig*)enrollmentConfig {
-    return [self.environment.config courseEnrollmentConfig];
+- (CourseDiscovery*)discoveryConfig {
+    return [self.environment.config.discovery course];
 }
     
 -(NSString *) courseDiscoveryTitle {
-    if ([[self enrollmentConfig] isCourseDiscoveryNative]) {
+    if ([[self discoveryConfig] isCourseDiscoveryNative]) {
         return [Strings findCourses];
     }
     
@@ -71,9 +71,10 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar showSearch:NO searchQuery:nil showSubjects:NO];
+    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar discoveryType: DiscoveryTypeCourse];
     [self.webViewHelper loadWithURL:self.courseInfoURL];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
+    [self addBackBarButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -91,7 +92,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     BOOL emailOptIn = false;
     [self parseURL:request.URL getCourseID:&courseID emailOptIn:&emailOptIn];
     if(courseID != nil) {
-        [CourseDiscoveryHelper enrollInCourseWithCourseID:courseID emailOpt:emailOptIn from:self];
+        [DiscoveryHelper enrollInCourseWithCourseID:courseID emailOpt:emailOptIn from:self];
         return NO;
     }
     return YES;

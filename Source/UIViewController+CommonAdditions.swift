@@ -40,4 +40,12 @@ extension UIViewController {
             popoverPresentationController?.sourceRect = sourceView.bounds
         }
     }
+    
+    @objc func addBackBarButton() {
+        let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: .plain, target: nil, action: nil)
+        backItem.oex_setAction { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+        navigationItem.leftBarButtonItem = backItem
+    }
 }

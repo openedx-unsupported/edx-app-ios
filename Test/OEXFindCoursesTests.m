@@ -35,7 +35,7 @@
 @implementation OEXFindCoursesTests
 
 -(void)testFindCoursesURLRecognition{
-    FindCoursesWebViewHelper* helper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:nil delegate:nil bottomBar:nil showSearch:YES searchQuery:nil showSubjects:YES];
+    DiscoveryWebViewHelper* helper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:nil delegate:nil bottomBar:nil showSearch:YES searchQuery:nil showSubjects:YES discoveryType: DiscoveryTypeCourse];
     OEXFindCoursesViewController *findCoursesViewController = [[OEXFindCoursesViewController alloc] init];
     NSURLRequest *testURLRequestCorrect = [NSURLRequest requestWithURL:[NSURL URLWithString:@"edxapp://course_info?path_id=course/science-happiness-uc-berkeleyx-gg101x"]];
     BOOL successCorrect = ![findCoursesViewController webView:helper.t_webView shouldLoad:testURLRequestCorrect];

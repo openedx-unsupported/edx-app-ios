@@ -697,6 +697,10 @@
 "RESPONSE##{other}"="{count} respuestas";
 /* Discussion topics search placeholder */
 "SEARCH_ALL_POSTS"="Buscar en todas las publicaciones";
+/*Placeholder text for search courses textfield*/
+"SEARCH_COURSES_PLACEHOLDER_TEXT"="Search course";
+/*Placeholder text for search programs textfield*/
+"SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Search program";
 /* Discussion search results  */
 "SEARCH_RESULTS"="Resultados de búsqueda";
 /* Text shown below the video, in portrait mode */
@@ -721,8 +725,6 @@
 "STAFF"="EQUIPO DEL CURSO";
 /* Info message text on the startup screen */
 "STARTUP.INFO_MESSAGE_TEXT"="Free courses from the world's best universities in your pocket.";
-/*Placeholder text for search textfield on the startup screen*/
-"STARTUP.SEARCH_PLACEHOLDER_TEXT"="Search Courses";
 /*Log In button title on the startup screen*/
 "STARTUP.LOGIN_TEXT"="Log In";
 /*Create your Account button title on the startup screen*/

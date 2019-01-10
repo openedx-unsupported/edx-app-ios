@@ -1,5 +1,5 @@
 //
-//  CourseDiscoveryHelperTests.swift
+//  DiscoveryHelperTests.swift
 //  edXTests
 //
 //  Created by Salman on 06/08/2018.
@@ -33,62 +33,62 @@ private extension OEXConfig {
     }
 }
 
-class CourseDiscoveryHelperTests: XCTestCase {
+class DiscoveryHelperTests: XCTestCase {
     
     func testAppURL() {
-        var url = CourseDiscoveryHelper.urlAction(from: URL(string: sampleEnrolledProgramDetailURL)!)
+        var url = DiscoveryHelper.urlAction(from: URL(string: sampleEnrolledProgramDetailURL)!)
         XCTAssertEqual(url, WebviewActions.enrolledProgramDetail)
         
-        url = CourseDiscoveryHelper.urlAction(from: URL(string: sampleEnrolledCourseDetailURL)!)
+        url = DiscoveryHelper.urlAction(from: URL(string: sampleEnrolledCourseDetailURL)!)
         XCTAssertEqual(url, WebviewActions.enrolledCourseDetail)
         
-        url = CourseDiscoveryHelper.urlAction(from: URL(string: sampleProgramCourseURL)!)
+        url = DiscoveryHelper.urlAction(from: URL(string: sampleProgramCourseURL)!)
         XCTAssertEqual(url, WebviewActions.courseDetail)
         
-        url = CourseDiscoveryHelper.urlAction(from: URL(string: sampleCourseEnrollmentURL)!)
+        url = DiscoveryHelper.urlAction(from: URL(string: sampleCourseEnrollmentURL)!)
         XCTAssertEqual(url, WebviewActions.courseEnrollment)
     }
     
     func testInvalidAppURL() {
-        let url = CourseDiscoveryHelper.urlAction(from: URL(string: sampleInvalidProgramDetailURL)!)
+        let url = DiscoveryHelper.urlAction(from: URL(string: sampleInvalidProgramDetailURL)!)
         XCTAssertNil(url)
     }
     
     func testDetailPathID() {
-        let pathID = CourseDiscoveryHelper.detailPathID(from: URL(string: sampleProgramCourseURL)!)
+        let pathID = DiscoveryHelper.detailPathID(from: URL(string: sampleProgramCourseURL)!)
         XCTAssertEqual(pathID, "usmx-corporate-finance")
     }
     
     func testInvalidDetailPathID() {
-        var url = CourseDiscoveryHelper.detailPathID(from: URL(string: sampleInvalidProgramDetailURL)!)
+        var url = DiscoveryHelper.detailPathID(from: URL(string: sampleInvalidProgramDetailURL)!)
         XCTAssertNil(url)
         
-         url = CourseDiscoveryHelper.detailPathID(from: URL(string: sampleEnrolledProgramDetailURL)!)
+         url = DiscoveryHelper.detailPathID(from: URL(string: sampleEnrolledProgramDetailURL)!)
         XCTAssertNil(url)
     }
     
     func testParseURL() {
-        let urlData = CourseDiscoveryHelper.parse(url: URL(string: sampleCourseEnrollmentURL)!)
+        let urlData = DiscoveryHelper.parse(url: URL(string: sampleCourseEnrollmentURL)!)
         XCTAssertEqual(urlData?.courseId, "course-v1:USMx+BUMM610+3T2018")
         XCTAssertTrue((urlData?.emailOptIn)!)        
     }
     
     func testParseURLFail() {
-        let urlData = CourseDiscoveryHelper.parse(url: URL(string: sampleInvalidProgramDetailURL)!)
+        let urlData = DiscoveryHelper.parse(url: URL(string: sampleInvalidProgramDetailURL)!)
         XCTAssertNil(urlData)
     }
     
     func testProgramURL(){
         var config = OEXConfig(programURL: sampleProgramURL, programDetailURLTemplate: sampleProgramURLTemplate, enabled: true)
 
-        var url = CourseDiscoveryHelper.programDetailURL(from: URL(string: sampleEnrolledProgramDetailURL)!, config: config)
+        var url = DiscoveryHelper.programDetailURL(from: URL(string: sampleEnrolledProgramDetailURL)!, config: config)
         XCTAssertEqual(url?.absoluteString, sampleProgramDetailURL)
 
-        url = CourseDiscoveryHelper.programDetailURL(from: URL(string: sampleInvalidProgramURLTemplate)!, config: config)
+        url = DiscoveryHelper.programDetailURL(from: URL(string: sampleInvalidProgramURLTemplate)!, config: config)
         XCTAssertNil(url)
         
         config = OEXConfig(programURL:sampleProgramURLTemplate, enabled: true)
-        url = CourseDiscoveryHelper.programDetailURL(from: URL(string: sampleEnrolledProgramDetailURL)!, config: config)
+        url = DiscoveryHelper.programDetailURL(from: URL(string: sampleEnrolledProgramDetailURL)!, config: config)
         XCTAssertNil(url)
     }
 }

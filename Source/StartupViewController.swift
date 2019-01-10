@@ -123,6 +123,10 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
     
     private func setupSearchView() {
+        let courseEnrollmentEnabled = environment.config.discovery.course.isEnabled
+        guard courseEnrollmentEnabled ||
+            environment.config.discovery.program.isEnabled else { return }
+        
         view.addSubview(searchView)
         let borderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment.styles.primaryBaseColor())
         searchView.applyBorderStyle(style: borderStyle)
@@ -152,7 +156,8 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let searchTextField = UITextField()
         searchTextField.accessibilityIdentifier = "StartUpViewController:search-textfield"
         searchTextField.delegate = self
-        searchTextField.attributedPlaceholder = textStyle.attributedString(withText: Strings.Startup.searchPlaceholderText)
+        let placeholderText = courseEnrollmentEnabled ? Strings.searchCoursesPlaceholderText : Strings.searchProgramsPlaceholderText
+        searchTextField.attributedPlaceholder = textStyle.attributedString(withText: placeholderText)
         searchTextField.textColor = environment.styles.primaryBaseColor()
         searchTextField.returnKeyType = .search
         searchTextField.defaultTextAttributes = environment.styles.textFieldStyle(with: .large, color: environment.styles.primaryBaseColor()).attributes

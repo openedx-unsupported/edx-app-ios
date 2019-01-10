@@ -1,5 +1,5 @@
 //
-//  FindCoursesWebViewHelper.swift
+//  DiscoveryWebViewHelper.swift
 //  edX
 //
 //  Created by Akiva Leffert on 11/9/15.
@@ -14,7 +14,12 @@ fileprivate enum QueryParameterKeys {
     static let subject = "subject"
 }
 
-class FindCoursesWebViewHelper: NSObject {
+@objc enum DiscoveryType: Int {
+    case course
+    case program
+}
+
+class DiscoveryWebViewHelper: NSObject {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
     fileprivate let environment: Environment?
@@ -28,9 +33,10 @@ class FindCoursesWebViewHelper: NSObject {
         return controller
     }()
     fileprivate var loadController = LoadStateViewController()
+    fileprivate let discoveryType: DiscoveryType
     
     fileprivate var request: URLRequest? = nil
-    var searchBaseURL: URL?
+    var baseURL: URL?
     fileprivate let searchQuery:String?
     let bottomBar: UIView?
     private let searchBarEnabled: Bool
@@ -44,17 +50,24 @@ class FindCoursesWebViewHelper: NSObject {
         return (webView.url as NSURL?)?.oex_queryParameters() as? [String : String]
     }
     
-    init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false) {
+    convenience init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, discoveryType: DiscoveryType = .course) {
+        self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, showSearch: false, searchQuery: nil, showSubjects: false, discoveryType: discoveryType)
+    }
+    
+    init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false, discoveryType: DiscoveryType = .course) {
         self.environment = environment
         self.delegate = delegate
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
         self.showSubjects = showSubjects
-        searchBarEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.nativeSearchBarEnabled ?? false) && showSearch
+        self.discoveryType = discoveryType
+        let discoveryConfig = discoveryType == .program ? environment?.config.discovery.program : environment?.config.discovery.course
+        searchBarEnabled = (discoveryConfig?.webview.searchEnabled ?? false) && showSearch
         super.init()
+        searchBar.placeholder = discoveryType == .program ? Strings.searchProgramsPlaceholderText : Strings.searchCoursesPlaceholderText
         webView.navigationDelegate = self
         webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
-        webView.accessibilityIdentifier = "find-courses-webview"
+        webView.accessibilityIdentifier = discoveryType == .course ? "find-courses-webview" : "find-programs-webview"
         
         guard let container = delegate?.webViewContainingController() else { return }
         container.view.addSubview(contentView)
@@ -70,7 +83,7 @@ class FindCoursesWebViewHelper: NSObject {
         contentView.subviews.forEach { $0.removeFromSuperview() }
         let isUserLoggedIn = environment?.session.currentUser != nil
 
-        subjectDiscoveryEnabled = (environment?.config.courseEnrollmentConfig.webviewConfig.subjectDiscoveryEnabled ?? false) && isUserLoggedIn && showSubjects
+        subjectDiscoveryEnabled = (environment?.config.discovery.course.webview.subjectFilterEnabled ?? false) && isUserLoggedIn && showSubjects && discoveryType == .course
 
         var topConstraintItem: ConstraintItem = contentView.snp.top
         if searchBarEnabled {
@@ -120,16 +133,34 @@ class FindCoursesWebViewHelper: NSObject {
     }
     
     private func addObserver() {
-        if subjectDiscoveryEnabled {
-            // Add observation.
-            urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
-                self?.updateSubjectsVisibility()
-            })
-        }
-
+        // Add URL change oberver on webview, so URL change of webview can be tracked and handled.
+        urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
+            self?.handleURLChangeNotification()
+        })
+        
         NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE) { (_, observer, _) in
             observer.reload()
         }
+    }
+    
+    private func handleURLChangeNotification() {
+        switch discoveryType {
+        case .course:
+            if subjectDiscoveryEnabled {
+                updateSubjectsVisibility()
+            }
+            break
+        case .program:
+            if !URLHasSearchFilter {
+                searchBar.text = nil
+            }
+        }
+    }
+    
+    private var URLHasSearchFilter: Bool {
+        guard let URL = webView.url?.absoluteString else { return false }
+        
+        return URL.contains(find: QueryParameterKeys.searchQuery)
     }
 
     private func reload() {
@@ -164,7 +195,7 @@ class FindCoursesWebViewHelper: NSObject {
     }
 
     private var courseInfoTemplate : String {
-        return environment?.config.courseEnrollmentConfig.webviewConfig.courseInfoURLTemplate ?? ""
+        return environment?.config.discovery.course.webview.detailTemplate ?? ""
     }
     
     var isWebViewLoaded : Bool {
@@ -174,11 +205,11 @@ class FindCoursesWebViewHelper: NSObject {
     public func load(withURL url: URL) {
         var discoveryURL = url
         
-        if let searchURL = searchBaseURL, let searchQuery = searchQuery {
+        if let baseURL = baseURL, let searchQuery = searchQuery {
             searchBar.text = searchQuery
             var params = self.params ?? [:]
             set(value: searchQuery, for: QueryParameterKeys.searchQuery, in: &params)
-            if let url = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
+            if let url = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {
                 discoveryURL = url
             }
         }
@@ -213,7 +244,7 @@ class FindCoursesWebViewHelper: NSObject {
     
 }
 
-extension FindCoursesWebViewHelper: WKNavigationDelegate {
+extension DiscoveryWebViewHelper: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         let request = navigationAction.request
         let capturedLink = navigationAction.navigationType == .linkActivated && (delegate?.webView(webView, shouldLoad: request) ?? true)
@@ -233,10 +264,10 @@ extension FindCoursesWebViewHelper: WKNavigationDelegate {
         
         //Setting webView accessibilityValue for testing
         webView.evaluateJavaScript("document.getElementsByClassName('course-card')[0].innerText",
-                                   completionHandler: { (result: Any?, error: Error?) in
+                                   completionHandler: { [weak self] (result: Any?, error: Error?) in
                                     
                                     if (error == nil) {
-                                        self.webView.accessibilityValue = "findCoursesLoaded"
+                                        self?.webView.accessibilityValue = self?.discoveryType ?? .course == .course ? "findCoursesLoaded" : "findProgramsLoaded"
                                     }
         })
         if let bar = bottomBar {
@@ -262,14 +293,14 @@ extension FindCoursesWebViewHelper: WKNavigationDelegate {
     }
 }
 
-extension FindCoursesWebViewHelper: SubjectsViewControllerDelegate, PopularSubjectsViewControllerDelegate {
+extension DiscoveryWebViewHelper: SubjectsViewControllerDelegate, PopularSubjectsViewControllerDelegate {
     
     private func filterCourses(with subject: Subject) {
-        guard let searchURL = searchBaseURL,
+        guard let baseURL = baseURL,
             var params = params else { return }
         set(value: subject.filter, for: QueryParameterKeys.subject, in: &params)
         environment?.analytics.trackSubjectDiscovery(subjectID: subject.filter)
-        if let url = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
+        if let url = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {
             loadRequest(withURL: url)
         }
     }
@@ -294,9 +325,17 @@ extension FindCoursesWebViewHelper: SubjectsViewControllerDelegate, PopularSubje
     
 }
 
-extension FindCoursesWebViewHelper: UISearchBarDelegate {
+extension DiscoveryWebViewHelper: UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         return true
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard discoveryType == .program,
+            searchText.isEmpty,
+            webView.url != baseURL,
+            let baseURL = baseURL else { return }
+        loadRequest(withURL: baseURL)
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -307,10 +346,10 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
         }
         environment?.analytics.trackCourseSearch(search: searchBar.text ?? "", action: action)
         guard let searchText = searchBar.text,
-            let searchURL = searchBaseURL,
+            let baseURL = baseURL,
             var params = params else { return }
         set(value: searchText, for: QueryParameterKeys.searchQuery, in: &params)
-        if let URL = FindCoursesWebViewHelper.buildQuery(baseURL: searchURL.URLString, params: params) {
+        if let URL = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {
             loadRequest(withURL: URL)
         }
     }
@@ -327,7 +366,7 @@ extension FindCoursesWebViewHelper: UISearchBarDelegate {
     
 }
 
-extension FindCoursesWebViewHelper {
+extension DiscoveryWebViewHelper {
     var t_webView: WKWebView {
         return webView
     }
