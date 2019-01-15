@@ -151,6 +151,18 @@ extension OEXRouter {
         showContentStack(withRootController: controller, animated: false)
         controller.switchTab(with: type)
     }
+    
+    func showCourseDiscovery(with type: DeepLinkType, isUserLoggedIn: Bool) {
+        if isUserLoggedIn {
+            let controller = EnrolledTabBarViewController(environment: environment)
+            showContentStack(withRootController: controller, animated: false)
+            controller.switchTab(with: type)
+        }
+        else {
+            let bottomBar = BottomBarView(environment: environment)
+            environment.router?.showCourseCatalog(fromController: nil, bottomBar: bottomBar, searchQuery: nil)
+        }
+    }
 
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, thread : DiscussionThread, isDiscussionBlackedOut: Bool) {
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
