@@ -152,15 +152,18 @@ extension OEXRouter {
         controller.switchTab(with: type)
     }
     
-    func showCourseDiscovery(with type: DeepLinkType, isUserLoggedIn: Bool) {
-        if isUserLoggedIn {
-            let controller = EnrolledTabBarViewController(environment: environment)
-            showContentStack(withRootController: controller, animated: false)
-            controller.switchTab(with: type)
+    func showCourseDiscovery(with type: DeepLinkType, isUserLoggedIn: Bool, coursePathID: String?) {
+        let bottomBar = BottomBarView(environment: environment)
+        guard let controller = isUserLoggedIn ? EnrolledTabBarViewController(environment: environment) : discoveryViewController(bottomBar: bottomBar, searchQuery: nil) else { return }
+        if isUserLoggedIn, let enrolledTabBarView = controller as? EnrolledTabBarViewController {
+            showContentStack(withRootController: enrolledTabBarView, animated: false)
+            enrolledTabBarView.switchTab(with: type)
+        } else {
+            showControllerFromStartupScreen(controller: controller)
         }
-        else {
-            let bottomBar = BottomBarView(environment: environment)
-            environment.router?.showCourseCatalog(fromController: nil, bottomBar: bottomBar, searchQuery: nil)
+        
+        if let coursePathID = coursePathID {
+            showCourseDetails(from: controller, with: coursePathID, bottomBar: bottomBar)
         }
     }
 

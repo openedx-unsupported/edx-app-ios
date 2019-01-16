@@ -58,7 +58,7 @@ typealias DismissCompletion = () -> Void
         if let courseOutlineViewController = controller as? CourseOutlineViewController {
             return courseOutlineViewController.courseOutlineMode == .full ? .courseDashboard : .courseVideos
         }
-        else if controller is DiscoveryViewController {
+        else if controller is OEXCourseInfoViewController  || controller is DiscoveryViewController {
             return .courseDiscovery
         } else if controller is ProgramsViewController {
             return .programs
@@ -90,7 +90,7 @@ typealias DismissCompletion = () -> Void
         
         
         dismiss() { [weak self] in
-            self?.environment?.router?.showCourseDiscovery(with: link.type, isUserLoggedIn: self?.isUserLoggedin() ?? false)
+            self?.environment?.router?.showCourseDiscovery(with: link.type, isUserLoggedIn: self?.isUserLoggedin() ?? false, coursePathID: link.courseId)
         }
     }
     
