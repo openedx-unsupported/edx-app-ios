@@ -30,13 +30,7 @@ typealias DismissCompletion = () -> Void
         let deepLinkType = deepLink.type
         guard deepLinkType != .none else { return }
         
-        if deepLinkType == .courseDiscovery {
-            if deepLink.courseId != nil {
-                deepLink.type = .courseDetail
-            }
-            showCourseDiscovery(with: deepLink)
-        }
-        else if isUserLoggedin() {
+        if isUserLoggedin() || deepLink.type == .courseDiscovery {
             navigateToDeepLink(with: deepLinkType, link: deepLink)
         }
         else {
@@ -142,6 +136,12 @@ typealias DismissCompletion = () -> Void
             break
         case .account:
             showAccountViewController(with: link)
+            break
+        case .courseDiscovery:
+            if link.courseId != nil {
+                link.type = .courseDetail
+            }
+            showCourseDiscovery(with: link)
             break
         default:
             break
