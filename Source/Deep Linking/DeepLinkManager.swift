@@ -30,12 +30,7 @@ typealias DismissCompletion = () -> Void
         let deepLinkType = deepLink.type
         guard deepLinkType != .none else { return }
         
-        if isUserLoggedin() || deepLink.type == .courseDiscovery {
-            navigateToDeepLink(with: deepLinkType, link: deepLink)
-        }
-        else {
-            showLoginScreen()
-        }
+        navigateToDeepLink(with: deepLinkType, link: deepLink)
     }
     
     private func showLoginScreen() {
@@ -85,7 +80,15 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showCourseDiscovery(with link: DeepLink) {
-        guard !controllerAlreadyDisplayed(for: link.type) else { return}
+        guard let topMostViewController = topMostViewController else { return}
+        
+        if link.type == .courseDetail {
+            if let courseInfoView = topMostViewController as? OEXCourseInfoViewController, courseInfoView.pathID == link.courseId {
+               return
+            }
+        } else if linkType(for: topMostViewController) == .courseDiscovery {
+            return
+        }
         
         dismiss() { [weak self] in
             self?.environment?.router?.showCourseDiscovery(with: link.type, isUserLoggedIn: self?.isUserLoggedin() ?? false, coursePathID: link.courseId)
@@ -126,6 +129,16 @@ typealias DismissCompletion = () -> Void
     }
 
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
+        
+        if type == .courseDiscovery || type == .courseDetail {
+            showCourseDiscovery(with: link)
+        }
+        
+        else if !isUserLoggedin() {
+            showLoginScreen()
+            return
+        }
+        
         switch type {
         case .courseDashboard, .courseVideos, .discussions:
             showCourseDashboardViewController(with: link)
@@ -136,12 +149,6 @@ typealias DismissCompletion = () -> Void
             break
         case .account:
             showAccountViewController(with: link)
-            break
-        case .courseDiscovery:
-            if link.courseId != nil {
-                link.type = .courseDetail
-            }
-            showCourseDiscovery(with: link)
             break
         default:
             break

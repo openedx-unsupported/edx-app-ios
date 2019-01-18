@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXCourseInfoViewController : UIViewController
 
+@property (readonly, strong, nonatomic) NSString* pathID;
+
 - (instancetype)initWithEnvironment:(RouterEnvironment* _Nullable)environment pathID:(NSString*)pathID bottomBar:(nullable UIView*) bottomBar;
 - (void)showMainScreenWithMessage:(NSString*)message courseID:(NSString*)courseID;
 @end
