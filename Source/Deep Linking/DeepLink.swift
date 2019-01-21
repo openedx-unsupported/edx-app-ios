@@ -28,20 +28,13 @@ class DeepLink: NSObject {
 
     let courseId: String?
     let screenName: String?
-    private(set) var type: DeepLinkType = .none
+    var type: DeepLinkType {
+        let type = DeepLinkType(rawValue: screenName ?? DeepLinkType.none.rawValue) ?? .none
+        return type == .courseDiscovery && courseId != nil ? .courseDetail : type
+    }
     
     init(dictionary:[String:Any]) {
         courseId = dictionary[DeepLinkKeys.CourseId] as? String
         screenName = dictionary[DeepLinkKeys.ScreenName] as? String
-        super.init()
-        type = linkType()
-    }
-    
-    func linkType() -> DeepLinkType {
-        var type = DeepLinkType(rawValue: screenName ?? DeepLinkType.none.rawValue) ?? .none
-        if type == .courseDiscovery && courseId != nil {
-            type = .courseDetail
-        }
-        return type
     }
 }

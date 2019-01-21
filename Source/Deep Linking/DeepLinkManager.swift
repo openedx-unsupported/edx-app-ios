@@ -80,16 +80,16 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showCourseDiscovery(with link: DeepLink) {
-        guard let topMostViewController = topMostViewController else { return}
         
-        if link.type == .courseDetail {
-            if let courseInfoView = topMostViewController as? OEXCourseInfoViewController, courseInfoView.pathID == link.courseId {
-               return
+        guard !controllerAlreadyDisplayed(for: link.type) else {
+            
+            if let courseInfoController = topMostViewController as? OEXCourseInfoViewController,
+                let pathId = link.courseId {
+                courseInfoController.loadCourseInfo(with: pathId, forceLoad: false)
             }
-        } else if linkType(for: topMostViewController) == .courseDiscovery {
             return
         }
-        
+
         dismiss() { [weak self] in
             self?.environment?.router?.showCourseDiscovery(with: link.type, isUserLoggedIn: self?.isUserLoggedin() ?? false, coursePathID: link.courseId)
         }
