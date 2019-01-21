@@ -87,6 +87,10 @@ typealias DismissCompletion = () -> Void
                 let pathId = link.courseId {
                 courseInfoController.loadCourseInfo(with: pathId, forceLoad: false)
             }
+                
+            else if let discoveryViewController = topMostViewController as? DiscoveryViewController{
+                discoveryViewController.switchSegment(with: link.type)
+            }
             return
         }
 
@@ -94,6 +98,8 @@ typealias DismissCompletion = () -> Void
             self?.environment?.router?.showCourseDiscovery(with: link.type, isUserLoggedIn: self?.isUserLoggedin() ?? false, coursePathID: link.courseId)
         }
     }
+    
+    
     
     private func showPrograms(with link: DeepLink) {
         guard !controllerAlreadyDisplayed(for: link.type) else { return}
