@@ -1,1 +1,0 @@
-../../../../FirebaseCore/Frameworks/frameworks/FirebaseCore.framework/Headers/FIRAnalyticsConfiguration.h

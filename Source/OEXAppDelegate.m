@@ -198,8 +198,11 @@
     
     //Initialize Firebase
     if (config.firebaseConfig.analyticsEnabled) {
-        FIROptions *options = [[FIROptions alloc] initWithGoogleAppID:config.firebaseConfig.googleAppID bundleID:[[NSBundle mainBundle] bundleIdentifier] GCMSenderID:config.firebaseConfig.gcmSenderID APIKey:config.firebaseConfig.apiKey clientID:config.firebaseConfig.clientID trackingID:@"" androidClientID:@"" databaseURL:@"" storageBucket:@"" deepLinkURLScheme:@""];
+        FIROptions *options = [[FIROptions alloc] initWithGoogleAppID:config.firebaseConfig.googleAppID GCMSenderID:config.firebaseConfig.gcmSenderID];
+        [options setAPIKey:config.firebaseConfig.apiKey];
+        [options setClientID:config.firebaseConfig.clientID];
         [FIRApp configureWithOptions:options];
+        [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
     }
 
     //NewRelic Initialization with edx key
@@ -214,6 +217,9 @@
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
+    
+    [CrashlyticsKit crash];
+    [CrashlyticsKit throwException];
 }
 
 - (void) configureFabricKits:(NSDictionary*) launchOptions {
