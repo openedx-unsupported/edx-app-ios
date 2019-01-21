@@ -217,9 +217,6 @@
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
-    
-    [CrashlyticsKit crash];
-    [CrashlyticsKit throwException];
 }
 
 - (void) configureFabricKits:(NSDictionary*) launchOptions {
