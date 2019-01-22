@@ -185,7 +185,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 }
 
-private class BottomBarView: UIView, NSCopying {
+public class BottomBarView: UIView, NSCopying {
     typealias Environment = OEXRouterProvider & OEXStylesProvider
     private var environment : Environment?
     private let bottomBar = TZStackView()
@@ -209,7 +209,7 @@ private class BottomBarView: UIView, NSCopying {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func copy(with zone: NSZone? = nil) -> Any {
+    public func copy(with zone: NSZone? = nil) -> Any {
         let copy = BottomBarView(environment: environment)
         return copy
     }

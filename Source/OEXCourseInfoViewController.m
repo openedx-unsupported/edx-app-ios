@@ -72,7 +72,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     [super viewDidLoad];
 
     self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar discoveryType: DiscoveryTypeCourse];
-    [self.webViewHelper loadWithURL:self.courseInfoURL];
+    [self loadCourseInfoWith:self.pathID forceLoad:YES];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
     [self addBackBarButton];
 }
@@ -85,6 +85,13 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     }
     
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenCourseInfo];
+}
+
+- (void) loadCourseInfoWith: (NSString *) pathId forceLoad: (BOOL)forceLoad {
+    if (forceLoad || self.pathID != pathId) {
+        self.pathID = pathId;
+        [self.webViewHelper loadWithURL:self.courseInfoURL];
+    }
 }
 
 - (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {

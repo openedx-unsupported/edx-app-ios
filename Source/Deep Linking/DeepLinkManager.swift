@@ -30,12 +30,7 @@ typealias DismissCompletion = () -> Void
         let deepLinkType = deepLink.type
         guard deepLinkType != .none else { return }
         
-        if isUserLoggedin() {
-            navigateToDeepLink(with: deepLinkType, link: deepLink)
-        }
-        else {
-            showLoginScreen()
-        }
+        navigateToDeepLink(with: deepLinkType, link: deepLink)
     }
     
     private func showLoginScreen() {
@@ -55,7 +50,11 @@ typealias DismissCompletion = () -> Void
         if let courseOutlineViewController = controller as? CourseOutlineViewController {
             return courseOutlineViewController.courseOutlineMode == .full ? .courseDashboard : .courseVideos
         }
-        else if controller is ProgramsViewController {
+        else if controller is OEXCourseInfoViewController {
+            return .courseDetail
+        } else if controller is DiscoveryViewController || controller is OEXFindCoursesViewController {
+            return .courseDiscovery
+        } else if controller is ProgramsViewController {
             return .programs
         } else if controller is DiscussionTopicsViewController {
             return .discussions
@@ -79,6 +78,28 @@ typealias DismissCompletion = () -> Void
             }
         }
     }
+    
+    private func showCourseDiscovery(with link: DeepLink) {
+        
+        guard !controllerAlreadyDisplayed(for: link.type) else {
+            
+            if let courseInfoController = topMostViewController as? OEXCourseInfoViewController,
+                let pathId = link.courseId {
+                courseInfoController.loadCourseInfo(with: pathId, forceLoad: false)
+            }
+                
+            else if let discoveryViewController = topMostViewController as? DiscoveryViewController {
+                discoveryViewController.switchSegment(with: link.type)
+            }
+            return
+        }
+
+        dismiss() { [weak self] in
+            self?.environment?.router?.showCourseDiscovery(with: link.type, isUserLoggedIn: self?.isUserLoggedin() ?? false, coursePathID: link.courseId)
+        }
+    }
+    
+    
     
     private func showPrograms(with link: DeepLink) {
         guard !controllerAlreadyDisplayed(for: link.type) else { return}
@@ -114,6 +135,16 @@ typealias DismissCompletion = () -> Void
     }
 
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
+        
+        if type == .courseDiscovery || type == .courseDetail {
+            showCourseDiscovery(with: link)
+        }
+        
+        else if !isUserLoggedin() {
+            showLoginScreen()
+            return
+        }
+        
         switch type {
         case .courseDashboard, .courseVideos, .discussions:
             showCourseDashboardViewController(with: link)
@@ -121,9 +152,10 @@ typealias DismissCompletion = () -> Void
         case .programs:
             guard environment?.config.programConfig.enabled ?? false else { return }
             showPrograms(with: link)
+            break
         case .account:
             showAccountViewController(with: link)
-        break
+            break
         default:
             break
         }

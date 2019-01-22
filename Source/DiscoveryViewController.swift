@@ -136,5 +136,16 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
             make.bottom.equalTo(view).offset(bottomSpace)
         }
     }
-    
+
+    // MARK: Deep Linking
+    func switchSegment(with type: DeepLinkType) {
+        switch type {
+        case .courseDiscovery:
+            segmentedControl.selectedSegmentIndex = segment.courses.rawValue
+            courseVisibility(hide: false)
+            break
+        default:
+            break
+        }
+    }
 }
