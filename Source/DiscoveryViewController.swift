@@ -143,9 +143,8 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         case .courseDiscovery:
             segmentedControl.selectedSegmentIndex = segment.courses.rawValue
             courseVisibility(hide: false)
-        break
+            break
         default:
-            segmentedControl.selectedSegmentIndex = segment.courses.rawValue
             break
         }
     }

@@ -52,7 +52,7 @@ typealias DismissCompletion = () -> Void
         }
         else if controller is OEXCourseInfoViewController {
             return .courseDetail
-        } else if controller is DiscoveryViewController {
+        } else if controller is DiscoveryViewController || controller is OEXFindCoursesViewController {
             return .courseDiscovery
         } else if controller is ProgramsViewController {
             return .programs
@@ -88,7 +88,7 @@ typealias DismissCompletion = () -> Void
                 courseInfoController.loadCourseInfo(with: pathId, forceLoad: false)
             }
                 
-            else if let discoveryViewController = topMostViewController as? DiscoveryViewController{
+            else if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                 discoveryViewController.switchSegment(with: link.type)
             }
             return
