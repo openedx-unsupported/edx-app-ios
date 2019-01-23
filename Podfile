@@ -27,6 +27,12 @@ target 'edXTests' do
     pod 'OHHTTPStubs', '~> 4.0'
 end
 
+target 'EndToEndTests' do
+pod 'FBSnapshotTestCase/Core', '= 2.0.1'
+pod 'OCMock', '~> 3.1'
+pod 'OHHTTPStubs', '~> 4.0'
+end
+
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
