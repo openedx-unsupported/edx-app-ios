@@ -187,7 +187,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         switch type {
         case .programs:
             selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
-        case .courseDiscovery, .courseDetail:
+        case .courseDiscovery, .courseDetail, .programDiscovery, .programDetail:
             selectedIndex = tabBarViewControllerIndex(with: DiscoveryViewController.self)
         default:
             selectedIndex = 0

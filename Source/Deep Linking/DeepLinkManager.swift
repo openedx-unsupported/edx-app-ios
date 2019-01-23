@@ -103,42 +103,42 @@ typealias DismissCompletion = () -> Void
         }
         
         switch link.type {
-            case .courseDetail:
-                guard let courseId = link.courseId else { return }
-                    if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                        discoveryViewController.switchSegment(with: .courseDiscovery)
-                        environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .courseDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
-                        return
-                    }
-                    else if let findCoursesViewController = topMostViewController as? OEXFindCoursesViewController {
-                        environment?.router?.showDiscoveryDetail(from: findCoursesViewController, type: .courseDetail, coursePathID: courseId, bottomBar: findCoursesViewController.bottomBar)
-                        return
-                    }
-                break
-            case .programDetail:
-                    guard let courseId = link.courseId else { return }
-                    if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                        discoveryViewController.switchSegment(with: .programDiscovery)
-                        environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
-                        return
-                    }
-                    else if let programsDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController {
-                        environment?.router?.showDiscoveryDetail(from: programsDiscoveryViewController, type: .programDetail, coursePathID: courseId, bottomBar: programsDiscoveryViewController.bottomBar)
-                        return
-                    }
-                break
-            case .courseDiscovery, .programDiscovery:
+        case .courseDetail:
+            guard let courseId = link.courseId else { return }
                 if let discoveryViewController = topMostViewController as? DiscoveryViewController {
-                    discoveryViewController.switchSegment(with: link.type)
+                    discoveryViewController.switchSegment(with: .courseDiscovery)
+                    environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .courseDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
                     return
                 }
-                break
-            default:
-                break
+                else if let findCoursesViewController = topMostViewController as? OEXFindCoursesViewController {
+                    environment?.router?.showDiscoveryDetail(from: findCoursesViewController, type: .courseDetail, coursePathID: courseId, bottomBar: findCoursesViewController.bottomBar)
+                    return
+                }
+            break
+        case .programDetail:
+                guard let courseId = link.courseId else { return }
+                if let discoveryViewController = topMostViewController as? DiscoveryViewController {
+                    discoveryViewController.switchSegment(with: .programDiscovery)
+                    environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
+                    return
+                }
+                else if let programsDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController {
+                    environment?.router?.showDiscoveryDetail(from: programsDiscoveryViewController, type: .programDetail, coursePathID: courseId, bottomBar: programsDiscoveryViewController.bottomBar)
+                    return
+                }
+            break
+        case .courseDiscovery, .programDiscovery:
+            if let discoveryViewController = topMostViewController as? DiscoveryViewController {
+                discoveryViewController.switchSegment(with: link.type)
+                return
+            }
+            break
+        default:
+            break
         }
         
         dismiss() { [weak self] in
-            self?.environment?.router?.showDiscoveryView(with: link.type, isUserLoggedIn: self?.isUserLoggedin() ?? false, coursePathID: link.courseId)
+            self?.environment?.router?.showDiscoveryController(with: link.type, isUserLoggedIn: self?.isUserLoggedin() ?? false, coursePathID: link.courseId)
         }
     }
     
@@ -175,13 +175,13 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func isDiscoveryView(type: DeepLinkType) -> Bool {
+    private func isDiscovery(type: DeepLinkType) -> Bool {
         return (type == .courseDiscovery || type == .courseDetail || type == .programDiscovery || type == .programDetail)
     }
 
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
         
-        if isDiscoveryView(type: type) {
+        if isDiscovery(type: type) {
             showDiscovery(with: link)
         }
         
