@@ -154,17 +154,21 @@ extension OEXRouter {
 
      func showDiscoveryController(with type: DeepLinkType, isUserLoggedIn: Bool, coursePathID: String?) {
         let bottomBar = BottomBarView(environment: environment)
-        guard let controller = isUserLoggedIn ? EnrolledTabBarViewController(environment: environment) : discoveryViewController(bottomBar: bottomBar, searchQuery: nil) else { return }
+        var discoveryController = discoveryViewController(bottomBar: bottomBar, searchQuery: nil)
+        guard let controller = isUserLoggedIn ? EnrolledTabBarViewController(environment: environment) : discoveryController else { return }
         if isUserLoggedIn, let enrolledTabBarView = controller as? EnrolledTabBarViewController {
             showContentStack(withRootController: enrolledTabBarView, animated: false)
-            enrolledTabBarView.switchTab(with: type)
+            discoveryController = enrolledTabBarView.switchTab(with: type)
         }
         else {
+            
             showControllerFromStartupScreen(controller: controller)
         }
         
         if type == .programDiscovery || type == .programDetail {
-            showProgramDiscovery(from: controller, type: type, bottomBar: bottomBar)
+            if let controller = discoveryController {
+                showProgramDiscovery(from: controller, type: type, bottomBar: bottomBar)
+            }
         }
         
         if let coursePathID = coursePathID {
