@@ -13,6 +13,8 @@ enum DeepLinkType: String {
     case courseVideos = "course_videos"
     case discussions = "course_discussion"
     case courseDiscovery = "course_discovery"
+    case programDiscovery = "program_discovery"
+    case programDetail = "program_detail"
     case courseDetail = "course_detail"
     case programs = "program"
     case account = "account"
@@ -30,7 +32,13 @@ class DeepLink: NSObject {
     let screenName: String?
     var type: DeepLinkType {
         let type = DeepLinkType(rawValue: screenName ?? DeepLinkType.none.rawValue) ?? .none
-        return type == .courseDiscovery && courseId != nil ? .courseDetail : type
+        if type == .courseDiscovery && courseId != nil {
+            return .courseDetail
+        }
+        else if type == .programDiscovery && courseId != nil {
+            return .programDetail
+        }
+        return type
     }
     
     init(dictionary:[String:Any]) {

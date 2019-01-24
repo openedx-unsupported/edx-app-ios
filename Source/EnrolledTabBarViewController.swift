@@ -183,17 +183,20 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     }
     
     // MARK: Deep Linking
-    func switchTab(with type: DeepLinkType) {
+    @discardableResult
+    func switchTab(with type: DeepLinkType) -> UIViewController {
         switch type {
         case .programs:
             selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
-        case .courseDiscovery, .courseDetail:
+        case .courseDiscovery, .courseDetail, .programDiscovery, .programDetail:
             selectedIndex = tabBarViewControllerIndex(with: DiscoveryViewController.self)
         default:
             selectedIndex = 0
             break
         }
         navigationItem.title = titleOfViewController(index: selectedIndex)
+        
+        return tabBarItems[selectedIndex].viewController
     }
 }
 

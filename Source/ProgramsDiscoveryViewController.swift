@@ -16,8 +16,8 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
     private let environment: Environment
     private var showBottomBar: Bool = true
     private let searchQuery: String?
-    fileprivate let bottomBar: UIView?
-    private var pathId: String?
+    private(set) var bottomBar: UIView?
+    private(set) var pathId: String?
     private var webviewHelper: DiscoveryWebViewHelper?
     private var discoveryConfig: ProgramDiscovery? {
         return environment.config.discovery.program
@@ -74,7 +74,7 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         }
     }
     
-    private func loadProgramDetails(with pathId: String) {
+    func loadProgramDetails(with pathId: String) {
         addBackBarButton()
         if let detailTemplate = discoveryConfig?.webview.detailTemplate?.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathId),
             let url = URL(string: detailTemplate) {

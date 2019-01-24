@@ -151,19 +151,43 @@ extension OEXRouter {
         showContentStack(withRootController: controller, animated: false)
         controller.switchTab(with: type)
     }
-    
-    func showCourseDiscovery(with type: DeepLinkType, isUserLoggedIn: Bool, coursePathID: String?) {
+
+     func showDiscoveryController(with type: DeepLinkType, isUserLoggedIn: Bool, coursePathID: String?) {
         let bottomBar = BottomBarView(environment: environment)
-        guard let controller = isUserLoggedIn ? EnrolledTabBarViewController(environment: environment) : discoveryViewController(bottomBar: bottomBar, searchQuery: nil) else { return }
+        var discoveryController = discoveryViewController(bottomBar: bottomBar, searchQuery: nil)
+        guard let controller = isUserLoggedIn ? EnrolledTabBarViewController(environment: environment) : discoveryController else { return }
         if isUserLoggedIn, let enrolledTabBarView = controller as? EnrolledTabBarViewController {
             showContentStack(withRootController: enrolledTabBarView, animated: false)
-            enrolledTabBarView.switchTab(with: type)
-        } else {
+            discoveryController = enrolledTabBarView.switchTab(with: type)
+        }
+        else {
+            
             showControllerFromStartupScreen(controller: controller)
         }
         
+        if type == .programDiscovery || type == .programDetail {
+            if let controller = discoveryController {
+                showProgramDiscovery(from: controller, type: type, bottomBar: bottomBar)
+            }
+        }
+        
         if let coursePathID = coursePathID {
+            showDiscoveryDetail(from: controller, type: type, coursePathID: coursePathID, bottomBar: bottomBar)
+        }
+    }
+    
+    func showProgramDiscovery(from controller: UIViewController, type: DeepLinkType, bottomBar: UIView) {
+        if let discoveryViewController = controller as? DiscoveryViewController {
+            discoveryViewController.switchSegment(with: type)
+        }
+    }
+    
+     func showDiscoveryDetail(from controller: UIViewController, type: DeepLinkType, coursePathID: String, bottomBar: UIView?) {
+        if type == .courseDetail {
             showCourseDetails(from: controller, with: coursePathID, bottomBar: bottomBar)
+        }
+        else if type == .programDetail {
+            showProgramDetail(from: controller, with: coursePathID, bottomBar: bottomBar)
         }
     }
 

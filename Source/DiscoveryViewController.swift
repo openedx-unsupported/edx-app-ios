@@ -8,12 +8,12 @@
 
 import UIKit
 
+ enum segment: Int {
+    case courses
+    case programs
+}
+
 class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding {
-    
-    private enum segment: Int {
-        case courses
-        case programs
-    }
     
     private var environment: RouterEnvironment
     private let segmentControlHeight: CGFloat = 40.0
@@ -21,7 +21,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         guard let bottomBar = bottomBar else { return StandardVerticalMargin }
         return bottomBar.frame.height + StandardVerticalMargin
     }
-    private let bottomBar: UIView?
+    private(set) var bottomBar: UIView?
     private let searchQuery: String?
     
     lazy var segmentedControl: UISegmentedControl = {
@@ -137,13 +137,16 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         }
     }
 
-    // MARK: Deep Linking
+    // MARK: Deep Linking    
     func switchSegment(with type: DeepLinkType) {
         switch type {
         case .courseDiscovery:
             segmentedControl.selectedSegmentIndex = segment.courses.rawValue
             courseVisibility(hide: false)
             break
+        case .programDiscovery, .programDetail:
+            segmentedControl.selectedSegmentIndex = segment.programs.rawValue
+            courseVisibility(hide: true)
         default:
             break
         }
