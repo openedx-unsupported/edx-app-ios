@@ -88,7 +88,7 @@ DEPENDENCIES:
   - FBSDKCoreKit (~> 4.31.1)
   - FBSDKLoginKit (~> 4.31.1)
   - FBSnapshotTestCase/Core (= 2.0.1)
-  - Firebase/Core
+  - Firebase/Core (= 5.4.1)
   - GoogleSignIn (~> 2.4)
   - Masonry (~> 0.6)
   - NewRelicAgent (~> 4.1)
@@ -160,6 +160,6 @@ SPEC CHECKSUMS:
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 03ef7a5643965212c6ca9ed7d65385950ca4a989
 
-PODFILE CHECKSUM: 4d5f80e7046612cc800edcfe7c773b733f853d35
+PODFILE CHECKSUM: 6da2c9a923d7d347bb62aa878374d041492dff17
 
 COCOAPODS: 1.5.3

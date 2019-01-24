@@ -17,7 +17,7 @@ pod 'NewRelicAgent', '~> 4.1'
 pod 'FBSDKCoreKit', '~> 4.31.1'
 pod 'FBSDKLoginKit', '~> 4.31.1'
 pod 'Smartling.i18n', '~> 1.0'
-pod 'Firebase/Core'
+pod 'Firebase/Core', '= 5.4.1'
 pod 'Branch', '= 0.25.5'
 end
 
