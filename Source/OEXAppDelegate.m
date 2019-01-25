@@ -197,6 +197,7 @@
     }
     
     //Initialize Firebase
+    // Make Sure the google app id is valid before configuring firebase, the app can produce crash.
     if (config.firebaseConfig.enabled) {
         FIROptions *options = [[FIROptions alloc] initWithGoogleAppID:config.firebaseConfig.googleAppID GCMSenderID:config.firebaseConfig.gcmSenderID];
         [options setAPIKey:config.firebaseConfig.apiKey];
