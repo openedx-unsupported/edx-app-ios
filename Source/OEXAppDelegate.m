@@ -198,6 +198,7 @@
     
     //Initialize Firebase
     // Make Sure the google app id is valid before configuring firebase, the app can produce crash.
+    //Firebase do not get exception with invalid google app ID, https://github.com/firebase/firebase-ios-sdk/issues/1581
     if (config.firebaseConfig.enabled) {
         FIROptions *options = [[FIROptions alloc] initWithGoogleAppID:config.firebaseConfig.googleAppID GCMSenderID:config.firebaseConfig.gcmSenderID];
         [options setAPIKey:config.firebaseConfig.apiKey];
