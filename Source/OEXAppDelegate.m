@@ -197,9 +197,16 @@
     }
     
     //Initialize Firebase
-    if (config.firebaseConfig.analyticsEnabled) {
-        FIROptions *options = [[FIROptions alloc] initWithGoogleAppID:config.firebaseConfig.googleAppID bundleID:[[NSBundle mainBundle] bundleIdentifier] GCMSenderID:config.firebaseConfig.gcmSenderID APIKey:config.firebaseConfig.apiKey clientID:config.firebaseConfig.clientID trackingID:@"" androidClientID:@"" databaseURL:@"" storageBucket:@"" deepLinkURLScheme:@""];
+    // Make Sure the google app id is valid before configuring firebase, the app can produce crash.
+    //Firebase do not get exception with invalid google app ID, https://github.com/firebase/firebase-ios-sdk/issues/1581
+    if (config.firebaseConfig.enabled) {
+        FIROptions *options = [[FIROptions alloc] initWithGoogleAppID:config.firebaseConfig.googleAppID GCMSenderID:config.firebaseConfig.gcmSenderID];
+        [options setAPIKey:config.firebaseConfig.apiKey];
+        [options setClientID:config.firebaseConfig.clientID];
         [FIRApp configureWithOptions:options];
+        if (config.firebaseConfig.analyticsEnabled) {
+            [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
+        }
     }
 
     //NewRelic Initialization with edx key
