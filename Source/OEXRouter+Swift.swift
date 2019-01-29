@@ -347,7 +347,7 @@ extension OEXRouter {
     }
     
     func showProgramDetail(from controller: UIViewController, with pathId: String, bottomBar: UIView?) {
-        let programDetailViewController = ProgramsDiscoveryViewController(with: environment, pathId: pathId, bottomBar: bottomBar)
+        let programDetailViewController = ProgramsDiscoveryViewController(with: environment, pathId: pathId, bottomBar: bottomBar?.copy() as? UIView)
         pushViewController(controller: programDetailViewController, fromController: controller)
     }
 
