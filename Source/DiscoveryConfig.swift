@@ -26,6 +26,7 @@ enum DiscoveryKeys: String, RawStringExtractable {
     case subjectFilterEnabled = "SUBJECT_FILTER_ENABLED"
     case exploreSubjectsURL = "EXPLORE_SUBJECTS_URL"
     case program = "PROGRAM"
+    case degree = "DEGREE"
 }
 
 class DiscoveryWebviewConfig: NSObject {
@@ -47,10 +48,12 @@ class DiscoveryWebviewConfig: NSObject {
 class DiscoveryConfig: NSObject {
     let course: CourseDiscovery
     let program: ProgramDiscovery
+    let degree: DegreeDiscovery
     
     init(dictionary: [String: AnyObject]) {
         course = CourseDiscovery(dictionary: dictionary[DiscoveryKeys.course] as? [String: AnyObject] ?? [:])
         program = ProgramDiscovery(with: course, dictionary: dictionary[DiscoveryKeys.program] as? [String: AnyObject] ?? [:])
+        degree = DegreeDiscovery(with: course, dictionary: dictionary[DiscoveryKeys.degree] as? [String: AnyObject] ?? [:])
     }
 }
 
@@ -68,6 +71,19 @@ class CourseDiscovery: DiscoveryBase {
 
 class ProgramDiscovery: DiscoveryBase {
     
+    private let courseDiscovery: CourseDiscovery
+    
+    init(with courseDiscovery: CourseDiscovery, dictionary: [String : AnyObject]) {
+        self.courseDiscovery = courseDiscovery
+        super.init(dictionary: dictionary)
+    }
+    
+    var isEnabled: Bool {
+        return courseDiscovery.type == .webview && type == .webview
+    }
+}
+
+class DegreeDiscovery: DiscoveryBase {
     private let courseDiscovery: CourseDiscovery
     
     init(with courseDiscovery: CourseDiscovery, dictionary: [String : AnyObject]) {

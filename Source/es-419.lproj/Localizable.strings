@@ -432,6 +432,8 @@
 "DISCOVER"="Exploración";
 /*Title for the programs in tabbar and navigation bar*/
 "PROGRAMS"="Programs";
+/*Title for the degrees in navigation bar*/
+"DEGREES"="Degrees";
 /*Debug option title in tabbar */
 "DEBUG"="Debug";
 /* Error message shown when email address is not properly formatted */

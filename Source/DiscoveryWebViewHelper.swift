@@ -50,6 +50,11 @@ class DiscoveryWebViewHelper: NSObject {
         return (webView.url as NSURL?)?.oex_queryParameters() as? [String : String]
     }
     
+    private var bottomSpace: CGFloat {
+        guard let bottomBar = bottomBar else { return StandardVerticalMargin }
+        return bottomBar.frame.height
+    }
+    
     convenience init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, discoveryType: DiscoveryType = .course) {
         self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, showSearch: false, searchQuery: nil, showSubjects: false, discoveryType: discoveryType)
     }
@@ -127,6 +132,12 @@ class DiscoveryWebViewHelper: NSObject {
             make.trailing.equalTo(contentView)
             make.bottom.equalTo(contentView)
             make.top.equalTo(topConstraintItem)
+            if !isUserLoggedIn {
+                make.bottom.equalTo(contentView).offset(-bottomSpace)
+            }
+            else {
+                make.bottom.equalTo(contentView)
+            }
         }
 
         addObserver()

@@ -11,6 +11,7 @@ import UIKit
  enum segment: Int {
     case courses
     case programs
+    case degrees
 }
 
 class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding {
@@ -25,7 +26,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     private let searchQuery: String?
     
     lazy var segmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: [Strings.courses, Strings.programs])
+        let control = UISegmentedControl(items: [Strings.courses, Strings.programs, Strings.degrees])
         let styles = self.environment.styles
         control.selectedSegmentIndex = segment.courses.rawValue
         control.tintColor = styles.primaryBaseColor()
@@ -42,6 +43,10 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     
     lazy var programsController: UIViewController = {
         return ProgramsDiscoveryViewController(with: self.environment, showBottomBar: false, bottomBar: self.bottomBar)
+    }()
+    
+    lazy var degreesController: UIViewController = {
+        return DegreesViewController(with: self.environment, showBottomBar: false, bottomBar: self.bottomBar)
     }()
     
     init(with environment: RouterEnvironment, bottomBar: UIView?, searchQuery: String?) {
@@ -65,21 +70,12 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     
     private func setupView() {
         addSubViews()
-        setupConstraints()
         setupBottomBar()
+        setupConstraints()
         view.backgroundColor = environment.styles.standardBackgroundColor()
         segmentedControl.oex_addAction({ [weak self] control in
             if let segmentedControl = control as? UISegmentedControl {
-                switch segmentedControl.selectedSegmentIndex {
-                case segment.courses.rawValue:
-                    self?.courseVisibility(hide: false)
-                    break
-                case segment.programs.rawValue:
-                    self?.courseVisibility(hide: true)
-                    break
-                default:
-                    assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
-                }
+                self?.controllerVisibility(with: segmentedControl.selectedSegmentIndex)
             }
             else {
                 assert(true, "Invalid control")
@@ -88,9 +84,26 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         navigationItem.title = Strings.discover
     }
     
-    private func courseVisibility(hide: Bool) {
-        coursesController.view.isHidden = hide
-        programsController.view.isHidden = !hide
+    private func controllerVisibility(with segmentIndex: Int) {
+        switch segmentedControl.selectedSegmentIndex {
+        case segment.courses.rawValue:
+            coursesController.view.isHidden = false
+            programsController.view.isHidden = true
+            degreesController.view.isHidden = true
+            break
+        case segment.programs.rawValue:
+            coursesController.view.isHidden = true
+            programsController.view.isHidden = false
+            degreesController.view.isHidden = true
+            break
+        case segment.degrees.rawValue:
+            coursesController.view.isHidden = true
+            programsController.view.isHidden = true
+            degreesController.view.isHidden = false
+            break
+        default:
+            assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
+        }
     }
     
     private func addSubViews() {
@@ -107,6 +120,12 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         programsController.view.frame = containerView.frame
         containerView.addSubview(programsController.view)
         programsController.view.isHidden = true
+        
+        addChildViewController(degreesController)
+        didMove(toParentViewController: self)
+        degreesController.view.frame = containerView.frame
+        containerView.addSubview(degreesController.view)
+        degreesController.view.isHidden = true
     }
     
     private func setupBottomBar() {
@@ -142,11 +161,11 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         switch type {
         case .courseDiscovery:
             segmentedControl.selectedSegmentIndex = segment.courses.rawValue
-            courseVisibility(hide: false)
+            controllerVisibility(with: segment.courses.rawValue)
             break
         case .programDiscovery, .programDetail:
             segmentedControl.selectedSegmentIndex = segment.programs.rawValue
-            courseVisibility(hide: true)
+            controllerVisibility(with: segment.programs.rawValue)
         default:
             break
         }
