@@ -53,7 +53,7 @@ typealias DismissCompletion = () -> Void
         else if controller is OEXCourseInfoViewController {
             return .courseDetail
         } else if let discoveryViewController = controller as? DiscoveryViewController {
-            return discoveryViewController.segmentedControl.selectedSegmentIndex == segment.programs.rawValue ? .programDiscovery : .courseDiscovery
+            return discoveryViewController.segmentType(of: discoveryViewController.segmentedControl.selectedSegmentIndex) == segment.programs.rawValue ? .programDiscovery : .courseDiscovery
         } else if controller is OEXFindCoursesViewController  {
             return .courseDiscovery
         } else if let programsDiscoveryViewController = controller as? ProgramsDiscoveryViewController {

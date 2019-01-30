@@ -13,4 +13,5 @@ struct SegmentItem {
     let title: String
     let viewController: UIViewController
     let index: Int
+    let type: Int
 }
