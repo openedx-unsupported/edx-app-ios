@@ -11,29 +11,22 @@ import WebKit
 
 class DegreesViewController: UIViewController {
 
-    typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
+    typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider
     
     private let environment: Environment
     private var showBottomBar: Bool = true
-    private let searchQuery: String?
-    private(set) var bottomBar: UIView?
-    private(set) var pathId: String?
+    fileprivate(set) var bottomBar: UIView?
     private var webviewHelper: DiscoveryWebViewHelper?
     private var discoveryConfig: DegreeDiscovery? {
         return environment.config.discovery.degree
     }
     
     // MARK:- Initializer -
-    init(with environment: Environment, bottomBar: UIView?, searchQuery: String? = nil) {
+    init(with environment: Environment, showBottomBar: Bool, bottomBar: UIView?) {
         self.environment = environment
         self.bottomBar = bottomBar
-        self.searchQuery = searchQuery
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    convenience init(with environment: Environment, showBottomBar: Bool, bottomBar: UIView?, searchQuery: String? = nil) {
-        self.init(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         self.showBottomBar = showBottomBar
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -43,22 +36,18 @@ class DegreesViewController: UIViewController {
     override func viewDidLoad() {
         navigationItem.title = Strings.degrees
         super.viewDidLoad()
-        loadDegrees(with: discoveryConfig?.webview.baseURL)
+        loadDegrees()
     }
     
-    private func loadDegrees(with url: URL?) {
-        if let url = url {
-            load(url: url, searchQuery: searchQuery, showBottomBar: showBottomBar, showSearch: true, searchBaseURL: url)
+    private func loadDegrees() {
+        if let url = discoveryConfig?.webview.baseURL {
+            webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: true, searchQuery: nil, discoveryType: .program)
+            webviewHelper?.baseURL = url
+            webviewHelper?.load(withURL: url)
         }
         else {
-            assert(false, "Unable to get search URL.")
+            assert(false, "Unable to get base URL.")
         }
-    }
-    
-    private func load(url :URL, searchQuery: String? = nil, showBottomBar: Bool = true, showSearch: Bool = false, searchBaseURL: URL? = nil) {
-        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: showSearch, searchQuery: searchQuery, discoveryType: .program)
-        webviewHelper?.baseURL = searchBaseURL
-        webviewHelper?.load(withURL: url)
     }
 }
 

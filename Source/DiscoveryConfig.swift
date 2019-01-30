@@ -83,18 +83,7 @@ class ProgramDiscovery: DiscoveryBase {
     }
 }
 
-class DegreeDiscovery: DiscoveryBase {
-    private let courseDiscovery: CourseDiscovery
-    
-    init(with courseDiscovery: CourseDiscovery, dictionary: [String : AnyObject]) {
-        self.courseDiscovery = courseDiscovery
-        super.init(dictionary: dictionary)
-    }
-    
-    var isEnabled: Bool {
-        return courseDiscovery.type == .webview && type == .webview
-    }
-}
+class DegreeDiscovery: ProgramDiscovery { }
 
 class DiscoveryBase: NSObject {
     private(set) var type: DiscoveryConfigType

@@ -16,6 +16,23 @@ import UIKit
 
 class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding {
     
+    private enum segmentOptions: Int {
+        case Course, Program, Degree
+        static let options = [Course, Program, Degree]
+        
+        func title(config: OEXConfig? = nil) -> String {
+            switch self {
+            case .Course:
+                return Strings.courses
+            case .Program:
+                return Strings.programs
+            case .Degree:
+                return Strings.degrees
+            }
+        }
+    }
+    
+    private var segmentItems : [SegmentItem] = []
     private var environment: RouterEnvironment
     private let segmentControlHeight: CGFloat = 40.0
     private var bottomSpace: CGFloat {
@@ -26,7 +43,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     private let searchQuery: String?
     
     lazy var segmentedControl: UISegmentedControl = {
-        let control = UISegmentedControl(items: [Strings.courses, Strings.programs, Strings.degrees])
+        let control = UISegmentedControl()
         let styles = self.environment.styles
         control.selectedSegmentIndex = segment.courses.rawValue
         control.tintColor = styles.primaryBaseColor()
@@ -36,19 +53,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     }()
     
     lazy var containerView = UIView()
-    
-    lazy var coursesController: UIViewController = {
-        return self.environment.config.discovery.course.type == .webview ? OEXFindCoursesViewController(environment: self.environment, showBottomBar: false, bottomBar: self.bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
-    }()
-    
-    lazy var programsController: UIViewController = {
-        return ProgramsDiscoveryViewController(with: self.environment, showBottomBar: false, bottomBar: self.bottomBar)
-    }()
-    
-    lazy var degreesController: UIViewController = {
-        return DegreesViewController(with: self.environment, showBottomBar: false, bottomBar: self.bottomBar)
-    }()
-    
+ 
     init(with environment: RouterEnvironment, bottomBar: UIView?, searchQuery: String?) {
         self.environment = environment
         self.bottomBar = bottomBar
@@ -68,7 +73,42 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         }
     }
     
+    private func prepareSegmentViewData() {
+        segmentItems = []
+        var index = 0
+        var item : SegmentItem
+        for option in segmentOptions.options {
+            switch option {
+            case .Course:
+                guard environment.config.discovery.course.isEnabled else { break }
+                let coursesController = self.environment.config.discovery.course.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: false, bottomBar: bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
+                item = SegmentItem(title: option.title(), viewController: coursesController, index: index)
+                segmentItems.append(item)
+                segmentedControl.insertSegment(withTitle: option.title(), at: index, animated: false)
+                index = segmentItems.count
+            case .Program:
+                guard environment.config.discovery.program.isEnabled else { break }
+                let programDiscoveryViewController = ProgramsDiscoveryViewController(with: environment, showBottomBar: false, bottomBar: bottomBar)
+                programDiscoveryViewController.view.isHidden = true
+                item = SegmentItem(title: option.title(), viewController: programDiscoveryViewController, index: index)
+                segmentItems.append(item)
+                segmentedControl.insertSegment(withTitle: option.title(), at: index, animated: false)
+                index = segmentItems.count
+            case .Degree:
+                guard environment.config.discovery.degree.isEnabled else { break }
+                let degreesViewController = DegreesViewController(with: environment, showBottomBar: false, bottomBar: bottomBar)
+                degreesViewController.view.isHidden = true
+                item = SegmentItem(title: option.title(), viewController: degreesViewController, index: index)
+                segmentItems.append(item)
+                segmentedControl.insertSegment(withTitle: option.title(), at: index, animated: false)
+                index = segmentItems.count
+            }
+        }
+        segmentedControl.selectedSegmentIndex = 0
+    }
+    
     private func setupView() {
+        prepareSegmentViewData()
         addSubViews()
         setupBottomBar()
         setupConstraints()
@@ -85,24 +125,14 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     }
     
     private func controllerVisibility(with segmentIndex: Int) {
-        switch segmentedControl.selectedSegmentIndex {
-        case segment.courses.rawValue:
-            coursesController.view.isHidden = false
-            programsController.view.isHidden = true
-            degreesController.view.isHidden = true
-            break
-        case segment.programs.rawValue:
-            coursesController.view.isHidden = true
-            programsController.view.isHidden = false
-            degreesController.view.isHidden = true
-            break
-        case segment.degrees.rawValue:
-            coursesController.view.isHidden = true
-            programsController.view.isHidden = true
-            degreesController.view.isHidden = false
-            break
-        default:
-            assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
+        
+        for item in segmentItems {
+            if item.index == segmentIndex {
+                item.viewController.view.isHidden = false
+            }
+            else {
+                item.viewController.view.isHidden = true
+            }
         }
     }
     
@@ -110,22 +140,13 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         view.addSubview(segmentedControl)
         view.addSubview(containerView)
         
-        addChildViewController(coursesController)
-        didMove(toParentViewController: self)
-        coursesController.view.frame = containerView.frame
-        containerView.addSubview(coursesController.view)
-        
-        addChildViewController(programsController)
-        didMove(toParentViewController: self)
-        programsController.view.frame = containerView.frame
-        containerView.addSubview(programsController.view)
-        programsController.view.isHidden = true
-        
-        addChildViewController(degreesController)
-        didMove(toParentViewController: self)
-        degreesController.view.frame = containerView.frame
-        containerView.addSubview(degreesController.view)
-        degreesController.view.isHidden = true
+        for item in segmentItems {
+            let controller = item.viewController
+            addChildViewController(controller)
+            didMove(toParentViewController: self)
+            controller.view.frame = containerView.frame
+            containerView.addSubview(controller.view)
+        }
     }
     
     private func setupBottomBar() {
