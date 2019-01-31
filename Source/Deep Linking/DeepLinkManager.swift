@@ -53,7 +53,13 @@ typealias DismissCompletion = () -> Void
         else if controller is OEXCourseInfoViewController {
             return .courseDetail
         } else if let discoveryViewController = controller as? DiscoveryViewController {
-            return discoveryViewController.segmentType(of: discoveryViewController.segmentedControl.selectedSegmentIndex) == segment.programs.rawValue ? .programDiscovery : .courseDiscovery
+            let segmentType = discoveryViewController.segmentType(of: discoveryViewController.segmentedControl.selectedSegmentIndex)
+            if segmentType == segment.programs.rawValue {
+                return .programDiscovery
+            }
+            else if segmentType == segment.courses.rawValue {
+                return .courseDiscovery
+            }
         } else if controller is OEXFindCoursesViewController  {
             return .courseDiscovery
         } else if let programsDiscoveryViewController = controller as? ProgramsDiscoveryViewController {
@@ -104,7 +110,7 @@ typealias DismissCompletion = () -> Void
         
         switch link.type {
         case .courseDetail:
-            guard let courseId = link.courseId else { return }
+            guard let courseId = link.courseId, environment?.config.discovery.course.isEnabled ?? false else { return }
                 if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                     discoveryViewController.switchSegment(with: .courseDiscovery)
                     environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .courseDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
@@ -116,7 +122,7 @@ typealias DismissCompletion = () -> Void
                 }
             break
         case .programDetail:
-                guard let courseId = link.courseId else { return }
+            guard let courseId = link.courseId, environment?.config.discovery.program.isEnabled ?? false else { return }
                 if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                     discoveryViewController.switchSegment(with: .programDiscovery)
                     environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
@@ -127,12 +133,17 @@ typealias DismissCompletion = () -> Void
                     return
                 }
             break
-        case .courseDiscovery, .programDiscovery:
+        case .programDiscovery:
+            guard environment?.config.discovery.program.isEnabled ?? false else { return }
+            fallthrough
+        case .courseDiscovery:
+            guard environment?.config.discovery.course.isEnabled ?? false else { return }
             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                 discoveryViewController.switchSegment(with: link.type)
                 return
             }
             break
+            
         default:
             break
         }
