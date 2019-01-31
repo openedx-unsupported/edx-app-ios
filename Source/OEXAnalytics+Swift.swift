@@ -70,6 +70,7 @@ public enum AnalyticsScreenName: String {
     case CourseVideos = "Videos: Course Videos"
     case SubjectsDiscovery = "Discover: All Subjects"
     case DiscoverProgram = "Find Programs"
+    case DiscoverDegree = "Find Degrees"
     case ProgramInfo = "Program Info"
 }
 

@@ -39,6 +39,11 @@ class DegreesViewController: UIViewController {
         loadDegrees()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.DiscoverDegree.rawValue)
+    }
+    
     private func loadDegrees() {
         guard let url = degreeConfig?.webview.baseURL else {
             assert(false, "Unable to get base URL.")
