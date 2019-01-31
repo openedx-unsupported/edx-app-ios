@@ -17,6 +17,7 @@ fileprivate enum QueryParameterKeys {
 @objc enum DiscoveryType: Int {
     case course
     case program
+    case degree
 }
 
 class DiscoveryWebViewHelper: NSObject {
@@ -51,8 +52,8 @@ class DiscoveryWebViewHelper: NSObject {
     }
     
     private var bottomSpace: CGFloat {
-        guard let bottomBar = bottomBar else { return StandardVerticalMargin }
-        return bottomBar.frame.height
+        //TODO: this should be the height of bottomBar but for now giving it static value as the NSCopying making new object's frame as zero
+        return 90
     }
     
     convenience init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, discoveryType: DiscoveryType = .course) {
@@ -69,11 +70,10 @@ class DiscoveryWebViewHelper: NSObject {
         let discoveryConfig = discoveryType == .program ? environment?.config.discovery.program : environment?.config.discovery.course
         searchBarEnabled = (discoveryConfig?.webview.searchEnabled ?? false) && showSearch
         super.init()
-        searchBar.placeholder = discoveryType == .program ? Strings.searchProgramsPlaceholderText : Strings.searchCoursesPlaceholderText
+        searchBarPlaceholder()
         webView.navigationDelegate = self
         webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
         webView.accessibilityIdentifier = discoveryType == .course ? "find-courses-webview" : "find-programs-webview"
-        
         guard let container = delegate?.webViewContainingController() else { return }
         container.view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
@@ -143,6 +143,22 @@ class DiscoveryWebViewHelper: NSObject {
         addObserver()
     }
     
+    private func searchBarPlaceholder() {
+        switch discoveryType {
+        case .course:
+            searchBar.placeholder = Strings.searchCoursesPlaceholderText
+            break
+        case .program:
+            searchBar.placeholder = Strings.searchProgramsPlaceholderText
+            break
+        case .degree:
+            searchBar.placeholder = Strings.searchDegreesPlaceholderText
+            break
+        default:
+            break
+        }
+    }
+    
     private func addObserver() {
         // Add URL change oberver on webview, so URL change of webview can be tracked and handled.
         urlObservation = webView.observe(\.url, changeHandler: { [weak self] (webView, change) in
@@ -165,6 +181,9 @@ class DiscoveryWebViewHelper: NSObject {
             if !URLHasSearchFilter {
                 searchBar.text = nil
             }
+            break
+        default:
+            break
         }
     }
     

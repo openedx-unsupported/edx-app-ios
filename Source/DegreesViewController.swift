@@ -40,14 +40,13 @@ class DegreesViewController: UIViewController {
     }
     
     private func loadDegrees() {
-        if let url = degreeConfig?.webview.baseURL {
-            webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: true, searchQuery: nil, discoveryType: .program)
-            webviewHelper?.baseURL = url
-            webviewHelper?.load(withURL: url)
-        }
-        else {
+        guard let url = degreeConfig?.webview.baseURL else {
             assert(false, "Unable to get base URL.")
+            return
         }
+        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: true, searchQuery: nil, discoveryType: .degree)
+        webviewHelper?.baseURL = url
+        webviewHelper?.load(withURL: url)
     }
 }
 

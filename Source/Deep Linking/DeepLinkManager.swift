@@ -110,7 +110,7 @@ typealias DismissCompletion = () -> Void
         
         switch link.type {
         case .courseDetail:
-            guard let courseId = link.courseId, environment?.config.discovery.course.isEnabled ?? false else { return }
+            guard environment?.config.discovery.course.isEnabled ?? false, let courseId = link.courseId else { return }
                 if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                     discoveryViewController.switchSegment(with: .courseDiscovery)
                     environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .courseDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
@@ -122,7 +122,7 @@ typealias DismissCompletion = () -> Void
                 }
             break
         case .programDetail:
-            guard let courseId = link.courseId, environment?.config.discovery.program.isEnabled ?? false else { return }
+            guard environment?.config.discovery.program.isEnabled ?? false, let courseId = link.courseId else { return }
                 if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                     discoveryViewController.switchSegment(with: .programDiscovery)
                     environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
@@ -135,7 +135,11 @@ typealias DismissCompletion = () -> Void
             break
         case .programDiscovery:
             guard environment?.config.discovery.program.isEnabled ?? false else { return }
-            fallthrough
+            if let discoveryViewController = topMostViewController as? DiscoveryViewController {
+                discoveryViewController.switchSegment(with: link.type)
+                return
+            }
+            break
         case .courseDiscovery:
             guard environment?.config.discovery.course.isEnabled ?? false else { return }
             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
