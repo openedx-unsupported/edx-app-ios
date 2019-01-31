@@ -15,9 +15,9 @@ class DegreesViewController: UIViewController {
     
     private let environment: Environment
     private var showBottomBar: Bool = true
-    fileprivate(set) var bottomBar: UIView?
+    fileprivate var bottomBar: UIView?
     private var webviewHelper: DiscoveryWebViewHelper?
-    private var discoveryConfig: DegreeDiscovery? {
+    private var degreeConfig: DegreeDiscovery? {
         return environment.config.discovery.degree
     }
     
@@ -34,13 +34,13 @@ class DegreesViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        navigationItem.title = Strings.degrees
         super.viewDidLoad()
+        navigationItem.title = Strings.degrees
         loadDegrees()
     }
     
     private func loadDegrees() {
-        if let url = discoveryConfig?.webview.baseURL {
+        if let url = degreeConfig?.webview.baseURL {
             webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: true, searchQuery: nil, discoveryType: .program)
             webviewHelper?.baseURL = url
             webviewHelper?.load(withURL: url)

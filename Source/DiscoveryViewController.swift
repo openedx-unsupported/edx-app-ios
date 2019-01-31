@@ -8,29 +8,23 @@
 
 import UIKit
 
- enum segment: Int {
-    case courses
-    case programs
-    case degrees
+ enum SegmentOption: Int {
+    case course, program, degree
+    static let options = [course, program, degree]
+    
+    var title: String {
+        switch self {
+        case .course:
+            return Strings.courses
+        case .program:
+            return Strings.programs
+        case .degree:
+            return Strings.degrees
+        }
+    }
 }
 
 class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding {
-    
-    private enum segmentOptions: Int {
-        case Course, Program, Degree
-        static let options = [Course, Program, Degree]
-        
-        func title(config: OEXConfig? = nil) -> String {
-            switch self {
-            case .Course:
-                return Strings.courses
-            case .Program:
-                return Strings.programs
-            case .Degree:
-                return Strings.degrees
-            }
-        }
-    }
     
     private var segmentItems : [SegmentItem] = []
     private var environment: RouterEnvironment
@@ -45,7 +39,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     lazy var segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl()
         let styles = self.environment.styles
-        control.selectedSegmentIndex = segment.courses.rawValue
+        control.selectedSegmentIndex = SegmentOption.course.rawValue
         control.tintColor = styles.primaryBaseColor()
         control.setTitleTextAttributes([NSForegroundColorAttributeName: styles.neutralWhite()], for: .selected)
         control.setTitleTextAttributes([NSForegroundColorAttributeName: styles.neutralBlack()], for: .normal)
@@ -77,30 +71,30 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         segmentItems = []
         var index = 0
         var item : SegmentItem
-        for option in segmentOptions.options {
+        for option in SegmentOption.options {
             switch option {
-            case .Course:
+            case .course:
                 guard environment.config.discovery.course.isEnabled else { break }
                 let coursesController = self.environment.config.discovery.course.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: false, bottomBar: bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
-                item = SegmentItem(title: option.title(), viewController: coursesController, index: index, type: segment.courses.rawValue)
+                item = SegmentItem(title: option.title, viewController: coursesController, index: index, type: option.rawValue)
                 segmentItems.append(item)
-                segmentedControl.insertSegment(withTitle: option.title(), at: index, animated: false)
+                segmentedControl.insertSegment(withTitle: option.title, at: index, animated: false)
                 index = segmentItems.count
-            case .Program:
+            case .program:
                 guard environment.config.discovery.program.isEnabled else { break }
                 let programDiscoveryViewController = ProgramsDiscoveryViewController(with: environment, showBottomBar: false, bottomBar: bottomBar)
                 programDiscoveryViewController.view.isHidden = true
-                item = SegmentItem(title: option.title(), viewController: programDiscoveryViewController, index: index, type: segment.programs.rawValue)
+                item = SegmentItem(title: option.title, viewController: programDiscoveryViewController, index: index, type: option.rawValue)
                 segmentItems.append(item)
-                segmentedControl.insertSegment(withTitle: option.title(), at: index, animated: false)
+                segmentedControl.insertSegment(withTitle: option.title, at: index, animated: false)
                 index = segmentItems.count
-            case .Degree:
+            case .degree:
                 guard environment.config.discovery.degree.isEnabled else { break }
                 let degreesViewController = DegreesViewController(with: environment, showBottomBar: false, bottomBar: bottomBar)
                 degreesViewController.view.isHidden = true
-                item = SegmentItem(title: option.title(), viewController: degreesViewController, index: index, type: segment.degrees.rawValue)
+                item = SegmentItem(title: option.title, viewController: degreesViewController, index: index, type: option.rawValue)
                 segmentItems.append(item)
-                segmentedControl.insertSegment(withTitle: option.title(), at: index, animated: false)
+                segmentedControl.insertSegment(withTitle: option.title, at: index, animated: false)
                 index = segmentItems.count
             }
         }
@@ -192,26 +186,26 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     func switchSegment(with type: DeepLinkType) {
         switch type {
         case .courseDiscovery:
-            let index = self.index(for: segment.courses.rawValue)
-            segmentedControl.selectedSegmentIndex = index
-            controllerVisibility(with: index)
+            let selectedIndex = index(for: SegmentOption.course.rawValue)
+            segmentedControl.selectedSegmentIndex = selectedIndex
+            controllerVisibility(with: selectedIndex)
             break
         case .programDiscovery, .programDetail:
-            let index = self.index(for: segment.programs.rawValue)
-            segmentedControl.selectedSegmentIndex = index
-            controllerVisibility(with: index)
+            let selectedIndex = index(for: SegmentOption.program.rawValue)
+            segmentedControl.selectedSegmentIndex = selectedIndex
+            controllerVisibility(with: selectedIndex)
         default:
             break
         }
     }
     
     func segmentType(of selectedIndex: Int) -> Int {
-        var segmentType = segment.courses.rawValue
+        var segmentType = SegmentOption.course.rawValue
         for item in segmentItems {
             if item.index == selectedIndex {
                 segmentType = item.type
             }
         }
         return segmentType
-    }    
+    }
 }
