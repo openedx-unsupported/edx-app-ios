@@ -432,6 +432,8 @@
 "DISCOVER"="Discovery";
 /*Title for the programs in tabbar and navigation bar*/
 "PROGRAMS"="Programs";
+/*Title for the degrees in navigation bar*/
+"DEGREES"="Degrees";
 /*Debug option title in tabbar */
 "DEBUG"="Debug";
 /* Error message shown when email address is not properly formatted */
@@ -701,6 +703,8 @@
 "SEARCH_COURSES_PLACEHOLDER_TEXT"="Search course";
 /*Placeholder text for search program textfield*/
 "SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Search program";
+/*Placeholder text for search degree textfield*/
+"SEARCH_DEGREES_PLACEHOLDER_TEXT"="Search degree";
 /* Discussion search results  */
 "SEARCH_RESULTS"="Search results";
 /* Text shown below the video, in portrait mode */

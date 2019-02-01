@@ -329,15 +329,15 @@ extension OEXRouter {
     func discoveryViewController(bottomBar: UIView? = nil, searchQuery: String? = nil) -> UIViewController? {
         let isCourseDiscoveryEnabled = environment.config.discovery.course.isEnabled
         let isProgramDiscoveryEnabled = environment.config.discovery.program.isEnabled
+        let isDegreeDiscveryEnabled = environment.config.discovery.degree.isEnabled
         
-        if isCourseDiscoveryEnabled && isProgramDiscoveryEnabled {
+        if (isCourseDiscoveryEnabled && isProgramDiscoveryEnabled && isDegreeDiscveryEnabled) ||
+            (isCourseDiscoveryEnabled && isProgramDiscoveryEnabled) ||
+            (isCourseDiscoveryEnabled && isDegreeDiscveryEnabled) {
             return DiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
         else if isCourseDiscoveryEnabled {
             return environment.config.discovery.course.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: true, bottomBar: bottomBar, searchQuery: searchQuery) : CourseCatalogViewController(environment: environment)
-        }
-        else if isProgramDiscoveryEnabled {
-            return ProgramsDiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
         return nil
     }

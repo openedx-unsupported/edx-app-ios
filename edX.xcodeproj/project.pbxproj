@@ -99,6 +99,8 @@
 		2240FD561FF266E4001D6589 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2240FD551FF266E4001D6589 /* TabBarItem.swift */; };
 		224D457921B90753003A382C /* UIFont+Attributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224D457821B90753003A382C /* UIFont+Attributes.swift */; };
 		224F1F532067B4E0009B3639 /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 224F1F522067B4E0009B3639 /* CustomSlider.swift */; };
+		22547414220038BC000E5957 /* DegreesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22547413220038BC000E5957 /* DegreesViewController.swift */; };
+		225474162201B765000E5957 /* SegmentItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225474152201B765000E5957 /* SegmentItem.swift */; };
 		2254EF03207610FF00BA183C /* CustomPlayerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2254EF02207610FF00BA183C /* CustomPlayerButton.swift */; };
 		2255C94E2111BADC005F7C8C /* ProgramConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94D2111BADC005F7C8C /* ProgramConfig.swift */; };
 		2255C95021183FCC005F7C8C /* ProgramConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */; };
@@ -1025,6 +1027,8 @@
 		2240FD551FF266E4001D6589 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		224D457821B90753003A382C /* UIFont+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Attributes.swift"; sourceTree = "<group>"; };
 		224F1F522067B4E0009B3639 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		22547413220038BC000E5957 /* DegreesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreesViewController.swift; sourceTree = "<group>"; };
+		225474152201B765000E5957 /* SegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentItem.swift; sourceTree = "<group>"; };
 		2254EF02207610FF00BA183C /* CustomPlayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerButton.swift; sourceTree = "<group>"; };
 		2255C94D2111BADC005F7C8C /* ProgramConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfig.swift; sourceTree = "<group>"; };
 		2255C94F21183FCC005F7C8C /* ProgramConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramConfigTests.swift; sourceTree = "<group>"; };
@@ -3096,6 +3100,8 @@
 				9C9B7F661A8CC68400A857B2 /* OEXCourseInfoViewController.m */,
 				B7EC83BE21A2D34600D6A89C /* ProgramsDiscoveryViewController.swift */,
 				B7EC83C021A2DE9E00D6A89C /* DiscoveryViewController.swift */,
+				22547413220038BC000E5957 /* DegreesViewController.swift */,
+				225474152201B765000E5957 /* SegmentItem.swift */,
 			);
 			name = "Course Enrollment";
 			sourceTree = "<group>";
@@ -4878,6 +4884,7 @@
 				B7CCC72D209B16B100A66923 /* ConstraintLayoutGuide.swift in Sources */,
 				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,
 				1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */,
+				22547414220038BC000E5957 /* DegreesViewController.swift in Sources */,
 				223A98FC1FA8610B0018DF67 /* AdditionalTabBarViewController.swift in Sources */,
 				77F76A6E1B0BD32A00ED3E39 /* OEXSession+Authorization.swift in Sources */,
 				B7A1EA83209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift in Sources */,
@@ -4922,6 +4929,7 @@
 				B42DA1891A1539F000E3AD4E /* OEXFileUtility.m in Sources */,
 				224D457921B90753003A382C /* UIFont+Attributes.swift in Sources */,
 				777EFEFD1A7AFF0E00F8BF06 /* OEXRouter.m in Sources */,
+				225474162201B765000E5957 /* SegmentItem.swift in Sources */,
 				9EC6E0FE1BDE106500729704 /* IrregularBorderView.swift in Sources */,
 				8F562F881A1F2D2C00320DB3 /* OEXGoogleSocial.m in Sources */,
 				69C12C661E07F5F8004E7261 /* VideoTranscript.swift in Sources */,

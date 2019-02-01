@@ -69,9 +69,6 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         if let _ = pathId {
             environment.analytics.trackScreen(withName: AnalyticsScreenName.ProgramInfo.rawValue)
         }
-        else {
-            environment.analytics.trackScreen(withName: AnalyticsScreenName.DiscoverProgram.rawValue)
-        }
     }
     
     func loadProgramDetails(with pathId: String) {
