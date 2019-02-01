@@ -76,7 +76,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
             case .course:
                 guard environment.config.discovery.course.isEnabled else { break }
                 let coursesController = self.environment.config.discovery.course.type == .webview ? OEXFindCoursesViewController(environment: environment, showBottomBar: false, bottomBar: bottomBar, searchQuery: self.searchQuery) : CourseCatalogViewController(environment: self.environment)
-                item = SegmentItem(title: option.title, viewController: coursesController, index: index, type: option.rawValue)
+                item = SegmentItem(title: option.title, viewController: coursesController, index: index, type: option.rawValue, analyticsScreenName: OEXAnalyticsScreenFindCourses)
                 segmentItems.append(item)
                 segmentedControl.insertSegment(withTitle: option.title, at: index, animated: false)
                 index = segmentItems.count
@@ -84,7 +84,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
                 guard environment.config.discovery.program.isEnabled else { break }
                 let programDiscoveryViewController = ProgramsDiscoveryViewController(with: environment, showBottomBar: false, bottomBar: bottomBar)
                 programDiscoveryViewController.view.isHidden = true
-                item = SegmentItem(title: option.title, viewController: programDiscoveryViewController, index: index, type: option.rawValue)
+                item = SegmentItem(title: option.title, viewController: programDiscoveryViewController, index: index, type: option.rawValue, analyticsScreenName: AnalyticsScreenName.DiscoverProgram.rawValue)
                 segmentItems.append(item)
                 segmentedControl.insertSegment(withTitle: option.title, at: index, animated: false)
                 index = segmentItems.count
@@ -92,7 +92,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
                 guard environment.config.discovery.degree.isEnabled else { break }
                 let degreesViewController = DegreesViewController(with: environment, showBottomBar: false, bottomBar: bottomBar)
                 degreesViewController.view.isHidden = true
-                item = SegmentItem(title: option.title, viewController: degreesViewController, index: index, type: option.rawValue)
+                item = SegmentItem(title: option.title, viewController: degreesViewController, index: index, type: option.rawValue, analyticsScreenName: AnalyticsScreenName.DiscoverDegree.rawValue)
                 segmentItems.append(item)
                 segmentedControl.insertSegment(withTitle: option.title, at: index, animated: false)
                 index = segmentItems.count
@@ -123,6 +123,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         for item in segmentItems {
             if item.index == segmentIndex {
                 item.viewController.view.isHidden = false
+                environment.analytics.trackScreen(withName: item.analyticsScreenName)
             }
             else {
                 item.viewController.view.isHidden = true

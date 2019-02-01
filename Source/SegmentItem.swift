@@ -14,4 +14,5 @@ struct SegmentItem {
     let viewController: UIViewController
     let index: Int
     let type: Int
+    let analyticsScreenName: String
 }

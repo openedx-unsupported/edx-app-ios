@@ -39,17 +39,12 @@ class DegreesViewController: UIViewController {
         loadDegrees()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        environment.analytics.trackScreen(withName: AnalyticsScreenName.DiscoverDegree.rawValue)
-    }
-    
     private func loadDegrees() {
         guard let url = degreeConfig?.webview.baseURL else {
             assert(false, "Unable to get base URL.")
             return
         }
-        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: true, searchQuery: nil, discoveryType: .degree)
+        webviewHelper = DiscoveryWebViewHelper(environment: environment, delegate: self, bottomBar: showBottomBar ? bottomBar : nil, showSearch: degreeConfig?.webview.searchEnabled ?? false, searchQuery: nil, discoveryType: .degree)
         webviewHelper?.baseURL = url
         webviewHelper?.load(withURL: url)
     }
