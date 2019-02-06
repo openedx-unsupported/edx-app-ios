@@ -53,7 +53,7 @@ class DiscoveryConfig: NSObject {
     init(dictionary: [String: AnyObject]) {
         course = CourseDiscovery(dictionary: dictionary[DiscoveryKeys.course] as? [String: AnyObject] ?? [:])
         program = ProgramDiscovery(with: course, dictionary: dictionary[DiscoveryKeys.program] as? [String: AnyObject] ?? [:])
-        degree = DegreeDiscovery(with: course, dictionary: dictionary[DiscoveryKeys.degree] as? [String: AnyObject] ?? [:])
+        degree = DegreeDiscovery(with: program, dictionary: dictionary[DiscoveryKeys.degree] as? [String: AnyObject] ?? [:])
     }
 }
 
@@ -83,7 +83,19 @@ class ProgramDiscovery: DiscoveryBase {
     }
 }
 
-class DegreeDiscovery: ProgramDiscovery { }
+class DegreeDiscovery: DiscoveryBase {
+    
+    private let programDiscovery: ProgramDiscovery
+    
+    init(with programDiscovery: ProgramDiscovery, dictionary: [String : AnyObject]) {
+        self.programDiscovery = programDiscovery
+        super.init(dictionary: dictionary)
+    }
+    
+    var isEnabled: Bool {
+        return programDiscovery.isEnabled && type == .webview
+    }
+}
 
 class DiscoveryBase: NSObject {
     private(set) var type: DiscoveryConfigType
