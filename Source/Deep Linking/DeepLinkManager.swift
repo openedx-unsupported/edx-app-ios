@@ -70,6 +70,8 @@ typealias DismissCompletion = () -> Void
             return .discussions
         } else if controller is AccountViewController {
             return .account
+        } else if controller is UserProfileViewController {
+            return .profile
         }
         
         return .none
@@ -175,6 +177,26 @@ typealias DismissCompletion = () -> Void
         }
     }
     
+    private func showProfile(modalTransitionStylePresent: Bool) {
+        guard let topViewController = topMostViewController, let username = environment?.session.currentUser?.username else { return }
+        environment?.router?.showProfileForUsername(controller: topViewController, username: username, editable: false, modalTransitionStylePresent: modalTransitionStylePresent)
+    }
+    
+    private func showProfileViewController(with link: DeepLink) {
+        guard let topViewController = topMostViewController else { return }
+        if topViewController is AccountViewController {
+            showProfile(modalTransitionStylePresent: false)
+        }
+        else if topViewController is UserProfileEditViewController {
+            topViewController.navigationController?.popViewController(animated: true)
+        }
+        else if !controllerAlreadyDisplayed(for: link.type) {
+            dismiss() { [weak self] in
+                self?.showProfile(modalTransitionStylePresent: true)
+            }
+        }
+    }
+    
     private func controllerAlreadyDisplayed(for type: DeepLinkType) -> Bool {
         guard let topViewController = topMostViewController else { return false }
 
@@ -215,6 +237,9 @@ typealias DismissCompletion = () -> Void
             break
         case .account:
             showAccountViewController(with: link)
+            break
+        case .profile:
+            showProfileViewController(with: link)
             break
         default:
             break
