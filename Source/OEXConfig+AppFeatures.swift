@@ -9,7 +9,7 @@
 import Foundation
 
 extension OEXConfig {
-    var pushNotificationsEnabled : Bool {
+    @objc var pushNotificationsEnabled : Bool {
         return bool(forKey: "PUSH_NOTIFICATIONS")
     }
 
@@ -45,7 +45,7 @@ extension OEXConfig {
         return bool(forKey: "DISCUSSIONS_ENABLE_PROFILE_PICTURE_PARAM")
     }
     
-    var isRegistrationEnabled: Bool {
+    @objc var isRegistrationEnabled: Bool {
         // By default registration is enabled
         return bool(forKey: "REGISTRATION_ENABLED", defaultValue: true)
     }
@@ -67,7 +67,7 @@ extension OEXConfig {
         return bool(forKey: "COURSE_VIDEOS_ENABLED", defaultValue: true)
     }
     
-    var isUsingVideoPipeline: Bool {
+    @objc var isUsingVideoPipeline: Bool {
         // By default using video pipeline is enabled
         return bool(forKey: "USING_VIDEO_PIPELINE", defaultValue: true)
     }

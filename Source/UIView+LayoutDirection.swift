@@ -9,7 +9,7 @@
 import Foundation
 
 extension UIView {
-    var isRightToLeft : Bool {
+    @objc var isRightToLeft : Bool {
         let direction = UIView.userInterfaceLayoutDirection(for: self.semanticContentAttribute)
         switch direction {
         case .leftToRight: return false
@@ -36,6 +36,8 @@ extension UIControl {
             case .center:
                 return .Center
             case .fill:
+                return .Fill
+            default:
                 return .Fill
             }
         }

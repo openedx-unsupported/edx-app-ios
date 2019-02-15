@@ -35,7 +35,7 @@ extension FeatureInteractor {
         FeatureTestCase.activeTest.expectation(for: predicate, evaluatedWith: element, handler: nil)
         FeatureTestCase.activeTest.waitForExpectations { (error) -> Void in
             if error != nil {
-                FeatureTestCase.activeTest.recordFailure(withDescription: "Timeout waiting for element: \(element)", inFile: file, atLine: line, expected: true)
+                FeatureTestCase.activeTest.recordFailure(withDescription: "Timeout waiting for element: \(element)", inFile: file, atLine: Int(line), expected: true)
             }
         }
     }
@@ -50,7 +50,7 @@ extension FeatureInteractor {
     var textFields: XCUIElementQuery { return XCUIApplication().textFields }
     var secureTextFields: XCUIElementQuery { return XCUIApplication().secureTextFields }
 
-    func find(identifier: String, type: XCUIElementType = .any) -> XCUIElement {
+    func find(identifier: String, type: XCUIElement.ElementType = .any) -> XCUIElement {
         return XCUIApplication().descendants(matching: type)[identifier]
     }
 

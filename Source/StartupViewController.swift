@@ -68,7 +68,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     // MARK: - View Setup
 
     private func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             if view.frame.size.height - (searchView.frame.origin.y + searchView.frame.size.height) < keyboardSize.height  {
                 let difference = keyboardSize.height - (view.frame.size.height - (searchView.frame.origin.y + searchView.frame.size.height)) + StandardVerticalMargin
                 view.frame.origin.y = -difference
@@ -81,11 +81,11 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     private func addObservers() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardDidShow.rawValue) { (notification, observer, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIResponder.keyboardDidShowNotification.rawValue) { (notification, observer, _) in
             observer.keyboardWillShow(notification: notification)
         }
 
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillHide.rawValue) { (_, observer, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIResponder.keyboardWillHideNotification.rawValue) { (_, observer, _) in
             observer.keyboardWillHide()
         }
     }
@@ -96,7 +96,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.accessibilityLabel = environment.config.platformName()
         logoImageView.isAccessibilityElement = true
-        logoImageView.accessibilityTraits = UIAccessibilityTraitImage
+        logoImageView.accessibilityTraits = UIAccessibilityTraits.image
         logoImageView.accessibilityIdentifier = "StartUpViewController:logo-image-view"
         view.addSubview(logoImageView)
 
@@ -160,7 +160,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         searchTextField.attributedPlaceholder = textStyle.attributedString(withText: placeholderText)
         searchTextField.textColor = environment.styles.primaryBaseColor()
         searchTextField.returnKeyType = .search
-        searchTextField.defaultTextAttributes = environment.styles.textFieldStyle(with: .large, color: environment.styles.primaryBaseColor()).attributes
+        searchTextField.defaultTextAttributes = environment.styles.textFieldStyle(with: .large, color: environment.styles.primaryBaseColor()).attributes.attributedKeyDictionary()
         searchView.addSubview(searchTextField)
         
         searchTextField.snp.makeConstraints { make in

@@ -28,7 +28,7 @@ class DebugMenuLogger: NSObject, LoggerSink {
 
     static let instance = DebugMenuLogger()
 
-    class func setup() {
+    @objc class func setup() {
         if OEXConfig.shared().shouldShowDebug() {
             Logger.sharedLogger.addSink(instance)
         }

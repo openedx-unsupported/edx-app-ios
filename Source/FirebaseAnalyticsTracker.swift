@@ -12,10 +12,10 @@ private let MaxParameterValueCharacters = 100
 
 class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     
-    static let minifiedBlockIDKey: NSString = "minifiedBlockID"
+    @objc static let minifiedBlockIDKey: NSString = "minifiedBlockID"
     
     var currentOrientationValue : String {
-        return UIInterfaceOrientationIsLandscape(UIApplication.shared.statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
+        return UIApplication.shared.statusBarOrientation.isLandscape ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
     
     //Skipping these keys for Firebase analytics

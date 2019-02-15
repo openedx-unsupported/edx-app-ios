@@ -115,7 +115,7 @@ class MockNetworkManagerTests : XCTestCase {
         })
         
         let expectation = self.expectation(description: "Request sent")
-        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .dataResponse({ _ -> Result<String> in
+        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .dataResponse({ _,_  -> Result<String> in
             XCTFail("Should not get here")
             return .failure(NetworkManager.unknownError)
         }))
@@ -130,7 +130,7 @@ class MockNetworkManagerTests : XCTestCase {
         let manager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://example.com")!)
         
         let expectation = self.expectation(description: "Request sent")
-        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .dataResponse({ _ -> Result<String> in
+        let request = NetworkRequest(method: HTTPMethod.GET, path: "/test", deserializer: .dataResponse({ _,_  -> Result<String> in
             XCTFail("Should not get here")
             return .failure(NetworkManager.unknownError)
         }))

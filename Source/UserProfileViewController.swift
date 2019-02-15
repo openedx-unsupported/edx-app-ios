@@ -172,7 +172,7 @@ extension UINavigationBar {
     private func apply(barTintColor: UIColor, tintColor: UIColor, titleStyle: OEXTextStyle) {
         self.barTintColor = barTintColor
         self.tintColor = tintColor
-        titleTextAttributes = titleStyle.attributes
+        titleTextAttributes = titleStyle.attributes.attributedKeyDictionary()
     }
     
     func applyUserProfileNavbarColorScheme() {

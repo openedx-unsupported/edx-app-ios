@@ -165,7 +165,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
                 return (nil, UserCourseEnrollment(course:course, isActive: true))
             }
             
-            expectation(forNotification: EnrollmentShared.successNotification, object: nil, handler: { (notification) -> Bool in
+            expectation(forNotification: NSNotification.Name(rawValue:EnrollmentShared.successNotification), object: nil, handler: { (notification) -> Bool in
                 let enrollmentMessage = notification.object as! String
                 return enrollmentMessage == message
             })

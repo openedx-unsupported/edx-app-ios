@@ -9,20 +9,20 @@
 import Foundation
 
 class SingleChildContainingViewController : UIViewController {
-    override var childViewControllerForStatusBarStyle: UIViewController? {
-        return self.childViewControllers.last
+    override var childForStatusBarStyle: UIViewController? {
+        return self.children.last
     }
 
-    override var childViewControllerForStatusBarHidden: UIViewController? {
-        return self.childViewControllers.last
+    override var childForStatusBarHidden: UIViewController? {
+        return self.children.last
     }
 
     override var shouldAutorotate: Bool {
-        return self.childViewControllers.last?.shouldAutorotate ?? super.shouldAutorotate
+        return self.children.last?.shouldAutorotate ?? super.shouldAutorotate
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return self.childViewControllers.last?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
+        return self.children.last?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {

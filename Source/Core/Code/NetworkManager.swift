@@ -37,14 +37,14 @@ public enum AuthenticationAction {
     
     public var isProceed : Bool {
         switch self {
-        case .proceed(_): return true
+        case .proceed: return true
         case .authenticate(_): return false
         }
     }
     
     public var isAuthenticate : Bool {
         switch self {
-        case .proceed(_): return false
+        case .proceed: return false
         case .authenticate(_): return true
         }
     }
@@ -151,14 +151,14 @@ extension NSError {
     }
     
     static func oex_HTTPError(_ statusCode : Int, userInfo: [AnyHashable: Any]) -> NSError {
-        return NSError(domain: NetworkManager.errorDomain, code: statusCode, userInfo: userInfo)
+        return NSError(domain: NetworkManager.errorDomain, code: statusCode, userInfo: userInfo as? [String : Any])
     }
     
     public static func oex_outdatedVersionError() -> NSError {
         return NSError(domain: NetworkManager.errorDomain, code: NetworkManager.Error.outdatedVersionError.rawValue, userInfo: nil)
     }
     
-    public var oex_isNoInternetConnectionError : Bool {
+    @objc public var oex_isNoInternetConnectionError : Bool {
         return self.domain == NSURLErrorDomain && (self.code == NSURLErrorNotConnectedToInternet || self.code == NSURLErrorNetworkConnectionLost)
     }
     
@@ -188,7 +188,7 @@ open class NetworkManager : NSObject {
     fileprivate var responseInterceptors: [ResponseInterceptor] = []
     open var authenticator : Authenticator?
     
-    public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
+    @objc public init(authorizationHeaderProvider: AuthorizationHeaderProvider? = nil, credentialProvider : URLCredentialProvider? = nil, baseURL : URL, cache : ResponseCache) {
         self.authorizationHeaderProvider = authorizationHeaderProvider
         self.credentialProvider = credentialProvider
         self.baseURL = baseURL

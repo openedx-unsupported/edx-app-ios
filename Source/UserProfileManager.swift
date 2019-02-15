@@ -17,7 +17,7 @@ open class UserProfileManager : NSObject {
     private let currentUserUpdateStream = Sink<UserProfile>()
     private let cache = LiveObjectCache<Feed<UserProfile>>()
     
-    public init(networkManager : NetworkManager, session : OEXSession) {
+    @objc public init(networkManager : NetworkManager, session : OEXSession) {
         self.networkManager = networkManager
         self.session = session
         

@@ -35,7 +35,7 @@ class VideoPlayerTests: XCTestCase {
                     self.videoPlayer?.play(video: video)
             }
             let expectations = expectation(description: "player ready to play")
-            let removable = addNotificationObserver(observer: self, name: "TestPlayerStatusDidChangedToReadyState") { [weak self] _ in
+            let removable = addNotificationObserver(observer: self, name: "TestPlayerStatusDidChangedToReadyState") { [weak self] _,_,_  in
                 if let videoPlayer = self?.videoPlayer {
                     completion?(videoPlayer)
                 }

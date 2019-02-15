@@ -167,7 +167,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         title = Strings.Profile.editTitle
         navigationItem.backBarButtonItem?.title = " "
         
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         tableView.tableHeaderView = makeHeader()
         tableView.tableFooterView = footer //get rid of extra lines when the content is shorter than a screen
@@ -260,7 +260,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let field = fields[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: field.cellIdentifier, for: indexPath as IndexPath)
-        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
         cell.applyStandardSeparatorInsets()
 
         guard let formCell = cell as? FormCell else { return cell }
@@ -422,10 +422,10 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
         let resizedImage = image.resizedTo(size: CGSize(width: 500, height: 500))
         
         var quality: CGFloat = 1.0
-        var data = UIImageJPEGRepresentation(resizedImage, quality)!
+        var data = resizedImage.jpegData(compressionQuality: quality)!
         while data.count > MiB && quality > 0 {
             quality -= 0.1
-            data = UIImageJPEGRepresentation(resizedImage, quality)!
+            data = resizedImage.jpegData(compressionQuality: quality)!
         }
         
         banner.shortProfView.image = image

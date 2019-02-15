@@ -99,7 +99,7 @@ public extension OEXCourse {
     }
     
     /// Same as OEXCourse.freshCourse(). Only needed to deal with objc, not having default arguments
-    public static func accessibleTestCourse() -> OEXCourse {
+    @objc public static func accessibleTestCourse() -> OEXCourse {
         let courseData = OEXCourse.testData(accessible : true)
         return OEXCourse(dictionary: courseData)
     }

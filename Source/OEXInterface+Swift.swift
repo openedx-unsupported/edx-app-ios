@@ -33,7 +33,7 @@ extension OEXInterface : LastAccessedProvider {
         return CourseLastAccessed(moduleId: moduleId, moduleName: moduleName)
     }
 
-    public func setLastAccessedSubSectionWithID(subsectionID: String, subsectionName: String, courseID: String?, timeStamp: String) {
+    @objc public func setLastAccessedSubSectionWithID(subsectionID: String, subsectionName: String, courseID: String?, timeStamp: String) {
         self.storage?.setLastAccessedSubsection(subsectionID, andSubsectionName: subsectionName, forCourseID: courseID, onTimeStamp: timeStamp)
     }
     

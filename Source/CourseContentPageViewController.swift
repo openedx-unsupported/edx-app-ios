@@ -105,7 +105,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         // Filed http://www.openradar.appspot.com/radar?id=6188034965897216 against Apple to better expose
         // this API.
         // Verified on iOS9 and iOS 8
-        if let scrollView = (self.view.subviews.flatMap { return $0 as? UIScrollView }).first {
+        if let scrollView = (self.view.subviews.compactMap { return $0 as? UIScrollView }).first {
             scrollView.delaysContentTouches = false
         }
         addObservers()
@@ -176,7 +176,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     private func toolbarItemWithGroupItem(item : CourseOutlineQuerier.GroupItem, adjacentGroup : CourseBlock?, direction : DetailToolbarButton.Direction, enabled : Bool) -> UIBarButtonItem {
         let titleText : String
-        let moveDirection : UIPageViewControllerNavigationDirection
+        let moveDirection : UIPageViewController.NavigationDirection
         let isGroup = adjacentGroup != nil
         
         switch direction {
@@ -216,7 +216,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
                     let animated = self?.navigationItem.title != nil
 
                     UIView.transition(with: navigationBar,
-                                      duration: 0.3 * (animated ? 1.0 : 0.0), options: UIViewAnimationOptions.transitionCrossDissolve,
+                                      duration: 0.3 * (animated ? 1.0 : 0.0), options: UIView.AnimationOptions.transitionCrossDissolve,
                                       animations: actions, completion: nil)
                 }
                 else {
@@ -240,7 +240,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     
     // MARK: Paging
     
-    private func siblingWithDirection(direction : UIPageViewControllerNavigationDirection, fromController viewController: UIViewController) -> UIViewController? {
+    private func siblingWithDirection(direction : UIPageViewController.NavigationDirection, fromController viewController: UIViewController) -> UIViewController? {
         let item : CourseOutlineQuerier.GroupItem?
         switch direction {
         case .forward:
@@ -267,7 +267,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.updateNavigationBars()
     }
     
-    fileprivate func moveInDirection(direction : UIPageViewControllerNavigationDirection) {
+    fileprivate func moveInDirection(direction : UIPageViewController.NavigationDirection) {
         if let currentController = viewControllers?.first,
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
@@ -277,7 +277,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         }
     }
     
-    private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewControllerNavigationDirection, animated:Bool, completion: ((Bool) -> Void)? = nil) {
+    private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewController.NavigationDirection, animated:Bool, completion: ((Bool) -> Void)? = nil) {
         // setViewControllers is being called in async thread so user may intract with UIPageController in that duration so
         // disabling user interation while setting viewControllers of UIPageViewController
         

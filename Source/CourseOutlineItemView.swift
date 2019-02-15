@@ -33,7 +33,7 @@ public class CourseOutlineItemView: UIView {
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let videoSizeLabel = UILabel()
-    private let leadingImageButton = UIButton(type: UIButtonType.system)
+    private let leadingImageButton = UIButton(type: UIButton.ButtonType.system)
     private let checkmark = UIImageView()
     private let trailingContainer = UIView()
     
@@ -68,11 +68,11 @@ public class CourseOutlineItemView: UIView {
         super.init(frame: CGRect.zero)
         
         leadingImageButton.tintColor = OEXStyles.shared().primaryBaseColor()
-        leadingImageButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
-        trailingContainer.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        leadingImageButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        trailingContainer.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
         
-        leadingImageButton.accessibilityTraits = UIAccessibilityTraitImage
-        titleLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        leadingImageButton.accessibilityTraits = UIAccessibilityTraits.image
+        titleLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for: .horizontal)
         
         checkmark.image = Icon.Graded.imageWithFontSize(size: 10)
         checkmark.tintColor = OEXStyles.shared().primaryBaseColor()

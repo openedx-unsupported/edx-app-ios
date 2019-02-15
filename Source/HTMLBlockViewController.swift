@@ -29,8 +29,8 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         
         super.init(nibName : nil, bundle : nil)
         
-        addChildViewController(webController)
-        webController.didMove(toParentViewController: self)
+        addChild(webController)
+        webController.didMove(toParent: self)
     }
 
     required public init?(coder aDecoder: NSCoder) {

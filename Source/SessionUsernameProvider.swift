@@ -11,7 +11,7 @@ import edXCore
 
 @objc public class SessionUsernameProvider : NSObject, PathProvider {
     private let session : OEXSession
-    public init(session : OEXSession) {
+    @objc public init(session : OEXSession) {
         self.session = session
     }
 

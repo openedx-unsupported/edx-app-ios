@@ -10,7 +10,7 @@ import Foundation
 
 @objc class RegistrationFieldControllerFactory : NSObject {
     
-    open class func registrationController(of field: OEXRegistrationFormField) -> OEXRegistrationFieldController? {
+    @objc open class func registrationController(of field: OEXRegistrationFormField) -> OEXRegistrationFieldController? {
         switch field.fieldType {
         case OEXRegistrationFieldTypeText,
              OEXRegistrationFieldTypeEmail,

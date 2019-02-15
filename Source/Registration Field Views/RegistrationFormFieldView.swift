@@ -38,9 +38,9 @@ class RegistrationFormFieldView: UIView {
     }()
     
     // Used in child class
-    lazy var textInputField: LogistrationTextField = {
+    @objc lazy var textInputField: LogistrationTextField = {
         let textField = LogistrationTextField()
-        textField.defaultTextAttributes = OEXStyles.shared().textFieldStyle(with: .base).attributes
+        textField.defaultTextAttributes = OEXStyles.shared().textFieldStyle(with: .base).attributes.attributedKeyDictionary()
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.addTarget(self, action: #selector(RegistrationFormFieldView.valueDidChange), for: .editingChanged)
@@ -81,7 +81,7 @@ class RegistrationFormFieldView: UIView {
     
     // Used in child class
     private(set) var formField: OEXRegistrationFormField?
-    var errorMessage: String? {
+    @objc var errorMessage: String? {
         didSet {
             errorLabel.attributedText = self.errorLabelStyle.attributedString(withText: errorMessage ?? "")
             refreshAccessibilty()
@@ -104,7 +104,7 @@ class RegistrationFormFieldView: UIView {
         return currentValue != ""
     }
     
-    var isValidInput: Bool {
+    @objc var isValidInput: Bool {
         guard let errorMessage = validate() else {
             return true
         }
@@ -117,7 +117,7 @@ class RegistrationFormFieldView: UIView {
         super.init(coder: aDecoder)
     }
     
-    init(with formField: OEXRegistrationFormField) {
+    @objc init(with formField: OEXRegistrationFormField) {
         super.init(frame: CGRect.zero)
         self.formField = formField
         loadView()
@@ -188,7 +188,7 @@ class RegistrationFormFieldView: UIView {
         self.frame = frame
     }
     
-    func setValue(_ value: String) {
+    @objc func setValue(_ value: String) {
         if isInputTypeTextArea {
             textInputArea.text = value
         }

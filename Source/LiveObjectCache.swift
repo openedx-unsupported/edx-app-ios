@@ -36,7 +36,7 @@ public class LiveObjectCache<A : LifetimeTrackable> : NSObject {
     
     override public init() {
         super.init()
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning.rawValue) { (_, owner, _) -> Void in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didReceiveMemoryWarningNotification.rawValue) { (_, owner, _) -> Void in
             owner.dataCache.removeAllObjects()
         }
     }

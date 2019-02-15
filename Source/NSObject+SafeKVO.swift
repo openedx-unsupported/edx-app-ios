@@ -51,7 +51,7 @@ extension NSObjectExtensions where Self : NSObject {
                 action(observer, self, v)
             }
         }
-        objc_setAssociatedObject(observer, listener.token, listener, .OBJC_ASSOCIATION_RETAIN)
+        objc_setAssociatedObject(observer, listener.token ?? malloc(1), listener, .OBJC_ASSOCIATION_RETAIN)
         self.addObserver(listener, forKeyPath: keyPath, options: .new, context: listener.token)
         let deallocRemover = observer.oex_performAction { [weak listener] in
             listener?.remove()
@@ -60,7 +60,7 @@ extension NSObjectExtensions where Self : NSObject {
         listener.removeAction = {[weak observer, weak self] listener in
             self?.removeObserver(listener, forKeyPath: keyPath)
             if let observer = observer {
-                objc_setAssociatedObject(observer, listener.token, nil, .OBJC_ASSOCIATION_RETAIN)
+                objc_setAssociatedObject(observer, listener.token ?? malloc(1), nil, .OBJC_ASSOCIATION_RETAIN)
             }
             deallocRemover.remove()
         }

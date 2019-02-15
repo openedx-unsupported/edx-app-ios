@@ -29,7 +29,7 @@ extension NSError {
             self.init(domain: OEXErrorDomain, code: code, userInfo: nil)
             return nil
         }
-        self.init(domain: OEXErrorDomain, code: code, userInfo: info)
+        self.init(domain: OEXErrorDomain, code: code, userInfo: info as? [String : Any])
     }
 
     func isAPIError(code: APIErrorCode) -> Bool {

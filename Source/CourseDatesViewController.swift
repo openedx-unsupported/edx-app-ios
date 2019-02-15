@@ -30,8 +30,8 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addChildViewController(webController)
-        webController.didMove(toParentViewController: self)
+        addChild(webController)
+        webController.didMove(toParent: self)
         view.addSubview(webController.view)
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         setConstraints()
@@ -85,7 +85,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         })
     }
     
-    func showLoadedCourseDates() {
+    @objc func showLoadedCourseDates() {
         webController.setLoadControllerState(withState: LoadState.Loaded)
     }
 }

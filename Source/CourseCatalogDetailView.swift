@@ -80,7 +80,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         }
         
         insetContainer.layoutMarginsRelativeArrangement = true
-        insetContainer.layoutMargins = UIEdgeInsetsMake(0, margin, 0, margin)
+        insetContainer.layoutMargins = UIEdgeInsets.init(top: 0, left: margin, bottom: 0, right: margin)
         insetContainer.spacing = margin
         
         insetsController.addSource(source: topContentInsets)
@@ -91,12 +91,12 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         
         actionButton.oex_addAction({[weak self] _ in
             self?.actionButton.showProgress = true
-            self?.action?( {[weak self] _ in
+            self?.action?( {[weak self] in
                             self?.actionButton.showProgress = false
             } )
             }, for: .touchUpInside)
         
-        descriptionView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
+        descriptionView.scrollView.decelerationRate = UIScrollView.DecelerationRate.normal
         descriptionView.delegate = self
         descriptionView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
@@ -188,7 +188,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         _loaded.send(())
     }
     
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         if let URL = request.url, navigationType != .other {
             UIApplication.shared.openURL(URL)
             return false

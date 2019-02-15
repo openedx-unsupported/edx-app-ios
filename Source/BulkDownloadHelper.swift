@@ -36,7 +36,7 @@ class BulkDownloadHelper {
     var totalSize: Double {
         return videos.reduce(into: 0.0) {
             (sum, video) in
-            sum = sum + Double(video.summary?.size ?? 0)
+            sum = sum + Double(truncating: video.summary?.size ?? 0)
         }
     }
     
@@ -47,13 +47,13 @@ class BulkDownloadHelper {
         case .downloading:
             return videos.reduce(into: 0.0) {
                 (sum, video) in
-                sum = sum + ((video.downloadProgress *  Double(video.summary?.size ?? 0.0)) / 100.0)
+                sum = sum + ((video.downloadProgress *  Double(truncating: video.summary?.size ?? 0.0)) / 100.0)
             }
         case .partial:
             let fullyDownloadedVideos = videos.filter { $0.downloadState == .complete }
             return fullyDownloadedVideos.reduce(into: 0.0) {
                 (sum, video) in
-                sum = sum + Double(video.summary?.size ?? 0)
+                sum = sum + Double(truncating: video.summary?.size ?? 0)
             }
         default:
             return 0.0
