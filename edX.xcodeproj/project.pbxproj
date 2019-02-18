@@ -56,7 +56,7 @@
 		1A6E86241BB9C6500039A216 /* OEXStyles+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E86231BB9C6500039A216 /* OEXStyles+Profile.swift */; };
 		1A6E86261BB9CEC90039A216 /* UserProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6E86251BB9CEC80039A216 /* UserProfileViewTests.swift */; };
 		1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */; };
-		1A8172511C3C1F2E007262AA /* OEXConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8172501C3C1F2E007262AA /* OEXConfig.swift */; };
+		1A8172511C3C1F2E007262AA /* OEXConfig+swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8172501C3C1F2E007262AA /* OEXConfig+swift.swift */; };
 		1A8172531C3C21DE007262AA /* TwitterConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8172521C3C21DE007262AA /* TwitterConfig.swift */; };
 		1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A81971A1C060FA50030254D /* ShareHelper.swift */; };
 		1A8AC0C01BB49EC5009D8F5E /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */; };
@@ -983,7 +983,7 @@
 		1A6E86231BB9C6500039A216 /* OEXStyles+Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXStyles+Profile.swift"; sourceTree = "<group>"; };
 		1A6E86251BB9CEC80039A216 /* UserProfileViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewTests.swift; sourceTree = "<group>"; };
 		1A7CEA321BABA8C70043A58C /* ProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageView.swift; sourceTree = "<group>"; };
-		1A8172501C3C1F2E007262AA /* OEXConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXConfig.swift; sourceTree = "<group>"; };
+		1A8172501C3C1F2E007262AA /* OEXConfig+swift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "OEXConfig+swift.swift"; sourceTree = "<group>"; };
 		1A8172521C3C21DE007262AA /* TwitterConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterConfig.swift; sourceTree = "<group>"; };
 		1A81971A1C060FA50030254D /* ShareHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareHelper.swift; sourceTree = "<group>"; };
 		1A8AC0BF1BB49EC5009D8F5E /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
@@ -3155,7 +3155,7 @@
 				E0E163EB21368A1D00DAE9F0 /* FirebaseConfig.swift */,
 				778B82EA1A520F2A0040D9E0 /* OEXEnvironment.h */,
 				778B82EB1A520F2A0040D9E0 /* OEXEnvironment.m */,
-				1A8172501C3C1F2E007262AA /* OEXConfig.swift */,
+				1A8172501C3C1F2E007262AA /* OEXConfig+swift.swift */,
 				B4B285D71A9A48D500DD603A /* OEXGoogleConfig.h */,
 				B4B285D81A9A48D500DD603A /* OEXGoogleConfig.m */,
 				B4B285DA1A9A490400DD603A /* OEXFacebookConfig.h */,
@@ -4645,7 +4645,7 @@
 				1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */,
 				77236EED1C21C376006AC1A4 /* Paginator.swift in Sources */,
 				B7CCC739209B16B100A66923 /* ConstraintRelatableTarget.swift in Sources */,
-				1A8172511C3C1F2E007262AA /* OEXConfig.swift in Sources */,
+				1A8172511C3C1F2E007262AA /* OEXConfig+swift.swift in Sources */,
 				77D6A9A61C28F98A00E67CCF /* EnrolledCoursesViewController.swift in Sources */,
 				77691F911B388626003922F2 /* UIGestureRecognizer+BlockActions.swift in Sources */,
 				1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */,

@@ -54,7 +54,7 @@ extension FeatureInteractor {
         return XCUIApplication().descendants(matching: type)[identifier]
     }
 
-    func pickerWheel(identifier: String, index: UInt = 0) -> XCUIElement {
+    func pickerWheel(identifier: String, index: Int = 0) -> XCUIElement {
         // You can't actually manipulate the "picker" itself. You have to manipulate the individual wheel. 
         // However, the wheel doesn't have a direct name, so you have to access it by index, even if there's only one wheel.
         return find(identifier: identifier, type: .picker).descendants(matching: .pickerWheel).element(boundBy: index)

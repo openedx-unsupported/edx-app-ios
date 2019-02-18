@@ -45,7 +45,7 @@ enum DiscoveryKeys: String, RawStringExtractable {
     }
 }
 
-@objc class DiscoveryConfig: NSObject {
+class DiscoveryConfig: NSObject {
     @objc let course: CourseDiscovery
     @objc let program: ProgramDiscovery
     @objc let degree: DegreeDiscovery
@@ -110,6 +110,6 @@ class DiscoveryBase: NSObject {
 extension OEXConfig {
     
     @objc var discovery: DiscoveryConfig {
-        return DiscoveryConfig(dictionary: self[DiscoveryKeys.discovery.rawValue] as? [String:AnyObject] ?? [:])
+        return DiscoveryConfig(dictionary: self.properties[DiscoveryKeys.discovery.rawValue] as? [String:AnyObject] ?? [:])
     }
 }
