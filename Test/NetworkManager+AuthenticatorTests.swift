@@ -18,7 +18,7 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         if waitForLogout {
             let expectation = self.expectation(description: "wait for mock LogOut")
 
-            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: "MockLogOutCalled") { (_, observer, _) in
+            let removeable = NotificationCenter.default.oex_addObserver(observer: self, name: "MockLogOutCalled") { (_, _, _) in
                 expectation.fulfill()
             }
 
