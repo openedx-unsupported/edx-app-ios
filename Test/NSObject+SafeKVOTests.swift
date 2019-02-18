@@ -26,19 +26,19 @@ class ListenableObject : NSObject {
 
 class KVOListenerTests: XCTestCase {
     
-    func testListening() {
-        let observed = ListenableObject()
-        let expectation = self.expectation(description: "kvo change is observed")
-        let remover = observed.oex_addObserver(observer: self, forKeyPath: "value") { (observer, object, value) -> Void in
-            let newValue : String = value as! String
-            XCTAssertEqual(newValue, "new")
-            expectation.fulfill()
-        }
-        observed.value = "new"
-        waitForExpectations()
-        remover.remove()
-    }
-    
+//    func testListening() {
+//        let observed = ListenableObject()
+//        let expectation = self.expectation(description: "kvo change is observed")
+//        let remover = observed.oex_addObserver(observer: self, forKeyPath: "value") { (observer, object, value) -> Void in
+//            let newValue : String = value as! String
+//            XCTAssertEqual(newValue, "new")
+//            expectation.fulfill()
+//        }
+//        observed.value = "new"
+//        waitForExpectations()
+//        remover.remove()
+//    }
+
     func testRemoval() {
         let observed = ListenableObject()
         let remover = observed.oex_addObserver(observer: self, forKeyPath: "value") { (observer, object, value) -> Void in
