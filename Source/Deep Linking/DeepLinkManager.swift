@@ -177,22 +177,19 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showProfile(modalTransitionStylePresent: Bool) {
-        guard let topViewController = topMostViewController, let username = environment?.session.currentUser?.username else { return }
-        environment?.router?.showProfileForUsername(controller: topViewController, username: username, editable: false, modalTransitionStylePresent: modalTransitionStylePresent)
-    }
-    
     private func showProfileViewController(with link: DeepLink) {
-        guard let topViewController = topMostViewController else { return }
+        guard let topViewController = topMostViewController, let username = environment?.session.currentUser?.username else { return }
         if topViewController is AccountViewController {
-            showProfile(modalTransitionStylePresent: false)
+            environment?.router?.showProfileForUsername(controller: topViewController, username: username, editable: false, modalTransitionStylePresent: false)
         }
-        else if topViewController is UserProfileEditViewController {
-            topViewController.navigationController?.popViewController(animated: true)
+        else if topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
+            if let viewController = topMostViewController?.navigationController?.viewControllers.first(where: {$0 is UserProfileViewController}) {
+                topMostViewController?.navigationController?.popToViewController(viewController, animated: true)
+            }
         }
         else if !controllerAlreadyDisplayed(for: link.type) {
             dismiss() { [weak self] in
-                self?.showProfile(modalTransitionStylePresent: true)
+                self?.environment?.router?.showProfileForUsername(controller: self?.topMostViewController, username: username, editable: false, modalTransitionStylePresent: true)
             }
         }
     }
