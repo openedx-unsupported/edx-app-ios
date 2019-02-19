@@ -656,9 +656,3 @@ public enum FontAwesome: String {
   case YoutubePlay = "\u{f16a}"
   case Clone = "\u{f24d}"
 }
-
-public extension String {
-  public static func fontAwesomeIconWithName(name: FontAwesome) -> String {
-    return name.rawValue.substring(to: name.rawValue.index(name.rawValue.startIndex, offsetBy: 1))
-  }
-}

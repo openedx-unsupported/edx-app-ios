@@ -73,11 +73,12 @@ extension UIViewController {
         container.layoutIfNeeded()
         
         let hideAction = {[weak self] in
-            let hideInfo = objc_getAssociatedObject(self, &StatusMessageHideActionKey) as? Box<StatusMessageRemovalInfo>
-            if hideInfo?.value.container == container {
-                objc_setAssociatedObject(self, &StatusMessageHideActionKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            if let owner = self {
+                let hideInfo = objc_getAssociatedObject(owner, &StatusMessageHideActionKey) as? Box<StatusMessageRemovalInfo>
+                if hideInfo?.value.container == container {
+                    objc_setAssociatedObject(owner, &StatusMessageHideActionKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                }
             }
-            
             UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
                 messageView.transform = CGAffineTransform(translationX: 0, y: -size.height)
                 }, completion: { _ in
@@ -123,11 +124,12 @@ extension UIViewController {
         }
         
         let hideAction = {[weak self] in
-            let hideInfo = objc_getAssociatedObject(self, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
-            if hideInfo?.value.container == container {
-                objc_setAssociatedObject(self, &SnackBarHideActionKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            if let owner = self {
+                let hideInfo = objc_getAssociatedObject(owner, &SnackBarHideActionKey) as? Box<TemporaryViewRemovalInfo>
+                if hideInfo?.value.container == container {
+                    objc_setAssociatedObject(owner, &SnackBarHideActionKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                }
             }
-            
             UIView.animate(withDuration: animationDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.1, options: .curveEaseOut, animations: {
                 snackBarView.transform = .identity
                 }, completion: { _ in
