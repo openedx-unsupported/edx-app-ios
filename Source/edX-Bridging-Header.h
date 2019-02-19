@@ -71,3 +71,4 @@
 #import "OEXRegistrationFieldSelectController.h"
 #import "OEXRegistrationFieldCheckBoxController.h"
 #import "NSURL+OEXPathExtensions.h"
+#import "ListenableObject.h"
