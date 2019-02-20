@@ -177,19 +177,24 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showProfileViewController(with link: DeepLink) {
+    private func showProfile(with link: DeepLink) {
         guard let topViewController = topMostViewController, let username = environment?.session.currentUser?.username else { return }
+
+        func showView(modal: Bool, fromController: UIViewController?) {
+            environment?.router?.showProfileForUsername(controller: fromController, username: username, editable: false, modal: modal)
+        }
+
         if topViewController is AccountViewController {
-            environment?.router?.showProfileForUsername(controller: topViewController, username: username, editable: false, modalTransitionStylePresent: false)
+            showView(modal: false, fromController: topViewController)
         }
         else if topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
-            if let viewController = topMostViewController?.navigationController?.viewControllers.first(where: {$0 is UserProfileViewController}) {
-                topMostViewController?.navigationController?.popToViewController(viewController, animated: true)
+            if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is UserProfileViewController}) {
+                topViewController.navigationController?.popToViewController(viewController, animated: true)
             }
         }
         else if !controllerAlreadyDisplayed(for: link.type) {
             dismiss() { [weak self] in
-                self?.environment?.router?.showProfileForUsername(controller: self?.topMostViewController, username: username, editable: false, modalTransitionStylePresent: true)
+                showView(modal: true, fromController: self?.topMostViewController)
             }
         }
     }
@@ -236,7 +241,7 @@ typealias DismissCompletion = () -> Void
             showAccountViewController(with: link)
             break
         case .profile:
-            showProfileViewController(with: link)
+//            showProfile(with: link)
             break
         default:
             break

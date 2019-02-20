@@ -164,7 +164,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             
             profileButton.oex_addAction({[weak self] _  in
                 guard let currentUserName = self?.environment.session.currentUser?.username else { return }
-                self?.environment.router?.showProfileForUsername(controller: self, username: currentUserName, modalTransitionStylePresent: true)
+                self?.environment.router?.showProfileForUsername(controller: self, username: currentUserName, modal: true)
             }, for: .touchUpInside)
             
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileView)
