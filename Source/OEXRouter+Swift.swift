@@ -146,12 +146,15 @@ extension OEXRouter {
         dashboardController.switchTab(with: type)
     }
 
-    func showPrograms(with type: DeepLinkType) {
+    func showPrograms(with type: DeepLinkType, url: URL? = nil) {
         let controller = EnrolledTabBarViewController(environment: environment)
         showContentStack(withRootController: controller, animated: false)
         controller.switchTab(with: type)
+        if let url = url, type == .programDetail {
+            showProgramDetails(with: url, from: controller)
+        }
     }
-
+    
      func showDiscoveryController(with type: DeepLinkType, isUserLoggedIn: Bool, coursePathID: String?) {
         let bottomBar = BottomBarView(environment: environment)
         var discoveryController = discoveryViewController(bottomBar: bottomBar, searchQuery: nil)
@@ -165,7 +168,7 @@ extension OEXRouter {
             showControllerFromStartupScreen(controller: controller)
         }
         
-        if type == .programDiscovery || type == .programDetail {
+        if type == .programDiscovery || type == .programDiscoveryDetail {
             if let controller = discoveryController {
                 showProgramDiscovery(from: controller, type: type, bottomBar: bottomBar)
             }
@@ -186,7 +189,7 @@ extension OEXRouter {
         if type == .courseDetail {
             showCourseDetails(from: controller, with: coursePathID, bottomBar: bottomBar)
         }
-        else if type == .programDetail {
+        else if type == .programDiscoveryDetail {
             showProgramDetail(from: controller, with: coursePathID, bottomBar: bottomBar)
         }
     }
