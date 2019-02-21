@@ -180,12 +180,12 @@ typealias DismissCompletion = () -> Void
     private func showProfile(with link: DeepLink) {
         guard let topViewController = topMostViewController, let username = environment?.session.currentUser?.username else { return }
 
-        func showView(modal: Bool, fromController: UIViewController?) {
-            environment?.router?.showProfileForUsername(controller: fromController, username: username, editable: false, modal: modal)
+        func showView(modal: Bool) {
+            environment?.router?.showProfileForUsername(controller: topMostViewController, username: username, editable: false, modal: modal)
         }
 
         if topViewController is AccountViewController {
-            showView(modal: false, fromController: topViewController)
+            showView(modal: false)
         }
         else if topViewController is UserProfileEditViewController || topViewController is JSONFormViewController<String> || topViewController is JSONFormBuilderTextEditorViewController {
             if let viewController = topViewController.navigationController?.viewControllers.first(where: {$0 is UserProfileViewController}) {
@@ -193,8 +193,8 @@ typealias DismissCompletion = () -> Void
             }
         }
         else if !controllerAlreadyDisplayed(for: link.type) {
-            dismiss() { [weak self] in
-                showView(modal: true, fromController: self?.topMostViewController)
+            dismiss() {
+                showView(modal: true)
             }
         }
     }
@@ -241,7 +241,7 @@ typealias DismissCompletion = () -> Void
             showAccountViewController(with: link)
             break
         case .profile:
-//            showProfile(with: link)
+            showProfile(with: link)
             break
         default:
             break
