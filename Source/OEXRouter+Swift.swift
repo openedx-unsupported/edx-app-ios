@@ -272,11 +272,11 @@ extension OEXRouter {
         }
     }
     
-    func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true, modalTransitionStylePresent: Bool = false) {
+    func showProfileForUsername(controller: UIViewController? = nil, username : String, editable: Bool = true, modal: Bool = false) {
         OEXAnalytics.shared().trackProfileViewed(username: username)
         let editable = self.environment.session.currentUser?.username == username
         let profileController = UserProfileViewController(environment: environment, username: username, editable: editable)
-        if modalTransitionStylePresent {
+        if modal {
             controller?.present(ForwardingNavigationController(rootViewController: profileController), animated: true, completion: nil)
         }
         else {

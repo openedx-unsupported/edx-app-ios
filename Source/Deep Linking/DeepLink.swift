@@ -18,6 +18,7 @@ enum DeepLinkType: String {
     case courseDetail = "course_detail"
     case programs = "program"
     case account = "account"
+    case profile = "profile"
     case none = "none"
 }
 
