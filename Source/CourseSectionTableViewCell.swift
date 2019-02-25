@@ -33,7 +33,7 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
         }
 
         downloadView.downloadAction = {[weak self] in
-            if let owner = self, let block = owner.block, let videos = self?.videosStream.value {
+            if let owner = self, let block = owner.block, let videos = owner.videosStream.value {
                 owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
             }
         }

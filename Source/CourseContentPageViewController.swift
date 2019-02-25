@@ -105,7 +105,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         // Filed http://www.openradar.appspot.com/radar?id=6188034965897216 against Apple to better expose
         // this API.
         // Verified on iOS9 and iOS 8
-        if let scrollView = (self.view.subviews.compactMap { return $0 as? UIScrollView }).first {
+        if let scrollView = (view.subviews.compactMap { return $0 as? UIScrollView }).first {
             scrollView.delaysContentTouches = false
         }
         addObservers()
@@ -278,8 +278,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
     }
     
     private func setPageControllers(with controllers: [UIViewController], direction:UIPageViewController.NavigationDirection, animated:Bool, completion: ((Bool) -> Void)? = nil) {
-        // setViewControllers is being called in async thread so user may intract with UIPageController in that duration so
-        // disabling user interation while setting viewControllers of UIPageViewController
+        // setViewControllers is being called in async thread and the user can intract with controls on screen while the controllers being set. It may result in a crash.
+        // Disabling the user interation with on screen controls while setting viewControllers of UIPageViewController to avoid crash
         
         if transitionInProgress { return }
         
