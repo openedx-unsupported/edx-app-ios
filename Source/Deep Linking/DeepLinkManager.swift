@@ -158,10 +158,15 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showPrograms(with link: DeepLink) {
-        guard !controllerAlreadyDisplayed(for: link.type) else { return}
+        guard let topViewController = topMostViewController else { return}
         
-        dismiss() { [weak self] in
-            self?.environment?.router?.showPrograms(with: link.type)
+        if let programViewController = topViewController as? ProgramsViewController,  programViewController.type == .detail{
+            topViewController.navigationController?.popViewController(animated: true)
+            
+        } else if !controllerAlreadyDisplayed(for: link.type) {
+            dismiss() { [weak self] in
+                self?.environment?.router?.showPrograms(with: link.type)
+            }
         }
     }
 
@@ -169,11 +174,20 @@ typealias DismissCompletion = () -> Void
         guard !controllerAlreadyDisplayed(for: link.type),
             let myProgramDetailURL = environment?.config.programConfig.programDetailURLTemplate,
             let pathID = link.pathID,
-            let url = URL(string: myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathID))
+            let url = URL(string: myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathID)),
+            let topViewController = topMostViewController
             else { return}
         
-            dismiss() { [weak self] in
-                self?.environment?.router?.showPrograms(with: link.type, url: url)
+            if let programViewController = topViewController as? ProgramsViewController {
+                if programViewController.type == .main {
+                    environment?.router?.showProgramDetails(with: url, from: topViewController)
+                } else if programViewController.type == .detail && programViewController.programsURL != url {
+                    programViewController.loadPrograms(with: url)
+                }
+            } else {
+                dismiss() { [weak self] in
+                    self?.environment?.router?.showPrograms(with: link.type, url: url)
+                }
             }
     }
     

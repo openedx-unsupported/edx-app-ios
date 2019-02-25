@@ -9,18 +9,25 @@
 import UIKit
 import WebKit
 
+public enum ProgramControllerType {
+    case main
+    case detail
+}
+
 class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, PullRefreshControllerDelegate {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider & ReachabilityProvider
     fileprivate let environment: Environment
     fileprivate let webController: AuthenticatedWebViewController
-    private let programsURL: URL
+    private(set) var programsURL: URL
     fileprivate let refreshController = PullRefreshController()
+    private(set) var type: ProgramControllerType
     
-    init(environment: Environment, programsURL: URL) {
+    init(environment: Environment, programsURL: URL, viewType type: ProgramControllerType? = .main) {
         webController = AuthenticatedWebViewController(environment: environment)
         self.environment = environment
         self.programsURL = programsURL
+        self.type = type ?? .main
         super.init(nibName: nil, bundle: nil)
         webController.webViewDelegate = self
         webController.delegate = self
@@ -48,6 +55,11 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, 
     
     private func loadPrograms() {
         webController.loadRequest(request: NSURLRequest(url: programsURL))
+    }
+    
+    func loadPrograms(with url: URL) {
+        programsURL = url
+        webController.loadRequest(request: NSURLRequest(url: url))
     }
     
     override var shouldAutorotate: Bool {
