@@ -9,8 +9,8 @@
 import UIKit
 import WebKit
 
-public enum ProgramControllerType {
-    case main
+public enum ProgramsScreen {
+    case base
     case detail
 }
 
@@ -21,13 +21,13 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, 
     fileprivate let webController: AuthenticatedWebViewController
     private(set) var programsURL: URL
     fileprivate let refreshController = PullRefreshController()
-    private(set) var type: ProgramControllerType
+    private(set) var type: ProgramsScreen
     
-    init(environment: Environment, programsURL: URL, viewType type: ProgramControllerType? = .main) {
+    init(environment: Environment, programsURL: URL, viewType type: ProgramsScreen? = .base) {
         webController = AuthenticatedWebViewController(environment: environment)
         self.environment = environment
         self.programsURL = programsURL
-        self.type = type ?? .main
+        self.type = type ?? .base
         super.init(nibName: nil, bundle: nil)
         webController.webViewDelegate = self
         webController.delegate = self
