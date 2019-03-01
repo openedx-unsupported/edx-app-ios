@@ -158,20 +158,14 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showPrograms(with link: DeepLink) {
-        guard let topViewController = topMostViewController else { return}
-        
-        if let programViewController = topViewController as? ProgramsViewController,  programViewController.type == .detail {
+        if let topViewController = topMostViewController, let programViewController = topViewController as? ProgramsViewController,  programViewController.type == .detail {
             topViewController.navigationController?.popViewController(animated: true)
-            
-        }
-        else if let controllers = topViewController.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
-            topViewController.navigationController?.setToolbarHidden(true, animated: false)
-            topViewController.navigationController?.popToRootViewController(animated: true)
-            enrolledTabBarView.switchTab(with: link.type)
         }
         else if !controllerAlreadyDisplayed(for: link.type) {
             dismiss() { [weak self] in
-                self?.environment?.router?.showPrograms(with: link.type)
+                if let topViewController = self?.topMostViewController {
+                    self?.environment?.router?.showPrograms(with: link.type, fromController: topViewController)
+                }
             }
         }
     }
@@ -180,26 +174,24 @@ typealias DismissCompletion = () -> Void
         guard !controllerAlreadyDisplayed(for: link.type),
             let myProgramDetailURL = environment?.config.programConfig.programDetailURLTemplate,
             let pathID = link.pathID,
-            let url = URL(string: myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathID)),
-            let topViewController = topMostViewController
+            let url = URL(string: myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathID))
             else { return}
         
-             if let programViewController = topViewController as? ProgramsViewController {
+             if let topViewController = topMostViewController, let programViewController = topViewController as? ProgramsViewController {
                 if programViewController.type == .base {
                     environment?.router?.showProgramDetails(with: url, from: topViewController)
                 } else if programViewController.type == .detail && programViewController.programsURL != url {
                     programViewController.loadPrograms(with: url)
                 }
             }
-            else if let controllers = topViewController.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
-                topViewController.navigationController?.setToolbarHidden(true, animated: false)
-                topViewController.navigationController?.popToRootViewController(animated: true)
-                enrolledTabBarView.switchTab(with: link.type)
-                environment?.router?.showProgramDetails(with: url, from: enrolledTabBarView)
-            }
             else {
                 dismiss() { [weak self] in
-                    self?.environment?.router?.showPrograms(with: link.type, url: url)
+                    if let topViewController = self?.topMostViewController {
+                        
+                        //Firstly the view will switch or open programs view tab then open the program Detail view
+                        self?.environment?.router?.showPrograms(with: link.type, fromController: topViewController)
+                        self?.environment?.router?.showProgramDetails(with: url, from: topViewController)
+                    }
                 }
             }
     }
