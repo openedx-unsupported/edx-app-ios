@@ -65,7 +65,7 @@ typealias DismissCompletion = () -> Void
         } else if let programsDiscoveryViewController = controller as? ProgramsDiscoveryViewController {
             return programsDiscoveryViewController.pathId == nil ? .programDiscovery : .programDiscoveryDetail
         } else if controller is ProgramsViewController {
-            return .programs
+            return .program
         } else if controller is DiscussionTopicsViewController {
             return .discussions
         } else if controller is AccountViewController {
@@ -158,13 +158,13 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showPrograms(with link: DeepLink) {
-        if let topViewController = topMostViewController, let programViewController = topViewController as? ProgramsViewController,  programViewController.type == .detail {
-            topViewController.navigationController?.popViewController(animated: true)
+        if let topController = topMostViewController, let controller = topController as? ProgramsViewController,  controller.type == .detail {
+            topController.navigationController?.popViewController(animated: true)
         }
         else if !controllerAlreadyDisplayed(for: link.type) {
             dismiss() { [weak self] in
-                if let topViewController = self?.topMostViewController {
-                    self?.environment?.router?.showPrograms(with: link.type, fromController: topViewController)
+                if let topController = self?.topMostViewController {
+                    self?.environment?.router?.showProgram(with: link.type, from: topController)
                 }
             }
         }
@@ -177,20 +177,17 @@ typealias DismissCompletion = () -> Void
             let url = URL(string: myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathID))
             else { return}
         
-             if let topViewController = topMostViewController, let programViewController = topViewController as? ProgramsViewController {
-                if programViewController.type == .base {
-                    environment?.router?.showProgramDetails(with: url, from: topViewController)
-                } else if programViewController.type == .detail && programViewController.programsURL != url {
-                    programViewController.loadPrograms(with: url)
+             if let topController = topMostViewController, let controller = topController as? ProgramsViewController {
+                if controller.type == .base {
+                    environment?.router?.showProgramDetails(with: url, from: topController)
+                } else if controller.type == .detail && controller.programsURL != url {
+                    controller.loadPrograms(with: url)
                 }
             }
             else {
                 dismiss() { [weak self] in
-                    if let topViewController = self?.topMostViewController {
-                        
-                        //Firstly the view will switch or open programs view tab then open the program Detail view
-                        self?.environment?.router?.showPrograms(with: link.type, fromController: topViewController)
-                        self?.environment?.router?.showProgramDetails(with: url, from: topViewController)
+                    if let topController = self?.topMostViewController {
+                        self?.environment?.router?.showProgram(with: link.type, url: url, from: topController)
                     }
                 }
             }
@@ -240,7 +237,7 @@ typealias DismissCompletion = () -> Void
         case .courseDashboard, .courseVideos, .discussions:
             showCourseDashboardViewController(with: link)
             break
-        case .programs:
+        case .program:
             guard environment?.config.programConfig.enabled ?? false else { return }
             showPrograms(with: link)
             break

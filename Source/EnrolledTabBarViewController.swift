@@ -186,7 +186,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     @discardableResult
     func switchTab(with type: DeepLinkType) -> UIViewController {
         switch type {
-        case .programs, .programDetail:
+        case .program, .programDetail:
             selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
         case .courseDiscovery, .courseDetail, .programDiscovery, .programDiscoveryDetail:
             selectedIndex = tabBarViewControllerIndex(with: DiscoveryViewController.self)

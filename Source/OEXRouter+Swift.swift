@@ -146,14 +146,20 @@ extension OEXRouter {
         dashboardController.switchTab(with: type)
     }
 
-    func showPrograms(with type: DeepLinkType, url: URL? = nil, fromController: UIViewController) {
-        if let controllers = fromController.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
-            fromController.navigationController?.setToolbarHidden(true, animated: false)
-            fromController.navigationController?.popToRootViewController(animated: true)
-            enrolledTabBarView.switchTab(with: type)
+    func showProgram(with type: DeepLinkType, url: URL? = nil, from controller: UIViewController) {
+        var controller = controller
+        if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
+            controller.navigationController?.setToolbarHidden(true, animated: false)
+            controller.navigationController?.popToRootViewController(animated: true)
+            let programView = enrolledTabBarView.switchTab(with: type)
+            controller = programView
         } else {
-            let controller = EnrolledTabBarViewController(environment: environment)
-            showContentStack(withRootController: controller, animated: false)
+            let enrolledTabBarView = EnrolledTabBarViewController(environment: environment)
+            controller = enrolledTabBarView
+            showContentStack(withRootController: enrolledTabBarView, animated: false)   
+        }
+        if let url = url, type == .programDetail {
+            showProgramDetails(with: url, from: controller)
         }
     }
     
