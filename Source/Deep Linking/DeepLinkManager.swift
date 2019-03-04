@@ -63,9 +63,9 @@ typealias DismissCompletion = () -> Void
         } else if controller is OEXFindCoursesViewController  {
             return .courseDiscovery
         } else if let programsDiscoveryViewController = controller as? ProgramsDiscoveryViewController {
-            return programsDiscoveryViewController.pathId == nil ? .programDiscovery : .programDetail
+            return programsDiscoveryViewController.pathId == nil ? .programDiscovery : .programDiscoveryDetail
         } else if controller is ProgramsViewController {
-            return .programs
+            return .program
         } else if controller is DiscussionTopicsViewController {
             return .discussions
         } else if controller is AccountViewController {
@@ -123,15 +123,15 @@ typealias DismissCompletion = () -> Void
                     return
                 }
             break
-        case .programDetail:
-            guard environment?.config.discovery.program.isEnabled ?? false, let courseId = link.courseId else { return }
+        case .programDiscoveryDetail:
+            guard environment?.config.discovery.program.isEnabled ?? false, let pathId = link.pathID else { return }
                 if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                     discoveryViewController.switchSegment(with: .programDiscovery)
-                    environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
+                    environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDiscoveryDetail, coursePathID: pathId, bottomBar: discoveryViewController.bottomBar)
                     return
                 }
                 else if let programsDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController {
-                    environment?.router?.showDiscoveryDetail(from: programsDiscoveryViewController, type: .programDetail, coursePathID: courseId, bottomBar: programsDiscoveryViewController.bottomBar)
+                    environment?.router?.showDiscoveryDetail(from: programsDiscoveryViewController, type: .programDiscoveryDetail, coursePathID: pathId, bottomBar: programsDiscoveryViewController.bottomBar)
                     return
                 }
             break
@@ -160,13 +160,41 @@ typealias DismissCompletion = () -> Void
     }
     
     private func showPrograms(with link: DeepLink) {
-        guard !controllerAlreadyDisplayed(for: link.type) else { return}
-        
-        dismiss() { [weak self] in
-            self?.environment?.router?.showPrograms(with: link.type)
+        if let topController = topMostViewController, let controller = topController as? ProgramsViewController,  controller.type == .detail {
+            topController.navigationController?.popViewController(animated: true)
+        }
+        else if !controllerAlreadyDisplayed(for: link.type) {
+            dismiss() { [weak self] in
+                if let topController = self?.topMostViewController {
+                    self?.environment?.router?.showProgram(with: link.type, from: topController)
+                }
+            }
         }
     }
 
+    private func showProgramDetail(with link: DeepLink) {
+        guard !controllerAlreadyDisplayed(for: link.type),
+            let myProgramDetailURL = environment?.config.programConfig.programDetailURLTemplate,
+            let pathID = link.pathID,
+            let url = URL(string: myProgramDetailURL.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathID))
+            else { return}
+        
+             if let topController = topMostViewController, let controller = topController as? ProgramsViewController {
+                if controller.type == .base {
+                    environment?.router?.showProgramDetails(with: url, from: topController)
+                } else if controller.type == .detail && controller.programsURL != url {
+                    controller.loadPrograms(with: url)
+                }
+            }
+            else {
+                dismiss() { [weak self] in
+                    if let topController = self?.topMostViewController {
+                        self?.environment?.router?.showProgram(with: link.type, url: url, from: topController)
+                    }
+                }
+            }
+    }
+    
     private func showAccountViewController(with link: DeepLink) {
         guard !controllerAlreadyDisplayed(for: link.type) else { return}
     
@@ -215,7 +243,7 @@ typealias DismissCompletion = () -> Void
     }
     
     private func isDiscovery(type: DeepLinkType) -> Bool {
-        return (type == .courseDiscovery || type == .courseDetail || type == .programDiscovery || type == .programDetail)
+        return (type == .courseDiscovery || type == .courseDetail || type == .programDiscovery || type == .programDiscoveryDetail)
     }
 
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
@@ -233,9 +261,13 @@ typealias DismissCompletion = () -> Void
         case .courseDashboard, .courseVideos, .discussions:
             showCourseDashboardViewController(with: link)
             break
-        case .programs:
+        case .program:
             guard environment?.config.programConfig.enabled ?? false else { return }
             showPrograms(with: link)
+            break
+        case .programDetail:
+            guard environment?.config.programConfig.enabled ?? false else { return }
+            showProgramDetail(with: link)
             break
         case .account:
             showAccountViewController(with: link)

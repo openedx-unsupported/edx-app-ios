@@ -146,12 +146,23 @@ extension OEXRouter {
         dashboardController.switchTab(with: type)
     }
 
-    func showPrograms(with type: DeepLinkType) {
-        let controller = EnrolledTabBarViewController(environment: environment)
-        showContentStack(withRootController: controller, animated: false)
-        controller.switchTab(with: type)
+    func showProgram(with type: DeepLinkType, url: URL? = nil, from controller: UIViewController) {
+        var controller = controller
+        if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
+            controller.navigationController?.setToolbarHidden(true, animated: false)
+            controller.navigationController?.popToRootViewController(animated: true)
+            let programView = enrolledTabBarView.switchTab(with: type)
+            controller = programView
+        } else {
+            let enrolledTabBarControler = EnrolledTabBarViewController(environment: environment)
+            controller = enrolledTabBarControler
+            showContentStack(withRootController: enrolledTabBarControler, animated: false)
+        }
+        if let url = url, type == .programDetail {
+            showProgramDetails(with: url, from: controller)
+        }
     }
-
+    
      func showDiscoveryController(with type: DeepLinkType, isUserLoggedIn: Bool, coursePathID: String?) {
         let bottomBar = BottomBarView(environment: environment)
         var discoveryController = discoveryViewController(bottomBar: bottomBar, searchQuery: nil)
@@ -165,7 +176,7 @@ extension OEXRouter {
             showControllerFromStartupScreen(controller: controller)
         }
         
-        if type == .programDiscovery || type == .programDetail {
+        if type == .programDiscovery || type == .programDiscoveryDetail {
             if let controller = discoveryController {
                 showProgramDiscovery(from: controller, type: type, bottomBar: bottomBar)
             }
@@ -186,7 +197,7 @@ extension OEXRouter {
         if type == .courseDetail {
             showCourseDetails(from: controller, with: coursePathID, bottomBar: bottomBar)
         }
-        else if type == .programDetail {
+        else if type == .programDiscoveryDetail {
             showProgramDetail(from: controller, with: coursePathID, bottomBar: bottomBar)
         }
     }
@@ -428,7 +439,7 @@ extension OEXRouter {
     }
     
     public func showProgramDetails(with url: URL, from controller: UIViewController) {
-        let programDetailsController = ProgramsViewController(environment: environment, programsURL: url)
+        let programDetailsController = ProgramsViewController(environment: environment, programsURL: url, viewType: .detail)
         controller.navigationController?.pushViewController(programDetailsController, animated: true)
     }
     
