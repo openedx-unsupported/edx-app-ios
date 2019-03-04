@@ -154,9 +154,9 @@ extension OEXRouter {
             let programView = enrolledTabBarView.switchTab(with: type)
             controller = programView
         } else {
-            let enrolledTabBarView = EnrolledTabBarViewController(environment: environment)
-            controller = enrolledTabBarView
-            showContentStack(withRootController: enrolledTabBarView, animated: false)   
+            let enrolledTabBarControler = EnrolledTabBarViewController(environment: environment)
+            controller = enrolledTabBarControler
+            showContentStack(withRootController: enrolledTabBarControler, animated: false)
         }
         if let url = url, type == .programDetail {
             showProgramDetails(with: url, from: controller)
