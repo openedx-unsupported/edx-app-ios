@@ -30,11 +30,11 @@ private class NotificationListener : NSObject, Removable {
 
 
 extension NotificationCenter {
-    @discardableResult func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
+    @discardableResult public func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
         return self.observer(observer: observer, name: name, action: action)
     }
     
-    @discardableResult func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, object: Any, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
+    @discardableResult public func oex_addObserver<Observer : NSObject>(observer : Observer, name : String, object: Any, action : @escaping (NSNotification, Observer, Removable) -> Void) -> Removable {
         return self.observer(observer: observer, name: name, object: object, action: action)
     }
     

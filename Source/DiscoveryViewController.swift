@@ -41,8 +41,8 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         let styles = self.environment.styles
         control.selectedSegmentIndex = SegmentOption.course.rawValue
         control.tintColor = styles.primaryBaseColor()
-        control.setTitleTextAttributes([NSForegroundColorAttributeName: styles.neutralWhite()], for: .selected)
-        control.setTitleTextAttributes([NSForegroundColorAttributeName: styles.neutralBlack()], for: .normal)
+        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: styles.neutralWhite()], for: .selected)
+        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: styles.neutralBlack()], for: .normal)
         return control
     }()
     
@@ -137,8 +137,8 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         
         for item in segmentItems {
             let controller = item.viewController
-            addChildViewController(controller)
-            didMove(toParentViewController: self)
+            addChild(controller)
+            didMove(toParent: self)
             controller.view.frame = containerView.frame
             containerView.addSubview(controller.view)
         }
@@ -153,7 +153,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
             make.trailing.equalTo(view)
             make.bottom.equalTo(view)
         }
-        bottomBar.bringSubview(toFront: view)
+        bottomBar.bringSubviewToFront(view)
     }
     
     private func setupConstraints() {

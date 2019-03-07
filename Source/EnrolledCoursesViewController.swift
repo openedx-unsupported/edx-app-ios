@@ -42,8 +42,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
 
         self.view.accessibilityIdentifier = "enrolled-courses-screen"
 
-        addChildViewController(tableController)
-        tableController.didMove(toParentViewController: self)
+        addChild(tableController)
+        tableController.didMove(toParent: self)
         self.loadController.setupInController(controller: self, contentView: tableController.view)
         
         self.view.addSubview(tableController.view)
@@ -118,7 +118,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             switch result {
             case let Result.success(enrollments):
                 if let enrollments = enrollments {
-                    self?.tableController.courses = enrollments.flatMap { $0.course } 
+                    self?.tableController.courses = enrollments.compactMap { $0.course } 
                     self?.tableController.tableView.reloadData()
                     self?.loadController.state = .Loaded
                     if enrollments.count <= 0 {

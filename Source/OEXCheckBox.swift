@@ -47,7 +47,7 @@ public class OEXCheckBox: UIButton {
         accessibilityHint = checked ? Strings.accessibilityCheckboxHintChecked : Strings.accessibilityCheckboxHintUnchecked
     }
     
-    func tapped() {
+    @objc func tapped() {
         checked = !checked
         sendActions(for: .valueChanged)
     }

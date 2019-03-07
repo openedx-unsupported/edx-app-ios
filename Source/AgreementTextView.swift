@@ -19,7 +19,7 @@ import UIKit
 
 class AgreementTextView: UITextView {
     
-    weak var agreementDelegate: AgreementTextViewDelegate?
+    @objc weak var agreementDelegate: AgreementTextViewDelegate?
     
     @objc func setup(for type: AgreementType, config: OEXConfig?) {
         let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())

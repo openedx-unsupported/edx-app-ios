@@ -45,7 +45,7 @@ class PaginationInfoTests: XCTestCase {
             query: ["A": "B"],
             headers: ["header": "value"],
             deserializer: ResponseDeserializer.jsonResponse { (_, json) in
-                return (json.array?.flatMap{ $0.number }).toResult(NetworkManager.unknownError)
+                return (json.array?.compactMap{ $0.number }).toResult(NetworkManager.unknownError)
             }
         )
         let paginated = request.paginated(page: 3)

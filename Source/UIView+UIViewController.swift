@@ -29,7 +29,7 @@ extension UIView {
     }
     
     func handleDynamicTypeNotification() {
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIContentSizeCategoryDidChange.rawValue) { (_, observer, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIContentSizeCategory.didChangeNotification.rawValue) { (_, observer, _) in
                 observer.updateFontsOfSubviews(view: observer)
                 observer.layoutIfNeeded()
             
@@ -61,14 +61,14 @@ extension UIView {
                     if let attributeText = button.titleLabel?.attributedText, attributeText.length > 0 {
                         let attributes = attributeText.attributes(at: 0, longestEffectiveRange: nil, in: NSMakeRange(0, attributeText.length))
                         let mutableAtrributedText = NSMutableAttributedString(string: button.titleLabel?.text ?? "" , attributes: attributes)
-                        mutableAtrributedText.addAttribute(NSFontAttributeName, value: UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style)), range: NSMakeRange(0, mutableAtrributedText.length))
+                        mutableAtrributedText.addAttribute(NSAttributedString.Key.font, value: UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: UIFont().preferredFontSize(textStyle: style)), range: NSMakeRange(0, mutableAtrributedText.length))
                         button.setAttributedTitle(mutableAtrributedText, for: .normal)
                     }
                 }
             }
             else if let segmentControl = subview as? UISegmentedControl {
                 let font =  UIFont().preferredFont(with: .subheadline)
-                segmentControl.setTitleTextAttributes([NSFontAttributeName: font], for: .normal)
+                segmentControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .normal)
             }
             else {
                 updateFontsOfSubviews(view: subview)

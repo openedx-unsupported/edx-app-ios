@@ -38,21 +38,21 @@ class ForwardingNavigationController: UINavigationController, StatusBarOverridin
         fatalError("init(coder:) has not been implemented")
     }
     
-    override var childViewControllerForStatusBarStyle: UIViewController? {
+    override var childForStatusBarStyle: UIViewController? {
         if let controller = viewControllers.last as? StatusBarOverriding as? UIViewController {
             return controller
         }
         else {
-            return super.childViewControllerForStatusBarStyle
+            return super.childForStatusBarStyle
         }
     }
     
-    override var childViewControllerForStatusBarHidden: UIViewController? {
+    override var childForStatusBarHidden: UIViewController? {
         if let controller = viewControllers.last as? StatusBarOverriding as? UIViewController {
             return controller
         }
         else {
-            return super.childViewControllerForStatusBarHidden
+            return super.childForStatusBarHidden
         }
         
     }

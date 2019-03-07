@@ -11,7 +11,7 @@ import UIKit
 extension UIApplication {
 
     @objc func topMostController() -> UIViewController?  {
-        guard var topController = keyWindow?.rootViewController?.childViewControllers.first else {
+        guard var topController = keyWindow?.rootViewController?.children.first else {
             return keyWindow?.rootViewController
         }
         while true {

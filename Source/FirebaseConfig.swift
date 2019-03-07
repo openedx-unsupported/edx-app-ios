@@ -19,13 +19,13 @@ fileprivate enum FirebaseKeys: String, RawStringExtractable {
 }
 
 class FirebaseConfig: NSObject {
-    var enabled: Bool = false
-    var analyticsEnabled: Bool = false
-    var cloudMessagingEnabled: Bool = false
-    var apiKey: String
-    var clientID: String
-    var googleAppID: String
-    var gcmSenderID: String
+    @objc var enabled: Bool = false
+    @objc var analyticsEnabled: Bool = false
+    @objc var cloudMessagingEnabled: Bool = false
+    @objc var apiKey: String
+    @objc var clientID: String
+    @objc var googleAppID: String
+    @objc var gcmSenderID: String
     
     init(dictionary: [String: AnyObject]) {
         enabled = dictionary[FirebaseKeys.enabled] as? Bool ?? false
@@ -42,7 +42,7 @@ class FirebaseConfig: NSObject {
 
 private let key = "FIREBASE"
 extension OEXConfig {
-    var firebaseConfig: FirebaseConfig {
+    @objc var firebaseConfig: FirebaseConfig {
         return FirebaseConfig(dictionary: self[key] as? [String:AnyObject] ?? [:])
     }
 }

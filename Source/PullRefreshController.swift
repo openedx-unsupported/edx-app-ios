@@ -28,7 +28,7 @@ public class PullRefreshView : UIView {
     }
     
     public override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIViewNoIntrinsicMetric, height: StandardRefreshHeight)
+        return CGSize(width: UIView.noIntrinsicMetric, height: StandardRefreshHeight)
     }
     
     public var percentage : CGFloat = 1 {
@@ -92,7 +92,7 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     }
     
     public var currentInsets : UIEdgeInsets {
-        return UIEdgeInsetsMake(refreshing ? view.frame.height : 0, 0, 0, 0)
+        return UIEdgeInsets.init(top: refreshing ? view.frame.height : 0, left: 0, bottom: 0, right: 0)
     }
     
     public func scrollViewDidScroll(scrollView : UIScrollView) {

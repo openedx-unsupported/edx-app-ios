@@ -50,7 +50,7 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
     override func layoutSubviews() {
         super.layoutSubviews()
         let margin = StandardHorizontalMargin - 5
-        self.headerLabel.frame = UIEdgeInsetsInsetRect(self.bounds, UIEdgeInsetsMake(0, margin, 0, margin))
-        horizontalTopLine.frame = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: OEXStyles.dividerSize())
+        headerLabel.frame = bounds.inset(by: UIEdgeInsets.init(top: 0, left: margin, bottom: 0, right: margin))
+        horizontalTopLine.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: OEXStyles.dividerSize())
     }
 }

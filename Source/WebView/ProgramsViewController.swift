@@ -43,8 +43,8 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, 
     private func setupView() {
         title = Strings.programs
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        addChildViewController(webController)
-        webController.didMove(toParentViewController: self)
+        addChild(webController)
+        webController.didMove(toParent: self)
         view.addSubview(webController.view)
         webController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)

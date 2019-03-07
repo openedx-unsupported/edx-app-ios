@@ -37,7 +37,7 @@ class DiscoveryWebViewHelper: NSObject {
     fileprivate let discoveryType: DiscoveryType
     
     fileprivate var request: URLRequest? = nil
-    var baseURL: URL?
+    @objc var baseURL: URL?
     fileprivate let searchQuery:String?
     let bottomBar: UIView?
     private let searchBarEnabled: Bool
@@ -56,11 +56,11 @@ class DiscoveryWebViewHelper: NSObject {
         return 90
     }
     
-    convenience init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, discoveryType: DiscoveryType = .course) {
+    @objc convenience init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, discoveryType: DiscoveryType = .course) {
         self.init(environment: environment, delegate: delegate, bottomBar: bottomBar, showSearch: false, searchQuery: nil, showSubjects: false, discoveryType: discoveryType)
     }
     
-    init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false, discoveryType: DiscoveryType = .course) {
+    @objc init(environment: Environment?, delegate: WebViewNavigationDelegate?, bottomBar: UIView?, showSearch: Bool, searchQuery: String?, showSubjects: Bool = false, discoveryType: DiscoveryType = .course) {
         self.environment = environment
         self.delegate = delegate
         self.bottomBar = bottomBar
@@ -72,7 +72,7 @@ class DiscoveryWebViewHelper: NSObject {
         super.init()
         searchBarPlaceholder()
         webView.navigationDelegate = self
-        webView.scrollView.decelerationRate = UIScrollViewDecelerationRateNormal
+        webView.scrollView.decelerationRate = UIScrollView.DecelerationRate.normal
         webView.accessibilityIdentifier = discoveryType == .course ? "find-courses-webview" : "find-programs-webview"
         guard let container = delegate?.webViewContainingController() else { return }
         container.view.addSubview(contentView)
@@ -104,9 +104,9 @@ class DiscoveryWebViewHelper: NSObject {
         }
 
         if subjectDiscoveryEnabled {
-            container.addChildViewController(subjectsController)
+            container.addChild(subjectsController)
             contentView.addSubview(subjectsController.view)
-            subjectsController.didMove(toParentViewController: container)
+            subjectsController.didMove(toParent: container)
             subjectsController.view.snp.makeConstraints { make in
                 make.leading.equalTo(contentView).offset(StandardHorizontalMargin)
                 make.trailing.equalTo(contentView)
@@ -232,7 +232,7 @@ class DiscoveryWebViewHelper: NSObject {
         return self.loadController.state.isLoaded
     }
 
-    public func load(withURL url: URL) {
+    @objc public func load(withURL url: URL) {
         var discoveryURL = url
         
         if let baseURL = baseURL, let searchQuery = searchQuery {
@@ -258,7 +258,7 @@ class DiscoveryWebViewHelper: NSObject {
     }
 
     fileprivate func showError(error : NSError) {
-        let buttonInfo = MessageButtonInfo(title: Strings.reload) {[weak self] _ in
+        let buttonInfo = MessageButtonInfo(title: Strings.reload) {[weak self] in
             if let request = self?.request {
                 self?.webView.load(request as URLRequest)
                 self?.loadController.state = .Initial
@@ -301,7 +301,7 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
                                     }
         })
         if let bar = bottomBar {
-            bar.superview?.bringSubview(toFront: bar)
+            bar.superview?.bringSubviewToFront(bar)
         }
     }
     
@@ -397,7 +397,7 @@ extension DiscoveryWebViewHelper: UISearchBarDelegate {
 }
 
 extension DiscoveryWebViewHelper {
-    var t_webView: WKWebView {
+    @objc var t_webView: WKWebView {
         return webView
     }
 }

@@ -44,7 +44,7 @@ class DiscussionCommentCell: UITableViewCell {
         endorsedLabel.isHidden = !endorsed
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         
@@ -61,7 +61,7 @@ class DiscussionCommentCell: UITableViewCell {
         divider.backgroundColor = OEXStyles.shared().discussionsBackgroundColor
         containerView.backgroundColor = OEXStyles.shared().neutralWhiteT()
         containerView.applyBorderStyle(style: BorderStyle())
-        accessibilityTraits = UIAccessibilityTraitHeader
+        accessibilityTraits = UIAccessibilityTraits.header
         bodyTextView.isAccessibilityElement = false
     }
     
@@ -80,7 +80,7 @@ class DiscussionCommentCell: UITableViewCell {
     private func setConstraints() {
         
         containerView.snp.makeConstraints { make in
-            make.edges.equalTo(contentView).inset(UIEdgeInsetsMake(0, StandardHorizontalMargin, 0, StandardHorizontalMargin))
+            make.edges.equalTo(contentView).inset(UIEdgeInsets.init(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin))
         }
         
         authorProfileImage.snp.makeConstraints { make in
@@ -180,7 +180,7 @@ class DiscussionCommentCell: UITableViewCell {
                     viewController?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                 }
             }
-            }, for: UIControlEvents.touchUpInside)
+            }, for: UIControl.Event.touchUpInside)
         
         
         setEndorsed(endorsed: false)
@@ -304,7 +304,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                         
                         owner.environment.router?.showDiscussionNewCommentFromController(controller: owner, courseID: owner.courseID, thread: thread, context: .Comment(owner.responseItem))
                     }
-                    }, for: UIControlEvents.touchUpInside)
+                    }, for: UIControl.Event.touchUpInside)
             }
         }
     }
@@ -345,7 +345,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         tableView.dataSource = self
         tableView.delegate = self
         tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         
         addSubviews()
         setStyles()
@@ -385,10 +385,10 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     
     func setStyles() {
         
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         tableView.applyStandardSeparatorInsets()
         tableView.backgroundColor = OEXStyles.shared().neutralXLight()
-        tableView.contentInset = UIEdgeInsetsMake(10.0, 0, 0, 0)
+        tableView.contentInset = UIEdgeInsets.init(top: 10.0, left: 0, bottom: 0, right: 0)
         tableView.clipsToBounds = true
         
         self.navigationItem.title = Strings.comments
@@ -449,7 +449,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                 self?.loadController.state = .Loaded
                 self?.comments = comments
                 self?.tableView.reloadData()
-                UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
+                UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: nil)
             }, failure: { [weak self] (error) -> Void in
                 self?.loadController.state = LoadState.failed(error: error)
         })

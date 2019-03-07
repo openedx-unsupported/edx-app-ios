@@ -933,7 +933,9 @@ extension Request {
         let subtype: String
 
         init?(_ string: String) {
-            let components = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).substring(to: string.range(of: ";")?.upperBound ?? string.endIndex).components(separatedBy: "/")
+            let str = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            let index = string.range(of: ";")?.upperBound ?? string.endIndex
+            let components = String(str[..<index]).components(separatedBy: "/")
 
             if let type = components.first,
                     let subtype = components.last
@@ -1363,7 +1365,7 @@ extension Request : CustomDebugStringConvertible {
                let cookies = cookieStorage.cookies(for: URL!), !cookies.isEmpty
         {
             let string = cookies.reduce(""){ $0 + "\($1.name)=\($1.value );" }
-            components.append("-b \"\(string.substring(to: string.index(before: string.endIndex)))\"")
+            components.append("-b \"\(string[..<string.index(before: string.endIndex)]))\"")
         }
         #endif
 
@@ -1699,7 +1701,7 @@ public func download(resumeData data: Data, destination: @escaping Request.Downl
 }
 
 extension URLSessionConfiguration {
-    public func defaultHTTPHeaders() -> NSDictionary {
+    @objc public func defaultHTTPHeaders() -> NSDictionary {
         return Manager.defaultHTTPHeaders as NSDictionary
     }
 }

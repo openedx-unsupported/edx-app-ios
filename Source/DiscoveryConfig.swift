@@ -29,12 +29,12 @@ enum DiscoveryKeys: String, RawStringExtractable {
     case degree = "DEGREE"
 }
 
-class DiscoveryWebviewConfig: NSObject {
-    let baseURL: URL?
-    let exploreSubjectsURL: URL?
-    let detailTemplate: String?
-    let searchEnabled: Bool
-    let subjectFilterEnabled: Bool
+@objc class DiscoveryWebviewConfig: NSObject {
+    @objc let baseURL: URL?
+    @objc let exploreSubjectsURL: URL?
+    @objc let detailTemplate: String?
+    @objc let searchEnabled: Bool
+    @objc let subjectFilterEnabled: Bool
     
     init(dictionary: [String: AnyObject]) {
         baseURL = (dictionary[DiscoveryKeys.baseURL] as? String).flatMap { URL(string:$0)}
@@ -46,9 +46,9 @@ class DiscoveryWebviewConfig: NSObject {
 }
 
 class DiscoveryConfig: NSObject {
-    let course: CourseDiscovery
-    let program: ProgramDiscovery
-    let degree: DegreeDiscovery
+    @objc let course: CourseDiscovery
+    @objc let program: ProgramDiscovery
+    @objc let degree: DegreeDiscovery
     
     init(dictionary: [String: AnyObject]) {
         course = CourseDiscovery(dictionary: dictionary[DiscoveryKeys.course] as? [String: AnyObject] ?? [:])
@@ -64,7 +64,7 @@ class CourseDiscovery: DiscoveryBase {
     }
     
     // Associated swift enums can not be used in objective-c, that's why this extra computed property needed
-    var isCourseDiscoveryNative: Bool {
+    @objc var isCourseDiscoveryNative: Bool {
         return type == .native
     }
 }
@@ -99,7 +99,7 @@ class DegreeDiscovery: DiscoveryBase {
 
 class DiscoveryBase: NSObject {
     private(set) var type: DiscoveryConfigType
-    let webview: DiscoveryWebviewConfig
+    @objc let webview: DiscoveryWebviewConfig
     
     init(dictionary: [String: AnyObject]) {
         type = (dictionary[DiscoveryKeys.discoveryType] as? String).flatMap { DiscoveryConfigType(rawValue: $0) } ?? .none
@@ -109,7 +109,7 @@ class DiscoveryBase: NSObject {
 
 extension OEXConfig {
     
-    var discovery: DiscoveryConfig {
-        return DiscoveryConfig(dictionary: self[DiscoveryKeys.discovery.rawValue] as? [String:AnyObject] ?? [:])
+    @objc var discovery: DiscoveryConfig {
+        return DiscoveryConfig(dictionary: self.properties[DiscoveryKeys.discovery.rawValue] as? [String:AnyObject] ?? [:])
     }
 }

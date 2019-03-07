@@ -98,7 +98,7 @@ open class PersistentResponseCache : NSObject, ResponseCache, NSKeyedUnarchiverD
     fileprivate let queue : DispatchQueue
     fileprivate let pathProvider : PathProvider
     
-    public init(provider : PathProvider) {
+    @objc public init(provider : PathProvider) {
         queue = DispatchQueue(label: "org.edx.request-cache", attributes: [])
         self.pathProvider = provider
     }

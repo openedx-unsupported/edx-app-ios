@@ -18,7 +18,7 @@ open class CourseDataManager: NSObject {
     private let outlineQueriers = LiveObjectCache<CourseOutlineQuerier>()
     private let discussionDataManagers = LiveObjectCache<DiscussionDataManager>()
     
-    public init(analytics: OEXAnalytics, enrollmentManager: EnrollmentManager, interface : OEXInterface?, networkManager : NetworkManager, session : OEXSession) {
+    @objc public init(analytics: OEXAnalytics, enrollmentManager: EnrollmentManager, interface : OEXInterface?, networkManager : NetworkManager, session : OEXSession) {
         self.analytics = analytics
         self.enrollmentManager = enrollmentManager
         self.interface = interface

@@ -10,8 +10,8 @@ import UIKit
 
 extension UIFont {
 
-    var styleAttribute: UIFontTextStyle? {
-        return fontDescriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle
+    var styleAttribute: UIFont.TextStyle? {
+        return fontDescriptor.object(forKey: UIFontDescriptor.AttributeName.textStyle) as? UIFont.TextStyle
     }
     
     var isPreferredSizeLarge: Bool {
@@ -29,22 +29,22 @@ extension UIFont {
     func preferredDescriptor(name: String, size: CGFloat) -> UIFontDescriptor {
         let style = textStyle(for: size)
         let preferrredFontSize = preferredFontSize(textStyle: style)
-        return UIFontDescriptor(fontAttributes: [UIFontDescriptorNameAttribute: name, UIFontDescriptorSizeAttribute: preferrredFontSize, UIFontDescriptorTextStyleAttribute: style])
+        return UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.name: name, UIFontDescriptor.AttributeName.size: preferrredFontSize, UIFontDescriptor.AttributeName.textStyle: style])
     }
     
-    func preferredFont(with style: UIFontTextStyle) -> UIFont {
+    func preferredFont(with style: UIFont.TextStyle) -> UIFont {
          return UIFont(descriptor: UIFontDescriptor.preferredFontDescriptor(withTextStyle: style), size: preferredFontSize(textStyle: style))
     }
     
     func preferredFontSize(descriptor: UIFontDescriptor) -> CGFloat {
-        if let style = descriptor.object(forKey: UIFontDescriptorTextStyleAttribute) as? UIFontTextStyle {
+        if let style = descriptor.object(forKey: UIFontDescriptor.AttributeName.textStyle) as? UIFont.TextStyle {
             return preferredFontSize(textStyle: style)
         }
         
         return preferredFontSize(textStyle: .body)
     }
     
-    func preferredFontSize(textStyle: UIFontTextStyle) -> CGFloat {
+    func preferredFontSize(textStyle: UIFont.TextStyle) -> CGFloat {
         let fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: textStyle)
         let pointSize = fontDescriptor.pointSize - dynamicSizeAdjustmentFactor(with: textStyle)
         
@@ -75,7 +75,7 @@ extension UIFont {
     
     // This method is a bridge between apple standard sizes and edX standard sizes.
     // For example Apple default size for callout style is 16 but edX mobile App default size is 14.
-    private func dynamicSizeAdjustmentFactor(with style: UIFontTextStyle) -> CGFloat {
+    private func dynamicSizeAdjustmentFactor(with style: UIFont.TextStyle) -> CGFloat {
         switch style {
         case .caption2, .caption1, .footnote, .callout, .title3:
             return 2
@@ -120,7 +120,7 @@ extension UIFont {
         }
     }
     
-    private func textStyle(for size: CGFloat) -> UIFontTextStyle {
+    private func textStyle(for size: CGFloat) -> UIFont.TextStyle {
         
         switch OEXTextStyle.textSize(forPointSize: Int32(size)) {
         case .xxxSmall:

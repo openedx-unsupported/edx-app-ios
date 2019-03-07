@@ -30,7 +30,7 @@ extension UIViewController {
             || self is UIAlertController
     }
     
-    func isRootModal() -> Bool {
+    @objc func isRootModal() -> Bool {
         return (navigationController != nil && navigationController?.presentingViewController?.presentedViewController == navigationController)
     }
     

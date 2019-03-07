@@ -41,7 +41,7 @@ public class ButtonStyle : NSObject {
 }
 
 extension UIButton {
-    func applyButtonStyle(style : ButtonStyle, withTitle text : String?) {
+    @objc func applyButtonStyle(style : ButtonStyle, withTitle text : String?) {
         style.applyToButton(button: self, withTitle: text)
     }
 }

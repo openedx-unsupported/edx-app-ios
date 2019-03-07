@@ -25,7 +25,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
-    let courseID: String
+    @objc let courseID: String
     
     private let loadController = LoadStateViewController()
     private let announcementsLoader = BackedStream<[OEXAnnouncement]>()
@@ -38,7 +38,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
     private let fontStyle = OEXTextStyle(weight : .normal, size: .base, color: OEXStyles.shared().neutralBlack())
     private let switchStyle = OEXStyles.shared().standardSwitchStyle()
     
-    init(environment: Environment, courseID: String) {
+    @objc init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
         self.webView = UIWebView()
@@ -69,7 +69,7 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
         notificationSwitch.oex_addAction({[weak self] _ in
             if let owner = self {
                 owner.environment.dataManager.pushSettings.setPushDisabled(!owner.notificationSwitch.isOn, forCourseID: owner.courseID)
-            }}, for: UIControlEvents.valueChanged)
+            }}, for: UIControl.Event.valueChanged)
         
         self.webView.delegate = self
         
@@ -197,8 +197,8 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
     
     //MARK: - UIWebViewDeleagte
     
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        if (navigationType != UIWebViewNavigationType.other) {
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
+        if (navigationType != UIWebView.NavigationType.other) {
             if let URL = request.url {
                 UIApplication.shared.openURL(URL)
                 return false

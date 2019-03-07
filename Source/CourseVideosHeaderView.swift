@@ -63,7 +63,7 @@ class CourseVideosHeaderView: UIView {
         let button =  UIButton()
         button.accessibilityIdentifier = "CourseVideosHeaderView:show-downloads-button"
         button.accessibilityHint = Strings.Accessibility.showCurrentDownloadsButtonHint
-        button.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
+        button.accessibilityTraits = UIAccessibilityTraits(rawValue: UIAccessibilityTraits.button.rawValue | UIAccessibilityTraits.updatesFrequently.rawValue)
         button.oex_addAction({
             [weak self] _ in
             if self?.state == .downloading {

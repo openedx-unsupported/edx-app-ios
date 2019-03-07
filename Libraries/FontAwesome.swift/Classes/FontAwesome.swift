@@ -39,7 +39,7 @@ private class FontLoader {
         let data = try! Data(contentsOf: fontURL)
         
         let provider = CGDataProvider(data: data as CFData)
-        let font = CGFont(provider!)
+        let font = CGFont(provider!)!
         
         var error: Unmanaged<CFError>?
         if !CTFontManagerRegisterGraphicsFont(font, &error) {
@@ -655,10 +655,4 @@ public enum FontAwesome: String {
   case Youtube = "\u{f167}"
   case YoutubePlay = "\u{f16a}"
   case Clone = "\u{f24d}"
-}
-
-public extension String {
-  public static func fontAwesomeIconWithName(name: FontAwesome) -> String {
-    return name.rawValue.substring(to: name.rawValue.index(name.rawValue.startIndex, offsetBy: 1))
-  }
 }

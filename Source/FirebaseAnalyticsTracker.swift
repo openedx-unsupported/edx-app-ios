@@ -12,10 +12,10 @@ private let MaxParameterValueCharacters = 100
 
 class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     
-    static let minifiedBlockIDKey: NSString = "minifiedBlockID"
+    @objc static let minifiedBlockIDKey: NSString = "minifiedBlockID"
     
     var currentOrientationValue : String {
-        return UIInterfaceOrientationIsLandscape(UIApplication.shared.statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
+        return UIApplication.shared.statusBarOrientation.isLandscape ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
     
     //Skipping these keys for Firebase analytics
@@ -133,7 +133,7 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         // Firebase only supports 100 characters for parameter value
         if formattedValue.count > MaxParameterValueCharacters {
             let index = formattedValue.index(formattedValue.startIndex, offsetBy: MaxParameterValueCharacters)
-            formattedValue = formattedValue.substring(to: index)
+            formattedValue = String(formattedValue[..<index])
         }
         
         return formattedValue

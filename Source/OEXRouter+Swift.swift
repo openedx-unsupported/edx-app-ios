@@ -397,7 +397,7 @@ extension OEXRouter {
 
     // MARK: - LOGIN / LOGOUT
 
-    func showSplash() {
+    @objc func showSplash() {
         removeCurrentContentController()
 
         let splashController: UIViewController
@@ -418,7 +418,7 @@ extension OEXRouter {
         fromController.navigationController?.pushViewController(controller, animated: true)
     }
     
-    public func logout() {
+    @objc public func logout() {
         invalidateToken()
         environment.session.closeAndClear()
         environment.session.removeAllWebData()
@@ -443,7 +443,7 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(programDetailsController, animated: true)
     }
     
-    public func showCourseDetails(from controller: UIViewController, with coursePathID: String, bottomBar: UIView?) {
+    @objc public func showCourseDetails(from controller: UIViewController, with coursePathID: String, bottomBar: UIView?) {
         let courseInfoViewController = OEXCourseInfoViewController(environment: environment, pathID: coursePathID, bottomBar: bottomBar?.copy() as? UIView)
         controller.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         controller.navigationController?.pushViewController(courseInfoViewController, animated: true)

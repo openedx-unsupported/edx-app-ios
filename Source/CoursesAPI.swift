@@ -12,7 +12,7 @@ import edXCore
 struct CoursesAPI {
     
     static func enrollmentsDeserializer(response: HTTPURLResponse, json: JSON) -> Result<[UserCourseEnrollment]> {
-        return (json.array?.flatMap { UserCourseEnrollment(json: $0) }).toResult()
+        return (json.array?.compactMap { UserCourseEnrollment(json: $0) }).toResult()
     }
     
     static func getUserEnrollments(username: String, organizationCode: String?) -> NetworkRequest<[UserCourseEnrollment]> {

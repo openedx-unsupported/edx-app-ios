@@ -11,7 +11,7 @@ import UIKit
 public class OEXFonts: NSObject {
     
     //MARK: - Shared Instance
-    public static let sharedInstance = OEXFonts()
+    @objc public static let sharedInstance = OEXFonts()
     @objc public enum FontIdentifiers: Int {
         case Regular = 1, Italic, SemiBold, SemiBoldItalic, Bold, BoldItalic, Light, LightItalic, ExtraBold, ExtraBoldItalic, Irregular
     }
@@ -48,7 +48,7 @@ public class OEXFonts: NSObject {
         return fontName
     }
     
-    public func font(for identifier: FontIdentifiers, size: CGFloat) -> UIFont {
+    @objc public func font(for identifier: FontIdentifiers, size: CGFloat) -> UIFont {
         
         let preferredFontDescriptor = UIFont().preferredDescriptor(name: fontName(identifier: identifier), size: size)
         let preferredFontSize = UIFont().preferredFontSize(descriptor: preferredFontDescriptor)

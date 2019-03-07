@@ -10,8 +10,8 @@ import Foundation
 
 class BranchConfig: NSObject {
     
-    var enabled: Bool = false
-    var branchKey: String?
+    @objc var enabled: Bool = false
+    @objc var branchKey: String?
     
     init(dictionary: Dictionary<String, Any>?) {
         if let enabled = dictionary?["ENABLED"] as? Bool {

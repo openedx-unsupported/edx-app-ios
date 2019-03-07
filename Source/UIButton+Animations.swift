@@ -9,7 +9,7 @@
 import Foundation
 
 extension UIButton {
-    func setAttributedTitle(title : NSAttributedString, forState state: UIControlState, animated : Bool) {
+    func setAttributedTitle(title : NSAttributedString, forState state: UIControl.State, animated : Bool) {
         if !animated {
             UIView.performWithoutAnimation({ () -> Void in
                 self.setAttributedTitle(title, for: state)

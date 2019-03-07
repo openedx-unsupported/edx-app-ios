@@ -10,8 +10,8 @@ import UIKit
 
 protocol IconRenderer : class {
     var shouldFlip : Bool { get }
-    func boundsWithAttributes(attributes : [String : AnyObject], inline : Bool) -> CGRect
-    func drawWithAttributes(attributes : [String : AnyObject], inContext context : CGContext)
+    func boundsWithAttributes(attributes : [NSAttributedString.Key : Any], inline : Bool) -> CGRect
+    func drawWithAttributes(attributes : [NSAttributedString.Key : Any], inContext context : CGContext)
 }
 
 class FontAwesomeRenderer : IconRenderer {
@@ -21,14 +21,14 @@ class FontAwesomeRenderer : IconRenderer {
         self.icon = icon
     }
     
-    func boundsWithAttributes(attributes : [String : AnyObject], inline : Bool) -> CGRect {
+    func boundsWithAttributes(attributes : [NSAttributedString.Key : Any], inline : Bool) -> CGRect {
         let string = NSAttributedString(string: icon.rawValue, attributes : attributes)
         let drawingOptions = inline ? NSStringDrawingOptions() : .usesLineFragmentOrigin
         
         return string.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude), options: drawingOptions, context: nil).integral
     }
     
-    func drawWithAttributes(attributes : [String : AnyObject], inContext context: CGContext) {
+    func drawWithAttributes(attributes : [NSAttributedString.Key : Any], inContext context: CGContext) {
         let string = NSAttributedString(string: icon.rawValue, attributes : attributes)
         let bounds  = boundsWithAttributes(attributes: attributes, inline : false)
         
@@ -62,13 +62,13 @@ private class RotatedIconRenderer : IconRenderer {
         self.backing = backing
     }
     
-    fileprivate func boundsWithAttributes(attributes: [String : AnyObject], inline: Bool) -> CGRect {
+    fileprivate func boundsWithAttributes(attributes: [NSAttributedString.Key : Any], inline: Bool) -> CGRect {
         let bounds = backing.boundsWithAttributes(attributes: attributes, inline: inline)
         // Swap width + height
         return CGRect(x: bounds.minX, y: bounds.minY, width: bounds.height, height: bounds.width)
     }
     
-    func drawWithAttributes(attributes : [String : AnyObject], inContext context : CGContext) {
+    func drawWithAttributes(attributes : [NSAttributedString.Key : Any], inContext context : CGContext) {
         let bounds = self.boundsWithAttributes(attributes: attributes, inline: false)
         // Draw rotated
         context.translateBy(x: -bounds.midX, y: -bounds.midY)
@@ -301,11 +301,11 @@ public enum Icon {
     }
     
     private func imageWithStyle(style : OEXTextStyle, sizeOverride : CGFloat? = nil, inline : Bool = false) -> UIImage {
-        var attributes = style.attributes
+        var attributes = style.attributes.attributedKeyDictionary()
         let textSize = sizeOverride ?? OEXTextStyle.pointSize(for: style.size)
-        attributes[NSFontAttributeName] = Icon.fontWithSize(size: textSize)
+        attributes[NSAttributedString.Key.font] = Icon.fontWithSize(size: textSize)
         
-        let bounds = renderer.boundsWithAttributes(attributes: attributes as [String : AnyObject], inline: inline)
+        let bounds = renderer.boundsWithAttributes(attributes: attributes, inline: inline)
         let imageSize = bounds.size
         
         UIGraphicsBeginImageContextWithOptions(CGSize(width: imageSize.width, height: imageSize.height), false, 0)
@@ -316,7 +316,7 @@ public enum Icon {
             context!.scaleBy(x: -1, y: 1)
         }
         
-        renderer.drawWithAttributes(attributes: attributes as [String : AnyObject], inContext: UIGraphicsGetCurrentContext()!)
+        renderer.drawWithAttributes(attributes: attributes, inContext: UIGraphicsGetCurrentContext()!)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -324,12 +324,12 @@ public enum Icon {
     }
 
     public func attributedTextWithStyle(style : OEXTextStyle, inline : Bool = false) -> NSAttributedString {
-        var attributes = style.attributes
-        attributes[NSFontAttributeName] = Icon.fontWithSize(size: style.size)
-        let bounds = renderer.boundsWithAttributes(attributes: attributes as [String : AnyObject], inline : inline)
+        var attributes = style.attributes.attributedKeyDictionary()
+        attributes[NSAttributedString.Key.font] = Icon.fontWithSize(size: style.size)
+        let bounds = renderer.boundsWithAttributes(attributes: attributes, inline : inline)
         
         let attachment = NSTextAttachment(data: nil, ofType: nil)
-        attachment.image = imageWithStyle(style: style).withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+        attachment.image = imageWithStyle(style: style).withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
         attachment.bounds = bounds
         return NSAttributedString(attachment: attachment)
     }

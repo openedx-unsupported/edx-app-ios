@@ -55,7 +55,7 @@ class JSONFormBuilder {
         let typeControl = UISegmentedControl()
         var values = [String]()
         
-        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
             contentView.addSubview(titleLabel)
@@ -69,7 +69,7 @@ class JSONFormBuilder {
             descriptionLabel.preferredMaxLayoutWidth = 200 //value doesn't seem to matter as long as it's small enough
 
             typeControl.tintColor = OEXStyles.shared().primaryBaseColor()
-            typeControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: UIControlState.selected)
+            typeControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
             
             titleLabel.snp.makeConstraints { make in
                 make.leading.equalTo(contentView.snp.leadingMargin)
@@ -137,7 +137,7 @@ class JSONFormBuilder {
             setup()
         }
         
-        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             setup()
         }
@@ -166,7 +166,7 @@ class JSONFormBuilder {
             setup()
         }
 
-        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             setup()
         }

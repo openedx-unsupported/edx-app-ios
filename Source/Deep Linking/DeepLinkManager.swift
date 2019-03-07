@@ -12,7 +12,7 @@ typealias DismissCompletion = () -> Void
 
 @objc class DeepLinkManager: NSObject {
 
-    static let sharedInstance = DeepLinkManager()
+    @objc static let sharedInstance = DeepLinkManager()
     typealias Environment = OEXSessionProvider & OEXRouterProvider & OEXConfigProvider
     var environment: Environment?
     
@@ -24,7 +24,7 @@ typealias DismissCompletion = () -> Void
         super.init()
     }
 
-    func processDeepLink(with params: [String: Any], environment: Environment) {
+    @objc func processDeepLink(with params: [String: Any], environment: Environment) {
         self.environment = environment
         let deepLink = DeepLink(dictionary: params)
         let deepLinkType = deepLink.type
