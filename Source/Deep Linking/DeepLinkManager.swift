@@ -84,9 +84,11 @@ typealias DismissCompletion = () -> Void
             if !controllerAlreadyDisplayed(for: link.type) {
                 courseDashboardView.switchTab(with: link.type)
             }
-        } else {
-            dismiss() { [weak self] in
-                self?.environment?.router?.showCourseWithDeepLink(type: link.type, courseID: link.courseId ?? "")
+        }
+        
+        dismiss() { [weak self] in
+            if let topController = self?.topMostViewController {
+                self?.environment?.router?.showCourseWithDeepLink(type: link.type, courseID: link.courseId ?? "", from: topController)
             }
         }
     }
@@ -103,7 +105,7 @@ typealias DismissCompletion = () -> Void
             
             // Program discovery detail if already loaded
             if let programDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController,
-                let pathId = link.courseId {
+                let pathId = link.pathID {
                 programDiscoveryViewController.loadProgramDetails(with: pathId)
             }
             
@@ -115,11 +117,11 @@ typealias DismissCompletion = () -> Void
             guard environment?.config.discovery.course.isEnabled ?? false, let courseId = link.courseId else { return }
                 if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                     discoveryViewController.switchSegment(with: .courseDiscovery)
-                    environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .courseDetail, coursePathID: courseId, bottomBar: discoveryViewController.bottomBar)
+                    environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .courseDetail, pathID: courseId, bottomBar: discoveryViewController.bottomBar)
                     return
                 }
                 else if let findCoursesViewController = topMostViewController as? OEXFindCoursesViewController {
-                    environment?.router?.showDiscoveryDetail(from: findCoursesViewController, type: .courseDetail, coursePathID: courseId, bottomBar: findCoursesViewController.bottomBar)
+                    environment?.router?.showDiscoveryDetail(from: findCoursesViewController, type: .courseDetail, pathID: courseId, bottomBar: findCoursesViewController.bottomBar)
                     return
                 }
             break
@@ -127,11 +129,11 @@ typealias DismissCompletion = () -> Void
             guard environment?.config.discovery.program.isEnabled ?? false, let pathId = link.pathID else { return }
                 if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                     discoveryViewController.switchSegment(with: .programDiscovery)
-                    environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDiscoveryDetail, coursePathID: pathId, bottomBar: discoveryViewController.bottomBar)
+                    environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .programDiscoveryDetail, pathID: pathId, bottomBar: discoveryViewController.bottomBar)
                     return
                 }
                 else if let programsDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController {
-                    environment?.router?.showDiscoveryDetail(from: programsDiscoveryViewController, type: .programDiscoveryDetail, coursePathID: pathId, bottomBar: programsDiscoveryViewController.bottomBar)
+                    environment?.router?.showDiscoveryDetail(from: programsDiscoveryViewController, type: .programDiscoveryDetail, pathID: pathId, bottomBar: programsDiscoveryViewController.bottomBar)
                     return
                 }
             break
@@ -154,8 +156,32 @@ typealias DismissCompletion = () -> Void
             break
         }
         
-        dismiss() { [weak self] in
-            self?.environment?.router?.showDiscoveryController(with: link.type, isUserLoggedIn: self?.isUserLoggedin() ?? false, coursePathID: link.courseId)
+        if isUserLoggedin() {
+            dismiss() { [weak self] in
+                if let topController = self?.topMostViewController {
+                    let pathId = link.type == .courseDetail ? link.courseId : link.pathID
+                    self?.environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: true , pathID: pathId)
+                }
+            }
+        }
+        else {
+            if let topController = topMostViewController {
+                if !(topController is DiscoveryViewController), topController.isModal() {
+                    topController.dismiss(animated: true) { [weak self] in
+                        if let topController = self?.topMostViewController {
+                            let pathId = link.type == .courseDetail ? link.courseId : link.pathID
+                            self?.environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: false , pathID: pathId)
+                        }
+                    }
+                }
+                else {
+                    if let topController = topMostViewController {
+                        let pathId = link.type == .courseDetail ? link.courseId : link.pathID
+                        environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: false , pathID: pathId)
+                    }
+                }
+                
+            }
         }
     }
     
