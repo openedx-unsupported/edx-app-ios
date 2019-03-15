@@ -138,19 +138,38 @@ extension OEXRouter {
     
     // MARK: Deep Linking
     //Method can be use to navigate on particular tab of course dashboard with deep link type
-    func showCourseWithDeepLink(type: DeepLinkType, courseID: String) {
-        let controller = EnrolledTabBarViewController(environment: environment)
-        showContentStack(withRootController: controller, animated: true)
-        let dashboardController = CourseDashboardViewController(environment: environment, courseID: courseID)
-        controller.navigationController?.pushViewController(dashboardController, animated: true)
-        dashboardController.switchTab(with: type)
+    func showCourseWithDeepLink(type: DeepLinkType, courseID: String, from controller: UIViewController) {
+        var courseDashboardController = controller.navigationController?.viewControllers.compactMap({ (controller) -> UIViewController? in
+            if controller is CourseDashboardViewController {
+                return controller
+            }
+            
+            return nil
+        }).first
+        
+        if let dashboardController = courseDashboardController {
+            controller.navigationController?.setToolbarHidden(true, animated: false)
+            controller.navigationController?.popToViewController(dashboardController, animated: true)
+        }
+        else {
+            if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarController = controllers.first as? EnrolledTabBarViewController {
+                popToRoot(controller: controller)
+                enrolledTabBarController.switchTab(with: type)
+                let dashboardController = CourseDashboardViewController(environment: environment, courseID: courseID)
+                courseDashboardController = dashboardController
+                enrolledTabBarController.navigationController?.pushViewController(dashboardController, animated: true)
+            }
+        }
+        
+        if let dashboardController = courseDashboardController as? CourseDashboardViewController {
+            dashboardController.switchTab(with: type)
+        }
     }
 
     func showProgram(with type: DeepLinkType, url: URL? = nil, from controller: UIViewController) {
         var controller = controller
         if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
-            controller.navigationController?.setToolbarHidden(true, animated: false)
-            controller.navigationController?.popToRootViewController(animated: true)
+            popToRoot(controller: controller)
             let programView = enrolledTabBarView.switchTab(with: type)
             controller = programView
         } else {
@@ -163,42 +182,56 @@ extension OEXRouter {
         }
     }
     
-     func showDiscoveryController(with type: DeepLinkType, isUserLoggedIn: Bool, coursePathID: String?) {
+    private func popToRoot(controller: UIViewController) {
+        controller.navigationController?.setToolbarHidden(true, animated: false)
+        controller.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    func showDiscoveryController(from controller: UIViewController, type: DeepLinkType, isUserLoggedIn: Bool, pathID: String?) {
         let bottomBar = BottomBarView(environment: environment)
         var discoveryController = discoveryViewController(bottomBar: bottomBar, searchQuery: nil)
-        guard let controller = isUserLoggedIn ? EnrolledTabBarViewController(environment: environment) : discoveryController else { return }
-        if isUserLoggedIn, let enrolledTabBarView = controller as? EnrolledTabBarViewController {
-            showContentStack(withRootController: enrolledTabBarView, animated: false)
-            discoveryController = enrolledTabBarView.switchTab(with: type)
+        if isUserLoggedIn {
+        
+            // Pop out all views and switches enrolledCourses tab on the bases of link type
+            if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
+                popToRoot(controller: controller)
+                discoveryController = enrolledTabBarView.switchTab(with: type)
+            }
+            else {
+                
+                //Create new stack of views and switch tab
+                let enrolledTabController = EnrolledTabBarViewController(environment: environment)
+                showContentStack(withRootController: enrolledTabController, animated: false)
+                discoveryController = enrolledTabController.switchTab(with: type)
+            }
         }
         else {
-            
-            showControllerFromStartupScreen(controller: controller)
-        }
-        
-        if type == .programDiscovery || type == .programDiscoveryDetail {
-            if let controller = discoveryController {
-                showProgramDiscovery(from: controller, type: type, bottomBar: bottomBar)
+            if let controllers = controller.navigationController?.viewControllers, let discoveryView = controllers.first as? DiscoveryViewController {
+                popToRoot(controller: controller)
+                discoveryController = discoveryView
+            }
+            else if let discoveryController = discoveryController {
+                showControllerFromStartupScreen(controller: discoveryController)
             }
         }
         
-        if let coursePathID = coursePathID {
-            showDiscoveryDetail(from: controller, type: type, coursePathID: coursePathID, bottomBar: bottomBar)
+        // Switch segment tab on discovery view
+        if let discoveryController = discoveryController as? DiscoveryViewController {
+            discoveryController.switchSegment(with: type)
+        }
+        
+        // If the pathID is given the detail view will open
+        if let pathID = pathID, let discoveryController = discoveryController {
+            showDiscoveryDetail(from: discoveryController, type: type, pathID: pathID, bottomBar: bottomBar)
         }
     }
     
-    func showProgramDiscovery(from controller: UIViewController, type: DeepLinkType, bottomBar: UIView) {
-        if let discoveryViewController = controller as? DiscoveryViewController {
-            discoveryViewController.switchSegment(with: type)
-        }
-    }
-    
-     func showDiscoveryDetail(from controller: UIViewController, type: DeepLinkType, coursePathID: String, bottomBar: UIView?) {
+     func showDiscoveryDetail(from controller: UIViewController, type: DeepLinkType, pathID: String, bottomBar: UIView?) {
         if type == .courseDetail {
-            showCourseDetails(from: controller, with: coursePathID, bottomBar: bottomBar)
+            showCourseDetails(from: controller, with: pathID, bottomBar: bottomBar)
         }
         else if type == .programDiscoveryDetail {
-            showProgramDetail(from: controller, with: coursePathID, bottomBar: bottomBar)
+            showProgramDetail(from: controller, with: pathID, bottomBar: bottomBar)
         }
     }
 
