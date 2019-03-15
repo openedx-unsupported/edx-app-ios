@@ -140,9 +140,10 @@ extension OEXRouter {
     //Method can be use to navigate on particular tab of course dashboard with deep link type
     func showCourseWithDeepLink(type: DeepLinkType, courseID: String, from controller: UIViewController) {
         var courseDashboardController = controller.navigationController?.viewControllers.compactMap({ (controller) -> UIViewController? in
-            if let dashboardController = controller as? CourseDashboardViewController {
-                return dashboardController
+            if controller is CourseDashboardViewController {
+                return controller
             }
+            
             return nil
         }).first
         
@@ -152,8 +153,7 @@ extension OEXRouter {
         }
         else {
             if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarController = controllers.first as? EnrolledTabBarViewController {
-                controller.navigationController?.setToolbarHidden(true, animated: false)
-                controller.navigationController?.popToRootViewController(animated: true)
+                popToRoot(controller: controller)
                 enrolledTabBarController.switchTab(with: type)
                 let dashboardController = CourseDashboardViewController(environment: environment, courseID: courseID)
                 courseDashboardController = dashboardController
@@ -162,15 +162,14 @@ extension OEXRouter {
         }
         
         if let dashboardController = courseDashboardController as? CourseDashboardViewController {
-                dashboardController.switchTab(with: type)
+            dashboardController.switchTab(with: type)
         }
     }
 
     func showProgram(with type: DeepLinkType, url: URL? = nil, from controller: UIViewController) {
         var controller = controller
         if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
-            controller.navigationController?.setToolbarHidden(true, animated: false)
-            controller.navigationController?.popToRootViewController(animated: true)
+            popToRoot(controller: controller)
             let programView = enrolledTabBarView.switchTab(with: type)
             controller = programView
         } else {

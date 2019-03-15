@@ -156,31 +156,27 @@ typealias DismissCompletion = () -> Void
             break
         }
         
+        guard let topController = topMostViewController else { return }
+        
+        let pathId = link.type == .courseDetail ? link.courseId : link.pathID
+        
         if isUserLoggedin() {
             dismiss() { [weak self] in
                 if let topController = self?.topMostViewController {
-                    let pathId = link.type == .courseDetail ? link.courseId : link.pathID
                     self?.environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: true , pathID: pathId)
                 }
             }
         }
         else {
-            if let topController = topMostViewController {
-                if !(topController is DiscoveryViewController), topController.isModal() {
-                    topController.dismiss(animated: true) { [weak self] in
-                        if let topController = self?.topMostViewController {
-                            let pathId = link.type == .courseDetail ? link.courseId : link.pathID
-                            self?.environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: false , pathID: pathId)
-                        }
+            if !(topController is DiscoveryViewController), topController.isModal() {
+                topController.dismiss(animated: true) { [weak self] in
+                    if let topController = self?.topMostViewController {
+                        self?.environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: false , pathID: pathId)
                     }
                 }
-                else {
-                    if let topController = topMostViewController {
-                        let pathId = link.type == .courseDetail ? link.courseId : link.pathID
-                        environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: false , pathID: pathId)
-                    }
-                }
-                
+            }
+            else {
+                environment?.router?.showDiscoveryController(from: topController, type: link.type, isUserLoggedIn: false , pathID: pathId)
             }
         }
     }
