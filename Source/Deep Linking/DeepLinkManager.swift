@@ -88,7 +88,7 @@ typealias DismissCompletion = () -> Void
         
         dismiss() { [weak self] in
             if let topController = self?.topMostViewController {
-                self?.environment?.router?.showCourseWithDeepLink(type: link.type, courseID: link.courseId ?? "", from: topController)
+                self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController)
             }
         }
     }
@@ -249,6 +249,17 @@ typealias DismissCompletion = () -> Void
         }
     }
     
+    private func showDiscussionTopic(with link: DeepLink) {
+        showCourseDashboardViewController(with: link)
+        
+        guard let courseId = link.courseId,
+            let topicID = link.topicID,
+            let topController = topMostViewController else { return }
+        
+        environment?.router?.showPostsFromController(controller: topController, courseID: courseId, topicID: topicID)
+        
+    }
+    
     private func controllerAlreadyDisplayed(for type: DeepLinkType) -> Bool {
         guard let topViewController = topMostViewController else { return false }
 
@@ -297,6 +308,10 @@ typealias DismissCompletion = () -> Void
         case .profile:
             showProfile(with: link)
             break
+        case .discussionTopic:
+            showDiscussionTopic(with: link)
+            break
+            
         default:
             break
         }
