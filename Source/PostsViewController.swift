@@ -102,7 +102,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let contentView = UIView()
     
     private var context : Context?
-    private let topicID: String?
+    let topicID: String?
     
     private var posts: [DiscussionThread] = []
     private var selectedFilter: DiscussionPostsFilter = .AllPosts
