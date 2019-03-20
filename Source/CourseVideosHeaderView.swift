@@ -57,6 +57,8 @@ class CourseVideosHeaderView: UIView {
         let label = UILabel()
         label.accessibilityIdentifier = "CourseVideosHeaderView:sub-title-label"
         label.isAccessibilityElement = false
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.7
         return label
     }()
     lazy private var showDownloadsButton: UIButton = {
@@ -340,7 +342,6 @@ class CourseVideosHeaderView: UIView {
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)
             make.height.equalTo(2)
-            make.top.equalTo(subTitleLabel.snp.bottom).offset(1.5 * StandardVerticalMargin)
         }
     }
     

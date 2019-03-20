@@ -88,6 +88,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         coverImageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .vertical)
         dateLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
         dateLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
+        dateLabel.adjustsFontSizeToFitWidth = true
         
         container.snp.makeConstraints { make in
             make.leading.equalTo(self)
