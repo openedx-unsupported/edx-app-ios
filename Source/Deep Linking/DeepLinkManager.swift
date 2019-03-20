@@ -88,7 +88,7 @@ typealias DismissCompletion = () -> Void
         
         dismiss() { [weak self] in
             if let topController = self?.topMostViewController {
-                self?.environment?.router?.showCourseWithDeepLink(type: link.type, courseID: link.courseId ?? "", from: topController)
+                self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController)
             }
         }
     }
@@ -249,6 +249,44 @@ typealias DismissCompletion = () -> Void
         }
     }
     
+    private func showDiscussionTopic(with link: DeepLink) {
+        guard let courseId = link.courseId,
+            let topicID = link.topicID,
+            let topController = topMostViewController else { return }
+        
+        var isControllerAlreadyDisplayed : Bool {
+            if let topController = topMostViewController, let postController = topController as? PostsViewController, postController.topicID == link.topicID  {
+                return true
+            }
+            return false
+        }
+        
+        func showDiscussionPosts() {
+            if let topController = topMostViewController {
+                environment?.router?.showDiscussionPosts(from: topController, courseID: courseId, topicID: topicID)
+            }
+        }
+        
+        if let postController = topController as? PostsViewController, postController.topicID != link.topicID {
+            postController.navigationController?.popViewController(animated: true)
+            showDiscussionPosts()
+        }
+        else {
+            dismiss() { [weak self] in
+                guard let topController = self?.topMostViewController, !isControllerAlreadyDisplayed else { return }
+                
+                if let courseDashboardController = topController as? CourseDashboardViewController, courseDashboardController.courseID == link.courseId {
+                    courseDashboardController.switchTab(with: link.type)
+                }
+                else {
+                    self?.showCourseDashboardViewController(with: link)
+                }
+
+                showDiscussionPosts()
+            }
+        }
+    }
+    
     private func controllerAlreadyDisplayed(for type: DeepLinkType) -> Bool {
         guard let topViewController = topMostViewController else { return false }
 
@@ -297,6 +335,10 @@ typealias DismissCompletion = () -> Void
         case .profile:
             showProfile(with: link)
             break
+        case .discussionTopic:
+            showDiscussionTopic(with: link)
+            break
+            
         default:
             break
         }

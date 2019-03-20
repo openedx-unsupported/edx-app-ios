@@ -138,7 +138,7 @@ extension OEXRouter {
     
     // MARK: Deep Linking
     //Method can be use to navigate on particular tab of course dashboard with deep link type
-    func showCourseWithDeepLink(type: DeepLinkType, courseID: String, from controller: UIViewController) {
+    func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController) {
         var courseDashboardController = controller.navigationController?.viewControllers.compactMap({ (controller) -> UIViewController? in
             if controller is CourseDashboardViewController {
                 return controller
@@ -147,14 +147,14 @@ extension OEXRouter {
             return nil
         }).first
         
-        if let dashboardController = courseDashboardController {
+        if  let dashboardController = courseDashboardController as? CourseDashboardViewController, dashboardController.courseID == deeplink.courseId {
             controller.navigationController?.setToolbarHidden(true, animated: false)
             controller.navigationController?.popToViewController(dashboardController, animated: true)
         }
         else {
             if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarController = controllers.first as? EnrolledTabBarViewController {
                 popToRoot(controller: controller)
-                enrolledTabBarController.switchTab(with: type)
+                enrolledTabBarController.switchTab(with: deeplink.type)
                 let dashboardController = CourseDashboardViewController(environment: environment, courseID: courseID)
                 courseDashboardController = dashboardController
                 enrolledTabBarController.navigationController?.pushViewController(dashboardController, animated: true)
@@ -162,7 +162,7 @@ extension OEXRouter {
         }
         
         if let dashboardController = courseDashboardController as? CourseDashboardViewController {
-            dashboardController.switchTab(with: type)
+            dashboardController.switchTab(with: deeplink.type)
         }
     }
 
@@ -267,6 +267,11 @@ extension OEXRouter {
     
     func showPostsFromController(controller : UIViewController, courseID : String, topic: DiscussionTopic) {
         let postsController = PostsViewController(environment: environment, courseID: courseID, topic: topic)
+        controller.navigationController?.pushViewController(postsController, animated: true)
+    }
+    
+    func showDiscussionPosts(from controller: UIViewController, courseID: String, topicID: String) {
+        let postsController = PostsViewController(environment: environment, courseID: courseID, topicID: topicID)
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
