@@ -254,27 +254,26 @@ typealias DismissCompletion = () -> Void
             let topicID = link.topicID,
             let topController = topMostViewController else { return }
         
-        func isControllerAlreadyDisplayed() -> Bool {
+        var isControllerAlreadyDisplayed : Bool {
             if let topController = topMostViewController, let postController = topController as? PostsViewController, postController.topicID == link.topicID  {
                 return true
             }
             return false
         }
         
-        if let postController = topController as? PostsViewController {
-            if postController.topicID != link.topicID {
-                postController.navigationController?.popViewController(animated: true)
-                if let topController = topMostViewController {
-                    environment?.router?.showDiscussionPosts(from: topController, courseID: courseId, topicID: topicID)
-                }
+        func showDiscussionPosts() {
+            if let topController = topMostViewController {
+                environment?.router?.showDiscussionPosts(from: topController, courseID: courseId, topicID: topicID)
             }
-            else {
-                return
-            }
+        }
+        
+        if let postController = topController as? PostsViewController, postController.topicID != link.topicID {
+            postController.navigationController?.popViewController(animated: true)
+            showDiscussionPosts()
         }
         else {
             dismiss() { [weak self] in
-                guard let topController = self?.topMostViewController, !isControllerAlreadyDisplayed() else { return }
+                guard let topController = self?.topMostViewController, !isControllerAlreadyDisplayed else { return }
                 
                 if let courseDashboardController = topController as? CourseDashboardViewController, courseDashboardController.courseID == link.courseId {
                     courseDashboardController.switchTab(with: link.type)
@@ -283,9 +282,7 @@ typealias DismissCompletion = () -> Void
                     self?.showCourseDashboardViewController(with: link)
                 }
 
-                if let topController = self?.topMostViewController {
-                    self?.environment?.router?.showDiscussionPosts(from: topController, courseID: courseId, topicID: topicID)
-                }
+                showDiscussionPosts()
             }
         }
     }
