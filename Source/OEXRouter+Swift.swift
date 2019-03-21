@@ -146,7 +146,7 @@ extension OEXRouter {
             
             return nil
         }).first
-        
+    
         if  let dashboardController = courseDashboardController as? CourseDashboardViewController, dashboardController.courseID == deeplink.courseId {
             controller.navigationController?.setToolbarHidden(true, animated: false)
             controller.navigationController?.popToViewController(dashboardController, animated: true)
@@ -182,7 +182,7 @@ extension OEXRouter {
         }
     }
     
-    private func popToRoot(controller: UIViewController) {
+    func popToRoot(controller: UIViewController) {
         controller.navigationController?.setToolbarHidden(true, animated: false)
         controller.navigationController?.popToRootViewController(animated: true)
     }
@@ -245,6 +245,16 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
+    func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, threadID : String, isDiscussionBlackedOut: Bool) {
+        let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
+        let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
+        responsesViewController.environment = environment
+        responsesViewController.courseID = courseID
+        responsesViewController.threadID = threadID
+        responsesViewController.isDiscussionBlackedOut = isDiscussionBlackedOut
+        controller.navigationController?.pushViewController(responsesViewController, animated: true)
+    }
+    
     func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, response : DiscussionComment, closed : Bool, thread: DiscussionThread, isDiscussionBlackedOut: Bool) {
         let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed, thread: thread, isDiscussionBlackedOut: isDiscussionBlackedOut)
         
@@ -269,7 +279,7 @@ extension OEXRouter {
         let postsController = PostsViewController(environment: environment, courseID: courseID, topic: topic)
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
-    
+
     func showDiscussionPosts(from controller: UIViewController, courseID: String, topicID: String) {
         let postsController = PostsViewController(environment: environment, courseID: courseID, topicID: topicID)
         controller.navigationController?.pushViewController(postsController, animated: true)

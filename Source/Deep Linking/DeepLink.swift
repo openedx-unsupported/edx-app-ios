@@ -13,6 +13,7 @@ enum DeepLinkType: String {
     case courseVideos = "course_videos"
     case discussions = "course_discussion"
     case discussionTopic = "discussion_topic"
+    case discussionPost = "discussion_post"
     case courseDiscovery = "course_discovery"
     case programDiscovery = "program_discovery"
     case programDiscoveryDetail = "program_discovery_detail"
@@ -29,6 +30,7 @@ fileprivate enum DeepLinkKeys: String, RawStringExtractable {
     case PathID = "path_id"
     case ScreenName = "screen_name"
     case topicID = "topic_id"
+    case threadID = "thread_id"
 }
 
 class DeepLink: NSObject {
@@ -37,6 +39,7 @@ class DeepLink: NSObject {
     let screenName: String?
     let pathID: String?
     let topicID: String?
+    let threadID: String?
     var type: DeepLinkType {
         let type = DeepLinkType(rawValue: screenName ?? DeepLinkType.none.rawValue) ?? .none
         if type == .courseDiscovery && courseId != nil {
@@ -56,5 +59,6 @@ class DeepLink: NSObject {
         screenName = dictionary[DeepLinkKeys.ScreenName] as? String
         pathID = dictionary[DeepLinkKeys.PathID] as? String
         topicID = dictionary[DeepLinkKeys.topicID] as? String
+        threadID = dictionary[DeepLinkKeys.threadID] as? String
     }
 }

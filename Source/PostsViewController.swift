@@ -91,7 +91,7 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
     private let filterButton = PressableCustomButton()
     private let sortButton = PressableCustomButton()
     private let newPostButton = UIButton(type: .system)
-    private let courseID: String
+    let courseID: String
     private var isDiscussionBlackedOut: Bool = true {
         didSet {
             updateNewPostButtonStyle()
@@ -612,6 +612,19 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         posts[indexPath.row].read = true
         posts[indexPath.row].unreadCommentCount = 0
         tableView.reloadData()
+    }
+    
+    func showPost(with threadID: String) {
+        let postThread = posts.compactMap { (post) -> DiscussionThread? in
+            if post.threadID == threadID {
+                return post
+            }
+            return nil
+        }.first
+        
+        if let thread = postThread {
+            environment.router?.showDiscussionResponsesFromViewController(controller: self, courseID : courseID, thread: thread, isDiscussionBlackedOut: isDiscussionBlackedOut)
+        }
     }
     
     //MARK :- DiscussionNewPostViewControllerDelegate method
