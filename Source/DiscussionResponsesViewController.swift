@@ -354,16 +354,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     private func markThreadAsRead() {
         
-        var postThreadID: String?
         if let thread = thread {
-            postThreadID = thread.threadID
             threadID = thread.threadID
         }
-        else {
-            postThreadID = threadID
-        }
         
-        let apiRequest = DiscussionAPI.readThread(read: true, threadID: postThreadID ?? "")
+        let apiRequest = DiscussionAPI.readThread(read: true, threadID: threadID ?? "")
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             if let thread = result.data {
                 self?.patchThread(thread: thread)

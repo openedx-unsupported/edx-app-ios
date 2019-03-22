@@ -301,7 +301,7 @@ typealias DismissCompletion = () -> Void
         
         func showDiscussionResponses() {
             if let topController = topMostViewController {
-                environment?.router?.showDiscussionResponsesFromViewController(controller: topController, courseID: courseId, threadID: threadID, isDiscussionBlackedOut: false)
+                environment?.router?.showDiscussionResponses(from: topController, courseID: courseId, threadID: threadID, isDiscussionBlackedOut: false)
             }
         }
         
