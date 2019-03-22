@@ -357,7 +357,6 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         if let thread = thread {
             threadID = thread.threadID
         }
-        
         let apiRequest = DiscussionAPI.readThread(read: true, threadID: threadID ?? "")
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             if let thread = result.data {

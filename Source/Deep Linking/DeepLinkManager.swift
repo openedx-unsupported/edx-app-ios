@@ -287,7 +287,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showDiscussionPost(with link: DeepLink) {
+    private func showDiscussionResponses(with link: DeepLink) {
         guard let courseId = link.courseId,
             let threadID = link.threadID,
             let topController = topMostViewController else { return }
@@ -299,7 +299,7 @@ typealias DismissCompletion = () -> Void
             return false
         }
         
-        func showDiscussionResponses() {
+        func showResponses() {
             if let topController = topMostViewController {
                 environment?.router?.showDiscussionResponses(from: topController, courseID: courseId, threadID: threadID, isDiscussionBlackedOut: false)
             }
@@ -307,7 +307,7 @@ typealias DismissCompletion = () -> Void
         
         if let discussionResponseController = topController as? DiscussionResponsesViewController, discussionResponseController.threadID != link.threadID  {
             discussionResponseController.navigationController?.popViewController(animated: true)
-            showDiscussionResponses()
+            showResponses()
         }
         else {
             dismiss() { [weak self] in
@@ -319,7 +319,7 @@ typealias DismissCompletion = () -> Void
                     postViewController.navigationController?.popViewController(animated: true)
                 }
                 self?.showDiscussionTopic(with: link)
-                showDiscussionResponses()
+                showResponses()
                 
             }
         }
@@ -377,7 +377,7 @@ typealias DismissCompletion = () -> Void
             showDiscussionTopic(with: link)
             break
         case .discussionPost:
-            showDiscussionPost(with: link)
+            showDiscussionResponses(with: link)
             break
             
         default:
