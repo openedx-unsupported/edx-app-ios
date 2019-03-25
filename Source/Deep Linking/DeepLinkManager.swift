@@ -356,7 +356,7 @@ typealias DismissCompletion = () -> Void
         }
         
         switch type {
-        case .courseDashboard, .courseVideos, .discussions:
+        case .courseDashboard, .courseVideos, .discussions, .courseDates:
             showCourseDashboardViewController(with: link)
             break
         case .program:
