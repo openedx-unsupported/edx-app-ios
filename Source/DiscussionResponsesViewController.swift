@@ -232,6 +232,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private let addResponseButton = UIButton(type: .system)
     private let responsesDataController = DiscussionResponsesDataController()
     var thread: DiscussionThread?
+    var threadID: String? // this will be use for deep linking
+    
     var postFollowing = false
     var profileFeed: Feed<UserProfile>?
     var tempComment: DiscussionComment? // this will be used for injecting user info to added comment
@@ -351,7 +353,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     private func markThreadAsRead() {
-        let apiRequest = DiscussionAPI.readThread(read: true, threadID: thread?.threadID ?? "")
+        
+        if let thread = thread {
+            threadID = thread.threadID
+        }
+        let apiRequest = DiscussionAPI.readThread(read: true, threadID: threadID ?? "")
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             if let thread = result.data {
                 self?.patchThread(thread: thread)
