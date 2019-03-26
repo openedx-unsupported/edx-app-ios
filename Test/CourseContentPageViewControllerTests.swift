@@ -148,7 +148,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
 
         loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (coursID, controller) -> ((XCTestExpectation) -> Void)? in
             return { expectation -> Void in
-                DispatchQueue.main.async {
+                self.wait(for: 0.5) {
                     self.environment.eventTracker.eventStream.listenOnce(self) {_ in
                         let events = self.environment.eventTracker.events.compactMap { return $0.asScreen }
 
