@@ -69,6 +69,8 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withSize)(OEXTextSize size);
 /// Duplicates the current style but with the specified color
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withColor)(UIColor* color);
+/// Controls Dynamic type support. default true
+@property (nonatomic) BOOL dynamicTypeSupported;
 
 - (NSAttributedString*)attributedStringWithText:(nullable NSString*)text;
 
