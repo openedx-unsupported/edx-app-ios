@@ -211,6 +211,10 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         case .courseDates:
             selectedIndex = tabBarViewControllerIndex(with: CourseDatesViewController.self)
             break
+        case .courseHandout:
+            let index = tabBarViewControllerIndex(with: CourseHandoutsViewController.self)
+            selectedIndex = (index == 0) ? tabBarViewControllerIndex(with: AdditionalTabBarViewController.self) : index        
+            break
         default:
             selectedIndex = 0
             break
