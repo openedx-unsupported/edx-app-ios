@@ -16,7 +16,7 @@ public class BlockViewControllerCacheManager: NSObject {
     
     override init() {
         super.init()
-        viewControllers.countLimit = 7
+        viewControllers.countLimit = 6
         NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didReceiveMemoryWarningNotification.rawValue) {(_,observer, _) -> Void in
             observer.viewControllers.removeAllObjects()
         }
