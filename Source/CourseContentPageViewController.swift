@@ -57,7 +57,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
         initialLoadController = LoadStateViewController()
         
-        cacheManager = BlockViewControllerCacheManager()
+        cacheManager = BlockViewControllerCacheManager.shared
         courseOutlineMode = mode
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         self.setViewControllers([initialLoadController], direction: .forward, animated: false, completion: nil)
@@ -329,9 +329,6 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         else {
             // Instantiate a new VC from the router if not found in cache already
             if let viewController = self.environment.router?.controllerForBlock(block: block, courseID: courseQuerier.courseID) {
-                if block.displayType.isCacheable {
-                    cacheManager.addToCache(viewController: viewController, blockID: block.blockID)
-                }
                 blockViewController = viewController
             }
             else {
