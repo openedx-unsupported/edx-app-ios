@@ -325,6 +325,31 @@ typealias DismissCompletion = () -> Void
         }
     }
     
+    private func showCourseHandout(with link: DeepLink) {
+        
+        var controllerAlreadyDisplayed: Bool {
+            if let topController = topMostViewController, let courseHandoutController = topController as? CourseHandoutsViewController, courseHandoutController.courseID == link.courseId {
+                return true
+            }
+            return false
+        }
+        
+        func showHandout() {
+            if let topController = topMostViewController {
+                environment?.router?.showHandoutsFromController(controller: topController, courseID: link.courseId ?? "")
+            }
+        }
+        
+        guard !controllerAlreadyDisplayed else { return }
+        
+         dismiss() { [weak self] in
+            if let topController = self?.topMostViewController {
+                self?.environment?.router?.showCourse(with: link, courseID: link.courseId ?? "", from: topController)
+            }
+            showHandout()
+        }
+    }
+    
     private func controllerAlreadyDisplayed(for type: DeepLinkType) -> Bool {
         guard let topViewController = topMostViewController else { return false }
         
@@ -378,6 +403,9 @@ typealias DismissCompletion = () -> Void
             break
         case .discussionPost:
             showDiscussionResponses(with: link)
+            break
+        case .courseHandout:
+            showCourseHandout(with: link)
             break
             
         default:
