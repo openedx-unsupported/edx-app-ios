@@ -55,7 +55,19 @@ public class OEXFonts: NSObject {
         
         return UIFont(descriptor: preferredFontDescriptor, size: preferredFontSize)
     }
-    
+
+    @objc public func font(for identifier: FontIdentifiers, size: CGFloat, dynamicTypeSupported: Bool) -> UIFont {
+        if dynamicTypeSupported {
+            return font(for: identifier, size: size)
+        }
+
+        if let fontName = fontsDictionary[getIdentifier(identifier: identifier)] as? String {
+            return UIFont(name: fontName, size: size)!
+        }
+
+        return UIFont(name:getIdentifier(identifier: FontIdentifiers.Irregular), size: size)!
+    }
+
     private func getIdentifier(identifier: FontIdentifiers) -> String {
         switch identifier {
         case .Regular:

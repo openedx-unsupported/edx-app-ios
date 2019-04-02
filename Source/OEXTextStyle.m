@@ -41,6 +41,7 @@
         self.letterSpacing = OEXLetterSpacingNormal;
         self.lineBreakMode = NSLineBreakByTruncatingTail;
         self.alignment = NSTextAlignmentNatural;
+        self.dynamicTypeSupported = true;
     }
     return self;
 }
@@ -133,13 +134,13 @@
     CGFloat pointSize = [[self class] pointSizeForTextSize:size];
     switch (weight) {
         case OEXTextWeightNormal:
-            return [[OEXStyles sharedStyles] sansSerifOfSize:pointSize] ?: [UIFont systemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] sansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
         case OEXTextWeightLight:
-            return [[OEXStyles sharedStyles] lightSansSerifOfSize:pointSize] ?: [UIFont systemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] lightSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
         case OEXTextWeightSemiBold:
-            return [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:pointSize] ?: [UIFont boldSystemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
         case OEXTextWeightBold:
-            return [[OEXStyles sharedStyles] boldSansSerifOfSize:pointSize] ?: [UIFont boldSystemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] boldSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
     }
 }
 
