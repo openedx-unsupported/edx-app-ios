@@ -112,15 +112,14 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, UIWebView
         return .allButUpsideDown
     }
     
-    private func loadContent() {
+    private func loadContent() {        
         if !announcementsLoader.active {
-            let networkManager = environment.networkManager
-            announcementsLoader.backWithStream(
-                environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID).transform {
-                    let request = CourseAnnouncementsViewController.requestForCourse(course: $0.course)
-                    return networkManager.streamForRequest(request, persistResponse: true)
-                }
-            )
+            loadController.state = .Initial
+            let courseStream = environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID)
+            let announcementStream = courseStream.transform {[weak self] enrollment in
+                return self?.environment.networkManager.streamForRequest(CourseAnnouncementsViewController.requestForCourse(course: enrollment.course), persistResponse: true) ?? OEXStream<Array>(error : NSError.oex_courseContentLoadError())
+            }
+            announcementsLoader.backWithStream((courseStream.value != nil) ? announcementStream : OEXStream<Array>(error : NSError.oex_courseContentLoadError()))
         }
     }
     

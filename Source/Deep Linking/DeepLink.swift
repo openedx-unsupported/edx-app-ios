@@ -14,6 +14,7 @@ enum DeepLinkType: String {
     case discussions = "course_discussion"
     case courseDates = "course_dates"
     case courseHandout = "course_handout"
+    case courseAnnouncement = "course_announcement"
     case discussionTopic = "discussion_topic"
     case discussionPost = "discussion_post"
     case courseDiscovery = "course_discovery"

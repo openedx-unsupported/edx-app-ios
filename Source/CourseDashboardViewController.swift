@@ -215,6 +215,10 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
             let index = tabBarViewControllerIndex(with: CourseHandoutsViewController.self)
             selectedIndex = (index == 0) ? tabBarViewControllerIndex(with: AdditionalTabBarViewController.self) : index        
             break
+        case .courseAnnouncement:
+            let index = tabBarViewControllerIndex(with: CourseAnnouncementsViewController.self)
+            selectedIndex = (index == 0) ? tabBarViewControllerIndex(with: AdditionalTabBarViewController.self) : index
+            break
         default:
             selectedIndex = 0
             break

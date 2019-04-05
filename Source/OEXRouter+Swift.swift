@@ -182,6 +182,11 @@ extension OEXRouter {
         }
     }
     
+    func showAnnouncment(from controller : UIViewController, courseID : String) {
+        let announcementViewController =  CourseAnnouncementsViewController(environment: environment, courseID: courseID)
+        controller.navigationController?.pushViewController(announcementViewController, animated: true)
+    }
+    
     private func popToRoot(controller: UIViewController) {
         controller.navigationController?.setToolbarHidden(true, animated: false)
         controller.navigationController?.popToRootViewController(animated: true)
