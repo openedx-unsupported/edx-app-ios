@@ -31,7 +31,6 @@
 #import "OEXSession.h"
 #import "OEXStorageFactory.h"
 #import "OEXUserDetails.h"
-#import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
 #import "Reachability.h"
 #import "VideoData.h"
@@ -115,8 +114,6 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (void)backgroundInit {
-    //course details
-    self.courses = [self parsedObjectWithData:[self resourceDataForURLString:[_network URLStringForType:URL_COURSE_ENROLLMENTS] downloadIfNotAvailable:NO] forURLString:[_network URLStringForType:URL_COURSE_ENROLLMENTS]];
 
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         [self resumePausedDownloads];
@@ -143,9 +140,6 @@ static OEXInterface* _sharedInterface = nil;
     if([URLString isEqualToString:[self URLStringForType:URL_USER_DETAILS]]) {
         return [self.parser userDetailsWithData:data];
     }
-    else if([URLString isEqualToString:[self URLStringForType:URL_COURSE_ENROLLMENTS]]) {
-        return [self.parser userCourseEnrollmentsWithData:data];
-    }
     else if([URLString rangeOfString:URL_COURSE_ANNOUNCEMENTS].location != NSNotFound) {
         return [self.parser announcementsWithData:data];
     }
@@ -161,9 +155,6 @@ static OEXInterface* _sharedInterface = nil;
 
     if([type isEqualToString:URL_USER_DETAILS]) {
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
-    }
-    else if([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
-        URLString = [self formatEnrollmentURLWith:[OEXConfig sharedConfig] url:URLString];
     }
     else {
         return nil;
@@ -280,9 +271,6 @@ static OEXInterface* _sharedInterface = nil;
         case 0:
             [self downloadWithRequestString:URL_USER_DETAILS forceUpdate:YES];
             break;
-        case 1:
-            [self downloadWithRequestString:URL_COURSE_ENROLLMENTS forceUpdate:YES];
-            break;
         default:
             _commonDownloadProgress = -1;
             break;
@@ -303,9 +291,6 @@ static OEXInterface* _sharedInterface = nil;
 
     if([URLString isEqualToString:URL_USER_DETAILS]) {
         URLString = [_network URLStringForType:URL_USER_DETAILS];
-    }
-    else if([URLString isEqualToString:URL_COURSE_ENROLLMENTS]) {
-        URLString = [_network URLStringForType:URL_COURSE_ENROLLMENTS];
     }
     else if([OEXInterface isURLForImage:URLString]) {
         return NO;
@@ -525,37 +510,12 @@ static OEXInterface* _sharedInterface = nil;
                              UnitURL: helperVideo.summary.unitURL
                             CourseID: helperVideo.course_id
                                 DMID: 0
-                         ChapterName: helperVideo.summary.chapterPathEntry.name
-                         SectionName: helperVideo.summary.sectionPathEntry.name
+                         ChapterName: @""
+                         SectionName: @""
                            TimeStamp: nil
                       LastPlayedTime: helperVideo.lastPlayedInterval
                               is_Reg: YES
                          PlayedState: helperVideo.watchedState];
-}
-
-#pragma mark Last Accessed
-
-- (OEXHelperVideoDownload*)lastAccessedSubsectionForCourseID:(NSString*)courseID {
-    LastAccessed* lastAccessed = [_storage lastAccessedDataForCourseID:courseID];
-
-    if(lastAccessed.course_id) {
-        for(UserCourseEnrollment* courseEnrollment in _courses) {
-            OEXCourse* course = courseEnrollment.course;
-
-            if([courseID isEqualToString:course.course_id]) {
-                for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
-                    OEXLogInfo(@"LAST ACCESSED", @"video.subSectionID : %@", video.summary.sectionPathEntry.entryID);
-                    OEXLogInfo(@"LAST ACCESSED", @"lastAccessed.subsection_id : %@ \n *********************\n", lastAccessed.subsection_id);
-
-                    if([video.summary.sectionPathEntry.entryID isEqualToString:lastAccessed.subsection_id]) {
-                        return video;
-                    }
-                }
-            }
-        }
-    }
-
-    return nil;
 }
 
 #pragma mark Update Storage
@@ -730,30 +690,7 @@ static OEXInterface* _sharedInterface = nil;
             return;
         }
 
-        //download any additional data if required
-        else if([URLString isEqualToString:[self URLStringForType:URL_COURSE_ENROLLMENTS]]) {
-            self.courses = (NSArray*)object;
-            for(UserCourseEnrollment* courseEnrollment in _courses) {
-                OEXCourse* course = courseEnrollment.course;
-
-                //course enrolments, get images for background
-                NSString* courseImage = course.courseImageURL;
-                NSString* imageDownloadURL = [NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, courseImage];
-
-                BOOL force = NO;
-                if(_commonDownloadProgress != -1) {
-                    force = YES;
-                }
-
-                [self downloadWithRequestString:imageDownloadURL forceUpdate:force];
-            }
-        }
-
-        //If not using common download mode
-        if(_commonDownloadProgress == -1) {
-            //Delegate call back
-        }
-        else {
+        if(_commonDownloadProgress != -1) {
             _commonDownloadProgress++;
             [self downloadNextItem];
         }
@@ -915,20 +852,6 @@ static OEXInterface* _sharedInterface = nil;
     }
 
     return mainArray;
-}
-
-- (OEXHelperVideoDownload*)getSubsectionNameForSubsectionID:(NSString*)subsectionID {
-    for(UserCourseEnrollment* courseEnrollment in _courses) {
-        OEXCourse* course = courseEnrollment.course;
-
-        for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
-            if([video.summary.sectionPathEntry.entryID isEqualToString:subsectionID]) {
-                return video;
-            }
-        }
-    }
-
-    return nil;
 }
 
 - (NSArray*)allVideosForState:(OEXDownloadState)state {
@@ -1134,99 +1057,6 @@ static OEXInterface* _sharedInterface = nil;
     NSString* substringsecond = [strdate substringFromIndex:29];
     strdate = [NSString stringWithFormat:@"%@:%@", substringFirst, substringsecond];
     return strdate;
-}
-
-- (void)updateLastVisitedModule:(NSString*)module forCourseID:(NSString*)courseID {
-    if(!module) {
-        return;
-    }
-
-    NSString* timestamp = [self getFormattedDate];
-
-    // Set to DB first and then depending on the response the DB gets updated
-    [self setLastAccessedDataToDB:module withTimeStamp:timestamp forCourseID:courseID];
-
-    NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@", [OEXSession sharedSession].currentUser.username, courseID];
-
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, path]]];
-
-    [request setHTTPMethod:@"PATCH"];
-    NSString* authValue = [NSString stringWithFormat:@"%@", [OEXAuthentication authHeaderForApiAccess]];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-
-    NSDictionary* dictionary = @{
-        @"modification_date" : timestamp,
-        @"last_visited_module_id" : module
-    };
-    request.HTTPBody = [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:nil];
-
-    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-
-    [[session dataTaskWithRequest:request completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-            NSDictionary* dict = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
-
-            NSArray* visitedPath = [dict objectForKey:@"last_visited_module_path"];
-
-            NSString* subsectionID;
-
-            for(NSString * subs in visitedPath) {
-                if([subs rangeOfString:@"sequential"].location != NSNotFound) {
-                    subsectionID = [visitedPath objectAtIndex:2];
-                    break;
-                }
-            }
-
-            if(![module isEqualToString:subsectionID]) {
-                [self setLastAccessedDataToDB:subsectionID withTimeStamp:timestamp forCourseID:courseID];
-            }
-        }] resume];
-}
-
-- (void)setLastAccessedDataToDB:(NSString*)subsectionID withTimeStamp:(NSString*)timestamp forCourseID:(NSString*)courseID {
-    OEXHelperVideoDownload* video = [self getSubsectionNameForSubsectionID:subsectionID];
-    [self setLastAccessedSubSectionWithIDWithSubsectionID:subsectionID subsectionName: video.summary.sectionPathEntry.entryID courseID:courseID timeStamp:timestamp];
-}
-
-- (void)getLastVisitedModuleForCourseID:(NSString*)courseID {
-    NSString* path = [NSString stringWithFormat:@"/api/mobile/v0.5/users/%@/course_status_info/%@",
-                      [OEXSession sharedSession].currentUser.username, courseID];
-
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", [OEXConfig sharedConfig].apiHostURL, path]]];
-
-    [request setHTTPMethod:@"GET"];
-    NSString* authValue = [NSString stringWithFormat:@"%@", [OEXAuthentication authHeaderForApiAccess]];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-
-    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
-
-    [[session dataTaskWithRequest:request completionHandler:^(NSData* data, NSURLResponse* response, NSError* error) {
-            NSDictionary* dict = [NSJSONSerialization oex_JSONObjectWithData:data error:&error];
-
-            NSArray* visitedPath = [dict objectForKey:@"last_visited_module_path"];
-
-            NSString* subsectionID;
-
-            for(NSString * subs in visitedPath) {
-                if([subs rangeOfString:@"sequential"].location != NSNotFound) {
-                    subsectionID = subs;
-                    break;
-                }
-            }
-
-            if(subsectionID) {
-                NSString* timestamp = [self getFormattedDate];
-                // Set to DB first and then depending on the response the DB gets updated
-                [self setLastAccessedDataToDB:subsectionID withTimeStamp:timestamp forCourseID:courseID];
-
-                //Post notification
-                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_URL_RESPONSE
-                                                                    object:self
-                                                                  userInfo:@{NOTIFICATION_KEY_URL: NOTIFICATION_VALUE_URL_LASTACCESSED,
-                                                                             NOTIFICATION_KEY_STATUS: NOTIFICATION_VALUE_URL_STATUS_SUCCESS}];
-            }
-        }] resume];
 }
 
 #pragma mark - Analytics Call

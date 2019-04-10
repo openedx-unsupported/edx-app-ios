@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID name:(NSString*)name;
 
 /// Generate a simple stub video summary. Used only for testing
-- (id)initWithVideoID:(NSString*)videoID name:(NSString*)name path:(NSArray<OEXVideoPathEntry*>*)path;
-/// Generate a simple stub video summary. Used only for testing
 - (id)initWithVideoID:(NSString*)videoID name:(NSString*)name encodings:(NSDictionary<NSString*, OEXVideoEncoding *> *)encodings;
 
 @property (readonly, nonatomic, copy, nullable) NSString* sectionURL;     // used for OPEN IN BROWSER
