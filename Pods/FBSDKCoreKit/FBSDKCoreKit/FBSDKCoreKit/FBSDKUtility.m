@@ -18,8 +18,9 @@
 
 #import "FBSDKUtility.h"
 
+#import <CommonCrypto/CommonDigest.h>
+
 #import "FBSDKInternalUtility.h"
-#import "FBSDKMacros.h"
 
 @implementation FBSDKUtility
 
@@ -29,7 +30,7 @@
   NSArray *parts = [queryString componentsSeparatedByString:@"&"];
 
   for (NSString *part in parts) {
-    if ([part length] == 0) {
+    if (part.length == 0) {
       continue;
     }
 
@@ -107,10 +108,28 @@
   }
 }
 
-- (instancetype)init
++ (NSString *)SHA256Hash:(NSObject *)input
 {
-  FBSDK_NO_DESIGNATED_INITIALIZER();
-  return nil;
+  NSData *data = nil;
+
+  if ([input isKindOfClass:[NSString class]]) {
+    data = [(NSString *)input dataUsingEncoding:NSUTF8StringEncoding];
+  } else if ([input isKindOfClass:[NSData class]]) {
+    data = (NSData *)input;
+  }
+
+  if (!data) {
+    return nil;
+  }
+
+  uint8_t digest[CC_SHA256_DIGEST_LENGTH];
+  CC_SHA256(data.bytes, (CC_LONG)data.length, digest);
+  NSMutableString *encryptedStuff = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+  for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+    [encryptedStuff appendFormat:@"%02x", digest[i]];
+  }
+
+  return encryptedStuff;
 }
 
 @end

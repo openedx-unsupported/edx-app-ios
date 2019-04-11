@@ -13,9 +13,9 @@ PODS:
     - Fabric (~> 1.7.13)
   - DateTools (1.6.1)
   - Fabric (1.7.13)
-  - FBSDKCoreKit (4.31.1):
-    - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.31.1):
+  - FBSDKCoreKit (4.42.0):
+    - Bolts (~> 1.9)
+  - FBSDKLoginKit (4.42.0):
     - FBSDKCoreKit
   - FBSnapshotTestCase/Core (2.0.1)
   - Firebase/Core (5.4.1):
@@ -47,9 +47,9 @@ PODS:
     - GoogleNetworkingUtilities (~> 1.0)
     - GoogleUtilities (~> 1.0)
   - GoogleSymbolUtilities (1.1.2)
-  - GoogleToolboxForMac/Defines (2.1.4)
-  - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
-    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - GoogleToolboxForMac/Defines (2.2.0)
+  - "GoogleToolboxForMac/NSData+zlib (2.2.0)":
+    - GoogleToolboxForMac/Defines (= 2.2.0)
   - GoogleUtilities (1.3.2):
     - GoogleSymbolUtilities (~> 1.1)
   - Masonry (0.6.4)
@@ -85,8 +85,8 @@ DEPENDENCIES:
   - Crashlytics (~> 3.10.1)
   - DateTools (~> 1.6.1)
   - Fabric (~> 1.7.6)
-  - FBSDKCoreKit (~> 4.31.1)
-  - FBSDKLoginKit (~> 4.31.1)
+  - FBSDKCoreKit
+  - FBSDKLoginKit
   - FBSnapshotTestCase/Core (= 2.0.1)
   - Firebase/Core (= 5.4.1)
   - GoogleSignIn (~> 2.4)
@@ -136,8 +136,8 @@ SPEC CHECKSUMS:
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
   Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
-  FBSDKCoreKit: e08ccfcefa7bc1347a07c276dac9bf6c7fe57024
-  FBSDKLoginKit: 99797ac39252fef6f72600b886f6ee60b4b29cab
+  FBSDKCoreKit: aa42f1c384775f8b075f53a43080474278e9701d
+  FBSDKLoginKit: 373830c68aa48c9e8f0bfed93a3e32d2ca8963a0
   FBSnapshotTestCase: bdb997ab2397495205f11156d4d444606daebd27
   Firebase: 355bd535bfdacaa82a7fe8d9784115edefd6fc03
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
@@ -150,7 +150,7 @@ SPEC CHECKSUMS:
   GoogleNetworkingUtilities: 3edd3a8161347494f2da60ea0deddc8a472d94cb
   GoogleSignIn: 79929b51e6299c69f1197bbd9c7a1367d523ecd8
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
-  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
+  GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
@@ -160,6 +160,6 @@ SPEC CHECKSUMS:
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
 
-PODFILE CHECKSUM: 83fa8517f593afd90f39ef20cef98746a01b3df8
+PODFILE CHECKSUM: 4705c1993b24a95bf54ab4d1c9ddf1d1ff91e070
 
 COCOAPODS: 1.5.3
