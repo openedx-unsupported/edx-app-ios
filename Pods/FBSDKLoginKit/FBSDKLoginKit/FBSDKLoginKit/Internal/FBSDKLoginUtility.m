@@ -41,7 +41,7 @@
 + (NSDictionary *)queryParamsFromLoginURL:(NSURL *)url
 {
   NSString *expectedUrlPrefix = [FBSDKInternalUtility appURLWithHost:@"authorize" path:nil queryParameters:nil error:NULL].absoluteString;
-  if (![[url absoluteString] hasPrefix:expectedUrlPrefix]) {
+  if (![url.absoluteString hasPrefix:expectedUrlPrefix]) {
     // Don't have an App ID, just verify path.
     NSString *host = url.host;
     if (![host isEqualToString:@"authorize"]) {
@@ -75,12 +75,6 @@
     }
   }
   return userID;
-}
-
-- (instancetype)init
-{
-  FBSDK_NO_DESIGNATED_INITIALIZER();
-  return nil;
 }
 
 @end
