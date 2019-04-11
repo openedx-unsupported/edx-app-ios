@@ -14,7 +14,7 @@ fileprivate enum YoutubeKeys: String, RawStringExtractable {
 }
 
 class YoutubeVideoConfig: NSObject {
-    var enabled: Bool = false
+    @objc var enabled: Bool = false
     var youtubeApiKey: String = ""
 
     init(dictionary: [String: AnyObject]) {
@@ -25,7 +25,7 @@ class YoutubeVideoConfig: NSObject {
 }
 private let key = "YOUTUBE_VIDEO"
 extension OEXConfig {
-    var youtubeVideoConfig: YoutubeVideoConfig {
+    @objc var youtubeVideoConfig: YoutubeVideoConfig {
         return YoutubeVideoConfig(dictionary: self[key] as? [String:AnyObject] ?? [:])
     }
 }

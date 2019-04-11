@@ -69,17 +69,13 @@ class YoutubeVideoPlayer: VideoPlayer{
         videoId = (url.queryItems?.first?.value)!
         playerView.load(withVideoId: videoId, playerVars: playvarsDic)
     }
- }
-
-extension YoutubeVideoPlayer {
-
+    
     override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         isFullScreen = fullscreen
         videoPlayerProtraitView(portraitView: !fullscreen)
-        playerView.playVideo()
-
+        playerView.playVideo()        
     }
-}
+ }
 
 extension YoutubeVideoPlayer: YTPlayerViewDelegate {
 

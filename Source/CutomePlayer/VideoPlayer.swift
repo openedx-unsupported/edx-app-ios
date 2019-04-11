@@ -577,21 +577,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     deinit {
         removeObservers()
     }
-}
-
-extension VideoPlayer {
-    
-    var movieBackgroundFrame: CGRect {
-        if #available(iOS 11, *) {
-            if let safeBounds = fullScreenContainerView?.safeAreaLayoutGuide.layoutFrame {
-                return safeBounds
-            }
-        }
-        else if let containerBounds = fullScreenContainerView?.bounds {
-            return containerBounds
-        }
-        return .zero
-    }
     
     func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         if !isVisible { return }
@@ -640,6 +625,21 @@ extension VideoPlayer {
                     })
             })
         }
+    }
+}
+
+extension VideoPlayer {
+    
+    var movieBackgroundFrame: CGRect {
+        if #available(iOS 11, *) {
+            if let safeBounds = fullScreenContainerView?.safeAreaLayoutGuide.layoutFrame {
+                return safeBounds
+            }
+        }
+        else if let containerBounds = fullScreenContainerView?.bounds {
+            return containerBounds
+        }
+        return .zero
     }
     
     func rotateMoviePlayer(for orientation: UIInterfaceOrientation, animated: Bool, forceRotate rotate: Bool, completion: (() -> Void)? = nil) {
