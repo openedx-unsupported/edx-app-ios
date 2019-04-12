@@ -39,14 +39,14 @@ class YoutubeVideoPlayerTests: XCTestCase {
     
     func testVideoPlayerProtraitView() {
         let screenSize: CGRect = UIScreen.main.bounds
-        youtubeVideoPlayer?.videoPlayerProtraitView(portraitView: false)
+        youtubeVideoPlayer?.videoPlayerPortraitView(portraitView: false)
         var landScapeSize = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
         
         XCTAssertEqual(landScapeSize, youtubeVideoPlayer?.playerView.frame)
         
         landScapeSize = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.width * 9 / 16)
         
-        youtubeVideoPlayer?.videoPlayerProtraitView(portraitView: true)
+        youtubeVideoPlayer?.videoPlayerPortraitView(portraitView: true)
         
         XCTAssertEqual(landScapeSize, youtubeVideoPlayer?.playerView.frame)
     }

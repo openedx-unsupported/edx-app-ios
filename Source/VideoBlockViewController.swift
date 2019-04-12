@@ -33,9 +33,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         loadController = LoadStateViewController()
         let block = courseQuerier.blockWithID(id: blockID)
-        if environment.config.youtubeVideoConfig.enabled && (block.value?.type.asVideo?.isYoutubeVideo)! {
+        if let isYoutubeVideo = block.value?.type.asVideo?.isYoutubeVideo, environment.config.youtubeVideoConfig.enabled {
             videoController = YoutubeVideoPlayer(environment: environment)
-        }else{
+        }
+        else {
             videoController = VideoPlayer(environment: environment)
         }
         super.init(nibName: nil, bundle: nil)

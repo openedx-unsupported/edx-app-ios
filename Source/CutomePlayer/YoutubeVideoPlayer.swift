@@ -6,10 +6,10 @@
 //  Copyright © 2018 edX. All rights reserved.
 //
 
-class YoutubeVideoPlayer: VideoPlayer{
+class YoutubeVideoPlayer: VideoPlayer {
 
     let playerView: YTPlayerView
-    let background: UIColor
+    private let background: UIColor
     var videoId: String
 
     override var currentTime: TimeInterval {
@@ -37,43 +37,58 @@ class YoutubeVideoPlayer: VideoPlayer{
     }
 
     private func createYoutubePlayer() {
-        videoPlayerProtraitView(portraitView: UIDevice.current.orientation.isPortrait)
+        videoPlayerPortraitView(portraitView: UIDevice.current.orientation.isPortrait)
         view.addSubview(playerView)
         UINavigationBar.appearance().barTintColor = .black
         t_captionLanguage = String(Locale.preferredLanguages[0].prefix(2))
     }
 
-    func videoPlayerProtraitView(portraitView: Bool){
+    func videoPlayerPortraitView(portraitView: Bool) {
         let screenSize: CGRect = UIScreen.main.bounds
 
-        if portraitView{
+        if portraitView {
             playerView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.width * 9 / 16)
         }
-        else{
+        else {
             playerView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
         }
     }
 
     override func play(video: OEXHelperVideoDownload) {
         super.setVideo(video: video)
-        guard let videoUrl = video.summary?.videoURL else{
+        guard let videoUrl = video.summary?.videoURL, let url = URLComponents(string : videoUrl) else {
             Logger.logError("YOUTUBE_VIDEO", "invalid url")
             return
         }
-        guard let url = URLComponents(string : videoUrl) else {
-            Logger.logError("YOUTUBE_VIDEO", "invalid url")
-            return
-        }
-        let playvarsDic = ["playsinline": 1, "autohide": 1, "fs": 0, "showinfo": 0, ]
 
-        videoId = (url.queryItems?.first?.value)!
+        let playvarsDic = ["playsinline": 1, "autohide": 1, "fs": 0, "showinfo": 0]
+
+        guard let id = url.queryItems?.first?.value else {
+            return
+        }
+        videoId = id
         playerView.load(withVideoId: videoId, playerVars: playvarsDic)
     }
     
     override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         isFullScreen = fullscreen
-        videoPlayerProtraitView(portraitView: !fullscreen)
-        playerView.playVideo()        
+        let currentTime = Int(playerView.currentTime())
+        
+        var playVars = ["playsinline": 1, "autohide": 1, "fs": 0, "showinfo": 0, "start": currentTime]
+        
+        if fullscreen {
+            playVars.setObjectOrNil(0, forKey: "playsinline")
+        }
+        else {
+            playerView.webView?.loadHTMLString("", baseURL: nil)
+        }
+        playerView.load(withVideoId: videoId, playerVars: playVars)
+        videoPlayerPortraitView(portraitView: !fullscreen)
+        
+    }
+    
+    override func seek(to time: Double) {
+        playerView.seek(toSeconds: Float(time), allowSeekAhead: true)
     }
  }
 
@@ -81,6 +96,7 @@ extension YoutubeVideoPlayer: YTPlayerViewDelegate {
 
     func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
         // call play video when the player is finished loading.
-        self.playerView.playVideo()
+        playerView.playVideo()
     }
+
 }
