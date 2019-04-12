@@ -156,7 +156,10 @@ extension DiscoveryHelper {
             break
         case .programDetail:
             guard let pathId = programDetailPathId(from: url) else { return false }
-            environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar)
+            
+            // Setting this view type for  Deep Linking
+            let type = (controller is DegreesViewController) ? ProgramDiscoveryScreen.degree: ProgramDiscoveryScreen.program
+            environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar, type: type)
             break
         }
         return true

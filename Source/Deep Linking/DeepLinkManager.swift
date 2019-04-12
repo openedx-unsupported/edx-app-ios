@@ -60,10 +60,18 @@ typealias DismissCompletion = () -> Void
             else if segmentType == SegmentOption.course.rawValue {
                 return .courseDiscovery
             }
+            else if segmentType == SegmentOption.degree.rawValue {
+                return .degreeDiscovery
+            }
         } else if controller is OEXFindCoursesViewController  {
             return .courseDiscovery
         } else if let programsDiscoveryViewController = controller as? ProgramsDiscoveryViewController {
-            return programsDiscoveryViewController.pathId == nil ? .programDiscovery : .programDiscoveryDetail
+            if programsDiscoveryViewController.viewType == .program {
+                return programsDiscoveryViewController.pathId == nil ? .programDiscovery : .programDiscoveryDetail
+            }
+            else if programsDiscoveryViewController.viewType == .degree {
+                return programsDiscoveryViewController.pathId == nil ? .degreeDiscovery : .degreeDiscoveryDetail
+            }
         } else if controller is ProgramsViewController {
             return .program
         } else if controller is DiscussionTopicsViewController {
@@ -104,9 +112,10 @@ typealias DismissCompletion = () -> Void
             }
             
             // Program discovery detail if already loaded
-            if let programDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController,
-                let pathId = link.pathID {
-                programDiscoveryViewController.loadProgramDetails(with: pathId)
+            if let programDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController, let pathId = link.pathID {
+                if pathId != programDiscoveryViewController.pathId {
+                    programDiscoveryViewController.loadProgramDetails(with: pathId)
+                }
             }
             
             return
@@ -148,6 +157,23 @@ typealias DismissCompletion = () -> Void
             guard environment?.config.discovery.course.isEnabled ?? false else { return }
             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
                 discoveryViewController.switchSegment(with: link.type)
+                return
+            }
+            break
+        
+        case .degreeDiscovery:
+            guard environment?.config.discovery.degree.isEnabled ?? false else { return }
+            if let discoveryViewController = topMostViewController as? DiscoveryViewController {
+                discoveryViewController.switchSegment(with: link.type)
+                return
+            }
+            break
+            
+        case .degreeDiscoveryDetail:
+            guard environment?.config.discovery.degree.isEnabled ?? false, let pathId = link.pathID else { return }
+             if let discoveryViewController = topMostViewController as? DiscoveryViewController {
+                discoveryViewController.switchSegment(with: .degreeDiscoveryDetail)
+                environment?.router?.showDiscoveryDetail(from: discoveryViewController, type: .degreeDiscoveryDetail, pathID: pathId, bottomBar: discoveryViewController.bottomBar)
                 return
             }
             break
@@ -392,7 +418,8 @@ typealias DismissCompletion = () -> Void
     }
     
     private func isDiscovery(type: DeepLinkType) -> Bool {
-        return (type == .courseDiscovery || type == .courseDetail || type == .programDiscovery || type == .programDiscoveryDetail)
+        return (type == .courseDiscovery || type == .courseDetail || type == .programDiscovery
+            || type == .programDiscoveryDetail || type == .degreeDiscovery || type == .degreeDiscoveryDetail)
     }
     
     private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
