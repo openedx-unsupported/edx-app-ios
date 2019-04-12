@@ -17,7 +17,7 @@
 @implementation OEXFacebookAuthProvider
 
 - (UIColor*)facebookBlue {
-    return [UIColor colorWithRed:49./255. green:80./255. blue:178./255. alpha:1];
+    return [UIColor colorWithRed:66.0/255. green:103.0/255. blue:178./255. alpha:1];
 }
 
 - (NSString*)displayName {
