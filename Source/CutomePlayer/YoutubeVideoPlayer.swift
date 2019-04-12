@@ -8,17 +8,20 @@
 
 class YoutubeVideoPlayer: VideoPlayer {
 
-    let playerView: YTPlayerView
-    private let background: UIColor
+    let playerView: WKYTPlayerView
     var videoId: String
+    private var videoCurrentTime: Float
 
     override var currentTime: TimeInterval {
-        return Double(playerView.currentTime())
+        playerView.getCurrentTime({ (time, nil) in
+            self.videoCurrentTime = time
+        })
+        return Double(videoCurrentTime)
     }
     override init(environment : Environment) {
-        playerView = YTPlayerView()
+        playerView = WKYTPlayerView()
         videoId = String()
-        background = environment.styles.neutralWhite()
+        videoCurrentTime = Float()
         super.init(environment: environment)
         playerView.delegate = self
     }
@@ -31,15 +34,10 @@ class YoutubeVideoPlayer: VideoPlayer {
         super.viewDidLoad()
         createYoutubePlayer()
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        UINavigationBar.appearance().barTintColor = background
-    }
 
     private func createYoutubePlayer() {
         videoPlayerPortraitView(portraitView: UIDevice.current.orientation.isPortrait)
         view.addSubview(playerView)
-        UINavigationBar.appearance().barTintColor = .black
         t_captionLanguage = String(Locale.preferredLanguages[0].prefix(2))
     }
 
@@ -69,34 +67,33 @@ class YoutubeVideoPlayer: VideoPlayer {
         videoId = id
         playerView.load(withVideoId: videoId, playerVars: playvarsDic)
     }
-    
+
     override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         isFullScreen = fullscreen
-        let currentTime = Int(playerView.currentTime())
-        
-        var playVars = ["playsinline": 1, "autohide": 1, "fs": 0, "showinfo": 0, "start": currentTime]
-        
+        var playVars = ["playsinline": 1, "autohide": 1, "fs": 0, "showinfo": 0, "start": Int(currentTime)]
+
         if fullscreen {
             playVars.setObjectOrNil(0, forKey: "playsinline")
         }
-        else {
-            playerView.webView?.loadHTMLString("", baseURL: nil)
-        }
         playerView.load(withVideoId: videoId, playerVars: playVars)
         videoPlayerPortraitView(portraitView: !fullscreen)
-        
+
     }
-    
+
     override func seek(to time: Double) {
         playerView.seek(toSeconds: Float(time), allowSeekAhead: true)
     }
  }
 
-extension YoutubeVideoPlayer: YTPlayerViewDelegate {
+extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
 
-    func playerViewDidBecomeReady(_ playerView: YTPlayerView) {
+    func playerViewDidBecomeReady(_ playerView: WKYTPlayerView) {
         // call play video when the player is finished loading.
         playerView.playVideo()
+    }
+
+    func playerView(_ playerView: WKYTPlayerView, receivedError error: WKYTPlayerError) {
+        let s = error
     }
 
 }
