@@ -80,6 +80,7 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
     }
     
     func loadProgramDetails(with pathId: String) {
+        self.pathId = pathId
         addBackBarButton()
         if let detailTemplate = discoveryConfig?.webview.detailTemplate?.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathId),
             let url = URL(string: detailTemplate) {
