@@ -29,10 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, nonatomic, strong, nullable) OEXVideoEncoding* preferredEncoding;
 
-/// displayPath : OEXVideoPathEntry array
-/// This is just the list [chapterPathEntry, sectionPathEntry], filtering out nil items
-@property (readonly, copy, nonatomic, nullable) NSArray* displayPath;
-
 @property (readonly, nonatomic, copy, nullable) NSString* category;
 // This property is deprecated. We should be reading it from the CourseBlock itself
 @property (readonly, nonatomic, copy, nullable) NSString* name;

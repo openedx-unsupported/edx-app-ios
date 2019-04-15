@@ -125,16 +125,6 @@
     XCTAssertEqualObjects(@(summary.duration), duration);
     XCTAssertEqualObjects(summary.videoID, videoID);
     XCTAssertEqualObjects(summary.unitURL, unitURL);
-    XCTAssertEqual(summary.displayPath.count, 2);
-}
-
-- (void)testDisplayPathEmpty {
-    NSDictionary* dummyEntry = [self pathEntryWithName:@"foo" entryID:@"id1" category:@"madeup"];
-    NSDictionary* info = @{
-                           @"path" : @[dummyEntry, dummyEntry]
-                           };
-    OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info];
-    XCTAssertEqual(summary.displayPath.count, 0);
 }
 
 - (void)testWebOnlyVideo {
