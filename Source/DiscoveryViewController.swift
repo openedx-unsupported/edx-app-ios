@@ -195,6 +195,10 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
             let selectedIndex = index(for: SegmentOption.program.rawValue)
             segmentedControl.selectedSegmentIndex = selectedIndex
             controllerVisibility(with: selectedIndex)
+        case .degreeDiscovery, .degreeDiscoveryDetail:
+            let selectedIndex = index(for: SegmentOption.degree.rawValue)
+            segmentedControl.selectedSegmentIndex = selectedIndex
+            controllerVisibility(with: selectedIndex)
         default:
             break
         }
