@@ -57,7 +57,6 @@
 #import "OEXVideoEncoding.h"
 #import "OEXVideoSummary.h"
 #import "OEXCourseInfoViewController.h"
-#import "OEXVideoPathEntry.h"
 
 #import "Reachability.h"
 #import "OEXLoginSplashViewController.h"
