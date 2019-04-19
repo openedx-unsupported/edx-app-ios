@@ -302,8 +302,8 @@ typealias DismissCompletion = () -> Void
         func showResponses() {
             if let topController = topMostViewController {
                 environment?.router?.showDiscussionResponses(from: topController, courseID: courseId, threadID: threadID, isDiscussionBlackedOut: false) {
-                    if let handler = completion {
-                        handler()
+                    if let completion = completion {
+                        completion()
                     }
                 }
             }
@@ -332,6 +332,7 @@ typealias DismissCompletion = () -> Void
         
         guard let courseID = link.courseId,
             let commentID = link.commentID,
+            let threadID = link.threadID,
             let topController = topMostViewController else { return }
         
         var isControllerAlreadyDisplaye: Bool {
@@ -344,10 +345,10 @@ typealias DismissCompletion = () -> Void
         func showComment() {
             if let topController = topMostViewController {
                 if let discussionResponseController = topController as? DiscussionResponsesViewController {
-                    discussionResponseController.showComment(commentID: link.commentID ?? "")
+                    environment?.router?.showDiscussionComments(from: discussionResponseController, courseID: courseID, commentID: commentID, threadID:threadID)
+                    discussionResponseController.navigationController?.delegate = nil
                 }
             }
-            
         }
         
         if let discussionCommentController = topController as? DiscussionCommentsViewController, discussionCommentController.commentID != commentID {

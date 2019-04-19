@@ -95,10 +95,6 @@ public class DiscussionAPI {
         return DiscussionInfo(json : json).toResult(NSError.oex_courseContentLoadError())
     }
     
-    private static func discussionCommentDeserializer(response: HTTPURLResponse, json: JSON) -> Result<DiscussionComment> {
-        return DiscussionComment(json: json).toResult(NSError.oex_courseContentLoadError())
-    }
-
     //MA-1378 - Automatically follow posts when creating a new post
     static func createNewThread(newThread: DiscussionNewThread, follow : Bool = true) -> NetworkRequest<DiscussionThread> {
         let json = JSON([
@@ -159,6 +155,17 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/comments/\(responseID)/",
             requiresAuth : true,
             body: RequestBody.jsonBody(json),
+            headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
+            deserializer : .jsonResponse(commentDeserializer)
+        )
+    }
+    
+    // TODO: This Api should be updated with type GET, currently we are using this for deep linking on comment screen.
+    static func getResponse(responseID: String) -> NetworkRequest<DiscussionComment> {
+        return NetworkRequest(
+            method : HTTPMethod.PATCH,
+            path : "/api/discussion/v1/comments/\(responseID)/",
+            requiresAuth : true,
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
             deserializer : .jsonResponse(commentDeserializer)
         )
@@ -294,27 +301,6 @@ public class DiscussionAPI {
             deserializer : .jsonResponse(commentListDeserializer)
         ).paginated(page: pageNumber)
     }
-    
-    static func getResponse(environment:RouterEnvironment?, threadID: String, threadType : DiscussionThreadType, endorsed : Bool =  false) -> NetworkRequest<[DiscussionComment]> {
-        var query = ["thread_id": JSON(threadID)]
-        if let environment = environment, environment.config.discussionsEnabledProfilePictureParam {
-            query["requested_fields"] = JSON("profile_image")
-        }
-        
-        //Only set the endorsed flag if the post is a question
-        if threadType == .Question {
-            query["endorsed"] = JSON(endorsed)
-        }
-        
-        return NetworkRequest(
-                method : HTTPMethod.GET,
-                path : "/api/discussion/v1/comments/", // responses are treated similarly as comments
-                requiresAuth : true,
-                query: query,
-                deserializer : .jsonResponse(commentListDeserializer)
-            )
-    }
-    
     
     private static func addRequestedFields(environment: RouterEnvironment?, query: inout [String : JSON]) {
         if let environment = environment, environment.config.discussionsEnabledProfilePictureParam {

@@ -366,42 +366,39 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         self.commentsClosed = self.closed
         
-        loadThread()
-        initializePaginator()
-        loadContent()
-        setupProfileLoader()
+        // When use deep linking, we need to load thread and responseItem with their Ids.
+        if responseItem == nil {
+            loadThread()
+        }
+        else {
+            initializePaginator()
+            loadContent()
+            setupProfileLoader()
+        }
     }
     
     func loadThread() {
-
         guard let threadID = threadID else { return }
-        
+
         let apiRequest = DiscussionAPI.readThread(read: true, threadID: threadID)
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             if let thread = result.data {
                 self?.thread = thread
-                if self?.responseItem == nil {
-                    self?.loadDiscussionResponse()
-                }
+                self?.loadDiscussionResponse()
             }
         }
     }
     
     func loadDiscussionResponse() {
-        guard let thread = thread else { return }
-        let apiRequest = DiscussionAPI.getResponse(environment: environment.router?.environment, threadID: thread.threadID, threadType: thread.type)
+        guard let commentID = commentID else { return }
+        
+        let apiRequest =  DiscussionAPI.getResponse(responseID: commentID)
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
-            if let responses = result.data {
-//                if let commentID = self?.commentID {
-//                    let responseItem = responses.compactMap({ (response) -> DiscussionComment? in
-//                        if response.commentID == commentID {
-//                            return response
-//                        }
-//                        return nil
-//                    }).first
-//
-//                    self?.responseItem = responseItem
-//                }
+            if let response = result.data {
+                self?.responseItem = response
+                self?.initializePaginator()
+                self?.loadContent()
+                self?.setupProfileLoader()
             }
         }
     }
