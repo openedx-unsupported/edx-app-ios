@@ -8,7 +8,7 @@
 
 #import "OEXMockUserDefaults.h"
 
-#import <OCMock/OCMock.h>
+#import "OCMock.h"
 #import "OEXRemovable.h"
 
 @interface OEXMockUserDefaults ()

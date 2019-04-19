@@ -3,7 +3,7 @@
 //
 
 #import <FBSnapshotTestCase/FBSnapshotTestCase.h>
-#import <OCMock/OCMock.h>
+#import "OCMock.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
 #import "NSString+TestExamples.h"
