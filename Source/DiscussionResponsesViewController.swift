@@ -481,6 +481,20 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
             }
         }
     }
+    
+    func showComment(commentID: String) {
+        
+        let response = responsesDataController.responses.compactMap({ (response) -> DiscussionComment? in
+            if response.commentID ==  commentID{
+                return response
+            }
+            return nil
+        }).first
+        
+        guard let discussionComment = response, let thread = thread else { return }
+        environment.router?.showDiscussionCommentsFromViewController(controller: self, courseID : courseID, response: discussionComment, closed : postClosed, thread: thread, isDiscussionBlackedOut: isDiscussionBlackedOut)
+
+    }
 
     // Mark - tableview delegate methods
 

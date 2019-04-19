@@ -247,21 +247,37 @@ extension OEXRouter {
         responsesViewController.courseID = courseID
         responsesViewController.thread = thread
         responsesViewController.isDiscussionBlackedOut = isDiscussionBlackedOut
+        
         controller.navigationController?.pushViewController(responsesViewController, animated: true)
     }
     
-    func showDiscussionResponses(from controller: UIViewController, courseID: String, threadID: String, isDiscussionBlackedOut: Bool) {
+    func showDiscussionResponses(from controller: UIViewController, courseID: String, threadID: String, isDiscussionBlackedOut: Bool, completion: (()->Void)?) {
         let storyboard = UIStoryboard(name: "DiscussionResponses", bundle: nil)
         let responsesViewController = storyboard.instantiateInitialViewController() as! DiscussionResponsesViewController
         responsesViewController.environment = environment
         responsesViewController.courseID = courseID
         responsesViewController.threadID = threadID
         responsesViewController.isDiscussionBlackedOut = isDiscussionBlackedOut
-        controller.navigationController?.pushViewController(responsesViewController, animated: true)
+        controller.navigationController?.delegate = self
+        //controller.navigationController?.pushViewController(responsesViewController, animated: true)
+        if let handler = completion {
+            controller.navigationController?.pushViewController(viewController: responsesViewController, comp: handler)
+        }
+    }
+    
+    func showDiscussionComments(from controller: UIViewController, courseID: String, commentID: String, threadID: String) {
+        let discussionCommentController = DiscussionCommentsViewController(environment: environment, courseID: courseID, commentID: commentID, threadID: threadID)
+        if let delegate = controller as? DiscussionCommentsViewControllerDelegate {
+            discussionCommentController.delegate = delegate
+        }
+        
+        controller.navigationController?.pushViewController(discussionCommentController, animated: true)
     }
     
     func showDiscussionCommentsFromViewController(controller: UIViewController, courseID : String, response : DiscussionComment, closed : Bool, thread: DiscussionThread, isDiscussionBlackedOut: Bool) {
-        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed, thread: thread, isDiscussionBlackedOut: isDiscussionBlackedOut)
+//        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID : courseID, responseItem: response, closed: closed, thread: thread, isDiscussionBlackedOut: isDiscussionBlackedOut)
+        
+        let commentsVC = DiscussionCommentsViewController(environment: environment, courseID: "course-v1:BerkeleyX+GG101x+1T2019", commentID: "5c39fefe58adcb09a1000b7e", threadID: "5c33e07d3eb9e60997000758")
         
         if let delegate = controller as? DiscussionCommentsViewControllerDelegate {
             commentsVC.delegate = delegate
@@ -503,3 +519,34 @@ extension OEXRouter {
     }
 }
 
+
+extension UINavigationController {
+    
+    struct AssociatedKeys {
+        static var completionHandler = "completionHandletObject"
+    }
+    typealias Completion = ()->Void
+    
+    var completionHandler:Completion {
+        get {
+            guard let value = objc_getAssociatedObject(self, &AssociatedKeys.completionHandler) as? Completion else {
+                return {}
+            }
+            return value
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &AssociatedKeys.completionHandler, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    func pushViewController(viewController: UIViewController, comp:@escaping Completion) {
+        completionHandler = comp
+        self.pushViewController(viewController, animated: true)
+    }
+}
+
+extension OEXRouter: UINavigationControllerDelegate {
+    public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        viewController.navigationController?.completionHandler()
+    }
+}
