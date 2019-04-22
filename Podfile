@@ -22,7 +22,8 @@ pod 'Branch', '= 0.25.5'
 end
 
 target 'edXTests' do
-    pod 'FBSnapshotTestCase/Core', '= 2.0.1'
+    use_frameworks!
+    pod 'iOSSnapshotTestCase', '= 5.0.2'
     pod 'OHHTTPStubs', '~> 4.0'
 end
 

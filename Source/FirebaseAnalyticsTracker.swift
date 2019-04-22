@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FirebaseAnalytics
 
 private let MaxParameterValueCharacters = 100
 
