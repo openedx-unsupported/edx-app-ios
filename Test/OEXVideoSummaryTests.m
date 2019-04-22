@@ -11,7 +11,6 @@
 
 #import "OEXConfig.h"
 #import "OEXVideoEncoding.h"
-#import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
 
 @interface OEXVideoSummaryTests : XCTestCase
@@ -126,35 +125,6 @@
     XCTAssertEqualObjects(@(summary.duration), duration);
     XCTAssertEqualObjects(summary.videoID, videoID);
     XCTAssertEqualObjects(summary.unitURL, unitURL);
-    XCTAssertEqual(summary.displayPath.count, 2);
-    XCTAssertEqualObjects(summary.chapterPathEntry.name, chapterName);
-    XCTAssertEqualObjects(summary.chapterPathEntry.entryID, chapterID);
-    XCTAssertEqual(summary.chapterPathEntry.category, OEXVideoPathEntryCategoryChapter);
-    XCTAssertEqualObjects(summary.sectionPathEntry.name, sectionName);
-    XCTAssertEqualObjects(summary.sectionPathEntry.entryID, sectionID);
-    XCTAssertEqual(summary.sectionPathEntry.category, OEXVideoPathEntryCategorySection);
-}
-
-- (void)testDisplayPathNesting {
-    NSDictionary* dummyEntry = [self pathEntryWithName:@"foo" entryID:@"id1" category:@"madeup"];
-    NSDictionary* chapterEntry = [self pathEntryWithName:@"chapter1" entryID:@"id2" category:@"chapter"];
-    NSDictionary* sectionEntry = [self pathEntryWithName:@"section1" entryID:@"id3" category:@"sequential"];
-    NSDictionary* info = @{
-                           @"path" : @[dummyEntry, chapterEntry, dummyEntry, sectionEntry]
-                           };
-    OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info];
-    XCTAssertEqual(summary.displayPath.count, 2);
-    XCTAssertEqual(summary.chapterPathEntry.category, OEXVideoPathEntryCategoryChapter);
-    XCTAssertEqual(summary.sectionPathEntry.category, OEXVideoPathEntryCategorySection);
-}
-
-- (void)testDisplayPathEmpty {
-    NSDictionary* dummyEntry = [self pathEntryWithName:@"foo" entryID:@"id1" category:@"madeup"];
-    NSDictionary* info = @{
-                           @"path" : @[dummyEntry, dummyEntry]
-                           };
-    OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info];
-    XCTAssertEqual(summary.displayPath.count, 0);
 }
 
 - (void)testWebOnlyVideo {

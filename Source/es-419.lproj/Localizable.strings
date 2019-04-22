@@ -180,8 +180,6 @@
 "ALLOW"="Permitir";
 /* Filtering option to show all discussion posts */
 "ALL_POSTS"="Todas las publicaciones";
-/* Tab allowing the user to see all videos */
-"ALL_VIDEOS"="Todos los videos";
 /*Subtitle for bulk download view when in downloading state */
 "ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB total";
 /*Title for bulk download view when in downloaded state */
@@ -370,8 +368,6 @@
 "COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Mostrar curso completo";
-/* Option to show only video course content. Constrasts with 'Show All Course Content'. */
-"COURSE_MODE_VIDEO"="Mostrar solo videos";
 /* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
 "COURSE_MODE_PICKER_DESCRIPTION" = "Selector de modo";
 /* Text displayed when Can't find one of your courses is tapped on My Courses screen */
@@ -524,8 +520,6 @@
 "COURSES"="Cursos";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="Mis opciones";
-/* Time Label in My Videos section*/
-"MY_VIDEOS_TIME_LABEL" = "NA";
 /* Marked as answer for endorsed responses */
 "MARKED_ANSWER" = "Marcado como respondido";
 /* Overlay error shown when attempting an action without an internet connection */
@@ -548,10 +542,6 @@
 "NO_TRANSCRIPT" = "La transcripción de este video aún no está disponible.";
 /* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
 "NO_WIFI_MESSAGE" = "Su actual configuración solo permite descargar a través de Wi-Fi.\nPor favor conéctese a una red Wi-Fi o cambie las configuraciones de descarga.";
-/* Message shown on videos screen when user has not downloaded any videos */
-"NO_VIDEOS_DOWNLOADED" = "No ha descargado ningún video.";
-/* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {mode_switcher} will be replaced with a name or icon for the mode switch button */
-"NO_VIDEOS_TRY_MODE_SWITCHER" = "No hay videos en esta sección. Para ver el contenido de otras secciones, seleccione {mode_switcher} arriba y cambiar al modo de curso completo.";
 /* Text displayed when no results are found for following*/
 "NO_FOLLOWING_RESULTS" = "Usted no está siguiendo ninguna publicación.";
 /* Message shown when no results are found for all posts*/
@@ -568,8 +558,6 @@
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="Ver en Safari";
-/* Button title allowing user to open current page in their web browser */
-"OPEN_IN_BROWSER_TITLE"="Mostrando solo videos";
 /* Button label to bring up course finder */
 "OR_SIGN_IN_WITH"="O iniciar sesión con";
 /* Login screen password field title text */
@@ -642,8 +630,6 @@
 "QUESTION"="Pregunta";
 /* Option to sort discussion post list by recent activity */
 "RECENT_ACTIVITY" = "Actividad reciente";
-/* Section title to display recently downloaded videos */
-"RECENT_VIDEOS"="Videos recientes";
 /* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
 "REFINE" = "Refinar:";
 /* Button title when responses are closed for a thread */
@@ -789,20 +775,6 @@
 "VERSION_DISPLAY" = "Versión {number} {environment}";
 /* Error shown when video download fails */
 "VIDEO_CONTENT_NOT_AVAILABLE"="Este video está disponible por el momento. Vuelva a intentar más tarde.";
-/* Floating overlay text shown after deleting a video. {count} is a number of videos */
-/* Floating overlay text shown after deleting a video. {count} is a number of videos */
-"VIDEOS_DELETED##{one}" = "{count} video borrado";
-"VIDEOS_DELETED##{other}" = "{count} videos borrados";
-/* Floating overlay text shown after video download begins. {count} is a number of videos  */
-/* Floating overlay text shown after video download begins. {count} is a number of videos  */
-"VIDEOS_DOWNLOADING##{one}" = "Descargando {count} video";
-"VIDEOS_DOWNLOADING##{other}" = "Descargando {count} videos";
-/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
-/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
-"VIDEOS_DOWNLOADED##{one}" = "{count} videos descargado";
-"VIDEOS_DOWNLOADED##{other}" = "{count} videos descargados";
-/* Floating overlay text shown while videos download */
-"VIDEO_DOWNLOADS_IN_PROGRESS" = "Descarga de video en progreso";
 /* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
 "VIDEO_ONLY_ON_WEB" = "Este video está actualmente solo en la web. Toque la pantalla para verlo en el navegador.";
 /* Alert dialog content shown when user attempts to view a video that hasn't been synced  */

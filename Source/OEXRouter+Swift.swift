@@ -238,6 +238,9 @@ extension OEXRouter {
         else if type == .programDiscoveryDetail {
             showProgramDetail(from: controller, with: pathID, bottomBar: bottomBar)
         }
+        else if type == .degreeDiscoveryDetail {
+            showProgramDetail(from: controller, with: pathID, bottomBar: bottomBar, type: .degree)
+        }
     }
 
     func showDiscussionResponsesFromViewController(controller: UIViewController, courseID : String, thread : DiscussionThread, isDiscussionBlackedOut: Bool) {
@@ -419,8 +422,8 @@ extension OEXRouter {
         return nil
     }
     
-    func showProgramDetail(from controller: UIViewController, with pathId: String, bottomBar: UIView?) {
-        let programDetailViewController = ProgramsDiscoveryViewController(with: environment, pathId: pathId, bottomBar: bottomBar?.copy() as? UIView)
+    func showProgramDetail(from controller: UIViewController, with pathId: String, bottomBar: UIView?, type: ProgramDiscoveryScreen? = .program) {
+        let programDetailViewController = ProgramsDiscoveryViewController(with: environment, pathId: pathId, bottomBar: bottomBar?.copy() as? UIView, type: type)
         pushViewController(controller: programDetailViewController, fromController: controller)
     }
 

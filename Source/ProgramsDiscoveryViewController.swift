@@ -9,6 +9,12 @@
 import UIKit
 import WebKit
 
+// This enum is use for Deep linking
+public enum ProgramDiscoveryScreen {
+    case program
+    case degree
+}
+
 class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOverriding {
     
     typealias Environment = OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXSessionProvider
@@ -22,12 +28,14 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
     private var discoveryConfig: ProgramDiscovery? {
         return environment.config.discovery.program
     }
+    private(set) var viewType: ProgramDiscoveryScreen
     
     // MARK:- Initializer -
-    init(with environment: Environment, bottomBar: UIView?, searchQuery: String? = nil) {
+    init(with environment: Environment, bottomBar: UIView?, searchQuery: String? = nil, type: ProgramDiscoveryScreen? = .program) {
         self.environment = environment
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
+        self.viewType = type ?? .program
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,8 +44,8 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
         self.showBottomBar = showBottomBar
     }
     
-    convenience init(with environment: Environment, pathId: String, bottomBar: UIView?) {
-        self.init(with: environment, bottomBar: bottomBar, searchQuery: nil)
+    convenience init(with environment: Environment, pathId: String, bottomBar: UIView?, type: ProgramDiscoveryScreen? = .program) {
+        self.init(with: environment, bottomBar: bottomBar, searchQuery: nil, type: type)
         self.pathId = pathId
     }
     
@@ -72,6 +80,7 @@ class ProgramsDiscoveryViewController: UIViewController, InterfaceOrientationOve
     }
     
     func loadProgramDetails(with pathId: String) {
+        self.pathId = pathId
         addBackBarButton()
         if let detailTemplate = discoveryConfig?.webview.detailTemplate?.replacingOccurrences(of: URIString.pathPlaceHolder.rawValue, with: pathId),
             let url = URL(string: detailTemplate) {
