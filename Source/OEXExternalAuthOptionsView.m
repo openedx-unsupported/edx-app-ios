@@ -27,7 +27,8 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
 
 @implementation OEXExternalAuthOptionsView
 
-- (id)initWithFrame:(CGRect)frame providers:(nonnull NSArray *)providers tapAction:(void(^)(id<OEXExternalAuthProvider>))tapAction {
+- (id)initWithFrame:(CGRect)frame providers:(nonnull NSArray *)providers accessibilityLabel:(NSString*)accessibilityLabel tapAction:(void(^)(id<OEXExternalAuthProvider>))tapAction {
+    
     self = [super initWithFrame:frame];
     if(self != nil) {
         
@@ -41,7 +42,7 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
             else if ([provider isKindOfClass:[OEXGoogleAuthProvider class]]) {
                 button.accessibilityIdentifier = @"ExternalAuthOptionsView:google-button";
             }
-            button.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",[Strings registrationRegisterPrompt],button.titleLabel.text];
+            button.accessibilityLabel = [NSString stringWithFormat:@"%@ %@",accessibilityLabel,button.titleLabel.text];
             [button oex_addAction:^(id  _Nonnull control) {
                 tapAction(provider);
             } forEvents:UIControlEventTouchUpInside];
