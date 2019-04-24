@@ -281,10 +281,8 @@ typealias DismissCompletion = () -> Void
             let topController = topMostViewController else { return }
         
         var isControllerAlreadyDisplayed : Bool {
-            if let topController = topMostViewController, let postController = topController as? PostsViewController, postController.topicID == link.topicID  {
-                return true
-            }
-            return false
+            guard let postController = topMostViewController as? PostsViewController else { return false }
+            return postController.topicID == link.topicID
         }
         
         func showDiscussionPosts() {
@@ -319,10 +317,8 @@ typealias DismissCompletion = () -> Void
             let topController = topMostViewController else { return }
         
         var isControllerAlreadyDisplayed: Bool {
-            if let topController = topMostViewController, let discussionResponseController = topController as? DiscussionResponsesViewController, discussionResponseController.threadID == link.threadID {
-                return true
-            }
-            return false
+            guard let discussionResponseController = topMostViewController as? DiscussionResponsesViewController else { return false }
+            return discussionResponseController.threadID == link.threadID
         }
         
         func showResponses() {
@@ -358,17 +354,13 @@ typealias DismissCompletion = () -> Void
             let topController = topMostViewController else { return }
         
         var isControllerAlreadyDisplayed: Bool {
-            if let topController = topMostViewController, let discussionCommentViewController = topController as? DiscussionCommentsViewController, discussionCommentViewController.commentID == commentID {
-                return true
-            }
-            return false
+            guard let discussionCommentViewController = topMostViewController as? DiscussionCommentsViewController else { return false}
+            return discussionCommentViewController.commentID == commentID
         }
         
         var isResponseControllerDisplayed: Bool {
-            if let topController = topMostViewController, let discussionResponseController = topController as? DiscussionResponsesViewController, discussionResponseController.threadID == link.threadID  {
-                return true
-            }
-            return false
+            guard let discussionResponseController = topMostViewController as? DiscussionResponsesViewController else { return false }
+            return discussionResponseController.threadID == link.threadID
         }
         
         func showComment() {

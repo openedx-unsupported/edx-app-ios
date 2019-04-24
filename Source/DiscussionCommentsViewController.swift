@@ -364,23 +364,25 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         self.commentsClosed = self.closed
         
-        // In deep linking, we need to load thread and responseItem with their Ids.
-        if responseItem == nil {
-            if thread == nil {
-                loadThread()
-            }
-            else {
-                loadDiscussionResponse()
-            }
+        if responseItem != nil {
+            initializeViewContent()
+        }
+        else if thread == nil {
+            // In deep linking, we need to load thread and responseItem with their Ids.
+            loadThread()
         }
         else {
-            initializePaginator()
-            loadContent()
-            setupProfileLoader()
+            loadDiscussionResponse()
         }
     }
     
-    func loadThread() {
+    private func initializeViewContent() {
+        initializePaginator()
+        loadContent()
+        setupProfileLoader()
+    }
+    
+    private func loadThread() {
         guard let threadID = threadID else { return }
 
         let apiRequest = DiscussionAPI.readThread(read: true, threadID: threadID)
@@ -391,13 +393,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
                     self?.loadDiscussionResponse()
                 }
             }
-            else if result.response?.httpStatusCode.is4xx ?? false {
+            else {
                 self?.loadController.state = LoadState.failed(error: result.error)
             }
         }
     }
     
-    func loadDiscussionResponse() {
+    private func loadDiscussionResponse() {
         guard let commentID = commentID else { return }
         
         let apiRequest =  DiscussionAPI.getResponse(responseID: commentID)
@@ -405,12 +407,10 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
             if result.response?.httpStatusCode.is2xx ?? false {
                 if let response = result.data {
                     self?.responseItem = response
-                    self?.initializePaginator()
-                    self?.loadContent()
-                    self?.setupProfileLoader()
+                    self?.initializeViewContent()
                 }
             }
-            else if result.response?.httpStatusCode.is4xx ?? false {
+            else {
                 self?.loadController.state = LoadState.failed(error: result.error)
             }
         }
@@ -430,7 +430,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private func logScreenEvent() {
-        environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem?.threadID, topicId: nil, responseID: responseItem?.commentID, author: responseItem?.author)
+        environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewResponseComments, courseId: courseID, value: thread?.title, threadId: responseItem?.threadID, topicId: nil, responseID: responseItem?.commentID, author: responseItem?.author)
     }
     
     func addSubviews() {
