@@ -319,8 +319,6 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     private var threadID: String?
     var commentID: String?
     
-    let courseStream = BackedStream<DiscussionComment>()
-    
     init(environment: Environment, courseID : String, isDiscussionBlackedOut: Bool = false) {
         self.courseID = courseID
         self.environment = environment
@@ -366,9 +364,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         
         self.commentsClosed = self.closed
         
-        // When use deep linking, we need to load thread and responseItem with their Ids.
+        // In deep linking, we need to load thread and responseItem with their Ids.
         if responseItem == nil {
-            loadThread()
+            if thread == nil {
+                loadThread()
+            }
+            else {
+                loadDiscussionResponse()
+            }
         }
         else {
             initializePaginator()
@@ -381,10 +384,15 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         guard let threadID = threadID else { return }
 
         let apiRequest = DiscussionAPI.readThread(read: true, threadID: threadID)
-        self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
-            if let thread = result.data {
-                self?.thread = thread
-                self?.loadDiscussionResponse()
+        environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
+            if result.response?.httpStatusCode.is2xx ?? false {
+                if let thread = result.data {
+                    self?.thread = thread
+                    self?.loadDiscussionResponse()
+                }
+            }
+            else if result.response?.httpStatusCode.is4xx ?? false {
+                self?.loadController.state = LoadState.failed(error: result.error)
             }
         }
     }
@@ -393,12 +401,17 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         guard let commentID = commentID else { return }
         
         let apiRequest =  DiscussionAPI.getResponse(responseID: commentID)
-        self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
-            if let response = result.data {
-                self?.responseItem = response
-                self?.initializePaginator()
-                self?.loadContent()
-                self?.setupProfileLoader()
+        environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
+            if result.response?.httpStatusCode.is2xx ?? false {
+                if let response = result.data {
+                    self?.responseItem = response
+                    self?.initializePaginator()
+                    self?.loadContent()
+                    self?.setupProfileLoader()
+                }
+            }
+            else if result.response?.httpStatusCode.is4xx ?? false {
+                self?.loadController.state = LoadState.failed(error: result.error)
             }
         }
     }
@@ -417,7 +430,7 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private func logScreenEvent() {
-        self.environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem?.threadID, topicId: nil, responseID: responseItem?.commentID, author: responseItem?.author)
+        environment.analytics.trackDiscussionScreen(withName: AnalyticsScreenName.ViewResponseComments, courseId: self.courseID, value: thread?.title, threadId: responseItem?.threadID, topicId: nil, responseID: responseItem?.commentID, author: responseItem?.author)
     }
     
     func addSubviews() {
@@ -476,17 +489,13 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
     }
     
     private func initializePaginator() {
+    
+        guard let responseItem = responseItem else { return }
         
-        if let responseItem = responseItem {
-           commentID = responseItem.commentID
-        }
-        
-        guard let commentID = commentID else { return }
-        
-        precondition(!commentID.isEmpty, "Shouldn't be showing comments for empty commentID")
+        precondition(!responseItem.commentID.isEmpty, "Shouldn't be showing comments for empty commentID")
         
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) {[weak self] page in
-            return DiscussionAPI.getComments(environment: self?.environment.router?.environment, commentID: commentID, pageNumber: page)
+            return DiscussionAPI.getComments(environment: self?.environment.router?.environment, commentID: responseItem.commentID, pageNumber: page)
         }
         
         paginationController = PaginationController(paginator: paginator, tableView: self.tableView)

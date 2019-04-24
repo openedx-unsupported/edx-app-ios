@@ -71,6 +71,6 @@ class DeepLink: NSObject {
         pathID = dictionary[DeepLinkKeys.PathID] as? String
         topicID = dictionary[DeepLinkKeys.topicID] as? String
         threadID = dictionary[DeepLinkKeys.threadID] as? String
-        commentID = "5c39fefe58adcb09a1000b7e"
+        commentID = dictionary[DeepLinkKeys.commentID] as? String
     }
 }

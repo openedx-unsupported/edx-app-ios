@@ -313,7 +313,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showDiscussionResponses(with link: DeepLink, completion: (() -> Void)?) {
+    private func showDiscussionResponses(with link: DeepLink, completion: (() -> Void)? = nil) {
         guard let courseId = link.courseId,
             let threadID = link.threadID,
             let topController = topMostViewController else { return }
@@ -327,11 +327,7 @@ typealias DismissCompletion = () -> Void
         
         func showResponses() {
             if let topController = topMostViewController {
-                environment?.router?.showDiscussionResponses(from: topController, courseID: courseId, threadID: threadID, isDiscussionBlackedOut: false) {
-                    if let completion = completion {
-                        completion()
-                    }
-                }
+                environment?.router?.showDiscussionResponses(from: topController, courseID: courseId, threadID: threadID, isDiscussionBlackedOut: false, completion: completion)
             }
         }
         
@@ -354,35 +350,49 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    func showdiscussionComments(with link: DeepLink) {
+    private func showdiscussionComments(with link: DeepLink) {
         
         guard let courseID = link.courseId,
             let commentID = link.commentID,
             let threadID = link.threadID,
             let topController = topMostViewController else { return }
         
-        var isControllerAlreadyDisplaye: Bool {
+        var isControllerAlreadyDisplayed: Bool {
             if let topController = topMostViewController, let discussionCommentViewController = topController as? DiscussionCommentsViewController, discussionCommentViewController.commentID == commentID {
                 return true
             }
             return false
         }
         
+        var isResponseControllerDisplayed: Bool {
+            if let topController = topMostViewController, let discussionResponseController = topController as? DiscussionResponsesViewController, discussionResponseController.threadID == link.threadID  {
+                return true
+            }
+            return false
+        }
+        
         func showComment() {
-            if let topController = topMostViewController {
-                if let discussionResponseController = topController as? DiscussionResponsesViewController {
+            if let topController = topMostViewController, let discussionResponseController = topController as? DiscussionResponsesViewController {
                     environment?.router?.showDiscussionComments(from: discussionResponseController, courseID: courseID, commentID: commentID, threadID:threadID)
                     discussionResponseController.navigationController?.delegate = nil
-                }
             }
         }
         
         if let discussionCommentController = topController as? DiscussionCommentsViewController, discussionCommentController.commentID != commentID {
             discussionCommentController.navigationController?.popViewController(animated: true)
+            showComment()
         }
         else {
-            showDiscussionResponses(with: link) {
-                showComment()
+             dismiss() { [weak self] in
+                guard !isControllerAlreadyDisplayed else { return }
+                if isResponseControllerDisplayed {
+                    showComment()
+                }
+                else {
+                    self?.showDiscussionResponses(with: link) {
+                        showComment()
+                    }
+                }
             }
         }
     }
@@ -491,7 +501,7 @@ typealias DismissCompletion = () -> Void
             showDiscussionTopic(with: link)
             break
         case .discussionPost:
-            showDiscussionResponses(with: link, completion: nil)
+            showDiscussionResponses(with: link)
             break
         case .discussionComment:
             showdiscussionComments(with: link)

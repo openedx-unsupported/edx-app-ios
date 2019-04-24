@@ -98,9 +98,7 @@ extension UINavigationController {
     
     var completionHandler:Completion {
         get {
-            guard let value = objc_getAssociatedObject(self, &AssociatedKeys.completionHandler) as? Completion else {
-                return {}
-            }
+            guard let value = objc_getAssociatedObject(self, &AssociatedKeys.completionHandler) as? Completion else { return {} }
             return value
         }
         set(newValue) {
@@ -110,6 +108,6 @@ extension UINavigationController {
     
     func pushViewController(viewController: UIViewController, completion :@escaping Completion) {
         completionHandler = completion
-        self.pushViewController(viewController, animated: true)
+        pushViewController(viewController, animated: true)
     }
 }
