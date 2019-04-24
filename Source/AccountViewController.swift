@@ -10,12 +10,11 @@ import UIKit
 import MessageUI
 
 fileprivate enum AccountviewOptions : Int {
-    case Profile,
-         UserSettings,
+    case
          SubmitFeedback,
          Logout
     
-        static let accountOptions = [Profile, UserSettings, SubmitFeedback, Logout]
+        static let accountOptions = [SubmitFeedback, Logout]
 }
 
 class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -127,11 +126,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let option = AccountviewOptions(rawValue: indexPath.row) {
             switch option {
-            case .UserSettings:
-                environment.router?.showMySettings(controller: self)
-            case .Profile:
-                guard environment.config.profilesEnabled, let currentUserName = environment.session.currentUser?.username  else { break }
-                environment.router?.showProfileForUsername(controller: self, username: currentUserName, editable: true)
             case .SubmitFeedback:
                 launchEmailComposer()
             case .Logout:
@@ -146,9 +140,9 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if (indexPath.row == AccountviewOptions.Profile.rawValue && !environment.config.profilesEnabled)  {
-            return 0
-        }
+//        if (indexPath.row == AccountviewOptions.Profile.rawValue && !environment.config.profilesEnabled)  {
+//            return 0
+//        }
         
         return tableView.estimatedRowHeight
     }
@@ -165,11 +159,6 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     private func optionTitle(option: AccountviewOptions) -> String? {
         switch option {
-        case .UserSettings :
-            return Strings.settings
-        case .Profile:
-            guard environment.config.profilesEnabled else { break }
-            return Strings.UserAccount.profile
         case .SubmitFeedback:
             return Strings.SubmitFeedback.optionTitle
         case .Logout:
