@@ -12,3 +12,4 @@ build
 default_config/local.yaml 
 *.gcda
 *.swp
+/GoogleService-Info.plist
