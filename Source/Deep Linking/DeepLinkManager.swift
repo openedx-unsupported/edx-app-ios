@@ -281,10 +281,8 @@ typealias DismissCompletion = () -> Void
             let topController = topMostViewController else { return }
         
         var isControllerAlreadyDisplayed : Bool {
-            if let topController = topMostViewController, let postController = topController as? PostsViewController, postController.topicID == link.topicID  {
-                return true
-            }
-            return false
+            guard let postController = topMostViewController as? PostsViewController else { return false }
+            return postController.topicID == link.topicID
         }
         
         func showDiscussionPosts() {
@@ -313,21 +311,19 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showDiscussionResponses(with link: DeepLink) {
+    private func showDiscussionResponses(with link: DeepLink, completion: (() -> Void)? = nil) {
         guard let courseId = link.courseId,
             let threadID = link.threadID,
             let topController = topMostViewController else { return }
         
         var isControllerAlreadyDisplayed: Bool {
-            if let topController = topMostViewController, let discussionResponseController = topController as? DiscussionResponsesViewController, discussionResponseController.threadID == link.threadID {
-                return true
-            }
-            return false
+            guard let discussionResponseController = topMostViewController as? DiscussionResponsesViewController else { return false }
+            return discussionResponseController.threadID == link.threadID
         }
         
         func showResponses() {
             if let topController = topMostViewController {
-                environment?.router?.showDiscussionResponses(from: topController, courseID: courseId, threadID: threadID, isDiscussionBlackedOut: false)
+                environment?.router?.showDiscussionResponses(from: topController, courseID: courseId, threadID: threadID, isDiscussionBlackedOut: false, completion: completion)
             }
         }
         
@@ -346,7 +342,49 @@ typealias DismissCompletion = () -> Void
                 }
                 self?.showDiscussionTopic(with: link)
                 showResponses()
-                
+            }
+        }
+    }
+    
+    private func showdiscussionComments(with link: DeepLink) {
+        
+        guard let courseID = link.courseId,
+            let commentID = link.commentID,
+            let threadID = link.threadID,
+            let topController = topMostViewController else { return }
+        
+        var isControllerAlreadyDisplayed: Bool {
+            guard let discussionCommentViewController = topMostViewController as? DiscussionCommentsViewController else { return false}
+            return discussionCommentViewController.commentID == commentID
+        }
+        
+        var isResponseControllerDisplayed: Bool {
+            guard let discussionResponseController = topMostViewController as? DiscussionResponsesViewController else { return false }
+            return discussionResponseController.threadID == link.threadID
+        }
+        
+        func showComment() {
+            if let topController = topMostViewController, let discussionResponseController = topController as? DiscussionResponsesViewController {
+                    environment?.router?.showDiscussionComments(from: discussionResponseController, courseID: courseID, commentID: commentID, threadID:threadID)
+                    discussionResponseController.navigationController?.delegate = nil
+            }
+        }
+        
+        if let discussionCommentController = topController as? DiscussionCommentsViewController, discussionCommentController.commentID != commentID {
+            discussionCommentController.navigationController?.popViewController(animated: true)
+            showComment()
+        }
+        else {
+             dismiss() { [weak self] in
+                guard !isControllerAlreadyDisplayed else { return }
+                if isResponseControllerDisplayed {
+                    showComment()
+                }
+                else {
+                    self?.showDiscussionResponses(with: link) {
+                        showComment()
+                    }
+                }
             }
         }
     }
@@ -457,6 +495,8 @@ typealias DismissCompletion = () -> Void
         case .discussionPost:
             showDiscussionResponses(with: link)
             break
+        case .discussionComment:
+            showdiscussionComments(with: link)
         case .courseHandout:
             showCourseHandout(with: link)
             break

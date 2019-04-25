@@ -88,3 +88,26 @@ class ForwardingNavigationController: UINavigationController, StatusBarOverridin
         return UIStatusBarStyle(barStyle: .default)
     }
 }
+
+extension UINavigationController {
+    
+    struct AssociatedKeys {
+        static var completionHandler = "completionHandletObject"
+    }
+    typealias Completion = ()->Void
+    
+    var completionHandler:Completion {
+        get {
+            guard let value = objc_getAssociatedObject(self, &AssociatedKeys.completionHandler) as? Completion else { return {} }
+            return value
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &AssociatedKeys.completionHandler, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    func pushViewController(viewController: UIViewController, completion :@escaping Completion) {
+        completionHandler = completion
+        pushViewController(viewController, animated: true)
+    }
+}
