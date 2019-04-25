@@ -205,7 +205,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         case .courseVideos:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)
             break
-        case .discussions, .discussionTopic, .discussionPost:
+        case .discussions, .discussionTopic, .discussionPost, .discussionComment:
             selectedIndex = tabBarViewControllerIndex(with: DiscussionTopicsViewController.self)
             break
         case .courseDates:
