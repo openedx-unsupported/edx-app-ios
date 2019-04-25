@@ -17,7 +17,6 @@ PODS:
     - Bolts (~> 1.9)
   - FBSDKLoginKit (4.42.0):
     - FBSDKCoreKit
-  - FBSnapshotTestCase/Core (2.0.1)
   - Firebase/Core (5.4.1):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.0.1)
@@ -52,6 +51,11 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.2.0)
   - GoogleUtilities (1.3.2):
     - GoogleSymbolUtilities (~> 1.1)
+  - iOSSnapshotTestCase (5.0.2):
+    - iOSSnapshotTestCase/SwiftSupport (= 5.0.2)
+  - iOSSnapshotTestCase/Core (5.0.2)
+  - iOSSnapshotTestCase/SwiftSupport (5.0.2):
+    - iOSSnapshotTestCase/Core
   - Masonry (0.6.4)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
@@ -59,7 +63,6 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - NewRelicAgent (4.186.1)
-  - OCMock (3.4.3)
   - OHHTTPStubs (4.8.0):
     - OHHTTPStubs/Default (= 4.8.0)
   - OHHTTPStubs/Core (4.8.0)
@@ -85,14 +88,13 @@ DEPENDENCIES:
   - Crashlytics (~> 3.10.1)
   - DateTools (~> 1.6.1)
   - Fabric (~> 1.7.6)
-  - FBSDKCoreKit
-  - FBSDKLoginKit
-  - FBSnapshotTestCase/Core (= 2.0.1)
+  - FBSDKCoreKit (~> 4.42.0)
+  - FBSDKLoginKit (~> 4.42.0)
   - Firebase/Core (= 5.4.1)
   - GoogleSignIn (~> 2.4)
+  - iOSSnapshotTestCase (= 5.0.2)
   - Masonry (~> 0.6)
   - NewRelicAgent (~> 4.1)
-  - OCMock (~> 3.1)
   - OHHTTPStubs (~> 4.0)
   - Segment-GoogleAnalytics (~> 1.0.0)
   - Smartling.i18n (~> 1.0)
@@ -107,7 +109,6 @@ SPEC REPOS:
     - Fabric
     - FBSDKCoreKit
     - FBSDKLoginKit
-    - FBSnapshotTestCase
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -121,10 +122,10 @@ SPEC REPOS:
     - GoogleSymbolUtilities
     - GoogleToolboxForMac
     - GoogleUtilities
+    - iOSSnapshotTestCase
     - Masonry
     - nanopb
     - NewRelicAgent
-    - OCMock
     - OHHTTPStubs
     - Segment-GoogleAnalytics
     - Smartling.i18n
@@ -138,7 +139,6 @@ SPEC CHECKSUMS:
   Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
   FBSDKCoreKit: aa42f1c384775f8b075f53a43080474278e9701d
   FBSDKLoginKit: 373830c68aa48c9e8f0bfed93a3e32d2ca8963a0
-  FBSnapshotTestCase: bdb997ab2397495205f11156d4d444606daebd27
   Firebase: 355bd535bfdacaa82a7fe8d9784115edefd6fc03
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
   FirebaseCore: 4c28e3b9708ba48a765e76515f913a71596eb5dd
@@ -152,14 +152,14 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 631ee17048aa5e9ab133470d768ea997a5ef9b96
   GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
   GoogleUtilities: 8bbc733218aad26306f9d4a253823986110e3358
+  iOSSnapshotTestCase: 2d51aa06775e95cecb0a1fb9c5c159ccd1dd4596
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
-  OCMock: 43565190abc78977ad44a61c0d20d7f0784d35ab
   OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
   Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
 
-PODFILE CHECKSUM: 4705c1993b24a95bf54ab4d1c9ddf1d1ff91e070
+PODFILE CHECKSUM: 39303efb5cc3ac5785ad506bbedf14940c0cb73a
 
 COCOAPODS: 1.5.3
