@@ -128,9 +128,3 @@ Whitelabel Script
 6. Run the `whitelabel.py` script to apply your whitelabel changes to the current branch. ::
 
     python script/whitelabel.py --config-file=../my-app-config/whitelabel.yaml -v
-
-Frequently Asked Questions
-==========================
-**Q:** I see an error that mentions "error: reading data: The file “GoogleService-Info.plist” couldn’t be opened because there is no such file."
-
-**A:** This file is required for our Firebase implementation to work. If you are not planning to use Firebase just add an empty file named `GoogleService-Info.plist` at the root of the project. You can also download a test GoogleService-Info.plist file from [here](https://gist.github.com/saeedbashir/4ca744f35a2b53988b57268bc803d58a) 
