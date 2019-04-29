@@ -136,9 +136,8 @@
     if([self isFacebookEnabled]) {
         [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
-
     __weak __typeof(self) owner = self;
-    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers tapAction:^(id<OEXExternalAuthProvider> provider) {
+    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
         [owner externalLoginWithProvider:provider];
     }];
     [self.externalAuthContainer addSubview:externalAuthOptions];
@@ -148,6 +147,7 @@
 
     [self.lbl_OrSignIn setText:[Strings orSignInWith]];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
+    [self.lbl_OrSignIn setIsAccessibilityElement:false];
     
     if (self.environment.config.isRegistrationEnabled) {
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack)];

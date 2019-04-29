@@ -37,7 +37,7 @@
         self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         self.activityIndicator.hidden = YES;
         __weak __typeof(self) owner = self;
-        self.authOptionsView = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.bounds providers:providers tapAction:^(id<OEXExternalAuthProvider> provider) {
+        self.authOptionsView = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.bounds providers:providers accessibilityLabel:[Strings registrationRegisterPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
             [owner choseProvider:provider];
         }];
         self.authOptionsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
