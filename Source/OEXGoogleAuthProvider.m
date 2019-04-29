@@ -31,8 +31,6 @@
 - (OEXExternalAuthProviderButton*)freshAuthButton {
     OEXExternalAuthProviderButton* button = [[OEXExternalAuthProviderButton alloc] initWithFrame:CGRectZero];
     button.provider = self;
-    // Because of the '+' the G icon is off center. This accounts for that.
-    //[button setImageEdgeInsets:UIEdgeInsetsMake(0, 3, 0, -3)];
     [button setImage:[UIImage imageNamed:@"icon_google_white"] forState:UIControlStateNormal];
     [button useBackgroundImageOfColor:[self googleBlue]];
     return button;
