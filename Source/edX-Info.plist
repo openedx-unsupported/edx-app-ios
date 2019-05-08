@@ -53,7 +53,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.19.0</string>
+	<string>2.19.1</string>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
 	<key>FacebookDisplayName</key>
