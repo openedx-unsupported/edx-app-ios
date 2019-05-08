@@ -7,6 +7,7 @@
 //
 
 @import edXCore;
+@import FirebaseAnalytics;
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -202,7 +203,7 @@
     if (config.firebaseConfig.enabled) {
         [FIRApp configure];
         if (config.firebaseConfig.analyticsEnabled) {
-            [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
+            [FIRAnalytics setAnalyticsCollectionEnabled:YES];
         }
     }
 

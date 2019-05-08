@@ -17,6 +17,9 @@
 #import "FIRApp.h"
 #import "FIRErrors.h"
 
+@class FIRComponentContainer;
+@protocol FIRLibrary;
+
 /**
  * The internal interface to FIRApp. This is meant for first-party integrators, who need to receive
  * FIRApp notifications, log info about the success or failure of their configuration, and access
@@ -106,36 +109,17 @@ extern NSString *const FIRAuthStateDidChangeInternalNotificationAppKey;
  */
 extern NSString *const FIRAuthStateDidChangeInternalNotificationUIDKey;
 
-/** @typedef FIRTokenCallback
-    @brief The type of block which gets called when a token is ready.
- */
-typedef void (^FIRTokenCallback)(NSString *_Nullable token, NSError *_Nullable error);
-
-/** @typedef FIRAppGetTokenImplementation
-    @brief The type of block which can provide an implementation for the @c getTokenWithCallback:
-        method.
-    @param forceRefresh Forces the token to be refreshed.
-    @param callback The block which should be invoked when the async call completes.
- */
-typedef void (^FIRAppGetTokenImplementation)(BOOL forceRefresh, FIRTokenCallback callback);
-
-/** @typedef FIRAppGetUID
-    @brief The type of block which can provide an implementation for the @c getUID method.
- */
-typedef NSString *_Nullable (^FIRAppGetUIDImplementation)(void);
-
 @interface FIRApp ()
 
-/** @property getTokenImplementation
-    @brief Gets or sets the block to use for the implementation of
-        @c getTokenForcingRefresh:withCallback:
+/**
+ * A flag indicating if this is the default app (has the default app name).
  */
-@property(nonatomic, copy) FIRAppGetTokenImplementation getTokenImplementation;
+@property(nonatomic, readonly) BOOL isDefaultApp;
 
-/** @property getUIDImplementation
-    @brief Gets or sets the block to use for the implementation of @c getUID.
+/*
+ * The container of interop SDKs for this app.
  */
-@property(nonatomic, copy) FIRAppGetUIDImplementation getUIDImplementation;
+@property(nonatomic) FIRComponentContainer *container;
 
 /**
  * Creates an error for failing to configure a subspec service. This method is called by each
@@ -152,15 +136,24 @@ typedef NSString *_Nullable (^FIRAppGetUIDImplementation)(void);
 
 /**
  * Registers a given third-party library with the given version number to be reported for
- * analyitcs.
+ * analytics.
  *
- * @param library Name of the library
- * @param version Version of the library
+ * @param name Name of the library.
+ * @param version Version of the library.
  */
-// clang-format off
-+ (void)registerLibrary:(NSString *)library
-            withVersion:(NSString *)version NS_SWIFT_NAME(registerLibrary(_:version:));
-// clang-format on
++ (void)registerLibrary:(nonnull NSString *)name withVersion:(nonnull NSString *)version;
+
+/**
+ * Registers a given internal library with the given version number to be reported for
+ * analytics.
+ *
+ * @param library Optional parameter for component registration.
+ * @param name Name of the library.
+ * @param version Version of the library.
+ */
++ (void)registerInternalLibrary:(nonnull Class<FIRLibrary>)library
+                       withName:(nonnull NSString *)name
+                    withVersion:(nonnull NSString *)version;
 
 /**
  * A concatenated string representing all the third-party libraries and version numbers.
@@ -183,31 +176,6 @@ typedef NSString *_Nullable (^FIRAppGetUIDImplementation)(void);
  * Can be used by the unit tests in each SDK to set customized options.
  */
 - (instancetype)initInstanceWithName:(NSString *)name options:(FIROptions *)options;
-
-/** @fn getTokenForcingRefresh:withCallback:
-    @brief Retrieves the Firebase authentication token, possibly refreshing it.
-    @param forceRefresh Forces a token refresh. Useful if the token becomes invalid for some reason
-        other than an expiration.
-    @param callback The block to invoke when the token is available.
- */
-- (void)getTokenForcingRefresh:(BOOL)forceRefresh withCallback:(FIRTokenCallback)callback;
-
-/**
- * Expose the UID of the current user for Firestore.
- */
-- (nullable NSString *)getUID;
-
-/**
- * WARNING: THIS SETTING DOES NOT WORK YET. IT WILL BE MOVED TO THE PUBLIC HEADER ONCE ALL SDKS
- *          CONFORM TO THIS PREFERENCE. DO NOT RELY ON IT.
- *
- * Gets or sets whether automatic data collection is enabled for all products. Defaults to `YES`
- * unless `FirebaseAutomaticDataCollectionEnabled` is set to `NO` in your app's Info.plist. This
- * value is persisted across runs of the app so that it can be set once when users have consented to
- * collection.
- */
-@property(nonatomic, readwrite, getter=isAutomaticDataCollectionEnabled)
-    BOOL automaticDataCollectionEnabled;
 
 @end
 
