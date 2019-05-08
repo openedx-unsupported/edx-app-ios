@@ -201,9 +201,7 @@
     //Firebase do not get exception with invalid google app ID, https://github.com/firebase/firebase-ios-sdk/issues/1581
     if (config.firebaseConfig.enabled) {
         [FIRApp configure];
-        if (config.firebaseConfig.analyticsEnabled) {
-            [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
-        }
+        [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
     }
 
     //NewRelic Initialization with edx key
