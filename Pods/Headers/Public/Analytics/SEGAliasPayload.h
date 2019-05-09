@@ -1,1 +1,1 @@
-../../../Analytics/Pod/Classes/Integrations/SEGAliasPayload.h
+../../../Analytics/Analytics/Classes/Integrations/SEGAliasPayload.h
