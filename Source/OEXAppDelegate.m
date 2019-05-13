@@ -15,12 +15,11 @@
 #import <NewRelicAgent/NewRelic.h>
 #import <Analytics/SEGAnalytics.h>
 #import <Branch/Branch.h>
-
+#import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
+#import <Segment-Firebase/SEGFirebaseIntegrationFactory.h>
 #import "OEXAppDelegate.h"
-
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
-
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
 #import "OEXDownloadManager.h"
@@ -193,15 +192,26 @@
 
     //SegmentIO
     OEXSegmentConfig* segmentIO = [config segmentConfig];
-    if(segmentIO.apiKey && segmentIO.isEnabled) {
-        [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey]];
+    if(segmentIO.isEnabled) {
+        SEGAnalyticsConfiguration * configuration = [SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey];
+        
+        //Segment to Google Analytics integration
+        [configuration use:[SEGGoogleAnalyticsIntegrationFactory instance]];
+        
+        if (config.firebaseConfig.configured) {
+            //Segment to Google Firebase integration
+            [configuration use:[SEGFirebaseIntegrationFactory instance]];
+        }
+        
+        [SEGAnalytics setupWithConfiguration:configuration];
     }
-    
     //Initialize Firebase
     // Make Sure the google app id is valid before configuring firebase, the app can produce crash.
     //Firebase do not get exception with invalid google app ID, https://github.com/firebase/firebase-ios-sdk/issues/1581
-    if (config.firebaseConfig.enabled) {
+    if (config.firebaseConfig.enabled && !segmentIO.isEnabled) {
         [FIRApp configure];
+        
+        // To use firebase analytics, segment should disable and firebase analytics shoud be enable.
         if (config.firebaseConfig.analyticsEnabled) {
             [FIRAnalytics setAnalyticsCollectionEnabled:YES];
         }

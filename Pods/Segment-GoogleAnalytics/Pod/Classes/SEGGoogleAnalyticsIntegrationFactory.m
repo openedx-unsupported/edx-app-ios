@@ -4,10 +4,10 @@
 
 @implementation SEGGoogleAnalyticsIntegrationFactory
 
-+ (id)instance
++ (instancetype)instance
 {
     static dispatch_once_t once;
-    static SEGGoogleAnalyticsIntegration *sharedInstance;
+    static SEGGoogleAnalyticsIntegrationFactory *sharedInstance;
     dispatch_once(&once, ^{
         sharedInstance = [[self alloc] init];
     });
