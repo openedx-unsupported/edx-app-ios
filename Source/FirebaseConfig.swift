@@ -20,7 +20,7 @@ fileprivate enum FirebaseKeys: String, RawStringExtractable {
 
 class FirebaseConfig: NSObject {
     @objc var enabled: Bool = false
-    @objc var keysConfigured: Bool = false
+    @objc var requiredKeysAvailable: Bool = false
     @objc var analyticsEnabled: Bool = false
     @objc var cloudMessagingEnabled: Bool = false
     
@@ -29,8 +29,8 @@ class FirebaseConfig: NSObject {
         let cliendID = dictionary[FirebaseKeys.clientID] as? String
         let googleAppID = dictionary[FirebaseKeys.googleAppID] as? String
         let gcmSenderID = dictionary[FirebaseKeys.gcmSenderID] as? String
-        keysConfigured = apiKey != nil && cliendID != nil && googleAppID != nil && gcmSenderID != nil
-        enabled =  keysConfigured && (dictionary[FirebaseKeys.enabled] as? Bool == true)
+        requiredKeysAvailable = apiKey != nil && cliendID != nil && googleAppID != nil && gcmSenderID != nil
+        enabled =  requiredKeysAvailable && (dictionary[FirebaseKeys.enabled] as? Bool == true)
         let analyticsEnabled = dictionary[FirebaseKeys.analyticsEnabled] as? Bool ?? false
         let cloudMessagingEnabled = dictionary[FirebaseKeys.cloudMessagingEnabled] as? Bool ?? false
         self.analyticsEnabled = enabled && analyticsEnabled
