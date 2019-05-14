@@ -7,6 +7,7 @@
 //
 
 @import edXCore;
+@import FirebaseAnalytics;
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>

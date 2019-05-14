@@ -1,0 +1,1 @@
+../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Public/FirebaseInAppMessaging.h
