@@ -198,7 +198,7 @@
         //Segment to Google Analytics integration
         [configuration use:[SEGGoogleAnalyticsIntegrationFactory instance]];
         
-        if (config.firebaseConfig.configured) {
+        if (config.firebaseConfig.keysConfigured) {
             //Segment to Google Firebase integration
             [configuration use:[SEGFirebaseIntegrationFactory instance]];
         }
