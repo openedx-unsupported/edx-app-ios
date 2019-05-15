@@ -20,6 +20,8 @@ pod 'FBSDKLoginKit', '~> 4.42.0'
 pod 'Smartling.i18n', '~> 1.0'
 pod 'Firebase/Core', '= 5.20.2'
 pod 'Firebase/InAppMessagingDisplay'
+pod 'Firebase/Analytics'
+pod 'Firebase/Performance'
 pod 'Branch', '= 0.25.5'
 end
 
