@@ -46,6 +46,7 @@ class FirebaseConfigTests: XCTestCase {
         ]
 
         let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
         XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
@@ -65,6 +66,7 @@ class FirebaseConfigTests: XCTestCase {
         ]
 
         let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertFalse(config.firebaseConfig.enabled)
         XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
@@ -83,6 +85,7 @@ class FirebaseConfigTests: XCTestCase {
         ]
 
         let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
         XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
@@ -102,6 +105,7 @@ class FirebaseConfigTests: XCTestCase {
         ]
 
         let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
         XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
@@ -121,6 +125,7 @@ class FirebaseConfigTests: XCTestCase {
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
         XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
@@ -141,6 +146,7 @@ class FirebaseConfigTests: XCTestCase {
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
         XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
@@ -161,6 +167,7 @@ class FirebaseConfigTests: XCTestCase {
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
         XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
@@ -181,6 +188,7 @@ class FirebaseConfigTests: XCTestCase {
         ]
         
         let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
         XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
