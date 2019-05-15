@@ -210,11 +210,7 @@
     //Firebase do not get exception with invalid google app ID, https://github.com/firebase/firebase-ios-sdk/issues/1581
     if (config.firebaseConfig.enabled && !segmentIO.isEnabled) {
         [FIRApp configure];
-        
-        // To use firebase analytics, segment should disable and firebase analytics shoud be enable.
-        if (config.firebaseConfig.analyticsEnabled) {
-            [FIRAnalytics setAnalyticsCollectionEnabled:YES];
-        }
+        [FIRAnalytics setAnalyticsCollectionEnabled:YES];
     }
 
     //NewRelic Initialization with edx key

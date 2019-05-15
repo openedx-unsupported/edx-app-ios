@@ -10,6 +10,11 @@ import Foundation
 
 @testable import edX
 
+let apiKey = "APebSdWSu456EDkUk0imSGqetnOznbZv22QRiq1"
+let clientID = "302611111829-s11900000000tdhcbj9876548888qur3.apps.googleusercontent.com"
+let googleAppID = "3:902600000000:ios:c00089xx00000266"
+let gcmSenderID = "303600005829"
+
 class FirebaseConfigTests: XCTestCase {
 
     func testNoFirebaseConfig() {
@@ -33,10 +38,10 @@ class FirebaseConfigTests: XCTestCase {
                 "ENABLED": true,
                 "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": true,
-                "API_KEY" : "APebSdWSu456EDkUk0imSGqetnOznbZv22QRiq1",
-                "CLIENT_ID" : "302611111829-s11900000000tdhcbj9876548888qur3.apps.googleusercontent.com",
-                "GOOGLE_APP_ID" : "3:902600000000:ios:c00089xx00000266",
-                "GCM_SENDER_ID" : "303600005829"
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
             ]
         ]
 
@@ -52,10 +57,10 @@ class FirebaseConfigTests: XCTestCase {
                 "ENABLED": false,
                 "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": true,
-                "API_KEY" : "APebSdWSu456EDkUk0imSGqetnOznbZv22QRiq1",
-                "CLIENT_ID" : "302611111829-s11900000000tdhcbj9876548888qur3.apps.googleusercontent.com",
-                "GOOGLE_APP_ID" : "3:902600000000:ios:c00089xx00000266",
-                "GCM_SENDER_ID" : "303600005829"
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
             ]
         ]
 
@@ -70,10 +75,10 @@ class FirebaseConfigTests: XCTestCase {
             "FIREBASE" : [
                 "ENABLED": true,
                 "ANALYTICS_ENABLED": false,
-                "API_KEY" : "APebSdWSu456EDkUk0imSGqetnOznbZv22QRiq1",
-                "CLIENT_ID" : "302611111829-s11900000000tdhcbj9876548888qur3.apps.googleusercontent.com",
-                "GOOGLE_APP_ID" : "3:902600000000:ios:c00089xx00000266",
-                "GCM_SENDER_ID" : "303600005829"
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
             ]
         ]
 
@@ -89,10 +94,10 @@ class FirebaseConfigTests: XCTestCase {
                 "ENABLED": true,
                 "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": false,
-                "API_KEY" : "APebSdWSu456EDkUk0imSGqetnOznbZv22QRiq1",
-                "CLIENT_ID" : "302611111829-s11900000000tdhcbj9876548888qur3.apps.googleusercontent.com",
-                "GOOGLE_APP_ID" : "3:902600000000:ios:c00089xx00000266",
-                "GCM_SENDER_ID" : "303600005829"
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
             ]
         ]
 
@@ -102,16 +107,96 @@ class FirebaseConfigTests: XCTestCase {
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
     }
     
+    func testFirebaseAPIKey() {
+        let configDictionary = [
+            "FIREBASE" : [
+                "ENABLED": true,
+                "ANALYTICS_ENABLED": true,
+                "CLOUD_MESSAGING_ENABLED": true,
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
+            ]
+        ]
+        
+        let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.enabled)
+        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
+        XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
+        XCTAssertEqual(config.firebaseConfig.apiKey, apiKey)
+    }
+    
+    func testFirebaseClientID() {
+        let configDictionary = [
+            "FIREBASE" : [
+                "ENABLED": true,
+                "ANALYTICS_ENABLED": true,
+                "CLOUD_MESSAGING_ENABLED": true,
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
+            ]
+        ]
+        
+        let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.enabled)
+        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
+        XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
+        XCTAssertEqual(config.firebaseConfig.cliendID, clientID)
+    }
+    
+    func testFirebaseGoogleAppID() {
+        let configDictionary = [
+            "FIREBASE" : [
+                "ENABLED": true,
+                "ANALYTICS_ENABLED": true,
+                "CLOUD_MESSAGING_ENABLED": true,
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
+            ]
+        ]
+        
+        let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.enabled)
+        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
+        XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
+        XCTAssertEqual(config.firebaseConfig.googleAppID, googleAppID)
+    }
+    
+    func testFirebaseGCMSenderID() {
+        let configDictionary = [
+            "FIREBASE" : [
+                "ENABLED": true,
+                "ANALYTICS_ENABLED": true,
+                "CLOUD_MESSAGING_ENABLED": true,
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
+            ]
+        ]
+        
+        let config = OEXConfig(dictionary: configDictionary)
+        XCTAssertTrue(config.firebaseConfig.enabled)
+        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
+        XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
+        XCTAssertEqual(config.firebaseConfig.gcmSenderID, gcmSenderID)
+    }
+    
     func testFirebaseRequiredKeysAvailable() {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
                 "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": true,
-                "API_KEY" : "APebSdWSu456EDkUk0imSGqetnOznbZv22QRiq1",
-                "CLIENT_ID" : "302611111829-s11900000000tdhcbj9876548888qur3.apps.googleusercontent.com",
-                "GOOGLE_APP_ID" : "3:902600000000:ios:c00089xx00000266",
-                "GCM_SENDER_ID" : "303600005829"
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
             ]
         ]
         
@@ -144,9 +229,9 @@ class FirebaseConfigTests: XCTestCase {
                 "ENABLED": true,
                 "ANALYTICS_ENABLED": false,
                 "CLOUD_MESSAGING_ENABLED": true,
-                "CLIENT_ID" : "302611111829-s11900000000tdhcbj9876548888qur3.apps.googleusercontent.com",
-                "GOOGLE_APP_ID" : "3:902600000000:ios:c00089xx00000266",
-                "GCM_SENDER_ID" : "303600005829"
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
             ]
         ]
         
@@ -155,5 +240,29 @@ class FirebaseConfigTests: XCTestCase {
         XCTAssertFalse(config.firebaseConfig.enabled)
         XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
+    }
+    
+    func testFirebaseDisableIfSegmentEnable() {
+        let configDictionary = [
+            "FIREBASE" : [
+                "ENABLED": true,
+                "ANALYTICS_ENABLED": false,
+                "CLOUD_MESSAGING_ENABLED": true,
+                "API_KEY" : apiKey,
+                "CLIENT_ID" : clientID,
+                "GOOGLE_APP_ID" : googleAppID,
+                "GCM_SENDER_ID" : gcmSenderID
+            ],
+            
+            "SEGMENT_IO": [
+                "ENABLED": true,
+                "SEGMENT_IO_WRITE_KEY": "p910192UHD101010nY0000001Kb00GFcz'"
+            ]
+        ]
+        
+        let config = OEXConfig(dictionary: configDictionary)
+        let firebaseEnable = config.firebaseConfig.enabled && !(config.segmentConfig?.isEnabled ?? false)
+        XCTAssertTrue(config.segmentConfig?.isEnabled ?? false)
+        XCTAssertFalse(firebaseEnable)
     }
 }
