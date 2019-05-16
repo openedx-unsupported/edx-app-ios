@@ -165,7 +165,7 @@
 /* Add your post button title used in discussion's add a post textview */
 "ADD_YOUR_POST"="Añadir su publicación";
 /*Agreement text*/
-"AGREEMENT.TEXT"="you agree to the {eula} and {tos} and you acknowledge that edX and each Member process your personal data in accordance with the  {privacy_policy}.";
+"AGREEMENT.TEXT"="you agree to the {eula} and {tos} and you acknowledge that {platform_name} and each Member process your personal data in accordance with the  {privacy_policy}.";
 /*Agreement text prefix for user on signin screen*/
 "AGREEMENT.TEXT_PREFIX_SIGNIN"="By signing-in to this app, ";
 /*Agreement text prefix for user on signup screen*/
