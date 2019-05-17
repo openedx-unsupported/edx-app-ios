@@ -6,8 +6,9 @@ source 'https://github.com/CocoaPods/Specs.git'
 project 'edX.xcodeproj'
 
 target 'edX' do
-pod 'Analytics', '~> 3.0.0'
-pod 'Segment-GoogleAnalytics', '~> 1.0.0'
+pod 'Analytics', '~> 3.6.10'
+pod 'Segment-GoogleAnalytics', '~> 1.2.0'
+pod 'Segment-Firebase', '=2.4.0'
 pod 'Crashlytics', '~> 3.10.1'
 pod 'DateTools', '~> 1.6.1'
 pod 'Fabric', '~> 1.7.6'
