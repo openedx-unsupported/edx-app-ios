@@ -1,5 +1,5 @@
 PODS:
-  - Analytics (3.0.7)
+  - Analytics (3.6.10)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -146,14 +146,27 @@ PODS:
     - OHHTTPStubs/Core
   - OHHTTPStubs/OHPathHelpers (4.8.0)
   - Protobuf (3.7.0)
-  - Segment-GoogleAnalytics (1.0.1):
-    - Analytics (~> 3.0.0)
+  - Segment-Firebase (2.4.0):
+    - Analytics (~> 3.2)
+    - Firebase/Core (~> 5.0)
+    - Segment-Firebase/Core (= 2.4.0)
+  - Segment-Firebase/Core (2.4.0):
+    - Analytics (~> 3.2)
+    - Firebase/Core (~> 5.0)
+  - Segment-GoogleAnalytics (1.2.0):
+    - Analytics (~> 3.0)
+    - Segment-GoogleAnalytics/GoogleIDFASupport (= 1.2.0)
+  - Segment-GoogleAnalytics/Core (1.2.0):
+    - Analytics (~> 3.0)
     - GoogleAnalytics (~> 3.14)
+  - Segment-GoogleAnalytics/GoogleIDFASupport (1.2.0):
+    - Analytics (~> 3.0)
     - GoogleIDFASupport (~> 3.14)
+    - Segment-GoogleAnalytics/Core
   - Smartling.i18n (1.0.14)
 
 DEPENDENCIES:
-  - Analytics (~> 3.0.0)
+  - Analytics (~> 3.6.10)
   - Branch (= 0.25.5)
   - Crashlytics (~> 3.10.1)
   - DateTools (~> 1.6.1)
@@ -169,7 +182,8 @@ DEPENDENCIES:
   - Masonry (~> 0.6)
   - NewRelicAgent (~> 4.1)
   - OHHTTPStubs (~> 4.0)
-  - Segment-GoogleAnalytics (~> 1.0.0)
+  - Segment-Firebase (= 2.4.0)
+  - Segment-GoogleAnalytics (~> 1.2.0)
   - Smartling.i18n (~> 1.0)
 
 SPEC REPOS:
@@ -205,11 +219,12 @@ SPEC REPOS:
     - NewRelicAgent
     - OHHTTPStubs
     - Protobuf
+    - Segment-Firebase
     - Segment-GoogleAnalytics
     - Smartling.i18n
 
 SPEC CHECKSUMS:
-  Analytics: b342fb4f43fa4f97ca6f4358b44d3295217ba294
+  Analytics: 63744ad4afa65c3bcdcdb7a94b62515bde5b3900
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 848e8e908182a97678d9f5a854d10e59a40af2aa
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
@@ -240,9 +255,10 @@ SPEC CHECKSUMS:
   NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
   OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
   Protobuf: 7a877b7f3e5964e3fce995e2eb323dbc6831bb5a
-  Segment-GoogleAnalytics: ffea73c99196720b28b58ea93bcc0e6d11f172e1
+  Segment-Firebase: cac4b742228ef74d50ed886f3fc731e4bc8b7d29
+  Segment-GoogleAnalytics: b5070619ad337eb09c4b01c52c3d0d90495307cf
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
 
-PODFILE CHECKSUM: 622192563d565ca6311592f0b7552a4641bc1d6a
+PODFILE CHECKSUM: 8e30504acaf59bb1fde35f9228c9612291c9bb26
 
 COCOAPODS: 1.5.3
