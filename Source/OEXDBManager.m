@@ -591,10 +591,10 @@ static OEXDBManager* _sharedManager = nil;
     
     for(VideoData* data in allVideos) {
         if(data &&
-           [data isEqual:[NSNull null]] &&
+           ![data isEqual:[NSNull null]] &&
            [data isKindOfClass:[VideoData class]] &&
            data.download_state &&
-           [data.download_state isEqual:[NSNull null]] &&
+           ![data.download_state isEqual:[NSNull null]] &&
            [data.download_state isKindOfClass:[NSNumber class]] &&
            ([data.download_state intValue] == state)) {
             [filteredArray addObject:data];

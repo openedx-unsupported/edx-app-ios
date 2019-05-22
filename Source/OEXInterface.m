@@ -413,7 +413,7 @@ static OEXInterface* _sharedInterface = nil;
     NSMutableDictionary* videos = [[NSMutableDictionary alloc] init];
     OEXCourse* course = [self courseWithID:courseID];
     
-    for(OEXHelperVideoDownload* video in [self.courseVideos objectForKey:course.video_outline]) {
+    for(OEXHelperVideoDownload* video in [self.courseVideos objectForKey:course.course_id]) {
         [videos setSafeObject:video forKey:video.summary.videoID];
     }
     return [videoIDs oex_map:^id(NSString* videoID) {
@@ -764,14 +764,14 @@ static OEXInterface* _sharedInterface = nil;
 
 - (void)addVideos:(NSArray*)videos forCourseWithID:(NSString*)courseID {
     OEXCourse* course = [self courseWithID:courseID];
-    NSMutableArray* videoDatas = [[_courseVideos objectForKey:course.video_outline] mutableCopy];
+    NSMutableArray* videoDatas = [[_courseVideos objectForKey:course.course_id] mutableCopy];
     NSMutableSet* knownVideoIDs = [[NSMutableSet alloc] init];
     NSMutableDictionary* videosMap = [[NSMutableDictionary alloc] init];
     if(videoDatas == nil) {
         // we don't have any videos for this course yet
         // so set it up
         videoDatas = [[NSMutableArray alloc] init];
-        [self.courseVideos setSafeObject:videoDatas forKey:course.video_outline];
+        [self.courseVideos setSafeObject:videoDatas forKey:course.course_id];
     }
     else {
         // we do have videos, so collect their IDs so we only add new ones
@@ -804,7 +804,7 @@ static OEXInterface* _sharedInterface = nil;
         }
     }];
     
-    [self.courseVideos setSafeObject:videoDatas forKey:course.video_outline];
+    [self.courseVideos setSafeObject:videoDatas forKey:course.course_id];
     
     [self makeRecordsForVideos:videoHelpers inCourse:course];
 }
@@ -817,7 +817,7 @@ static OEXInterface* _sharedInterface = nil;
         //Videos array
         NSMutableArray* videosArray = [[NSMutableArray alloc] init];
 
-        for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
+        for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.course_id]) {
             //Complete
             if(video.downloadState == OEXDownloadStateComplete && state == OEXDownloadStateComplete) {
                 [videosArray addObject:video];
@@ -846,7 +846,7 @@ static OEXInterface* _sharedInterface = nil;
     for(UserCourseEnrollment* courseEnrollment in _courses) {
         OEXCourse* course = courseEnrollment.course;
 
-        for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
+        for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.course_id]) {
             [mainArray addObject:video];
         }
     }
@@ -860,7 +860,7 @@ static OEXInterface* _sharedInterface = nil;
     for(UserCourseEnrollment* courseEnrollment in _courses) {
         OEXCourse* course = courseEnrollment.course;
 
-        for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.video_outline]) {
+        for(OEXHelperVideoDownload* video in [_courseVideos objectForKey : course.course_id]) {
             //Complete
             if((video.downloadProgress == OEXMaxDownloadProgress) && (state == OEXDownloadStateComplete)) {
                 [mainArray addObject:video];
@@ -982,7 +982,7 @@ static OEXInterface* _sharedInterface = nil;
     // how we decide their order in the UI.
     // But once we switch to the new course structure endpoint, that will no longer be the case
     OEXCourse* course = [self courseWithID:courseID];
-    for(OEXHelperVideoDownload* video in [self.courseVideos objectForKey:course.video_outline]) {
+    for(OEXHelperVideoDownload* video in [self.courseVideos objectForKey:course.course_id]) {
         if([video.summary.videoID isEqual:videoID]) {
             return video;
         }

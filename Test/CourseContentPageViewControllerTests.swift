@@ -24,7 +24,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
         let interface = OEXInterface.shared()
         interface.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
-        interface.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        interface.t_setCourseVideos([course.course_id!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
         environment = TestRouterEnvironment(config: OEXConfig(dictionary:["TAB_LAYOUTS_ENABLED": true]), interface: interface)
         environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: course.course_id!, interface: interface, outline: outline)
         router = OEXRouter(environment: environment)
