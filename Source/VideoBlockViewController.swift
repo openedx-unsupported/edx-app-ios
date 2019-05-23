@@ -33,17 +33,9 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         loadController = LoadStateViewController()
         let block = courseQuerier.blockWithID(id: blockID)
-        if let isYoutubeVideo = block.value?.type.asVideo?.isYoutubeVideo, environment.config.youtubeVideoConfig.enabled {
-            
-            if isYoutubeVideo {
-                videoController = YoutubeVideoPlayer(environment: environment)
-            }
-            else {
-                videoController = VideoPlayer(environment: environment)
-            }
-            
-        }
-        else {
+        if environment.config.youtubeVideoConfig.enabled && block.value?.type.asVideo?.isYoutubeVideo ?? false  {
+            videoController = YoutubeVideoPlayer(environment: environment)
+        }else{
             videoController = VideoPlayer(environment: environment)
         }
         super.init(nibName: nil, bundle: nil)
@@ -70,8 +62,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
                             self?.showError(error: nil)
                             return
                         }
-                        if (video.summary?.isYoutubeVideo)! {
-                            if (self?.environment.config.youtubeVideoConfig.enabled)!{
+                        if video.summary?.isYoutubeVideo ?? false {
+                            if self?.environment.config.youtubeVideoConfig.enabled ?? false {
                                 self?.showLoadedBlock(block: block, forVideo: video)
                             }
                             else {

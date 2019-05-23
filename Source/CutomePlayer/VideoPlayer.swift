@@ -43,7 +43,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
     fileprivate let player = AVPlayer()
-    private let loadingIndicatorView = UIActivityIndicatorView(style: .white)
+    let loadingIndicatorView = UIActivityIndicatorView(style: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
     private let videoSkipBackwardsDuration: Double = 30

@@ -20,7 +20,7 @@ class YoutubeVideoPlayerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         outline = CourseOutlineTestDataFactory.freshCourseOutline(course.course_id!)
-        let youtubeConfig = ["ENABLED": false, "YOUTUBE_API_KEY": "test12345"] as [String: Any]
+        let youtubeConfig = ["ENABLED": false] as [String: Any]
         let config = OEXConfig(dictionary: ["COURSE_VIDEOS_ENABLED": true, "YOUTUBE_VIDEO": youtubeConfig])
         let interface = OEXInterface.shared()
         environment = TestRouterEnvironment(config: config, interface: interface)
@@ -39,14 +39,14 @@ class YoutubeVideoPlayerTests: XCTestCase {
     
     func testVideoPlayerProtraitView() {
         let screenSize: CGRect = UIScreen.main.bounds
-        youtubeVideoPlayer?.videoPlayerPortraitView(portraitView: false)
+        youtubeVideoPlayer?.setVideoPlayerMode(portraitView: false)
         var landScapeSize = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
         
         XCTAssertEqual(landScapeSize, youtubeVideoPlayer?.playerView.frame)
         
-        landScapeSize = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.width * 9 / 16)
+        landScapeSize = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))
         
-        youtubeVideoPlayer?.videoPlayerPortraitView(portraitView: true)
+        youtubeVideoPlayer?.setVideoPlayerMode(portraitView: true)
         
         XCTAssertEqual(landScapeSize, youtubeVideoPlayer?.playerView.frame)
     }
