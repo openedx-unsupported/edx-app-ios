@@ -4,7 +4,7 @@
 
 #import <Analytics/SEGAnalytics.h>
 #import <FirebaseCore/FirebaseCore.h>
-#import <WKYTPlayerView.h>
+#import <YoutubePlayer-in-WKWebView/WKYTPlayerView.h>
 
 #import "DACircularProgressView.h"
 #import <DateTools/NSDate+DateTools.h>

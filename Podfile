@@ -32,10 +32,6 @@ target 'edXTests' do
     pod 'OHHTTPStubs', '~> 4.0'
 end
 
-target 'EndToEndTests' do
-    pod 'YoutubePlayer-in-WKWebView', '~> 0.3.0'
-end
-
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         for i in 0..target.headers_build_phase.files.length - 1
