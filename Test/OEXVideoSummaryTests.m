@@ -112,11 +112,10 @@
                                    @"duration" : duration,
                                    @"id" : videoID,
                                    @"size" : size,
-                                   },
-                           @"unit_url" : unitURL
+                                   }
                            };
     
-    OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info];
+    OEXVideoSummary* summary = [[OEXVideoSummary alloc] initWithDictionary:info videoID:videoID unitURL:unitURL name:name];
     
     XCTAssertEqualObjects(summary.sectionURL, sectionURL);
     XCTAssertEqualObjects(summary.category, category);

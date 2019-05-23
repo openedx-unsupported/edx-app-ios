@@ -84,12 +84,12 @@
     return self;
 }
 
-- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID blockURL:(NSString*)blockURL name:(NSString*)name {
+- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID unitURL:(NSString*)unitURL name:(NSString*)name {
     self = [self initWithDictionary:dictionary];
     if(self != nil) {
         self.videoID = videoID;
         self.name = name;
-        self.unitURL = blockURL;
+        self.unitURL = unitURL;
     }
     return self;
 }
