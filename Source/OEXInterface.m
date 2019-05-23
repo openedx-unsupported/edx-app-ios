@@ -729,7 +729,6 @@ static OEXInterface* _sharedInterface = nil;
         OEXDownloadState downloadState = [data.download_state intValue];
         
         video.course_id = course.course_id;
-        video.course_url = course.video_outline;
         
         if(!data) {
             downloadState = OEXDownloadStateNew;

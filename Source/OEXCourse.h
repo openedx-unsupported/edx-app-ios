@@ -47,7 +47,6 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @property (readonly, nonatomic, strong) OEXCourseStartDisplayInfo* start_display_info;
 @property (readonly, nonatomic, copy, nullable) NSString* name;
 @property (readonly, nonatomic, copy, nullable) NSString* org;
-@property (readonly, nonatomic, copy, nullable) NSString* video_outline;
 @property (readonly, nonatomic, copy, nullable) NSString* effort;
 @property (readonly, nonatomic, copy, nullable) NSString* course_id;
 @property (readonly, nonatomic, copy, nullable) NSString* root_block_usage_key;
