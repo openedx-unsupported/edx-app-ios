@@ -84,7 +84,7 @@ public struct CourseOutline {
                         type = .Problem
                     case CourseBlock.Category.Video :
                         let bodyData = (body[Fields.StudentViewData].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
-                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, unitURL: blockURL?.absoluteString ?? "", name : name ?? Strings.untitled)
+                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, unitURL: blockURL?.absoluteString, name : name ?? Strings.untitled)
                         type = .Video(summary)
                     case CourseBlock.Category.Discussion:
                         // Inline discussion is in progress feature. Will remove this code when it's ready to ship
