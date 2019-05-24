@@ -71,7 +71,6 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 @property (nonatomic, copy) NSString* course_image_url;
 @property (nonatomic, copy) NSString* name;
 @property (nonatomic, copy) NSString* org;
-@property (nonatomic, copy) NSString* video_outline;
 @property (nonatomic, copy) NSString* course_id;
 @property (nonatomic, copy) NSString* root_block_usage_key;
 @property (nonatomic, copy) NSString* subscription_id;
@@ -106,7 +105,6 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
         self.course_image_url = [info objectForKey:@"course_image"];
         self.name = [info objectForKey:@"name"];
         self.org = [info objectForKey:@"org"];
-        self.video_outline = [info objectForKey:@"video_outline"];
         self.course_id = [info objectForKey:@"id"];
         self.root_block_usage_key = [info objectForKey:@"root_block_usage_key"];
         self.number = [info objectForKey:@"number"];

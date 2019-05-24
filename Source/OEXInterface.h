@@ -49,8 +49,6 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 
 @property (nonatomic, weak, nullable) id <OEXStorageInterface>  storage;
 
-// [String(Course.video_outline) : OEXHelperVideoDownload]
-// TODO: Make this indexed by courseID instead of course.video_outline
 @property (nullable, nonatomic, strong, readonly) NSMutableDictionary* courseVideos;
 
 //Reachability

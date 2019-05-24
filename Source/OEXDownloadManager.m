@@ -137,6 +137,7 @@ static NSURLSession* videosBackgroundSession = nil;
             NSURLSessionDownloadTask* downloadTask = [downloadTasks objectAtIndex:taskIndex];
             video.download_state = [NSNumber numberWithInt:OEXDownloadStatePartial];
             video.dm_id = [NSNumber numberWithUnsignedInteger:downloadTask.taskIdentifier];
+            [self startBackgroundDownloadForVideo:video];
             [self.storage saveCurrentStateToDB];
             completionHandler(downloadTask);
         }

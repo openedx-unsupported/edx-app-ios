@@ -27,8 +27,8 @@ extension OEXInterface : LastAccessedProvider {
         // how we decide their order in the UI.
         // But once we switch to the new course structure endpoint, that will no longer be the case
         guard let courseVideos = courseVideos,
-            let videoOutline = course.video_outline,
-            let videos = courseVideos.object(forKey: videoOutline) as? [OEXHelperVideoDownload] else {
+            let courseID = course.course_id,
+            let videos = courseVideos.object(forKey: courseID) as? [OEXHelperVideoDownload] else {
             return []
         }
         

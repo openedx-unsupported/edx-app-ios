@@ -25,7 +25,7 @@ class VideoPlayerTests: XCTestCase {
         environment = TestRouterEnvironment(config: config, interface: interface)
         environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)
         environment.interface?.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
-        environment.interface?.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideoWithoutEncodings(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        environment.interface?.t_setCourseVideos([course.course_id!: OEXVideoSummaryTestDataFactory.localCourseVideoWithoutEncodings(CourseOutlineTestDataFactory.knownLocalVideoID)])
     }
 
     func loadVideoPlayer(_ completion: ( (_ videoPlayer : VideoPlayer) -> Void)? = nil) {
