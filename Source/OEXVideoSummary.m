@@ -84,7 +84,7 @@
     return self;
 }
 
-- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID unitURL:(NSString*)unitURL name:(NSString*)name {
+- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID unitURL:(nullable NSString*)unitURL name:(NSString*)name {
     self = [self initWithDictionary:dictionary];
     if(self != nil) {
         self.videoID = videoID;
