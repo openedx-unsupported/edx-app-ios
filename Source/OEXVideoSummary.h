@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithDictionary:(NSDictionary*)dictionary;
 // TODO: Factor the video code to get this from the block instead of the video summary
-- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID name:(NSString*)name;
+- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID unitURL:(nullable NSString*)unitURL name:(NSString*)name;
 
 /// Generate a simple stub video summary. Used only for testing
 - (id)initWithVideoID:(NSString*)videoID name:(NSString*)name encodings:(NSDictionary<NSString*, OEXVideoEncoding *> *)encodings;

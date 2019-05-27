@@ -43,8 +43,6 @@
             self.sectionURL = [dictionary objectForKey:@"section_url"];
         }
         
-        self.unitURL = [dictionary objectForKey:@"unit_url"];
-        
         NSDictionary* summary = [dictionary objectForKey:@"summary"];
         
         // Data from inside summary dictionary
@@ -86,11 +84,12 @@
     return self;
 }
 
-- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID name:(NSString*)name {
+- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID unitURL:(nullable NSString*)unitURL name:(NSString*)name {
     self = [self initWithDictionary:dictionary];
     if(self != nil) {
         self.videoID = videoID;
         self.name = name;
+        self.unitURL = unitURL;
     }
     return self;
 }
