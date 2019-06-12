@@ -43,10 +43,12 @@ public class ProfileAPI: NSObject {
         return networkManager.streamForRequest(request)
     }
 
-    class func profileUpdateRequest(profile: UserProfile) -> NetworkRequest<UserProfile> {
+    class func profileUpdateRequest(profile: UserProfile) -> NetworkRequest<UserProfile>? {
+        guard let userName = profile.username else { return nil }
+
         let json = JSON(profile.updateDictionary as AnyObject)
         let request = NetworkRequest(method: HTTPMethod.PATCH,
-            path: path(username: profile.username!),
+            path: path(username: userName),
             requiresAuth: true,
             body: RequestBody.jsonBody(json),
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
