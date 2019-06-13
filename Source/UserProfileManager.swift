@@ -61,7 +61,10 @@ open class UserProfileManager : NSObject {
     }
     
     public func updateCurrentUserProfile(profile : UserProfile, handler : @escaping (Result<UserProfile>) -> Void) {
-        guard let request = ProfileAPI.profileUpdateRequest(profile: profile) else { return }
+        guard let request = ProfileAPI.profileUpdateRequest(profile: profile) else {
+            handler(Result.failure(NSError.oex_unknownNetworkError()))
+            return
+        }
 
         networkManager.taskForRequest(request) { [weak self] result -> Void in
             if let data = result.data {
