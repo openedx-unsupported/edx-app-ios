@@ -68,7 +68,7 @@
                 [analytics addTracker:[[SegmentAnalyticsTracker alloc] init]];
             }
             
-            if (env.config.firebaseConfig.analyticsEnabled && !segmentConfig.isEnabled) {
+            if (env.config.firebaseConfig.analyticsEnabled && env.config.firebaseConfig.isAnalyticsSourceFirebase) {
                 [analytics addTracker:[[FirebaseAnalyticsTracker alloc] init]];
             }
             

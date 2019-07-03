@@ -22,7 +22,9 @@ class FirebaseConfigTests: XCTestCase {
         XCTAssertFalse(config.firebaseConfig.enabled)
         XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
-        
+        XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceSegment)
+        XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceFirebase)
+        XCTAssertEqual(config.firebaseConfig.analyticsSource, AnalyticsSource.none)
     }
 
     func testEmptyFirebaseConfig() {
@@ -30,6 +32,9 @@ class FirebaseConfigTests: XCTestCase {
         XCTAssertFalse(config.firebaseConfig.enabled)
         XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
+        XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceFirebase)
+        XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceSegment)
+        XCTAssertEqual(config.firebaseConfig.analyticsSource, AnalyticsSource.none)
     }
 
     func testFirebaseConfig() {
@@ -37,6 +42,7 @@ class FirebaseConfigTests: XCTestCase {
             "FIREBASE" : [
                 "ENABLED": true,
                 "ANALYTICS_ENABLED": true,
+                "ANALYTICS_SOURCE": "segment",
                 "CLOUD_MESSAGING_ENABLED": true,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,
@@ -50,6 +56,8 @@ class FirebaseConfigTests: XCTestCase {
         XCTAssertTrue(config.firebaseConfig.enabled)
         XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
+        XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceFirebase)
+        XCTAssertTrue(config.firebaseConfig.isAnalyticsSourceSegment)
     }
 
     func testFirebaseDisableConfig() {
@@ -272,5 +280,47 @@ class FirebaseConfigTests: XCTestCase {
         let firebaseEnable = config.firebaseConfig.enabled && !(config.segmentConfig?.isEnabled ?? false)
         XCTAssertTrue(config.segmentConfig?.isEnabled ?? false)
         XCTAssertFalse(firebaseEnable)
+    }
+
+    func testAnalyticsSourceNoneConfig() {
+        let configDictionary = [
+            "FIREBASE" : [
+                "ANALYTICS_SOURCE": "none",
+            ]
+        ]
+
+        let config = OEXConfig(dictionary: configDictionary)
+
+        XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceSegment)
+        XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceFirebase)
+        XCTAssertEqual(config.firebaseConfig.analyticsSource, AnalyticsSource.none)
+    }
+
+    func testAnalyticsSourceSegmentConfig() {
+        let configDictionary = [
+            "FIREBASE" : [
+                "ANALYTICS_SOURCE": "segment",
+            ]
+        ]
+
+        let config = OEXConfig(dictionary: configDictionary)
+
+        XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceFirebase)
+        XCTAssertTrue(config.firebaseConfig.isAnalyticsSourceSegment)
+        XCTAssertEqual(config.firebaseConfig.analyticsSource, AnalyticsSource.segment)
+    }
+
+    func testAnalyticsSourceFirebaseConfig() {
+        let configDictionary = [
+            "FIREBASE" : [
+                "ANALYTICS_SOURCE": "firebase",
+            ]
+        ]
+
+        let config = OEXConfig(dictionary: configDictionary)
+
+        XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceSegment)
+        XCTAssertTrue(config.firebaseConfig.isAnalyticsSourceFirebase)
+        XCTAssertEqual(config.firebaseConfig.analyticsSource, AnalyticsSource.firebase)
     }
 }
