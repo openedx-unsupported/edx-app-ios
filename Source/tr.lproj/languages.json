@@ -1,0 +1,560 @@
+[
+    {
+        "aa": "Afarca"
+    },
+    {
+        "ab": "Abhazca"
+    },
+    {
+        "af": "Afrikaanca"
+    },
+    {
+        "ak": "Akan dili"
+    },
+    {
+        "sq": "Arnavutça"
+    },
+    {
+        "am": "Amharca"
+    },
+    {
+        "ar": "Arapça"
+    },
+    {
+        "an": "Aragonca"
+    },
+    {
+        "hy": "Ermenice"
+    },
+    {
+        "as": "Assam dili"
+    },
+    {
+        "av": "Avarca"
+    },
+    {
+        "ae": "Avestaca"
+    },
+    {
+        "ay": "Aymaraca"
+    },
+    {
+        "az": "Azerice"
+    },
+    {
+        "ba": "Başkırca"
+    },
+    {
+        "bm": "Bambaraca"
+    },
+    {
+        "eu": "Baskça"
+    },
+    {
+        "be": "Beyaz Rusça"
+    },
+    {
+        "bn": "Bengalce"
+    },
+    {
+        "bh": "Bihari dilleri"
+    },
+    {
+        "bi": "Bislamaca"
+    },
+    {
+        "bs": "Boşnakça"
+    },
+    {
+        "br": "Bretonca"
+    },
+    {
+        "bg": "Bulgarca"
+    },
+    {
+        "my": "Birmanca"
+    },
+    {
+        "ca": "Katalanca"
+    },
+    {
+        "ch": "Çamorro dili"
+    },
+    {
+        "ce": "Çeçence"
+    },
+    {
+        "zh": "Çince"
+    },
+    {
+        "zh_HANS": "Basitleştirilmiş Çince"
+    },
+    {
+        "zh_HANT": "Geleneksel Çince"
+    },
+    {
+        "cu": "Kilise Slavcası"
+    },
+    {
+        "cv": "Çuvaşça"
+    },
+    {
+        "kw": "Kervenekçe"
+    },
+    {
+        "co": "Korsikaca"
+    },
+    {
+        "cr": "Krice"
+    },
+    {
+        "cs": "Çekçe"
+    },
+    {
+        "da": "Danca"
+    },
+    {
+        "dv": "Maldivce"
+    },
+    {
+        "nl": "Felemenkçe"
+    },
+    {
+        "dz": "Dzongkha"
+    },
+    {
+        "en": "İngilizce"
+    },
+    {
+        "eo": "Esperanto"
+    },
+    {
+        "et": "Estonca"
+    },
+    {
+        "ee": "Ewe dili"
+    },
+    {
+        "fo": "Faroece"
+    },
+    {
+        "fj": "Fiji dili"
+    },
+    {
+        "fi": "Fince"
+    },
+    {
+        "fr": "Fransızca"
+    },
+    {
+        "fy": "Batı Frizcesi"
+    },
+    {
+        "ff": "Fula dili"
+    },
+    {
+        "ka": "Gürcüce"
+    },
+    {
+        "de": "Almanca"
+    },
+    {
+        "gd": "Galce"
+    },
+    {
+        "ga": "İrlandaca"
+    },
+    {
+        "gl": "Galiçyaca"
+    },
+    {
+        "gv": "Man dili"
+    },
+    {
+        "el": "Yunanca"
+    },
+    {
+        "gn": "Guarani"
+    },
+    {
+        "gu": "Guceratça"
+    },
+    {
+        "ht": "Haitice"
+    },
+    {
+        "ha": "Hausaca"
+    },
+    {
+        "he": "İbranice"
+    },
+    {
+        "hz": "Hereroca"
+    },
+    {
+        "hi": "Hintçe"
+    },
+    {
+        "ho": "Hiri Motu dili"
+    },
+    {
+        "hr": "Hırvatça"
+    },
+    {
+        "hu": "Macarca"
+    },
+    {
+        "ig": "İgbo dili"
+    },
+    {
+        "is": "İzlandaca"
+    },
+    {
+        "io": "İdo dili"
+    },
+    {
+        "ii": "Siçuan Yi dili"
+    },
+    {
+        "iu": "Doğu Kanada İnuitçesi"
+    },
+    {
+        "ie": "İnterlingue"
+    },
+    {
+        "ia": "İnterlingua"
+    },
+    {
+        "id": "Endonezce"
+    },
+    {
+        "ik": "İnyupik dili"
+    },
+    {
+        "it": "İtalyanca"
+    },
+    {
+        "jv": "Cava dili"
+    },
+    {
+        "ja": "Japonca"
+    },
+    {
+        "kl": "Batı Grönlandca"
+    },
+    {
+        "kn": "Kannada dili"
+    },
+    {
+        "ks": "Keşmirce"
+    },
+    {
+        "kr": "Kanuri dili"
+    },
+    {
+        "kk": "Kazakça"
+    },
+    {
+        "km": "Orta Khmerce"
+    },
+    {
+        "ki": "Kikuyu dili"
+    },
+    {
+        "rw": "Ruandaca"
+    },
+    {
+        "ky": "Kırgızca"
+    },
+    {
+        "kv": "Komice"
+    },
+    {
+        "kg": "Kongoca"
+    },
+    {
+        "ko": "Korece"
+    },
+    {
+        "kj": "Kuanyama dili"
+    },
+    {
+        "ku": "Kürtçe"
+    },
+    {
+        "lo": "Laoca"
+    },
+    {
+        "la": "Latince"
+    },
+    {
+        "lv": "Letonca"
+    },
+    {
+        "li": "Limburgca"
+    },
+    {
+        "ln": "Lingala"
+    },
+    {
+        "lt": "Litvanca"
+    },
+    {
+        "lb": "Lüksemburgca"
+    },
+    {
+        "lu": "Luba-Katanga dili"
+    },
+    {
+        "lg": "Ganda dili"
+    },
+    {
+        "mk": "Makedonca"
+    },
+    {
+        "mh": "Marshall dili"
+    },
+    {
+        "ml": "Malayalamca"
+    },
+    {
+        "mi": "Maorice"
+    },
+    {
+        "mr": "Marathi"
+    },
+    {
+        "ms": "Malayca"
+    },
+    {
+        "mg": "Malagasice"
+    },
+    {
+        "mt": "Maltaca"
+    },
+    {
+        "mn": "Moğolca"
+    },
+    {
+        "na": "Nauruca"
+    },
+    {
+        "nv": "Navaho dili"
+    },
+    {
+        "nr": "Güney Ndebele dili"
+    },
+    {
+        "nd": "Kuzey Ndebele dili"
+    },
+    {
+        "ng": "Ndonga"
+    },
+    {
+        "ne": "Nepalce"
+    },
+    {
+        "nn": "Yeni Norveççe"
+    },
+    {
+        "nb": "Norveççe, Bokmål kitap dili"
+    },
+    {
+        "no": "Norveççe"
+    },
+    {
+        "ny": "Çevaca"
+    },
+    {
+        "oc": "Oksitanca"
+    },
+    {
+        "oj": "Ojibwa dili"
+    },
+    {
+        "or": "Oriya dili"
+    },
+    {
+        "om": "Oromca"
+    },
+    {
+        "os": "Osetçe"
+    },
+    {
+        "pa": "Pencapça"
+    },
+    {
+        "fa": "Farsça"
+    },
+    {
+        "pi": "Pali dili"
+    },
+    {
+        "pl": "Lehçe"
+    },
+    {
+        "pt": "Portekizce"
+    },
+    {
+        "ps": "Peştuca"
+    },
+    {
+        "qu": "Keçuva dili"
+    },
+    {
+        "rm": "Romanşça"
+    },
+    {
+        "ro": "Romence"
+    },
+    {
+        "rn": "Rundice"
+    },
+    {
+        "ru": "Rusça"
+    },
+    {
+        "sg": "Sango"
+    },
+    {
+        "sa": "Sanskritçe"
+    },
+    {
+        "si": "Seylanca"
+    },
+    {
+        "sk": "Slovakça"
+    },
+    {
+        "sl": "Slovence"
+    },
+    {
+        "se": "Kuzey Laponca"
+    },
+    {
+        "sm": "Samoaca"
+    },
+    {
+        "sn": "Şona dili"
+    },
+    {
+        "sd": "Sindhi"
+    },
+    {
+        "so": "Somalice"
+    },
+    {
+        "st": "Güney Sotho dili"
+    },
+    {
+        "es": "İspanyolca"
+    },
+    {
+        "sc": "Sarduca"
+    },
+    {
+        "sr": "Sırpça"
+    },
+    {
+        "ss": "Swati dili"
+    },
+    {
+        "su": "Sundaca"
+    },
+    {
+        "sw": "Svahili"
+    },
+    {
+        "sv": "İsveççe"
+    },
+    {
+        "ty": "Tahitice"
+    },
+    {
+        "ta": "Tamilce"
+    },
+    {
+        "tt": "Tatarca"
+    },
+    {
+        "te": "Teluguca"
+    },
+    {
+        "tg": "Tacikçe"
+    },
+    {
+        "tl": "Tagalogca"
+    },
+    {
+        "th": "Tayca"
+    },
+    {
+        "bo": "Tibetçe"
+    },
+    {
+        "ti": "Tigrinya dili"
+    },
+    {
+        "to": "Tongaca (Tonga Adaları)"
+    },
+    {
+        "tn": "Tsvana dili"
+    },
+    {
+        "ts": "Tsongaca"
+    },
+    {
+        "tk": "Türkmence"
+    },
+    {
+        "tr": "Türkçe"
+    },
+    {
+        "tw": "Twi dili"
+    },
+    {
+        "ug": "Uygurca"
+    },
+    {
+        "uk": "Ukraynaca"
+    },
+    {
+        "ur": "Urduca"
+    },
+    {
+        "uz": "Özbekçe"
+    },
+    {
+        "ve": "Venda dili"
+    },
+    {
+        "vi": "Vietnamca"
+    },
+    {
+        "vo": "Volapük"
+    },
+    {
+        "cy": "Galce"
+    },
+    {
+        "wa": "Valonca"
+    },
+    {
+        "wo": "Wolof dili"
+    },
+    {
+        "xh": "Xhosa dili"
+    },
+    {
+        "yi": "Yidiş"
+    },
+    {
+        "yo": "Yoruba"
+    },
+    {
+        "za": "Zhuangca"
+    },
+    {
+        "zu": "Zuluca"
+    }
+]
