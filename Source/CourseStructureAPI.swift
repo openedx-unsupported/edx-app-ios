@@ -51,7 +51,7 @@ public struct CourseOutlineAPI {
         )
         return NetworkRequest(
             method : .GET,
-            path : "/api/courses/v1/blocks/",
+            path : "/api/courses/v2/blocks/",
             requiresAuth : true,
             query : parameters.query,
             deserializer : .jsonResponse(deserializer)

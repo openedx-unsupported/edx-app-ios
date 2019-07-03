@@ -58,7 +58,12 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     }
     
     private func showError() {
-        messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown)
+        if let block = block, block.isGated {
+            messageView = IconMessageView(icon: Icon.Closed, message: Strings.courseContentGated)
+        }
+        else {
+            messageView = IconMessageView(icon: Icon.CourseUnknownContent, message: Strings.courseContentUnknown)
+        }
         messageView?.buttonInfo = MessageButtonInfo(title : Strings.openInBrowser)
         {
             [weak self] in
@@ -67,10 +72,9 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
                     UIApplication.shared.openURL(url as URL)
                     self?.logOpenInBrowserEvent()
                 }
-                }, failure : {_ in
+            }, failure : {_ in
             })
         }
-        
         view.addSubview(messageView!)
     }
     
