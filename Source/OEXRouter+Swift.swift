@@ -89,6 +89,11 @@ extension OEXRouter {
     }
     
     private func controllerForBlockWithID(blockID : CourseBlockID?, type : CourseBlockDisplayType, courseID : String, forMode mode: CourseOutlineMode? = .full, gated: Bool? = false) -> UIViewController {
+        
+        if gated ?? false {
+            return CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
+        }
+        
         switch type {
             case .Outline:
                 let outlineController = CourseOutlineViewController(environment: self.environment, courseID: courseID, rootID: blockID, forMode: mode)
@@ -96,7 +101,7 @@ extension OEXRouter {
         case .Unit:
             return unitControllerForCourseID(courseID: courseID, blockID: blockID, initialChildID: nil, forMode: mode)
         case .HTML:
-            let controller = (gated == true) ? CourseUnknownBlockViewController(blockID: blockID, courseID : courseID, environment : environment): HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
+            let controller = HTMLBlockViewController(blockID: blockID, courseID : courseID, environment : environment)
             return controller
         case .Video:
             let controller = VideoBlockViewController(environment: environment, blockID: blockID, courseID: courseID)

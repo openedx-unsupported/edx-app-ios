@@ -220,15 +220,15 @@ public class CourseBlock {
     /// TODO: Match final API name
     public let graded : Bool?
     
-    // Authorization Denial Reason if the block content is gated
+    /// Authorization Denial Reason if the block content is gated
     public let authorizationDenialReason: String?
     
-    // Authorization Denial Message if the block content is gated
+    /// Authorization Denial Message if the block content is gated
     public let authorizationDenialMessage: String?
     
-    // Property to represent gated content
+    /// Property to represent gated content
     public var isGated: Bool {
-        return self.authorizationDenialReason != nil
+        return authorizationDenialReason != nil
     }
     
     public init(type : CourseBlockType,
