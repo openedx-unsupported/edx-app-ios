@@ -49,9 +49,12 @@ public struct CourseOutlineAPI {
             blockCount : [CourseBlock.Category.Video.rawValue],
             studentViewData : [CourseBlock.Category.Video, CourseBlock.Category.Discussion]
         )
+    
+        let apiVersion = OEXConfig.shared().apiUrlConfig.blocksAPIVersion
+        
         return NetworkRequest(
             method : .GET,
-            path : "/api/courses/v2/blocks/",
+            path : "/api/courses/\(apiVersion ?? "v1")/blocks/",
             requiresAuth : true,
             query : parameters.query,
             deserializer : .jsonResponse(deserializer)
