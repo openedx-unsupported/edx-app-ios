@@ -57,7 +57,7 @@ public class CourseOutlineViewController :
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
         self.rootID = rootID
         self.environment = environment
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment as? RouterEnvironment)
         
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()

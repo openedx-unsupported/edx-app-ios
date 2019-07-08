@@ -33,9 +33,9 @@ open class CourseDataManager: NSObject {
         }
     }
     
-    open func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
+    open func querierForCourseWithID(courseID : String, environment: RouterEnvironment?) -> CourseOutlineQuerier {
         return outlineQueriers.objectForKey(key: courseID) {
-            let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, enrollmentManager: enrollmentManager, networkManager : networkManager, session : session)
+            let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, enrollmentManager: enrollmentManager, networkManager : networkManager, session : session, environment: environment)
             return querier
         }
     }

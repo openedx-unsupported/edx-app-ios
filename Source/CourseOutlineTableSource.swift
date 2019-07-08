@@ -44,7 +44,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         self.courseBlockID = courseBlockID
         self.environment = environment
         self.courseOutlineMode = mode
-        self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
+        self.courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment as? RouterEnvironment)
         super.init(nibName: nil, bundle: nil)
     }
     

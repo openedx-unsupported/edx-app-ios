@@ -25,7 +25,7 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         self.blockID = blockID
         
         webController = AuthenticatedWebViewController(environment: environment)
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment as? RouterEnvironment)
         
         super.init(nibName : nil, bundle : nil)
 

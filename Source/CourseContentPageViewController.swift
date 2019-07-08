@@ -54,7 +54,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.blockID = rootID
         self.initialChildID = initialChildID
         
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment as? RouterEnvironment)
         initialLoadController = LoadStateViewController()
         
         cacheManager = BlockViewControllerCacheManager.shared

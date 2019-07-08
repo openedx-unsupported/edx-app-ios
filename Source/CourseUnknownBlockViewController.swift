@@ -27,7 +27,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         
         super.init(nibName: nil, bundle: nil)
         
-        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID)
+        let courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID, environment: environment as? RouterEnvironment)
         courseQuerier.blockWithID(id: blockID).extendLifetimeUntilFirstResult (
             success:
             { [weak self] block in
@@ -118,7 +118,7 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        loader = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID).blockWithID(id: self.blockID).map {
+        loader = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: self.courseID, environment: environment as? RouterEnvironment).blockWithID(id: self.blockID).map {
             return $0.webURL
             }.firstSuccess()
     }
