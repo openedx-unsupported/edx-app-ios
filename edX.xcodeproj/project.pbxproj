@@ -1840,6 +1840,15 @@
 		E03E6A181D38EC7500944AAA /* UIView+UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+UIViewController.swift"; sourceTree = "<group>"; };
 		E03E6A1E1D38F28000944AAA /* UIView+UIViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+UIViewControllerTests.swift"; sourceTree = "<group>"; };
 		E03E6A211D38F77C00944AAA /* OfflineSupportViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineSupportViewControllerTests.swift; sourceTree = "<group>"; };
+		E041698822CA143700449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = tr; path = tr.lproj/subjects.json; sourceTree = "<group>"; };
+		E041698922CA143700449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = tr; path = tr.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
+		E041698A22CA143800449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = tr; path = tr.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
+		E041698B22CA143800449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = tr; path = tr.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
+		E041698C22CA143800449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E041698D22CA143900449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E041698E22CA143900449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = tr; path = tr.lproj/profiles.json; sourceTree = "<group>"; };
+		E041698F22CA143900449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = tr; path = tr.lproj/languages.json; sourceTree = "<group>"; };
+		E041699022CA143A00449AFB /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = tr; path = tr.lproj/whats_new.json; sourceTree = "<group>"; };
 		E04848311CFDA10600BE00E1 /* DiscussionModelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionModelTests.swift; sourceTree = "<group>"; };
 		E04848351D000DD600BE00E1 /* PostsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostsViewControllerTests.swift; sourceTree = "<group>"; };
 		E04A932A1F13846B00D4615D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4103,6 +4112,7 @@
 			knownRegions = (
 				en,
 				"es-419",
+				tr,
 			);
 			mainGroup = BECB7B021924C0C3009C77F1;
 			productRefGroup = BECB7B0C1924C0C3009C77F1 /* Products */;
@@ -5182,6 +5192,7 @@
 			children = (
 				1A55019D1BBA30C900D5F9DD /* en */,
 				E08CC57C1F33269C0092ACED /* es-419 */,
+				E041698E22CA143900449AFB /* tr */,
 			);
 			name = profiles.json;
 			sourceTree = "<group>";
@@ -5191,6 +5202,7 @@
 			children = (
 				1AFEB1BA1BBD88F3004C471D /* en */,
 				E08CC57E1F33269D0092ACED /* es-419 */,
+				E041698F22CA143900449AFB /* tr */,
 			);
 			name = languages.json;
 			sourceTree = "<group>";
@@ -5200,6 +5212,7 @@
 			children = (
 				2212FD3621D4BE84007409C3 /* es-419 */,
 				2212FD3821D4BE86007409C3 /* en */,
+				E041698922CA143700449AFB /* tr */,
 			);
 			name = MobileAppEula.htm;
 			sourceTree = "<group>";
@@ -5209,6 +5222,7 @@
 			children = (
 				2212FD3A21D4BE92007409C3 /* es-419 */,
 				2212FD3C21D4BE94007409C3 /* en */,
+				E041698A22CA143800449AFB /* tr */,
 			);
 			name = PrivacyPolicy.htm;
 			sourceTree = "<group>";
@@ -5218,6 +5232,7 @@
 			children = (
 				2212FD3E21D4BEA0007409C3 /* es-419 */,
 				2212FD4021D4BEA2007409C3 /* en */,
+				E041698B22CA143800449AFB /* tr */,
 			);
 			name = TermsOfServices.htm;
 			sourceTree = "<group>";
@@ -5227,6 +5242,7 @@
 			children = (
 				B793455E20B584F500DBFC33 /* en */,
 				B793456020B584F800DBFC33 /* es-419 */,
+				E041698822CA143700449AFB /* tr */,
 			);
 			name = subjects.json;
 			sourceTree = "<group>";
@@ -5236,6 +5252,7 @@
 			children = (
 				773BE0001AAA07DD0074C3CA /* en */,
 				E08CC57A1F33269C0092ACED /* es-419 */,
+				E041698C22CA143800449AFB /* tr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5245,6 +5262,7 @@
 			children = (
 				E04A932A1F13846B00D4615D /* en */,
 				E08CC57B1F33269C0092ACED /* es-419 */,
+				E041698D22CA143900449AFB /* tr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5254,6 +5272,7 @@
 			children = (
 				E0EEC6E81F1CD279006C8D62 /* en */,
 				E08CC57F1F33269D0092ACED /* es-419 */,
+				E041699022CA143A00449AFB /* tr */,
 			);
 			name = whats_new.json;
 			sourceTree = "<group>";

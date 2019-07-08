@@ -198,7 +198,7 @@
         //Segment to Google Analytics integration
         [configuration use:[SEGGoogleAnalyticsIntegrationFactory instance]];
         
-        if (config.firebaseConfig.requiredKeysAvailable) {
+        if (config.firebaseConfig.requiredKeysAvailable && config.firebaseConfig.isAnalyticsSourceSegment) {
             //Segment to Google Firebase integration
             [configuration use:[SEGFirebaseIntegrationFactory instance]];
         }
@@ -208,7 +208,7 @@
     //Initialize Firebase
     // Make Sure the google app id is valid before configuring firebase, the app can produce crash.
     //Firebase do not get exception with invalid google app ID, https://github.com/firebase/firebase-ios-sdk/issues/1581
-    if (config.firebaseConfig.enabled && !segmentIO.isEnabled) {
+    if (config.firebaseConfig.enabled && !config.firebaseConfig.isAnalyticsSourceSegment) {
         [FIRApp configure];
         [FIRAnalytics setAnalyticsCollectionEnabled:YES];
     }
