@@ -49,15 +49,12 @@ public struct CourseOutlineAPI {
             blockCount : [CourseBlock.Category.Video.rawValue],
             studentViewData : [CourseBlock.Category.Video, CourseBlock.Category.Discussion]
         )
-    
-        var apiVersion: String? = nil
-        if let version = environment?.config.apiUrlConfig.blocksAPIVersion {
-            apiVersion = version
-        }
+        
+        let apiVersion = environment?.config.apiUrlVersionConfig.blocks ?? APIURLDefaultVersion.blocks.rawValue
         
         return NetworkRequest(
             method : .GET,
-            path : "/api/courses/\(apiVersion ?? "v1")/blocks/",
+            path : "/api/courses/\(apiVersion )/blocks/",
             requiresAuth : true,
             query : parameters.query,
             deserializer : .jsonResponse(deserializer)

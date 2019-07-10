@@ -116,7 +116,7 @@
 		228E169C2136BC0E006FA184 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 228E169B2136BC0E006FA184 /* FontAwesome.ttf */; };
 		2294A54A206E637100D64FFC /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2294A549206E637000D64FFC /* VideoPlayer.swift */; };
 		22A1B6FF206CFFA3001C1704 /* TranscriptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A1B6FE206CFFA3001C1704 /* TranscriptManager.swift */; };
-		22A3CECE22D31527005A046E /* ApiUrlVersionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A3CECD22D31526005A046E /* ApiUrlVersionConfig.swift */; };
+		22A3CECE22D31527005A046E /* APIURLVersionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */; };
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
@@ -1042,7 +1042,7 @@
 		228E169B2136BC0E006FA184 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		2294A549206E637000D64FFC /* VideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		22A1B6FE206CFFA3001C1704 /* TranscriptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptManager.swift; sourceTree = "<group>"; };
-		22A3CECD22D31526005A046E /* ApiUrlVersionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUrlVersionConfig.swift; sourceTree = "<group>"; };
+		22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLVersionConfig.swift; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
@@ -3167,7 +3167,7 @@
 				E06292741F7BAFFF006D5EFC /* BranchConfig.swift */,
 				E06292761F7BB452006D5EFC /* FabricKits.swift */,
 				2255C94D2111BADC005F7C8C /* ProgramConfig.swift */,
-				22A3CECD22D31526005A046E /* ApiUrlVersionConfig.swift */,
+				22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -4902,7 +4902,7 @@
 				77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */,
 				77DCD23B1C2B14BA00CAEBB5 /* UITableView+Layout.swift in Sources */,
 				B7CCC731209B16B100A66923 /* ConstraintMakerEditable.swift in Sources */,
-				22A3CECE22D31527005A046E /* ApiUrlVersionConfig.swift in Sources */,
+				22A3CECE22D31527005A046E /* APIURLVersionConfig.swift in Sources */,
 				77509D941BE1710200B10CD3 /* TZStackView.swift in Sources */,
 				B78823A81FC6F69900F9CD61 /* RegistrationFieldController.swift in Sources */,
 				77FFA2BE1AC3031900B4D69B /* OEXUsingExternalAuthHeadingView.m in Sources */,

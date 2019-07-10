@@ -169,6 +169,11 @@ public class CourseBlock {
         case Discussion = "discussion"
     }
     
+    public enum AuthorizationDenialReason : String {
+        case featureBasedEnrollment = "Feature-based Enrollments"
+        case none = "none"
+    }
+    
     public let type : CourseBlockType
     public let blockID : CourseBlockID
     /// This is the alpha numeric identifier at the end of the blockID above.
@@ -221,14 +226,14 @@ public class CourseBlock {
     public let graded : Bool?
     
     /// Authorization Denial Reason if the block content is gated
-    public let authorizationDenialReason: String?
+    public let authorizationDenialReason: AuthorizationDenialReason
     
     /// Authorization Denial Message if the block content is gated
     public let authorizationDenialMessage: String?
     
     /// Property to represent gated content
     public var isGated: Bool {
-        return authorizationDenialReason != nil
+        return authorizationDenialReason == .featureBasedEnrollment
     }
     
     public init(type : CourseBlockType,
@@ -257,7 +262,7 @@ public class CourseBlock {
         self.graded = graded
         self.format = format
         self.multiDevice = multiDevice
-        self.authorizationDenialReason = authorizationDenialReason
+        self.authorizationDenialReason = AuthorizationDenialReason(rawValue: authorizationDenialReason ?? AuthorizationDenialReason.none.rawValue) ?? AuthorizationDenialReason.none
         self.authorizationDenialMessage = authorizationDenialMessage
     }
 }
