@@ -26,7 +26,7 @@ class APIURLVersionConfig: NSObject {
     }
 }
 
-private let key = "URL_API_VERSION"
+private let key = "API_URL_VERSION"
 extension OEXConfig {
     @objc var apiUrlVersionConfig: APIURLVersionConfig {
         return APIURLVersionConfig(dictionary: self[key] as? [String:AnyObject] ?? [:])
