@@ -13,6 +13,7 @@ import XCTest
 class CourseOutlineQuerierTests: XCTestCase {
     
     let courseID = OEXCourse.freshCourse().course_id!
+    let testEnvironment = TestRouterEnvironment()
     
     func testBlockLoadsFromNetwork() {
         let outline = CourseOutlineTestDataFactory.freshCourseOutline(courseID)
@@ -20,7 +21,7 @@ class CourseOutlineQuerierTests: XCTestCase {
         networkManager.interceptWhenMatching({_ in true}, successResponse: {
             return (nil, outline)
         })
-        let querier = CourseOutlineQuerier(courseID: "course", interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil)
+        let querier = CourseOutlineQuerier(courseID: "course", interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil, environment: testEnvironment)
         
         let blockID = CourseOutlineTestDataFactory.knownSection
         let blockStream = querier.blockWithID(id: blockID)
@@ -86,7 +87,7 @@ class CourseOutlineQuerierTests: XCTestCase {
     
     func testReloadsAfterFailure() {
         let networkManager = MockNetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string : "http://www.example.com")!)
-        let querier = CourseOutlineQuerier(courseID: courseID, interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil)
+        let querier = CourseOutlineQuerier(courseID: courseID, interface: nil, enrollmentManager: nil, networkManager: networkManager, session : nil, environment: testEnvironment)
         let blockID = CourseOutlineTestDataFactory.knownSection
         
         // attempt to load a block but there's no outline in network or cache so it should fail

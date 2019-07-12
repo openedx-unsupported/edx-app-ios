@@ -41,7 +41,7 @@ public struct CourseOutlineAPI {
         return CourseOutline(json: json).toResult(NSError.oex_courseContentLoadError())
     }
     
-    public static func requestWithCourseID(courseID : String, username : String?) -> NetworkRequest<CourseOutline> {
+    static func requestWithCourseID(courseID : String, username : String?, environment: RouterEnvironment?) -> NetworkRequest<CourseOutline> {
         let parameters = Parameters(
             courseID: courseID,
             username: username,
@@ -49,9 +49,12 @@ public struct CourseOutlineAPI {
             blockCount : [CourseBlock.Category.Video.rawValue],
             studentViewData : [CourseBlock.Category.Video, CourseBlock.Category.Discussion]
         )
+        
+        let apiVersion = environment?.config.apiUrlVersionConfig.blocks ?? APIURLDefaultVersion.blocks.rawValue
+        
         return NetworkRequest(
             method : .GET,
-            path : "/api/courses/v1/blocks/",
+            path : "/api/courses/\(apiVersion )/blocks/",
             requiresAuth : true,
             query : parameters.query,
             deserializer : .jsonResponse(deserializer)

@@ -298,6 +298,8 @@
 "COURSE_VIDEO_UNAVAILABLE"="Bu ders herhangi bir video içermiyor";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Bu etkileşimli bileşen henüz mobilde mevcut değil. \n\n Bu diğer diğer kısımlarını keşfedin ya da web tarayıcısı üzerinden bakın.";
+/* Message shown when course content is gated */
+"COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Ders tarihleri şu an mevcut değil.";
 /* Label for date when course starts */

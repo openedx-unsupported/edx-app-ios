@@ -30,7 +30,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
         self.blockID = blockID
         self.environment = environment
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         loadController = LoadStateViewController()
         videoController = VideoPlayer(environment: environment)
         super.init(nibName: nil, bundle: nil)

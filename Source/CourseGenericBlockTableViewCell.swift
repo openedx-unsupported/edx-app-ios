@@ -21,6 +21,10 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
     
     var block : CourseBlock? = nil {
         didSet {
+            if block?.isGated ?? false {
+                content.leadingIconColor = OEXStyles.shared().neutralBase()
+                content.setDetailText(title: Strings.courseContentGated, blockType: block?.type)
+            }
             content.setTitleText(title: block?.displayName)
         }
     }
