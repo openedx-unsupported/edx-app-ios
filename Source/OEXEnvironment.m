@@ -68,11 +68,11 @@
                 [analytics addTracker:[[SegmentAnalyticsTracker alloc] init]];
             }
             
-            if (env.config.firebaseConfig.analyticsEnabled && env.config.firebaseConfig.isAnalyticsSourceFirebase) {
+            if (env.config.firebaseConfig.enabled && env.config.firebaseConfig.isAnalyticsSourceFirebase) {
                 [analytics addTracker:[[FirebaseAnalyticsTracker alloc] init]];
             }
             
-            if((segmentConfig.apiKey != nil && segmentConfig.isEnabled) || env.config.firebaseConfig.analyticsEnabled) {
+            if((segmentConfig.apiKey != nil && segmentConfig.isEnabled) || (env.config.firebaseConfig.enabled && env.config.firebaseConfig.isAnalyticsSourceFirebase)) {
                 [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
             }
             
