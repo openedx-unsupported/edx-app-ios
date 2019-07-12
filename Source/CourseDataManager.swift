@@ -10,6 +10,7 @@ import UIKit
 
 open class CourseDataManager: NSObject {
     
+    public typealias Environment = OEXConfigProvider
     private let analytics : OEXAnalytics
     private let interface : OEXInterface?
     private let enrollmentManager: EnrollmentManager
@@ -33,7 +34,7 @@ open class CourseDataManager: NSObject {
         }
     }
     
-    open func querierForCourseWithID(courseID : String, environment: RouterEnvironment?) -> CourseOutlineQuerier {
+    open func querierForCourseWithID(courseID : String, environment: Environment) -> CourseOutlineQuerier {
         return outlineQueriers.objectForKey(key: courseID) {
             let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, enrollmentManager: enrollmentManager, networkManager : networkManager, session : session, environment: environment)
             return querier

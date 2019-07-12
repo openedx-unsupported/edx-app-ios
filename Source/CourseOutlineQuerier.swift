@@ -33,7 +33,8 @@ public class CourseOutlineQuerier : NSObject {
         public let children : [CourseBlock]
     }
     
-    private var environment : RouterEnvironment?
+    public typealias Environment = OEXConfigProvider
+    private var environment : Environment?
     
     public private(set) var courseID : String
     private let enrollmentManager: EnrollmentManager?
@@ -44,7 +45,7 @@ public class CourseOutlineQuerier : NSObject {
     public var needsRefresh : Bool = false
     
     
-    public init(courseID : String, interface : OEXInterface?, enrollmentManager: EnrollmentManager?, networkManager : NetworkManager?, session : OEXSession?, environment: RouterEnvironment?) {
+    public init(courseID : String, interface : OEXInterface?, enrollmentManager: EnrollmentManager?, networkManager : NetworkManager?, session : OEXSession?, environment: Environment) {
         self.courseID = courseID
         self.interface = interface
         self.enrollmentManager = enrollmentManager
