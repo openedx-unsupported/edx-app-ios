@@ -10,7 +10,6 @@ import Foundation
 
 fileprivate enum FirebaseKeys: String, RawStringExtractable {
     case enabled = "ENABLED"
-    case analyticsEnabled = "ANALYTICS_ENABLED"
     case analyticsSource = "ANALYTICS_SOURCE"
     case cloudMessagingEnabled = "CLOUD_MESSAGING_ENABLED"
     case apiKey = "API_KEY"
@@ -27,7 +26,6 @@ enum AnalyticsSource: String {
 
 class FirebaseConfig: NSObject {
     @objc var enabled: Bool = false
-    @objc var analyticsEnabled: Bool = false
     @objc var cloudMessagingEnabled: Bool = false
     @objc let apiKey: String?
     @objc let cliendID: String?
@@ -48,9 +46,7 @@ class FirebaseConfig: NSObject {
         self.analyticsSource = AnalyticsSource(rawValue: analyticsSource ?? AnalyticsSource.none.rawValue) ?? AnalyticsSource.none
         super.init()
         enabled =  requiredKeysAvailable && (dictionary[FirebaseKeys.enabled] as? Bool == true)
-        let analyticsEnabled = dictionary[FirebaseKeys.analyticsEnabled] as? Bool ?? false
         let cloudMessagingEnabled = dictionary[FirebaseKeys.cloudMessagingEnabled] as? Bool ?? false
-        self.analyticsEnabled = enabled && analyticsEnabled
         self.cloudMessagingEnabled = enabled && cloudMessagingEnabled
     }
 
