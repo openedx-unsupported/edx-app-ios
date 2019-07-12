@@ -41,7 +41,7 @@ public struct CourseOutlineAPI {
         return CourseOutline(json: json).toResult(NSError.oex_courseContentLoadError())
     }
     
-    public static func requestWithCourseID(courseID : String, username : String?, environment: RouterEnvironment?) -> NetworkRequest<CourseOutline> {
+    static func requestWithCourseID(courseID : String, username : String?, environment: RouterEnvironment?) -> NetworkRequest<CourseOutline> {
         let parameters = Parameters(
             courseID: courseID,
             username: username,
