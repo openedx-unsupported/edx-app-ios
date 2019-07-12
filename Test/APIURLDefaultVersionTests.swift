@@ -14,13 +14,11 @@ class APIURLDefaultVersionTests: XCTestCase {
     func testNoAPIURLConfig() {
         let config = OEXConfig(dictionary:[:])
         XCTAssertEqual(config.apiUrlVersionConfig.blocks, APIURLDefaultVersion.blocks.rawValue)
-        XCTAssertNotEqual(config.apiUrlVersionConfig.blocks, "v2")
     }
     
     func testEmptyAPIURLConfig() {
         let config = OEXConfig(dictionary:["API_URL_VERSION":[:]])
         XCTAssertEqual(config.apiUrlVersionConfig.blocks, APIURLDefaultVersion.blocks.rawValue)
-        XCTAssertNotEqual(config.apiUrlVersionConfig.blocks, "v2")
     }
     
     func testAPIURLConfig() {
@@ -33,10 +31,5 @@ class APIURLDefaultVersionTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertEqual(config.apiUrlVersionConfig.blocks, "v2")
         XCTAssertNotEqual(config.apiUrlVersionConfig.blocks, APIURLDefaultVersion.blocks.rawValue)
-    }
-    
-    func testAPIURLConfigDefaultValue() {
-        let config = OEXConfig(dictionary:["API_URL_VERSION":[:]])
-        XCTAssertEqual(config.apiUrlVersionConfig.blocks, APIURLDefaultVersion.blocks.rawValue)
     }
 }
