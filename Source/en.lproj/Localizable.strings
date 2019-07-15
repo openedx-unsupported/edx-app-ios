@@ -823,3 +823,5 @@
 "WIFI_ONLY_DETAIL_MESSAGE" = "Only download content when Wi-Fi is turned on";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
+/* Invalid youtube url error message */
+"YOUTUBE_INVALID_URL_ERROR"="The video could not loaded, invalid url.";

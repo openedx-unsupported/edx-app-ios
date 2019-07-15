@@ -11,7 +11,7 @@ class YoutubeVideoPlayer: VideoPlayer {
     let playerView: WKYTPlayerView
     var videoId: String
     private var videoCurrentTime: Float
-    
+
     private struct playVars {
         var playsinline = 0
         var start = 0
@@ -29,15 +29,15 @@ class YoutubeVideoPlayer: VideoPlayer {
     }
 
     override var currentTime: TimeInterval {
-        playerView.getCurrentTime({ (time, nil) in
-            self.videoCurrentTime = time
+        playerView.getCurrentTime({ [weak self] (time, nil) in
+            self?.videoCurrentTime = time
         })
         return Double(videoCurrentTime)
     }
     override init(environment : Environment) {
         playerView = WKYTPlayerView()
-        videoId = String()
-        videoCurrentTime = Float()
+        videoId = ""
+        videoCurrentTime = 0.0
         super.init(environment: environment)
         playerView.delegate = self
     }
@@ -53,6 +53,7 @@ class YoutubeVideoPlayer: VideoPlayer {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        playerView.stopVideo()
         UINavigationBar.appearance().barTintColor = environment.styles.navigationItemTintColor()
     }
 
@@ -78,7 +79,7 @@ class YoutubeVideoPlayer: VideoPlayer {
         super.setVideo(video: video)
         guard let videoUrl = video.summary?.videoURL, let url = URLComponents(string : videoUrl) else {
             Logger.logError("YOUTUBE_VIDEO", "invalid url")
-            self.showErrorMessage(message: "The video could not loaded, invalid url")
+            showErrorMessage(message: Strings.youtubeInvalidUrlError)
             loadingIndicatorView.stopAnimating()
             return
         }
@@ -105,12 +106,19 @@ class YoutubeVideoPlayer: VideoPlayer {
     }
     
     private func showErrorMessage(message : String) {
-        let screenSize: CGRect = UIScreen.main.bounds
-        let errorLabel = UILabel(frame: CGRect(x: 0, y:(screenSize.width * CGFloat(STANDARD_VIDEO_ASPECT_RATIO))/2 - 18 , width: screenSize.width, height: 36))
-        errorLabel.textColor = UIColor.white
-        errorLabel.textAlignment = .center;
-        errorLabel.text = message
-        self.view.addSubview(errorLabel)
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .center
+        
+        view.addSubview(label)
+        
+        let textStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhite())
+        label.attributedText = textStyle.attributedString(withText: message)
+        
+        label.snp.remakeConstraints { (make) in
+            make.centerX.equalTo(view)
+            make.centerY.equalTo(view)
+        }
     }
  }
 
