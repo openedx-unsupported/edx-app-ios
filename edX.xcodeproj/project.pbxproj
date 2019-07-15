@@ -1024,6 +1024,15 @@
 		2240FD551FF266E4001D6589 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		224D457821B90753003A382C /* UIFont+Attributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Attributes.swift"; sourceTree = "<group>"; };
 		224F1F522067B4E0009B3639 /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		2250E9CC22DC623900674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = fr; path = fr.lproj/subjects.json; sourceTree = "<group>"; };
+		2250E9CD22DC623A00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
+		2250E9CE22DC623A00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
+		2250E9CF22DC623A00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = fr; path = fr.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
+		2250E9D022DC623A00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2250E9D122DC623B00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2250E9D222DC623B00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = fr; path = fr.lproj/profiles.json; sourceTree = "<group>"; };
+		2250E9D322DC623B00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = fr; path = fr.lproj/languages.json; sourceTree = "<group>"; };
+		2250E9D422DC623C00674093 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = fr; path = fr.lproj/whats_new.json; sourceTree = "<group>"; };
 		22547413220038BC000E5957 /* DegreesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreesViewController.swift; sourceTree = "<group>"; };
 		225474152201B765000E5957 /* SegmentItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentItem.swift; sourceTree = "<group>"; };
 		2254EF02207610FF00BA183C /* CustomPlayerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPlayerButton.swift; sourceTree = "<group>"; };
@@ -4126,6 +4135,7 @@
 				"es-419",
 				tr,
 				"zh-Hans",
+				fr,
 			);
 			mainGroup = BECB7B021924C0C3009C77F1;
 			productRefGroup = BECB7B0C1924C0C3009C77F1 /* Products */;
@@ -5208,6 +5218,7 @@
 				E08CC57C1F33269C0092ACED /* es-419 */,
 				E041698E22CA143900449AFB /* tr */,
 				22A3CECA22CCCADC005A046E /* zh-Hans */,
+				2250E9D222DC623B00674093 /* fr */,
 			);
 			name = profiles.json;
 			sourceTree = "<group>";
@@ -5219,6 +5230,7 @@
 				E08CC57E1F33269D0092ACED /* es-419 */,
 				E041698F22CA143900449AFB /* tr */,
 				22A3CECB22CCCADC005A046E /* zh-Hans */,
+				2250E9D322DC623B00674093 /* fr */,
 			);
 			name = languages.json;
 			sourceTree = "<group>";
@@ -5230,6 +5242,7 @@
 				2212FD3821D4BE86007409C3 /* en */,
 				E041698922CA143700449AFB /* tr */,
 				22A3CEC522CCCADA005A046E /* zh-Hans */,
+				2250E9CD22DC623A00674093 /* fr */,
 			);
 			name = MobileAppEula.htm;
 			sourceTree = "<group>";
@@ -5241,6 +5254,7 @@
 				2212FD3C21D4BE94007409C3 /* en */,
 				E041698A22CA143800449AFB /* tr */,
 				22A3CEC622CCCADA005A046E /* zh-Hans */,
+				2250E9CE22DC623A00674093 /* fr */,
 			);
 			name = PrivacyPolicy.htm;
 			sourceTree = "<group>";
@@ -5252,6 +5266,7 @@
 				2212FD4021D4BEA2007409C3 /* en */,
 				E041698B22CA143800449AFB /* tr */,
 				22A3CEC722CCCADB005A046E /* zh-Hans */,
+				2250E9CF22DC623A00674093 /* fr */,
 			);
 			name = TermsOfServices.htm;
 			sourceTree = "<group>";
@@ -5263,6 +5278,7 @@
 				B793456020B584F800DBFC33 /* es-419 */,
 				E041698822CA143700449AFB /* tr */,
 				22A3CEC422CCCADA005A046E /* zh-Hans */,
+				2250E9CC22DC623900674093 /* fr */,
 			);
 			name = subjects.json;
 			sourceTree = "<group>";
@@ -5274,6 +5290,7 @@
 				E08CC57A1F33269C0092ACED /* es-419 */,
 				E041698C22CA143800449AFB /* tr */,
 				22A3CEC822CCCADB005A046E /* zh-Hans */,
+				2250E9D022DC623A00674093 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5285,6 +5302,7 @@
 				E08CC57B1F33269C0092ACED /* es-419 */,
 				E041698D22CA143900449AFB /* tr */,
 				22A3CEC922CCCADC005A046E /* zh-Hans */,
+				2250E9D122DC623B00674093 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5296,6 +5314,7 @@
 				E08CC57F1F33269D0092ACED /* es-419 */,
 				E041699022CA143A00449AFB /* tr */,
 				22A3CECC22CCCADC005A046E /* zh-Hans */,
+				2250E9D422DC623C00674093 /* fr */,
 			);
 			name = whats_new.json;
 			sourceTree = "<group>";
