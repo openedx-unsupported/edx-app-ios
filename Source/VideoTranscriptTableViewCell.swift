@@ -50,10 +50,10 @@ class VideoTranscriptTableViewCell: UITableViewCell {
     
     func setTranscriptText(text: String? , highlighted: Bool) {
         if !highlighted {
-            titleLabel.attributedText = standardTitleStyle.attributedString(withText: text)
+            titleLabel.attributedText = standardTitleStyle.markdownString(withText: text)
         }
         else{
-            titleLabel.attributedText = highlightedTitleStyle.attributedString(withText: text)
+            titleLabel.attributedText = highlightedTitleStyle.markdownString(withText: text)
         }
     }
 }
