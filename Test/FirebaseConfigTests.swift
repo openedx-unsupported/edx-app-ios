@@ -20,7 +20,6 @@ class FirebaseConfigTests: XCTestCase {
     func testNoFirebaseConfig() {
         let config = OEXConfig(dictionary:[:])
         XCTAssertFalse(config.firebaseConfig.enabled)
-        XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
         XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceSegment)
         XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceFirebase)
@@ -30,7 +29,6 @@ class FirebaseConfigTests: XCTestCase {
     func testEmptyFirebaseConfig() {
         let config = OEXConfig(dictionary:["FIREBASE":[:]])
         XCTAssertFalse(config.firebaseConfig.enabled)
-        XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
         XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceFirebase)
         XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceSegment)
@@ -54,7 +52,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
-        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
         XCTAssertFalse(config.firebaseConfig.isAnalyticsSourceFirebase)
         XCTAssertTrue(config.firebaseConfig.isAnalyticsSourceSegment)
@@ -64,7 +61,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": false,
-                "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": true,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,
@@ -76,7 +72,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertFalse(config.firebaseConfig.enabled)
-        XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
     }
 
@@ -84,7 +79,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": false,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
@@ -95,7 +89,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
-        XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
     }
 
@@ -103,7 +96,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": false,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,
@@ -115,7 +107,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
-        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
     }
     
@@ -123,7 +114,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": true,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,
@@ -135,7 +125,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
-        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
         XCTAssertEqual(config.firebaseConfig.apiKey, apiKey)
     }
@@ -144,7 +133,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": true,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,
@@ -156,7 +144,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
-        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
         XCTAssertEqual(config.firebaseConfig.cliendID, clientID)
     }
@@ -165,7 +152,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": true,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,
@@ -177,7 +163,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
-        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
         XCTAssertEqual(config.firebaseConfig.googleAppID, googleAppID)
     }
@@ -186,7 +171,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": true,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,
@@ -198,7 +182,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
-        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
         XCTAssertEqual(config.firebaseConfig.gcmSenderID, gcmSenderID)
     }
@@ -207,7 +190,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": true,
                 "CLOUD_MESSAGING_ENABLED": true,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,
@@ -219,7 +201,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertTrue(config.firebaseConfig.enabled)
-        XCTAssertTrue(config.firebaseConfig.analyticsEnabled)
         XCTAssertTrue(config.firebaseConfig.cloudMessagingEnabled)
     }
     
@@ -227,7 +208,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": false,
                 "CLOUD_MESSAGING_ENABLED": false,
             ]
         ]
@@ -235,7 +215,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertFalse(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertFalse(config.firebaseConfig.enabled)
-        XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
     }
     
@@ -243,7 +222,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": false,
                 "CLOUD_MESSAGING_ENABLED": true,
                 "CLIENT_ID" : clientID,
                 "GOOGLE_APP_ID" : googleAppID,
@@ -254,7 +232,6 @@ class FirebaseConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertFalse(config.firebaseConfig.requiredKeysAvailable)
         XCTAssertFalse(config.firebaseConfig.enabled)
-        XCTAssertFalse(config.firebaseConfig.analyticsEnabled)
         XCTAssertFalse(config.firebaseConfig.cloudMessagingEnabled)
     }
     
@@ -262,7 +239,6 @@ class FirebaseConfigTests: XCTestCase {
         let configDictionary = [
             "FIREBASE" : [
                 "ENABLED": true,
-                "ANALYTICS_ENABLED": false,
                 "CLOUD_MESSAGING_ENABLED": true,
                 "API_KEY" : apiKey,
                 "CLIENT_ID" : clientID,

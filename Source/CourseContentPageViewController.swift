@@ -24,7 +24,7 @@ extension CourseBlockDisplayType {
 // Container for scrolling horizontally between different screens of course content
 public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, InterfaceOrientationOverriding {
     
-    public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXRouterProvider
+    public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXRouterProvider & OEXConfigProvider
     
     private let initialLoadController : LoadStateViewController
     private let environment : Environment
@@ -54,7 +54,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.blockID = rootID
         self.initialChildID = initialChildID
         
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         initialLoadController = LoadStateViewController()
         
         cacheManager = BlockViewControllerCacheManager.shared
