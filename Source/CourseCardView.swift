@@ -41,7 +41,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     private func setupView() {
         configureViews()
         
-        accessibilityTraits = UIAccessibilityTraitStaticText
+        accessibilityTraits = UIAccessibilityTraits.staticText
         accessibilityHint = Strings.accessibilityShowsCourseContent
     }
     
@@ -71,7 +71,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         
         container.backgroundColor = OEXStyles.shared().neutralWhite().withAlphaComponent(0.85)
         coverImageView.backgroundColor = OEXStyles.shared().neutralWhiteT()
-        coverImageView.contentMode = UIViewContentMode.scaleAspectFill
+        coverImageView.contentMode = UIView.ContentMode.scaleAspectFill
         coverImageView.clipsToBounds = true
         coverImageView.hidesLoadingSpinner = true
         
@@ -84,10 +84,11 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         insertSubview(bottomLine, aboveSubview: coverImageView)
         addSubview(overlayContainer)
         
-        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
-        coverImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .vertical)
-        dateLabel.setContentHuggingPriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
-        dateLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
+        coverImageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
+        coverImageView.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .vertical)
+        dateLabel.setContentHuggingPriority(UILayoutPriority.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
+        dateLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
+        dateLabel.adjustsFontSizeToFitWidth = true
         
         container.snp.makeConstraints { make in
             make.leading.equalTo(self)

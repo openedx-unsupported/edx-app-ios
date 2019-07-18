@@ -100,7 +100,7 @@ public class SpinnerView : UIView {
             animation.repeatCount = Float.infinity
             animation.duration = 0.6
             animation.isAdditive = true
-            animation.calculationMode = kCAAnimationDiscrete
+            animation.calculationMode = CAAnimationCalculationMode.discrete
             /// Set time to zero so they all sync up
             animation.beginTime = window.layer.convertTime(0, to: self.layer)
             self.content.layer.add(animation, forKey: animationKey)

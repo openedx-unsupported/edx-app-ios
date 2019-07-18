@@ -143,10 +143,10 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         self.view.backgroundColor = OEXStyles.shared().neutralXXLight()
         
         configureSegmentControl()
-        titleTextField.defaultTextAttributes = OEXStyles.shared().textAreaBodyStyle.attributes
+        titleTextField.defaultTextAttributes = OEXStyles.shared().textAreaBodyStyle.attributes.attributedKeyDictionary()
         setTopicsButtonTitle()
         let insets = OEXStyles.shared().standardTextViewInsets
-        topicButton.titleEdgeInsets = UIEdgeInsetsMake(0, insets.left, 0, insets.right)
+        topicButton.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: insets.left, bottom: 0, right: insets.right)
         topicButton.accessibilityHint = Strings.accessibilityShowsDropdownHint
         
         topicButton.applyBorderStyle(style: OEXStyles.shared().entryFieldBorderStyle)
@@ -162,7 +162,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         topicButton.oex_addAction({ [weak self] (action : AnyObject!) -> Void in
             self?.showTopicPicker()
-            }, for: UIControlEvents.touchUpInside)
+            }, for: UIControl.Event.touchUpInside)
         
         postButton.isEnabled = false
         
@@ -185,7 +185,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             })
         
         backgroundView.addSubview(tapButton)
-        backgroundView.sendSubview(toBack: tapButton)
+        backgroundView.sendSubviewToBack(tapButton)
         tapButton.backgroundColor = UIColor.clear
         tapButton.frame = CGRect(x: 0, y: 0, width: backgroundView.frame.size.width, height: backgroundView.frame.size.height)
         tapButton.isAccessibilityElement = false
@@ -225,9 +225,9 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
             else {
                 assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
             }
-            }, for: UIControlEvents.valueChanged)
+            }, for: UIControl.Event.valueChanged)
         discussionQuestionSegmentedControl.tintColor = OEXStyles.shared().neutralDark()
-        discussionQuestionSegmentedControl.setTitleTextAttributes([NSForegroundColorAttributeName: OEXStyles.shared().neutralWhite()], for: UIControlState.selected)
+        discussionQuestionSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: OEXStyles.shared().neutralWhite()], for: UIControl.State.selected)
         discussionQuestionSegmentedControl.selectedSegmentIndex = 0
         
         updateSelectedTabColor()
@@ -340,7 +340,7 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         
         if let topic = selectedTopic, topic.id != nil {
             setTopicsButtonTitle()
-            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, titleTextField);
+            UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: titleTextField);
             UIView.animate(withDuration: 0.3, animations: {
                 self.optionsViewController?.view.alpha = 0.0
                 }, completion: {[weak self](finished: Bool) in

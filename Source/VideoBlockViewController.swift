@@ -12,7 +12,7 @@ import UIKit
 
 class VideoBlockViewController : UIViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
     
-    typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider
+    typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider & NetworkManagerProvider
     
     let environment : Environment
     let blockID : CourseBlockID?
@@ -30,12 +30,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     init(environment : Environment, blockID : CourseBlockID?, courseID: String) {
         self.blockID = blockID
         self.environment = environment
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         loadController = LoadStateViewController()
         videoController = VideoPlayer(environment: environment)
         super.init(nibName: nil, bundle: nil)
-        addChildViewController(videoController)
-        videoController.didMove(toParentViewController: self)
+        addChild(videoController)
+        videoController.didMove(toParent: self)
         videoController.playerDelegate = self
         addLoadListener()
     }
@@ -129,7 +129,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     func setAccessibility() {
-        if let ratingController = presentedViewController as? RatingViewController, UIAccessibilityIsVoiceOverRunning() {
+        if let ratingController = presentedViewController as? RatingViewController, UIAccessibility.isVoiceOverRunning {
             // If Timely App Reviews popup is showing then set popup elements as accessibilityElements
             view.accessibilityElements = [ratingController.ratingContainerView.subviews]
             setParentAccessibility(ratingController: ratingController)
@@ -249,17 +249,17 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     private func showLoadedBlock(block : CourseBlock, forVideo video: OEXHelperVideoDownload) {
         navigationItem.title = block.displayName
         videoController.videoTitle = block.displayName
-        DispatchQueue.main.async {[weak self] _ in
+        DispatchQueue.main.async {[weak self] in
             self?.loadController.state = .Loaded
         }
         videoController.play(video: video)
     }
     
-    override var childViewControllerForStatusBarStyle: UIViewController? {
+    override var childForStatusBarStyle: UIViewController? {
         return videoController
     }
     
-    override var childViewControllerForStatusBarHidden: UIViewController? {
+    override var childForStatusBarHidden: UIViewController? {
         return videoController
     }
     
@@ -278,7 +278,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        DispatchQueue.main.async {[weak self] _ in
+        DispatchQueue.main.async {[weak self] in
             if let weakSelf = self {
                 if weakSelf.videoController.isFullScreen {
                     if newCollection.verticalSizeClass == .regular {
@@ -320,7 +320,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             self?.setAccessibility()
             //VO behave weirdly. If Rating view appears while VO is on then then VO consider it as screen otherwise it will treat as layout
             // Will revisit this logic when VO behaves same in all cases.
-            self?.VOEnabledOnScreen ?? false ? UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, self?.navigationItem.backBarButtonItem) : UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, self?.navigationItem.backBarButtonItem)
+            self?.VOEnabledOnScreen ?? false ? UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: self?.navigationItem.backBarButtonItem) : UIAccessibility.post(notification: UIAccessibility.Notification.screenChanged, argument: self?.navigationItem.backBarButtonItem)
             
             self?.VOEnabledOnScreen = false
         }
@@ -358,6 +358,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     func playerDidFinishPlaying(videoPlayer: VideoPlayer) {
         environment.router?.showAppReviewIfNeeded(fromController: self)
+        markVideoComplete()
     }
     
     func playerDidTimeout(videoPlayer: VideoPlayer) {
@@ -376,5 +377,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         else {
             showOverlay(withMessage: errorMessage)
         }
+    }
+}
+
+extension VideoBlockViewController {
+    func markVideoComplete() {
+        guard let username = environment.session.currentUser?.username, let blockID = blockID else { return }
+        let networkRequest = VideoCompletionApi.videoCompletion(username: username, courseID: courseID, blockID: blockID)
+        environment.networkManager.taskForRequest(networkRequest) { _ in }
     }
 }

@@ -29,6 +29,8 @@ public struct CourseOutline {
         case StudentViewData = "student_view_data"
         case Summary = "summary"
         case MinifiedBlockID = "block_id"
+        case AuthorizationDenialReason = "authorization_denial_reason"
+        case AuthorizationDenialMessage = "authorization_denial_message"
     }
     
     public let root : CourseBlockID
@@ -66,6 +68,8 @@ public struct CourseOutline {
                 } ?? [:]
                 let graded = body[Fields.Graded].bool ?? false
                 let minifiedBlockID = body[Fields.MinifiedBlockID].string
+                let authorizationDenialReason = body[Fields.AuthorizationDenialReason].string
+                let authorizationDenialMessage = body[Fields.AuthorizationDenialMessage].string
                 
                 var type : CourseBlockType
                 if let category = CourseBlock.Category(rawValue: typeName) {
@@ -84,7 +88,7 @@ public struct CourseOutline {
                         type = .Problem
                     case CourseBlock.Category.Video :
                         let bodyData = (body[Fields.StudentViewData].object as? NSDictionary).map { [Fields.Summary.rawValue : $0 ] }
-                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, name : name ?? Strings.untitled)
+                        let summary = OEXVideoSummary(dictionary: bodyData ?? [:], videoID: blockID, unitURL: blockURL?.absoluteString, name : name ?? Strings.untitled)
                         type = .Video(summary)
                     case CourseBlock.Category.Discussion:
                         // Inline discussion is in progress feature. Will remove this code when it's ready to ship
@@ -113,7 +117,9 @@ public struct CourseOutline {
                     webURL: webURL,
                     format : format,
                     multiDevice : multiDevice,
-                    graded : graded
+                    graded : graded,
+                    authorizationDenialReason: authorizationDenialReason,
+                    authorizationDenialMessage: authorizationDenialMessage
                 )
             }
             self = CourseOutline(root: root, blocks: validBlocks)
@@ -161,6 +167,11 @@ public class CourseBlock {
         case Unit = "vertical"
         case Video = "video"
         case Discussion = "discussion"
+    }
+    
+    public enum AuthorizationDenialReason : String {
+        case featureBasedEnrollment = "Feature-based Enrollments"
+        case none = "none"
     }
     
     public let type : CourseBlockType
@@ -214,6 +225,17 @@ public class CourseBlock {
     /// TODO: Match final API name
     public let graded : Bool?
     
+    /// Authorization Denial Reason if the block content is gated
+    public let authorizationDenialReason: AuthorizationDenialReason
+    
+    /// Authorization Denial Message if the block content is gated
+    public let authorizationDenialMessage: String?
+    
+    /// Property to represent gated content
+    public var isGated: Bool {
+        return authorizationDenialReason == .featureBasedEnrollment
+    }
+    
     public init(type : CourseBlockType,
         children : [CourseBlockID],
         blockID : CourseBlockID,
@@ -225,7 +247,9 @@ public class CourseBlock {
         webURL : NSURL? = nil,
         format : String? = nil,
         multiDevice : Bool,
-        graded : Bool = false) {
+        graded : Bool = false,
+        authorizationDenialReason: String? = nil,
+        authorizationDenialMessage: String? = nil) {
         self.type = type
         self.children = children
         self.name = name
@@ -238,6 +262,8 @@ public class CourseBlock {
         self.graded = graded
         self.format = format
         self.multiDevice = multiDevice
+        self.authorizationDenialReason = AuthorizationDenialReason(rawValue: authorizationDenialReason ?? AuthorizationDenialReason.none.rawValue) ?? AuthorizationDenialReason.none
+        self.authorizationDenialMessage = authorizationDenialMessage
     }
 }
 

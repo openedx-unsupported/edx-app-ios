@@ -6,14 +6,14 @@
 //  Copyright © 2015 Branch Metrics. All rights reserved.
 //
 
-#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
-
 #import "BranchCSSearchableItemAttributeSet.h"
+
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED) && __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpartial-availability"
+
+#import "Branch.h"
 #import "BNCSystemObserver.h"
-#import "BNCError.h"
-#import "BranchConstants.h"
-#import <MobileCoreServices/MobileCoreServices.h>
-#import "BNCLog.h"
 
 #ifndef kUTTypeGeneric
 #define kUTTypeGeneric @"public.content"

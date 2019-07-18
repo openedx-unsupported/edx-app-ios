@@ -32,8 +32,7 @@ public extension OEXCourse {
             "name" : "A Great Course",
             "course_image" : imagePath!.absoluteString ,
             "org" : "edX",
-            "courseware_access" : ["has_access" : accessible],
-            "video_outline": "https://www.example.com/video_outlines/testcourse"
+            "courseware_access" : ["has_access" : accessible]
         ]
         if let overview = overview {
             courseDictionary["overview"] = overview as AnyObject
@@ -99,7 +98,7 @@ public extension OEXCourse {
     }
     
     /// Same as OEXCourse.freshCourse(). Only needed to deal with objc, not having default arguments
-    public static func accessibleTestCourse() -> OEXCourse {
+    @objc public static func accessibleTestCourse() -> OEXCourse {
         let courseData = OEXCourse.testData(accessible : true)
         return OEXCourse(dictionary: courseData)
     }

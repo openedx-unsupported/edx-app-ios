@@ -38,7 +38,7 @@ class PostTableViewCell: UITableViewCell {
         return OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = OEXStyles.shared().neutralWhite()
@@ -131,6 +131,9 @@ class PostTableViewCell: UITableViewCell {
         countLabel.isHidden = !NSNumber(value: thread.unreadCommentCount).boolValue
         
         setAccessibility(thread: thread)
+
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     private func styledCellTextWithIcon(icon : Icon, text : String?) -> NSAttributedString? {

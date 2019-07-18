@@ -26,15 +26,19 @@ class HeaderViewInsets : ContentInsetsSource {
 private protocol WebContentController {
     var view : UIView {get}
     var scrollView : UIScrollView {get}
+    var isLoading: Bool {get}
     
     var alwaysRequiresOAuthUpdate : Bool { get}
     
     var initialContentState : AuthenticatedWebViewController.State { get }
     
     func loadURLRequest(request : NSURLRequest)
-    
-    func clearDelegate()
     func resetState()
+}
+
+@objc protocol WebViewNavigationDelegate: class {
+    func webView(_ webView: WKWebView, shouldLoad request: URLRequest) -> Bool
+    func webViewContainingController() -> UIViewController
 }
 
 // A class should implement AlwaysRequireAuthenticationOverriding protocol if it always require authentication.
@@ -56,11 +60,13 @@ private class WKWebViewContentController : WebContentController {
         return webView.scrollView
     }
     
-    func clearDelegate() {
-        return webView.navigationDelegate = nil
-    }
-    
     func loadURLRequest(request: NSURLRequest) {
+        // If the view initialize before registering userAgent the request goes without the required userAgent,
+        // to solve this we are setting customeUserAgent here.
+        if let userAgent = UserDefaults.standard.string(forKey: "UserAgent"), webView.customUserAgent?.isEmpty ?? false {
+            webView.customUserAgent = userAgent
+        }
+    
         webView.load(request as URLRequest)
     }
     
@@ -76,6 +82,10 @@ private class WKWebViewContentController : WebContentController {
     var initialContentState : AuthenticatedWebViewController.State {
         return AuthenticatedWebViewController.State.LoadingContent
     }
+
+    var isLoading: Bool {
+        return webView.isLoading
+    }
 }
 
 private let OAuthExchangePath = "/oauth2/login/"
@@ -90,12 +100,13 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         case NeedingSession
     }
 
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & ReachabilityProvider
     var delegate: AuthenticatedWebViewControllerDelegate?
     internal let environment : Environment
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private let headerInsets : HeaderViewInsets
+    weak var webViewDelegate: WebViewNavigationDelegate?
     
     private lazy var webController : WebContentController = {
         let controller = WKWebViewContentController()
@@ -103,6 +114,10 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         return controller
     
     }()
+    
+    var scrollView: UIScrollView {
+        return webController.scrollView
+    }
     
     private var state = State.CreatingSession
     
@@ -126,6 +141,8 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         super.init(nibName: nil, bundle: nil)
         
         automaticallyAdjustsScrollViewInsets = false
+        webController.view.accessibilityIdentifier = "AuthenticatedWebViewController:authenticated-web-view"
+        addObservers()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -136,26 +153,38 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         // Prevent crash due to stale back pointer, since WKWebView's UIScrollView apparently doesn't
         // use weak for its delegate
         webController.scrollView.delegate = nil
-        webController.clearDelegate()
+        NotificationCenter.default.removeObserver(self)
     }
     
     override public func viewDidLoad() {
-        
-        self.state = webController.initialContentState
-        self.view.addSubview(webController.view)
+        super.viewDidLoad()
+
+        state = webController.initialContentState
+        view.addSubview(webController.view)
         webController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
-        self.loadController.setupInController(controller: self, contentView: webController.view)
+        loadController.setupInController(controller: self, contentView: webController.view)
         webController.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         webController.scrollView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        insetsController.setupInController(owner: self, scrollView: webController.scrollView)
         
-        self.insetsController.setupInController(owner: self, scrollView: webController.scrollView)
-        
-        
-        if let request = self.contentRequest {
+        if let request = contentRequest {
             loadRequest(request: request)
         }
+    }
+
+    private func addObservers() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE) { (_, observer, _) in
+            observer.reload()
+        }
+    }
+
+    public func reload() {
+        guard let request = contentRequest, !webController.isLoading else { return }
+
+        state = .LoadingContent
+        loadRequest(request: request)
     }
     
     private func resetState() {
@@ -179,7 +208,13 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     public func showError(error : NSError?, icon : Icon? = nil, message : String? = nil) {
-        loadController.state = LoadState.failed(error: error, icon : icon, message : message)
+        let buttonInfo = MessageButtonInfo(title: Strings.reload) {[weak self] in
+            if let request = self?.contentRequest, self?.environment.reachability.isReachable() ?? false {
+                self?.loadController.state = .Initial
+                self?.webController.loadURLRequest(request: request)
+            }
+        }
+        loadController.state = LoadState.failed(error: error, icon: icon, message: message, buttonInfo: buttonInfo)
         refreshAccessibility()
     }
     
@@ -220,7 +255,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     
     private func refreshAccessibility() {
         DispatchQueue.main.async {
-            UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
+            UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: nil)
         }
     }
     
@@ -247,7 +282,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .linkActivated, .formSubmitted, .formResubmitted:
-            if let URL = navigationAction.request.url {
+            if let URL = navigationAction.request.url, webViewDelegate?.webView(webView, shouldLoad: navigationAction.request) ?? true {
                 UIApplication.shared.openURL(URL)
             }
             decisionHandler(.cancel)
@@ -299,11 +334,11 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        showError(error: error as NSError?)
+            showError(error: error as NSError?)
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        showError(error: error as NSError?)
+          showError(error: error as NSError?)
     }
     
     public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
@@ -319,6 +354,4 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
             completionHandler(.performDefaultHandling, nil)
         }
     }
-
 }
-

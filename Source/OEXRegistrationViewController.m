@@ -152,6 +152,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.toggleOptionalFieldsButton = [[UIButton alloc] init];
     [self.toggleOptionalFieldsButton setBackgroundColor:[UIColor whiteColor]];
     [self.toggleOptionalFieldsButton setAttributedTitle: [self.toggleButtonStyle attributedStringWithText:[Strings registrationShowOptionalFields]] forState:UIControlStateNormal];
+    // We made adjustsFontSizeToFitWidth as true to fix the dynamic type text
+    [self.toggleOptionalFieldsButton.titleLabel setAdjustsFontSizeToFitWidth:true];
     [self.toggleOptionalFieldsButton addTarget:self action:@selector(toggleOptionalFields:) forControlEvents:UIControlEventTouchUpInside];
 
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] init];
@@ -166,9 +168,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
     
-    if(self.environment.config.microsoftConfig.enabled) {
+    //if(self.environment.config.microsoftConfig.enabled) {
         [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
-    }
+    //}
     
     if(providers.count > 0) {
         OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:CGRectZero providers:providers];
@@ -334,7 +336,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     offset = offset + 40;
     
     [self.scrollView addSubview:self.agreementTextView];
-    [self.agreementTextView setFrame:CGRectMake(horizontalSpacing, offset + 10, width - 2 * horizontalSpacing, self.agreementTextView.frame.size.height)];
+    [self.agreementTextView setFrame:CGRectMake(horizontalSpacing + 10, offset + 10, width - 3 * horizontalSpacing, self.agreementTextView.frame.size.height)];
     offset = offset + self.agreementTextView.frame.size.height + [[OEXStyles sharedStyles] standardHorizontalMargin] * 2;
     [self.scrollView setContentSize:CGSizeMake(width, offset)];
 }

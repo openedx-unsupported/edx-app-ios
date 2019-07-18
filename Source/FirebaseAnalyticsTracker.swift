@@ -7,26 +7,27 @@
 //
 
 import Foundation
+import FirebaseAnalytics
 
 private let MaxParameterValueCharacters = 100
 
 class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     
-    static let minifiedBlockIDKey: NSString = "minifiedBlockID"
+    @objc static let minifiedBlockIDKey: NSString = "minifiedBlockID"
     
     var currentOrientationValue : String {
-        return UIInterfaceOrientationIsLandscape(UIApplication.shared.statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
+        return UIApplication.shared.statusBarOrientation.isLandscape ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
     
     //Skipping these keys for Firebase analytics
     private let keysToSkip = [key_target_url, OEXAnalyticsKeyBlockID, "url"]
     
     func identifyUser(_ user : OEXUserDetails?) {
-        FIRAnalytics.setUserID(user?.userId?.stringValue)
+        Analytics.setUserID(user?.userId?.stringValue)
     }
     
     func clearIdentifiedUser() {
-        FIRAnalytics.setUserID(nil)
+        Analytics.setUserID(nil)
     }
     
     func trackEvent(_ event: OEXAnalyticsEvent, forComponent component: String?, withProperties properties: [String : Any]) {
@@ -49,7 +50,7 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         
         var formattedParameters = [String: NSObject]()
         formatParamatersForFirebase(params: parameters, formattedParams: &formattedParameters)
-        FIRAnalytics.logEvent(withName: formattedKeyForFirebase(key: event.displayName), parameters: formattedParameters)
+        Analytics.logEvent(formattedKeyForFirebase(key: event.displayName), parameters: formattedParameters)
         
     }
     
@@ -133,7 +134,7 @@ class FirebaseAnalyticsTracker: NSObject, OEXAnalyticsTracker {
         // Firebase only supports 100 characters for parameter value
         if formattedValue.count > MaxParameterValueCharacters {
             let index = formattedValue.index(formattedValue.startIndex, offsetBy: MaxParameterValueCharacters)
-            formattedValue = formattedValue.substring(to: index)
+            formattedValue = String(formattedValue[..<index])
         }
         
         return formattedValue

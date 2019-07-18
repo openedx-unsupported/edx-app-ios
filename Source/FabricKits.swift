@@ -9,11 +9,11 @@
 import Foundation
 
 @objc class FabricKits: NSObject {
-    var branchConfig: BranchConfig?
-    var crashlyticsEnabled: Bool = false
-    var answersEnabled: Bool = false
+    @objc var branchConfig: BranchConfig?
+    @objc var crashlyticsEnabled: Bool = false
+    @objc var answersEnabled: Bool = false
     
-    init(dictionary: Dictionary<String, Any>) {
+    @objc init(dictionary: Dictionary<String, Any>) {
     
         if let crashlyticsEnabled = dictionary["CRASHLYTICS"] as? Bool {
             self.crashlyticsEnabled = crashlyticsEnabled

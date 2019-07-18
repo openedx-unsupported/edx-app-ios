@@ -29,7 +29,7 @@ open class Logger : NSObject {
     fileprivate let printAllKey = "OEXLoggerPrintAll"
     fileprivate let domainsKey = "OEXLoggerDomains"
     
-    open static var sharedLogger : Logger = Logger()
+    @objc public static var sharedLogger : Logger = Logger()
     
     public enum Level : String {
         case Debug = "DEBUG" // Never commit anything with this. Easy way to add logs that are obviously meant to be removed
@@ -110,15 +110,15 @@ extension Logger {
         sharedLogger.log(level, domain, message, file:file, line:line)
     }
     
-    public static func logDebug(_ domain : String, _ message : String, file : String = #file, line : UInt = #line) {
+    @objc public static func logDebug(_ domain : String, _ message : String, file : String = #file, line : UInt = #line) {
         sharedLogger.log(.Debug, domain, message, file:file, line:line)
     }
     
-    public static func logInfo(_ domain : String, _ message : String, file : String = #file, line : UInt = #line) {
+    @objc public static func logInfo(_ domain : String, _ message : String, file : String = #file, line : UInt = #line) {
         sharedLogger.log(.Info, domain, message, file:file, line:line)
     }
     
-    public static func logError(_ domain : String, _ message : String, file : String = #file, line : UInt = #line) {
+    @objc public static func logError(_ domain : String, _ message : String, file : String = #file, line : UInt = #line) {
         sharedLogger.log(.Error, domain, message, file:file, line:line)
     }
 }

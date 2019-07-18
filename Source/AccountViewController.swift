@@ -50,7 +50,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func configureViews() {
         tableView.estimatedRowHeight = 40
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
@@ -66,7 +66,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     private func addCloseButton() {
         if (isModal()) { //isModal check if the view is presented then add close button
-            let closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+            let closeButton = UIBarButtonItem(title: Strings.close, style: .plain, target: nil, action: nil)
             closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
             closeButton.accessibilityHint = Strings.Accessibility.closeHint
             closeButton.accessibilityIdentifier = "AccountViewController:close-button"
@@ -153,7 +153,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         return tableView.estimatedRowHeight
     }
     
-    private func accessoryType(option: AccountviewOptions) -> UITableViewCellAccessoryType{
+    private func accessoryType(option: AccountviewOptions) -> UITableViewCell.AccessoryType{
         switch option {
         case .SubmitFeedback, .Logout:
             return .none

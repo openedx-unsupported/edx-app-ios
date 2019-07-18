@@ -38,9 +38,9 @@ class RegistrationFormFieldView: UIView {
     }()
     
     // Used in child class
-    lazy var textInputField: RegistrationTextField = {
-        let textField = RegistrationTextField()
-        textField.defaultTextAttributes = OEXStyles.shared().textFieldStyle(with: .base).attributes
+    @objc lazy var textInputField: LogistrationTextField = {
+        let textField = LogistrationTextField()
+        textField.defaultTextAttributes = OEXStyles.shared().textFieldStyle(with: .base).attributes.attributedKeyDictionary()
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.addTarget(self, action: #selector(RegistrationFormFieldView.valueDidChange), for: .editingChanged)
@@ -53,7 +53,7 @@ class RegistrationFormFieldView: UIView {
         textArea.textContainer.lineFragmentPadding = 0.0
         textArea.autocapitalizationType = .none
         textArea.applyStandardBorderStyle()
-        textArea.delegate = self
+        textArea.backgroundColor = .clear
         textArea.accessibilityIdentifier = "\(self.accessibilityIdPrefix)-text-input-area"
         return textArea
     }()
@@ -81,7 +81,7 @@ class RegistrationFormFieldView: UIView {
     
     // Used in child class
     private(set) var formField: OEXRegistrationFormField?
-    var errorMessage: String? {
+    @objc var errorMessage: String? {
         didSet {
             errorLabel.attributedText = self.errorLabelStyle.attributedString(withText: errorMessage ?? "")
             refreshAccessibilty()
@@ -104,7 +104,7 @@ class RegistrationFormFieldView: UIView {
         return currentValue != ""
     }
     
-    var isValidInput: Bool {
+    @objc var isValidInput: Bool {
         guard let errorMessage = validate() else {
             return true
         }
@@ -117,7 +117,7 @@ class RegistrationFormFieldView: UIView {
         super.init(coder: aDecoder)
     }
     
-    init(with formField: OEXRegistrationFormField) {
+    @objc init(with formField: OEXRegistrationFormField) {
         super.init(frame: CGRect.zero)
         self.formField = formField
         loadView()
@@ -135,7 +135,7 @@ class RegistrationFormFieldView: UIView {
     func refreshAccessibilty() {
         guard let formField = formField else { return }
         let errorAccessibility = errorMessage ?? "" != "" ? ",\(Strings.Accessibility.errorText), \(errorMessage ?? "")" : ""
-        let requiredOrOptionalAccessibility = isRequired ? Strings.Accessibility.requiredInput : Strings.Accessibility.optionalInput
+        let requiredOrOptionalAccessibility = isRequired ? Strings.accessibilityRequiredInput : Strings.Accessibility.optionalInput
         textInputView.accessibilityLabel = formField.label
         textInputView.accessibilityHint = "\(requiredOrOptionalAccessibility),\(formField.instructions)\(errorAccessibility)"
     }
@@ -188,7 +188,7 @@ class RegistrationFormFieldView: UIView {
         self.frame = frame
     }
     
-    func setValue(_ value: String) {
+    @objc func setValue(_ value: String) {
         if isInputTypeTextArea {
             textInputArea.text = value
         }
@@ -231,11 +231,5 @@ class RegistrationFormFieldView: UIView {
             break
         }
         return nil
-    }
-}
-
-extension RegistrationFormFieldView: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        valueDidChange()
     }
 }

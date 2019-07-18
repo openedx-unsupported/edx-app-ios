@@ -57,7 +57,7 @@ public class CourseOutlineViewController :
     public init(environment: Environment, courseID : String, rootID : CourseBlockID?, forMode mode: CourseOutlineMode?) {
         self.rootID = rootID
         self.environment = environment
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         
         loadController = LoadStateViewController()
         insetsController = ContentInsetsController()
@@ -69,8 +69,8 @@ public class CourseOutlineViewController :
         
         lastAccessedController.delegate = self
         
-        addChildViewController(tableController)
-        tableController.didMove(toParentViewController: self)
+        addChild(tableController)
+        tableController.didMove(toParent: self)
         tableController.delegate = self
     }
     

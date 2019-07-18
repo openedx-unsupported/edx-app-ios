@@ -11,7 +11,7 @@ import UIKit
 public class OEXColors: NSObject {
 
     //MARK: - Shared Instance
-    public static let sharedInstance = OEXColors()
+    @objc public static let sharedInstance = OEXColors()
     @objc public enum ColorsIdentifiers: Int {
         case PrimaryXDarkColor = 1, PrimaryDarkColor, PrimaryBaseColor, PrimaryLightColor, PrimaryXLightColor,
         SecondaryXDarkColor, SecondaryDarkColor, SecondaryBaseColor, SecondaryLightColor, SecondaryXLightColor,
@@ -49,7 +49,7 @@ public class OEXColors: NSObject {
         return OEXColorsDataFactory.colors as [String : AnyObject]
     }
     
-    public func color(forIdentifier identifier: ColorsIdentifiers) -> UIColor {
+    @objc public func color(forIdentifier identifier: ColorsIdentifiers) -> UIColor {
         return color(forIdentifier: identifier, alpha: 1.0)
     }
     

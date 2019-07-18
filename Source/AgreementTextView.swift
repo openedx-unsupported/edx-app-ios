@@ -19,7 +19,7 @@ import UIKit
 
 class AgreementTextView: UITextView {
     
-    weak var agreementDelegate: AgreementTextViewDelegate?
+    @objc weak var agreementDelegate: AgreementTextViewDelegate?
     
     @objc func setup(for type: AgreementType, config: OEXConfig?) {
         let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
@@ -38,7 +38,7 @@ class AgreementTextView: UITextView {
         let eulaText = Strings.Agreement.linkTextEula(platformName: platformName)
         let tosText = Strings.Agreement.linkTextTos(platformName: platformName)
         let privacyPolicyText = Strings.Agreement.linkTextPrivacyPolicy
-        let agreementText = "\(prefix)\(Strings.Agreement.text(eula: eulaText, tos: tosText, privacyPolicy: privacyPolicyText))"
+        let agreementText = "\(prefix)\(Strings.Agreement.text(eula: eulaText, tos: tosText, platformName: platformName, privacyPolicy: privacyPolicyText))"
         var attributedString = style.attributedString(withText: agreementText)
         if let eulaUrl = config?.agreementURLsConfig.eulaURL,
             let tosUrl = config?.agreementURLsConfig.tosURL,

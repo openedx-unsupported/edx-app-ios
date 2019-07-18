@@ -18,7 +18,7 @@
 @implementation BNCLinkCache
 
 - (id)init {
-    if (self = [super init]) {
+    if ((self = [super init])) {
         self.cache = [[NSMutableDictionary alloc] init];
     }
     return self;
@@ -33,6 +33,12 @@
 - (NSString *)objectForKey:(BNCLinkData *)aKey {
     @synchronized (self) {
         return self.cache[@([aKey hash])];
+    }
+}
+
+- (void) clear {
+    @synchronized (self) {
+        [self.cache removeAllObjects];
     }
 }
 

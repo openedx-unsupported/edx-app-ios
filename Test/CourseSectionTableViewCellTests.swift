@@ -27,7 +27,7 @@ class CourseSectionTableViewCellTests: SnapshotTestCase {
         environment = TestRouterEnvironment(config: config, interface: interface)
         environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)
         environment.interface?.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
-        environment.interface?.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        environment.interface?.t_setCourseVideos([course.course_id!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
         router = OEXRouter(environment: environment)
     }
     

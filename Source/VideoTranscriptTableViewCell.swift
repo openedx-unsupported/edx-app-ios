@@ -26,7 +26,7 @@ class VideoTranscriptTableViewCell: UITableViewCell {
         return style
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = UIColor.white
         titleLabel.numberOfLines = 0
@@ -50,10 +50,10 @@ class VideoTranscriptTableViewCell: UITableViewCell {
     
     func setTranscriptText(text: String? , highlighted: Bool) {
         if !highlighted {
-            titleLabel.attributedText = standardTitleStyle.attributedString(withText: text)
+            titleLabel.attributedText = standardTitleStyle.markdownString(withText: text)
         }
         else{
-            titleLabel.attributedText = highlightedTitleStyle.attributedString(withText: text)
+            titleLabel.attributedText = highlightedTitleStyle.markdownString(withText: text)
         }
     }
 }

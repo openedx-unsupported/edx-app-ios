@@ -79,7 +79,7 @@ public enum ParameterEncoding {
             return (urlRequest.urlRequest, nil)
         }
 
-        var mutableURLRequest: NSMutableURLRequest! = (urlRequest.urlRequest as NSURLRequest).mutableCopy() as! NSMutableURLRequest
+        var mutableURLRequest: NSMutableURLRequest! = (urlRequest.urlRequest as NSURLRequest).mutableCopy() as? NSMutableURLRequest
         var error: NSError? = nil
 
         switch self {
@@ -160,8 +160,7 @@ public enum ParameterEncoding {
     }
 
     func escape(_ string: String) -> String {
-        let legalURLCharactersToBeEscaped: CFString = ":&=;+!@#$()',*" as CFString
-        return CFURLCreateStringByAddingPercentEscapes(nil, string as CFString!, nil, legalURLCharactersToBeEscaped, CFStringBuiltInEncodings.UTF8.rawValue) as String
+        return string.addingPercentEncoding(withAllowedCharacters: .URLQueryAllowed) ?? string
     }
 }
 
@@ -227,7 +226,7 @@ open class Manager {
     /**
         A shared instance of `Manager`, used by top-level Alamofire request methods, and suitable for use directly for any ad hoc requests.
     */
-    open static let sharedInstance: Manager = {
+    public static let sharedInstance: Manager = {
         let configuration: URLSessionConfiguration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = Manager.defaultHTTPHeaders
 
@@ -239,7 +238,7 @@ open class Manager {
 
         :returns: The default header values.
     */
-    open static let defaultHTTPHeaders: [String: String] = {
+    public static let defaultHTTPHeaders: [String: String] = {
         // Accept-Encoding HTTP Header; see http://tools.ietf.org/html/rfc7230#section-4.2.3
         let acceptEncoding: String = "gzip;q=1.0,compress;q=0.5"
 
@@ -283,10 +282,10 @@ open class Manager {
     fileprivate let queue = DispatchQueue(label: "", attributes: [])
 
     /// The underlying session.
-    open let session: URLSession
+    public let session: URLSession
 
     /// The session delegate handling all the task and session delegate callbacks.
-    open let delegate: SessionDelegate
+    public let delegate: SessionDelegate
 
     /// Whether to start requests immediately after being constructed. `true` by default.
     open var startRequestsImmediately: Bool = true
@@ -586,7 +585,7 @@ open class Request {
     open var task: URLSessionTask { return delegate.task }
 
     /// The session belonging to the underlying task.
-    open let session: URLSession
+    public let session: URLSession
 
     /// The request sent or to be sent to the server.
     open var request: URLRequest { return task.originalRequest! }
@@ -820,7 +819,7 @@ open class Request {
     }
 
     class DataTaskDelegate: TaskDelegate, URLSessionDataDelegate {
-        var dataTask: URLSessionDataTask! { return task as! URLSessionDataTask }
+        var dataTask: URLSessionDataTask! { return task as? URLSessionDataTask }
 
         fileprivate var mutableData: NSMutableData
         override var data: Data? {
@@ -934,7 +933,9 @@ extension Request {
         let subtype: String
 
         init?(_ string: String) {
-            let components = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).substring(to: string.range(of: ";")?.upperBound ?? string.endIndex).components(separatedBy: "/")
+            let str = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            let index = string.range(of: ";")?.upperBound ?? string.endIndex
+            let components = String(str[..<index]).components(separatedBy: "/")
 
             if let type = components.first,
                     let subtype = components.last
@@ -1145,7 +1146,7 @@ extension Manager {
 
 extension Request {
     class UploadTaskDelegate: DataTaskDelegate {
-        var uploadTask: URLSessionUploadTask! { return task as! URLSessionUploadTask }
+        var uploadTask: URLSessionUploadTask? { return task as? URLSessionUploadTask }
         var uploadProgress: ((Int64, Int64, Int64) -> Void)!
 
         // MARK: NSURLSessionTaskDelegate
@@ -1271,7 +1272,7 @@ extension Request {
     }
 
     class DownloadTaskDelegate: TaskDelegate, URLSessionDownloadDelegate {
-        var downloadTask: URLSessionDownloadTask! { return task as! URLSessionDownloadTask }
+        var downloadTask: URLSessionDownloadTask! { return task as? URLSessionDownloadTask }
         var downloadProgress: ((Int64, Int64, Int64) -> Void)?
 
         var resumeData: Data?
@@ -1364,7 +1365,7 @@ extension Request : CustomDebugStringConvertible {
                let cookies = cookieStorage.cookies(for: URL!), !cookies.isEmpty
         {
             let string = cookies.reduce(""){ $0 + "\($1.name)=\($1.value );" }
-            components.append("-b \"\(string.substring(to: string.index(before: string.endIndex)))\"")
+            components.append("-b \"\(string[..<string.index(before: string.endIndex)]))\"")
         }
         #endif
 
@@ -1700,7 +1701,27 @@ public func download(resumeData data: Data, destination: @escaping Request.Downl
 }
 
 extension URLSessionConfiguration {
-    public func defaultHTTPHeaders() -> NSDictionary {
+    @objc public func defaultHTTPHeaders() -> NSDictionary {
         return Manager.defaultHTTPHeaders as NSDictionary
     }
+}
+
+extension CharacterSet {
+    /// Creates a CharacterSet from RFC 3986 allowed characters.
+    ///
+    /// RFC 3986 states that the following characters are "reserved" characters.
+    ///
+    /// - General Delimiters: ":", "#", "[", "]", "@", "?", "/"
+    /// - Sub-Delimiters: "!", "$", "&", "'", "(", ")", "*", "+", ",", ";", "="
+    ///
+    /// In RFC 3986 - Section 3.4, it states that the "?" and "/" characters should not be escaped to allow
+    /// query strings to include a URL. Therefore, all "reserved" characters with the exception of "?" and "/"
+    /// should be percent-escaped in the query string.
+    public static let URLQueryAllowed: CharacterSet = {
+        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+        let subDelimitersToEncode = "!$&'()*+,;="
+        let encodableDelimiters = CharacterSet(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+
+        return CharacterSet.urlQueryAllowed.subtracting(encodableDelimiters)
+    }()
 }

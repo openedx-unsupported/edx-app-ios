@@ -31,11 +31,11 @@ class KeyboardInsetsSourceTests: XCTestCase {
     func changeKeyboardLocation(_ height : CGFloat) {
         let y = scrollView.bounds.size.height - height
         let userInfo = [
-            UIKeyboardFrameEndUserInfoKey : NSValue(cgRect : CGRect(x: 0, y: y, width: scrollView.bounds.size.width, height: keyboardHeight)),
-            UIKeyboardAnimationDurationUserInfoKey : 0.3 as NSNumber,
-            UIKeyboardAnimationCurveUserInfoKey : UIViewAnimationCurve.easeInOut.rawValue as NSNumber
+            UIResponder.keyboardFrameEndUserInfoKey : NSValue(cgRect : CGRect(x: 0, y: y, width: scrollView.bounds.size.width, height: keyboardHeight)),
+            UIResponder.keyboardAnimationDurationUserInfoKey : 0.3 as NSNumber,
+            UIResponder.keyboardAnimationCurveUserInfoKey : UIView.AnimationCurve.easeInOut.rawValue as NSNumber
         ]
-        NotificationCenter.default.post(name: NSNotification.Name.UIKeyboardDidChangeFrame, object: nil, userInfo: userInfo)
+        NotificationCenter.default.post(name: UIResponder.keyboardDidChangeFrameNotification, object: nil, userInfo: userInfo)
     }
     
     func raiseKeyboard() {

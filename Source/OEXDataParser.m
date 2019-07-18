@@ -24,7 +24,6 @@
 #import "OEXNetworkConstants.h"
 #import "OEXNetworkInterface.h"
 #import "OEXUserDetails.h"
-#import "OEXVideoPathEntry.h"
 #import "OEXVideoSummary.h"
 
 @interface OEXDataParser ()
@@ -83,41 +82,4 @@
     return obj_userdetails;
 }
 
-- (NSArray*)userCourseEnrollmentsWithData:(NSData*)receivedData {
-    NSError* error;
-    NSArray* arrResponse = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
-    NSMutableArray* arr_CourseEnrollmentObjetcs = [[NSMutableArray alloc] init];
-    for(NSDictionary* dict in arrResponse) {
-        // parse level - 1
-        if(![dict isKindOfClass:[NSDictionary class]]) {
-            continue;
-        }
-        NSDictionary* dictResponse = [dict oex_replaceNullsWithEmptyStrings];
-
-        UserCourseEnrollment* usercoruse = [[UserCourseEnrollment alloc] initWithDictionary:dictResponse];
-
-        // array populated with objects and returned
-        if (usercoruse.isActive) {
-            [arr_CourseEnrollmentObjetcs addObject:usercoruse];
-        }
-    }
-    return arr_CourseEnrollmentObjetcs;
-}
-
-- (NSArray*)videoSummaryListWithData:(NSData*)receivedData {
-    NSMutableArray* arrSummary = [[NSMutableArray alloc] init];
-    NSError* error;
-    NSArray* arrResponse = [NSJSONSerialization oex_JSONObjectWithData:receivedData error:&error];
-    for(NSDictionary* dict in arrResponse) {
-        if(![dict isKindOfClass:[NSDictionary class]]) {
-            continue;
-        }
-        NSDictionary* dictResponse = [dict oex_replaceNullsWithEmptyStrings];
-        OEXVideoSummary* summaryList = [[OEXVideoSummary alloc] initWithDictionary:dictResponse];
-        if(summaryList.chapterPathEntry.entryID != nil && summaryList.sectionPathEntry.entryID != nil) {
-            [arrSummary addObject:summaryList];
-        }
-    }
-    return arrSummary;
-}
 @end

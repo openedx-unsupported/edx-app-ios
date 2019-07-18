@@ -9,20 +9,29 @@
 import Foundation
 
 class SingleChildContainingViewController : UIViewController {
-    override var childViewControllerForStatusBarStyle: UIViewController? {
-        return self.childViewControllers.last
+    override var childForStatusBarStyle: UIViewController? {
+        return children.last
     }
 
-    override var childViewControllerForStatusBarHidden: UIViewController? {
-        return self.childViewControllers.last
+    override var childForStatusBarHidden: UIViewController? {
+        return children.last
     }
 
     override var shouldAutorotate: Bool {
-        return self.childViewControllers.last?.shouldAutorotate ?? super.shouldAutorotate
+        return children.last?.shouldAutorotate ?? super.shouldAutorotate
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return self.childViewControllers.last?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
+        return children.last?.supportedInterfaceOrientations ?? super.supportedInterfaceOrientations
     }
-
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nil, bundle: nil)
+        view.handleDynamicTypeNotification()        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }

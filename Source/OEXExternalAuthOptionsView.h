@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXExternalAuthOptionsView : UIView
 
-- (id)initWithFrame:(CGRect)frame providers:(NSArray<id<OEXExternalAuthProvider>>*)providers tapAction:(void(^)(id<OEXExternalAuthProvider>))tapAction;
+- (id)initWithFrame:(CGRect)frame providers:(NSArray<id<OEXExternalAuthProvider>>*)providers accessibilityLabel:(NSString*)accessibilityLabel  tapAction:(void(^)(id<OEXExternalAuthProvider>))tapAction;
 
 /// Vertical space between rows in cases where this needs to wrap
 /// to multiple rows

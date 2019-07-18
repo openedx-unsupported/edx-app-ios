@@ -25,15 +25,15 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     fileprivate var spinnerTimer = Timer()
     var courseID: String?
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
         content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
 
-        downloadView.downloadAction = {[weak self] _ in
-            if let owner = self, let block = owner.block, let videos = self?.videosStream.value {
+        downloadView.downloadAction = {[weak self] in
+            if let owner = self, let block = owner.block, let videos = owner.videosStream.value {
                 owner.delegate?.sectionCellChoseDownload(cell: owner, videos: videos, forBlock: block)
             }
         }

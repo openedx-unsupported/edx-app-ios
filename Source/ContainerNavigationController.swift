@@ -24,21 +24,35 @@ protocol StatusBarOverriding {
 /// A simple UINavigationController subclass that can forward status bar
 /// queries to its children should they opt into that by implementing the ContainedNavigationController protocol
 class ForwardingNavigationController: UINavigationController, StatusBarOverriding {
-    override var childViewControllerForStatusBarStyle: UIViewController? {
+    
+    override init(rootViewController: UIViewController) {
+        super.init(rootViewController: rootViewController)
+        view.handleDynamicTypeNotification()
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override var childForStatusBarStyle: UIViewController? {
         if let controller = viewControllers.last as? StatusBarOverriding as? UIViewController {
             return controller
         }
         else {
-            return super.childViewControllerForStatusBarStyle
+            return super.childForStatusBarStyle
         }
     }
     
-    override var childViewControllerForStatusBarHidden: UIViewController? {
+    override var childForStatusBarHidden: UIViewController? {
         if let controller = viewControllers.last as? StatusBarOverriding as? UIViewController {
             return controller
         }
         else {
-            return super.childViewControllerForStatusBarHidden
+            return super.childForStatusBarHidden
         }
         
     }
@@ -72,5 +86,28 @@ class ForwardingNavigationController: UINavigationController, StatusBarOverridin
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle(barStyle: .default)
+    }
+}
+
+extension UINavigationController {
+    
+    struct AssociatedKeys {
+        static var completionHandler = "completionHandletObject"
+    }
+    typealias Completion = ()->Void
+    
+    var completionHandler:Completion {
+        get {
+            guard let value = objc_getAssociatedObject(self, &AssociatedKeys.completionHandler) as? Completion else { return {} }
+            return value
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &AssociatedKeys.completionHandler, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+    
+    func pushViewController(viewController: UIViewController, completion :@escaping Completion) {
+        completionHandler = completion
+        pushViewController(viewController, animated: true)
     }
 }

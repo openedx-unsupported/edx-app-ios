@@ -10,6 +10,7 @@ import UIKit
 
 open class CourseDataManager: NSObject {
     
+    public typealias Environment = OEXConfigProvider
     private let analytics : OEXAnalytics
     private let interface : OEXInterface?
     private let enrollmentManager: EnrollmentManager
@@ -18,7 +19,7 @@ open class CourseDataManager: NSObject {
     private let outlineQueriers = LiveObjectCache<CourseOutlineQuerier>()
     private let discussionDataManagers = LiveObjectCache<DiscussionDataManager>()
     
-    public init(analytics: OEXAnalytics, enrollmentManager: EnrollmentManager, interface : OEXInterface?, networkManager : NetworkManager, session : OEXSession) {
+    @objc public init(analytics: OEXAnalytics, enrollmentManager: EnrollmentManager, interface : OEXInterface?, networkManager : NetworkManager, session : OEXSession) {
         self.analytics = analytics
         self.enrollmentManager = enrollmentManager
         self.interface = interface
@@ -33,9 +34,9 @@ open class CourseDataManager: NSObject {
         }
     }
     
-    open func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
+    open func querierForCourseWithID(courseID : String, environment: Environment) -> CourseOutlineQuerier {
         return outlineQueriers.objectForKey(key: courseID) {
-            let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, enrollmentManager: enrollmentManager, networkManager : networkManager, session : session)
+            let querier = CourseOutlineQuerier(courseID: courseID, interface : interface, enrollmentManager: enrollmentManager, networkManager : networkManager, session : session, environment: environment)
             return querier
         }
     }

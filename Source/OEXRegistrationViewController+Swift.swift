@@ -10,7 +10,7 @@ import Foundation
 
 extension OEXRegistrationViewController {
     
-    func getRegistrationFormDescription(success: @escaping (_ response: OEXRegistrationDescription) -> ()) {
+    @objc func getRegistrationFormDescription(success: @escaping (_ response: OEXRegistrationDescription) -> ()) {
         let networkManager = self.environment.networkManager
         let networkRequest = RegistrationFormAPI.registrationFormRequest()
         
@@ -26,7 +26,7 @@ extension OEXRegistrationViewController {
         }
     }
     
-    func register(withParameters parameter:[String:String]) {
+    @objc func register(withParameters parameter:[String:String]) {
         showProgress(true)
         let infoDict :[String: String] = [OEXAnalyticsKeyProvider: self.externalProvider?.backendName ?? ""]
         environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue), forComponent: nil, withInfo: infoDict)
@@ -37,7 +37,7 @@ extension OEXRegistrationViewController {
                     let completion: ((_: Data?, _: HTTPURLResponse?, _: Error?) -> Void) = {(_ data: Data?, _ response: HTTPURLResponse?, _ error: Error?) -> Void in
                         if response?.statusCode == OEXHTTPStatusCode.code200OK.rawValue {
                             owner.environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationSuccess.rawValue, displayName: AnalyticsDisplayName.RegistrationSuccess.rawValue), forComponent: nil, withInfo: infoDict)
-                            owner.delegate?.registrationViewControllerDidRegister(owner, completion: { _ in })
+                            owner.delegate?.registrationViewControllerDidRegister(owner, completion: nil)
                         }
                         else if let error = error as NSError?, error.oex_isNoInternetConnectionError {
                             owner.showNoNetworkError()

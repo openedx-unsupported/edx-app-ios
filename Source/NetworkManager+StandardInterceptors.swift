@@ -11,7 +11,7 @@ import Foundation
 import edXCore
 
 extension NetworkManager {
-    public func addStandardInterceptors() {
+    @objc public func addStandardInterceptors() {
         let deprecatedVersionInterceptor = { response, json in
             NetworkManager.deprecatedVersionInterceptor(response: response, json: json)
         }

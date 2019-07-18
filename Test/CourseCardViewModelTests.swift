@@ -15,7 +15,7 @@ class CourseCardViewModelTests: XCTestCase {
         func assertDisplayDate(_ displayDate: String?, expected: String) {
             let startInfo = OEXCourseStartDisplayInfo(date: Date.distantFuture, displayDate: displayDate, type: .string)
             let course = OEXCourse.freshCourse(startInfo: startInfo, end: Date.distantFuture as NSDate)
-            XCTAssertEqual(course.nextRelevantDate, Strings.starting(startDate: expected))
+            XCTAssertEqual(course.nextRelevantDate, Strings.Course.starting(startDate: expected))
         }
         assertDisplayDate(nil, expected: Strings.soon)
         assertDisplayDate("The future", expected: "The future")
@@ -25,7 +25,7 @@ class CourseCardViewModelTests: XCTestCase {
         func assertDisplayTimestamp(_ date: Date?, expected: String) {
             let startInfo = OEXCourseStartDisplayInfo(date: date, displayDate: nil, type: .timestamp)
             let course = OEXCourse.freshCourse(startInfo: startInfo, end: Date.distantFuture as NSDate)
-            XCTAssertEqual(course.nextRelevantDate, Strings.starting(startDate: expected))
+            XCTAssertEqual(course.nextRelevantDate, Strings.Course.starting(startDate: expected))
         }
         
         let date = NSDate().addingDays(1)
@@ -36,21 +36,21 @@ class CourseCardViewModelTests: XCTestCase {
     func testStartingCourseNoInfo() {
         let startInfo = OEXCourseStartDisplayInfo(date: Date.distantFuture, displayDate: "The future", type: .none)
         let course = OEXCourse.freshCourse(startInfo: startInfo, end: NSDate.distantFuture as NSDate)
-        XCTAssertEqual(course.nextRelevantDate, Strings.starting(startDate: Strings.soon))
+        XCTAssertEqual(course.nextRelevantDate, Strings.Course.starting(startDate: Strings.soon))
     }
     
     func testActive() {
         let startInfo = OEXCourseStartDisplayInfo(date: Date.distantPast, displayDate: nil, type: .none)
         let endDate = NSDate().addingDays(1)
         let course = OEXCourse.freshCourse(startInfo: startInfo, end: endDate! as NSDate)
-        XCTAssertEqual(course.nextRelevantDate, Strings.courseEnding(endDate: DateFormatting.format(asMonthDayString: endDate! as NSDate)!))
+        XCTAssertEqual(course.nextRelevantDate, Strings.Course.ending(endDate: DateFormatting.format(asMonthDayString: endDate! as NSDate)!))
     }
     
     func testEnded() {
         let startInfo = OEXCourseStartDisplayInfo(date: Date.distantPast, displayDate: nil, type: .none)
         let endDate = NSDate.distantPast
         let course = OEXCourse.freshCourse(startInfo: startInfo, end: endDate as NSDate)
-        XCTAssertEqual(course.nextRelevantDate, Strings.courseEnded(endDate: DateFormatting.format(asMonthDayString: endDate as NSDate)!))
+        XCTAssertEqual(course.nextRelevantDate, Strings.Course.ended(endDate: DateFormatting.format(asMonthDayString: endDate as NSDate)!))
     }
     
     func testTimeZoneDates() {
@@ -77,9 +77,9 @@ class CourseCardViewModelTests: XCTestCase {
         let expectedDate = setUpExpectedDate(startOfDate)
         
         NSTimeZone.default = TimeZone(identifier: "UTC")!
-        XCTAssertNotEqual(course.nextRelevantDate, Strings.starting(startDate: expectedDate))
+        XCTAssertNotEqual(course.nextRelevantDate, Strings.Course.starting(startDate: expectedDate))
         NSTimeZone.default = argentinaTimeZone
-        XCTAssertEqual(course.nextRelevantDate, Strings.starting(startDate: expectedDate))
+        XCTAssertEqual(course.nextRelevantDate, Strings.Course.starting(startDate: expectedDate))
     }
 
 }

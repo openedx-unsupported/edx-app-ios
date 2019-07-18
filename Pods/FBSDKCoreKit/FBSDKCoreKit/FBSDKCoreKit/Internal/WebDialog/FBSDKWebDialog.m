@@ -90,10 +90,8 @@ static FBSDKWebDialog *g_currentDialog = nil;
     return NO;
   }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  _dialogView = [[FBSDKWebDialogView alloc] initWithFrame:window.screen.applicationFrame];
-#pragma clang diagnostic pop
+  CGRect frame = [self _applicationFrameForOrientation];
+  _dialogView = [[FBSDKWebDialogView alloc] initWithFrame:frame];
 
   _dialogView.delegate = self;
   [_dialogView loadURL:URL];
@@ -126,7 +124,7 @@ static FBSDKWebDialog *g_currentDialog = nil;
 {
   if (_deferVisibility) {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.05 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-      if (_dialogView) {
+      if (self->_dialogView) {
         [self _showWebView];
       }
     });
@@ -151,7 +149,7 @@ static FBSDKWebDialog *g_currentDialog = nil;
   CFTimeInterval animationDuration = (animated ? [CATransactionClass animationDuration] : 0.0);
   [self _updateViewsWithScale:1.0 alpha:1.0 animationDuration:animationDuration completion:^(BOOL finished) {
     if (finished) {
-      [_dialogView setNeedsDisplay];
+      [self->_dialogView setNeedsDisplay];
     }
   }];
 }
@@ -208,7 +206,7 @@ static FBSDKWebDialog *g_currentDialog = nil;
   // defer so that the consumer is guaranteed to have an opportunity to set the delegate before we fail
   dispatch_async(dispatch_get_main_queue(), ^{
     [self _dismissAnimated:YES];
-    [_delegate webDialog:self didFailWithError:error];
+    [self->_delegate webDialog:self didFailWithError:error];
   });
 }
 
@@ -246,7 +244,6 @@ static FBSDKWebDialog *g_currentDialog = nil;
   _backgroundView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
   _backgroundView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.8];
   [window addSubview:_backgroundView];
-
   [window addSubview:_dialogView];
 
   [_dialogView becomeFirstResponder]; // dismisses the keyboard if it there was another first responder with it
@@ -282,10 +279,23 @@ static FBSDKWebDialog *g_currentDialog = nil;
 
 - (CGRect)_applicationFrameForOrientation
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  CGRect applicationFrame = _dialogView.window.screen.applicationFrame;
-#pragma clang diagnostic pop
+  CGRect applicationFrame = _dialogView.window.screen.bounds;
+
+  UIEdgeInsets insets = UIEdgeInsetsZero;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
+  if (@available(iOS 11.0, *)) {
+    insets = _dialogView.window.safeAreaInsets;
+  }
+#endif
+
+  if (insets.top == 0.0) {
+    insets.top = [[UIApplication sharedApplication] statusBarFrame].size.height;
+  }
+  applicationFrame.origin.x += insets.left;
+  applicationFrame.origin.y += insets.top;
+  applicationFrame.size.width -= insets.left + insets.right;
+  applicationFrame.size.height -= insets.top + insets.bottom;
+
   if ([FBSDKInternalUtility shouldManuallyAdjustOrientation]) {
     switch ([UIApplication sharedApplication].statusBarOrientation) {
       case UIInterfaceOrientationLandscapeLeft:
@@ -316,15 +326,11 @@ static FBSDKWebDialog *g_currentDialog = nil;
   }
   transform = CGAffineTransformScale([self _transformForOrientation], scale, scale);
   void(^updateBlock)(void) = ^{
-    _dialogView.transform = transform;
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    CGRect mainFrame = _dialogView.window.screen.applicationFrame;
-#pragma clang diagnostic pop
-    _dialogView.center = CGPointMake(CGRectGetMidX(mainFrame),
-                                     CGRectGetMidY(mainFrame));
-    _backgroundView.alpha = alpha;
+    self->_dialogView.transform = transform;
+    self->_dialogView.center = CGPointMake(CGRectGetMidX(applicationFrame),
+                                     CGRectGetMidY(applicationFrame));
+    self->_dialogView.alpha = alpha;
+    self->_backgroundView.alpha = alpha;
   };
   if (animationDuration == 0.0) {
     updateBlock();

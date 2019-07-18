@@ -9,7 +9,7 @@
 import Foundation
 
 extension NetworkManager {
-    public func addResponseInterceptors() {
+    @objc public func addResponseInterceptors() {
         addResponseInterceptors(Code426Interceptor())
     }
 }

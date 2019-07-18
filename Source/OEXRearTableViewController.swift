@@ -108,8 +108,8 @@ class OEXRearTableViewController : UITableViewController {
     }
     
     private func courseCatalogTitle() -> String {
-        switch environment.config.courseEnrollmentConfig.type {
-        case .Native:
+        switch environment.config.discovery.course.type {
+        case .native:
             return Strings.findCourses
         default:
             return Strings.discover
@@ -166,13 +166,13 @@ class OEXRearTableViewController : UITableViewController {
         if (indexPath.row == OEXRearViewOptions.Debug.rawValue && !environment.config.shouldShowDebug()) {
             return 0
         }
-        else if indexPath.row == OEXRearViewOptions.CourseCatalog.rawValue && !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+        else if indexPath.row == OEXRearViewOptions.CourseCatalog.rawValue && !environment.config.discovery.course.isEnabled {
             return 0
         }
         return super.tableView(tableView, heightForRowAt: indexPath)
     }
     
-    func dataAvailable(notification: NSNotification) {
+    @objc func dataAvailable(notification: NSNotification) {
         let successString = notification.userInfo![NOTIFICATION_KEY_STATUS] as? String;
         let URLString = notification.userInfo![NOTIFICATION_KEY_URL] as? String;
         

@@ -22,6 +22,7 @@
 - (id)initWithDictionary:(NSDictionary *)info {
     NSDictionary* errors = @{
                              @"course_not_started" : @(OEXStartDateError),
+                             @"audit_expired" : @(OEXAuditExpired),
                              @"not_visible_to_user" : @(OEXVisibilityError),
                              @"unfulfilled_milestones" : @(OEXMilestoneError)
                              };

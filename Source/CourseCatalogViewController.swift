@@ -23,6 +23,9 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         self.navigationItem.title = Strings.findCourses
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.accessibilityIdentifier = "CourseCatalogViewController:cancel-bar-button-item"
+        view.accessibilityIdentifier = "course-catalog-screen"
+
+        setupAndLoadCourseCatalog()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -40,20 +43,23 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         return PaginationController(paginator: paginator, tableView: self.tableController.tableView)
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.accessibilityIdentifier = "course-catalog-screen";
-        addChildViewController(tableController)
-        tableController.didMove(toParentViewController: self)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        environment.analytics.trackScreen(withName: OEXAnalyticsScreenFindCourses)
+    }
+
+    private func setupAndLoadCourseCatalog() {
+        addChild(tableController)
+        tableController.didMove(toParent: self)
         self.loadController.setupInController(controller: self, contentView: tableController.view)
-        
+
         self.view.addSubview(tableController.view)
         tableController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
-        
+
         self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
-        
+
         tableController.delegate = self
 
         paginationController.stream.listen(self, success:
@@ -66,18 +72,13 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
             }
         )
         paginationController.loadMore()
-        
+
         insetsController.setupInController(owner: self, scrollView: tableController.tableView)
         insetsController.addSource(
             // add a little padding to the bottom since we have a big space between
             // each course card
             source: ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
         )
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        environment.analytics.trackScreen(withName: OEXAnalyticsScreenFindCourses)
     }
     
     func coursesTableChoseCourse(course: OEXCourse) {

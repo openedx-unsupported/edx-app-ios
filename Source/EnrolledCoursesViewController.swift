@@ -42,8 +42,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
 
         self.view.accessibilityIdentifier = "enrolled-courses-screen"
 
-        addChildViewController(tableController)
-        tableController.didMove(toParentViewController: self)
+        addChild(tableController)
+        tableController.didMove(toParent: self)
         self.loadController.setupInController(controller: self, contentView: tableController.view)
         
         self.view.addSubview(tableController.view)
@@ -76,7 +76,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     override func viewWillAppear(_ animated: Bool) {
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenMyCourses)
         showVersionUpgradeSnackBarIfNecessary()
-
         super.viewWillAppear(animated)
         hideSnackBarForFullScreenError()
         showWhatsNewIfNeeded()
@@ -93,9 +92,13 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
+    
+    private var isCourseDiscoveryEnabled: Bool {
+        return environment.config.discovery.course.isEnabled
+    }
 
     private func addFindCoursesButton() {
-        if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+        if environment.config.discovery.course.isEnabled {
             let findcoursesButton = UIBarButtonItem(barButtonSystemItem: .search, target: nil, action: nil)
             findcoursesButton.accessibilityLabel = Strings.findCourses
             navigationItem.rightBarButtonItem = findcoursesButton
@@ -115,7 +118,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             switch result {
             case let Result.success(enrollments):
                 if let enrollments = enrollments {
-                    self?.tableController.courses = enrollments.flatMap { $0.course } 
+                    self?.tableController.courses = enrollments.compactMap { $0.course } 
                     self?.tableController.tableView.reloadData()
                     self?.loadController.state = .Loaded
                     if enrollments.count <= 0 {
@@ -142,7 +145,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private func setupFooter() {
-        if environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+        if isCourseDiscoveryEnabled {
             let footer = EnrolledCoursesFooterView()
             footer.findCoursesAction = {[weak self] in
                 self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
@@ -157,7 +160,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private func enrollmentsEmptyState() {
-        if !environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled() {
+        if !isCourseDiscoveryEnabled {
             let error = NSError.oex_error(with: .unknown, message: Strings.EnrollmentList.noEnrollment)
             loadController.state = LoadState.failed(error: error, icon: Icon.UnknownError)
         }

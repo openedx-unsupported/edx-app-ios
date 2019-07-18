@@ -181,7 +181,7 @@ class CropViewController: UIViewController {
         
         let insetHeight = (scrollFrame.height - hole.height) / 2
         let insetWidth = (scrollFrame.width - hole.width) / 2
-        scrollView.contentInset = UIEdgeInsetsMake(insetHeight, insetWidth, insetHeight, insetWidth)
+        scrollView.contentInset = UIEdgeInsets.init(top: insetHeight, left: insetWidth, bottom: insetHeight, right: insetWidth)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

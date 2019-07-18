@@ -17,7 +17,7 @@ private let StandardDateFormatMicroseconds = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
 open class DateFormatting: NSObject {
     
     /// Formats a time interval for display as a video duration like 23:35 or 01:14:33
-    open class func formatSeconds(asVideoLength totalSeconds: TimeInterval) -> String {
+    @objc open class func formatSeconds(asVideoLength totalSeconds: TimeInterval) -> String {
         let seconds = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
         let minutes = Int((totalSeconds / 60).truncatingRemainder(dividingBy: 60))
         let hours = Int(totalSeconds / 3600)
@@ -29,7 +29,7 @@ open class DateFormatting: NSObject {
     }
     
     /// Converts a string in standard ISO8601 format to a date
-    open class func date(withServerString dateString: String?) -> NSDate? {
+    @objc open class func date(withServerString dateString: String?) -> NSDate? {
         guard let dateString = dateString else { return nil }
         
         let formatter = DateFormatter()
@@ -56,7 +56,7 @@ open class DateFormatting: NSObject {
     }
     
     /// Format like April 11, 2013
-    open class func format(asMonthDayYearString date: NSDate?) -> String? {
+    @objc open class func format(asMonthDayYearString date: NSDate?) -> String? {
         guard let date = date else { return nil }
         
         let formatter = DateFormatter()
@@ -73,7 +73,7 @@ open class DateFormatting: NSObject {
     }
     
     /// Get current date in the formatted way
-    open class func serverString(withDate date: NSDate?) -> String? {
+    @objc open class func serverString(withDate date: NSDate?) -> String? {
         guard let date = date else { return nil }
         
         let formatter = DateFormatter()

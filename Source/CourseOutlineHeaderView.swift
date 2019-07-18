@@ -9,7 +9,7 @@
 import UIKit
 
 private let titleLabelCenterYOffset : CGFloat = -10
-private let subtitleLabelCenterYOffset : CGFloat = 8
+private let subtitleLabelCenterYOffset : CGFloat = 10
 
 public class CourseOutlineHeaderView: UIView {
     private let styles : OEXStyles
@@ -83,7 +83,7 @@ public class CourseOutlineHeaderView: UIView {
             make.bottom.equalTo(self).offset(-5)
         }
 
-        viewButton.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: UILayoutConstraintAxis.horizontal)
+        viewButton.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: NSLayoutConstraint.Axis.horizontal)
         
         messageView.snp.makeConstraints { make in
             let situationalCenterYOffset = hasSubtitle ? titleLabelCenterYOffset : 0
@@ -96,12 +96,12 @@ public class CourseOutlineHeaderView: UIView {
             make.leading.equalTo(messageView)
             make.trailing.lessThanOrEqualTo(viewButton.snp.leading).offset(-10)
         }
-        subtitleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: UILayoutConstraintAxis.horizontal)
+        subtitleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
     }
     
     public func setViewButtonAction(action: @escaping (AnyObject) -> Void) {
         viewButton.oex_removeAllActions()
-        viewButton.oex_addAction(action, for: UIControlEvents.touchUpInside)
+        viewButton.oex_addAction(action, for: UIControl.Event.touchUpInside)
     }
 
     required public init?(coder aDecoder: NSCoder) {

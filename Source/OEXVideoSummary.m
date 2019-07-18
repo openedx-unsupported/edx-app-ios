@@ -12,18 +12,12 @@
 
 #import "edX-Swift.h"
 #import "OEXVideoEncoding.h"
-#import "OEXVideoPathEntry.h"
 #import "NSArray+OEXFunctional.h"
 #import "NSArray+OEXSafeAccess.h"
 
 @interface OEXVideoSummary ()
 
 @property (nonatomic, copy) NSString* sectionURL;       // used for OPEN IN BROWSER
-
-/// path : OEXVideoPathEntry array
-@property (nonatomic, copy) NSArray* path;
-@property (strong, nonatomic) OEXVideoPathEntry* chapterPathEntry;
-@property (strong, nonatomic) OEXVideoPathEntry* sectionPathEntry;
 
 @property (nonatomic, copy) NSString* category;
 @property (nonatomic, copy) NSString* name;
@@ -48,12 +42,6 @@
         if([[dictionary objectForKey:@"section_url"] isKindOfClass:[NSString class]]) {
             self.sectionURL = [dictionary objectForKey:@"section_url"];
         }
-        
-        self.path = [[dictionary objectForKey:@"path"] oex_map:^(NSDictionary* pathEntryDict){
-            return [[OEXVideoPathEntry alloc] initWithDictionary:pathEntryDict];
-        }];
-        
-        self.unitURL = [dictionary objectForKey:@"unit_url"];
         
         NSDictionary* summary = [dictionary objectForKey:@"summary"];
         
@@ -96,21 +84,12 @@
     return self;
 }
 
-- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID name:(NSString*)name {
+- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID unitURL:(nullable NSString*)unitURL name:(NSString*)name {
     self = [self initWithDictionary:dictionary];
     if(self != nil) {
         self.videoID = videoID;
         self.name = name;
-    }
-    return self;
-}
-
-- (id)initWithVideoID:(NSString*)videoID name:(NSString*)name path:(NSArray*)path {
-    self = [super init];
-    if(self != nil) {
-        self.videoID = videoID;
-        self.name = name;
-        self.path = path;
+        self.unitURL = unitURL;
     }
     return self;
 }
@@ -243,39 +222,6 @@
 
 - (NSString *)videoSize {
     return [NSString stringWithFormat:@"%.2fMB", (([[self size] doubleValue] / 1024) / 1024)];
-}
-
-- (OEXVideoPathEntry*)chapterPathEntry {
-    __block OEXVideoPathEntry* result = nil;
-    [self.path enumerateObjectsUsingBlock:^(OEXVideoPathEntry* entry, NSUInteger idx, BOOL* stop) {
-        if(entry.category == OEXVideoPathEntryCategoryChapter) {
-            result = entry;
-            *stop = YES;
-        }
-    }];
-    return result;
-}
-
-- (OEXVideoPathEntry*)sectionPathEntry {
-    __block OEXVideoPathEntry* result = nil;
-    [self.path enumerateObjectsUsingBlock:^(OEXVideoPathEntry* entry, NSUInteger idx, BOOL* stop) {
-        if(entry.category == OEXVideoPathEntryCategorySection) {
-            result = entry;
-            *stop = YES;
-        }
-    }];
-    return result;
-}
-
-- (NSArray*)displayPath {
-    NSMutableArray* result = [[NSMutableArray alloc] init];
-    if(self.chapterPathEntry != nil) {
-        [result addObject:self.chapterPathEntry];
-    }
-    if(self.sectionPathEntry) {
-        [result addObject:self.sectionPathEntry];
-    }
-    return result;
 }
 
 - (NSString*)description {

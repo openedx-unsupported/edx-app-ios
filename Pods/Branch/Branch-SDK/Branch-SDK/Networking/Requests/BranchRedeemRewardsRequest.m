@@ -21,7 +21,7 @@
 @implementation BranchRedeemRewardsRequest
 
 - (id)initWithAmount:(NSInteger)amount bucket:(NSString *)bucket callback:(callbackWithStatus)callback {
-    if (self = [super init]) {
+    if ((self = [super init])) {
         _amount = amount;
         _bucket = bucket;
         _callback = callback;
@@ -32,14 +32,12 @@
 
 - (void)makeRequest:(BNCServerInterface *)serverInterface key:(NSString *)key callback:(BNCServerCallback)callback {
     BNCPreferenceHelper *preferenceHelper = [BNCPreferenceHelper preferenceHelper];
-    NSDictionary *params = @{
-        BRANCH_REQUEST_KEY_BUCKET: self.bucket,
-        BRANCH_REQUEST_KEY_AMOUNT: @(self.amount),
-        BRANCH_REQUEST_KEY_DEVICE_FINGERPRINT_ID: preferenceHelper.deviceFingerprintID,
-        BRANCH_REQUEST_KEY_BRANCH_IDENTITY: preferenceHelper.identityID,
-        BRANCH_REQUEST_KEY_SESSION_ID: preferenceHelper.sessionID
-    };
-
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    params[BRANCH_REQUEST_KEY_BUCKET] = self.bucket;
+    params[BRANCH_REQUEST_KEY_AMOUNT] = @(self.amount);
+    params[BRANCH_REQUEST_KEY_DEVICE_FINGERPRINT_ID] = preferenceHelper.deviceFingerprintID;
+    params[BRANCH_REQUEST_KEY_BRANCH_IDENTITY] = preferenceHelper.identityID;
+    params[BRANCH_REQUEST_KEY_SESSION_ID] = preferenceHelper.sessionID;
     [serverInterface postRequest:params url:[preferenceHelper getAPIURL:BRANCH_REQUEST_ENDPOINT_REDEEM_REWARDS] key:key callback:callback];
 }
 
@@ -65,7 +63,7 @@
 #pragma mark - NSCoding methods
 
 - (id)initWithCoder:(NSCoder *)decoder {
-    if (self = [super initWithCoder:decoder]) {
+    if ((self = [super initWithCoder:decoder])) {
         _amount = [decoder decodeIntegerForKey:@"amount"];
         _bucket = [decoder decodeObjectForKey:@"bucket"];
     }

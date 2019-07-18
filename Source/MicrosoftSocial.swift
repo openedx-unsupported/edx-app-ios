@@ -68,7 +68,7 @@ class MicrosoftSocial: NSObject {
     private func setUpApplicationContext() {
         do {
             // Initialize a MSALPublicClientApplication with a given clientID and authority
-            let clientID = OEXConfig.shared().microsoftConfig.appID
+            let clientID = "6946c56b-5c88-4569-8755-f1ce47376de7"//OEXConfig.shared().microsoftConfig.appID
             applicationContext = try MSALPublicClientApplication.init(clientId: clientID, authority: kAuthority)
         } catch let error as NSError {
             completionHandler?(nil, error)

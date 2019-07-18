@@ -20,7 +20,16 @@
 
 #import "FBSDKCoreKit+Internal.h"
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+
+NSNotificationName const FBSDKProfileDidChangeNotification = @"com.facebook.sdk.FBSDKProfile.FBSDKProfileDidChangeNotification";;
+
+#else
+
 NSString *const FBSDKProfileDidChangeNotification = @"com.facebook.sdk.FBSDKProfile.FBSDKProfileDidChangeNotification";;
+
+#endif
+
 NSString *const FBSDKProfileChangeOldKey = @"FBSDKProfileOld";
 NSString *const FBSDKProfileChangeNewKey = @"FBSDKProfileNew";
 static NSString *const FBSDKProfileUserDefaultsKey = @"com.facebook.sdk.FBSDKProfile.currentProfile";
@@ -38,11 +47,6 @@ static FBSDKProfile *g_currentProfile;
 #define FBSDKPROFILE_STALE_IN_SECONDS (60 * 60 * 24)
 
 @implementation FBSDKProfile
-
-- (instancetype)init NS_UNAVAILABLE
-{
-  assert(0);
-}
 
 - (instancetype)initWithUserID:(NSString *)userID
                      firstName:(NSString *)firstName
@@ -140,13 +144,13 @@ static FBSDKProfile *g_currentProfile;
 - (NSUInteger)hash
 {
   NSUInteger subhashes[] = {
-    [self.userID hash],
-    [self.firstName hash],
-    [self.middleName hash],
-    [self.lastName hash],
-    [self.name hash],
-    [self.linkURL hash],
-    [self.refreshDate hash]
+    self.userID.hash,
+    self.firstName.hash,
+    self.middleName.hash,
+    self.lastName.hash,
+    self.name.hash,
+    self.linkURL.hash,
+    self.refreshDate.hash
   };
   return [FBSDKMath hashWithIntegerArray:subhashes count:sizeof(subhashes) / sizeof(subhashes[0])];
 }
@@ -179,7 +183,7 @@ static FBSDKProfile *g_currentProfile;
   return YES;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
   NSString *userID = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDKPROFILE_USERID_KEY];
   NSString *firstName = [decoder decodeObjectOfClass:[NSString class] forKey:FBSDKPROFILE_FIRSTNAME_KEY];
