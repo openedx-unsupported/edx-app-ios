@@ -1825,6 +1825,15 @@
 		D403B266ACE25A256FD75605 /* Pods-edXTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-edXTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-edXTests/Pods-edXTests.release.xcconfig"; sourceTree = "<group>"; };
 		E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewController.swift; sourceTree = "<group>"; };
 		E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionBlockViewControllerTests.swift; sourceTree = "<group>"; };
+		E006BD0E22DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/subjects.json"; sourceTree = "<group>"; };
+		E006BD0F22DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/MobileAppEula.htm"; sourceTree = "<group>"; };
+		E006BD1022DF29CF00AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/PrivacyPolicy.htm"; sourceTree = "<group>"; };
+		E006BD1122DF29D000AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "pt-BR"; path = "pt-BR.lproj/TermsOfServices.htm"; sourceTree = "<group>"; };
+		E006BD1222DF29D000AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		E006BD1322DF29D100AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		E006BD1422DF29D100AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/profiles.json"; sourceTree = "<group>"; };
+		E006BD1522DF29D100AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/languages.json"; sourceTree = "<group>"; };
+		E006BD1622DF29D200AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/whats_new.json"; sourceTree = "<group>"; };
 		E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewControllerTests.swift; sourceTree = "<group>"; };
 		E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnackbarViewsTests.swift; sourceTree = "<group>"; };
 		E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+CommonAdditions.swift"; sourceTree = "<group>"; };
@@ -4137,6 +4146,7 @@
 				tr,
 				"zh-Hans",
 				fr,
+				"pt-BR",
 			);
 			mainGroup = BECB7B021924C0C3009C77F1;
 			productRefGroup = BECB7B0C1924C0C3009C77F1 /* Products */;
@@ -5220,6 +5230,7 @@
 				E041698E22CA143900449AFB /* tr */,
 				22A3CECA22CCCADC005A046E /* zh-Hans */,
 				2250E9D222DC623B00674093 /* fr */,
+				E006BD1422DF29D100AA5185 /* pt-BR */,
 			);
 			name = profiles.json;
 			sourceTree = "<group>";
@@ -5232,6 +5243,7 @@
 				E041698F22CA143900449AFB /* tr */,
 				22A3CECB22CCCADC005A046E /* zh-Hans */,
 				2250E9D322DC623B00674093 /* fr */,
+				E006BD1522DF29D100AA5185 /* pt-BR */,
 			);
 			name = languages.json;
 			sourceTree = "<group>";
@@ -5244,6 +5256,7 @@
 				E041698922CA143700449AFB /* tr */,
 				22A3CEC522CCCADA005A046E /* zh-Hans */,
 				2250E9CD22DC623A00674093 /* fr */,
+				E006BD0F22DF29CF00AA5185 /* pt-BR */,
 			);
 			name = MobileAppEula.htm;
 			sourceTree = "<group>";
@@ -5256,6 +5269,7 @@
 				E041698A22CA143800449AFB /* tr */,
 				22A3CEC622CCCADA005A046E /* zh-Hans */,
 				2250E9CE22DC623A00674093 /* fr */,
+				E006BD1022DF29CF00AA5185 /* pt-BR */,
 			);
 			name = PrivacyPolicy.htm;
 			sourceTree = "<group>";
@@ -5268,6 +5282,7 @@
 				E041698B22CA143800449AFB /* tr */,
 				22A3CEC722CCCADB005A046E /* zh-Hans */,
 				2250E9CF22DC623A00674093 /* fr */,
+				E006BD1122DF29D000AA5185 /* pt-BR */,
 			);
 			name = TermsOfServices.htm;
 			sourceTree = "<group>";
@@ -5280,6 +5295,7 @@
 				E041698822CA143700449AFB /* tr */,
 				22A3CEC422CCCADA005A046E /* zh-Hans */,
 				2250E9CC22DC623900674093 /* fr */,
+				E006BD0E22DF29CF00AA5185 /* pt-BR */,
 			);
 			name = subjects.json;
 			sourceTree = "<group>";
@@ -5292,6 +5308,7 @@
 				E041698C22CA143800449AFB /* tr */,
 				22A3CEC822CCCADB005A046E /* zh-Hans */,
 				2250E9D022DC623A00674093 /* fr */,
+				E006BD1222DF29D000AA5185 /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5304,6 +5321,7 @@
 				E041698D22CA143900449AFB /* tr */,
 				22A3CEC922CCCADC005A046E /* zh-Hans */,
 				2250E9D122DC623B00674093 /* fr */,
+				E006BD1322DF29D100AA5185 /* pt-BR */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5316,6 +5334,7 @@
 				E041699022CA143A00449AFB /* tr */,
 				22A3CECC22CCCADC005A046E /* zh-Hans */,
 				2250E9D422DC623C00674093 /* fr */,
+				E006BD1622DF29D200AA5185 /* pt-BR */,
 			);
 			name = whats_new.json;
 			sourceTree = "<group>";
