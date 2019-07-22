@@ -288,6 +288,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
     }
     
+    private func isRTL() -> Bool {
+        return (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft)
+    }
+    
     private func setConstraints() {
         topBar.snp.makeConstraints { make in
             make.leading.equalTo(self)
@@ -349,7 +353,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.height.equalTo(tableSettingSize.height)
             make.width.equalTo(tableSettingSize.width)
             make.bottom.equalTo(btnSettings.snp.top).offset(-StandardVerticalMargin)
-            make.centerX.equalTo(btnSettings.snp.centerX).offset(-StandardFooterHeight)
+            let standardFooterHeight = (isRTL()) ? StandardFooterHeight : -StandardFooterHeight
+            make.centerX.equalTo(btnSettings.snp.centerX).offset(standardFooterHeight)
         }
         
         tapButton.snp.makeConstraints { make in
