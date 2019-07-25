@@ -273,6 +273,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
     }
     
+    var isRTL: Bool {
+        return (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft)
+    }
+    
     private func startBufferedTimer() {
         stopBufferedTimer()
         bufferedTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(monitorBufferedMovie), userInfo: nil, repeats: true)
@@ -286,10 +290,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             bufferedTimer?.invalidate()
             bufferedTimer = nil
         }
-    }
-    
-    private func isRTL() -> Bool {
-        return (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft)
     }
     
     private func setConstraints() {
@@ -353,7 +353,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.height.equalTo(tableSettingSize.height)
             make.width.equalTo(tableSettingSize.width)
             make.bottom.equalTo(btnSettings.snp.top).offset(-StandardVerticalMargin)
-            let standardFooterHeight = (isRTL()) ? StandardFooterHeight : -StandardFooterHeight
+            let standardFooterHeight = (isRTL) ? StandardFooterHeight : -StandardFooterHeight
             make.centerX.equalTo(btnSettings.snp.centerX).offset(standardFooterHeight)
         }
         
