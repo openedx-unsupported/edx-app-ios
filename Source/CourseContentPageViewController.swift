@@ -271,8 +271,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let currentController = viewControllers?.first,
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
-            setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
-                self?.updateTransitionState(is: false)
+            setPageControllers(with: [nextController], direction: direction, animated: false, completion: { [weak self] (finished) in
+                if finished {
+                    self?.updateTransitionState(is: false)
+                }
             })
         }
     }
