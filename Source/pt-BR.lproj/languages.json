@@ -3,190 +3,190 @@
         "aa": "Afar"
     },
     {
-        "ab": "Abecázio"
+        "ab": "Abkhazian"
     },
     {
-        "af": "Africâner"
+        "af": "Afrikaans"
     },
     {
-        "ak": " Acã"
+        "ak": "Akan"
     },
     {
-        "sq": "Albanês"
+        "sq": "Albanisch"
     },
     {
-        "am": "Amárico"
+        "am": "Amharic"
     },
     {
-        "ar": "Árabe"
+        "ar": "Arabisch"
     },
     {
-        "an": "Aragonês"
+        "an": "Aragonese"
     },
     {
-        "hy": "Armênio"
+        "hy": "Armenisch"
     },
     {
-        "as": "Assamês"
+        "as": "Assamese"
     },
     {
-        "av": "Avárico"
+        "av": "Avaric"
     },
     {
-        "ae": "Avéstico"
+        "ae": "Avestan"
     },
     {
-        "ay": "Aimará"
+        "ay": "Aymara"
     },
     {
-        "az": "Azerbaijano"
+        "az": "Azerbaijani"
     },
     {
-        "ba": "Basquir"
+        "ba": "Bashkir"
     },
     {
         "bm": "Bambara"
     },
     {
-        "eu": "Basco"
+        "eu": "Baskisch"
     },
     {
-        "be": "Bielorusso"
+        "be": "Weißrussisch"
     },
     {
         "bn": "Bengali"
     },
     {
-        "bh": "Línguas Biaris"
+        "bh": "Bihari languages"
     },
     {
-        "bl": "Bislamá"
+        "bi": "Bislama"
     },
     {
-        "bs": "Bósnio"
+        "bs": "Bosnisch"
     },
     {
-        "br": "Bretão"
+        "br": "Breton"
     },
     {
-        "bg": "Búlgaro"
+        "bg": "Bulgarisch"
     },
     {
-        "my": "birmanês"
+        "my": "Burmese"
     },
     {
-        "ca": "Catalão"
+        "ca": "Catalan"
     },
     {
         "ch": "Chamorro"
     },
     {
-        "ce": "Checheno"
+        "ce": "Chechen"
     },
     {
-        "zh": "Chinês"
+        "zh": "Chinesisch"
     },
     {
-        "zh_HANS": "Chinês simplificado"
+        "zh_HANS": "Vereinfachtes Chinesisch"
     },
     {
-        "zh_HANT": "Chinês tradicional"
+        "zh_HANT": "Traditionelles Chinesisch"
     },
     {
-        "cu": "Eslavo Rclesiástico"
+        "cu": "Church Slavic"
     },
     {
-        "cv": "chuvacho"
+        "cv": "Chuvash"
     },
     {
-        "kw": "córnico"
+        "kw": "Cornish"
     },
     {
-        "co": "corso"
+        "co": "Corsican"
     },
     {
         "cr": "Cree"
     },
     {
-        "cs": "Tcheco"
+        "cs": "Tschechisch"
     },
     {
-        "da": "Dinamarquês"
+        "da": "Dänisch"
     },
     {
         "dv": "Divehi"
     },
     {
-        "ni": "Holandês"
+        "nl": "Niederländisch"
     },
     {
-        "dz": "Dzonga"
+        "dz": "Dzongkha"
     },
     {
-        "en": "Inglês"
+        "en": "Englisch"
     },
     {
         "eo": "Esperanto"
     },
     {
-        "et": "Estoniano"
+        "et": "Estnisch"
     },
     {
         "ee": "Ewe"
     },
     {
-        "fo": "Faroense"
+        "fo": "Faroese"
     },
     {
-        "fj": "Fijiano"
+        "fj": "Fijian"
     },
     {
-        "fl": "Finlandês"
+        "fi": "Finnisch"
     },
     {
-        "fr": "Francês"
+        "fr": "Französisch"
     },
     {
-        "fy": "Frísio Ocidental"
+        "fy": "Westfriesisch"
     },
     {
-        "ff": "Fula"
+        "ff": "Fulah"
     },
     {
-        "ka": "Georgiano"
+        "ka": "Georgisch"
     },
     {
-        "de": "Alemão"
+        "de": "Deutsch"
     },
     {
-        "gd": "Gaélico"
+        "gd": "Gaelic"
     },
     {
-        "ga": "Irlandês"
+        "ga": "Irish"
     },
     {
-        "gl": "Galego"
+        "gl": "Galicisch"
     },
     {
-        "gv": "Manquês"
+        "gv": "Manx"
     },
     {
-        "el": "Grego"
+        "el": "Griechisch"
     },
     {
         "gn": "Guarani"
     },
     {
-        "gu": "Gujaráti"
+        "gu": "Gujarati"
     },
     {
-        "ht": "Haitiano"
+        "ht": "Haitian"
     },
     {
         "ha": "Hausa"
     },
     {
-        "he": "Hebraico"
+        "he": "Hebräisch"
     },
     {
         "hz": "Herero"
@@ -198,16 +198,16 @@
         "ho": "Hiri Motu"
     },
     {
-        "hr": "Croata"
+        "hr": "Kroatisch"
     },
     {
-        "hu": "Húngaro"
+        "hu": "Ungarisch"
     },
     {
-        "lg": "Igbo"
+        "ig": "Igbo"
     },
     {
-        "is": "Islandês"
+        "is": "Isländisch"
     },
     {
         "io": "Ido"
@@ -222,22 +222,22 @@
         "ie": "Interlingue"
     },
     {
-        "ia": "Interlíngua"
+        "ia": "Interlingua"
     },
     {
-        "id": "Indonésio"
+        "id": "Indonesisch"
     },
     {
         "ik": "Inupiaq"
     },
     {
-        "it": "Italiano"
+        "it": "Italienisch"
     },
     {
-        "jv": "Javanês"
+        "jv": "Javanese"
     },
     {
-        "ja": "Japonês"
+        "ja": "Japanisch"
     },
     {
         "kl": "Kalaallisut"
@@ -246,25 +246,25 @@
         "kn": "Kannada"
     },
     {
-        "ks": "caxemira"
+        "ks": "Kashmiri"
     },
     {
         "kr": "Kanuri"
     },
     {
-        "kk": " cazaque"
+        "kk": "Kazakh"
     },
     {
-        "km": "khmer"
+        "km": "Zentral Khmer"
     },
     {
-        "kl": "Kikuyu"
+        "ki": "Kikuyu"
     },
     {
         "rw": "Kinyarwanda"
     },
     {
-        "ky": "quirguiz"
+        "ky": "Kirghiz"
     },
     {
         "kv": "Komi"
@@ -273,34 +273,34 @@
         "kg": "Kongo"
     },
     {
-        "ko": "Coreano"
+        "ko": "Koreanisch"
     },
     {
-        "kj": "cuanhama"
+        "kj": "Kuanyama"
     },
     {
-        "ku": "Curdo"
+        "ku": "Kurdisch"
     },
     {
-        "lo": "laociano"
+        "lo": "Lao"
     },
     {
-        "la": "Latim"
+        "la": "Latin"
     },
     {
-        "lv": "Letão"
+        "lv": "Lettisch"
     },
     {
-        "li": "Limburguês"
+        "li": "Limburgan"
     },
     {
-        "In": "Lingala"
+        "ln": "Lingala"
     },
     {
-        "It": "Lituâno"
+        "lt": "Litauisch"
     },
     {
-        "lb": "luxemburguês"
+        "lb": "Luxemburgisch"
     },
     {
         "lu": "Luba-Katanga"
@@ -309,31 +309,31 @@
         "lg": "Ganda"
     },
     {
-        "mk": " macedônio"
+        "mk": "Mazedonisch"
     },
     {
-        "mh": "Marshalês"
+        "mh": "Marshallese"
     },
     {
-        "ml": "malaiala"
+        "ml": "Malayalam"
     },
     {
-        "ml": "Maori"
+        "mi": "Maori"
     },
     {
-        "mr": "Marati"
+        "mr": "Marathi"
     },
     {
-        "ms": "Malaio"
+        "ms": "Malay"
     },
     {
-        "mg": "malgaxe"
+        "mg": "Malagasy"
     },
     {
-        "mt": "maltês"
+        "mt": "Maltesisch"
     },
     {
-        "mn": "mongol"
+        "mn": "Mongolisch"
     },
     {
         "na": "Nauru"
@@ -342,214 +342,214 @@
         "nv": "Navajo"
     },
     {
-        "nr": "ndebele do sul "
+        "nr": "Ndebele, South"
     },
     {
-        "nd": "Ndebele do norte"
+        "nd": "Ndebele, North"
     },
     {
-        "ng": "Xindonga"
+        "ng": "Ndonga"
     },
     {
-        "ne": "Nepalês"
+        "ne": "Nepalesisch"
     },
     {
-        "nn": "Novo Norueguês"
+        "nn": "Norwegisch"
     },
     {
-        "nb": "Bokmål Norueguês"
+        "nb": "Bokmål, Norwegian"
     },
     {
-        "no": "Norueguês"
+        "no": "Norwegisch"
     },
     {
         "ny": "Chichewa"
     },
     {
-        "oc": "occitano"
+        "oc": "Occitan"
     },
     {
-        "oj": "Ojíbua"
+        "oj": "Ojibwa"
     },
     {
-        "or": "Oriá"
+        "or": "Oriya"
     },
     {
         "om": "Oromo"
     },
     {
-        "os": "osseto"
+        "os": "Ossetian"
     },
     {
         "pa": "Panjabi"
     },
     {
-        "fa": "Persa"
+        "fa": "Persisch"
     },
     {
-        "pl": "Páli"
+        "pi": "Pali"
     },
     {
-        "pl": "Polonês"
+        "pl": "Polnisch"
     },
     {
-        "pt": "Português"
+        "pt": "Portugiesisch"
     },
     {
-        "ps": "Pachto"
+        "ps": "Pushto"
     },
     {
         "qu": "Quechua"
     },
     {
-        "rm": "romanche"
+        "rm": "Romansh"
     },
     {
-        "ro": "Romeno"
+        "ro": "Rumänisch"
     },
     {
-        "m": "Rundi"
+        "rn": "Rundi"
     },
     {
-        "ru": "Russo"
+        "ru": "Russisch"
     },
     {
         "sg": "Sango"
     },
     {
-        "a": "Sânscrito"
+        "sa": "Sanskrit"
     },
     {
-        "sl": "Sinhala"
+        "si": "Sinhala"
     },
     {
-        "k": "Eslovaco"
+        "sk": "Slowakisch"
     },
     {
-        "sl": "Esloveno"
+        "sl": "Slowenisch"
     },
     {
-        "se": "sami setentrional"
+        "se": "Northern Sami"
     },
     {
-        "sm": "Samoano"
+        "sm": "Samoan"
     },
     {
-        "sn": "Xona"
+        "sn": "Shona"
     },
     {
-        "sd": "sindi"
+        "sd": "Sindhi"
     },
     {
         "so": "Somali"
     },
     {
-        "st": "Sesoto do Sul"
+        "st": "Sotho, Southern"
     },
     {
-        "es": "Espanhol"
+        "es": "Spanisch"
     },
     {
-        "sc": "Sardo"
+        "sc": "Sardinian"
     },
     {
-        "sr": "Sérvio"
+        "sr": "Serbisch"
     },
     {
-        "ss": "suázi"
+        "ss": "Swati"
     },
     {
-        "su": "Sudanês"
+        "su": "Sundanese"
     },
     {
-        "sw": "suahíli "
+        "sw": "Swahili"
     },
     {
-        "sw": "Sueco"
+        "sv": "Schwedisch"
     },
     {
-        "ty": "taitiano"
+        "ty": "Tahitisch"
     },
     {
-        "ta": "tâmil"
+        "ta": "Tamil"
     },
     {
-        "tt": "Tártaro"
+        "tt": "Tatar"
     },
     {
         "te": "Telugu"
     },
     {
-        "tg": "Tajique"
+        "tg": "Tajik"
     },
     {
         "tl": "Tagalog"
     },
     {
-        "th": "Tailandês"
+        "th": "Thai"
     },
     {
-        "bo": "Tibetano"
+        "bo": "Tibetan"
     },
     {
-        "ti": "Tigrínia"
+        "ti": "Tigrinya"
     },
     {
-        "o": "tonganês (ilhas de Tonga.)"
+        "to": "Tonga (Tonga Islands)"
     },
     {
-        "tn": "tswana"
+        "tn": "Tswana"
     },
     {
         "ts": "Tsonga"
     },
     {
-        "tk": "Turcomeno"
+        "tk": "Turkmen"
     },
     {
-        "tu": "Turco"
+        "tr": "Türkisch"
     },
     {
         "tw": "Twi"
     },
     {
-        "ug": "uigur"
+        "ug": "Uighur"
     },
     {
-        "uc": "Ucraniano"
+        "uk": "Ukrainisch"
     },
     {
         "ur": "Urdu"
     },
     {
-        "uz": "usbeque"
+        "uz": "Uzbek"
     },
     {
         "ve": "Venda"
     },
     {
-        "vi": "Vietnamita"
+        "vi": "Vietnamesisch"
     },
     {
-        "vo": "Volapuque"
+        "vo": "Volapük"
     },
     {
-        "cy": "Galês"
+        "cy": "Welsh"
     },
     {
-        "wa": "Valão"
+        "wa": "Walloon"
     },
     {
         "wo": "Wolof"
     },
     {
-        "xo": "Xossa"
+        "xh": "Xhosa"
     },
     {
-        "ii": "Iídiche"
+        "yi": "Yiddish"
     },
     {
-        "io": "Iorubá"
+        "yo": "Yoruba"
     },
     {
         "za": "Zhuang"
