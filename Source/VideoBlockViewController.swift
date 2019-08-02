@@ -104,9 +104,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     override func viewDidAppear(_ animated : Bool) {
-        
-        loadVideoIfNecessary()
-        
+
         // There's a weird OS bug where the bottom layout guide doesn't get set properly until
         // the layout cycle after viewDidAppear so cause a layout cycle
         view.setNeedsUpdateConstraints()
@@ -114,6 +112,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         view.setNeedsLayout()
         view.layoutIfNeeded()
         super.viewDidAppear(animated)
+
+        loadVideoIfNecessary()
         
         if !(environment.interface?.canDownload() ?? false) {
             guard let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID), video.downloadState == .complete else {

@@ -77,8 +77,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(false, animated: animated)
         courseQuerier.blockWithID(id: blockID).extendLifetimeUntilFirstResult (success:
-            { block in
-                self.environment.analytics.trackScreen(withName: OEXAnalyticsScreenUnitDetail, courseID: self.courseID, value: block.internalName)
+            {[weak self] block in
+                self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenUnitDetail, courseID: self?.courseID ?? "", value: block.internalName)
             },
             failure: {
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
@@ -271,10 +271,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         if let currentController = viewControllers?.first,
             let nextController = self.siblingWithDirection(direction: direction, fromController: currentController)
         {
-            setPageControllers(with: [nextController], direction: direction, animated: false, completion: { [weak self] (finished) in
-                if finished {
-                    self?.updateTransitionState(is: false)
-                }
+            setPageControllers(with: [nextController], direction: direction, animated: true, completion: { [weak self] (finished) in
+                self?.updateTransitionState(is: false)
             })
         }
     }
