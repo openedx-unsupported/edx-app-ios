@@ -47,6 +47,8 @@
         self.signUpHeading.isAccessibilityElement = NO;
         self.signUpHeading.accessibilityIdentifier = @"RegistrationViewController:register-with-label";
         self.emailSuggestion = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.emailSuggestion.adjustsFontSizeToFitWidth = true;
+        self.emailSuggestion.minimumScaleFactor = 0.7;
         self.emailSuggestion.attributedText = [self.labelStyle attributedStringWithText:[Strings registrationRegisterAlternatePrompt]];
         self.emailSuggestion.accessibilityIdentifier = @"RegistrationViewController:register-with-email-label";
         [self.emailSuggestion setTextAlignment:NSTextAlignmentCenter];

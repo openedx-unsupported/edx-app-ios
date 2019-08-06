@@ -1052,15 +1052,6 @@
 		228E169B2136BC0E006FA184 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		2294A549206E637000D64FFC /* VideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		22A1B6FE206CFFA3001C1704 /* TranscriptManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptManager.swift; sourceTree = "<group>"; };
-		22A3CECF22D46B66005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/subjects.json; sourceTree = "<group>"; };
-		22A3CED022D46B66005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = he; path = he.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
-		22A3CED122D46B66005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = he; path = he.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
-		22A3CED222D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = he; path = he.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
-		22A3CED322D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
-		22A3CED422D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		22A3CED522D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/profiles.json; sourceTree = "<group>"; };
-		22A3CED622D46B68005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/languages.json; sourceTree = "<group>"; };
-		22A3CED722D46B68005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/whats_new.json; sourceTree = "<group>"; };
 		22A3CEC422CCCADA005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "zh-Hans"; path = "zh-Hans.lproj/subjects.json"; sourceTree = "<group>"; };
 		22A3CEC522CCCADA005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/MobileAppEula.htm"; sourceTree = "<group>"; };
 		22A3CEC622CCCADA005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "zh-Hans"; path = "zh-Hans.lproj/PrivacyPolicy.htm"; sourceTree = "<group>"; };
@@ -1071,6 +1062,15 @@
 		22A3CECB22CCCADC005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "zh-Hans"; path = "zh-Hans.lproj/languages.json"; sourceTree = "<group>"; };
 		22A3CECC22CCCADC005A046E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "zh-Hans"; path = "zh-Hans.lproj/whats_new.json"; sourceTree = "<group>"; };
 		22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLVersionConfig.swift; sourceTree = "<group>"; };
+		22A3CECF22D46B66005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/subjects.json; sourceTree = "<group>"; };
+		22A3CED022D46B66005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = he; path = he.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
+		22A3CED122D46B66005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = he; path = he.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
+		22A3CED222D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = he; path = he.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
+		22A3CED322D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
+		22A3CED422D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		22A3CED522D46B67005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/profiles.json; sourceTree = "<group>"; };
+		22A3CED622D46B68005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/languages.json; sourceTree = "<group>"; };
+		22A3CED722D46B68005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/whats_new.json; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
 		22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLDefaultVersionTests.swift; sourceTree = "<group>"; };
@@ -1845,6 +1845,15 @@
 		E006BD1622DF29D200AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/whats_new.json"; sourceTree = "<group>"; };
 		E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewControllerTests.swift; sourceTree = "<group>"; };
 		E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnackbarViewsTests.swift; sourceTree = "<group>"; };
+		E01287DD22EEDD290093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/subjects.json; sourceTree = "<group>"; };
+		E01287DE22EEDD2A0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = de; path = de.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
+		E01287DF22EEDD2A0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = de; path = de.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
+		E01287E022EEDD2B0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = de; path = de.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
+		E01287E122EEDD2B0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E01287E222EEDD2C0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E01287E322EEDD2C0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/profiles.json; sourceTree = "<group>"; };
+		E01287E422EEDD2C0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/languages.json; sourceTree = "<group>"; };
+		E01287E522EEDD2C0093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/whats_new.json; sourceTree = "<group>"; };
 		E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+CommonAdditions.swift"; sourceTree = "<group>"; };
 		E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsTracker.swift; sourceTree = "<group>"; };
 		E02165AE1E39D3040058D685 /* UIImage_OEXHelpersTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage_OEXHelpersTests.swift; sourceTree = "<group>"; };
@@ -4157,6 +4166,7 @@
 				"zh-Hans",
 				fr,
 				"pt-BR",
+				de,
 			);
 			mainGroup = BECB7B021924C0C3009C77F1;
 			productRefGroup = BECB7B0C1924C0C3009C77F1 /* Products */;
@@ -5242,6 +5252,7 @@
 				22A3CECA22CCCADC005A046E /* zh-Hans */,
 				2250E9D222DC623B00674093 /* fr */,
 				E006BD1422DF29D100AA5185 /* pt-BR */,
+				E01287E322EEDD2C0093285E /* de */,
 			);
 			name = profiles.json;
 			sourceTree = "<group>";
@@ -5256,6 +5267,7 @@
 				22A3CECB22CCCADC005A046E /* zh-Hans */,
 				2250E9D322DC623B00674093 /* fr */,
 				E006BD1522DF29D100AA5185 /* pt-BR */,
+				E01287E422EEDD2C0093285E /* de */,
 			);
 			name = languages.json;
 			sourceTree = "<group>";
@@ -5270,6 +5282,7 @@
 				22A3CEC522CCCADA005A046E /* zh-Hans */,
 				2250E9CD22DC623A00674093 /* fr */,
 				E006BD0F22DF29CF00AA5185 /* pt-BR */,
+				E01287DE22EEDD2A0093285E /* de */,
 			);
 			name = MobileAppEula.htm;
 			sourceTree = "<group>";
@@ -5284,6 +5297,7 @@
 				22A3CEC622CCCADA005A046E /* zh-Hans */,
 				2250E9CE22DC623A00674093 /* fr */,
 				E006BD1022DF29CF00AA5185 /* pt-BR */,
+				E01287DF22EEDD2A0093285E /* de */,
 			);
 			name = PrivacyPolicy.htm;
 			sourceTree = "<group>";
@@ -5298,6 +5312,7 @@
 				22A3CEC722CCCADB005A046E /* zh-Hans */,
 				2250E9CF22DC623A00674093 /* fr */,
 				E006BD1122DF29D000AA5185 /* pt-BR */,
+				E01287E022EEDD2B0093285E /* de */,
 			);
 			name = TermsOfServices.htm;
 			sourceTree = "<group>";
@@ -5312,6 +5327,7 @@
 				22A3CEC422CCCADA005A046E /* zh-Hans */,
 				2250E9CC22DC623900674093 /* fr */,
 				E006BD0E22DF29CF00AA5185 /* pt-BR */,
+				E01287DD22EEDD290093285E /* de */,
 			);
 			name = subjects.json;
 			sourceTree = "<group>";
@@ -5326,6 +5342,7 @@
 				22A3CEC822CCCADB005A046E /* zh-Hans */,
 				2250E9D022DC623A00674093 /* fr */,
 				E006BD1222DF29D000AA5185 /* pt-BR */,
+				E01287E122EEDD2B0093285E /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5340,6 +5357,7 @@
 				22A3CEC922CCCADC005A046E /* zh-Hans */,
 				2250E9D122DC623B00674093 /* fr */,
 				E006BD1322DF29D100AA5185 /* pt-BR */,
+				E01287E222EEDD2C0093285E /* de */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5354,6 +5372,7 @@
 				22A3CECC22CCCADC005A046E /* zh-Hans */,
 				2250E9D422DC623C00674093 /* fr */,
 				E006BD1622DF29D200AA5185 /* pt-BR */,
+				E01287E522EEDD2C0093285E /* de */,
 			);
 			name = whats_new.json;
 			sourceTree = "<group>";
