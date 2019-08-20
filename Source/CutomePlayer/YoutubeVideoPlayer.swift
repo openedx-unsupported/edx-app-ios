@@ -11,6 +11,7 @@ class YoutubeVideoPlayer: VideoPlayer {
     let playerView: WKYTPlayerView
     var videoId: String
     private var videoCurrentTime: Float = 0.0
+    let barTintColor: UIColor
 
     private struct playVars {
         var playsinline = 0
@@ -37,6 +38,7 @@ class YoutubeVideoPlayer: VideoPlayer {
     override init(environment : Environment) {
         playerView = WKYTPlayerView()
         videoId = ""
+        barTintColor = UINavigationBar.appearance().barTintColor ?? environment.styles.navigationItemTintColor()
         super.init(environment: environment)
         playerView.delegate = self
     }
@@ -53,7 +55,7 @@ class YoutubeVideoPlayer: VideoPlayer {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         playerView.stopVideo()
-        UINavigationBar.appearance().barTintColor = environment.styles.navigationItemTintColor()
+        UINavigationBar.appearance().barTintColor = barTintColor
     }
 
     private func createYoutubePlayer() {
