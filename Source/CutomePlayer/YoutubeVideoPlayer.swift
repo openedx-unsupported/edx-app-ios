@@ -10,7 +10,7 @@ class YoutubeVideoPlayer: VideoPlayer {
 
     let playerView: WKYTPlayerView
     var videoId: String
-    private var videoCurrentTime: Float
+    private var videoCurrentTime: Float = 0.0
 
     private struct playVars {
         var playsinline = 0
@@ -37,7 +37,6 @@ class YoutubeVideoPlayer: VideoPlayer {
     override init(environment : Environment) {
         playerView = WKYTPlayerView()
         videoId = ""
-        videoCurrentTime = 0.0
         super.init(environment: environment)
         playerView.delegate = self
     }
@@ -61,7 +60,6 @@ class YoutubeVideoPlayer: VideoPlayer {
         loadingIndicatorView.startAnimating()
         UINavigationBar.appearance().barTintColor = .black
         view.addSubview(playerView)
-        t_captionLanguage = String(Locale.preferredLanguages[0].prefix(2))
     }
 
     func setVideoPlayerMode(isPortrait: Bool) {
