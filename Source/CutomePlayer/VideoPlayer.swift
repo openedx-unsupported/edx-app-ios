@@ -32,7 +32,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
-    let environment : Environment
+    private let environment : Environment
     fileprivate var controls: VideoPlayerControls?
     weak var playerDelegate : VideoPlayerDelegate?
     var isFullScreen : Bool = false {

@@ -59,7 +59,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     func addLoadListener() {
         loader.listen (self,
                        success : { [weak self] block in
-                        guard let video = self?.environment.interface?.stateForVideo(withID: self?.blockID, courseID : self?.courseID)else {
+                        guard let video = self?.environment.interface?.stateForVideo(withID: self?.blockID, courseID : self?.courseID) else {
                             self?.showError(error: nil)
                             return
                         }
@@ -72,8 +72,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
                                 self?.showYoutubeMessage(url: url!)
                             }
                         }
-                        else if block.type.asVideo?.preferredEncoding != nil
-                        {
+                        else if block.type.asVideo?.preferredEncoding != nil {
                             self?.showLoadedBlock(block: block, forVideo: video)
                         }
                         else {

@@ -9,11 +9,11 @@
 class YoutubeVideoPlayer: VideoPlayer {
 
     let playerView: WKYTPlayerView
-    var videoId: String
+    var videoID: String = ""
     private var videoCurrentTime: Float = 0.0
     let barTintColor: UIColor
 
-    private struct playVars {
+    private struct playerVars {
         var playsinline = 0
         var start = 0
         var value: [String:Int] {
@@ -37,7 +37,6 @@ class YoutubeVideoPlayer: VideoPlayer {
     }
     override init(environment : Environment) {
         playerView = WKYTPlayerView()
-        videoId = ""
         barTintColor = UINavigationBar.appearance().barTintColor ?? environment.styles.navigationItemTintColor()
         super.init(environment: environment)
         playerView.delegate = self
@@ -80,23 +79,24 @@ class YoutubeVideoPlayer: VideoPlayer {
         guard let videoUrl = video.summary?.videoURL, let url = URLComponents(string : videoUrl) else {
             Logger.logError("YOUTUBE_VIDEO", "invalid url")
             showErrorMessage(message: Strings.youtubeInvalidUrlError)
-            loadingIndicatorView.stopAnimating()
             return
         }
 
-        let playvars = playVars(playsinline: 1, start: 0)
-        guard let id = url.queryItems?.first?.value else {
+        let playerVars = YoutubeVideoPlayer.playerVars(playsinline: 1, start: 0)
+        guard let videoID = url.queryItems?.first?.value else {
+            Logger.logError("YOUTUBE_VIDEO", "invalid video ID")
+            showErrorMessage(message: Strings.youtubeInvalidUrlError)
             return
         }
-        videoId = id
-        playerView.load(withVideoId: videoId, playerVars: playvars.value)
+        self.videoID = videoID
+        playerView.load(withVideoId: videoID, playerVars: playerVars.value)
     }
 
     override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         isFullScreen = fullscreen
-        let playvars = playVars(playsinline: Int(truncating: NSNumber(value:!fullscreen)), start: Int(currentTime))
+        let playerVars = YoutubeVideoPlayer.playerVars(playsinline: Int(truncating: NSNumber(value:!fullscreen)), start: Int(currentTime))
 
-        playerView.load(withVideoId: videoId, playerVars: playvars.value)
+        playerView.load(withVideoId: videoID, playerVars: playerVars.value)
         setVideoPlayerMode(isPortrait: !fullscreen)
 
     }
@@ -119,6 +119,8 @@ class YoutubeVideoPlayer: VideoPlayer {
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
         }
+
+        loadingIndicatorView.stopAnimating()
     }
  }
 
