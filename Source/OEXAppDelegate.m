@@ -223,7 +223,7 @@
     //Initialize Fabric
     OEXFabricConfig* fabric = [config fabricConfig];
     if(fabric.appKey && fabric.isEnabled) {
-//        [Fabric with:@[CrashlyticsKit]];
+        [Fabric with:@[CrashlyticsKit]];
     }
 }
 
