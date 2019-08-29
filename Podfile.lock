@@ -164,6 +164,7 @@ PODS:
     - GoogleIDFASupport (~> 3.14)
     - Segment-GoogleAnalytics/Core
   - Smartling.i18n (1.0.14)
+  - YoutubePlayer-in-WKWebView (0.3.0)
 
 DEPENDENCIES:
   - Analytics (~> 3.6.10)
@@ -185,6 +186,7 @@ DEPENDENCIES:
   - Segment-Firebase (= 2.4.0)
   - Segment-GoogleAnalytics (~> 1.2.0)
   - Smartling.i18n (~> 1.0)
+  - YoutubePlayer-in-WKWebView (~> 0.3.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -222,6 +224,7 @@ SPEC REPOS:
     - Segment-Firebase
     - Segment-GoogleAnalytics
     - Smartling.i18n
+    - YoutubePlayer-in-WKWebView
 
 SPEC CHECKSUMS:
   Analytics: 63744ad4afa65c3bcdcdb7a94b62515bde5b3900
@@ -258,7 +261,8 @@ SPEC CHECKSUMS:
   Segment-Firebase: cac4b742228ef74d50ed886f3fc731e4bc8b7d29
   Segment-GoogleAnalytics: b5070619ad337eb09c4b01c52c3d0d90495307cf
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
+  YoutubePlayer-in-WKWebView: 17a33b2fa619d357c9ddd763942ce556660facae
 
-PODFILE CHECKSUM: 8e30504acaf59bb1fde35f9228c9612291c9bb26
+PODFILE CHECKSUM: e9b7deed279cceb36d4470b323a8314feeb363e4
 
 COCOAPODS: 1.5.3

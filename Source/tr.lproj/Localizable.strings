@@ -823,3 +823,5 @@
 "WIFI_ONLY_DETAIL_MESSAGE" = "Sadece Wi-Fi açıkken içerik indir";
 /* Alert dialog button title to confirm an action */
 "YES"="Evet";
+/* Invalid youtube url error message */
+"YOUTUBE_INVALID_URL_ERROR"="Video yüklenemedi, geçersiz URL.";

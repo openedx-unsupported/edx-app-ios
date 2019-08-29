@@ -823,3 +823,5 @@
 "WIFI_ONLY_DETAIL_MESSAGE" = "Télécharger les contenus uniquement sur le réseau Wi-Fi";
 /* Alert dialog button title to confirm an action */
 "YES"="Oui";
+/* Invalid youtube url error message */
+"YOUTUBE_INVALID_URL_ERROR"="La vidéo n'a pas pu être chargée, URL non valide.";

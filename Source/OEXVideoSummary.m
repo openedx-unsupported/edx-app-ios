@@ -150,6 +150,9 @@
         if (([encoding URL] && [OEXInterface isURLForVideo:[encoding URL]]) && [self isSupportedEncoding:name]) {
             isSupportedEncoding = true;
             break;
+        } else if ([[encoding name] isEqualToString:OEXVideoEncodingYoutube] && OEXConfig.sharedConfig.youtubeVideoConfig.enabled) {
+            isSupportedEncoding = true;
+            break;
         }
     }
     
