@@ -1,0 +1,809 @@
+/*
+ Localizable.strings
+ edXVideoLocker
+
+ Created by Nirbhay Agarwal on 07/07/14.
+ Copyright (c) 2014-2015 edX. All rights reserved.
+ */
+
+// Please keep in alphabetical order
+
+/* Alert dialog confirmation button when user chooses to download a large video */
+"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Tải xuống";
+/*Accessibility label for bulk download view when in downloading state */
+"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "Đang tải video xuống";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_CHECKED" = "Đã chọn";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_UNCHECKED" = "Chưa chọn";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "Xóa checkbox";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Nhấn để chọn";
+/* Appending By before course organization and number on My Find Courses*/
+"ACCESSIBILITY_BY" = "Bởi";
+/*Accessibility hint for user bio on user profile screen*/
+"ACCESSIBILITY.ACCOUNT.BIO_LABEL" = "Mô tả";
+/* Accessibility hint for subject name label */
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Nhấn 2 lần để tìm theo chủ đề, {subject_name}";
+/* Accessibility hint for bulk download switch when in new state */
+"ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Khi bật, tất cả video trong khóa học sẽ được tải xuống";
+/* Accessibility hint for bulk download switch when in new partial or downloading state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_HINT" = "Khi tắt, dừng tải xuống tất cả video và xóa tất cả video đã tải xuống trong khóa học.";
+/* Accessibility hint for bulk download switch when in downloaded state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_HINT" = "Khi tắt, tất cả các video trong khóa học đã tải xuống sẽ bị xóa.";
+/* Accessibility hint for close button*/
+"ACCESSIBILITY.CLOSE_HINT" = "Nhấn hai lần để đóng.";
+/* Accessibility label for posted data of discussion responses*/
+"ACCESSIBILITY.DISCUSSION_POSTED_ON" = "Đăng vào {date}";
+/* Accessibility hint for Vote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_VOTE_HINT" = "Nhấn hai lần để bình chọn.";
+/* Accessibility hint for Unvote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNVOTE_HINT" = "Nhấn hai lần để hủy bình chọn.";
+/* Accessibility hint for Report button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_REPORT_HINT" = "Nhấn hai lần để báo cáo.";
+/* Accessibility hint for Unreport button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "Nhấn hai lần để hủy báo cáo.";
+/* Accessibility hint for Follow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "Nhấn hai lần để theo dõi.";
+/* Accessibility hint for Unfollow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Nhấn hai lần để hủy theo dõi.";
+/*Accessibility hint for disabled buttons, cells, etc like for disabled user profile fields on user edit profile screen*/
+"ACCESSIBILITY.DISABLED_HINT" = "Giảm bớt";
+/* Acessibility hint for the show downloads button. */
+"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Nhấn hai lần để xem những mục đang tải xuống";
+/* Accessibility hint for view all subjects label*/
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Nhấn hai lần để xem tất cả chủ đề";
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Đang tải xuống: {percent_complete}";
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{other}" = "Đang tải {video_name} xuống, hoàn thành {percent_complete} phần trăm.";
+/* Accessibility hint for number of downloadable videos */
+/* Accessibility hint for number of downloadable videos */
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "Tải xuống {video_count} video.";
+/* Accessibility label for fullscreen button on video player */
+"ACCESSIBILITY_FULLSCREEN" = "Toàn màn hình";
+/* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
+"ACCESSIBILITY_EXIT_FULLSCREEN" = "Thoát chế độ toàn màn hình";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "Lỗi";
+/* Accessibility label for HTML Icon in the Courseware screens */
+"ACCESSIBILITY_HTML" = "HTML";
+/* Accessibility label for Pause Button in the Video Player */
+"ACCESSIBILITY_PAUSE" = "Tạm dừng";
+/* Accessibility label for Play Button in the Video Player */
+"ACCESSIBILITY_PLAY" = "Phát";
+/* Accessibility lable for the avatar image */
+"ACCESSIBILITY_USER_AVATAR" = "Ảnh đại diện của bạn";
+/* Accessibility label for Problem Icon in the Courseware screens */
+"ACCESSIBILITY_PROBLEM" = "Vấn đề";
+/* Optional text needs to be added for accesibility*/
+"ACCESSIBILITY.OPTIONAL_INPUT"="Không bắt buộc";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY_REQUIRED_INPUT"="Cần thiết";
+/* Accessibility label for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND" = "Tua lại";
+/* Call to action for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND_HINT" = "Tua lại 30 giây";
+/* Accessibility label for Seek bar in the Video Player */
+"ACCESSIBILITY_SEEK_BAR" = "Seek Bar";
+/* Accessibility label for Settings Button in the Video Player */
+"ACCESSIBILITY_SETTINGS" = "Cài đặt";
+/* Call to action for Course content on Home Screen */
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Nhấn hai lần để xem nội dung khóa học.";
+/* We don't have a accessility trait for dropdown, so we will be achieving dropdown trait through accessibility label */
+"ACCESSIBILITY_DROPDOWN_TRAIT" = "Dropdown.";
+/* Call to action for Opening Dropdown */
+"ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Nhấn hai lần để mở dropdown.";
+/* Call to action for Selecting Option */
+"ACCESSIBILITY_SELECT_VALUE_HINT" = "Nhấn hai lần để chọn.";
+/* Accessibility label for Unknown Icon in the Courseware screens */
+"ACCESSIBILITY_UNKNOWN" = "Không xác định";
+/* Accessibility label for Video Icon in the Courseware screens */
+"ACCESSIBILITY_VIDEO" = "Video";
+/* Text spoken for Navigation Button on Course List Screen */
+"ACCESSIBILITY_MENU" = "Menu điều hướng";
+/* Accessibility label for close button when left drawer is open*/
+"ACCESSIBILITY_CLOSE_MENU" = "Đóng menu điều hướng";
+/* Accessibility label for hiding keyboard*/
+"ACCESSIBILITY_HIDE_KEYBOARD" = "Ẩn bàn phím";
+/* Accessibility Hint to view user profile*/
+"ACCESSIBILITY_SHOW_USER_PROFILE_HINT" = "Nhấn hai lần để xem thông tin người dùng";
+/*Accessibility text for pinned discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_PINNED" = "Đã ghim";
+/*Accessibility text for closed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_CLOSED" = "Đã đóng";
+/*Accessibility text for followed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_FOLLOWED" = "Đã theo dõi";
+/* Accessibility text for unread discussion comments count (Posts screen) - {count} is a number of unread comments */
+"ACCESSIBILITY.DISCUSSION_UNREAD_REPLIES"="{count} phản hồi chưa đọc";
+/*Accessibility text for unread discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_UNREAD_THREAD" = "Chủ đề thảo luận chưa đọc";
+/*Accessibility text for read discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_READ_THREAD" = "Chủ đề thảo luận đã đọc";
+/*Accessibility text for discussion thread last seen date(Posts screen) - {date} last updated thread date*/
+"ACCESSIBILITY.DISCUSSION_LAST_POST_ON" = "Bài đăng cuối vào {date}";
+/*Accessibility hint for discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_THREAD_HINT" = "Nhấn hai lần để xem chủ đề.";
+/*Accessibility hint for sort button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_SORT_BY" = "Sắp xếp theo {sort_by}";
+/*Accessibility hint for filter button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_FILTER_BY" = "Lọc theo {filter_by}";
+/*Accessibility label for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_LABEL" = "Đang đăng nhập tới tên {user_name}, {user_email}";
+/*Accessibility hint for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "Nhấn hai lần để xem thông tin cá nhân";
+/*Accessibility text for close button on whats new screen*/
+"ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="Đóng";
+/*Accessibility label for header on new screen*/
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Phiên bản {app_version}, Tính năng mới";
+/*Accessibility text for course share button on course dashboard*/
+"ACCESSIBILITY.SHARE_A_COURSE"="Chia sẻ khóa học";
+/*Accessibility text for close button*/
+"ACCESSIBILITY.CLOSE_LABEL"="Đóng";
+/*Accessibility text for profile button*/
+"ACCESSIBILITY.PROFILE_LABEL"="Hồ sơ";
+/* Title of user profile section for user accomplishments (like badges) */
+"ACCOMPLISHMENTS.TITLE" = "Thành tựu";
+/* Default text template when user shares an accomplishment */
+"ACCOMPLISHMENTS.SHARE_TEXT" = "Tôi vừa nhận được huy hiệu ở {platform_name}! Xem ngay";
+/* Add a comment button title and place holder used in discussion comment text view */
+"ADD_A_COMMENT"="Thêm một bình luận";
+/* Add a response button title used in discussion's responses screen */
+"ADD_A_RESPONSE"="Thêm một phản hồi";
+/* Add comment button title used in discussion's Add a comment */
+"ADD_COMMENT"="Thêm bình luận";
+/* Add post button title used in discussion's Create a new post */
+"ADD_POST"="Thêm bài đăng";
+/* Add response button title used in discussion's Add a response */
+"ADD_RESPONSE"="Thêm phản hồi";
+/* Add your post button title used in discussion's add a post textview */
+"ADD_YOUR_POST"="Thêm bài đăng của bạn";
+/*Agreement text*/
+"AGREEMENT.TEXT"="bạn dã đồng ý với {eula} và {tos} và bạn đã chấp nhận rằng {platform_name} và mỗi Thành Viên được xử lý thông tin cá nhân của bạn theo {privacy_policy}";
+/*Agreement text prefix for user on signin screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNIN"="Bằng việc đăng nhập vào ứng dụng";
+/*Agreement text prefix for user on signup screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNUP"="Bằng viêc tạo tài khoản,";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_EULA"="{platform_name} Người dùng đồng ý với Giấy phép";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_TOS"="{platform_name} Điều khoản dịch vụ và Honor Code";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="Chính sách Bảo mật";
+/* Alert dialog button allowing user to chosing to allow downloads on cellular */
+"ALLOW"="Cho phép";
+/* Filtering option to show all discussion posts */
+"ALL_POSTS"="Tất cả bài đăng";
+/*Subtitle for bulk download view when in downloading state */
+"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} còn lại, {remaining_videos_size}MB tổng cộng";
+/*Title for bulk download view when in downloaded state */
+"ALL_VIDEOS_DOWNLOADED_TITLE" = "Tất cả video đã được tải xuống";
+/* Message shown when there are no announcements for a course */
+"ANNOUNCEMENT_UNAVAILABLE"="Khóa học này hiện tại không có thông báo nào.";
+/* Label indicating the response answer in Discussion Add comment screen */
+"ANSWER"="Trả lời";
+/* Navigation title for a Question Post which has endorsed answers */
+"ANSWERED_QUESTION"="Câu hỏi đã được trả lời";
+/* Accessibility label for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "Đánh giá điều khiển.";
+/* Accessibility hint for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_HINT" = "Nhấn hai lần và giữ để thay đổi giá trị.";
+/* Alert title for positive app review */
+"APP_REVIEW.RATE_THE_APP" = "Đánh giá ứng dụng";
+/* Positive review message */
+"APP_REVIEW.POSITIVE_REVIEW_MESSAGE" = "Chia sẻ suy nghĩ của bạn về ứng dụng bằng cách viết bài đánh giá ngắn";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK_TITLE" = "Gửi phản hồi?";
+/* Help us improve message for negative app review */
+"APP_REVIEW.HELP_US_IMPROVE" = "Giúp chúng tôi cải thiện!";
+/* Maybe later message for positive/negative app review */
+"APP_REVIEW.MAYBE_LATER" = "Để sau";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK" = "Gửi phản hồi";
+/* Question for rating view */
+"APP_REVIEW.RATE_THE_APP_QUESTION" = "Tôi có thể đánh giá ứng dụng bằng cách nào?";
+/* Submit button for rating view */
+"APP_REVIEW.SUBMIT" = "Gửi";
+/* App Review message email title */
+"APP_REVIEW.MESSAGE_SUBJECT" = "Đánh giá của người dùng";
+/*Asteric for marking fields required*/
+"ASTERIC" = "*";
+/* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
+"AUTH_PROVIDER_ERROR" = "Tài khoản {auth_provider} này chưa liên kết với bất kỳ tài khoản {platform_name} nào. Vui lòng đăng ký.";
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Video, {videos_size}MB tổng cộng";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR" = "Bởi {author_name}";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR_LOWER_CASE" = "bởi {author_name}";
+/* Course completion title */
+"CERTIFICATES.COURSE_COMPLETION_TITLE"="CHÚC MỪNG!";
+/* Course completion subtitle */
+"CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="Bạn đã hoàn thành khóa học.";
+/* Get certificate button text. */
+"CERTIFICATES.GET_CERTIFICATE"="Xem giấy chứng nhận";
+/* Text to share on FB & Twitter when sharing a course cert */
+"CERTIFICATES.SHARE_TEXT"="Tôi vừa nhận được Giấy chứng nhận ở  {platform_name}! Xem ngay:";
+/* Title bar when viewing an actual certificate */
+"CERTIFICATES.VIEW_CERT_TITLE"="Giấy chứng nhận";
+/* Title of course announcements section */
+"COURSE_ANNOUNCEMENTS"="Thông báo";
+/* Title of course handouts section */
+"COURSE_HANDOUTS"="Tài liệu";
+/* Title of resources tab in course dashboardTabBar view */
+"RESOURSES"="Nguồn";
+/* Title of course important dates screen */
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Những ngày quan trọng";
+/* Button text for cancelling any action */
+"CANCEL"="Hủy";
+/* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Cho phép thiết bị của bạn tải video xuống bằng kết nối cellular khi không có Wi-Fi. Chi phí dữ liệu có thể được áp dụng.";
+/* Title of alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_TITLE"="Cho phép cellular download";
+/* Error message shown when there is a problem loading a video */
+"CHECK_CONNECTION"="Có lỗi tải video.\nVui lòng kiểm tra kết nối mạng.";
+/* Generic action button label when the user chooses a thing */
+"CHOOSE" = "Chọn";
+/* Title of dropdown from which the user can select topics on New Post Screen */
+"CHOOSE_A_TOPIC" = "Chọn một chủ đề...";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
+"COMPLETE_REGISTRATION_INFO" = "Đăng nhập thành công với {service}. Bạn chỉ cần bổ sung thêm một số thông tin trước khi bắt đầu học với {platform_name}.";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
+"COMPLETE_REGISTRATION_PROMPT" = "Hoàn tất đăng ký";
+/* Title of alert when confirming deletion of a video */
+"CONFIRM_DELETE_TITLE"="Xác nhận xóa";
+/* Text of alert when confirming video deletion */
+/* Text of alert when confirming video deletion */
+"CONFIRM_DELETE_MESSAGE##{other}"="Bạn có chắc là muốn xóa những video này?";
+/* Text of push notification announcing a new course announcement */
+"COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="Thông báo mới: {course_name}";
+/* Alert dialog button text */
+"CLOSE"="Đóng";
+/* Discussion response comment - {count} is a number of comments */
+/* Discussion response comment - {count} is a number of comments */
+"COMMENT##{other}"="{count} bình luận";
+/* Discussion comments */
+"COMMENTS"="Bình luận";
+/* Text displayed when comments are disabled for a Response */
+"COMMENTS_CLOSED" = "Bình luận đã đóng cho phản hồi này";
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+"COMMENTS_TO_RESPONSE##{other}"="{count} Bình luận";
+/* Label for posts pinned by Community TA(s)" */
+"COMMUNITY_TA"="CỘNG ĐỒNG TA";
+/* Label indicating the amount of time a course will take */
+"COURSE_DETAIL.EFFORT"="Lần thử:";
+/* Label indicating when a course ends. */
+"COURSE_DETAIL.END_DATE"="Ngày kết thúc:";
+/* Button title allowing user to enroll in a course */
+"COURSE_DETAIL.ENROLL_NOW" = "Đăng ký ngay";
+/* Button title allowing user to view a course from the course's catalog detail page */
+"COURSE_DETAIL.VIEW_COURSE" = "Xem khóa học";
+/* Button title describing that the course is invitation only */
+"COURSE_DETAIL.INVITATION_ONLY" = "Chỉ được mời";
+/* Message shown when there is no course content */
+"COURSEWARE_UNAVAILABLE"="Nội dung khóa học hiện chưa sẵn sàng";
+/* Message shown when there is no course video */
+"COURSE_VIDEO_UNAVAILABLE"="Khóa học này không có video";
+/* Message shown when attempting to display content not available on the app */
+"COURSE_CONTENT_UNKNOWN" = "Thành phần tương tác này chưa sẵn sàng trên di động.\n\nKhám phá những phần khác của khóa học hoặc xem phần này trên web.";
+/* Message shown when course content is gated */
+"COURSE_CONTENT_GATED"= "Not available on Mobile";
+/* Message shown when there is no course dates */
+"COURSEDATES.COURSE_DATE_UNAVAILABLE"="Khóa học hiện tại không có ngày nào cần chú ý.";
+/* Label for date when course starts */
+"COURSE.STARTING" = "Bắt đầu {start_date}";
+/* Label for date when course end */
+"COURSE.ENDING" = "Kết thúc {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Đã kết thúc {end_date}";
+/* Course audit will expires on date*/
+"COURSE.AUDIT.EXPIRES_ON" = "Ngày hết hạn tham gia khóa học {expiry_date}";
+/* Course audit will expires in {time_duration}*/
+"COURSE.AUDIT.EXPIRES_IN" = "Khóa học sẽ hết hạn tham gia sau {time_duration}";
+/* Course audit expired n days ago*/
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Khóa học đã hết hạn tham gia {days} ngày trước";
+/* Course audit expired in less than 24 hours*/
+"COURSE.AUDIT.EXPIRED_AGO" = "Khóa học đã hết hạn tham gia {time_duaration}";
+/* Course audit expired on date*/
+"COURSE.AUDIT.EXPIRED_ON" = "Ngày hết hạn tham gia khóa học {expiry_date}";
+/* Course audit expiry in n number of days*/
+"COURSE.AUDIT.DAYS" = "{days} ngày";
+/* 1 hour remaining in course audit expiry*/
+/* More than 1 hours remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} giờ";
+/* 1 minutes remaining in course audit expiry*/
+/* More than 1 minutes remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_MINUTES##{other}" = "{minutes} phút";
+/* 1 second remaining in course audit expiry*/
+/* More than 1 seconds remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} giây";
+/*Error meessage on course content screen if course audit expires*/
+"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Quyền truy cập của bạn đến khóa học này đã hết hạn";
+/* Title text for the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS"="Thông báo";
+/* Text describing the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS_DETAIL"="Cập nhật những tin tức mới nhất";
+/* Title text for the Courseware section of the course dashboard */
+"DASHBOARD.COURSE_COURSEWARE"="Khóa học";
+/* Text describing the Courseware section within the course dashboard */
+"DASHBOARD.COURSE_COURSE_DETAIL"="Truy cập nội dung khóa học và bài tập";
+/* Title text for the videos section of the course dashboard */
+"DASHBOARD.COURSE_Videos"="Video";
+/* Text describing the Videos section within the course dashboard */
+"DASHBOARD.COURSE_Videos_DETAIL"="Xem video khóa học";
+/* Title text for the Discussions section of the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION"="Thảo luận";
+/* Text describing the Discussions section within the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION_DETAIL"="Tham gia hội thoại";
+/* Title text for the Handouts section of the course dashboard  */
+"DASHBOARD.COURSE_HANDOUTS"="Tài liệu";
+/* Text describing the Handouts section within the course dashboard */
+"DASHBOARD.COURSE_HANDOUTS_DETAIL"="Tìm thông tin quan trọng của khóa học";
+/* Title text for the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Ngày";
+/* Text describing the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Theo dõi và bám sát deadline";
+/*Text for browse by subject label on subject discovery */
+"DISCOVERY.BROWSE_BY_SUBJECT" = "Tìm theo Môn học";
+/*Placeholder text for subjects searchbar*/
+"DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Tìm Môn học";
+/*Label text for view all subjects cell*/
+"DISCOVERY.VIEW_ALL_SUBJECTS" = "Xem tất cả Môn học";
+/* Text describing the course due date for same day*/
+"COURSE_DUE_DATE_SAME_DAY"="Hết hạn hôm nay vào {due_date} {time_zone}";
+/* Text describing the course due date*/
+"COURSE_DUE_DATE"="Hết hạn {due_date}";
+/* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
+"COURSE_MODE_FULL"="Hiển thị toàn bộ khóa học";
+/* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
+"COURSE_MODE_PICKER_DESCRIPTION" = "Lựa chọn chế độ hiển thị";
+/* Text displayed when Can't find one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "Chúng tôi đang nỗ lực làm việc để đưa tất cả khóa học lên di động. Nếu bạn không tìm thấy một khóa học, hãy kiểm tra lại sau. Chúng tôi đang bổ sung khóa học mỗi ngày!";
+/* Message shown on a course when it hasn't started yet.*/
+"COURSE_NOT_STARTED"="Khóa học này chưa bắt đầu.";
+/* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
+"COURSE_WILL_START_AT"="Khóa học này chưa bắt đầu. Quay lại vào {date} để xem những video của bạn.";
+/* Create a new post button title used in discussions' posts screen */
+"CREATE_A_NEW_POST"="Tạo bài đăng mới";
+/* Button text to initiate or confirm deletion */
+"DELETE"="Xóa";
+/* Discussion used in the segmented control Creating a new post */
+"DISCUSSION"="Thảo luận";
+/* Discussion comment overlay message when new comment added */
+"DISCUSSION_COMMENT_POSTED" = "Bình luận của bạn đã được thêm vào.";
+/* Title of button to allow user to follow a discussion post */
+"DISCUSSION_FOLLOW"="Theo dõi";
+/* Title of action to report a discussion post/response/comment to the course staff */
+"DISCUSSION_REPORT"="Báo cáo";
+/* Discussion response overlay message when new response added */
+"DISCUSSION_THREAD_POSTED" = "Phản hồi của bạn đã được thêm vào.";
+/* Title of the navigation bar when entering the course discussion */
+"DISCUSSION_TOPICS"="Nội dung thảo luận";
+/* Title of button to allow user to unfollow a discussion post */
+"DISCUSSION_UNFOLLOW"="Ngừng theo dõi";
+/* Title of action to unreport a discussion post/response/comment to the course staff */
+"DISCUSSION_UNREPORT"="Hủy báo cáo";
+/* Discussion comments count (Posts screen) - {count} is a number of comments */
+"DISCUSSIONS.REPLIES_COUNT"="{count} Trả lời";
+/*Discussion posts screen last post date - {date} last updated thread date*/
+"DISCUSSIONS.LAST_POST" = "Bài đăng cuối: {date}";
+/* Alert dialog button for allowing/disallowing downloads on cellular data */
+"DO_NOT_ALLOW"="Không cho phép";
+/* Description about for button to download videos. For example, "Download 1 video" */
+/* Description about for button to download videos. For example, "Download 3 videos" */
+"DOWNLOAD_MANY_VIDEOS##{other}" = "Tải xuống {video_count} video.";
+/* Button text for confirming download */
+"DOWNLOAD" = "Tải xuống";
+/* Label indicating that a video or videos have been downloaded */
+"DOWNLOADED" = "Đã tải xuống";
+/* Description about downloaded videos. For example, "Downloaded 1 video" */
+/* Description about downloaded videos. For example, "Downloaded 3 videos" */
+"DOWNLOADED_MANY_VIDEOS##{other}" = "Tải xuống {video_count} video.";
+/* Label indicating that a video or videos are downloading */
+"DOWNLOADING" = "Đang tải xuống";
+/* Title of video downloads screen */
+"DOWNLOADS"="Tải xuống";
+/* Overlay message after user chooses to download a video */
+"DOWNLOADING_1_VIDEO"="Đang tải 1 video.";
+/*Title for bulk download view when in downloading state */
+"DOWNLOADING_VIDEOS_TITLE" = "Đang tải video xuống...";
+/*Title for bulk download view when in new or partial state */
+"DOWNLOAD_TO_DEVICE_TITLE" = "Tải về thiết bị";
+/*Discover in left drawer(used for courses and programs discovery)*/
+"DISCOVER"="Khám phá";
+/*Title for the programs in tabbar and navigation bar*/
+"PROGRAMS"="Chương trình";
+/*Title for the degrees in navigation bar*/
+"DEGREES"="Bằng cấp";
+/*Debug option title in tabbar */
+"DEBUG"="Sửa lỗi";
+/* Error message shown when email address is not properly formatted */
+"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Vui lòng kiểm tra địa chỉ e-mail đúng định dạng và thử lại.";
+/* Alert message shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="Ứng dụng email của bạn chưa được thiết lập.";
+/* Alert dialog title shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="Không thể gửi Email";
+/* Placeholder text for email address entry field */
+"EMAIL_ADDRESS_PROMPT"="Địa chỉ e-mail";
+/* Text displayed when no results are found in the search */
+"EMPTY_RESULTSET" = "Không tìm thấy kết quả nào cho “{query_string}”. Hãy thử cụm tìm kiếm khác hoặc chọn mục Thảo luận để tìm kiếm.";
+/* Prompt shown to users on the course list encouraging them to find new courses */
+"ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "Tìm kiếm thử thách mới?";
+/* Button title opening course catalog */
+"ENROLLMENT_LIST.FIND_COURSES" = "Tìm khóa học";
+/* Error message when user is not enrolled to any course and course discovery is also disabled.*/
+"ENROLLMENT_LIST.NO_ENROLLMENT" = "Có vẻ như bạn chưa tham gia khóa học nào.";
+/* Prompt indicating user needs to enter an email address */
+"ENTER_EMAIL"="Vui lòng nhập tên đăng nhập hoặc e-mail và thử lại.";
+/* Prompt indicating user needs to enter a password */
+"ENTER_PASSWORD"="Vui lòng nhập mật khẩu và thử lại.";
+/* Text used when the post is visible to everyone */
+"EVERYONE"="mọi người";
+/* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
+"EXTERNAL_REGISTRATION_BECAME_LOGIN" = "Tài khoản {platform_name} đã liên kết với tài khoản {service}. Bạn đã đăng nhập với tài khoản đó.";
+/* Endorsed text */
+"ENDORSED" = "Chứng thực";
+/* Facebook login method */
+"FACEBOOK"="Facebook";
+/* Overlay message shown when facebook login fails because the user's account isn't linked */
+"FAILED_TO_LOAD_TOPICS"="Không thể tải chủ đề.";
+/* Title of find courses screen */
+"FIND_COURSES"="Tìm khóa học";
+/* No available courses on find courses section */
+"FIND_COURSES_NO_AVAILABLE_COURSES"="Không có khóa học nào sẵn sàng";
+/* Overlay message shown when enrolling in a course fails because the user is already in the course */
+"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="Bạn đã tham gia khóa học này rồi";
+/* Overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="Có lỗi xảy ra khi tham gia khóa học";
+/* AlertView message shown when enrolling in a course fails */
+"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="Bạn không thể đăng ký khóa học bằng ứng dụng điện thoại {platform_name} ở thời điểm hiện tại. Vui lòng thử lại trên trình duyệt web";
+/* Title of overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Đã có lỗi khi tham gia khóa học";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="Bạn đã tham gia khóa học";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_OFFLINE_MESSAGE"="Bạn đang ở chế độ ngoại tuyến.\nĐể tìm khóa học, hãy kết nối với mạng";
+/* Title of overlay message shown when sign in fails */
+"FLOATING_ERROR_LOGIN_TITLE"="Lỗi dăng nhập";
+/* Title of overlay message shown when reset password fails */
+"FLOATING_ERROR_TITLE"="Lỗi đặt lại mật khẩu";
+/* Adds a `:` after a label, used in form. Eg. "{First Name}: Bob" */
+"FORM_LABEL"="{label}:";
+/* Google login method */
+"GOOGLE"="Google";
+/* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Hãy chắc chắn rằng tài khoản {service}của bạn đã liên kết với tài khoản {platform_name} trên {destination_name}";
+/* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_TITLE"="Tài khoản {service} chưa liên kết với tài khoản {platform_name}";
+/* Indicator for course content that is marked as having a graded component */
+"GRADED" = "Lấy điểm";
+/* Warning shown to indicate that the user is in a section of graded content. */
+"GRADED_CONTENT_WARNING" = "Chúng tôi khuyên bạn nên hoàn thành các phần có lấy điểm như phần này trên trình duyệt web cho đến khi chúng được hỗ trợ đầy đủ trên thiết bị di động.";
+/* Message shown when there are no handouts for a course */
+"HANDOUTS_UNAVAILABLE"="Hiện tại chưa có tài liệu cho khóa học này.";
+/* Overlay error shown when logging in with an invalid email address */
+"INVALID_EMAIL_MESSAGE"="Vui lòng kiểm tra địa chỉ e-mail đúng định dạng và thử lại.";
+/* Overlay error shown when logging in with an invalid username or password */
+"INVALID_USERNAME_PASSWORD"="Tên đăng nhập hoặc địa chỉ e-mail và mật khẩu bạn đã nhập không đúng.";
+/* Alert dialog text asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_MESSAGE"="Video bạn chọn có kích thước lớn hơn 1 GB.  Bạn có muốn tải những video này xuống không?";
+/* Alert dialog title when asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_TITLE"="Tải xuống dung lượng lớn";
+/* Title for Course Item that was last accessed */
+"LAST_ACCESSED" = "Lần truy cập cuối";
+/* Prompt leading user to create account screen */
+"LOGIN_SPLASH_SIGN_UP"="Đăng ký và bắt đầu học";
+/* Prompt leading user to sign in screen */
+"LOGIN_SPLASH_SIGN_IN"="Đã có tài khoản? Đăng nhập ngay";
+/* Button title to log out the current user */
+"LOGOUT"="Đăng xuất";
+/* Option to sort discussion post list by most activity */
+"MOST_ACTIVITY"="Hoạt động nhiều nhất";
+/* Option to sort discussion post list by most votes */
+"MOST_VOTES"="Đánh giá nhiều nhất";
+/* Screen title showing a user's courses */
+"COURSES"="Khóa học";
+/* Screen title showing a user's settings */
+"MY_SETTINGS"="Cài đặt của tôi";
+/* Marked as answer for endorsed responses */
+"MARKED_ANSWER" = "Đánh dấu là câu trả lời";
+/* Overlay error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE"="Bạn đang không có kết nối mạng.";
+/* Alert dialog error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="Bạn đang không có kết nối mạng. Vui lòng kiểm tra kết nối.";
+/* Title of alert dialog shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_TITLE"="Lỗi kết nối";
+/* Button title for moving to the next block in the course */
+"NEXT" = "Tiếp theo";
+/* Button title for moving to the next unit in the course */
+"NEXT_UNIT" = "Bài tiếp theo";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "Trong lúc đó, bạn có thể tham gia khóa học thông qua trang web của chúng tôi - bạn sẽ cần phải đăng nhập, tham gia khóa học và quay lại ứng dụng khi hoàn thành.";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Chúng tôi đang làm việc hết sức để bạn có thể tham gia các khóa học trong ứng dụng.";
+/* Message shown when no results are found while filtering discussions */
+"NO_RESULTS_FOUND" = "Không có bài đăng nào trong phần thảo luận này.";
+/* Message shown to indicate video transcript support has not yet been implemented */
+"NO_TRANSCRIPT" = "Chưa có phụ đề cho video này.";
+/* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
+"NO_WIFI_MESSAGE" = "Cài đặt tải xuống hiện tại của bạn chỉ cho phép tải xuống bằng Wi-Fi.\nVui lòng kết nối đến mạng Wi-Fi hoặc thay đổi cài đặt Tải xuống.";
+/* Text displayed when no results are found for following*/
+"NO_FOLLOWING_RESULTS" = "Bạn đang không theo dõi bất kỳ bài nào.";
+/* Message shown when no results are found for all posts*/
+"NO_COURSE_RESULTS" = "Không có bài đăng nào trong phần thảo luận của khóa học.";
+/* Indicates a field that does not apply to the current context */
+"NOT_APPLICABLE" = "NA";
+/* Label of switch that toggles push notification support */
+"NOTIFICATIONS_ENABLED" = "Cho phép thông báo";
+/*Text for author if post is by anonymous user*/
+"ANONYMOUS" = "Ẩn danh";
+/* Label indicating user has on internet connection and is in offline mode */
+"OFFLINE" = "Ngoại tuyến";
+/* Alert dialog okay button */
+"OK"="OK";
+/* Button title allowing user to open current page in their web browser */
+"OPEN_IN_BROWSER"="Xem trên Safari";
+/* Button label to bring up course finder */
+"OR_SIGN_IN_WITH"="Hoặc đăng nhập với";
+/* Login screen password field title text */
+"PASSWORD_TITLE_TEXT" = "Mật khẩu";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_CONTINUE"="Tiếp tục";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
+"PLAYBACK_COMPLETE_CONTINUE_CANCEL"="Không";
+/* Alert dialog content when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_MESSAGE"="Bạn có muốn xem video tiếp theo không?";
+/* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_TITLE"="Bạn đã xem hết video.";
+/* Post screen title in creating a new post */
+"POST" = "Tạo bài đăng mới";
+/* Title for Row on Discussion screen which opens the posts followed by the user */
+"POSTS_IM_FOLLOWING" = "Bài đăng tôi đang theo dõi";
+/* Navigation item title for post and responses */
+"DISCUSSION_POST" = "Bài đăng thảo luận";
+/* Post discussion button title in Create a new post */
+"POST_DISCUSSION"="Đăng thảo luận";
+/* Post question button title in Create a new post */
+"POST_QUESTION"="Đăng câu hỏi";
+/* Button title for moving to the previous block in the course */
+"PREVIOUS" = "Quay lại";
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "Bài trước";
+/* A10y hint for the change picture button. */
+"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Nhấn hai lần để thay đổi ảnh đại diện";
+/* Change picture button text on edit profile screen. */
+"PROFILE.CHANGE_PICTURE_BUTTON" = "Thay đổi";
+/* Text for use a photo already in library for user profile photo alert */
+"PROFILE.CHOOSE_EXISTING" = "Chọn ảnh";
+/* Instruction title text on the photo crop view. */
+"PROFILE.CROP_AND_RESIZE_PICTURE" = "Cắt và thay đổi kích thước";
+/* 'Current Language' label on top row of edit language in user's profile */
+"PROFILE.CURRENT_LANGUAGE_LABEL" = "Ngôn ngữ hiện tại: ";
+/* 'Current Location' label on top row of edit country in user's profile */
+"PROFILE.CURRENT_LOCATION_LABEL" = "Địa điểm hiện tại: ";
+/* Profile edit view title */
+"PROFILE.EDIT_TITLE" = "Chỉnh sửa hồ sơ";
+/* Accessibility label for edit profile button */
+"PROFILE.EDIT_ACCESSIBILITY" = "Chỉnh sửa hồ sơ";
+/* Accessibility hint for country field in user profile */
+"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "Quốc tịch của bạn";
+/* Accessibility hint for language field in user profile */
+"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "Ngôn ngữ ưa thích của bạn";
+/* Shown when viewing someone else's limied profile. */
+"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "Học viên {platform_name} đang chia sẻ hồ sơ cá nhân giới hạn";
+/* User has not filled in an "about me" on their profile */
+"PROFILE.NO_BIO" = "Thông tin về \"Giới thiệu bản thân\" chưa được cung cấp.";
+/* Text in the picture taker alert to delete the existing image */
+"PROFILE.REMOVE_IMAGE" = "Xóa";
+/* Profile screen text indicating that the user is currently only displaying a limited profile */
+"PROFILE.SHOWING_LIMITED" = "Bạn đang chia sẻ hồ sơ cá nhân giới hạn";
+/* Text for take picture for user profile photo alert */
+"PROFILE.TAKE_PICTURE" = "Chụp ảnh";
+/* Descriptive text for why a limited profile is shown for users under 13, first line */
+"PROFILE.AGE_LIMIT" = "Bạn phải trên 13 tuổi để chia sẻ toàn bộ hồ sơ cá nhân.";
+/* Error retrieving a profile */
+"PROFILE.UNABLE_TO_GET" = "Chúng tôi không thể tải hồ sơ này.";
+/* Error message when removing profile picture */
+"PROFILE.UNABLE_TO_REMOVE_PHOTO" = "Chúng tôi không thể xóa ảnh của bạn.";
+/* Error saving user profile, for field `field_name` */
+"PROFILE.UNABLE_TO_SEND" = "Chúng tôi không thể cập nhật {field_name} của bạn.";
+/* Error message when setting a new profile picture */
+"PROFILE.UNABLE_TO_SET_PHOTO" = "Chúng tôi không thể cập nhật ảnh của bạn.";
+/*Pipe sign using for formatting in discussion posts*/
+"PIPE_SIGN" = "|";
+/* Question used in the segmented control Creating a new post */
+"QUESTION"="Câu hỏi";
+/* Option to sort discussion post list by recent activity */
+"RECENT_ACTIVITY" = "Hoạt đọng gần đây";
+/* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
+"REFINE" = "Lọc:";
+/* Button title when responses are closed for a thread */
+"RESPONSES_CLOSED"="Phản hồi đã đóng cho bài đăng này";
+/* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
+"REGISTRATION_AGREEMENT_MESSAGE"="Khi tạo tài khoản, bạn đã đồng ý với";
+/* Button text allowing user create an account */
+"REGISTRATION_CREATE_MY_ACCOUNT"="Tạo Tài khoản";
+/* Text shown while waiting for registration request */
+"REGISTRATION_CREATING_ACCOUNT"="Tài khoản đang được tạo...";
+/* Error prompt shown during registration to indicate an empty field. {field_name} is the name of a registration field like 'password' */
+"REGISTRATION_FIELD_EMPTY_ERROR"="Vui lòng nhập {field_name} của bạn.";
+/* Error prompt shown during registration to indicate a field missing a selection. {field_name} is the name of a registration field like 'year of birth' */
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Vui lòng chọn {field_name} của bạn.";
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{other}"="{field_name} không thể có nhiều hơn {count} ký tự.";
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{other}"="{field_name} phải có ít nhất {count} ký tự.";
+/* Button text allowing user to hide visible optional registration fields */
+"REGISTRATION_HIDE_OPTIONAL_FIELDS"="Ẩn những trường tùy chọn";
+/* Button text allowing user to show hidden optional registration fields */
+"REGISTRATION_SHOW_OPTIONAL_FIELDS"="Hiển thị những trường tùy chọn";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be followed by text "or sign up with an email". */
+"REGISTRATION_REGISTER_PROMPT"="Đăng ký với";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
+"REGISTRATION_REGISTER_ALTERNATE_PROMPT"="hoặc đăng ký với email";
+/*Title of registration error alert*/
+"REGISTRATION_ERROR_ALERT_TITLE"="Lỗi đăng ký";
+/* Detailed info message for registration error alert*/
+"REGISTRATION_ERROR_ALERT_MESSAGE"="Cập nhật những trường được đánh dấu và thử lại";
+
+/* Alert dialog title prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_TITLE"="Đặt lại mật khẩu";
+/* Alert dialog content prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_POPUP_TEXT"="Nhập địa chỉ e-mail của tài khoản và chúng tôi sẽ gửi hướng dẫn đặt lại mật khẩu cho bạn.";
+/* Alert dialog title confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_TITLE"="Đã gửi e-mail đặt lại mật khẩu";
+/* Alert dialog content confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_MESSAGE"="Chúng tôi đã gửi tin nhắn hướng dẫn đặt lại mật khẩu đến địa chỉ e-mail của bạn. Nếu bạn vẫn chưa nhận được sau ít phút, hãy kiểm tra thư mục spam.";
+/* Button that allows user to retry an operation that did not succeed */
+"RETRY" = "Thử lại";
+/*Offline snackbar button that allows user to reload data*/
+"RELOAD" = "Tải lại";
+/* Response back title in adding a new response */
+"ADD_A_RESPONSE"="Thêm một phản hồi";
+/* Discussion response - {count} is a number of responses */
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{other}"="{count} phản hồi";
+/* Discussion topics search placeholder */
+"SEARCH_ALL_POSTS"="Tìm tất cả bài đăng";
+/*Placeholder text for search course textfield*/
+"SEARCH_COURSES_PLACEHOLDER_TEXT"="Tìm khóa học";
+/*Placeholder text for search program textfield*/
+"SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Tìm chương trình";
+/*Placeholder text for search degree textfield*/
+"SEARCH_DEGREES_PLACEHOLDER_TEXT"="Tìm bằng cấp";
+/* Discussion search results  */
+"SEARCH_RESULTS"="Kết quả tìm kiếm";
+/* Text shown below the video, in portrait mode */
+"ROTATE_DEVICE"="Xoay thiết bị của bạn để xem video toàn màn hình";
+/*if filter applied then append this string to error message*/
+"REMOVE_FILTER" = "Hãy thử bỏ lọc bài đăng của bạn.";
+/* Label shown when user attempts to view a course section that hasn't been synced  */
+"SECTION_UNAVAILABLE_OFFLINE"="Không thể xem phần này khi đang ngoại tuyến.\nNếu bạn đã tải xuống nội dung của phần khác, hãy xem nội dung đó.";
+/* Screen title showing a user's settings */
+"SETTINGS"="Cài đặt";
+/* Text for a Twitter or Facebook post to a course about page */
+"SHARE_A_COURSE"="Tôi đang tham gia khóa học ở {platform_name}! Tham gia cùng tôi ở:";
+/* Sign in screen title and button initiating login process after user enters credentials like username and password */
+"SIGN_IN_TEXT"="Đăng nhập";
+/* Message shown while user waits for response to a sign in request */
+"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Đang đăng nhập";
+/*  Accessibility text prefix for  Facebook and Google Buttons*/
+"SIGN_IN_PROMPT"="Đăng nhập với ";
+/*Sign up screen title and button initiating sign up process on the main screen */
+"REGISTER_TEXT"="Đăng ký";
+/* Indicates a date in the near future */
+"SOON"="Không lâu";
+/* Label for posts pinned by Staff */
+"STAFF"="STAFF";
+/* Info message text on the startup screen */
+"STARTUP.INFO_MESSAGE_TEXT"="Những khóa học từ các trường Đại học hàng đầu đã nằm trong tầm tay.";
+/*Log In button title on the startup screen*/
+"STARTUP.LOGIN_TEXT"="Đăng nhập";
+/*Create your Account button title on the startup screen*/
+"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Tạo Tài khoản";
+/* Explore Subjects button text on the first screen */
+"STARTUP_EXPLORE_SUBJECTS"="Khám phá môn học";
+/* Button allowing user to submit feedback about the app via email */
+"SUBMIT_FEEDBACK.OPTION_TITLE" = "Gửi phản hồi";
+/* Support message email title */
+"SUBMIT_FEEDBACK.MESSAGE_SUBJECT" = "Phản hồi của người dùng";
+/* Marker in feedback email meant to separate feedback from prepopulated device information */
+"SUBMIT_FEEDBACK.MARKER" = "---- Để lại phản hồi trên dòng này ----";
+/* Line in submit feedback email that supplies OS version information. For example, "iOS Version: 9.2" */
+"SUBMIT_FEEDBACK.OS_VERSION" = "Phiên bản iOS: {version}";
+/* Line in submit feedback email that supplies app version information. For example, "App Version: 2.2 (2.2.23)" */
+"SUBMIT_FEEDBACK.APP_VERSION" = "Phiên bản ứng dụng: {version} ({build})";
+/* Line in submit feedback email that supplies device model information. For example, "Device Model: iPhone" */
+"SUBMIT_FEEDBACK.DEVICE_MODEL" = "Model thiết bị: {model}";
+/* Text that indicates the visibility of the post */
+"POST_VISIBILITY"="Bài đăng này chỉ được xem bởi {cohort}.";
+/* Text that indicates the visibility of the post to everyone */
+"POST_VISIBILITY_EVERYONE" = "Mọi người có thể xem bài đăng này.";
+/*Add parenthesis around text*/
+"PARENTHESIS" = "({text})";
+/* Alert dialog title shown when network request takes too long to complete */
+"TIMEOUT_ALERT_TITLE"="Hết thời gian phản hồi";
+/* Alert dialog content shown when network request takes too long to complete */
+"TIMEOUT_CHECK_INTERNET_CONNECTION"="Vui lòng kiểm tra kết nối của bạn.\nMất nhiều thời gian hơn dự tính để tải trang.";
+/* Title as place holder in Create a new post */
+"TITLE"="Tiêu đề";
+/* Topic as button title in Create a new post */
+"TOPIC"="Chủ đề: {topic}";
+/* Back bar button topics */
+"TOPICS"="Các chủ đề";
+/* Button text allowing user to reset their password */
+"TROUBLE_IN_LOGIN_BUTTON"="Quên mật khẩu?";
+/* Error shown when video download fails */
+"UNABLE_TO_DOWNLOAD"="Không thể tải xuống." ;
+/* Error shown when the course content could not for an unknown reason. */
+"UNABLE_TO_LOAD_COURSE_CONTENT"="Không thể tải nội dung khóa học.\nVui lòng thử lại sau.";
+/* Filtering option to show unanswered discussion posts */
+"UNANSWERED"="Chưa trả lời";
+/* Navigation title for a Question Post which has no endorsed answers */
+"UNANSWERED_QUESTION" = "Câu hỏi chưa được trả lời";
+/* Filtering option to show unread discussion posts*/
+"UNREAD"="Chưa đọc";
+/* Placeholder title for course content with no title */
+"UNTITLED"="Chưa có tiêu đề";
+/* Title text for login field */
+"USERNAME_TITLE_TEXT" = "Tên đăng nhập hoặc dịa chỉ e-mail";
+/*Error message when operation failed with unknow error*/
+"UNKNOWN_ERROR" = "Hành động của bạn không thể thực hiện.";
+/* Screen title showing a user's account */
+"USER_ACCOUNT"="Tài khoản";
+/* Button title for profile view in account*/
+"USER_ACCOUNT.PROFILE"= "Hồ sơ";
+/* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
+"VERSION_DISPLAY" = "Phiên bản {number} {environment}";
+/* Error shown when video download fails */
+"VIDEO_CONTENT_NOT_AVAILABLE"="Video này hiện tại không sẵn sàng. Vui lòng quay lại sau.";
+/* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
+"VIDEO_ONLY_ON_WEB" = "Video này này chỉ có thể xem trên web. Nhấn vào để xem trên web.";
+/* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
+"VIDEO_NOT_AVAILABLE"="Không thể xem video này khi đang ngoại tuyến.\nVui lòng xem video mà bạn đã tải về thiết bị.";
+/* Shows in the video setting sub-table which item is selected */
+"VIDEO_SETTING_SELECTED" = "✓ %@";
+/* Button action to open app on YouTube */
+"VIDEO.VIEW_ON_YOUTUBE" = "Xem video trên YouTube";
+/* Message shown for videos that can only be played external the app via YouTube. */
+"VIDEO.ONLY_ON_YOUTUBE" = "Video này chỉ có thể xem trên YouTube";
+/* Button text for showing an associated item */
+"VIEW" = "Xem";
+/* Button linking to course announcements */
+"VIEW_HANDOUTS" = "Xem tài liệu khóa học";
+/* Discussion vote - {count} is a number of votes */
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{other}"="{count} bình chọn";
+/*Title of update button on fullscreen error and SnackBar*/
+"VERSION_UPGRADE_UPDATE" = "Cập nhật";
+/*Title of dismiss button on SnackBar*/
+"VERSION_UPGRADE.DISMISS" = "Bỏ qua";
+/*Deprecated version detail message*/
+"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Ứng dụng đã có phiên bản mới hơn.";
+/*Outdated version detail message*/
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Phiên bản hiện tại của ứng dụng không còn được hỗ trợ.";
+/*Outdated version alert message for login screen*/
+"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Phiên bản hiện tại của ứng dụng không còn được hỗ trợ. Cập nhật lên phiên bản mới nhất để đăng nhập.";
+/*New version available without deadline message*/
+"VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "Ứng dụng đã có phiên bản mới hơn.";
+/*Video player remaining time default value*/
+"VIDEO_PLAYER_DEFAULT_REMAINING_TIME" = "0:00/0:00";
+/* Overlay shown after a network request has started, telling the user to wait for the response */
+"WAITING_FOR_RESPONSE"="Vui lòng đợi...";
+/* Header of 'whats new screen'*/
+"WHATS_NEW.HEADER_TEXT"="Phiên bản {app_version} Tính năng mới";
+/*Whats new screen done button title*/
+"WHATS_NEW.DONE"="Xong";
+/*Title for wifi only switch at Settings screen*/
+"WIFI_ONLY_TITLE" = "Chỉ tải xuống bằng Wi-Fi";
+/*Detail message for wifi only switch at Settings screen*/
+"WIFI_ONLY_DETAIL_MESSAGE" = "Chỉ tải nội dung xuống khi Wi-Fi đang bật";
+/* Alert dialog button title to confirm an action */
+"YES"="Có";

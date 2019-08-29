@@ -1954,6 +1954,15 @@
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
 		E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObjectTests.swift; sourceTree = "<group>"; };
 		E0FF457820FDD24400109662 /* VideoCompletionApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCompletionApi.swift; sourceTree = "<group>"; };
+		E0FF9BB02317B354003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = vi; path = vi.lproj/subjects.json; sourceTree = "<group>"; };
+		E0FF9BB12317B355003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = vi; path = vi.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
+		E0FF9BB22317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = vi; path = vi.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
+		E0FF9BB32317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = vi; path = vi.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
+		E0FF9BB42317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E0FF9BB52317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E0FF9BB62317B356003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = vi; path = vi.lproj/profiles.json; sourceTree = "<group>"; };
+		E0FF9BB72317B357003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = vi; path = vi.lproj/languages.json; sourceTree = "<group>"; };
+		E0FF9BB82317B357003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = vi; path = vi.lproj/whats_new.json; sourceTree = "<group>"; };
 		E40AEA72218D074600049C39 /* YoutubeVideoConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeVideoConfig.swift; sourceTree = "<group>"; };
 		E40AEA74218D076200049C39 /* YoutubeVideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeVideoPlayer.swift; sourceTree = "<group>"; };
 		E473C3CF215E90E800D2ADEB /* YoutubeVideoPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoPlayerTests.swift; sourceTree = "<group>"; };
@@ -4179,6 +4188,7 @@
 				fr,
 				"pt-BR",
 				de,
+				vi,
 			);
 			mainGroup = BECB7B021924C0C3009C77F1;
 			productRefGroup = BECB7B0C1924C0C3009C77F1 /* Products */;
@@ -5271,6 +5281,7 @@
 				2250E9D222DC623B00674093 /* fr */,
 				E006BD1422DF29D100AA5185 /* pt-BR */,
 				E01287E322EEDD2C0093285E /* de */,
+				E0FF9BB62317B356003E61B7 /* vi */,
 			);
 			name = profiles.json;
 			sourceTree = "<group>";
@@ -5286,6 +5297,7 @@
 				2250E9D322DC623B00674093 /* fr */,
 				E006BD1522DF29D100AA5185 /* pt-BR */,
 				E01287E422EEDD2C0093285E /* de */,
+				E0FF9BB72317B357003E61B7 /* vi */,
 			);
 			name = languages.json;
 			sourceTree = "<group>";
@@ -5301,6 +5313,7 @@
 				2250E9CD22DC623A00674093 /* fr */,
 				E006BD0F22DF29CF00AA5185 /* pt-BR */,
 				E01287DE22EEDD2A0093285E /* de */,
+				E0FF9BB12317B355003E61B7 /* vi */,
 			);
 			name = MobileAppEula.htm;
 			sourceTree = "<group>";
@@ -5316,6 +5329,7 @@
 				2250E9CE22DC623A00674093 /* fr */,
 				E006BD1022DF29CF00AA5185 /* pt-BR */,
 				E01287DF22EEDD2A0093285E /* de */,
+				E0FF9BB22317B356003E61B7 /* vi */,
 			);
 			name = PrivacyPolicy.htm;
 			sourceTree = "<group>";
@@ -5331,6 +5345,7 @@
 				2250E9CF22DC623A00674093 /* fr */,
 				E006BD1122DF29D000AA5185 /* pt-BR */,
 				E01287E022EEDD2B0093285E /* de */,
+				E0FF9BB32317B356003E61B7 /* vi */,
 			);
 			name = TermsOfServices.htm;
 			sourceTree = "<group>";
@@ -5346,6 +5361,7 @@
 				2250E9CC22DC623900674093 /* fr */,
 				E006BD0E22DF29CF00AA5185 /* pt-BR */,
 				E01287DD22EEDD290093285E /* de */,
+				E0FF9BB02317B354003E61B7 /* vi */,
 			);
 			name = subjects.json;
 			sourceTree = "<group>";
@@ -5361,6 +5377,7 @@
 				2250E9D022DC623A00674093 /* fr */,
 				E006BD1222DF29D000AA5185 /* pt-BR */,
 				E01287E122EEDD2B0093285E /* de */,
+				E0FF9BB42317B356003E61B7 /* vi */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5376,6 +5393,7 @@
 				2250E9D122DC623B00674093 /* fr */,
 				E006BD1322DF29D100AA5185 /* pt-BR */,
 				E01287E222EEDD2C0093285E /* de */,
+				E0FF9BB52317B356003E61B7 /* vi */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5391,6 +5409,7 @@
 				2250E9D422DC623C00674093 /* fr */,
 				E006BD1622DF29D200AA5185 /* pt-BR */,
 				E01287E522EEDD2C0093285E /* de */,
+				E0FF9BB82317B357003E61B7 /* vi */,
 			);
 			name = whats_new.json;
 			sourceTree = "<group>";
