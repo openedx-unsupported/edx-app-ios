@@ -1006,6 +1006,15 @@
 		1AFEB1B21BBD52C7004C471D /* JSONFormBuilderTextEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONFormBuilderTextEditor.swift; sourceTree = "<group>"; };
 		1AFEB1B51BBD5B95004C471D /* ProfilePictureTaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePictureTaker.swift; sourceTree = "<group>"; };
 		1AFEB1BA1BBD88F3004C471D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/languages.json; sourceTree = "<group>"; };
+		220570142307E9850026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ja; path = ja.lproj/subjects.json; sourceTree = "<group>"; };
+		220570152307E9850026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ja; path = ja.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
+		220570162307E9850026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ja; path = ja.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
+		220570172307E9850026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ja; path = ja.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
+		220570182307E9850026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		220570192307E9860026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2205701A2307E9860026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ja; path = ja.lproj/profiles.json; sourceTree = "<group>"; };
+		2205701B2307E9860026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ja; path = ja.lproj/languages.json; sourceTree = "<group>"; };
+		2205701C2307E9860026E65A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ja; path = ja.lproj/whats_new.json; sourceTree = "<group>"; };
 		2212FD3621D4BE84007409C3 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "es-419"; path = "es-419.lproj/MobileAppEula.htm"; sourceTree = "<group>"; };
 		2212FD3821D4BE86007409C3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = en; path = en.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
 		2212FD3A21D4BE92007409C3 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = "es-419"; path = "es-419.lproj/PrivacyPolicy.htm"; sourceTree = "<group>"; };
@@ -4189,6 +4198,7 @@
 				"pt-BR",
 				de,
 				vi,
+				ja,
 			);
 			mainGroup = BECB7B021924C0C3009C77F1;
 			productRefGroup = BECB7B0C1924C0C3009C77F1 /* Products */;
@@ -5282,6 +5292,7 @@
 				E006BD1422DF29D100AA5185 /* pt-BR */,
 				E01287E322EEDD2C0093285E /* de */,
 				E0FF9BB62317B356003E61B7 /* vi */,
+				2205701A2307E9860026E65A /* ja */,
 			);
 			name = profiles.json;
 			sourceTree = "<group>";
@@ -5298,6 +5309,7 @@
 				E006BD1522DF29D100AA5185 /* pt-BR */,
 				E01287E422EEDD2C0093285E /* de */,
 				E0FF9BB72317B357003E61B7 /* vi */,
+				2205701B2307E9860026E65A /* ja */,
 			);
 			name = languages.json;
 			sourceTree = "<group>";
@@ -5314,6 +5326,7 @@
 				E006BD0F22DF29CF00AA5185 /* pt-BR */,
 				E01287DE22EEDD2A0093285E /* de */,
 				E0FF9BB12317B355003E61B7 /* vi */,
+				220570152307E9850026E65A /* ja */,
 			);
 			name = MobileAppEula.htm;
 			sourceTree = "<group>";
@@ -5330,6 +5343,7 @@
 				E006BD1022DF29CF00AA5185 /* pt-BR */,
 				E01287DF22EEDD2A0093285E /* de */,
 				E0FF9BB22317B356003E61B7 /* vi */,
+				220570162307E9850026E65A /* ja */,
 			);
 			name = PrivacyPolicy.htm;
 			sourceTree = "<group>";
@@ -5346,6 +5360,7 @@
 				E006BD1122DF29D000AA5185 /* pt-BR */,
 				E01287E022EEDD2B0093285E /* de */,
 				E0FF9BB32317B356003E61B7 /* vi */,
+				220570172307E9850026E65A /* ja */,
 			);
 			name = TermsOfServices.htm;
 			sourceTree = "<group>";
@@ -5362,6 +5377,7 @@
 				E006BD0E22DF29CF00AA5185 /* pt-BR */,
 				E01287DD22EEDD290093285E /* de */,
 				E0FF9BB02317B354003E61B7 /* vi */,
+				220570142307E9850026E65A /* ja */,
 			);
 			name = subjects.json;
 			sourceTree = "<group>";
@@ -5378,6 +5394,7 @@
 				E006BD1222DF29D000AA5185 /* pt-BR */,
 				E01287E122EEDD2B0093285E /* de */,
 				E0FF9BB42317B356003E61B7 /* vi */,
+				220570182307E9850026E65A /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -5394,6 +5411,7 @@
 				E006BD1322DF29D100AA5185 /* pt-BR */,
 				E01287E222EEDD2C0093285E /* de */,
 				E0FF9BB52317B356003E61B7 /* vi */,
+				220570192307E9860026E65A /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -5410,6 +5428,7 @@
 				E006BD1622DF29D200AA5185 /* pt-BR */,
 				E01287E522EEDD2C0093285E /* de */,
 				E0FF9BB82317B357003E61B7 /* vi */,
+				2205701C2307E9860026E65A /* ja */,
 			);
 			name = whats_new.json;
 			sourceTree = "<group>";
