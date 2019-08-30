@@ -807,4 +807,5 @@
 "WIFI_ONLY_DETAIL_MESSAGE" = "仅在Wi-Fi开启时下载";
 /* Alert dialog button title to confirm an action */
 "YES"="是";
-
+/* Invalid youtube url error message */
+"YOUTUBE_INVALID_URL_ERROR"="視頻無法加載，無效的網址。";

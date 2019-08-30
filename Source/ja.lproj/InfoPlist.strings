@@ -1,0 +1,10 @@
+/*
+ InfoPlist.strings
+ edX
+ 
+ Created by Saeed Bashir on 7/10/17.
+ Copyright © 2017 edX. All rights reserved.
+ */
+
+NSPhotoLibraryUsageDescription = "プロフィール画像を選択することができます";
+NSCameraUsageDescription = "プロフィール画像をとることができます";

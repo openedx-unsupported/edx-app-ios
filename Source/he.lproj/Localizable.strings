@@ -853,3 +853,5 @@
 "WIFI_ONLY_DETAIL_MESSAGE" = "הורד תוכן רק כשחיבור הוויי-פיי דולק";
 /* Alert dialog button title to confirm an action */
 "YES"="כן";
+/* Invalid youtube url error message */
+"YOUTUBE_INVALID_URL_ERROR"="לא ניתן היה לטעון את הווידאו כתובת אתר לא חוקית.";

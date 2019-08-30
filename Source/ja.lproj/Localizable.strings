@@ -9,299 +9,292 @@
 // Please keep in alphabetical order
 
 /* Alert dialog confirmation button when user chooses to download a large video */
-"ACCEPT_LARGE_VIDEO_DOWNLOAD"="Télécharger";
+"ACCEPT_LARGE_VIDEO_DOWNLOAD"="ダウンロード";
 /*Accessibility label for bulk download view when in downloading state */
-"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "Téléchargement des vidéos en cours";
+"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos";
 /* Label for check box when it's checked. */
-"ACCESSIBILITY_CHECKBOX_CHECKED" = "Coché";
+"ACCESSIBILITY_CHECKBOX_CHECKED" = "チェック";
 /* Label for check box when it's checked. */
-"ACCESSIBILITY_CHECKBOX_UNCHECKED" = "Décoché";
+"ACCESSIBILITY_CHECKBOX_UNCHECKED" = "チェックを外す";
 /* Label for action hint on check box when it's checked. */
-"ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "Effacer la case à cocher";
+"ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "チェックボックスの選択を解除";
 /* Label for action hint on check box when it's checked. */
-"ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Toucher pour sélectionner";
+"ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "選択するにはタップしてください";
 /* Appending By before course organization and number on My Find Courses*/
-"ACCESSIBILITY_BY" = "Par";
+"ACCESSIBILITY_BY" = "By";
 /*Accessibility hint for user bio on user profile screen*/
 "ACCESSIBILITY.ACCOUNT.BIO_LABEL" = "Description";
 /* Accessibility hint for subject name label */
-"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Toucher deux fois pour parcourir par sujet, {subject_name}";
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {subject_name}";
 /* Accessibility hint for bulk download switch when in new state */
-"ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Activer pour télécharger toutes les vidéos de ce cours";
+"ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Toggling the switch on, will download all videos of this course";
 /* Accessibility hint for bulk download switch when in new partial or downloading state */
-"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_HINT" = "Désactiver pour annuler le téléchargement des vidéos et supprimer les vidéos déjà téléchargées pour ce cours.";
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_HINT" = "Toggling the switch off, will cancel downloading of all videos and will delete all downloaded videos of this course.";
 /* Accessibility hint for bulk download switch when in downloaded state */
-"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_HINT" = "Désactiver pour supprimer toutes les vidéos téléchargées pour ce cours.";
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_HINT" = "Toggling the switch off, will delete all downloaded videos of this course.";
 /* Accessibility hint for close button*/
-"ACCESSIBILITY.CLOSE_HINT" = "Toucher deux fois pour fermer.";
+"ACCESSIBILITY.CLOSE_HINT" = "閉じるにはダブルタップしてください";
 /* Accessibility label for posted data of discussion responses*/
-"ACCESSIBILITY.DISCUSSION_POSTED_ON" = "Posté le {date}";
+"ACCESSIBILITY.DISCUSSION_POSTED_ON" = " 投稿日時 {date}";
 /* Accessibility hint for Vote button for discussion responses*/
-"ACCESSIBILITY.DISCUSSION_VOTE_HINT" = "Toucher deux fois pour voter.";
+"ACCESSIBILITY.DISCUSSION_VOTE_HINT" = "投票するにはダブルタップしてください";
 /* Accessibility hint for Unvote button for discussion responses*/
-"ACCESSIBILITY.DISCUSSION_UNVOTE_HINT" = "Toucher deux fois pour enlever votre vote.";
+"ACCESSIBILITY.DISCUSSION_UNVOTE_HINT" = "投票をやめるにはダブルタップしてください。";
 /* Accessibility hint for Report button for discussion responses*/
-"ACCESSIBILITY.DISCUSSION_REPORT_HINT" = "Toucher deux fois pour dénoncer.";
+"ACCESSIBILITY.DISCUSSION_REPORT_HINT" = "報告するにはダブルタップしてください";
 /* Accessibility hint for Unreport button for discussion responses*/
-"ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "Toucher deux fois pour ne plus dénoncer.";
+"ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "報告をやめるにはダブルタップしてください。";
 /* Accessibility hint for Follow button for discussion responses*/
-"ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "Toucher deux fois pour suivre.";
+"ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "フォローするにはダブルタップしてください";
 /* Accessibility hint for Unfollow button for discussion responses*/
-"ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Toucher deux fois pour ne plus suivre.";
+"ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "フォローを解除するにはダブルタップしてください。";
 /*Accessibility hint for disabled buttons, cells, etc like for disabled user profile fields on user edit profile screen*/
 "ACCESSIBILITY.DISABLED_HINT" = "Dimmed";
 /* Acessibility hint for the show downloads button. */
-"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Toucher deux fois pour voir les téléchargements";
+"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Double tap to view current downloads";
 /* Accessibility hint for view all subjects label*/
-"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Toucher deux fois pour voir tous les sujets";
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Double tap to view all subjects";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
-"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Téléchargement en cours: {percent_complete}";
-"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Téléchargements en cours: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = " ダウンロード中：{percent_complete} ％";
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
-"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "Téléchargement en cours de {video_name}. {percent_complete} complété.";
-"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{other}" = "Téléchargement en cours de {video_name}. {percent_complete} complété.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{other}" = "{video_name} をダウンロード中。{percent_complete} ％済み。";
 /* Accessibility hint for number of downloadable videos */
 /* Accessibility hint for number of downloadable videos */
-"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "Télécharger {video_count} vidéo.";
-"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "Télécharger {video_count} vidéos.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "{video_count} 件ダウンロード";
 /* Accessibility label for fullscreen button on video player */
-"ACCESSIBILITY_FULLSCREEN" = "Plein écran";
+"ACCESSIBILITY_FULLSCREEN" = "全画面表示";
 /* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
-"ACCESSIBILITY_EXIT_FULLSCREEN" = "Fermer le Plein écran";
+"ACCESSIBILITY_EXIT_FULLSCREEN" = "全画面表示解除";
 /* Accessibility hint for error*/
-"ACCESSIBILITY.ERROR_TEXT" = "Erreur";
+"ACCESSIBILITY.ERROR_TEXT" = "Error";
 /* Accessibility label for HTML Icon in the Courseware screens */
 "ACCESSIBILITY_HTML" = "HTML";
 /* Accessibility label for Pause Button in the Video Player */
-"ACCESSIBILITY_PAUSE" = "Pause";
+"ACCESSIBILITY_PAUSE" = "一時停止";
 /* Accessibility label for Play Button in the Video Player */
-"ACCESSIBILITY_PLAY" = "Lecture";
+"ACCESSIBILITY_PLAY" = "再生";
 /* Accessibility lable for the avatar image */
-"ACCESSIBILITY_USER_AVATAR" = "Votre image de profil";
+"ACCESSIBILITY_USER_AVATAR" = "あなたのアバター";
 /* Accessibility label for Problem Icon in the Courseware screens */
-"ACCESSIBILITY_PROBLEM" = "Exercice";
+"ACCESSIBILITY_PROBLEM" = "問題";
 /* Optional text needs to be added for accesibility*/
-"ACCESSIBILITY.OPTIONAL_INPUT"="Optionnel";
+"ACCESSIBILITY.OPTIONAL_INPUT"="Optional";
 /* Required text needs to be added for accesibility*/
-"ACCESSIBILITY_REQUIRED_INPUT"="Requis";
+"ACCESSIBILITY_REQUIRED_INPUT"="Required";
 /* Accessibility label for Rewind Button in the Video Player */
-"ACCESSIBILITY_REWIND" = "Retour arrière";
+"ACCESSIBILITY_REWIND" = "巻き戻し";
 /* Call to action for Rewind Button in the Video Player */
-"ACCESSIBILITY_REWIND_HINT" = "Retour arrière de 30 sec.";
+"ACCESSIBILITY_REWIND_HINT" = "30秒巻き戻し";
 /* Accessibility label for Seek bar in the Video Player */
-"ACCESSIBILITY_SEEK_BAR" = "Barre de défilement";
+"ACCESSIBILITY_SEEK_BAR" = "シークバー";
 /* Accessibility label for Settings Button in the Video Player */
-"ACCESSIBILITY_SETTINGS" = "Paramètres";
+"ACCESSIBILITY_SETTINGS" = "設定";
 /* Call to action for Course content on Home Screen */
-"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Toucher deux fois pour voir le cours";
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "講座コンテンツを見るにはダブルタップしてください。";
 /* We don't have a accessility trait for dropdown, so we will be achieving dropdown trait through accessibility label */
-"ACCESSIBILITY_DROPDOWN_TRAIT" = "Liste de sélection.";
+"ACCESSIBILITY_DROPDOWN_TRAIT" = "Dropdown.";
 /* Call to action for Opening Dropdown */
-"ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Toucher deux fois pour ouvrir la liste";
+"ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "ドロップダウンを見るにはダブルタップしてください。";
 /* Call to action for Selecting Option */
-"ACCESSIBILITY_SELECT_VALUE_HINT" = "Toucher deux fois pour sélectionner.";
+"ACCESSIBILITY_SELECT_VALUE_HINT" = "選択するにはダブルタップしてください。";
 /* Accessibility label for Unknown Icon in the Courseware screens */
-"ACCESSIBILITY_UNKNOWN" = "Inconnu";
+"ACCESSIBILITY_UNKNOWN" = "不明";
 /* Accessibility label for Video Icon in the Courseware screens */
-"ACCESSIBILITY_VIDEO" = "Vidéo";
+"ACCESSIBILITY_VIDEO" = "動画";
 /* Text spoken for Navigation Button on Course List Screen */
-"ACCESSIBILITY_MENU" = "Menu de navigation";
+"ACCESSIBILITY_MENU" = "説明メニュー";
 /* Accessibility label for close button when left drawer is open*/
-"ACCESSIBILITY_CLOSE_MENU" = "Fermer le Menu de navigation";
+"ACCESSIBILITY_CLOSE_MENU" = "説明メニューを閉じる";
 /* Accessibility label for hiding keyboard*/
-"ACCESSIBILITY_HIDE_KEYBOARD" = "Masquer le clavier";
+"ACCESSIBILITY_HIDE_KEYBOARD" = "キーボード非表示";
 /* Accessibility Hint to view user profile*/
-"ACCESSIBILITY_SHOW_USER_PROFILE_HINT" = "Toucher deux fois pour voir le profil de l'utilisateur";
+"ACCESSIBILITY_SHOW_USER_PROFILE_HINT" = "ユーザープロフィールを見るにはダブルタップしてください。";
 /*Accessibility text for pinned discussion thread(Posts screen)*/
-"ACCESSIBILITY.DISCUSSION_PINNED" = "Epinglé";
+"ACCESSIBILITY.DISCUSSION_PINNED" = "ピン済み";
 /*Accessibility text for closed discussion thread(Posts screen)*/
-"ACCESSIBILITY.DISCUSSION_CLOSED" = "Fermé";
+"ACCESSIBILITY.DISCUSSION_CLOSED" = "終了";
 /*Accessibility text for followed discussion thread(Posts screen)*/
-"ACCESSIBILITY.DISCUSSION_FOLLOWED" = "Suivi";
+"ACCESSIBILITY.DISCUSSION_FOLLOWED" = "フォロー済";
 /* Accessibility text for unread discussion comments count (Posts screen) - {count} is a number of unread comments */
-"ACCESSIBILITY.DISCUSSION_UNREAD_REPLIES"="{count} réponses non lues";
+"ACCESSIBILITY.DISCUSSION_UNREAD_REPLIES"="{count} 件の未読";
 /*Accessibility text for unread discussion thread (Posts screen)*/
-"ACCESSIBILITY.DISCUSSION_UNREAD_THREAD" = "Sujet de discussion non lus";
+"ACCESSIBILITY.DISCUSSION_UNREAD_THREAD" = "未読のスレッド";
 /*Accessibility text for read discussion thread (Posts screen)*/
-"ACCESSIBILITY.DISCUSSION_READ_THREAD" = "Lire le sujet de discussion";
+"ACCESSIBILITY.DISCUSSION_READ_THREAD" = "スレッドを読む";
 /*Accessibility text for discussion thread last seen date(Posts screen) - {date} last updated thread date*/
-"ACCESSIBILITY.DISCUSSION_LAST_POST_ON" = "Dernier sujet le {date}";
+"ACCESSIBILITY.DISCUSSION_LAST_POST_ON" = "{date} の投稿";
 /*Accessibility hint for discussion thread(Posts screen)*/
-"ACCESSIBILITY.DISCUSSION_THREAD_HINT" = "Toucher deux fois pour voir le sujet.";
+"ACCESSIBILITY.DISCUSSION_THREAD_HINT" = "スレッドを見るにはダブルタップしてください。";
 /*Accessibility hint for sort button(Posts Screen)*/
-"ACCESSIBILITY.DISCUSSION_SORT_BY" = "Trier par {sort_by}";
+"ACCESSIBILITY.DISCUSSION_SORT_BY" = "{sort_by} で並べ替え";
 /*Accessibility hint for filter button(Posts Screen)*/
-"ACCESSIBILITY.DISCUSSION_FILTER_BY" = "Filtrer par {filter_by}";
+"ACCESSIBILITY.DISCUSSION_FILTER_BY" = "{filter_by} でフィルタリング";
 /*Accessibility label for user profile in left drawer*/
-"ACCESSIBILITY.LEFT_DRAWER.PROFILE_LABEL" = "Connecté en tant que {user_name}, {user_email}";
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_LABEL" = "現在 {user_name}, {user_email} でログイン中";
 /*Accessibility hint for user profile in left drawer*/
-"ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "Toucher deux fois pour voir votre profil";
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "あなたのプロフィールを開くにはダブルタップしてください。";
 /*Accessibility text for close button on whats new screen*/
-"ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="Fermer";
+"ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="閉じる";
 /*Accessibility label for header on new screen*/
-"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Version {app_version}, nouveautés";
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="バージョン {app_version} 新機能";
 /*Accessibility text for course share button on course dashboard*/
-"ACCESSIBILITY.SHARE_A_COURSE"="Partager un cours";
+"ACCESSIBILITY.SHARE_A_COURSE"="講座をシェア";
 /*Accessibility text for close button*/
-"ACCESSIBILITY.CLOSE_LABEL"="Fermer";
+"ACCESSIBILITY.CLOSE_LABEL"="Close";
 /*Accessibility text for profile button*/
 "ACCESSIBILITY.PROFILE_LABEL"="Profile";
 /* Title of user profile section for user accomplishments (like badges) */
-"ACCOMPLISHMENTS.TITLE" = "Récompenses";
+"ACCOMPLISHMENTS.TITLE" = "業績";
 /* Default text template when user shares an accomplishment */
-"ACCOMPLISHMENTS.SHARE_TEXT" = "J'ai obtenu un badge sur {platform_name}! Regarde";
+"ACCOMPLISHMENTS.SHARE_TEXT" = "{platform_name} でバッジを獲得しました！こちらで確認してください";
 /* Add a comment button title and place holder used in discussion comment text view */
-"ADD_A_COMMENT"="Ajouter un commentaire";
+"ADD_A_COMMENT"="コメントを書く";
 /* Add a response button title used in discussion's responses screen */
-"ADD_A_RESPONSE"="Ajouter une réponse";
+"ADD_A_RESPONSE"="返信を書く";
 /* Add comment button title used in discussion's Add a comment */
-"ADD_COMMENT"="Commenter";
+"ADD_COMMENT"="コメントを書く";
 /* Add post button title used in discussion's Create a new post */
-"ADD_POST"="Ajouter un post";
+"ADD_POST"="投稿する";
 /* Add response button title used in discussion's Add a response */
-"ADD_RESPONSE"="Ajouter réponse";
+"ADD_RESPONSE"="返信を書く";
 /* Add your post button title used in discussion's add a post textview */
-"ADD_YOUR_POST"="Ajouter votre post";
+"ADD_YOUR_POST"="投稿する";
 /*Agreement text*/
 "AGREEMENT.TEXT"="you agree to the {eula} and {tos} and you acknowledge that {platform_name} and each Member process your personal data in accordance with the  {privacy_policy}.";
 /*Agreement text prefix for user on signin screen*/
-"AGREEMENT.TEXT_PREFIX_SIGNIN"="En vous connectant, ";
+"AGREEMENT.TEXT_PREFIX_SIGNIN"="By signing-in to this app, ";
 /*Agreement text prefix for user on signup screen*/
-"AGREEMENT.TEXT_PREFIX_SIGNUP"="En créant un compte, ";
+"AGREEMENT.TEXT_PREFIX_SIGNUP"="By creating an account, ";
 /*Link Text for End Use License Agreement*/
-"AGREEMENT.LINK_TEXT_EULA"="{platform_name} conditions d'utilisation";
+"AGREEMENT.LINK_TEXT_EULA"="{platform_name} End User License Agreement";
 /*Link Text for End Use License Agreement*/
-"AGREEMENT.LINK_TEXT_TOS"="{platform_name} Conditions d'utilisation";
+"AGREEMENT.LINK_TEXT_TOS"="{platform_name} Terms of Service and Honor Code";
 /*Link Text for End Use License Agreement*/
-"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="Politique de confidentialité";
+"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="Privacy Policy";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
-"ALLOW"="Autoriser";
+"ALLOW"="許可";
 /* Filtering option to show all discussion posts */
-"ALL_POSTS"="Tous les posts";
+"ALL_POSTS"="すべての投稿";
 /*Subtitle for bulk download view when in downloading state */
-"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} en cours, {remaining_videos_size}MB total";
+"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB total";
 /*Title for bulk download view when in downloaded state */
-"ALL_VIDEOS_DOWNLOADED_TITLE" = "Vidéos téléchargées";
+"ALL_VIDEOS_DOWNLOADED_TITLE" = "All Videos Downloaded";
 /* Message shown when there are no announcements for a course */
-"ANNOUNCEMENT_UNAVAILABLE"="Il n'y a actuellement aucune annonce pour ce cours.";
+"ANNOUNCEMENT_UNAVAILABLE"="現在この講座からのお知らせはありません。";
 /* Label indicating the response answer in Discussion Add comment screen */
-"ANSWER"="Réponse";
+"ANSWER"="解答";
 /* Navigation title for a Question Post which has endorsed answers */
-"ANSWERED_QUESTION"="Question répondue";
+"ANSWERED_QUESTION"="質問に答える";
 /* Accessibility label for rating control of app review. */
-"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "Contrôle des votes.";
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "Rating コントロール";
 /* Accessibility hint for rating control of app review. */
-"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_HINT" = "Toucher deux fois et maintenir pour modifier votre vote .";
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_HINT" = "値を変更するにはダブルタップしてホールド";
 /* Alert title for positive app review */
-"APP_REVIEW.RATE_THE_APP" = "Noter l'app";
+"APP_REVIEW.RATE_THE_APP" = "アプリを評価する";
 /* Positive review message */
-"APP_REVIEW.POSITIVE_REVIEW_MESSAGE" = "Dites nous ce que vous pensez de l'app ";
+"APP_REVIEW.POSITIVE_REVIEW_MESSAGE" = "アプリストアで簡単なレビューを書いて、他の人に伝えよう";
 /* Send feedback message for negative app review */
-"APP_REVIEW.SEND_FEEDBACK_TITLE" = "Envoyer un avis?";
+"APP_REVIEW.SEND_FEEDBACK_TITLE" = "フィードバックを送りますか？";
 /* Help us improve message for negative app review */
-"APP_REVIEW.HELP_US_IMPROVE" = "Aidez-nous à améliorer! ";
+"APP_REVIEW.HELP_US_IMPROVE" = "改善できるようご協力ください！";
 /* Maybe later message for positive/negative app review */
-"APP_REVIEW.MAYBE_LATER" = "Peut-être plus tard";
+"APP_REVIEW.MAYBE_LATER" = "後で";
 /* Send feedback message for negative app review */
-"APP_REVIEW.SEND_FEEDBACK" = "Envoyer un avis";
+"APP_REVIEW.SEND_FEEDBACK" = "フィードバックを送る";
 /* Question for rating view */
-"APP_REVIEW.RATE_THE_APP_QUESTION" = "Quelle note donnez-vous à cette app?";
+"APP_REVIEW.RATE_THE_APP_QUESTION" = "アプリを評価してください";
 /* Submit button for rating view */
-"APP_REVIEW.SUBMIT" = "Envoyer";
+"APP_REVIEW.SUBMIT" = "提出";
 /* App Review message email title */
-"APP_REVIEW.MESSAGE_SUBJECT" = "Revues";
+"APP_REVIEW.MESSAGE_SUBJECT" = "カスタマーレビュー";
 /*Asteric for marking fields required*/
 "ASTERIC" = "*";
 /* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
-"AUTH_PROVIDER_ERROR" = "Ce compte {auth_provider} n'est pas lié à un compte {platform_name}. Inscrivez-vous.";
+"AUTH_PROVIDER_ERROR" = "This {auth_provider} account is not linked with any {platform_name} account. Please register.";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
-"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Vidéo, {videos_size}MB total";
-"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Vidéos, {videos_size}MB total";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {videos_size}MB total";
 /* Prefix used with Staff of Community TA on the posts screen */
-"BY_AUTHOR" = "Par {author_name}";
+"BY_AUTHOR" = "{author_name}";
 /* Prefix used with Staff of Community TA on the posts screen */
-"BY_AUTHOR_LOWER_CASE" = "par {author_name}";
+"BY_AUTHOR_LOWER_CASE" = "{author_name}";
 /* Course completion title */
-"CERTIFICATES.COURSE_COMPLETION_TITLE"="FELICITATIONS !";
+"CERTIFICATES.COURSE_COMPLETION_TITLE"="おめでとうございます！";
 /* Course completion subtitle */
-"CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="Vous avez réussi le cours.";
+"CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="あなたは合格しました。";
 /* Get certificate button text. */
-"CERTIFICATES.GET_CERTIFICATE"="Voir le certificat";
+"CERTIFICATES.GET_CERTIFICATE"="修了証を見る";
 /* Text to share on FB & Twitter when sharing a course cert */
-"CERTIFICATES.SHARE_TEXT"="J'ai obtenu un Certificat sur {platform_name}! Regarde:";
+"CERTIFICATES.SHARE_TEXT"="私は {platform_name} で修了証を獲得しました！こちらで確認してください：";
 /* Title bar when viewing an actual certificate */
-"CERTIFICATES.VIEW_CERT_TITLE"="Certificat";
+"CERTIFICATES.VIEW_CERT_TITLE"="修了証";
 /* Title of course announcements section */
-"COURSE_ANNOUNCEMENTS"="Infos & Actualités";
+"COURSE_ANNOUNCEMENTS"="お知らせ";
 /* Title of course handouts section */
-"COURSE_HANDOUTS"="Documents de cours";
+"COURSE_HANDOUTS"="ハンドアウト";
 /* Title of resources tab in course dashboardTabBar view */
-"RESOURSES"="Ressources";
+"RESOURSES"="Resources";
 /* Title of course important dates screen */
-"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Dates importantes";
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
 /* Button text for cancelling any action */
-"CANCEL"="Annuler";
+"CANCEL"="キャンセル";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
-"CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Autoriser l'appareil à télécharger les vidéos en utilisant la connexion de données quand le Wi-Fi n'est pas disponible. Ceci peut entraîner des frais supplémentaires.";
+"CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Wi-Fi 接続が利用できない場合、通話回線を使って動画をダウンロードできるようにします。データ通信料が課金されるかもしれません。";
 /* Title of alert explaining charges will apply since the "Wi-fi only" switch was turned off */
-"CELLULAR_DOWNLOAD_ENABLED_TITLE"="Autoriser téléchargement cellulaire";
+"CELLULAR_DOWNLOAD_ENABLED_TITLE"="通話回線でのダウンロードを許可";
 /* Error message shown when there is a problem loading a video */
-"CHECK_CONNECTION"="Problème de téléchargement vidéo.\nVeuillez vérifier que votre connexion Internet est bonne.";
+"CHECK_CONNECTION"="動画の読込に失敗しました。\nインターネット接続を確認してください。";
 /* Generic action button label when the user chooses a thing */
-"CHOOSE" = "Choisir";
+"CHOOSE" = "選ぶ";
 /* Title of dropdown from which the user can select topics on New Post Screen */
-"CHOOSE_A_TOPIC" = "Choisir un sujet...";
+"CHOOSE_A_TOPIC" = "トピックを選ぶ…";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
-"COMPLETE_REGISTRATION_INFO" = "Connexion avec {service} réussie. Nous avons besoin d'un petit peu plus d'information avant de démarrer sur {platform_name}.";
+"COMPLETE_REGISTRATION_INFO" = "{service} でサインインできました。 {platform_name} を使い始めるにはもう少し情報が必要です。";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
-"COMPLETE_REGISTRATION_PROMPT" = "Terminer votre inscription";
+"COMPLETE_REGISTRATION_PROMPT" = "登録完了";
 /* Title of alert when confirming deletion of a video */
-"CONFIRM_DELETE_TITLE"="Confirmer la suppression";
+"CONFIRM_DELETE_TITLE"="削除の確認";
 /* Text of alert when confirming video deletion */
 /* Text of alert when confirming video deletion */
-"CONFIRM_DELETE_MESSAGE##{one}"="Êtes-vous sûr de vouloir supprimer cette vidéo ?";
-"CONFIRM_DELETE_MESSAGE##{other}"="Êtes-vous sûr de vouloir supprimer ces vidéos ?";
+"CONFIRM_DELETE_MESSAGE##{other}"="この動画を本当に消去しますか？";
 /* Text of push notification announcing a new course announcement */
-"COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="Nouvelle info: {course_name}";
+"COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="新しいお知らせ： {course_name}";
 /* Alert dialog button text */
-"CLOSE"="Fermer";
+"CLOSE"="閉じる";
 /* Discussion response comment - {count} is a number of comments */
 /* Discussion response comment - {count} is a number of comments */
-"COMMENT##{one}"="{count} commentaire";
-"COMMENT##{other}"="{count} commentaires";
+"COMMENT##{other}"="コメント {count} 件";
 /* Discussion comments */
-"COMMENTS"="Commentaires";
+"COMMENTS"="コメント";
 /* Text displayed when comments are disabled for a Response */
-"COMMENTS_CLOSED" = "Commentaires fermés pour cette réponse";
+"COMMENTS_CLOSED" = "コメント受付終了";
 /* Discussion comment (Posts screen) - {count} is a number of comments */
 /* Discussion comment (Posts screen) - {count} is a number of comments */
-"COMMENTS_TO_RESPONSE##{one}"="{count} Commentaire";
-"COMMENTS_TO_RESPONSE##{other}"="{count} Commentaires";
+"COMMENTS_TO_RESPONSE##{other}"="コメント {count} 件";
 /* Label for posts pinned by Community TA(s)" */
-"COMMUNITY_TA"="Assistant";
+"COMMUNITY_TA"="コミュニティTA";
 /* Label indicating the amount of time a course will take */
-"COURSE_DETAIL.EFFORT"="Effort:";
+"COURSE_DETAIL.EFFORT"="エフォート：";
 /* Label indicating when a course ends. */
-"COURSE_DETAIL.END_DATE"="Date de fin :";
+"COURSE_DETAIL.END_DATE"="終了日：";
 /* Button title allowing user to enroll in a course */
-"COURSE_DETAIL.ENROLL_NOW" = "S'inscrire maintenant";
+"COURSE_DETAIL.ENROLL_NOW" = "登録しよう";
 /* Button title allowing user to view a course from the course's catalog detail page */
-"COURSE_DETAIL.VIEW_COURSE" = "Voir le cours";
+"COURSE_DETAIL.VIEW_COURSE" = "講座を見る";
 /* Button title describing that the course is invitation only */
-"COURSE_DETAIL.INVITATION_ONLY" = "Sur invitation uniquement";
+"COURSE_DETAIL.INVITATION_ONLY" = "招待制";
 /* Message shown when there is no course content */
-"COURSEWARE_UNAVAILABLE"="Aucun contenu de cours disponible.";
+"COURSEWARE_UNAVAILABLE"="現在受講できる講座コンテンツはありません。";
 /* Message shown when there is no course video */
-"COURSE_VIDEO_UNAVAILABLE"="Ce cours ne contient aucune vidéo";
+"COURSE_VIDEO_UNAVAILABLE"="この講座は動画がありません。";
 /* Message shown when attempting to display content not available on the app */
-"COURSE_CONTENT_UNKNOWN" = "Ce composant n'est pas encore disponible sur mobile. \n\nExplorer d'autres parties du cours ou le voir sur le web.";
+"COURSE_CONTENT_UNKNOWN" = "この内容はモバイルでは使えません。\n\n他の内容を見るか、ウェブ上でこの内容をご覧ください。";
 /* Message shown when course content is gated */
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
-"COURSEDATES.COURSE_DATE_UNAVAILABLE"="Aucune date de cours disponible.";
+"COURSEDATES.COURSE_DATE_UNAVAILABLE"="講座の日時は現在不明です。";
 /* Label for date when course starts */
 "COURSE.STARTING" = "Starting {start_date}";
 /* Label for date when course end */
@@ -322,371 +315,363 @@
 "COURSE.AUDIT.DAYS" = "{days} days";
 /* 1 hour remaining in course audit expiry*/
 /* More than 1 hours remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_HOURS##{one}" = "{hours} hour";
 "COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} hours";
 /* 1 minutes remaining in course audit expiry*/
 /* More than 1 minutes remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_MINUTES##{one}" = "{minutes} minute";
 "COURSE_AUDIT_REMAINING_MINUTES##{other}" = "{minutes} minutes";
 /* 1 second remaining in course audit expiry*/
 /* More than 1 seconds remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} second";
 "COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} seconds";
 /*Error meessage on course content screen if course audit expires*/
 "COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
 /* Title text for the Announcements section within the course dashboard */
-"DASHBOARD.COURSE_ANNOUNCEMENTS"="Annonces";
+"DASHBOARD.COURSE_ANNOUNCEMENTS"="お知らせ";
 /* Text describing the Announcements section within the course dashboard */
-"DASHBOARD.COURSE_ANNOUNCEMENTS_DETAIL"="Les dernières nouvelles";
+"DASHBOARD.COURSE_ANNOUNCEMENTS_DETAIL"="最新ニュースを見る";
 /* Title text for the Courseware section of the course dashboard */
-"DASHBOARD.COURSE_COURSEWARE"="Cours";
+"DASHBOARD.COURSE_COURSEWARE"="講座";
 /* Text describing the Courseware section within the course dashboard */
-"DASHBOARD.COURSE_COURSE_DETAIL"="Accéder au contenu du cours";
+"DASHBOARD.COURSE_COURSE_DETAIL"="講座コンテンツや課題を見る";
 /* Title text for the videos section of the course dashboard */
-"DASHBOARD.COURSE_Videos"="Vidéos";
+"DASHBOARD.COURSE_Videos"="動画";
 /* Text describing the Videos section within the course dashboard */
-"DASHBOARD.COURSE_Videos_DETAIL"="Voir les vidéos de cours";
+"DASHBOARD.COURSE_Videos_DETAIL"="動画を見る";
 /* Title text for the Discussions section of the course dashboard */
-"DASHBOARD.COURSE_DISCUSSION"="Discussion";
+"DASHBOARD.COURSE_DISCUSSION"="ディスカッション";
 /* Text describing the Discussions section within the course dashboard */
-"DASHBOARD.COURSE_DISCUSSION_DETAIL"="Rejoindre une conversation";
+"DASHBOARD.COURSE_DISCUSSION_DETAIL"="ディスカッションに参加する";
 /* Title text for the Handouts section of the course dashboard  */
-"DASHBOARD.COURSE_HANDOUTS"="Documents de cours";
+"DASHBOARD.COURSE_HANDOUTS"="ハンドアウト";
 /* Text describing the Handouts section within the course dashboard */
-"DASHBOARD.COURSE_HANDOUTS_DETAIL"="Les informations importantes du cours";
+"DASHBOARD.COURSE_HANDOUTS_DETAIL"="重要な講座情報を探す";
 /* Title text for the Important dates section of the course dashboard  */
 "DASHBOARD.COURSE_IMPORTANT_DATES"="Dates";
 /* Text describing the Important dates section of the course dashboard  */
-"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Les échéances importantes";
+"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="締切を確認して確実に進める";
 /*Text for browse by subject label on subject discovery */
-"DISCOVERY.BROWSE_BY_SUBJECT" = "Parcourir par sujet";
+"DISCOVERY.BROWSE_BY_SUBJECT" = "Browse By Subject";
 /*Placeholder text for subjects searchbar*/
-"DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Rechercher un sujet";
+"DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
 /*Label text for view all subjects cell*/
-"DISCOVERY.VIEW_ALL_SUBJECTS" = "Voir tous les sujets";
+"DISCOVERY.VIEW_ALL_SUBJECTS" = "View All Subjects";
 /* Text describing the course due date for same day*/
-"COURSE_DUE_DATE_SAME_DAY"="échéance aujourd'hui {due_date} {time_zone}";
+"COURSE_DUE_DATE_SAME_DAY"="due today at {due_date} {time_zone}";
 /* Text describing the course due date*/
-"COURSE_DUE_DATE"="échéance {due_date}";
+"COURSE_DUE_DATE"="due {due_date}";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
-"COURSE_MODE_FULL"="Voir le cours complet";
+"COURSE_MODE_FULL"="講座全体を見る";
 /* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
-"COURSE_MODE_PICKER_DESCRIPTION" = "Choix du mode";
+"COURSE_MODE_PICKER_DESCRIPTION" = "モード選択";
 /* Text displayed when Can't find one of your courses is tapped on My Courses screen */
-"COURSE_NOT_LISTED" = "Nous travaillons dur pour rendre no cours disponible sur mobile. Si vous ne trouvez pas le vôtre, revenez bientôt. nous ajoutons de nouveaux cours chaque jour!";
+"COURSE_NOT_LISTED" = "すべての講座をモバイルでご利用いただけるよう作業中です。もしお好みの講座が見つからなくても、日々新しい講座を追加していますので、近日中に再度チェックしてみてください。";
 /* Message shown on a course when it hasn't started yet.*/
-"COURSE_NOT_STARTED"="Ce cours n'a pas encore démarré.";
+"COURSE_NOT_STARTED"="この講座はまだ開始していません。";
 /* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
-"COURSE_WILL_START_AT"="Ce cours n'a pas encore démarré. Revenez le {date} pour voir les vidéos.";
+"COURSE_WILL_START_AT"="この講座はまだ開始していません。{date} 以降、動画をご覧いただけます。";
 /* Create a new post button title used in discussions' posts screen */
-"CREATE_A_NEW_POST"="Créer un nouveau sujet";
+"CREATE_A_NEW_POST"="新規投稿を作成する";
 /* Button text to initiate or confirm deletion */
-"DELETE"="Effacer";
+"DELETE"="削除";
 /* Discussion used in the segmented control Creating a new post */
-"DISCUSSION"="Discussion";
+"DISCUSSION"="ディスカッション";
 /* Discussion comment overlay message when new comment added */
-"DISCUSSION_COMMENT_POSTED" = "Commentaire ajouté.";
+"DISCUSSION_COMMENT_POSTED" = "あなたのコメントが追加されました。";
 /* Title of button to allow user to follow a discussion post */
-"DISCUSSION_FOLLOW"="Suivre";
+"DISCUSSION_FOLLOW"="フォロー";
 /* Title of action to report a discussion post/response/comment to the course staff */
-"DISCUSSION_REPORT"="Dénoncer";
+"DISCUSSION_REPORT"="報告";
 /* Discussion response overlay message when new response added */
-"DISCUSSION_THREAD_POSTED" = "Réponse ajoutée.";
+"DISCUSSION_THREAD_POSTED" = "あなたの返信が追加されました。";
 /* Title of the navigation bar when entering the course discussion */
-"DISCUSSION_TOPICS"="Sujets de discussion";
+"DISCUSSION_TOPICS"="ディスカッショントピック";
 /* Title of button to allow user to unfollow a discussion post */
-"DISCUSSION_UNFOLLOW"="Ne plus suivre";
+"DISCUSSION_UNFOLLOW"="フォロー解除";
 /* Title of action to unreport a discussion post/response/comment to the course staff */
-"DISCUSSION_UNREPORT"="Ne plus dénoncer";
+"DISCUSSION_UNREPORT"="未報告";
 /* Discussion comments count (Posts screen) - {count} is a number of comments */
-"DISCUSSIONS.REPLIES_COUNT"="{count} Réponses";
+"DISCUSSIONS.REPLIES_COUNT"="返信 {count} 件";
 /*Discussion posts screen last post date - {date} last updated thread date*/
-"DISCUSSIONS.LAST_POST" = "Dernier sujet: {date}";
+"DISCUSSIONS.LAST_POST" = "最新の投稿：{date}";
 /* Alert dialog button for allowing/disallowing downloads on cellular data */
-"DO_NOT_ALLOW"="Ne pas autoriser";
+"DO_NOT_ALLOW"="許可しない";
 /* Description about for button to download videos. For example, "Download 1 video" */
 /* Description about for button to download videos. For example, "Download 3 videos" */
-"DOWNLOAD_MANY_VIDEOS##{one}" = "Télécharger {video_count} vidéo";
-"DOWNLOAD_MANY_VIDEOS##{other}" = "Télécharger {video_count} vidéos";
+"DOWNLOAD_MANY_VIDEOS##{other}" = "{video_count} 件の動画をダウンロード";
 /* Button text for confirming download */
-"DOWNLOAD" = "Télécharger";
+"DOWNLOAD" = "ダウンロード";
 /* Label indicating that a video or videos have been downloaded */
-"DOWNLOADED" = "Téléchargé";
+"DOWNLOADED" = "ダウンロード済";
 /* Description about downloaded videos. For example, "Downloaded 1 video" */
 /* Description about downloaded videos. For example, "Downloaded 3 videos" */
-"DOWNLOADED_MANY_VIDEOS##{one}" = "Télécharger {video_count} vidéo";
-"DOWNLOADED_MANY_VIDEOS##{other}" = "Télécharger {video_count} vidéos";
+"DOWNLOADED_MANY_VIDEOS##{other}" = "{video_count} 件の動画をダウンロード";
 /* Label indicating that a video or videos are downloading */
-"DOWNLOADING" = "En cours de téléchargement";
+"DOWNLOADING" = "ダウンロード中";
 /* Title of video downloads screen */
-"DOWNLOADS"="Téléchargement";
+"DOWNLOADS"="ダウンロード";
 /* Overlay message after user chooses to download a video */
-"DOWNLOADING_1_VIDEO"="1 vidéo est en cours de téléchargement";
+"DOWNLOADING_1_VIDEO"="1件の動画をダウンロード中";
 /*Title for bulk download view when in downloading state */
-"DOWNLOADING_VIDEOS_TITLE" = "Vidéos en cours de téléchargement...";
+"DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos...";
 /*Title for bulk download view when in new or partial state */
-"DOWNLOAD_TO_DEVICE_TITLE" = "Télécharger sur l'appareil";
+"DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
 /*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="Découvrir";
+"DISCOVER"="Discovery";
 /*Title for the programs in tabbar and navigation bar*/
-"PROGRAMS"="Programmes";
+"PROGRAMS"="Programs";
 /*Title for the degrees in navigation bar*/
 "DEGREES"="Degrees";
 /*Debug option title in tabbar */
 "DEBUG"="Debug";
 /* Error message shown when email address is not properly formatted */
-"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Vérifiez le format de votre adresse email et réessayez.";
+"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Please make sure your e-mail address is formatted correctly and try again.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
-"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="Il semble que votre client mail n'est pas configuré.";
+"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="お使いの電子メールソフトが設定されていないようです。";
 /* Alert dialog title shown when user tries to send an email, but email isn't setup */
-"EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="Impossible d'envoyer l'e-mail";
+"EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="メールを送ることができません";
 /* Placeholder text for email address entry field */
-"EMAIL_ADDRESS_PROMPT"="Adresse e-mail";
+"EMAIL_ADDRESS_PROMPT"="メールアドレス";
 /* Text displayed when no results are found in the search */
-"EMPTY_RESULTSET" = "Aucun résultat pour \"{query_string}\". Essayez un autre terme de recherche ou sélectionnez une autre catégorie de discussion.";
+"EMPTY_RESULTSET" = "\"{query_string}\" が見つかりません。他の単語またはディスカッションカテゴリーをお試しください。";
 /* Prompt shown to users on the course list encouraging them to find new courses */
-"ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "À la recherche d'un nouveau challenge?";
+"ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "新しいチャレンジを探していますか？";
 /* Button title opening course catalog */
-"ENROLLMENT_LIST.FIND_COURSES" = "Trouver un cours";
+"ENROLLMENT_LIST.FIND_COURSES" = "講座を探す";
 /* Error message when user is not enrolled to any course and course discovery is also disabled.*/
-"ENROLLMENT_LIST.NO_ENROLLMENT" = "Vous n'êtes inscrit à aucun cours.";
+"ENROLLMENT_LIST.NO_ENROLLMENT" = "あなたはまだどの講座にも受講登録をしていないようです。";
 /* Prompt indicating user needs to enter an email address */
-"ENTER_EMAIL"="Merci de saisir votre nom d'utilisateur ou email et réessayez.";
+"ENTER_EMAIL"="Please enter your username or e-mail address and try again.";
 /* Prompt indicating user needs to enter a password */
-"ENTER_PASSWORD"="Veuillez entrer votre mot de passe et essayez de nouveau.";
+"ENTER_PASSWORD"="パスワードを入力して再試行してください。";
 /* Text used when the post is visible to everyone */
-"EVERYONE"="tout le monde";
+"EVERYONE"="みなさん";
 /* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
-"EXTERNAL_REGISTRATION_BECAME_LOGIN" = "Vous avez déjà un compte {platform_name} avec votre compte {service}. Vous avez été connecté avec ce compte.";
+"EXTERNAL_REGISTRATION_BECAME_LOGIN" = "あなたは {service} アカウントで既に {platform_name} アカウントを作成済です。そのアカウントでログイン中です。";
 /* Endorsed text */
-"ENDORSED" = "Voté";
+"ENDORSED" = "いいね！";
 /* Facebook login method */
 "FACEBOOK"="Facebook";
 /* Overlay message shown when facebook login fails because the user's account isn't linked */
-"FAILED_TO_LOAD_TOPICS"="Erreur de chargement des sujets.";
+"FAILED_TO_LOAD_TOPICS"="トピックの読込ができませんでした。";
 /* Title of find courses screen */
-"FIND_COURSES"="Trouver des cours";
+"FIND_COURSES"="講座を探す";
 /* No available courses on find courses section */
-"FIND_COURSES_NO_AVAILABLE_COURSES"="Aucun cours disponible";
+"FIND_COURSES_NO_AVAILABLE_COURSES"="No available courses";
 /* Overlay message shown when enrolling in a course fails because the user is already in the course */
-"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="Vous êtes déjà inscrit à ce cours";
+"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="あなたはこの講座を登録済みです。";
 /* Overlay message shown when enrolling in a course fails */
-"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="Une erreur est survenue lors de l'inscription au cours";
+"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="新規受講登録中にエラーが生じました。";
 /* AlertView message shown when enrolling in a course fails */
-"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="Nous n'avons pas pu vous inscrire dans ce cours sur via l'application {platform_name}. Veuillez essayer sur un navigateur de bureau";
+"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="We are unable to enroll you in this course at this time using the {platform_name} mobile application. Please try again on your web browser";
 /* Title of overlay message shown when enrolling in a course fails */
-"FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Erreur lors de l'inscription";
+"FIND_COURSES_ENROLLMENT_ERROR_TITLE"="登録エラー";
 /* Title of overlay message shown when enrolling in a course succeeds */
-"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="Vous êtes maintenant inscrit à ce cours";
+"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="あなたはこの講座に登録中です。";
 /* Title of overlay message shown when enrolling in a course succeeds */
-"FIND_COURSES_OFFLINE_MESSAGE"="Vous êtes en mode déconnecté.\nPour trouver des cours, connectez-vous.";
+"FIND_COURSES_OFFLINE_MESSAGE"="オフラインモードです。講座を探すにはインターネットに接続してください。";
 /* Title of overlay message shown when sign in fails */
-"FLOATING_ERROR_LOGIN_TITLE"="Erreur d'inscription";
+"FLOATING_ERROR_LOGIN_TITLE"="サインイン失敗";
 /* Title of overlay message shown when reset password fails */
-"FLOATING_ERROR_TITLE"="Erreur lors du changement de mot de passe";
+"FLOATING_ERROR_TITLE"="パスワード変更失敗";
 /* Adds a `:` after a label, used in form. Eg. "{First Name}: Bob" */
-"FORM_LABEL"="{label} :";
+"FORM_LABEL"="{label}:";
 /* Google login method */
 "GOOGLE"="Google";
 /* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
-"SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Assurez-vous que votre compte {service} est associé avec votre compte {platform_name} sur {destination_name}";
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="あなたの {service} アカウントが {destination_name} 上の {platform_name} アカウントと連動しているか確認してください。";
 /* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
-"SERVICE_ACCOUNT_NOT_ASSOCIATED_TITLE"="Aucun compte {service} associé avec le compte {platform_name}";
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_TITLE"=" {platform_name} アカウントと連動していない {service} アカウント";
 /* Indicator for course content that is marked as having a graded component */
-"GRADED" = "Noté";
+"GRADED" = "採点済";
 /* Warning shown to indicate that the user is in a section of graded content. */
-"GRADED_CONTENT_WARNING" = "Nous vous recommandons de compléter les sections notées sur votre ordinateur en attendant que tous les composants soient supportés sur mobile.";
+"GRADED_CONTENT_WARNING" = "このような採点対象のセクションは、モバイルでフルサポート対応するまでは、ウェブブラウザ上で行うことをおススメします。";
 /* Message shown when there are no handouts for a course */
-"HANDOUTS_UNAVAILABLE"="Il n'y a actuellement aucun polycopié pour ce cours.";
+"HANDOUTS_UNAVAILABLE"="現在のところ、この講座のハンドアウトはありません。";
 /* Overlay error shown when logging in with an invalid email address */
-"INVALID_EMAIL_MESSAGE"="Veuillez vérifier que votre adresse e-mail est correctement écrite puis réessayez.";
+"INVALID_EMAIL_MESSAGE"="メールアドレスが正しいか確認して再試行してください。";
 /* Overlay error shown when logging in with an invalid username or password */
-"INVALID_USERNAME_PASSWORD"="Vérifiez votre nom d'utilisateur ou email et votre mot de passe et réessayez.";
+"INVALID_USERNAME_PASSWORD"="Please make sure that your username or e-mail address and password are correct and try again.";
 /* Alert dialog text asking whether it's okay to download large videos */
-"LARGE_DOWNLOAD_MESSAGE"="Les vidéos que vous avez sélectionnées ont une taille supérieure à 1 GB. Voulez-vous télécharger ces vidéos ?";
+"LARGE_DOWNLOAD_MESSAGE"="あなたが選択した動画は1GB以上です。本当にダウンロードしますか？";
 /* Alert dialog title when asking whether it's okay to download large videos */
-"LARGE_DOWNLOAD_TITLE"="Téléchargement volumineux";
+"LARGE_DOWNLOAD_TITLE"="大きいサイズのダウンロード";
 /* Title for Course Item that was last accessed */
-"LAST_ACCESSED" = "Dernier accès";
+"LAST_ACCESSED" = "最新アクセス";
 /* Prompt leading user to create account screen */
-"LOGIN_SPLASH_SIGN_UP"="Inscrivez-vous et commencez à apprendre";
+"LOGIN_SPLASH_SIGN_UP"="登録申込をして学習を始める";
 /* Prompt leading user to sign in screen */
-"LOGIN_SPLASH_SIGN_IN"="Vous avez déjà un compte ? Connectez-vous";
+"LOGIN_SPLASH_SIGN_IN"="アカウントをお持ちですか？サインインしてください。";
 /* Button title to log out the current user */
-"LOGOUT"="Déconnexion";
+"LOGOUT"="ログアウト";
 /* Option to sort discussion post list by most activity */
-"MOST_ACTIVITY"="Le plus d'activité";
+"MOST_ACTIVITY"="コメント数";
 /* Option to sort discussion post list by most votes */
-"MOST_VOTES"="Le plus de votes";
+"MOST_VOTES"="投票数";
 /* Screen title showing a user's courses */
-"COURSES"="Cours";
+"COURSES"="Courses";
 /* Screen title showing a user's settings */
-"MY_SETTINGS"="Mes paramètres";
+"MY_SETTINGS"="設定";
 /* Marked as answer for endorsed responses */
-"MARKED_ANSWER" = "Marqué comme réponse";
+"MARKED_ANSWER" = "ベストアンサー";
 /* Overlay error shown when attempting an action without an internet connection */
-"NETWORK_NOT_AVAILABLE_MESSAGE"="Vous n'êtes pas connecté à Internet.";
+"NETWORK_NOT_AVAILABLE_MESSAGE"="インターネットに接続されていません。";
 /* Alert dialog error shown when attempting an action without an internet connection */
-"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="Vous n'êtes pas connecté à Internet. Merci de vérifier votre connexion Internet.";
+"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="インターネットに接続されていません。インターネットへの接続設定を確認してください";
 /* Title of alert dialog shown when attempting an action without an internet connection */
-"NETWORK_NOT_AVAILABLE_TITLE"="Erreur de connexion";
+"NETWORK_NOT_AVAILABLE_TITLE"="接続エラー";
 /* Button title for moving to the next block in the course */
-"NEXT" = "Suivant";
+"NEXT" = "次へ";
 /* Button title for moving to the next unit in the course */
-"NEXT_UNIT" = "Unité suivante";
+"NEXT_UNIT" = "次のユニットへ";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
-"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "En attendant, vous pouvez vous inscrire aux cours sur notre site web, puis retourner sur l'app une fois l'inscription terminée.";
+"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "当面はウェブサイト上で受講登録ができます。ログイン、受講登録をしたうえで、アプリに戻ってきてください。";
 /* Message shown when tapping on enroll courses when in app course enrollment is disabled */
-"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Nos équipes travaillent dur pour vous permettre de vous inscrire aux cours depuis l'app.";
+"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "アプリ内で受講登録ができるよう、ただいま作業中です。";
 /* Message shown when no results are found while filtering discussions */
-"NO_RESULTS_FOUND" = "Aucun posts dans cette catégorie de discussion.";
+"NO_RESULTS_FOUND" = "このディスカッション・カテゴリーには投稿がありません。";
 /* Message shown to indicate video transcript support has not yet been implemented */
-"NO_TRANSCRIPT" = "Pas de transcript de la vidéo disponible.";
+"NO_TRANSCRIPT" = "この動画は複写できません。";
 /* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
-"NO_WIFI_MESSAGE" = "Vos paramètres actuels de téléchargement n'autorisent que des téléchargements par Wi-Fi.\nMerci de vous connecter à un réseau Wi-Fi ou de charger vos paramètres de téléchargement.";
+"NO_WIFI_MESSAGE" = "現在ダウンロードは Wi-Fi 接続のみを使用する設定になっています。\nWi-Fi ネットワークに接続するか、ダウンロードの設定を変更してください。";
 /* Text displayed when no results are found for following*/
-"NO_FOLLOWING_RESULTS" = "Vous ne suivez aucun post.";
+"NO_FOLLOWING_RESULTS" = "フォロー中の投稿はありません。";
 /* Message shown when no results are found for all posts*/
-"NO_COURSE_RESULTS" = "Aucun posts dans cette discussion de cours.";
+"NO_COURSE_RESULTS" = "このディスカッションには投稿がありません。";
 /* Indicates a field that does not apply to the current context */
-"NOT_APPLICABLE" = "NA";
+"NOT_APPLICABLE" = "該当なし";
 /* Label of switch that toggles push notification support */
-"NOTIFICATIONS_ENABLED" = "Autoriser les notifications";
+"NOTIFICATIONS_ENABLED" = "通知を許可";
 /*Text for author if post is by anonymous user*/
-"ANONYMOUS" = "Anonyme";
+"ANONYMOUS" = "匿名";
 /* Label indicating user has on internet connection and is in offline mode */
-"OFFLINE" = "Hors connexion";
+"OFFLINE" = "オフライン";
 /* Alert dialog okay button */
-"OK"="Ok";
+"OK"="OK";
 /* Button title allowing user to open current page in their web browser */
-"OPEN_IN_BROWSER"="Voir dans Safari";
+"OPEN_IN_BROWSER"="Safari で見る";
 /* Button label to bring up course finder */
-"OR_SIGN_IN_WITH"="Ou se connecter avec";
+"OR_SIGN_IN_WITH"="またはサインイン";
 /* Login screen password field title text */
-"PASSWORD_TITLE_TEXT" = "Mot de passe";
+"PASSWORD_TITLE_TEXT" = "Password";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
-"PLAYBACK_COMPLETE_CONTINUE"="Continuer";
+"PLAYBACK_COMPLETE_CONTINUE"="続ける";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
-"PLAYBACK_COMPLETE_CONTINUE_CANCEL"="Non";
+"PLAYBACK_COMPLETE_CONTINUE_CANCEL"="いいえ";
 /* Alert dialog content when finishing a video to ask if user should continue by watching the next video */
-"PLAYBACK_COMPLETE_MESSAGE"="Désirez-vous visualiser la viéo suivante ?";
+"PLAYBACK_COMPLETE_MESSAGE"="次の動画を見ますか？";
 /* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
-"PLAYBACK_COMPLETE_TITLE"="Vous avez atteint la fin de cette vidéo.";
+"PLAYBACK_COMPLETE_TITLE"="動画が終了しました。";
 /* Post screen title in creating a new post */
-"POST" = "Créer un nouveau post";
+"POST" = "新規投稿を作成";
 /* Title for Row on Discussion screen which opens the posts followed by the user */
-"POSTS_IM_FOLLOWING" = "Les posts que je suit";
+"POSTS_IM_FOLLOWING" = "フォロー中の投稿";
 /* Navigation item title for post and responses */
-"DISCUSSION_POST" = "Sujets de discussion";
+"DISCUSSION_POST" = "ディスカッション投稿";
 /* Post discussion button title in Create a new post */
-"POST_DISCUSSION"="Poster une discussion";
+"POST_DISCUSSION"="ディスカッションを投稿";
 /* Post question button title in Create a new post */
-"POST_QUESTION"="Poster une question";
+"POST_QUESTION"="質問を投稿";
 /* Button title for moving to the previous block in the course */
-"PREVIOUS" = "Précédent";
+"PREVIOUS" = "前へ";
 /* Button title for moving to the next unit in the course */
-"PREVIOUS_UNIT" = "Unité précédente";
+"PREVIOUS_UNIT" = "前のユニットへ";
 /* A10y hint for the change picture button. */
 "PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Double tap to change profile photo";
 /* Change picture button text on edit profile screen. */
-"PROFILE.CHANGE_PICTURE_BUTTON" = "Changer";
+"PROFILE.CHANGE_PICTURE_BUTTON" = "変更";
 /* Text for use a photo already in library for user profile photo alert */
-"PROFILE.CHOOSE_EXISTING" = "Choisir une photo";
+"PROFILE.CHOOSE_EXISTING" = "写真を選択";
 /* Instruction title text on the photo crop view. */
-"PROFILE.CROP_AND_RESIZE_PICTURE" = "Recadrer et redimensionner";
+"PROFILE.CROP_AND_RESIZE_PICTURE" = "サイズ変更";
 /* 'Current Language' label on top row of edit language in user's profile */
-"PROFILE.CURRENT_LANGUAGE_LABEL" = "Langue actuelle:";
+"PROFILE.CURRENT_LANGUAGE_LABEL" = "現在の言語：";
 /* 'Current Location' label on top row of edit country in user's profile */
-"PROFILE.CURRENT_LOCATION_LABEL" = "Lieu actuel:";
+"PROFILE.CURRENT_LOCATION_LABEL" = "現在地：";
 /* Profile edit view title */
-"PROFILE.EDIT_TITLE" = "Modifier le profil";
+"PROFILE.EDIT_TITLE" = "プロフィールを編集";
 /* Accessibility label for edit profile button */
-"PROFILE.EDIT_ACCESSIBILITY" = "Modifier le profil";
+"PROFILE.EDIT_ACCESSIBILITY" = "プロフィールを編集";
 /* Accessibility hint for country field in user profile */
-"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "Votre pays";
+"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "国";
 /* Accessibility hint for language field in user profile */
-"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "Votre langue ";
+"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "希望言語";
 /* Shown when viewing someone else's limied profile. */
-"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "Cet apprenant {platform_name} partage seulement son profil limité.";
+"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "この {platform_name} 受講者は現在、限定プロフィールを公開しています。";
 /* User has not filled in an "about me" on their profile */
-"PROFILE.NO_BIO" = "Pas d'information \"A propos\".";
+"PROFILE.NO_BIO" = "「自己紹介」の情報がありません。";
 /* Text in the picture taker alert to delete the existing image */
-"PROFILE.REMOVE_IMAGE" = "Enlever";
+"PROFILE.REMOVE_IMAGE" = "削除";
 /* Profile screen text indicating that the user is currently only displaying a limited profile */
-"PROFILE.SHOWING_LIMITED" = "Vous partagez seulement votre profil limité";
+"PROFILE.SHOWING_LIMITED" = "現在、限定プロフィールを公開しています";
 /* Text for take picture for user profile photo alert */
-"PROFILE.TAKE_PICTURE" = "Prendre une photo";
+"PROFILE.TAKE_PICTURE" = "写真を撮る";
 /* Descriptive text for why a limited profile is shown for users under 13, first line */
-"PROFILE.AGE_LIMIT" = "Vous devez avoir 13 ans et plus pour partager votre profil complet.";
+"PROFILE.AGE_LIMIT" = "全プロフィールを公開するには13歳以上でなければなりません。";
 /* Error retrieving a profile */
-"PROFILE.UNABLE_TO_GET" = "Erreur chargement du profil";
+"PROFILE.UNABLE_TO_GET" = "プロフィールを読み込めませんでした。";
 /* Error message when removing profile picture */
-"PROFILE.UNABLE_TO_REMOVE_PHOTO" = "Nous n'avons pas pu supprimer votre photo.";
+"PROFILE.UNABLE_TO_REMOVE_PHOTO" = "写真を削除できませんでした。";
 /* Error saving user profile, for field `field_name` */
-"PROFILE.UNABLE_TO_SEND" = "Nous n'avons pas pu mettre à jour votre {field_name}.";
+"PROFILE.UNABLE_TO_SEND" = "{field_name} をアップデートできませんでした。";
 /* Error message when setting a new profile picture */
-"PROFILE.UNABLE_TO_SET_PHOTO" = "Nous n'avons pas pu mettre à jour votre photo.";
+"PROFILE.UNABLE_TO_SET_PHOTO" = "写真をアップデートできませんでした。";
 /*Pipe sign using for formatting in discussion posts*/
-"PIPE_SIGN" = "|";
+"PIPE_SIGN" = "私は";
 /* Question used in the segmented control Creating a new post */
-"QUESTION"="Question";
+"QUESTION"="質問";
 /* Option to sort discussion post list by recent activity */
-"RECENT_ACTIVITY" = "Activité récente";
+"RECENT_ACTIVITY" = "最近のアクティビティ";
 /* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
-"REFINE" = "Affiner:";
+"REFINE" = "リファイン：";
 /* Button title when responses are closed for a thread */
-"RESPONSES_CLOSED"="Commentaires fermés pour cette réponse";
+"RESPONSES_CLOSED"="返信受付終了";
 /* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
-"REGISTRATION_AGREEMENT_MESSAGE"="En vous inscrivant, vous acceptez les";
+"REGISTRATION_AGREEMENT_MESSAGE"="アカウントを作成することにより、以下に同意したものとみなします。";
 /* Button text allowing user create an account */
-"REGISTRATION_CREATE_MY_ACCOUNT"="Créer mon compte";
+"REGISTRATION_CREATE_MY_ACCOUNT"="アカウントを作成する";
 /* Text shown while waiting for registration request */
-"REGISTRATION_CREATING_ACCOUNT"="Compte en cours de création...";
+"REGISTRATION_CREATING_ACCOUNT"="アカウント作成中...";
 /* Error prompt shown during registration to indicate an empty field. {field_name} is the name of a registration field like 'password' */
-"REGISTRATION_FIELD_EMPTY_ERROR"="Veuillez entrer votre {field_name}.";
+"REGISTRATION_FIELD_EMPTY_ERROR"="{field_name} を入力してください。";
 /* Error prompt shown during registration to indicate a field missing a selection. {field_name} is the name of a registration field like 'year of birth' */
-"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Veuillez sélectionner votre {field_name}.";
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="{field_name} を選択してください。";
 /* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
 /* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
-"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{one}"="{field_name} ne peut pas avoir plus de {count} caractère.";
-"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{other}"="{field_name} ne peut pas avoir plus de {count} caractères.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{other}"="{field_name}  は  {count} 文字を超えることはできません。";
 /* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
 /* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
-"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{one}"="{field_name} doit avoir au moins {count} caractère.";
-"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{other}"="{field_name} doit avoir au moins {count} caractères.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{other}"="{field_name}  は少なくとも {count} 文字必要です。";
 /* Button text allowing user to hide visible optional registration fields */
-"REGISTRATION_HIDE_OPTIONAL_FIELDS"="Cacher les champs optionnels";
+"REGISTRATION_HIDE_OPTIONAL_FIELDS"="オプションのフィールドを非表示";
 /* Button text allowing user to show hidden optional registration fields */
-"REGISTRATION_SHOW_OPTIONAL_FIELDS"="Montrer les champs optionels";
+"REGISTRATION_SHOW_OPTIONAL_FIELDS"="オプションのフィールドを表示";
 /* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be followed by text "or sign up with an email". */
-"REGISTRATION_REGISTER_PROMPT"="S'inscrire avec";
+"REGISTRATION_REGISTER_PROMPT"="登録";
 /* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
-"REGISTRATION_REGISTER_ALTERNATE_PROMPT"="ou s'inscrire avec votre email";
+"REGISTRATION_REGISTER_ALTERNATE_PROMPT"="またはメールで登録";
 /*Title of registration error alert*/
-"REGISTRATION_ERROR_ALERT_TITLE"="Erreur d'inscription";
+"REGISTRATION_ERROR_ALERT_TITLE"="Registration Error";
 /* Detailed info message for registration error alert*/
-"REGISTRATION_ERROR_ALERT_MESSAGE"="Modifiez les champs en évidence et réessayez";
+"REGISTRATION_ERROR_ALERT_MESSAGE"="Update the highlighted fields and try again";
 
 /* Alert dialog title prompting user to enter an email address to reset their password */
-"RESET_PASSWORD_TITLE"="Redéfinir le mot de passe";
+"RESET_PASSWORD_TITLE"="パスワード変更";
 /* Alert dialog content prompting user to enter an email address to reset their password */
-"RESET_PASSWORD_POPUP_TEXT"="Entrez l'adresse e-mail pour votre compte, et nous vous enverrons les instructions pour changer votre mot de passe.";
+"RESET_PASSWORD_POPUP_TEXT"="あなたのアカウントに登録しているメールアドレスを入力してください。パスワード変更手順についてのメールをお送りします。";
 /* Alert dialog title confirming to the user that a reset password was sent to them */
-"RESET_PASSWORD_CONFIRMATION_TITLE"="Email de réinitialisation de mot de passe envoyé";
+"RESET_PASSWORD_CONFIRMATION_TITLE"="パスワード変更メールを送信済";
 /* Alert dialog content confirming to the user that a reset password was sent to them */
-"RESET_PASSWORD_CONFIRMATION_MESSAGE"="Nous avons envoyé un message avec les instructions de changement de mot de passe à votre adresse e-mail.  Si vous ne le voyez pas dans les minutes à suivre, vérifiez vos spams.";
+"RESET_PASSWORD_CONFIRMATION_MESSAGE"="登録メールアドレスに、パスワード変更手順についてのメールを送信しました。\nもし数分経ってもメールが見つからない場合は、迷惑メールフォルダを確認してください。";
 /* Button that allows user to retry an operation that did not succeed */
-"RETRY" = "Réessayer";
+"RETRY" = "再試行";
 /*Offline snackbar button that allows user to reload data*/
-"RELOAD" = "Recharger";
+"RELOAD" = "再読込";
 /* Response back title in adding a new response */
-"ADD_A_RESPONSE"="Ajouter une réponse";
+"ADD_A_RESPONSE"="返信を書く";
 /* Discussion response - {count} is a number of responses */
 /* Discussion response - {count} is a number of responses */
-"RESPONSE##{one}"="{count} réponse";
-"RESPONSE##{other}"="{count} réponses";
+"RESPONSE##{other}"="返信 {count} 件";
 /* Discussion topics search placeholder */
-"SEARCH_ALL_POSTS"="Rechercher";
+"SEARCH_ALL_POSTS"="全ての投稿を検索";
 /*Placeholder text for search course textfield*/
 "SEARCH_COURSES_PLACEHOLDER_TEXT"="Search course";
 /*Placeholder text for search program textfield*/
@@ -694,134 +679,131 @@
 /*Placeholder text for search degree textfield*/
 "SEARCH_DEGREES_PLACEHOLDER_TEXT"="Search degree";
 /* Discussion search results  */
-"SEARCH_RESULTS"="Résultats de la recherche";
+"SEARCH_RESULTS"="検索";
 /* Text shown below the video, in portrait mode */
-"ROTATE_DEVICE"="Pivoter votre mobile pour voir la vidéo en plein écran";
+"ROTATE_DEVICE"="全画面表示でこの動画を見るには画面を横向きにしてください。";
 /*if filter applied then append this string to error message*/
-"REMOVE_FILTER" = "Essayer de supprimer vos filtres.";
+"REMOVE_FILTER" = "投稿フィルタを解除";
 /* Label shown when user attempts to view a course section that hasn't been synced  */
-"SECTION_UNAVAILABLE_OFFLINE"="Cette section n'est pas disponible hors connexion. \nSi vous avez téléchargé le contenu d'une section différente, naviguer dans cette section pour voir le contenu.";
+"SECTION_UNAVAILABLE_OFFLINE"="このセクションはオフラインモードで見ることができません。別のセクションのコンテンツをダウンロードした方は、そのセクションに行ってコンテンツをご覧ください。";
 /* Screen title showing a user's settings */
-"SETTINGS"="Paramètres";
+"SETTINGS"="設定";
 /* Text for a Twitter or Facebook post to a course about page */
-"SHARE_A_COURSE"="Je suis un cours sur {platform_name}! Regarde:";
+"SHARE_A_COURSE"="私は {platform_name} の講座を受講中です！こちらを見てください：";
 /* Sign in screen title and button initiating login process after user enters credentials like username and password */
-"SIGN_IN_TEXT"="Connexion";
+"SIGN_IN_TEXT"="サインイン";
 /* Message shown while user waits for response to a sign in request */
-"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Connexion en cours";
+"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="サインイン中";
 /*  Accessibility text prefix for  Facebook and Google Buttons*/
 "SIGN_IN_PROMPT"="Sign in with";
 /*Sign up screen title and button initiating sign up process on the main screen */
-"REGISTER_TEXT"="S'inscrire";
+"REGISTER_TEXT"="登録";
 /* Indicates a date in the near future */
-"SOON"="Bientot";
+"SOON"="すぐに";
 /* Label for posts pinned by Staff */
-"STAFF"="ENSEIGNANT";
+"STAFF"="スタッフ";
 /* Info message text on the startup screen */
 "STARTUP.INFO_MESSAGE_TEXT"="Courses from the world's best universities in your pocket.";
 /*Log In button title on the startup screen*/
-"STARTUP.LOGIN_TEXT"="Connexion";
+"STARTUP.LOGIN_TEXT"="Log In";
 /*Create your Account button title on the startup screen*/
-"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Créer votre compte";
+"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Create your Account";
 /* Explore Subjects button text on the first screen */
-"STARTUP_EXPLORE_SUBJECTS"="Explorer les sujets";
+"STARTUP_EXPLORE_SUBJECTS"="該当分野を探す";
 /* Button allowing user to submit feedback about the app via email */
-"SUBMIT_FEEDBACK.OPTION_TITLE" = "Envoyer vos impressions";
+"SUBMIT_FEEDBACK.OPTION_TITLE" = "フィードバックを送る";
 /* Support message email title */
-"SUBMIT_FEEDBACK.MESSAGE_SUBJECT" = "Revues";
+"SUBMIT_FEEDBACK.MESSAGE_SUBJECT" = "利用者フィードバック";
 /* Marker in feedback email meant to separate feedback from prepopulated device information */
-"SUBMIT_FEEDBACK.MARKER" = "---- Laissez votre commentaires au dessus de cette ligne ----";
+"SUBMIT_FEEDBACK.MARKER" = "---- この行より上にフィードバックを入力してください ----";
 /* Line in submit feedback email that supplies OS version information. For example, "iOS Version: 9.2" */
-"SUBMIT_FEEDBACK.OS_VERSION" = "iOS Version: {version}";
+"SUBMIT_FEEDBACK.OS_VERSION" = "iOS バージョン: {version}";
 /* Line in submit feedback email that supplies app version information. For example, "App Version: 2.2 (2.2.23)" */
-"SUBMIT_FEEDBACK.APP_VERSION" = "App Version: {version} ({build})";
+"SUBMIT_FEEDBACK.APP_VERSION" = "アプリバージョン： {version} ({build})";
 /* Line in submit feedback email that supplies device model information. For example, "Device Model: iPhone" */
-"SUBMIT_FEEDBACK.DEVICE_MODEL" = "Device Model: {model}";
+"SUBMIT_FEEDBACK.DEVICE_MODEL" = "デバイス：{model}";
 /* Text that indicates the visibility of the post */
-"POST_VISIBILITY"="Ce post est visible seulement pour {cohort}.";
+"POST_VISIBILITY"="この投稿は {cohort} のみ見ることができます。";
 /* Text that indicates the visibility of the post to everyone */
-"POST_VISIBILITY_EVERYONE" = "Ce post est visible par tous.";
+"POST_VISIBILITY_EVERYONE" = "この投稿は誰でも見ることができます。";
 /*Add parenthesis around text*/
 "PARENTHESIS" = "({text})";
 /* Alert dialog title shown when network request takes too long to complete */
-"TIMEOUT_ALERT_TITLE"="Délai d'attente dépassé";
+"TIMEOUT_ALERT_TITLE"="時間切れ";
 /* Alert dialog content shown when network request takes too long to complete */
-"TIMEOUT_CHECK_INTERNET_CONNECTION"="Vérifiez votre connexion internet.\nLa temps de chargement de la page est plus long que prévu.";
+"TIMEOUT_CHECK_INTERNET_CONNECTION"="インターネット接続を確認してください。ページの読込に時間がかかり過ぎています。";
 /* Title as place holder in Create a new post */
-"TITLE"="Titre";
+"TITLE"="件名";
 /* Topic as button title in Create a new post */
-"TOPIC"="Sujet : {topic}";
+"TOPIC"="トピック：{topic}";
 /* Back bar button topics */
-"TOPICS"="Sujets";
+"TOPICS"="トピック";
 /* Button text allowing user to reset their password */
-"TROUBLE_IN_LOGIN_BUTTON"="Mot de passe oublié ?";
+"TROUBLE_IN_LOGIN_BUTTON"="パスワードをお忘れですか？";
 /* Error shown when video download fails */
-"UNABLE_TO_DOWNLOAD"="Impossible d'effectuer le téléchargement" ;
+"UNABLE_TO_DOWNLOAD"="ダウンロードできませんでした。" ;
 /* Error shown when the course content could not for an unknown reason. */
-"UNABLE_TO_LOAD_COURSE_CONTENT"="Erreur chargement du contenu.\nRéessayez plus tard.";
+"UNABLE_TO_LOAD_COURSE_CONTENT"="講座コンテンツを読み込めませんでした。後ほど再試行してください。";
 /* Filtering option to show unanswered discussion posts */
-"UNANSWERED"="Non répondu";
+"UNANSWERED"="未回答";
 /* Navigation title for a Question Post which has no endorsed answers */
-"UNANSWERED_QUESTION" = "Question non répondue";
+"UNANSWERED_QUESTION" = "未回答の質問";
 /* Filtering option to show unread discussion posts*/
-"UNREAD"="Non lu";
+"UNREAD"="未読";
 /* Placeholder title for course content with no title */
-"UNTITLED"="Sans titre";
+"UNTITLED"="名称未設定";
 /* Title text for login field */
-"USERNAME_TITLE_TEXT" = "Nom d'utilisateur ou email";
+"USERNAME_TITLE_TEXT" = "Username or e-mail address";
 /*Error message when operation failed with unknow error*/
-"UNKNOWN_ERROR" = "Erreur";
+"UNKNOWN_ERROR" = "完了していません。";
 /* Screen title showing a user's account */
-"USER_ACCOUNT"="Compte";
+"USER_ACCOUNT"="Account";
 /* Button title for profile view in account*/
-"USER_ACCOUNT.PROFILE"= "Profil";
+"USER_ACCOUNT.PROFILE"= "Profile";
 /* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
-"VERSION_DISPLAY" = "Version {number} {environment}";
+"VERSION_DISPLAY" = "バージョン {number} {environment}";
 /* Error shown when video download fails */
-"VIDEO_CONTENT_NOT_AVAILABLE"="Cette vidéo est actuellement indisponible. Revenez plus tard.";
+"VIDEO_CONTENT_NOT_AVAILABLE"="この動画は現在見ることができません。後ほど再試行してください。";
 /* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
-"VIDEO_ONLY_ON_WEB" = "Cette vidéo est disponible uniquement sur le web. Toucher pour la voir dans votre navigateur.";
+"VIDEO_ONLY_ON_WEB" = "この動画は現在ウェブ上にしかありません。ウェブブラウザ上で見るにはタップしてください。";
 /* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
-"VIDEO_NOT_AVAILABLE"="Cette vidéo n'est pas disponible hors connexion. \nSélectionnez une vidéo téléchargée sur votre mobile.";
+"VIDEO_NOT_AVAILABLE"="この動画はオフラインモードでは見れません。ダウンロード済の動画を選択してください。";
 /* Shows in the video setting sub-table which item is selected */
 "VIDEO_SETTING_SELECTED" = "✓ %@";
 /* Button action to open app on YouTube */
-"VIDEO.VIEW_ON_YOUTUBE" = "Voir la vidéo sur YouTube";
+"VIDEO.VIEW_ON_YOUTUBE" = "YouTubeで動画を見る";
 /* Message shown for videos that can only be played external the app via YouTube. */
-"VIDEO.ONLY_ON_YOUTUBE" = "Cette vidéo ne peut être lue que sur YouTube.";
+"VIDEO.ONLY_ON_YOUTUBE" = "この動画はYouTubeのみで見ることができます。";
 /* Button text for showing an associated item */
-"VIEW" = "Voir";
+"VIEW" = "見る";
 /* Button linking to course announcements */
-"VIEW_HANDOUTS" = "Voir les Liens utiles du cours";
+"VIEW_HANDOUTS" = "講座のハンドアウトを見る";
 /* Discussion vote - {count} is a number of votes */
 /* Discussion vote - {count} is a number of votes */
-"VOTE##{one}"="{count} Vote";
-"VOTE##{other}"="{count} Votes";
+"VOTE##{other}"="投票 {count} 件";
 /*Title of update button on fullscreen error and SnackBar*/
-"VERSION_UPGRADE_UPDATE" = "Mettre à jour";
+"VERSION_UPGRADE_UPDATE" = "アップデート";
 /*Title of dismiss button on SnackBar*/
-"VERSION_UPGRADE.DISMISS" = "Fermer";
+"VERSION_UPGRADE.DISMISS" = "閉じる";
 /*Deprecated version detail message*/
-"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Une nouvelle version est disponible.";
+"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "このアプリには新バージョンがあります。";
 /*Outdated version detail message*/
-"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Votre version n'est plus supportée.";
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "お使いのアプリのバージョンはサポートが終了しています。";
 /*Outdated version alert message for login screen*/
-"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Votre version n'est plus supportée. Mettez à jour avec la dernière version pour vous connecter.";
+"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "お使いのアプリのバージョンはサポートが終了しています。最新バージョンにアップデートしてログインしてください。";
 /*New version available without deadline message*/
-"VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "Une nouvelle version est disponible.";
+"VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "このアプリには新バージョンがあります。";
 /*Video player remaining time default value*/
 "VIDEO_PLAYER_DEFAULT_REMAINING_TIME" = "0:00/0:00";
 /* Overlay shown after a network request has started, telling the user to wait for the response */
-"WAITING_FOR_RESPONSE"="Veuillez patienter...";
+"WAITING_FOR_RESPONSE"="お待ちください…";
 /* Header of 'whats new screen'*/
-"WHATS_NEW.HEADER_TEXT"="Version {app_version}, nouveautés";
+"WHATS_NEW.HEADER_TEXT"="バージョン {app_version} 新機能";
 /*Whats new screen done button title*/
-"WHATS_NEW.DONE"="Fait";
+"WHATS_NEW.DONE"="完了";
 /*Title for wifi only switch at Settings screen*/
-"WIFI_ONLY_TITLE" = "Téléchargement sur Wi-fi seulement";
+"WIFI_ONLY_TITLE" = "Wi-Fi 使用ダウンロード";
 /*Detail message for wifi only switch at Settings screen*/
-"WIFI_ONLY_DETAIL_MESSAGE" = "Télécharger les contenus uniquement sur le réseau Wi-Fi";
+"WIFI_ONLY_DETAIL_MESSAGE" = "Wi-Fi がオンになっているときだけダウンロード";
 /* Alert dialog button title to confirm an action */
-"YES"="Oui";
-/* Invalid youtube url error message */
-"YOUTUBE_INVALID_URL_ERROR"="La vidéo n'a pas pu être chargée, URL non valide.";
+"YES"="はい";
