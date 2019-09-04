@@ -1,0 +1,560 @@
+[
+    {
+        "aa": "Afar"
+    },
+    {
+        "ab": "Abkhazian"
+    },
+    {
+        "af": "Nam Phi"
+    },
+    {
+        "ak": "Akan"
+    },
+    {
+        "sq": "Albania"
+    },
+    {
+        "am": "Amharic"
+    },
+    {
+        "ar": "Ả Rập"
+    },
+    {
+        "an": "Aragonese"
+    },
+    {
+        "hy": "Armenia"
+    },
+    {
+        "as": "Assam"
+    },
+    {
+        "av": "Avaric"
+    },
+    {
+        "ae": "Avestan"
+    },
+    {
+        "ay": "Aymara"
+    },
+    {
+        "az": "Ailen"
+    },
+    {
+        "ba": "Bashkir"
+    },
+    {
+        "bm": "Bambara"
+    },
+    {
+        "eu": "Basque"
+    },
+    {
+        "be": "Bêlarut"
+    },
+    {
+        "bn": "Bengal"
+    },
+    {
+        "bh": "Ngôn ngữ Bihari"
+    },
+    {
+        "bi": "Bislama"
+    },
+    {
+        "bs": "Bosnia"
+    },
+    {
+        "br": "Breton"
+    },
+    {
+        "bg": "Bulgaria"
+    },
+    {
+        "my": "Miến Điện"
+    },
+    {
+        "ca": "Catalan"
+    },
+    {
+        "ch": "Chamorro"
+    },
+    {
+        "ce": "Chechen"
+    },
+    {
+        "zh": "Trung Quốc"
+    },
+    {
+        "zh_HANS": "Trung giản thể"
+    },
+    {
+        "zh_HANT": "Trung truyền thống"
+    },
+    {
+        "cu": "Church Slavic"
+    },
+    {
+        "cv": "Chuvash"
+    },
+    {
+        "kw": "Cornish"
+    },
+    {
+        "co": "Corsican"
+    },
+    {
+        "cr": "Cree"
+    },
+    {
+        "cs": "Séc"
+    },
+    {
+        "da": "Đan Mạch"
+    },
+    {
+        "dv": "Divehi"
+    },
+    {
+        "nl": "Hà Lan"
+    },
+    {
+        "dz": "Dzongkha"
+    },
+    {
+        "en": "Anh"
+    },
+    {
+        "eo": "Esperanto"
+    },
+    {
+        "et": "Estonia"
+    },
+    {
+        "ee": "Ewe"
+    },
+    {
+        "fo": "Faroe"
+    },
+    {
+        "fj": "Fijian"
+    },
+    {
+        "fi": "Phần Lan"
+    },
+    {
+        "fr": "Pháp"
+    },
+    {
+        "fy": "Tây Frisia"
+    },
+    {
+        "ff": "Fulah"
+    },
+    {
+        "ka": "Gruzia"
+    },
+    {
+        "de": "Đức"
+    },
+    {
+        "gd": "Gaelic"
+    },
+    {
+        "ga": "Ailen"
+    },
+    {
+        "gl": "Galicia"
+    },
+    {
+        "gv": "Manx"
+    },
+    {
+        "el": "Hy Lạp"
+    },
+    {
+        "gn": "Guarani"
+    },
+    {
+        "gu": "Gujarati"
+    },
+    {
+        "ht": "Haiti"
+    },
+    {
+        "ha": "Hin-ddi"
+    },
+    {
+        "he": "Do Thái"
+    },
+    {
+        "hz": "Herero"
+    },
+    {
+        "hi": "Hindi"
+    },
+    {
+        "ho": "Hiri Motu"
+    },
+    {
+        "hr": "Croatia"
+    },
+    {
+        "hu": "Hungary"
+    },
+    {
+        "ig": "Igbo"
+    },
+    {
+        "is": "Iceland"
+    },
+    {
+        "io": "Ido"
+    },
+    {
+        "ii": "Tứ Xuyên"
+    },
+    {
+        "iu": "Inuktitut"
+    },
+    {
+        "ie": "Interlingue"
+    },
+    {
+        "ia": "Interlingua"
+    },
+    {
+        "id": "Indonesia"
+    },
+    {
+        "ik": "Inupiaq"
+    },
+    {
+        "it": "Ý"
+    },
+    {
+        "jv": "Java"
+    },
+    {
+        "ja": "Nhật"
+    },
+    {
+        "kl": "Kalaallisut"
+    },
+    {
+        "kn": "Kannada"
+    },
+    {
+        "ks": "Kashmir"
+    },
+    {
+        "kr": "Kanuri"
+    },
+    {
+        "kk": "Kazakhstan"
+    },
+    {
+        "km": "Khmer"
+    },
+    {
+        "ki": "Kikuyu"
+    },
+    {
+        "rw": "Kinyarwanda"
+    },
+    {
+        "ky": "Kirghiz"
+    },
+    {
+        "kv": "Komi"
+    },
+    {
+        "kg": "Congo"
+    },
+    {
+        "ko": "Hàn Quốc"
+    },
+    {
+        "kj": "Kuanyama"
+    },
+    {
+        "ku": "Kurd"
+    },
+    {
+        "lo": "Lào"
+    },
+    {
+        "la": "La tinh"
+    },
+    {
+        "lv": "Latvia"
+    },
+    {
+        "li": "Limburgan"
+    },
+    {
+        "ln": "Lingala"
+    },
+    {
+        "lt": "Litva"
+    },
+    {
+        "lb": "Luxembourg"
+    },
+    {
+        "lu": "Luba-Katanga"
+    },
+    {
+        "lg": "Ganda"
+    },
+    {
+        "mk": "Macedonia"
+    },
+    {
+        "mh": "Marshall"
+    },
+    {
+        "ml": "Malayalam"
+    },
+    {
+        "mi": "Maori"
+    },
+    {
+        "mr": "Marathi"
+    },
+    {
+        "ms": "Mã Lai"
+    },
+    {
+        "mg": "Malagasy"
+    },
+    {
+        "mt": "Malta"
+    },
+    {
+        "mn": "Mông Cổ"
+    },
+    {
+        "na": "Nauru"
+    },
+    {
+        "nv": "Navajo"
+    },
+    {
+        "nr": "Nam Ndebele"
+    },
+    {
+        "nd": "Bắc Ndebele"
+    },
+    {
+        "ng": "Ndonga"
+    },
+    {
+        "ne": "Nepal"
+    },
+    {
+        "nn": "Na Uy Nynorsk"
+    },
+    {
+        "nb": "Na Uy Bokmål"
+    },
+    {
+        "no": "Na Uy"
+    },
+    {
+        "ny": "Chichewa"
+    },
+    {
+        "oc": "Occitan"
+    },
+    {
+        "oj": "Ojibwa"
+    },
+    {
+        "or": "Oriya"
+    },
+    {
+        "om": "Oromo"
+    },
+    {
+        "os": "Ossetian"
+    },
+    {
+        "pa": "Panjabi"
+    },
+    {
+        "fa": "Ba Tư"
+    },
+    {
+        "pi": "Pali"
+    },
+    {
+        "pl": "Ba Lan"
+    },
+    {
+        "pt": "Bồ Đào Nha"
+    },
+    {
+        "ps": "Pashtun"
+    },
+    {
+        "qu": "Quechua"
+    },
+    {
+        "rm": "Rô-ma"
+    },
+    {
+        "ro": "Rumani"
+    },
+    {
+        "rn": "Kirundi"
+    },
+    {
+        "ru": "Nga"
+    },
+    {
+        "sg": "Sango"
+    },
+    {
+        "sa": "Phạn"
+    },
+    {
+        "si": "Sinhala"
+    },
+    {
+        "sk": "Slovak"
+    },
+    {
+        "sl": "Slovenia"
+    },
+    {
+        "se": "Bắc Sami"
+    },
+    {
+        "sm": "Samoa"
+    },
+    {
+        "sn": "Shona"
+    },
+    {
+        "sd": "Sindhi"
+    },
+    {
+        "so": "Somalia"
+    },
+    {
+        "st": "Nam Sotho"
+    },
+    {
+        "es": "Tây Ban Nha"
+    },
+    {
+        "sc": "Sardinia"
+    },
+    {
+        "sr": "Serbia"
+    },
+    {
+        "ss": "Swati"
+    },
+    {
+        "su": "Sundan"
+    },
+    {
+        "sw": "Swahili"
+    },
+    {
+        "sv": "Thụy Điển"
+    },
+    {
+        "ty": "Tahiti"
+    },
+    {
+        "ta": "Tamil"
+    },
+    {
+        "tt": "Tatar"
+    },
+    {
+        "te": "Telugu"
+    },
+    {
+        "tg": "Tajik"
+    },
+    {
+        "tl": "Tagalog"
+    },
+    {
+        "th": "Thái Lan"
+    },
+    {
+        "bo": "Tây Tạng"
+    },
+    {
+        "ti": "Tigrinya"
+    },
+    {
+        "to": "Tonga (Quần đảo Tonga)"
+    },
+    {
+        "tn": "Tswana"
+    },
+    {
+        "ts": "Tsonga"
+    },
+    {
+        "tk": "Turkmen"
+    },
+    {
+        "tr": "Thổ Nhĩ Kỳ"
+    },
+    {
+        "tw": "Twi"
+    },
+    {
+        "ug": "Duy Ngô Nhĩ"
+    },
+    {
+        "uk": "Ukraina"
+    },
+    {
+        "ur": "Urdu"
+    },
+    {
+        "uz": "Uzbekistan"
+    },
+    {
+        "ve": "Venda"
+    },
+    {
+        "vi": "Việt Nam"
+    },
+    {
+        "vo": "Volapük"
+    },
+    {
+        "cy": "Wales"
+    },
+    {
+        "wa": "Walloon"
+    },
+    {
+        "wo": "Wolof"
+    },
+    {
+        "xh": "Xhosa"
+    },
+    {
+        "yi": "Yiddish"
+    },
+    {
+        "yo": "Yoruba"
+    },
+    {
+        "za": "Tráng"
+    },
+    {
+        "zu": "Zulu"
+    }
+]
