@@ -1032,6 +1032,15 @@
 		223972E01FE92BB500B2BBEC /* EnrolledTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolledTabBarViewController.swift; sourceTree = "<group>"; };
 		223A5F1F1FA9AA8F008C9963 /* CourseDashboardViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewControllerTests.swift; sourceTree = "<group>"; };
 		223A98FB1FA8610B0018DF67 /* AdditionalTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewController.swift; sourceTree = "<group>"; };
+		223B4CB22313E761002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ar; path = ar.lproj/subjects.json; sourceTree = "<group>"; };
+		223B4CB32313E761002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ar; path = ar.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
+		223B4CB42313E761002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ar; path = ar.lproj/PrivacyPolicy.htm; sourceTree = "<group>"; };
+		223B4CB52313E761002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = ar; path = ar.lproj/TermsOfServices.htm; sourceTree = "<group>"; };
+		223B4CB62313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		223B4CB72313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		223B4CB82313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ar; path = ar.lproj/profiles.json; sourceTree = "<group>"; };
+		223B4CB92313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ar; path = ar.lproj/languages.json; sourceTree = "<group>"; };
+		223B4CBA2313E762002D73D3 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ar; path = ar.lproj/whats_new.json; sourceTree = "<group>"; };
 		223DD6BA1F9F5A4B004A21B9 /* CourseDashboardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardViewController.swift; sourceTree = "<group>"; };
 		2240FD531FECE2B0001D6589 /* EnrolledTabBarViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnrolledTabBarViewControllerTest.swift; sourceTree = "<group>"; };
 		2240FD551FF266E4001D6589 /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
@@ -4197,6 +4206,7 @@
 				fr,
 				"pt-BR",
 				de,
+				ar,
 				vi,
 				ja,
 			);
@@ -5291,6 +5301,7 @@
 				2250E9D222DC623B00674093 /* fr */,
 				E006BD1422DF29D100AA5185 /* pt-BR */,
 				E01287E322EEDD2C0093285E /* de */,
+				223B4CB82313E762002D73D3 /* ar */,
 				E0FF9BB62317B356003E61B7 /* vi */,
 				2205701A2307E9860026E65A /* ja */,
 			);
@@ -5308,6 +5319,7 @@
 				2250E9D322DC623B00674093 /* fr */,
 				E006BD1522DF29D100AA5185 /* pt-BR */,
 				E01287E422EEDD2C0093285E /* de */,
+				223B4CB92313E762002D73D3 /* ar */,
 				E0FF9BB72317B357003E61B7 /* vi */,
 				2205701B2307E9860026E65A /* ja */,
 			);
@@ -5325,6 +5337,7 @@
 				2250E9CD22DC623A00674093 /* fr */,
 				E006BD0F22DF29CF00AA5185 /* pt-BR */,
 				E01287DE22EEDD2A0093285E /* de */,
+				223B4CB32313E761002D73D3 /* ar */,
 				E0FF9BB12317B355003E61B7 /* vi */,
 				220570152307E9850026E65A /* ja */,
 			);
@@ -5342,6 +5355,7 @@
 				2250E9CE22DC623A00674093 /* fr */,
 				E006BD1022DF29CF00AA5185 /* pt-BR */,
 				E01287DF22EEDD2A0093285E /* de */,
+				223B4CB42313E761002D73D3 /* ar */,
 				E0FF9BB22317B356003E61B7 /* vi */,
 				220570162307E9850026E65A /* ja */,
 			);
@@ -5359,6 +5373,7 @@
 				2250E9CF22DC623A00674093 /* fr */,
 				E006BD1122DF29D000AA5185 /* pt-BR */,
 				E01287E022EEDD2B0093285E /* de */,
+				223B4CB52313E761002D73D3 /* ar */,
 				E0FF9BB32317B356003E61B7 /* vi */,
 				220570172307E9850026E65A /* ja */,
 			);
@@ -5376,6 +5391,7 @@
 				2250E9CC22DC623900674093 /* fr */,
 				E006BD0E22DF29CF00AA5185 /* pt-BR */,
 				E01287DD22EEDD290093285E /* de */,
+				223B4CB22313E761002D73D3 /* ar */,
 				E0FF9BB02317B354003E61B7 /* vi */,
 				220570142307E9850026E65A /* ja */,
 			);
@@ -5393,6 +5409,7 @@
 				2250E9D022DC623A00674093 /* fr */,
 				E006BD1222DF29D000AA5185 /* pt-BR */,
 				E01287E122EEDD2B0093285E /* de */,
+				223B4CB62313E762002D73D3 /* ar */,
 				E0FF9BB42317B356003E61B7 /* vi */,
 				220570182307E9850026E65A /* ja */,
 			);
@@ -5410,6 +5427,7 @@
 				2250E9D122DC623B00674093 /* fr */,
 				E006BD1322DF29D100AA5185 /* pt-BR */,
 				E01287E222EEDD2C0093285E /* de */,
+				223B4CB72313E762002D73D3 /* ar */,
 				E0FF9BB52317B356003E61B7 /* vi */,
 				220570192307E9860026E65A /* ja */,
 			);
@@ -5427,6 +5445,7 @@
 				2250E9D422DC623C00674093 /* fr */,
 				E006BD1622DF29D200AA5185 /* pt-BR */,
 				E01287E522EEDD2C0093285E /* de */,
+				223B4CBA2313E762002D73D3 /* ar */,
 				E0FF9BB82317B357003E61B7 /* vi */,
 				2205701C2307E9860026E65A /* ja */,
 			);
