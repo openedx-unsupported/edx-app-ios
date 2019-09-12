@@ -49,6 +49,8 @@ class FontAwesomeRenderer : IconRenderer {
             default:
                 return true
             }
+        default:
+            return false
         }
     }
     

@@ -22,7 +22,7 @@ extension UIViewController {
     }
     
     func isModal() -> Bool {
-        return (navigationController?.viewControllers.index(of: self) == 0) &&
+        return (navigationController?.viewControllers.firstIndex(of: self) == 0) &&
             (presentingViewController?.presentedViewController == self
             || isRootModal()
             || tabBarController?.presentingViewController is UITabBarController)

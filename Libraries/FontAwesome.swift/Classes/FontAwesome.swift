@@ -51,7 +51,7 @@ private class FontLoader {
 }
 
 public extension UIFont {
-    public class func fontAwesomeOfSize(fontSize: CGFloat) -> UIFont {
+    class func fontAwesomeOfSize(fontSize: CGFloat) -> UIFont {
         let name = "FontAwesome"
         if UIFont.fontNames(forFamilyName: name).isEmpty {
             FontLoader.loadFont(name)

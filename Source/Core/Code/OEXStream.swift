@@ -127,7 +127,7 @@ open class OEXStream<A> : StreamDependency {
     /// - parameter action: The action to fire when the stream receives a result.
     @discardableResult open func listen(_ owner : NSObject, fireIfAlreadyLoaded : Bool = true, action : @escaping (Result<A>) -> Void) -> Removable {
         let listener = Listener(action: action) {[weak self] (listener : Listener<A>) in
-            if let listeners = self?.listeners, let index = listeners.index(of: listener) {
+            if let listeners = self?.listeners, let index = listeners.firstIndex(of: listener) {
                 self?.listeners.remove(at: index)
             }
         }

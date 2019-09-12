@@ -116,7 +116,7 @@ class JSONFormBuilder {
 
             }
             
-            if let val = data.valueForField(key: field.name), let selectedIndex = values.index(of: val) {
+            if let val = data.valueForField(key: field.name), let selectedIndex = values.firstIndex(of: val) {
                 typeControl.selectedSegmentIndex = selectedIndex
             }
 
@@ -327,7 +327,7 @@ class JSONFormBuilder {
             }
             
             if let alreadySetValue = data.valueForField(key: name) {
-                defaultRow = tableData.index { equalsCaseInsensitive(lhs: $0.value, alreadySetValue) } ?? defaultRow
+                defaultRow = tableData.firstIndex { equalsCaseInsensitive(lhs: $0.value, alreadySetValue) } ?? defaultRow
             }
             
             if dataType == .CountryType {

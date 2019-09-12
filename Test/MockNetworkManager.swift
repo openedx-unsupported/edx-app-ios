@@ -72,7 +72,7 @@ class MockNetworkManager: NetworkManager {
     }
     
     fileprivate func removeInterceptor(_ interceptor : Interceptor) {
-        if let index = interceptors.index(of: interceptor) {
+        if let index = interceptors.firstIndex(of: interceptor) {
             self.interceptors.remove(at: index)
         }
     }

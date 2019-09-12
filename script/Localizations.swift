@@ -71,13 +71,14 @@ func == (left : Key, right : Key) -> Bool {
     return left.path == right.path && left.name == right.name
 }
 
-struct Key : Hashable, Equatable {
+struct Key : Hashable {
     let path : [String]
     let name : String
     let original : String
-    
-    var hashValue : Int {
-        return name.hashValue ^ path.reduce(0) {$0 ^ $1.hashValue}
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(path.reduce(0) {$0 ^ $1.hashValue})
     }
 }
 
