@@ -6,10 +6,10 @@ before_script:
 
 env:
     matrix:
-        - TEST_TASK=testLTRCurrentOS IOS_VERSION=12.2
-        - TEST_TASK=testRTLCurrentOS IOS_VERSION=12.2
-        - TEST_TASK=testLTRPreviousOS IOS_VERSION=11.2
-        - TEST_TASK=testRTLPreviousOS IOS_VERSION=11.2
+        - TEST_TASK=testLTRCurrentOS IOS_VERSION=12.4
+        - TEST_TASK=testRTLCurrentOS IOS_VERSION=12.4
+        - TEST_TASK=testLTRPreviousOS IOS_VERSION=11.4
+        - TEST_TASK=testRTLPreviousOS IOS_VERSION=11.4
 
 script:
     - instruments -s devices | grep "iPhone 5s (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID

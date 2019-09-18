@@ -247,6 +247,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             item = contentLoader.value?.peekNext()
         case .reverse:
             item = contentLoader.value?.peekPrev()
+        @unknown default:
+            item = contentLoader.value?.peekPrev()
+            assert(false, "unknow case for CourseOutlineQuerier.GroupItem()")
+            break
         }
         return item.flatMap {
             controllerForBlock(block: $0.block)
