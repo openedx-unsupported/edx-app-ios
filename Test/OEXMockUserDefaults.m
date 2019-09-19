@@ -75,6 +75,14 @@
     self.store[key] = @(value);
 }
 
+- (double) doubleForKey:(NSString *)key {
+    return [self.store[key] doubleValue];
+}
+
+-(void) setDouble:(double)value forKey:(NSString *)key {
+    self.store[key] = @(value);
+}
+
 - (void)removeObjectForKey:(NSString*)key {
     [self.store removeObjectForKey:key];
 }
