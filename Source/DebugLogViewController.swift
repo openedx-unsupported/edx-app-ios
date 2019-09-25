@@ -37,7 +37,7 @@ class DebugLogViewController : UIViewController {
     }
 
     @objc func share() {
-        let c = UIActivityViewController(activityItems: [textView.text], applicationActivities: nil)
+        let c = UIActivityViewController(activityItems: [textView.text ?? ""], applicationActivities: nil)
         c.configurePresentationController(withSourceView: textView)
         present(c, animated: true, completion: nil)
     }

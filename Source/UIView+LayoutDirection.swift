@@ -14,6 +14,7 @@ extension UIView {
         switch direction {
         case .leftToRight: return false
         case .rightToLeft: return true
+        @unknown default: return false
         }
     }
 }

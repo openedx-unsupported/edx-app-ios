@@ -102,7 +102,7 @@ class SwipeCellActionView: UIView {
     }
     
     @objc func actionTapped(button: SwipeActionButton) {
-        guard let index = buttons.index(of: button) else { return }
+        guard let index = buttons.firstIndex(of: button) else { return }
         
         delegate?.swipeActionsView(self, didSelect: buttons[index])
     }

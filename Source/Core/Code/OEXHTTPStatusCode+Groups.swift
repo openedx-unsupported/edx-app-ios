@@ -31,7 +31,7 @@ public extension OEXHTTPStatusCode {
         return isGroup(5)
     }
     
-    public var errorGroup : HttpErrorGroup? {
+    var errorGroup : HttpErrorGroup? {
         if is4xx {
             return .http4xx
         }

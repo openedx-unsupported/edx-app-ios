@@ -103,7 +103,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         for childID in childIDs[1 ..< childIDs.count] {
             controller.t_goForward()
             let testExpectation = self.expectation(description: "controller went forward")
-            wait(for: 0.5) {
+            wait(for: 1) {
                     controller.t_blockIDForCurrentViewController().listen(controller) {
                     testExpectation.fulfill()
                     XCTAssertEqual($0.value!, childID)
@@ -132,7 +132,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             controller.t_goBackward()
             
             let testExpectation = expectation(description: "controller went backward")
-            wait(for: 0.6) {
+            wait(for: 1) {
                 controller.t_blockIDForCurrentViewController().listen(controller) {blockID in
                     testExpectation.fulfill()
                 }
