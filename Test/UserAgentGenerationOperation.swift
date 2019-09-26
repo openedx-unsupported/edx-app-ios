@@ -24,7 +24,7 @@ class UserAgentGenerationOperationTests : XCTestCase {
     func testOverride() {
         let userDefaults = OEXMockUserDefaults()
         let userDefaultsMock = userDefaults.installAsStandardUserDefaults()
-        let expectation = self.expectation(description: "User agent overriden")
+        let expectation = self.expectation(description: "User agent overriden Test Commit")
         UserAgentOverrideOperation.overrideUserAgent {
             expectation.fulfill()
         }
