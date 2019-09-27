@@ -23,13 +23,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
     private let contentView = UIView()
     private let tableView = UITableView()
     private let versionLabel = UILabel()
-    private var buildVersion: String?
-
     typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & OEXRouterProvider
     fileprivate let environment: Environment
     
-    init(environment: Environment, buildVersion: String? = Bundle.main.oex_buildVersionString()) {
-        self.buildVersion = buildVersion
+    init(environment: Environment) {
         self.environment = environment
         super.init(nibName: nil, bundle :nil)
     }
@@ -61,7 +58,7 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.register(AccountViewCell.self, forCellReuseIdentifier: AccountViewCell.identifier)
         let textStyle = OEXMutableTextStyle(weight: .normal, size: .base, color : OEXStyles.shared().neutralBlack())
         textStyle.alignment = NSTextAlignment.center
-        versionLabel.attributedText = textStyle.attributedString(withText: Strings.versionDisplay(number: buildVersion ?? "" , environment: ""))
+        versionLabel.attributedText = textStyle.attributedString(withText: Strings.versionDisplay(number: Bundle.main.oex_buildVersionString(), environment: ""))
         versionLabel.accessibilityIdentifier = "AccountViewController:version-label"
         tableView.accessibilityIdentifier = "AccountViewController:table-view"
         addConstraints()
