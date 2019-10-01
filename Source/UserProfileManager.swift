@@ -67,10 +67,17 @@ open class UserProfileManager : NSObject {
         }
 
         networkManager.taskForRequest(request) { [weak self] result -> Void in
-            if let data = result.data {
-                self?.currentUserUpdateStream.send(Success(v: data))
-            }
-            handler(result.data.toResult(result.error!))
+                if let errorGroup = result.response?.httpStatusCode.errorGroup {
+                    if errorGroup == HttpErrorGroup.http4xx || errorGroup == HttpErrorGroup.http5xx {
+                        handler(Result.failure(NSError.oex_unknownNetworkError()))
+                        return
+                    }
+                }
+                
+                if let data = result.data {
+                    self?.currentUserUpdateStream.send(Success(v: data))
+                }
+                handler(result.data.toResult(result.error!))
         }
     }
 }
