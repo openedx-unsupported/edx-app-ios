@@ -37,7 +37,7 @@ class PaginationControllerTests: XCTestCase {
         // verify the table view has content
         let initialCount = paginationController.stream.value?.count ?? 0
         XCTAssertGreaterThanOrEqual(initialCount, 0)
-        XCTAssertEqual(tableView.contentSize.height, CGFloat(initialCount) * dataSource.rowHeight)
+        XCTAssertEqual(tableView.numberOfRows(inSection: 0), initialCount)
         
         // Now scroll to the bottom
         var bottomIndexPath = IndexPath(row: initialCount - 1, section: 0)

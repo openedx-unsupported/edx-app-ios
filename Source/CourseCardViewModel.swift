@@ -102,6 +102,8 @@ extension OEXCourse {
                 return Strings.Course.starting(startDate: formattedStartDate ?? "")
             case .none, .timestamp, .string:
                 return Strings.Course.starting(startDate: Strings.soon)
+            @unknown default:
+                return ""
             }
         }
     }

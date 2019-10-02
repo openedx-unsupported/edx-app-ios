@@ -11,7 +11,7 @@ import Foundation
 
 public extension OEXCourse {
     
-    public static func testData(
+    static func testData(
         courseHasDiscussions hasDiscussions : Bool = true,
         hasHandoutsUrl : Bool = true,
         accessible : Bool = true,
@@ -70,9 +70,9 @@ public extension OEXCourse {
     }
     
 
-    public static func freshCourse(
+    static func freshCourse(
         discussionsEnabled hasDiscussions: Bool = true,
-                           hasHandoutsUrl: Bool = true,
+        hasHandoutsUrl: Bool = true,
         accessible : Bool = true,
         shortDescription: String? = nil,
         overview: String? = nil,
@@ -98,7 +98,7 @@ public extension OEXCourse {
     }
     
     /// Same as OEXCourse.freshCourse(). Only needed to deal with objc, not having default arguments
-    @objc public static func accessibleTestCourse() -> OEXCourse {
+    @objc static func accessibleTestCourse() -> OEXCourse {
         let courseData = OEXCourse.testData(accessible : true)
         return OEXCourse(dictionary: courseData)
     }

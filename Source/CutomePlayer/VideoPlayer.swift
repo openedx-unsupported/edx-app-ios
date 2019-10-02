@@ -257,7 +257,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber, let newStatus = AVPlayerItem.Status(rawValue: newStatusAsNumber.intValue) {
                 switch newStatus {
                 case .readyToPlay:
-                    
                     //This notification call specifically for test cases in readyToPlay state
                     perform(#selector(t_postNotification))
                     
@@ -269,6 +268,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                     break
                 case .failed:
                     controls?.isTapButtonHidden = true
+                    break
+                @unknown default:
                     break
                 }
             }

@@ -96,7 +96,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
         guard let time = time else {
             return nil
         }
-        return transcripts.index(where: { time >= $0.start && time <= $0.end })
+        return transcripts.firstIndex(where: { time >= $0.start && time <= $0.end })
     }
     
     @objc func invalidateDragging(){

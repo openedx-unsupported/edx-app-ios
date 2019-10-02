@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSInteger)integerForKey:(NSString*)key;
 - (void)setInteger:(NSInteger)value forKey:(NSString*)key;
 
+- (double)doubleForKey:(NSString*)key;
+- (void)setDouble:(double)value forKey:(NSString*)key;
+
+
 - (void)removeObjectForKey:(NSString*)key;
 
 - (void)synchronize;

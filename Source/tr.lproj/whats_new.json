@@ -1,5 +1,19 @@
 [
     {
+        "version":"2.20",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Genişletilmiş Dil Desteği",
+                "message":"EdX uygulamasını şimdi Almanca, İbranice, Fransızca, Portekizce, Çince ve Türkçe olarak görüntüleyebilirsiniz. Uygulama, bu ayarı belirlemek için cihaz."
+            }
+        ]
+    },
+    {
         "version":"2.18",
         "messages":[
             {

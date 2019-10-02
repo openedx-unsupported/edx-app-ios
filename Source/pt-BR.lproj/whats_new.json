@@ -1,5 +1,19 @@
 [
     {
+        "version":"2.20",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Suporte expandido ao idioma",
+                "message":"Agora você pode ver o aplicativo edX em língua alemã, hebraico, francês, português, chinês e turco. O aplicativo usa o idioma do seu dispositivo para especificar essa configuração."
+            }
+        ]
+    },
+    {
         "version":"2.18",
         "messages":[
             {
