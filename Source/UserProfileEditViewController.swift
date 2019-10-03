@@ -230,6 +230,8 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
                 } else {
                     let message = Strings.Profile.unableToSend(fieldName: fieldDescription)
                     self?.showToast(message: message)
+                    self?.profile.updateDictionary.removeAll()
+
                 }
             }
         }
