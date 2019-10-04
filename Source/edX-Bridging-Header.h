@@ -5,6 +5,7 @@
 #import <Analytics/SEGAnalytics.h>
 #import <FirebaseCore/FirebaseCore.h>
 #import <YoutubePlayer-in-WKWebView/WKYTPlayerView.h>
+#import <FirebaseMessaging/FIRMessaging.h>
 
 #import "DACircularProgressView.h"
 #import <DateTools/NSDate+DateTools.h>
@@ -41,6 +42,8 @@
 #import "OEXMySettingsViewController.h"
 #import "OEXPlaceholderTextView.h"
 #import "OEXPushSettingsManager.h"
+#import "OEXPushProvider.h"
+#import "OEXPushListener.h"
 #import "OEXRegistrationOption.h"
 #import "OEXRegistrationDescription.h"
 #import "OEXRegistrationViewController.h"

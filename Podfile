@@ -22,6 +22,7 @@ pod 'Firebase/Core', '= 5.20.2'
 pod 'Firebase/InAppMessagingDisplay'
 pod 'Firebase/Analytics'
 pod 'Firebase/Performance'
+pod 'Firebase/Messaging','=5.20.2'
 pod 'Branch', '= 0.25.5'
 pod 'YoutubePlayer-in-WKWebView', '~> 0.3.0'
 end
