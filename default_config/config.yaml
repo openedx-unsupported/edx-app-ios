@@ -1,3 +1,20 @@
-API_HOST_URL: 'http://localhost:8000'
+API_HOST_URL: 'https://openedx.my-poc-domain.com/'
 ENVIRONMENT_DISPLAY_NAME: 'Localhost'
 FEEDBACK_EMAIL_ADDRESS: 'support@example.com'
+DISCUSSIONS_ENABLED: true
+USER_PROFILES_ENABLED: true
+COURSE_VIDEOS_ENABLED: true
+DEBUG: 'true'
+DISCOVERY: {
+    COURSE: {
+        TYPE: 'native'
+    },
+    PROGRAM: {
+        TYPE: 'native'
+    },
+    DEGREE: {
+        TYPE: 'native'
+    }
+}
+WHATS_NEW_ENABLED: true
+VIDEO_TRANSCRIPT_ENABLED: true
