@@ -112,7 +112,6 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
     
     var fields: [JSONFormBuilder.Field] = []
     
-    private let toast = ErrorToastView()
     private let headerHeight: CGFloat = 72
     private let spinner = SpinnerView(size: SpinnerView.Size.Large, color: SpinnerView.Color.Primary)
     
@@ -130,21 +129,14 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         
         
         let bannerWrapper = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: headerHeight))
+        bannerWrapper.backgroundColor = UIColor.green
         bannerWrapper.addSubview(banner)
-        bannerWrapper.addSubview(toast)
-        
-        toast.snp.makeConstraints { make in
-            make.top.equalTo(bannerWrapper)
-            make.trailing.equalTo(bannerWrapper)
-            make.leading.equalTo(bannerWrapper)
-            make.height.equalTo(0)
-        }
         
         banner.snp.makeConstraints { make in
             make.trailing.equalTo(bannerWrapper)
             make.leading.equalTo(bannerWrapper)
             make.bottom.equalTo(bannerWrapper)
-            make.top.equalTo(toast.snp.bottom)
+            make.top.equalTo(bannerWrapper)
         }
         
         let bottomLine = UIView()
@@ -229,7 +221,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
                     self?.reloadViews()
                 } else {
                     let message = Strings.Profile.unableToSend(fieldName: fieldDescription)
-                    self?.showToast(message: message)
+                    self?.showError(message: message)
                     self?.profile.updateDictionary.removeAll()
 
                 }
@@ -241,7 +233,6 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         super.viewWillAppear(animated)
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenProfileEdit)
 
-        hideToast()
         updateProfile()
         reloadViews()
     }
@@ -323,73 +314,11 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         }
     }
   
-    //MARK: - Update the toast view
+    //MARK: - Update the error view
     
-    public func showToast(message: String) {
-        toast.setMessage(message: message)
-        setToastHeight(toastHeight: 50)
+    public func showError(message: String) {
+        UIAlertController().showAlert(withTitle: nil, message: message, onViewController: self)
     }
-    
-    private func hideToast() {
-        setToastHeight(toastHeight: 0)
-    }
-    
-    private func setToastHeight(toastHeight: CGFloat) {
-        toast.isHidden = toastHeight <= 1
-        toast.snp.updateConstraints { make in
-            make.height.equalTo(toastHeight)
-        }
-        var headerFrame = self.tableView.tableHeaderView!.frame
-        headerFrame.size.height = headerHeight + toastHeight
-        self.tableView.tableHeaderView!.frame = headerFrame
-        
-        self.tableView.tableHeaderView = self.tableView.tableHeaderView
-    }
-}
-
-/** Error Toast */
-private class ErrorToastView : UIView {
-    let errorLabel = UILabel()
-    let messageLabel = UILabel()
-    
-    init() {
-        super.init(frame: CGRect.zero)
-        
-        backgroundColor = OEXStyles.shared().neutralXLight()
-        
-        addSubview(errorLabel)
-        addSubview(messageLabel)
-        
-        errorLabel.backgroundColor = OEXStyles.shared().errorBase()
-        let errorStyle = OEXMutableTextStyle(weight: .light, size: .xxLarge, color: OEXStyles.shared().neutralWhiteT())
-        errorStyle.alignment = .center
-        errorLabel.attributedText = Icon.Warning.attributedTextWithStyle(style: errorStyle)
-        errorLabel.textAlignment = .center
-        
-        messageLabel.adjustsFontSizeToFitWidth = true
-        
-        errorLabel.snp.makeConstraints { make in
-            make.leading.equalTo(self)
-            make.height.equalTo(self)
-            make.width.equalTo(errorLabel.snp.height)
-        }
-        
-        messageLabel.snp.makeConstraints { make in
-            make.leading.equalTo(errorLabel.snp.trailing).offset(10)
-            make.trailing.equalTo(self).offset(-10)
-            make.centerY.equalTo(self.snp.centerY)
-        }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setMessage(message: String) {
-        let messageStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlackT())
-        messageLabel.attributedText = messageStyle.attributedString(withText: message)
-    }
-
 }
 
 extension UserProfileEditViewController : ProfilePictureTakerDelegate {
@@ -410,7 +339,7 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
         environment.networkManager.taskForRequest(networkRequest) { result in
             if let _ = result.error {
                 endBlurimate.remove()
-                self.showToast(message: Strings.Profile.unableToRemovePhoto)
+                self.showError(message: Strings.Profile.unableToRemovePhoto)
             } else {
                 //Was sucessful upload
                 self.reloadProfileFromImageChange(completionRemovable: endBlurimate)
@@ -439,7 +368,7 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
             OEXAnalytics.shared().trackSetProfilePhoto(photoSource: anaylticsSource)
             if let _ = result.error {
                 endBlurimate.remove()
-                self.showToast(message: Strings.Profile.unableToSetPhoto)
+                self.showError(message: Strings.Profile.unableToSetPhoto)
             } else {
                 //Was successful delete
                 self.reloadProfileFromImageChange(completionRemovable: endBlurimate)
@@ -461,7 +390,7 @@ extension UserProfileEditViewController : ProfilePictureTakerDelegate {
                 self.reloadViews()
                 self.banner.showProfile(profile: newProf, networkManager: self.environment.networkManager)
             } else {
-                self.showToast(message: Strings.Profile.unableToGet)
+                self.showError(message: Strings.Profile.unableToGet)
             }
         }
         
