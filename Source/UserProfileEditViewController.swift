@@ -129,7 +129,6 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         
         
         let bannerWrapper = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: headerHeight))
-        bannerWrapper.backgroundColor = UIColor.green
         bannerWrapper.addSubview(banner)
         
         banner.snp.makeConstraints { make in
@@ -316,7 +315,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
   
     //MARK: - Update the error view
     
-    public func showError(message: String) {
+    private func showError(message: String) {
         UIAlertController().showAlert(withTitle: nil, message: message, onViewController: self)
     }
 }
