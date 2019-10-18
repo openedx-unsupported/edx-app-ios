@@ -1060,7 +1060,7 @@ static OEXInterface* _sharedInterface = nil;
 
 #pragma mark - Analytics Call
 
-- (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(OEXHelperVideoDownload*)video {
+- (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(nullable OEXHelperVideoDownload*)video playMedium:(nullable NSString *)playMedium {
     if(isnan(currentTime)) {
         currentTime = 0;
     }
@@ -1082,7 +1082,8 @@ static OEXInterface* _sharedInterface = nil;
                 [[OEXAnalytics sharedAnalytics] trackVideoStop:video.summary.videoID
                                                    CurrentTime:currentTime
                                                       CourseID:video.course_id
-                                                       UnitURL:video.summary.unitURL];
+                                                       UnitURL:video.summary.unitURL
+                                                    playMedium:playMedium];
             }
 
             break;
@@ -1092,7 +1093,8 @@ static OEXInterface* _sharedInterface = nil;
                 [[OEXAnalytics sharedAnalytics] trackVideoPlaying:video.summary.videoID
                                                       CurrentTime:currentTime
                                                          CourseID:video.course_id
-                                                          UnitURL:video.summary.unitURL];
+                                                          UnitURL:video.summary.unitURL
+                                                       playMedium:playMedium];
             }
 
             break;
@@ -1103,7 +1105,8 @@ static OEXInterface* _sharedInterface = nil;
                 [[OEXAnalytics sharedAnalytics] trackVideoPause:video.summary.videoID
                                                     CurrentTime:currentTime
                                                        CourseID:video.course_id
-                                                        UnitURL:video.summary.unitURL];
+                                                        UnitURL:video.summary.unitURL
+                                                     playMedium:playMedium];
             }
 
             break;

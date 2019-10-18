@@ -142,7 +142,7 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 - (void)activateInterfaceForUser:(OEXUserDetails*)user;
 
 #pragma mark - Analytics Call
-- (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(nullable OEXHelperVideoDownload*)video;
+- (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(nullable OEXHelperVideoDownload*)video playMedium:(nullable NSString *)playMedium;
 
 #pragma mark - Course Enrollments
 /** Finds the user's enrollment for a course */
