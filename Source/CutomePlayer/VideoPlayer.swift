@@ -64,7 +64,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
     
-    //fileprivate var video: OEXHelperVideoDownload? {
     public var video: OEXHelperVideoDownload? {
         didSet {
             initializeSubtitles()

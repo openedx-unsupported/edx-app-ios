@@ -43,7 +43,6 @@
 @interface OEXAnalyticsVideoEvent : OEXAnalyticsEvent
 
 @property (copy, nonatomic) NSString* moduleID;
-@property (copy, nonatomic) NSString* playMedium;
 
 @end
 
@@ -398,9 +397,7 @@ static OEXAnalytics* sAnalytics;
     event.courseID = courseId;
     event.openInBrowserURL = unitUrl;
     event.moduleID = videoID;
-    
-    
-    
+
     [self trackVideoPlayerEvent:event withInfo:info];
 }
 
