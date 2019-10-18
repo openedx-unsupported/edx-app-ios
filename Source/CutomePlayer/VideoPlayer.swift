@@ -32,7 +32,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
-    private let environment : Environment
+    public let environment : Environment
     fileprivate var controls: VideoPlayerControls?
     weak var playerDelegate : VideoPlayerDelegate?
     var isFullScreen : Bool = false {
@@ -64,7 +64,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
     
-    fileprivate var video: OEXHelperVideoDownload? {
+    //fileprivate var video: OEXHelperVideoDownload? {
+    public var video: OEXHelperVideoDownload? {
         didSet {
             initializeSubtitles()
         }
@@ -403,7 +404,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl)
+            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl, playMedium: nil)
         }
     }
     
@@ -412,7 +413,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerView.removeGestureRecognizer(rightSwipeGestureRecognizer)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: false, unitURL: unitUrl)
+            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: false, unitURL: unitUrl, playMedium: nil)
         }
     }
     
@@ -471,11 +472,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool) {
         if playerState == .playing {
             pause()
-            environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video)
+            environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
         else {
             resume()
-            environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video)
+            environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
     }
     

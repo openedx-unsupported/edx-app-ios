@@ -43,6 +43,7 @@
 @interface OEXAnalyticsVideoEvent : OEXAnalyticsEvent
 
 @property (copy, nonatomic) NSString* moduleID;
+@property (copy, nonatomic) NSString* playMedium;
 
 @end
 
@@ -159,8 +160,15 @@ static OEXAnalytics* sAnalytics;
 - (void)trackVideoPlaying:(NSString*)videoId
               CurrentTime:(NSTimeInterval)currentTime
                  CourseID:(NSString*)courseId
-                  UnitURL:(NSString*)unitUrl {
+                  UnitURL:(NSString*)unitUrl
+               playMedium:(nullable NSString *)playMedium {
 
+    NSMutableDictionary* info = @{}.mutableCopy;
+    [info setSafeObject:@(currentTime) forKey:key_current_time];
+    if (playMedium != nil) {
+        [info setSafeObject:playMedium forKey:key_play_medium];
+    }
+    
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Played Video";
     event.name = value_video_played;
@@ -168,17 +176,21 @@ static OEXAnalytics* sAnalytics;
     event.openInBrowserURL = unitUrl;
     event.moduleID = videoId;
 
-    [self trackVideoPlayerEvent:event
-                       withInfo:@{
-         key_current_time : @(currentTime)
-     }];
+    [self trackVideoPlayerEvent:event withInfo:info];
 }
 
 - (void)trackVideoPause:(NSString*)videoId
             CurrentTime:(NSTimeInterval)currentTime
                CourseID:(NSString*)courseId
-                UnitURL:(NSString*)unitUrl {
+                UnitURL:(NSString*)unitUrl
+             playMedium:(nullable NSString *)playMedium {
 
+    NSMutableDictionary* info = @{}.mutableCopy;
+    [info setSafeObject:@(currentTime) forKey:key_current_time];
+    if (playMedium != nil) {
+        [info setSafeObject:playMedium forKey:key_play_medium];
+    }
+    
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Paused Video";
     event.name = value_video_paused;
@@ -186,16 +198,20 @@ static OEXAnalytics* sAnalytics;
     event.openInBrowserURL = unitUrl;
     event.moduleID = videoId;
 
-    [self trackVideoPlayerEvent:event
-                       withInfo:@{
-         key_current_time : @(currentTime)
-     }];
+    [self trackVideoPlayerEvent:event withInfo:info];
 }
 
 - (void)trackVideoStop:(NSString*)videoId
            CurrentTime:(NSTimeInterval)currentTime
               CourseID:(NSString*)courseId
-               UnitURL:(NSString*)unitUrl {
+               UnitURL:(NSString*)unitUrl
+            playMedium:(nullable NSString *)playMedium {
+    
+    NSMutableDictionary* info = @{}.mutableCopy;
+    [info setSafeObject:@(currentTime) forKey:key_current_time];
+    if (playMedium != nil) {
+        [info setSafeObject:playMedium forKey:key_play_medium];
+    }
 
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.displayName = @"Stopped Video";
@@ -204,10 +220,7 @@ static OEXAnalytics* sAnalytics;
     event.openInBrowserURL = unitUrl;
     event.moduleID = videoId;
 
-    [self trackVideoPlayerEvent:event
-                       withInfo:@{
-         key_current_time : @(currentTime)
-     }];
+    [self trackVideoPlayerEvent:event withInfo:info];
 }
 
 - (void)trackShowTranscript:(NSString*)videoId
@@ -371,18 +384,23 @@ static OEXAnalytics* sAnalytics;
                      CourseID:(NSString*)courseId
                   CurrentTime:(CGFloat)currentTime
                          Mode:(BOOL)isFullscreen
-                      UnitURL:(NSString*)unitUrl {
+                      UnitURL:(NSString*)unitUrl
+                   playMedium:(nullable NSString *)playMedium {
     NSMutableDictionary* info = @{}.mutableCopy;
     [info setSafeObject:@(isFullscreen) forKey:key_fullscreen];
     [info setSafeObject:@(currentTime) forKey:key_current_time];
-
+    if (playMedium != nil) {
+        [info setSafeObject:playMedium forKey:key_play_medium];
+    }
     OEXAnalyticsVideoEvent* event = [[OEXAnalyticsVideoEvent alloc] init];
     event.name = value_fullscreen;
     event.displayName = @"Screen Toggled";
     event.courseID = courseId;
     event.openInBrowserURL = unitUrl;
     event.moduleID = videoID;
-
+    
+    
+    
     [self trackVideoPlayerEvent:event withInfo:info];
 }
 
