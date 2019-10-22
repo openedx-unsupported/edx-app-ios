@@ -80,6 +80,8 @@
 	</dict>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>for bluetooth</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>for bluetooth</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>so user can intract with calendar</string>
 	<key>NSCameraUsageDescription</key>

@@ -398,6 +398,8 @@
 "COURSE_WILL_START_AT"="קורס זה טרם החל. בקרו שוב ב-{date} כדי לראות את קבצי הוידאו שלכם.";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="צרו פוסט חדש";
+/* Chrome cast message */
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="מחק";
 /* Discussion used in the segmented control Creating a new post */

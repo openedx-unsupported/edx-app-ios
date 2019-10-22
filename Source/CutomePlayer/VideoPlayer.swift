@@ -12,8 +12,8 @@ import AVKit
 
 private enum PlayerState {
     case playing,
-         paused,
-         stop
+    paused,
+    stoped
 }
 
 private let currentItemStatusKey = "currentItem.status"
@@ -32,7 +32,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
-    private let environment : Environment
+    public let environment : Environment
     fileprivate var controls: VideoPlayerControls?
     weak var playerDelegate : VideoPlayerDelegate?
     var isFullScreen : Bool = false {
@@ -48,7 +48,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private var transcriptManager: TranscriptManager?
     private let videoSkipBackwardsDuration: Double = 30
     private var playerTimeBeforeSeek:TimeInterval = 0
-    private var playerState: PlayerState = .stop
+    private var playerState: PlayerState = .stoped
     private var isObserverAdded: Bool = false
     private let playerTimeOutInterval:TimeInterval = 60.0
     private let preferredTimescale:Int32 = 100
@@ -64,7 +64,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
     
-    fileprivate var video: OEXHelperVideoDownload? {
+    public var video: OEXHelperVideoDownload? {
         didSet {
             initializeSubtitles()
         }
@@ -152,7 +152,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         createPlayer()
         view.backgroundColor = .black
         loadingIndicatorView.hidesWhenStopped = true
-        createControls()
     }
     
     private func addObservers() {
@@ -218,7 +217,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         setConstraints()
     }
     
-    private func createControls() {
+    func createControls() {
+        if controls != nil { return }
         controls = VideoPlayerControls(environment: environment, player: self)
         controls?.delegate = self
         if let controls = controls {
@@ -227,6 +227,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         controls?.snp.makeConstraints() { make in
             make.edges.equalTo(playerView)
         }
+    }
+    
+    func removeControls() {
+        controls?.removeFromSuperview()
+        controls = nil
     }
     
     private func initializeSubtitles() {
@@ -291,7 +296,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         isVisible = true
-        applyScreenOrientation()
+        if !ChromeCastManager.shared.isMiniPlayerAdded {
+            applyScreenOrientation()
+        }
+        resume()
     }
     
     private func applyScreenOrientation() {
@@ -302,10 +310,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    func play(video: OEXHelperVideoDownload) {
+    func play(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
         guard let videoURL = video.summary?.videoURL, var url = URL(string: videoURL) else {
             return
         }
+        createControls()
         self.video = video
         controls?.video = video
         let fileManager = FileManager.default
@@ -321,7 +330,15 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         player.replaceCurrentItem(with: playerItem)
         loadingIndicatorView.startAnimating()
         addObservers()
-        let timeInterval = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
+        
+        var timeInterval: TimeInterval  = 0.0
+        if let time = time {
+            timeInterval = time
+        }
+        else {
+            timeInterval = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
+        }
+        
         play(at: timeInterval)
         controls?.isTapButtonHidden = true
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, object: player.currentItem as Any) {(notification, observer, _) in
@@ -370,11 +387,21 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     fileprivate func pause() {
         player.pause()
         playerState = .paused
-        saveCurrentTime()
+        savePlayedTime()
     }
     
-    private func saveCurrentTime() {
-        lastElapsedTime = currentTime
+    func savePlayedTime(time: TimeInterval? = nil) {
+        if ChromeCastManager.shared.isMiniPlayerAdded {
+            return
+        }
+        
+        if let time = time {
+            lastElapsedTime = time
+        }
+        else {
+            lastElapsedTime = currentTime
+        }
+        
         if let video = video {
             environment.interface?.markLastPlayedInterval(Float(currentTime), forVideo: video)
             let state = doublesWithinEpsilon(left: duration.seconds, right: currentTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
@@ -383,10 +410,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     fileprivate func stop() {
-        saveCurrentTime()
+        savePlayedTime()
         player.actionAtItemEnd = .pause
         player.replaceCurrentItem(with: nil)
-        playerState = .stop
+        playerState = .stoped
     }
     
     func subTitle(at elapseTime: Float64) -> String {
@@ -403,7 +430,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl)
+            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl, playMedium: nil)
         }
     }
     
@@ -412,7 +439,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerView.removeGestureRecognizer(rightSwipeGestureRecognizer)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: false, unitURL: unitUrl)
+            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: false, unitURL: unitUrl, playMedium: nil)
         }
     }
     
@@ -437,10 +464,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        resetPlayer()
+        if !ChromeCastManager.shared.viewExpanded {
+            resetPlayer()
+        }
     }
-        
-    private func resetPlayer() {
+    
+    func resetPlayer() {
         movieBackgroundView.removeFromSuperview()
         stop()
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
@@ -471,11 +500,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool) {
         if playerState == .playing {
             pause()
-            environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video)
+            environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
         else {
             resume()
-            environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video)
+            environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
     }
     
@@ -486,7 +515,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
         playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
         seek(to: backTime)
-
+        
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
@@ -524,7 +553,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     func seek(to time: Double) {
         if player.currentItem?.status != .readyToPlay { return }
-
+        
         player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) { [weak self]
             (completed: Bool) -> Void in
             if self?.playerState == .playing {
@@ -532,7 +561,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 self?.player.play()
             }
             else {
-                self?.saveCurrentTime()
+                self?.savePlayedTime()
             }
         }
     }
@@ -570,11 +599,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             }
         }
     }
-
+    
     func setVideo(video: OEXHelperVideoDownload){
         self.video = video
     }
-
+    
     deinit {
         removeObservers()
     }

@@ -11,6 +11,8 @@
 		<string>applinks:edx-alternate.app.link</string>
 		<string>applinks:edx-alternate.test-app.link</string>
 	</array>
+	<key>com.apple.developer.networking.wifi-info</key>
+	<true/>
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)org.edx.mobile</string>

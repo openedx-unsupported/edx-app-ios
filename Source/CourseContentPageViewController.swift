@@ -22,7 +22,7 @@ extension CourseBlockDisplayType {
 }
 
 // Container for scrolling horizontally between different screens of course content
-public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, InterfaceOrientationOverriding {
+public class CourseContentPageViewController : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, CourseBlockViewController, InterfaceOrientationOverriding, ChromeCastButtonDelegate {
     
     public typealias Environment = OEXAnalyticsProvider & DataManagerProvider & OEXRouterProvider & OEXConfigProvider
     
@@ -109,6 +109,8 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             scrollView.delaysContentTouches = false
         }
         addObservers()
+        
+        ChromeCastManager.shared.removeChromeCastButton(from: self, force: true)
     }
     
     private func addStreamListeners() {
@@ -299,7 +301,7 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
             })
         }
     }
-
+    
     private func updateTransitionState(is transitioning: Bool) {
         transitionInProgress = transitioning
         view.isUserInteractionEnabled = !transitioning
@@ -318,10 +320,10 @@ public class CourseContentPageViewController : UIPageViewController, UIPageViewC
         self.updateNavigationForEnteredController(controller: pageViewController.viewControllers?.first)
         updateTransitionState(is: false)
     }
-
+    
     public func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         updateTransitionState(is: true)
-
+        
     }
     
     func controllerForBlock(block : CourseBlock) -> UIViewController? {

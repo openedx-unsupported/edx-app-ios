@@ -74,7 +74,7 @@ class YoutubeVideoPlayer: VideoPlayer {
         }
     }
 
-    override func play(video: OEXHelperVideoDownload) {
+    override func play(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
         super.setVideo(video: video)
         guard let videoUrl = video.summary?.videoURL, let url = URLComponents(string : videoUrl) else {
             Logger.logError("YOUTUBE_VIDEO", "invalid url")
@@ -98,7 +98,10 @@ class YoutubeVideoPlayer: VideoPlayer {
 
         playerView.load(withVideoId: videoID, playerVars: playerVars.value)
         setVideoPlayerMode(isPortrait: !fullscreen)
-
+        
+        if let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+            environment.analytics.trackVideoOrientation(videoID, courseID: courseId, currentTime: CGFloat(currentTime), mode: fullscreen, unitURL: unitUrl, playMedium: value_play_medium_youtube)
+        }
     }
 
     override func seek(to time: Double) {
@@ -131,6 +134,19 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
         setVideoPlayerMode(isPortrait: UIDevice.current.orientation.isPortrait)
         loadingIndicatorView.stopAnimating()
         playerView.playVideo()
+    }
+
+    func playerView(_ playerView: WKYTPlayerView, didChangeTo state: WKYTPlayerState) {
+        switch state {
+        case .paused:
+            environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video, playMedium: value_play_medium_youtube)
+            break
+        case .playing:
+            environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: value_play_medium_youtube)
+            break
+        default:
+            break
+        }
     }
 
 }

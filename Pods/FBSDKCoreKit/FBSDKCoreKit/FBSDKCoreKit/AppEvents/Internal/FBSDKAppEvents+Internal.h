@@ -24,8 +24,6 @@
 
 // Internally known event names
 
-FOUNDATION_EXPORT NSString *const FBSDKAppEventNamePurchased;
-
 /** Use to log that the share dialog was launched */
 FOUNDATION_EXPORT NSString *const FBSDKAppEventNameShareSheetLaunch;
 
@@ -105,7 +103,7 @@ FOUNDATION_EXPORT NSString *const FBSDKAppEventNameFBSDKLiveStreamingMic;
 FOUNDATION_EXPORT NSString *const FBSDKAppEventNameFBSDKLiveStreamingCamera;
 
 /** Use to log the results of a share dialog */
-FOUNDATION_EXPORT NSString *const FBSDLAppEventNameFBSDKEventShareDialogResult;
+FOUNDATION_EXPORT NSString *const FBSDKAppEventNameFBSDKEventShareDialogResult;
 FOUNDATION_EXPORT NSString *const FBSDKAppEventNameFBSDKEventMessengerShareDialogResult;
 FOUNDATION_EXPORT NSString *const FBSDKAppEventNameFBSDKEventAppInviteShareDialogResult;
 
@@ -199,12 +197,40 @@ FOUNDATION_EXPORT NSString *const FBSDKAppEventsWKWebViewMessagesPixelIDKey;
 
 @interface FBSDKAppEvents (Internal)
 
+@property (class, nonatomic, strong, readonly) FBSDKAppEvents *singleton;
+
++ (void)logInternalEvent:(FBSDKAppEventName)eventName
+      isImplicitlyLogged:(BOOL)isImplicitlyLogged;
+
++ (void)logInternalEvent:(FBSDKAppEventName)eventName
+              valueToSum:(double)valueToSum
+      isImplicitlyLogged:(BOOL)isImplicitlyLogged;
+
++ (void)logInternalEvent:(FBSDKAppEventName)eventName
+              parameters:(NSDictionary *)parameters
+      isImplicitlyLogged:(BOOL)isImplicitlyLogged;
+
++ (void)logInternalEvent:(FBSDKAppEventName)eventName
+              parameters:(NSDictionary *)parameters
+      isImplicitlyLogged:(BOOL)isImplicitlyLogged
+             accessToken:(FBSDKAccessToken *)accessToken;
+
++ (void)logInternalEvent:(FBSDKAppEventName)eventName
+              valueToSum:(double)valueToSum
+              parameters:(NSDictionary *)parameters
+      isImplicitlyLogged:(BOOL)isImplicitlyLogged;
+
++ (void)logInternalEvent:(NSString *)eventName
+              valueToSum:(NSNumber *)valueToSum
+              parameters:(NSDictionary *)parameters
+      isImplicitlyLogged:(BOOL)isImplicitlyLogged
+            accessToken:(FBSDKAccessToken *)accessToken;
+
 + (void)logImplicitEvent:(NSString *)eventName
               valueToSum:(NSNumber *)valueToSum
               parameters:(NSDictionary *)parameters
              accessToken:(FBSDKAccessToken *)accessToken;
 
-+ (FBSDKAppEvents *)singleton;
 - (void)flushForReason:(FBSDKAppEventsFlushReason)flushReason;
 - (void)registerNotifications;
 

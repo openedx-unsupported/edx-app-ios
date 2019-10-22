@@ -26,8 +26,8 @@ private enum TabBarOptions: Int {
     }
 }
 
-class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelegate, InterfaceOrientationOverriding {
-
+class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelegate, InterfaceOrientationOverriding, ChromeCastConnectedButtonDelegate {
+    
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
     fileprivate let environment: Environment
@@ -66,7 +66,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         prepareTabViewData()
         delegate = self
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -176,7 +176,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         accountButton.accessibilityLabel = Strings.userAccount
         accountButton.accessibilityIdentifier = "EnrolledTabBarViewController:account-button"
         navigationItem.rightBarButtonItem = accountButton
-        
+
         accountButton.oex_setAction { [weak self] in
             self?.environment.router?.showAccount(controller: self, modalTransitionStylePresent: true)
         }
