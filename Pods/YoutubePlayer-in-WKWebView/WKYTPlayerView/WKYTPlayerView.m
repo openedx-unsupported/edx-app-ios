@@ -87,6 +87,17 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     return [self loadWithPlayerParams:playerParams];
 }
 
+- (BOOL)loadWithVideoId:(NSString *)videoId playerVars:(NSDictionary *)playerVars templatePath:(NSString *)path {
+    if (!playerVars) {
+        playerVars = @{};
+    }
+    NSMutableDictionary *playerParams = [@{@"videoId" : videoId, @"playerVars" : playerVars} mutableCopy];
+    if (path) {
+        playerParams[@"templatePath"] = path;
+    }
+    return [self loadWithPlayerParams:[playerParams copy]];
+}
+
 - (BOOL)loadWithPlaylistId:(NSString *)playlistId playerVars:(NSDictionary *)playerVars {
     
     // Mutable copy because we may have been passed an immutable config dictionary.
@@ -575,6 +586,14 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     }
 }
 
+- (WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures {
+    if (!navigationAction.targetFrame.isMainFrame) {
+        //  open link with target="_blank" in the same webView
+        [webView loadRequest:navigationAction.request];
+    }
+    return nil;
+}
+
 /**
  * Convert a quality value from NSString to the typed enum value.
  *
@@ -907,9 +926,14 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     [self addConstraints:constraints];
     
     NSError *error = nil;
-    NSString *path = [[NSBundle bundleForClass:[WKYTPlayerView class]] pathForResource:@"YTPlayerView-iframe-player"
-                                                                                ofType:@"html"
-                                                                           inDirectory:@"Assets"];
+    NSString *path = [additionalPlayerParams objectForKey:@"templatePath"];
+    
+    //in case path to the HTML template wan't provided from the outside
+    if (!path) {
+        path = [[NSBundle bundleForClass:[WKYTPlayerView class]] pathForResource:@"YTPlayerView-iframe-player"
+                                                                          ofType:@"html"
+                                                                     inDirectory:@"Assets"];
+    }
     
     // in case of using Swift and embedded frameworks, resources included not in main bundle,
     // but in framework bundle
@@ -945,6 +969,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     NSString *embedHTML = [NSString stringWithFormat:embedHTMLTemplate, playerVarsJsonString];
     [self.webView loadHTMLString:embedHTML baseURL: self.originURL];
     self.webView.navigationDelegate = self;
+    self.webView.UIDelegate = self;
     
     if ([self.delegate respondsToSelector:@selector(playerViewPreferredInitialLoadingView:)]) {
         UIView *initialLoadingView = [self.delegate playerViewPreferredInitialLoadingView:self];
