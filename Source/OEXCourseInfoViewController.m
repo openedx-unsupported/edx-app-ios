@@ -28,9 +28,9 @@ static NSString* const OEXCourseEnrollURLCourseIDKey = @"course_id";
 static NSString* const OEXCourseEnrollURLEmailOptInKey = @"email_opt_in";
 static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
-@interface OEXCourseInfoViewController () <FindCoursesWebViewHelperDelegate, InterfaceOrientationOverriding>
+@interface OEXCourseInfoViewController () <WebViewNavigationDelegate, InterfaceOrientationOverriding>
 
-@property (strong, nonatomic) FindCoursesWebViewHelper* webViewHelper;
+@property (strong, nonatomic) DiscoveryWebViewHelper* webViewHelper;
 @property (strong, nonatomic) NSString* pathID;
 @property (strong,nonatomic, nullable) UIView *bottomBar;
 @property (strong, nonatomic) RouterEnvironment* environment;
@@ -51,17 +51,17 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 }
 
 - (NSURL*)courseInfoURL {
-    NSString* urlString = [[self enrollmentConfig].webviewConfig.courseInfoURLTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
+    NSString* urlString = [[self discoveryConfig].webview.detailTemplate stringByReplacingOccurrencesOfString:OEXCourseInfoLinkPathIDPlaceholder withString:self.pathID];
     NSURL* URL = [NSURL URLWithString:urlString];
     return URL;
 }
 
-- (EnrollmentConfig*)enrollmentConfig {
-    return [self.environment.config courseEnrollmentConfig];
+- (CourseDiscovery*)discoveryConfig {
+    return [self.environment.config.discovery course];
 }
     
 -(NSString *) courseDiscoveryTitle {
-    if ([[self enrollmentConfig] isCourseDiscoveryNative]) {
+    if ([[self discoveryConfig] isCourseDiscoveryNative]) {
         return [Strings findCourses];
     }
     
@@ -71,9 +71,10 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.webViewHelper = [[FindCoursesWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar showSearch:NO searchQuery:nil showSubjects:NO];
-    [self.webViewHelper loadWithURL:self.courseInfoURL];
+    self.webViewHelper = [[DiscoveryWebViewHelper alloc] initWithEnvironment:self.environment delegate:self bottomBar:self.bottomBar discoveryType: DiscoveryTypeCourse];
+    [self loadCourseInfoWith:self.pathID forceLoad:YES];
     self.view.backgroundColor = [self.environment.styles standardBackgroundColor];
+    [self addBackBarButton];
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -86,18 +87,25 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
     [self.environment.analytics trackScreenWithName:OEXAnalyticsScreenCourseInfo];
 }
 
-- (BOOL)webViewHelperWithHelper:(FindCoursesWebViewHelper *)helper shouldLoadLinkWithRequest:(NSURLRequest *)request {
+- (void) loadCourseInfoWith: (NSString *) pathId forceLoad: (BOOL)forceLoad {
+    if (forceLoad || self.pathID != pathId) {
+        self.pathID = pathId;
+        [self.webViewHelper loadWithURL:self.courseInfoURL];
+    }
+}
+
+- (BOOL)webView:(WKWebView * _Nonnull)webView shouldLoad:(NSURLRequest * _Nonnull)request {
     NSString* courseID = nil;
     BOOL emailOptIn = false;
     [self parseURL:request.URL getCourseID:&courseID emailOptIn:&emailOptIn];
     if(courseID != nil) {
-        [self  enrollInCourseWithCourseID:courseID emailOpt:emailOptIn];
+        [DiscoveryHelper enrollInCourseWithCourseID:courseID emailOpt:emailOptIn from:self];
         return NO;
     }
     return YES;
 }
 
-- (UIViewController *)containingControllerForWebViewHelperWithHelper:(FindCoursesWebViewHelper *)helper {
+- (UIViewController * _Nonnull)webViewContainingController {
     return self;
 }
 
@@ -116,7 +124,7 @@ static NSString* const OEXCourseInfoLinkPathIDPlaceholder = @"{path_id}";
 
 - (void)postEnrollmentSuccessNotification:(NSString*)message {
     [[NSNotificationCenter defaultCenter] postNotificationName:EnrollmentShared.successNotification object:message];
-    
+
     if ([self isRootModal]) {
         [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
     }

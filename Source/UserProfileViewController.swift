@@ -90,7 +90,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     
     private func addCloseButton() {
         if (isModal()) {//isModal check if the view is presented then add close button
-            let closeButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
+            let closeButton = UIBarButtonItem(title: Strings.close, style: .plain, target: nil, action: nil)
             closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
             closeButton.accessibilityHint = Strings.Accessibility.closeHint
             navigationItem.leftBarButtonItem = closeButton
@@ -172,7 +172,7 @@ extension UINavigationBar {
     private func apply(barTintColor: UIColor, tintColor: UIColor, titleStyle: OEXTextStyle) {
         self.barTintColor = barTintColor
         self.tintColor = tintColor
-        titleTextAttributes = titleStyle.attributes
+        titleTextAttributes = titleStyle.attributes.attributedKeyDictionary()
     }
     
     func applyUserProfileNavbarColorScheme() {

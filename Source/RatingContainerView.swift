@@ -62,26 +62,26 @@ class RatingContainerView: UIView {
         toggleSubmitButton(enabled: false)
         submitButton.oex_addAction({[weak self] (action) in
             self?.delegate?.didSubmitRating(rating: self!.ratingView.value)
-            }, for: UIControlEvents.touchUpInside)
+            }, for: UIControl.Event.touchUpInside)
         
         //Setup close button
         closeButton.layer.cornerRadius = 15
         closeButton.layer.borderColor = environment.styles.neutralDark().cgColor
         closeButton.layer.borderWidth = 1.0
         closeButton.layer.masksToBounds = true
-        closeButton.setAttributedTitle(Icon.Close.attributedTextWithStyle(style: closeButtonTextStyle), for: UIControlState.normal)
+        closeButton.setAttributedTitle(Icon.Close.attributedTextWithStyle(style: closeButtonTextStyle), for: UIControl.State.normal)
         closeButton.backgroundColor = UIColor.white
         closeButton.accessibilityLabel = Strings.close
         closeButton.accessibilityHint = Strings.Accessibility.closeHint
 
         closeButton.oex_addAction({[weak self] (action) in
             self?.delegate?.closeButtonPressed()
-            }, for: UIControlEvents.touchUpInside)
+            }, for: UIControl.Event.touchUpInside)
         
         //Setup ratingView action
         ratingView.oex_addAction({[weak self] (action) in
             self?.toggleSubmitButton(enabled: (self?.ratingView.value)! > 0)
-            }, for: UIControlEvents.valueChanged)
+            }, for: UIControl.Event.valueChanged)
         
         addSubview(contentView)
         addSubview(closeButton)

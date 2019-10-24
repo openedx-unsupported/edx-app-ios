@@ -45,7 +45,7 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         )
         
         tableView.estimatedRowHeight = 80.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = UIView(frame: CGRect.zero)
     }
     

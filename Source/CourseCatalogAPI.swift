@@ -11,7 +11,7 @@ import edXCore
 public struct CourseCatalogAPI {
     
     static func coursesDeserializer(response : HTTPURLResponse, json : JSON) -> Result<[OEXCourse]> {
-        return (json.array?.flatMap {item in
+        return (json.array?.compactMap {item in
             item.dictionaryObject.map { OEXCourse(dictionary: $0) }
         }).toResult()
     }

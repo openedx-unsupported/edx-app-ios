@@ -22,6 +22,8 @@
 "ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Tap to select";
 /* Appending By before course organization and number on My Find Courses*/
 "ACCESSIBILITY_BY" = "By";
+/*Accessibility hint for user bio on user profile screen*/
+"ACCESSIBILITY.ACCOUNT.BIO_LABEL" = "Description";
 /* Accessibility hint for subject name label */
 "ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {subject_name}";
 /* Accessibility hint for bulk download switch when in new state */
@@ -46,6 +48,8 @@
 "ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "Double tap to follow.";
 /* Accessibility hint for Unfollow button for discussion responses*/
 "ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Double tap to unfollow.";
+/*Accessibility hint for disabled buttons, cells, etc like for disabled user profile fields on user edit profile screen*/
+"ACCESSIBILITY.DISABLED_HINT" = "Dimmed";
 /* Acessibility hint for the show downloads button. */
 "ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Double tap to view current downloads";
 /* Accessibility hint for view all subjects label*/
@@ -78,10 +82,10 @@
 "ACCESSIBILITY_USER_AVATAR" = "Your avatar image";
 /* Accessibility label for Problem Icon in the Courseware screens */
 "ACCESSIBILITY_PROBLEM" = "Problem";
-/* Required text needs to be added for accesibility*/
-"ACCESSIBILITY.REQUIRED_INPUT"="Required";
 /* Optional text needs to be added for accesibility*/
 "ACCESSIBILITY.OPTIONAL_INPUT"="Optional";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY_REQUIRED_INPUT"="Required";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Rewind";
 /* Call to action for Rewind Button in the Video Player */
@@ -143,7 +147,7 @@
 /*Accessibility text for close button*/
 "ACCESSIBILITY.CLOSE_LABEL"="Close";
 /*Accessibility text for profile button*/
-"ACCESSIBILITY.PROFILE_LABEL"="Pofile";
+"ACCESSIBILITY.PROFILE_LABEL"="Profile";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
@@ -161,7 +165,7 @@
 /* Add your post button title used in discussion's add a post textview */
 "ADD_YOUR_POST"="Add your post";
 /*Agreement text*/
-"AGREEMENT.TEXT"="you agree to the {eula} and {tos} and acknowledge the {privacy_policy}.";
+"AGREEMENT.TEXT"="you agree to the {eula} and {tos} and you acknowledge that {platform_name} and each Member process your personal data in accordance with the  {privacy_policy}.";
 /*Agreement text prefix for user on signin screen*/
 "AGREEMENT.TEXT_PREFIX_SIGNIN"="By signing-in to this app, ";
 /*Agreement text prefix for user on signup screen*/
@@ -176,8 +180,6 @@
 "ALLOW"="Allow";
 /* Filtering option to show all discussion posts */
 "ALL_POSTS"="All Posts";
-/* Tab allowing the user to see all videos */
-"ALL_VIDEOS"="All Videos";
 /*Subtitle for bulk download view when in downloading state */
 "ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB total";
 /*Title for bulk download view when in downloaded state */
@@ -296,8 +298,42 @@
 "COURSE_VIDEO_UNAVAILABLE"="This course does not include any videos";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "This interactive component isn't yet available on mobile. \n\n Explore other parts of this course or view this on the web.";
+/* Message shown when course content is gated */
+"COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Course dates are not currently available.";
+/* Label for date when course starts */
+"COURSE.STARTING" = "Starting {start_date}";
+/* Label for date when course end */
+"COURSE.ENDING" = "Ending {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Ended {end_date}";
+/* Course audit will expires on date*/
+"COURSE.AUDIT.EXPIRES_ON" = "Course access expires on {expiry_date}";
+/* Course audit will expires in {time_duration}*/
+"COURSE.AUDIT.EXPIRES_IN" = "Course access expires in {time_duration}";
+/* Course audit expired n days ago*/
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
+/* Course audit expired in less than 24 hours*/
+"COURSE.AUDIT.EXPIRED_AGO" = "Course access expired {time_duaration}";
+/* Course audit expired on date*/
+"COURSE.AUDIT.EXPIRED_ON" = "Course access expired on {expiry_date}";
+/* Course audit expiry in n number of days*/
+"COURSE.AUDIT.DAYS" = "{days} days";
+/* 1 hour remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_HOURS##{one}" = "{hours} hour";
+/* More than 1 hours remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} hours";
+/* 1 minutes remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_MINUTES##{one}" = "{minutes} minute";
+/* More than 1 minutes remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_MINUTES##{other}" = "{minutes} minutes";
+/* 1 second remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} second";
+/* More than 1 seconds remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} seconds";
+/*Error meessage on course content screen if course audit expires*/
+"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
 /* Title text for the Announcements section within the course dashboard */
 "DASHBOARD.COURSE_ANNOUNCEMENTS"="Announcements";
 /* Text describing the Announcements section within the course dashboard */
@@ -332,14 +368,8 @@
 "COURSE_DUE_DATE_SAME_DAY"="due today at {due_date} {time_zone}";
 /* Text describing the course due date*/
 "COURSE_DUE_DATE"="due {due_date}";
-/* Label indicated that a course has ended */
-"COURSE_ENDED"="Ended {end_date}";
-/* Label indicating that a course will end */
-"COURSE_ENDING"="Ending {end_date}";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Show Full Course";
-/* Option to show only video course content. Constrasts with 'Show All Course Content'. */
-"COURSE_MODE_VIDEO"="Show Videos Only";
 /* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
 "COURSE_MODE_PICKER_DESCRIPTION" = "Mode Picker";
 /* Text displayed when Can't find one of your courses is tapped on My Courses screen */
@@ -398,6 +428,10 @@
 "DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
 /*Discover in left drawer(used for courses and programs discovery)*/
 "DISCOVER"="Discovery";
+/*Title for the programs in tabbar and navigation bar*/
+"PROGRAMS"="Programs";
+/*Title for the degrees in navigation bar*/
+"DEGREES"="Degrees";
 /*Debug option title in tabbar */
 "DEBUG"="Debug";
 /* Error message shown when email address is not properly formatted */
@@ -490,8 +524,6 @@
 "COURSES"="Courses";
 /* Screen title showing a user's settings */
 "MY_SETTINGS"="My Settings";
-/* Time Label in My Videos section*/
-"MY_VIDEOS_TIME_LABEL" = "NA";
 /* Marked as answer for endorsed responses */
 "MARKED_ANSWER" = "Marked as answer";
 /* Overlay error shown when attempting an action without an internet connection */
@@ -514,10 +546,6 @@
 "NO_TRANSCRIPT" = "This video's transcript is not available yet.";
 /* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
 "NO_WIFI_MESSAGE" = "Your current download settings only allow downloads over Wi-Fi.\nPlease connect to a Wi-Fi network or change your download settings.";
-/* Message shown on videos screen when user has not downloaded any videos */
-"NO_VIDEOS_DOWNLOADED" = "You haven't downloaded any videos.";
-/* Text shown when examining part of a course in video only mode, but that part of the course has no videos. {mode_switcher} will be replaced with a name or icon for the mode switch button */
-"NO_VIDEOS_TRY_MODE_SWITCHER" = "There are no videos in this section. To view other section content, select {mode_switcher} above and switch to full course mode.";
 /* Text displayed when no results are found for following*/
 "NO_FOLLOWING_RESULTS" = "You are not following any posts.";
 /* Message shown when no results are found for all posts*/
@@ -534,12 +562,10 @@
 "OK"="OK";
 /* Button title allowing user to open current page in their web browser */
 "OPEN_IN_BROWSER"="View in Safari";
-/* Button title allowing user to open current page in their web browser */
-"OPEN_IN_BROWSER_TITLE"="Showing only videos";
 /* Button label to bring up course finder */
 "OR_SIGN_IN_WITH"="Or Sign in with";
-/* Login screen password field placeholder text */
-"PASSWORD_PLACEHOLDER" = "Password";
+/* Login screen password field title text */
+"PASSWORD_TITLE_TEXT" = "Password";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_CONTINUE"="Continue";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
@@ -563,7 +589,7 @@
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Previous Unit";
 /* A10y hint for the change picture button. */
-"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Upload a new profile picture.";
+"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Double tap to change profile photo";
 /* Change picture button text on edit profile screen. */
 "PROFILE.CHANGE_PICTURE_BUTTON" = "Change";
 /* Text for use a photo already in library for user profile photo alert */
@@ -608,8 +634,6 @@
 "QUESTION"="Question";
 /* Option to sort discussion post list by recent activity */
 "RECENT_ACTIVITY" = "Recent Activity";
-/* Section title to display recently downloaded videos */
-"RECENT_VIDEOS"="Recent Videos";
 /* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
 "REFINE" = "Refine:";
 /* Button title when responses are closed for a thread */
@@ -665,6 +689,12 @@
 "RESPONSE##{other}"="{count} responses";
 /* Discussion topics search placeholder */
 "SEARCH_ALL_POSTS"="Search all posts";
+/*Placeholder text for search course textfield*/
+"SEARCH_COURSES_PLACEHOLDER_TEXT"="Search course";
+/*Placeholder text for search program textfield*/
+"SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Search program";
+/*Placeholder text for search degree textfield*/
+"SEARCH_DEGREES_PLACEHOLDER_TEXT"="Search degree";
 /* Discussion search results  */
 "SEARCH_RESULTS"="Search results";
 /* Text shown below the video, in portrait mode */
@@ -681,18 +711,16 @@
 "SIGN_IN_TEXT"="Sign In";
 /* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Signing In";
+/*  Accessibility text prefix for  Facebook and Google Buttons*/
+"SIGN_IN_PROMPT"="Sign in with";
 /*Sign up screen title and button initiating sign up process on the main screen */
 "REGISTER_TEXT"="Register";
 /* Indicates a date in the near future */
 "SOON"="Soon";
 /* Label for posts pinned by Staff */
 "STAFF"="STAFF";
-/* Label for date when course starts */
-"STARTING"="Starting {start_date}";
 /* Info message text on the startup screen */
-"STARTUP.INFO_MESSAGE_TEXT"="Free courses from the world's best universities in your pocket.";
-/*Placeholder text for search textfield on the startup screen*/
-"STARTUP.SEARCH_PLACEHOLDER_TEXT"="Search Courses";
+"STARTUP.INFO_MESSAGE_TEXT"="Courses from the world's best universities in your pocket.";
 /*Log In button title on the startup screen*/
 "STARTUP.LOGIN_TEXT"="Log In";
 /*Create your Account button title on the startup screen*/
@@ -741,8 +769,8 @@
 "UNREAD"="Unread";
 /* Placeholder title for course content with no title */
 "UNTITLED"="Untitled";
-/* Hint text for login field */
-"USERNAME_PLACEHOLDER" = "Username or e-mail address";
+/* Title text for login field */
+"USERNAME_TITLE_TEXT" = "Username or e-mail address";
 /*Error message when operation failed with unknow error*/
 "UNKNOWN_ERROR" = "Your action could not be completed.";
 /* Screen title showing a user's account */
@@ -753,20 +781,6 @@
 "VERSION_DISPLAY" = "Version {number} {environment}";
 /* Error shown when video download fails */
 "VIDEO_CONTENT_NOT_AVAILABLE"="This video is currently unavailable. Check back again later.";
-/* Floating overlay text shown after deleting a video. {count} is a number of videos */
-"VIDEOS_DELETED##{one}" = "{count} video deleted";
-/* Floating overlay text shown after deleting a video. {count} is a number of videos */
-"VIDEOS_DELETED##{other}" = "{count} videos deleted";
-/* Floating overlay text shown after video download begins. {count} is a number of videos  */
-"VIDEOS_DOWNLOADING##{one}" = "Downloading {count} video";
-/* Floating overlay text shown after video download begins. {count} is a number of videos  */
-"VIDEOS_DOWNLOADING##{other}" = "Downloading {count} videos";
-/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
-"VIDEOS_DOWNLOADED##{one}" = "Downloaded {count} video";
-/* Message shown to indicate a number of already downloaded videos. {count} is a number of videos  */
-"VIDEOS_DOWNLOADED##{other}" = "Downloaded {count} videos";
-/* Floating overlay text shown while videos download */
-"VIDEO_DOWNLOADS_IN_PROGRESS" = "Video Downloads in Progress";
 /* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
 "VIDEO_ONLY_ON_WEB" = "This video is currently only on the web. Tap to view it in your web browser.";
 /* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
@@ -811,3 +825,5 @@
 "WIFI_ONLY_DETAIL_MESSAGE" = "Only download content when Wi-Fi is turned on";
 /* Alert dialog button title to confirm an action */
 "YES"="Yes";
+/* Invalid youtube url error message */
+"YOUTUBE_INVALID_URL_ERROR"="The video could not loaded, invalid url.";

@@ -1,0 +1,1 @@
+../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Data/FIRIAMRenderingEffectSetting.h

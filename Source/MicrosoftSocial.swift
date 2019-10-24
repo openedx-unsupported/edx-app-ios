@@ -40,18 +40,29 @@ class MicrosoftSocial: NSObject {
             } else {
                 // Acquire a token for an existing user silently
                 try applicationContext.acquireTokenSilent(forScopes: kScopes, user: applicationContext.users().first, authority: kAuthority) { [weak self] (result, error) in
-                    self?.handleResponse(result: result, error: error)
+                    
+                    if let error  = error as NSError?, error.code == MSALErrorCode.interactionRequired.rawValue {
+                        self?.acquireTokenInteractively()
+                    }
+                    else {
+                        self?.handleResponse(result: result, error: error)
+                    }
                 }
+
             }
         } catch let error as NSError {
             if error.code == MSALErrorCode.interactionRequired.rawValue {
-                applicationContext.acquireToken(forScopes: self.kScopes) { [weak self] (result, error) in
-                    self?.handleResponse(result: result, error: error)
-                }
+                acquireTokenInteractively()
             }
 
         } catch {
             handleResponse(result: nil, error: error)
+        }
+    }
+
+    private func acquireTokenInteractively() {
+        applicationContext.acquireToken(forScopes: self.kScopes) { [weak self] (result, error) in
+            self?.handleResponse(result: result, error: error)
         }
     }
     

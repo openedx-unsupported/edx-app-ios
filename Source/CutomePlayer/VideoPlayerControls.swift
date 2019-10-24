@@ -273,11 +273,15 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
     }
     
+    var isRTL: Bool {
+        return (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft)
+    }
+    
     private func startBufferedTimer() {
         stopBufferedTimer()
         bufferedTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(monitorBufferedMovie), userInfo: nil, repeats: true)
         if let timer = bufferedTimer {
-            RunLoop.current.add(timer, forMode: .defaultRunLoopMode)
+            RunLoop.current.add(timer, forMode: RunLoop.Mode.default)
         }
     }
     
@@ -322,7 +326,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.centerY.equalTo(bottomBar.snp.centerY)
         }
         
-        timeRemainingLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        timeRemainingLabel.setContentHuggingPriority(UILayoutPriority.defaultHigh, for: .horizontal)
         timeRemainingLabel.snp.makeConstraints { make in
             make.leading.equalTo(durationSlider.snp.trailing).offset(StandardVerticalMargin)
             make.centerY.equalTo(bottomBar.snp.centerY)
@@ -349,7 +353,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.height.equalTo(tableSettingSize.height)
             make.width.equalTo(tableSettingSize.width)
             make.bottom.equalTo(btnSettings.snp.top).offset(-StandardVerticalMargin)
-            make.centerX.equalTo(btnSettings.snp.centerX).offset(-StandardFooterHeight)
+            let standardFooterHeight = (isRTL) ? StandardFooterHeight : -StandardFooterHeight
+            make.centerX.equalTo(btnSettings.snp.centerX).offset(standardFooterHeight)
         }
         
         tapButton.snp.makeConstraints { make in
@@ -410,7 +415,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     @objc func autoHide() {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
-        if !UIAccessibilityIsVoiceOverRunning() {
+        if !UIAccessibility.isVoiceOverRunning {
             perform(#selector(hideAndShowControls(isHidden:)), with: 1, afterDelay: 3.0)
         }
     }

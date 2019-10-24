@@ -16,7 +16,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         }
         override func drawText(in rect: CGRect) {
             let newRect = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-            super.drawText(in: UIEdgeInsetsInsetRect(rect, newRect))
+            super.drawText(in: rect.inset(by: newRect))
         }
     }
     typealias Environment =  OEXSessionProvider & OEXStylesProvider
@@ -51,19 +51,19 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         avatarImage.borderWidth = 3.0
         scrollView.addSubview(avatarImage)
 
-        usernameLabel.setContentHuggingPriority(1000, for: .vertical)
+        usernameLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 1000), for: .vertical)
         scrollView.addSubview(usernameLabel)
         
         messageLabel.numberOfLines = 0
-        messageLabel.setContentHuggingPriority(1000, for: .vertical)
+        messageLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 1000), for: .vertical)
         scrollView.addSubview(messageLabel)
 
         languageLabel.accessibilityHint = Strings.Profile.languageAccessibilityHint
-        languageLabel.setContentHuggingPriority(1000, for: .vertical)
+        languageLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 1000), for: .vertical)
         scrollView.addSubview(languageLabel)
 
         countryLabel.accessibilityHint = Strings.Profile.countryAccessibilityHint
-        countryLabel.setContentHuggingPriority(1000, for: .vertical)
+        countryLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 1000), for: .vertical)
         scrollView.addSubview(countryLabel)
 
         bioText.backgroundColor = UIColor.clear
@@ -221,10 +221,17 @@ class UserProfileView : UIView, UIScrollViewDelegate {
             }
             if let bio = profile.bio {
                 bioText.attributedText = bioStyle.attributedString(withText: bio)
+                bioText.isAccessibilityElement = true
+                bioText.accessibilityLabel = Strings.Accessibility.Account.bioLabel
+
             } else {
                 let message = messageStyle.attributedString(withText: Strings.Profile.noBio)
                 bioSystemMessage.attributedText = message
                 bioSystemMessage.isHidden = false
+                let accessibilityLabelText = "\(Strings.Accessibility.Account.bioLabel), \(Strings.Profile.noBio)"
+                bioSystemMessage.accessibilityLabel = accessibilityLabelText
+                bioSystemMessage.isAccessibilityElement = true
+                bioText.isAccessibilityElement = false
             }
         }
 

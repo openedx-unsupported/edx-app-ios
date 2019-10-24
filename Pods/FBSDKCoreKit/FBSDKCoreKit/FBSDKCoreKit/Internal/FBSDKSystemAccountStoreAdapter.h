@@ -31,41 +31,10 @@ typedef void (^FBSDKGraphRequestAccessToAccountsHandler)(NSString *oauthToken, N
 @interface FBSDKSystemAccountStoreAdapter : NSObject
 
 /*
-  Requests access to the device's Facebook account for the given parameters.
- - Parameter permissions: the permissions
- - Parameter defaultAudience: the default audience
- - Parameter isReauthorize: a flag describing if this is a reauth request
- - Parameter appID: the app id
- - Parameter handler: the handler that will be invoked on completion (dispatched to the main thread). the oauthToken is nil on failure.
- */
-- (void)requestAccessToFacebookAccountStore:(NSSet *)permissions
-                            defaultAudience:(NSString *)defaultAudience
-                              isReauthorize:(BOOL)isReauthorize
-                                      appID:(NSString *)appID
-                                    handler:(FBSDKGraphRequestAccessToAccountsHandler)handler;
-
-/*
-  Sends a message to the device account store to renew the Facebook account credentials
-
- - Parameter handler: the handler that is invoked on completion
- */
-- (void)renewSystemAuthorization:(void(^)(ACAccountCredentialRenewResult result, NSError *error))handler;
-
-/*
  s gets the oauth token stored in the account store credential, if available. If not empty,
  this implies user has granted access.
  */
-- (NSString *)accessTokenString;
-
-/*
-  Gets the singleton instance.
- */
-+ (FBSDKSystemAccountStoreAdapter *)sharedInstance;
-
-/*
-  Sets the singleton instance, typically only for unit tests
- */
-+ (void)setSharedInstance:(FBSDKSystemAccountStoreAdapter *)instance;
+@property (nonatomic, readonly, copy) NSString *accessTokenString;
 
 /*
   Gets or sets the flag indicating if the next requestAccess call should block
@@ -77,5 +46,31 @@ typedef void (^FBSDKGraphRequestAccessToAccountsHandler)(NSString *oauthToken, N
   A convenience getter to the Facebook account type in the account store, if available.
  */
 @property (strong, nonatomic, readonly) ACAccountType *accountType;
+
+/*
+  The singleton instance.
+ */
+@property (class, nonatomic, strong) FBSDKSystemAccountStoreAdapter *sharedInstance;
+
+/*
+  Requests access to the device's Facebook account for the given parameters.
+ @param permissions the permissions
+ @param defaultAudience the default audience
+ @param isReauthorize a flag describing if this is a reauth request
+ @param appID the app id
+ @param handler the handler that will be invoked on completion (dispatched to the main thread). the oauthToken is nil on failure.
+ */
+- (void)requestAccessToFacebookAccountStore:(NSSet *)permissions
+                            defaultAudience:(NSString *)defaultAudience
+                              isReauthorize:(BOOL)isReauthorize
+                                      appID:(NSString *)appID
+                                    handler:(FBSDKGraphRequestAccessToAccountsHandler)handler;
+
+/*
+  Sends a message to the device account store to renew the Facebook account credentials
+
+ @param handler the handler that is invoked on completion
+ */
+- (void)renewSystemAuthorization:(void(^)(ACAccountCredentialRenewResult result, NSError *error))handler;
 
 @end

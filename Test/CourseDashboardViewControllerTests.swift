@@ -99,7 +99,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let environment = TestRouterEnvironment(config: config, interface: interface)
         environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)
         environment.interface?.t_setCourseEnrollments([UserCourseEnrollment(course: course)])
-        environment.interface?.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        environment.interface?.t_setCourseVideos([course.course_id!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
         environment.mockEnrollmentManager.courses = [course]
         environment.logInTestUser()
         
@@ -129,7 +129,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let interface = OEXInterface.shared()
         let enrollment = UserCourseEnrollment(dictionary: ["certificate":["url":"test"], "course" : courseData])!
         
-        interface.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        interface.t_setCourseVideos([course.course_id!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
         
         let environment = TestRouterEnvironment(config: config, interface: interface).logInTestUser()
         environment.mockCourseDataManager.querier = CourseOutlineQuerier(courseID: outline.root, interface: interface, outline: outline)

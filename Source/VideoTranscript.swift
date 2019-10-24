@@ -45,8 +45,8 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
     private func setupTable(tableView: UITableView) {
         tableView.register(VideoTranscriptTableViewCell.self, forCellReuseIdentifier: VideoTranscriptTableViewCell.cellIdentifier)
         tableView.separatorColor = UIColor.clear
-        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
         tableView.isHidden = true
     }
@@ -87,7 +87,7 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
             highlightedIndex = index
             transcriptTableView.reloadData()
             if !isTableDragged {
-                transcriptTableView.scrollToRow(at: IndexPath(row: index, section: 0), at: UITableViewScrollPosition.middle, animated: true)
+                transcriptTableView.scrollToRow(at: IndexPath(row: index, section: 0), at: UITableView.ScrollPosition.middle, animated: true)
             }
         }
     }
@@ -96,10 +96,10 @@ class VideoTranscript: NSObject, UITableViewDelegate, UITableViewDataSource{
         guard let time = time else {
             return nil
         }
-        return transcripts.index(where: { time >= $0.start && time <= $0.end })
+        return transcripts.firstIndex(where: { time >= $0.start && time <= $0.end })
     }
     
-    func invalidateDragging(){
+    @objc func invalidateDragging(){
         isTableDragged = false
     }
 }

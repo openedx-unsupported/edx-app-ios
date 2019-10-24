@@ -1,1 +1,1 @@
-../../../Analytics/Pod/Classes/Internal/SEGSegmentIntegration.h
+../../../Analytics/Analytics/Classes/Internal/SEGSegmentIntegration.h

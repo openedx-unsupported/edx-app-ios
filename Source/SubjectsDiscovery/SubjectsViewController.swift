@@ -69,11 +69,11 @@ class SubjectsViewController: UIViewController, InterfaceOrientationOverriding {
     
     private func addObservers() {
         
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillShow.rawValue) { [weak self] (notification, _, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIResponder.keyboardWillShowNotification.rawValue) { [weak self] (notification, _, _) in
             self?.keyboardWillShow(notification: notification)
         }
         
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIKeyboardWillHide.rawValue) { [weak self] (notification, _, _) in
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIResponder.keyboardWillHideNotification.rawValue) { [weak self] (notification, _, _) in
             self?.keyboardWillHide(notification: notification)
         }
         
@@ -133,7 +133,7 @@ class SubjectsViewController: UIViewController, InterfaceOrientationOverriding {
     }
     
     private func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue else { return }
         collectionView.snp.updateConstraints { make in
             make.bottom.equalTo(safeBottom).offset(-keyboardSize.height)
         }

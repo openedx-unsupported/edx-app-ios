@@ -34,7 +34,7 @@ class AdditionalTableViewCell: UITableViewCell {
         return OEXTextStyle(weight : .normal, size: .xxSmall, color : OEXStyles.shared().neutralBase())
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureViews()
@@ -61,7 +61,7 @@ class AdditionalTableViewCell: UITableViewCell {
         
         self.contentView.addSubview(container)
         
-        self.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
         iconView.tintColor = OEXStyles.shared().neutralLight()
         

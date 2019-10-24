@@ -19,7 +19,7 @@ class AnswerAnalyticsTracker: NSObject, OEXAnalyticsTracker {
     private let specialEvents = [AnalyticsDisplayName.UserLogin.rawValue, AnalyticsDisplayName.SharedCourse.rawValue]
     
     private var currentOrientationValue : String {
-        return UIInterfaceOrientationIsLandscape(UIApplication.shared.statusBarOrientation) ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
+        return UIApplication.shared.statusBarOrientation.isLandscape ? OEXAnalyticsValueOrientationLandscape : OEXAnalyticsValueOrientationPortrait
     }
     
     func identifyUser(_ user: OEXUserDetails?) {

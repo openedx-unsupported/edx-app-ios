@@ -13,7 +13,7 @@ class UIAlertController_OEXBlockActionsTests: XCTestCase {
     
     func testAlertController() {
         let controller = UIViewController()
-        let alert = UIAlertController().showIn(viewController: controller, title: "Test Title", message: "Test Message",preferredStyle: UIAlertControllerStyle.alert, cancelButtonTitle: "Cancel", destructiveButtonTitle: "Delete", otherButtonsTitle: ["Button 1","Button 2"], tapBlock: nil)
+        let alert = UIAlertController().showIn(viewController: controller, title: "Test Title", message: "Test Message",preferredStyle: UIAlertController.Style.alert, cancelButtonTitle: "Cancel", destructiveButtonTitle: "Delete", otherButtonsTitle: ["Button 1","Button 2"], tapBlock: nil)
         XCTAssertNotNil(alert)
         XCTAssertEqual(alert.actions.count, 4)
     }

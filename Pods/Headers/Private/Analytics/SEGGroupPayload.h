@@ -1,1 +1,1 @@
-../../../Analytics/Pod/Classes/Integrations/SEGGroupPayload.h
+../../../Analytics/Analytics/Classes/Integrations/SEGGroupPayload.h

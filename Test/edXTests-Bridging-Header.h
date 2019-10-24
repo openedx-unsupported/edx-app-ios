@@ -3,7 +3,7 @@
 //
 
 #import <FBSnapshotTestCase/FBSnapshotTestCase.h>
-#import <OCMock/OCMock.h>
+#import "OCMock.h"
 #import <OHHTTPStubs/OHHTTPStubs.h>
 
 #import "NSString+TestExamples.h"
@@ -18,3 +18,4 @@
 // so it can contain environment variables that get resolved
 // this exposes it to swift, which doesn't have preprocessor defines
 #define SNAPSHOT_TEST_DIR FB_REFERENCE_IMAGE_DIR
+#define SNAPSHOT_TEST_FAILURE_DIFF_DIR IMAGE_DIFF_DIR

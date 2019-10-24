@@ -11,10 +11,13 @@ import UIKit
 public class BlockViewControllerCacheManager: NSObject {
    
     private let viewControllers = NSCache<AnyObject, AnyObject>()
+
+    static let shared = BlockViewControllerCacheManager()
     
     override init() {
         super.init()
-        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning.rawValue) {(_,observer, _) -> Void in
+        viewControllers.countLimit = 6
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didReceiveMemoryWarningNotification.rawValue) {(_,observer, _) -> Void in
             observer.viewControllers.removeAllObjects()
         }
     }

@@ -50,6 +50,7 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 - (id)init NS_SWIFT_UNAVAILABLE("Use the designated initializer weight:size:color");
 
 + (CGFloat)pointSizeForTextSize:(OEXTextSize)size;
++(OEXTextSize)textSizeForPointSize:(int)size;
 
 @property (readonly, assign, nonatomic) NSTextAlignment alignment;
 @property (readonly, assign, nonatomic) OEXLetterSpacing letterSpacing;
@@ -68,6 +69,8 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withSize)(OEXTextSize size);
 /// Duplicates the current style but with the specified color
 @property (readonly, copy, nonatomic) OEXTextStyle*(^withColor)(UIColor* color);
+/// Controls Dynamic type support. default true
+@property (nonatomic) BOOL dynamicTypeSupported;
 
 - (NSAttributedString*)attributedStringWithText:(nullable NSString*)text;
 

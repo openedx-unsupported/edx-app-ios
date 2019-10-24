@@ -54,7 +54,7 @@ public class OfflineSupportViewController: UIViewController {
     
     /// This function reload view data when internet is available and user hit reload
     /// Subclass must override this function
-    func reloadViewData() {
+    @objc func reloadViewData() {
         preconditionFailure("This method must be overridden by the subclass")
     }
 }

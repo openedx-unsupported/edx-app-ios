@@ -45,7 +45,7 @@ class LiveObjectCacheTests : XCTestCase {
                 loaded.value = true
                 return object
             }
-            NotificationCenter.default.post(name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
+            NotificationCenter.default.post(name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
         }
         let fired = MutableBox<Bool>(false)
         autoreleasepool {
@@ -68,7 +68,7 @@ class LiveObjectCacheTests : XCTestCase {
             return object
         }
         cache.objectForKey(key: key, generator: generator)
-        NotificationCenter.default.post(name: NSNotification.Name.UIApplicationDidReceiveMemoryWarning, object: nil)
+        NotificationCenter.default.post(name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
         // here the NSCache should be cleared, but since the object is live it should still be in cache
         cache.objectForKey(key: key, generator: generator)
         XCTAssertEqual(counter.value, 1)

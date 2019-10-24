@@ -57,7 +57,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         }
     }
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(content)
         content.snp.makeConstraints { make in
@@ -65,7 +65,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         }
         content.setContentIcon(icon: Icon.CourseVideoContent)
         
-        downloadView.downloadAction = {[weak self] _ in
+        downloadView.downloadAction = {[weak self] in
             if let owner = self, let block = owner.block {
                 owner.delegate?.videoCellChoseDownload(cell: owner, block : block)
             }
@@ -85,7 +85,7 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         downloadView.addGestureRecognizer(tapGesture)
         
         content.trailingView = downloadView
-        downloadView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        downloadView.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -109,6 +109,8 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
             content.leadingIconColor = OEXStyles.shared().primaryBaseColor()
         case .watched:
             content.leadingIconColor = OEXStyles.shared().neutralDark()
+        @unknown default:
+            break
         }
         
         guard !(self.localState?.summary?.onlyOnWeb ?? false) else {

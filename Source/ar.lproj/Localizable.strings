@@ -1,0 +1,889 @@
+/*
+ Localizable.strings
+ edXVideoLocker
+ 
+ Created by Nirbhay Agarwal on 07/07/14.
+ Copyright (c) 2014-2015 edX. All rights reserved.
+ */
+
+// Please keep in alphabetical order
+
+/* Alert dialog confirmation button when user chooses to download a large video */
+"ACCEPT_LARGE_VIDEO_DOWNLOAD"="تنزيل";
+/*Accessibility label for bulk download view when in downloading state */
+"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_CHECKED" = "مؤشّر";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_UNCHECKED" = "غير مؤشّر";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "إلغاء التأشير";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "انقر للتأشير";
+/* Appending By before course organization and number on My Find Courses*/
+"ACCESSIBILITY_BY" = "بواسطة";
+/*Accessibility hint for user bio on user profile screen*/
+"ACCESSIBILITY.ACCOUNT.BIO_LABEL" = "Description";
+/* Accessibility hint for subject name label */
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {subject_name}";
+/* Accessibility hint for bulk download switch when in new state */
+"ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Toggling the switch on, will download all videos of this course";
+/* Accessibility hint for bulk download switch when in new partial or downloading state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_HINT" = "Toggling the switch off, will cancel downloading of all videos and will delete all downloaded videos of this course.";
+/* Accessibility hint for bulk download switch when in downloaded state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_HINT" = "Toggling the switch off, will delete all downloaded videos of this course.";
+/* Accessibility hint for close button*/
+"ACCESSIBILITY.CLOSE_HINT" = "أنقر نقراً مزدوجاً للإغلاق";
+/* Accessibility label for posted data of discussion responses*/
+"ACCESSIBILITY.DISCUSSION_POSTED_ON" = "منشور في {date}";
+/* Accessibility hint for Vote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_VOTE_HINT" = "أنقر نقراً مزدوجاً للتصويت";
+/* Accessibility hint for Unvote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNVOTE_HINT" = "أنقر نقراً مزدوجاً لإلغاء التصويت";
+/* Accessibility hint for Report button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_REPORT_HINT" = "أنقر نقراً مزدوجاً لإرسال تقرير.";
+/* Accessibility hint for Unreport button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "أنقر نقراً مزدوجاً لإلغاء إرسال التقرير.";
+/* Accessibility hint for Follow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "أنقر نقراً مزدوجاً للمتابعة.";
+/* Accessibility hint for Unfollow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "أنقر نقراً مزدوجاً لإلغاء المتابعة.";
+/*Accessibility hint for disabled buttons, cells, etc like for disabled user profile fields on user edit profile screen*/
+"ACCESSIBILITY.DISABLED_HINT" = "Dimmed";
+/* Acessibility hint for the show downloads button. */
+"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Double tap to view current downloads";
+/* Accessibility hint for view all subjects label*/
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Double tap to view all subjects";
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{zero}" = "جاري التحميل: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "جاري التحميل: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{two}" = "جاري التحميل: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{few}" = "جاري التحميل: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{many}" = "جاري التحميل: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "جاري التحميل: {percent_complete}";
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{zero}" = "جاري تحميل الفيديو {video_name}. تمّ تحميل  {percent_complete} بنجاح.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "جاري تحميل الفيديو {video_name}. تمّ تحميل  {percent_complete} بنجاح.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{two}" = "جاري تحميل الفيديو {video_name}. تمّ تحميل  {percent_complete} بنجاح.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{few}" = "جاري تحميل الفيديو {video_name}. تمّ تحميل  {percent_complete} بنجاح.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{many}" = "جاري تحميل الفيديو {video_name}. تمّ تحميل  {percent_complete} بنجاح.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{other}" = "جاري تحميل الفيديو {video_name}. تمّ تحميل  {percent_complete} بنجاح.";
+/* Accessibility hint for number of downloadable videos */
+/* Accessibility hint for number of downloadable videos */
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{zero}" = "جاري تحميل {video_count} ملف فيديو.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "جاري تحميل {video_count} ملف فيديو.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{two}" = "جاري تحميل {video_count} ملف فيديو.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{few}" = "جاري تحميل {video_count} ملفات فيديو.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{many}" = "جاري تحميل {video_count} ملفات فيديو.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "جاري تحميل {video_count} ملفات فيديو.";
+/* Accessibility label for fullscreen button on video player */
+"ACCESSIBILITY_FULLSCREEN" = "شاشة كاملة";
+/* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
+"ACCESSIBILITY_EXIT_FULLSCREEN" = "الخروج من وضع ملء الشاشة";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "Error";
+/* Accessibility label for HTML Icon in the Courseware screens */
+"ACCESSIBILITY_HTML" = "نص HTML";
+/* Accessibility label for Pause Button in the Video Player */
+"ACCESSIBILITY_PAUSE" = "إيقاف مؤقت";
+/* Accessibility label for Play Button in the Video Player */
+"ACCESSIBILITY_PLAY" = "تشغيل";
+/* Accessibility lable for the avatar image */
+"ACCESSIBILITY_USER_AVATAR" = "صورتك المستعارة";
+/* Accessibility label for Problem Icon in the Courseware screens */
+"ACCESSIBILITY_PROBLEM" = "حدثت مشكلة";
+/* Optional text needs to be added for accesibility*/
+"ACCESSIBILITY.OPTIONAL_INPUT"="Optional";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY_REQUIRED_INPUT"="Required";
+/* Accessibility label for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND" = "رجوع";
+/* Call to action for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND_HINT" = "رجوع بفاصل زمني 30 ثانية";
+/* Accessibility label for Seek bar in the Video Player */
+"ACCESSIBILITY_SEEK_BAR" = "شريط التتبّع";
+/* Accessibility label for Settings Button in the Video Player */
+"ACCESSIBILITY_SETTINGS" = "الإعدادات";
+/* Call to action for Course content on Home Screen */
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "أنقر نقراً مزدوجاً لمشاهدة محتوى المساق.";
+/* We don't have a accessility trait for dropdown, so we will be achieving dropdown trait through accessibility label */
+"ACCESSIBILITY_DROPDOWN_TRAIT" = "Dropdown.";
+/* Call to action for Opening Dropdown */
+"ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "أنقر نقراً مزدوجاً لفتح القائمة المنسدلة.";
+/* Call to action for Selecting Option */
+"ACCESSIBILITY_SELECT_VALUE_HINT" = "أنقر نقراً مزدوجاً للاختيار.";
+/* Accessibility label for Unknown Icon in the Courseware screens */
+"ACCESSIBILITY_UNKNOWN" = "غير معروف";
+/* Accessibility label for Video Icon in the Courseware screens */
+"ACCESSIBILITY_VIDEO" = "فيديو";
+/* Text spoken for Navigation Button on Course List Screen */
+"ACCESSIBILITY_MENU" = "قائمة التصفح";
+/* Accessibility label for close button when left drawer is open*/
+"ACCESSIBILITY_CLOSE_MENU" = "أغلق قائمة التصفح";
+/* Accessibility label for hiding keyboard*/
+"ACCESSIBILITY_HIDE_KEYBOARD" = "إخفاء لوحة المفاتيح";
+/* Accessibility Hint to view user profile*/
+"ACCESSIBILITY_SHOW_USER_PROFILE_HINT" = "أنقر نقراً مزدوجاً لمشاهدة صورة المستخدم الشخصية.";
+/*Accessibility text for pinned discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_PINNED" = "مثبّت";
+/*Accessibility text for closed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_CLOSED" = "مغلق";
+/*Accessibility text for followed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_FOLLOWED" = "تم متابعته";
+/* Accessibility text for unread discussion comments count (Posts screen) - {count} is a number of unread comments */
+"ACCESSIBILITY.DISCUSSION_UNREAD_REPLIES"="{count} إجابات غير مقروءة";
+/*Accessibility text for unread discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_UNREAD_THREAD" = "نقاش غير مقروء";
+/*Accessibility text for read discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_READ_THREAD" = "اقرأ النقاش";
+/*Accessibility text for discussion thread last seen date(Posts screen) - {date} last updated thread date*/
+"ACCESSIBILITY.DISCUSSION_LAST_POST_ON" = "آخر منشور في: {date}";
+/*Accessibility hint for discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_THREAD_HINT" = "أنقر نقراً مزدوجاً لرؤية النقاش";
+/*Accessibility hint for sort button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_SORT_BY" = "رتب وفق {sort_by}";
+/*Accessibility hint for filter button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_FILTER_BY" = "الترشيح وفق {filter_by}";
+/*Accessibility label for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_LABEL" = "الدخول مسجلٌ باسم حساب {user_name}, {user_email}";
+/*Accessibility hint for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "أنقر نقراً مزدوجاً لعرض صفحتك الشخصية.";
+/*Accessibility text for close button on whats new screen*/
+"ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="إغلاق";
+/*Accessibility label for header on new screen*/
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="الإصدار {app_version}، الميزات الجديدة";
+/*Accessibility text for course share button on course dashboard*/
+"ACCESSIBILITY.SHARE_A_COURSE"="مشاركة مساق";
+/*Accessibility text for close button*/
+"ACCESSIBILITY.CLOSE_LABEL"="Close";
+/*Accessibility text for profile button*/
+"ACCESSIBILITY.PROFILE_LABEL"="Profile";
+/* Title of user profile section for user accomplishments (like badges) */
+"ACCOMPLISHMENTS.TITLE" = "الإنجازات";
+/* Default text template when user shares an accomplishment */
+"ACCOMPLISHMENTS.SHARE_TEXT" = "لقد نلت للتو وساماً من منصّة {platform_name}! ألق نظرة عليه!";
+/* Add a comment button title and place holder used in discussion comment text view */
+"ADD_A_COMMENT"="أضف تعليقًا";
+/* Add a response button title used in discussion's responses screen */
+"ADD_A_RESPONSE"="أضف ردّ";
+/* Add comment button title used in discussion's Add a comment */
+"ADD_COMMENT"="أضف تعليق";
+/* Add post button title used in discussion's Create a new post */
+"ADD_POST"="أضف مشاركة";
+/* Add response button title used in discussion's Add a response */
+"ADD_RESPONSE"="أضف إجابة";
+/* Add your post button title used in discussion's add a post textview */
+"ADD_YOUR_POST"="أضف مشاركتك";
+/*Agreement text*/
+"AGREEMENT.TEXT"="you agree to the {eula} and {tos} and you acknowledge that {platform_name} and each Member process your personal data in accordance with the  {privacy_policy}.";
+/*Agreement text prefix for user on signin screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNIN"="By signing-in to this app, ";
+/*Agreement text prefix for user on signup screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNUP"="By creating an account, ";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_EULA"="{platform_name} End User License Agreement";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_TOS"="{platform_name} Terms of Service and Honor Code";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="Privacy Policy";
+/* Alert dialog button allowing user to chosing to allow downloads on cellular */
+"ALLOW"="سماح";
+/* Filtering option to show all discussion posts */
+"ALL_POSTS"="جميع المشاركات";
+/*Subtitle for bulk download view when in downloading state */
+"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB total";
+/*Title for bulk download view when in downloaded state */
+"ALL_VIDEOS_DOWNLOADED_TITLE" = "All Videos Downloaded";
+/* Message shown when there are no announcements for a course */
+"ANNOUNCEMENT_UNAVAILABLE"="ﻻ يحتوي المساق على أيّةِ إعلانات.";
+/* Label indicating the response answer in Discussion Add comment screen */
+"ANSWER"="إجابة";
+/* Navigation title for a Question Post which has endorsed answers */
+"ANSWERED_QUESTION"="سؤال أُجيب عنه";
+/* Accessibility label for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "التحكم بالتقييم.";
+/* Accessibility hint for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_HINT" = "أنقر نقراً مزدوجاً وابق ضاغطاً لتغيير القيمة.";
+/* Alert title for positive app review */
+"APP_REVIEW.RATE_THE_APP" = "تقييم التطبيق";
+/* Positive review message */
+"APP_REVIEW.POSITIVE_REVIEW_MESSAGE" = "أخبر الآخرين برأيك في التطبيق من خلال كتابة مراجعة سريعة في متجر التطبيقات";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK_TITLE" = "إرسال ملاحظات؟";
+/* Help us improve message for negative app review */
+"APP_REVIEW.HELP_US_IMPROVE" = "ساعدنا لنتحسن!";
+/* Maybe later message for positive/negative app review */
+"APP_REVIEW.MAYBE_LATER" = "ربما لاحقاً";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK" = "أرسل ملاحظاتك";
+/* Question for rating view */
+"APP_REVIEW.RATE_THE_APP_QUESTION" = "كيف تقييم التطبيق؟";
+/* Submit button for rating view */
+"APP_REVIEW.SUBMIT" = "أرسال";
+/* App Review message email title */
+"APP_REVIEW.MESSAGE_SUBJECT" = "آراء المستخدمين";
+/*Asteric for marking fields required*/
+"ASTERIC" = "*";
+/* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
+"AUTH_PROVIDER_ERROR" = "This {auth_provider} account is not linked with any {platform_name} account. Please register.";
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{zero}" = "{count} Videos, {videos_size}MB total";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{two}" = "{count} Videos, {videos_size}MB total";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{few}" = "{count} Videos, {videos_size}MB total";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{many}" = "{count} Videos, {videos_size}MB total";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {videos_size}MB total";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR" = "من قبل {author_name}";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR_LOWER_CASE" = "من قبل {author_name}";
+/* Course completion title */
+"CERTIFICATES.COURSE_COMPLETION_TITLE"="تهانينا!";
+/* Course completion subtitle */
+"CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="لقد نجحت في هذا المساق.";
+/* Get certificate button text. */
+"CERTIFICATES.GET_CERTIFICATE"="عرض الشهادة";
+/* Text to share on FB & Twitter when sharing a course cert */
+"CERTIFICATES.SHARE_TEXT"="لقد نلت للتو شهادّة من منصّة {platform_name}! ألق نظرة عليها:";
+/* Title bar when viewing an actual certificate */
+"CERTIFICATES.VIEW_CERT_TITLE"="شهادة";
+/* Title of course announcements section */
+"COURSE_ANNOUNCEMENTS"="الإعلانات";
+/* Title of course handouts section */
+"COURSE_HANDOUTS"="النشرات";
+/* Title of resources tab in course dashboardTabBar view */
+"RESOURSES"="Resources";
+/* Title of course important dates screen */
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
+/* Button text for cancelling any action */
+"CANCEL"="إلغاء";
+/* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="السماح للجهاز بتحميل الفيديو باستخدام بيانات الشبكة الخليوية عندما يكون اتصال ’Wi-Fi‘ غير متاح. قد يتم احتساب رسوم إضافية لتحميل البيانات.";
+/* Title of alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_TITLE"="السماح بالتحميل باستخدام بيانات الشبكة الخليوية";
+/* Error message shown when there is a problem loading a video */
+"CHECK_CONNECTION"="عذرًا، لقد حدثت مشكلة أثناء تحميل الفيديو.\nيُرجى التأكّد من اتصالك بالإنترنت.";
+/* Generic action button label when the user chooses a thing */
+"CHOOSE" = "اختر";
+/* Title of dropdown from which the user can select topics on New Post Screen */
+"CHOOSE_A_TOPIC" = "اختر موضوعًا";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
+"COMPLETE_REGISTRATION_INFO" = "لقد سجلت دخولك بنجاح باستخدام {service}. نحتاج فقط للقليل من المعلومات قبل أن تبدأ التعلم على {platform_name}.";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
+"COMPLETE_REGISTRATION_PROMPT" = "أكمل تسجيلك";
+/* Title of alert when confirming deletion of a video */
+"CONFIRM_DELETE_TITLE"="تأكيد الحذف";
+/* Text of alert when confirming video deletion */
+/* Text of alert when confirming video deletion */
+"CONFIRM_DELETE_MESSAGE##{zero}"="هل أنت متأكد من رغبتك بحذف ملف الفيديو؟";
+"CONFIRM_DELETE_MESSAGE##{one}"="هل أنت متأكد من رغبتك بحذف ملف الفيديو؟";
+"CONFIRM_DELETE_MESSAGE##{two}"="هل أنت متأكد من رغبتك بحذف ملفيّ الفيديو؟";
+"CONFIRM_DELETE_MESSAGE##{few}"="هل أنت متأكد من رغبتك بحذف ملفات الفيديو؟";
+"CONFIRM_DELETE_MESSAGE##{many}"="هل أنت متأكد من رغبتك بحذف ملفات الفيديو؟";
+"CONFIRM_DELETE_MESSAGE##{other}"="هل أنت متأكد من رغبتك بحذف ملفات الفيديو؟";
+/* Text of push notification announcing a new course announcement */
+"COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="إعلانات جديدة: {course_name}";
+/* Alert dialog button text */
+"CLOSE"="إغلاق";
+/* Discussion response comment - {count} is a number of comments */
+/* Discussion response comment - {count} is a number of comments */
+"COMMENT##{zero}"="{count} تعليق";
+"COMMENT##{one}"="{count} تعليق";
+"COMMENT##{two}"="{count} تعليق";
+"COMMENT##{few}"="{count} تعليقات";
+"COMMENT##{many}"="{count} تعليقات";
+"COMMENT##{other}"="{count} تعليقات";
+/* Discussion comments */
+"COMMENTS"="تعليقات";
+/* Text displayed when comments are disabled for a Response */
+"COMMENTS_CLOSED" = "لقد أُغلقت التعليقات على هذا الردّ";
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+"COMMENTS_TO_RESPONSE##{zero}"="{count} تعليق";
+"COMMENTS_TO_RESPONSE##{one}"="{count} تعليق";
+"COMMENTS_TO_RESPONSE##{two}"="{count} تعليق";
+"COMMENTS_TO_RESPONSE##{few}"="{count} تعليقات";
+"COMMENTS_TO_RESPONSE##{many}"="{count} تعليقات";
+"COMMENTS_TO_RESPONSE##{other}"="{count} تعليقات";
+/* Label for posts pinned by Community TA(s)" */
+"COMMUNITY_TA"="مشاركات ’COMMUNITY TA‘";
+/* Label indicating the amount of time a course will take */
+"COURSE_DETAIL.EFFORT"="الجهد:";
+/* Label indicating when a course ends. */
+"COURSE_DETAIL.END_DATE"="تاريخ الانتهاء:";
+/* Button title allowing user to enroll in a course */
+"COURSE_DETAIL.ENROLL_NOW" = "سجّل الآن";
+/* Button title allowing user to view a course from the course's catalog detail page */
+"COURSE_DETAIL.VIEW_COURSE" = "عرض المساق";
+/* Button title describing that the course is invitation only */
+"COURSE_DETAIL.INVITATION_ONLY" = "المدعوون فقط";
+/* Message shown when there is no course content */
+"COURSEWARE_UNAVAILABLE"="محتويات المساق غير متوفرة حالياً.";
+/* Message shown when there is no course video */
+"COURSE_VIDEO_UNAVAILABLE"="هذا المساق لا يتضمن أي مقاطع فيديو";
+/* Message shown when attempting to display content not available on the app */
+"COURSE_CONTENT_UNKNOWN" = "هذا المكوّن التفاعلي غير متوفر بعد على الأجهزة المحمولة\n\nاستكشف أجزاء المساق الأخرى أو استعرض هذا المكوّن باستخدام الويب.";
+/* Message shown when course content is gated */
+"COURSE_CONTENT_GATED"= "Not available on Mobile";
+/* Message shown when there is no course dates */
+"COURSEDATES.COURSE_DATE_UNAVAILABLE"="مواعيد المساق غير متوفرة حاليا";
+/* Label for date when course starts */
+"COURSE.STARTING" = "Starting {start_date}";
+/* Label for date when course end */
+"COURSE.ENDING" = "Ending {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Ended {end_date}";
+/* Course audit will expires on date*/
+"COURSE.AUDIT.EXPIRES_ON" = "Course access expires on {expiry_date}";
+/* Course audit will expires in {time_duration}*/
+"COURSE.AUDIT.EXPIRES_IN" = "Course access expires in {time_duration}";
+/* Course audit expired n days ago*/
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
+/* Course audit expired in less than 24 hours*/
+"COURSE.AUDIT.EXPIRED_AGO" = "Course access expired {time_duaration}";
+/* Course audit expired on date*/
+"COURSE.AUDIT.EXPIRED_ON" = "Course access expired on {expiry_date}";
+/* Course audit expiry in n number of days*/
+"COURSE.AUDIT.DAYS" = "{days} days";
+/* 1 hour remaining in course audit expiry*/
+/* More than 1 hours remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_HOURS##{zero}" = "{hours} hours";
+"COURSE_AUDIT_REMAINING_HOURS##{one}" = "{hours} hour";
+"COURSE_AUDIT_REMAINING_HOURS##{two}" = "{hours} hours";
+"COURSE_AUDIT_REMAINING_HOURS##{few}" = "{hours} hours";
+"COURSE_AUDIT_REMAINING_HOURS##{many}" = "{hours} hours";
+"COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} hours";
+/* 1 minutes remaining in course audit expiry*/
+/* More than 1 minutes remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_MINUTES##{zero}" = "{minutes} minutes";
+"COURSE_AUDIT_REMAINING_MINUTES##{one}" = "{minutes} minute";
+"COURSE_AUDIT_REMAINING_MINUTES##{two}" = "{minutes} minutes";
+"COURSE_AUDIT_REMAINING_MINUTES##{few}" = "{minutes} minutes";
+"COURSE_AUDIT_REMAINING_MINUTES##{many}" = "{minutes} minutes";
+"COURSE_AUDIT_REMAINING_MINUTES##{other}" = "{minutes} minutes";
+/* 1 second remaining in course audit expiry*/
+/* More than 1 seconds remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_SECONDS##{zero}" = "{seconds} seconds";
+"COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} second";
+"COURSE_AUDIT_REMAINING_SECONDS##{two}" = "{seconds} seconds";
+"COURSE_AUDIT_REMAINING_SECONDS##{few}" = "{seconds} seconds";
+"COURSE_AUDIT_REMAINING_SECONDS##{many}" = "{seconds} seconds";
+"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} seconds";
+/*Error meessage on course content screen if course audit expires*/
+"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
+/* Title text for the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS"="الإعلانات";
+/* Text describing the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS_DETAIL"="أبقى على اطلاع بأحدث الأخبار";
+/* Title text for the Courseware section of the course dashboard */
+"DASHBOARD.COURSE_COURSEWARE"="المساق";
+/* Text describing the Courseware section within the course dashboard */
+"DASHBOARD.COURSE_COURSE_DETAIL"="الوصول إلى محتويات المساق والواجبات";
+/* Title text for the videos section of the course dashboard */
+"DASHBOARD.COURSE_Videos"="مقاطع الفيديو";
+/* Text describing the Videos section within the course dashboard */
+"DASHBOARD.COURSE_Videos_DETAIL"="شاهد مقاطع فيديو المساق";
+/* Title text for the Discussions section of the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION"="المحادثة";
+/* Text describing the Discussions section within the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION_DETAIL"="انضم إلى المحادثة";
+/* Title text for the Handouts section of the course dashboard  */
+"DASHBOARD.COURSE_HANDOUTS"="مذكرات";
+/* Text describing the Handouts section within the course dashboard */
+"DASHBOARD.COURSE_HANDOUTS_DETAIL"="معلومات مهمة عن المساق";
+/* Title text for the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Dates";
+/* Text describing the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="تتبع المواعيد النهائية و ابقي على المسار";
+/*Text for browse by subject label on subject discovery */
+"DISCOVERY.BROWSE_BY_SUBJECT" = "Browse By Subject";
+/*Placeholder text for subjects searchbar*/
+"DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Search Subject";
+/*Label text for view all subjects cell*/
+"DISCOVERY.VIEW_ALL_SUBJECTS" = "View All Subjects";
+/* Text describing the course due date for same day*/
+"COURSE_DUE_DATE_SAME_DAY"="مستحق اليوم في {due_date} {time_zone}";
+/* Text describing the course due date*/
+"COURSE_DUE_DATE"="مستحق في {due_date} ";
+/* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
+"COURSE_MODE_FULL"="أظهر المساق بالكامل";
+/* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
+"COURSE_MODE_PICKER_DESCRIPTION" = "اختر الوضع";
+/* Text displayed when Can't find one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "نحن نعمل   بجد لجعل مساقاتنا جميعاً مناسبة للاستخدام الهاتفي فإذا لم تجد مساقا  افحص الموقع مرة اخرى فنحن نقوم بإضافة الكثير من المساقات يوميا.";
+/* Message shown on a course when it hasn't started yet.*/
+"COURSE_NOT_STARTED"="لم يبدأ هذا المساق بعد.";
+/* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
+"COURSE_WILL_START_AT"="هذا المساق لم يبدأ بعد. عد ﻻحقاً في {date} لتبدأ المغامرة.";
+/* Create a new post button title used in discussions' posts screen */
+"CREATE_A_NEW_POST"="أنشىء مشاركة جديدة";
+/* Button text to initiate or confirm deletion */
+"DELETE"="حذف";
+/* Discussion used in the segmented control Creating a new post */
+"DISCUSSION"="النقاش";
+/* Discussion comment overlay message when new comment added */
+"DISCUSSION_COMMENT_POSTED" = "تم إضافة تعليقك.";
+/* Title of button to allow user to follow a discussion post */
+"DISCUSSION_FOLLOW"="تابع";
+/* Title of action to report a discussion post/response/comment to the course staff */
+"DISCUSSION_REPORT"="أبلّغ عن محتوى غير مرغوب فيه";
+/* Discussion response overlay message when new response added */
+"DISCUSSION_THREAD_POSTED" = "تم إضافة إجابتك";
+/* Title of the navigation bar when entering the course discussion */
+"DISCUSSION_TOPICS"="مواضيع النقاش";
+/* Title of button to allow user to unfollow a discussion post */
+"DISCUSSION_UNFOLLOW"="إلغاء المتابعة";
+/* Title of action to unreport a discussion post/response/comment to the course staff */
+"DISCUSSION_UNREPORT"="إلغاء البلاغ";
+/* Discussion comments count (Posts screen) - {count} is a number of comments */
+"DISCUSSIONS.REPLIES_COUNT"="{count} ردود";
+/*Discussion posts screen last post date - {date} last updated thread date*/
+"DISCUSSIONS.LAST_POST" = "آخر منشور: {date}";
+/* Alert dialog button for allowing/disallowing downloads on cellular data */
+"DO_NOT_ALLOW"="عدم السماح";
+/* Description about for button to download videos. For example, "Download 1 video" */
+/* Description about for button to download videos. For example, "Download 3 videos" */
+"DOWNLOAD_MANY_VIDEOS##{zero}" = "جاري تحميل {video_count} ملف فيديو";
+"DOWNLOAD_MANY_VIDEOS##{one}" = "جاري تحميل {video_count} ملف فيديو";
+"DOWNLOAD_MANY_VIDEOS##{two}" = "جاري تحميل {video_count} ملف فيديو";
+"DOWNLOAD_MANY_VIDEOS##{few}" = "جاري تحميل {video_count} ملف فيديو";
+"DOWNLOAD_MANY_VIDEOS##{many}" = "جاري تحميل {video_count} ملف فيديو";
+"DOWNLOAD_MANY_VIDEOS##{other}" = "جاري تحميل {video_count} ملف فيديو";
+/* Button text for confirming download */
+"DOWNLOAD" = "تنزيل";
+/* Label indicating that a video or videos have been downloaded */
+"DOWNLOADED" = "تم التنزيل";
+/* Description about downloaded videos. For example, "Downloaded 1 video" */
+/* Description about downloaded videos. For example, "Downloaded 3 videos" */
+"DOWNLOADED_MANY_VIDEOS##{zero}" = "تنزيل {video_count} ملف فيديو";
+"DOWNLOADED_MANY_VIDEOS##{one}" = "تنزيل {video_count} ملف فيديو";
+"DOWNLOADED_MANY_VIDEOS##{two}" = "تنزيل {video_count} ملف فيديو";
+"DOWNLOADED_MANY_VIDEOS##{few}" = "تنزيل {video_count} ملفات فيديو";
+"DOWNLOADED_MANY_VIDEOS##{many}" = "تنزيل {video_count} ملفات فيديو";
+"DOWNLOADED_MANY_VIDEOS##{other}" = "تنزيل {video_count} ملفات فيديو";
+/* Label indicating that a video or videos are downloading */
+"DOWNLOADING" = "جاري التنزيل";
+/* Title of video downloads screen */
+"DOWNLOADS"="التنزيلات";
+/* Overlay message after user chooses to download a video */
+"DOWNLOADING_1_VIDEO"="جاري تحميل 1 ملف فيديو";
+/*Title for bulk download view when in downloading state */
+"DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos...";
+/*Title for bulk download view when in new or partial state */
+"DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
+/*Discover in left drawer(used for courses and programs discovery)*/
+"DISCOVER"="Discovery";
+/*Title for the programs in tabbar and navigation bar*/
+"PROGRAMS"="Programs";
+/*Title for the degrees in navigation bar*/
+"DEGREES"="Degrees";
+/*Debug option title in tabbar */
+"DEBUG"="Debug";
+/* Error message shown when email address is not properly formatted */
+"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Please make sure your e-mail address is formatted correctly and try again.";
+/* Alert message shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="يبدو وكأنك لم تضبط إعدادات موكل البريد الإلكتروني الخاص بك.";
+/* Alert dialog title shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="تعذّر إرسال رسالة بريد إلكتروني";
+/* Placeholder text for email address entry field */
+"EMAIL_ADDRESS_PROMPT"="البريد الإلكتروني";
+/* Text displayed when no results are found in the search */
+"EMPTY_RESULTSET" = "تعذّر إيجاد نتائج للاستعلام \"{query_string}\". يُرجى إعادة المحاولة باستخدام عبارة أخرى أو اختر فئة نقاش لاستعراضها.";
+/* Prompt shown to users on the course list encouraging them to find new courses */
+"ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "هل تبحثُ عن تحدٍ جديد؟";
+/* Button title opening course catalog */
+"ENROLLMENT_LIST.FIND_COURSES" = "ابحث عن مساق";
+/* Error message when user is not enrolled to any course and course discovery is also disabled.*/
+"ENROLLMENT_LIST.NO_ENROLLMENT" = "يبدو أنك لم تسجل في أي مساق بعد";
+/* Prompt indicating user needs to enter an email address */
+"ENTER_EMAIL"="Please enter your username or e-mail address and try again.";
+/* Prompt indicating user needs to enter a password */
+"ENTER_PASSWORD"="يٌرجى إدخال كلمة المرور وإعادة المحاولة مرة أخرى.";
+/* Text used when the post is visible to everyone */
+"EVERYONE"="الجميع";
+/* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
+"EXTERNAL_REGISTRATION_BECAME_LOGIN" = "لقد قمت بالفعل بربط حسابك في {platform_name} مع {service}. لقد تم تسجيل دخولك باستخدام ذلك الحساب.";
+/* Endorsed text */
+"ENDORSED" = "مصادق عليه";
+/* Facebook login method */
+"FACEBOOK"="فيسبوك";
+/* Overlay message shown when facebook login fails because the user's account isn't linked */
+"FAILED_TO_LOAD_TOPICS"="فشل في تحميل المواضيع";
+/* Title of find courses screen */
+"FIND_COURSES"="استكشف المساقات";
+/* No available courses on find courses section */
+"FIND_COURSES_NO_AVAILABLE_COURSES"="No available courses";
+/* Overlay message shown when enrolling in a course fails because the user is already in the course */
+"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="لقد جرى تسجيلك في هذا المساق في وقتٍ سابق.";
+/* Overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="حدث خطأ أثناء إنشاء عملية تسجيل جديدة في المساق";
+/* AlertView message shown when enrolling in a course fails */
+"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="We are unable to enroll you in this course at this time using the {platform_name} mobile application. Please try again on your web browser";
+/* Title of overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_TITLE"="خطأ أثناء التسجيل";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="أنت الآن مسجِّل في هذا المساق";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_OFFLINE_MESSAGE"="أنت غير متصل بالإنترنت.\nتأكّد من اتصالك بالانترنت لتتمكّن من تصفّح المساقات.";
+/* Title of overlay message shown when sign in fails */
+"FLOATING_ERROR_LOGIN_TITLE"="حدث خطأ أثناء تسجيل الدخول";
+/* Title of overlay message shown when reset password fails */
+"FLOATING_ERROR_TITLE"="حدث خطأ أثناء تغيير كلمة المرور";
+/* Adds a `:` after a label, used in form. Eg. "{First Name}: Bob" */
+"FORM_LABEL"="{label}:";
+/* Google login method */
+"GOOGLE"="جوجل";
+/* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="تأكد من أن حساب {service} الخاص بك مرتبط بحسابك على منصّة {platform_name} باستخدام  {destination_name}.";
+/* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_TITLE"="حساب {service} الخاص بك غير مرتبط بحسابك على منصّة {platform_name}";
+/* Indicator for course content that is marked as having a graded component */
+"GRADED" = "جرى تقييمه";
+/* Warning shown to indicate that the user is in a section of graded content. */
+"GRADED_CONTENT_WARNING" = "نحن نوصيك بإتمام الأقسام الخاضعة للتقييم، كهذا القسم، باستخدام متصفّح الويب الخاص بك إلى حين إتاحته بشكل كامل باستخدام الأجهزة المحمولة.";
+/* Message shown when there are no handouts for a course */
+"HANDOUTS_UNAVAILABLE"="ﻻ تتوفّر أيّه منشورات خاصّة بالمساق في الوقت الحالي.";
+/* Overlay error shown when logging in with an invalid email address */
+"INVALID_EMAIL_MESSAGE"="تأكد من إدخال بريدك الإلكتروني وفق الصيغة الصحيحة ثم أعد المحاولة من جديد.";
+/* Overlay error shown when logging in with an invalid username or password */
+"INVALID_USERNAME_PASSWORD"="Please make sure that your username or e-mail address and password are correct and try again.";
+/* Alert dialog text asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_MESSAGE"="يتجاوز حجم ملفات الفيديو التي اخترتها 1 جيجابايت.\nأما زلت ترغب بتحميلها؟";
+/* Alert dialog title when asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_TITLE"="حجم ملفات التنزيل كبير";
+/* Title for Course Item that was last accessed */
+"LAST_ACCESSED" = "آخر زيارة - ";
+/* Prompt leading user to create account screen */
+"LOGIN_SPLASH_SIGN_UP"="اشترك معنا وابدأ التعلم";
+/* Prompt leading user to sign in screen */
+"LOGIN_SPLASH_SIGN_IN"="لديك حساب بالفعل؟ سجل الدخول";
+/* Button title to log out the current user */
+"LOGOUT"="تسجيل الخروج";
+/* Option to sort discussion post list by most activity */
+"MOST_ACTIVITY"="مُعظم الأنشطة";
+/* Option to sort discussion post list by most votes */
+"MOST_VOTES"="مُعظم الأصوات";
+/* Screen title showing a user's courses */
+"COURSES"="Courses";
+/* Screen title showing a user's settings */
+"MY_SETTINGS"="إعداداتي";
+/* Marked as answer for endorsed responses */
+"MARKED_ANSWER" = "تم تحديده كجواب";
+/* Overlay error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE"="أنت غير متصل بالإنترنت.";
+/* Alert dialog error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="أنت غير متصلِ بالإنترنت. يُرجى التأكد من اتصالك.";
+/* Title of alert dialog shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_TITLE"="خطأ في الاتصال";
+/* Button title for moving to the next block in the course */
+"NEXT" = "التالي";
+/* Button title for moving to the next unit in the course */
+"NEXT_UNIT" = "الوحدة التالية";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "في الوقت الحالي، يٌمكنك التسجيل في المساقات من خلال موقعنا الإلكتروني - وستكون بحاجة لتسجيل الدخول، والانضمام للمساق، ومن ثم العودة إلى التطبيق للبدء بالتعلّم.";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "يبذل فريقنا كل الجهد الممكن لجعل انضمامك إلى المساق متاحًا من خلال التطبيق.";
+/* Message shown when no results are found while filtering discussions */
+"NO_RESULTS_FOUND" = "لا توجد مشاركات في فئة النقاش هذه.";
+/* Message shown to indicate video transcript support has not yet been implemented */
+"NO_TRANSCRIPT" = "إن النص المرافق لمقطع الفيديو هذا غير متوفّر بعد.";
+/* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
+"NO_WIFI_MESSAGE" = "إعدادات التنزيل الخاصة بك تسمح بتنزيل الملفات من خلال الـ Wi-Fi فقط.\nرجاء اتصل بالإنترنت من خلال الـ Wi-Fi أو قم بتغيير إعداداتك.";
+/* Text displayed when no results are found for following*/
+"NO_FOLLOWING_RESULTS" = "لم تقم بمتابعة أي نقاشات بعد.";
+/* Message shown when no results are found for all posts*/
+"NO_COURSE_RESULTS" = "لا توجد مشاركات تخص نقاش المساق هذا.";
+/* Indicates a field that does not apply to the current context */
+"NOT_APPLICABLE" = "غير متوفر";
+/* Label of switch that toggles push notification support */
+"NOTIFICATIONS_ENABLED" = "السماح بالإشعارات";
+/*Text for author if post is by anonymous user*/
+"ANONYMOUS" = "مجهول";
+/* Label indicating user has on internet connection and is in offline mode */
+"OFFLINE" = "غير متصل بالشبكة";
+/* Alert dialog okay button */
+"OK"="حسناً";
+/* Button title allowing user to open current page in their web browser */
+"OPEN_IN_BROWSER"="عرض باستخدام مستعرض سفاري";
+/* Button label to bring up course finder */
+"OR_SIGN_IN_WITH"="أو سجل الدخول باستخدم";
+/* Login screen password field title text */
+"PASSWORD_TITLE_TEXT" = "Password";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_CONTINUE"="متابعة";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
+"PLAYBACK_COMPLETE_CONTINUE_CANCEL"="لا";
+/* Alert dialog content when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_MESSAGE"="هل ترغب بمشاهدة ملف الفيديو القادم؟";
+/* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_TITLE"="لقد وصلت إلى نهاية ملف الفيديو";
+/* Post screen title in creating a new post */
+"POST" = "أنشىء مشاركة جديدة";
+/* Title for Row on Discussion screen which opens the posts followed by the user */
+"POSTS_IM_FOLLOWING" = "المشاركات التي أتابعها";
+/* Navigation item title for post and responses */
+"DISCUSSION_POST" = "مواضيع النقاش";
+/* Post discussion button title in Create a new post */
+"POST_DISCUSSION"="انشر نقاشًا";
+/* Post question button title in Create a new post */
+"POST_QUESTION"="اطرح سؤال";
+/* Button title for moving to the previous block in the course */
+"PREVIOUS" = "السابق";
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "الوحدة السابقة";
+/* A10y hint for the change picture button. */
+"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Double tap to change profile photo";
+/* Change picture button text on edit profile screen. */
+"PROFILE.CHANGE_PICTURE_BUTTON" = "تغيير";
+/* Text for use a photo already in library for user profile photo alert */
+"PROFILE.CHOOSE_EXISTING" = "اختر صورة";
+/* Instruction title text on the photo crop view. */
+"PROFILE.CROP_AND_RESIZE_PICTURE" = "قص وتعديل الحجم";
+/* 'Current Language' label on top row of edit language in user's profile */
+"PROFILE.CURRENT_LANGUAGE_LABEL" = "اللغة الحاليّة:";
+/* 'Current Location' label on top row of edit country in user's profile */
+"PROFILE.CURRENT_LOCATION_LABEL" = "الموقع الحالي:";
+/* Profile edit view title */
+"PROFILE.EDIT_TITLE" = "تعديل الصفحة الشخصيّة";
+/* Accessibility label for edit profile button */
+"PROFILE.EDIT_ACCESSIBILITY" = "تعديل الصفحة الشخصيّة";
+/* Accessibility hint for country field in user profile */
+"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "بلدك";
+/* Accessibility hint for language field in user profile */
+"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "اللغة المفضّلة لديك";
+/* Shown when viewing someone else's limied profile. */
+"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "متعلم {platform_name} هذا يشارك معلومات محدودة من حسابه.";
+/* User has not filled in an "about me" on their profile */
+"PROFILE.NO_BIO" = "لم يتم تزويد \"معلومات شخصية\".";
+/* Text in the picture taker alert to delete the existing image */
+"PROFILE.REMOVE_IMAGE" = "إزالة";
+/* Profile screen text indicating that the user is currently only displaying a limited profile */
+"PROFILE.SHOWING_LIMITED" = "تشارك حاليًا جزء محدود من معلومات صفحتك الشخصية.";
+/* Text for take picture for user profile photo alert */
+"PROFILE.TAKE_PICTURE" = "التقط صورة";
+/* Descriptive text for why a limited profile is shown for users under 13, first line */
+"PROFILE.AGE_LIMIT" = "يجب أن يتجاوز عمرك 13 عامًا لتتمكّن من مشاركة صفحتك الشخصية بالكامل.";
+/* Error retrieving a profile */
+"PROFILE.UNABLE_TO_GET" = "لم نتمكّن من تحميل بيانات هذه الصفحة الشخصيّة.";
+/* Error message when removing profile picture */
+"PROFILE.UNABLE_TO_REMOVE_PHOTO" = "لم نتمكّن من إزالة صورتك.";
+/* Error saving user profile, for field `field_name` */
+"PROFILE.UNABLE_TO_SEND" = "لم نتمكّن من تحديث حقل {field_name} الخاص بك.";
+/* Error message when setting a new profile picture */
+"PROFILE.UNABLE_TO_SET_PHOTO" = "لم نتمكّن من تحديث صورتك.";
+/*Pipe sign using for formatting in discussion posts*/
+"PIPE_SIGN" = "|";
+/* Question used in the segmented control Creating a new post */
+"QUESTION"="سؤال";
+/* Option to sort discussion post list by recent activity */
+"RECENT_ACTIVITY" = "الأنشطة الأخيرة";
+/* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
+"REFINE" = "حسّن عملية التصنيف:";
+/* Button title when responses are closed for a thread */
+"RESPONSES_CLOSED"="لقد أُغلقت الردود على هذه المشاركة";
+/* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
+"REGISTRATION_AGREEMENT_MESSAGE"="بإنشائك حساباً، فأنت توافق على";
+/* Button text allowing user create an account */
+"REGISTRATION_CREATE_MY_ACCOUNT"="أنشئ حسابي الجديد";
+/* Text shown while waiting for registration request */
+"REGISTRATION_CREATING_ACCOUNT"="جاري إنشاء الحساب...";
+/* Error prompt shown during registration to indicate an empty field. {field_name} is the name of a registration field like 'password' */
+"REGISTRATION_FIELD_EMPTY_ERROR"="يُرجى إدخال {field_name} الخاص بك.";
+/* Error prompt shown during registration to indicate a field missing a selection. {field_name} is the name of a registration field like 'year of birth' */
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="يُرجى تحديد {field_name} الخاص بك.";
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{zero}"="لا يمكنك تجاوز {count} حرفًا للحقل {field_name}";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{one}"="لا يمكنك تجاوز {count} حرفًا للحقل {field_name}";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{two}"="لا يمكنك تجاوز {count} حرفًا للحقل {field_name}";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{few}"="لا يمكنك تجاوز {count} حرفًا للحقل {field_name}";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{many}"="لا يمكنك تجاوز {count} حرفًا للحقل {field_name}";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{other}"="لا يمكنك تجاوز {count} حرفًا للحقل {field_name}";
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{zero}"="يجب أن يتكون الحقل {field_name} من {count} أحرف الأقل.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{one}"="يجب أن يتكون الحقل {field_name} من {count} أحرف الأقل.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{two}"="يجب أن يتكون الحقل {field_name} من {count} أحرف الأقل.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{few}"="يجب أن يتكون الحقل {field_name} من {count} أحرف الأقل.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{many}"="يجب أن يتكون الحقل {field_name} من {count} أحرف الأقل.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{other}"="يجب أن يتكون الحقل {field_name} من {count} أحرف الأقل.";
+/* Button text allowing user to hide visible optional registration fields */
+"REGISTRATION_HIDE_OPTIONAL_FIELDS"="إخفاء الحقول الاختيارية";
+/* Button text allowing user to show hidden optional registration fields */
+"REGISTRATION_SHOW_OPTIONAL_FIELDS"="إظهار الحقول الاختيارية";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be followed by text "or sign up with an email". */
+"REGISTRATION_REGISTER_PROMPT"="تسجيل الاشتراك باستخدام";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
+"REGISTRATION_REGISTER_ALTERNATE_PROMPT"="أو سجّل اشتراكك باستخدام البريد الإلكتروني";
+/*Title of registration error alert*/
+"REGISTRATION_ERROR_ALERT_TITLE"="Registration Error";
+/* Detailed info message for registration error alert*/
+"REGISTRATION_ERROR_ALERT_MESSAGE"="Update the highlighted fields and try again";
+
+/* Alert dialog title prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_TITLE"="إعادة ضبط كلمة المرور";
+/* Alert dialog content prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_POPUP_TEXT"="أدخل البريد الإلكتروني الخاص بحسابك لنتمكّن من إرسال  تعليمات إعادة ضبط كلمة المرور";
+/* Alert dialog title confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_TITLE"="أُرسلت رسالة بريدٍ إلكترونيٍّ إلى عنوانك بناءً على طلبك بتغيير كلمة المرور";
+/* Alert dialog content confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_MESSAGE"="لقد أرسلنا رسالةً بتعليمات تغيير كلمة المرور إلى عنوان بريدك الإلكتروني. في حال لم تصلك خلال بضع دقائق، يُرجى التأكد فيما إذا اعتُبرت رسالة غير مرغوب فيها ’spam‘.";
+/* Button that allows user to retry an operation that did not succeed */
+"RETRY" = "إعادة المحاولة";
+/*Offline snackbar button that allows user to reload data*/
+"RELOAD" = "إعادة التحميل";
+/* Response back title in adding a new response */
+"ADD_A_RESPONSE"="أضف ردّ";
+/* Discussion response - {count} is a number of responses */
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{zero}"="{count} إجابة";
+"RESPONSE##{one}"="{count} إجابة";
+"RESPONSE##{two}"="{count} إجابات";
+"RESPONSE##{few}"="{count} إجابات";
+"RESPONSE##{many}"="{count} إجابات";
+"RESPONSE##{other}"="{count} إجابات";
+/* Discussion topics search placeholder */
+"SEARCH_ALL_POSTS"="ابحث في جميع المشاركات";
+/*Placeholder text for search course textfield*/
+"SEARCH_COURSES_PLACEHOLDER_TEXT"="Search course";
+/*Placeholder text for search program textfield*/
+"SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Search program";
+/*Placeholder text for search degree textfield*/
+"SEARCH_DEGREES_PLACEHOLDER_TEXT"="Search degree";
+/* Discussion search results  */
+"SEARCH_RESULTS"="ابحث في النتائج";
+/* Text shown below the video, in portrait mode */
+"ROTATE_DEVICE"="دوّر جهازك لتعرض مقطع الفيديو على شاشة كاملة";
+/*if filter applied then append this string to error message*/
+"REMOVE_FILTER" = "جرّب إزالة مرشّح مشاركاتك.";
+/* Label shown when user attempts to view a course section that hasn't been synced  */
+"SECTION_UNAVAILABLE_OFFLINE"="هذا القسم غير متوفّر دون الاتصال بالإنترنت. \nإذا كنت قد نزّلت محتوىً لقسم مختلف في وقتٍ سابق، فعد إلى ذلك القسم لتشاهد المحتوى.";
+/* Screen title showing a user's settings */
+"SETTINGS"="الإعدادات";
+/* Text for a Twitter or Facebook post to a course about page */
+"SHARE_A_COURSE"="أحضر حاليًا مساقًا ممتعًا على منصّة {platform_name}! اطلع عليه:";
+/* Sign in screen title and button initiating login process after user enters credentials like username and password */
+"SIGN_IN_TEXT"="تسجيل الدخول";
+/* Message shown while user waits for response to a sign in request */
+"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="جار تسجيل الدخول";
+/*  Accessibility text prefix for  Facebook and Google Buttons*/
+"SIGN_IN_PROMPT"="Sign in with";
+/*Sign up screen title and button initiating sign up process on the main screen */
+"REGISTER_TEXT"="تسجيل الاشتراك";
+/* Indicates a date in the near future */
+"SOON"="قريبًا";
+/* Label for posts pinned by Staff */
+"STAFF"="طاقم المساق";
+/* Info message text on the startup screen */
+"STARTUP.INFO_MESSAGE_TEXT"="Courses from the world's best universities in your pocket.";
+/*Log In button title on the startup screen*/
+"STARTUP.LOGIN_TEXT"="Log In";
+/*Create your Account button title on the startup screen*/
+"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Create your Account";
+/* Explore Subjects button text on the first screen */
+"STARTUP_EXPLORE_SUBJECTS"="استكشف المواضيع";
+/* Button allowing user to submit feedback about the app via email */
+"SUBMIT_FEEDBACK.OPTION_TITLE" = "أرسل ملاحظاتك";
+/* Support message email title */
+"SUBMIT_FEEDBACK.MESSAGE_SUBJECT" = "ملاحظات المستخدمين";
+/* Marker in feedback email meant to separate feedback from prepopulated device information */
+"SUBMIT_FEEDBACK.MARKER" = "---- أكتب ملاحظاتك فوق هذا السطر ----";
+/* Line in submit feedback email that supplies OS version information. For example, "iOS Version: 9.2" */
+"SUBMIT_FEEDBACK.OS_VERSION" = "نسخة نظام التشغيل: {version}";
+/* Line in submit feedback email that supplies app version information. For example, "App Version: 2.2 (2.2.23)" */
+"SUBMIT_FEEDBACK.APP_VERSION" = "نسخة التطبيق: {version} ({build})";
+/* Line in submit feedback email that supplies device model information. For example, "Device Model: iPhone" */
+"SUBMIT_FEEDBACK.DEVICE_MODEL" = "طراز الجهاز: {model}";
+/* Text that indicates the visibility of the post */
+"POST_VISIBILITY"="هذه المشاركة ظاهرة لمجموعة {cohort} فقط";
+/* Text that indicates the visibility of the post to everyone */
+"POST_VISIBILITY_EVERYONE" = "هذه المشاركة ظاهرة للجميع";
+/*Add parenthesis around text*/
+"PARENTHESIS" = "({text})";
+/* Alert dialog title shown when network request takes too long to complete */
+"TIMEOUT_ALERT_TITLE"="نفذ الوقت";
+/* Alert dialog content shown when network request takes too long to complete */
+"TIMEOUT_CHECK_INTERNET_CONNECTION"="يُرجى التأكد من اتصالك بالإنترنت.\nاستغرق تحميل هذه الصفحة مدّةً تفوق المتوقّع.";
+/* Title as place holder in Create a new post */
+"TITLE"="العنوان";
+/* Topic as button title in Create a new post */
+"TOPIC"="الموضوع: {topic}";
+/* Back bar button topics */
+"TOPICS"="المواضيع";
+/* Button text allowing user to reset their password */
+"TROUBLE_IN_LOGIN_BUTTON"="نسيت كلمة المرور الخاصة بحسابك؟";
+/* Error shown when video download fails */
+"UNABLE_TO_DOWNLOAD"="تعذّر تنزيل مقطع الفيديو" ;
+/* Error shown when the course content could not for an unknown reason. */
+"UNABLE_TO_LOAD_COURSE_CONTENT"="تعذّر تحميل محتوى المساق\nيُرجى إعادة المحاولة لاحقًا.";
+/* Filtering option to show unanswered discussion posts */
+"UNANSWERED"="بلا جواب";
+/* Navigation title for a Question Post which has no endorsed answers */
+"UNANSWERED_QUESTION" = "سؤال لم تجري الإجابة عنه";
+/* Filtering option to show unread discussion posts*/
+"UNREAD"="غير مقروء";
+/* Placeholder title for course content with no title */
+"UNTITLED"="دون عنوان";
+/* Title text for login field */
+"USERNAME_TITLE_TEXT" = "Username or e-mail address";
+/*Error message when operation failed with unknow error*/
+"UNKNOWN_ERROR" = "لم يتم إتمام الأمر الخاص بك";
+/* Screen title showing a user's account */
+"USER_ACCOUNT"="الحساب";
+/* Button title for profile view in account*/
+"USER_ACCOUNT.PROFILE"= "الملف الشخصي";
+/* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
+"VERSION_DISPLAY" = "النسخة {number} {environment}";
+/* Error shown when video download fails */
+"VIDEO_CONTENT_NOT_AVAILABLE"="ملف الفيديو المطلوب غير متوفّر. الرجاء إعادة المحاولة في وقت لاحق.";
+/* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
+"VIDEO_ONLY_ON_WEB" = "مقطع الفيديو هذا متاح عبر الويب فقط في الوقت الحالي. انقر لتستعرضها باستخدام متصفّح الويب لديك.";
+/* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
+"VIDEO_NOT_AVAILABLE"="مقطع الفيديو هذا غير متوفّر دون الاتصال بالإنترنت.\nيُرجى اختيار مقطع فيديو كنت قد نزّلته في وقتٍ سابق على جهازك.";
+/* Shows in the video setting sub-table which item is selected */
+"VIDEO_SETTING_SELECTED" = "✓ %@";
+/* Button action to open app on YouTube */
+"VIDEO.VIEW_ON_YOUTUBE" = "مشاهدة الفيديو على يوتيوب";
+/* Message shown for videos that can only be played external the app via YouTube. */
+"VIDEO.ONLY_ON_YOUTUBE" = "يمكن مشاهدة هذا الفيديو فقط على يوتيوب.";
+/* Button text for showing an associated item */
+"VIEW" = "اعرض";
+/* Button linking to course announcements */
+"VIEW_HANDOUTS" = "عرض نشرات المساق";
+/* Discussion vote - {count} is a number of votes */
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{zero}"="{count} صوت";
+"VOTE##{one}"="{count} صوت";
+"VOTE##{two}"="{count} أصوات";
+"VOTE##{few}"="{count} أصوات";
+"VOTE##{many}"="{count} أصوات";
+"VOTE##{other}"="{count} أصوات";
+/*Title of update button on fullscreen error and SnackBar*/
+"VERSION_UPGRADE_UPDATE" = "تحديث";
+/*Title of dismiss button on SnackBar*/
+"VERSION_UPGRADE.DISMISS" = "إخفاء";
+/*Deprecated version detail message*/
+"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "نسخة جديدة من التطبيق متوفرة حالياً.";
+/*Outdated version detail message*/
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "النسخة التي لديك من التطبيق لم تعُد مدعومة.";
+/*Outdated version alert message for login screen*/
+"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "النسخة التي لديك من التطبيق لم تعُد مدعومة. أحصل على أحدث نسخة لتسجل الدخول.";
+/*New version available without deadline message*/
+"VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "نسخة جديدة من التطبيق متوفرة حالياً.";
+/*Video player remaining time default value*/
+"VIDEO_PLAYER_DEFAULT_REMAINING_TIME" = "0:00/0:00";
+/* Overlay shown after a network request has started, telling the user to wait for the response */
+"WAITING_FOR_RESPONSE"="يُرجى الانتظار...";
+/* Header of 'whats new screen'*/
+"WHATS_NEW.HEADER_TEXT"="الميزات الجديدة للإصدار {app_version}";
+/*Whats new screen done button title*/
+"WHATS_NEW.DONE"="تم";
+/*Title for wifi only switch at Settings screen*/
+"WIFI_ONLY_TITLE" = "التحميل من خلال الـ Wi-Fi فقط";
+/*Detail message for wifi only switch at Settings screen*/
+"WIFI_ONLY_DETAIL_MESSAGE" = "تحميل المواد والبيانات فقط عندما يكون الجهاز متصلاً بالـ Wi-Fi.";
+/* Alert dialog button title to confirm an action */
+"YES"="تأكيد";

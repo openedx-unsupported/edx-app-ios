@@ -26,7 +26,7 @@ class OEXConfig_URLCredentialProviderTests: XCTestCase {
     let config = OEXConfig(dictionary:["BASIC_AUTH_CREDENTIALS" : credentials])
     
     func testHit() {
-        for group in type(of: self).credentials {
+        for group in Swift.type(of: self).credentials {
             let host = URL(string:group["HOST"]!)!.host!
             let credential = config.URLCredentialForHost(host as NSString)
             XCTAssertNotNil(credential)

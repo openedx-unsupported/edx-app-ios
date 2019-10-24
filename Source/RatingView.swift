@@ -40,7 +40,7 @@ class RatingView: UIControl {
         willChangeValue(forKey: "value")
         if self.value != value && value >= Int(minimumValue) && value <= Int(maximumValue) {
             self.value = value
-            sendActions(for: UIControlEvents.valueChanged)
+            sendActions(for: UIControl.Event.valueChanged)
             setNeedsDisplay()
         }
         didChangeValue(forKey: "value")
@@ -53,7 +53,7 @@ class RatingView: UIControl {
     }
     
     private func drawImage(image: UIImage, frame: CGRect, tintColor: UIColor) {
-        if image.renderingMode == UIImageRenderingMode.alwaysTemplate {
+        if image.renderingMode == UIImage.RenderingMode.alwaysTemplate {
             tintColor.setFill()
         }
         image.draw(in: frame)

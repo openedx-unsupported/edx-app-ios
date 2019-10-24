@@ -94,7 +94,7 @@ public class DiscussionAPI {
     private static func discussionInfoDeserializer(response : HTTPURLResponse, json : JSON) -> Result<DiscussionInfo> {
         return DiscussionInfo(json : json).toResult(NSError.oex_courseContentLoadError())
     }
-
+    
     //MA-1378 - Automatically follow posts when creating a new post
     static func createNewThread(newThread: DiscussionNewThread, follow : Bool = true) -> NetworkRequest<DiscussionThread> {
         let json = JSON([
@@ -155,6 +155,17 @@ public class DiscussionAPI {
             path : "/api/discussion/v1/comments/\(responseID)/",
             requiresAuth : true,
             body: RequestBody.jsonBody(json),
+            headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
+            deserializer : .jsonResponse(commentDeserializer)
+        )
+    }
+    
+    // TODO: This Api should be updated with type GET, currently we are using this for deep linking on comment screen.
+    static func getResponse(responseID: String) -> NetworkRequest<DiscussionComment> {
+        return NetworkRequest(
+            method : HTTPMethod.PATCH,
+            path : "/api/discussion/v1/comments/\(responseID)/",
+            requiresAuth : true,
             headers: ["Content-Type": "application/merge-patch+json"], //should push this to a lower level once all our PATCHs support this content-type
             deserializer : .jsonResponse(commentDeserializer)
         )

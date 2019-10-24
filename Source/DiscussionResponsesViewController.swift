@@ -147,7 +147,7 @@ class DiscussionResponseCell: UITableViewCell {
 
         containerView.applyBorderStyle(style: BorderStyle())
         
-        accessibilityTraits = UIAccessibilityTraitHeader
+        accessibilityTraits = UIAccessibilityTraits.header
         bodyTextView.isAccessibilityElement = false
         endorsedByButton.isAccessibilityElement = false
     }
@@ -232,6 +232,8 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     private let addResponseButton = UIButton(type: .system)
     private let responsesDataController = DiscussionResponsesDataController()
     var thread: DiscussionThread?
+    var threadID: String? // this will be use for deep linking
+    
     var postFollowing = false
     var profileFeed: Feed<UserProfile>?
     var tempComment: DiscussionComment? // this will be used for injecting user info to added comment
@@ -260,7 +262,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 if let owner = self, let thread = owner.thread {
                     owner.environment.router?.showDiscussionNewCommentFromController(controller: owner, courseID: owner.courseID, thread: thread, context: .Thread(thread))
                 }
-                }, for: UIControlEvents.touchUpInside)
+                }, for: UIControl.Event.touchUpInside)
         }
         
         if let thread = thread {
@@ -308,7 +310,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         }
         
         tableView.estimatedRowHeight = 160.0
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         
         loadController?.setupInController(controller: self, contentView: contentView)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
@@ -351,7 +353,11 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     }
     
     private func markThreadAsRead() {
-        let apiRequest = DiscussionAPI.readThread(read: true, threadID: thread?.threadID ?? "")
+        
+        if let thread = thread {
+            threadID = thread.threadID
+        }
+        let apiRequest = DiscussionAPI.readThread(read: true, threadID: threadID ?? "")
         self.environment.networkManager.taskForRequest(apiRequest) {[weak self] result in
             if let thread = result.data {
                 self?.patchThread(thread: thread)
@@ -401,7 +407,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self?.loadController?.state = .Loaded
                 self?.responsesDataController.endorsedResponses = responses
                 self?.tableView.reloadData()
-                UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
+                UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: nil)
                 if self?.paginationController?.hasNext ?? false { }
                 else {
                     // load unanswered responses
@@ -431,7 +437,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                 self?.loadController?.state = .Loaded
                 self?.responsesDataController.responses = responses
                 self?.tableView.reloadData()
-                UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, nil)
+                UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: nil)
                 
             }, failure: { [weak self] (error) -> Void in
                 // endorsed responses are loaded in separate request and also populated in different section
@@ -560,7 +566,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     }
                 }
             }
-            }, for: UIControlEvents.touchUpInside)
+            }, for: UIControl.Event.touchUpInside)
         
         // follow a post (thread) - User can only follow original post, not response or comment.
         cell.followButton.oex_removeAllActions()
@@ -578,7 +584,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     }
                 }
             }
-            }, for: UIControlEvents.touchUpInside)
+            }, for: UIControl.Event.touchUpInside)
         
         if let item = self.thread {
             updateVoteText(button: cell.voteButton, voteCount: item.voteCount, voted: item.voted)
@@ -602,7 +608,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     }
                 }
             }
-            }, for: UIControlEvents.touchUpInside)
+            }, for: UIControl.Event.touchUpInside)
         
         if let thread = self.thread {
             cell.setAccessibility(thread: thread)
@@ -692,7 +698,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                 }
             }
-            }, for: UIControlEvents.touchUpInside)
+            }, for: UIControl.Event.touchUpInside)
         
         cell.reportButton.indexPath = indexPath
         // report (flag)/unflag a response - User can report on post, response, or comment.
@@ -711,7 +717,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
                     self?.showOverlay(withMessage: DiscussionHelper.messageForError(error: result.error))
                 }
             }
-            }, for: UIControlEvents.touchUpInside)
+            }, for: UIControl.Event.touchUpInside)
         
         cell.endorsed = response.endorsed
         

@@ -1,0 +1,857 @@
+/*
+ Localizable.strings
+ edXVideoLocker
+ 
+ Created by Nirbhay Agarwal on 07/07/14.
+ Copyright (c) 2014-2015 edX. All rights reserved.
+ */
+
+// Please keep in alphabetical order
+
+/* Alert dialog confirmation button when user chooses to download a large video */
+"ACCEPT_LARGE_VIDEO_DOWNLOAD"="הורד";
+/*Accessibility label for bulk download view when in downloading state */
+"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "מוריד קבצי וידאו";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_CHECKED" = "מסומן";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_UNCHECKED" = "לא מסומן";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "נקה את הבחירה";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "הקישו לבחירה";
+/* Appending By before course organization and number on My Find Courses*/
+"ACCESSIBILITY_BY" = "מוצע על ידי";
+/*Accessibility hint for user bio on user profile screen*/
+"ACCESSIBILITY.ACCOUNT.BIO_LABEL" = "Description";
+/* Accessibility hint for subject name label */
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "הקישו פעמיים כדי לעיין לפי נושא, {subject_name}";
+/* Accessibility hint for bulk download switch when in new state */
+"ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "הדלקת המתג תוריד את כל קבצי הוידאו בקורס זה";
+/* Accessibility hint for bulk download switch when in new partial or downloading state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_HINT" = "כיבוי המתג יבטל את הורדת כל קבצי הוידאו וימחק את כל קבצי הוידאו שכבר הורדו בקורס זה.";
+/* Accessibility hint for bulk download switch when in downloaded state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_HINT" = "כיבוי המתג ימחק את כל קבצי הוידאו שהורדו בקורס זה.";
+/* Accessibility hint for close button*/
+"ACCESSIBILITY.CLOSE_HINT" = "הקישו פעמיים לסגירה.";
+/* Accessibility label for posted data of discussion responses*/
+"ACCESSIBILITY.DISCUSSION_POSTED_ON" = "פורסם ב-{date}";
+/* Accessibility hint for Vote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_VOTE_HINT" = "הקישו פעמיים להצביע.";
+/* Accessibility hint for Unvote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNVOTE_HINT" = "הקישו פעמיים כדי לבטל את ההצבעה.";
+/* Accessibility hint for Report button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_REPORT_HINT" = "הקישו פעמיים כדי לדווח.";
+/* Accessibility hint for Unreport button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "הקישו פעמיים כדי לבטל את הדיווח.";
+/* Accessibility hint for Follow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "הקישו פעמיים כדי לעקוב";
+/* Accessibility hint for Unfollow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "הקישו פעמיים כדי להפסיק לעקוב.";
+/*Accessibility hint for disabled buttons, cells, etc like for disabled user profile fields on user edit profile screen*/
+"ACCESSIBILITY.DISABLED_HINT" = "Dimmed";
+/* Acessibility hint for the show downloads button. */
+"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "הקישו פעמיים כדי לצפות בהורדות המתבצעות כעת";
+/* Accessibility hint for view all subjects label*/
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "הקישו פעמיים כדי לצפות בכל הנושאים";
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "ההורדה מתבצעת: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{two}" = "ההורדות מתבצעות: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{many}" = "ההורדות מתבצעות: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "ההורדות מתבצעות: {percent_complete}";
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "מוריד את {video_name}. {percent_complete} אחוז הושלם.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{two}" = "מוריד את {video_name}. {percent_complete} אחוזים הושלמו.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{many}" = "מוריד את {video_name}. {percent_complete} אחוזים הושלמו.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{other}" = "מוריד את {video_name}. {percent_complete} אחוזים הושלמו.";
+/* Accessibility hint for number of downloadable videos */
+/* Accessibility hint for number of downloadable videos */
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "מוריד קובץ וידאו אחד.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{two}" = "מוריד {video_count} קבצי וידאו.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{many}" = "מוריד {video_count} קבצי וידאו.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "מוריד {video_count} קבצי וידאו.";
+/* Accessibility label for fullscreen button on video player */
+"ACCESSIBILITY_FULLSCREEN" = "מסך מלא";
+/* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
+"ACCESSIBILITY_EXIT_FULLSCREEN" = "צא ממצב מסך מלא";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "שגיאה";
+/* Accessibility label for HTML Icon in the Courseware screens */
+"ACCESSIBILITY_HTML" = "HTML";
+/* Accessibility label for Pause Button in the Video Player */
+"ACCESSIBILITY_PAUSE" = "עצור";
+/* Accessibility label for Play Button in the Video Player */
+"ACCESSIBILITY_PLAY" = "הפעל";
+/* Accessibility lable for the avatar image */
+"ACCESSIBILITY_USER_AVATAR" = "תמונת האווטאר שלכם";
+/* Accessibility label for Problem Icon in the Courseware screens */
+"ACCESSIBILITY_PROBLEM" = "בעיה";
+/* Optional text needs to be added for accesibility*/
+"ACCESSIBILITY.OPTIONAL_INPUT"="אופציונלי";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY_REQUIRED_INPUT"="Required";
+/* Accessibility label for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND" = "חזור אחורה";
+/* Call to action for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND_HINT" = "מחזיר 30 שניות אחרוה.";
+/* Accessibility label for Seek bar in the Video Player */
+"ACCESSIBILITY_SEEK_BAR" = "שורת חיפוש";
+/* Accessibility label for Settings Button in the Video Player */
+"ACCESSIBILITY_SETTINGS" = "הגדרות";
+/* Call to action for Course content on Home Screen */
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "הקישו פעמיים כדי לצפות בתוכן הקורס.";
+/* We don't have a accessility trait for dropdown, so we will be achieving dropdown trait through accessibility label */
+"ACCESSIBILITY_DROPDOWN_TRAIT" = "רשימה נפתחת.";
+/* Call to action for Opening Dropdown */
+"ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "הקישו פעמיים כדי לפתוח את הרשימה הנפתחת.";
+/* Call to action for Selecting Option */
+"ACCESSIBILITY_SELECT_VALUE_HINT" = "הקישו פעמיים לבחירה.";
+/* Accessibility label for Unknown Icon in the Courseware screens */
+"ACCESSIBILITY_UNKNOWN" = "לא ידוע";
+/* Accessibility label for Video Icon in the Courseware screens */
+"ACCESSIBILITY_VIDEO" = "וידאו";
+/* Text spoken for Navigation Button on Course List Screen */
+"ACCESSIBILITY_MENU" = "תפריט ניווט";
+/* Accessibility label for close button when left drawer is open*/
+"ACCESSIBILITY_CLOSE_MENU" = "סגור את תפריט הניווט";
+/* Accessibility label for hiding keyboard*/
+"ACCESSIBILITY_HIDE_KEYBOARD" = "הסתר את המקלדת";
+/* Accessibility Hint to view user profile*/
+"ACCESSIBILITY_SHOW_USER_PROFILE_HINT" = "הקישו פעמיים כדי לצפות בפרופיל המשתמש";
+/*Accessibility text for pinned discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_PINNED" = "נעוץ";
+/*Accessibility text for closed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_CLOSED" = "סגור";
+/*Accessibility text for followed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_FOLLOWED" = "עוקב";
+/* Accessibility text for unread discussion comments count (Posts screen) - {count} is a number of unread comments */
+"ACCESSIBILITY.DISCUSSION_UNREAD_REPLIES"="{count} תשובות שטרם נקראו";
+/*Accessibility text for unread discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_UNREAD_THREAD" = "שרשור דיון שטרם נקרא";
+/*Accessibility text for read discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_READ_THREAD" = "קראו שרשור דיון";
+/*Accessibility text for discussion thread last seen date(Posts screen) - {date} last updated thread date*/
+"ACCESSIBILITY.DISCUSSION_LAST_POST_ON" = "פוסט אחרון פורסם ביום {date}";
+/*Accessibility hint for discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_THREAD_HINT" = "הקישו פעמיים כדי לצפות בשרשור.";
+/*Accessibility hint for sort button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_SORT_BY" = "מיין לפי {sort_by}";
+/*Accessibility hint for filter button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_FILTER_BY" = "סנן לפי {filter_by}";
+/*Accessibility label for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_LABEL" = "כעת רשום בחשבון {user_name}, {user_email}";
+/*Accessibility hint for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "הקישו פעמיים לפתיחת הפרופיל שלכם";
+/*Accessibility text for close button on whats new screen*/
+"ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="סגור";
+/*Accessibility label for header on new screen*/
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="גרסה {app_version}, מאפיינים חדשים";
+/*Accessibility text for course share button on course dashboard*/
+"ACCESSIBILITY.SHARE_A_COURSE"="שתפו קורס";
+/*Accessibility text for close button*/
+"ACCESSIBILITY.CLOSE_LABEL"="סגור";
+/*Accessibility text for profile button*/
+"ACCESSIBILITY.PROFILE_LABEL"="Profile";
+/* Title of user profile section for user accomplishments (like badges) */
+"ACCOMPLISHMENTS.TITLE" = "הישגים";
+/* Default text template when user shares an accomplishment */
+"ACCOMPLISHMENTS.SHARE_TEXT" = "הרווחתי תג ב-{platform_name}! תעיפו מבט";
+/* Add a comment button title and place holder used in discussion comment text view */
+"ADD_A_COMMENT"="הוסיפו תגובה";
+/* Add a response button title used in discussion's responses screen */
+"ADD_A_RESPONSE"="הוסיפו תגובה";
+/* Add comment button title used in discussion's Add a comment */
+"ADD_COMMENT"="הוסיפו תגובה";
+/* Add post button title used in discussion's Create a new post */
+"ADD_POST"="הוסיפו פוסט";
+/* Add response button title used in discussion's Add a response */
+"ADD_RESPONSE"="הוסיפו תגובה";
+/* Add your post button title used in discussion's add a post textview */
+"ADD_YOUR_POST"="הוסיפו את הפוסט שלכם";
+/*Agreement text*/
+"AGREEMENT.TEXT"="you agree to the {eula} and {tos} and you acknowledge that {platform_name} and each Member process your personal data in accordance with the  {privacy_policy}.";
+/*Agreement text prefix for user on signin screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNIN"="עם הכניסה לאפליקציה,";
+/*Agreement text prefix for user on signup screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNUP"="עם יצירת חשבון,";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_EULA"="הסכם רישיון משתמש קצה ב-{platform_name}";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_TOS"="תנאי שימוש וקוד הכבוד ב-{platform_name}";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="מדיניות פרטיות";
+/* Alert dialog button allowing user to chosing to allow downloads on cellular */
+"ALLOW"="אפשר";
+/* Filtering option to show all discussion posts */
+"ALL_POSTS"="כל הפוסטים";
+/*Subtitle for bulk download view when in downloading state */
+"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "נותרו {remaining_videos_count} קבצי וידאו, סה\"כ {remaining_videos_size}MB ";
+/*Title for bulk download view when in downloaded state */
+"ALL_VIDEOS_DOWNLOADED_TITLE" = "כל קבצי הוידאו הורדו";
+/* Message shown when there are no announcements for a course */
+"ANNOUNCEMENT_UNAVAILABLE"="כעת אין הודעות עבור קורס זה.";
+/* Label indicating the response answer in Discussion Add comment screen */
+"ANSWER"="תשובה";
+/* Navigation title for a Question Post which has endorsed answers */
+"ANSWERED_QUESTION"="שאלה שנענתה";
+/* Accessibility label for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "בקרת דירוג.";
+/* Accessibility hint for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_HINT" = "הקישו פעמיים והחזיקו כדי לשנות את הערך.";
+/* Alert title for positive app review */
+"APP_REVIEW.RATE_THE_APP" = "דרגו את האפליקציה";
+/* Positive review message */
+"APP_REVIEW.POSITIVE_REVIEW_MESSAGE" = "כתבו ביקורת זריזה בחנות האפליקציות כדי לספר לאחרים מה אתם חושבים על האפליקציה";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK_TITLE" = "לשלוח פידבק?";
+/* Help us improve message for negative app review */
+"APP_REVIEW.HELP_US_IMPROVE" = "עזרו לנו להשתפר!";
+/* Maybe later message for positive/negative app review */
+"APP_REVIEW.MAYBE_LATER" = "אולי מאוחר יותר";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK" = "שלחו פידבק";
+/* Question for rating view */
+"APP_REVIEW.RATE_THE_APP_QUESTION" = "כיצד תדרגו את האפליקציה הזו?";
+/* Submit button for rating view */
+"APP_REVIEW.SUBMIT" = "שלח";
+/* App Review message email title */
+"APP_REVIEW.MESSAGE_SUBJECT" = "ביקורת לקוחות";
+/*Asteric for marking fields required*/
+"ASTERIC" = "*";
+/* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
+"AUTH_PROVIDER_ERROR" = "חשבון {auth_provider} זה אינו מקושר עם שום חשבון {platform_name}. אנא הירשמו.";
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "קובץ וידאו{count}, סה\"כ {videos_size}MB ";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{two}" = "{count} קבצי וידאו, סה\"כ {videos_size}MB ";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{many}" = "{count} קבצי וידאו, סה\"כ {videos_size}MB ";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} קבצי וידאו, סה\"כ {videos_size}MB ";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR" = "נכתב על ידי {author_name}";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR_LOWER_CASE" = "נכתב על ידי {author_name}";
+/* Course completion title */
+"CERTIFICATES.COURSE_COMPLETION_TITLE"="מזל טוב!";
+/* Course completion subtitle */
+"CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="עברתם את הקורס.";
+/* Get certificate button text. */
+"CERTIFICATES.GET_CERTIFICATE"="צפו בתעודה";
+/* Text to share on FB & Twitter when sharing a course cert */
+"CERTIFICATES.SHARE_TEXT"="כעת הרווחתי תעודה ב-{platform_name}! תעיפו מבט:";
+/* Title bar when viewing an actual certificate */
+"CERTIFICATES.VIEW_CERT_TITLE"="תעודה";
+/* Title of course announcements section */
+"COURSE_ANNOUNCEMENTS"="הודעות";
+/* Title of course handouts section */
+"COURSE_HANDOUTS"="מסמכים למסירה";
+/* Title of resources tab in course dashboardTabBar view */
+"RESOURSES"="משאבים";
+/* Title of course important dates screen */
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="תאריכים חשובים";
+/* Button text for cancelling any action */
+"CANCEL"="ביטול";
+/* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="אפשר למכשיר שלך להוריד סרטונים ברשת הסלולרית כאשר חיבור Wi-Fi לא זמין. עלולות לחול עלויות גלישה.";
+/* Title of alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_TITLE"="אפשר הורדה בסלולר";
+/* Error message shown when there is a problem loading a video */
+"CHECK_CONNECTION"="אירעה בעיה בזמן טעינה של הסרטון.\nאנא בדוק את חיבור האינטרנט שלך.";
+/* Generic action button label when the user chooses a thing */
+"CHOOSE" = "בחרו";
+/* Title of dropdown from which the user can select topics on New Post Screen */
+"CHOOSE_A_TOPIC" = "בחרו נושא...";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
+"COMPLETE_REGISTRATION_INFO" = "נכנסתם בהצלחה באמצעות {service}. אנחנו רק צריכים קצת יותר מידע לפני שתתחילו ללמוד עם {platform_name}.";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
+"COMPLETE_REGISTRATION_PROMPT" = "השלימו את ההרשמה שלכם";
+/* Title of alert when confirming deletion of a video */
+"CONFIRM_DELETE_TITLE"="אשר מחיקה";
+/* Text of alert when confirming video deletion */
+/* Text of alert when confirming video deletion */
+"CONFIRM_DELETE_MESSAGE##{one}"="האם אתה בטוח שאתה רוצה למחוק את הסרטון הזה?";
+"CONFIRM_DELETE_MESSAGE##{two}"="האם אתה בטוח שאתה רוצה למחוק את הסרטונים האלה?";
+"CONFIRM_DELETE_MESSAGE##{many}"="האם אתה בטוח שאתה רוצה למחוק את הסרטונים האלה?";
+"CONFIRM_DELETE_MESSAGE##{other}"="האם אתה בטוח שאתה רוצה למחוק את הסרטונים האלה?";
+/* Text of push notification announcing a new course announcement */
+"COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="הודעה חדשה: {course_name}";
+/* Alert dialog button text */
+"CLOSE"="סגור";
+/* Discussion response comment - {count} is a number of comments */
+/* Discussion response comment - {count} is a number of comments */
+"COMMENT##{one}"="הערה {count}";
+"COMMENT##{two}"="{count} הערות";
+"COMMENT##{many}"="{count} הערות";
+"COMMENT##{other}"="{count} הערות";
+/* Discussion comments */
+"COMMENTS"="הערות";
+/* Text displayed when comments are disabled for a Response */
+"COMMENTS_CLOSED" = "לא ניתן להוסיף הערות לתגובה זו";
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+"COMMENTS_TO_RESPONSE##{one}"="הערה {count}";
+"COMMENTS_TO_RESPONSE##{two}"="{count} הערות";
+"COMMENTS_TO_RESPONSE##{many}"="{count} הערות";
+"COMMENTS_TO_RESPONSE##{other}"="{count} הערות";
+/* Label for posts pinned by Community TA(s)" */
+"COMMUNITY_TA"="עוזר הוראה בקהילה";
+/* Label indicating the amount of time a course will take */
+"COURSE_DETAIL.EFFORT"="מאמץ:";
+/* Label indicating when a course ends. */
+"COURSE_DETAIL.END_DATE"="תאריך סיום:";
+/* Button title allowing user to enroll in a course */
+"COURSE_DETAIL.ENROLL_NOW" = "הירשמו עכשיו";
+/* Button title allowing user to view a course from the course's catalog detail page */
+"COURSE_DETAIL.VIEW_COURSE" = "צפו בקורס";
+/* Button title describing that the course is invitation only */
+"COURSE_DETAIL.INVITATION_ONLY" = "בהזמנה בלבד";
+/* Message shown when there is no course content */
+"COURSEWARE_UNAVAILABLE"="תוכן הקורס אינו זמין כעת.";
+/* Message shown when there is no course video */
+"COURSE_VIDEO_UNAVAILABLE"="קורס זה אינו כולל קבצי וידאו";
+/* Message shown when attempting to display content not available on the app */
+"COURSE_CONTENT_UNKNOWN" = "רכיב אינטראקטיבי זה אינו זמין עדיין בגרסת המובייל.\n\nגלו חלקים אחרים בבקורס זה או צפו ברכיב זה ברשת.";
+/* Message shown when there is no course dates */
+"COURSEDATES.COURSE_DATE_UNAVAILABLE"="תאריכי הקורס אינם זמינים כעת";
+/* Label for date when course starts */
+"COURSE.STARTING" = "Starting {start_date}";
+/* Label for date when course end */
+"COURSE.ENDING" = "Ending {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Ended {end_date}";
+/* Course audit will expires on date*/
+"COURSE.AUDIT.EXPIRES_ON" = "Course access expires on {expiry_date}";
+/* Course audit will expires in {time_duration}*/
+"COURSE.AUDIT.EXPIRES_IN" = "Course access expires in {time_duration}";
+/* Course audit expired n days ago*/
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
+/* Course audit expired in less than 24 hours*/
+"COURSE.AUDIT.EXPIRED_AGO" = "Course access expired {time_duaration}";
+/* Course audit expired on date*/
+"COURSE.AUDIT.EXPIRED_ON" = "Course access expired on {expiry_date}";
+/* Course audit expiry in n number of days*/
+"COURSE.AUDIT.DAYS" = "{days} days";
+/* 1 hour remaining in course audit expiry*/
+/* More than 1 hours remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_HOURS##{one}" = "{hours} hour";
+"COURSE_AUDIT_REMAINING_HOURS##{two}" = "{hours} hours";
+"COURSE_AUDIT_REMAINING_HOURS##{many}" = "{hours} hours";
+"COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} hours";
+/* 1 minutes remaining in course audit expiry*/
+/* More than 1 minutes remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_MINUTES##{one}" = "{minutes} minute";
+"COURSE_AUDIT_REMAINING_MINUTES##{two}" = "{minutes} minutes";
+"COURSE_AUDIT_REMAINING_MINUTES##{many}" = "{minutes} minutes";
+"COURSE_AUDIT_REMAINING_MINUTES##{other}" = "{minutes} minutes";
+/* 1 second remaining in course audit expiry*/
+/* More than 1 seconds remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} second";
+"COURSE_AUDIT_REMAINING_SECONDS##{two}" = "{seconds} seconds";
+"COURSE_AUDIT_REMAINING_SECONDS##{many}" = "{seconds} seconds";
+"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} seconds";
+/*Error meessage on course content screen if course audit expires*/
+"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
+/* Title text for the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS"="הודעות";
+/* Text describing the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS_DETAIL"="התעדכנו בחדשות העדכניות ביותר";
+/* Title text for the Courseware section of the course dashboard */
+"DASHBOARD.COURSE_COURSEWARE"="קורס";
+/* Text describing the Courseware section within the course dashboard */
+"DASHBOARD.COURSE_COURSE_DETAIL"="היכנסו לתוכן הקורס ולמטלות";
+/* Title text for the videos section of the course dashboard */
+"DASHBOARD.COURSE_Videos"="קבצי וידאו";
+/* Text describing the Videos section within the course dashboard */
+"DASHBOARD.COURSE_Videos_DETAIL"="צפו בקבצי הוידאו של הקורס";
+/* Title text for the Discussions section of the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION"="דיון";
+/* Text describing the Discussions section within the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION_DETAIL"="הצטרפו לשיחה";
+/* Title text for the Handouts section of the course dashboard  */
+"DASHBOARD.COURSE_HANDOUTS"="מסמכים לחלוקה";
+/* Text describing the Handouts section within the course dashboard */
+"DASHBOARD.COURSE_HANDOUTS_DETAIL"="מצאו מידע חשוב אודות הקורס";
+/* Title text for the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES"="תאריכים";
+/* Text describing the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="עקבו אחר מועדי ההגשה ועמדו בדרישות";
+/*Text for browse by subject label on subject discovery */
+"DISCOVERY.BROWSE_BY_SUBJECT" = "עיינו לפי נושא";
+/*Placeholder text for subjects searchbar*/
+"DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "חפשו נושא";
+/*Label text for view all subjects cell*/
+"DISCOVERY.VIEW_ALL_SUBJECTS" = "צפו בכל הנושאים";
+/* Text describing the course due date for same day*/
+"COURSE_DUE_DATE_SAME_DAY"="להגשה היום ב-{due_date} {time_zone}";
+/* Text describing the course due date*/
+"COURSE_DUE_DATE"="להגשה ב-{due_date}";
+/* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
+"COURSE_MODE_FULL"="הצג קורס מלא";
+/* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
+"COURSE_MODE_PICKER_DESCRIPTION" = "בורר המצבים";
+/* Text displayed when Can't find one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "אנחנו מקדישים מאמצים כדי שכל הקורסים שלנו יתאימו למכשירי סלולר. אם אתם לא מוצאים קורס מסוים, בדקו שוב בקרוב. אנחנו מוסיפים קורסים נוספים כל יום!";
+/* Message shown on a course when it hasn't started yet.*/
+"COURSE_NOT_STARTED"="קורס זה טרם החל.";
+/* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
+"COURSE_WILL_START_AT"="קורס זה טרם החל. בקרו שוב ב-{date} כדי לראות את קבצי הוידאו שלכם.";
+/* Create a new post button title used in discussions' posts screen */
+"CREATE_A_NEW_POST"="צרו פוסט חדש";
+/* Button text to initiate or confirm deletion */
+"DELETE"="מחק";
+/* Discussion used in the segmented control Creating a new post */
+"DISCUSSION"="דיון";
+/* Discussion comment overlay message when new comment added */
+"DISCUSSION_COMMENT_POSTED" = "ההערה שלך נוספה.";
+/* Title of button to allow user to follow a discussion post */
+"DISCUSSION_FOLLOW"="עקבו";
+/* Title of action to report a discussion post/response/comment to the course staff */
+"DISCUSSION_REPORT"="דווח";
+/* Discussion response overlay message when new response added */
+"DISCUSSION_THREAD_POSTED" = "התגובה שלך נוספה.";
+/* Title of the navigation bar when entering the course discussion */
+"DISCUSSION_TOPICS"="נושאי דיון";
+/* Title of button to allow user to unfollow a discussion post */
+"DISCUSSION_UNFOLLOW"="אל תעקוב";
+/* Title of action to unreport a discussion post/response/comment to the course staff */
+"DISCUSSION_UNREPORT"="בטל דיווח";
+/* Discussion comments count (Posts screen) - {count} is a number of comments */
+"DISCUSSIONS.REPLIES_COUNT"="{count} תגובות";
+/*Discussion posts screen last post date - {date} last updated thread date*/
+"DISCUSSIONS.LAST_POST" = "פוסט אחרון: {date}";
+/* Alert dialog button for allowing/disallowing downloads on cellular data */
+"DO_NOT_ALLOW"="אל תאפשר";
+/* Description about for button to download videos. For example, "Download 1 video" */
+/* Description about for button to download videos. For example, "Download 3 videos" */
+"DOWNLOAD_MANY_VIDEOS##{one}" = "הורד קובץ וידאו {video_count}";
+"DOWNLOAD_MANY_VIDEOS##{two}" = "הורד {video_count} קבצי וידאו";
+"DOWNLOAD_MANY_VIDEOS##{many}" = "הורד {video_count} קבצי וידאו";
+"DOWNLOAD_MANY_VIDEOS##{other}" = "הורד {video_count} קבצי וידאו";
+/* Button text for confirming download */
+"DOWNLOAD" = "הורד";
+/* Label indicating that a video or videos have been downloaded */
+"DOWNLOADED" = "הורד";
+/* Description about downloaded videos. For example, "Downloaded 1 video" */
+/* Description about downloaded videos. For example, "Downloaded 3 videos" */
+"DOWNLOADED_MANY_VIDEOS##{one}" = "הורד קובץ וידאו {video_count}";
+"DOWNLOADED_MANY_VIDEOS##{two}" = "הורד {video_count} קבצי וידאו";
+"DOWNLOADED_MANY_VIDEOS##{many}" = "הורד {video_count} קבצי וידאו";
+"DOWNLOADED_MANY_VIDEOS##{other}" = "הורד {video_count} קבצי וידאו";
+/* Label indicating that a video or videos are downloading */
+"DOWNLOADING" = "מוריד";
+/* Title of video downloads screen */
+"DOWNLOADS"="הורדות";
+/* Overlay message after user chooses to download a video */
+"DOWNLOADING_1_VIDEO"="מוריד סרטון 1.";
+/*Title for bulk download view when in downloading state */
+"DOWNLOADING_VIDEOS_TITLE" = "מוריד קבצי וידאו...";
+/*Title for bulk download view when in new or partial state */
+"DOWNLOAD_TO_DEVICE_TITLE" = "הורד למכשיר";
+/*Discover in left drawer(used for courses and programs discovery)*/
+"DISCOVER"="גילוי";
+/*Title for the programs in tabbar and navigation bar*/
+"PROGRAMS"="Programs";
+/*Title for the degrees in navigation bar*/
+"DEGREES"="Degrees";
+/*Debug option title in tabbar */
+"DEBUG"="פתור בעיות";
+/* Error message shown when email address is not properly formatted */
+"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="אנא ודאו שכתובת האימייל שלכם כתובה נכון ונסו שוב";
+/* Alert message shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="נראה שתוכנת הדוא\"ל שלך איננה מוגדרת.";
+/* Alert dialog title shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="אין אפשרות שלוח דואר אלקטרוני";
+/* Placeholder text for email address entry field */
+"EMAIL_ADDRESS_PROMPT"="כתובת אימייל";
+/* Text displayed when no results are found in the search */
+"EMPTY_RESULTSET" = "לא נמצאו תוצאות עבור \"{query_string}\". נסו מונח חיפוש אחר או בחרו בקטגוריית דיון כדי לעיין בה.";
+/* Prompt shown to users on the course list encouraging them to find new courses */
+"ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "מחפשים אתגר חדש?";
+/* Button title opening course catalog */
+"ENROLLMENT_LIST.FIND_COURSES" = "מצא קורס";
+/* Error message when user is not enrolled to any course and course discovery is also disabled.*/
+"ENROLLMENT_LIST.NO_ENROLLMENT" = "נראה שאתם עדיין לא רשומים בשום קורס.";
+/* Prompt indicating user needs to enter an email address */
+"ENTER_EMAIL"="אנא הכניסו את שם המשתמש או כתובת האימייל שלכם ונסו שוב.";
+/* Prompt indicating user needs to enter a password */
+"ENTER_PASSWORD"="אנא הכנס את הסיסמה שלך ונסה שוב.";
+/* Text used when the post is visible to everyone */
+"EVERYONE"="כולם";
+/* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
+"EXTERNAL_REGISTRATION_BECAME_LOGIN" = "כבר יצרתם חשבון ב-{platform_name} באמצעות חשבון ה-{service} שלכם. נכנסתם כעת באמצעות חשבון זה.";
+/* Endorsed text */
+"ENDORSED" = "התקבל";
+/* Facebook login method */
+"FACEBOOK"="פייסבוק";
+/* Overlay message shown when facebook login fails because the user's account isn't linked */
+"FAILED_TO_LOAD_TOPICS"="טעינת הנושאים נכשלה.";
+/* Title of find courses screen */
+"FIND_COURSES"="חפש קורסים";
+/* No available courses on find courses section */
+"FIND_COURSES_NO_AVAILABLE_COURSES"="אין קורסים זמינים";
+/* Overlay message shown when enrolling in a course fails because the user is already in the course */
+"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="אתה כבר רשום לקורס זה";
+/* Overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="אירעה שגיאה בעת הרשמה חדשה לקורס";
+/* AlertView message shown when enrolling in a course fails */
+"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="אנחנו לא יכולים לרשום אתכם לקורס הזה כעת באמצעות האפליקציה הסלולרית של {platform_name}. אנא נסו שוב בדפדפן הרשת שלכם.";
+/* Title of overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_TITLE"="שגיאת הרשמה";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="כעת אתם רשומים בקורס זה";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_OFFLINE_MESSAGE"="אתה במצב לא מקוון.\nלמצוא קורסים, התחבר לאינטרנט";
+/* Title of overlay message shown when sign in fails */
+"FLOATING_ERROR_LOGIN_TITLE"="שגיאת התחברות";
+/* Title of overlay message shown when reset password fails */
+"FLOATING_ERROR_TITLE"="שגיאת איפוס סיסמה";
+/* Adds a `:` after a label, used in form. Eg. "{First Name}: Bob" */
+"FORM_LABEL"="{label}:";
+/* Google login method */
+"GOOGLE"="גוגל";
+/* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="ודאו שחשבון ה-{service} שלכם מקושר עם חשבון ה-{platform_name} שלכם ב-{destination_name}";
+/* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_TITLE"="חשבון ה-{service} אינו מקושר עם חשבון ה-{platform_name}";
+/* Indicator for course content that is marked as having a graded component */
+"GRADED" = "ניתן ציון";
+/* Warning shown to indicate that the user is in a section of graded content. */
+"GRADED_CONTENT_WARNING" = "אנחנו ממליצים שתשלימו את החלקים שעבורם ניתן ציון כמו זה בדפדפן הרשת שלכם עד שהם ייתמכו באופן מלא באפליקציית הסלולר.";
+/* Message shown when there are no handouts for a course */
+"HANDOUTS_UNAVAILABLE"="כעת אין דפי מידע עבור קורס זה";
+/* Overlay error shown when logging in with an invalid email address */
+"INVALID_EMAIL_MESSAGE"="ודא כי כתובת הדואר האלקטרוני שלך כתובה כראוי ונסה שוב.";
+/* Overlay error shown when logging in with an invalid username or password */
+"INVALID_USERNAME_PASSWORD"="אנא ודאו ששם המשתמש או כתובת האימייל והססמה שלכם נכונים ונסו שוב.";
+/* Alert dialog text asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_MESSAGE"="הסרטונים שבחרת גדולים מ-1GB. האם אתה רוצה להוריד את סרטונים אלו?";
+/* Alert dialog title when asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_TITLE"="הורדה גדולה";
+/* Title for Course Item that was last accessed */
+"LAST_ACCESSED" = "כניסה אחרונה";
+/* Prompt leading user to create account screen */
+"LOGIN_SPLASH_SIGN_UP"="הירשם והתחל ללמוד";
+/* Prompt leading user to sign in screen */
+"LOGIN_SPLASH_SIGN_IN"="כבר רשום? היכנס";
+/* Button title to log out the current user */
+"LOGOUT"="התנתק";
+/* Option to sort discussion post list by most activity */
+"MOST_ACTIVITY"="הפעילות הרבה ביותר";
+/* Option to sort discussion post list by most votes */
+"MOST_VOTES"="ההצבעות הרבות ביותר";
+/* Screen title showing a user's courses */
+"COURSES"="קורסים";
+/* Screen title showing a user's settings */
+"MY_SETTINGS"="הגדרות שלי";
+/* Marked as answer for endorsed responses */
+"MARKED_ANSWER" = "סמנו כתשובה";
+/* Overlay error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE"="אינך מחובר לאינטרנט.";
+/* Alert dialog error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="אינך מחובר לאינטרנט. אנא בדוק את החיבור לאינטרנט.";
+/* Title of alert dialog shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_TITLE"="שגיאת חיבור";
+/* Button title for moving to the next block in the course */
+"NEXT" = "הבא";
+/* Button title for moving to the next unit in the course */
+"NEXT_UNIT" = "היחידה הבאה";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "בינתיים, אתם יכולים להירשם לקורסים דרך האתר שלנו - אתם תצטרכו להיכנס, להירשם, ולאחר מכן לחזור לאפליקציה אחרי שתסיימו.";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "צוות שלנו עובד קשה כדי שתוכל להירשם לקורסים בתוך האפליקציה.";
+/* Message shown when no results are found while filtering discussions */
+"NO_RESULTS_FOUND" = "אין פוסטים בקטגוריית הדיון הזו.";
+/* Message shown to indicate video transcript support has not yet been implemented */
+"NO_TRANSCRIPT" = "תמליל הוידאו הזה אינו זמין עדיין.";
+/* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
+"NO_WIFI_MESSAGE" = "הגדרות ההורדה הנוכחיות שלכם מאפשרות הורדה רק באמצעות רשת אלחוטית.\nאנא התחברו לרשת אלחוטית Wi-Fi או שנו את הגדרות ההורדה שלכם.";
+/* Text displayed when no results are found for following*/
+"NO_FOLLOWING_RESULTS" = "אינכם עוקבים אחר שום פוסט.";
+/* Message shown when no results are found for all posts*/
+"NO_COURSE_RESULTS" = "אין פוסטים בדיון בקורס זה.";
+/* Indicates a field that does not apply to the current context */
+"NOT_APPLICABLE" = "לא רלוונטי";
+/* Label of switch that toggles push notification support */
+"NOTIFICATIONS_ENABLED" = "אפשר התראות";
+/*Text for author if post is by anonymous user*/
+"ANONYMOUS" = "אנונימי";
+/* Label indicating user has on internet connection and is in offline mode */
+"OFFLINE" = "לא מחובר";
+/* Alert dialog okay button */
+"OK"="OK";
+/* Button title allowing user to open current page in their web browser */
+"OPEN_IN_BROWSER"="צפו בספארי";
+/* Button label to bring up course finder */
+"OR_SIGN_IN_WITH"="או התחבר באמצעות";
+/* Login screen password field title text */
+"PASSWORD_TITLE_TEXT" = "Password";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_CONTINUE"="המשך";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
+"PLAYBACK_COMPLETE_CONTINUE_CANCEL"="לא";
+/* Alert dialog content when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_MESSAGE"="האם ברצונך לצפות בסרטון הבא?";
+/* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_TITLE"="הגעת לסוף של הסרטון הזה.";
+/* Post screen title in creating a new post */
+"POST" = "צרו פוסט חדש";
+/* Title for Row on Discussion screen which opens the posts followed by the user */
+"POSTS_IM_FOLLOWING" = "פוסטים שאני עוקב\ת אחריהם";
+/* Navigation item title for post and responses */
+"DISCUSSION_POST" = "פוסט דיון";
+/* Post discussion button title in Create a new post */
+"POST_DISCUSSION"="דיון בפוסט";
+/* Post question button title in Create a new post */
+"POST_QUESTION"="שאלות בנוגע לפוסט";
+/* Button title for moving to the previous block in the course */
+"PREVIOUS" = "הקודם";
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "היחידה הקודמת";
+/* A10y hint for the change picture button. */
+"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Double tap to change profile photo";
+/* Change picture button text on edit profile screen. */
+"PROFILE.CHANGE_PICTURE_BUTTON" = "החלף";
+/* Text for use a photo already in library for user profile photo alert */
+"PROFILE.CHOOSE_EXISTING" = "בחרו תמונה";
+/* Instruction title text on the photo crop view. */
+"PROFILE.CROP_AND_RESIZE_PICTURE" = "גזרו ושנו גודל";
+/* 'Current Language' label on top row of edit language in user's profile */
+"PROFILE.CURRENT_LANGUAGE_LABEL" = "שפה נוכחית:";
+/* 'Current Location' label on top row of edit country in user's profile */
+"PROFILE.CURRENT_LOCATION_LABEL" = "מיקום נוכחי:";
+/* Profile edit view title */
+"PROFILE.EDIT_TITLE" = "ערוך פרופיל";
+/* Accessibility label for edit profile button */
+"PROFILE.EDIT_ACCESSIBILITY" = "ערוך פרופיל";
+/* Accessibility hint for country field in user profile */
+"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "המדינה שלכם";
+/* Accessibility hint for language field in user profile */
+"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "השפה המועדפת שלכם";
+/* Shown when viewing someone else's limied profile. */
+"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "אדם זה הלומד ב-{platform_name} משתף כעת פרופיל מוגבל.";
+/* User has not filled in an "about me" on their profile */
+"PROFILE.NO_BIO" = "לא נמסר מידע \"אודותי\".";
+/* Text in the picture taker alert to delete the existing image */
+"PROFILE.REMOVE_IMAGE" = "הסר";
+/* Profile screen text indicating that the user is currently only displaying a limited profile */
+"PROFILE.SHOWING_LIMITED" = "כעת אתם משתפים פרופיל מוגבל";
+/* Text for take picture for user profile photo alert */
+"PROFILE.TAKE_PICTURE" = "צלם תמונה";
+/* Descriptive text for why a limited profile is shown for users under 13, first line */
+"PROFILE.AGE_LIMIT" = "עליכם להיות מעל גיל 13 כדי לשתף פרופיל מלא.";
+/* Error retrieving a profile */
+"PROFILE.UNABLE_TO_GET" = "לא יכולנו להעלות את הפרופיל הזה.";
+/* Error message when removing profile picture */
+"PROFILE.UNABLE_TO_REMOVE_PHOTO" = "לא יכולנו להסיר את התמונה שלכם.";
+/* Error saving user profile, for field `field_name` */
+"PROFILE.UNABLE_TO_SEND" = "לא יכולנו לעדכן את ה-{field_name} שלכם.";
+/* Error message when setting a new profile picture */
+"PROFILE.UNABLE_TO_SET_PHOTO" = "לא יכולנו לעדכן את התמונה שלכם.";
+/*Pipe sign using for formatting in discussion posts*/
+"PIPE_SIGN" = "י";
+/* Question used in the segmented control Creating a new post */
+"QUESTION"="שאלה";
+/* Option to sort discussion post list by recent activity */
+"RECENT_ACTIVITY" = "פעילות שבוצעה לאחרונה";
+/* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
+"REFINE" = "סנן:";
+/* Button title when responses are closed for a thread */
+"RESPONSES_CLOSED"="לא ניתן להוסיף תגובות לפוסט זה";
+/* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
+"REGISTRATION_AGREEMENT_MESSAGE"="ביצירת חשבון, אתם מסכים ל-";
+/* Button text allowing user create an account */
+"REGISTRATION_CREATE_MY_ACCOUNT"="צור את חשבוני";
+/* Text shown while waiting for registration request */
+"REGISTRATION_CREATING_ACCOUNT"="יוצר חשבון...";
+/* Error prompt shown during registration to indicate an empty field. {field_name} is the name of a registration field like 'password' */
+"REGISTRATION_FIELD_EMPTY_ERROR"="אנא הכניסו את ה-{field_name}.";
+/* Error prompt shown during registration to indicate a field missing a selection. {field_name} is the name of a registration field like 'year of birth' */
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="אנא בחרו את ה-{field_name}.";
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{one}"="{field_name} לא יכול להכיל יותר מתו {count}.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{two}"="{field_name} לא יכול להכיל יותר מ-{count} תווים.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{many}"="{field_name} לא יכול להכיל יותר מ-{count} תווים.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{other}"="{field_name} לא יכול להכיל יותר מ-{count} תווים.";
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{one}"="על {field_name} להכיל לפחות תו {count}.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{two}"="על {field_name} להכיל לפחות {count} תווים.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{many}"="על {field_name} להכיל לפחות {count} תווים.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{other}"="על {field_name} להכיל לפחות {count} תווים.";
+/* Button text allowing user to hide visible optional registration fields */
+"REGISTRATION_HIDE_OPTIONAL_FIELDS"="הסתר שדות אופציונאליים";
+/* Button text allowing user to show hidden optional registration fields */
+"REGISTRATION_SHOW_OPTIONAL_FIELDS"="הצג שדות אופציונאליים";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be followed by text "or sign up with an email". */
+"REGISTRATION_REGISTER_PROMPT"="הירשמו באמצעות";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
+"REGISTRATION_REGISTER_ALTERNATE_PROMPT"="או הירשמו באמצעות אימייל";
+/*Title of registration error alert*/
+"REGISTRATION_ERROR_ALERT_TITLE"="שגיאה בהרשמה";
+/* Detailed info message for registration error alert*/
+"REGISTRATION_ERROR_ALERT_MESSAGE"="עדכנו את השדות המודגשים ונסו שוב";
+
+/* Alert dialog title prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_TITLE"="איפוס סיסמה";
+/* Alert dialog content prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_POPUP_TEXT"="הזן את כתובת הדוא\"ל של חשבונך, ואנו נשלח אליך הוראות לאיפוס סיסמתך.";
+/* Alert dialog title confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_TITLE"="נשלח דוא\"ל לאיפוס סיסמה";
+/* Alert dialog content confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_MESSAGE"="שלחנו הודעה המכילה הוראות לאיפוס סיסמה לכתובת דואר האלקטרוני שלך. אם בדקות הקרובות אינך רואה אותה , הקפד לבדוק את תיקיית דואר הזבל שלך.";
+/* Button that allows user to retry an operation that did not succeed */
+"RETRY" = "נסו שוב";
+/*Offline snackbar button that allows user to reload data*/
+"RELOAD" = "טען שוב";
+/* Response back title in adding a new response */
+"ADD_A_RESPONSE"="הוסיפו תגובה";
+/* Discussion response - {count} is a number of responses */
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{one}"="תגובה {count}";
+"RESPONSE##{two}"="{count} תגובות";
+"RESPONSE##{many}"="{count} תגובות";
+"RESPONSE##{other}"="{count} תגובות";
+/* Discussion topics search placeholder */
+"SEARCH_ALL_POSTS"="חפש בכל הפוסטים";
+/*Placeholder text for search course textfield*/
+"SEARCH_COURSES_PLACEHOLDER_TEXT"="Search course";
+/*Placeholder text for search program textfield*/
+"SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Search program";
+/*Placeholder text for search degree textfield*/
+"SEARCH_DEGREES_PLACEHOLDER_TEXT"="Search degree";
+/* Discussion search results  */
+"SEARCH_RESULTS"="חפש בתוצאות";
+/* Text shown below the video, in portrait mode */
+"ROTATE_DEVICE"="סובבו את המכשיר שלכם כדי לצפות בוידאו זה במצב מסך מלא";
+/*if filter applied then append this string to error message*/
+"REMOVE_FILTER" = "נסו להסיר את סינון הפוסטים שלכם.";
+/* Label shown when user attempts to view a course section that hasn't been synced  */
+"SECTION_UNAVAILABLE_OFFLINE"="מקטע זה אינו זמין במצב לא מקוון.\nאם הורדת תוכן למקטע אחר, עבור למקטע זה בכדי לצפות בתוכן.";
+/* Screen title showing a user's settings */
+"SETTINGS"="הגדרות";
+/* Text for a Twitter or Facebook post to a course about page */
+"SHARE_A_COURSE"="אני לוקח\ת קורס ב{platform_name}! תעיפו מבט:";
+/* Sign in screen title and button initiating login process after user enters credentials like username and password */
+"SIGN_IN_TEXT"="היכנס";
+/* Message shown while user waits for response to a sign in request */
+"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="נכנס";
+/*  Accessibility text prefix for  Facebook and Google Buttons*/
+"SIGN_IN_PROMPT"="Sign in with";
+/*Sign up screen title and button initiating sign up process on the main screen */
+"REGISTER_TEXT"="הירשמו";
+/* Indicates a date in the near future */
+"SOON"="בקרוב";
+/* Label for posts pinned by Staff */
+"STAFF"="צוות";
+/* Info message text on the startup screen */
+"STARTUP.INFO_MESSAGE_TEXT"="Courses from the world's best universities in your pocket.";
+/*Log In button title on the startup screen*/
+"STARTUP.LOGIN_TEXT"="היכנס";
+/*Create your Account button title on the startup screen*/
+"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="צרו את החשבון שלכם";
+/* Explore Subjects button text on the first screen */
+"STARTUP_EXPLORE_SUBJECTS"="חפשו נושאים";
+/* Button allowing user to submit feedback about the app via email */
+"SUBMIT_FEEDBACK.OPTION_TITLE" = "שלחו פידבק";
+/* Support message email title */
+"SUBMIT_FEEDBACK.MESSAGE_SUBJECT" = "פידבק לקוחות";
+/* Marker in feedback email meant to separate feedback from prepopulated device information */
+"SUBMIT_FEEDBACK.MARKER" = "---- השאירו פידבק מעל קו זה ----";
+/* Line in submit feedback email that supplies OS version information. For example, "iOS Version: 9.2" */
+"SUBMIT_FEEDBACK.OS_VERSION" = "גרסת iOS: {version}";
+/* Line in submit feedback email that supplies app version information. For example, "App Version: 2.2 (2.2.23)" */
+"SUBMIT_FEEDBACK.APP_VERSION" = "גרסת האפליקציה: {version} ({build})";
+/* Line in submit feedback email that supplies device model information. For example, "Device Model: iPhone" */
+"SUBMIT_FEEDBACK.DEVICE_MODEL" = "דגם מכשיר: {model}";
+/* Text that indicates the visibility of the post */
+"POST_VISIBILITY"="פוסט זה זמין לצפייה רק ל-{cohort}.";
+/* Text that indicates the visibility of the post to everyone */
+"POST_VISIBILITY_EVERYONE" = "פוסט זה זמין לצפייה לכולם.";
+/*Add parenthesis around text*/
+"PARENTHESIS" = "({text})";
+/* Alert dialog title shown when network request takes too long to complete */
+"TIMEOUT_ALERT_TITLE"="בקשה לשרת אורכת יותר מידי זמן";
+/* Alert dialog content shown when network request takes too long to complete */
+"TIMEOUT_CHECK_INTERNET_CONNECTION"="אנא בדוק את חיבור האינטרנט שלך.\nטעינת הדף לוקחת יותר זמן מהצפוי .";
+/* Title as place holder in Create a new post */
+"TITLE"="כותרת";
+/* Topic as button title in Create a new post */
+"TOPIC"="נושא: {topic}";
+/* Back bar button topics */
+"TOPICS"="נושאים";
+/* Button text allowing user to reset their password */
+"TROUBLE_IN_LOGIN_BUTTON"="שכחת סיסמה?";
+/* Error shown when video download fails */
+"UNABLE_TO_DOWNLOAD"="לא ניתן להוריד" ;
+/* Error shown when the course content could not for an unknown reason. */
+"UNABLE_TO_LOAD_COURSE_CONTENT"="לא ניתן לטעון את תוכן הקורס.\nנסו שוב מאוחר יותר.";
+/* Filtering option to show unanswered discussion posts */
+"UNANSWERED"="ללא מענה";
+/* Navigation title for a Question Post which has no endorsed answers */
+"UNANSWERED_QUESTION" = "שאלה שלא נענתה";
+/* Filtering option to show unread discussion posts*/
+"UNREAD"="לא נקרא";
+/* Placeholder title for course content with no title */
+"UNTITLED"="ללא כותרת";
+/* Title text for login field */
+"USERNAME_TITLE_TEXT" = "Username or e-mail address";
+/*Error message when operation failed with unknow error*/
+"UNKNOWN_ERROR" = "לא ניתן היה להשלים את הפעולה שלכם.";
+/* Screen title showing a user's account */
+"USER_ACCOUNT"="חשבון";
+/* Button title for profile view in account*/
+"USER_ACCOUNT.PROFILE"= "פרופיל";
+/* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
+"VERSION_DISPLAY" = "גרסה {number} {environment}";
+/* Error shown when video download fails */
+"VIDEO_CONTENT_NOT_AVAILABLE"="סרטון זה אינו זמין כרגע. בדוק שוב מאוחר יותר.";
+/* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
+"VIDEO_ONLY_ON_WEB" = "קובץ וידאו זה קיים כעת רק ברשת. הקישו כדי לצפות בו בדפדפן הרשת שלכם.";
+/* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
+"VIDEO_NOT_AVAILABLE"="סרטון זה לא זמין במצב לא מקוון.\nאנא בחר בסרטון שהורדת למכשירך.";
+/* Shows in the video setting sub-table which item is selected */
+"VIDEO_SETTING_SELECTED" = "✓ %@";
+/* Button action to open app on YouTube */
+"VIDEO.VIEW_ON_YOUTUBE" = "צפו בוידאו ביוטיוב";
+/* Message shown for videos that can only be played external the app via YouTube. */
+"VIDEO.ONLY_ON_YOUTUBE" = "ניתן להציג קובץ וידאו זה רק ביוטיוב.";
+/* Button text for showing an associated item */
+"VIEW" = "צפו";
+/* Button linking to course announcements */
+"VIEW_HANDOUTS" = "צפו במסמכי הקורס";
+/* Discussion vote - {count} is a number of votes */
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{one}"="הצבעה {count}";
+"VOTE##{two}"="{count} הצבעות";
+"VOTE##{many}"="{count} הצבעות";
+"VOTE##{other}"="{count} הצבעות";
+/*Title of update button on fullscreen error and SnackBar*/
+"VERSION_UPGRADE_UPDATE" = "עדכן";
+/*Title of dismiss button on SnackBar*/
+"VERSION_UPGRADE.DISMISS" = "בטל";
+/*Deprecated version detail message*/
+"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "גרסה חדשה של האפליקציה זמינה להורדה.";
+/*Outdated version detail message*/
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "גרסת האפליקציה שברשותך לא נתמכת עוד.";
+/*Outdated version alert message for login screen*/
+"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "גרסת האפליקציה שברשותכם אינה נתמכת עוד. עדכנו לגרסה האחרונה כדי להיכנס.";
+/*New version available without deadline message*/
+"VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "גרסה חדשה של האפליקציה זמינה להורדה.";
+/*Video player remaining time default value*/
+"VIDEO_PLAYER_DEFAULT_REMAINING_TIME" = "0:00/0:00";
+/* Overlay shown after a network request has started, telling the user to wait for the response */
+"WAITING_FOR_RESPONSE"="אנא המתינו...";
+/* Header of 'whats new screen'*/
+"WHATS_NEW.HEADER_TEXT"="מאפיינים חדשים בגרסה {app_version}";
+/*Whats new screen done button title*/
+"WHATS_NEW.DONE"="בוצע";
+/*Title for wifi only switch at Settings screen*/
+"WIFI_ONLY_TITLE" = "הורדה ברשת אלחוטית בלבד";
+/*Detail message for wifi only switch at Settings screen*/
+"WIFI_ONLY_DETAIL_MESSAGE" = "הורד תוכן רק כשחיבור הוויי-פיי דולק";
+/* Alert dialog button title to confirm an action */
+"YES"="כן";
+/* Invalid youtube url error message */
+"YOUTUBE_INVALID_URL_ERROR"="לא ניתן היה לטעון את הווידאו כתובת אתר לא חוקית.";

@@ -239,23 +239,43 @@ static OEXStyles* sSharedStyles;
 #pragma mark Fonts
 
 - (UIFont*)sansSerifOfSize:(CGFloat)size {
-    return [self.oexFonts fontForIdentifier:FontIdentifiersRegular
+    return [self.oexFonts fontFor:FontIdentifiersRegular
                                        size:size];
 }
 
 - (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size {
-    return [self.oexFonts fontForIdentifier:FontIdentifiersSemiBold
+    return [self.oexFonts fontFor:FontIdentifiersSemiBold
                                        size:size];
 }
 
 - (UIFont*)boldSansSerifOfSize:(CGFloat)size {
-    return [self.oexFonts fontForIdentifier:FontIdentifiersBold
+    return [self.oexFonts fontFor:FontIdentifiersBold
                                        size:size];
 }
 
 - (UIFont*)lightSansSerifOfSize:(CGFloat)size {
-    return [self.oexFonts fontForIdentifier:FontIdentifiersLight
+    return [self.oexFonts fontFor:FontIdentifiersLight
                                        size:size];
+}
+
+- (UIFont*)sansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersRegular
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
+}
+
+- (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersSemiBold
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
+}
+
+- (UIFont*)boldSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersBold
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
+}
+
+- (UIFont*)lightSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersLight
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
 }
 
 - (NSString*)styleHTMLContent:(NSString*)htmlString stylesheet:(NSString*)stylesheet {

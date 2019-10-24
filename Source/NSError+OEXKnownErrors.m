@@ -83,10 +83,15 @@ NSString* const OEXErrorDomain = @"org.edx.error";
                 return [style attributedStringWithText: [Strings courseNotStarted]];
             }
         }
+        case OEXAuditExpired: {
+            return [style attributedStringWithText: [Strings courseAuditExpiredErrorMessage]];
+        }
+
         case OEXMilestoneError:
         case OEXVisibilityError:
         case OEXUnknownError:
             return [style attributedStringWithText: self.access.user_message ?: [Strings coursewareUnavailable]];
+
     }
 
 }

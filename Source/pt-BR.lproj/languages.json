@@ -1,0 +1,560 @@
+[
+    {
+        "aa": "Afar"
+    },
+    {
+        "ab": "Abkhazian"
+    },
+    {
+        "af": "Afrikaans"
+    },
+    {
+        "ak": "Akan"
+    },
+    {
+        "sq": "Albanisch"
+    },
+    {
+        "am": "Amharic"
+    },
+    {
+        "ar": "Arabisch"
+    },
+    {
+        "an": "Aragonese"
+    },
+    {
+        "hy": "Armenisch"
+    },
+    {
+        "as": "Assamese"
+    },
+    {
+        "av": "Avaric"
+    },
+    {
+        "ae": "Avestan"
+    },
+    {
+        "ay": "Aymara"
+    },
+    {
+        "az": "Azerbaijani"
+    },
+    {
+        "ba": "Bashkir"
+    },
+    {
+        "bm": "Bambara"
+    },
+    {
+        "eu": "Baskisch"
+    },
+    {
+        "be": "Weißrussisch"
+    },
+    {
+        "bn": "Bengali"
+    },
+    {
+        "bh": "Bihari languages"
+    },
+    {
+        "bi": "Bislama"
+    },
+    {
+        "bs": "Bosnisch"
+    },
+    {
+        "br": "Breton"
+    },
+    {
+        "bg": "Bulgarisch"
+    },
+    {
+        "my": "Burmese"
+    },
+    {
+        "ca": "Catalan"
+    },
+    {
+        "ch": "Chamorro"
+    },
+    {
+        "ce": "Chechen"
+    },
+    {
+        "zh": "Chinesisch"
+    },
+    {
+        "zh_HANS": "Vereinfachtes Chinesisch"
+    },
+    {
+        "zh_HANT": "Traditionelles Chinesisch"
+    },
+    {
+        "cu": "Church Slavic"
+    },
+    {
+        "cv": "Chuvash"
+    },
+    {
+        "kw": "Cornish"
+    },
+    {
+        "co": "Corsican"
+    },
+    {
+        "cr": "Cree"
+    },
+    {
+        "cs": "Tschechisch"
+    },
+    {
+        "da": "Dänisch"
+    },
+    {
+        "dv": "Divehi"
+    },
+    {
+        "nl": "Niederländisch"
+    },
+    {
+        "dz": "Dzongkha"
+    },
+    {
+        "en": "Englisch"
+    },
+    {
+        "eo": "Esperanto"
+    },
+    {
+        "et": "Estnisch"
+    },
+    {
+        "ee": "Ewe"
+    },
+    {
+        "fo": "Faroese"
+    },
+    {
+        "fj": "Fijian"
+    },
+    {
+        "fi": "Finnisch"
+    },
+    {
+        "fr": "Französisch"
+    },
+    {
+        "fy": "Westfriesisch"
+    },
+    {
+        "ff": "Fulah"
+    },
+    {
+        "ka": "Georgisch"
+    },
+    {
+        "de": "Deutsch"
+    },
+    {
+        "gd": "Gaelic"
+    },
+    {
+        "ga": "Irish"
+    },
+    {
+        "gl": "Galicisch"
+    },
+    {
+        "gv": "Manx"
+    },
+    {
+        "el": "Griechisch"
+    },
+    {
+        "gn": "Guarani"
+    },
+    {
+        "gu": "Gujarati"
+    },
+    {
+        "ht": "Haitian"
+    },
+    {
+        "ha": "Hausa"
+    },
+    {
+        "he": "Hebräisch"
+    },
+    {
+        "hz": "Herero"
+    },
+    {
+        "hi": "Hindi"
+    },
+    {
+        "ho": "Hiri Motu"
+    },
+    {
+        "hr": "Kroatisch"
+    },
+    {
+        "hu": "Ungarisch"
+    },
+    {
+        "ig": "Igbo"
+    },
+    {
+        "is": "Isländisch"
+    },
+    {
+        "io": "Ido"
+    },
+    {
+        "ii": "Sichuan Yi"
+    },
+    {
+        "iu": "Inuktitut"
+    },
+    {
+        "ie": "Interlingue"
+    },
+    {
+        "ia": "Interlingua"
+    },
+    {
+        "id": "Indonesisch"
+    },
+    {
+        "ik": "Inupiaq"
+    },
+    {
+        "it": "Italienisch"
+    },
+    {
+        "jv": "Javanese"
+    },
+    {
+        "ja": "Japanisch"
+    },
+    {
+        "kl": "Kalaallisut"
+    },
+    {
+        "kn": "Kannada"
+    },
+    {
+        "ks": "Kashmiri"
+    },
+    {
+        "kr": "Kanuri"
+    },
+    {
+        "kk": "Kazakh"
+    },
+    {
+        "km": "Zentral Khmer"
+    },
+    {
+        "ki": "Kikuyu"
+    },
+    {
+        "rw": "Kinyarwanda"
+    },
+    {
+        "ky": "Kirghiz"
+    },
+    {
+        "kv": "Komi"
+    },
+    {
+        "kg": "Kongo"
+    },
+    {
+        "ko": "Koreanisch"
+    },
+    {
+        "kj": "Kuanyama"
+    },
+    {
+        "ku": "Kurdisch"
+    },
+    {
+        "lo": "Lao"
+    },
+    {
+        "la": "Latin"
+    },
+    {
+        "lv": "Lettisch"
+    },
+    {
+        "li": "Limburgan"
+    },
+    {
+        "ln": "Lingala"
+    },
+    {
+        "lt": "Litauisch"
+    },
+    {
+        "lb": "Luxemburgisch"
+    },
+    {
+        "lu": "Luba-Katanga"
+    },
+    {
+        "lg": "Ganda"
+    },
+    {
+        "mk": "Mazedonisch"
+    },
+    {
+        "mh": "Marshallese"
+    },
+    {
+        "ml": "Malayalam"
+    },
+    {
+        "mi": "Maori"
+    },
+    {
+        "mr": "Marathi"
+    },
+    {
+        "ms": "Malay"
+    },
+    {
+        "mg": "Malagasy"
+    },
+    {
+        "mt": "Maltesisch"
+    },
+    {
+        "mn": "Mongolisch"
+    },
+    {
+        "na": "Nauru"
+    },
+    {
+        "nv": "Navajo"
+    },
+    {
+        "nr": "Ndebele, South"
+    },
+    {
+        "nd": "Ndebele, North"
+    },
+    {
+        "ng": "Ndonga"
+    },
+    {
+        "ne": "Nepalesisch"
+    },
+    {
+        "nn": "Norwegisch"
+    },
+    {
+        "nb": "Bokmål, Norwegian"
+    },
+    {
+        "no": "Norwegisch"
+    },
+    {
+        "ny": "Chichewa"
+    },
+    {
+        "oc": "Occitan"
+    },
+    {
+        "oj": "Ojibwa"
+    },
+    {
+        "or": "Oriya"
+    },
+    {
+        "om": "Oromo"
+    },
+    {
+        "os": "Ossetian"
+    },
+    {
+        "pa": "Panjabi"
+    },
+    {
+        "fa": "Persisch"
+    },
+    {
+        "pi": "Pali"
+    },
+    {
+        "pl": "Polnisch"
+    },
+    {
+        "pt": "Portugiesisch"
+    },
+    {
+        "ps": "Pushto"
+    },
+    {
+        "qu": "Quechua"
+    },
+    {
+        "rm": "Romansh"
+    },
+    {
+        "ro": "Rumänisch"
+    },
+    {
+        "rn": "Rundi"
+    },
+    {
+        "ru": "Russisch"
+    },
+    {
+        "sg": "Sango"
+    },
+    {
+        "sa": "Sanskrit"
+    },
+    {
+        "si": "Sinhala"
+    },
+    {
+        "sk": "Slowakisch"
+    },
+    {
+        "sl": "Slowenisch"
+    },
+    {
+        "se": "Northern Sami"
+    },
+    {
+        "sm": "Samoan"
+    },
+    {
+        "sn": "Shona"
+    },
+    {
+        "sd": "Sindhi"
+    },
+    {
+        "so": "Somali"
+    },
+    {
+        "st": "Sotho, Southern"
+    },
+    {
+        "es": "Spanisch"
+    },
+    {
+        "sc": "Sardinian"
+    },
+    {
+        "sr": "Serbisch"
+    },
+    {
+        "ss": "Swati"
+    },
+    {
+        "su": "Sundanese"
+    },
+    {
+        "sw": "Swahili"
+    },
+    {
+        "sv": "Schwedisch"
+    },
+    {
+        "ty": "Tahitisch"
+    },
+    {
+        "ta": "Tamil"
+    },
+    {
+        "tt": "Tatar"
+    },
+    {
+        "te": "Telugu"
+    },
+    {
+        "tg": "Tajik"
+    },
+    {
+        "tl": "Tagalog"
+    },
+    {
+        "th": "Thai"
+    },
+    {
+        "bo": "Tibetan"
+    },
+    {
+        "ti": "Tigrinya"
+    },
+    {
+        "to": "Tonga (Tonga Islands)"
+    },
+    {
+        "tn": "Tswana"
+    },
+    {
+        "ts": "Tsonga"
+    },
+    {
+        "tk": "Turkmen"
+    },
+    {
+        "tr": "Türkisch"
+    },
+    {
+        "tw": "Twi"
+    },
+    {
+        "ug": "Uighur"
+    },
+    {
+        "uk": "Ukrainisch"
+    },
+    {
+        "ur": "Urdu"
+    },
+    {
+        "uz": "Uzbek"
+    },
+    {
+        "ve": "Venda"
+    },
+    {
+        "vi": "Vietnamesisch"
+    },
+    {
+        "vo": "Volapük"
+    },
+    {
+        "cy": "Welsh"
+    },
+    {
+        "wa": "Walloon"
+    },
+    {
+        "wo": "Wolof"
+    },
+    {
+        "xh": "Xhosa"
+    },
+    {
+        "yi": "Yiddish"
+    },
+    {
+        "yo": "Yoruba"
+    },
+    {
+        "za": "Zhuang"
+    },
+    {
+        "zu": "Zulu"
+    }
+]

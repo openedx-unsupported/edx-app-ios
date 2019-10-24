@@ -59,13 +59,15 @@
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_PassGreyTop;
 @property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_ActivityIndTop;
 
-@property (weak, nonatomic, nullable) IBOutlet UITextField* tf_EmailID;
-@property (weak, nonatomic, nullable) IBOutlet UITextField* tf_Password;
+@property (weak, nonatomic, nullable) IBOutlet LogistrationTextField* tf_EmailID;
+@property (weak, nonatomic, nullable) IBOutlet LogistrationTextField* tf_Password;
 @property (weak, nonatomic, nullable) IBOutlet UIButton* btn_TroubleLogging;
 @property (weak, nonatomic, nullable) IBOutlet UIButton* btn_Login;
 @property (weak, nonatomic, nullable) IBOutlet UIScrollView* scroll_Main;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Map;
 @property (weak, nonatomic, nullable) IBOutlet UIImageView* img_Logo;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* usernameTitleLabel;
+@property (weak, nonatomic, nullable) IBOutlet UILabel* passwordTitleLabel;
 @property (weak, nonatomic) IBOutlet AgreementTextView *agreementTextView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *agreementTextViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *agreementTextViewTop;
@@ -143,9 +145,9 @@
     if([self isMicrosoftEnabled]) {
         [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
-    
+
     __weak __typeof(self) owner = self;
-    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers tapAction:^(id<OEXExternalAuthProvider> provider) {
+    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
         [owner externalLoginWithProvider:provider];
     }];
     [self.externalAuthContainer addSubview:externalAuthOptions];
@@ -155,6 +157,7 @@
 
     [self.lbl_OrSignIn setText:[Strings orSignInWith]];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
+    [self.lbl_OrSignIn setIsAccessibilityElement:false];
     
     if (self.environment.config.isRegistrationEnabled) {
         UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_cancel"] style:UIBarButtonItemStylePlain target:self action:@selector(navigateBack)];
@@ -248,7 +251,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setSignInToDefaultState:) name:UIApplicationDidBecomeActiveNotification object:nil];
-
+    
     //Tap to dismiss keyboard
     UIGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                               action:@selector(tappedToDismiss)];
@@ -286,12 +289,19 @@
 
 - (void)setToDefaultProperties {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.tf_EmailID.attributedPlaceholder = [_placeHolderStyle attributedStringWithText:[Strings usernamePlaceholder]];
-    self.tf_Password.attributedPlaceholder = [_placeHolderStyle attributedStringWithText:[Strings passwordPlaceholder]];
+    self.usernameTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings usernameTitleText],[Strings asteric]]];
+    self.passwordTitleLabel.attributedText = [_placeHolderStyle attributedStringWithText:[NSString stringWithFormat:@"%@ %@",[Strings passwordTitleText],[Strings asteric]]];
     self.tf_EmailID.text = @"";
     self.tf_Password.text = @"";
-    self.tf_EmailID.accessibilityLabel = nil;
-    self.tf_Password.accessibilityLabel = nil;
+    // We made adjustsFontSizeToFitWidth as true to fix the dynamic type text
+    self.usernameTitleLabel.adjustsFontSizeToFitWidth = true;
+    self.passwordTitleLabel.adjustsFontSizeToFitWidth = true;
+    self.usernameTitleLabel.isAccessibilityElement = false;
+    self.passwordTitleLabel.isAccessibilityElement = false;
+    self.tf_EmailID.accessibilityLabel = [Strings usernameTitleText];
+    self.tf_Password.accessibilityLabel = [Strings passwordTitleText];
+    self.tf_EmailID.accessibilityHint = [Strings accessibilityRequiredInput];
+    self.tf_Password.accessibilityHint = [Strings accessibilityRequiredInput];
     OEXTextStyle *forgotButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles primaryBaseColor]];
     [self.btn_TroubleLogging setAttributedTitle:[forgotButtonStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
 
@@ -302,7 +312,6 @@
 
     if(username) {
         _tf_EmailID.text = username;
-        _tf_EmailID.accessibilityLabel = [Strings usernamePlaceholder];
     }
 }
 
@@ -628,25 +637,6 @@
         [textField resignFirstResponder];
     }
 
-    return YES;
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if ([textField isEqual:_tf_EmailID] && [textField.text isEqualToString:@""] && string.length > 0) {
-        textField.accessibilityLabel = [Strings usernamePlaceholder];
-    }
-    else if([textField isEqual:_tf_EmailID] && [string isEqualToString:@""] && textField.text.length == 1) {
-        textField.accessibilityLabel = nil;
-    }
-    
-    
-    if ([textField isEqual:_tf_Password] && [textField.text isEqualToString:@""] && string.length > 0) {
-        textField.accessibilityLabel = [Strings passwordPlaceholder];
-    }
-    else if([textField isEqual:_tf_Password] && [string isEqualToString:@""] && textField.text.length == 1) {
-        textField.accessibilityLabel = nil;
-    }
-    
     return YES;
 }
 

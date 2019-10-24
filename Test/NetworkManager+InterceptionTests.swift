@@ -58,7 +58,7 @@ class NetworkManager_InterceptionTests : XCTestCase {
     func testNetworkNotLive() {
         let manager = NetworkManager(authorizationHeaderProvider: nil, baseURL: URL(string:"https://google.com")!, cache : MockResponseCache())
 
-        let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : .dataResponse({_ -> Result<NSObject> in
+        let apiRequest = NetworkRequest(method: HTTPMethod.GET, path: "/", deserializer : .dataResponse({_,_  -> Result<NSObject> in
             XCTFail("Shouldn't receive data")
             return .failure(NetworkManager.unknownError)
         }))

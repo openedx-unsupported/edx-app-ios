@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  edX
+
+  Created by Saeed Bashir on 7/10/17.
+  Copyright © 2017 edX. All rights reserved.
+*/
+
+NSPhotoLibraryUsageDescription = "so you can select a profile image";
+NSCameraUsageDescription = "so you can take a profile image";

@@ -12,7 +12,7 @@ import edXCore
 
 extension NetworkManager {
     
-    public func addRefreshTokenAuthenticator(router:OEXRouter, session:OEXSession, clientId:String) {
+    @objc public func addRefreshTokenAuthenticator(router:OEXRouter, session:OEXSession, clientId:String) {
         let invalidAccessAuthenticator = {[weak router] response, data in
             NetworkManager.invalidAccessAuthenticator(router: router, session: session, clientId:clientId, response: response, data: data)
         }

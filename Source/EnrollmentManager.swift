@@ -14,7 +14,7 @@ public class EnrollmentManager : NSObject {
     private let enrollmentFeed = BackedFeed<[UserCourseEnrollment]?>()
     private let config: OEXConfig
     
-    public init(interface: OEXInterface?, networkManager: NetworkManager, config: OEXConfig) {
+    @objc public init(interface: OEXInterface?, networkManager: NetworkManager, config: OEXConfig) {
         self.interface = interface
         self.networkManager = networkManager
         self.config = config
@@ -36,7 +36,7 @@ public class EnrollmentManager : NSObject {
         // from OEXInterface and remove these
         feed.output.listen(self) {[weak self] enrollments in
             enrollments.ifSuccess {
-                let courses = $0?.flatMap { $0.course } ?? []
+                let courses = $0?.compactMap { $0.course } ?? []
                 self?.interface?.setRegisteredCourses(courses)
                 self?.interface?.deleteUnregisteredItems()
                 self?.interface?.t_setCourseEnrollments($0 ?? [])

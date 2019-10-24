@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 edX. All rights reserved.
 //
 
+#import "edX-Swift.h"
+
 #import "OEXNetworkInterface.h"
 
 #import "OEXConfig.h"
@@ -47,10 +49,6 @@
     if([URLString isEqualToString:[comparisonString stringByAppendingFormat:
                                    @"/%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username]]) {
         return REQUEST_USER_DETAILS;
-    }
-    else if([URLString isEqualToString:[comparisonString stringByAppendingFormat:
-                                        @"/%@/%@%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username, URL_COURSE_ENROLLMENTS]]) {
-        return REQUEST_COURSE_ENROLLMENTS;
     }
     else {
         return URLString;
@@ -95,15 +93,9 @@
     if([type isEqualToString:URL_USER_DETAILS]) {
         [URLString appendFormat:@"%@/%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username];
     }
-    else if([type isEqualToString:URL_COURSE_ENROLLMENTS]) {
-        [URLString appendFormat:@"%@/%@%@", URL_USER_DETAILS, [OEXSession sharedSession].currentUser.username, URL_COURSE_ENROLLMENTS];
-    }
     else {
         URLString = [NSMutableString stringWithString:type];
     }
-
-    //Append tail
-    [URLString appendString:@"?format=json"];
 
     return URLString;
 }

@@ -109,6 +109,10 @@
 // been placed in.
 //
 
+// Ignore the "Macro name is a reserved identifier" warning in this section
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wreserved-id-macro"
+
 // We only define the simple macros if nothing else has defined this.
 #ifndef _GTMDevLog
 
@@ -170,6 +174,8 @@
   #endif  // __has_feature(c_static_assert) || __has_extension(c_static_assert)
 #endif // _GTMCompileAssert
 
+#pragma clang diagnostic pop
+
 // ----------------------------------------------------------------------------
 // CPP symbols defined based on the project settings so the GTM code has
 // simple things to test against w/o scattering the knowledge of project
@@ -191,16 +197,8 @@
   // By default, GTM has provided it's own unittesting support, define this
   // to use the support provided by Xcode, especially for the Xcode4 support
   // for unittesting.
-  // This is going to be deprecated as Apple is deprecating SenTest.
-  #ifndef GTM_IPHONE_USE_SENTEST
-    #define GTM_IPHONE_USE_SENTEST 0
-  #endif
-  // Define this to use XCTest instead of OCUnit/SenTest.
   #ifndef GTM_USING_XCTEST
     #define GTM_USING_XCTEST 0
-  #endif
-  #if GTM_IPHONE_USE_SENTEST && GTM_USING_XCTEST
-    #error Can't define both GTM_IPHONE_USE_SENTEST and GTM_USING_XCTEST
   #endif
   #define GTM_MACOS_SDK 0
 #else
@@ -209,7 +207,6 @@
   #define GTM_IPHONE_SDK 0
   #define GTM_IPHONE_SIMULATOR 0
   #define GTM_IPHONE_DEVICE 0
-  #define GTM_IPHONE_USE_SENTEST 0
   #ifndef GTM_USING_XCTEST
     #define GTM_USING_XCTEST 0
   #endif
@@ -337,29 +334,6 @@
 #if !defined (GTM_NSSTRINGIFY)
   #define GTM_NSSTRINGIFY_INNER(x) @#x
   #define GTM_NSSTRINGIFY(x) GTM_NSSTRINGIFY_INNER(x)
-#endif
-
-// Macro to allow fast enumeration when building for 10.5 or later, and
-// reliance on NSEnumerator for 10.4.  Remember, NSDictionary w/ FastEnumeration
-// does keys, so pick the right thing, nothing is done on the FastEnumeration
-// side to be sure you're getting what you wanted.
-#ifndef GTM_FOREACH_OBJECT
-  #if TARGET_OS_IPHONE || !(MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5)
-    #define GTM_FOREACH_ENUMEREE(element, enumeration) \
-      for (element in enumeration)
-    #define GTM_FOREACH_OBJECT(element, collection) \
-      for (element in collection)
-    #define GTM_FOREACH_KEY(element, collection) \
-      for (element in collection)
-  #else
-    #define GTM_FOREACH_ENUMEREE(element, enumeration) \
-      for (NSEnumerator *_ ## element ## _enum = enumeration; \
-           (element = [_ ## element ## _enum nextObject]) != nil; )
-    #define GTM_FOREACH_OBJECT(element, collection) \
-      GTM_FOREACH_ENUMEREE(element, [collection objectEnumerator])
-    #define GTM_FOREACH_KEY(element, collection) \
-      GTM_FOREACH_ENUMEREE(element, [collection keyEnumerator])
-  #endif
 #endif
 
 // ============================================================================

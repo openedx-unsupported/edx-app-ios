@@ -114,17 +114,17 @@ class WhatsNewDataModel {
     
     private func hasNext(item: WhatsNew?)-> Bool {
         guard let item = item else { return false }
-        let index = fields?.index(of: item)
+        let index = fields?.firstIndex(of: item)
         return index != (fields?.count ?? 0) - 1
     }
     
     private func hasPrev(item: WhatsNew?)-> Bool {
         guard let item = item else { return false }
-        return fields?.index(of: item) != 0
+        return fields?.firstIndex(of: item) != 0
     }
     
     func itemIndex(item: WhatsNew?)-> Int {
         guard let item = item else { return 0 }
-        return fields?.index(of: item) ?? -1
+        return fields?.firstIndex(of: item) ?? -1
     }
 }

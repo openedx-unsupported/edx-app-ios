@@ -13,7 +13,7 @@ public class UserPreferenceManager : NSObject {
     private let networkManager : NetworkManager
     private let preferencesFeed = BackedFeed<UserPreference?>()
     
-    public init(networkManager : NetworkManager) {
+    @objc public init(networkManager : NetworkManager) {
         self.networkManager = networkManager
         
         super.init()

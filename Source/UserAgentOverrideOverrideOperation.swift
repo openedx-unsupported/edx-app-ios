@@ -29,7 +29,7 @@ class UserAgentGenerationOperation : OEXOperation {
     
     static var appVersionDescriptor : String {
         let bundle = Bundle.main
-        let components = [bundle.oex_appName(), bundle.bundleIdentifier, bundle.oex_buildVersionString()].flatMap{ return $0 }
+        let components = [bundle.oex_appName(), bundle.bundleIdentifier, bundle.oex_buildVersionString()].compactMap{ return $0 }
         return components.joined(separator: "/")
     }
     

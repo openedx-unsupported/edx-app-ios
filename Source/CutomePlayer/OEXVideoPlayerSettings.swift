@@ -62,9 +62,10 @@ class VideoPlayerSettings : NSObject {
                 var rows = [RowType]()
                 for lang: String in transcripts.keys {
                     let locale = NSLocale(localeIdentifier: lang)
-                    let displayLang: String = locale.displayName(forKey: NSLocale.Key.languageCode, value: lang)!
-                    let item: RowType = (title: displayLang, value: lang)
-                    rows.append(item)
+                    if let displayLang: String = locale.displayName(forKey: NSLocale.Key.languageCode, value: lang) {
+                        let item: RowType = (title: displayLang, value: lang)
+                        rows.append(item)
+                    }
                 }
     
                 let cc = OEXVideoPlayerSetting(title: "Closed Captions", rows: rows, isSelected: { (row) -> Bool in
@@ -138,7 +139,7 @@ extension VideoPlayerSettings: UITableViewDataSource, UITableViewDelegate {
             }
 
             alert.addAction(UIAlertAction(title: title, style:.default, handler: { _ in
-                selectedSetting.callback(value: row.value)
+                selectedSetting.callback(row.value)
             }))
         }
         alert.addCancelAction()

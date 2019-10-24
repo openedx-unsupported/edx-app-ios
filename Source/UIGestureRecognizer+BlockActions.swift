@@ -50,10 +50,13 @@ extension GestureActionable where Self : UIGestureRecognizer {
                 action(gesture)
             }
         }
-        objc_setAssociatedObject(self, listener.token, listener, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, listener.token ?? malloc(1), listener, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         listener.removeAction = {[weak self] (listener : GestureListener) in
             self?.removeTarget(listener, action: nil)
-            objc_setAssociatedObject(self, listener.token, nil, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            if let owner = self {
+                objc_setAssociatedObject(owner, listener.token ?? malloc(1), nil, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+
         }
         self.addTarget(listener, action: #selector(GestureListener.gestureFired(gesture :)))
         

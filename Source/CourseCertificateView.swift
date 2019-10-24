@@ -57,9 +57,9 @@ class CourseCertificateView: UIView {
         addSubview(viewCertificateButton)
         
         certificateImageView.contentMode = .scaleAspectFit
-        certificateImageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
+        certificateImageView.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
         
-        titleLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
         subtitleLabel.adjustsFontSizeToFitWidth = true
         
         certificateImageView.snp.makeConstraints { make in

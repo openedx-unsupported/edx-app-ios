@@ -57,13 +57,15 @@ class CourseVideosHeaderView: UIView {
         let label = UILabel()
         label.accessibilityIdentifier = "CourseVideosHeaderView:sub-title-label"
         label.isAccessibilityElement = false
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.7
         return label
     }()
     lazy private var showDownloadsButton: UIButton = {
         let button =  UIButton()
         button.accessibilityIdentifier = "CourseVideosHeaderView:show-downloads-button"
         button.accessibilityHint = Strings.Accessibility.showCurrentDownloadsButtonHint
-        button.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
+        button.accessibilityTraits = UIAccessibilityTraits(rawValue: UIAccessibilityTraits.button.rawValue | UIAccessibilityTraits.updatesFrequently.rawValue)
         button.oex_addAction({
             [weak self] _ in
             if self?.state == .downloading {
@@ -340,7 +342,6 @@ class CourseVideosHeaderView: UIView {
             make.trailing.equalTo(self)
             make.bottom.equalTo(self)
             make.height.equalTo(2)
-            make.top.equalTo(subTitleLabel.snp.bottom).offset(1.5 * StandardVerticalMargin)
         }
     }
     

@@ -1,16 +1,14 @@
 //
 //  BNCCommerceEvent.h
-//  BranchSDK-iOS
+//  Branch-SDK
 //
 //  Created by Edward Smith on 12/14/16.
 //  Copyright (c) 2016 Branch Metrics. All rights reserved.
 //
 
-
 #import "BNCCommerceEvent.h"
 #import "BranchConstants.h"
 #import "BNCLog.h"
-
 
 #pragma mark BNCProductCategory
 
@@ -35,6 +33,32 @@ BNCProductCategory BNCProductCategorySoftware           = @"Software";
 BNCProductCategory BNCProductCategorySportingGoods      = @"Sporting Goods";
 BNCProductCategory BNCProductCategoryToysGames          = @"Toys & Games";
 BNCProductCategory BNCProductCategoryVehiclesParts      = @"Vehicles & Parts";
+
+NSArray<BNCProductCategory>* BNCProductCategoryAllCategories(void) {
+    return @[
+        BNCProductCategoryAnimalSupplies,
+        BNCProductCategoryApparel,
+        BNCProductCategoryArtsEntertainment,
+        BNCProductCategoryBabyToddler,
+        BNCProductCategoryBusinessIndustrial,
+        BNCProductCategoryCamerasOptics,
+        BNCProductCategoryElectronics,
+        BNCProductCategoryFoodBeverageTobacco,
+        BNCProductCategoryFurniture,
+        BNCProductCategoryHardware,
+        BNCProductCategoryHealthBeauty,
+        BNCProductCategoryHomeGarden,
+        BNCProductCategoryLuggageBags,
+        BNCProductCategoryMature,
+        BNCProductCategoryMedia,
+        BNCProductCategoryOfficeSupplies,
+        BNCProductCategoryReligious,
+        BNCProductCategorySoftware,
+        BNCProductCategorySportingGoods,
+        BNCProductCategoryToysGames,
+        BNCProductCategoryVehiclesParts,
+    ];
+}
 
 #pragma mark - BNCCurrency
 
@@ -231,6 +255,203 @@ BNCCurrency BNCCurrencyYER = @"YER";
 BNCCurrency BNCCurrencyZAR = @"ZAR";
 BNCCurrency BNCCurrencyZMW = @"ZMW";
 
+NSArray<BNCCurrency>* BNCCurrencyAllCurrencies(void) {
+    return @[
+        BNCCurrencyAED,
+        BNCCurrencyAFN,
+        BNCCurrencyALL,
+        BNCCurrencyAMD,
+        BNCCurrencyANG,
+        BNCCurrencyAOA,
+        BNCCurrencyARS,
+        BNCCurrencyAUD,
+        BNCCurrencyAWG,
+        BNCCurrencyAZN,
+        BNCCurrencyBAM,
+        BNCCurrencyBBD,
+
+        BNCCurrencyBDT,
+        BNCCurrencyBGN,
+        BNCCurrencyBHD,
+        BNCCurrencyBIF,
+        BNCCurrencyBMD,
+        BNCCurrencyBND,
+        BNCCurrencyBOB,
+        BNCCurrencyBOV,
+        BNCCurrencyBRL,
+        BNCCurrencyBSD,
+        BNCCurrencyBTN,
+        BNCCurrencyBWP,
+
+        BNCCurrencyBYN,
+        BNCCurrencyBYR,
+        BNCCurrencyBZD,
+        BNCCurrencyCAD,
+        BNCCurrencyCDF,
+        BNCCurrencyCHE,
+        BNCCurrencyCHF,
+        BNCCurrencyCHW,
+        BNCCurrencyCLF,
+        BNCCurrencyCLP,
+        BNCCurrencyCNY,
+        BNCCurrencyCOP,
+
+        BNCCurrencyCOU,
+        BNCCurrencyCRC,
+        BNCCurrencyCUC,
+        BNCCurrencyCUP,
+        BNCCurrencyCVE,
+        BNCCurrencyCZK,
+        BNCCurrencyDJF,
+        BNCCurrencyDKK,
+        BNCCurrencyDOP,
+        BNCCurrencyDZD,
+        BNCCurrencyEGP,
+        BNCCurrencyERN,
+
+        BNCCurrencyETB,
+        BNCCurrencyEUR,
+        BNCCurrencyFJD,
+        BNCCurrencyFKP,
+        BNCCurrencyGBP,
+        BNCCurrencyGEL,
+        BNCCurrencyGHS,
+        BNCCurrencyGIP,
+        BNCCurrencyGMD,
+        BNCCurrencyGNF,
+        BNCCurrencyGTQ,
+        BNCCurrencyGYD,
+
+        BNCCurrencyHKD,
+        BNCCurrencyHNL,
+        BNCCurrencyHRK,
+        BNCCurrencyHTG,
+        BNCCurrencyHUF,
+        BNCCurrencyIDR,
+        BNCCurrencyILS,
+        BNCCurrencyINR,
+        BNCCurrencyIQD,
+        BNCCurrencyIRR,
+        BNCCurrencyISK,
+        BNCCurrencyJMD,
+
+        BNCCurrencyJOD,
+        BNCCurrencyJPY,
+        BNCCurrencyKES,
+        BNCCurrencyKGS,
+        BNCCurrencyKHR,
+        BNCCurrencyKMF,
+        BNCCurrencyKPW,
+        BNCCurrencyKRW,
+        BNCCurrencyKWD,
+        BNCCurrencyKYD,
+        BNCCurrencyKZT,
+        BNCCurrencyLAK,
+
+        BNCCurrencyLBP,
+        BNCCurrencyLKR,
+        BNCCurrencyLRD,
+        BNCCurrencyLSL,
+        BNCCurrencyLYD,
+        BNCCurrencyMAD,
+        BNCCurrencyMDL,
+        BNCCurrencyMGA,
+        BNCCurrencyMKD,
+        BNCCurrencyMMK,
+        BNCCurrencyMNT,
+        BNCCurrencyMOP,
+
+        BNCCurrencyMRO,
+        BNCCurrencyMUR,
+        BNCCurrencyMVR,
+        BNCCurrencyMWK,
+        BNCCurrencyMXN,
+        BNCCurrencyMXV,
+        BNCCurrencyMYR,
+        BNCCurrencyMZN,
+        BNCCurrencyNAD,
+        BNCCurrencyNGN,
+        BNCCurrencyNIO,
+        BNCCurrencyNOK,
+
+        BNCCurrencyNPR,
+        BNCCurrencyNZD,
+        BNCCurrencyOMR,
+        BNCCurrencyPAB,
+        BNCCurrencyPEN,
+        BNCCurrencyPGK,
+        BNCCurrencyPHP,
+        BNCCurrencyPKR,
+        BNCCurrencyPLN,
+        BNCCurrencyPYG,
+        BNCCurrencyQAR,
+        BNCCurrencyRON,
+
+        BNCCurrencyRSD,
+        BNCCurrencyRUB,
+        BNCCurrencyRWF,
+        BNCCurrencySAR,
+        BNCCurrencySBD,
+        BNCCurrencySCR,
+        BNCCurrencySDG,
+        BNCCurrencySEK,
+        BNCCurrencySGD,
+        BNCCurrencySHP,
+        BNCCurrencySLL,
+        BNCCurrencySOS,
+
+        BNCCurrencySRD,
+        BNCCurrencySSP,
+        BNCCurrencySTD,
+        BNCCurrencySYP,
+        BNCCurrencySZL,
+        BNCCurrencyTHB,
+        BNCCurrencyTJS,
+        BNCCurrencyTMT,
+        BNCCurrencyTND,
+        BNCCurrencyTOP,
+        BNCCurrencyTRY,
+        BNCCurrencyTTD,
+
+        BNCCurrencyTWD,
+        BNCCurrencyTZS,
+        BNCCurrencyUAH,
+        BNCCurrencyUGX,
+        BNCCurrencyUSD,
+        BNCCurrencyUSN,
+        BNCCurrencyUYI,
+        BNCCurrencyUYU,
+        BNCCurrencyUZS,
+        BNCCurrencyVEF,
+        BNCCurrencyVND,
+        BNCCurrencyVUV,
+
+        BNCCurrencyWST,
+        BNCCurrencyXAF,
+        BNCCurrencyXAG,
+        BNCCurrencyXAU,
+        BNCCurrencyXBA,
+        BNCCurrencyXBB,
+        BNCCurrencyXBC,
+        BNCCurrencyXBD,
+        BNCCurrencyXCD,
+        BNCCurrencyXDR,
+        BNCCurrencyXFU,
+        BNCCurrencyXOF,
+
+        BNCCurrencyXPD,
+        BNCCurrencyXPF,
+        BNCCurrencyXPT,
+        BNCCurrencyXSU,
+        BNCCurrencyXTS,
+        BNCCurrencyXUA,
+        BNCCurrencyXXX,
+        BNCCurrencyYER,
+        BNCCurrencyZAR,
+        BNCCurrencyZMW,
+    ];
+}
+
 #pragma mark - BNCProduct
 
 @implementation BNCProduct
@@ -239,7 +460,7 @@ BNCCurrency BNCCurrencyZMW = @"ZMW";
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
 
 	#define assign(x) \
-		do { if (self.x) { dictionary[@#x] = self.x; } } while (0)
+		do { if (self.x != nil) { dictionary[@#x] = self.x; } } while (0)
 
 	assign(sku);
 	assign(name);
@@ -315,16 +536,13 @@ BNCCurrency BNCCurrencyZMW = @"ZMW";
 
 @end
 
-
 #pragma mark - BranchCommerceEventRequest
-
 
 @interface BranchCommerceEventRequest ()
 @property (strong) NSDictionary *commerceDictionary;
 @property (strong) NSDictionary *metadata;
 @property (copy)   void (^completion)(NSDictionary* response, NSError* error);
 @end
-
 
 @implementation BranchCommerceEventRequest
 
@@ -359,6 +577,8 @@ BNCCurrency BNCCurrencyZMW = @"ZMW";
 		params[@"metadata"] = self.metadata;
 	if (self.commerceDictionary)
 		params[@"commerce_data"] = self.commerceDictionary;
+    if (preferenceHelper.limitFacebookTracking)
+        params[@"limit_facebook_tracking"] = (__bridge NSNumber*) kCFBooleanTrue;
 
 	NSString *URL = [preferenceHelper getAPIURL:BRANCH_REQUEST_ENDPOINT_USER_COMPLETED_ACTION];
     [serverInterface postRequest:params
@@ -379,9 +599,7 @@ BNCCurrency BNCCurrencyZMW = @"ZMW";
 		self.completion(dictionary, error);
 }
 
-
 #pragma mark BranchCommerceEventRequest NSCoding
-
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];

@@ -29,7 +29,7 @@ import Foundation
         lastUsedAPIHostURL = config.apiHostURL()! as NSURL
     }
 
-    func logoutIfServerChanged() {
+    @objc func logoutIfServerChanged() {
         logoutIfServerChanged(config: OEXConfig(appBundleData: ())) {
             OEXSession().closeAndClear()
         }

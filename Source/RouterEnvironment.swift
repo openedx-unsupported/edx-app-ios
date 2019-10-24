@@ -19,7 +19,7 @@ import UIKit
     let session: OEXSession
     let styles: OEXStyles
     
-    init(
+    @objc init(
         analytics: OEXAnalytics,
         config: OEXConfig,
         dataManager: DataManager,

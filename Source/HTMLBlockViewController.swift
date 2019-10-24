@@ -10,7 +10,7 @@ import UIKit
 
 public class HTMLBlockViewController: UIViewController, CourseBlockViewController, PreloadableBlockController {
     
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & OEXSessionProvider & ReachabilityProvider
     
     public let courseID : String
     public let blockID : CourseBlockID?
@@ -25,25 +25,21 @@ public class HTMLBlockViewController: UIViewController, CourseBlockViewControlle
         self.blockID = blockID
         
         webController = AuthenticatedWebViewController(environment: environment)
-        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID)
+        courseQuerier = environment.dataManager.courseDataManager.querierForCourseWithID(courseID: courseID, environment: environment)
         
         super.init(nibName : nil, bundle : nil)
-        
-        addChildViewController(webController)
-        webController.didMove(toParentViewController: self)
+
+        setupAndLoad()
     }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
+
+    private func setupAndLoad() {
+        addChild(webController)
+        webController.didMove(toParent: self)
         view.addSubview(webController.view)
-    }
-    
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         loadData()
     }
     

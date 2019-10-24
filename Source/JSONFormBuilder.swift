@@ -55,7 +55,7 @@ class JSONFormBuilder {
         let typeControl = UISegmentedControl()
         var values = [String]()
         
-        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
             contentView.addSubview(titleLabel)
@@ -67,6 +67,9 @@ class JSONFormBuilder {
             descriptionLabel.textAlignment = .natural
             descriptionLabel.numberOfLines = 0
             descriptionLabel.preferredMaxLayoutWidth = 200 //value doesn't seem to matter as long as it's small enough
+
+            typeControl.tintColor = OEXStyles.shared().primaryBaseColor()
+            typeControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.white], for: UIControl.State.selected)
             
             titleLabel.snp.makeConstraints { make in
                 make.leading.equalTo(contentView.snp.leadingMargin)
@@ -113,7 +116,7 @@ class JSONFormBuilder {
 
             }
             
-            if let val = data.valueForField(key: field.name), let selectedIndex = values.index(of: val) {
+            if let val = data.valueForField(key: field.name), let selectedIndex = values.firstIndex(of: val) {
                 typeControl.selectedSegmentIndex = selectedIndex
             }
 
@@ -134,7 +137,7 @@ class JSONFormBuilder {
             setup()
         }
         
-        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             setup()
         }
@@ -163,7 +166,7 @@ class JSONFormBuilder {
             setup()
         }
 
-        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             setup()
         }
@@ -289,13 +292,28 @@ class JSONFormBuilder {
                 let titles = range.map { String($0)} .reversed()
                 tableData = titles.map { ChooserDatum(value: $0, title: $0, attributedTitle: nil) }
             } else if let file = options?["reference"]?.string {
-                do {
-                    let json = try loadJSON(jsonFile: file)
-                    if let values = json.array {
-                        tableData = values.map { ChooserDatum(value: $0["value"].string!, title: $0["name"].string, attributedTitle: nil)}
+                if file == "countries" {
+                    let locale = Locale.current
+                    let codes = Locale.isoRegionCodes
+                    for code in codes {
+                        let name = locale.localizedString(forRegionCode: code) ?? ""
+                        tableData.append(ChooserDatum(value: code, title: name, attributedTitle: nil))
                     }
-                } catch {
-                    Logger.logError("JSON", "Error parsing JSON: \(error)")
+                    tableData = tableData.sorted(by: { $0.title ?? "" < $1.title ?? "" })
+                }
+                else {
+                    do {
+                        let json = try loadJSON(jsonFile: file)
+                        if let values = json.array {
+                            for value in values {
+                                for (code, name) in value {
+                                    tableData.append(ChooserDatum(value: code, title: name.rawString(), attributedTitle: nil))
+                                }
+                            }
+                        }
+                    } catch {
+                        Logger.logError("JSON", "Error parsing JSON: \(error)")
+                    }
                 }
             }
             
@@ -309,7 +327,7 @@ class JSONFormBuilder {
             }
             
             if let alreadySetValue = data.valueForField(key: name) {
-                defaultRow = tableData.index { equalsCaseInsensitive(lhs: $0.value, alreadySetValue) } ?? defaultRow
+                defaultRow = tableData.firstIndex { equalsCaseInsensitive(lhs: $0.value, alreadySetValue) } ?? defaultRow
             }
             
             if dataType == .CountryType {

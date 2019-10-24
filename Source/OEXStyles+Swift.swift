@@ -39,24 +39,26 @@ extension OEXStyles {
         return OEXTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralBlack())
     }
     
-    public func applyGlobalAppearance() {
+    @objc public func applyGlobalAppearance() {
         //Probably want to set the tintColor of UIWindow but it didn't seem necessary right now
         
         UINavigationBar.appearance().barTintColor = navigationBarColor()
         UINavigationBar.appearance().barStyle = UIBarStyle.black
         UINavigationBar.appearance().tintColor = navigationItemTintColor()
-        UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes
-        UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes, for: .normal)
+        UINavigationBar.appearance().titleTextAttributes = navigationTitleTextStyle.attributes.attributedKeyDictionary()
+        
+        UIBarButtonItem.appearance().setTitleTextAttributes(navigationButtonTextStyle.attributes.attributedKeyDictionary(), for: .normal)
         
         UIToolbar.appearance().tintColor = navigationItemTintColor()
         
-        let styleAttributes = OEXTextStyle(weight: .normal, size : .small, color : self.neutralBlack()).attributes
-        UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, for: UIControlState.selected)
-        UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, for: UIControlState.normal)
+        let style = OEXTextStyle(weight: .normal, size : .small, color : neutralBlack())
+        let styleAttributes = style.attributes.attributedKeyDictionary()
+        UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, for: UIControl.State.selected)
+        UISegmentedControl.appearance().setTitleTextAttributes(styleAttributes, for: UIControl.State.normal)
         UISegmentedControl.appearance().tintColor = self.primaryXLightColor()
         
         UINavigationBar.appearance().isTranslucent = false
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.classForCoder() as! UIAppearanceContainer.Type]).defaultTextAttributes = searchBarTextStyle.attributes
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.classForCoder() as! UIAppearanceContainer.Type]).defaultTextAttributes = searchBarTextStyle.attributes.attributedKeyDictionary()
     }
     
     ///**Warning:** Not from style guide. Do not add more uses
@@ -69,14 +71,14 @@ extension OEXStyles {
     }
 
     var standardTextViewInsets : UIEdgeInsets {
-        return UIEdgeInsetsMake(8, 8, 8, 8)
+        return UIEdgeInsets.init(top: 8, left: 8, bottom: 8, right: 8)
     }
     
     var standardFooterHeight : CGFloat {
         return 50
     }
     
-    var standardVerticalMargin : CGFloat {
+    @objc var standardVerticalMargin : CGFloat {
         return 8.0
     }
     
@@ -99,7 +101,7 @@ extension OEXStyles {
 
 // Standard button styles
 
-    var filledPrimaryButtonStyle : ButtonStyle {
+    @objc var filledPrimaryButtonStyle : ButtonStyle {
         return filledButtonStyle(color: OEXStyles.shared().primaryBaseColor())
     }
 
@@ -108,7 +110,7 @@ extension OEXStyles {
         let borderStyle = BorderStyle()
         let textStyle = OEXTextStyle(weight: .semiBold, size: .base, color: self.neutralWhite())
         return ButtonStyle(textStyle: textStyle, backgroundColor: color, borderStyle: borderStyle,
-                           contentInsets : UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins))
+                           contentInsets : UIEdgeInsets.init(top: buttonMargins, left: buttonMargins, bottom: buttonMargins, right: buttonMargins))
     }
     
     var linkButtonStyle: ButtonStyle {
@@ -121,7 +123,7 @@ extension OEXStyles {
         let result = filledPrimaryButtonStyle
         result.backgroundColor = OEXStyles.shared().utilitySuccessBase()
         result.textStyle = result.textStyle.withSize(.xLarge)
-        result.contentInsets = UIEdgeInsetsMake(buttonMargins, buttonMargins, buttonMargins, buttonMargins)
+        result.contentInsets = UIEdgeInsets.init(top: buttonMargins, left: buttonMargins, bottom: buttonMargins, right: buttonMargins)
         return result
     }
     

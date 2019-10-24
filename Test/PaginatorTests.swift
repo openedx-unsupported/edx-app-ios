@@ -71,7 +71,7 @@ class PaginatorTests: XCTestCase {
             let request = NetworkRequest<Paginated<[Int]>>(
                 method: .GET,
                 path: "fakepath",
-                deserializer: ResponseDeserializer.jsonResponse { _ in
+                deserializer: ResponseDeserializer.jsonResponse { _,_  in
                     let info = PaginationInfo(totalCount: 100, pageCount: 20)
                     return Success(v: Paginated(pagination: info, value: sampleResult))
                 }

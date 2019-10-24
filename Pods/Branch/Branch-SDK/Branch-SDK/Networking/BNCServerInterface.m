@@ -16,6 +16,7 @@
 #import "BNCLog.h"
 #import "Branch.h"
 #import "BNCLocalization.h"
+#import "NSString+Branch.h"
 
 @interface BNCServerInterface ()
 @property (strong) NSString *requestEndpoint;
@@ -37,6 +38,11 @@
     }
 
     return self;
+}
+
+- (void) dealloc {
+    [self.networkService cancelAllOperations];
+    self.networkService = nil;
 }
 
 + (NSArray/**<SecKeyRef>*/*) publicSecKeyRefs {
@@ -397,7 +403,7 @@
         NSData *data = [BNCEncodingUtils dataFromHexString:hexKey];
         if (data) {
             SecKeyRef secKey = [self publicSecKeyFromPKCS12CertChainData:data];
-            if (secKey) [array addObject:(__bridge id)secKey];
+            if (secKey) [array addObject:(__bridge_transfer id)secKey];
         }
     }
     return array;
@@ -446,7 +452,10 @@ exit:
 
 #pragma mark - GET methods
 
-- (void)getRequest:(NSDictionary *)params url:(NSString *)url key:(NSString *)key callback:(BNCServerCallback)callback {
+- (void)getRequest:(NSDictionary *)params
+               url:(NSString *)url
+               key:(NSString *)key
+          callback:(BNCServerCallback)callback {
     [self getRequest:params url:url key:key retryNumber:0 callback:callback];
 }
 
@@ -459,7 +468,7 @@ exit:
 
     [self genericHTTPRequest:request retryNumber:retryNumber callback:callback
         retryHandler:^NSURLRequest *(NSInteger lastRetryNumber) {
-            return [self prepareGetRequest:params url:url key:key retryNumber:++lastRetryNumber];
+            return [self prepareGetRequest:params url:url key:key retryNumber:lastRetryNumber+1];
     }];
 }
 
@@ -472,19 +481,36 @@ exit:
     [self postRequest:post url:url retryNumber:0 key:key callback:callback];
 }
 
+- (BOOL) isV2APIURL:(NSString*)urlstring {
+    NSRange range = [urlstring rangeOfString:@"branch.io/v2/"];
+    return (range.location != NSNotFound);
+}
+
 - (void)postRequest:(NSDictionary *)post
                 url:(NSString *)url
         retryNumber:(NSInteger)retryNumber
                 key:(NSString *)key
            callback:(BNCServerCallback)callback {
-    NSDictionary *extendedParams = [self updateDeviceInfoToParams:post];
+
+    NSMutableDictionary *extendedParams = nil;
+    if ([self isV2APIURL:url]) {
+        extendedParams = [NSMutableDictionary new];
+        if (post) [extendedParams addEntriesFromDictionary:post];
+        NSDictionary *d = [[BNCDeviceInfo getInstance] v2dictionary];
+        if (d.count) extendedParams[@"user_data"] = d;
+    } else {
+        extendedParams = [self updateDeviceInfoToParams:post];
+    }
     NSURLRequest *request = [self preparePostRequest:extendedParams url:url key:key retryNumber:retryNumber];
     
     // Instrumentation metrics
     self.requestEndpoint = [self.preferenceHelper getEndpointFromURL:url];
 
-    [self genericHTTPRequest:request retryNumber:retryNumber callback:callback retryHandler:^NSURLRequest *(NSInteger lastRetryNumber) {
-        return [self preparePostRequest:extendedParams url:url key:key retryNumber:++lastRetryNumber];
+    [self genericHTTPRequest:request
+                 retryNumber:retryNumber
+                    callback:callback
+                retryHandler:^ NSURLRequest *(NSInteger lastRetryNumber) {
+        return [self preparePostRequest:extendedParams url:url key:key retryNumber:lastRetryNumber+1];
     }];
 }
 
@@ -529,12 +555,15 @@ exit:
             
             // Retry the request if appropriate
             if (retryNumber < self.preferenceHelper.retryCount && isRetryableStatusCode) {
-                dispatch_time_t dispatchTime = dispatch_time(DISPATCH_TIME_NOW, self.preferenceHelper.retryInterval * NSEC_PER_SEC);
+                dispatch_time_t dispatchTime =
+                    dispatch_time(DISPATCH_TIME_NOW, self.preferenceHelper.retryInterval * NSEC_PER_SEC);
                 dispatch_after(dispatchTime, dispatch_get_main_queue(), ^{
                     BNCLogDebug(@"Retrying request with url %@", request.URL.relativePath);
                     // Create the next request
                     NSURLRequest *retryRequest = retryHandler(retryNumber);
-                    [self genericHTTPRequest:retryRequest retryNumber:(retryNumber + 1) callback:callback retryHandler:retryHandler];
+                    [self genericHTTPRequest:retryRequest
+                                 retryNumber:(retryNumber + 1)
+                                    callback:callback retryHandler:retryHandler];
                 });
                 
                 // Do not continue on if retrying, else the callback will be called incorrectly
@@ -574,6 +603,25 @@ exit:
                 callback(serverResponse, branchError);
         };
 
+    if (Branch.trackingDisabled) {
+        NSString *endpoint = request.URL.absoluteString;
+        BNCPreferenceHelper *prefs = [BNCPreferenceHelper preferenceHelper];
+        if (([endpoint bnc_containsString:@"/v1/install"] ||
+             [endpoint bnc_containsString:@"/v1/open"]) &&
+             ((prefs.linkClickIdentifier.length > 0 ) ||
+              (prefs.spotlightIdentifier.length > 0 ) ||
+              (prefs.universalLinkUrl.length > 0))) {
+            // Allow this network operation since it's an open/install to resolve a link.
+        } else {
+            [[BNCPreferenceHelper preferenceHelper] clearTrackingInformation];
+            NSError *error = [NSError branchErrorWithCode:BNCTrackingDisabledError];
+            BNCLogError(@"Network service error: %@.", error);
+            if (callback) {
+                callback(nil, error);
+            }
+            return;
+        }
+    }
     id<BNCNetworkOperationProtocol> operation =
         [self.networkService networkOperationWithURLRequest:request.copy completion:completionHandler];
     [operation start];
@@ -591,7 +639,8 @@ exit:
 
     if (!operation) {
         NSString *message = BNCLocalizedString(
-            @"A network operation instance is expected to be returned by the networkOperationWithURLRequest:completion: method."
+            @"A network operation instance is expected to be returned by the"
+             " networkOperationWithURLRequest:completion: method."
         );
         NSError *error = [NSError branchErrorWithCode:BNCNetworkServiceInterfaceError localizedMessage:message];
         return error;
@@ -641,7 +690,8 @@ exit:
             networkOperationWithURLRequest:request.copy
             completion:^void (id<BNCNetworkOperationProtocol>operation) {
                 serverResponse =
-                    [self processServerResponse:operation.response data:operation.responseData error:operation.error];
+                    [self processServerResponse:operation.response
+                        data:operation.responseData error:operation.error];
                 [self collectInstrumentationMetricsWithOperation:operation];                    
                 dispatch_semaphore_signal(semaphore);
             }];
@@ -681,12 +731,35 @@ exit:
                                  key:(NSString *)key
                          retryNumber:(NSInteger)retryNumber {
 
-    NSDictionary *preparedParams = [self prepareParamDict:params key:key retryNumber:retryNumber requestType:@"POST"];
+    NSMutableDictionary *preparedParams =
+        [self prepareParamDict:params key:key retryNumber:retryNumber requestType:@"POST"];
+    if ([self isV2APIURL:url]) {
+        preparedParams[@"sdk"] = nil;
+    }
+    if (Branch.trackingDisabled) {
+        preparedParams[@"tracking_disabled"] = (__bridge NSNumber*) kCFBooleanTrue;
+        preparedParams[@"local_ip"] = nil;
+        preparedParams[@"lastest_update_time"] = nil;
+        preparedParams[@"previous_update_time"] = nil;
+        preparedParams[@"latest_install_time"] = nil;
+        preparedParams[@"first_install_time"] = nil;
+        preparedParams[@"ios_vendor_id"] = nil;
+        preparedParams[@"hardware_id"] = nil;
+        preparedParams[@"hardware_id_type"] = nil;
+        preparedParams[@"is_hardware_id_real"] = nil;
+        preparedParams[@"device_fingerprint_id"] = nil;
+        preparedParams[@"identity_id"] = nil;
+        preparedParams[@"identity"] = nil;
+        preparedParams[@"update"] = nil;
+    }
     NSData *postData = [BNCEncodingUtils encodeDictionaryToJsonData:preparedParams];
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
 
     BNCLogDebug(@"URL: %@.", url);
-    BNCLogDebug(@"Body: %@.", preparedParams);
+    BNCLogDebug(@"Body: %@\nJSON: %@.",
+        preparedParams,
+        [[NSString alloc] initWithData:postData encoding:NSUTF8StringEncoding]
+    );
     
     NSMutableURLRequest *request =
         [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
@@ -700,7 +773,7 @@ exit:
     return request;
 }
 
-- (NSDictionary *)prepareParamDict:(NSDictionary *)params
+- (NSMutableDictionary *)prepareParamDict:(NSDictionary *)params
 							   key:(NSString *)key
 					   retryNumber:(NSInteger)retryNumber
                        requestType:(NSString *)reqType {
@@ -761,8 +834,7 @@ exit:
     NSString *hardwareId = [deviceInfo.hardwareId copy];
     NSString *hardwareIdType = [deviceInfo.hardwareIdType copy];
     NSNumber *isRealHardwareId = @(deviceInfo.isRealHardwareId);
-
-    if (hardwareId && hardwareIdType && isRealHardwareId) {
+    if (hardwareId != nil && hardwareIdType != nil && isRealHardwareId != nil) {
         dict[BRANCH_REQUEST_KEY_HARDWARE_ID] = hardwareId;
         dict[BRANCH_REQUEST_KEY_HARDWARE_ID_TYPE] = hardwareIdType;
         dict[BRANCH_REQUEST_KEY_IS_HARDWARE_ID_REAL] = isRealHardwareId;
@@ -779,11 +851,12 @@ exit:
     [self safeSetValue:deviceInfo.browserUserAgent forKey:@"user_agent" onDict:dict];
     [self safeSetValue:deviceInfo.country forKey:@"country" onDict:dict];
     [self safeSetValue:deviceInfo.language forKey:@"language" onDict:dict];
+    dict[@"local_ip"] = deviceInfo.localIPAddress;
 
     dict[BRANCH_REQUEST_KEY_AD_TRACKING_ENABLED] = @(deviceInfo.isAdTrackingEnabled);
 }
 
-- (NSDictionary*)updateDeviceInfoToParams:(NSDictionary *)params {
+- (NSMutableDictionary*)updateDeviceInfoToParams:(NSDictionary *)params {
     NSMutableDictionary *extendedParams=[[NSMutableDictionary alloc] init];
     [extendedParams addEntriesFromDictionary:params];
     [self updateDeviceInfoToMutableDictionary:extendedParams];

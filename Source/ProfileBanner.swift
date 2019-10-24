@@ -41,7 +41,7 @@ class ProfileBanner: UIView {
         addSubview(shortProfView)
         addSubview(usernameLabel)
         
-        usernameLabel.setContentHuggingPriority(1, for: .horizontal)
+        usernameLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 1), for: .horizontal)
         
         shortProfView.snp.makeConstraints { make in
             make.leading.equalTo(self.snp.leadingMargin)
@@ -60,7 +60,7 @@ class ProfileBanner: UIView {
             addSubview(changeButton)
 
             changeButton.setIconAndTitle(icon: Icon.Camera, title: Strings.Profile.changePictureButton)
-            changeButton.accessibilityHint = Strings.Profile.changePictureAccessibilityHint
+            changeButton.setAccessibility(with: UIAccessibilityTraits.button, hint: Strings.Profile.changePictureAccessibilityHint)
             
             changeButton.snp.makeConstraints { make in
                 make.centerY.equalTo(shortProfView)

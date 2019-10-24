@@ -110,7 +110,7 @@ public struct JSON {
      
      - returns: The created JSON
      */
-    @available(*, deprecated: 3.2, message: "Use instead `init(parseJSON: )`")
+    @available(swift, deprecated: 3.2, message: "Use instead `init(parseJSON: )`")
     public static func parse(_ json: String) -> JSON {
         return json.data(using: String.Encoding.utf8)
             .flatMap { JSON(data: $0) } ?? JSON(NSNull())

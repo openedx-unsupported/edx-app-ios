@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UserNotifications/UserNotifications.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @class OEXConfig;
@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol OEXPushListener;
 @protocol OEXPushProvider;
 
-@interface OEXPushNotificationManager : NSObject
+@interface OEXPushNotificationManager : NSObject <UNUserNotificationCenterDelegate>
 
 /// Will use the passed action to register for push notifications. Passing a custom registration
 /// action makes it easy to mock for tests.

@@ -50,17 +50,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)trackVideoPlaying:(NSString*)videoId
               CurrentTime:(NSTimeInterval)currentTime
                  CourseID:(NSString*)courseId
-                  UnitURL:(NSString*)unitUrl;
+                  UnitURL:(NSString*)unitUrl
+               playMedium:(nullable NSString *)playMedium;
 
 - (void)trackVideoPause:(NSString*)videoId
             CurrentTime:(NSTimeInterval)currentTime
                CourseID:(NSString*)courseId
-                UnitURL:(NSString*)unitUrl;
+                UnitURL:(NSString*)unitUrl
+             playMedium:(nullable NSString *)playMedium;
 
 - (void)trackVideoStop:(NSString*)videoId
            CurrentTime:(NSTimeInterval)currentTime
               CourseID:(NSString*)courseId
-               UnitURL:(NSString*)unitUrl;
+               UnitURL:(NSString*)unitUrl
+            playMedium:(nullable NSString *)playMedium;
 
 - (void)trackShowTranscript:(NSString*)videoId
                 CurrentTime:(NSTimeInterval)currentTime
@@ -110,7 +113,8 @@ NS_ASSUME_NONNULL_BEGIN
                      CourseID:(NSString*)courseid
                   CurrentTime:(CGFloat)currentTime
                          Mode:(BOOL)isFullscreen
-                      UnitURL:(NSString*)unitUrl;
+                      UnitURL:(NSString*)unitUrl
+                   playMedium:(nullable NSString *)playMedium;
 
 - (void)trackOpenInBrowserWithURL:(NSString*)URL courseID:(NSString*)courseID blockID:(NSString*)blockID minifiedBlockID: (NSString*)minifiedBlockID supported:(BOOL)supported;
 

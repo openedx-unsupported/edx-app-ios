@@ -15,14 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 // This class is deprecated. We prefer to have each model object have an initializer.
 @interface OEXDataParser : NSObject
 
-/// @return Array of OEXVideoSummary
-- (NSArray*)videoSummaryListWithData:(NSData*)receivedData;
-
 /// @return Array of OEXAnnouncement
 - (NSArray*)announcementsWithData:(NSData*)receivedData;
-
-/// @return Array of UserCourseEnrollment
-- (NSArray*)userCourseEnrollmentsWithData:(NSData*)receivedData;
 
 - (NSString*)handoutsWithData:(NSData*)receivedData;
 

@@ -49,8 +49,6 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 
 @property (nonatomic, weak, nullable) id <OEXStorageInterface>  storage;
 
-// [String(Course.video_outline) : OEXHelperVideoDownload]
-// TODO: Make this indexed by courseID instead of course.video_outline
 @property (nullable, nonatomic, strong, readonly) NSMutableDictionary* courseVideos;
 
 //Reachability
@@ -82,10 +80,7 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 
 + (void)setCCSelectedPlaybackSpeed:(OEXVideoSpeed) speed;
 + (OEXVideoSpeed)getCCSelectedPlaybackSpeed;
-+ (float) getOEXVideoSpeed:(OEXVideoSpeed) speed;
-
-#pragma mark Last Accessed
-- (OEXHelperVideoDownload* _Nullable)lastAccessedSubsectionForCourseID:(NSString*)courseID;
++ (float) getOEXVideoSpeed:(OEXVideoSpeed) speed; 
 
 #pragma mark Video Management
 /// videos is an array of OEXVideoSummary
@@ -144,12 +139,10 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 - (void)downloadAllTranscriptsForVideo:(nullable OEXHelperVideoDownload*)obj;
 
 #pragma mark - Update Last Accessed from server
-- (void)updateLastVisitedModule:(NSString*)module forCourseID:(NSString*)courseID;
-- (void)getLastVisitedModuleForCourseID:(NSString*)courseID;
 - (void)activateInterfaceForUser:(OEXUserDetails*)user;
 
 #pragma mark - Analytics Call
-- (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(nullable OEXHelperVideoDownload*)video;
+- (void)sendAnalyticsEvents:(OEXVideoState)state withCurrentTime:(NSTimeInterval)currentTime forVideo:(nullable OEXHelperVideoDownload*)video playMedium:(nullable NSString *)playMedium;
 
 #pragma mark - Course Enrollments
 /** Finds the user's enrollment for a course */

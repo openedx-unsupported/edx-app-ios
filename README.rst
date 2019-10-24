@@ -1,3 +1,9 @@
+.. image:: https://travis-ci.org/edx/edx-app-ios.svg?branch=master
+    :target: https://travis-ci.org/edx/edx-app-ios
+
+edX iOS
+=======
+
 This is the source code for the edX mobile iOS app. It is changing rapidly and
 its structure should not be relied upon. See http://code.edx.org for other
 parts of the edX code base.

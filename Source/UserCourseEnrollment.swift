@@ -13,13 +13,13 @@ import edXCore
 public class UserCourseEnrollment : NSObject {
     let created: String?
     let mode: String?
-    let isActive: Bool
-    let course: OEXCourse
+    @objc let isActive: Bool
+    @objc let course: OEXCourse
 
     /** Url if the user has completed a certificate */
     let certificateUrl: String?
 
-    init?(dictionary: [String: Any]) {
+    @objc init?(dictionary: [String: Any]) {
         created = dictionary["created"] as? String
         mode = dictionary["mode"] as? String
         isActive = (dictionary["is_active"] as? NSNumber)?.boolValue ?? false
@@ -32,7 +32,7 @@ public class UserCourseEnrollment : NSObject {
         }
         
         if let dictCourse = dictionary["course"] as? [NSObject: AnyObject] {
-            course = OEXCourse(dictionary:dictCourse)
+            course = OEXCourse(dictionary: dictCourse, auditExpiryDate: dictionary["audit_access_expires"] as? String)
         } else {
             course = OEXCourse()
             super.init()

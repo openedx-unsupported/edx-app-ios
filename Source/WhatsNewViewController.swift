@@ -79,9 +79,9 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         pageController.setViewControllers([initialItem()], direction: .forward, animated: false, completion: nil)
         pageController.delegate = self
         pageController.dataSource = self
-        addChildViewController(pageController)
+        addChild(pageController)
         containerView.addSubview(pageController.view)
-        pageController.didMove(toParentViewController: self)
+        pageController.didMove(toParent: self)
     }
     
     private func configureViews() {
@@ -157,7 +157,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
         return .allButUpsideDown
     }
 
-    private func contentController(withItem item: WhatsNew?, direction: UIPageViewControllerNavigationDirection)-> UIViewController {
+    private func contentController(withItem item: WhatsNew?, direction: UIPageViewController.NavigationDirection)-> UIViewController {
         // UIPageController DataSource methods calling is different in voice over and in normal flow. 
         // In VO UIPageController didn't required viewControllerAfter but it does in normal flow.
         // TODO: revisit this functionality when UIPageController behaves same in all cases.
@@ -170,7 +170,7 @@ class WhatsNewViewController: UIViewController, UIPageViewControllerDelegate, UI
             break
         }
         
-        UIAccessibilityIsVoiceOverRunning() ? (doneButton.isHidden = !(item?.isLast ?? false)) : (doneButton.isHidden = true)
+        UIAccessibility.isVoiceOverRunning ? (doneButton.isHidden = !(item?.isLast ?? false)) : (doneButton.isHidden = true)
         let controller = WhatsNewContentController(environment: environment)
         controller.whatsNew = item
         return controller

@@ -16,7 +16,7 @@ class AppStoreConfig : NSObject {
         self.URIS = uris
     }
     
-    func iOSAppStoreURL() -> NSURL? {
+    @objc func iOSAppStoreURL() -> NSURL? {
         if URIS.count > 0 , let URLString = URIS[0] as? String, let appStoreURL = NSURL(string: URLString) {
             return appStoreURL
         }
@@ -29,7 +29,7 @@ private let appReviewURIKey = "APP_REVIEW_URI"
 
 extension OEXConfig {
     
-    var appUpgradeConfig : AppStoreConfig {
+    @objc var appUpgradeConfig : AppStoreConfig {
         return AppStoreConfig(uris: self[appUpdateURIKey] as? NSArray ?? [])
     }
     

@@ -25,7 +25,7 @@ class CourseOutlineHeaderViewTests : SnapshotTestCase {
     func testCourseVideosHeaderView() {
         let course = OEXCourse.accessibleTestCourse()
         let interface = OEXInterface.shared()
-        interface.t_setCourseVideos([course.video_outline!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
+        interface.t_setCourseVideos([course.course_id!: OEXVideoSummaryTestDataFactory.localCourseVideos(CourseOutlineTestDataFactory.knownLocalVideoID)])
         let mockEnv = TestRouterEnvironment(config: OEXConfig(dictionary: [:]), interface: interface)
         let courseVideosHeaderView = CourseVideosHeaderView(with: course, environment: mockEnv, videos: interface.downloadableVideos(of: course), blockID: nil)
         courseVideosHeaderView.bounds = CGRect(x: 0, y: 0, width: screenSize.width, height: CourseVideosHeaderView.height)

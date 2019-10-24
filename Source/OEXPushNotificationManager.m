@@ -6,17 +6,14 @@
 //  Copyright (c) 2015 edX. All rights reserved.
 //
 
-#import <Parse/Parse.h>
-
 #import "OEXPushNotificationManager.h"
 
 #import "NSNotificationCenter+OEXSafeAccess.h"
 #import "OEXConfig.h"
-#import "OEXParseConfig.h"
 #import "OEXPushListener.h"
-#import "OEXParsePushProvider.h"
 #import "OEXPushSettingsManager.h"
 #import "OEXSession.h"
+#import "edX-Swift.h"
 
 @interface OEXPushNotificationManager ()
 
@@ -51,9 +48,26 @@
 
 - (void)performRegistration {
     UIApplication* application = [UIApplication sharedApplication];
-    UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
-    UIUserNotificationSettings* settings = [UIUserNotificationSettings settingsForTypes:types categories:[NSSet set]];
-    [application registerUserNotificationSettings:settings];
+
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 10.0) {
+        // iOS 10 or later
+        UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
+        UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
+        [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+        [[UNUserNotificationCenter currentNotificationCenter]
+         requestAuthorizationWithOptions:authOptions
+         completionHandler:^(BOOL granted, NSError * _Nullable error) {
+         }];
+    }
+    else {
+        // iOS 10 notifications aren't available; fall back to iOS 9 notifications.
+        UIUserNotificationType types =
+        (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+        UIUserNotificationSettings *settings =
+        [UIUserNotificationSettings settingsForTypes:types categories:[NSSet set]];
+        [application registerUserNotificationSettings:settings];
+    }
+
     [application registerForRemoteNotifications];
 }
 
@@ -73,11 +87,9 @@
 }
 
 - (void)addProvidersForConfiguration:(OEXConfig *)config withSession:(OEXSession *)session {
-    OEXParseConfig* parseConfig = config.parseConfig;
-    if(parseConfig.notificationsEnabled) {
-        [Parse setApplicationId:parseConfig.applicationID clientKey:parseConfig.clientKey];
-        OEXParsePushProvider* provider = [[OEXParsePushProvider alloc] init];
-        [self addProvider:provider withSession:session];
+    if ([[config firebaseConfig] cloudMessagingEnabled]){
+        FirebasePushProvider *provide = [[FirebasePushProvider alloc] init];
+        [self addProvider:provide withSession:session];
     }
 }
 

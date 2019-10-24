@@ -86,7 +86,7 @@ class UserProfileNetworkPresenter : NSObject, UserProfilePresenter {
             let accomplishmentsTab = sink.map {accomplishments -> ProfileTabItem? in
                     return self.tabWithAccomplishments(accomplishments: accomplishments, paginator: AnyPaginator(paginator))
             }
-            return joinStreams([accomplishmentsTab]).map { $0.flatMap { $0 }}
+            return joinStreams([accomplishmentsTab]).map { $0.compactMap { $0 }}
         }
         else {
             return OEXStream(value: [])

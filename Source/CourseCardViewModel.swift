@@ -80,31 +80,90 @@ extension OEXCourse {
     var nextRelevantDate : String?  {
         // If start date is older than current date
         if isStartDateOld {
+
+            if let _ = audit_expiry_date {
+                return formattedAuditExpiryDate
+            }
+
             guard let end = end else {
                 return nil
             }
-            
+
             let formattedEndDate = (DateFormatting.format(asMonthDayString: end as NSDate)) ?? ""
             
-            // If Old date is older than current date
-            if isEndDateOld {
-                return Strings.courseEnded(endDate: formattedEndDate)
-            }
-            else{
-                return Strings.courseEnding(endDate: formattedEndDate)
-            }
+            return isEndDateOld ? Strings.Course.ended(endDate: formattedEndDate) : Strings.Course.ending(endDate: formattedEndDate)
         }
         else {  // Start date is newer than current date
             switch start_display_info.type {
             case .string where start_display_info.displayDate != nil:
-                return Strings.starting(startDate: start_display_info.displayDate!)
+                return Strings.Course.starting(startDate: start_display_info.displayDate!)
             case .timestamp where start_display_info.date != nil:
                 let formattedStartDate = DateFormatting.format(asMonthDayString: start_display_info.date! as NSDate)
-                return Strings.starting(startDate: formattedStartDate ?? "")
+                return Strings.Course.starting(startDate: formattedStartDate ?? "")
             case .none, .timestamp, .string:
-                return Strings.starting(startDate: Strings.soon)
+                return Strings.Course.starting(startDate: Strings.soon)
+            @unknown default:
+                return ""
             }
         }
     }
-    
+
+    private var formattedAuditExpiryDate: String {
+        guard let auditExpiry = audit_expiry_date as NSDate? else {return "" }
+
+        let formattedExpiryDate = (DateFormatting.format(asMonthDayString: auditExpiry)) ?? ""
+        let timeSpan = 30 // number of days
+        if isAuditExpired {
+            let days = auditExpiry.daysAgo()
+            if days < 1 { // showing time for better readability
+                return Strings.Course.Audit.expiredAgo(timeDuaration: auditExpiry.displayDate)
+            }
+
+            if days <= timeSpan {
+                return Strings.Course.Audit.expiredDaysAgo(days: "\(days)")
+            }
+            else {
+                return Strings.Course.Audit.expiredOn(expiryDate: formattedExpiryDate)
+            }
+        }
+        else {
+            let days = auditExpiry.daysUntil()
+            if days < 1 {
+                return Strings.Course.Audit.expiresIn(timeDuration: remainingTime)
+            }
+
+            if days <= timeSpan {
+                return Strings.Course.Audit.expiresIn(timeDuration: Strings.Course.Audit.days(days: "\(days)"))
+            }
+            else {
+                return Strings.Course.Audit.expiresOn(expiryDate: formattedExpiryDate)
+            }
+        }
+    }
+
+    private var remainingTime: String {
+        guard let auditExpiry = audit_expiry_date else { return "" }
+
+        let calendar = NSCalendar.current
+        let unitFlags = Set<Calendar.Component>([.second,.minute,.hour])
+
+        let components = calendar.dateComponents(unitFlags, from: Date(), to: auditExpiry)
+        let hours = components.hour ?? 0
+        let minutes = components.minute ?? 0
+        let seconds = components.second ?? 0
+
+        if hours >= 1 {
+            return Strings.courseAuditRemainingHours(hours: hours)
+        }
+
+        if minutes >= 1 {
+            return Strings.courseAuditRemainingMinutes(minutes: minutes)
+        }
+
+        if seconds >= 1 {
+            return Strings.courseAuditRemainingSeconds(seconds: seconds)
+        }
+
+        return ""
+    }
 }

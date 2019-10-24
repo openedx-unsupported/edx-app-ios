@@ -12,7 +12,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
     
      typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
-    private let courseID: String
+    let courseID: String
     fileprivate var course: OEXCourse?
     private let environment: Environment
     fileprivate var tabBarItems : [TabBarItem] = []
@@ -46,6 +46,12 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         }
         delegate = self
         progressController.hideProgessView()
+        
+        NotificationCenter.default.oex_addObserver(observer:self , name: EnrollmentShared.successNotification) { (notification, observer, _) in
+            if let message = notification.object as? String {
+                observer.showOverlay(withMessage: message)
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -188,7 +194,40 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
             controller.configurePresentationController(withSourceView: shareButton)
             present(controller, animated: true, completion: nil)
         }
-    }    
+    }
+    
+    // MARK: Deep Linking
+    func switchTab(with type: DeepLinkType) {
+        switch type {
+        case .courseDashboard:
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)
+            break
+        case .courseVideos:
+            selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .video)
+            break
+        case .discussions, .discussionTopic, .discussionPost, .discussionComment:
+            selectedIndex = tabBarViewControllerIndex(with: DiscussionTopicsViewController.self)
+            break
+        case .courseDates:
+            selectedIndex = tabBarViewControllerIndex(with: CourseDatesViewController.self)
+            break
+        case .courseHandout:
+            let index = tabBarViewControllerIndex(with: CourseHandoutsViewController.self)
+            selectedIndex = (index == 0) ? tabBarViewControllerIndex(with: AdditionalTabBarViewController.self) : index        
+            break
+        case .courseAnnouncement:
+            let index = tabBarViewControllerIndex(with: CourseAnnouncementsViewController.self)
+            selectedIndex = (index == 0) ? tabBarViewControllerIndex(with: AdditionalTabBarViewController.self) : index
+            break
+        default:
+            selectedIndex = 0
+            break
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 extension UITabBarController {
@@ -254,5 +293,35 @@ extension CourseDashboardViewController {
     
     func t_items() -> [TabBarItem] {
         return tabBarItems
+    }
+}
+
+extension UITabBarController {
+    
+    func tabBarViewControllerIndex(with controller: AnyClass, courseOutlineMode: CourseOutlineMode? = .full) -> Int {
+        guard let viewControllers = viewControllers else {
+            return 0
+        }
+        
+        for i in 0..<viewControllers.count {
+            if viewControllers[i].isKind(of: controller) {
+                if  viewControllers[i].isKind(of: CourseOutlineViewController.self)  {
+                    if let viewController = viewControllers[i] as? CourseOutlineViewController, viewController.courseOutlineMode == courseOutlineMode {
+                        return i
+                    }
+                } else {
+                    return i
+                }
+            }
+        }
+        return 0
+    }
+    
+    func titleOfViewController(index: Int) -> String {
+        guard let viewControllers = viewControllers else {
+            return ""
+        }
+
+        return viewControllers[index].navigationItem.title ?? ""
     }
 }

@@ -40,12 +40,25 @@ class IOSHelper {
         return env['WRAPPER_NAME']
     }
 
+    def getBundleIdentifier() {
+        def env = System.getenv()
+        return env['PRODUCT_BUNDLE_IDENTIFIER']
+    }
+
+    def getFirebaseInfoPlistPath() {
+        return builtProductsPath + '/' + wrapperName + '/' + 'GoogleService-Info.plist'
+    }
+
     def getBuiltInfoPlistPath() {
         return builtProductsPath + '/' + infoPlistPath
     }
 
     def getBundleConfigPath() {
         return builtProductsPath + '/' + wrapperName + '/config.plist'
+    }
+    
+    def getFirebaseConfigPath() {
+        return builtProductsPath + '/' + wrapperName + '/firebase.plist'
     }
 
     // Saves our loaded and processed config YAML
@@ -62,20 +75,20 @@ class IOSHelper {
 
     // Modify Info.plist for specific services
 
-    def readInfoPlist() {
+    def readInfoPlist(plistPath) {
         // The configuration library doesn't know how to read
         // binary plists so make sure it's an xml one
-        ['plutil', '-convert', 'xml1', builtInfoPlistPath].execute().waitFor()
+        ['plutil', '-convert', 'xml1', plistPath].execute().waitFor()
 
-        def plist = PropertyListParser.parse(new File(builtInfoPlistPath)).toJavaObject()
+        def plist = PropertyListParser.parse(new File(plistPath)).toJavaObject()
         return plist
     }
 
-    def writeInfoPlist(plist) {
-        PropertyListParser.saveAsXML(NSObject.wrap(plist), new File(builtInfoPlistPath))
+    def writeInfoPlist(plist, path) {
+        PropertyListParser.saveAsXML(NSObject.wrap(plist), new File(path))
 
         // Restore to binary for runtime performance
-        ['plutil', '-convert', 'binary1', builtInfoPlistPath].execute().waitFor()
+        ['plutil', '-convert', 'binary1', path].execute().waitFor()
     }
 
     def addURLScheme(scheme, plist) {
@@ -116,6 +129,38 @@ class IOSHelper {
         plist["FacebookAppID"] = key
         def scheme = ["fb" + key]
         addURLScheme(scheme, plist)
+    }
+
+    def addFirebaseKeys(config, plist) {
+        def firebase = config['FIREBASE'] ?: [:]
+
+        plist['BUNDLE_ID'] = bundleIdentifier
+        def apiKey = firebase['API_KEY']
+        def clientID = firebase['CLIENT_ID']
+        def googleAppID = firebase['GOOGLE_APP_ID']
+        def GCMSenderID = firebase['GCM_SENDER_ID']
+
+        if(!apiKey || !clientID || !googleAppID || !GCMSenderID) {
+            return
+        }
+
+        plist['API_KEY'] = apiKey
+        plist['CLIENT_ID'] = clientID
+        plist['GOOGLE_APP_ID'] = googleAppID
+        plist['GCM_SENDER_ID'] = GCMSenderID
+
+        // set optional keys if present in config
+        def productID = firebase['PRODUCT_ID']
+        if (productID) {
+            plist['PROJECT_ID'] = productID
+            plist['STORAGE_BUCKET'] = productID + '.appspot.com'
+            plist['DATABASE_URL'] = 'https://' + productID + '.firebaseio.com'
+        }
+
+        def reversedCliendID = firebase['REVERSED_CLIENT_ID']
+        if (reversedCliendID) {
+            plist['REVERSED_CLIENT_ID'] = reversedCliendID
+        }
     }
 
     def addFabricConfig(config, plist) {
@@ -188,23 +233,47 @@ task uploadDebuggingSymbols << {
 }
 
 task applyConfig << {
-    def taskHelper = new TaskHelper()
-    def config = taskHelper.loadConfig(project)
-    def helper = new IOSHelper()
+    processDefaultInfoPlist()
+    processFirebaseInfoPlist()
+}
 
-    // Save all keys to config.plist
-    helper.saveProcessedConfig(config, helper.bundleConfigPath)
-
-    // Save specific fields to Info.plist
-    def plist = helper.readInfoPlist()
+def processDefaultInfoPlist() {
+    def (config, helper, plist, infoPlistPath, plistPath) = getConfigProcessHelpers(false)
     helper.addFacebookConfig(config, plist)
     helper.addFabricConfig(config, plist)
     helper.addGoogleConfig(config, plist)
     helper.addMicrosoftConfig(config, plist)
-    helper.writeInfoPlist(plist)
+    saveConfigChanges(helper, plist, infoPlistPath, plistPath)
+}
+
+def processFirebaseInfoPlist() {
+    def (config, helper, plist, infoPlistPath, plistPath) = getConfigProcessHelpers(true)
+    helper.addFirebaseKeys(config, plist)
+    saveConfigChanges(helper, plist, infoPlistPath, plistPath)
+}
+
+def getConfigProcessHelpers(isFirebase) {
+    def taskHelper = new TaskHelper()
+    def config = taskHelper.loadConfig(project)
+    def helper = new IOSHelper()
+    def infoPlistPath = helper.builtInfoPlistPath
+    def plistPath = helper.bundleConfigPath
+
+    if (isFirebase) {
+        plistPath = helper.firebaseConfigPath
+        infoPlistPath = helper.firebaseInfoPlistPath
+    }
+    helper.saveProcessedConfig(config, plistPath)
+    def plist = helper.readInfoPlist(infoPlistPath)
+
+    return [config, helper, plist, infoPlistPath, plistPath]
+}
+
+def saveConfigChanges(helper, plist, infoPlistPath, plistPath) {
+    helper.writeInfoPlist(plist, infoPlistPath)
 
     // double check that the config file actually got made
-    def check = ["[", "-f", helper.bundleConfigPath, "]"].execute()
+    def check = ["[", "-f", plistPath, "]"].execute()
     check.waitFor()
 
     def result = check.exitValue()
@@ -212,7 +281,7 @@ task applyConfig << {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.2.1'
+    gradleVersion = '4.10.2'
 }
 
 def testBuildArguments(workspace, scheme, OS, record) {
@@ -229,7 +298,7 @@ def RTLSchemeForScheme(scheme) {
     return scheme + '-RTL'
 }
 
-def operatingSystems = ["currentOS": "10.0", "previousOS": "9.0"]
+def operatingSystems = ["currentOS": "12.4", "previousOS": "11.3"]
 def directions = ["LTR": scheme, "RTL": RTLSchemeForScheme(scheme)]
 def commands = ["test" : ["record" : false], "recordSnapshots": ["record" : true]] 
 

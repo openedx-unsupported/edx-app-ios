@@ -15,8 +15,8 @@ static NSString* const OEXSegmentIOConfigKey = @"SEGMENT_IO";
 - (instancetype)initWithDictionary:(NSDictionary*)dictionary {
     self = [super init];
     if(self) {
-        _enabled = [dictionary[@"ENABLED"] boolValue];
         _apiKey = dictionary[@"SEGMENT_IO_WRITE_KEY"];
+        _enabled = [dictionary[@"ENABLED"] boolValue] && _apiKey;
     }
     return self;
 }

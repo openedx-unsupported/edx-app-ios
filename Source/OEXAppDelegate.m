@@ -7,6 +7,7 @@
 //
 
 @import edXCore;
+@import FirebaseAnalytics;
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -14,12 +15,11 @@
 #import <NewRelicAgent/NewRelic.h>
 #import <Analytics/SEGAnalytics.h>
 #import <Branch/Branch.h>
-
+#import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
+#import <Segment-Firebase/SEGFirebaseIntegrationFactory.h>
 #import "OEXAppDelegate.h"
-
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
-
 #import "OEXAuthentication.h"
 #import "OEXConfig.h"
 #import "OEXDownloadManager.h"
@@ -78,13 +78,11 @@
 
     [self setupGlobalEnvironment];
     [self.environment.session performMigrations];
-
     [self.environment.router openInWindow:self.window];
-    
     [self configureFabricKits:launchOptions];
+    [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
-    
-    return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
@@ -126,7 +124,7 @@
 }
 
 // Respond to Universal Links
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler {
     
     if (self.environment.config.fabricConfig.kits.branchConfig.enabled) {
         return [[Branch getInstance] continueUserActivity:userActivity];
@@ -199,14 +197,25 @@
 
     //SegmentIO
     OEXSegmentConfig* segmentIO = [config segmentConfig];
-    if(segmentIO.apiKey && segmentIO.isEnabled) {
-        [SEGAnalytics setupWithConfiguration:[SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey]];
+    if(segmentIO.isEnabled) {
+        SEGAnalyticsConfiguration * configuration = [SEGAnalyticsConfiguration configurationWithWriteKey:segmentIO.apiKey];
+        
+        //Segment to Google Analytics integration
+        [configuration use:[SEGGoogleAnalyticsIntegrationFactory instance]];
+        
+        if (config.firebaseConfig.requiredKeysAvailable && config.firebaseConfig.isAnalyticsSourceSegment) {
+            //Segment to Google Firebase integration
+            [configuration use:[SEGFirebaseIntegrationFactory instance]];
+        }
+        
+        [SEGAnalytics setupWithConfiguration:configuration];
     }
-    
     //Initialize Firebase
-    if (config.isFirebaseEnabled) {
+    // Make Sure the google app id is valid before configuring firebase, the app can produce crash.
+    //Firebase do not get exception with invalid google app ID, https://github.com/firebase/firebase-ios-sdk/issues/1581
+    if (config.firebaseConfig.enabled && !config.firebaseConfig.isAnalyticsSourceSegment) {
         [FIRApp configure];
-        [[FIRAnalyticsConfiguration sharedInstance] setAnalyticsCollectionEnabled:YES];
+        [FIRAnalytics setAnalyticsCollectionEnabled:YES];
     }
 
     //NewRelic Initialization with edx key
@@ -221,7 +230,6 @@
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
-    
 }
 
 - (void) configureFabricKits:(NSDictionary*) launchOptions {
@@ -231,6 +239,7 @@
             [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
                 // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
                 // params will be empty if no data found
+                [[DeepLinkManager sharedInstance] processDeepLinkWith:params environment:self.environment.router.environment];
             }];
         }
     }

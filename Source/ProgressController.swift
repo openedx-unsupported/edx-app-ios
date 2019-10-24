@@ -41,7 +41,7 @@ public class ProgressController: NSObject {
         downloadButton.tintColor = OEXStyles.shared().navigationItemTintColor()
         downloadButton.accessibilityLabel = Strings.accessibilityDownloadProgressButton(percentComplete: 0, formatted: nil)
         downloadButton.accessibilityHint = Strings.Accessibility.showCurrentDownloadsButtonHint
-        downloadButton.accessibilityTraits = UIAccessibilityTraitButton | UIAccessibilityTraitUpdatesFrequently
+        downloadButton.accessibilityTraits = UIAccessibilityTraits(rawValue: UIAccessibilityTraits.button.rawValue | UIAccessibilityTraits.updatesFrequently.rawValue)
         downloadButton.frame = ProgressViewFrame
         
         

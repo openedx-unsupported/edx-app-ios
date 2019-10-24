@@ -32,7 +32,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
-    private let environment : Environment
+    public let environment : Environment
     fileprivate var controls: VideoPlayerControls?
     weak var playerDelegate : VideoPlayerDelegate?
     var isFullScreen : Bool = false {
@@ -43,7 +43,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
     fileprivate let player = AVPlayer()
-    private let loadingIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .white)
+    let loadingIndicatorView = UIActivityIndicatorView(style: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
     private let videoSkipBackwardsDuration: Double = 30
@@ -64,7 +64,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private let loadingIndicatorViewSize = CGSize(width: 50.0, height: 50.0)
     
-    fileprivate var video: OEXHelperVideoDownload? {
+    public var video: OEXHelperVideoDownload? {
         didSet {
             initializeSubtitles()
         }
@@ -165,13 +165,13 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             player.addObserver(self, forKeyPath: currentItemStatusKey,
                                options: .new, context: nil)
             
-            let timeInterval: CMTime = CMTimeMakeWithSeconds(1.0, 10)
+            let timeInterval: CMTime = CMTimeMakeWithSeconds(1.0, preferredTimescale: 10)
             timeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval, queue: DispatchQueue.main) { [weak self]
                 (elapsedTime: CMTime) -> Void in
                 self?.observeProgress(elapsedTime: elapsedTime)
                 } as AnyObject
             
-            NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.UIApplicationWillResignActive.rawValue) {(notification, observer, _) in
+            NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.willResignActiveNotification.rawValue) {(notification, observer, _) in
                 observer.pause()
                 observer.controls?.setPlayPauseButtonState(isSelected: true)
             }
@@ -183,7 +183,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     private func voiceOverStatusChanged() {
-        hideAndShowControls(isHidden: !UIAccessibilityIsVoiceOverRunning())
+        hideAndShowControls(isHidden: !UIAccessibility.isVoiceOverRunning)
     }
     
     private func observeProgress(elapsedTime: CMTime) {
@@ -207,7 +207,14 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
         playerView.addSubview(loadingIndicatorView)
         
-        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, with: [])
+        if #available(iOS 10.0, *) {
+            try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+        } else {
+            // Fallback on earlier versions
+            // Workaround until https://forums.swift.org/t/using-methods-marked-unavailable-in-swift-4-2/14949 isn't fixed
+            AVAudioSession.sharedInstance().perform(NSSelectorFromString("setCategory:error:"), with: AVAudioSession.Category.playback)
+            
+        }
         setConstraints()
     }
     
@@ -247,10 +254,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             }
         }
         else if keyPath == currentItemStatusKey {
-            if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber, let newStatus = AVPlayerItemStatus(rawValue: newStatusAsNumber.intValue) {
+            if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber, let newStatus = AVPlayerItem.Status(rawValue: newStatusAsNumber.intValue) {
                 switch newStatus {
                 case .readyToPlay:
-                    
                     //This notification call specifically for test cases in readyToPlay state
                     perform(#selector(t_postNotification))
                     
@@ -262,6 +268,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                     break
                 case .failed:
                     controls?.isTapButtonHidden = true
+                    break
+                @unknown default:
                     break
                 }
             }
@@ -288,7 +296,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     private func applyScreenOrientation() {
         if isVerticallyCompact() {
-            DispatchQueue.main.async {[weak self] _ in
+            DispatchQueue.main.async {[weak self] in
                 self?.setFullscreen(fullscreen: true, animated: false, with: .portrait, forceRotate: false)
             }
         }
@@ -349,7 +357,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     func resume(at time: TimeInterval) {
         if player.currentItem?.status == .readyToPlay {
-            player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
+            player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) { [weak self]
                 (completed: Bool) -> Void in
                 self?.player.play()
                 self?.playerState = .playing
@@ -395,7 +403,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl)
+            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl, playMedium: nil)
         }
     }
     
@@ -404,7 +412,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerView.removeGestureRecognizer(rightSwipeGestureRecognizer)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: false, unitURL: unitUrl)
+            environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: false, unitURL: unitUrl, playMedium: nil)
         }
     }
     
@@ -463,11 +471,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool) {
         if playerState == .playing {
             pause()
-            environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video)
+            environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
         else {
             resume()
-            environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video)
+            environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
     }
     
@@ -478,14 +486,14 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
         playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
         seek(to: backTime)
-        
+
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
     }
     
     func fullscreenPressed(playerControls: VideoPlayerControls) {
-        DispatchQueue.main.async {[weak self] _ in
+        DispatchQueue.main.async {[weak self] in
             if let weakSelf = self {
                 weakSelf.setFullscreen(fullscreen: !weakSelf.isFullScreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:!weakSelf.isVerticallyCompact())
             }
@@ -515,7 +523,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func seek(to time: Double) {
-        player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { [weak self]
+        if player.currentItem?.status != .readyToPlay { return }
+
+        player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) { [weak self]
             (completed: Bool) -> Void in
             if self?.playerState == .playing {
                 self?.controls?.autoHide()
@@ -543,7 +553,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         setVideoSpeed(speed: speed)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSpeed(videoId, currentTime: currentTime, courseID: courseId, unitURL: unitUrl, oldSpeed: String(format: "%.1f", oldSpeed), newSpeed: String.init(format: "%.1f", rate))
+            environment.analytics.trackVideoSpeed(videoId, currentTime: currentTime, courseID: courseId, unitURL: unitUrl, oldSpeed: String(format: "%.1f", oldSpeed), newSpeed: String(format: "%.1f", OEXInterface.getOEXVideoSpeed(speed)))
         }
     }
     
@@ -560,24 +570,13 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             }
         }
     }
-    
+
+    func setVideo(video: OEXHelperVideoDownload){
+        self.video = video
+    }
+
     deinit {
         removeObservers()
-    }
-}
-
-extension VideoPlayer {
-    
-    var movieBackgroundFrame: CGRect {
-        if #available(iOS 11, *) {
-            if let safeBounds = fullScreenContainerView?.safeAreaLayoutGuide.layoutFrame {
-                return safeBounds
-            }
-        }
-        else if let containerBounds = fullScreenContainerView?.bounds {
-            return containerBounds
-        }
-        return .zero
     }
     
     func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
@@ -628,6 +627,21 @@ extension VideoPlayer {
             })
         }
     }
+}
+
+extension VideoPlayer {
+    
+    var movieBackgroundFrame: CGRect {
+        if #available(iOS 11, *) {
+            if let safeBounds = fullScreenContainerView?.safeAreaLayoutGuide.layoutFrame {
+                return safeBounds
+            }
+        }
+        else if let containerBounds = fullScreenContainerView?.bounds {
+            return containerBounds
+        }
+        return .zero
+    }
     
     func rotateMoviePlayer(for orientation: UIInterfaceOrientation, animated: Bool, forceRotate rotate: Bool, completion: (() -> Void)? = nil) {
         var angle: Double = 0
@@ -673,7 +687,7 @@ extension VideoPlayer {
         return video
     }
     
-    var t_playerCurrentState: AVPlayerItemStatus {
+    var t_playerCurrentState: AVPlayerItem.Status {
         return player.currentItem?.status ?? .unknown
     }
     

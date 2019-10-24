@@ -155,7 +155,7 @@ public class DiscussionNewCommentViewController: UIViewController, UITextViewDel
         
         contentTextView.textContainer.lineFragmentPadding = 0
         contentTextView.textContainerInset = environment.styles.standardTextViewInsets
-        contentTextView.typingAttributes = environment.styles.textAreaBodyStyle.attributes
+        contentTextView.typingAttributes = environment.styles.textAreaBodyStyle.attributes.attributedKeyDictionary()
         contentTextView.placeholderTextColor = environment.styles.neutralBase()
         contentTextView.textColor = environment.styles.neutralDark()
         contentTextView.applyBorderStyle(style: environment.styles.entryFieldBorderStyle)

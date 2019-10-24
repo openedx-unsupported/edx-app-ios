@@ -17,7 +17,7 @@
 @implementation OEXFacebookAuthProvider
 
 - (UIColor*)facebookBlue {
-    return [UIColor colorWithRed:49./255. green:80./255. blue:178./255. alpha:1];
+    return [UIColor colorWithRed:66.0/255. green:103.0/255. blue:178./255. alpha:1];
 }
 
 - (NSString*)displayName {
@@ -40,7 +40,7 @@
     OEXFBSocial* facebookManager = [[OEXFBSocial alloc] init]; //could be named facebookHelper.
     [facebookManager loginFromController:controller completion:^(NSString *accessToken, NSError *error) {
         if(error) {
-            if([error.domain isEqual:FBSDKErrorDomain] && error.code == FBSDKNetworkErrorCode) {
+            if([error.domain isEqual:FBSDKErrorDomain] && error.code == FBSDKErrorNetwork) {
                 // Hide FB specific errors inside this abstraction barrier
                 error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNetworkConnectionLost userInfo:error.userInfo];
             }

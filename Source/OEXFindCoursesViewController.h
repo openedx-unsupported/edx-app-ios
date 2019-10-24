@@ -16,7 +16,9 @@ typedef NS_ENUM(NSInteger, OEXFindCoursesBaseType) {
 };
 
 @interface OEXFindCoursesViewController : UIViewController
-- (instancetype) initWithEnvironment:(RouterEnvironment* _Nullable)environment bottomBar:(UIView* _Nullable)bottomBar searchQuery:(nullable NSString*)searchQuery;
+
+@property (readonly, strong, nonatomic) UIView* bottomBar;
+- (instancetype) initWithEnvironment:(RouterEnvironment* _Nullable)environment showBottomBar:(BOOL) showBottomBar bottomBar:(UIView* _Nullable)bottomBar searchQuery:(nullable NSString*)searchQuery;
 @property (nonatomic) OEXFindCoursesBaseType startURL;
 @end
 

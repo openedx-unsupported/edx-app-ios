@@ -17,10 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)initWithDictionary:(NSDictionary*)dictionary;
 // TODO: Factor the video code to get this from the block instead of the video summary
-- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID name:(NSString*)name;
+- (id)initWithDictionary:(NSDictionary*)dictionary videoID:(NSString*)videoID unitURL:(nullable NSString*)unitURL name:(NSString*)name;
 
-/// Generate a simple stub video summary. Used only for testing
-- (id)initWithVideoID:(NSString*)videoID name:(NSString*)name path:(NSArray<OEXVideoPathEntry*>*)path;
 /// Generate a simple stub video summary. Used only for testing
 - (id)initWithVideoID:(NSString*)videoID name:(NSString*)name encodings:(NSDictionary<NSString*, OEXVideoEncoding *> *)encodings;
 
@@ -30,10 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic, nullable) OEXVideoPathEntry* sectionPathEntry;
 
 @property (readonly, nonatomic, strong, nullable) OEXVideoEncoding* preferredEncoding;
-
-/// displayPath : OEXVideoPathEntry array
-/// This is just the list [chapterPathEntry, sectionPathEntry], filtering out nil items
-@property (readonly, copy, nonatomic, nullable) NSArray* displayPath;
 
 @property (readonly, nonatomic, copy, nullable) NSString* category;
 // This property is deprecated. We should be reading it from the CourseBlock itself

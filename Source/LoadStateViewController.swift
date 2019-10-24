@@ -107,9 +107,9 @@ class LoadStateViewController : UIViewController {
         view = PassthroughView()
     }
     
-    func setupInController(controller : UIViewController, contentView : UIView) {
-        controller.addChildViewController(self)
-        didMove(toParentViewController: controller)
+    @objc func setupInController(controller : UIViewController, contentView : UIView) {
+        controller.addChild(self)
+        didMove(toParent: controller)
         
         self.contentView = contentView
         contentView.alpha = 0

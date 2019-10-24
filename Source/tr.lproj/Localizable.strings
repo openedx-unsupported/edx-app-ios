@@ -1,0 +1,827 @@
+/*
+ Localizable.strings
+ edXVideoLocker
+
+ Created by Nirbhay Agarwal on 07/07/14.
+ Copyright (c) 2014-2015 edX. All rights reserved.
+ */
+
+// Please keep in alphabetical order
+
+/* Alert dialog confirmation button when user chooses to download a large video */
+"ACCEPT_LARGE_VIDEO_DOWNLOAD"="İndir";
+/*Accessibility label for bulk download view when in downloading state */
+"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "Videolar İndiriliyor";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_CHECKED" = "Seçildi";
+/* Label for check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_UNCHECKED" = "Seçilmedi";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_CHECKED" = "Onay kutusunu temizle";
+/* Label for action hint on check box when it's checked. */
+"ACCESSIBILITY_CHECKBOX_HINT_UNCHECKED" = "Seçmek için tıklayın";
+/* Appending By before course organization and number on My Find Courses*/
+"ACCESSIBILITY_BY" = "Yazan";
+/*Accessibility hint for user bio on user profile screen*/
+"ACCESSIBILITY.ACCOUNT.BIO_LABEL" = "Açıklama";
+/* Accessibility hint for subject name label */
+"ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "{subject_name} konusuna göre gezinti için çift tıklayın";
+/* Accessibility hint for bulk download switch when in new state */
+"ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Düğmeyi açmak, bu dersin tüm videolarını indirir";
+/* Accessibility hint for bulk download switch when in new partial or downloading state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_HINT" = "Düğmeyi kapatmak, tüm video indirmelerini iptal eder ve bu dersin indirilmiş tüm videolarını siler.";
+/* Accessibility hint for bulk download switch when in downloaded state */
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_HINT" = "Düğmeyi kapatmak, bu dersin indirilmiş tüm videolarını siler.";
+/* Accessibility hint for close button*/
+"ACCESSIBILITY.CLOSE_HINT" = "Kapatmak için çift tıkla.";
+/* Accessibility label for posted data of discussion responses*/
+"ACCESSIBILITY.DISCUSSION_POSTED_ON" = "{date} tarihinde gönderildi";
+/* Accessibility hint for Vote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_VOTE_HINT" = "Oylamak için çift tıklayın.";
+/* Accessibility hint for Unvote button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNVOTE_HINT" = "Oyu geri almak için çift tıkla.";
+/* Accessibility hint for Report button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_REPORT_HINT" = "Bildirmek için çift tıkla.";
+/* Accessibility hint for Unreport button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNREPORT_HINT" = "Bildirimi geri almak için çift tıkla.";
+/* Accessibility hint for Follow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_FOLLOW_HINT" = "Takip etmek için çift tıklayın.";
+/* Accessibility hint for Unfollow button for discussion responses*/
+"ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Takipten çıkarmak için çift tıklayın.";
+/*Accessibility hint for disabled buttons, cells, etc like for disabled user profile fields on user edit profile screen*/
+"ACCESSIBILITY.DISABLED_HINT" = "Sönük";
+/* Acessibility hint for the show downloads button. */
+"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Mevcut indirmeleri görüntülemek için çift tıklayın";
+/* Accessibility hint for view all subjects label*/
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Tüm konuları görmek için çift tıklayın.";
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+/* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Devam eden indirmeler: {percent_complete}";
+"ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Devam eden indirmeler: {percent_complete}";
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+/* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "{video_name} indiriliyor. Yüzde {percent_complete} tamamlandı.";
+"ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{other}" = "{video_name} indiriliyor. Yüzde {percent_complete} tamamlandı.";
+/* Accessibility hint for number of downloadable videos */
+/* Accessibility hint for number of downloadable videos */
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{one}" = "{video_count} video indiriliyor.";
+"ACCESSIBILITY_DOWNLOADABLE_VIDEOS##{other}" = "{video_count} video indiriliyor.";
+/* Accessibility label for fullscreen button on video player */
+"ACCESSIBILITY_FULLSCREEN" = "Tam Ekran";
+/* Accessibility label for fullscreen button on video player when player is in fullscreen mode*/
+"ACCESSIBILITY_EXIT_FULLSCREEN" = "Tam ekrandan çık";
+/* Accessibility hint for error*/
+"ACCESSIBILITY.ERROR_TEXT" = "Hata";
+/* Accessibility label for HTML Icon in the Courseware screens */
+"ACCESSIBILITY_HTML" = "HTML";
+/* Accessibility label for Pause Button in the Video Player */
+"ACCESSIBILITY_PAUSE" = "Durdur";
+/* Accessibility label for Play Button in the Video Player */
+"ACCESSIBILITY_PLAY" = "Oynat";
+/* Accessibility lable for the avatar image */
+"ACCESSIBILITY_USER_AVATAR" = "Avatar görseliniz";
+/* Accessibility label for Problem Icon in the Courseware screens */
+"ACCESSIBILITY_PROBLEM" = "Problem";
+/* Optional text needs to be added for accesibility*/
+"ACCESSIBILITY.OPTIONAL_INPUT"="Seçmeli";
+/* Required text needs to be added for accesibility*/
+"ACCESSIBILITY_REQUIRED_INPUT"="Zorunlu";
+/* Accessibility label for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND" = "Geri sar";
+/* Call to action for Rewind Button in the Video Player */
+"ACCESSIBILITY_REWIND_HINT" = "30 saniye geri sar.";
+/* Accessibility label for Seek bar in the Video Player */
+"ACCESSIBILITY_SEEK_BAR" = "Gezinme Çubuğu";
+/* Accessibility label for Settings Button in the Video Player */
+"ACCESSIBILITY_SETTINGS" = "Ayarlar";
+/* Call to action for Course content on Home Screen */
+"ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Ders içeriğini görüntülemek için çift tıklayın.";
+/* We don't have a accessility trait for dropdown, so we will be achieving dropdown trait through accessibility label */
+"ACCESSIBILITY_DROPDOWN_TRAIT" = "Açılır menü.";
+/* Call to action for Opening Dropdown */
+"ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Açılır menüyü açmak için çift tıklayın.";
+/* Call to action for Selecting Option */
+"ACCESSIBILITY_SELECT_VALUE_HINT" = "Seçmek için çift tıklayın.";
+/* Accessibility label for Unknown Icon in the Courseware screens */
+"ACCESSIBILITY_UNKNOWN" = "Bilinmeyen";
+/* Accessibility label for Video Icon in the Courseware screens */
+"ACCESSIBILITY_VIDEO" = "Video";
+/* Text spoken for Navigation Button on Course List Screen */
+"ACCESSIBILITY_MENU" = "Gezinme Menüsü";
+/* Accessibility label for close button when left drawer is open*/
+"ACCESSIBILITY_CLOSE_MENU" = "Gezinme Menüsü'nü Kapat";
+/* Accessibility label for hiding keyboard*/
+"ACCESSIBILITY_HIDE_KEYBOARD" = "Tuş Takımını Gizle";
+/* Accessibility Hint to view user profile*/
+"ACCESSIBILITY_SHOW_USER_PROFILE_HINT" = "Kullanıcı profilini görüntülemek için çift tıklayın.";
+/*Accessibility text for pinned discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_PINNED" = "Sabitlenmiş";
+/*Accessibility text for closed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_CLOSED" = "Kapalı";
+/*Accessibility text for followed discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_FOLLOWED" = "Takip ediyor";
+/* Accessibility text for unread discussion comments count (Posts screen) - {count} is a number of unread comments */
+"ACCESSIBILITY.DISCUSSION_UNREAD_REPLIES"="{count} Okunmamış yanıt";
+/*Accessibility text for unread discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_UNREAD_THREAD" = "Okunmamış tartışma zinciri";
+/*Accessibility text for read discussion thread (Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_READ_THREAD" = "Tartışma zincirini oku";
+/*Accessibility text for discussion thread last seen date(Posts screen) - {date} last updated thread date*/
+"ACCESSIBILITY.DISCUSSION_LAST_POST_ON" = "Son gönderi {date} tarihinde";
+/*Accessibility hint for discussion thread(Posts screen)*/
+"ACCESSIBILITY.DISCUSSION_THREAD_HINT" = "İleti dizisini görmek için çift tıkla.";
+/*Accessibility hint for sort button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_SORT_BY" = "{sort_by} sırasına göre sırala";
+/*Accessibility hint for filter button(Posts Screen)*/
+"ACCESSIBILITY.DISCUSSION_FILTER_BY" = "{filter_by} ile filtrele";
+/*Accessibility label for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_LABEL" = "{user_name}, {user_email} ile giriş yaparak ";
+/*Accessibility hint for user profile in left drawer*/
+"ACCESSIBILITY.LEFT_DRAWER.PROFILE_HINT" = "Profilinizi açmak için çift tıklayın.";
+/*Accessibility text for close button on whats new screen*/
+"ACCESSIBILITY.WHATSNEW.CLOSE_LABEL"="Kapat";
+/*Accessibility label for header on new screen*/
+"ACCESSIBILITY.WHATSNEW.HEADER_LABEL"="Sürüm {app_version}, Yeni Özellikler";
+/*Accessibility text for course share button on course dashboard*/
+"ACCESSIBILITY.SHARE_A_COURSE"="Bir ders paylaş";
+/*Accessibility text for close button*/
+"ACCESSIBILITY.CLOSE_LABEL"="Kapat";
+/*Accessibility text for profile button*/
+"ACCESSIBILITY.PROFILE_LABEL"="Profil";
+/* Title of user profile section for user accomplishments (like badges) */
+"ACCOMPLISHMENTS.TITLE" = "Başarılar";
+/* Default text template when user shares an accomplishment */
+"ACCOMPLISHMENTS.SHARE_TEXT" = "{platform_name} platformunda yeni bir rozet kazandım! Burada görebilirsin";
+/* Add a comment button title and place holder used in discussion comment text view */
+"ADD_A_COMMENT"="Bir yorum ekle";
+/* Add a response button title used in discussion's responses screen */
+"ADD_A_RESPONSE"="Bir cevap ekle";
+/* Add comment button title used in discussion's Add a comment */
+"ADD_COMMENT"="Yorum ekle";
+/* Add post button title used in discussion's Create a new post */
+"ADD_POST"="Gönderi ekle";
+/* Add response button title used in discussion's Add a response */
+"ADD_RESPONSE"="Cevap ekle";
+/* Add your post button title used in discussion's add a post textview */
+"ADD_YOUR_POST"="Gönderinizi ekleyin";
+/*Agreement text*/
+"AGREEMENT.TEXT"="{eula} ve {tos} kurallarını ve {privacy_policy} doğrultusunda {platform_name} platformunun kişisel verilerinizi işleyeceğini kabul ediyorsunuz.";
+/*Agreement text prefix for user on signin screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNIN"="Bu uygulamaya giriş yaparak,";
+/*Agreement text prefix for user on signup screen*/
+"AGREEMENT.TEXT_PREFIX_SIGNUP"="Bir hesap oluşturarak,";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_EULA"="{platform_name} Son Kullanıcı Lisans Anlaşması";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_TOS"="{platform_name} Hizmet Şartları ve Etik Şartlar";
+/*Link Text for End Use License Agreement*/
+"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="Gizlilik Politikası";
+/* Alert dialog button allowing user to chosing to allow downloads on cellular */
+"ALLOW"="İzin ver";
+/* Filtering option to show all discussion posts */
+"ALL_POSTS"="Tüm Gönderiler";
+/*Subtitle for bulk download view when in downloading state */
+"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "Kalan {remaining_videos_count} video, toplam {remaining_videos_size}MB ";
+/*Title for bulk download view when in downloaded state */
+"ALL_VIDEOS_DOWNLOADED_TITLE" = "Tüm Videolar İndirildi";
+/* Message shown when there are no announcements for a course */
+"ANNOUNCEMENT_UNAVAILABLE"="Şu anda bu ders için bildirim bulunmamaktadır.";
+/* Label indicating the response answer in Discussion Add comment screen */
+"ANSWER"="Cevap";
+/* Navigation title for a Question Post which has endorsed answers */
+"ANSWERED_QUESTION"="Cevaplanan Soru";
+/* Accessibility label for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "Derecelendirme çubuğu.";
+/* Accessibility hint for rating control of app review. */
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_HINT" = "Çift tıklayın ve değeri değiştirmek için basılı tutun.";
+/* Alert title for positive app review */
+"APP_REVIEW.RATE_THE_APP" = "Uygulamayı Oyla";
+/* Positive review message */
+"APP_REVIEW.POSITIVE_REVIEW_MESSAGE" = "Uygulama mağazasında hızlı bir inceleme yazarak başkalarına uygulama hakkında ne düşündüğünüzü söyleyin";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK_TITLE" = "Geri Bildirim Gönder?";
+/* Help us improve message for negative app review */
+"APP_REVIEW.HELP_US_IMPROVE" = "Geliştirmemize yardım et!";
+/* Maybe later message for positive/negative app review */
+"APP_REVIEW.MAYBE_LATER" = "Belki Daha Sonra";
+/* Send feedback message for negative app review */
+"APP_REVIEW.SEND_FEEDBACK" = "Geri Bildirim Gönder";
+/* Question for rating view */
+"APP_REVIEW.RATE_THE_APP_QUESTION" = "Bu uygulamayı nasıl derecelendirirsiniz?";
+/* Submit button for rating view */
+"APP_REVIEW.SUBMIT" = "Gönder";
+/* App Review message email title */
+"APP_REVIEW.MESSAGE_SUBJECT" = "Müşteri İncelemeleri";
+/*Asteric for marking fields required*/
+"ASTERIC" = "*";
+/* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
+"AUTH_PROVIDER_ERROR" = "Bu {auth_provider} hesabı herhangi bir {platform_name} hesabıyla bağlantılı değil. Lütfen kaydolun.";
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
+/*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, toplam {videos_size}MB";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Video, toplam {videos_size}MB";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR" = "{author_name} Tarafından";
+/* Prefix used with Staff of Community TA on the posts screen */
+"BY_AUTHOR_LOWER_CASE" = "{author_name} tarafından";
+/* Course completion title */
+"CERTIFICATES.COURSE_COMPLETION_TITLE"="TEBRİKLER!";
+/* Course completion subtitle */
+"CERTIFICATES.COURSE_COMPLETION_SUBTITLE"="Dersi geçtiniz.";
+/* Get certificate button text. */
+"CERTIFICATES.GET_CERTIFICATE"="Sertifika görüntüle";
+/* Text to share on FB & Twitter when sharing a course cert */
+"CERTIFICATES.SHARE_TEXT"="{platform_name} platformunda yeni bir Sertifika kazandım! Buradan görebilirsin:";
+/* Title bar when viewing an actual certificate */
+"CERTIFICATES.VIEW_CERT_TITLE"="Sertifika";
+/* Title of course announcements section */
+"COURSE_ANNOUNCEMENTS"="Bildirimler";
+/* Title of course handouts section */
+"COURSE_HANDOUTS"="Dinleyici Notları";
+/* Title of resources tab in course dashboardTabBar view */
+"RESOURSES"="Kaynaklar";
+/* Title of course important dates screen */
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Önemli Tarihler";
+/* Button text for cancelling any action */
+"CANCEL"="İptal";
+/* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_MESSAGE"="Wi-Fi açık olmadığında mobil ağ üzerinden videoları indirmeye izin ver. Veri ücretleri uygulanabilir.";
+/* Title of alert explaining charges will apply since the "Wi-fi only" switch was turned off */
+"CELLULAR_DOWNLOAD_ENABLED_TITLE"="Mobil Veri Üzerinden İndirmeye İzin Ver";
+/* Error message shown when there is a problem loading a video */
+"CHECK_CONNECTION"="Video yüklenirken problem oluştu.\nLütfen İnternet bağlantınızı kontrol edin.";
+/* Generic action button label when the user chooses a thing */
+"CHOOSE" = "Seç";
+/* Title of dropdown from which the user can select topics on New Post Screen */
+"CHOOSE_A_TOPIC" = "Bir konu seç...";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
+"COMPLETE_REGISTRATION_INFO" = "{service} ile başarıyla giriş yaptınız. {platform_name} ile öğrenmeye başlamadan önce birazcık daha bilgiye ihtiyacımız var.";
+/* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google */
+"COMPLETE_REGISTRATION_PROMPT" = "Kaydınızı tamamlayınız";
+/* Title of alert when confirming deletion of a video */
+"CONFIRM_DELETE_TITLE"="Silmeyi Onayla";
+/* Text of alert when confirming video deletion */
+/* Text of alert when confirming video deletion */
+"CONFIRM_DELETE_MESSAGE##{one}"="Bu videoları silmek istediğinize emin misiniz ?";
+"CONFIRM_DELETE_MESSAGE##{other}"="Bu videoları silmek istediğinize emin misiniz ?";
+/* Text of push notification announcing a new course announcement */
+"COURSE_ANNOUNCEMENT_NOTIFICATION_BODY"="Yeni Duyuru: {course_name}";
+/* Alert dialog button text */
+"CLOSE"="Kapat";
+/* Discussion response comment - {count} is a number of comments */
+/* Discussion response comment - {count} is a number of comments */
+"COMMENT##{one}"="{count} yorum";
+"COMMENT##{other}"="{count} yorum";
+/* Discussion comments */
+"COMMENTS"="Yorumlar";
+/* Text displayed when comments are disabled for a Response */
+"COMMENTS_CLOSED" = "Bu yanıt yorumlara kapatılmıştır";
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+/* Discussion comment (Posts screen) - {count} is a number of comments */
+"COMMENTS_TO_RESPONSE##{one}"="{count} Yorum";
+"COMMENTS_TO_RESPONSE##{other}"="{count} Yorum";
+/* Label for posts pinned by Community TA(s)" */
+"COMMUNITY_TA"="TOPLULUK Öğretim Yardımcısı";
+/* Label indicating the amount of time a course will take */
+"COURSE_DETAIL.EFFORT"="Çaba:";
+/* Label indicating when a course ends. */
+"COURSE_DETAIL.END_DATE"="Bitiş Tarihi:";
+/* Button title allowing user to enroll in a course */
+"COURSE_DETAIL.ENROLL_NOW" = "Şimdi kayıt olun";
+/* Button title allowing user to view a course from the course's catalog detail page */
+"COURSE_DETAIL.VIEW_COURSE" = "Dersi gör";
+/* Button title describing that the course is invitation only */
+"COURSE_DETAIL.INVITATION_ONLY" = "Sadece davetle";
+/* Message shown when there is no course content */
+"COURSEWARE_UNAVAILABLE"="Şu anda ders içeriği mevcut değil.";
+/* Message shown when there is no course video */
+"COURSE_VIDEO_UNAVAILABLE"="Bu ders herhangi bir video içermiyor";
+/* Message shown when attempting to display content not available on the app */
+"COURSE_CONTENT_UNKNOWN" = "Bu etkileşimli bileşen henüz mobilde mevcut değil. \n\n Bu diğer diğer kısımlarını keşfedin ya da web tarayıcısı üzerinden bakın.";
+/* Message shown when course content is gated */
+"COURSE_CONTENT_GATED"= "Not available on Mobile";
+/* Message shown when there is no course dates */
+"COURSEDATES.COURSE_DATE_UNAVAILABLE"="Ders tarihleri şu an mevcut değil.";
+/* Label for date when course starts */
+"COURSE.STARTING" = "Başlangıç {start_date}";
+/* Label for date when course end */
+"COURSE.ENDING" = "Bitiş {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Bitti {end_date}";
+/* Course audit will expires on date*/
+"COURSE.AUDIT.EXPIRES_ON" = "Derse erişim {expiry_date} tarihinde sona eriyor";
+/* Course audit will expires in {time_duration}*/
+"COURSE.AUDIT.EXPIRES_IN" = "Derse erişim {time_duration} sonra sona erecek";
+/* Course audit expired n days ago*/
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Derse erişim {days} gün önce sona erdi";
+/* Course audit expired in less than 24 hours*/
+"COURSE.AUDIT.EXPIRED_AGO" = "Derse erişim {time_duaration} tarihinde sona erdi";
+/* Course audit expired on date*/
+"COURSE.AUDIT.EXPIRED_ON" = "Derse erişim {expiry_date} tarihinde sona erdi";
+/* Course audit expiry in n number of days*/
+"COURSE.AUDIT.DAYS" = "{days} gün";
+/* 1 hour remaining in course audit expiry*/
+/* More than 1 hours remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_HOURS##{one}" = "{hours} saat";
+"COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} saat";
+/* 1 minutes remaining in course audit expiry*/
+/* More than 1 minutes remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_MINUTES##{one}" = "{minutes} dakika";
+"COURSE_AUDIT_REMAINING_MINUTES##{other}" = "{minutes} dakika";
+/* 1 second remaining in course audit expiry*/
+/* More than 1 seconds remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} saniye";
+"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} saniye";
+/*Error meessage on course content screen if course audit expires*/
+"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Bu derse erişiminiz sona ermiştir";
+/* Title text for the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS"="Duyurular";
+/* Text describing the Announcements section within the course dashboard */
+"DASHBOARD.COURSE_ANNOUNCEMENTS_DETAIL"="En güncel haberlerle takipte kalın";
+/* Title text for the Courseware section of the course dashboard */
+"DASHBOARD.COURSE_COURSEWARE"="Ders";
+/* Text describing the Courseware section within the course dashboard */
+"DASHBOARD.COURSE_COURSE_DETAIL"="Ders içeriğine ve ödevlere eriş";
+/* Title text for the videos section of the course dashboard */
+"DASHBOARD.COURSE_Videos"="Videolar";
+/* Text describing the Videos section within the course dashboard */
+"DASHBOARD.COURSE_Videos_DETAIL"="Ders videolarını izle";
+/* Title text for the Discussions section of the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION"="Tartışma";
+/* Text describing the Discussions section within the course dashboard */
+"DASHBOARD.COURSE_DISCUSSION_DETAIL"="Sohbete katıl";
+/* Title text for the Handouts section of the course dashboard  */
+"DASHBOARD.COURSE_HANDOUTS"="Dinleyici Notları";
+/* Text describing the Handouts section within the course dashboard */
+"DASHBOARD.COURSE_HANDOUTS_DETAIL"="Önemli ders bilgilerini bul";
+/* Title text for the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES"="Tarihler";
+/* Text describing the Important dates section of the course dashboard  */
+"DASHBOARD.COURSE_IMPORTANT_DATES_DETAIL"="Teslim tarihlerini takip edin ve güncel kalın";
+/*Text for browse by subject label on subject discovery */
+"DISCOVERY.BROWSE_BY_SUBJECT" = "Konulara göre Tara";
+/*Placeholder text for subjects searchbar*/
+"DISCOVERY.SUBJECT_SEARCH_BAR_PLACEHOLDER" = "Konu Ara";
+/*Label text for view all subjects cell*/
+"DISCOVERY.VIEW_ALL_SUBJECTS" = "Tüm Konulara Göz At";
+/* Text describing the course due date for same day*/
+"COURSE_DUE_DATE_SAME_DAY"="Bugün {time_zone} zaman diliminde {due_date} tarihine dek";
+/* Text describing the course due date*/
+"COURSE_DUE_DATE"="{due_date} tarihine dek";
+/* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
+"COURSE_MODE_FULL"="Tüm Dersi Göster";
+/* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
+"COURSE_MODE_PICKER_DESCRIPTION" = "Mod Seçici";
+/* Text displayed when Can't find one of your courses is tapped on My Courses screen */
+"COURSE_NOT_LISTED" = "Tüm derslerimizin mobil telefonlarınıza uygun olması için çok çalışıyoruz! Kaydolduğunuz dersi henüz göremiyorsanız, yakın zamanda bulabilirsiniz. Her gün yeni dersler ekliyoruz! ";
+/* Message shown on a course when it hasn't started yet.*/
+"COURSE_NOT_STARTED"="Bu ders henüz başlamamıştır.";
+/* Message shown on a course when it hasn't started yet. {date} will be a localized date string */
+"COURSE_WILL_START_AT"="Bu ders henüz başlamadı. {date} tarihinde geri dönün ve videolarınızı izleyin.";
+/* Create a new post button title used in discussions' posts screen */
+"CREATE_A_NEW_POST"="Yeni bir gönderi oluştur";
+/* Button text to initiate or confirm deletion */
+"DELETE"="Sil";
+/* Discussion used in the segmented control Creating a new post */
+"DISCUSSION"="Tartışma";
+/* Discussion comment overlay message when new comment added */
+"DISCUSSION_COMMENT_POSTED" = "Yorumunuz eklendi.";
+/* Title of button to allow user to follow a discussion post */
+"DISCUSSION_FOLLOW"="Takip et";
+/* Title of action to report a discussion post/response/comment to the course staff */
+"DISCUSSION_REPORT"="Bildir";
+/* Discussion response overlay message when new response added */
+"DISCUSSION_THREAD_POSTED" = "Yanıtınız eklendi.";
+/* Title of the navigation bar when entering the course discussion */
+"DISCUSSION_TOPICS"="Tartışma konuları";
+/* Title of button to allow user to unfollow a discussion post */
+"DISCUSSION_UNFOLLOW"="Takipten çıkar";
+/* Title of action to unreport a discussion post/response/comment to the course staff */
+"DISCUSSION_UNREPORT"="Rapor etmeyi bırak";
+/* Discussion comments count (Posts screen) - {count} is a number of comments */
+"DISCUSSIONS.REPLIES_COUNT"="{count} Yanıt";
+/*Discussion posts screen last post date - {date} last updated thread date*/
+"DISCUSSIONS.LAST_POST" = "Son gönderi: {date}";
+/* Alert dialog button for allowing/disallowing downloads on cellular data */
+"DO_NOT_ALLOW"="İzin Yok";
+/* Description about for button to download videos. For example, "Download 1 video" */
+/* Description about for button to download videos. For example, "Download 3 videos" */
+"DOWNLOAD_MANY_VIDEOS##{one}" = "{video_count} videoyu indir";
+"DOWNLOAD_MANY_VIDEOS##{other}" = "{video_count} videoyu indir";
+/* Button text for confirming download */
+"DOWNLOAD" = "İndir";
+/* Label indicating that a video or videos have been downloaded */
+"DOWNLOADED" = "İndirildi";
+/* Description about downloaded videos. For example, "Downloaded 1 video" */
+/* Description about downloaded videos. For example, "Downloaded 3 videos" */
+"DOWNLOADED_MANY_VIDEOS##{one}" = "{video_count} videoyu indir";
+"DOWNLOADED_MANY_VIDEOS##{other}" = "{video_count} videoyu indir";
+/* Label indicating that a video or videos are downloading */
+"DOWNLOADING" = "İndiriliyor";
+/* Title of video downloads screen */
+"DOWNLOADS"="İndirilenler";
+/* Overlay message after user chooses to download a video */
+"DOWNLOADING_1_VIDEO"="1 video indiriliyor.";
+/*Title for bulk download view when in downloading state */
+"DOWNLOADING_VIDEOS_TITLE" = "Videolar İndiriliyor...";
+/*Title for bulk download view when in new or partial state */
+"DOWNLOAD_TO_DEVICE_TITLE" = "Cihaza İndir";
+/*Discover in left drawer(used for courses and programs discovery)*/
+"DISCOVER"="Keşfet";
+/*Title for the programs in tabbar and navigation bar*/
+"PROGRAMS"="Programlar";
+/*Title for the degrees in navigation bar*/
+"DEGREES"="Diplomalar";
+/*Debug option title in tabbar */
+"DEBUG"="Hata ayıklama";
+/* Error message shown when email address is not properly formatted */
+"ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Lütfen e-posta adresinizi doğru yazdığınızdan emin olun ve tekrar deneyin.";
+/* Alert message shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_MESSAGE"="E-posta istemciniz kurulmamış olarak görünüyor. ";
+/* Alert dialog title shown when user tries to send an email, but email isn't setup */
+"EMAIL_ACCOUNT_NOT_SET_UP_TITLE"="E-Posta gönderilemedi";
+/* Placeholder text for email address entry field */
+"EMAIL_ADDRESS_PROMPT"="E-posta adresi";
+/* Text displayed when no results are found in the search */
+"EMPTY_RESULTSET" = "\"{query_string}\" için hiç sonuç bulunamadı. Başka bir arama yapmayı ya da tartışma kategorisi seçmeyi deneyin.";
+/* Prompt shown to users on the course list encouraging them to find new courses */
+"ENROLLMENT_LIST.FIND_COURSES_PROMPT" = "Yeni bir maceraya hazır mısın?";
+/* Button title opening course catalog */
+"ENROLLMENT_LIST.FIND_COURSES" = "Bir ders bul";
+/* Error message when user is not enrolled to any course and course discovery is also disabled.*/
+"ENROLLMENT_LIST.NO_ENROLLMENT" = "Henüz herhangi bir derse kayıt yaptırmamış gözüküyorsunuz.";
+/* Prompt indicating user needs to enter an email address */
+"ENTER_EMAIL"="Lütfen kullanıcı adınızı veya e-posta adresinizi girin ve tekrar deneyin.";
+/* Prompt indicating user needs to enter a password */
+"ENTER_PASSWORD"="Lütfen parolanızı girin ve tekrar deneyin.";
+/* Text used when the post is visible to everyone */
+"EVERYONE"="herkes";
+/* Message when user attempts to register an account using an external service like Facebook or Google, but they already have an account linked to that service */
+"EXTERNAL_REGISTRATION_BECAME_LOGIN" = "{platform_name} platformu hesabınızı {service} hesabıyla bağlamışsınız. Bu hesap ile giriş yaptınız.";
+/* Endorsed text */
+"ENDORSED" = "En İyi Cevap Olarak Seçildi";
+/* Facebook login method */
+"FACEBOOK"="Facebook";
+/* Overlay message shown when facebook login fails because the user's account isn't linked */
+"FAILED_TO_LOAD_TOPICS"="Konuları başarısız oldu.";
+/* Title of find courses screen */
+"FIND_COURSES"="Dersleri Ara";
+/* No available courses on find courses section */
+"FIND_COURSES_NO_AVAILABLE_COURSES"="Mevcut ders yok";
+/* Overlay message shown when enrolling in a course fails because the user is already in the course */
+"FIND_COURSES_ALREADY_ENROLLED_MESSAGE"="Bu derse zaten kayıtlısınız";
+/* Overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="Yeni ders kayıtlandırması oluşturulurken bir hata gerçekleşti";
+/* AlertView message shown when enrolling in a course fails */
+"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="{platform_name} mobil uygulamasını kullanarak bu derse kaydınızı gerçekleştiremedik. Lütfen web tarayıcınızda tekrar deneyin";
+/* Title of overlay message shown when enrolling in a course fails */
+"FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Kayıtlanma Hatası";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_ENROLLMENT_SUCCESSFUL_MESSAGE"="Bu derse kayıt yaptırdınız";
+/* Title of overlay message shown when enrolling in a course succeeds */
+"FIND_COURSES_OFFLINE_MESSAGE"="Şu an çevrimdışı moddasınız.\nDersleri keşfetmek için, internete bağlanın";
+/* Title of overlay message shown when sign in fails */
+"FLOATING_ERROR_LOGIN_TITLE"="Giriş Hatası";
+/* Title of overlay message shown when reset password fails */
+"FLOATING_ERROR_TITLE"="Parola Sıfırlama Hatası";
+/* Adds a `:` after a label, used in form. Eg. "{First Name}: Bob" */
+"FORM_LABEL"="{label}:";
+/* Google login method */
+"GOOGLE"="Google";
+/* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="{service} hesabınızın {destination_name} üzerindeki {platform_name} hesabınızla bağlanmış olduğundan emin olun.";
+/* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
+"SERVICE_ACCOUNT_NOT_ASSOCIATED_TITLE"="{service} hesabı {platform_name} hesabı ile bağlantılandırılmamış";
+/* Indicator for course content that is marked as having a graded component */
+"GRADED" = "Notlandırılmış";
+/* Warning shown to indicate that the user is in a section of graded content. */
+"GRADED_CONTENT_WARNING" = "Mobil sürümde tam anlamıyla desteklenene kadar bunun gibi notlandırılan bölümleri web tarayıcınızda tamamlamanızı tavsiye ediyoruz.";
+/* Message shown when there are no handouts for a course */
+"HANDOUTS_UNAVAILABLE"="Bu ders için herhangi bir dinleyici notu yok.";
+/* Overlay error shown when logging in with an invalid email address */
+"INVALID_EMAIL_MESSAGE"="Lütfen e-posta adresinizi doğru yazdığınızdan emin olun ve tekrar deneyin.";
+/* Overlay error shown when logging in with an invalid username or password */
+"INVALID_USERNAME_PASSWORD"="Lütfen kullanıcı adı ya da e-posta adresi ile parolanızın doğru olduğundan emin olup tekrar deneyin.";
+/* Alert dialog text asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_MESSAGE"="Seçtiğiniz videolar 1 GB'tan büyük. Bu videoları indirmek istiyor musunuz?";
+/* Alert dialog title when asking whether it's okay to download large videos */
+"LARGE_DOWNLOAD_TITLE"="Büyük İndirme";
+/* Title for Course Item that was last accessed */
+"LAST_ACCESSED" = "Son Erişim";
+/* Prompt leading user to create account screen */
+"LOGIN_SPLASH_SIGN_UP"="Üye ol ve öğrenmeye başla";
+/* Prompt leading user to sign in screen */
+"LOGIN_SPLASH_SIGN_IN"="Hesabın var mı? Giriş yap";
+/* Button title to log out the current user */
+"LOGOUT"="Çıkış";
+/* Option to sort discussion post list by most activity */
+"MOST_ACTIVITY"="En Çok Aktivite";
+/* Option to sort discussion post list by most votes */
+"MOST_VOTES"="En Çok Oylanan";
+/* Screen title showing a user's courses */
+"COURSES"="Derslerim";
+/* Screen title showing a user's settings */
+"MY_SETTINGS"="Ayarlarım";
+/* Marked as answer for endorsed responses */
+"MARKED_ANSWER" = "Yanıt olarak işaretlendi";
+/* Overlay error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE"="İnternete bağlı değilsiniz.";
+/* Alert dialog error shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_MESSAGE_TROUBLE"="İnternete bağlı değilsiniz. Lütfen internet bağlantınızı kontrol edin.";
+/* Title of alert dialog shown when attempting an action without an internet connection */
+"NETWORK_NOT_AVAILABLE_TITLE"="Bağlantı Hatası";
+/* Button title for moving to the next block in the course */
+"NEXT" = "İleri";
+/* Button title for moving to the next unit in the course */
+"NEXT_UNIT" = "Sonraki Ünite";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_BOTTOM_LABEL" = "Bu arada, derslre websitemiz üzerinden kayıtlanabilirsiniz. Bunun için giriş yapmalı, derse kayıtlanmalı ve hepsi tamamlandığında uygulamaya geri dönmelisiniz.";
+/* Message shown when tapping on enroll courses when in app course enrollment is disabled */
+"NO_ENROLLMENT_INTERSTITIAL_TOP_LABEL" = "Ekibimiz derslere mobil uygulama üzerinden kayıtlanabilmeniz için çok sıkı bir şekilde çalışmaya devam ediyor.";
+/* Message shown when no results are found while filtering discussions */
+"NO_RESULTS_FOUND" = "Bu tartışma kategorisinde herhangi bir gönderi yok.";
+/* Message shown to indicate video transcript support has not yet been implemented */
+"NO_TRANSCRIPT" = "Bu videonun altyazısı henüz mevcut değil.";
+/* Message shown when user attempts to download a video over cellular data, but has chosen to only allow video downloads over wifi */
+"NO_WIFI_MESSAGE" = "Mevcut indirme ayarlarınız sadece kablosuz ağ üzerinden indirmenize izin veriyor.\nLütfen bir kablosuz ağa bağlanın ya da indirme ayarlarınızı değiştirin.";
+/* Text displayed when no results are found for following*/
+"NO_FOLLOWING_RESULTS" = "Herhangi bir gönderiyi takibe almadınız.";
+/* Message shown when no results are found for all posts*/
+"NO_COURSE_RESULTS" = "Bu ders tartışmasında herhangi bir gönderi yok.";
+/* Indicates a field that does not apply to the current context */
+"NOT_APPLICABLE" = "YOK";
+/* Label of switch that toggles push notification support */
+"NOTIFICATIONS_ENABLED" = "Bildirimlere İzin Ver";
+/*Text for author if post is by anonymous user*/
+"ANONYMOUS" = "Anonim";
+/* Label indicating user has on internet connection and is in offline mode */
+"OFFLINE" = "Çevrimdışı";
+/* Alert dialog okay button */
+"OK"="TAMAM";
+/* Button title allowing user to open current page in their web browser */
+"OPEN_IN_BROWSER"="Safari'de Görüntüle";
+/* Button label to bring up course finder */
+"OR_SIGN_IN_WITH"="Ya da şununla giriş yap ";
+/* Login screen password field title text */
+"PASSWORD_TITLE_TEXT" = "Parola";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_CONTINUE"="Devam";
+/* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
+"PLAYBACK_COMPLETE_CONTINUE_CANCEL"="Hayır";
+/* Alert dialog content when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_MESSAGE"="Bir sonraki videoyu izlemek istiyor musunuz?";
+/* Alert dialog title when finishing a video to ask if user should continue by watching the next video */
+"PLAYBACK_COMPLETE_TITLE"="Bu videonun sonuna ulaştınız.";
+/* Post screen title in creating a new post */
+"POST" = "Yeni gönderi oluştur";
+/* Title for Row on Discussion screen which opens the posts followed by the user */
+"POSTS_IM_FOLLOWING" = "Takibe Aldığım Gönderiler";
+/* Navigation item title for post and responses */
+"DISCUSSION_POST" = "Tartışma Gönderisi";
+/* Post discussion button title in Create a new post */
+"POST_DISCUSSION"="Tartışma gönder";
+/* Post question button title in Create a new post */
+"POST_QUESTION"="Soru gönder";
+/* Button title for moving to the previous block in the course */
+"PREVIOUS" = "Geri";
+/* Button title for moving to the next unit in the course */
+"PREVIOUS_UNIT" = "Önceki Ünite";
+/* A10y hint for the change picture button. */
+"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Profil fotoğrafını değiştirmek için çift tıklayın";
+/* Change picture button text on edit profile screen. */
+"PROFILE.CHANGE_PICTURE_BUTTON" = "Değiştir";
+/* Text for use a photo already in library for user profile photo alert */
+"PROFILE.CHOOSE_EXISTING" = "Bir fotoğraf seç";
+/* Instruction title text on the photo crop view. */
+"PROFILE.CROP_AND_RESIZE_PICTURE" = "Kes ve yeniden boyutlandır";
+/* 'Current Language' label on top row of edit language in user's profile */
+"PROFILE.CURRENT_LANGUAGE_LABEL" = "Şu anki dil:";
+/* 'Current Location' label on top row of edit country in user's profile */
+"PROFILE.CURRENT_LOCATION_LABEL" = "Şu anki konum:";
+/* Profile edit view title */
+"PROFILE.EDIT_TITLE" = "Profili düzenle";
+/* Accessibility label for edit profile button */
+"PROFILE.EDIT_ACCESSIBILITY" = "Profili düzenle";
+/* Accessibility hint for country field in user profile */
+"PROFILE.COUNTRY_ACCESSIBILITY_HINT" = "Ülkeniz";
+/* Accessibility hint for language field in user profile */
+"PROFILE.LANGUAGE_ACCESSIBILITY_HINT" = "Tercih edilen dil";
+/* Shown when viewing someone else's limied profile. */
+"PROFILE.LEARNER_HAS_LIMITED_PROFILE" = "Bu {platform_name} öğrencisi şu an kısıtlı profil paylaşıyor.";
+/* User has not filled in an "about me" on their profile */
+"PROFILE.NO_BIO" = "\"Hakkımda\" bilgisi sağlanmamış.";
+/* Text in the picture taker alert to delete the existing image */
+"PROFILE.REMOVE_IMAGE" = "Kaldır";
+/* Profile screen text indicating that the user is currently only displaying a limited profile */
+"PROFILE.SHOWING_LIMITED" = "Şu an kısıtlı profil paylaşıyorsunuz";
+/* Text for take picture for user profile photo alert */
+"PROFILE.TAKE_PICTURE" = "Fotoğraf çek";
+/* Descriptive text for why a limited profile is shown for users under 13, first line */
+"PROFILE.AGE_LIMIT" = "Tüm profilinizi paylaşmak için 13 yaşın üstünde olmalısınız.";
+/* Error retrieving a profile */
+"PROFILE.UNABLE_TO_GET" = "Bu profili yükleyemedik.";
+/* Error message when removing profile picture */
+"PROFILE.UNABLE_TO_REMOVE_PHOTO" = "Fotoğrafınızı kaldırmayı başaramadık.";
+/* Error saving user profile, for field `field_name` */
+"PROFILE.UNABLE_TO_SEND" = "{field_name} bilginizi güncellemeyi başaramadık.";
+/* Error message when setting a new profile picture */
+"PROFILE.UNABLE_TO_SET_PHOTO" = "Fotoğrafınızı güncellemeyi başaramadık.";
+/*Pipe sign using for formatting in discussion posts*/
+"PIPE_SIGN" = "Ben";
+/* Question used in the segmented control Creating a new post */
+"QUESTION"="Soru";
+/* Option to sort discussion post list by recent activity */
+"RECENT_ACTIVITY" = "Son Aktiviteler";
+/* Label before Sort and Filter buttons on Posts Screen ( The Colon(:) is part of the string) */
+"REFINE" = "Süzgeçten geçir:";
+/* Button title when responses are closed for a thread */
+"RESPONSES_CLOSED"="Bu gönderi için yanıtlar kapatıldı";
+/* Create account agreement. Followed by list of agreement names like "End User License Agreement" */
+"REGISTRATION_AGREEMENT_MESSAGE"="Bir hesap oluşturarak, şunları kabul ediyorsunuz ";
+/* Button text allowing user create an account */
+"REGISTRATION_CREATE_MY_ACCOUNT"="Hesabımı oluştur";
+/* Text shown while waiting for registration request */
+"REGISTRATION_CREATING_ACCOUNT"="Hesap oluşturuluyor...";
+/* Error prompt shown during registration to indicate an empty field. {field_name} is the name of a registration field like 'password' */
+"REGISTRATION_FIELD_EMPTY_ERROR"="Lütfen {field_name} bilgisini girin.";
+/* Error prompt shown during registration to indicate a field missing a selection. {field_name} is the name of a registration field like 'year of birth' */
+"REGISTRATION_FIELD_EMPTY_SELECT_ERROR"="Lütfen {field_name} bilgisini seçin.";
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too long. {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{one}"="{field_name} {count} karakterden daha uzun olamaz.";
+"REGISTRATION_FIELD_MAX_LENGTH_ERROR##{other}"="{field_name} {count} karakterden daha uzun olamaz.";
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+/* Error prompt shown during registration when a field entry is too short.  {field_name} is the name of a registration field like 'password'. {count} is a number of characters */
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{one}"="{field_name} en az {count} karakter içermeli.";
+"REGISTRATION_FIELD_MIN_LENGTH_ERROR##{other}"="{field_name} en az {count} karakter içermeli.";
+/* Button text allowing user to hide visible optional registration fields */
+"REGISTRATION_HIDE_OPTIONAL_FIELDS"="Seçimlik alanları gizle";
+/* Button text allowing user to show hidden optional registration fields */
+"REGISTRATION_SHOW_OPTIONAL_FIELDS"="Seçimlik alanları göster";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be followed by text "or sign up with an email". */
+"REGISTRATION_REGISTER_PROMPT"="Şununla kaydol ";
+/* Heading on registration screen allowing users to sign up using external services like Facebook and Google. Will be preceded by text "Sign up with" */
+"REGISTRATION_REGISTER_ALTERNATE_PROMPT"="ya da e-posta ile kayıt ol";
+/*Title of registration error alert*/
+"REGISTRATION_ERROR_ALERT_TITLE"="Kayıt Hatası";
+/* Detailed info message for registration error alert*/
+"REGISTRATION_ERROR_ALERT_MESSAGE"="Vurgulu alanları güncelle ve tekrar dene";
+
+/* Alert dialog title prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_TITLE"="Parolayı Sıfırla";
+/* Alert dialog content prompting user to enter an email address to reset their password */
+"RESET_PASSWORD_POPUP_TEXT"="Hesabınız için e-posta adresinizi girin, ardından size parolanızı sıfırlamak için yönergeler göndereceğiz.";
+/* Alert dialog title confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_TITLE"="Parola Sıfırlama E-Postası Gönderildi";
+/* Alert dialog content confirming to the user that a reset password was sent to them */
+"RESET_PASSWORD_CONFIRMATION_MESSAGE"="E-posta adresinize parolanızı sıfırlamanız için bir ileti gönderdik. Birkaç dakika içinde göremezseniz, lütfen spam klasörünüze bakın.";
+/* Button that allows user to retry an operation that did not succeed */
+"RETRY" = "Tekrar dene";
+/*Offline snackbar button that allows user to reload data*/
+"RELOAD" = "Tekrar Yükle";
+/* Response back title in adding a new response */
+"ADD_A_RESPONSE"="Bir cevap ekle";
+/* Discussion response - {count} is a number of responses */
+/* Discussion response - {count} is a number of responses */
+"RESPONSE##{one}"="{count} yanıt";
+"RESPONSE##{other}"="{count} yanıt";
+/* Discussion topics search placeholder */
+"SEARCH_ALL_POSTS"="Tüm gönderilerde ara";
+/*Placeholder text for search course textfield*/
+"SEARCH_COURSES_PLACEHOLDER_TEXT"="Ders ara";
+/*Placeholder text for search program textfield*/
+"SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Program ara";
+/*Placeholder text for search degree textfield*/
+"SEARCH_DEGREES_PLACEHOLDER_TEXT"="Diploma ara";
+/* Discussion search results  */
+"SEARCH_RESULTS"="Arama sonuçları";
+/* Text shown below the video, in portrait mode */
+"ROTATE_DEVICE"="Bu videoyu tam ekran izlemek için cihazınızı döndürün";
+/*if filter applied then append this string to error message*/
+"REMOVE_FILTER" = "Gönderi filtresini kaldırmayı deneyin.";
+/* Label shown when user attempts to view a course section that hasn't been synced  */
+"SECTION_UNAVAILABLE_OFFLINE"="Bu bölüm çevrimdışı kullanıma uygun değil.\nFarklı bir bölüm için içerik indirdiyseniz, içeriği görüntülemek için o bölüme gidin. ";
+/* Screen title showing a user's settings */
+"SETTINGS"="Ayarlar";
+/* Text for a Twitter or Facebook post to a course about page */
+"SHARE_A_COURSE"="{platform_name} üzerinde ders alıyorum! Buna bir bak:";
+/* Sign in screen title and button initiating login process after user enters credentials like username and password */
+"SIGN_IN_TEXT"="Giriş";
+/* Message shown while user waits for response to a sign in request */
+"SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Giriş yapılıyor";
+/*  Accessibility text prefix for  Facebook and Google Buttons*/
+"SIGN_IN_PROMPT"="Şununla giriş yap ";
+/*Sign up screen title and button initiating sign up process on the main screen */
+"REGISTER_TEXT"="Kayıt";
+/* Indicates a date in the near future */
+"SOON"="Yakında";
+/* Label for posts pinned by Staff */
+"STAFF"="AKADEMİK PERSONEL";
+/* Info message text on the startup screen */
+"STARTUP.INFO_MESSAGE_TEXT"="Dünya'nın en iyi üniversitelerinden dersler cebinizde.";
+/*Log In button title on the startup screen*/
+"STARTUP.LOGIN_TEXT"="Giriş";
+/*Create your Account button title on the startup screen*/
+"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Hesabınızı Oluşturun";
+/* Explore Subjects button text on the first screen */
+"STARTUP_EXPLORE_SUBJECTS"="Konuları Keşfet";
+/* Button allowing user to submit feedback about the app via email */
+"SUBMIT_FEEDBACK.OPTION_TITLE" = "Geribildirim Gönder";
+/* Support message email title */
+"SUBMIT_FEEDBACK.MESSAGE_SUBJECT" = "Müşteri Geribildirimi";
+/* Marker in feedback email meant to separate feedback from prepopulated device information */
+"SUBMIT_FEEDBACK.MARKER" = "---- Bu çizginin altına geribildiriminizi bırakın ----";
+/* Line in submit feedback email that supplies OS version information. For example, "iOS Version: 9.2" */
+"SUBMIT_FEEDBACK.OS_VERSION" = "iOS Sürümü: {version}";
+/* Line in submit feedback email that supplies app version information. For example, "App Version: 2.2 (2.2.23)" */
+"SUBMIT_FEEDBACK.APP_VERSION" = "Uygulama Sürümü: {version} ({build})";
+/* Line in submit feedback email that supplies device model information. For example, "Device Model: iPhone" */
+"SUBMIT_FEEDBACK.DEVICE_MODEL" = "Cihaz Modeli: {model}";
+/* Text that indicates the visibility of the post */
+"POST_VISIBILITY"="Bu gönderi sadece {cohort} topluluğuna açık.";
+/* Text that indicates the visibility of the post to everyone */
+"POST_VISIBILITY_EVERYONE" = "Bu gönderi herkese açık.";
+/*Add parenthesis around text*/
+"PARENTHESIS" = "({text})";
+/* Alert dialog title shown when network request takes too long to complete */
+"TIMEOUT_ALERT_TITLE"="Süre Aşımı";
+/* Alert dialog content shown when network request takes too long to complete */
+"TIMEOUT_CHECK_INTERNET_CONNECTION"="Lütfen internet bağlantınızı kontrol edin.\nBu sayfanın yüklenmesi beklenenden uzun sürüyor.";
+/* Title as place holder in Create a new post */
+"TITLE"="Başlık";
+/* Topic as button title in Create a new post */
+"TOPIC"="Konu: {topic}";
+/* Back bar button topics */
+"TOPICS"="Konular";
+/* Button text allowing user to reset their password */
+"TROUBLE_IN_LOGIN_BUTTON"="Parolanızı mı unuttunuz?";
+/* Error shown when video download fails */
+"UNABLE_TO_DOWNLOAD"="İndirilemiyor." ;
+/* Error shown when the course content could not for an unknown reason. */
+"UNABLE_TO_LOAD_COURSE_CONTENT"="Ders içeriği yüklenemedi.\nDaha sonra tekrar deneyin.";
+/* Filtering option to show unanswered discussion posts */
+"UNANSWERED"="Yanıtlanmamış";
+/* Navigation title for a Question Post which has no endorsed answers */
+"UNANSWERED_QUESTION" = "Yanıtlanmamış Soru";
+/* Filtering option to show unread discussion posts*/
+"UNREAD"="Okunmamış";
+/* Placeholder title for course content with no title */
+"UNTITLED"="Başlıksız";
+/* Title text for login field */
+"USERNAME_TITLE_TEXT" = "Kullanıcı adı veya e-posta adresi";
+/*Error message when operation failed with unknow error*/
+"UNKNOWN_ERROR" = "Eyleminiz tamamlanamadı.";
+/* Screen title showing a user's account */
+"USER_ACCOUNT"="Hesap";
+/* Button title for profile view in account*/
+"USER_ACCOUNT.PROFILE"= "Profil";
+/* Text shown to display the current version number. Environment is a server name like "prod", "dev", stage" and may be empty. For example "Version 1.2.3 Prod" */
+"VERSION_DISPLAY" = "Sürüm {number} {environment}";
+/* Error shown when video download fails */
+"VIDEO_CONTENT_NOT_AVAILABLE"="Bu videoya şu an ulaşılamıyor. Daha sonra tekrar deneyiniz.";
+/* Message shown instead of a video when attempting to watch a video that is only availabe on the web */
+"VIDEO_ONLY_ON_WEB" = "Bu video şu an için sadece internet ağı üzerinde bulunuyor. Web tarayıcınızda görüntülemek için tıklayınız.";
+/* Alert dialog content shown when user attempts to view a video that hasn't been synced  */
+"VIDEO_NOT_AVAILABLE"="Bu video çevrimdışı kullanıma uygun değil.\nLütfen cihazınıza indirdiğiniz videoyu seçin.";
+/* Shows in the video setting sub-table which item is selected */
+"VIDEO_SETTING_SELECTED" = "✓ %@";
+/* Button action to open app on YouTube */
+"VIDEO.VIEW_ON_YOUTUBE" = "Videoyu YouTube'da izle";
+/* Message shown for videos that can only be played external the app via YouTube. */
+"VIDEO.ONLY_ON_YOUTUBE" = "Bu video sadece Youtube'da izlenebilir.";
+/* Button text for showing an associated item */
+"VIEW" = "Görüntüle";
+/* Button linking to course announcements */
+"VIEW_HANDOUTS" = "Dinleyici notlarını görüntüle";
+/* Discussion vote - {count} is a number of votes */
+/* Discussion vote - {count} is a number of votes */
+"VOTE##{one}"="{count} Oy";
+"VOTE##{other}"="{count} Oy";
+/*Title of update button on fullscreen error and SnackBar*/
+"VERSION_UPGRADE_UPDATE" = "Güncelle";
+/*Title of dismiss button on SnackBar*/
+"VERSION_UPGRADE.DISMISS" = "Kapat";
+/*Deprecated version detail message*/
+"VERSION_UPGRADE.DEPRECATED_MESSAGE" = "Uygulamanın yeni bir sürümü mevcut.";
+/*Outdated version detail message*/
+"VERSION_UPGRADE.OUT_DATED_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor.";
+/*Outdated version alert message for login screen*/
+"VERSION_UPGRADE_OUT_DATED_LOGIN_MESSAGE" = "Uygulamanızın bu sürümü artık desteklenmiyor. Giriş yapmak için en son sürüme güncelleyin.";
+/*New version available without deadline message*/
+"VERSION_UPGRADE.NEW_VERSION_AVAILABLE" = "Uygulamanın yeni bir sürümü mevcut.";
+/*Video player remaining time default value*/
+"VIDEO_PLAYER_DEFAULT_REMAINING_TIME" = "0:00/0:00";
+/* Overlay shown after a network request has started, telling the user to wait for the response */
+"WAITING_FOR_RESPONSE"="Lütfen bekleyin....";
+/* Header of 'whats new screen'*/
+"WHATS_NEW.HEADER_TEXT"="Sürüm {app_version} Yeni Özellikler";
+/*Whats new screen done button title*/
+"WHATS_NEW.DONE"="Tamam";
+/*Title for wifi only switch at Settings screen*/
+"WIFI_ONLY_TITLE" = "Sadece Wi-Fi ile indir";
+/*Detail message for wifi only switch at Settings screen*/
+"WIFI_ONLY_DETAIL_MESSAGE" = "Sadece Wi-Fi açıkken içerik indir";
+/* Alert dialog button title to confirm an action */
+"YES"="Evet";
+/* Invalid youtube url error message */
+"YOUTUBE_INVALID_URL_ERROR"="Video yüklenemedi, geçersiz URL.";

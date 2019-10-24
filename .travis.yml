@@ -1,32 +1,23 @@
 language: objective-c  
 
-osx_image: xcode9.3
+osx_image: xcode10.3
 before_script:
         - rvm get head || true # https://github.com/travis-ci/travis-ci/issues/6307
 
 env:
     matrix:
-        - TEST_TASK=testLTRCurrentOS IOS_VERSION=10.0
-        - TEST_TASK=testRTLCurrentOS IOS_VERSION=10.0
-        - TEST_TASK=testLTRPreviousOS IOS_VERSION=9.0
-        - TEST_TASK=testRTLPreviousOS IOS_VERSION=9.0
+        - TEST_TASK=testLTRCurrentOS IOS_VERSION=12.4
+        - TEST_TASK=testRTLCurrentOS IOS_VERSION=12.4
+        - TEST_TASK=testLTRPreviousOS IOS_VERSION=11.3
+        - TEST_TASK=testRTLPreviousOS IOS_VERSION=11.3
 
 script:
-    - instruments -s devices | grep "iPhone 5s (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a "simulator" --args -CurrentDeviceUDID
+    - instruments -s devices | grep "iPhone 5s (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
     - set -o pipefail
     - travis_retry ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
-    - pip install virtualenv
-    - virtualenv ~/env;
-    - source ~/env/bin/activate
-    # Install Transifex client and push strings to Transifex
-    # Reference: https://docs.transifex.com/integrations/github#section-integrating-with-travis-ci
-    - pip install transifex-client
-    - sudo echo $'[https://www.transifex.com]\nhostname = https://www.transifex.com\nusername = '"$TRANSIFEX_USER"$'\npassword = '"$TRANSIFEX_PASSWORD"$'\ntoken = '"$TRANSIFEX_API_TOKEN"$'\n' > ~/.transifexrc;
-    - tx push --source --no-interactive
-    - sleep 5 # https://github.com/travis-ci/travis-ci/issues/4725
 
 branches:
     only:

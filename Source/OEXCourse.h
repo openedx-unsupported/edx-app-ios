@@ -39,14 +39,14 @@ OEXStartType OEXStartTypeForString(NSString* type);
 
 @interface OEXCourse : NSObject
 
-- (id)initWithDictionary:(NSDictionary*)info;
+- (id)initWithDictionary:(NSDictionary *)info;
+- (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate;
 // TODO: Rename these to CamelCase (MK - eh just make this swift)
 @property (readonly, nonatomic, strong, nullable) OEXLatestUpdates* latest_updates;
 @property (readonly, nonatomic, strong, nullable) NSDate* end;
 @property (readonly, nonatomic, strong) OEXCourseStartDisplayInfo* start_display_info;
 @property (readonly, nonatomic, copy, nullable) NSString* name;
 @property (readonly, nonatomic, copy, nullable) NSString* org;
-@property (readonly, nonatomic, copy, nullable) NSString* video_outline;
 @property (readonly, nonatomic, copy, nullable) NSString* effort;
 @property (readonly, nonatomic, copy, nullable) NSString* course_id;
 @property (readonly, nonatomic, copy, nullable) NSString* root_block_usage_key;
@@ -64,10 +64,12 @@ OEXStartType OEXStartTypeForString(NSString* type);
 @property (readonly, nonatomic, strong, nullable) CourseMediaInfo* courseImageMediaInfo;
 @property (readonly, nonatomic, strong, nullable) CourseMediaInfo* courseVideoMediaInfo;
 @property (nonatomic, readonly) CourseShareUtmParameters *courseShareUtmParams;
+@property (readonly, nonatomic, strong, nullable) NSString* courseImageURL;
+@property (nonatomic, strong, nullable) NSDate* audit_expiry_date;
 @property (readonly, nonatomic, assign) BOOL isStartDateOld;
 @property (readonly, nonatomic, assign) BOOL isEndDateOld;
+@property (readonly, nonatomic, assign) BOOL isAuditExpired;
 
-@property (readonly, nonatomic, strong, nullable) NSString* courseImageURL;
 
 
 @end

@@ -14,9 +14,19 @@ class OEXTextStyleWithShadow: OEXTextStyle {
     override var attributes: [String : Any] {
         var attr = super.attributes
         if let shadowStyle = shadow {
-            attr[NSShadowAttributeName] = shadowStyle.shadow
+            attr[NSAttributedString.Key.shadow.rawValue] = shadowStyle.shadow
         }
-        return attr as [String : AnyObject]
+        return attr
     }
-    
+}
+
+extension Dictionary {
+    func attributedKeyDictionary()-> [NSAttributedString.Key: Any] {
+        var convertedDict: [NSAttributedString.Key: Any] = [:]
+        for (key, value) in self {
+            convertedDict[NSAttributedString.Key(rawValue: key as? String ?? "")] = value
+        }
+
+        return convertedDict
+    }
 }

@@ -17,7 +17,7 @@ class CourseCardCell : UITableViewCell {
     private let courseCardBorderStyle = BorderStyle()
     private let iPadHorizMargin:CGFloat = 180
     
-    override init(style : UITableViewCellStyle, reuseIdentifier : String?) {
+    override init(style : UITableViewCell.CellStyle, reuseIdentifier : String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         let horizMargin = UIDevice.current.userInterfaceIdiom == .pad ? iPadHorizMargin : CourseCardCell.margin
         
@@ -86,7 +86,7 @@ class CoursesTableViewController: UITableViewController {
         }
         
         tableView.estimatedRowHeight = 200
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(CourseCardCell.self, forCellReuseIdentifier: CourseCardCell.cellIdentifier)
         
         self.insetsController.addSource(

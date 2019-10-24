@@ -9,15 +9,17 @@
 import UIKit
 
 private enum TabBarOptions: Int {
-    case Course, CourseCatalog, Debug
-    static let options = [Course, CourseCatalog, Debug]
+    case Course, Program, CourseCatalog, Debug
+    static let options = [Course, Program, CourseCatalog, Debug]
     
     func title(config: OEXConfig? = nil) -> String {
         switch self {
         case .Course:
             return Strings.courses
+        case .Program:
+            return Strings.programs
         case .CourseCatalog:
-            return config?.courseEnrollmentConfig.type == .Native ? Strings.findCourses : Strings.discover
+            return config?.discovery.course.type == .native ? Strings.findCourses : Strings.discover
         case .Debug:
             return Strings.debug
         }
@@ -38,6 +40,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     private let UserProfileImageSize = CGSize(width: 30, height: 30)
     private var profileFeed: Feed<UserProfile>?
     private let tabBarImageFontSize : CGFloat = 20
+    static var courseCatalogIndex: Int = 0
     
     private var screenTitle: String {
         guard let option = TabBarOptions.options.first else {return Strings.courses}
@@ -85,10 +88,16 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             case .Course:
                 item = TabBarItem(title: option.title(), viewController: EnrolledCoursesViewController(environment: environment), icon: Icon.Courseware, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
-            case .CourseCatalog:
-                guard environment.config.courseEnrollmentConfig.isCourseDiscoveryEnabled(), let router = environment.router else { break }
-                item = TabBarItem(title: option.title(config: environment.config), viewController: router.discoveryViewController(), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
+            case .Program:
+                guard environment.config.programConfig.enabled, let programsURL = environment.config.programConfig.programURL else { break }
+                item = TabBarItem(title: option.title(), viewController: ProgramsViewController(environment: environment, programsURL: programsURL), icon: Icon.Clone, detailText: Strings.Dashboard.courseCourseDetail)
                 tabBarItems.append(item)
+            case .CourseCatalog:
+                guard let router = environment.router,
+                    let discoveryController = router.discoveryViewController() else { break }
+                item = TabBarItem(title: option.title(config: environment.config), viewController: discoveryController, icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
+                tabBarItems.append(item)
+                EnrolledTabBarViewController.courseCatalogIndex = tabBarItems.count - 1
             case .Debug:
                 if environment.config.shouldShowDebug() {
                     item = TabBarItem(title: option.title(), viewController: DebugMenuViewController(environment: environment), icon: Icon.Discovery, detailText: Strings.Dashboard.courseCourseDetail)
@@ -111,6 +120,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
             controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize), selectedImage: tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize))
+            controller.tabBarItem.accessibilityIdentifier = "EnrolledTabBarViewController:tab-bar-item"
             controllers.append(controller)
         }
         viewControllers = controllers
@@ -154,7 +164,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             
             profileButton.oex_addAction({[weak self] _  in
                 guard let currentUserName = self?.environment.session.currentUser?.username else { return }
-                self?.environment.router?.showProfileForUsername(controller: self, username: currentUserName, modalTransitionStylePresent: true)
+                self?.environment.router?.showProfileForUsername(controller: self, username: currentUserName, modal: true)
             }, for: .touchUpInside)
             
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileView)
@@ -170,6 +180,23 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         accountButton.oex_setAction { [weak self] in
             self?.environment.router?.showAccount(controller: self, modalTransitionStylePresent: true)
         }
+    }
+    
+    // MARK: Deep Linking
+    @discardableResult
+    func switchTab(with type: DeepLinkType) -> UIViewController {
+        switch type {
+        case .program, .programDetail:
+            selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
+        case .courseDiscovery, .courseDetail, .programDiscovery, .programDiscoveryDetail, .degreeDiscovery, .degreeDiscoveryDetail:
+            selectedIndex = tabBarViewControllerIndex(with: DiscoveryViewController.self)
+        default:
+            selectedIndex = 0
+            break
+        }
+        navigationItem.title = titleOfViewController(index: selectedIndex)
+        
+        return tabBarItems[selectedIndex].viewController
     }
 }
 

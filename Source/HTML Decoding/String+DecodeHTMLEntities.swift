@@ -25,7 +25,7 @@ extension String {
         var startPosition = encodedString.startIndex
         
         while let matchingRegexRange = encodedString.range(of: "(&#?[a-zA-Z0-9]+;)", options: .regularExpression, range: startPosition ..< encodedString.endIndex, locale: nil) {
-            let encodedText = encodedString[matchingRegexRange.lowerBound ..< matchingRegexRange.upperBound]
+            let encodedText = String(encodedString[matchingRegexRange.lowerBound ..< matchingRegexRange.upperBound])
             let decodedText = encodedText.removingHTMLEntities
             if  decodedText != encodedText {
                 encodedString.replaceSubrange(matchingRegexRange.lowerBound ..< matchingRegexRange.upperBound, with: decodedText)
@@ -58,7 +58,7 @@ extension String {
                 break
             }
 
-            let decodableString = self[delimiterRange.upperBound ..< semicolonRange.lowerBound]
+            let decodableString = String(self[delimiterRange.upperBound ..< semicolonRange.lowerBound])
             let replacementString: String
 
             if decodableString.hasPrefix("#") {

@@ -41,6 +41,7 @@
         self.letterSpacing = OEXLetterSpacingNormal;
         self.lineBreakMode = NSLineBreakByTruncatingTail;
         self.alignment = NSTextAlignmentNatural;
+        self.dynamicTypeSupported = true;
     }
     return self;
 }
@@ -113,17 +114,33 @@
     }
 }
 
++(OEXTextSize)textSizeForPointSize:(int)size {
+    switch (size) {
+        case 14: return OEXTextSizeBase;
+        case 28: return OEXTextSizeXXXXLarge;
+        case 24: return OEXTextSizeXXXLarge;
+        case 21: return OEXTextSizeXXLarge;
+        case 18: return OEXTextSizeXLarge;
+        case 16: return OEXTextSizeLarge;
+        case 9: return  OEXTextSizeXXXSmall;
+        case 10: return OEXTextSizeXXSmall;
+        case 11: return OEXTextSizeXSmall;
+        case 12: return OEXTextSizeSmall;
+        default: return OEXTextSizeBase;
+    }
+}
+
 - (UIFont*)fontWithWeight:(OEXTextWeight)weight size:(OEXTextSize)size {
     CGFloat pointSize = [[self class] pointSizeForTextSize:size];
     switch (weight) {
         case OEXTextWeightNormal:
-            return [[OEXStyles sharedStyles] sansSerifOfSize:pointSize] ?: [UIFont systemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] sansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
         case OEXTextWeightLight:
-            return [[OEXStyles sharedStyles] lightSansSerifOfSize:pointSize] ?: [UIFont systemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] lightSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont systemFontOfSize:pointSize];
         case OEXTextWeightSemiBold:
-            return [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:pointSize] ?: [UIFont boldSystemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] semiBoldSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
         case OEXTextWeightBold:
-            return [[OEXStyles sharedStyles] boldSansSerifOfSize:pointSize] ?: [UIFont boldSystemFontOfSize:pointSize];
+            return [[OEXStyles sharedStyles] boldSansSerifOfSize:pointSize dynamicTypeSupported:self.dynamicTypeSupported] ?: [UIFont boldSystemFontOfSize:pointSize];
     }
 }
 

@@ -8,7 +8,7 @@
 
 #import "OEXMockUserDefaults.h"
 
-#import <OCMock/OCMock.h>
+#import "OCMock.h"
 #import "OEXRemovable.h"
 
 @interface OEXMockUserDefaults ()
@@ -72,6 +72,14 @@
 }
 
 - (void)setInteger:(NSInteger)value forKey:(NSString*)key {
+    self.store[key] = @(value);
+}
+
+- (double) doubleForKey:(NSString *)key {
+    return [self.store[key] doubleValue];
+}
+
+-(void) setDouble:(double)value forKey:(NSString *)key {
     self.store[key] = @(value);
 }
 

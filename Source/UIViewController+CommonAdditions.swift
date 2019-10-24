@@ -20,24 +20,17 @@ extension UIViewController {
     func currentOrientation() -> UIInterfaceOrientation {
         return UIApplication.shared.statusBarOrientation
     }
-
-    @objc func topMostController() -> UIViewController? {
-        var topController = UIApplication.shared.keyWindow?.rootViewController
-        while ((topController?.presentedViewController) != nil) {
-            topController = topController?.presentedViewController
-        }
-        
-        return topController
-    }
     
     func isModal() -> Bool {
-        return (navigationController?.viewControllers.index(of: self) == 0) &&
+        return (navigationController?.viewControllers.firstIndex(of: self) == 0) &&
             (presentingViewController?.presentedViewController == self
             || isRootModal()
             || tabBarController?.presentingViewController is UITabBarController)
+            || self is UIActivityViewController
+            || self is UIAlertController
     }
     
-    func isRootModal() -> Bool {
+    @objc func isRootModal() -> Bool {
         return (navigationController != nil && navigationController?.presentingViewController?.presentedViewController == navigationController)
     }
     
@@ -46,5 +39,13 @@ extension UIViewController {
             popoverPresentationController?.sourceView = sourceView
             popoverPresentationController?.sourceRect = sourceView.bounds
         }
+    }
+    
+    @objc func addBackBarButton() {
+        let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: .plain, target: nil, action: nil)
+        backItem.oex_setAction { [weak self] in
+            self?.navigationController?.popViewController(animated: true)
+        }
+        navigationItem.leftBarButtonItem = backItem
     }
 }

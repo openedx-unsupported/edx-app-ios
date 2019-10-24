@@ -90,6 +90,14 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)makeContentControllerCurrent:(UIViewController*)controller {
+    
+    NSArray *childControllers = [self.containerViewController childViewControllers];
+    for (UIViewController *chController in childControllers) {
+        [chController willMoveToParentViewController:nil];
+        [chController.view removeFromSuperview];
+        [chController removeFromParentViewController];
+    }
+    
     [self.containerViewController addChildViewController:controller];
     [self.containerViewController.view addSubview:controller.view];
     [controller.view mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -109,7 +117,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
-    [self presentViewController:[self loginViewController] fromController:[controller topMostController] completion:completion];
+    [self presentViewController:[self loginViewController] fromController:[[UIApplication sharedApplication] topMostController] completion:completion];
 }
 
 - (UINavigationController *) loginViewController {
@@ -127,7 +135,7 @@ OEXRegistrationViewControllerDelegate
     ForwardingNavigationController *navController = [[ForwardingNavigationController alloc] initWithRootViewController:registrationController];
     registrationController.delegate = self;
     
-    [self presentViewController:navController fromController:[controller topMostController] completion:nil];
+    [self presentViewController:navController fromController:[[UIApplication sharedApplication] topMostController] completion:nil];
 }
 
 - (void)presentViewController:(UIViewController*)controller fromController:(UIViewController*)fromController completion:(void(^)(void))completion {

@@ -1,19 +1,39 @@
 # Analytics
 
-[![CI Status](http://img.shields.io/travis/segment-integrations/analytics-ios-integration-google-analytics.svg?style=flat)](https://travis-ci.org/segment-integrations/analytics-ios-integration-google-analytics)
-[![Version](https://img.shields.io/cocoapods/v/Segment-google-analytics.svg?style=flat)](http://cocoapods.org/pods/Segment-google-analytics)
-[![License](https://img.shields.io/cocoapods/l/Segment-google-analytics.svg?style=flat)](http://cocoapods.org/pods/Segment-google-analytics)
+[![CircleCI](https://circleci.com/gh/segment-integrations/analytics-ios-integration-google-analytics.svg?style=svg)](https://circleci.com/gh/segment-integrations/analytics-ios-integration-google-analytics)
+[![Version](https://img.shields.io/cocoapods/v/Segment-google-analytics.svg?style=flat)](http://cocoapods.org/pods/Segment-googleanalytics)
+[![License](https://img.shields.io/cocoapods/l/Segment-google-analytics.svg?style=flat)](http://cocoapods.org/pods/Segment-googleanalytics)
 
 Google Analytics integration for analytics-ios.
 
 ## Installation
 
-Analytics is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your `Podfile`:
+To install the Segment-Google Analytics integration, simply add this line to your [CocoaPods](http://cocoapods.org) `Podfile`:
 
 ```ruby
 pod "Segment-GoogleAnalytics"
 ```
+
+## Usage
+
+After adding the dependency, you must register the integration with our SDK.  To do this, import the Google Analytics integration in your `AppDelegate`:
+
+```
+#import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
+```
+
+And add the following lines:
+
+```
+NSString *const SEGMENT_WRITE_KEY = @" ... ";
+SEGAnalyticsConfiguration *config = [SEGAnalyticsConfiguration configurationWithWriteKey:SEGMENT_WRITE_KEY];
+
+[config use:[SEGGoogleAnalyticsIntegrationFactory instance]];
+
+[SEGAnalytics setupWithConfiguration:config];
+
+```
+
 
 ## License
 

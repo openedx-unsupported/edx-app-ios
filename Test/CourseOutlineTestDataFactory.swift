@@ -14,7 +14,7 @@ open class CourseOutlineTestDataFactory {
     // This is temporarily part of the edX target instead of the edXTests target so we can use it as a fixture
     // during development. When that is not being done any more we should hook it up to the test target only
     
-    open static func freshCourseOutline(_ courseID : String) -> CourseOutline {
+    public static func freshCourseOutline(_ courseID : String) -> CourseOutline {
         return CourseOutline(
             root : courseID,
             blocks : [
@@ -37,7 +37,7 @@ open class CourseOutlineTestDataFactory {
                 "unit4": CourseBlock(type: CourseBlockType.Unit, children : ["block4","block4","block4"], blockID : "unit4", minifiedBlockID: "block_id", name : "Unit 4", blockCounts : ["video" : 3], multiDevice : true),
                 "block1": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block1", minifiedBlockID: "123456", name : "Block 1", multiDevice : true),
                 "block2": CourseBlock(type: CourseBlockType.HTML, children : [], blockID : "block2", minifiedBlockID: "123456", name : "Block 2", multiDevice : true),
-                "block3": CourseBlock(type: CourseBlockType.Problem, children : [], blockID : "block3", minifiedBlockID: "123456", name : "Block 3", multiDevice : true),
+                "block3": CourseBlock(type: CourseBlockType.Problem, children : [], blockID : "block3", minifiedBlockID: "123456", name : "Block 3", multiDevice : true, authorizationDenialReason: "Feature-based Enrollments", authorizationDenialMessage: "Gradded Assessments"),
                 "block4": CourseBlock(type: CourseBlockType.Video(OEXVideoSummaryTestDataFactory.localVideoWithID("block4", pathIDs: ["chapter1", "section1.1", "unit2"], encodings:["mobile_low":["file_size":3700000, "url":"https://www.example.com/video.mp4"]] )), children : [], blockID : "block4", minifiedBlockID: "123456", name : "Block 4", blockCounts : ["video" : 1], multiDevice : true),
                 "block5": CourseBlock(type: CourseBlockType.Unknown("something"), children : [], blockID : "block5", minifiedBlockID: "123456", name : "Block 5", multiDevice : false)
             ])

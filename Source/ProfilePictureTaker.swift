@@ -53,7 +53,7 @@ class ProfilePictureTaker : NSObject {
     }
     
  
-    private func showImagePicker(sourceType : UIImagePickerControllerSourceType) {
+    private func showImagePicker(sourceType : UIImagePickerController.SourceType) {
         
         let imagePicker = UIImagePickerController()
         let mediaType: String = kUTTypeImage as String
@@ -75,8 +75,8 @@ class ProfilePictureTaker : NSObject {
 
 extension ProfilePictureTaker : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             let rotatedImage = image.rotateUp()
             let cropper = CropViewController(image: rotatedImage) { [weak self] maybeImage in
                 if let newImage = maybeImage {

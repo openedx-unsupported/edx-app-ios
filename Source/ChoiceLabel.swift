@@ -33,7 +33,7 @@ class ChoiceLabel : UIView {
         let titleStack = TZStackView(arrangedSubviews: [iconView, titleLabel])
         titleStack.alignment = .center
         titleStack.spacing = StandardHorizontalMargin / 2
-        titleStack.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+        titleStack.setContentHuggingPriority(UILayoutPriority.required, for: .horizontal)
         
         let stack = TZStackView(arrangedSubviews: [titleStack, valueLabel])
         stack.alignment = .center
@@ -47,14 +47,14 @@ class ChoiceLabel : UIView {
         }
         
         iconView.contentMode = iconView.isRightToLeft ? .right : .left
-        iconView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        iconView.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
         iconView.tintColor = titleTextStyle.color
         iconView.snp.makeConstraints { make in
             make.width.equalTo(type(of: self).minIconSize).priority(.medium)
         }
         iconView.isHidden = true
         
-        valueLabel.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        valueLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
     }
     
     var titleText : String? {

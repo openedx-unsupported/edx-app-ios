@@ -161,7 +161,7 @@ class PersistentResponseCacheTests: XCTestCase {
         let provider = Provider(username: username, basePath: basePath)
         let path = provider.pathForRequestKey(key)
 
-        let klass: AnyClass = objc_allocateClassPair(CodeableObject.self, "FakeClass", 0)
+        let klass: AnyClass = objc_allocateClassPair(CodeableObject.self, "FakeClass", 0) ?? CodeableObject.self
         objc_registerClassPair(klass)
         autoreleasepool {
             let object = OEXMetaClassHelpers.instance(ofClassNamed: "FakeClass")
@@ -192,7 +192,7 @@ class PersistentResponseCacheTests: XCTestCase {
         let provider = Provider(username: username, basePath: basePath)
         let path = provider.pathForRequestKey(key)
 
-        let klass: AnyClass = objc_allocateClassPair(ResponseCacheEntry.self, "FakeEntryClass", 0)
+        let klass: AnyClass = objc_allocateClassPair(ResponseCacheEntry.self, "FakeEntryClass", 0) ?? ResponseCacheEntry.self
         objc_registerClassPair(klass)
         autoreleasepool {
             let entry = ResponseCacheEntry(data: "test".data(using: String.Encoding.utf8), response: HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)

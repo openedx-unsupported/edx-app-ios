@@ -49,12 +49,23 @@ public final class Constraint {
     public var layoutConstraints: [LayoutConstraint]
     
     public var isActive: Bool {
-        for layoutConstraint in self.layoutConstraints {
-            if layoutConstraint.isActive {
-                return true
+        set {
+            if newValue {
+                activate()
+            }
+            else {
+                deactivate()
             }
         }
-        return false
+        
+        get {
+            for layoutConstraint in self.layoutConstraints {
+                if layoutConstraint.isActive {
+                    return true
+                }
+            }
+            return false
+        }
     }
     
     // MARK: Initialization
@@ -89,7 +100,7 @@ public final class Constraint {
 
         for layoutFromAttribute in layoutFromAttributes {
             // get layout to attribute
-            let layoutToAttribute: NSLayoutAttribute
+            let layoutToAttribute: LayoutAttribute
             #if os(iOS) || os(tvOS)
                 if layoutToAttributes.count > 0 {
                     if self.from.attributes == .edges && self.to.attributes == .margins {
@@ -166,7 +177,7 @@ public final class Constraint {
             layoutConstraint.label = self.label
 
             // set priority
-            layoutConstraint.priority = self.priority.constraintPriorityTargetValue
+            layoutConstraint.priority = LayoutPriority(rawValue: self.priority.constraintPriorityTargetValue)
 
             // set constraint
             layoutConstraint.constraint = self
@@ -178,12 +189,12 @@ public final class Constraint {
 
     // MARK: Public
 
-    @available(*, deprecated:3.0, message:"Use activate().")
+    @available(*, deprecated, message:"Use activate().")
     public func install() {
         self.activate()
     }
 
-    @available(*, deprecated:3.0, message:"Use deactivate().")
+    @available(*, deprecated, message:"Use deactivate().")
     public func uninstall() {
         self.deactivate()
     }
@@ -214,25 +225,31 @@ public final class Constraint {
         return self
     }
 
-    @available(*, deprecated:3.0, message:"Use update(offset: ConstraintOffsetTarget) instead.")
+    @discardableResult
+    public func update(priority: ConstraintPriority) -> Constraint {
+        self.priority = priority.value
+        return self
+    }
+
+    @available(*, deprecated, message:"Use update(offset: ConstraintOffsetTarget) instead.")
     public func updateOffset(amount: ConstraintOffsetTarget) -> Void { self.update(offset: amount) }
 
-    @available(*, deprecated:3.0, message:"Use update(inset: ConstraintInsetTarget) instead.")
+    @available(*, deprecated, message:"Use update(inset: ConstraintInsetTarget) instead.")
     public func updateInsets(amount: ConstraintInsetTarget) -> Void { self.update(inset: amount) }
 
-    @available(*, deprecated:3.0, message:"Use update(priority: ConstraintPriorityTarget) instead.")
+    @available(*, deprecated, message:"Use update(priority: ConstraintPriorityTarget) instead.")
     public func updatePriority(amount: ConstraintPriorityTarget) -> Void { self.update(priority: amount) }
 
-    @available(*, obsoleted:3.0, message:"Use update(priority: ConstraintPriorityTarget) instead.")
+    @available(*, deprecated, message:"Use update(priority: ConstraintPriorityTarget) instead.")
     public func updatePriorityRequired() -> Void {}
 
-    @available(*, obsoleted:3.0, message:"Use update(priority: ConstraintPriorityTarget) instead.")
+    @available(*, deprecated, message:"Use update(priority: ConstraintPriorityTarget) instead.")
     public func updatePriorityHigh() -> Void { fatalError("Must be implemented by Concrete subclass.") }
 
-    @available(*, obsoleted:3.0, message:"Use update(priority: ConstraintPriorityTarget) instead.")
+    @available(*, deprecated, message:"Use update(priority: ConstraintPriorityTarget) instead.")
     public func updatePriorityMedium() -> Void { fatalError("Must be implemented by Concrete subclass.") }
 
-    @available(*, obsoleted:3.0, message:"Use update(priority: ConstraintPriorityTarget) instead.")
+    @available(*, deprecated, message:"Use update(priority: ConstraintPriorityTarget) instead.")
     public func updatePriorityLow() -> Void { fatalError("Must be implemented by Concrete subclass.") }
 
     // MARK: Internal
@@ -243,8 +260,8 @@ public final class Constraint {
             layoutConstraint.constant = self.constant.constraintConstantTargetValueFor(layoutAttribute: attribute)
 
             let requiredPriority = ConstraintPriority.required.value
-            if (layoutConstraint.priority < requiredPriority), (self.priority.constraintPriorityTargetValue != requiredPriority) {
-                layoutConstraint.priority = self.priority.constraintPriorityTargetValue
+            if (layoutConstraint.priority.rawValue < requiredPriority), (self.priority.constraintPriorityTargetValue != requiredPriority) {
+                layoutConstraint.priority = LayoutPriority(rawValue: self.priority.constraintPriorityTargetValue)
             }
         }
     }

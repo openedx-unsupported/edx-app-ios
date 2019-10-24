@@ -71,4 +71,9 @@ class IconButton : UIControl {
         disabledAttributedString = disabledTitleStyle.attributedString(withText: title)
         titleLabel.attributedText = isEnabled ? enabledAttributedString : disabledAttributedString
     }
+
+    func setAccessibility(with trait: UIAccessibilityTraits, hint: String) {
+        titleLabel.accessibilityTraits = trait
+        titleLabel.accessibilityHint = hint
+    }
 }

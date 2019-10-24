@@ -37,7 +37,7 @@
         self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         self.activityIndicator.hidden = YES;
         __weak __typeof(self) owner = self;
-        self.authOptionsView = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.bounds providers:providers tapAction:^(id<OEXExternalAuthProvider> provider) {
+        self.authOptionsView = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.bounds providers:providers accessibilityLabel:[Strings registrationRegisterPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
             [owner choseProvider:provider];
         }];
         self.authOptionsView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -47,6 +47,8 @@
         self.signUpHeading.isAccessibilityElement = NO;
         self.signUpHeading.accessibilityIdentifier = @"RegistrationViewController:register-with-label";
         self.emailSuggestion = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.emailSuggestion.adjustsFontSizeToFitWidth = true;
+        self.emailSuggestion.minimumScaleFactor = 0.7;
         self.emailSuggestion.attributedText = [self.labelStyle attributedStringWithText:[Strings registrationRegisterAlternatePrompt]];
         self.emailSuggestion.accessibilityIdentifier = @"RegistrationViewController:register-with-email-label";
         [self.emailSuggestion setTextAlignment:NSTextAlignmentCenter];

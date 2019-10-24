@@ -14,7 +14,7 @@ fileprivate enum MicrosoftKeys: String, RawStringExtractable {
 }
 
 class MicrosoftConfig: NSObject {
-    let enabled: Bool
+    @objc let enabled: Bool
     let appID: String?
     
     init(dictionary: [String: AnyObject]) {
@@ -25,7 +25,7 @@ class MicrosoftConfig: NSObject {
 
 private let key = "MICROSOFT"
 extension OEXConfig {
-    var microsoftConfig : MicrosoftConfig {
+    @objc var microsoftConfig : MicrosoftConfig {
         return MicrosoftConfig(dictionary: self[key] as? [String:AnyObject] ?? [:])
     }
 }

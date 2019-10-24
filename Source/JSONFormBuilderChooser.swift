@@ -9,7 +9,7 @@
 import Foundation
 
 private class JSONFormTableSelectionCell: UITableViewCell {
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         tintColor = OEXStyles.shared().utilitySuccessBase()
     }
@@ -105,7 +105,7 @@ class JSONFormViewController<T>: UIViewController {
         tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .middle, animated: false)
     }
     
-    override func willMove(toParentViewController parent: UIViewController?) {
+    override func willMove(toParent parent: UIViewController?) {
         if parent == nil { //removing from the hierarchy
             doneChoosing?(dataSource?.selectedItem)
         }

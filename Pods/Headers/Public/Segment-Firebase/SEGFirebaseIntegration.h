@@ -1,0 +1,1 @@
+../../../Segment-Firebase/Segment-Firebase/Classes/SEGFirebaseIntegration.h

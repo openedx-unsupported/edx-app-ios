@@ -12,9 +12,10 @@ import UIKit
 class MockCourseDataManager : CourseDataManager {
     var querier : CourseOutlineQuerier?
     var topicsManager : DiscussionDataManager?
+    typealias Environment = OEXConfigProvider
     
-    override func querierForCourseWithID(courseID : String) -> CourseOutlineQuerier {
-        return querier ?? super.querierForCourseWithID(courseID: courseID)
+    override func querierForCourseWithID(courseID : String, environment: Environment) -> CourseOutlineQuerier {
+        return querier ?? super.querierForCourseWithID(courseID: courseID, environment: environment)
     }
     
     override func discussionManagerForCourseWithID(courseID : String) -> DiscussionDataManager {
