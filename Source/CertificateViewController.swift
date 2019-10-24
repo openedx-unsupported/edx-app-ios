@@ -7,14 +7,15 @@
 //
 
 import Foundation
+import WebKit
 
-class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceOrientationOverriding {
+class CertificateViewController: UIViewController, WKNavigationDelegate, InterfaceOrientationOverriding {
 
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider
     private let environment: Environment
 
     private let loadController = LoadStateViewController()
-    let webView = UIWebView()
+    let webView = WKWebView()
     var request: NSURLRequest?
     private let shareButton = UIButton(frame: CGRect(x: 0, y: 0, width: 26, height: 26))
 
@@ -38,7 +39,7 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
             make.edges.equalTo(safeEdges)
         }
 
-        webView.delegate = self
+        webView.navigationDelegate = self
 
         loadController.setupInController(controller: self, contentView: webView)
         webView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
@@ -53,7 +54,7 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenCertificate)
         addShareButton()
         if let request = self.request {
-            webView.loadRequest(request as URLRequest)
+            webView.load(request as URLRequest)
         }
     }
 
@@ -94,18 +95,18 @@ class CertificateViewController: UIViewController, UIWebViewDelegate, InterfaceO
         self.request = mutableRequest
     }
 
-
-    // MARK: - Web view delegate
-
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        loadController.state = LoadState.failed(error: error as NSError)
-    }
-
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        loadController.state = .Loaded
-    }
-
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.allButUpsideDown
     }
+
+    // MARK:- WKNavigationDelegate delegate methods
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        loadController.state = .Loaded
+    }
+
+    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        loadController.state = LoadState.failed(error: error as NSError)
+    }
+
 }
