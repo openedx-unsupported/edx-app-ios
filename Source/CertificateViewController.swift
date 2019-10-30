@@ -9,7 +9,7 @@
 import Foundation
 import WebKit
 
-class CertificateViewController: UIViewController, WKNavigationDelegate, InterfaceOrientationOverriding {
+class CertificateViewController: UIViewController, InterfaceOrientationOverriding {
 
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXStylesProvider
     private let environment: Environment
@@ -99,14 +99,14 @@ class CertificateViewController: UIViewController, WKNavigationDelegate, Interfa
         return UIInterfaceOrientationMask.allButUpsideDown
     }
 
-    // MARK:- WKNavigationDelegate delegate methods
+}
 
+extension CertificateViewController : WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         loadController.state = .Loaded
     }
 
-    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         loadController.state = LoadState.failed(error: error as NSError)
     }
-
 }

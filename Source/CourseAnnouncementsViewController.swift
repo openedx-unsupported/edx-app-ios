@@ -22,7 +22,7 @@ private func announcementsDeserializer(response: HTTPURLResponse, json: JSON) ->
     }
 }
 
-class CourseAnnouncementsViewController: OfflineSupportViewController, WKNavigationDelegate, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
+class CourseAnnouncementsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
@@ -195,8 +195,13 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, WKNavigat
         self.webView.loadHTMLString(displayHTML, baseURL: baseURL)
     }
     
-    //MARK:- WKNavigationDelegate methods
+    //MARK:- LoadStateViewReloadSupport method
+    func loadStateViewReload() {
+        loadContent()
+    }
+}
 
+extension CourseAnnouncementsViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .linkActivated, .formSubmitted, .formResubmitted:
@@ -215,11 +220,6 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, WKNavigat
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         loadController.state = LoadState.failed(error: error as NSError)
-    }
-    
-    //MARK:- LoadStateViewReloadSupport method
-    func loadStateViewReload() {
-        loadContent()
     }
 }
 
