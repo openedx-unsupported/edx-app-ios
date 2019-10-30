@@ -18,7 +18,7 @@ class MicrosoftConfig: NSObject {
     let appID: String?
     
     init(dictionary: [String: AnyObject]) {
-        enabled = dictionary[MicrosoftKeys.MicrosoftLoginEnabled] as? Bool ?? true
+        enabled = dictionary[MicrosoftKeys.MicrosoftLoginEnabled] as? Bool ?? false
         appID = dictionary[MicrosoftKeys.MicrosoftAppID] as? String
     }
 }

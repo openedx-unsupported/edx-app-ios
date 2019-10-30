@@ -23,9 +23,10 @@ class MicrosoftSocial: NSObject {
     private let kScopes: [String] = ["https://graph.microsoft.com/user.read"]
 
     private override init() {
-//        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionEnded.rawValue, action: { (_, observer, _) in
-//                //observer?.logout()
-//            })
+        super.init()
+        NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.OEXSessionEnded.rawValue) { (_, Observer, _) in
+            Observer.logout()
+        }
     }
     
     func loginFromController(controller: UIViewController, completionHandler: @escaping MSLoginCompletionHandler) {
@@ -38,7 +39,9 @@ class MicrosoftSocial: NSObject {
             if  try applicationContext.users().isEmpty {
                 throw NSError.init(domain: "MSALErrorDomain", code: MSALErrorCode.interactionRequired.rawValue, userInfo: nil)
             } else {
-                // Acquire a token for an existing user silently
+                
+                // Acquire a token for an existing user silently.
+                // If the error comes and says interaction required then we call interative sign-in.
                 try applicationContext.acquireTokenSilent(forScopes: kScopes, user: applicationContext.users().first, authority: kAuthority) { [weak self] (result, error) in
                     
                     if let error  = error as NSError?, error.code == MSALErrorCode.interactionRequired.rawValue {
@@ -92,7 +95,7 @@ class MicrosoftSocial: NSObject {
         }
     }
     
-    func signout() {
+    func logout() {
         do {
             
             // Removes all tokens from the cache for this application for the provided user

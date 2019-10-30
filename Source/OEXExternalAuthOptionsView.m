@@ -17,7 +17,8 @@
 #import "OEXFacebookAuthProvider.h"
 #import "OEXGoogleAuthProvider.h"
 
-static CGFloat OEXExternalAuthButtonAspectRatio = 3.2;
+static CGFloat OEXExternalAuthButtonAspectRatio = 3.3;
+static CGFloat rowHeight = 30;
 
 @interface OEXExternalAuthOptionsView ()
 
@@ -65,9 +66,8 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.2;
         return CGSizeMake(UIViewNoIntrinsicMetric, 0);
     }
     else {
-        CGFloat height = 30;
         NSUInteger rows = rows = (self.optionButtons.count + self.optionButtons.count) / self.itemsPerRow;
-        return CGSizeMake(UIViewNoIntrinsicMetric, rows * height + self.rowSpacing * (rows - 1));
+        return CGSizeMake(UIViewNoIntrinsicMetric, rows * rowHeight + self.rowSpacing * (rows - 1));
     }
 }
 
@@ -104,7 +104,6 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.2;
     
     while(!fits) {
         NSUInteger itemsPerRow = [self itemsPerRow:rows];
-        CGFloat rowHeight = (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation) || UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad) ? 30 : [self rowHeightWithRowCount:rows];
         CGFloat width = [self itemWidthWithHeight:rowHeight];
         CGFloat requiredWidth = itemsPerRow * width;
         if(requiredWidth < self.bounds.size.width) {
