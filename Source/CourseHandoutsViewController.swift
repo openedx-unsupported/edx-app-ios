@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-public class CourseHandoutsViewController: OfflineSupportViewController, WKNavigationDelegate, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
+public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
     
     public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider
 
@@ -121,8 +121,13 @@ public class CourseHandoutsViewController: OfflineSupportViewController, WKNavig
         super.updateViewConstraints()
     }
     
-    //MARK:- WKNavigationDelegate methods
+    //MARK:- LoadStateViewReloadSupport method
+    func loadStateViewReload() {
+        loadHandouts()
+    }
+}
 
+extension CourseHandoutsViewController: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         switch navigationAction.navigationType {
         case .linkActivated, .formSubmitted, .formResubmitted:
@@ -135,10 +140,4 @@ public class CourseHandoutsViewController: OfflineSupportViewController, WKNavig
         }
 
     }
-    
-    //MARK:- LoadStateViewReloadSupport method
-    func loadStateViewReload() {
-        loadHandouts()
-    }
-    
 }

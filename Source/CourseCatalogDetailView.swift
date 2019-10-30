@@ -11,7 +11,7 @@ private let margin : CGFloat = 20
 import WebKit
 import edXCore
 
-class CourseCatalogDetailView : UIView, WKNavigationDelegate {
+class CourseCatalogDetailView : UIView {
 
     fileprivate struct Field {
         let name : String
@@ -181,26 +181,6 @@ class CourseCatalogDetailView : UIView, WKNavigationDelegate {
         view.icon = field.icon
         return view
     }
-
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        setNeedsLayout()
-        layoutIfNeeded()
-        webView.scrollView.contentOffset = CGPoint(x: 0, y: -webView.scrollView.contentInset.top)
-        _loaded.send(())
-    }
-
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if navigationAction.navigationType != .other {
-            if let URL = navigationAction.request.url, UIApplication.shared.canOpenURL(URL){
-                UIApplication.shared.openURL(URL)
-            }
-            decisionHandler(.cancel)
-            return
-        }
-
-        decisionHandler(.allow)
-    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -258,6 +238,27 @@ extension CourseCatalogDetailView {
                     UIApplication.shared.openURL(url as URL)
                 }
             }, for: .touchUpInside)
+    }
+}
+
+extension CourseCatalogDetailView: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        setNeedsLayout()
+        layoutIfNeeded()
+        webView.scrollView.contentOffset = CGPoint(x: 0, y: -webView.scrollView.contentInset.top)
+        _loaded.send(())
+    }
+
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if navigationAction.navigationType != .other {
+            if let URL = navigationAction.request.url, UIApplication.shared.canOpenURL(URL){
+                UIApplication.shared.openURL(URL)
+            }
+            decisionHandler(.cancel)
+            return
+        }
+
+        decisionHandler(.allow)
     }
 }
 
