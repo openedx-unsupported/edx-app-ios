@@ -8,9 +8,10 @@
 
 private let margin : CGFloat = 20
 
+import WebKit
 import edXCore
 
-class CourseCatalogDetailView : UIView, UIWebViewDelegate {
+class CourseCatalogDetailView : UIView {
 
     fileprivate struct Field {
         let name : String
@@ -27,7 +28,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
     private let actionButton = SpinnerButton(type: .system)
     private let container : TZStackView
     private let insetContainer : TZStackView
-    private let descriptionView = UIWebView()
+    private let descriptionView = WKWebView()
     fileprivate let fieldsList = TZStackView()
     fileprivate let playButton = UIButton(type: .system)
     
@@ -97,7 +98,7 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
             }, for: .touchUpInside)
         
         descriptionView.scrollView.decelerationRate = UIScrollView.DecelerationRate.normal
-        descriptionView.delegate = self
+        descriptionView.navigationDelegate = self
         descriptionView.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         
         playButton.setImage(Icon.CourseVideoPlay.imageWithFontSize(size: 60), for: .normal)
@@ -181,21 +182,6 @@ class CourseCatalogDetailView : UIView, UIWebViewDelegate {
         return view
     }
     
-    func webViewDidFinishLoad(_ webView: UIWebView) {
-        self.setNeedsLayout()
-        self.layoutIfNeeded()
-        webView.scrollView.contentOffset = CGPoint(x: 0, y: -webView.scrollView.contentInset.top)
-        _loaded.send(())
-    }
-    
-    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-        if let URL = request.url, navigationType != .other {
-            UIApplication.shared.openURL(URL)
-            return false
-        }
-        return true
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         self.topContentInsets.currentInsets = UIEdgeInsets(top: self.container.frame.height + StandardVerticalMargin, left: 0, bottom: 0, right: 0)
@@ -252,6 +238,27 @@ extension CourseCatalogDetailView {
                     UIApplication.shared.openURL(url as URL)
                 }
             }, for: .touchUpInside)
+    }
+}
+
+extension CourseCatalogDetailView: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        setNeedsLayout()
+        layoutIfNeeded()
+        webView.scrollView.contentOffset = CGPoint(x: 0, y: -webView.scrollView.contentInset.top)
+        _loaded.send(())
+    }
+
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if navigationAction.navigationType != .other {
+            if let URL = navigationAction.request.url, UIApplication.shared.canOpenURL(URL){
+                UIApplication.shared.openURL(URL)
+            }
+            decisionHandler(.cancel)
+            return
+        }
+
+        decisionHandler(.allow)
     }
 }
 

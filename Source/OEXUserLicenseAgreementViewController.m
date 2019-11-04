@@ -10,12 +10,14 @@
 
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
-
+#import <WebKit/WebKit.h>
 #import "OEXRegistrationAgreement.h"
+#import <Masonry/Masonry.h>
 
-@interface OEXUserLicenseAgreementViewController () <UIWebViewDelegate>
+@interface OEXUserLicenseAgreementViewController () <WKNavigationDelegate>
 {
-    IBOutlet UIWebView* webView;
+    __weak IBOutlet UIView *webviewContainer;
+    WKWebView* webView;
     IBOutlet UIActivityIndicatorView* activityIndicator;
 }
 @property(nonatomic, strong) NSURL* contentUrl;
@@ -40,9 +42,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [_closeButton setTitle:[Strings close] forState:UIControlStateNormal];
-    webView.delegate = self;
+    [self addAndConfigureWebview];
     [self loadURL];
     [self addObserver];
+}
+
+- (void) addAndConfigureWebview {
+    webView = [[WKWebView alloc] init];
+    webView.navigationDelegate = self;
+    [self.view addSubview:webView];
+    [self.view bringSubviewToFront:webView];
+
+    [webView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(webviewContainer);
+    }];
 }
 
 - (void)addObserver {
@@ -66,31 +79,34 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (BOOL)webView:(UIWebView*)inWeb shouldStartLoadWithRequest:(NSURLRequest*)inRequest navigationType:(UIWebViewNavigationType)inType {
-    if([[inRequest URL] isFileURL]) {
-        return YES;
+#pragma mark - WKNavigationDelegate methods
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    NSURL *URL = navigationAction.request.URL;
+    if ([URL isFileURL]) {
+        decisionHandler(WKNavigationActionPolicyAllow);
+        return;
     }
 
-    if(inType == UIWebViewNavigationTypeLinkClicked) {
-        [[UIApplication sharedApplication] openURL:[inRequest URL]];
-        return NO;
+    if (navigationAction.navigationType == UIWebViewNavigationTypeLinkClicked) {
+        if ([[UIApplication sharedApplication] canOpenURL:URL]) {
+            [[UIApplication sharedApplication] openURL:URL];
+        }
     }
-    return YES;
+
+    decisionHandler(WKNavigationActionPolicyCancel);
+
 }
 
-- (void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error {
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [activityIndicator stopAnimating];
     OEXLogInfo(@"EULA", @"Error is %@", error.localizedDescription);
     [[UIAlertController alloc] showAlertWithTitle:nil message:error.localizedDescription onViewController:self];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView*)webView {
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     [activityIndicator stopAnimating];
     OEXLogInfo(@"EULA", @"Web View did finish loading");
 }
 
-- (void)webViewDidStartLoad:(UIWebView*)webView {
-    [activityIndicator startAnimating];
-    OEXLogInfo(@"EULA", @"Web View did start loading");
-}
 @end

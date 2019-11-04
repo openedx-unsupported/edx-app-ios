@@ -7,20 +7,22 @@
 //
 
 import UIKit
-public class CourseHandoutsViewController: OfflineSupportViewController, UIWebViewDelegate, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
+import WebKit
+
+public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
     
     public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider
 
     let courseID : String
     let environment : Environment
-    let webView : UIWebView
+    let webView : WKWebView
     let loadController : LoadStateViewController
     let handouts : BackedStream<String> = BackedStream()
     
     init(environment : Environment, courseID : String) {
         self.environment = environment
         self.courseID = courseID
-        self.webView = UIWebView()
+        self.webView = WKWebView()
         self.loadController = LoadStateViewController()
         
         super.init(env: environment)
@@ -39,7 +41,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
         addSubviews()
         setConstraints()
         setStyles()
-        webView.delegate = self
+        webView.navigationDelegate = self
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -119,21 +121,23 @@ public class CourseHandoutsViewController: OfflineSupportViewController, UIWebVi
         super.updateViewConstraints()
     }
     
-    //MARK: UIWebView delegate
-
-    public func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-        if (navigationType != UIWebView.NavigationType.other) {
-            if let URL = request.url {
-                 UIApplication.shared.openURL(URL)
-                return false
-            }
-        }
-        return true
-    }
-    
     //MARK:- LoadStateViewReloadSupport method
     func loadStateViewReload() {
         loadHandouts()
     }
-    
+}
+
+extension CourseHandoutsViewController: WKNavigationDelegate {
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        switch navigationAction.navigationType {
+        case .linkActivated, .formSubmitted, .formResubmitted:
+            if let URL = navigationAction.request.url, UIApplication.shared.canOpenURL(URL){
+                UIApplication.shared.openURL(URL)
+            }
+            decisionHandler(.cancel)
+        default:
+            decisionHandler(.allow)
+        }
+
+    }
 }
