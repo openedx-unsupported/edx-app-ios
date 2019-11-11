@@ -79,6 +79,13 @@
     [self.listeners removeObject:listener];
 }
 
+- (void)addListenersWithConfiguration: (OEXConfig *) config environment: (RouterEnvironment *)environment {
+    if ([[config firebaseConfig] cloudMessagingEnabled]) {
+        FirebasePushListner *listner = [[FirebasePushListner alloc] initWithEnvironment:environment];
+        [self addListener:listner];
+    }
+}
+
 - (void)addProvider:(id <OEXPushProvider>)provider withSession:(OEXSession *)session {
     [self.providers addObject:provider];
     if(session.currentUser != nil) {

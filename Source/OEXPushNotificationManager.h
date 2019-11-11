@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class OEXPushSettingsManager;
 @protocol OEXPushListener;
 @protocol OEXPushProvider;
+@class RouterEnvironment;
 
 @interface OEXPushNotificationManager : NSObject <UNUserNotificationCenterDelegate>
 
@@ -26,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addProvidersForConfiguration:(OEXConfig*)config withSession:(OEXSession*)session;
 
 - (void)addListener:(id <OEXPushListener>)listener;
+- (void)addListenersWithConfiguration: (OEXConfig *) config environment: (RouterEnvironment *)environment;
 - (void)removeListener:(id <OEXPushListener>)listener;
 
 - (void)didReceiveLocalNotificationWithUserInfo:(NSDictionary*)userInfo;
