@@ -10,9 +10,9 @@ import UIKit
 
 typealias DismissCompletion = () -> Void
 
-@objc class ScreenNavigationManager: NSObject {
+@objc class DeepLinkManager: NSObject {
     
-    @objc static let sharedInstance = ScreenNavigationManager()
+    @objc static let sharedInstance = DeepLinkManager()
     typealias Environment = OEXSessionProvider & OEXRouterProvider & OEXConfigProvider
     var environment: Environment?
     
@@ -26,19 +26,11 @@ typealias DismissCompletion = () -> Void
     
     @objc func processDeepLink(with params: [String: Any], environment: Environment) {
         self.environment = environment
-        let deepLink = ScreenLink(dictionary: params)
-        let type = deepLink.type
-        guard type != .none else { return }
-        
-        navigateToScreen(with: type, link: deepLink)
-    }
-    
-    func processNotification(with link: ScreenLink, environment: Environment) {
-        self.environment = environment
-        let deepLinkType = link.type
+        let deepLink = DeepLink(dictionary: params)
+        let deepLinkType = deepLink.type
         guard deepLinkType != .none else { return }
         
-        navigateToScreen(with: deepLinkType, link: link)
+        navigateToDeepLink(with: deepLinkType, link: deepLink)
     }
     
     private func showLoginScreen() {
@@ -54,7 +46,7 @@ typealias DismissCompletion = () -> Void
         return environment?.session.currentUser != nil
     }
     
-    private func linkType(for controller: UIViewController) -> ScreenType {
+    private func linkType(for controller: UIViewController) -> DeepLinkType {
         if let courseOutlineViewController = controller as? CourseOutlineViewController {
             return courseOutlineViewController.courseOutlineMode == .full ? .courseDashboard : .courseVideos
         }
@@ -93,7 +85,7 @@ typealias DismissCompletion = () -> Void
         return .none
     }
     
-    private func showCourseDashboardViewController(with link: ScreenLink) {
+    private func showCourseDashboardViewController(with link: DeepLink) {
         guard let topViewController = topMostViewController else { return }
         
         if let courseDashboardView = topViewController.parent as? CourseDashboardViewController, courseDashboardView.courseID == link.courseId {
@@ -109,7 +101,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showDiscovery(with link: ScreenLink) {
+    private func showDiscovery(with link: DeepLink) {
         
         guard !controllerAlreadyDisplayed(for: link.type) else {
             
@@ -215,7 +207,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showPrograms(with link: ScreenLink) {
+    private func showPrograms(with link: DeepLink) {
         if let topController = topMostViewController, let controller = topController as? ProgramsViewController,  controller.type == .detail {
             topController.navigationController?.popViewController(animated: true)
         }
@@ -228,7 +220,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showProgramDetail(with link: ScreenLink) {
+    private func showProgramDetail(with link: DeepLink) {
         guard !controllerAlreadyDisplayed(for: link.type),
             let myProgramDetailURL = environment?.config.programConfig.programDetailURLTemplate,
             let pathID = link.pathID,
@@ -251,7 +243,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showAccountViewController(with link: ScreenLink) {
+    private func showAccountViewController(with link: DeepLink) {
         guard !controllerAlreadyDisplayed(for: link.type) else { return}
         
         dismiss() { [weak self] in
@@ -261,7 +253,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showProfile(with link: ScreenLink) {
+    private func showProfile(with link: DeepLink) {
         guard let topViewController = topMostViewController, let username = environment?.session.currentUser?.username else { return }
         
         func showView(modal: Bool) {
@@ -283,7 +275,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showDiscussionTopic(with link: ScreenLink) {
+    private func showDiscussionTopic(with link: DeepLink) {
         guard let courseId = link.courseId,
             let topicID = link.topicID,
             let topController = topMostViewController else { return }
@@ -319,7 +311,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showDiscussionResponses(with link: ScreenLink, completion: (() -> Void)? = nil) {
+    private func showDiscussionResponses(with link: DeepLink, completion: (() -> Void)? = nil) {
         guard let courseId = link.courseId,
             let threadID = link.threadID,
             let topController = topMostViewController else { return }
@@ -354,7 +346,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showdiscussionComments(with link: ScreenLink) {
+    private func showdiscussionComments(with link: DeepLink) {
         
         guard let courseID = link.courseId,
             let commentID = link.commentID,
@@ -397,7 +389,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showCourseHandout(with link: ScreenLink) {
+    private func showCourseHandout(with link: DeepLink) {
         
         var controllerAlreadyDisplayed: Bool {
             if let topController = topMostViewController, let courseHandoutController = topController as? CourseHandoutsViewController, courseHandoutController.courseID == link.courseId {
@@ -422,7 +414,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showCourseAnnouncement(with link: ScreenLink) {
+    private func showCourseAnnouncement(with link: DeepLink) {
         
         var controllerAlreadyDisplayed: Bool {
             if let topController = topMostViewController, let courseAnnouncementsViewController = topController as? CourseAnnouncementsViewController, courseAnnouncementsViewController.courseID == link.courseId {
@@ -448,7 +440,7 @@ typealias DismissCompletion = () -> Void
     }
     
     
-    private func controllerAlreadyDisplayed(for type: ScreenType) -> Bool {
+    private func controllerAlreadyDisplayed(for type: DeepLinkType) -> Bool {
         guard let topViewController = topMostViewController else { return false }
         
         return linkType(for: topViewController) == type
@@ -463,12 +455,12 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func isDiscovery(type: ScreenType) -> Bool {
+    private func isDiscovery(type: DeepLinkType) -> Bool {
         return (type == .courseDiscovery || type == .courseDetail || type == .programDiscovery
             || type == .programDiscoveryDetail || type == .degreeDiscovery || type == .degreeDiscoveryDetail)
     }
     
-    private func navigateToScreen(with type: ScreenType, link: ScreenLink) {
+    private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
         
         if isDiscovery(type: type) {
             showDiscovery(with: link)

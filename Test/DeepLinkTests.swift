@@ -12,10 +12,10 @@ import XCTest
 class DeepLinkTests: XCTestCase {
     
     func testDeepLinkWithNoParameters() {
-        let link = ScreenLink(dictionary: [:])
-        XCTAssertNil(link.courseId)
-        XCTAssertNil(link.screenName)
-        XCTAssertEqual(link.type, .none)
+        let deepLink = DeepLink(dictionary: [:])
+        XCTAssertNil(deepLink.courseId)
+        XCTAssertNil(deepLink.screenName)
+        XCTAssertEqual(deepLink.type, .none)
     }
     
     func testDeepLinkParameters() {
@@ -25,12 +25,12 @@ class DeepLinkTests: XCTestCase {
                 "course_id": testCourseId,
                 "screen_name": testScreenName,
         ]
-        let link = ScreenLink(dictionary: parameters)
-        XCTAssertNotNil(link.courseId)
-        XCTAssertNotNil(link.screenName)
-        XCTAssertEqual(link.courseId, testCourseId)
-        XCTAssertEqual(link.screenName, testScreenName)
-        XCTAssertEqual(link.type, .courseDashboard)
+        let deepLink = DeepLink(dictionary: parameters)
+        XCTAssertNotNil(deepLink.courseId)
+        XCTAssertNotNil(deepLink.screenName)
+        XCTAssertEqual(deepLink.courseId, testCourseId)
+        XCTAssertEqual(deepLink.screenName, testScreenName)
+        XCTAssertEqual(deepLink.type, .courseDashboard)
     }
     
     func testInvalidScreenName() {
@@ -40,11 +40,11 @@ class DeepLinkTests: XCTestCase {
             "course_id": testCourseId,
             "screen_name": testScreenName,
             ]
-        let link = ScreenLink(dictionary: parameters)
-        XCTAssertNotNil(link.courseId)
-        XCTAssertNotNil(link.screenName)
-        XCTAssertEqual(link.courseId, testCourseId)
-        XCTAssertEqual(link.screenName, testScreenName)
-        XCTAssertEqual(link.type, .none)
+        let deepLink = DeepLink(dictionary: parameters)
+        XCTAssertNotNil(deepLink.courseId)
+        XCTAssertNotNil(deepLink.screenName)
+        XCTAssertEqual(deepLink.courseId, testCourseId)
+        XCTAssertEqual(deepLink.screenName, testScreenName)
+        XCTAssertEqual(deepLink.type, .none)
     }
 }

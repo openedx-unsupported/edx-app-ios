@@ -106,8 +106,8 @@
 		2255C95221185D21005F7C8C /* DiscoveryHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2255C95121185D21005F7C8C /* DiscoveryHelperTests.swift */; };
 		2264ED861FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */; };
 		2266C5622362F6AF00F96BCA /* icon_microsoft_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 2266C5612362F6AE00F96BCA /* icon_microsoft_white.png */; };
-		2271C54821634AC8001EA1E6 /* ScreenLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54721634AC8001EA1E6 /* ScreenLink.swift */; };
-		2271C54A21634E40001EA1E6 /* ScreenNavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54921634E40001EA1E6 /* ScreenNavigationManager.swift */; };
+		2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54721634AC8001EA1E6 /* DeepLink.swift */; };
+		2271C54A21634E40001EA1E6 /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2271C54921634E40001EA1E6 /* DeepLinkManager.swift */; };
 		227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A6204EBF26007AA396 /* VideoPlayerControls.swift */; };
 		227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A92057C0AA007AA396 /* TranscriptParser.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
@@ -124,11 +124,9 @@
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
 		22A98BD922D89ED30007330C /* APIURLDefaultVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */; };
-		22AB111F2375695C007D03D2 /* FirrebaseNotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB111E2375695C007D03D2 /* FirrebaseNotificationData.swift */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
 		22ABBA0A211C07710001020B /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22ABBA09211C07710001020B /* MSAL.framework */; };
 		22ABBA0C211C16420001020B /* MicrosoftConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22ABBA0B211C16420001020B /* MicrosoftConfig.swift */; };
-		22AC5B0D23741C8900DCA505 /* FirebasePushListner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AC5B0C23741C8900DCA505 /* FirebasePushListner.swift */; };
 		22AFEADA20CE8DE60071067E /* VideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
 		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
@@ -1076,8 +1074,8 @@
 		2255C95121185D21005F7C8C /* DiscoveryHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryHelperTests.swift; sourceTree = "<group>"; };
 		2264ED851FB9A40F00DE49BE /* AdditionalTabBarViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdditionalTabBarViewControllerTests.swift; sourceTree = "<group>"; };
 		2266C5612362F6AE00F96BCA /* icon_microsoft_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_microsoft_white.png; sourceTree = "<group>"; };
-		2271C54721634AC8001EA1E6 /* ScreenLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenLink.swift; sourceTree = "<group>"; };
-		2271C54921634E40001EA1E6 /* ScreenNavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenNavigationManager.swift; sourceTree = "<group>"; };
+		2271C54721634AC8001EA1E6 /* DeepLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
+		2271C54921634E40001EA1E6 /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		227386A6204EBF26007AA396 /* VideoPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerControls.swift; sourceTree = "<group>"; };
 		227386A92057C0AA007AA396 /* TranscriptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptParser.swift; sourceTree = "<group>"; };
 		2283C7522060EF8600A2E9BE /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
@@ -1111,11 +1109,9 @@
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
 		22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLDefaultVersionTests.swift; sourceTree = "<group>"; };
-		22AB111E2375695C007D03D2 /* FirrebaseNotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirrebaseNotificationData.swift; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
 		22ABBA09211C07710001020B /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = MSAL/MSAL.framework; sourceTree = "<group>"; };
 		22ABBA0B211C16420001020B /* MicrosoftConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftConfig.swift; sourceTree = "<group>"; };
-		22AC5B0C23741C8900DCA505 /* FirebasePushListner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebasePushListner.swift; sourceTree = "<group>"; };
 		22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTests.swift; sourceTree = "<group>"; };
 		22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardLoadStateViewController.swift; sourceTree = "<group>"; };
 		22B85A33203EEE1E0071AD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -2324,8 +2320,8 @@
 		2271C54621634A5F001EA1E6 /* Deep Linking */ = {
 			isa = PBXGroup;
 			children = (
-				2271C54721634AC8001EA1E6 /* ScreenLink.swift */,
-				2271C54921634E40001EA1E6 /* ScreenNavigationManager.swift */,
+				2271C54721634AC8001EA1E6 /* DeepLink.swift */,
+				2271C54921634E40001EA1E6 /* DeepLinkManager.swift */,
 			);
 			path = "Deep Linking";
 			sourceTree = "<group>";
@@ -2700,7 +2696,6 @@
 				77BC3E671AE0091400E51529 /* OEXPushNotificationProcessor.h */,
 				77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */,
 				E09B73712342034400D0EE45 /* FirebasePushProvider.swift */,
-				22AC5B0C23741C8900DCA505 /* FirebasePushListner.swift */,
 			);
 			name = "Push Notifications";
 			sourceTree = "<group>";
@@ -2961,7 +2956,6 @@
 				9ED168AF1B29A9EF00AA7B5B /* CouseLastAccessed.swift */,
 				9EC6E0FF1BDE40E100729704 /* OEXCourse+Swift.swift */,
 				E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */,
-				22AB111E2375695C007D03D2 /* FirrebaseNotificationData.swift */,
 				228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */,
 			);
 			name = "Course Structure";
@@ -4839,7 +4833,6 @@
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
 				80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */,
 				775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */,
-				22AB111F2375695C007D03D2 /* FirrebaseNotificationData.swift in Sources */,
 				22D9BE5621945B4300FE1EB5 /* UIApplication+UIViewController.swift in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
 				227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */,
@@ -4963,7 +4956,6 @@
 				3F92D6E620B19C9B00A69806 /* AgreementURLsConfig.swift in Sources */,
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
 				77C182AA1CD2E46900AE1474 /* TablePaginationManipulator.swift in Sources */,
-				22AC5B0D23741C8900DCA505 /* FirebasePushListner.swift in Sources */,
 				0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */,
 				77DCD2391C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift in Sources */,
 				B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */,
@@ -4990,7 +4982,7 @@
 				B7CCC71D209B16B100A66923 /* ConstraintMultiplierTarget.swift in Sources */,
 				1913DD3D194B267000573977 /* OEXDownloadViewController.m in Sources */,
 				B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */,
-				2271C54A21634E40001EA1E6 /* ScreenNavigationManager.swift in Sources */,
+				2271C54A21634E40001EA1E6 /* DeepLinkManager.swift in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
 				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
@@ -5111,7 +5103,7 @@
 				77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */,
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
-				2271C54821634AC8001EA1E6 /* ScreenLink.swift in Sources */,
+				2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,
 				220B1D352119B8380048ACBA /* OEXMicrosoftAuthProvider.swift in Sources */,
 				B4B6C80D1A9C7AEA004F0FAF /* OEXPlaceholderTextView.m in Sources */,

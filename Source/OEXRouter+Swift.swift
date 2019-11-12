@@ -143,7 +143,7 @@ extension OEXRouter {
     
     // MARK: Deep Linking
     //Method can be use to navigate on particular tab of course dashboard with deep link type
-    func showCourse(with deeplink: ScreenLink, courseID: String, from controller: UIViewController) {
+    func showCourse(with deeplink: DeepLink, courseID: String, from controller: UIViewController) {
         var courseDashboardController = controller.navigationController?.viewControllers.compactMap({ (controller) -> UIViewController? in
             if controller is CourseDashboardViewController {
                 return controller
@@ -171,7 +171,7 @@ extension OEXRouter {
         }
     }
 
-    func showProgram(with type: ScreenType, url: URL? = nil, from controller: UIViewController) {
+    func showProgram(with type: DeepLinkType, url: URL? = nil, from controller: UIViewController) {
         var controller = controller
         if let controllers = controller.navigationController?.viewControllers, let enrolledTabBarView = controllers.first as? EnrolledTabBarViewController {
             popToRoot(controller: controller)
@@ -197,7 +197,7 @@ extension OEXRouter {
         controller.navigationController?.popToRootViewController(animated: true)
     }
     
-    func showDiscoveryController(from controller: UIViewController, type: ScreenType, isUserLoggedIn: Bool, pathID: String?) {
+    func showDiscoveryController(from controller: UIViewController, type: DeepLinkType, isUserLoggedIn: Bool, pathID: String?) {
         let bottomBar = BottomBarView(environment: environment)
         var discoveryController = discoveryViewController(bottomBar: bottomBar, searchQuery: nil)
         if isUserLoggedIn {
@@ -236,7 +236,7 @@ extension OEXRouter {
         }
     }
     
-     func showDiscoveryDetail(from controller: UIViewController, type: ScreenType, pathID: String, bottomBar: UIView?) {
+     func showDiscoveryDetail(from controller: UIViewController, type: DeepLinkType, pathID: String, bottomBar: UIView?) {
         if type == .courseDetail {
             showCourseDetails(from: controller, with: pathID, bottomBar: bottomBar)
         }

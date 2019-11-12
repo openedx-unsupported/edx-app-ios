@@ -71,8 +71,12 @@ static NSString* const OEXPushSpawnStateKey = @"OEXPushSpawnStateKey";
             return @"";
             break;
         case OEXPushActionAnnouncement: {
-    NSString* courseName = userInfo[OEXPushAnnouncementCourseNameKey];
-    return [Strings courseAnnouncementNotificationBodyWithCourseName:courseName];
+            NSString* courseName = userInfo[OEXPushAnnouncementCourseNameKey];
+            return [Strings courseAnnouncementNotificationBodyWithCourseName:courseName];
+        }
+        default:
+            break;
+    }
 }
 
 - (void)spawnLocalNotificationWithAction:(OEXPushAction)action userInfo:(NSDictionary*)userInfo {
@@ -118,7 +122,6 @@ static NSString* const OEXPushSpawnStateKey = @"OEXPushSpawnStateKey";
 - (void)didReceiveRemoteNotificationWithUserInfo:(NSDictionary*)userInfo {
     NSString* actionName = userInfo[OEXPushActionKey];
     OEXPushAction action = [self actionWithString:actionName];
-    [self spawnLocalNotificationWithAction:OEXPushActionAnnouncement userInfo:userInfo];
     if(action != OEXPushActionUnknown) {
         [self trackReceivedNotificationAnnouncementWithAction:action userInfo:userInfo];
         if([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
@@ -128,7 +131,7 @@ static NSString* const OEXPushSpawnStateKey = @"OEXPushSpawnStateKey";
         else {
             // We handle localization of notifications client side by receiving them as remote notifications and then
             // respawning them with localized strings as local notifications
-            [self spawnLocalNotificationWithAction:OEXPushActionAnnouncement userInfo:userInfo];
+            [self spawnLocalNotificationWithAction:action userInfo:userInfo];
         }
     }
     
