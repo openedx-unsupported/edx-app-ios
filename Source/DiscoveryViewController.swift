@@ -184,7 +184,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
     }
     
     // MARK: Deep Linking    
-    func switchSegment(with type: DeepLinkType) {
+    func switchSegment(with type: ScreenType) {
         switch type {
         case .courseDiscovery, .courseDetail:
             let selectedIndex = index(for: SegmentOption.course.rawValue)

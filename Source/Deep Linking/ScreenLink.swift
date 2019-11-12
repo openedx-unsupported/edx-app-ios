@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum DeepLinkType: String {
+enum ScreenType: String {
     case courseDashboard = "course_dashboard"
     case courseVideos = "course_videos"
     case discussions = "course_discussion"
@@ -31,7 +31,7 @@ enum DeepLinkType: String {
     case none = "none"
 }
 
-fileprivate enum DeepLinkKeys: String, RawStringExtractable {
+fileprivate enum DataKeys: String, RawStringExtractable {
     case CourseId = "course_id"
     case PathID = "path_id"
     case ScreenName = "screen_name"
@@ -40,7 +40,7 @@ fileprivate enum DeepLinkKeys: String, RawStringExtractable {
     case commentID = "comment_id"
 }
 
-class DeepLink: NSObject {
+class ScreenLink: NSObject {
 
     let courseId: String?
     let screenName: String?
@@ -48,8 +48,8 @@ class DeepLink: NSObject {
     let topicID: String?
     let threadID: String?
     let commentID: String?
-    var type: DeepLinkType {
-        let type = DeepLinkType(rawValue: screenName ?? DeepLinkType.none.rawValue) ?? .none
+    var type: ScreenType {
+        let type = ScreenType(rawValue: screenName ?? ScreenType.none.rawValue) ?? .none
         if type == .courseDiscovery && courseId != nil {
             return .courseDetail
         }
@@ -66,11 +66,11 @@ class DeepLink: NSObject {
     }
     
     init(dictionary:[String:Any]) {
-        courseId = dictionary[DeepLinkKeys.CourseId] as? String
-        screenName = dictionary[DeepLinkKeys.ScreenName] as? String
-        pathID = dictionary[DeepLinkKeys.PathID] as? String
-        topicID = dictionary[DeepLinkKeys.topicID] as? String
-        threadID = dictionary[DeepLinkKeys.threadID] as? String
-        commentID = dictionary[DeepLinkKeys.commentID] as? String
+        courseId = dictionary[DataKeys.CourseId] as? String
+        screenName = dictionary[DataKeys.ScreenName] as? String
+        pathID = dictionary[DataKeys.PathID] as? String
+        topicID = dictionary[DataKeys.topicID] as? String
+        threadID = dictionary[DataKeys.threadID] as? String
+        commentID = dictionary[DataKeys.commentID] as? String
     }
 }
