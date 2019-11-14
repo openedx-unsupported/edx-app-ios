@@ -38,7 +38,7 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
                 completion(token, nil, error)
             } else if loadUserDetails {
                 // load user details
-                MicrosoftSocial.shared.requestUserProfileInfo(comletion: { (user) in
+                MicrosoftSocial.shared.requestUserProfileInfo(completion: { (user) in
                     let profile = OEXRegisteringUserDetails()
                     profile.name = user.name
                     profile.email = user.displayableId

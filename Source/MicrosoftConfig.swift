@@ -9,7 +9,7 @@
 import UIKit
 
 fileprivate enum MicrosoftKeys: String, RawStringExtractable {
-    case MicrosoftLoginEnabled = "MICROSOFT_LOGIN_ENABLED"
+    case MicrosoftLoginEnabled = "ENABLED"
     case MicrosoftAppID = "MICROSOFT_APP_ID"
 }
 

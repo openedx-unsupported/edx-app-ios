@@ -15,7 +15,7 @@ class MicrosoftSocial: NSObject {
 
     static let shared = MicrosoftSocial()
     private var completionHandler: MSLoginCompletionHandler?
-    private var applicationContext: MSALPublicClientApplication = MSALPublicClientApplication.init()
+    private var applicationContext = MSALPublicClientApplication()
     private var accessToken = ""
     var result: MSALResult?
     
@@ -37,7 +37,7 @@ class MicrosoftSocial: NSObject {
             // We throw an interactionRequired so that we trigger the interactive sign-in.
             
             if  try applicationContext.users().isEmpty {
-                throw NSError.init(domain: "MSALErrorDomain", code: MSALErrorCode.interactionRequired.rawValue, userInfo: nil)
+                throw NSError(domain: "MSALErrorDomain", code: MSALErrorCode.interactionRequired.rawValue, userInfo: nil)
             } else {
                 
                 // Acquire a token for an existing user silently.
@@ -83,15 +83,15 @@ class MicrosoftSocial: NSObject {
         do {
             // Initialize a MSALPublicClientApplication with a given clientID and authority
             let clientID = OEXConfig.shared().microsoftConfig.appID
-            applicationContext = try MSALPublicClientApplication.init(clientId: clientID, authority: kAuthority)
+            applicationContext = try MSALPublicClientApplication(clientId: clientID, authority: kAuthority)
         } catch let error as NSError {
             completionHandler?(nil, error)
         }
     }
     
-    func requestUserProfileInfo(comletion: (_ user: MSALUser) -> Void) {
+    func requestUserProfileInfo(completion: (_ user: MSALUser) -> Void) {
         if let user = result?.user {
-            comletion(user)
+            completion(user)
         }
     }
     

@@ -66,8 +66,10 @@ static CGFloat rowHeight = 30;
         return CGSizeMake(UIViewNoIntrinsicMetric, 0);
     }
     else {
-        NSUInteger rows = rows = (self.optionButtons.count + self.optionButtons.count) / self.itemsPerRow;
-        return CGSizeMake(UIViewNoIntrinsicMetric, rows * rowHeight + self.rowSpacing * (rows - 1));
+        CGFloat width = [self itemWidthWithHeight:rowHeight];
+        float itemInRow = self.bounds.size.width / width  ;
+        NSUInteger rows = ceil(((float)self.optionButtons.count) /(float) itemInRow);
+        return CGSizeMake(self.bounds.size.width, rows * rowHeight + self.rowSpacing * (rows - 1));
     }
 }
 
