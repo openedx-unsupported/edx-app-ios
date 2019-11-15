@@ -27,7 +27,6 @@ import UIKit
         
         let notificationData = FCMDataModel(dictionary: dictionary)
         if let link = notificationData.link {
-            /// DeepLink manager is using to route the app on particular screen
             DeepLinkManager.sharedInstance.processNotification(with: link, environment: environment)
         }
     }

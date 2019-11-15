@@ -115,13 +115,13 @@ typealias DismissCompletion = () -> Void
         
         guard !controllerAlreadyDisplayed(for: link.type) else {
             
-            /// Course discovery detail if already loaded
+            // Course discovery detail if already loaded
             if let courseInfoController = topMostViewController as? OEXCourseInfoViewController,
                 let pathId = link.courseId {
                 courseInfoController.loadCourseInfo(with: pathId, forceLoad: false)
             }
             
-            /// Program discovery detail if already loaded
+            // Program discovery detail if already loaded
             if let programDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController, let pathId = link.pathID {
                 if pathId != programDiscoveryViewController.pathId {
                     programDiscoveryViewController.loadProgramDetails(with: pathId)
