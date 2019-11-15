@@ -24,13 +24,23 @@ typealias DismissCompletion = () -> Void
         super.init()
     }
     
+    /// This method process the deep link with response parameters
     @objc func processDeepLink(with params: [String: Any], environment: Environment) {
         self.environment = environment
         let deepLink = DeepLink(dictionary: params)
-        let deepLinkType = deepLink.type
-        guard deepLinkType != .none else { return }
+        let type = deepLink.type
+        guard type != .none else { return }
         
-        navigateToDeepLink(with: deepLinkType, link: deepLink)
+        navigateToScreen(with: type, link: deepLink)
+    }
+    
+    /// This method process the FCM notification with the link object
+    func processNotification(with link: PushLink, environment: Environment) {
+        self.environment = environment
+        let type = link.type
+        guard type != .none else { return }
+        
+        navigateToScreen(with: type, link: link)
     }
     
     private func showLoginScreen() {
@@ -460,7 +470,7 @@ typealias DismissCompletion = () -> Void
             || type == .programDiscoveryDetail || type == .degreeDiscovery || type == .degreeDiscoveryDetail)
     }
     
-    private func navigateToDeepLink(with type: DeepLinkType, link: DeepLink) {
+    private func navigateToScreen(with type: DeepLinkType, link: DeepLink) {
         
         if isDiscovery(type: type) {
             showDiscovery(with: link)

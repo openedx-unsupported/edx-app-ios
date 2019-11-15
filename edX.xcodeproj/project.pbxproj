@@ -120,7 +120,9 @@
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
 		22A98BD922D89ED30007330C /* APIURLDefaultVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */; };
+		22AB111F2375695C007D03D2 /* FCMDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB111E2375695C007D03D2 /* FCMDataModel.swift */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
+		22AC5B0D23741C8900DCA505 /* FCMListner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AC5B0C23741C8900DCA505 /* FCMListner.swift */; };
 		22AFEADA20CE8DE60071067E /* VideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
 		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
@@ -825,7 +827,7 @@
 		E08863F31F209B9C0009A06D /* DateFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08863F21F209B9C0009A06D /* DateFormatting.swift */; };
 		E08A008B1CF7546200F92DE7 /* DiscussionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */; };
 		E08A4FBF1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E08A4FBE1D1A6B9700B1A40A /* DiscussionCommentsViewControllerTests.swift */; };
-		E09B73722342034400D0EE45 /* FirebasePushProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B73712342034400D0EE45 /* FirebasePushProvider.swift */; };
+		E09B73722342034400D0EE45 /* FCMProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B73712342034400D0EE45 /* FCMProvider.swift */; };
 		E09B9D6B1D06C9700080BAE0 /* VersionUpgradeInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */; };
 		E09B9D6E1D06D79F0080BAE0 /* VersionUpgradeInfoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */; };
 		E09B9D701D06D8010080BAE0 /* VersionUpgradeDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */; };
@@ -1097,7 +1099,9 @@
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
 		22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLDefaultVersionTests.swift; sourceTree = "<group>"; };
+		22AB111E2375695C007D03D2 /* FCMDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMDataModel.swift; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
+		22AC5B0C23741C8900DCA505 /* FCMListner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMListner.swift; sourceTree = "<group>"; };
 		22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTests.swift; sourceTree = "<group>"; };
 		22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDashboardLoadStateViewController.swift; sourceTree = "<group>"; };
 		22B85A33203EEE1E0071AD43 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -1946,7 +1950,7 @@
 		E08CC57C1F33269C0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/profiles.json"; sourceTree = "<group>"; };
 		E08CC57E1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/languages.json"; sourceTree = "<group>"; };
 		E08CC57F1F33269D0092ACED /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "es-419"; path = "es-419.lproj/whats_new.json"; sourceTree = "<group>"; };
-		E09B73712342034400D0EE45 /* FirebasePushProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebasePushProvider.swift; sourceTree = "<group>"; };
+		E09B73712342034400D0EE45 /* FCMProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMProvider.swift; sourceTree = "<group>"; };
 		E09B9D6A1D06C9700080BAE0 /* VersionUpgradeInfoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoController.swift; sourceTree = "<group>"; };
 		E09B9D6C1D06D6C40080BAE0 /* VersionUpgradeInfoControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeInfoControllerTests.swift; sourceTree = "<group>"; };
 		E09B9D6F1D06D8010080BAE0 /* VersionUpgradeDataFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionUpgradeDataFactory.swift; sourceTree = "<group>"; };
@@ -2679,7 +2683,8 @@
 				775434821AD7394D00635A40 /* OEXPushNotificationManager.m */,
 				77BC3E671AE0091400E51529 /* OEXPushNotificationProcessor.h */,
 				77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */,
-				E09B73712342034400D0EE45 /* FirebasePushProvider.swift */,
+				E09B73712342034400D0EE45 /* FCMProvider.swift */,
+				22AC5B0C23741C8900DCA505 /* FCMListner.swift */,
 			);
 			name = "Push Notifications";
 			sourceTree = "<group>";
@@ -2939,6 +2944,7 @@
 				9ED168AF1B29A9EF00AA7B5B /* CouseLastAccessed.swift */,
 				9EC6E0FF1BDE40E100729704 /* OEXCourse+Swift.swift */,
 				E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */,
+				22AB111E2375695C007D03D2 /* FCMDataModel.swift */,
 				228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */,
 			);
 			name = "Course Structure";
@@ -4810,6 +4816,7 @@
 				B4B6D6061A949EFC000F44E8 /* OEXRegistrationErrorMessage.m in Sources */,
 				80056C9A1B0CDE1A0004D85C /* DiscussionResponsesViewController.swift in Sources */,
 				775716B91CB804E40091AB10 /* UserProfilePresenter.swift in Sources */,
+				22AB111F2375695C007D03D2 /* FCMDataModel.swift in Sources */,
 				22D9BE5621945B4300FE1EB5 /* UIApplication+UIViewController.swift in Sources */,
 				BECB7B691924EE11009C77F1 /* OEXLoginViewController.m in Sources */,
 				227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */,
@@ -4932,6 +4939,7 @@
 				3F92D6E620B19C9B00A69806 /* AgreementURLsConfig.swift in Sources */,
 				77ADF4A61AC1B35000AC8955 /* OEXExternalAuthProviderButton.m in Sources */,
 				77C182AA1CD2E46900AE1474 /* TablePaginationManipulator.swift in Sources */,
+				22AC5B0D23741C8900DCA505 /* FCMListner.swift in Sources */,
 				0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */,
 				77DCD2391C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift in Sources */,
 				B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */,
@@ -5024,7 +5032,7 @@
 				021AD6251F150BA3009AF653 /* Dictionary+SafeAccess.swift in Sources */,
 				77BECB0D1B0A8BBD00894276 /* UIEdgeInsets+Geometry.swift in Sources */,
 				B7CCC728209B16B100A66923 /* ConstraintPriority.swift in Sources */,
-				E09B73722342034400D0EE45 /* FirebasePushProvider.swift in Sources */,
+				E09B73722342034400D0EE45 /* FCMProvider.swift in Sources */,
 				77AF07751CB311B200A42704 /* UserProfileView.swift in Sources */,
 				77236EEB1C21C32E006AC1A4 /* PaginationController.swift in Sources */,
 				1AFEB1B31BBD52C7004C471D /* JSONFormBuilderTextEditor.swift in Sources */,

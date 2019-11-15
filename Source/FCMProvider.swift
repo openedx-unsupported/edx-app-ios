@@ -1,5 +1,5 @@
 //
-//  FirebasePushProvider.swift
+//  FCMProvider.swift
 //  edX
 //
 //  Created by Saeed Bashir on 9/30/19.
@@ -8,7 +8,7 @@
 
 //import Foundation
 
-class FirebasePushProvider: NSObject, OEXPushProvider {
+class FCMProvider: NSObject, OEXPushProvider {
 
     //MARK:- OEXPushProvider Methods
     func sessionStarted(with user: OEXUserDetails, settingsManager: OEXPushSettingsManager) {
