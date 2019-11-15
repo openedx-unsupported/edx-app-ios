@@ -35,7 +35,7 @@ typealias DismissCompletion = () -> Void
     }
     
     // This method process the FCM notification with the link object
-    func processNotification(with link: DeepLink, environment: Environment) {
+    func processNotification(with link: PushLink, environment: Environment) {
         self.environment = environment
         let type = link.type
         guard type != .none else { return }

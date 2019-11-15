@@ -79,7 +79,7 @@
     [self.listeners removeObject:listener];
 }
 
-- (void)addListenersWithConfiguration: (OEXConfig *) config environment: (RouterEnvironment *)environment {
+- (void)addListenersForConfiguration:(OEXConfig *)config environment:(RouterEnvironment *)environment {
     if ([[config firebaseConfig] cloudMessagingEnabled]) {
         FCMListner *listner = [[FCMListner alloc] initWithEnvironment:environment];
         [self addListener:listner];

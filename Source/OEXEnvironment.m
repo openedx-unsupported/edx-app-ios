@@ -90,7 +90,7 @@
             if(env.config.pushNotificationsEnabled) {
                 OEXPushNotificationManager* manager = [[OEXPushNotificationManager alloc] initWithSettingsManager:env.dataManager.pushSettings];
                 [manager addProvidersForConfiguration:env.config withSession:env.session];
-                [manager addListenersWithConfiguration:env.config environment:env.router.environment];
+                [manager addListenersForConfiguration:env.config environment:env.router.environment];
 
                 return manager;
             }

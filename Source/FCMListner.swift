@@ -1,5 +1,5 @@
 //
-//  FirebasePushListner.swift
+//  FCMListner.swift
 //  edX
 //
 //  Created by Salman on 07/11/2019.
@@ -32,5 +32,4 @@ import UIKit
             DeepLinkManager.sharedInstance.processNotification(with: link, environment: environment)
         }
     }
-    
 }

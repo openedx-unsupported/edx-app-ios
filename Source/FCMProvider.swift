@@ -1,5 +1,5 @@
 //
-//  FirebasePushProvider.swift
+//  FCMProvider.swift
 //  edX
 //
 //  Created by Saeed Bashir on 9/30/19.

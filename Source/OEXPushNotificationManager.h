@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addProvidersForConfiguration:(OEXConfig*)config withSession:(OEXSession*)session;
 
 - (void)addListener:(id <OEXPushListener>)listener;
-- (void)addListenersWithConfiguration: (OEXConfig *) config environment: (RouterEnvironment *)environment;
+- (void)addListenersForConfiguration:(OEXConfig *)config environment:(RouterEnvironment *)environment;
 - (void)removeListener:(id <OEXPushListener>)listener;
 
 - (void)didReceiveLocalNotificationWithUserInfo:(NSDictionary*)userInfo;
