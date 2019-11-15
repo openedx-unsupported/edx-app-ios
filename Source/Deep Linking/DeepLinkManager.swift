@@ -24,7 +24,7 @@ typealias DismissCompletion = () -> Void
         super.init()
     }
     
-    // This method process the deep link with response parameters 
+    /// This method process the deep link with response parameters
     @objc func processDeepLink(with params: [String: Any], environment: Environment) {
         self.environment = environment
         let deepLink = DeepLink(dictionary: params)
@@ -34,7 +34,7 @@ typealias DismissCompletion = () -> Void
         navigateToScreen(with: type, link: deepLink)
     }
     
-    // This method process the FCM notification with the link object
+    /// This method process the FCM notification with the link object
     func processNotification(with link: PushLink, environment: Environment) {
         self.environment = environment
         let type = link.type
@@ -115,13 +115,13 @@ typealias DismissCompletion = () -> Void
         
         guard !controllerAlreadyDisplayed(for: link.type) else {
             
-            // Course discovery detail if already loaded
+            /// Course discovery detail if already loaded
             if let courseInfoController = topMostViewController as? OEXCourseInfoViewController,
                 let pathId = link.courseId {
                 courseInfoController.loadCourseInfo(with: pathId, forceLoad: false)
             }
             
-            // Program discovery detail if already loaded
+            /// Program discovery detail if already loaded
             if let programDiscoveryViewController = topMostViewController as? ProgramsDiscoveryViewController, let pathId = link.pathID {
                 if pathId != programDiscoveryViewController.pathId {
                     programDiscoveryViewController.loadProgramDetails(with: pathId)

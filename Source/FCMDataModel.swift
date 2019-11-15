@@ -15,11 +15,10 @@ fileprivate enum DataKeys: String, RawStringExtractable {
 
 class FCMDataModel: NSObject {
 
+    ///This link will have information of course and screen type which will be use by deeplink manager to route on particular screen.
     let link: PushLink?
     
     init(dictionary:[String:Any]) {
-
-        //This link will have information of course and screen type which will be use by deeplink manager to route on particular screen.
         link = PushLink(dictionary: dictionary)
     }
     

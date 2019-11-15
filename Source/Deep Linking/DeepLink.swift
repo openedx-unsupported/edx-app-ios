@@ -32,9 +32,9 @@ enum DeepLinkType: String {
 }
 
 fileprivate enum DataKeys: String, RawStringExtractable {
-    case CourseId = "course_id"
-    case PathID = "path_id"
-    case ScreenName = "screen_name"
+    case courseId = "course_id"
+    case pathID = "path_id"
+    case screenName = "screen_name"
     case topicID = "topic_id"
     case threadID = "thread_id"
     case commentID = "comment_id"
@@ -66,9 +66,9 @@ class DeepLink: NSObject {
     }
     
     init(dictionary:[String:Any]) {
-        courseId = dictionary[DataKeys.CourseId] as? String
-        screenName = dictionary[DataKeys.ScreenName] as? String
-        pathID = dictionary[DataKeys.PathID] as? String
+        courseId = dictionary[DataKeys.courseId] as? String
+        screenName = dictionary[DataKeys.screenName] as? String
+        pathID = dictionary[DataKeys.pathID] as? String
         topicID = dictionary[DataKeys.topicID] as? String
         threadID = dictionary[DataKeys.threadID] as? String
         commentID = dictionary[DataKeys.commentID] as? String
