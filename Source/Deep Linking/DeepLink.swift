@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ScreenType: String {
+enum DeepLinkType: String {
     case courseDashboard = "course_dashboard"
     case courseVideos = "course_videos"
     case discussions = "course_discussion"
@@ -40,7 +40,7 @@ fileprivate enum DataKeys: String, RawStringExtractable {
     case commentID = "comment_id"
 }
 
-class ScreenLink: NSObject {
+class DeepLink: NSObject {
 
     let courseId: String?
     let screenName: String?
@@ -48,8 +48,8 @@ class ScreenLink: NSObject {
     let topicID: String?
     let threadID: String?
     let commentID: String?
-    var type: ScreenType {
-        let type = ScreenType(rawValue: screenName ?? ScreenType.none.rawValue) ?? .none
+    var type: DeepLinkType {
+        let type = DeepLinkType(rawValue: screenName ?? DeepLinkType.none.rawValue) ?? .none
         if type == .courseDiscovery && courseId != nil {
             return .courseDetail
         }

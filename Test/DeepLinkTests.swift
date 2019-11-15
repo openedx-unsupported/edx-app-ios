@@ -12,7 +12,7 @@ import XCTest
 class DeepLinkTests: XCTestCase {
     
     func testDeepLinkWithNoParameters() {
-        let link = ScreenLink(dictionary: [:])
+        let link = DeepLink(dictionary: [:])
         XCTAssertNil(link.courseId)
         XCTAssertNil(link.screenName)
         XCTAssertEqual(link.type, .none)
@@ -25,7 +25,7 @@ class DeepLinkTests: XCTestCase {
                 "course_id": testCourseId,
                 "screen_name": testScreenName,
         ]
-        let link = ScreenLink(dictionary: parameters)
+        let link = DeepLink(dictionary: parameters)
         XCTAssertNotNil(link.courseId)
         XCTAssertNotNil(link.screenName)
         XCTAssertEqual(link.courseId, testCourseId)
@@ -40,7 +40,7 @@ class DeepLinkTests: XCTestCase {
             "course_id": testCourseId,
             "screen_name": testScreenName,
             ]
-        let link = ScreenLink(dictionary: parameters)
+        let link = DeepLink(dictionary: parameters)
         XCTAssertNotNil(link.courseId)
         XCTAssertNotNil(link.screenName)
         XCTAssertEqual(link.courseId, testCourseId)

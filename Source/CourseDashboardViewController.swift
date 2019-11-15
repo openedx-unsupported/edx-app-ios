@@ -197,7 +197,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
     }
     
     // MARK: Deep Linking
-    func switchTab(with type: ScreenType) {
+    func switchTab(with type: DeepLinkType) {
         switch type {
         case .courseDashboard:
             selectedIndex = tabBarViewControllerIndex(with: CourseOutlineViewController.self, courseOutlineMode: .full)

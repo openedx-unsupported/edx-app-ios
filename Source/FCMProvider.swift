@@ -8,7 +8,7 @@
 
 //import Foundation
 
-class FirebasePushProvider: NSObject, OEXPushProvider {
+class FCMProvider: NSObject, OEXPushProvider {
 
     //MARK:- OEXPushProvider Methods
     func sessionStarted(with user: OEXUserDetails, settingsManager: OEXPushSettingsManager) {

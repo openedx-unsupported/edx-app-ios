@@ -13,16 +13,18 @@ fileprivate enum DataKeys: String, RawStringExtractable {
     case body = "body"
 }
 
-class FirrebaseNotificationData: NSObject {
+class FCMDataModel: NSObject {
 
     let title: String?
     let body: String?
-    let screenLink: ScreenLink?
+    let link: DeepLink?
     
     init(dictionary:[String:Any]) {
         title = dictionary[DataKeys.title] as? String
         body = dictionary[DataKeys.body] as? String
-        screenLink = ScreenLink(dictionary: dictionary)
+        
+        //This link will have information of course and screen type which will be use by deeplink manager to route on particular screen.
+        link = DeepLink(dictionary: dictionary)
     }
     
 }

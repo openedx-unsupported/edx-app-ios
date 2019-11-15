@@ -234,7 +234,7 @@
             [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
                 // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
                 // params will be empty if no data found
-                [[ScreenNavigationManager sharedInstance] processDeepLinkWith:params environment:self.environment.router.environment];
+                [[DeepLinkManager sharedInstance] processDeepLinkWith:params environment:self.environment.router.environment];
             }];
         }
     }

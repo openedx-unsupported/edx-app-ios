@@ -81,7 +81,7 @@
 
 - (void)addListenersWithConfiguration: (OEXConfig *) config environment: (RouterEnvironment *)environment {
     if ([[config firebaseConfig] cloudMessagingEnabled]) {
-        FirebasePushListner *listner = [[FirebasePushListner alloc] initWithEnvironment:environment];
+        FCMListner *listner = [[FCMListner alloc] initWithEnvironment:environment];
         [self addListener:listner];
     }
 }
@@ -95,7 +95,7 @@
 
 - (void)addProvidersForConfiguration:(OEXConfig *)config withSession:(OEXSession *)session {
     if ([[config firebaseConfig] cloudMessagingEnabled]){
-        FirebasePushProvider *provide = [[FirebasePushProvider alloc] init];
+        FCMProvider *provide = [[FCMProvider alloc] init];
         [self addProvider:provide withSession:session];
     }
 }

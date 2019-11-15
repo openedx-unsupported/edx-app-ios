@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc class FirebasePushListner: NSObject, OEXPushListener {
+@objc class FCMListner: NSObject, OEXPushListener {
     
     typealias Environment = OEXSessionProvider & OEXRouterProvider & OEXConfigProvider
     var environment: Environment
@@ -25,9 +25,11 @@ import UIKit
     func didReceiveRemoteNotification(userInfo: [AnyHashable : Any] = [:]) {
         guard let dictionary = userInfo as? [String: Any] else { return }
         
-        let notificationData = FirrebaseNotificationData(dictionary: dictionary)
-        if let link = notificationData.screenLink {
-            ScreenNavigationManager.sharedInstance.processNotification(with: link, environment: environment)
+        let notificationData = FCMDataModel(dictionary: dictionary)
+        if let link = notificationData.link {
+            
+            // DeepLink manager is using to route the app on particular screen
+            DeepLinkManager.sharedInstance.processNotification(with: link, environment: environment)
         }
     }
     
