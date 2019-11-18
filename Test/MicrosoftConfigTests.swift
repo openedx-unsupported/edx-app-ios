@@ -29,7 +29,7 @@ class MicrosoftConfigTests: XCTestCase {
     func testMicrosoftConfig() {
         let configDictionary = [
             "MICROSOFT" : [
-                "MICROSOFT_LOGIN_ENABLED": true,
+                "ENABLED": true,
                 "MICROSOFT_APP_ID" : microsoftAppID
             ]
         ]
@@ -37,5 +37,6 @@ class MicrosoftConfigTests: XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         XCTAssertTrue(config.microsoftConfig.enabled)
         XCTAssertEqual(config.microsoftConfig.appID, microsoftAppID)
+        XCTAssertNotNil(config.microsoftConfig.appID)
     }
 }

@@ -17,7 +17,7 @@
 #import "OEXFacebookAuthProvider.h"
 #import "OEXGoogleAuthProvider.h"
 
-static CGFloat OEXExternalAuthButtonAspectRatio = 3.3;
+static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
 static CGFloat rowHeight = 30;
 
 @interface OEXExternalAuthOptionsView ()

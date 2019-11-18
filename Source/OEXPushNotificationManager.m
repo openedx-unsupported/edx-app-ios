@@ -79,6 +79,13 @@
     [self.listeners removeObject:listener];
 }
 
+- (void)addListenersForConfiguration:(OEXConfig *)config environment:(RouterEnvironment *)environment {
+    if ([[config firebaseConfig] cloudMessagingEnabled]) {
+        FCMListner *listner = [[FCMListner alloc] initWithEnvironment:environment];
+        [self addListener:listner];
+    }
+}
+
 - (void)addProvider:(id <OEXPushProvider>)provider withSession:(OEXSession *)session {
     [self.providers addObject:provider];
     if(session.currentUser != nil) {
@@ -88,7 +95,7 @@
 
 - (void)addProvidersForConfiguration:(OEXConfig *)config withSession:(OEXSession *)session {
     if ([[config firebaseConfig] cloudMessagingEnabled]){
-        FirebasePushProvider *provide = [[FirebasePushProvider alloc] init];
+        FCMProvider *provide = [[FCMProvider alloc] init];
         [self addProvider:provide withSession:session];
     }
 }

@@ -16,7 +16,6 @@ class MicrosoftSocial: NSObject {
     static let shared = MicrosoftSocial()
     private var completionHandler: MSLoginCompletionHandler?
     private var applicationContext = MSALPublicClientApplication()
-    private var accessToken = ""
     var result: MSALResult?
     
     private let kAuthority = "https://login.microsoftonline.com/common/v2.0"
@@ -36,10 +35,9 @@ class MicrosoftSocial: NSObject {
             // We check to see if we have a current signed-in user. If we don't, then we need to sign someone in.
             // We throw an interactionRequired so that we trigger the interactive sign-in.
             
-            if  try applicationContext.users().isEmpty {
+            if try applicationContext.users().isEmpty {
                 throw NSError(domain: "MSALErrorDomain", code: MSALErrorCode.interactionRequired.rawValue, userInfo: nil)
             } else {
-                
                 // Acquire a token for an existing user silently.
                 // If the error comes and says interaction required then we call interative sign-in.
                 try applicationContext.acquireTokenSilent(forScopes: kScopes, user: applicationContext.users().first, authority: kAuthority) { [weak self] (result, error) in
@@ -64,19 +62,19 @@ class MicrosoftSocial: NSObject {
     }
 
     private func acquireTokenInteractively() {
-        applicationContext.acquireToken(forScopes: self.kScopes) { [weak self] (result, error) in
+        applicationContext.acquireToken(forScopes: kScopes) { [weak self] (result, error) in
             self?.handleResponse(result: result, error: error)
         }
     }
     
     private func handleResponse(result: MSALResult?, error: Error?) {
-        if let result = result {
-            self.result = result
-            accessToken = result.accessToken
-            completionHandler?(accessToken, error)
-        } else {
+        guard let result = result else {
             completionHandler?(nil, error)
+            return
         }
+        
+        self.result = result
+        completionHandler?(result.accessToken, error)
     }
     
     private func setUpApplicationContext() {
@@ -90,21 +88,20 @@ class MicrosoftSocial: NSObject {
     }
     
     func requestUserProfileInfo(completion: (_ user: MSALUser) -> Void) {
-        if let user = result?.user {
-            completion(user)
+        guard let user = result?.user else {
+            return
         }
+        completion(user)
     }
     
     func logout() {
         do {
-            
             // Removes all tokens from the cache for this application for the provided user
             // first parameter:   The user to remove from the cache
-            
             try applicationContext.remove(self.applicationContext.users().first)
             
         } catch let error {
-            print("Received error signing user out:: \(error)")
+            Logger.logError("Logout","Received error signing user out:: \(error)")
         }
     }
 }

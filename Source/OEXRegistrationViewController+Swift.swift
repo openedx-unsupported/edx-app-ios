@@ -74,7 +74,6 @@ extension OEXRegistrationViewController {
                                                 return OEXRegistrationFieldError(dictionary: info).userMessage
                                             }
                                             return  OEXRegistrationFieldError().userMessage
-                                            
                                         })
                                         let errors = (errorStrings as NSArray).componentsJoined(by: " ")
                                         controller?.handleError(errors)
@@ -82,7 +81,7 @@ extension OEXRegistrationViewController {
                                 })
                             }
                         } catch let error as NSError {
-                            print("Failed to load: \(error.localizedDescription)")
+                            Logger.logError("Registration", "Failed to load: \(error.localizedDescription)")
                         }
                         owner.showProgress(false)
                         owner.refreshFormFields()

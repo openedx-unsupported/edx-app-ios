@@ -90,14 +90,8 @@
             if(env.config.pushNotificationsEnabled) {
                 OEXPushNotificationManager* manager = [[OEXPushNotificationManager alloc] initWithSettingsManager:env.dataManager.pushSettings];
                 [manager addProvidersForConfiguration:env.config withSession:env.session];
-                
-                if(env.config.pushNotificationsEnabled) {
-                    [env.postSetupActions addObject:^(OEXEnvironment* env) {
-                        OEXPushNotificationProcessorEnvironment* pushEnvironment = [[OEXPushNotificationProcessorEnvironment alloc] initWithAnalytics:env.analytics router:env.router];
-                        [env.pushNotificationManager addListener:[[OEXPushNotificationProcessor alloc] initWithEnvironment:pushEnvironment]];
-                    }];
-                }
-                
+                [manager addListenersForConfiguration:env.config environment:env.router.environment];
+
                 return manager;
             }
             else {

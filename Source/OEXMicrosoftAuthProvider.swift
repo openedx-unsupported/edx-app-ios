@@ -24,7 +24,7 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     func freshAuthButton() -> UIButton {
-        let button = OEXExternalAuthProviderButton(frame: CGRect.zero)
+        let button = OEXExternalAuthProviderButton()
         button.provider = self
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: -3)
         button.setImage(UIImage(named: "icon_microsoft_white"), for: .normal)

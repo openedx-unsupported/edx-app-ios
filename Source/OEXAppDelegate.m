@@ -117,7 +117,7 @@
     }
     
     if (self.environment.config.microsoftConfig.enabled) {
-        [MSALPublicClientApplication handleMSALResponse:url];
+        handled = [MSALPublicClientApplication handleMSALResponse:url];
     }
 
     return handled;
