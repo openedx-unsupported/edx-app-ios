@@ -66,6 +66,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
         #if RECORD_SNAPSHOTS
             recordMode = true
         #endif
+        recordMode = true
     }
     
     var screenSize : CGSize {
