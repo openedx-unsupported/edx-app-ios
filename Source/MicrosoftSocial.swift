@@ -94,7 +94,7 @@ class MicrosoftSocial: NSObject {
         completion(user)
     }
     
-    func logout() {
+    private func logout() {
         do {
             // Removes all tokens from the cache for this application for the provided user
             // first parameter:   The user to remove from the cache

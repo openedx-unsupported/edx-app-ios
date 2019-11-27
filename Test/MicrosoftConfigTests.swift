@@ -30,7 +30,7 @@ class MicrosoftConfigTests: XCTestCase {
         let configDictionary = [
             "MICROSOFT" : [
                 "ENABLED": true,
-                "MICROSOFT_APP_ID" : microsoftAppID
+                "APP_ID" : microsoftAppID
             ]
         ]
         

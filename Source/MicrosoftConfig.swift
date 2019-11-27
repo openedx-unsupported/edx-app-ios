@@ -10,7 +10,7 @@ import UIKit
 
 fileprivate enum MicrosoftKeys: String, RawStringExtractable {
     case enable = "ENABLED"
-    case appID = "MICROSOFT_APP_ID"
+    case appID = "APP_ID"
 }
 
 class MicrosoftConfig: NSObject {
