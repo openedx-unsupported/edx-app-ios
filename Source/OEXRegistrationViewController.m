@@ -167,8 +167,13 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     if(self.environment.config.facebookConfig.enabled) {
         [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
+    
+    if(self.environment.config.microsoftConfig.enabled) {
+        [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
+    }
+    
     if(providers.count > 0) {
-        OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:CGRectZero providers:providers];
+        OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:self.view.bounds providers:providers];
         headingView.delegate = self;
         [self useHeadingView:headingView];
     }
@@ -257,7 +262,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [self.currentHeadingView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView);
         make.centerX.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView).offset(-2 * margin);
+        make.width.equalTo(self.scrollView).offset(-margin);
     }];
     [super updateViewConstraints];
 }
@@ -383,7 +388,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     __block OEXRegistrationViewController *blockSelf = self;
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:CGRectZero serviceName:provider.displayName];
+        UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
         [blockSelf useHeadingView:headingView];
         [blockSelf receivedFields:userDetails fromProvider:provider withAccessToken:accessToken];
     });
