@@ -17,7 +17,8 @@
 #import "OEXFacebookAuthProvider.h"
 #import "OEXGoogleAuthProvider.h"
 
-static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
+static CGFloat OEXExternalAuthButtonAspectRatio = 3.3;
+static CGFloat rowHeight = 30;
 
 @interface OEXExternalAuthOptionsView ()
 
@@ -32,7 +33,7 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
     self = [super initWithFrame:frame];
     if(self != nil) {
         
-        self.rowSpacing = [[OEXStyles sharedStyles] standardVerticalMargin];
+        self.rowSpacing = [[OEXStyles sharedStyles] standardVerticalMargin] + 5;
         self.optionButtons = [providers oex_map:^id(id <OEXExternalAuthProvider> provider) {
             self.itemsPerRow += 1;
             UIButton* button = [provider freshAuthButton];
@@ -65,11 +66,10 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
         return CGSizeMake(UIViewNoIntrinsicMetric, 0);
     }
     else {
-        CGFloat height = 30;
-        NSUInteger rows = (self.optionButtons.count + self.optionButtons.count - 1) / self.itemsPerRow;
-
-
-        return CGSizeMake(UIViewNoIntrinsicMetric, rows * height + self.rowSpacing * (rows - 1));
+        CGFloat width = [self itemWidthWithHeight:rowHeight];
+        float itemInRow = self.bounds.size.width / width  ;
+        NSUInteger rows = ceil(((float)self.optionButtons.count) /(float) itemInRow);
+        return CGSizeMake(self.bounds.size.width, rows * rowHeight + self.rowSpacing * (rows - 1));
     }
 }
 
@@ -106,7 +106,6 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
     
     while(!fits) {
         NSUInteger itemsPerRow = [self itemsPerRow:rows];
-        CGFloat rowHeight = [self rowHeightWithRowCount:rows];
         CGFloat width = [self itemWidthWithHeight:rowHeight];
         CGFloat requiredWidth = itemsPerRow * width;
         if(requiredWidth < self.bounds.size.width) {
@@ -115,7 +114,6 @@ static CGFloat OEXExternalAuthButtonAspectRatio = 3.4;
                 NSUInteger itemsInRow = [self itemsInRow:row withMaxItemsPerRow:itemsPerRow itemCount:self.optionButtons.count];
                 NSUInteger column = idx % itemsPerRow;
                 CGFloat y = rowHeight * row + self.rowSpacing * row;
-
                 CGFloat interItemSpacing = (self.bounds.size.width - width * itemsInRow) / (itemsInRow + 1);
                 CGFloat x = column * width + (column + 1) * interItemSpacing;
                 obj.frame = CGRectMake(x, y, width, rowHeight);
