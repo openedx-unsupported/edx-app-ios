@@ -370,6 +370,8 @@
 "COURSE_WILL_START_AT"="Khóa học này chưa bắt đầu. Quay lại vào {date} để xem những video của bạn.";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Tạo bài đăng mới";
+/* Chrome cast message */
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Xóa";
 /* Discussion used in the segmented control Creating a new post */

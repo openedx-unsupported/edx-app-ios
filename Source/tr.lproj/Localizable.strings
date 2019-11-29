@@ -380,6 +380,8 @@
 "COURSE_WILL_START_AT"="Bu ders henüz başlamadı. {date} tarihinde geri dönün ve videolarınızı izleyin.";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Yeni bir gönderi oluştur";
+/* Chrome cast message */
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Sil";
 /* Discussion used in the segmented control Creating a new post */

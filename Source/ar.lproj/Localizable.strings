@@ -420,6 +420,8 @@
 "COURSE_WILL_START_AT"="هذا المساق لم يبدأ بعد. عد ﻻحقاً في {date} لتبدأ المغامرة.";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="أنشىء مشاركة جديدة";
+/* Chrome cast message */
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="حذف";
 /* Discussion used in the segmented control Creating a new post */

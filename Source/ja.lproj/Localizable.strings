@@ -370,6 +370,8 @@
 "COURSE_WILL_START_AT"="この講座はまだ開始していません。{date} 以降、動画をご覧いただけます。";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="新規投稿を作成する";
+/* Chrome cast message */
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="削除";
 /* Discussion used in the segmented control Creating a new post */

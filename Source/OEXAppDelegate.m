@@ -8,6 +8,7 @@
 
 @import edXCore;
 @import FirebaseAnalytics;
+@import GoogleCast;
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -181,6 +182,8 @@
 #pragma mark Environment
 
 - (void)setupGlobalEnvironment {
+    [self initilizeChromeCast];
+    
     [UserAgentOverrideOperation overrideUserAgentWithCompletion:nil];
     
     self.environment = [[OEXEnvironment alloc] init];
@@ -230,6 +233,16 @@
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
+}
+
+- (void) initilizeChromeCast {
+    // Ideally this should be in ChromeCastManager but
+    // due to some weird SDK bug, chrome cast is not properly initializing from the swift classes.
+    GCKDiscoveryCriteria *criteria = [[GCKDiscoveryCriteria alloc] initWithApplicationID: kGCKDefaultMediaReceiverApplicationID];
+    GCKCastOptions *options = [[GCKCastOptions alloc] initWithDiscoveryCriteria:criteria];
+    [GCKCastContext setSharedInstanceWithOptions:options];
+    GCKCastContext.sharedInstance.useDefaultExpandedMediaControls = true;
+    [ChromeCastManager.shared configure];
 }
 
 - (void) configureFabricKits:(NSDictionary*) launchOptions {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseDashboardViewController: UITabBarController, UITabBarControllerDelegate, InterfaceOrientationOverriding {
+class CourseDashboardViewController: UITabBarController, InterfaceOrientationOverriding, ChromeCastConnectedButtonDelegate {
     
      typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & OEXRouterProvider & OEXInterfaceProvider & ReachabilityProvider & OEXSessionProvider & OEXStylesProvider
     
@@ -21,7 +21,8 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
         ProgressController(owner: self, router: self.environment.router, dataInterface: self.environment.interface)
     }()
     private let shareButton = UIButton(frame: CGRect(x: 0, y: 0, width: 26, height: 26))
-    
+    private var navigationItems: [UIBarButtonItem] = []
+
     fileprivate let courseStream = BackedStream<UserCourseEnrollment>()
     
     init(environment: Environment, courseID: String) {
@@ -68,9 +69,8 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
     }
     
     fileprivate func addNavigationItems(withCourse course: OEXCourse) {
-        var navigationItems: [UIBarButtonItem] = []
-        if course.course_about != nil && environment.config.courseSharingEnabled {
-            let shareImage = UIImage(named: "shareCourse.png")?.withRenderingMode(.alwaysTemplate)
+        if navigationItems.isEmpty && course.course_about != nil && environment.config.courseSharingEnabled {
+            let shareImage = UIImage(named: "shareCourse")?.withRenderingMode(.alwaysTemplate)
             shareButton.setImage(shareImage, for: .normal)
             shareButton.tintColor = environment.styles.primaryBaseColor()
             shareButton.accessibilityLabel = Strings.Accessibility.shareACourse
@@ -81,7 +81,17 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
             
             let shareItem = UIBarButtonItem(customView: shareButton)
             navigationItems.append(shareItem)
+        } else {
+            guard var originalItems = navigationItem.rightBarButtonItems, !originalItems.isEmpty else { return }
+            for (itemIndex, element) in originalItems.enumerated() {
+                if element.customView is DACircularProgressView {
+                    originalItems.remove(at: itemIndex)
+                    break
+                }
+            }
+            navigationItems = originalItems
         }
+        
         if let controller = selectedViewController as? CourseOutlineViewController, controller.courseOutlineMode == .full {
             navigationItems.append(progressController.navigationItem())
         }
@@ -213,7 +223,7 @@ class CourseDashboardViewController: UITabBarController, UITabBarControllerDeleg
             break
         case .courseHandout:
             let index = tabBarViewControllerIndex(with: CourseHandoutsViewController.self)
-            selectedIndex = (index == 0) ? tabBarViewControllerIndex(with: AdditionalTabBarViewController.self) : index        
+            selectedIndex = (index == 0) ? tabBarViewControllerIndex(with: AdditionalTabBarViewController.self) : index
             break
         case .courseAnnouncement:
             let index = tabBarViewControllerIndex(with: CourseAnnouncementsViewController.self)
@@ -258,9 +268,9 @@ extension UITabBarController {
 }
 
 
-extension CourseDashboardViewController {
+extension CourseDashboardViewController: UITabBarControllerDelegate {
     
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController){
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         navigationItem.title = viewController.navigationItem.title
         if let course = course {
             addNavigationItems(withCourse: course)

@@ -1,0 +1,8 @@
+absl_algorithm_LICENSE.html/Abseil
+android_nanoproto_LICENSE.html/Nano Protocol Buffers
+eigen3_LICENSE.html/Eigen 3
+kissfft_LICENSE.html/Kiss FFT
+libresample_LICENSE.html/libresample
+objective_c_google_toolbox_for_mac_LICENSE.html/Google Toolbox for Mac
+objective_c_gtm_session_fetcher_LICENSE.html/gtm_session_fetcher
+protobuf_LICENSE.html/Protocol Buffers

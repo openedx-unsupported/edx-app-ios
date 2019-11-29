@@ -74,7 +74,7 @@ class YoutubeVideoPlayer: VideoPlayer {
         }
     }
 
-    override func play(video: OEXHelperVideoDownload) {
+    override func play(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
         super.setVideo(video: video)
         guard let videoUrl = video.summary?.videoURL, let url = URLComponents(string : videoUrl) else {
             Logger.logError("YOUTUBE_VIDEO", "invalid url")

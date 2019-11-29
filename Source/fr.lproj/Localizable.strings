@@ -380,6 +380,8 @@
 "COURSE_WILL_START_AT"="Ce cours n'a pas encore démarré. Revenez le {date} pour voir les vidéos.";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Créer un nouveau sujet";
+/* Chrome cast message */
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Effacer";
 /* Discussion used in the segmented control Creating a new post */

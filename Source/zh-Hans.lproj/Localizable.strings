@@ -370,6 +370,8 @@
 "COURSE_WILL_START_AT"="此课程尚未开始。请在{date}前来查看。";
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="创建新帖子";
+/* Chrome cast message */
+"CHROMECAST_MESSAGE"="Video is casting to remote device";
 /* Button text to initiate or confirm deletion */
 "DELETE"="删除";
 /* Discussion used in the segmented control Creating a new post */
