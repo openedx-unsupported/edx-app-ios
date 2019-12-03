@@ -24,10 +24,7 @@ import UIKit
     
     func didReceiveRemoteNotification(userInfo: [AnyHashable : Any] = [:]) {
         guard let dictionary = userInfo as? [String: Any] else { return }
-        
-        let notificationData = FCMDataModel(dictionary: dictionary)
-        if let link = notificationData.link {
-            DeepLinkManager.sharedInstance.processNotification(with: link, environment: environment)
-        }
+        let link = PushLink(dictionary: dictionary)
+        DeepLinkManager.sharedInstance.processNotification(with: link, environment: environment)
     }
 }

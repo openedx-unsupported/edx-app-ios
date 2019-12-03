@@ -179,10 +179,9 @@
     
     self.networkManager = self.networkManagerBuilder(self);
     self.dataManager = self.dataManagerBuilder(self);
-    self.pushNotificationManager = self.pushNotificationManagerBuilder(self);
-    
     self.styles = self.stylesBuilder(self);
     self.router = self.routerBuilder(self);
+    self.pushNotificationManager = self.pushNotificationManagerBuilder(self);
     
     // We should minimize the use of these singletons and mostly use explicitly passed in dependencies
     // But occasionally that's very inconvenient and also much existing code is not structured to deal with that

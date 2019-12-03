@@ -1,5 +1,5 @@
 //
-//  FCMDataModel.swift
+//  PushLink.swift
 //  edX
 //
 //  Created by Salman on 08/11/2019.
@@ -11,14 +11,8 @@ import UIKit
 fileprivate enum DataKeys: String, RawStringExtractable {
     case title = "title"
     case body = "body"
-}
-
-class FCMDataModel: NSObject {
-    let link: PushLink?
-    
-    init(dictionary:[String:Any]) {
-        link = PushLink(dictionary: dictionary)
-    }
+    case aps = "aps"
+    case alert = "alert"
 }
 
 ///This link will have information of course and screen type which will be use by deeplink manager to route on particular screen.
@@ -27,8 +21,11 @@ class PushLink: DeepLink {
     let body: String?
     
     override init(dictionary: [String : Any]) {
-        title = dictionary[DataKeys.title] as? String
-        body = dictionary[DataKeys.body] as? String
+        let aps = dictionary[DataKeys.aps] as? [String : Any]
+        let alert = aps?[DataKeys.alert] as? [String : Any]
+        title = alert?[DataKeys.title] as? String
+        body = alert?[DataKeys.body] as? String
+
         super.init(dictionary: dictionary)
     }
 }
