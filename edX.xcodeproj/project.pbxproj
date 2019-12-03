@@ -26,6 +26,7 @@
 		0D157633235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D157632235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift */; };
 		0D157635235EDA950007B0B7 /* ChromeCastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D157634235EDA950007B0B7 /* ChromeCastManager.swift */; };
 		0D157636235EDAA30007B0B7 /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761A235ED91A0007B0B7 /* GoogleCast.framework */; };
+		0D2B012D23950FBD0078A096 /* OEXInterface+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2B012C23950FBD0078A096 /* OEXInterface+Extension.swift */; };
 		0D930BC223680983001C80AF /* ChromeCastMiniPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D930BC123680983001C80AF /* ChromeCastMiniPlayer.swift */; };
 		0D930BC4236978D6001C80AF /* ChromeCastMetaDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D930BC3236978D6001C80AF /* ChromeCastMetaDataModel.swift */; };
 		1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1401A1386C2006A5524 /* OEXDBManager.m */; };
@@ -954,6 +955,7 @@
 		0D15762F235EDA040007B0B7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0D157632235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeCastButtonDelegate.swift; sourceTree = "<group>"; };
 		0D157634235EDA950007B0B7 /* ChromeCastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeCastManager.swift; sourceTree = "<group>"; };
+		0D2B012C23950FBD0078A096 /* OEXInterface+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OEXInterface+Extension.swift"; sourceTree = "<group>"; };
 		0D930BC123680983001C80AF /* ChromeCastMiniPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeCastMiniPlayer.swift; sourceTree = "<group>"; };
 		0D930BC3236978D6001C80AF /* ChromeCastMetaDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeCastMetaDataModel.swift; sourceTree = "<group>"; };
 		1904A1401A1386C2006A5524 /* OEXDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXDBManager.m; sourceTree = "<group>"; };
@@ -3631,6 +3633,7 @@
 				697652251D9BA7C80031FF8B /* OEXColorsDataFactory.swift */,
 				BD7C6C411DCA33540004D135 /* OEXFontsDataFactory.swift */,
 				699FF8531E5AE74300AD98A5 /* EmailTemplates.swift */,
+				0D2B012C23950FBD0078A096 /* OEXInterface+Extension.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -4265,7 +4268,6 @@
 						TestTargetID = BECB7B0A1924C0C3009C77F1;
 					};
 					BECB7B0A1924C0C3009C77F1 = {
-						DevelopmentTeam = 57UCUYGPA2;
 						LastSwiftMigration = 1030;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -4800,6 +4802,7 @@
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
 				1A2CCDAB1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift in Sources */,
 				B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */,
+				0D2B012D23950FBD0078A096 /* OEXInterface+Extension.swift in Sources */,
 				5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */,
 				BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */,
 				77F9C1741B0D496B004D39E7 /* CourseStructureAPI.swift in Sources */,

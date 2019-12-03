@@ -31,6 +31,9 @@ private enum DelegateCallbackType: Int {
     private var delegates: [ChromeCastPlayerStatusDelegate] = []
     private var discoveryManager: GCKDiscoveryManager?
     var sessionManager: GCKSessionManager?
+    var streamPosition: TimeInterval? {
+        return sessionManager?.currentSession?.remoteMediaClient?.mediaStatus?.streamPosition
+    }
     
     private var idleReason: GCKMediaPlayerIdleReason {
         let remoteMediaClient = sessionManager?.currentCastSession?.remoteMediaClient
