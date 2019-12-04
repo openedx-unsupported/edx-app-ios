@@ -31,8 +31,8 @@ private enum DelegateCallbackType: Int {
     private var delegates: [ChromeCastPlayerStatusDelegate] = []
     private var discoveryManager: GCKDiscoveryManager?
     var sessionManager: GCKSessionManager?
-    var streamPosition: TimeInterval? {
-        return sessionManager?.currentSession?.remoteMediaClient?.mediaStatus?.streamPosition
+    var streamPosition: TimeInterval {
+        return sessionManager?.currentSession?.remoteMediaClient?.mediaStatus?.streamPosition ?? .zero
     }
     
     private var idleReason: GCKMediaPlayerIdleReason {
@@ -121,7 +121,7 @@ private enum DelegateCallbackType: Int {
                 delegate.chromeCastDidDisconnect(playedTime: playedTime)
                 break
             case .playing:
-                playedTime = sessionManager?.currentSession?.remoteMediaClient?.approximateStreamPosition() ?? 0.0
+                playedTime = streamPosition
                 delegate.chromeCastVideoPlaying()
                 break
             case .finished:

@@ -255,13 +255,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         else {
             playedTime = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
         }
-        environment.interface?.insertVideoDataToStorage(video: video)
         chromeCastMiniPlayer?.play(video: video, time: playedTime)
     }
     
     private func playLocally(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
         updateControlsVisibility(hide: false)
-        environment.interface?.insertVideoDataToStorage(video: video)
         videoPlayer.play(video: video, time: time)
     }
     
@@ -381,6 +379,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         } else {
             playLocally(video: video)
         }
+        environment.interface?.insertVideoData(video)
     }
     
     override var childForStatusBarStyle: UIViewController? {
@@ -612,10 +611,10 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
     }
     
     func chromeCastVideoPlaying() {
-        guard let playedTime = chromeCastManager.streamPosition,
-            let video = video,
+        guard let video = video,
             let duration = video.summary?.duration else { return }
 
+        let playedTime = chromeCastManager.streamPosition
         environment.interface?.markLastPlayedInterval(Float(playedTime), forVideo: video)
         let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
         environment.interface?.markVideoState(state, forVideo: video)
