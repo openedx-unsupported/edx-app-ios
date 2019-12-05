@@ -310,7 +310,6 @@ extension OEXRouter {
 
     func showDiscussionPosts(from controller: UIViewController, courseID: String, topicID: String) {
         let postsController = PostsViewController(environment: environment, courseID: courseID, topicID: topicID)
-        controller.navigationController?.delegate = self
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
