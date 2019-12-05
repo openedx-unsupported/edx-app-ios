@@ -380,7 +380,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         } else {
             playLocally(video: video)
         }
-        environment.interface?.insertVideoData(video)
+        environment.interface?.insertVideoDataIfNotExists(video)
     }
     
     override var childForStatusBarStyle: UIViewController? {
