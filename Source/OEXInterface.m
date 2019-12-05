@@ -506,8 +506,8 @@ static OEXInterface* _sharedInterface = nil;
         if (videoData != nil) {
             return videoData;
         }
-        return nil;
     }
+    
     return [_storage insertVideoData: @""
                                Title: helperVideo.summary.name
                                 Size: [NSString stringWithFormat:@"%.2f", [helperVideo.summary.size doubleValue]]
