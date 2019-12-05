@@ -269,6 +269,8 @@ extension OEXRouter {
         controller.navigationController?.delegate = self
         if let completion = completion {
             controller.navigationController?.pushViewController(viewController: responsesViewController, completion: completion)
+        } else {
+            controller.navigationController?.pushViewController(responsesViewController, animated: true)
         }
     }
     
@@ -308,6 +310,7 @@ extension OEXRouter {
 
     func showDiscussionPosts(from controller: UIViewController, courseID: String, topicID: String) {
         let postsController = PostsViewController(environment: environment, courseID: courseID, topicID: topicID)
+        controller.navigationController?.delegate = self
         controller.navigationController?.pushViewController(postsController, animated: true)
     }
     
