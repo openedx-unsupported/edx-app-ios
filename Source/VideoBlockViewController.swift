@@ -124,7 +124,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         if !chromeCastManager.isConnected || chromeCastMiniPlayer != nil { return }
         
         chromeCastMiniPlayer = ChromeCastMiniPlayer(environment: environment)
-        chromeCastManager.video = video
         let isYoutubeVideo = (video.summary?.isYoutubeVideo ?? true)
         guard let chromeCastMiniPlayer = chromeCastMiniPlayer, !isYoutubeVideo else { return }
         addChild(chromeCastMiniPlayer)
@@ -166,6 +165,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         if !chromeCastManager.viewExpanded {
             loadVideoIfNecessary()
         }
+        chromeCastManager.video = video
         chromeCastManager.add(delegate: self)
         chromeCastManager.viewExpanded = false
         

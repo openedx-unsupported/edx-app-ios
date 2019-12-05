@@ -141,7 +141,7 @@ private enum DelegateCallbackType: Int {
         }
     }
     
-    func saveStreamProgress() {
+    private func saveStreamProgress() {
         guard let video = video,
             let duration = video.summary?.duration else { return }
         
