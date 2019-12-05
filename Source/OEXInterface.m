@@ -500,6 +500,14 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo {
+    NSString *videoID = helperVideo.summary.videoID;
+    if (videoID != nil) {
+        VideoData* videoData = [_storage videoDataForVideoID:videoID];
+        if (videoData != nil) {
+            return videoData;
+        }
+        return nil;
+    }
     return [_storage insertVideoData: @""
                                Title: helperVideo.summary.name
                                 Size: [NSString stringWithFormat:@"%.2f", [helperVideo.summary.size doubleValue]]
