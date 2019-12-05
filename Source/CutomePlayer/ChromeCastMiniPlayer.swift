@@ -26,7 +26,7 @@ private enum KnownVideoType: String {
 class ChromeCastMiniPlayer: UIViewController {
     typealias ChromeCastItemCompletion = (Bool) -> Void
 
-    typealias Envoirnment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider & NetworkManagerProvider
+    typealias Envoirnment = OEXInterfaceProvider & NetworkManagerProvider
 
     private let environment : Envoirnment
     private var video: OEXHelperVideoDownload?

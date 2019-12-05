@@ -611,13 +611,7 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
     }
     
     func chromeCastVideoPlaying() {
-        guard let video = video,
-            let duration = video.summary?.duration else { return }
 
-        let playedTime = chromeCastManager.streamPosition
-        environment.interface?.markLastPlayedInterval(Float(playedTime), forVideo: video)
-        let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
-        environment.interface?.markVideoState(state, forVideo: video)
     }
     
     func chromeCastDidFinishPlaying() {

@@ -25,6 +25,9 @@ private enum DelegateCallbackType: Int {
 
 /// This class ChromeCastManager is a singleton class and it is taking care of all the chrome cast related functionality
 @objc class ChromeCastManager: NSObject, GCKSessionManagerListener, GCKDiscoveryManagerListener, GCKRemoteMediaClientListener, GCKCastDeviceStatusListener  {
+    
+    typealias Environment = OEXInterfaceProvider
+    
     @objc static let shared = ChromeCastManager()
     private let context = GCKCastContext.sharedInstance()
     
@@ -59,11 +62,15 @@ private enum DelegateCallbackType: Int {
     
     private var playedTime: TimeInterval = 0.0
     
+    var video: OEXHelperVideoDownload?
+    private var environment: Environment?
+    
     private override init() {
         super.init()
     }
     
-    @objc func configure() {
+    @objc func configure(environment: Environment) {
+        self.environment = environment
         discoveryManager = context.discoveryManager
         discoveryManager?.add(self)
         sessionManager = context.sessionManager
@@ -134,6 +141,16 @@ private enum DelegateCallbackType: Int {
         }
     }
     
+    func saveStreamProgress() {
+        guard let video = video,
+            let duration = video.summary?.duration else { return }
+        
+        let playedTime = streamPosition
+        environment?.interface?.markLastPlayedInterval(Float(playedTime), forVideo: video)
+        let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
+        environment?.interface?.markVideoState(state, forVideo: video)
+    }
+    
     func sessionManager(_ sessionManager: GCKSessionManager, didEnd session: GCKSession, withError error: Error?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             self?.removeMediaListener()
@@ -161,6 +178,8 @@ private enum DelegateCallbackType: Int {
             DispatchQueue.main.async { [weak self] in
                 self?.callbackType = .playing
             }
+            
+            saveStreamProgress()
         default:
             break
         }

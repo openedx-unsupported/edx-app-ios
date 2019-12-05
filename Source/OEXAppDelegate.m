@@ -242,7 +242,7 @@
     GCKCastOptions *options = [[GCKCastOptions alloc] initWithDiscoveryCriteria:criteria];
     [GCKCastContext setSharedInstanceWithOptions:options];
     GCKCastContext.sharedInstance.useDefaultExpandedMediaControls = true;
-    [ChromeCastManager.shared configure];
+    [ChromeCastManager.shared configureWithEnvironment:self.environment.router.environment];
 }
 
 - (void) configureFabricKits:(NSDictionary*) launchOptions {
