@@ -182,8 +182,6 @@
 #pragma mark Environment
 
 - (void)setupGlobalEnvironment {
-    [self initilizeChromeCast];
-    
     [UserAgentOverrideOperation overrideUserAgentWithCompletion:nil];
     
     self.environment = [[OEXEnvironment alloc] init];
@@ -233,6 +231,8 @@
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
+    
+    [self initilizeChromeCast];
 }
 
 - (void) initilizeChromeCast {
