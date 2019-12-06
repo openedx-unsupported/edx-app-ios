@@ -120,7 +120,8 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         chromeCastManager.viewExpanded = false
     }
     
-    private func configureChromecast(video: OEXHelperVideoDownload) {
+    private func configureChromecast() {
+        guard let video = video else { return }
         if !chromeCastManager.isConnected || chromeCastMiniPlayer != nil { return }
         
         chromeCastMiniPlayer = ChromeCastMiniPlayer(environment: environment)
@@ -247,7 +248,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         updateControlsVisibility(hide: true)
         videoPlayer.loadingIndicatorView.stopAnimating()
         videoPlayer.removeControls()
-        configureChromecast(video: video)
+        configureChromecast()
         
         var playedTime: TimeInterval = 0.0
         if let time = time {

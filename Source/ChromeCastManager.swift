@@ -34,7 +34,7 @@ private enum DelegateCallbackType: Int {
     private var delegates: [ChromeCastPlayerStatusDelegate] = []
     private var discoveryManager: GCKDiscoveryManager?
     var sessionManager: GCKSessionManager?
-    var streamPosition: TimeInterval {
+    private var streamPosition: TimeInterval {
         return sessionManager?.currentSession?.remoteMediaClient?.mediaStatus?.streamPosition ?? .zero
     }
     
@@ -145,8 +145,7 @@ private enum DelegateCallbackType: Int {
         guard let video = video,
             let duration = video.summary?.duration else { return }
         
-        let playedTime = streamPosition
-        environment?.interface?.markLastPlayedInterval(Float(playedTime), forVideo: video)
+        environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideo: video)
         let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
         environment?.interface?.markVideoState(state, forVideo: video)
     }
