@@ -499,6 +499,10 @@ static OEXInterface* _sharedInterface = nil;
     [_storage deleteUnregisteredItems];
 }
 
+- (VideoData*)getVideoData:(NSString*)videoID {
+    return [_storage getVideoDataForVideoID:videoID];
+}
+
 - (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo {
     NSString *videoID = helperVideo.summary.videoID;
     if (videoID != nil) {
@@ -1009,11 +1013,15 @@ static OEXInterface* _sharedInterface = nil;
     return [_storage lastPlayedIntervalForVideoID:video.summary.videoID];
 }
 
+- (void)markVideoState:(OEXPlayedState)state forVideoID:(NSString*)videoID {
+    [self.storage markPlayedState:state forVideoID:videoID];
+}
+
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video {
     for(OEXHelperVideoDownload* videoObj in [self allVideos]) {
         if([videoObj.summary.videoID isEqualToString:video.summary.videoID]) {
             videoObj.watchedState = state;
-            [self.storage markPlayedState:state forVideoID:video.summary.videoID];
+            [self markVideoState:state forVideoID:video.summary.videoID];
             [[NSNotificationCenter defaultCenter] postNotificationName:OEXVideoStateChangedNotification object:videoObj];
         }
     }

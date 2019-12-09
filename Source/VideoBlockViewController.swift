@@ -166,7 +166,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         if !chromeCastManager.viewExpanded {
             loadVideoIfNecessary()
         }
-        chromeCastManager.video = video
         chromeCastManager.add(delegate: self)
         chromeCastManager.viewExpanded = false
         

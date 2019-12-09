@@ -62,7 +62,6 @@ private enum DelegateCallbackType: Int {
     
     private var playedTime: TimeInterval = 0.0
     
-    var video: OEXHelperVideoDownload?
     private var environment: Environment?
     
     private override init() {
@@ -142,12 +141,14 @@ private enum DelegateCallbackType: Int {
     }
     
     private func saveStreamProgress() {
-        guard let video = video,
-            let duration = video.summary?.duration else { return }
+        guard let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
+            let videoID = metadata.string(forKey: ChromeCastVideoID),
+            let videoData = environment?.interface?.getVideoData(videoID),
+            let duration = Double(videoData.duration), streamPosition > 1  else { return }
         
-        environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideo: video)
+        environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideoID: videoID)
         let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
-        environment?.interface?.markVideoState(state, forVideo: video)
+        environment?.interface?.markVideoState(state, forVideoID: videoID)
     }
     
     func sessionManager(_ sessionManager: GCKSessionManager, didEnd session: GCKSession, withError error: Error?) {
@@ -237,6 +238,9 @@ private enum DelegateCallbackType: Int {
         
         if !isInitilized {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                if !(self?.isInitilized ?? true) && self?.isConnected ?? false {
+                    self?.addMediaListner()
+                }
                 self?.isInitilized = true
                 self?.addChromeCastButton(over: controller)
             }
