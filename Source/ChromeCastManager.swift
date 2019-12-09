@@ -144,7 +144,7 @@ private enum DelegateCallbackType: Int {
         guard let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
             let videoID = metadata.string(forKey: ChromeCastVideoID),
             let videoData = environment?.interface?.getVideoData(videoID),
-            let duration = Double(videoData.duration), streamPosition > 1  else { return }
+            let duration = Double(videoData.duration), streamPosition > 1  else { return } // returning stream position 0 is not suitable as it has first duration of zero and when seek happened, duration is changed accordingly, so this check ensures streamp position to be always valid i.e. greater then 0.
         
         environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideoID: videoID)
         let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
@@ -239,6 +239,7 @@ private enum DelegateCallbackType: Int {
         if !isInitilized {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
                 if !(self?.isInitilized ?? true) && self?.isConnected ?? false {
+                    // media listener is added when first being initialized, so if app comes back to life after being killed, and video was being casted to remote device, we should get back listeners and to save stream position
                     self?.addMediaListner()
                 }
                 self?.isInitilized = true

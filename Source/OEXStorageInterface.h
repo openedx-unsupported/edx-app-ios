@@ -44,8 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateData:(NSData*)data ForURLString:(NSString*)URLString;
 
-- (VideoData*)getVideoDataForVideoID:(NSString*)videoId;
-
 #pragma mark - Existing methods refactored with new DB
 
 - (NSArray*)getAllLocalVideoData;

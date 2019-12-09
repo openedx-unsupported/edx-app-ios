@@ -443,13 +443,6 @@ static OEXInterface* _sharedInterface = nil;
     return [_storage lastPlayedIntervalForVideoID:videoID];
 }
 
-- (void)markLastPlayedInterval:(float)playedInterval forVideoID:(NSString*)videoId {
-    if(playedInterval <= 0) {
-        return;
-    }
-    [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
-}
-
 - (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video shouldNotify:(BOOL) shouldNotify completionHandler:(void (^)(BOOL success))completionHandler {
     [_storage deleteDataForVideoID:video.summary.videoID];
     video.downloadState = OEXDownloadStateNew;
@@ -500,16 +493,15 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (VideoData*)getVideoData:(NSString*)videoID {
-    return [_storage getVideoDataForVideoID:videoID];
+    return [_storage videoDataForVideoID:videoID];
 }
 
 - (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo {
     NSString *videoID = helperVideo.summary.videoID;
-    if (videoID != nil) {
-        VideoData* videoData = [_storage videoDataForVideoID:videoID];
-        if (videoData != nil) {
-            return videoData;
-        }
+    if (videoID == nil) { return nil; }
+    VideoData* videoData = [_storage videoDataForVideoID:videoID];
+    if (videoData != nil) {
+        return videoData;
     }
     
     return [_storage insertVideoData: @""
@@ -1028,7 +1020,14 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload*)video {
-    [_storage markLastPlayedInterval:playedInterval forVideoID:video.summary.videoID];
+    [self markLastPlayedInterval:playedInterval forVideoID:video.summary.videoID];
+}
+
+- (void)markLastPlayedInterval:(float)playedInterval forVideoID:(NSString*)videoId {
+    if(playedInterval <= 0) {
+        return;
+    }
+    [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
 }
 
 #pragma mark DownloadManagerDelegate
