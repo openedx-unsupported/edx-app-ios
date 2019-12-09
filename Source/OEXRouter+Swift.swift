@@ -269,6 +269,8 @@ extension OEXRouter {
         controller.navigationController?.delegate = self
         if let completion = completion {
             controller.navigationController?.pushViewController(viewController: responsesViewController, completion: completion)
+        } else {
+            controller.navigationController?.pushViewController(responsesViewController, animated: true)
         }
     }
     
