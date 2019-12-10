@@ -20,7 +20,6 @@ extension NSDate {
         components.hour = 3
         components.minute = 12
         components.calendar = Calendar(identifier:Calendar.Identifier.gregorian)
-        components.timeZone = TimeZone.autoupdatingCurrent
 
         return components.date! as NSDate
     }
