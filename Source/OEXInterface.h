@@ -119,7 +119,7 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 - (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video shouldNotify:(BOOL) shouldNotify completionHandler:(void (^)(BOOL success))completionHandler;
 - (void)deleteDownloadedVideos:(NSArray *)videos completionHandler:(void (^)(BOOL success))completionHandler;
 
-- (VideoData*)getVideoData:(NSString*)videoID;
+- (VideoData*)videoDataForVideoID:(NSString*)videoID;
 - (VideoData* _Nullable)insertVideoData:(OEXHelperVideoDownload*)helperVideo;
 
 #pragma mark- For Refresh of all Courses.

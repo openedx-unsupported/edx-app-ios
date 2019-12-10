@@ -9,7 +9,7 @@
 import Foundation
 import GoogleCast
 
-let ChromeCastVideoID = "com.edx.cast.ChromeCastVideoID"
+let ChromeCastVideoID = "ChromeCastVideoID"
 
 /// Extension of GCKMediaInformation to allow building of media information with meta data to be provided to chrome cast Device
 extension GCKMediaInformation {

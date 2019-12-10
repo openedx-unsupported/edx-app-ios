@@ -143,8 +143,9 @@ private enum DelegateCallbackType: Int {
     private func saveStreamProgress() {
         guard let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
             let videoID = metadata.string(forKey: ChromeCastVideoID),
-            let videoData = environment?.interface?.getVideoData(videoID),
-            let duration = Double(videoData.duration), streamPosition > 1  else { return } // returning stream position 0 is not suitable as it has first duration of zero and when seek happened, duration is changed accordingly, so this check ensures streamp position to be always valid i.e. greater then 0.
+            let videoData = environment?.interface?.videoData(forVideoID: videoID),
+            let duration = Double(videoData.duration), streamPosition > 1  else { return }
+        // remoteMediaClient didUpdate called on buffering initilized with stream position 0 and then seek happen if there is any. If user switched in between two update calls then video stream progress marked override last played value
         
         environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideoID: videoID)
         let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
@@ -239,7 +240,7 @@ private enum DelegateCallbackType: Int {
         if !isInitilized {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
                 if !(self?.isInitilized ?? true) && self?.isConnected ?? false {
-                    // media listener is added when first being initialized, so if app comes back to life after being killed, and video was being casted to remote device, we should get back listeners and to save stream position
+                    // Add media listner if video is being casted, ideally chromecast SDK shuold configure it automatically but unfortunately, its not configuring media listener. So adding media listner manually
                     self?.addMediaListner()
                 }
                 self?.isInitilized = true

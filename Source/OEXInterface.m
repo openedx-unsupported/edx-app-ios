@@ -492,7 +492,7 @@ static OEXInterface* _sharedInterface = nil;
     [_storage deleteUnregisteredItems];
 }
 
-- (VideoData*)getVideoData:(NSString*)videoID {
+- (VideoData*)videoDataForVideoID:(NSString*)videoID {
     return [_storage videoDataForVideoID:videoID];
 }
 
