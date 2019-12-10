@@ -198,7 +198,7 @@ class IOSHelper {
 
     def addMicrosoftConfig(config, plist) {
         def microsoft = config['MICROSOFT'] ?: [:] 
-        def key = microsoft['MICROSOFT_APP_ID']
+        def key = microsoft['APP_ID']
         if(!key) {
            return
         }
