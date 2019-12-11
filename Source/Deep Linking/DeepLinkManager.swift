@@ -40,9 +40,7 @@ typealias DismissCompletion = () -> Void
         let type = link.type
         guard type != .none else { return }
         
-        let application = UIApplication.shared
-        
-        switch application.applicationState {
+        switch UIApplication.shared.applicationState {
         case .active:
             showAlert(with: link)
             break
@@ -54,13 +52,14 @@ typealias DismissCompletion = () -> Void
     
     private func showAlert(with link: PushLink) {
         guard let title = link.title,
-            let message = link.body
+            let message = link.body,
+            let topMostViewController = topMostViewController
             else { return }
-        UIAlertController().showAlert(with: title, message: message, preferredStyle: .alert, cancelButtonTitle: Strings.view, destructiveButtonTitle: Strings.cancel, otherButtonsTitle: nil, tapBlock: { [weak self] (_, _, index) in
-            if index == 0 {
-                self?.navigateToScreen(with: link.type, link: link)
-            }
-        })
+        
+        let controller = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: topMostViewController)
+        controller.addButton(withTitle: Strings.view) { [weak self] _ in
+            self?.navigateToScreen(with: link.type, link: link)
+        }
     }
     
     private func showLoginScreen() {
