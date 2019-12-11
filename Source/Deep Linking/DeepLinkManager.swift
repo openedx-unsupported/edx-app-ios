@@ -38,9 +38,30 @@ typealias DismissCompletion = () -> Void
     func processNotification(with link: PushLink, environment: Environment) {
         self.environment = environment
         let type = link.type
-        guard type != .none else { return }
+        guard type != .none,
+            let title = link.title,
+            let body = link.body
+            else { return }
         
-        navigateToScreen(with: type, link: link)
+        let application = UIApplication.shared
+    
+        switch application.applicationState {
+        case .active:
+            let alert = UIAlertController(title: title, message: body, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
+                self?.navigateToScreen(with: type, link: link)
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                
+            }
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            application.delegate?.window??.rootViewController?.present(alert, animated: true, completion: nil)
+            break
+        default:
+            navigateToScreen(with: type, link: link)
+            break
+        }
     }
     
     private func showLoginScreen() {
