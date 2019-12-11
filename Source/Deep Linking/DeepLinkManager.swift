@@ -53,11 +53,11 @@ typealias DismissCompletion = () -> Void
     private func showAlert(with link: PushLink) {
         guard let title = link.title,
             let message = link.body,
-            let topMostViewController = topMostViewController
+            let topController = topMostViewController
             else { return }
         
-        let controller = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: topMostViewController)
-        controller.addButton(withTitle: Strings.view) { [weak self] _ in
+        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: topController)
+        alertController.addButton(withTitle: Strings.view) { [weak self] _ in
             self?.navigateToScreen(with: link.type, link: link)
         }
     }
