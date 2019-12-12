@@ -35,6 +35,10 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             startInfo: startInfo,
             end: endDate as NSDate)
         let (_, controller) = setupWithCourse(course)
+        controller.view.setNeedsUpdateConstraints()
+        controller.view.updateConstraintsIfNeeded()
+        controller.view.setNeedsLayout()
+        controller.view.layoutIfNeeded()
         inScreenNavigationContext(controller) {
             self.waitForStream(controller.t_loaded)
             stepRunLoop()
