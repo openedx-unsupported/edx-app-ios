@@ -42,7 +42,7 @@ typealias DismissCompletion = () -> Void
         
         switch UIApplication.shared.applicationState {
         case .active:
-            showAlert(with: link)
+            showNotificationAlert(with: link)
             break
         default:
             navigateToScreen(with: type, link: link)
@@ -50,7 +50,7 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showAlert(with link: PushLink) {
+    private func showNotificationAlert(with link: PushLink) {
         guard let title = link.title,
             let message = link.body,
             let topController = topMostViewController
