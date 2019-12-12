@@ -496,7 +496,7 @@ static OEXInterface* _sharedInterface = nil;
     return [_storage videoDataForVideoID:videoID];
 }
 
-- (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo {
+- (nullable VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo {
     NSString *videoID = helperVideo.summary.videoID;
     if (videoID == nil) { return nil; }
     VideoData* videoData = [_storage videoDataForVideoID:videoID];
