@@ -443,13 +443,6 @@ static OEXInterface* _sharedInterface = nil;
     return [_storage lastPlayedIntervalForVideoID:videoID];
 }
 
-- (void)markLastPlayedInterval:(float)playedInterval forVideoID:(NSString*)videoId {
-    if(playedInterval <= 0) {
-        return;
-    }
-    [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
-}
-
 - (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video shouldNotify:(BOOL) shouldNotify completionHandler:(void (^)(BOOL success))completionHandler {
     [_storage deleteDataForVideoID:video.summary.videoID];
     video.downloadState = OEXDownloadStateNew;
@@ -499,7 +492,18 @@ static OEXInterface* _sharedInterface = nil;
     [_storage deleteUnregisteredItems];
 }
 
-- (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo {
+- (VideoData*)videoDataForVideoID:(NSString*)videoID {
+    return [_storage videoDataForVideoID:videoID];
+}
+
+- (nullable VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo {
+    NSString *videoID = helperVideo.summary.videoID;
+    if (videoID == nil) { return nil; }
+    VideoData* videoData = [_storage videoDataForVideoID:videoID];
+    if (videoData != nil) {
+        return videoData;
+    }
+    
     return [_storage insertVideoData: @""
                                Title: helperVideo.summary.name
                                 Size: [NSString stringWithFormat:@"%.2f", [helperVideo.summary.size doubleValue]]
@@ -1001,18 +1005,29 @@ static OEXInterface* _sharedInterface = nil;
     return [_storage lastPlayedIntervalForVideoID:video.summary.videoID];
 }
 
+- (void)markVideoState:(OEXPlayedState)state forVideoID:(NSString*)videoID {
+    [self.storage markPlayedState:state forVideoID:videoID];
+}
+
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video {
     for(OEXHelperVideoDownload* videoObj in [self allVideos]) {
         if([videoObj.summary.videoID isEqualToString:video.summary.videoID]) {
             videoObj.watchedState = state;
-            [self.storage markPlayedState:state forVideoID:video.summary.videoID];
+            [self markVideoState:state forVideoID:video.summary.videoID];
             [[NSNotificationCenter defaultCenter] postNotificationName:OEXVideoStateChangedNotification object:videoObj];
         }
     }
 }
 
 - (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload*)video {
-    [_storage markLastPlayedInterval:playedInterval forVideoID:video.summary.videoID];
+    [self markLastPlayedInterval:playedInterval forVideoID:video.summary.videoID];
+}
+
+- (void)markLastPlayedInterval:(float)playedInterval forVideoID:(NSString*)videoId {
+    if(playedInterval <= 0) {
+        return;
+    }
+    [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
 }
 
 #pragma mark DownloadManagerDelegate

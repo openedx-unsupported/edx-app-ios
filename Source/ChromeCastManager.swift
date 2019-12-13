@@ -25,12 +25,18 @@ private enum DelegateCallbackType: Int {
 
 /// This class ChromeCastManager is a singleton class and it is taking care of all the chrome cast related functionality
 @objc class ChromeCastManager: NSObject, GCKSessionManagerListener, GCKDiscoveryManagerListener, GCKRemoteMediaClientListener, GCKCastDeviceStatusListener  {
+    
+    typealias Environment = OEXInterfaceProvider
+    
     @objc static let shared = ChromeCastManager()
     private let context = GCKCastContext.sharedInstance()
     
     private var delegates: [ChromeCastPlayerStatusDelegate] = []
     private var discoveryManager: GCKDiscoveryManager?
     var sessionManager: GCKSessionManager?
+    private var streamPosition: TimeInterval {
+        return sessionManager?.currentSession?.remoteMediaClient?.mediaStatus?.streamPosition ?? .zero
+    }
     
     private var idleReason: GCKMediaPlayerIdleReason {
         let remoteMediaClient = sessionManager?.currentCastSession?.remoteMediaClient
@@ -56,11 +62,14 @@ private enum DelegateCallbackType: Int {
     
     private var playedTime: TimeInterval = 0.0
     
+    private var environment: Environment?
+    
     private override init() {
         super.init()
     }
     
-    @objc func configure() {
+    @objc func configure(environment: Environment) {
+        self.environment = environment
         discoveryManager = context.discoveryManager
         discoveryManager?.add(self)
         sessionManager = context.sessionManager
@@ -118,7 +127,7 @@ private enum DelegateCallbackType: Int {
                 delegate.chromeCastDidDisconnect(playedTime: playedTime)
                 break
             case .playing:
-                playedTime = sessionManager?.currentSession?.remoteMediaClient?.approximateStreamPosition() ?? 0.0
+                playedTime = streamPosition
                 delegate.chromeCastVideoPlaying()
                 break
             case .finished:
@@ -129,6 +138,18 @@ private enum DelegateCallbackType: Int {
                 break
             }
         }
+    }
+    
+    private func saveStreamProgress() {
+        guard let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
+            let videoID = metadata.string(forKey: ChromeCastVideoID),
+            let videoData = environment?.interface?.videoData(forVideoID: videoID),
+            let duration = Double(videoData.duration), streamPosition > 1  else { return }
+        // remoteMediaClient didUpdate called on buffering initilized with stream position 0 and then seek happen if there is any. If user switched in between two update calls then video stream progress marked override last played value
+        
+        environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideoID: videoID)
+        let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
+        environment?.interface?.markVideoState(state, forVideoID: videoID)
     }
     
     func sessionManager(_ sessionManager: GCKSessionManager, didEnd session: GCKSession, withError error: Error?) {
@@ -158,6 +179,8 @@ private enum DelegateCallbackType: Int {
             DispatchQueue.main.async { [weak self] in
                 self?.callbackType = .playing
             }
+            
+            saveStreamProgress()
         default:
             break
         }
@@ -216,6 +239,10 @@ private enum DelegateCallbackType: Int {
         
         if !isInitilized {
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
+                if !(self?.isInitilized ?? true) && self?.isConnected ?? false {
+                    // Add media listner if video is being casted, ideally chromecast SDK shuold configure it automatically but unfortunately, its not configuring media listener. So adding media listner manually
+                    self?.addMediaListner()
+                }
                 self?.isInitilized = true
                 self?.addChromeCastButton(over: controller)
             }

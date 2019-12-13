@@ -119,7 +119,8 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 - (void)deleteDownloadedVideo:(OEXHelperVideoDownload *)video shouldNotify:(BOOL) shouldNotify completionHandler:(void (^)(BOOL success))completionHandler;
 - (void)deleteDownloadedVideos:(NSArray *)videos completionHandler:(void (^)(BOOL success))completionHandler;
 
-- (VideoData*)insertVideoData:(OEXHelperVideoDownload*)helperVideo;
+- (VideoData*)videoDataForVideoID:(NSString*)videoID;
+- (VideoData* _Nullable)insertVideoData:(OEXHelperVideoDownload*)helperVideo;
 
 #pragma mark- For Refresh of all Courses.
 - (void)setAllEntriesUnregister;
@@ -132,8 +133,10 @@ typedef void (^ DownloadVideosCompletionHandler)(BOOL cancelled);
 - (OEXDownloadState)downloadStateForVideoWithID:(nullable NSString*)videoID;
 - (OEXPlayedState)watchedStateForVideoWithID:(nullable NSString*)videoID;
 - (float)lastPlayedIntervalForVideo:(OEXHelperVideoDownload*)video;
+- (void)markVideoState:(OEXPlayedState)state forVideoID:(NSString*)videoID;
 - (void)markVideoState:(OEXPlayedState)state forVideo:(OEXHelperVideoDownload*)video;
 - (void)markLastPlayedInterval:(float)playedInterval forVideo:(OEXHelperVideoDownload*)video;
+- (void)markLastPlayedInterval:(float)playedInterval forVideoID:(NSString*)videoId;
 
 #pragma mark - Closed Captioning
 - (void)downloadAllTranscriptsForVideo:(nullable OEXHelperVideoDownload*)obj;

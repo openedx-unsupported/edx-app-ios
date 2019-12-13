@@ -26,7 +26,7 @@ private enum KnownVideoType: String {
 class ChromeCastMiniPlayer: UIViewController {
     typealias ChromeCastItemCompletion = (Bool) -> Void
 
-    typealias Envoirnment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider & NetworkManagerProvider
+    typealias Envoirnment = OEXInterfaceProvider & NetworkManagerProvider
 
     private let environment : Envoirnment
     private var video: OEXHelperVideoDownload?
@@ -62,12 +62,14 @@ class ChromeCastMiniPlayer: UIViewController {
     }
     
     func play(video: OEXHelperVideoDownload, time: TimeInterval) {
-        guard let videoURL = video.summary?.videoURL, let url = URL(string: videoURL) else {
+        guard let videoURL = video.summary?.videoURL,
+            let url = URL(string: videoURL),
+            let videoID = video.summary?.videoID else {
             return
         }
         self.video = video
         let thumbnail = video.summary?.videoThumbnailURL ?? courseImageURLString
-        let mediaInfo = mediaInformation(contentID: url.absoluteString, title: video.summary?.name ?? "", contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
+        let mediaInfo = mediaInformation(contentID: url.absoluteString, title: video.summary?.name ?? "", videoID: videoID, contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
         
         play(with: mediaInfo, at: time)
     }
@@ -113,10 +115,10 @@ class ChromeCastMiniPlayer: UIViewController {
         viewController.didMove(toParent: self)
     }
     
-    private func mediaInformation(contentID: String, title: String, contentType: ChromeCastContentType, streamType: GCKMediaStreamType, thumbnailUrl: String?) -> GCKMediaInformation {
+    private func mediaInformation(contentID: String, title: String, videoID: String, contentType: ChromeCastContentType, streamType: GCKMediaStreamType, thumbnailUrl: String?) -> GCKMediaInformation {
         let deviceName = ChromeCastManager.shared.sessionManager?.currentCastSession?.device.friendlyName
         
-        return GCKMediaInformation.buildMediaInformation(contentID: contentID, title: title, contentType: contentType, streamType: streamType, thumbnailUrl: thumbnailUrl, deviceName: deviceName)
+        return GCKMediaInformation.buildMediaInformation(contentID: contentID, title: title, videoID: videoID, contentType: contentType, streamType: streamType, thumbnailUrl: thumbnailUrl, deviceName: deviceName)
     }
     
     private func play(with mediaInfo: GCKMediaInformation, at time: TimeInterval, completion: ChromeCastItemCompletion? = nil) {

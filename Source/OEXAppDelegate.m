@@ -182,8 +182,6 @@
 #pragma mark Environment
 
 - (void)setupGlobalEnvironment {
-    [self initilizeChromeCast];
-    
     [UserAgentOverrideOperation overrideUserAgentWithCompletion:nil];
     
     self.environment = [[OEXEnvironment alloc] init];
@@ -233,6 +231,8 @@
     if(fabric.appKey && fabric.isEnabled) {
         [Fabric with:@[CrashlyticsKit]];
     }
+    
+    [self initilizeChromeCast];
 }
 
 - (void) initilizeChromeCast {
@@ -242,7 +242,7 @@
     GCKCastOptions *options = [[GCKCastOptions alloc] initWithDiscoveryCriteria:criteria];
     [GCKCastContext setSharedInstanceWithOptions:options];
     GCKCastContext.sharedInstance.useDefaultExpandedMediaControls = true;
-    [ChromeCastManager.shared configure];
+    [ChromeCastManager.shared configureWithEnvironment:self.environment.router.environment];
 }
 
 - (void) configureFabricKits:(NSDictionary*) launchOptions {

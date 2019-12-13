@@ -121,10 +121,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func configureChromecast() {
+        guard let video = video else { return }
         if !chromeCastManager.isConnected || chromeCastMiniPlayer != nil { return }
         
         chromeCastMiniPlayer = ChromeCastMiniPlayer(environment: environment)
-        let isYoutubeVideo = (video?.summary?.isYoutubeVideo ?? true)
+        let isYoutubeVideo = (video.summary?.isYoutubeVideo ?? true)
         guard let chromeCastMiniPlayer = chromeCastMiniPlayer, !isYoutubeVideo else { return }
         addChild(chromeCastMiniPlayer)
         contentView?.addSubview(chromeCastMiniPlayer.view)
@@ -379,6 +380,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         } else {
             playLocally(video: video)
         }
+        environment.interface?.insertVideoData(video)
     }
     
     override var childForStatusBarStyle: UIViewController? {
@@ -610,6 +612,7 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
     }
     
     func chromeCastVideoPlaying() {
+
     }
     
     func chromeCastDidFinishPlaying() {
