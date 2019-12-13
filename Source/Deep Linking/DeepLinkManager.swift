@@ -40,7 +40,26 @@ typealias DismissCompletion = () -> Void
         let type = link.type
         guard type != .none else { return }
         
-        navigateToScreen(with: type, link: link)
+        switch UIApplication.shared.applicationState {
+        case .active:
+            showNotificationAlert(with: link)
+            break
+        default:
+            navigateToScreen(with: type, link: link)
+            break
+        }
+    }
+    
+    private func showNotificationAlert(with link: PushLink) {
+        guard let title = link.title,
+            let message = link.body,
+            let topController = topMostViewController
+            else { return }
+        
+        let alertController = UIAlertController().showAlert(withTitle: title, message: message, cancelButtonTitle: Strings.cancel, onViewController: topController)
+        alertController.addButton(withTitle: Strings.view) { [weak self] _ in
+            self?.navigateToScreen(with: link.type, link: link)
+        }
     }
     
     private func showLoginScreen() {
