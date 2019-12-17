@@ -62,12 +62,11 @@ typealias DismissCompletion = () -> Void
         }
     }
     
-    private func showLoginScreen() {
-        guard let topViewController = topMostViewController,
-            !(topViewController is OEXLoginViewController) else { return }
-        
+    private func showLoginScreen(link: DeepLink) {
         dismiss() { [weak self] in
-            self?.environment?.router?.showLoginScreen(from: nil, completion: nil)
+            self?.environment?.router?.showLoginScreen(completion: {
+                self?.navigateToScreen(with: link.type, link: link)
+            })
         }
     }
     
@@ -496,7 +495,7 @@ typealias DismissCompletion = () -> Void
         }
             
         else if !isUserLoggedin() {
-            showLoginScreen()
+            showLoginScreen(link: link)
             return
         }
         

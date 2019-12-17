@@ -51,6 +51,7 @@ extern NSString* OEXSideNavigationChangedStateKey;
 - (void)presentViewController:(UIViewController*)controller fromController:(nullable UIViewController*)fromController completion:(nullable void(^)(void))completion;
 
 #pragma mark Logistration
+- (void) showLoginScreenWithCompletion:(nullable void(^)(void))completion;
 - (void)showLoginScreenFromController:(nullable UIViewController*)controller completion:(nullable void(^)(void))completion;
 - (void)showLoggedOutScreen;
 - (void)showSignUpScreenFromController:(nullable UIViewController*)controller completion:(nullable void(^)(void))completion;
