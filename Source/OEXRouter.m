@@ -41,7 +41,7 @@ OEXRegistrationViewControllerDelegate
 @property (strong, nonatomic) SingleChildContainingViewController* containerViewController;
 @property (strong, nonatomic) UIViewController* currentContentController;
 
-@property (strong, nonatomic) void(^registrationCompletion)(void);
+@property (strong, nonatomic) void(^logistrationCompletion)(void);
 
 @end
 
@@ -116,6 +116,11 @@ OEXRegistrationViewControllerDelegate
     [self showEnrolledTabBarView];
 }
 
+- (void) showLoginScreenWithCompletion:(nullable void(^)(void))completion {
+    self.logistrationCompletion = completion;
+    [self presentViewController:[self loginViewController] fromController:[[UIApplication sharedApplication] topMostController] completion:nil];
+}
+
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
     [self presentViewController:[self loginViewController] fromController:[[UIApplication sharedApplication] topMostController] completion:completion];
 }
@@ -130,7 +135,7 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showSignUpScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
-    self.registrationCompletion = completion;
+    self.logistrationCompletion = completion;
     OEXRegistrationViewController* registrationController = [[OEXRegistrationViewController alloc] initWithEnvironment:self.environment];
     ForwardingNavigationController *navController = [[ForwardingNavigationController alloc] initWithRootViewController:registrationController];
     registrationController.delegate = self;
@@ -184,15 +189,25 @@ OEXRegistrationViewControllerDelegate
 - (void)registrationViewControllerDidRegister:(OEXRegistrationViewController *)controller completion:(void (^)(void))completion {
     [self showLoggedInContent];
     [controller dismissViewControllerAnimated:YES completion:completion];
-    if (self.registrationCompletion) {
-        self.registrationCompletion();
-        self.registrationCompletion = nil;
+    if (self.logistrationCompletion) {
+        self.logistrationCompletion();
+        self.logistrationCompletion = nil;
     }
 }
 
 - (void)loginViewControllerDidLogin:(OEXLoginViewController *)loginController {
     [self showLoggedInContent];
-    [loginController dismissViewControllerAnimated:YES completion:nil];
+    __block OEXRouter *blockSelf = self;
+    [loginController dismissViewControllerAnimated:YES completion:^{
+        [blockSelf loginCompletion];
+    }];
+}
+
+- (void) loginCompletion {
+    if (self.logistrationCompletion) {
+        self.logistrationCompletion();
+        self.logistrationCompletion = nil;
+    }
 }
 
 #pragma mark Testing
