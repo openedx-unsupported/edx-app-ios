@@ -40,6 +40,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             controls?.updateFullScreenButtonImage()
         }
     }
+    private var didRotate = false
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
     fileprivate let player = AVPlayer()
@@ -129,6 +130,15 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         return gesture
     }()
     
+    private lazy var pinchToZoomGestureRecognizer : UIPinchGestureRecognizer = {
+        let gesture = UIPinchGestureRecognizer()
+        gesture.addAction { [weak self] _ in
+            self?.zoomInOutVideo(sender: gesture)
+        }
+        
+        return gesture
+    }()
+    
     // Adding this accessibilityPlayerView for the player accessibility voice over
     private let accessibilityPlayerView : UIView = {
         let view = UIView()
@@ -152,6 +162,19 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         createPlayer()
         view.backgroundColor = .black
         loadingIndicatorView.hidesWhenStopped = true
+    }
+    
+    @objc func zoomInOutVideo(sender: UIPinchGestureRecognizer) {
+        let velocity = sender.velocity
+        
+        if isLandscape {
+            let size = (velocity > 0 ? 1 : -1)
+            if size == 1 {
+                playerView.playerLayer.videoGravity = .resizeAspectFill
+            } else if size == -1 {
+                playerView.playerLayer.videoGravity = .resizeAspect
+            }
+        }
     }
     
     private func addObservers() {
@@ -203,6 +226,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         accessibilityPlayerView.accessibilityLabel = Strings.accessibilityVideo
         
         playerView.playerLayer.player = player
+        playerView.playerLayer.videoGravity = .resizeAspect
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
         playerView.addSubview(loadingIndicatorView)
         
@@ -245,9 +269,38 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
+    private var isLandscape: Bool {
+        if UIApplication.shared.statusBarOrientation == .landscapeLeft
+            || UIApplication.shared.statusBarOrientation == .landscapeRight
+            || UIApplication.shared.statusBarOrientation.isLandscape { return true}
+        
+        return false
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        playerView.frame = view.bounds
+        
+        if !didRotate && !isLandscape {
+            if let frame = playerView.potraitFrame {
+                playerView.frame = frame
+            } else {
+                playerView.frame = view.frame
+            }
+            setConstraints()
+        } else {
+            didRotate = false
+            playerView.frame = movieBackgroundView.bounds
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if playerView.potraitFrame == nil {
+            if !isLandscape {
+                playerView.potraitFrame = playerView.frame
+            }
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -428,6 +481,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         
         playerView.addGestureRecognizer(leftSwipeGestureRecognizer)
         playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
+        playerView.addGestureRecognizer(pinchToZoomGestureRecognizer)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl, playMedium: nil)
@@ -619,7 +673,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 movieBackgroundView.frame = movieBackgroundFrame
             }
             
-            if let subviews = fullScreenContainerView?.subviews, !subviews.contains(movieBackgroundView){
+            if let subviews = fullScreenContainerView?.subviews, !subviews.contains(movieBackgroundView) {
                 fullScreenContainerView?.addSubview(movieBackgroundView)
             }
             
@@ -652,6 +706,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                         }, completion: {[weak self](_ finished: Bool) -> Void in
                             self?.movieBackgroundView.removeFromSuperview()
                             self?.resetPlayerView()
+                            self?.view.setNeedsLayout()
+                            self?.view.layoutIfNeeded()
+                            self?.playerView.setNeedsLayout()
+                            self?.playerView.layoutIfNeeded()
                     })
             })
         }
@@ -661,15 +719,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
 extension VideoPlayer {
     
     var movieBackgroundFrame: CGRect {
-        if #available(iOS 11, *) {
-            if let safeBounds = fullScreenContainerView?.safeAreaLayoutGuide.layoutFrame {
-                return safeBounds
-            }
-        }
-        else if let containerBounds = fullScreenContainerView?.bounds {
-            return containerBounds
-        }
-        return .zero
+        return UIScreen.main.bounds
     }
     
     func rotateMoviePlayer(for orientation: UIInterfaceOrientation, animated: Bool, forceRotate rotate: Bool, completion: (() -> Void)? = nil) {
@@ -694,6 +744,7 @@ extension VideoPlayer {
                 if let weakSelf = self {
                     weakSelf.movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
                     weakSelf.movieBackgroundView.frame = weakSelf.movieBackgroundFrame
+                    weakSelf.didRotate = true
                     weakSelf.view.frame = movieFrame
                 }
                 }, completion: nil)

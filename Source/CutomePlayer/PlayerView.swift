@@ -11,6 +11,7 @@ import AVKit
 
 //Apple recommends a convenient way of using AVPlayerLayer in iOS as the backing layer for a UIView, in this way we can update playerLayer constraints
 class PlayerView: UIView {
+    var potraitFrame: CGRect? = nil
     
     var playerLayer: AVPlayerLayer {
         return layer as! AVPlayerLayer

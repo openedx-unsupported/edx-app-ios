@@ -365,7 +365,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         
         btnPrevious.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(StandardVerticalMargin)
+            make.leading.equalTo(self).offset(StandardVerticalMargin + 20)
             make.height.equalTo(previousButtonSize.height)
             make.width.equalTo(previousButtonSize.width)
             make.centerY.equalTo(self.snp.centerY)
@@ -378,7 +378,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         btnNext.snp.makeConstraints { make in
             make.height.equalTo(nextButtonSize.height)
             make.width.equalTo(nextButtonSize.width)
-            make.trailing.equalTo(self).inset(StandardVerticalMargin)
+            make.trailing.equalTo(self).inset(StandardVerticalMargin + 20)
             make.centerY.equalTo(self.snp.centerY)
         }
         
