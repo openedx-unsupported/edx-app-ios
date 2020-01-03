@@ -94,17 +94,28 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let logo = UIImage(named: "logo")
         logoImageView.image = logo
         logoImageView.contentMode = .scaleAspectFit
-        logoImageView.accessibilityLabel = environment.config.platformName()
-        logoImageView.isAccessibilityElement = true
-        logoImageView.accessibilityTraits = UIAccessibilityTraits.image
-        logoImageView.accessibilityIdentifier = "StartUpViewController:logo-image-view"
-        view.addSubview(logoImageView)
-
-        logoImageView.snp.makeConstraints { make in
+        logoImageView.isAccessibilityElement = false
+        
+        // Logo image view is added to an empty container, then accessibility labels are added
+        // to that container. This will not try to describe whats in the picture.
+        let imageContainer = UIView()
+        imageContainer.addSubview(logoImageView)
+        imageContainer.accessibilityLabel = environment.config.platformName()
+        imageContainer.isAccessibilityElement = true
+        imageContainer.accessibilityIdentifier = "StartUpViewController:logo-image-view"
+        imageContainer.accessibilityHint = "image"
+        
+        view.addSubview(imageContainer)
+        
+        imageContainer.snp.makeConstraints { make in
             make.leading.equalTo(safeLeading).offset(2*StandardHorizontalMargin)
             make.centerY.equalTo(view.snp.bottom).dividedBy(6.0)
             make.width.equalTo((logo?.size.width ?? 0) / 2)
             make.height.equalTo((logo?.size.height ?? 0) / 2)
+        }
+        
+        logoImageView.snp.remakeConstraints { (make) in
+            make.center.edges.equalTo(imageContainer)
         }
     }
 
