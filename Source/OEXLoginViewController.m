@@ -75,7 +75,7 @@
 @property (strong, nonatomic) IBOutlet UILabel* versionLabel;
 @property (nonatomic, assign) id <OEXExternalAuthProvider> authProvider;
 @property (nonatomic) OEXTextStyle *placeHolderStyle;
-@property (weak, nonatomic) IBOutlet UIView *container_imgLogo;
+@property (weak, nonatomic) IBOutlet UIView *logo_container;
 
 @end
 
@@ -174,9 +174,9 @@
     
     self.tf_EmailID.textAlignment = NSTextAlignmentNatural;
     self.tf_Password.textAlignment = NSTextAlignmentNatural;
-    self.container_imgLogo.isAccessibilityElement = YES;
-    self.container_imgLogo.accessibilityLabel = [[OEXConfig sharedConfig] platformName];
-    self.container_imgLogo.accessibilityHint = @"image";
+    self.logo_container.isAccessibilityElement = YES;
+    self.logo_container.accessibilityLabel = [[OEXConfig sharedConfig] platformName];
+    self.logo_container.accessibilityHint = Strings.imageVoiceOver;
     
     NSString* environmentName = self.environment.config.environmentName;
     if(environmentName.length > 0) {
@@ -201,7 +201,7 @@
 
     //setting accessibility identifiers for developer automation use
 - (void)setAccessibilityIdentifiers {
-    self.container_imgLogo.accessibilityIdentifier = @"LoginViewController:logo-image-view";
+    self.logo_container.accessibilityIdentifier = @"LoginViewController:logo-image-view";
     self.tf_EmailID.accessibilityIdentifier = @"LoginViewController:email-text-field";
     self.tf_Password.accessibilityIdentifier = @"LoginViewController:password-text-field";
     self.agreementTextView.accessibilityIdentifier = @"LoginViewController:agreement-text-view";

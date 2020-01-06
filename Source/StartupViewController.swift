@@ -96,8 +96,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         logoImageView.contentMode = .scaleAspectFit
         logoImageView.isAccessibilityElement = false
         
-        // Logo image view is added to an empty container, then accessibility labels are added
-        // to that container. This will not try to describe whats in the picture.
+        // In iOS 13+ voice over trying to read the possible text of the accessibility element when the accessibility element is the image. // To overcome this issue, the logo image is placed in a container and accessibility set on that container
         let imageContainer = UIView()
         imageContainer.addSubview(logoImageView)
         imageContainer.accessibilityLabel = environment.config.platformName()
