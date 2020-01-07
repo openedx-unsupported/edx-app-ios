@@ -160,6 +160,8 @@
 "ACCESSIBILITY.CLOSE_LABEL"="Close";
 /*Accessibility text for profile button*/
 "ACCESSIBILITY.PROFILE_LABEL"="Profile";
+/* Default text template when user clicks on edx image */
+"ACCESSIBILITY.IMAGE_VOICE_OVER_HINT"="Image";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "الإنجازات";
 /* Default text template when user shares an accomplishment */

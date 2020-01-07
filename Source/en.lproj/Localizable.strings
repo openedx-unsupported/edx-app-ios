@@ -148,6 +148,8 @@
 "ACCESSIBILITY.CLOSE_LABEL"="Close";
 /*Accessibility text for profile button*/
 "ACCESSIBILITY.PROFILE_LABEL"="Profile";
+/* Default text template when user clicks on edx image */
+"ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */
@@ -490,8 +492,6 @@
 "FORM_LABEL"="{label}:";
 /* Google login method */
 "GOOGLE"="Google";
-/* */
-"IMAGE_VOICE_OVER"="image";
 /*Microsoft login method*/
 "MICROSOFT"="Microsoft";
 /* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */

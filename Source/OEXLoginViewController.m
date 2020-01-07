@@ -176,7 +176,7 @@
     self.tf_Password.textAlignment = NSTextAlignmentNatural;
     self.logo_container.isAccessibilityElement = YES;
     self.logo_container.accessibilityLabel = [[OEXConfig sharedConfig] platformName];
-    self.logo_container.accessibilityHint = Strings.imageVoiceOver;
+    self.logo_container.accessibilityHint = [Strings accessibilityImageVoiceOverHint];
     
     NSString* environmentName = self.environment.config.environmentName;
     if(environmentName.length > 0) {
