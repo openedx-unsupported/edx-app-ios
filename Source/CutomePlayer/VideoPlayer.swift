@@ -281,12 +281,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         super.viewWillLayoutSubviews()
         
         if !didRotate && !isLandscape {
-            if let frame = playerView.potraitFrame {
-                playerView.frame = frame
-            } else {
-                playerView.frame = view.frame
-            }
-            setConstraints()
+            playerView.frame = view.frame
         } else {
             didRotate = false
             playerView.frame = movieBackgroundView.bounds
