@@ -91,7 +91,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
     override var inputView : UIView {
         return picker
     }
-      
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -122,7 +122,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
     
     func makeFirstResponder() {
         becomeFirstResponder()
-        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: self.picker)
+        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: picker)
     }
     
     override func validate() -> String? {
