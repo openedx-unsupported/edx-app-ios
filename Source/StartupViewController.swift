@@ -103,7 +103,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         imageContainer.accessibilityLabel = environment.config.platformName()
         imageContainer.isAccessibilityElement = true
         imageContainer.accessibilityIdentifier = "StartUpViewController:logo-image-view"
-        imageContainer.accessibilityHint = "image"
+        imageContainer.accessibilityHint = Strings.accessibilityImageVoiceOverHint
         
         view.addSubview(imageContainer)
         
