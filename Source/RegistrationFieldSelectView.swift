@@ -91,7 +91,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
     override var inputView : UIView {
         return picker
     }
-      
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -105,23 +105,24 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.options[row].name
+        return options[row].name
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.selected = self.options[row]
-        if let selected = self.selected, !selected.value.isEmpty {
+        selected = options[row]
+        if let selected = selected, !selected.value.isEmpty {
             setButtonTitle(title: selected.name)
         }
         else {
             setButtonTitle(title: "")
         }
+        endEditing(true)
         valueDidChange()
     }
     
     func makeFirstResponder() {
-        self.becomeFirstResponder()
-            UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: self.picker)
+        becomeFirstResponder()
+        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: picker)
     }
     
     override func validate() -> String? {
