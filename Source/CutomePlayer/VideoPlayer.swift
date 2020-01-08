@@ -517,8 +517,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if !(view.subviews.contains(playerView)) {
             playerDelegate?.playerWillMoveFromWindow(videoPlayer: self)
             view.addSubview(playerView)
-            view.setNeedsLayout()
-            view.layoutIfNeeded()
             removeGestures()
             controls?.showHideNextPrevious(isHidden: true)
             playerView.snp.remakeConstraints { make in
@@ -716,19 +714,19 @@ extension VideoPlayer {
     
     func rotateMoviePlayer(for orientation: UIInterfaceOrientation, animated: Bool, forceRotate rotate: Bool, completion: (() -> Void)? = nil) {
         var angle: Double = 0
-        var movieFrame: CGRect = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.width, height: movieBackgroundFrame.height - 100)
+        var movieFrame: CGRect = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.width, height: movieBackgroundFrame.height)
         
         // Used to rotate the view on Fulscreen button click
         // Rotate it forcefully as the orientation is on the UIDeviceOrientation
         if rotate && orientation == .landscapeLeft {
             angle = Double.pi/2
             // MOB-1053
-            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width - 100)
+            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width)
         }
         else if rotate && orientation == .landscapeRight {
             angle = -Double.pi/2
             // MOB-1053
-            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width - 100)
+            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width)
         }
         
         if animated {
