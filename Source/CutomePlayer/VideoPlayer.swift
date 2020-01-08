@@ -226,7 +226,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         accessibilityPlayerView.accessibilityLabel = Strings.accessibilityVideo
         
         playerView.playerLayer.player = player
-        playerView.playerLayer.videoGravity = .resizeAspect
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
         playerView.addSubview(loadingIndicatorView)
         
@@ -281,20 +280,10 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         super.viewWillLayoutSubviews()
         
         if !didRotate && !isLandscape {
-            playerView.frame = view.frame
+            playerView.frame = view.bounds
         } else {
             didRotate = false
             playerView.frame = movieBackgroundView.bounds
-        }
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        if playerView.potraitFrame == nil {
-            if !isLandscape {
-                playerView.potraitFrame = playerView.frame
-            }
         }
     }
     
@@ -477,7 +466,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerView.addGestureRecognizer(leftSwipeGestureRecognizer)
         playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
         playerView.addGestureRecognizer(pinchToZoomGestureRecognizer)
-        
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl, playMedium: nil)
         }
@@ -533,6 +521,13 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             view.layoutIfNeeded()
             removeGestures()
             controls?.showHideNextPrevious(isHidden: true)
+            playerView.snp.remakeConstraints { make in
+                make.edges.equalTo(safeEdges)
+            }
+            
+            controls?.snp.remakeConstraints() { make in
+                make.edges.equalTo(safeEdges)
+            }
         }
     }
     
@@ -668,7 +663,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 movieBackgroundView.frame = movieBackgroundFrame
             }
             
-            if let subviews = fullScreenContainerView?.subviews, !subviews.contains(movieBackgroundView) {
+            if let subviews = fullScreenContainerView?.subviews, !subviews.contains(movieBackgroundView){
                 fullScreenContainerView?.addSubview(movieBackgroundView)
             }
             
@@ -682,6 +677,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                             owner.movieBackgroundView.layer.insertSublayer(owner.playerView.playerLayer, at: 0)
                             owner.addGestures()
                             owner.controls?.showHideNextPrevious(isHidden: false)
+                            owner.playerView.snp.remakeConstraints { make in
+                                make.edges.equalTo(owner.movieBackgroundView)
+                            }
+                            owner.controls?.snp.remakeConstraints { make in
+                                make.edges.equalTo(owner.movieBackgroundView)
+                            }
                         }
                     }
                     self?.rotateMoviePlayer(for: deviceOrientation, animated: animated, forceRotate: rotate, completion: {[weak self]() -> Void in
@@ -701,10 +702,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                         }, completion: {[weak self](_ finished: Bool) -> Void in
                             self?.movieBackgroundView.removeFromSuperview()
                             self?.resetPlayerView()
-                            self?.view.setNeedsLayout()
-                            self?.view.layoutIfNeeded()
-                            self?.playerView.setNeedsLayout()
-                            self?.playerView.layoutIfNeeded()
                     })
             })
         }
@@ -719,19 +716,19 @@ extension VideoPlayer {
     
     func rotateMoviePlayer(for orientation: UIInterfaceOrientation, animated: Bool, forceRotate rotate: Bool, completion: (() -> Void)? = nil) {
         var angle: Double = 0
-        var movieFrame: CGRect = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.width, height: movieBackgroundFrame.height)
+        var movieFrame: CGRect = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.width, height: movieBackgroundFrame.height - 100)
         
         // Used to rotate the view on Fulscreen button click
         // Rotate it forcefully as the orientation is on the UIDeviceOrientation
         if rotate && orientation == .landscapeLeft {
             angle = Double.pi/2
             // MOB-1053
-            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width)
+            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width - 100)
         }
         else if rotate && orientation == .landscapeRight {
             angle = -Double.pi/2
             // MOB-1053
-            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width)
+            movieFrame = CGRect(x: movieBackgroundFrame.maxX, y: movieBackgroundFrame.maxY, width: movieBackgroundFrame.height, height: movieBackgroundFrame.width - 100)
         }
         
         if animated {
