@@ -194,6 +194,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.textColor = .lightText
         label.textAlignment = .center
         label.text = Strings.videoPlayerDefaultRemainingTime
+        label.adjustsFontSizeToFitWidth = true
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowRadius = 1
         label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
@@ -365,7 +366,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         
         btnPrevious.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(StandardVerticalMargin + 20)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin*2)
             make.height.equalTo(previousButtonSize.height)
             make.width.equalTo(previousButtonSize.width)
             make.centerY.equalTo(self.snp.centerY)
@@ -378,15 +379,15 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         btnNext.snp.makeConstraints { make in
             make.height.equalTo(nextButtonSize.height)
             make.width.equalTo(nextButtonSize.width)
-            make.trailing.equalTo(self).inset(StandardVerticalMargin + 20)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin*2)
             make.centerY.equalTo(self.snp.centerY)
         }
         
         subTitleLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(bottomBar.snp.top).offset(StandardHorizontalMargin*2)
+            make.bottom.equalTo(bottomBar.snp.top).offset(StandardVerticalMargin*4)
             make.centerX.equalTo(snp.centerX)
-            make.leadingMargin.greaterThanOrEqualTo(StandardVerticalMargin*2)
-            make.trailingMargin.lessThanOrEqualTo(StandardVerticalMargin*2)
+            make.leadingMargin.greaterThanOrEqualTo(StandardHorizontalMargin*2)
+            make.trailingMargin.lessThanOrEqualTo(StandardHorizontalMargin*2)
         }
     }
     

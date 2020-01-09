@@ -40,7 +40,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             controls?.updateFullScreenButtonImage()
         }
     }
-    private var didRotate = false
     fileprivate let playerView = PlayerView()
     private var timeObserver : AnyObject?
     fileprivate let player = AVPlayer()
@@ -130,7 +129,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         return gesture
     }()
     
-    private lazy var pinchToZoomGestureRecognizer : UIPinchGestureRecognizer = {
+    private lazy var pinchGestureRecognizer : UIPinchGestureRecognizer = {
         let gesture = UIPinchGestureRecognizer()
         gesture.addAction { [weak self] _ in
             self?.zoomInOutVideo(sender: gesture)
@@ -165,13 +164,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     @objc func zoomInOutVideo(sender: UIPinchGestureRecognizer) {
-        let velocity = sender.velocity
-        
-        if isLandscape {
-            let size = (velocity > 0 ? 1 : -1)
+        if isVerticallyCompact() {
+            let size = (sender.velocity > 0 ? 1 : -1)
             if size == 1 {
                 playerView.playerLayer.videoGravity = .resizeAspectFill
-            } else if size == -1 {
+            }
+            else {
                 playerView.playerLayer.videoGravity = .resizeAspect
             }
         }
@@ -268,21 +266,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    private var isLandscape: Bool {
-        if UIApplication.shared.statusBarOrientation == .landscapeLeft
-            || UIApplication.shared.statusBarOrientation == .landscapeRight
-            || UIApplication.shared.statusBarOrientation.isLandscape { return true}
-        
-        return false
-    }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        if !didRotate && !isLandscape {
+        if !isFullScreen && !isVerticallyCompact() {
             playerView.frame = view.bounds
         } else {
-            didRotate = false
             playerView.frame = movieBackgroundView.bounds
         }
     }
@@ -327,6 +316,16 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         
         accessibilityPlayerView.snp.makeConstraints { make in
             make.edges.equalTo(playerView)
+        }
+    }
+    
+    private func updatePlayerConstrainsts(target: ConstraintRelatableTarget) {
+        playerView.snp.remakeConstraints { make in
+            make.edges.equalTo(target)
+        }
+        
+        controls?.snp.remakeConstraints() { make in
+            make.edges.equalTo(target)
         }
     }
     
@@ -465,7 +464,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         
         playerView.addGestureRecognizer(leftSwipeGestureRecognizer)
         playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
-        playerView.addGestureRecognizer(pinchToZoomGestureRecognizer)
+        playerView.addGestureRecognizer(pinchGestureRecognizer)
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl, playMedium: nil)
         }
@@ -474,6 +473,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private func removeGestures() {
         playerView.removeGestureRecognizer(leftSwipeGestureRecognizer)
         playerView.removeGestureRecognizer(rightSwipeGestureRecognizer)
+        playerView.removeGestureRecognizer(pinchGestureRecognizer)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: false, unitURL: unitUrl, playMedium: nil)
@@ -519,13 +519,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             view.addSubview(playerView)
             removeGestures()
             controls?.showHideNextPrevious(isHidden: true)
-            playerView.snp.remakeConstraints { make in
-                make.edges.equalTo(safeEdges)
-            }
-            
-            controls?.snp.remakeConstraints() { make in
-                make.edges.equalTo(safeEdges)
-            }
+            updatePlayerConstrainsts(target: safeEdges)
         }
     }
     
@@ -675,12 +669,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                             owner.movieBackgroundView.layer.insertSublayer(owner.playerView.playerLayer, at: 0)
                             owner.addGestures()
                             owner.controls?.showHideNextPrevious(isHidden: false)
-                            owner.playerView.snp.remakeConstraints { make in
-                                make.edges.equalTo(owner.movieBackgroundView)
-                            }
-                            owner.controls?.snp.remakeConstraints { make in
-                                make.edges.equalTo(owner.movieBackgroundView)
-                            }
+                            owner.updatePlayerConstrainsts(target: owner.movieBackgroundView)
                         }
                     }
                     self?.rotateMoviePlayer(for: deviceOrientation, animated: animated, forceRotate: rotate, completion: {[weak self]() -> Void in
@@ -734,7 +723,6 @@ extension VideoPlayer {
                 if let weakSelf = self {
                     weakSelf.movieBackgroundView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
                     weakSelf.movieBackgroundView.frame = weakSelf.movieBackgroundFrame
-                    weakSelf.didRotate = true
                     weakSelf.view.frame = movieFrame
                 }
                 }, completion: nil)
