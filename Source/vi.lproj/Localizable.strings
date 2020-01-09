@@ -143,7 +143,7 @@
 "ACCESSIBILITY.SHARE_A_COURSE"="Chia sẻ khóa học";
 /*Accessibility text for close button*/
 "ACCESSIBILITY.CLOSE_LABEL"="Đóng";
-/* Default text template when user clicks on edx image */
+/* Accessibility trait for image */
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
 /*Accessibility text for profile button*/
 "ACCESSIBILITY.PROFILE_LABEL"="Hồ sơ";
