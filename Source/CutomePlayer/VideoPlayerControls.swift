@@ -34,7 +34,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private let previousButtonSize = CGSize(width: 42.0, height: 42.0)
     private let rewindButtonSize = CGSize(width: 42.0, height: 42.0)
     private let durationSliderHeight: CGFloat = 34.0
-    private let timeRemainingLabelSize = CGSize(width: 75.0, height: 34.0)
+    private let timeRemainingLabelSize = CGSize(width: 120.0, height: 34.0)
     private let settingButtonSize = CGSize(width: 24.0, height: 24.0)
     private let fullScreenButtonSize = CGSize(width: 20.0, height: 20.0)
     private let tableSettingSize = CGSize(width: 110.0, height: 100.0)
@@ -194,6 +194,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.textColor = .lightText
         label.textAlignment = .center
         label.text = Strings.videoPlayerDefaultRemainingTime
+        label.adjustsFontSizeToFitWidth = true
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowRadius = 1
         label.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
@@ -365,7 +366,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         
         btnPrevious.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(StandardVerticalMargin)
+            make.leading.equalTo(self).offset(StandardHorizontalMargin*2)
             make.height.equalTo(previousButtonSize.height)
             make.width.equalTo(previousButtonSize.width)
             make.centerY.equalTo(self.snp.centerY)
@@ -378,15 +379,15 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         btnNext.snp.makeConstraints { make in
             make.height.equalTo(nextButtonSize.height)
             make.width.equalTo(nextButtonSize.width)
-            make.trailing.equalTo(self).inset(StandardVerticalMargin)
+            make.trailing.equalTo(self).inset(StandardHorizontalMargin*2)
             make.centerY.equalTo(self.snp.centerY)
         }
         
         subTitleLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(bottomBar.snp.top).offset(StandardHorizontalMargin*2)
+            make.bottom.equalTo(bottomBar.snp.top).offset(StandardVerticalMargin*4)
             make.centerX.equalTo(snp.centerX)
-            make.leadingMargin.greaterThanOrEqualTo(StandardVerticalMargin*2)
-            make.trailingMargin.lessThanOrEqualTo(StandardVerticalMargin*2)
+            make.leadingMargin.greaterThanOrEqualTo(StandardHorizontalMargin*2)
+            make.trailingMargin.lessThanOrEqualTo(StandardHorizontalMargin*2)
         }
     }
     

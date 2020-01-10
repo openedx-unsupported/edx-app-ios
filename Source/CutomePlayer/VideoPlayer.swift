@@ -129,6 +129,15 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         return gesture
     }()
     
+    private lazy var pinchGestureRecognizer : UIPinchGestureRecognizer = {
+        let gesture = UIPinchGestureRecognizer()
+        gesture.addAction { [weak self] _ in
+            self?.zoomInOutVideo(sender: gesture)
+        }
+        
+        return gesture
+    }()
+    
     // Adding this accessibilityPlayerView for the player accessibility voice over
     private let accessibilityPlayerView : UIView = {
         let view = UIView()
@@ -152,6 +161,18 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         createPlayer()
         view.backgroundColor = .black
         loadingIndicatorView.hidesWhenStopped = true
+    }
+    
+    @objc func zoomInOutVideo(sender: UIPinchGestureRecognizer) {
+        if isVerticallyCompact() {
+            let size = (sender.velocity > 0 ? 1 : -1)
+            if size == 1 {
+                playerView.playerLayer.videoGravity = .resizeAspectFill
+            }
+            else {
+                playerView.playerLayer.videoGravity = .resizeAspect
+            }
+        }
     }
     
     private func addObservers() {
@@ -247,7 +268,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        playerView.frame = view.bounds
+        
+        if !isFullScreen && !isVerticallyCompact() {
+            playerView.frame = view.bounds
+        } else {
+            playerView.frame = movieBackgroundView.bounds
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -290,6 +316,16 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         
         accessibilityPlayerView.snp.makeConstraints { make in
             make.edges.equalTo(playerView)
+        }
+    }
+    
+    private func updatePlayerConstrainsts(target: ConstraintRelatableTarget) {
+        playerView.snp.remakeConstraints { make in
+            make.edges.equalTo(target)
+        }
+        
+        controls?.snp.remakeConstraints() { make in
+            make.edges.equalTo(target)
         }
     }
     
@@ -428,7 +464,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         
         playerView.addGestureRecognizer(leftSwipeGestureRecognizer)
         playerView.addGestureRecognizer(rightSwipeGestureRecognizer)
-        
+        playerView.addGestureRecognizer(pinchGestureRecognizer)
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: true, unitURL: unitUrl, playMedium: nil)
         }
@@ -437,6 +473,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private func removeGestures() {
         playerView.removeGestureRecognizer(leftSwipeGestureRecognizer)
         playerView.removeGestureRecognizer(rightSwipeGestureRecognizer)
+        playerView.removeGestureRecognizer(pinchGestureRecognizer)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoOrientation(videoId, courseID: courseId, currentTime: CGFloat(currentTime), mode: false, unitURL: unitUrl, playMedium: nil)
@@ -480,10 +517,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         if !(view.subviews.contains(playerView)) {
             playerDelegate?.playerWillMoveFromWindow(videoPlayer: self)
             view.addSubview(playerView)
-            view.setNeedsLayout()
-            view.layoutIfNeeded()
             removeGestures()
             controls?.showHideNextPrevious(isHidden: true)
+            updatePlayerConstrainsts(target: safeEdges)
         }
     }
     
@@ -633,6 +669,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                             owner.movieBackgroundView.layer.insertSublayer(owner.playerView.playerLayer, at: 0)
                             owner.addGestures()
                             owner.controls?.showHideNextPrevious(isHidden: false)
+                            owner.updatePlayerConstrainsts(target: owner.movieBackgroundView)
                         }
                     }
                     self?.rotateMoviePlayer(for: deviceOrientation, animated: animated, forceRotate: rotate, completion: {[weak self]() -> Void in
@@ -661,15 +698,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
 extension VideoPlayer {
     
     var movieBackgroundFrame: CGRect {
-        if #available(iOS 11, *) {
-            if let safeBounds = fullScreenContainerView?.safeAreaLayoutGuide.layoutFrame {
-                return safeBounds
-            }
-        }
-        else if let containerBounds = fullScreenContainerView?.bounds {
-            return containerBounds
-        }
-        return .zero
+        return UIScreen.main.bounds
     }
     
     func rotateMoviePlayer(for orientation: UIInterfaceOrientation, animated: Bool, forceRotate rotate: Bool, completion: (() -> Void)? = nil) {
