@@ -148,6 +148,8 @@
 "ACCESSIBILITY.CLOSE_LABEL"="Close";
 /*Accessibility text for profile button*/
 "ACCESSIBILITY.PROFILE_LABEL"="Profile";
+/* Accessibility trait for image */
+"ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Accomplishments";
 /* Default text template when user shares an accomplishment */

@@ -50,14 +50,6 @@
 @property (weak, nonatomic, nullable) IBOutlet OEXCustomLabel* lbl_OrSignIn;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorLeft;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorRight;
-// For Login Design change
-// Manage on Constraints
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_MapTop;
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_UsernameTop;
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_PasswordTop;
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_UserGreyTop;
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_PassGreyTop;
-@property (weak, nonatomic, nullable) IBOutlet NSLayoutConstraint* constraint_ActivityIndTop;
 
 @property (weak, nonatomic, nullable) IBOutlet LogistrationTextField* tf_EmailID;
 @property (weak, nonatomic, nullable) IBOutlet LogistrationTextField* tf_Password;
@@ -75,6 +67,7 @@
 @property (strong, nonatomic) IBOutlet UILabel* versionLabel;
 @property (nonatomic, assign) id <OEXExternalAuthProvider> authProvider;
 @property (nonatomic) OEXTextStyle *placeHolderStyle;
+@property (weak, nonatomic) IBOutlet UIView *logo_container;
 
 @end
 
@@ -86,23 +79,6 @@
         self.seperatorLeft.hidden = YES;
         self.seperatorRight.hidden = YES;
         self.agreementTextViewTop.constant = -30;
-    }
-
-    if(IS_IPHONE_4) {
-        self.constraint_MapTop.constant = 70;
-        self.constraint_UsernameTop.constant = 20;
-        self.constraint_UserGreyTop.constant = 20;
-        self.constraint_PasswordTop.constant = 8;
-        self.constraint_PassGreyTop.constant = 8;
-        self.constraint_ActivityIndTop.constant = 43;
-    }
-    else {
-        self.constraint_MapTop.constant = 90;
-        self.constraint_UsernameTop.constant = 25;
-        self.constraint_UserGreyTop.constant = 25;
-        self.constraint_PasswordTop.constant = 12;
-        self.constraint_PassGreyTop.constant = 12;
-        self.constraint_ActivityIndTop.constant = 55;
     }
 }
 
@@ -173,8 +149,9 @@
     
     self.tf_EmailID.textAlignment = NSTextAlignmentNatural;
     self.tf_Password.textAlignment = NSTextAlignmentNatural;
-    self.img_Logo.isAccessibilityElement = YES;
-    self.img_Logo.accessibilityLabel = [[OEXConfig sharedConfig] platformName];
+    self.logo_container.isAccessibilityElement = YES;
+    self.logo_container.accessibilityLabel = [[OEXConfig sharedConfig] platformName];
+    self.logo_container.accessibilityHint = [Strings accessibilityImageVoiceOverHint];
     
     NSString* environmentName = self.environment.config.environmentName;
     if(environmentName.length > 0) {
@@ -199,7 +176,7 @@
 
     //setting accessibility identifiers for developer automation use
 - (void)setAccessibilityIdentifiers {
-    self.img_Logo.accessibilityIdentifier = @"LoginViewController:logo-image-view";
+    self.logo_container.accessibilityIdentifier = @"LoginViewController:logo-image-view";
     self.tf_EmailID.accessibilityIdentifier = @"LoginViewController:email-text-field";
     self.tf_Password.accessibilityIdentifier = @"LoginViewController:password-text-field";
     self.agreementTextView.accessibilityIdentifier = @"LoginViewController:agreement-text-view";
