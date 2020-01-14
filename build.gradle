@@ -286,7 +286,7 @@ task wrapper(type: Wrapper) {
 
 def testBuildArguments(workspace, scheme, OS, record) {
     def args = [
-        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', '-destination', 'platform=iOS Simulator,name=iPhone 5s,OS=' + OS,-UseModernBuildSystem=NO 'test'
+        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', '-destination', 'platform=iOS Simulator,name=iPhone 5s,OS=' + OS, 'test'
     ]
     if(record) {
         args += ["OTHER_SWIFT_FLAGS=\$(OTHER_SWIFT_FLAGS) -D RECORD_SNAPSHOTS"]
