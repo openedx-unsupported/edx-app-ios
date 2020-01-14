@@ -900,6 +900,7 @@
 		F1CBC07BDA3A1F9E4F490A6E54C6E0BD /* Protobuf-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E1DF4441BE2E08DB87356186AA1B55 /* Protobuf-dummy.m */; };
 		F2389ADF296BDAF0D2AE83E745947395 /* pb_decode.h in Headers */ = {isa = PBXBuildFile; fileRef = 57C849226E98C77A7DA1C8C7FBC1459C /* pb_decode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F2531EA90ABF59BFD996E0CC949B6D0D /* FBSDKAccessToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 08CB9CF2843EE17564436FAEB538DA3D /* FBSDKAccessToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F27CB5D3EB09FBD1FFB18A36DA898573 /* FirebaseMessaging.h in Headers */ = {isa = PBXBuildFile; fileRef = A53643E4882E4293275CCD54BC9AD33E /* FirebaseMessaging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F3DAA0817A61FF2A274F1B4881733D44 /* GPBCodedInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 5552E1AD7F44FF37D8C5C7501BD72CC3 /* GPBCodedInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		F4106E6CB452C0ADF17472C1D2C93BD4 /* FBSDKServerConfigurationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 318E83B2E27A85E70FB4777538936AF0 /* FBSDKServerConfigurationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F449A992966E9E4D6DB3687F8D297997 /* FIRInstanceIDCheckinStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D64A0C4F20CEB8DEB31E63D323F3CA5 /* FIRInstanceIDCheckinStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4940,6 +4941,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F27CB5D3EB09FBD1FFB18A36DA898573 /* FirebaseMessaging.h in Headers */,
 				EAACD6E81A3DF873A46FA08A180EB6CA /* FirebaseMessaging.h in Headers */,
 				199EA6397682EF2EE7D7EB8D0E96787F /* FIRMessaging.h in Headers */,
 				B6647C51259BB00935C3EB195C6C1772 /* FIRMessaging_Private.h in Headers */,
