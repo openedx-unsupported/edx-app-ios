@@ -2024,6 +2024,8 @@
 		E0EEC6E81F1CD279006C8D62 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = en; path = en.lproj/whats_new.json; sourceTree = "<group>"; };
 		E0FC64C11C85B46C004E3E92 /* DiscussionDataParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionDataParsingTests.swift; sourceTree = "<group>"; };
 		E0FCFCC81EC59DB2000B969C /* WhatsNewObjectTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewObjectTests.swift; sourceTree = "<group>"; };
+		E0FD069523CDD80C002AF437 /* edXUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = edXUITests.swift; sourceTree = "<group>"; };
+		E0FD069723CDD80C002AF437 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0FF457820FDD24400109662 /* VideoCompletionApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCompletionApi.swift; sourceTree = "<group>"; };
 		E0FF9BB02317B354003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = vi; path = vi.lproj/subjects.json; sourceTree = "<group>"; };
 		E0FF9BB12317B355003E61B7 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = vi; path = vi.lproj/MobileAppEula.htm; sourceTree = "<group>"; };
@@ -3702,6 +3704,7 @@
 				E052F5A81D9953BB009F6B6F /* edX.entitlements */,
 				77E647B11C90C21100B6740D /* App */,
 				BE76FEAA193C8D9C00BB9BDD /* External Libraries */,
+				E0FD069423CDD80C002AF437 /* edXUITests */,
 				BECB7B0D1924C0C3009C77F1 /* Frameworks */,
 				BECB7B0C1924C0C3009C77F1 /* Products */,
 				77E6478F1C90C10300B6740D /* Core */,
@@ -4115,6 +4118,15 @@
 			name = WhatsNew;
 			sourceTree = "<group>";
 		};
+		E0FD069423CDD80C002AF437 /* edXUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E0FD069523CDD80C002AF437 /* edXUITests.swift */,
+				E0FD069723CDD80C002AF437 /* Info.plist */,
+			);
+			path = edXUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -4241,8 +4253,9 @@
 		BECB7B031924C0C3009C77F1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = edX;
 				TargetAttributes = {
