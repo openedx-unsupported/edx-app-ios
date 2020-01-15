@@ -226,7 +226,11 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
                 assert(true, "Invalid Segment ID, Remove this segment index OR handle it in the ThreadType enum")
             }
             }, for: UIControl.Event.valueChanged)
-        discussionQuestionSegmentedControl.tintColor = OEXStyles.shared().neutralDark()
+        if #available(iOS 13.0, *) {
+            discussionQuestionSegmentedControl.selectedSegmentTintColor = OEXStyles.shared().primaryBaseColor()
+        } else {
+            discussionQuestionSegmentedControl.tintColor = OEXStyles.shared().primaryBaseColor()
+        }
         discussionQuestionSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: OEXStyles.shared().neutralWhite()], for: UIControl.State.selected)
         discussionQuestionSegmentedControl.selectedSegmentIndex = 0
         
