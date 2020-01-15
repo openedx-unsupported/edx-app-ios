@@ -455,6 +455,8 @@ public class TZStackView: UIView {
             
         case .vertical:
             return equalAttributes(views: views.filter({ !self.isHidden($0) }), attribute: .height, priority: priority)
+        @unknown default:
+            return equalAttributes(views: views.filter({ !self.isHidden($0) }), attribute: .width, priority: priority)
         }
     }
     
@@ -479,6 +481,8 @@ public class TZStackView: UIView {
                     
                 case .vertical:
                     constraints.append(constraint(item: view, attribute: .top, relatedBy: relation, toItem: previousView, attribute: .bottom, constant: c, priority: priority))
+                @unknown default:
+                    constraints.append(constraint(item: view, attribute: .leading, relatedBy: relation, toItem: previousView, attribute: .trailing, constant: c, priority: priority))
                 }
             }
             previousView = view
@@ -520,6 +524,20 @@ public class TZStackView: UIView {
             case .firstBaseline:
                 constraints += []
             }
+        @unknown default:
+            switch alignment {
+            case .fill:
+                constraints += equalAttributes(views: views, attribute: .bottom)
+                constraints += equalAttributes(views: views, attribute: .top)
+            case .center:
+                constraints += equalAttributes(views: views, attribute: .centerY)
+            case .leading, .top:
+                constraints += equalAttributes(views: views, attribute: .top)
+            case .trailing, .bottom:
+                constraints += equalAttributes(views: views, attribute: .bottom)
+            case .firstBaseline:
+                constraints += equalAttributes(views: views, attribute: .firstBaseline)
+            }
         }
         return constraints
     }
@@ -548,6 +566,8 @@ public class TZStackView: UIView {
                     bottomView = spacerViews[0]
                 case .vertical:
                     topView = spacerViews[0]
+                    bottomView = spacerViews[0]
+                @unknown default:
                     bottomView = spacerViews[0]
                 }
             }
