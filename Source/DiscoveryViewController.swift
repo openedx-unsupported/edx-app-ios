@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum SegmentOption: Int {
+ enum SegmentOption: Int {
     case course, program, degree
     static let options = [course, program, degree]
     
@@ -40,12 +40,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         let control = UISegmentedControl()
         let styles = self.environment.styles
         control.selectedSegmentIndex = SegmentOption.course.rawValue
-        control.backgroundColor = styles.neutralWhite()
-        if #available(iOS 13.0, *) {
-            control.selectedSegmentTintColor = styles.primaryBaseColor()
-        } else {
-            control.tintColor = styles.primaryBaseColor()
-        }
+        control.tintColor = styles.primaryBaseColor()
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: styles.neutralWhite()], for: .selected)
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: styles.neutralBlack()], for: .normal)
         return control

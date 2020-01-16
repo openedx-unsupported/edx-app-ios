@@ -263,11 +263,6 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         
         //remove actions before adding so there's not a ton of actions
         segmentCell.typeControl.oex_removeAllActions()
-        if #available(iOS 13.0, *) {
-            segmentCell.typeControl.selectedSegmentTintColor = OEXStyles.shared().primaryBaseColor()
-        } else {
-            segmentCell.typeControl.tintColor = OEXStyles.shared().primaryBaseColor()
-        }
         segmentCell.typeControl.oex_addAction({ [weak self] sender in
             let control = sender as! UISegmentedControl
             let limitedProfile = control.selectedSegmentIndex == 1
