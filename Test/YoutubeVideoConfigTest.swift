@@ -18,13 +18,13 @@ class YoutubeVideoConfigTests: XCTestCase {
     }
     
     func testEmptyYoutubeVideoConfig() {
-        let config = OEXConfig(dictionary:["YOUTUBE_VIDEO":[:]])
+        let config = OEXConfig(dictionary:["YOUTUBE_PLAYER":[:]])
         XCTAssertFalse(config.youtubeVideoConfig.enabled)
     }
     
     func testYoutubeVideoConfig() {
         let configDictionary = [
-            "YOUTUBE_VIDEO" : [
+            "YOUTUBE_PLAYER" : [
                 "ENABLED": true,
             ]
         ]
@@ -35,7 +35,7 @@ class YoutubeVideoConfigTests: XCTestCase {
     
     func testYoutubeVideoDisableConfig() {
         let configDictionary = [
-            "YOUTUBE_VIDEO" : [
+            "YOUTUBE_PLAYER" : [
                 "ENABLED": false,
             ]
         ]
