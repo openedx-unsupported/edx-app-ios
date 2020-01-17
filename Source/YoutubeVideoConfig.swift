@@ -19,7 +19,7 @@ class YoutubeVideoConfig: NSObject {
         enabled = dictionary[YoutubeKeys.Enabled] as? Bool ?? false
     }
 }
-private let key = "YOUTUBE_VIDEO"
+private let key = "YOUTUBE_PLAYER"
 extension OEXConfig {
     @objc var youtubeVideoConfig: YoutubeVideoConfig {
         return YoutubeVideoConfig(dictionary: self[key] as? [String:AnyObject] ?? [:])
