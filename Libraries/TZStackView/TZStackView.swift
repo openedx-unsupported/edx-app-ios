@@ -455,6 +455,8 @@ public class TZStackView: UIView {
             
         case .vertical:
             return equalAttributes(views: views.filter({ !self.isHidden($0) }), attribute: .height, priority: priority)
+        default:
+            return equalAttributes(views: views.filter({ !self.isHidden($0) }), attribute: .width, priority: priority)
         }
     }
     
@@ -479,6 +481,8 @@ public class TZStackView: UIView {
                     
                 case .vertical:
                     constraints.append(constraint(item: view, attribute: .top, relatedBy: relation, toItem: previousView, attribute: .bottom, constant: c, priority: priority))
+                default:
+                    break
                 }
             }
             previousView = view
@@ -520,6 +524,8 @@ public class TZStackView: UIView {
             case .firstBaseline:
                 constraints += []
             }
+        default:
+            break
         }
         return constraints
     }
@@ -549,6 +555,8 @@ public class TZStackView: UIView {
                 case .vertical:
                     topView = spacerViews[0]
                     bottomView = spacerViews[0]
+                default:
+                    break
                 }
             }
         }
