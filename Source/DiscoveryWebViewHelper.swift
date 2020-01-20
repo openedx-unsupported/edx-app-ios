@@ -381,6 +381,7 @@ extension DiscoveryWebViewHelper: UISearchBarDelegate {
             var params = params else { return }
         set(value: searchText, for: QueryParameterKeys.searchQuery, in: &params)
         if let URL = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {
+            loadController.state = .Initial
             loadRequest(withURL: URL)
         }
     }
