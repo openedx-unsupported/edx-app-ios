@@ -72,7 +72,7 @@ class SnapshotTestCase : FBSnapshotTestCase {
         // Standardize on a size so we don't have to worry about different simulators
         // etc.
         // Pick a non standard width so we can catch width assumptions.
-        return CGSize(width: 380, height: 568)
+        return CGSize(width: 375, height: 667)
     }
     
     fileprivate var majorVersion : Int {
