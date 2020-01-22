@@ -6,8 +6,8 @@ before_script:
 
 env:
     matrix:
-        - TEST_TASK=testLTRCurrentOS IOS_VERSION=13.2
-        - TEST_TASK=testRTLCurrentOS IOS_VERSION=13.2
+        - TEST_TASK=testLTRCurrentOS IOS_VERSION=13.3
+        - TEST_TASK=testRTLCurrentOS IOS_VERSION=13.3
         - TEST_TASK=testLTRPreviousOS IOS_VERSION=12.4
         - TEST_TASK=testRTLPreviousOS IOS_VERSION=12.4
 
