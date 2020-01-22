@@ -331,6 +331,7 @@ extension DiscoveryWebViewHelper: SubjectsViewControllerDelegate, PopularSubject
         set(value: subject.filter, for: QueryParameterKeys.subject, in: &params)
         environment?.analytics.trackSubjectDiscovery(subjectID: subject.filter)
         if let url = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {
+            loadController.state = .Initial
             loadRequest(withURL: url)
         }
     }
@@ -380,6 +381,7 @@ extension DiscoveryWebViewHelper: UISearchBarDelegate {
             var params = params else { return }
         set(value: searchText, for: QueryParameterKeys.searchQuery, in: &params)
         if let URL = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {
+            loadController.state = .Initial
             loadRequest(withURL: URL)
         }
     }
