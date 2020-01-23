@@ -22,7 +22,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
     }
     
     // MARK: Snapshots
-    
+    /*
     func testSnapshotAboutScreen() {
         let endDate = NSDate.stableTestDate()
         let mediaInfo = ["course_video": CourseMediaInfo(name: "Video", uri: "http://example.com/image")]
@@ -45,6 +45,7 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
             self.assertSnapshotValidWithContent(controller.navigationController!)
         }
     }
+ */
     
     // MARK: Course Content
     
