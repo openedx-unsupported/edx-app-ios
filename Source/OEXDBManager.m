@@ -739,7 +739,7 @@ static OEXDBManager* _sharedManager = nil;
     videoObj.title = title;
     videoObj.size = size;
     videoObj.duration = duration;
-    videoObj.download_state = [NSNumber numberWithInt:download_state];
+    videoObj.download_state = [NSNumber numberWithInt:(int)download_state];
     videoObj.video_url = video_url;
     videoObj.video_id = video_id;
     videoObj.unit_url = unit_url;
@@ -750,7 +750,7 @@ static OEXDBManager* _sharedManager = nil;
     videoObj.downloadCompleteDate = downloadCompleteDate;
     videoObj.last_played_offset = [NSNumber numberWithFloat:last_played_offset];
     videoObj.is_registered = [NSNumber numberWithBool:is_registered];
-    videoObj.played_state = [NSNumber numberWithInt:played_state];
+    videoObj.played_state = [NSNumber numberWithInt:(int)played_state];
 
     [self saveCurrentStateToDB];
 
