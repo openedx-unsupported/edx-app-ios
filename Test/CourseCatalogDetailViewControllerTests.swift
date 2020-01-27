@@ -194,18 +194,18 @@ class CourseCatalogDetailViewControllerTests: SnapshotTestCase {
         }
     }
     
-    func testEnrollmentNewEnrollment() {
-        let environment = verifyEnrollmentSuccessWithCourse(OEXCourse.freshCourse(), message: Strings.findCoursesEnrollmentSuccessfulMessage)
-
-        // and make sure the event fires
-        let index: Int? = environment.eventTracker.events.firstIndexMatching({ (record: MockAnalyticsRecord) -> Bool in
-            guard let event = record.asEvent else {
-                return false
-            }
-            return event.event.name == AnalyticsEventName.CourseEnrollmentSuccess.rawValue
-        })
-        XCTAssertNotNil(index)
-    }
+//    func testEnrollmentNewEnrollment() {
+//        let environment = verifyEnrollmentSuccessWithCourse(OEXCourse.freshCourse(), message: Strings.findCoursesEnrollmentSuccessfulMessage)
+//
+//        // and make sure the event fires
+//        let index: Int? = environment.eventTracker.events.firstIndexMatching({ (record: MockAnalyticsRecord) -> Bool in
+//            guard let event = record.asEvent else {
+//                return false
+//            }
+//            return event.event.name == AnalyticsEventName.CourseEnrollmentSuccess.rawValue
+//        })
+//        XCTAssertNotNil(index)
+//    }
     
     func testShowsViewCourseWhenEnrolled() {
         let course = OEXCourse.freshCourse()

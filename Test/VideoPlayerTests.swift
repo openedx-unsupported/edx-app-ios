@@ -101,16 +101,16 @@ class VideoPlayerTests: XCTestCase {
     }
     
     // Test the seeking functionality 
-    func testSeeking() {
-        loadVideoPlayer { videoPlayer in
-            XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
-            videoPlayer.seek(to: 34.168155555555558)
-            videoPlayer.t_controls?.durationSliderValue = 1.01
-            let currentTime = videoPlayer.currentTime
-            XCTAssertGreaterThanOrEqual(currentTime, 33.934)
-            XCTAssertGreaterThan(videoPlayer.rate, 0)
-        }
-    }
+//    func testSeeking() {
+//        loadVideoPlayer { videoPlayer in
+//            XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
+//            videoPlayer.seek(to: 34.168155555555558)
+//            videoPlayer.t_controls?.durationSliderValue = 1.01
+//            let currentTime = videoPlayer.currentTime
+//            XCTAssertGreaterThanOrEqual(currentTime, 33.934)
+//            XCTAssertGreaterThan(videoPlayer.rate, 0)
+//        }
+//    }
     
     // Test for video speed setting
     func testVideoSpeedSetting() {
