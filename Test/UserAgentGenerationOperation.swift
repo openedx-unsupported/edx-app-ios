@@ -20,7 +20,7 @@ class UserAgentGenerationOperationTests : XCTestCase {
             XCTAssertTrue(agent.contains("KHTML, like Gecko"))
         }
     }
-    
+
     func testOverride() {
         let userDefaults = OEXMockUserDefaults()
         let userDefaultsMock = userDefaults.installAsStandardUserDefaults()
@@ -29,7 +29,7 @@ class UserAgentGenerationOperationTests : XCTestCase {
             expectation.fulfill()
         }
         waitForExpectations()
-        
+
         let queue = OperationQueue()
         let operation = UserAgentGenerationOperation()
         queue.addOperation(operation)
