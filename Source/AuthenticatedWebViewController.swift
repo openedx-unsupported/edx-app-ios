@@ -71,8 +71,9 @@ private class WKWebViewContentController : WebContentController {
         let languageCookieValue = preferredLanguage
         
         if #available(iOS 11.0, *) {
-            guard let languageCookie = HTTPCookie(properties: [
-                .domain: ".edx.org",
+            guard let domain = request.url?.host,
+                let languageCookie = HTTPCookie(properties: [
+                .domain: domain,
                 .path: "/",
                 .name: languageCookieName,
                 .value: languageCookieValue,
