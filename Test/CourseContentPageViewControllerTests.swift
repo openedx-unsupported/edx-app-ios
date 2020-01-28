@@ -88,32 +88,32 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
     }
     
-//    func testNextButton() {
-//        let childIDs = outline.blocks[outline.root]!.children
-//        XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
-//        let childID = childIDs.first
-//        
-//        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (_, controller) in
-//            XCTAssertFalse(controller.t_prevButtonEnabled, "First child shouldn't have previous button enabled")
-//            XCTAssertTrue(controller.t_nextButtonEnabled, "First child should have next button enabled")
-//            return nil
-//        }
-//        // Traverse through the entire child list going forward
-//        // verifying that we're viewing the right thing
-//        for childID in childIDs[1 ..< childIDs.count] {
-//            controller.t_goForward()
-//            let testExpectation = self.expectation(description: "controller went forward")
-//            wait(for: 1) {
-//                    controller.t_blockIDForCurrentViewController().listen(controller) {
-//                    testExpectation.fulfill()
-//                    XCTAssertEqual($0.value!, childID)
-//                }
-//            }
-//            self.waitForExpectations()
-//            XCTAssertTrue(controller.t_prevButtonEnabled)
-//            XCTAssertEqual(controller.t_nextButtonEnabled, childID != childIDs.last!)
-//        }
-//    }
+    func testNextButton() {
+        let childIDs = outline.blocks[outline.root]!.children
+        XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
+        let childID = childIDs.first
+        
+        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root) { (_, controller) in
+            XCTAssertFalse(controller.t_prevButtonEnabled, "First child shouldn't have previous button enabled")
+            XCTAssertTrue(controller.t_nextButtonEnabled, "First child should have next button enabled")
+            return nil
+        }
+        // Traverse through the entire child list going forward
+        // verifying that we're viewing the right thing
+        for childID in childIDs[1 ..< childIDs.count] {
+            controller.t_goForward()
+            let testExpectation = self.expectation(description: "controller went forward")
+            wait(for: 1) {
+                    controller.t_blockIDForCurrentViewController().listen(controller) {
+                    testExpectation.fulfill()
+                    XCTAssertEqual($0.value!, childID)
+                }
+            }
+            self.waitForExpectations()
+            XCTAssertTrue(controller.t_prevButtonEnabled)
+            XCTAssertEqual(controller.t_nextButtonEnabled, childID != childIDs.last!)
+        }
+    }
     
     func testPrevButton() {
         let childIDs = outline.blocks[outline.root]!.children
@@ -161,42 +161,42 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         }
     }
 
-//    func testPageAnalyticsEmitted() {
-//        let childIDs = outline.blocks[outline.root]!.children
-//        XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
-//        let childID = childIDs.first
-//
-//        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root)
-//            // Traverse through the entire child list going backward
-//            // verifying that we're viewing the right thing
-//            for _ in childIDs[1 ..< childIDs.count] {
-//                controller.t_goForward()
-//
-//                let testExpectation = self.expectation(description: "controller went backward")
-//                wait(for: 0.5) {
-//                    controller.t_blockIDForCurrentViewController().listen(controller) { blockID in
-//                        testExpectation.fulfill()
-//                    }
-//                }
-//                self.waitForExpectations()
-//            }
-//
-//            let pageEvents = environment.eventTracker.events.compactMap { (e: MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
-//                if let event = e.asEvent, event.event.name == OEXAnalyticsEventComponentViewed {
-//                    return event
-//                }
-//                else {
-//                    return nil
-//                }
-//            }
-//
-//            XCTAssertEqual(pageEvents.count, childIDs.count)
-//            for (blockID, event) in zip(childIDs, pageEvents) {
-//                XCTAssertEqual(blockID, event.properties[OEXAnalyticsKeyBlockID] as? String)
-//                XCTAssertEqual(outline.root, event.properties[OEXAnalyticsKeyCourseID] as? CourseBlockID)
-//                XCTAssertEqual(event.event.name, OEXAnalyticsEventComponentViewed)
-//            }
-//    }
+    func testPageAnalyticsEmitted() {
+        let childIDs = outline.blocks[outline.root]!.children
+        XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
+        let childID = childIDs.first
+
+        let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root)
+            // Traverse through the entire child list going backward
+            // verifying that we're viewing the right thing
+            for _ in childIDs[1 ..< childIDs.count] {
+                controller.t_goForward()
+
+                let testExpectation = self.expectation(description: "controller went backward")
+                wait(for: 0.5) {
+                    controller.t_blockIDForCurrentViewController().listen(controller) { blockID in
+                        testExpectation.fulfill()
+                    }
+                }
+                self.waitForExpectations()
+            }
+
+            let pageEvents = environment.eventTracker.events.compactMap { (e: MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
+                if let event = e.asEvent, event.event.name == OEXAnalyticsEventComponentViewed {
+                    return event
+                }
+                else {
+                    return nil
+                }
+            }
+
+            XCTAssertEqual(pageEvents.count, childIDs.count)
+            for (blockID, event) in zip(childIDs, pageEvents) {
+                XCTAssertEqual(blockID, event.properties[OEXAnalyticsKeyBlockID] as? String)
+                XCTAssertEqual(outline.root, event.properties[OEXAnalyticsKeyCourseID] as? CourseBlockID)
+                XCTAssertEqual(event.event.name, OEXAnalyticsEventComponentViewed)
+            }
+    }
 
     func testSnapshotContent() {
         let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren
