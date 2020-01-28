@@ -66,8 +66,34 @@ private class WKWebViewContentController : WebContentController {
         if let userAgent = UserDefaults.standard.string(forKey: "UserAgent"), webView.customUserAgent?.isEmpty ?? false {
             webView.customUserAgent = userAgent
         }
-    
-        webView.load(request as URLRequest)
+        
+        let languageCookieName = "prod-edx-language-preference"
+        let languageCookieValue = preferredLanguage
+        
+        if #available(iOS 11.0, *) {
+            guard let languageCookie = HTTPCookie(properties: [
+                .domain: ".edx.org",
+                .path: "/",
+                .name: languageCookieName,
+                .value: languageCookieValue,
+                .expires: NSDate(timeIntervalSinceNow: 3600000)
+                ])
+                else { return }
+
+            webView.getCookie(with: languageCookieName) { cookie in
+                if cookie == nil {
+                    self.webView.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
+                        self.webView.load(request as URLRequest)
+                    }
+                } else {
+                    self.webView.load(request as URLRequest)
+                }
+            }
+        } else {
+            var cookiedRequest = request as URLRequest
+            cookiedRequest.addValue("\(languageCookieName)=\(languageCookieValue))", forHTTPHeaderField: "Cookie")
+            webView.load(cookiedRequest)
+        }
     }
     
     func resetState() {
@@ -85,6 +111,15 @@ private class WKWebViewContentController : WebContentController {
 
     var isLoading: Bool {
         return webView.isLoading
+    }
+    
+    var preferredLanguage: String {
+        guard let language = NSLocale.preferredLanguages.first,
+            let _ = Bundle.main.path(forResource: language, ofType: "lproj") else {
+            return "en"
+        }
+        
+        return language
     }
 }
 
@@ -353,5 +388,21 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         else {
             completionHandler(.performDefaultHandling, nil)
         }
+    }
+}
+
+@available(iOS 11.0, *)
+extension WKWebView {
+    private var httpCookieStore: WKHTTPCookieStore  { return WKWebsiteDataStore.default().httpCookieStore }
+    
+    func getCookie(with name: String, completion: @escaping (HTTPCookie?)-> ()) {
+        httpCookieStore.getAllCookies { cookies in
+            for cookie in cookies {
+                if cookie.name.contains(name) {
+                    completion(cookie)
+                }
+            }
+        }
+        completion(nil)
     }
 }
