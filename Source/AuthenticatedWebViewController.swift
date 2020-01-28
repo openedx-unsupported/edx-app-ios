@@ -114,12 +114,15 @@ private class WKWebViewContentController : WebContentController {
     }
     
     var preferredLanguage: String {
-        guard let language = NSLocale.preferredLanguages.first,
-            let _ = Bundle.main.path(forResource: language, ofType: "lproj") else {
+        guard let language = NSLocale.preferredLanguages.first else {
             return "en"
         }
         
-        return language
+        if Bundle.main.preferredLocalizations.contains(language) {
+            return language
+        } else {
+            return "en"
+        }
     }
 }
 
