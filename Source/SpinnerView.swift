@@ -51,6 +51,7 @@ public class SpinnerView : UIView {
         content.image = Icon.Spinner.imageWithFontSize(size: 30)
         content.tintColor = color.value
         content.contentMode = .scaleAspectFit
+        addObservers()
     }
     
     public override class var requiresConstraintBasedLayout: Bool {
@@ -75,6 +76,10 @@ public class SpinnerView : UIView {
         }
     }
     
+    public override func didMoveToSuperview() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     public override var intrinsicContentSize: CGSize {
         switch size {
         case .Small:
@@ -83,6 +88,16 @@ public class SpinnerView : UIView {
             return CGSize(width: 18, height: 18)
         case .Large:
             return CGSize(width: 24, height: 24)
+        }
+    }
+    
+    private func addObservers() {
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.willEnterForegroundNotification.rawValue) { (_, observer ,_) in
+            observer.startAnimating()
+        }
+        
+        NotificationCenter.default.oex_addObserver(observer: self, name: UIApplication.didEnterBackgroundNotification.rawValue) { (_, observer, _) in
+            observer.stopAnimating()
         }
     }
     
