@@ -74,7 +74,6 @@
     [[[ServerChangedChecker alloc] init] logoutIfServerChanged];
 
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
     // Forcing app to run in Light mode because app isn't configured for dark mode
     if (@available(iOS 13.0, *)) {
         self.window.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
@@ -233,7 +232,7 @@
     //Initialize Fabric
     OEXFabricConfig* fabric = [config fabricConfig];
     if(fabric.appKey && fabric.isEnabled) {
-        [Fabric with:@[CrashlyticsKit]];
+//        [Fabric with:@[CrashlyticsKit]];
     }
     
     [self initilizeChromeCast];

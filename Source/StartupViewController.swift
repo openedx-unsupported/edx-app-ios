@@ -38,6 +38,8 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         setupMessageLabel()
         setupSearchView()
         setupBottomBar()
+
+        view.backgroundColor = environment.styles.standardBackgroundColor()
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addAction { [weak self] _ in
