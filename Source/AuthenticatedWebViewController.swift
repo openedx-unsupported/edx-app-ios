@@ -71,9 +71,9 @@ private class WKWebViewContentController : WebContentController {
         let languageCookieValue = preferredLanguage
         
         if #available(iOS 11.0, *) {
-            guard let domain = request.url?.host,
+            guard let domain = request.url?.rootDomain,
                 let languageCookie = HTTPCookie(properties: [
-                .domain: domain,
+                .domain: ".\(domain)",
                 .path: "/",
                 .name: languageCookieName,
                 .value: languageCookieValue,
@@ -408,5 +408,17 @@ extension WKWebView {
             }
         }
         completion(nil)
+    }
+}
+
+extension URL {
+    var rootDomain: String? {
+        guard let hostName = self.host else { return nil }
+        let components = hostName.components(separatedBy: ".")
+        if components.count > 2 {
+            return components.suffix(2).joined(separator: ".")
+        } else {
+            return hostName
+        }
     }
 }
