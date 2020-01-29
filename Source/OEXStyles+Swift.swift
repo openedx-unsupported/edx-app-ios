@@ -59,6 +59,10 @@ extension OEXStyles {
         
         UINavigationBar.appearance().isTranslucent = false
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.classForCoder() as! UIAppearanceContainer.Type]).defaultTextAttributes = searchBarTextStyle.attributes.attributedKeyDictionary()
+
+        if #available(iOS 13.0, *) {
+            UISegmentedControl.appearance().selectedSegmentTintColor = primaryBaseColor()
+        }
     }
     
     ///**Warning:** Not from style guide. Do not add more uses
