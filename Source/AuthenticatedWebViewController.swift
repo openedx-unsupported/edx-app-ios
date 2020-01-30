@@ -67,34 +67,7 @@ private class WKWebViewContentController : WebContentController {
             webView.customUserAgent = userAgent
         }
         
-        let languageCookieName = "prod-edx-language-preference"
-        let languageCookieValue = preferredLanguage
-        
-        if #available(iOS 11.0, *) {
-            guard let domain = request.url?.rootDomain,
-                let languageCookie = HTTPCookie(properties: [
-                .domain: ".\(domain)",
-                .path: "/",
-                .name: languageCookieName,
-                .value: languageCookieValue,
-                .expires: NSDate(timeIntervalSinceNow: 3600000)
-                ])
-                else { return }
-
-            webView.getCookie(with: languageCookieName) { cookie in
-                if cookie == nil {
-                    self.webView.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
-                        self.webView.load(request as URLRequest)
-                    }
-                } else {
-                    self.webView.load(request as URLRequest)
-                }
-            }
-        } else {
-            var cookiedRequest = request as URLRequest
-            cookiedRequest.addValue("\(languageCookieName)=\(languageCookieValue))", forHTTPHeaderField: "Cookie")
-            webView.load(cookiedRequest)
-        }
+        webView.loadRequestWithLanguageCookie(request as URLRequest)
     }
     
     func resetState() {
@@ -112,18 +85,6 @@ private class WKWebViewContentController : WebContentController {
 
     var isLoading: Bool {
         return webView.isLoading
-    }
-    
-    var preferredLanguage: String {
-        guard let language = NSLocale.preferredLanguages.first else {
-            return "en"
-        }
-        
-        if Bundle.main.preferredLocalizations.contains(language) {
-            return language
-        } else {
-            return "en"
-        }
     }
 }
 
@@ -391,6 +352,54 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         }
         else {
             completionHandler(.performDefaultHandling, nil)
+        }
+    }
+}
+
+extension WKWebView {
+    private var preferredLanguage: String {
+        guard let language = NSLocale.preferredLanguages.first else {
+            return "en"
+        }
+        
+        if Bundle.main.preferredLocalizations.contains(language) {
+            return language
+        } else {
+            return "en"
+        }
+    }
+    
+    func loadRequestWithLanguageCookie(_ request: URLRequest) {
+        let languageCookieName = "prod-edx-language-preference"
+        let languageCookieValue = preferredLanguage
+        
+        if #available(iOS 11.0, *) {
+            guard let domain = request.url?.rootDomain,
+                let languageCookie = HTTPCookie(properties: [
+                .domain: ".\(domain)",
+                .path: "/",
+                .name: languageCookieName,
+                .value: languageCookieValue,
+                .expires: NSDate(timeIntervalSinceNow: 3600000)
+                ])
+                else {
+                    self.load(request)
+                    return
+            }
+
+            getCookie(with: languageCookieName) { cookie in
+                if cookie == nil {
+                    self.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
+                        self.load(request)
+                    }
+                } else {
+                    self.load(request)
+                }
+            }
+        } else {
+            var cookiedRequest = request
+            cookiedRequest.addValue("\(languageCookieName)=\(languageCookieValue))", forHTTPHeaderField: "Cookie")
+            load(cookiedRequest)
         }
     }
 }
