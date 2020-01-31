@@ -37,7 +37,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         inScreenNavigationContext(controller) {
             let expectation = self.expectation(description: "course loaded")
             
-            wait(for: 1) {
+            wait(for: 0.6) {
                 let blockLoadedStream = controller.t_blockIDForCurrentViewController()
                 blockLoadedStream.listen(controller) {blockID in
                     if let next = verifier?(blockID.value, controller) {
@@ -173,7 +173,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 controller.t_goForward()
                 
                 let testExpectation = self.expectation(description: "controller went backward")
-                wait(for: 1) {
+                wait(for: 0.6) {
                     controller.t_blockIDForCurrentViewController().listen(controller) { blockID in
                         testExpectation.fulfill()
                     }
