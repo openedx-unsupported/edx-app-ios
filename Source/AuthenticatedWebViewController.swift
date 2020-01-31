@@ -67,7 +67,7 @@ private class WKWebViewContentController : WebContentController {
             webView.customUserAgent = userAgent
         }
         
-        webView.loadRequestWithLanguageCookie(request as URLRequest)
+        webView.loadRequest(request as URLRequest)
     }
     
     func resetState() {
@@ -352,82 +352,6 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         }
         else {
             completionHandler(.performDefaultHandling, nil)
-        }
-    }
-}
-
-extension WKWebView {
-    private var preferredLanguage: String {
-        guard let language = NSLocale.preferredLanguages.first else {
-            return "en"
-        }
-        
-        if Bundle.main.preferredLocalizations.contains(language) {
-            return language
-        } else {
-            return "en"
-        }
-    }
-    
-    func loadRequestWithLanguageCookie(_ request: URLRequest) {
-        let languageCookieName = "prod-edx-language-preference"
-        let languageCookieValue = preferredLanguage
-        
-        if #available(iOS 11.0, *) {
-            guard let domain = request.url?.rootDomain,
-                let languageCookie = HTTPCookie(properties: [
-                .domain: ".\(domain)",
-                .path: "/",
-                .name: languageCookieName,
-                .value: languageCookieValue,
-                .expires: NSDate(timeIntervalSinceNow: 3600000)
-                ])
-                else {
-                    self.load(request)
-                    return
-            }
-
-            getCookie(with: languageCookieName) { cookie in
-                if cookie == nil {
-                    self.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
-                        self.load(request)
-                    }
-                } else {
-                    self.load(request)
-                }
-            }
-        } else {
-            var cookiedRequest = request
-            cookiedRequest.addValue("\(languageCookieName)=\(languageCookieValue))", forHTTPHeaderField: "Cookie")
-            load(cookiedRequest)
-        }
-    }
-}
-
-@available(iOS 11.0, *)
-extension WKWebView {
-    private var httpCookieStore: WKHTTPCookieStore  { return WKWebsiteDataStore.default().httpCookieStore }
-    
-    func getCookie(with name: String, completion: @escaping (HTTPCookie?)-> ()) {
-        httpCookieStore.getAllCookies { cookies in
-            for cookie in cookies {
-                if cookie.name.contains(name) {
-                    completion(cookie)
-                }
-            }
-        }
-        completion(nil)
-    }
-}
-
-extension URL {
-    var rootDomain: String? {
-        guard let hostName = self.host else { return nil }
-        let components = hostName.components(separatedBy: ".")
-        if components.count > 2 {
-            return components.suffix(2).joined(separator: ".")
-        } else {
-            return hostName
         }
     }
 }

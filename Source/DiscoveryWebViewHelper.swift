@@ -253,7 +253,7 @@ class DiscoveryWebViewHelper: NSObject {
 
     fileprivate func loadRequest(withURL url: URL) {
         let request = URLRequest(url: url)
-        webView.loadRequestWithLanguageCookie(request)
+        webView.loadRequest(request)
         self.request = request
     }
 
