@@ -18,7 +18,7 @@ class StreamWaitOperation<A> : OEXOperation {
         self.stream = stream
         self.completion = completion
     }
-    
+
     override func performWithDoneAction(_ doneAction: @escaping () -> Void) {
         DispatchQueue.main.async {[weak self] in
             if let owner = self {
