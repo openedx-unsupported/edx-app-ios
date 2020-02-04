@@ -1,5 +1,5 @@
 //
-//  WKWebViewExtension.swift
+//  WKWebView+LanguageCookie.swift
 //  edX
 //
 //  Created by MuhammadUmer on 31/01/2020.
@@ -21,7 +21,6 @@ extension WKWebView {
     
     func loadRequest(_ request: URLRequest) {
         var request = request
-        
         if #available(iOS 11.0, *) {
             guard let domain = request.url?.rootDomain,
                 let languageCookie = HTTPCookie(properties: [
@@ -46,7 +45,6 @@ extension WKWebView {
         } else {
             request.addValue("\(languageCookieName)=\(defaultLanguage))", forHTTPHeaderField: "Cookie")
         }
-        
         load(request)
     }
 }
