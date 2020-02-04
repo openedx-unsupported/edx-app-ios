@@ -13,7 +13,6 @@ FOUNDATION_EXPORT double edXCoreVersionNumber;
 
 //! Project version string for edXCore.
 FOUNDATION_EXPORT const unsigned char edXCoreVersionString[];
-
 #import <edXCore/NSBundle+OEXConveniences.h>
 #import <edXCore/NSSTring+OEXCrypto.h>
 #import <edXCore/NSObject+OEXDeallocAction.h>

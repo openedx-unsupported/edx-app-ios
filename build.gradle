@@ -286,7 +286,7 @@ task wrapper(type: Wrapper) {
 
 def testBuildArguments(workspace, scheme, OS, record) {
     def args = [
-        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', '-destination', 'platform=iOS Simulator,name=iPhone 5s,OS=' + OS, 'test'
+        'xcodebuild', '-workspace', workspace, '-scheme', scheme, '-sdk', 'iphonesimulator', '-destination', 'platform=iOS Simulator,name=iPhone 8,OS=' + OS, 'test'
     ]
     if(record) {
         args += ["OTHER_SWIFT_FLAGS=\$(OTHER_SWIFT_FLAGS) -D RECORD_SNAPSHOTS"]
@@ -298,7 +298,7 @@ def RTLSchemeForScheme(scheme) {
     return scheme + '-RTL'
 }
 
-def operatingSystems = ["currentOS": "12.4", "previousOS": "11.3"]
+def operatingSystems = ["currentOS": "13.3", "previousOS": "12.4"]
 def directions = ["LTR": scheme, "RTL": RTLSchemeForScheme(scheme)]
 def commands = ["test" : ["record" : false], "recordSnapshots": ["record" : true]] 
 

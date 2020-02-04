@@ -143,6 +143,8 @@ extension UIFont {
             return .title1
         case .xxxxLarge:
             return .title1
+        default:
+            return .callout
         }
     }
 }
