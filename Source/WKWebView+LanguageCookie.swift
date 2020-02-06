@@ -16,9 +16,18 @@ extension WKWebView {
     }
     
     private var defaultLanguage: String {
-        guard let language = NSLocale.preferredLanguages.first,
-            Bundle.main.preferredLocalizations.contains(language) else { return "en" }
-        return language
+        guard let deviceLanguage = NSLocale.preferredLanguages.first,
+            let language = deviceLanguage.components(separatedBy: "-").first else { return "en" }
+        
+        let preferredLocalizations = Bundle.main.preferredLocalizations
+                    
+        for (index, element) in preferredLocalizations.enumerated() {
+            if element.contains(find: language) {
+                return preferredLocalizations[index]
+            }
+        }
+
+        return "en"
     }
     
     private var storedLanguageCookieValue: String {
