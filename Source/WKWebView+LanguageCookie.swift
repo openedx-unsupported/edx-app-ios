@@ -8,15 +8,27 @@
 
 import Foundation
 
+let SelectedLanguageCookieValue = "SelectedLanguageCookieValue"
+
 extension WKWebView {
     private var languageCookieName: String {
         return "prod-edx-language-preference"
     }
-
+    
     private var defaultLanguage: String {
         guard let language = NSLocale.preferredLanguages.first,
             Bundle.main.preferredLocalizations.contains(language) else { return "en" }
         return language
+    }
+    
+    private var storedLanguageCookieValue: String {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SelectedLanguageCookieValue)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.value(forKey: SelectedLanguageCookieValue) as? String ?? ""
+        }
     }
     
     func loadRequest(_ request: URLRequest) {
@@ -24,20 +36,21 @@ extension WKWebView {
         if #available(iOS 11.0, *) {
             guard let domain = request.url?.rootDomain,
                 let languageCookie = HTTPCookie(properties: [
-                .domain: ".\(domain)",
-                .path: "/",
-                .name: languageCookieName,
-                .value: defaultLanguage,
-                .expires: NSDate(timeIntervalSinceNow: 3600000)
+                    .domain: ".\(domain)",
+                    .path: "/",
+                    .name: languageCookieName,
+                    .value: defaultLanguage,
+                    .expires: NSDate(timeIntervalSinceNow: 3600000)
                 ])
                 else {
                     load(request)
                     return
             }
-
+            
             getCookie(with: languageCookieName) { [weak self]  cookie in
-                if cookie == nil {
+                if cookie == nil || self?.storedLanguageCookieValue != self?.defaultLanguage {
                     self?.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
+                        self?.storedLanguageCookieValue = self?.defaultLanguage ?? ""
                         self?.load(request)
                     }
                 }
