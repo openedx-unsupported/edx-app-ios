@@ -41,6 +41,9 @@ extension WKWebView {
     
     func loadRequest(_ request: URLRequest) {
         var request = request
+        request.setValue("no-cache", forHTTPHeaderField: "Pragma")
+        request.setValue("no-cache", forHTTPHeaderField: "Cache-Control")
+        
         if #available(iOS 11.0, *) {
             guard let domain = request.url?.rootDomain,
                 let languageCookie = HTTPCookie(properties: [
