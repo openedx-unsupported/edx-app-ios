@@ -57,7 +57,7 @@ extension WKWebView {
             
             getCookie(with: languageCookieName) { [weak self]  cookie in
                 if let weakSelf = self {
-                    if cookie == nil || self?.storedLanguageCookieValue != weakSelf.defaultLanguage {
+                    if cookie == nil || weakSelf.storedLanguageCookieValue != weakSelf.defaultLanguage {
                         weakSelf.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
                             weakSelf.storedLanguageCookieValue = weakSelf.defaultLanguage
                             weakSelf.load(request)
