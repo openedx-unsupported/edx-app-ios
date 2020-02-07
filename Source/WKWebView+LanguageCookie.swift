@@ -61,6 +61,7 @@ extension WKWebView {
                         weakSelf.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
                             weakSelf.storedLanguageCookieValue = weakSelf.defaultLanguage
                             weakSelf.load(request)
+                            return
                         }
                     }
                 }
