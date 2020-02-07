@@ -16,17 +16,16 @@ extension WKWebView {
     }
     
     private var defaultLanguage: String {
-        guard let deviceLanguage = NSLocale.preferredLanguages.first,
-            let language = deviceLanguage.components(separatedBy: "-").first else { return "en" }
+        guard let deviceLanguage = NSLocale.current.languageCode else { return "en" }
         
         let preferredLocalizations = Bundle.main.preferredLocalizations
-                    
-        for (index, element) in preferredLocalizations.enumerated() {
-            if element.contains(find: language) {
+        
+        for (index, language) in preferredLocalizations.enumerated() {
+            if language.contains(find: deviceLanguage) {
                 return preferredLocalizations[index]
             }
         }
-
+        
         return "en"
     }
     
@@ -57,10 +56,12 @@ extension WKWebView {
             }
             
             getCookie(with: languageCookieName) { [weak self]  cookie in
-                if cookie == nil || self?.storedLanguageCookieValue != self?.defaultLanguage {
-                    self?.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
-                        self?.storedLanguageCookieValue = self?.defaultLanguage ?? ""
-                        self?.load(request)
+                if let weakSelf = self {
+                    if cookie == nil || self?.storedLanguageCookieValue != weakSelf.defaultLanguage {
+                        weakSelf.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
+                            weakSelf.storedLanguageCookieValue = weakSelf.defaultLanguage
+                            weakSelf.load(request)
+                        }
                     }
                 }
             }
