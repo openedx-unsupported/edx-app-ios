@@ -17,7 +17,7 @@ extension UIDevice {
     
     /// This is only for use from Objective-C code. Swift code should use
     /// if #available.
-    class func isOSVersionAtLeast9() -> Bool {
-        return current.isOSVersionAtLeast(version: 9)
+    class func isOSVersionAtLeast10() -> Bool {
+        return current.isOSVersionAtLeast(version: 10)
     }
 }
