@@ -132,7 +132,7 @@ extension CourseHandoutsViewController: WKNavigationDelegate {
         switch navigationAction.navigationType {
         case .linkActivated, .formSubmitted, .formResubmitted:
             if let URL = navigationAction.request.url, UIApplication.shared.canOpenURL(URL){
-                UIApplication.shared.openURL(URL)
+                UIApplication.shared.open(URL, options: [:], completionHandler: nil)
             }
             decisionHandler(.cancel)
         default:

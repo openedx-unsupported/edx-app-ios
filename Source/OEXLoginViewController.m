@@ -525,7 +525,7 @@
     [alertController addButtonWithTitle:[Strings versionUpgradeUpdate] actionBlock:^(UIAlertAction * _Nonnull action) {
         NSURL *url = _environment.config.appUpgradeConfig.iOSAppStoreURL;
         if (url && [[UIApplication sharedApplication] canOpenURL:url]) {
-            [[UIApplication sharedApplication] openURL:url];
+            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
         }
     }];
 }

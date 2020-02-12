@@ -49,12 +49,9 @@
 - (void)performRegistration {
     UIApplication* application = [UIApplication sharedApplication];
 
-    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert |
-    UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
+    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge;
     [UNUserNotificationCenter currentNotificationCenter].delegate = self;
-    [[UNUserNotificationCenter currentNotificationCenter]
-     requestAuthorizationWithOptions:authOptions
-     completionHandler:^(BOOL granted, NSError * _Nullable error) {
+    [[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:authOptions completionHandler:^(BOOL granted, NSError * _Nullable error) {
     }];
 
     [application registerForRemoteNotifications];

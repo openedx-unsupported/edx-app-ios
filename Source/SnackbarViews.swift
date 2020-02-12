@@ -70,7 +70,7 @@ public class VersionUpgradeView: UIView {
             if let URL = OEXConfig.shared().appUpgradeConfig.iOSAppStoreURL() {
                 if UIApplication.shared.canOpenURL(URL as URL) {
                     self?.dismissView()
-                    UIApplication.shared.openURL(URL as URL)
+                    UIApplication.shared.open(URL as URL, options: [:], completionHandler: nil)
                     isActionTakenOnUpgradeSnackBar = true
                 }
             }

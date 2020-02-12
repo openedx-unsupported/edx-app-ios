@@ -39,7 +39,7 @@
 #import "OEXSegmentConfig.h"
 #import <MSAL/MSAL.h>
 
-@interface OEXAppDelegate () <UIApplicationDelegate>
+@interface OEXAppDelegate () <UIApplicationDelegate, UNUserNotificationCenterDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary* dictCompletionHandler;
 @property (nonatomic, strong) OEXEnvironment* environment;
@@ -143,8 +143,12 @@
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    [self.environment.pushNotificationManager didReceiveLocalNotificationWithUserInfo:notification.userInfo];
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+    completionHandler();
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -232,7 +236,7 @@
     //Initialize Fabric
     OEXFabricConfig* fabric = [config fabricConfig];
     if(fabric.appKey && fabric.isEnabled) {
-        [Fabric with:@[CrashlyticsKit]];
+//        [Fabric with:@[CrashlyticsKit]];
     }
     
     [self initilizeChromeCast];
