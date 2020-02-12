@@ -480,8 +480,6 @@
 		77AFD11D1C1B7721001985FD /* NSObject+SafeKVOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AFD1191C1B769B001985FD /* NSObject+SafeKVOTests.swift */; };
 		77B463911A30F6310083453A /* OEXAnnouncement.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B4638C1A30F6310083453A /* OEXAnnouncement.m */; };
 		77B463971A30F65E0083453A /* OEXStyles.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B463961A30F65E0083453A /* OEXStyles.m */; };
-		77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */; };
-		77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */; };
 		77BC6F431CB82E1D00F0A8C1 /* CourseOutlineTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 773A04791AF2D7690076532C /* CourseOutlineTestDataFactory.swift */; };
 		77BC6F451CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */; };
 		77BECB041B0A5FDB00894276 /* ContentInsetsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */; };
@@ -859,6 +857,8 @@
 		E0A2461F1D5DA12A0066C766 /* AppStoreConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */; };
 		E0A246211D5DB3FD0066C766 /* AppUpgradeConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */; };
 		E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */; };
+		E0B1A50323F3E28C00E29734 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0B1A50223F3E28B00E29734 /* UserNotifications.framework */; };
+		E0B1A50523F3E29900E29734 /* UserNotificationsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0B1A50423F3E29900E29734 /* UserNotificationsUI.framework */; };
 		E0B4F3621EBB133000D42C11 /* WhatsNewContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */; };
 		E0C6EF971BFF4B9900B315E3 /* UIButton+TintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */; };
 		E0CB646F1F20B6DD00CEF378 /* DateFormattingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */; };
@@ -1527,9 +1527,6 @@
 		77B4638C1A30F6310083453A /* OEXAnnouncement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXAnnouncement.m; sourceTree = "<group>"; };
 		77B463951A30F65E0083453A /* OEXStyles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXStyles.h; sourceTree = "<group>"; };
 		77B463961A30F65E0083453A /* OEXStyles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXStyles.m; sourceTree = "<group>"; };
-		77BC3E671AE0091400E51529 /* OEXPushNotificationProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXPushNotificationProcessor.h; sourceTree = "<group>"; };
-		77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationProcessor.m; sourceTree = "<group>"; };
-		77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXPushNotificationProcessorTests.m; sourceTree = "<group>"; };
 		77BC6F441CB847D800F0A8C1 /* UserProfileNetworkPresenterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileNetworkPresenterTests.swift; sourceTree = "<group>"; };
 		77BECB031B0A5FDB00894276 /* ContentInsetsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentInsetsController.swift; sourceTree = "<group>"; };
 		77BECB051B0A668000894276 /* UIEdgeInsets+Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Geometry.swift"; sourceTree = "<group>"; };
@@ -2005,6 +2002,8 @@
 		E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreConfig.swift; sourceTree = "<group>"; };
 		E0A246201D5DB3FD0066C766 /* AppUpgradeConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUpgradeConfigTests.swift; sourceTree = "<group>"; };
 		E0AF4E8D1BFB19CC0083753C /* PassthroughView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
+		E0B1A50223F3E28B00E29734 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		E0B1A50423F3E29900E29734 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
 		E0B4F3611EBB133000D42C11 /* WhatsNewContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsNewContentController.swift; sourceTree = "<group>"; };
 		E0C6EF961BFF4B9900B315E3 /* UIButton+TintColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+TintColor.swift"; sourceTree = "<group>"; };
 		E0CB646E1F20B6DD00CEF378 /* DateFormattingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormattingTests.swift; sourceTree = "<group>"; };
@@ -2071,6 +2070,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0B1A50523F3E29900E29734 /* UserNotificationsUI.framework in Frameworks */,
+				E0B1A50323F3E28C00E29734 /* UserNotifications.framework in Frameworks */,
 				BE0EE289192B78CF00F9FF98 /* SystemConfiguration.framework in Frameworks */,
 				0D157630235EDA040007B0B7 /* Security.framework in Frameworks */,
 				22ABBA0A211C07710001020B /* MSAL.framework in Frameworks */,
@@ -2753,8 +2754,6 @@
 				775434801AD738AD00635A40 /* OEXPushProvider.h */,
 				775434811AD7394D00635A40 /* OEXPushNotificationManager.h */,
 				775434821AD7394D00635A40 /* OEXPushNotificationManager.m */,
-				77BC3E671AE0091400E51529 /* OEXPushNotificationProcessor.h */,
-				77BC3E681AE0091400E51529 /* OEXPushNotificationProcessor.m */,
 				E09B73712342034400D0EE45 /* FCMProvider.swift */,
 				22AC5B0C23741C8900DCA505 /* FCMListner.swift */,
 			);
@@ -3725,6 +3724,8 @@
 		BECB7B0D1924C0C3009C77F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E0B1A50423F3E29900E29734 /* UserNotificationsUI.framework */,
+				E0B1A50223F3E28B00E29734 /* UserNotifications.framework */,
 				0D15762F235EDA040007B0B7 /* Security.framework */,
 				0D15762C235ED9F30007B0B7 /* MediaAccessibility.framework */,
 				0D15762B235ED9F30007B0B7 /* MediaPlayer.framework */,
@@ -3884,7 +3885,6 @@
 				77000A381A76EFF2007D306C /* NSString+OEXValidationTests.m */,
 				77D705FB1B7C0DEC00ABCB70 /* OEXCourseTests.swift */,
 				778F17701C0CFD310099BF93 /* OEXRouterTests.swift */,
-				77BC3E6A1AE1615700E51529 /* OEXPushNotificationProcessorTests.m */,
 				7754348B1AD83E4600635A40 /* OEXPushNotificationManagerTests.m */,
 				77567B541AC5F06F00877A7B /* OEXSafeCastTests.m */,
 				77567B4B1AC5E8EC00877A7B /* OEXAnalyticsTests.m */,
@@ -5065,7 +5065,6 @@
 				B78823AC1FC709BD00F9CD61 /* String+Validation.swift in Sources */,
 				2271C54A21634E40001EA1E6 /* DeepLinkManager.swift in Sources */,
 				7764597F1A096339008404CC /* NSString+OEXEncoding.m in Sources */,
-				77BC3E691AE0091400E51529 /* OEXPushNotificationProcessor.m in Sources */,
 				775E5A811BE1C88A0046B26B /* LiveObjectCache.swift in Sources */,
 				0D930BC4236978D6001C80AF /* ChromeCastMetaDataModel.swift in Sources */,
 				B78823A51FC6F59A00F9CD61 /* RegistrationFormFieldView.swift in Sources */,
@@ -5250,7 +5249,6 @@
 				E02E59F11F0E517300060AE0 /* VersionParserTests.swift in Sources */,
 				77CBF55A1BFBE89300B4F121 /* CourseAnnouncementsViewControllerTests.swift in Sources */,
 				775DF4151AFAA36100F96B2F /* CourseContentPageViewControllerTests.swift in Sources */,
-				77BC3E6B1AE1615700E51529 /* OEXPushNotificationProcessorTests.m in Sources */,
 				22F8A9101F45EFAF0025E18A /* AccountViewControllerTest.swift in Sources */,
 				B7C5DB5E20BB4BA800D80AD2 /* SubjectDataModelTests.swift in Sources */,
 				77503E981B2F53C300C47229 /* StreamTests.swift in Sources */,
@@ -5613,7 +5611,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				PRODUCT_NAME = edX;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
@@ -5744,7 +5742,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
@@ -5778,7 +5776,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
@@ -5811,7 +5809,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Source/Core/SupportingFiles/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.edx.edXCore;
@@ -6016,7 +6014,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = edX;
 				RUN_CLANG_STATIC_ANALYZER = YES;
@@ -6068,7 +6066,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				PRODUCT_NAME = edX;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;

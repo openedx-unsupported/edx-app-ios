@@ -281,7 +281,7 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
         
         let outsideLink = (request.mainDocumentURL?.host != self.request?.url?.host)
         if let URL = request.url, outsideLink || capturedLink {
-            UIApplication.shared.openURL(URL)
+            UIApplication.shared.open(URL, options: [:], completionHandler: nil)
             decisionHandler(.cancel)
             return
         }

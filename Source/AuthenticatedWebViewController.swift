@@ -283,7 +283,7 @@ public class AuthenticatedWebViewController: UIViewController, WKNavigationDeleg
         switch navigationAction.navigationType {
         case .linkActivated, .formSubmitted, .formResubmitted:
             if let URL = navigationAction.request.url, webViewDelegate?.webView(webView, shouldLoad: navigationAction.request) ?? true {
-                UIApplication.shared.openURL(URL)
+                UIApplication.shared.open(URL, options: [:], completionHandler: nil)
             }
             decisionHandler(.cancel)
         default:
