@@ -8,8 +8,6 @@
 
 import Foundation
 
-let SelectedLanguageCookieValue = "SelectedLanguageCookieValue"
-
 extension WKWebView {
     private var languageCookieName: String {
         return "prod-edx-language-preference"
@@ -27,16 +25,6 @@ extension WKWebView {
         }
         
         return "en"
-    }
-    
-    private var storedLanguageCookieValue: String {
-        set {
-            UserDefaults.standard.set(newValue, forKey: SelectedLanguageCookieValue)
-            UserDefaults.standard.synchronize()
-        }
-        get {
-            return UserDefaults.standard.value(forKey: SelectedLanguageCookieValue) as? String ?? ""
-        }
     }
     
     func loadRequest(_ request: URLRequest) {
@@ -58,12 +46,11 @@ extension WKWebView {
                     return
             }
             
-            getCookie(with: languageCookieName) { [weak self]  cookie in
-                if let weakSelf = self {
-                    if cookie == nil || weakSelf.storedLanguageCookieValue != weakSelf.defaultLanguage {
-                        weakSelf.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
-                            weakSelf.storedLanguageCookieValue = weakSelf.defaultLanguage
-                            weakSelf.load(request)
+            getCookie(with: languageCookieName) { [weak self] cookie in
+                if let cookie = cookie {
+                    if cookie.value != languageCookie.value {
+                        self?.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
+                            self?.load(request)
                             return
                         }
                     }
