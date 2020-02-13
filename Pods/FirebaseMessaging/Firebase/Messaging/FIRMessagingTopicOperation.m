@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-#import "FIRMessagingTopicOperation.h"
+#import "Firebase/Messaging/FIRMessagingTopicOperation.h"
 
-#import "FIRMessagingCheckinService.h"
-#import "FIRMessagingDefines.h"
-#import "FIRMessagingLogger.h"
-#import "FIRMessagingUtilities.h"
-#import "NSError+FIRMessaging.h"
+#import <FirebaseInstanceID/FIRInstanceID_Private.h>
+
+#import "Firebase/Messaging/FIRMessagingDefines.h"
+#import "Firebase/Messaging/FIRMessagingLogger.h"
+#import "Firebase/Messaging/FIRMessagingUtilities.h"
+#import "Firebase/Messaging/NSError+FIRMessaging.h"
 
 #define DEBUG_LOG_SUBSCRIPTION_OPERATION_DURATIONS 0
 
@@ -51,7 +52,6 @@ NSString *FIRMessagingSubscriptionsServer() {
 @property(nonatomic, readwrite, assign) FIRMessagingTopicAction action;
 @property(nonatomic, readwrite, copy) NSString *token;
 @property(nonatomic, readwrite, copy) NSDictionary *options;
-@property(nonatomic, readwrite, strong) FIRMessagingCheckinService *checkinService;
 @property(nonatomic, readwrite, copy) FIRMessagingTopicOperationCompletion completion;
 
 @property(atomic, strong) NSURLSessionDataTask *dataTask;
@@ -76,14 +76,12 @@ NSString *FIRMessagingSubscriptionsServer() {
                        action:(FIRMessagingTopicAction)action
                         token:(NSString *)token
                       options:(NSDictionary *)options
-               checkinService:(FIRMessagingCheckinService *)checkinService
                    completion:(FIRMessagingTopicOperationCompletion)completion {
   if (self = [super init]) {
     _topic = topic;
     _action = action;
     _token = token;
     _options = options;
-    _checkinService = checkinService;
     _completion = completion;
 
     _isExecuting = NO;
@@ -95,7 +93,6 @@ NSString *FIRMessagingSubscriptionsServer() {
 - (void)dealloc {
   _topic = nil;
   _token = nil;
-  _checkinService = nil;
   _completion = nil;
 }
 
@@ -162,12 +159,12 @@ NSString *FIRMessagingSubscriptionsServer() {
   NSURL *url = [NSURL URLWithString:FIRMessagingSubscriptionsServer()];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
   NSString *appIdentifier = FIRMessagingAppIdentifier();
-  NSString *deviceAuthID = self.checkinService.deviceAuthID;
-  NSString *secretToken = self.checkinService.secretToken;
+  NSString *deviceAuthID = [FIRInstanceID instanceID].deviceAuthID;
+  NSString *secretToken = [FIRInstanceID instanceID].secretToken;
   NSString *authString = [NSString stringWithFormat:@"AidLogin %@:%@", deviceAuthID, secretToken];
   [request setValue:authString forHTTPHeaderField:@"Authorization"];
   [request setValue:appIdentifier forHTTPHeaderField:@"app"];
-  [request setValue:self.checkinService.versionInfo forHTTPHeaderField:@"info"];
+  [request setValue:[FIRInstanceID instanceID].versionInfo forHTTPHeaderField:@"info"];
 
   // Topic can contain special characters (like `%`) so encode the value.
   NSCharacterSet *characterSet = [NSCharacterSet URLQueryAllowedCharacterSet];
@@ -220,7 +217,7 @@ NSString *FIRMessagingSubscriptionsServer() {
       }
       FIRMessagingLoggerDebug(kFIRMessagingMessageCodeTopicOption001,
                               @"Device registration HTTP fetch error. Error Code: %ld",
-                              _FIRMessaging_L(error.code));
+                              (long)error.code);
       [self finishWithError:error];
       return;
     }
@@ -232,7 +229,6 @@ NSString *FIRMessagingSubscriptionsServer() {
       return;
     }
     NSArray *parts = [response componentsSeparatedByString:@"="];
-    _FIRMessagingDevAssert(parts.count, @"Invalid registration response");
     if (![parts[0] isEqualToString:@"token"] || parts.count <= 1) {
       FIRMessagingLoggerDebug(kFIRMessagingMessageCodeTopicOption002,
                               @"Invalid registration response %@", response);

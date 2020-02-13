@@ -2,8 +2,9 @@
 
 #import "FIRTrace.h"
 
-/** This class allows you to configure the Firebase Performance Reporting SDK. It also provides the
- *  interfaces to create timers and enable or disable automatic metrics capture.
+/**
+ * This class allows you to configure the Firebase Performance Reporting SDK. It also provides the
+ * interfaces to create timers and enable or disable automatic metrics capture.
  *
  * This SDK uses a Firebase Instance ID token to identify the app instance and periodically sends
  * data to the Firebase backend. (see `[FIRInstanceID getIDWithHandler:]`).

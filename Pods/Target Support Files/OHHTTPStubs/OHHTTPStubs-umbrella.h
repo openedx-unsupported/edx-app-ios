@@ -14,6 +14,7 @@
 #import "OHHTTPStubs.h"
 #import "OHHTTPStubsResponse.h"
 #import "OHHTTPStubsResponse+JSON.h"
+#import "NSURLRequest+HTTPBodyTesting.h"
 #import "OHPathHelpers.h"
 #import "Compatibility.h"
 

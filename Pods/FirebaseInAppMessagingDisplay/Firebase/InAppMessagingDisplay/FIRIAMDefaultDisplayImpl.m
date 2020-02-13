@@ -21,6 +21,7 @@
 #import <FirebaseInAppMessaging/FIRInAppMessaging.h>
 #import <FirebaseInAppMessaging/FIRInAppMessagingRendering.h>
 #import "FIDBannerViewController.h"
+#import "FIDCardViewController.h"
 #import "FIDImageOnlyViewController.h"
 #import "FIDModalViewController.h"
 #import "FIDRenderingWindowHelper.h"
@@ -57,6 +58,14 @@
     // This is assuming the display resource bundle is contained in the main bundle
     NSURL *bundleURL = [containingBundle URLForResource:@"InAppMessagingDisplayResources"
                                           withExtension:@"bundle"];
+    if (bundleURL == nil) {
+      FIRLogWarning(kFIRLoggerInAppMessagingDisplay, @"I-FID100007",
+                    @"FIAM Display Resource bundle "
+                     "is missing: not contained within bundle %@",
+                    containingBundle);
+      return;
+    }
+
     resourceBundle = [NSBundle bundleWithURL:bundleURL];
 
     if (resourceBundle == nil) {
@@ -69,20 +78,58 @@
   return resourceBundle;
 }
 
++ (void)displayCardViewWithMessageDefinition:(FIRInAppMessagingCardDisplay *)cardMessage
+                             displayDelegate:(id<FIRInAppMessagingDisplayDelegate>)displayDelegate {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSBundle *resourceBundle = [self getViewResourceBundle];
+
+    if (resourceBundle == nil) {
+      NSError *error =
+          [NSError errorWithDomain:kFirebaseInAppMessagingDisplayErrorDomain
+                              code:FIAMDisplayRenderErrorTypeUnspecifiedError
+                          userInfo:@{NSLocalizedDescriptionKey : @"Resource bundle is missing."}];
+      [displayDelegate displayErrorForMessage:cardMessage error:error];
+      return;
+    }
+
+    FIDTimerWithNSDate *timeFetcher = [[FIDTimerWithNSDate alloc] init];
+    FIDCardViewController *cardVC =
+        [FIDCardViewController instantiateViewControllerWithResourceBundle:resourceBundle
+                                                            displayMessage:cardMessage
+                                                           displayDelegate:displayDelegate
+                                                               timeFetcher:timeFetcher];
+
+    if (cardVC == nil) {
+      FIRLogWarning(kFIRLoggerInAppMessagingDisplay, @"I-FID100011",
+                    @"View controller can not be created.");
+      NSError *error = [NSError
+          errorWithDomain:kFirebaseInAppMessagingDisplayErrorDomain
+                     code:FIAMDisplayRenderErrorTypeUnspecifiedError
+                 userInfo:@{NSLocalizedDescriptionKey : @"View controller could not be created"}];
+      [displayDelegate displayErrorForMessage:cardMessage error:error];
+      return;
+    }
+
+    UIWindow *displayUIWindow = [FIDRenderingWindowHelper UIWindowForModalView];
+    displayUIWindow.rootViewController = cardVC;
+    [displayUIWindow setHidden:NO];
+  });
+}
+
 + (void)displayModalViewWithMessageDefinition:(FIRInAppMessagingModalDisplay *)modalMessage
                               displayDelegate:
                                   (id<FIRInAppMessagingDisplayDelegate>)displayDelegate {
-  NSBundle *resourceBundle = [self getViewResourceBundle];
-
-  if (resourceBundle == nil) {
-    NSError *error = [NSError errorWithDomain:kFirebaseInAppMessagingDisplayErrorDomain
-                                         code:FIAMDisplayRenderErrorTypeUnspecifiedError
-                                     userInfo:@{@"message" : @"resource bundle is missing"}];
-    [displayDelegate displayErrorForMessage:modalMessage error:error];
-    return;
-  }
-
   dispatch_async(dispatch_get_main_queue(), ^{
+    NSBundle *resourceBundle = [self getViewResourceBundle];
+
+    if (resourceBundle == nil) {
+      NSError *error = [NSError errorWithDomain:kFirebaseInAppMessagingDisplayErrorDomain
+                                           code:FIAMDisplayRenderErrorTypeUnspecifiedError
+                                       userInfo:@{@"message" : @"resource bundle is missing"}];
+      [displayDelegate displayErrorForMessage:modalMessage error:error];
+      return;
+    }
+
     FIDTimerWithNSDate *timeFetcher = [[FIDTimerWithNSDate alloc] init];
     FIDModalViewController *modalVC =
         [FIDModalViewController instantiateViewControllerWithResourceBundle:resourceBundle
@@ -109,17 +156,17 @@
 + (void)displayBannerViewWithMessageDefinition:(FIRInAppMessagingBannerDisplay *)bannerMessage
                                displayDelegate:
                                    (id<FIRInAppMessagingDisplayDelegate>)displayDelegate {
-  NSBundle *resourceBundle = [self getViewResourceBundle];
-
-  if (resourceBundle == nil) {
-    NSError *error = [NSError errorWithDomain:kFirebaseInAppMessagingDisplayErrorDomain
-                                         code:FIAMDisplayRenderErrorTypeUnspecifiedError
-                                     userInfo:@{}];
-    [displayDelegate displayErrorForMessage:bannerMessage error:error];
-    return;
-  }
-
   dispatch_async(dispatch_get_main_queue(), ^{
+    NSBundle *resourceBundle = [self getViewResourceBundle];
+
+    if (resourceBundle == nil) {
+      NSError *error = [NSError errorWithDomain:kFirebaseInAppMessagingDisplayErrorDomain
+                                           code:FIAMDisplayRenderErrorTypeUnspecifiedError
+                                       userInfo:@{}];
+      [displayDelegate displayErrorForMessage:bannerMessage error:error];
+      return;
+    }
+
     FIDTimerWithNSDate *timeFetcher = [[FIDTimerWithNSDate alloc] init];
     FIDBannerViewController *bannerVC =
         [FIDBannerViewController instantiateViewControllerWithResourceBundle:resourceBundle
@@ -147,17 +194,17 @@
             (FIRInAppMessagingImageOnlyDisplay *)imageOnlyMessage
                                   displayDelegate:
                                       (id<FIRInAppMessagingDisplayDelegate>)displayDelegate {
-  NSBundle *resourceBundle = [self getViewResourceBundle];
-
-  if (resourceBundle == nil) {
-    NSError *error = [NSError errorWithDomain:kFirebaseInAppMessagingDisplayErrorDomain
-                                         code:FIAMDisplayRenderErrorTypeUnspecifiedError
-                                     userInfo:@{}];
-    [displayDelegate displayErrorForMessage:imageOnlyMessage error:error];
-    return;
-  }
-
   dispatch_async(dispatch_get_main_queue(), ^{
+    NSBundle *resourceBundle = [self getViewResourceBundle];
+
+    if (resourceBundle == nil) {
+      NSError *error = [NSError errorWithDomain:kFirebaseInAppMessagingDisplayErrorDomain
+                                           code:FIAMDisplayRenderErrorTypeUnspecifiedError
+                                       userInfo:@{}];
+      [displayDelegate displayErrorForMessage:imageOnlyMessage error:error];
+      return;
+    }
+
     FIDTimerWithNSDate *timeFetcher = [[FIDTimerWithNSDate alloc] init];
     FIDImageOnlyViewController *imageOnlyVC =
         [FIDImageOnlyViewController instantiateViewControllerWithResourceBundle:resourceBundle
@@ -185,21 +232,27 @@
 - (void)displayMessage:(FIRInAppMessagingDisplayMessage *)messageForDisplay
        displayDelegate:(id<FIRInAppMessagingDisplayDelegate>)displayDelegate {
   if ([messageForDisplay isKindOfClass:[FIRInAppMessagingModalDisplay class]]) {
-    FIRLogDebug(kFIRLoggerInAppMessagingDisplay, @"I-FID100000", @"Display a modal message");
+    FIRLogDebug(kFIRLoggerInAppMessagingDisplay, @"I-FID100000", @"Display a modal message.");
     [self.class displayModalViewWithMessageDefinition:(FIRInAppMessagingModalDisplay *)
                                                           messageForDisplay
                                       displayDelegate:displayDelegate];
 
   } else if ([messageForDisplay isKindOfClass:[FIRInAppMessagingBannerDisplay class]]) {
-    FIRLogDebug(kFIRLoggerInAppMessagingDisplay, @"I-FID100001", @"Display a banner message");
+    FIRLogDebug(kFIRLoggerInAppMessagingDisplay, @"I-FID100001", @"Display a banner message.");
     [self.class displayBannerViewWithMessageDefinition:(FIRInAppMessagingBannerDisplay *)
                                                            messageForDisplay
                                        displayDelegate:displayDelegate];
   } else if ([messageForDisplay isKindOfClass:[FIRInAppMessagingImageOnlyDisplay class]]) {
-    FIRLogDebug(kFIRLoggerInAppMessagingDisplay, @"I-FID100002", @"Display an image only message");
+    FIRLogDebug(kFIRLoggerInAppMessagingDisplay, @"I-FID100002", @"Display an image only message.");
     [self.class displayImageOnlyViewWithMessageDefinition:(FIRInAppMessagingImageOnlyDisplay *)
                                                               messageForDisplay
                                           displayDelegate:displayDelegate];
+  } else if ([messageForDisplay isKindOfClass:[FIRInAppMessagingCardDisplay class]]) {
+    FIRLogDebug(kFIRLoggerInAppMessagingDisplay, @"I-FID100009", @"Display a card message.");
+    [self.class displayCardViewWithMessageDefinition:(FIRInAppMessagingCardDisplay *)
+                                                         messageForDisplay
+                                     displayDelegate:displayDelegate];
+
   } else {
     FIRLogWarning(kFIRLoggerInAppMessagingDisplay, @"I-FID100003",
                   @"Unknown message type %@ "

@@ -73,7 +73,13 @@
 }
 
 - (void)messageTapped:(UITapGestureRecognizer *)recognizer {
-  [self followActionURL];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  FIRInAppMessagingAction *action =
+      [[FIRInAppMessagingAction alloc] initWithActionText:nil
+                                                actionURL:self.imageOnlyMessage.actionURL];
+#pragma clang diagnostic pop
+  [self followAction:action];
 }
 
 - (void)viewDidLoad {

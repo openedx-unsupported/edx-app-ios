@@ -1,0 +1,1 @@
+../../../FirebaseRemoteConfig/FirebaseRemoteConfig/Sources/FIRRemoteConfigComponent.h

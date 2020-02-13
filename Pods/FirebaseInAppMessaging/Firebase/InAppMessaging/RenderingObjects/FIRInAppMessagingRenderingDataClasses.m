@@ -36,6 +36,54 @@
 }
 @end
 
+@implementation FIRInAppMessagingCardDisplay
+
+- (void)setBody:(NSString *_Nullable)body {
+  _body = body;
+}
+
+- (void)setLandscapeImageData:(FIRInAppMessagingImageData *_Nullable)landscapeImageData {
+  _landscapeImageData = landscapeImageData;
+}
+
+- (void)setSecondaryActionButton:(FIRInAppMessagingActionButton *_Nullable)secondaryActionButton {
+  _secondaryActionButton = secondaryActionButton;
+}
+
+- (void)setSecondaryActionURL:(NSURL *_Nullable)secondaryActionURL {
+  _secondaryActionURL = secondaryActionURL;
+}
+
+- (instancetype)initWithMessageID:(NSString *)messageID
+                     campaignName:(NSString *)campaignName
+              renderAsTestMessage:(BOOL)renderAsTestMessage
+                      triggerType:(FIRInAppMessagingDisplayTriggerType)triggerType
+                        titleText:(NSString *)title
+                        textColor:(UIColor *)textColor
+                portraitImageData:(FIRInAppMessagingImageData *)portraitImageData
+                  backgroundColor:(UIColor *)backgroundColor
+              primaryActionButton:(FIRInAppMessagingActionButton *)primaryActionButton
+                 primaryActionURL:(NSURL *)primaryActionURL {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  if (self = [super initWithMessageID:messageID
+                         campaignName:campaignName
+                  renderAsTestMessage:renderAsTestMessage
+                          messageType:FIRInAppMessagingDisplayMessageTypeCard
+                          triggerType:triggerType]) {
+#pragma clang diagnostic pop
+    _title = title;
+    _textColor = textColor;
+    _portraitImageData = portraitImageData;
+    _displayBackgroundColor = backgroundColor;
+    _primaryActionButton = primaryActionButton;
+    _primaryActionURL = primaryActionURL;
+  }
+  return self;
+}
+
+@end
+
 @implementation FIRInAppMessagingBannerDisplay
 - (instancetype)initWithMessageID:(NSString *)messageID
                      campaignName:(NSString *)campaignName
@@ -99,7 +147,7 @@
                      campaignName:(NSString *)campaignName
               renderAsTestMessage:(BOOL)renderAsTestMessage
                       triggerType:(FIRInAppMessagingDisplayTriggerType)triggerType
-                        imageData:(FIRInAppMessagingImageData *)imageData
+                        imageData:(nullable FIRInAppMessagingImageData *)imageData
                         actionURL:(nullable NSURL *)actionURL {
   if (self = [super initWithMessageID:messageID
                          campaignName:campaignName
@@ -135,6 +183,15 @@
   }
   return self;
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+  FIRInAppMessagingImageData *imageData = [[[self class] allocWithZone:zone] init];
+  imageData->_imageURL = [_imageURL copyWithZone:zone];
+  imageData->_imageRawData = [_imageRawData copyWithZone:zone];
+
+  return imageData;
+}
+
 @end
 
 @implementation FIRInAppMessagingCampaignInfo
@@ -148,4 +205,16 @@
   }
   return self;
 }
+@end
+
+@implementation FIRInAppMessagingAction
+
+- (instancetype)initWithActionText:(nullable NSString *)actionText actionURL:(NSURL *)actionURL {
+  if (self = [super init]) {
+    _actionText = actionText;
+    _actionURL = actionURL;
+  }
+  return self;
+}
+
 @end
