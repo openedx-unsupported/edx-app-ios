@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-#import "FIRMessagingTopicOperation.h"
-
-@class FIRMessagingCheckinService;
+#import "Firebase/Messaging/FIRMessagingTopicOperation.h"
 
 @interface FIRMessagingPubSubRegistrar : NSObject
-
-/**
- *  Designated Initializer.
- *
- *  @param checkinService The checkin service used to register with Checkin
- *                        server.
- *
- *  @return A new FIRMessagingPubSubRegistrar instance used to subscribe/unsubscribe.
- */
-- (instancetype)initWithCheckinService:(FIRMessagingCheckinService *)checkinService;
 
 /**
  *  Stops all the subscription requests going on in parallel. This would

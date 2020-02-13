@@ -27,14 +27,13 @@
 #import "BNCAvailability.h"
 #import "BranchActivityItemProvider.h"
 #import "BranchConstants.h"
+#import "BranchCSSearchableItemAttributeSet.h"
 #import "BranchDeepLinkingController.h"
 #import "BranchEvent.h"
 #import "BranchLinkProperties.h"
 #import "BranchDelegate.h"
 #import "BranchShareLink.h"
 #import "BranchUniversalObject.h"
-#import "BranchView.h"
-#import "BranchViewHandler.h"
 #import "UIViewController+Branch.h"
 
 /**
@@ -224,8 +223,23 @@ typedef NS_ENUM(NSUInteger, BranchCreditHistoryOrder) {
  You can only set the Branch key once per app run.
 
  @param branchKey The Branch key to use.
+ @param error NSError will be set if Branch encounters a key error.
 */
++ (void) setBranchKey:(NSString*)branchKey error:(NSError **)error;
+
+/**
+ Directly sets the Branch key to be used.  Branch usually reads the Branch key from your app's
+ Info.plist file which is recommended and more convenient.  But the Branch key can also be set
+ with this method. See the documentation at
+ https://dev.branch.io/getting-started/sdk-integration-guide/guide/ios/#configure-xcode-project
+ for information about configuring your app with Branch keys.
+ 
+ You can only set the Branch key once per app run.  Any errors are logged.
+ 
+ @param branchKey The Branch key to use.
+ */
 + (void) setBranchKey:(NSString*)branchKey;
+
 
 /// @return Returns the current Branch key.
 + (NSString*) branchKey;
@@ -461,7 +475,11 @@ typedef NS_ENUM(NSUInteger, BranchCreditHistoryOrder) {
 
 /**
  Call this method from inside your app delegate's `application:openURL:sourceApplication:annotation:`
- method with the so that Branch can open the passed URL.
+ method so that Branch can open the passed URL. This method is for pre-iOS 9 compatibility: If you don't need
+ pre-iOS 9 compatibility, override your app delegate's `application:openURL:options:` method instead and use
+ the Branch `application:openURL:options:` to open the URL.
+
+ @warning Pre-iOS 9 compatibility only.
 
  @param application         The application that was passed to your app delegate.
  @param url                 The URL that was passed to your app delegate.
@@ -475,12 +493,10 @@ typedef NS_ENUM(NSUInteger, BranchCreditHistoryOrder) {
          annotation:(id)annotation;
 
 /**
- Call this method from inside your app delegate's `application:openURL:options:`
- method with the so that Branch can open the passed URL.
+ Call this method from inside your app delegate's `application:openURL:options:` method so that Branch can
+ open the passed URL.
 
- This method is functionally the same as calling the Branch method
- `application:openURL:sourceApplication:annotation:`. This method matches the new Apple appDelegate
- method for convenience.
+ This is the preferred Branch method to call inside your `application:openURL:options:` method.
 
  @param application         The application that was passed to your app delegate.
  @param url                 The URL that was passed to your app delegate.
@@ -608,14 +624,6 @@ typedef NS_ENUM(NSUInteger, BranchCreditHistoryOrder) {
  Check for Apple Search Ads before initialization. Will add about 1 second from call to initSession to callback due to Apple's latency.
  */
 - (void)delayInitToCheckForSearchAds;
-
-/**
- Set the SDK into Apple Search Ad debug mode where it passes fake campaign params back 100%
-
- @warning This should not be used in production.
- */
-- (void)setAppleSearchAdsDebugMode;
-
 
 /**
  Specify the time to wait in seconds between retries in the case of a Branch server error
@@ -911,12 +919,14 @@ typedef NS_ENUM(NSUInteger, BranchCreditHistoryOrder) {
 
 /**
  Send a user action to the server with additional state items. Some examples actions could be things like `viewed_personal_welcome`, `purchased_an_item`, etc.
-
+ 
  @param action The action string.
  @param state The additional state items associated with the action.
- @param branchViewCallback Callback for Branch view state
+ @param branchViewCallback Callback for Branch view state.
+ 
+ @deprecated Please use userCompletedAction:action:state instead
  */
-- (void)userCompletedAction:(NSString *)action withState:(NSDictionary *)state withDelegate:(id)branchViewCallback;
+- (void)userCompletedAction:(NSString *)action withState:(NSDictionary *)state withDelegate:(id)branchViewCallback __attribute__((deprecated(("This API is deprecated. Please use userCompletedAction:action:state instead."))));
 
 /**
  Sends a user commerce event to the server.
@@ -930,12 +940,11 @@ typedef NS_ENUM(NSUInteger, BranchCreditHistoryOrder) {
  @param metadata        Optional metadata you may want add to the event.
  @param completion 		The optional completion callback.
  
- deprecated Please use BNCEvent to track commerce events instead.
+ @deprecated Please use BNCEvent to track commerce events instead.
  */
 - (void) sendCommerceEvent:(BNCCommerceEvent*)commerceEvent
 				  metadata:(NSDictionary<NSString*,id>*)metadata
-			withCompletion:(void (^) (NSDictionary*response, NSError*error))completion;
-            //__attribute__((deprecated(("Please use BranchEvent to track commerce events."))));
+			withCompletion:(void (^) (NSDictionary*response, NSError*error))completion __attribute__((deprecated(("Please use BranchEvent to track commerce events."))));
 
 #pragma mark - Short Url Sync methods
 

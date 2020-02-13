@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-#import "FIRMessagingConnection.h"
+#import "Firebase/Messaging/FIRMessagingConnection.h"
 
-#import "Protos/GtalkCore.pbobjc.h"
-#import "Protos/GtalkExtensions.pbobjc.h"
+#import <FirebaseMessaging/FIRMessaging.h>
 
-#import "FIRMessaging.h"
-#import "FIRMessagingDataMessageManager.h"
-#import "FIRMessagingDefines.h"
-#import "FIRMessagingLogger.h"
-#import "FIRMessagingRmqManager.h"
-#import "FIRMessagingSecureSocket.h"
-#import "FIRMessagingUtilities.h"
-#import "FIRMessagingVersionUtilities.h"
-#import "FIRMessaging_Private.h"
+#import "Firebase/Messaging/Protos/GtalkCore.pbobjc.h"
+#import "Firebase/Messaging/Protos/GtalkExtensions.pbobjc.h"
+
+#import "Firebase/Messaging/FIRMessagingDataMessageManager.h"
+#import "Firebase/Messaging/FIRMessagingDefines.h"
+#import "Firebase/Messaging/FIRMessagingLogger.h"
+#import "Firebase/Messaging/FIRMessagingRmqManager.h"
+#import "Firebase/Messaging/FIRMessagingSecureSocket.h"
+#import "Firebase/Messaging/FIRMessagingUtilities.h"
+#import "Firebase/Messaging/FIRMessagingVersionUtilities.h"
+#import "Firebase/Messaging/FIRMessaging_Private.h"
 
 static NSInteger const kIqSelectiveAck = 12;
 static NSInteger const kIqStreamAck = 13;
@@ -144,7 +145,6 @@ static NSString *const kRemoteFromAddress = @"from";
 }
 
 - (void)signIn {
-  _FIRMessagingDevAssert(self.state == kFIRMessagingConnectionNotConnected, @"Invalid connection state.");
   if (self.state != kFIRMessagingConnectionNotConnected) {
     return;
   }
@@ -200,11 +200,8 @@ static NSString *const kRemoteFromAddress = @"from";
 }
 
 - (void)didDisconnectWithSecureSocket:(FIRMessagingSecureSocket *)socket {
-  _FIRMessagingDevAssert(self.socket == socket, @"Invalid socket");
-  _FIRMessagingDevAssert(self.socket.state == kFIRMessagingSecureSocketClosed, @"Socket already closed");
-
   FIRMessagingLoggerDebug(kFIRMessagingMessageCodeConnection002,
-                          @"Secure socket disconnected from FIRMessaging service.");
+                          @"Secure socket disconnected from FIRMessaging service. %ld", (long)self.socket.state);
   [self disconnect];
   [self.delegate connection:self didCloseForReason:kFIRMessagingConnectionCloseReasonSocketDisconnected];
 }
@@ -294,7 +291,6 @@ static NSString *const kRemoteFromAddress = @"from";
     return;
   }
 
-  _FIRMessagingDevAssert(self.socket != nil, @"Socket shouldn't be nil");
   if (self.socket == nil) {
     return;
   }
@@ -438,10 +434,6 @@ static NSString *const kRemoteFromAddress = @"from";
     return;
   }
   FIRMessagingLoggerDebug(kFIRMessagingMessageCodeConnection012, @"Logged onto MCS service.");
-  // We sent the persisted list of unack'd messages with login so we can assume they have been ack'd
-  // by the server.
-  _FIRMessagingDevAssert(self.unackedS2dIds.count == 0, @"No ids present");
-  _FIRMessagingDevAssert(self.outStreamId == 1, @"Login should be the first stream id");
 
   self.state = kFIRMessagingConnectionSignedIn;
   self.lastLoginServerTimestamp = loginResponse.serverTimestamp;
@@ -659,7 +651,6 @@ static NSString *const kRemoteFromAddress = @"from";
 }
 
 - (void)disconnect {
-  _FIRMessagingDevAssert(self.state != kFIRMessagingConnectionNotConnected, @"Connection already not connected");
   // cancel pending timeout tasks.
   [self cancelConnectionTimeoutTask];
   // cancel pending heartbeat.

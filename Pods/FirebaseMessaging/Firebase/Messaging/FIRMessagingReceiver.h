@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-#import "FIRMessagingDataMessageManager.h"
-#import "FIRMessaging.h"
+#import <FirebaseMessaging/FIRMessaging.h>
+#import "Firebase/Messaging/FIRMessagingDataMessageManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class FIRMessagingReceiver;
-@class GULUserDefaults;
 @protocol FIRMessagingReceiverDelegate <NSObject>
 
 - (void)receiver:(FIRMessagingReceiver *)receiver
@@ -30,15 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FIRMessagingReceiver : NSObject <FIRMessagingDataMessageManagerDelegate>
 
-/// Default initializer for creating the messaging receiver.
-- (instancetype)initWithUserDefaults:(GULUserDefaults *)defaults NS_DESIGNATED_INITIALIZER;
-
-/// Use `initWithUserDefaults:` instead.
-- (instancetype)init NS_UNAVAILABLE;
-
 @property(nonatomic, weak, nullable) id<FIRMessagingReceiverDelegate> delegate;
-/// Whether to use direct channel for direct channel message callback handler in all iOS versions.
-@property(nonatomic, assign) BOOL useDirectChannel;
 
 @end
 
