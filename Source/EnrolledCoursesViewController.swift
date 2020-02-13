@@ -111,9 +111,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private func setupListener() {
-        loadController.state = LoadState.failed()
-        return
-        /*
         enrollmentFeed.output.listen(self) {[weak self] result in
             if !(self?.enrollmentFeed.output.active ?? false) {
                 self?.refreshController.endRefreshing()
@@ -146,7 +143,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                 }
             }
         }
- */
     }
     
     private func setupFooter() {
