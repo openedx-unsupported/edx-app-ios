@@ -54,6 +54,11 @@ extension WKWebView {
                             return
                         }
                     }
+                } else {
+                    self?.configuration.websiteDataStore.httpCookieStore.setCookie(languageCookie) {
+                        self?.load(request)
+                        return
+                    }
                 }
             }
         } else {
