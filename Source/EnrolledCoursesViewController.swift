@@ -12,7 +12,7 @@ var isActionTakenOnUpgradeSnackBar: Bool = false
 
 class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider
     
     private let environment : Environment
     private let tableController : CoursesTableViewController
@@ -41,6 +41,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         super.viewDidLoad()
 
         self.view.accessibilityIdentifier = "enrolled-courses-screen"
+        view.backgroundColor = environment.styles.standardBackgroundColor()
 
         addChild(tableController)
         tableController.didMove(toParent: self)
@@ -110,6 +111,9 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private func setupListener() {
+        loadController.state = LoadState.failed()
+        return
+        /*
         enrollmentFeed.output.listen(self) {[weak self] result in
             if !(self?.enrollmentFeed.output.active ?? false) {
                 self?.refreshController.endRefreshing()
@@ -142,6 +146,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                 }
             }
         }
+ */
     }
     
     private func setupFooter() {

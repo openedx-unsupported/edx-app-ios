@@ -16,7 +16,7 @@ public enum ProgramScreen {
 
 class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, PullRefreshControllerDelegate {
     
-    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider & ReachabilityProvider
+    typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXRouterProvider & ReachabilityProvider & OEXStylesProvider
     fileprivate let environment: Environment
     fileprivate let webController: AuthenticatedWebViewController
     private(set) var programsURL: URL
@@ -37,6 +37,11 @@ class ProgramsViewController: UIViewController, InterfaceOrientationOverriding, 
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = environment.styles.standardBackgroundColor()
     }
 
     // MARK:- Methods -
