@@ -167,35 +167,35 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
         let childID = childIDs.first
         
         let controller = loadAndVerifyControllerWithInitialChild(childID, parentID: outline.root)
-        // Traverse through the entire child list going backward
-        // verifying that we're viewing the right thing
-        for _ in childIDs[1 ..< childIDs.count] {
-            controller.t_goForward()
-            
-            let testExpectation = self.expectation(description: "controller went backward")
-            //                wait(for: 0.6) {
-            controller.t_blockIDForCurrentViewController().listen(controller) { blockID in
-                testExpectation.fulfill()
-                //                    }
+            // Traverse through the entire child list going backward
+            // verifying that we're viewing the right thing
+            for _ in childIDs[1 ..< childIDs.count] {
+                controller.t_goForward()
+                
+                let testExpectation = self.expectation(description: "controller went backward")
+                wait(for: 0.7) {
+                    controller.t_blockIDForCurrentViewController().listen(controller) { blockID in
+                        testExpectation.fulfill()
+                    }
+                }
+                self.waitForExpectations()
             }
-            self.waitForExpectations()
-        }
         
-        let pageEvents = environment.eventTracker.events.compactMap { (e: MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
-            if let event = e.asEvent, event.event.name == OEXAnalyticsEventComponentViewed {
-                return event
+            let pageEvents = environment.eventTracker.events.compactMap { (e: MockAnalyticsRecord) -> MockAnalyticsEventRecord? in
+                if let event = e.asEvent, event.event.name == OEXAnalyticsEventComponentViewed {
+                    return event
+                }
+                else {
+                    return nil
+                }
             }
-            else {
-                return nil
-            }
-        }
         
-        XCTAssertEqual(pageEvents.count, childIDs.count)
-        for (blockID, event) in zip(childIDs, pageEvents) {
-            XCTAssertEqual(blockID, event.properties[OEXAnalyticsKeyBlockID] as? String)
-            XCTAssertEqual(outline.root, event.properties[OEXAnalyticsKeyCourseID] as? CourseBlockID)
-            XCTAssertEqual(event.event.name, OEXAnalyticsEventComponentViewed)
-        }
+            XCTAssertEqual(pageEvents.count, childIDs.count)
+            for (blockID, event) in zip(childIDs, pageEvents) {
+                XCTAssertEqual(blockID, event.properties[OEXAnalyticsKeyBlockID] as? String)
+                XCTAssertEqual(outline.root, event.properties[OEXAnalyticsKeyCourseID] as? CourseBlockID)
+                XCTAssertEqual(event.event.name, OEXAnalyticsEventComponentViewed)
+            }
     }
 */
     func testSnapshotContent() {
