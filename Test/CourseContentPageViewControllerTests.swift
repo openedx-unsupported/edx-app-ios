@@ -87,7 +87,8 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             return nil
         }
     }
-  /*
+
+    /*
     func testNextButton() {
         let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
