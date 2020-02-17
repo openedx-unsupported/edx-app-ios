@@ -147,10 +147,6 @@
     completionHandler();
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-
-}
-
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [self.environment.pushNotificationManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
@@ -236,7 +232,7 @@
     //Initialize Fabric
     OEXFabricConfig* fabric = [config fabricConfig];
     if(fabric.appKey && fabric.isEnabled) {
-//        [Fabric with:@[CrashlyticsKit]];
+        [Fabric with:@[CrashlyticsKit]];
     }
     
     [self initilizeChromeCast];
