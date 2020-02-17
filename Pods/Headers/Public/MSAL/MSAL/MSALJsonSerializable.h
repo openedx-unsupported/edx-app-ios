@@ -1,0 +1,1 @@
+../../../../MSAL/MSAL/src/public/MSALJsonSerializable.h

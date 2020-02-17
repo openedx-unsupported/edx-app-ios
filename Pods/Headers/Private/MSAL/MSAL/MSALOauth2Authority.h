@@ -1,0 +1,1 @@
+../../../../MSAL/MSAL/src/instance/MSALOauth2Authority.h

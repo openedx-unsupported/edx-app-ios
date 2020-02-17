@@ -1,0 +1,1 @@
+../../../../MSAL/MSAL/src/configuration/MSALPublicClientApplicationConfig+Internal.h

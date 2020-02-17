@@ -1,0 +1,1 @@
+../../../../MSAL/MSAL/src/MSALWebviewType_Internal.h

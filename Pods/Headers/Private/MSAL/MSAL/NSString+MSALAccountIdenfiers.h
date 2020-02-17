@@ -1,0 +1,1 @@
+../../../../MSAL/MSAL/src/configuration/external/ios/NSString+MSALAccountIdenfiers.h

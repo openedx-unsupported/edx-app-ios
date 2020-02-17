@@ -1,0 +1,1 @@
+../../../../MSAL/MSAL/IdentityCore/IdentityCore/src/cache/token/MSIDCredentialCacheItem.h

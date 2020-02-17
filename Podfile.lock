@@ -150,6 +150,9 @@ PODS:
   - iOSSnapshotTestCase/SwiftSupport (6.1.0):
     - iOSSnapshotTestCase/Core
   - Masonry (1.1.0)
+  - MSAL (1.0.7):
+    - MSAL/app-lib (= 1.0.7)
+  - MSAL/app-lib (1.0.7)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -208,6 +211,7 @@ DEPENDENCIES:
   - GoogleSignIn (~> 4.4.0)
   - iOSSnapshotTestCase (= 6.1.0)
   - Masonry (~> 1.1.0)
+  - MSAL
   - NewRelicAgent (~> 6.7.0)
   - OHHTTPStubs (~> 8.0)
   - Segment-Firebase (= 2.5.0)
@@ -216,7 +220,7 @@ DEPENDENCIES:
   - YoutubePlayer-in-WKWebView (~> 0.3.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Analytics
     - Branch
     - Crashlytics
@@ -248,6 +252,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - iOSSnapshotTestCase
     - Masonry
+    - MSAL
     - nanopb
     - NewRelicAgent
     - OHHTTPStubs
@@ -289,6 +294,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   iOSSnapshotTestCase: 30d540b0c8feb9d7f8ff97acc25a3804b48ee264
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MSAL: e4c1cbcf59e04073b427ce9fbfc0346b54abb62e
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   NewRelicAgent: effc8c7164f7d8e853268b0a6381ad8e4bf1d6ad
   OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
@@ -298,6 +304,6 @@ SPEC CHECKSUMS:
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
   YoutubePlayer-in-WKWebView: f9c20a456c5d99e5f5248e4d2079a5d3b6950d13
 
-PODFILE CHECKSUM: fc7ee0101c000744eae97dd6c2573bf3e54d186d
+PODFILE CHECKSUM: c2d67597c37bdc2b78164e11d4109d8b7039aaeb
 
 COCOAPODS: 1.5.3

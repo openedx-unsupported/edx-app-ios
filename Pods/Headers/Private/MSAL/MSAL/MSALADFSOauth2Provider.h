@@ -1,0 +1,1 @@
+../../../../MSAL/MSAL/src/instance/oauth2/adfs/MSALADFSOauth2Provider.h
