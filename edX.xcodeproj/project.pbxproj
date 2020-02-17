@@ -143,13 +143,11 @@
 		22A98BD922D89ED30007330C /* APIURLDefaultVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */; };
 		22AB111F2375695C007D03D2 /* PushLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB111E2375695C007D03D2 /* PushLink.swift */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
-		22ABBA0A211C07710001020B /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22ABBA09211C07710001020B /* MSAL.framework */; };
 		22ABBA0C211C16420001020B /* MicrosoftConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22ABBA0B211C16420001020B /* MicrosoftConfig.swift */; };
 		22AC5B0D23741C8900DCA505 /* FCMListner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AC5B0C23741C8900DCA505 /* FCMListner.swift */; };
 		22AFEADA20CE8DE60071067E /* VideoPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */; };
 		22B6EF851FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6EF841FB4684A00480A38 /* CourseDashboardLoadStateViewController.swift */; };
 		22B85A34203EEE1E0071AD43 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B85A33203EEE1E0071AD43 /* Images.xcassets */; };
-		22C82943211DC1C900AE3A48 /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 22ABBA09211C07710001020B /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		22D73B5D1ED575C000220280 /* course-dates.js in Resources */ = {isa = PBXBuildFile; fileRef = 22D73B5C1ED575C000220280 /* course-dates.js */; };
 		22D9BE5621945B4300FE1EB5 /* UIApplication+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D9BE5521945B4300FE1EB5 /* UIApplication+UIViewController.swift */; };
 		22DACEEE20E270A2007AD5D5 /* test-movie.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 22DACEED20E270A1007AD5D5 /* test-movie.mp4 */; };
@@ -929,7 +927,6 @@
 			files = (
 				0D15761C235ED91A0007B0B7 /* GoogleCast.framework in Embed Frameworks */,
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
-				22C82943211DC1C900AE3A48 /* MSAL.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1146,7 +1143,6 @@
 		22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLDefaultVersionTests.swift; sourceTree = "<group>"; };
 		22AB111E2375695C007D03D2 /* PushLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushLink.swift; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
-		22ABBA09211C07710001020B /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = MSAL/MSAL.framework; sourceTree = "<group>"; };
 		22ABBA0B211C16420001020B /* MicrosoftConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrosoftConfig.swift; sourceTree = "<group>"; };
 		22AC5B0C23741C8900DCA505 /* FCMListner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMListner.swift; sourceTree = "<group>"; };
 		22AFEAD920CE8DE60071067E /* VideoPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerTests.swift; sourceTree = "<group>"; };
@@ -2074,7 +2070,6 @@
 				E0B1A50323F3E28C00E29734 /* UserNotifications.framework in Frameworks */,
 				BE0EE289192B78CF00F9FF98 /* SystemConfiguration.framework in Frameworks */,
 				0D157630235EDA040007B0B7 /* Security.framework in Frameworks */,
-				22ABBA0A211C07710001020B /* MSAL.framework in Frameworks */,
 				776F39291B4EF4CD00ED11E3 /* WebKit.framework in Frameworks */,
 				805329121B0EA2DC0093B177 /* QuartzCore.framework in Frameworks */,
 				0D15762D235ED9F30007B0B7 /* MediaPlayer.framework in Frameworks */,
@@ -3737,7 +3732,6 @@
 				0D15761F235ED98D0007B0B7 /* AudioToolbox.framework */,
 				0D15761D235ED9800007B0B7 /* Accelerate.framework */,
 				0D15761A235ED91A0007B0B7 /* GoogleCast.framework */,
-				22ABBA09211C07710001020B /* MSAL.framework */,
 				776F39281B4EF4CD00ED11E3 /* WebKit.framework */,
 				805329111B0EA2DC0093B177 /* QuartzCore.framework */,
 				77ACA1C81A323C2500039AD1 /* Crashlytics.framework */,

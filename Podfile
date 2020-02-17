@@ -25,6 +25,7 @@ pod 'Firebase/Performance', '= 6.8.1'
 pod 'Firebase/Messaging', '= 6.8.1'
 pod 'Branch', '= 0.28.1'
 pod 'YoutubePlayer-in-WKWebView', '~> 0.3.0'
+pod 'MSAL'
 end
 
 target 'edXTests' do
