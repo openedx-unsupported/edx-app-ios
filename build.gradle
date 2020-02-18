@@ -202,7 +202,7 @@ class IOSHelper {
         if(!key) {
            return
         }
-        def scheme = ["msal" + key, "auth"] 
+        def scheme = ["msauth." + "org.edx.mobile"] 
         addURLScheme(scheme, plist)
    }
 
