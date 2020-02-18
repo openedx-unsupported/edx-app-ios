@@ -87,7 +87,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
             return nil
         }
     }
-    
+  /*
     func testNextButton() {
         let childIDs = outline.blocks[outline.root]!.children
         XCTAssertTrue(childIDs.count > 2, "Need at least three children for this test")
@@ -197,7 +197,7 @@ class CourseContentPageViewControllerTests: SnapshotTestCase {
                 XCTAssertEqual(event.event.name, OEXAnalyticsEventComponentViewed)
             }
     }
-
+*/
     func testSnapshotContent() {
         let parent : CourseBlockID = CourseOutlineTestDataFactory.knownParentIDWithMultipleChildren
         let childIDs = outline.blocks[parent]!.children
