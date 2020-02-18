@@ -93,8 +93,7 @@ public class CourseOutlineViewController :
         tableController.refreshController.delegate = self
         
         insetsController.setupInController(owner: self, scrollView : self.tableController.tableView)
-        insetsController.addSource(source: tableController.refreshController)
-        self.view.setNeedsUpdateConstraints()
+        view.setNeedsUpdateConstraints()
         addListeners()
     }
     
