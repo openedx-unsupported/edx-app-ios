@@ -121,7 +121,8 @@
     }
     
     if (self.environment.config.microsoftConfig.enabled) {
-//        handled = [MSALPublicClientApplication handleMSALResponse:url];
+        handled = [MSALPublicClientApplication handleMSALResponse:url
+                                                sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]];
     }
 
     return handled;
