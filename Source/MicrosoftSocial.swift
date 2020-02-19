@@ -63,7 +63,7 @@ class MicrosoftSocial: NSObject {
                     completion(nil, nil, error)
                     return
                 }
-                
+                self.result = acquireTokenResult
                 // In the initial acquire token call we'll want to look at the account object
                 // that comes back in the result.
                 let signedInAccount = acquireTokenResult.account
