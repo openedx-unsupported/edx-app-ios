@@ -1,1 +1,0 @@
-../../../../MSAL/MSAL/src/configuration/external/MSALSerializedADALCacheProvider+Internal.h

@@ -1,1 +1,0 @@
-../../../../MSAL/MSAL/src/configuration/MSALTelemetryConfig+Internal.h

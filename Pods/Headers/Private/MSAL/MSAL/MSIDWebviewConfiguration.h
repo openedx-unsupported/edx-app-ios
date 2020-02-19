@@ -1,1 +1,0 @@
-../../../../MSAL/MSAL/IdentityCore/IdentityCore/src/configuration/webview/MSIDWebviewConfiguration.h

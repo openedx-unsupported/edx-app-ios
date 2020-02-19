@@ -9,6 +9,7 @@
 @import edXCore;
 @import FirebaseAnalytics;
 @import GoogleCast;
+
 #import <Crashlytics/Crashlytics.h>
 #import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -18,6 +19,8 @@
 #import <Branch/Branch.h>
 #import <Segment-GoogleAnalytics/SEGGoogleAnalyticsIntegrationFactory.h>
 #import <Segment-Firebase/SEGFirebaseIntegrationFactory.h>
+#import <MSAL/MSAL.h>
+
 #import "OEXAppDelegate.h"
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
@@ -37,7 +40,6 @@
 #import "OEXRouter.h"
 #import "OEXSession.h"
 #import "OEXSegmentConfig.h"
-#import <MSAL/MSAL.h>
 
 @interface OEXAppDelegate () <UIApplicationDelegate, UNUserNotificationCenterDelegate>
 

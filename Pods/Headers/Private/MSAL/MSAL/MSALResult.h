@@ -1,1 +1,0 @@
-../../../../MSAL/MSAL/src/public/MSALResult.h

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MSAL
 
 typealias MSLoginCompletionHandler =  (MSALAccount?, _ accessToken: String?, Error?) -> Void
 

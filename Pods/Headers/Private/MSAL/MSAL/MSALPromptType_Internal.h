@@ -1,1 +1,0 @@
-../../../../MSAL/MSAL/src/MSALPromptType_Internal.h
