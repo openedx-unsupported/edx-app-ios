@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.21",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"תמיכה של Chromecast",
+                "message":"רוצה לצפות בסרטונים של הקורס על גבי מסך גדול יותר? הוספנו תמיכה ב-Chromecast ועכשיו זה אפשרי!"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"נגן YouTube",
+                "message":"נמאס לך לצאת מהאפליקציה כדי לצפות בסרטונים של הקורס ב-YouTube? עכשיו אפשר להציג סרטונים בעזרת נגן מובנה באפליקציה."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"כניסת Microsoft",
+                "message":"עכשיו באפשרותך להירשם או להיכנס בעזרת חשבון Microsoft."
+            }
+        ]
+    },
+    {
         "version":"2.20",
         "messages":[
             {

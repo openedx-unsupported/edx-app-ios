@@ -34,7 +34,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.20</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSpokenName</key>
@@ -53,7 +53,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.20.0</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<false/>
 	<key>FacebookDisplayName</key>
@@ -78,9 +78,9 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>for bluetooth</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>for bluetooth</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>for bluetooth</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>so user can intract with calendar</string>
@@ -90,6 +90,8 @@
 	<string>so you can save a contact</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>so app can use user location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>so user can intract with Microphone</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>so user can access photo librart</string>
 	<key>NSPhotoLibraryUsageDescription</key>
