@@ -9,6 +9,7 @@
 #import "BranchUniversalObject.h"
 #import "BNCError.h"
 #import "BranchConstants.h"
+#import "BNCFabricAnswers.h"
 #import "BNCDeviceInfo.h"
 #import "BNCLog.h"
 #import "BNCLocalization.h"
@@ -481,6 +482,8 @@ BranchCondition _Nonnull BranchConditionRefurbished   = @"REFURBISHED";
             // Log share completed event
             if (completed && !activityError) {
                 [[BranchEvent customEventWithName:BNCShareCompletedEvent contentItem:self] logEvent];
+                [BNCFabricAnswers sendEventWithName:@"Branch Share" andAttributes:
+                    [self getDictionaryWithCompleteLinkProperties:linkProperties]];
             }
             if (completion)
                 completion(activityType, completed);

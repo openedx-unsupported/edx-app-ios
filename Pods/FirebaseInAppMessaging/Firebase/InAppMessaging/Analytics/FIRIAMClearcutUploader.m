@@ -105,11 +105,8 @@ static NSString *FIRIAM_UserDefaultsKeyForNextValidClearcutUploadTimeInMills =
     _nextValidSendTimeInMills = (int64_t)
         [_userDefaults doubleForKey:FIRIAM_UserDefaultsKeyForNextValidClearcutUploadTimeInMills];
 
-    NSArray<FIRIAMClearcutLogRecord *> *availableLogs =
-        [logStorage popStillValidRecordsForUpTo:strategy.batchSendSize];
-    if (availableLogs.count) {
-      [self scheduleNextSend];
-    }
+    // seed the first send upon SDK start-up
+    [self scheduleNextSend];
 
     FIRLogDebug(kFIRLoggerInAppMessaging, @"I-IAM260001",
                 @"FIRIAMClearcutUploader created with strategy as %@", self.strategy);
@@ -136,20 +133,20 @@ static NSString *FIRIAM_UserDefaultsKeyForNextValidClearcutUploadTimeInMills =
 }
 
 - (void)attemptUploading {
-  NSArray<FIRIAMClearcutLogRecord *> *availableLogs =
+  NSArray<FIRIAMClearcutLogRecord *> *availbleLogs =
       [self.logStorage popStillValidRecordsForUpTo:self.strategy.batchSendSize];
 
-  if (availableLogs.count > 0) {
+  if (availbleLogs.count > 0) {
     FIRLogDebug(kFIRLoggerInAppMessaging, @"I-IAM260011", @"Deliver %d clearcut records",
-                (int)availableLogs.count);
+                (int)availbleLogs.count);
     [self.requestSender
-        sendClearcutHttpRequestForLogs:availableLogs
+        sendClearcutHttpRequestForLogs:availbleLogs
                         withCompletion:^(BOOL success, BOOL shouldRetryLogs,
                                          int64_t waitTimeInMills) {
                           if (success) {
                             FIRLogDebug(kFIRLoggerInAppMessaging, @"I-IAM260003",
                                         @"Delivering %d clearcut records was successful",
-                                        (int)availableLogs.count);
+                                        (int)availbleLogs.count);
                             // make sure the effective wait time is between two bounds
                             // defined in strategy
                             waitTimeInMills =
@@ -162,7 +159,7 @@ static NSString *FIRIAM_UserDefaultsKeyForNextValidClearcutUploadTimeInMills =
                             FIRLogDebug(kFIRLoggerInAppMessaging, @"I-IAM260004",
                                         @"Failed to attempt the delivery of %d clearcut "
                                         @"records and should-retry for them is %@",
-                                        (int)availableLogs.count, shouldRetryLogs ? @"YES" : @"NO");
+                                        (int)availbleLogs.count, shouldRetryLogs ? @"YES" : @"NO");
                             if (shouldRetryLogs) {
                               /**
                                * Note that there is a chance that the app crashes before we can
@@ -173,7 +170,7 @@ static NSString *FIRIAM_UserDefaultsKeyForNextValidClearcutUploadTimeInMills =
                                */
                               FIRLogDebug(kFIRLoggerInAppMessaging, @"I-IAM260007",
                                           @"Push failed log records back to storage");
-                              [self.logStorage pushRecords:availableLogs];
+                              [self.logStorage pushRecords:availbleLogs];
                             }
 
                             waitTimeInMills = (int64_t)self.strategy.failureBackoffTimeInMills;
@@ -210,7 +207,10 @@ static NSString *FIRIAM_UserDefaultsKeyForNextValidClearcutUploadTimeInMills =
 - (void)scheduleNextSend {
   @synchronized(self) {
     if (_nextSendScheduled) {
+      // already scheduled next send, don't do it again
       return;
+    } else {
+      _nextSendScheduled = YES;
     }
   }
 
@@ -228,9 +228,6 @@ static NSString *FIRIAM_UserDefaultsKeyForNextValidClearcutUploadTimeInMills =
                  _queue, ^{
                    [self attemptUploading];
                  });
-  @synchronized(self) {
-    _nextSendScheduled = YES;
-  }
 }
 
 @end

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import <FirebaseMessaging/FIRMessaging.h>
+#import "FIRMessaging.h"
 
 @class FIRMessagingClient;
 @class FIRMessagingPubSub;

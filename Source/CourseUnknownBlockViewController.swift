@@ -50,7 +50,11 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
         messageView?.buttonInfo = MessageButtonInfo(title : buttonTitle)
         {
             if let videoURL = videoUrl, let url =  URL(string: videoURL) {
-                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
             }
         }
         
@@ -69,7 +73,11 @@ class CourseUnknownBlockViewController: UIViewController, CourseBlockViewControl
             [weak self] in
             self?.loader?.listen(self!, success : {url -> Void in
                 if let url = url {
-                    UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                     self?.logOpenInBrowserEvent()
                 }
             }, failure : {_ in

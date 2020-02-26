@@ -119,7 +119,7 @@
 
 @interface BNCStrongMatchHelper ()
 @property (assign, nonatomic) BOOL requestInProgress;
-@property (readwrite) BOOL shouldDelayInstallRequest;
+@property (assign, nonatomic) BOOL shouldDelayInstallRequest;
 @property (strong, nonatomic) UIWindow *primaryWindow;
 @property (strong, nonatomic) BNCMatchView *matchView;
 @property (strong, nonatomic) BNCMatchViewController *matchViewController;

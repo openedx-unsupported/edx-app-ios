@@ -1,1 +1,1 @@
-../../../DateTools/DateTools/DateTools/DTTimePeriodCollection.h
+../../../DateTools/DateTools/DTTimePeriodCollection.h

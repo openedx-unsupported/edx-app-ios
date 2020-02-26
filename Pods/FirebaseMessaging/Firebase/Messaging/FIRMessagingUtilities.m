@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#import "Firebase/Messaging/FIRMessagingUtilities.h"
+#import "FIRMessagingUtilities.h"
 
-#import "Firebase/Messaging/Protos/GtalkCore.pbobjc.h"
+#import "Protos/GtalkCore.pbobjc.h"
 
-#import "Firebase/Messaging/FIRMessagingLogger.h"
+#import "FIRMessagingLogger.h"
 
 #import <GoogleUtilities/GULAppEnvironmentUtil.h>
 
@@ -172,6 +172,19 @@ uint64_t FIRMessagingGetFreeDiskSpaceInMB(void) {
                             @"Error in retreiving device's free memory %@", error);
     return 0;
   }
+}
+
+UIApplication *FIRMessagingUIApplication(void) {
+  static Class applicationClass = nil;
+  // iOS App extensions should not call [UIApplication sharedApplication], even if UIApplication
+  // responds to it.
+  if (![GULAppEnvironmentUtil isAppExtension]) {
+    Class cls = NSClassFromString(@"UIApplication");
+    if (cls && [cls respondsToSelector:NSSelectorFromString(@"sharedApplication")]) {
+      applicationClass = cls;
+    }
+  }
+  return [applicationClass sharedApplication];
 }
 
 NSSearchPathDirectory FIRMessagingSupportedDirectory(void) {

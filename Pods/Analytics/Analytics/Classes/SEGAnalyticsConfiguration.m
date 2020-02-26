@@ -55,8 +55,6 @@
         self.enableAdvertisingTracking = YES;
         self.shouldUseBluetooth = NO;
         self.flushAt = 20;
-        self.flushInterval = 30;
-        self.maxQueueSize = 1000;
         self.payloadFilters = @{
             @"(fb\\d+://authorize#access_token=)([^ ]+)": @"$1((redacted/fb-auth-token))"
         };

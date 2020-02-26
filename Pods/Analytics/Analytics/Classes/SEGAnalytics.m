@@ -201,7 +201,7 @@ NSString *const SEGBuildKeyV2 = @"SEGBuildKeyV2";
     NSCAssert2(userId.length > 0 || traits.count > 0, @"either userId (%@) or traits (%@) must be provided.", userId, traits);
     [self run:SEGEventTypeIdentify payload:
                                        [[SEGIdentifyPayload alloc] initWithUserId:userId
-                                                                      anonymousId:[options objectForKey:@"anonymousId"]
+                                                                      anonymousId:nil
                                                                            traits:SEGCoerceDictionary(traits)
                                                                           context:SEGCoerceDictionary([options objectForKey:@"context"])
                                                                      integrations:[options objectForKey:@"integrations"]]];
@@ -416,9 +416,7 @@ NSString *const SEGBuildKeyV2 = @"SEGBuildKeyV2";
 
 + (NSString *)version
 {
-    // this has to match the actual version, NOT what's in info.plist
-    // because Apple only accepts X.X.X as versions in the review process.
-    return @"3.7.0";
+    return @"3.6.10";
 }
 
 #pragma mark - Helpers

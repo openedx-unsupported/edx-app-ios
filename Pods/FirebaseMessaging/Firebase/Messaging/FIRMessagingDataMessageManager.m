@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-#import "Firebase/Messaging/FIRMessagingDataMessageManager.h"
+#import "FIRMessagingDataMessageManager.h"
 
-#import "Firebase/Messaging/Protos/GtalkCore.pbobjc.h"
+#import "Protos/GtalkCore.pbobjc.h"
 
-#import "Firebase/Messaging/FIRMessagingClient.h"
-#import "Firebase/Messaging/FIRMessagingConnection.h"
-#import "Firebase/Messaging/FIRMessagingConstants.h"
-#import "Firebase/Messaging/FIRMessagingDefines.h"
-#import "Firebase/Messaging/FIRMessagingDelayedMessageQueue.h"
-#import "Firebase/Messaging/FIRMessagingLogger.h"
-#import "Firebase/Messaging/FIRMessagingReceiver.h"
-#import "Firebase/Messaging/FIRMessagingRmqManager.h"
-#import "Firebase/Messaging/FIRMessaging_Private.h"
-#import "Firebase/Messaging/FIRMessagingSyncMessageManager.h"
-#import "Firebase/Messaging/FIRMessagingUtilities.h"
-#import "Firebase/Messaging/NSError+FIRMessaging.h"
+#import "FIRMessagingClient.h"
+#import "FIRMessagingConnection.h"
+#import "FIRMessagingConstants.h"
+#import "FIRMessagingDefines.h"
+#import "FIRMessagingDelayedMessageQueue.h"
+#import "FIRMessagingLogger.h"
+#import "FIRMessagingReceiver.h"
+#import "FIRMessagingRmqManager.h"
+#import "FIRMessaging_Private.h"
+#import "FIRMessagingSyncMessageManager.h"
+#import "FIRMessagingUtilities.h"
+#import "NSError+FIRMessaging.h"
 
 static const int kMaxAppDataSizeDefault = 4 * 1024; // 4k
 static const int kMinDelaySeconds = 1; // 1 second
@@ -96,9 +96,8 @@ typedef NS_ENUM(int8_t, UpstreamForceReconnect) {
 }
 
 - (void)setDeviceAuthID:(NSString *)deviceAuthID secretToken:(NSString *)secretToken {
-  if (deviceAuthID.length == 0 || secretToken.length == 0) {
-      FIRMessagingLoggerWarn(kFIRMessagingMessageCodeDataMessageManager013, @"Invalid credentials: deviceAuthID: %@, secrectToken: %@", deviceAuthID, secretToken);
-  }
+  _FIRMessagingDevAssert([deviceAuthID length] && [secretToken length],
+                @"Invalid credentials for FIRMessaging");
   self.deviceAuthID = deviceAuthID;
   self.secretToken = secretToken;
 }
@@ -136,29 +135,31 @@ typedef NS_ENUM(int8_t, UpstreamForceReconnect) {
 - (NSDictionary *)parseDataMessage:(GtalkDataMessageStanza *)dataMessage {
   NSMutableDictionary *message = [NSMutableDictionary dictionary];
   NSString *from = [dataMessage from];
-  if (from.length) {
+  if ([from length]) {
     message[kFIRMessagingFromKey] = from;
   }
 
   // raw data
   NSData *rawData = [dataMessage rawData];
-  if (rawData.length) {
+  if ([rawData length]) {
     message[kFIRMessagingRawDataKey] = rawData;
   }
 
   NSString *token = [dataMessage token];
-  if (token.length) {
+  if ([token length]) {
     message[kFIRMessagingCollapseKey] = token;
   }
 
   // Add the persistent_id. This would be removed later before sending the message to the device.
   NSString *persistentID = [dataMessage persistentId];
-  if (persistentID.length) {
+  _FIRMessagingDevAssert([persistentID length], @"Invalid MCS message without persistentID");
+  if ([persistentID length]) {
     message[kFIRMessagingMessageIDKey] = persistentID;
   }
 
   // third-party data
   for (GtalkAppData *item in dataMessage.appDataArray) {
+    _FIRMessagingDevAssert(item.hasKey && item.hasValue, @"Invalid AppData");
 
     // do not process the "from" key -- is not useful
     if ([kFIRMessagingFromKey isEqualToString:item.key]) {
@@ -174,6 +175,7 @@ typedef NS_ENUM(int8_t, UpstreamForceReconnect) {
         }
         message[kDataMessageNotificationKey][key] = item.value;
       } else {
+        _FIRMessagingDevAssert([key length], @"Invalid key in MCS message: %@", key);
         FIRMessagingLoggerError(kFIRMessagingMessageCodeDataMessageManager001,
                                 @"Invalid key in MCS message: %@", key);
       }

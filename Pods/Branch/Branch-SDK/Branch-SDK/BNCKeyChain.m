@@ -124,7 +124,7 @@ CFStringRef SecCopyErrorMessageString(OSStatus status, void *reserved) {
     };
     CFDataRef valueData = NULL;
     OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)dictionary, (CFTypeRef *)&valueData);
-    if (status != errSecSuccess) {
+    if (status) {
         NSError *localError = [self errorWithKey:key OSStatus:status];
         BNCLogDebugSDK(@"Can't retrieve key: %@.", localError);
         if (error) *error = localError;
@@ -180,7 +180,7 @@ CFStringRef SecCopyErrorMessageString(OSStatus status, void *reserved) {
 
     dictionary[(__bridge id)kSecValueData] = valueData;
     dictionary[(__bridge id)kSecAttrIsInvisible] = (__bridge id)kCFBooleanTrue;
-    dictionary[(__bridge id)kSecAttrAccessible] = (__bridge id)kSecAttrAccessibleWhenUnlockedThisDeviceOnly;
+    dictionary[(__bridge id)kSecAttrAccessible] = (__bridge id)kSecAttrAccessibleAfterFirstUnlock;
 
     if (accessGroup.length) {
         dictionary[(__bridge id)kSecAttrAccessGroup] = accessGroup;

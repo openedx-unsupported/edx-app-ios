@@ -70,7 +70,11 @@ public class VersionUpgradeView: UIView {
             if let URL = OEXConfig.shared().appUpgradeConfig.iOSAppStoreURL() {
                 if UIApplication.shared.canOpenURL(URL as URL) {
                     self?.dismissView()
-                    UIApplication.shared.open(URL as URL, options: [:], completionHandler: nil)
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(URL as URL, options: [:], completionHandler: nil)
+                    } else {
+                        // Fallback on earlier versions
+                    }
                     isActionTakenOnUpgradeSnackBar = true
                 }
             }

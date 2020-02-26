@@ -17,7 +17,6 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, FIRIAMRenderTrigger) {
-  FIRIAMRenderTriggerOnAppLaunch,
   FIRIAMRenderTriggerOnAppForeground,
   FIRIAMRenderTriggerOnFirebaseAnalyticsEvent
 };
@@ -29,7 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
 // applicable only when triggerType == FIRIAMRenderTriggerOnFirebaseAnalyticsEvent
 @property(nonatomic, copy, nullable, readonly) NSString *firebaseEventName;
 
-- (instancetype)initForAppLaunchTrigger;
 - (instancetype)initForAppForegroundTrigger;
 - (instancetype)initWithFirebaseAnalyticEvent:(NSString *)title;
 @end

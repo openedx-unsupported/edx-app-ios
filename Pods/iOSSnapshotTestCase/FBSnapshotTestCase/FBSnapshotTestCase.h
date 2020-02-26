@@ -20,7 +20,7 @@
  There are three ways of setting reference image directories.
 
  1. Set the preprocessor macro FB_REFERENCE_IMAGE_DIR to a double quoted
-    c-string with the path. This only works for Objective-C tests.
+    c-string with the path.
  2. Set an environment variable named FB_REFERENCE_IMAGE_DIR with the path. This
     takes precedence over the preprocessor macro to allow for run-time override.
  3. Keep everything unset, which will cause the reference images to be looked up
@@ -137,18 +137,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readwrite, nonatomic, assign) BOOL recordMode;
 
 /**
- When set, allows fine-grained control over what you want the file names to include.
-
- Allows you to combine which device or simulator specific details you want in your snapshot file names.
-
- The default value is FBSnapshotTestCaseFileNameIncludeOptionScreenScale.
-
- @discussion If you are migrating from the now deleted FBSnapshotTestCaseAgnosticOption to FBSnapshotTestCaseFileNameIncludeOption, we default to using FBSnapshotTestCaseFileNameIncludeOptionScreenScale for fileNameOptions to make the transition easy. If you don't want to have the screen scale included in your file name, you need to set fileNameOptions to a mask that doesn't include FBSnapshotTestCaseFileNameIncludeOptionScreenScale:
-
- self.fileNameOptions = (FBSnapshotTestCaseFileNameIncludeOptionDevice | FBSnapshotTestCaseFileNameIncludeOptionOS);
+ When @c YES appends the name of the device model and OS to the snapshot file name.
+ The default value is @c NO.
  */
+@property (readwrite, nonatomic, assign, getter=isDeviceAgnostic) BOOL deviceAgnostic DEPRECATED_MSG_ATTRIBUTE("Use agnosticOptions instead. deviceAgnostic will be removed in a future version of iOS Snapshot Test Case.");
 
-@property (readwrite, nonatomic, assign) FBSnapshotTestCaseFileNameIncludeOption fileNameOptions;
+/**
+ When set, allows fine-grained control over how agnostic you want the file names to be.
+
+ Allows you to combine which agnostic options you want in your snapshot file names.
+
+ The default value is FBSnapshotTestCaseAgnosticOptionNone.
+
+ @attention If deviceAgnostic is YES, this bitmask is ignored. deviceAgnostic will be deprecated in a future version of FBSnapshotTestCase.
+ */
+@property (readwrite, nonatomic, assign) FBSnapshotTestCaseAgnosticOption agnosticOptions;
 
 /**
  Overrides the folder name in which the snapshot is going to be saved.

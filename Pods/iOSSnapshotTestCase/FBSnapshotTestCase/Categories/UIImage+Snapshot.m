@@ -56,11 +56,11 @@
     NSAssert1(CGRectGetWidth(bounds), @"Zero width for view %@", view);
     NSAssert1(CGRectGetHeight(bounds), @"Zero height for view %@", view);
 
-    UIGraphicsImageRenderer *graphicsImageRenderer = [[UIGraphicsImageRenderer alloc] initWithSize:bounds.size];
+    UIGraphicsBeginImageContextWithOptions(bounds.size, NO, 0);
+    [view drawViewHierarchyInRect:view.bounds afterScreenUpdates:YES];
 
-    UIImage *snapshot = [graphicsImageRenderer imageWithActions:^(UIGraphicsImageRendererContext * _Nonnull rendererContext) {
-        [view drawViewHierarchyInRect:bounds afterScreenUpdates:YES];
-    }];
+    UIImage *snapshot = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 
     if (removeFromSuperview) {
         [view removeFromSuperview];

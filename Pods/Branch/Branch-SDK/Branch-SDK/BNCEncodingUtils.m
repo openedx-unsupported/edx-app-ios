@@ -143,15 +143,10 @@ NSString* BNCWireFormatFromString(NSString *string) {
 
 + (NSString *)sanitizedStringFromString:(NSString *)dirtyString {
     NSString *dirtyCopy = [dirtyString copy]; // dirtyString seems to get dealloc'ed sometimes. Make a copy.
-    NSString *cleanString = [[[[[[[[dirtyCopy
-        stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"]
-        stringByReplacingOccurrencesOfString:@"\b" withString:@"\\b"]
-        stringByReplacingOccurrencesOfString:@"\f" withString:@"\\f"]
-        stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"]
-        stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"]
-        stringByReplacingOccurrencesOfString:@"\t" withString:@"\\t"]
-        stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""]
-        stringByReplacingOccurrencesOfString:@"`"  withString:@"'"];
+    NSString *cleanString = [[[[dirtyCopy stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""]
+                                          stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"]
+                                          stringByReplacingOccurrencesOfString:@"’" withString:@"'"]
+                                          stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
     return cleanString;
 }
 
@@ -164,13 +159,6 @@ NSString* BNCWireFormatFromString(NSString *string) {
 + (NSString *)encodeDictionaryToJsonString:(NSDictionary *)dictionary {
     NSMutableString *encodedDictionary = [[NSMutableString alloc] initWithString:@"{"];
     for (NSString *key in dictionary) {
-        
-        // protect against non-string keys
-        if (![key isKindOfClass:[NSString class]]) {
-            BNCLogError(@"Unexpected key type %@. Skipping key.", [key class]);
-            continue;
-        }
-        
         NSString *value = nil;
         BOOL string = YES;
         

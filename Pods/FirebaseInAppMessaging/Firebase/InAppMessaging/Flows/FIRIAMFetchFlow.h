@@ -54,7 +54,6 @@ typedef void (^FIRIAMFetchMessageCompletionHandler)(
 
 // Triggers a potential fetch of in-app messaging from the source. It would check and respect the
 // the fetchMinIntervalInMinutes defined in setting
-- (void)checkAndFetchForInitialAppLaunch:(BOOL)forInitialAppLaunch;
-
+- (void)checkAndFetch;
 @end
 NS_ASSUME_NONNULL_END

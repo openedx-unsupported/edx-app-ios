@@ -17,14 +17,6 @@
 #import "FIRIAMDisplayTriggerDefinition.h"
 
 @implementation FIRIAMDisplayTriggerDefinition
-
-- (instancetype)initForAppLaunchTrigger {
-  if (self = [super init]) {
-    _triggerType = FIRIAMRenderTriggerOnAppLaunch;
-  }
-  return self;
-}
-
 - (instancetype)initForAppForegroundTrigger {
   if (self = [super init]) {
     _triggerType = FIRIAMRenderTriggerOnAppForeground;

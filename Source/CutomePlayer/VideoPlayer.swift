@@ -227,7 +227,11 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         view.layer.insertSublayer(playerView.playerLayer, at: 0)
         playerView.addSubview(loadingIndicatorView)
 
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+        if #available(iOS 10.0, *) {
+            try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.defaultToSpeaker])
+        } else {
+            // Fallback on earlier versions
+        }
         setConstraints()
     }
     

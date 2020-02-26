@@ -145,15 +145,8 @@
                              IID:(NSString *)iid
                       completion:(void (^)(BOOL success))completion {
   NSTimeInterval nowInMs = [self.timeFetcher currentTimestampInSeconds] * 1000;
-  if (eventTimeInMs == nil) {
+  if (!eventTimeInMs) {
     eventTimeInMs = @((long)nowInMs);
-  }
-
-  if (!iid) {
-    FIRLogWarning(kFIRLoggerInAppMessaging, @"I-IAM210009",
-                  @"Instance ID is nil, event %ld for campaign ID %@ will not be sent",
-                  (long)eventType, campaignID);
-    return;
   }
 
   NSString *sourceExtensionJsonString =

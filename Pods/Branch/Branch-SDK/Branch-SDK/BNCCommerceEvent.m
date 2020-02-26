@@ -599,13 +599,14 @@ NSArray<BNCCurrency>* BNCCurrencyAllCurrencies(void) {
 		self.completion(dictionary, error);
 }
 
-#pragma mark BranchCommerceEventRequest NSSecureCoding
+#pragma mark BranchCommerceEventRequest NSCoding
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     self = [super initWithCoder:decoder];
 	if (!self) return self;
-	self.commerceDictionary = [decoder decodeObjectOfClass:NSDictionary.class forKey:@"commerceDictionary"];
-	self.metadata = [decoder decodeObjectOfClass:NSDictionary.class forKey:@"metaData"];
+
+	self.commerceDictionary = [decoder decodeObjectForKey:@"commerceDictionary"];
+	self.metadata = [decoder decodeObjectForKey:@"metaData"];
     return self;
 }
 
@@ -613,10 +614,6 @@ NSArray<BNCCurrency>* BNCCurrencyAllCurrencies(void) {
     [super encodeWithCoder:coder];
     [coder encodeObject:self.commerceDictionary forKey:@"commerceDictionary"];
     [coder encodeObject:self.metadata forKey:@"metadata"];
-}
-
-+ (BOOL) supportsSecureCoding {
-    return YES;
 }
 
 @end

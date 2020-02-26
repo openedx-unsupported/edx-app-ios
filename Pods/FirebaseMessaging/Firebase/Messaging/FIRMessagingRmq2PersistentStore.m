@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-#import "Firebase/Messaging/FIRMessagingRmq2PersistentStore.h"
+#import "FIRMessagingRmq2PersistentStore.h"
 
 #import <sqlite3.h>
 
-#import "Firebase/Messaging/FIRMessagingConstants.h"
-#import "Firebase/Messaging/FIRMessagingDefines.h"
-#import "Firebase/Messaging/FIRMessagingLogger.h"
-#import "Firebase/Messaging/FIRMessagingPersistentSyncMessage.h"
-#import "Firebase/Messaging/FIRMessagingUtilities.h"
-#import "Firebase/Messaging/NSError+FIRMessaging.h"
-#import "Firebase/Messaging/Protos/GtalkCore.pbobjc.h"
+#import "FIRMessagingConstants.h"
+#import "FIRMessagingDefines.h"
+#import "FIRMessagingLogger.h"
+#import "FIRMessagingPersistentSyncMessage.h"
+#import "FIRMessagingUtilities.h"
+#import "NSError+FIRMessaging.h"
+#import "Protos/GtalkCore.pbobjc.h"
 
 #ifndef _FIRMessagingRmqLogAndExit
 #define _FIRMessagingRmqLogAndExit(stmt, return_value)   \
@@ -279,10 +279,7 @@ NSString * _Nonnull FIRMessagingStringFromSQLiteResult(int result) {
   BOOL didOpenDatabase = YES;
   if (![fileManager fileExistsAtPath:path]) {
     // We've to separate between different versions here because of backwards compatbility issues.
-    int result = sqlite3_open_v2([path UTF8String],
-                                 &_database,
-                                 SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE,
-                                 NULL);
+    int result = sqlite3_open([path UTF8String], &_database);
     if (result != SQLITE_OK) {
       NSString *errorString = FIRMessagingStringFromSQLiteResult(result);
       NSString *errorMessage =
@@ -302,10 +299,7 @@ NSString * _Nonnull FIRMessagingStringFromSQLiteResult(int result) {
     [self createTableWithName:kTableS2DRmqIds command:kCreateTableS2DRmqIds];
   } else {
     // Calling sqlite3_open should create the database, since the file doesn't exist.
-    int result = sqlite3_open_v2([path UTF8String],
-                                 &_database,
-                                 SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FILEPROTECTION_NONE,
-                                 NULL);
+    int result = sqlite3_open([path UTF8String], &_database);
     if (result != SQLITE_OK) {
       NSString *errorString = FIRMessagingStringFromSQLiteResult(result);
       NSString *errorMessage =
@@ -395,6 +389,12 @@ NSString * _Nonnull FIRMessagingStringFromSQLiteResult(int result) {
 
 - (int)deleteMessagesFromTable:(NSString *)tableName
                     withRmqIds:(NSArray *)rmqIds {
+  _FIRMessagingDevAssert([tableName isEqualToString:kTableOutgoingRmqMessages] ||
+                [tableName isEqualToString:kTableLastRmqId] ||
+                [tableName isEqualToString:kTableS2DRmqIds] ||
+                [tableName isEqualToString:kTableSyncMessages],
+                @"%@: Invalid Table Name %@", kFCMRmqStoreTag, tableName);
+
   BOOL isRmqIDString = NO;
   // RmqID is a string only for outgoing messages
   if ([tableName isEqualToString:kTableS2DRmqIds] ||
@@ -586,7 +586,9 @@ NSString * _Nonnull FIRMessagingStringFromSQLiteResult(int result) {
     int8_t type = sqlite3_column_int(statement, typeColumnNumber);
     const void *bytes = sqlite3_column_blob(statement, dataColumnNumber);
     int length = sqlite3_column_bytes(statement, dataColumnNumber);
-
+    _FIRMessagingDevAssert(bytes != NULL,
+                           @"%@ Message with no data being stored in Rmq",
+                           kFCMRmqStoreTag);
     NSData *data = [NSData dataWithBytes:bytes length:length];
     handler(rmqId, type, data);
   }
@@ -596,6 +598,8 @@ NSString * _Nonnull FIRMessagingStringFromSQLiteResult(int result) {
 #pragma mark - Sync Messages
 
 - (FIRMessagingPersistentSyncMessage *)querySyncMessageWithRmqID:(NSString *)rmqID {
+  _FIRMessagingDevAssert([rmqID length], @"Invalid rmqID key %@ to search in SYNC_RMQ", rmqID);
+
   NSString *queryFormat = @"SELECT %@ FROM %@ WHERE %@ = '%@'";
   NSString *query = [NSString stringWithFormat:queryFormat,
                      kSyncMessagesColumns, // SELECT (rmq_id, expiration_ts, apns_recv, mcs_recv)
@@ -635,10 +639,12 @@ NSString * _Nonnull FIRMessagingStringFromSQLiteResult(int result) {
   }
   sqlite3_finalize(stmt);
 
+  _FIRMessagingDevAssert(count <= 1, @"Found multiple messages in %@ with same RMQ ID", kTableSyncMessages);
   return persistentMessage;
 }
 
 - (BOOL)deleteSyncMessageWithRmqID:(NSString *)rmqID {
+  _FIRMessagingDevAssert([rmqID length], @"Invalid rmqID key %@ to delete in SYNC_RMQ", rmqID);
   return [self deleteMessagesFromTable:kTableSyncMessages withRmqIds:@[rmqID]] > 0;
 }
 
@@ -683,6 +689,8 @@ NSString * _Nonnull FIRMessagingStringFromSQLiteResult(int result) {
                     apnsReceived:(BOOL)apnsReceived
                      mcsReceived:(BOOL)mcsReceived
                            error:(NSError **)error {
+  _FIRMessagingDevAssert([rmqID length], @"Invalid nil message to persist to SYNC_RMQ");
+
   NSString *insertFormat = @"INSERT INTO %@ (%@, %@, %@, %@) VALUES (?, ?, ?, ?)";
   NSString *insertSQL = [NSString stringWithFormat:insertFormat,
                          kTableSyncMessages, // Table name
@@ -745,6 +753,9 @@ NSString * _Nonnull FIRMessagingStringFromSQLiteResult(int result) {
                             column:(NSString *)column
                              value:(BOOL)value
                              error:(NSError **)error {
+  _FIRMessagingDevAssert([column isEqualToString:kSyncMessageAPNSReceivedColumn] ||
+                [column isEqualToString:kSyncMessageMCSReceivedColumn],
+                @"Invalid column name %@ for SYNC_RMQ", column);
   NSString *queryFormat = @"UPDATE %@ "  // Table name
                           @"SET %@ = %d "  // column=value
                           @"WHERE %@ = ?";  // condition

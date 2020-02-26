@@ -14,45 +14,33 @@
 
 #include <sys/utsname.h>
 
-#if __has_include(<UIKit/UIKit.h>)
-#import <UIKit/UIKit.h>
-#endif
-
-#if __has_include(<AppKit/AppKit.h>)
-#import <AppKit/AppKit.h>
-#endif
-
 #import "FIRApp.h"
-
-#import "Private/FIRAnalyticsConfiguration.h"
+#import "FIRConfiguration.h"
+#import "Private/FIRAnalyticsConfiguration+Internal.h"
 #import "Private/FIRAppInternal.h"
 #import "Private/FIRBundleUtil.h"
 #import "Private/FIRComponentContainerInternal.h"
-#import "Private/FIRConfigurationInternal.h"
-#import "Private/FIRCoreDiagnosticsConnector.h"
 #import "Private/FIRLibrary.h"
 #import "Private/FIRLogger.h"
 #import "Private/FIROptionsInternal.h"
 
-// The kFIRService strings are only here while transitioning CoreDiagnostics from the Analytics
-// pod to a Core dependency. These symbols are not used and should be deleted after the transition.
-NSString *const kFIRServiceAdMob;
-NSString *const kFIRServiceAuth;
-NSString *const kFIRServiceAuthUI;
-NSString *const kFIRServiceCrash;
-NSString *const kFIRServiceDatabase;
-NSString *const kFIRServiceDynamicLinks;
-NSString *const kFIRServiceFirestore;
-NSString *const kFIRServiceFunctions;
-NSString *const kFIRServiceInstanceID;
-NSString *const kFIRServiceInvites;
-NSString *const kFIRServiceMessaging;
-NSString *const kFIRServiceMeasurement;
-NSString *const kFIRServicePerformance;
-NSString *const kFIRServiceRemoteConfig;
-NSString *const kFIRServiceStorage;
-NSString *const kGGLServiceAnalytics;
-NSString *const kGGLServiceSignIn;
+NSString *const kFIRServiceAdMob = @"AdMob";
+NSString *const kFIRServiceAuth = @"Auth";
+NSString *const kFIRServiceAuthUI = @"AuthUI";
+NSString *const kFIRServiceCrash = @"Crash";
+NSString *const kFIRServiceDatabase = @"Database";
+NSString *const kFIRServiceDynamicLinks = @"DynamicLinks";
+NSString *const kFIRServiceFirestore = @"Firestore";
+NSString *const kFIRServiceFunctions = @"Functions";
+NSString *const kFIRServiceInstanceID = @"InstanceID";
+NSString *const kFIRServiceInvites = @"Invites";
+NSString *const kFIRServiceMessaging = @"Messaging";
+NSString *const kFIRServiceMeasurement = @"Measurement";
+NSString *const kFIRServicePerformance = @"Performance";
+NSString *const kFIRServiceRemoteConfig = @"RemoteConfig";
+NSString *const kFIRServiceStorage = @"Storage";
+NSString *const kGGLServiceAnalytics = @"Analytics";
+NSString *const kGGLServiceSignIn = @"SignIn";
 
 NSString *const kFIRDefaultAppName = @"__FIRAPP_DEFAULT";
 NSString *const kFIRAppReadyToConfigureSDKNotification = @"FIRAppReadyToConfigureSDKNotification";
@@ -115,6 +103,19 @@ static NSMutableDictionary *sLibraryVersions;
 + (void)configure {
   FIROptions *options = [FIROptions defaultOptions];
   if (!options) {
+    // Read the Info.plist to see if the flag is set. At this point we can't check any user defaults
+    // since the app isn't configured at all, so only rely on the Info.plist value.
+    NSNumber *collectionEnabledPlistValue = [[self class] readDataCollectionSwitchFromPlist];
+    if (collectionEnabledPlistValue == nil || [collectionEnabledPlistValue boolValue]) {
+      [[NSNotificationCenter defaultCenter]
+          postNotificationName:kFIRAppDiagnosticsNotification
+                        object:nil
+                      userInfo:@{
+                        kFIRAppDiagnosticsConfigurationTypeKey : @(FIRConfigTypeCore),
+                        kFIRAppDiagnosticsErrorKey : [FIRApp errorForMissingOptions]
+                      }];
+    }
+
     [NSException raise:kFirebaseCoreErrorDomain
                 format:@"`[FIRApp configure];` (`FirebaseApp.configure()` in Swift) could not find "
                        @"a valid GoogleService-Info.plist in your project. Please download one "
@@ -138,17 +139,6 @@ static NSMutableDictionary *sLibraryVersions;
   [FIRApp configureWithName:kFIRDefaultAppName options:options];
 }
 
-+ (NSCharacterSet *)applicationNameAllowedCharacters {
-  static NSCharacterSet *applicationNameAllowedCharacters;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    NSMutableCharacterSet *allowedNameCharacters = [NSMutableCharacterSet alphanumericCharacterSet];
-    [allowedNameCharacters addCharactersInString:@"-_"];
-    applicationNameAllowedCharacters = [allowedNameCharacters copy];
-  });
-  return applicationNameAllowedCharacters;
-}
-
 + (void)configureWithName:(NSString *)name options:(FIROptions *)options {
   if (!name || !options) {
     [NSException raise:kFirebaseCoreErrorDomain format:@"Neither name nor options can be nil."];
@@ -166,12 +156,14 @@ static NSMutableDictionary *sLibraryVersions;
     FIRLogDebug(kFIRLoggerCore, @"I-COR000001", @"Configuring the default app.");
   } else {
     // Validate the app name and ensure it hasn't been configured already.
-    NSCharacterSet *nameCharacters = [NSCharacterSet characterSetWithCharactersInString:name];
-
-    if (![[self applicationNameAllowedCharacters] isSupersetOfSet:nameCharacters]) {
-      [NSException raise:kFirebaseCoreErrorDomain
-                  format:@"App name can only contain alphanumeric, "
-                         @"hyphen (-), and underscore (_) characters"];
+    for (NSUInteger charIndex = 0; charIndex < name.length; charIndex++) {
+      char character = [name characterAtIndex:charIndex];
+      if (!((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') ||
+            (character >= '0' && character <= '9') || character == '_' || character == '-')) {
+        [NSException raise:kFirebaseCoreErrorDomain
+                    format:@"App name can only contain alphanumeric (A-Z,a-z,0-9), "
+                           @"hyphen (-), and underscore (_) characters"];
+      }
     }
 
     @synchronized(self) {
@@ -289,24 +281,41 @@ static NSMutableDictionary *sLibraryVersions;
   return self;
 }
 
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (BOOL)configureCore {
   [self checkExpectedBundleID];
   if (![self isAppIDValid]) {
+    if (_options.usingOptionsFromDefaultPlist && [self isDataCollectionDefaultEnabled]) {
+      [[NSNotificationCenter defaultCenter]
+          postNotificationName:kFIRAppDiagnosticsNotification
+                        object:nil
+                      userInfo:@{
+                        kFIRAppDiagnosticsConfigurationTypeKey : @(FIRConfigTypeCore),
+                        kFIRAppDiagnosticsErrorKey : [FIRApp errorForInvalidAppID],
+                      }];
+    }
     return NO;
   }
 
-  [self logCoreTelemetryIfEnabled];
+  if ([self isDataCollectionDefaultEnabled]) {
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:kFIRAppDiagnosticsNotification
+                      object:nil
+                    userInfo:@{
+                      kFIRAppDiagnosticsConfigurationTypeKey : @(FIRConfigTypeCore),
+                      kFIRAppDiagnosticsFIRAppKey : self
+                    }];
+  }
 
 #if TARGET_OS_IOS
   // Initialize the Analytics once there is a valid options under default app. Analytics should
   // always initialize first by itself before the other SDKs.
   if ([self.name isEqualToString:kFIRDefaultAppName]) {
     Class firAnalyticsClass = NSClassFromString(@"FIRAnalytics");
-    if (firAnalyticsClass) {
+    if (!firAnalyticsClass) {
+      FIRLogWarning(kFIRLoggerCore, @"I-COR000022",
+                    @"Firebase Analytics is not available. To add it, include Firebase/Core in the "
+                    @"Podfile or add FirebaseAnalytics.framework to the Link Build Phase");
+    } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
       SEL startWithConfigurationSelector = @selector(startWithConfiguration:options:);
@@ -323,8 +332,6 @@ static NSMutableDictionary *sLibraryVersions;
     }
   }
 #endif
-
-  [self subscribeForAppDidBecomeActiveNotifications];
 
   return YES;
 }
@@ -797,40 +804,26 @@ static NSMutableDictionary *sLibraryVersions;
 
 #pragma mark - Sending Logs
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-parameter"
 - (void)sendLogsWithServiceName:(NSString *)serviceName
                         version:(NSString *)version
                           error:(NSError *)error {
-  // Do nothing. Please remove calls to this method.
-}
-#pragma clang diagnostic pop
-
-#pragma mark - App Life Cycle
-
-- (void)subscribeForAppDidBecomeActiveNotifications {
-#if TARGET_OS_IOS || TARGET_OS_TV
-  NSNotificationName notificationName = UIApplicationDidBecomeActiveNotification;
-#endif
-
-#if TARGET_OS_OSX
-  NSNotificationName notificationName = NSApplicationDidBecomeActiveNotification;
-#endif
-
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(appDidBecomeActive:)
-                                               name:notificationName
-                                             object:nil];
-}
-
-- (void)appDidBecomeActive:(NSNotification *)notification {
-  [self logCoreTelemetryIfEnabled];
-}
-
-- (void)logCoreTelemetryIfEnabled {
-  if ([self isDataCollectionDefaultEnabled]) {
-    [FIRCoreDiagnosticsConnector logCoreTelemetryWithOptions:_options];
+  // If the user has manually turned off data collection, return and don't send logs.
+  if (![self isDataCollectionDefaultEnabled]) {
+    return;
   }
+
+  NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithDictionary:@{
+    kFIRAppDiagnosticsConfigurationTypeKey : @(FIRConfigTypeSDK),
+    kFIRAppDiagnosticsSDKNameKey : serviceName,
+    kFIRAppDiagnosticsSDKVersionKey : version,
+    kFIRAppDiagnosticsFIRAppKey : self
+  }];
+  if (error) {
+    userInfo[kFIRAppDiagnosticsErrorKey] = error;
+  }
+  [[NSNotificationCenter defaultCenter] postNotificationName:kFIRAppDiagnosticsNotification
+                                                      object:nil
+                                                    userInfo:userInfo];
 }
 
 @end

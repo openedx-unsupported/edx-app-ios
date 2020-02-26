@@ -2,42 +2,14 @@
 
 ## DateTools
 
-DateTools was written to streamline date and time handling in Objective-C. Classes and concepts from other languages served as an inspiration for DateTools, especially the [DateTime](http://msdn.microsoft.com/en-us/library/system.datetime(v=vs.110).aspx) structure and [Time Period Library](http://www.codeproject.com/Articles/168662/Time-Period-Library-for-NET) for .NET. Through these classes and others, DateTools removes the boilerplate required to access date components, handles more nuanced date comparisons, and serves as the foundation for entirely new concepts like Time Periods and their collections.
+DateTools was written to streamline date and time handling in Objective-C. Classes and concepts from other languages served as an inspiration for DateTools, especially the [DateTime](http://msdn.microsoft.com/en-us/library/system.datetime(v=vs.110).aspx) structure and [Time Period Library](Time Period Library) for .NET. Through these classes and others, DateTools removes the boilerplate required to access date components, handles more nuanced date comparisons, and serves as the foundation for entirely new concepts like Time Periods and their collections.
 
 [![Build Status](https://travis-ci.org/MatthewYork/DateTools.svg?branch=master)](https://travis-ci.org/MatthewYork/DateTools)
-[![CocoaPods](https://cocoapod-badges.herokuapp.com/v/DateTools/badge.png)](http://cocoapods.org/?q=datetools)
-
-####Featured In
-<table>
- <tr>
-  <td align="center">
-  <a href="https://itunes.apple.com/hk/app/yahoo-livetext-video-messenger/id995121875?mt=8"><img src="http://a4.mzstatic.com/us/r30/Purple2/v4/7c/1b/11/7c1b11f3-2a73-b655-751e-b21b2e8bc6f7/icon100x100.png" /></a>
-  </td>
-  <td align="center">
-  <a href="https://itunes.apple.com/app/id547436543"><img src="http://a5.mzstatic.com/us/r30/Purple5/v4/1f/7b/a5/1f7ba545-038e-353e-18a0-b6472eef1913/icon100x100.jpeg" /></a>
-  </td>
-  <td align="center">
-  <a href="https://itunes.apple.com/us/app/aldi-usa/id429396645?mt=8"><img src="http://a4.mzstatic.com/us/r30/Purple7/v4/a7/63/20/a76320db-2de4-62ad-b620-efaab8a179dc/icon100x100.jpeg" /></a>
-  </td>
-  <td align="center">
-  <a href="https://itunes.apple.com/us/app/guidebook/id428713847?mt=8"><img src="http://a5.mzstatic.com/us/r30/Purple7/v4/e4/af/db/e4afdbc1-9ceb-c403-4d06-299e7e693120/icon100x100.png" /></a>
-  </td>
-  <td align="center">
-  <a href="https://itunes.apple.com/us/app/pitch-locator-pro/id964965940?mt=8"><img src="http://a2.mzstatic.com/us/r30/Purple7/v4/39/ed/24/39ed248b-afab-ce8d-4276-35ba0459ac60/icon100x100.png" /></a>
-  </td>
-  <tr>
-   <td align="center">Yahoo! Livetext</td>
-   <td align="center">My Disney Experience</td>
-   <td align="center">ALDI</td>
-   <td align="center">Guidebook</td>
-   <td align="center">Pitch Locator Pro</td>
-  </tr>
- </tr>
-</table>
+[![Cocoapods](https://cocoapod-badges.herokuapp.com/v/DateTools/badge.png)](http://cocoapods.org/?q=datetools)
 
 ## Installation
 
-**CocoaPods**
+**Cocoapods**
 
 <code>pod 'DateTools'</code>
 
@@ -100,44 +72,39 @@ NSLog(@"Time Ago: %@", timeAgoDate.shortTimeAgoSinceNow);
 
 Assuming you have added the localization to your project, `DateTools` currently supports the following languages: 
 
-- ar (Arabic)
-- bg (Bulgarian)
-- ca (Catalan)
+- en (English)
+- es (Spanish)
 - zh_Hans (Chinese Simplified)
 - zh_Hant (Chinese Traditional)
-- cs (Czech)
-- da (Danish)
-- nl (Dutch)
-- en (English)
-- fi (Finnish)
-- fr (French)
-- de (German)
-- gre (Greek)
-- gu (Gujarati)
-- he (Hebrew)
-- hi (Hindi)
-- hu (Hungarian)
-- is (Icelandic)
-- id (Indonesian)
-- it (Italian)
-- ja (Japanese)
-- ko (Korean)
-- lv (Latvian)
-- ms (Malay)
-- nb (Norwegian)
-- pl (Polish)
 - pt (Portuguese)
-- ro (Romanian)
+- fr (French)
+- it (Italian)
 - ru (Russian)
-- sl (Slovenian)
-- es (Spanish)
+- de (German)
+- nl (Dutch)
+- hu (Hungarian)
+- fi (Finnish)
+- ja (Japanese)
+- vi (Vietnamese)
+- ro (Romanian)
+- da (Danish)
+- cs (Czech)
+- nb (Norwegian)
+- lv (Latvian)
+- tr (Turkish)
+- ko (Korean)
+- bg (Bulgarian)
+- he (Hebrew)
+- ar (Arabic)
+- gre (Greek)
+- pl (Polish)
 - sv (Swedish)
 - th (Thai)
-- tr (Turkish)
 - uk (Ukrainian)
-- vi (Vietnamese)
+- is (Icelandic)
+- id (Indonesian)
+- ca (Catalan)
 - cy (Welsh)
-- hr (Croatian)
 
 If you know a language not listed here, please consider submitting a translation. [Localization codes by language](http://stackoverflow.com/questions/3040677/locale-codes-for-iphone-lproj-folders).
 
@@ -288,6 +255,8 @@ This doubles a time period of duration 1 minute to duration 2 minutes. The end d
 ####Relationships
 
 There may come a need, say when you are making a scheduling app, when it might be good to know how two time periods relate to one another. Are they the same? Is one inside of another? All these questions may be asked using the relationship methods of DTTimePeriod.
+
+**The Basics**
 
 Below is a chart of all the possible relationships between two time periods:
 ![TimePeriods](https://raw.githubusercontent.com/MatthewYork/Resources/master/DateTools/PeriodRelations.png)

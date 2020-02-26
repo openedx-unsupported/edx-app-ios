@@ -168,7 +168,11 @@ class IconMessageView : UIView {
         buttonInfo = MessageButtonInfo(title : Strings.versionUpgradeUpdate)
         {
             if let URL = OEXConfig.shared().appUpgradeConfig.iOSAppStoreURL() {
-                UIApplication.shared.open(URL as URL, options: [:], completionHandler: nil)
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(URL as URL, options: [:], completionHandler: nil)
+                } else {
+                    // Fallback on earlier versions
+                }
             }
         }
     }

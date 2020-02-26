@@ -49,8 +49,6 @@ NS_ASSUME_NONNULL_BEGIN
                         activityLogger:(FIRIAMActivityLogger *)activityLogger
                   analyticsEventLogger:(id<FIRIAMAnalyticsEventLogger>)analyticsEventLogger;
 
-// Check and display next in-app message eligible for app launch trigger
-- (void)checkAndDisplayNextAppLaunchMessage;
 // Check and display next in-app message eligible for app open trigger
 - (void)checkAndDisplayNextAppForegroundMessage;
 // Check and display next in-app message eligible for analytics event trigger with given event name.

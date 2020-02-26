@@ -1,12 +1,12 @@
 PODS:
-  - Analytics (3.7.0)
-  - Branch (0.28.1):
-    - Branch/Core (= 0.28.1)
-  - Branch/Core (0.28.1)
-  - Crashlytics (3.14.0):
-    - Fabric (~> 1.10.2)
-  - DateTools (2.0.0)
-  - Fabric (1.10.2)
+  - Analytics (3.6.10)
+  - Branch (0.25.5):
+    - Branch/Core (= 0.25.5)
+  - Branch/Core (0.25.5)
+  - Crashlytics (3.10.9):
+    - Fabric (~> 1.7.13)
+  - DateTools (1.6.1)
+  - Fabric (1.7.13)
   - FBSDKCoreKit (5.5.0):
     - FBSDKCoreKit/Basics (= 5.5.0)
     - FBSDKCoreKit/Core (= 5.5.0)
@@ -15,98 +15,83 @@ PODS:
     - FBSDKCoreKit/Basics
   - FBSDKLoginKit (5.5.0):
     - FBSDKCoreKit (~> 5.0)
-  - Firebase/Analytics (6.8.1):
+  - Firebase/Analytics (5.20.2):
     - Firebase/Core
-  - Firebase/Core (6.8.1):
+  - Firebase/Core (5.20.2):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.1.1)
-  - Firebase/CoreOnly (6.8.1):
-    - FirebaseCore (= 6.2.3)
-  - Firebase/InAppMessagingDisplay (6.8.1):
+    - FirebaseAnalytics (= 5.8.1)
+  - Firebase/CoreOnly (5.20.2):
+    - FirebaseCore (= 5.4.1)
+  - Firebase/InAppMessagingDisplay (5.20.2):
     - Firebase/CoreOnly
-    - FirebaseInAppMessagingDisplay (~> 0.15.4)
-  - Firebase/Messaging (6.8.1):
+    - FirebaseInAppMessagingDisplay (= 0.13.1)
+  - Firebase/Messaging (5.20.2):
     - Firebase/CoreOnly
-    - FirebaseMessaging (~> 4.1.4)
-  - Firebase/Performance (6.8.1):
-    - Firebase/CoreOnly
-    - FirebasePerformance (~> 3.1.4)
-  - FirebaseABTesting (3.1.1):
-    - FirebaseAnalyticsInterop (~> 1.3)
-    - FirebaseCore (~> 6.1)
-    - Protobuf (~> 3.8)
-  - FirebaseAnalytics (6.1.1):
-    - FirebaseCore (~> 6.2)
-    - FirebaseInstanceID (~> 4.2)
-    - GoogleAppMeasurement (= 6.1.1)
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
-    - GoogleUtilities/MethodSwizzler (~> 6.0)
-    - GoogleUtilities/Network (~> 6.0)
-    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+    - FirebaseMessaging (= 3.5.0)
+  - Firebase/Performance (5.20.2):
+    - Firebase/Core
+    - FirebasePerformance (= 2.2.4)
+  - FirebaseABTesting (2.0.0):
+    - FirebaseCore (~> 5.0)
+    - Protobuf (~> 3.5)
+  - FirebaseAnalytics (5.8.1):
+    - FirebaseCore (~> 5.4)
+    - FirebaseInstanceID (~> 3.8)
+    - GoogleAppMeasurement (= 5.8.1)
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - FirebaseAnalyticsInterop (1.4.0)
-  - FirebaseCore (6.2.3):
-    - FirebaseCoreDiagnostics (~> 1.0)
-    - FirebaseCoreDiagnosticsInterop (~> 1.0)
-    - GoogleUtilities/Environment (~> 6.2)
-    - GoogleUtilities/Logger (~> 6.2)
-  - FirebaseCoreDiagnostics (1.0.1):
-    - FirebaseCoreDiagnosticsInterop (~> 1.0)
-    - GoogleDataTransportCCTSupport (~> 1.0)
-    - GoogleUtilities/Environment (~> 6.2)
-    - GoogleUtilities/Logger (~> 6.2)
-  - FirebaseCoreDiagnosticsInterop (1.0.0)
-  - FirebaseInAppMessaging (0.15.4):
-    - FirebaseAnalyticsInterop (~> 1.3)
-    - FirebaseCore (~> 6.2)
-    - FirebaseInstanceID (~> 4.0)
-    - GoogleDataTransportCCTSupport (~> 1.0)
-  - FirebaseInAppMessagingDisplay (0.15.4):
-    - FirebaseCore (~> 6.2)
-    - FirebaseInAppMessaging (>= 0.15.0)
-  - FirebaseInstanceID (4.2.5):
-    - FirebaseCore (~> 6.0)
-    - GoogleUtilities/Environment (~> 6.0)
-    - GoogleUtilities/UserDefaults (~> 6.0)
-  - FirebaseMessaging (4.1.4):
-    - FirebaseAnalyticsInterop (~> 1.3)
-    - FirebaseCore (~> 6.2)
-    - FirebaseInstanceID (~> 4.1)
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.2)
-    - GoogleUtilities/Environment (~> 6.2)
-    - GoogleUtilities/Reachability (~> 6.2)
-    - GoogleUtilities/UserDefaults (~> 6.2)
+  - FirebaseAnalyticsInterop (1.5.0)
+  - FirebaseCore (5.4.1):
+    - GoogleUtilities/Environment (~> 5.2)
+    - GoogleUtilities/Logger (~> 5.2)
+  - FirebaseInAppMessaging (0.13.0):
+    - FirebaseAnalytics
+    - FirebaseAnalyticsInterop
+    - FirebaseCore
+    - FirebaseInstanceID
+  - FirebaseInAppMessagingDisplay (0.13.1):
+    - FirebaseCore
+    - FirebaseInAppMessaging (>= 0.12.0)
+  - FirebaseInstanceID (3.8.1):
+    - FirebaseCore (~> 5.2)
+    - GoogleUtilities/Environment (~> 5.2)
+    - GoogleUtilities/UserDefaults (~> 5.2)
+  - FirebaseMessaging (3.5.0):
+    - FirebaseAnalyticsInterop (~> 1.1)
+    - FirebaseCore (~> 5.2)
+    - FirebaseInstanceID (~> 3.6)
+    - GoogleUtilities/Environment (~> 5.3)
+    - GoogleUtilities/Reachability (~> 5.3)
+    - GoogleUtilities/UserDefaults (~> 5.3)
     - Protobuf (~> 3.1)
-  - FirebasePerformance (3.1.4):
-    - FirebaseCore (~> 6.2)
-    - FirebaseInstanceID (~> 4.2)
-    - FirebaseRemoteConfig (~> 4.4)
+  - FirebasePerformance (2.2.4):
+    - FirebaseAnalytics (~> 5.8)
+    - FirebaseInstanceID (~> 3.8)
+    - FirebaseRemoteConfig (~> 3.1)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-    - GoogleUtilities/Environment (~> 6.2)
-    - GoogleUtilities/ISASwizzler (~> 6.2)
-    - GoogleUtilities/MethodSwizzler (~> 6.2)
+    - GoogleUtilities/ISASwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
     - GTMSessionFetcher/Core (~> 1.1)
-    - Protobuf (~> 3.9)
-  - FirebaseRemoteConfig (4.4.0):
-    - FirebaseABTesting (~> 3.1)
-    - FirebaseAnalyticsInterop (~> 1.4)
-    - FirebaseCore (~> 6.2)
-    - FirebaseInstanceID (~> 4.2)
-    - GoogleUtilities/Environment (~> 6.2)
-    - "GoogleUtilities/NSData+zlib (~> 6.2)"
-    - Protobuf (~> 3.9)
+    - Protobuf (~> 3.5)
+  - FirebaseRemoteConfig (3.1.0):
+    - FirebaseABTesting (~> 2.0)
+    - FirebaseAnalytics (~> 5.3)
+    - FirebaseCore (~> 5.1)
+    - FirebaseInstanceID (~> 3.3)
+    - GoogleUtilities/Environment (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
+    - Protobuf (~> 3.5)
   - GoogleAnalytics (3.17.0)
-  - GoogleAppMeasurement (6.1.1):
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
-    - GoogleUtilities/MethodSwizzler (~> 6.0)
-    - GoogleUtilities/Network (~> 6.0)
-    - "GoogleUtilities/NSData+zlib (~> 6.0)"
+  - GoogleAppMeasurement (5.8.1):
+    - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
+    - GoogleUtilities/MethodSwizzler (~> 5.2)
+    - GoogleUtilities/Network (~> 5.2)
+    - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
-  - GoogleDataTransport (1.2.0)
-  - GoogleDataTransportCCTSupport (1.0.3):
-    - GoogleDataTransport (~> 1.2)
-    - nanopb
   - GoogleIDFASupport (3.14.0)
   - GoogleSignIn (4.4.0):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
@@ -124,61 +109,59 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.2.1)
     - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.1)"
   - "GoogleToolboxForMac/NSString+URLArguments (2.2.1)"
-  - GoogleUtilities/AppDelegateSwizzler (6.2.5):
+  - GoogleUtilities/AppDelegateSwizzler (5.8.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.2.5)
-  - GoogleUtilities/ISASwizzler (6.2.5)
-  - GoogleUtilities/Logger (6.2.5):
+  - GoogleUtilities/Environment (5.8.0)
+  - GoogleUtilities/ISASwizzler (5.8.0)
+  - GoogleUtilities/Logger (5.8.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.2.5):
+  - GoogleUtilities/MethodSwizzler (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.2.5):
+  - GoogleUtilities/Network (5.8.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.2.5)"
-  - GoogleUtilities/Reachability (6.2.5):
+  - "GoogleUtilities/NSData+zlib (5.8.0)"
+  - GoogleUtilities/Reachability (5.8.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.2.5):
+  - GoogleUtilities/UserDefaults (5.8.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
-  - iOSSnapshotTestCase (6.1.0):
-    - iOSSnapshotTestCase/SwiftSupport (= 6.1.0)
-  - iOSSnapshotTestCase/Core (6.1.0)
-  - iOSSnapshotTestCase/SwiftSupport (6.1.0):
+  - iOSSnapshotTestCase (5.0.2):
+    - iOSSnapshotTestCase/SwiftSupport (= 5.0.2)
+  - iOSSnapshotTestCase/Core (5.0.2)
+  - iOSSnapshotTestCase/SwiftSupport (5.0.2):
     - iOSSnapshotTestCase/Core
-  - Masonry (1.1.0)
-  - nanopb (0.3.901):
-    - nanopb/decode (= 0.3.901)
-    - nanopb/encode (= 0.3.901)
-  - nanopb/decode (0.3.901)
-  - nanopb/encode (0.3.901)
-  - NewRelicAgent (6.7.0)
-  - OHHTTPStubs (8.0.0):
-    - OHHTTPStubs/Default (= 8.0.0)
-  - OHHTTPStubs/Core (8.0.0)
-  - OHHTTPStubs/Default (8.0.0):
+  - Masonry (0.6.4)
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
+  - NewRelicAgent (4.186.1)
+  - OHHTTPStubs (4.8.0):
+    - OHHTTPStubs/Default (= 4.8.0)
+  - OHHTTPStubs/Core (4.8.0)
+  - OHHTTPStubs/Default (4.8.0):
     - OHHTTPStubs/Core
     - OHHTTPStubs/JSON
     - OHHTTPStubs/NSURLSession
     - OHHTTPStubs/OHPathHelpers
-  - OHHTTPStubs/JSON (8.0.0):
+  - OHHTTPStubs/JSON (4.8.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/NSURLSession (8.0.0):
+  - OHHTTPStubs/NSURLSession (4.8.0):
     - OHHTTPStubs/Core
-  - OHHTTPStubs/OHPathHelpers (8.0.0)
-  - Protobuf (3.9.0)
-  - Segment-Firebase (2.5.0):
+  - OHHTTPStubs/OHPathHelpers (4.8.0)
+  - Protobuf (3.11.4)
+  - Segment-Firebase (2.4.0):
     - Analytics (~> 3.2)
-    - Firebase/Core (~> 6.2)
-    - FirebaseAnalytics (~> 6.1)
-    - Segment-Firebase/Core (= 2.5.0)
-  - Segment-Firebase/Core (2.5.0):
+    - Firebase/Core (~> 5.0)
+    - Segment-Firebase/Core (= 2.4.0)
+  - Segment-Firebase/Core (2.4.0):
     - Analytics (~> 3.2)
-    - Firebase/Core (~> 6.2)
-    - FirebaseAnalytics (~> 6.1)
+    - Firebase/Core (~> 5.0)
   - Segment-GoogleAnalytics (1.2.0):
     - Analytics (~> 3.0)
     - Segment-GoogleAnalytics/GoogleIDFASupport (= 1.2.0)
@@ -193,24 +176,24 @@ PODS:
   - YoutubePlayer-in-WKWebView (0.3.2)
 
 DEPENDENCIES:
-  - Analytics (~> 3.7.0)
-  - Branch (= 0.28.1)
-  - Crashlytics (~> 3.14.0)
-  - DateTools (~> 2.0.0)
-  - Fabric (~> 1.10.2)
+  - Analytics (~> 3.6.10)
+  - Branch (= 0.25.5)
+  - Crashlytics (~> 3.10.1)
+  - DateTools (~> 1.6.1)
+  - Fabric (~> 1.7.6)
   - FBSDKCoreKit (= 5.5.0)
   - FBSDKLoginKit (= 5.5.0)
-  - Firebase/Analytics (= 6.8.1)
-  - Firebase/Core (= 6.8.1)
-  - Firebase/InAppMessagingDisplay (= 6.8.1)
-  - Firebase/Messaging (= 6.8.1)
-  - Firebase/Performance (= 6.8.1)
+  - Firebase/Analytics (= 5.20.2)
+  - Firebase/Core (= 5.20.2)
+  - Firebase/InAppMessagingDisplay (= 5.20.2)
+  - Firebase/Messaging (= 5.20.2)
+  - Firebase/Performance (= 5.20.2)
   - GoogleSignIn (~> 4.4.0)
-  - iOSSnapshotTestCase (= 6.1.0)
-  - Masonry (~> 1.1.0)
-  - NewRelicAgent (~> 6.7.0)
-  - OHHTTPStubs (~> 8.0)
-  - Segment-Firebase (= 2.5.0)
+  - iOSSnapshotTestCase (= 5.0.2)
+  - Masonry (~> 0.6)
+  - NewRelicAgent (~> 4.1)
+  - OHHTTPStubs (~> 4.0)
+  - Segment-Firebase (= 2.4.0)
   - Segment-GoogleAnalytics (~> 1.2.0)
   - Smartling.i18n (~> 1.0)
   - YoutubePlayer-in-WKWebView (~> 0.3.0)
@@ -229,8 +212,6 @@ SPEC REPOS:
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
     - FirebaseCore
-    - FirebaseCoreDiagnostics
-    - FirebaseCoreDiagnosticsInterop
     - FirebaseInAppMessaging
     - FirebaseInAppMessagingDisplay
     - FirebaseInstanceID
@@ -239,8 +220,6 @@ SPEC REPOS:
     - FirebaseRemoteConfig
     - GoogleAnalytics
     - GoogleAppMeasurement
-    - GoogleDataTransport
-    - GoogleDataTransportCCTSupport
     - GoogleIDFASupport
     - GoogleSignIn
     - GoogleToolboxForMac
@@ -258,46 +237,42 @@ SPEC REPOS:
     - YoutubePlayer-in-WKWebView
 
 SPEC CHECKSUMS:
-  Analytics: 77fd5fb102a4a5eedafa2c2b0245ceb7b7c15e45
-  Branch: edf6cab0cecb437d6a6abba3a25d0a0fa6f277ec
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
-  DateTools: 933ac9c490f21f92127cf690ccd8c397e0126caf
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  Analytics: 63744ad4afa65c3bcdcdb7a94b62515bde5b3900
+  Branch: 848e8e908182a97678d9f5a854d10e59a40af2aa
+  Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
+  DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
+  Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
   FBSDKCoreKit: 7ade9cfea30eef2f6cf105a1aa904f89ea68fb7d
   FBSDKLoginKit: bb28062f24e79590c44ba03297ca9bea4b6436d2
-  Firebase: 9cbe4e5b5eaafa05dc932be58b7c8c3820d71e88
-  FirebaseABTesting: 662e8de812ceb5d57ad66381f6402f4d28dc5c91
-  FirebaseAnalytics: 843c7f64a8f9c79f0d03281197ebe7bb1d58d477
-  FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
-  FirebaseCore: e9d9bd1dae61c1e82bc1e0e617a9d832392086a0
-  FirebaseCoreDiagnostics: 4c04ae09d0ab027c30179828c6bb47764df1bd13
-  FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
-  FirebaseInAppMessaging: 54bcfe1cf2a48a8f5cdcac487a585c0e9b440d9a
-  FirebaseInAppMessagingDisplay: 66267552890939d394a961ee4cac5cdfd41f17bb
-  FirebaseInstanceID: 550df9be1f99f751d8fcde3ac342a1e21a0e6c42
-  FirebaseMessaging: 9483ac438b7b223c09dad8712310e9ee7d562c99
-  FirebasePerformance: a28490ad3b116380ff2d8300a67051626d01d09e
-  FirebaseRemoteConfig: a1b49ebfddeaccda10d76fd8dc2cc1aa215f9c43
+  Firebase: 0c8cf33f266410c61ab3e2265cfa412200351d9c
+  FirebaseABTesting: 1f50b8d50f5e3469eea54e7463a7b7fe221d1f5e
+  FirebaseAnalytics: ece1aa57a4f43c64d53a648b5a5e05151aae947b
+  FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
+  FirebaseCore: f1a9a8be1aee4bf71a2fc0f4096df6788bdfda61
+  FirebaseInAppMessaging: 25e8c4408829928b6727fb461e0aef6a43111467
+  FirebaseInAppMessagingDisplay: 72f67cfe9711c9bf6d6768a1c538299ea2043042
+  FirebaseInstanceID: a122b0c258720cf250551bb2bedf48c699f80d90
+  FirebaseMessaging: 4235f949ce1c4e827aeb19705ba5c53f9b85aa10
+  FirebasePerformance: 25ecee2a260bcf398d7f32d6f4804438df953100
+  FirebaseRemoteConfig: 7e11c65f0769c09bff6947997c209515058c5318
   GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
-  GoogleAppMeasurement: 86a82f0e1f20b8eedf8e20326530138fd71409de
-  GoogleDataTransport: 8f9897b8e073687f24ca8d3c3a8013dec7d2d1cc
-  GoogleDataTransportCCTSupport: 51134d81fca795c60cc247d1cb6af63c3d67b8d8
+  GoogleAppMeasurement: ffe513e90551844a739e7bcbb1d2aca1c28a4338
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
   GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
-  GoogleUtilities: e7dc37039b19df7fe543479d3e4a02ac8d11bb69
+  GoogleUtilities: 04fce34bcd5620c1ee76fb79172105c74a4df335
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
-  iOSSnapshotTestCase: 30d540b0c8feb9d7f8ff97acc25a3804b48ee264
-  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  NewRelicAgent: effc8c7164f7d8e853268b0a6381ad8e4bf1d6ad
-  OHHTTPStubs: 9cbce6364bec557cc3439aa6bb7514670d780881
-  Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
-  Segment-Firebase: 1d17a1261f32bb5ea5a1115768d21e4b9926ebf2
+  iOSSnapshotTestCase: 2d51aa06775e95cecb0a1fb9c5c159ccd1dd4596
+  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  NewRelicAgent: 5cd52dafe03e74c5066073a00fd500df9d966e7e
+  OHHTTPStubs: b393565822317305b87a1440d4c7aff131679f66
+  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
+  Segment-Firebase: cac4b742228ef74d50ed886f3fc731e4bc8b7d29
   Segment-GoogleAnalytics: b5070619ad337eb09c4b01c52c3d0d90495307cf
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
   YoutubePlayer-in-WKWebView: f9c20a456c5d99e5f5248e4d2079a5d3b6950d13
 
-PODFILE CHECKSUM: fc7ee0101c000744eae97dd6c2573bf3e54d186d
+PODFILE CHECKSUM: ee8ce28d3a9518d05be8e8315860d798cbf4d47f
 
 COCOAPODS: 1.5.3

@@ -102,13 +102,7 @@ static CGFloat LandScapePaddingBetweenImageAndTextColumn = 24;
 }
 
 - (IBAction)actionButtonTapped:(id)sender {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  FIRInAppMessagingAction *action = [[FIRInAppMessagingAction alloc]
-      initWithActionText:self.modalDisplayMessage.actionButton.buttonText
-               actionURL:self.modalDisplayMessage.actionURL];
-#pragma clang diagnostic pop
-  [self followAction:action];
+  [self followActionURL];
 }
 
 - (void)viewDidLoad {
@@ -129,6 +123,7 @@ static CGFloat LandScapePaddingBetweenImageAndTextColumn = 24;
   }
 
   self.messageCardView.backgroundColor = self.modalDisplayMessage.displayBackgroundColor;
+  self.messageCardView.layer.cornerRadius = 4;
 
   self.titleLabel.textColor = self.modalDisplayMessage.textColor;
   self.bodyTextView.textColor = self.modalDisplayMessage.textColor;

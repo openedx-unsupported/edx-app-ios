@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#import <FirebaseInstanceID/FIRInstanceIDCheckinPreferences.h>
+#import "FIRInstanceIDCheckinPreferences.h"
 
 @interface FIRInstanceIDCheckinPreferences (Internal)
 

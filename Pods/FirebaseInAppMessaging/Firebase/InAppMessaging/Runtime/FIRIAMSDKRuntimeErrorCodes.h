@@ -17,12 +17,9 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, FIRIAMSDKRuntimeError) {
-  // Failed to crawl the image URL.
+  // fail to crawl the image url
   FIRIAMSDKRuntimeErrorImageNotFetchable = 0,
 
-  // Crawling the image URL sees non-image type data being returned.
-  FIRIAMSDKRuntimeErrorNonImageMimetypeFromImageURL = 1,
-
-  // The response when fetching the image is non-HTTP.
-  FIRIAMSDKRuntimeErrorNonHTTPResponseForImage = 2,
+  // crawling image url sees non-image type data being returned
+  FIRIAMSDKRuntimeErrorNonImageMimetypeFromImageURL = 1
 };

@@ -8,6 +8,7 @@
 
 #import "BranchShareLink.h"
 #import "BranchConstants.h"
+#import "BNCFabricAnswers.h"
 #import "BranchActivityItemProvider.h"
 #import "BNCDeviceInfo.h"
 #import "BNCAvailability.h"
@@ -96,6 +97,8 @@ typedef NS_ENUM(NSInteger, BranchShareActivityItemType) {
     }
     if (completed && !error) {
         [[BranchEvent customEventWithName:BNCShareCompletedEvent contentItem:self.universalObject] logEvent];
+        NSDictionary *attributes = [self.universalObject getDictionaryWithCompleteLinkProperties:self.linkProperties];
+        [BNCFabricAnswers sendEventWithName:@"Branch Share" andAttributes:attributes];
     }
 }
 

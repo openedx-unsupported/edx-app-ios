@@ -25,8 +25,10 @@
 #import <Foundation/Foundation.h>
 
 #if defined(__IPHONE_7_0) || defined(__MAC_10_9)
+#import <objc/runtime.h>
+
 #import "OHHTTPStubs.h"
-#import "OHHTTPStubsMethodSwizzling.h"
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,6 +42,20 @@
 typedef NSURLSessionConfiguration*(*SessionConfigConstructor)(id,SEL);
 static SessionConfigConstructor orig_defaultSessionConfiguration;
 static SessionConfigConstructor orig_ephemeralSessionConfiguration;
+
+static SessionConfigConstructor OHHTTPStubsSwizzle(SEL selector, SessionConfigConstructor newImpl)
+{
+    Class cls = NSURLSessionConfiguration.class;
+    Class metaClass = object_getClass(cls);
+    
+    Method origMethod = class_getClassMethod(cls, selector);
+    SessionConfigConstructor origImpl = (SessionConfigConstructor)method_getImplementation(origMethod);
+    if (!class_addMethod(metaClass, selector, (IMP)newImpl, method_getTypeEncoding(origMethod)))
+    {
+        method_setImplementation(origMethod, (IMP)newImpl);
+    }
+    return origImpl;
+}
 
 static NSURLSessionConfiguration* OHHTTPStubs_defaultSessionConfiguration(id self, SEL _cmd)
 {
@@ -56,23 +72,16 @@ static NSURLSessionConfiguration* OHHTTPStubs_ephemeralSessionConfiguration(id s
 }
 
 @interface NSURLSessionConfiguration(OHHTTPStubsSupport) @end
-
 @implementation NSURLSessionConfiguration(OHHTTPStubsSupport)
-
 +(void)load
 {
-    orig_defaultSessionConfiguration = (SessionConfigConstructor)OHHTTPStubsReplaceMethod(@selector(defaultSessionConfiguration),
-                                                                                          (IMP)OHHTTPStubs_defaultSessionConfiguration,
-                                                                                          [NSURLSessionConfiguration class],
-                                                                                          YES);
-    orig_ephemeralSessionConfiguration = (SessionConfigConstructor)OHHTTPStubsReplaceMethod(@selector(ephemeralSessionConfiguration),
-                                                                                            (IMP)OHHTTPStubs_ephemeralSessionConfiguration,
-                                                                                            [NSURLSessionConfiguration class],
-                                                                                            YES);
+    orig_defaultSessionConfiguration = OHHTTPStubsSwizzle(@selector(defaultSessionConfiguration),
+                                                          OHHTTPStubs_defaultSessionConfiguration);
+    orig_ephemeralSessionConfiguration = OHHTTPStubsSwizzle(@selector(ephemeralSessionConfiguration),
+                                                            OHHTTPStubs_ephemeralSessionConfiguration);
 }
-
 @end
 
-#endif /* __IPHONE_7_0 || __MAC_10_9 */
+#endif
 
 

@@ -39,15 +39,26 @@
     _snapshotController.recordMode = recordMode;
 }
 
-- (FBSnapshotTestCaseFileNameIncludeOption)fileNameOptions
+- (BOOL)isDeviceAgnostic
 {
-    return _snapshotController.fileNameOptions;
+    return _snapshotController.deviceAgnostic;
 }
 
-- (void)setFileNameOptions:(FBSnapshotTestCaseFileNameIncludeOption)fileNameOptions
+- (void)setDeviceAgnostic:(BOOL)deviceAgnostic
 {
     NSAssert1(_snapshotController, @"%s cannot be called before [super setUp]", __FUNCTION__);
-    _snapshotController.fileNameOptions = fileNameOptions;
+    _snapshotController.deviceAgnostic = deviceAgnostic;
+}
+
+- (FBSnapshotTestCaseAgnosticOption)agnosticOptions
+{
+    return _snapshotController.agnosticOptions;
+}
+
+- (void)setAgnosticOptions:(FBSnapshotTestCaseAgnosticOption)agnosticOptions
+{
+    NSAssert1(_snapshotController, @"%s cannot be called before [super setUp]", __FUNCTION__);
+    _snapshotController.agnosticOptions = agnosticOptions;
 }
 
 - (BOOL)usesDrawViewHierarchyInRect
@@ -97,7 +108,7 @@
               defaultReferenceDirectory:(NSString *)defaultReferenceDirectory
               defaultImageDiffDirectory:(NSString *)defaultImageDiffDirectory
 {
-    if (viewOrLayer == nil) {
+    if (nil == viewOrLayer) {
         return @"Object to be snapshotted must not be nil";
     }
 
@@ -115,6 +126,7 @@
         return [NSString stringWithFormat:@"Suffixes set cannot be empty %@", suffixes];
     }
 
+    BOOL testSuccess = NO;
     NSError *error = nil;
     NSMutableArray *errors = [NSMutableArray array];
 
@@ -124,10 +136,7 @@
         if (!referenceImageSaved) {
             [errors addObject:error];
         }
-
-        return @"Test ran in record mode. Reference image is now saved. Disable record mode to perform an actual snapshot comparison!";
     } else {
-        BOOL testSuccess = NO;
         for (NSString *suffix in suffixes) {
             NSString *referenceImagesDirectory = [NSString stringWithFormat:@"%@%@", referenceImageDirectory, suffix];
             BOOL referenceImageAvailable = [self referenceImageRecordedInDirectory:referenceImagesDirectory identifier:(identifier) error:&error];
@@ -145,13 +154,16 @@
                 [errors addObject:error];
             }
         }
-
-        if (!testSuccess) {
-            return [NSString stringWithFormat:@"Snapshot comparison failed: %@", errors.firstObject];
-        } else {
-            return nil;
-        }
     }
+
+    if (!testSuccess) {
+        return [NSString stringWithFormat:@"Snapshot comparison failed: %@", errors.firstObject];
+    }
+    if (self.recordMode) {
+        return @"Test ran in record mode. Reference image is now saved. Disable record mode to perform an actual snapshot comparison!";
+    }
+
+    return nil;
 }
 
 - (BOOL)compareSnapshotOfLayer:(CALayer *)layer

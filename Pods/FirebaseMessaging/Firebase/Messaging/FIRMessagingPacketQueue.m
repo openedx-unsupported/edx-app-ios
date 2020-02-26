@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#import "Firebase/Messaging/FIRMessagingPacketQueue.h"
+#import "FIRMessagingPacketQueue.h"
 
-#import "Firebase/Messaging/FIRMessagingDefines.h"
+#import "FIRMessagingDefines.h"
 
 @interface FIRMessagingPacket ()
 

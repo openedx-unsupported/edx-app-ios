@@ -24,3 +24,6 @@ extern FIRLoggerService kFIRLoggerInAppMessagingDisplay;
 
 // this should eventually be in FIRError.h
 extern NSString *const kFirebaseInAppMessagingDisplayErrorDomain;
+
+// this should eventually be in FIRError.h FIRAppInternal.h:46:
+extern NSString *const kFIRServiceInAppMessagingDisplay;

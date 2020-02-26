@@ -125,7 +125,11 @@ class RatingViewController: UIViewController, RatingContainerDelegate {
     private func sendUserToAppStore() {
         guard let url = URL(string: environment.config.appReviewURI ?? "") else { return }
         if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
     

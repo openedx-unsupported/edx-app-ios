@@ -141,9 +141,4 @@ static BOOL _autoBootstrapOnFIRAppInit = YES;
       messageDisplayComponent;
 }
 
-- (void)triggerEvent:(NSString *)eventName {
-  [[FIRIAMRuntimeManager getSDKRuntimeInstance].displayExecutor
-      checkAndDisplayNextContextualMessageForAnalyticsEvent:eventName];
-}
-
 @end

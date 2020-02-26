@@ -101,12 +101,9 @@
   NSMutableArray<FIRIAMDisplayTriggerDefinition *> *triggers = [[NSMutableArray alloc] init];
 
   for (NSDictionary *nextTriggerCondition in triggerConditions) {
-    // Handle app_launch and on_foreground cases.
     if (nextTriggerCondition[@"fiamTrigger"]) {
       if ([nextTriggerCondition[@"fiamTrigger"] isEqualToString:@"ON_FOREGROUND"]) {
         [triggers addObject:[[FIRIAMDisplayTriggerDefinition alloc] initForAppForegroundTrigger]];
-      } else if ([nextTriggerCondition[@"fiamTrigger"] isEqualToString:@"APP_LAUNCH"]) {
-        [triggers addObject:[[FIRIAMDisplayTriggerDefinition alloc] initForAppLaunchTrigger]];
       }
     } else if ([nextTriggerCondition[@"event"] isKindOfClass:[NSDictionary class]]) {
       NSDictionary *triggeringEvent = (NSDictionary *)nextTriggerCondition[@"event"];
@@ -181,16 +178,12 @@
 
     NSDictionary *content = (NSDictionary *)contentNode;
     FIRIAMRenderingMode mode;
-    UIColor *viewCardBackgroundColor, *btnBgColor, *btnTxtColor, *secondaryBtnTxtColor,
-        *titleTextColor;
+    UIColor *viewCardBackgroundColor, *btnBgColor, *btnTxtColor, *titleTextColor;
     viewCardBackgroundColor = btnBgColor = btnTxtColor = titleTextColor = nil;
 
-    NSString *title, *body, *imageURLStr, *landscapeImageURLStr, *actionURLStr,
-        *secondaryActionURLStr, *actionButtonText, *secondaryActionButtonText;
-    title = body = imageURLStr = landscapeImageURLStr = actionButtonText =
-        secondaryActionButtonText = actionURLStr = secondaryActionURLStr = nil;
+    NSString *title, *body, *imageURLStr, *actionURLStr, *actionButtonText;
+    title = body = imageURLStr = actionButtonText = actionURLStr = nil;
 
-    // TODO: Refactor this giant if-else block into separate parsing methods per message type.
     if ([content[@"banner"] isKindOfClass:[NSDictionary class]]) {
       NSDictionary *bannerNode = (NSDictionary *)contentNode[@"banner"];
       mode = FIRIAMRenderAsBannerView;
@@ -234,30 +227,6 @@
         return nil;
       }
       actionURLStr = imageOnlyNode[@"action"][@"actionUrl"];
-    } else if ([content[@"card"] isKindOfClass:[NSDictionary class]]) {
-      mode = FIRIAMRenderAsCardView;
-      NSDictionary *cardNode = (NSDictionary *)contentNode[@"card"];
-      title = cardNode[@"title"][@"text"];
-      titleTextColor = [UIColor firiam_colorWithHexString:cardNode[@"title"][@"hexColor"]];
-
-      body = cardNode[@"body"][@"text"];
-
-      imageURLStr = cardNode[@"portraitImageUrl"];
-      landscapeImageURLStr = cardNode[@"landscapeImageUrl"];
-
-      viewCardBackgroundColor = [UIColor firiam_colorWithHexString:cardNode[@"backgroundHexColor"]];
-
-      actionButtonText = cardNode[@"primaryActionButton"][@"text"][@"text"];
-      btnTxtColor = [UIColor
-          firiam_colorWithHexString:cardNode[@"primaryActionButton"][@"text"][@"hexColor"]];
-
-      secondaryActionButtonText = cardNode[@"secondaryActionButton"][@"text"][@"text"];
-      secondaryBtnTxtColor = [UIColor
-          firiam_colorWithHexString:cardNode[@"secondaryActionButton"][@"text"][@"hexColor"]];
-
-      actionURLStr = cardNode[@"primaryAction"][@"actionUrl"];
-      secondaryActionURLStr = cardNode[@"secondaryAction"][@"actionUrl"];
-
     } else {
       // Unknown message type
       FIRLogWarning(kFIRLoggerInAppMessaging, @"I-IAM900003",
@@ -272,11 +241,7 @@
     }
 
     NSURL *imageURL = (imageURLStr.length == 0) ? nil : [NSURL URLWithString:imageURLStr];
-    NSURL *landscapeImageURL =
-        (landscapeImageURLStr.length == 0) ? nil : [NSURL URLWithString:landscapeImageURLStr];
     NSURL *actionURL = (actionURLStr.length == 0) ? nil : [NSURL URLWithString:actionURLStr];
-    NSURL *secondaryActionURL =
-        (secondaryActionURLStr.length == 0) ? nil : [NSURL URLWithString:secondaryActionURLStr];
     FIRIAMRenderingEffectSetting *renderEffect =
         [FIRIAMRenderingEffectSetting getDefaultRenderingEffectSetting];
     renderEffect.viewMode = mode;
@@ -291,10 +256,6 @@
 
     if (btnTxtColor) {
       renderEffect.btnTextColor = btnTxtColor;
-    }
-
-    if (secondaryBtnTxtColor) {
-      renderEffect.secondaryActionBtnTextColor = secondaryBtnTxtColor;
     }
 
     if (titleTextColor) {
@@ -323,11 +284,8 @@
         [[FIRIAMMessageContentDataWithImageURL alloc] initWithMessageTitle:title
                                                                messageBody:body
                                                           actionButtonText:actionButtonText
-                                                 secondaryActionButtonText:secondaryActionButtonText
                                                                  actionURL:actionURL
-                                                        secondaryActionURL:secondaryActionURL
                                                                   imageURL:imageURL
-                                                         landscapeImageURL:landscapeImageURL
                                                            usingURLSession:nil];
 
     FIRIAMMessageRenderData *renderData =

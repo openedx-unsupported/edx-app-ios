@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#import "Firebase/Messaging/FIRMessagingVersionUtilities.h"
+#import "FIRMessagingVersionUtilities.h"
 
-#import "Firebase/Messaging/FIRMessagingDefines.h"
+#import "FIRMessagingDefines.h"
 
 // Convert the macro to a string
 #define STR_EXPAND(x) #x
@@ -39,6 +39,7 @@ void FIRMessagingParseCurrentLibraryVersion(void) {
     // Parse versions
     // major, minor, patch[-beta#]
     allVersions = [daylightVersion componentsSeparatedByString:kSemanticVersioningSeparator];
+    _FIRMessagingDevAssert(allVersions.count == 3, @"Invalid versioning of FIRMessaging library");
     if (allVersions.count == 3) {
       majorVersion = [allVersions[0] intValue];
       minorVersion = [allVersions[1] intValue];
@@ -46,6 +47,7 @@ void FIRMessagingParseCurrentLibraryVersion(void) {
       // Parse patch and beta versions
       NSArray *patchAndBetaVersion =
           [allVersions[2] componentsSeparatedByString:kBetaVersionPrefix];
+      _FIRMessagingDevAssert(patchAndBetaVersion.count <= 2, @"Invalid versioning of FIRMessaging library");
       if (patchAndBetaVersion.count == 2) {
         patchVersion = [patchAndBetaVersion[0] intValue];
         betaVersion = [patchAndBetaVersion[1] intValue];
