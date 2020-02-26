@@ -23,7 +23,6 @@ class MicrosoftSocial: NSObject {
     
     static let shared = MicrosoftSocial()
     
-    private let kCurrentAccountIdentifier = "MSALCurrentAccountIdentifier"
     private let kGraphURI = "https://graph.microsoft.com/v1.0/me/" // the Microsoft Graph endpoint
     private var accessToken = String()
     private var webViewParameters : MSALWebviewParameters?
@@ -33,15 +32,6 @@ class MicrosoftSocial: NSObject {
     
     private let kAuthority = "https://login.microsoftonline.com/common/v2.0"
     private let kScopes = ["User.Read"]
-    
-    var currentAccountIdentifier: String? {
-        get {
-            return UserDefaults.standard.string(forKey: kCurrentAccountIdentifier)
-        }
-        set (accountIdentifier) {
-            UserDefaults.standard.set(accountIdentifier, forKey: kCurrentAccountIdentifier)
-        }
-    }
     
     private override init() {
         super.init()
@@ -67,7 +57,6 @@ class MicrosoftSocial: NSObject {
                 // In the initial acquire token call we'll want to look at the account object
                 // that comes back in the result.
                 let signedInAccount = acquireTokenResult.account
-                self.currentAccountIdentifier = signedInAccount.homeAccountId?.identifier
                 
                 completion(signedInAccount, acquireTokenResult.accessToken, nil)
             }
@@ -94,31 +83,21 @@ class MicrosoftSocial: NSObject {
     @discardableResult func currentAccount() throws -> MSALAccount {
         // We retrieve our current account by checking for the accountIdentifier that we stored in NSUserDefaults when
         // we first signed in the account.
-        guard let accountIdentifier = currentAccountIdentifier else {
-            throw NSError(domain: "MSALErrorDomain", code: MSALError.custom.noUserSignedIn.rawValue, userInfo: nil)
-        }
         
         let clientApplication = try createClientApplication()
         
         var account: MSALAccount?
         do {
-            account = try clientApplication.account(forIdentifier: accountIdentifier)
+            account = try clientApplication.allAccounts().first
         } catch _ as NSError {
             throw NSError(domain: "MSALErrorDomain", code: MSALError.custom.userNotFound.rawValue, userInfo: nil)
         }
         
         guard let currentAccount = account else {
-            clearCurrentAccount()
             throw NSError(domain: "MSALErrorDomain", code: MSALError.custom.noUserSignedIn.rawValue, userInfo: nil)
         }
         
         return currentAccount
-    }
-    
-    func clearCurrentAccount() {
-        // Leave around the account identifier as the last piece of state to clean up as you will probably need
-        // it to clean up user-specific state
-        UserDefaults.standard.removeObject(forKey: kCurrentAccountIdentifier)
     }
     
     func requestUserProfileInfo(completion: (_ user: MSALAccount) -> Void) {
@@ -145,7 +124,6 @@ class MicrosoftSocial: NSObject {
                 let application = try createClientApplication()
                 try application.remove(accountToDelete)
             }
-            clearCurrentAccount()
         } catch let error {
             Logger.logError("Logout","Received error signing user out:: \(error)")
         }
