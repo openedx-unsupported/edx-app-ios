@@ -31,7 +31,7 @@ class MicrosoftSocial: NSObject {
     var result: MSALResult?
     
     private let kAuthority = "https://login.microsoftonline.com/common/v2.0"
-    private let kScopes = ["User.Read"]
+    private let kScopes = ["User.Read", "email"]
     
     private override init() {
         super.init()
