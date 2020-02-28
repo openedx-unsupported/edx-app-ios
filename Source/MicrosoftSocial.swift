@@ -23,7 +23,6 @@ class MicrosoftSocial: NSObject {
     
     static let shared = MicrosoftSocial()
     
-    private let kGraphURI = "https://graph.microsoft.com/v1.0/me/" // the Microsoft Graph endpoint
     private var accessToken = String()
     private var webViewParameters : MSALWebviewParameters?
     private var completionHandler: MSLoginCompletionHandler?
@@ -49,16 +48,16 @@ class MicrosoftSocial: NSObject {
             clientApplication.acquireToken(with: parameters) {
                 (result: MSALResult?, error: Error?) in
                 
-                guard let acquireTokenResult = result, error == nil else {
+                guard let result = result, error == nil else {
                     completion(nil, nil, error)
                     return
                 }
-                self.result = acquireTokenResult
+                self.result = result
                 // In the initial acquire token call we'll want to look at the account object
                 // that comes back in the result.
-                let signedInAccount = acquireTokenResult.account
+                let signedInAccount = result.account
                 
-                completion(signedInAccount, acquireTokenResult.accessToken, nil)
+                completion(signedInAccount, result.accessToken, nil)
             }
         } catch let createApplicationError {
             completion(nil, nil, createApplicationError)
@@ -81,9 +80,6 @@ class MicrosoftSocial: NSObject {
     }
     
     @discardableResult func currentAccount() throws -> MSALAccount {
-        // We retrieve our current account by checking for the accountIdentifier that we stored in NSUserDefaults when
-        // we first signed in the account.
-        
         let clientApplication = try createClientApplication()
         
         var account: MSALAccount?
