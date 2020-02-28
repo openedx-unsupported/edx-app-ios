@@ -44,8 +44,6 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
                     guard let accountClaims = user.accountClaims,
                         let name = accountClaims["name"] as? String,
                         let email = accountClaims["email"] as? String else {
-                            profile.name = user.username
-                            profile.email = user.username
                             completion(token, profile, error)
                             return
                     }
