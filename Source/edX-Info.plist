@@ -49,7 +49,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>org.edx.mobile</string>
-                <string>msauth.org.edx.mobile</string>
 			</array>
 		</dict>
 	</array>
