@@ -11,11 +11,9 @@ import Foundation
 import edXCore
 
 enum APIErrorCode : String {
-    case OAuth2Error = "token_error"
     case OAuth2Expired = "token_expired"
-    case OAuth2Malformed = "token_malformed"
     case OAuth2Nonexistent = "token_nonexistent"
-    case OAuth2NotProvided = "token_not_provided"
+    case OAuth2InvalidGrant = "invalid_grant"
 }
 
 fileprivate enum ErrorFields: String, RawStringExtractable {

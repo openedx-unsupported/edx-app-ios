@@ -48,7 +48,7 @@ extension NetworkManager {
                 
                 // This case should not happen on production. It is useful for devs
                 // when switching between development environments.
-                if error.isAPIError(code: .OAuth2Nonexistent) {
+                if error.isAPIError(code: .OAuth2Nonexistent) || error.isAPIError(code: .OAuth2InvalidGrant) {
                     return logout(router: router)
                 }
             }
