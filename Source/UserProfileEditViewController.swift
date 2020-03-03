@@ -54,7 +54,7 @@ extension UserProfile : FormData {
         case .YearOfBirth:
             let newValue = value.flatMap { Int($0) }
             if newValue != birthYear {
-                updateDictionary[key] = newValue as AnyObject?
+                updateDictionary[key] = newValue as AnyObject
             }
             birthYear = newValue
         case .LanguagePreferences:
@@ -70,11 +70,11 @@ extension UserProfile : FormData {
             countryCode = value
         case .Bio:
             if value != bio {
-                updateDictionary[key] = value as AnyObject 
+                updateDictionary[key] = value as AnyObject? ?? "" as AnyObject
             }
             bio = value
         case .AccountPrivacy:
-            setLimitedProfile(newValue: NSString(string: value!).boolValue)
+            setLimitedProfile(newValue: NSString(string: value ?? "").boolValue)
         default: break
             
         }
@@ -167,7 +167,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         
         if let form = JSONFormBuilder(jsonFile: "profiles") {
             JSONFormBuilder.registerCells(tableView: tableView)
-            fields = form.fields!
+            fields = form.fields ?? []
         }
         addBackBarButtonItem()
     }
@@ -222,7 +222,6 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
                     let message = Strings.Profile.unableToSend(fieldName: fieldDescription)
                     self?.showError(message: message)
                     self?.profile.updateDictionary.removeAll()
-
                 }
             }
         }
