@@ -31,6 +31,11 @@ Push a new beta build to TestFlight
 fastlane ios stage
 ```
 Push a new beta build to for Staging
+### ios prod
+```
+fastlane ios prod
+```
+Push a new beta build to for Production
 
 ----
 

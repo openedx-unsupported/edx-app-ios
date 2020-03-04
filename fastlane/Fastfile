@@ -18,13 +18,27 @@ default_platform(:ios)
 platform :ios do
   desc "Run test suit"
   lane :test do
-    scan(
-      scheme: "edX",
-      workspace: "edX.xcworkspace",
-      clean: true,
-      devices: ["iPhone 8 (12.4)", "iPhone 8 (13.3)"]
-    )
+    ["edX", "edX-RTL"].each do |current_scheme|
+      begin
+        scan(
+          scheme: current_scheme,
+          workspace: "edX.xcworkspace",
+          clean: true,
+          devices: ["iPhone 8 (12.4)", "iPhone 8 (13.3)"]
+          )
+      rescue => ex
+         puts ex
+      end
+    end
   end
+  # lane :test do
+  #   scan(
+  #     scheme: "edX",
+  #     workspace: "edX.xcworkspace",
+  #     clean: true,
+  #     devices: ["iPhone 8 (12.4)", "iPhone 8 (13.3)"]
+  #   )
+  # end
 
   desc "Push a new beta build to TestFlight"
   lane :beta do
@@ -36,6 +50,12 @@ platform :ios do
   desc "Push a new beta build to for Staging"
   lane :stage do 
     apply_stage_properties
+    build_ipa
+  end
+
+  desc "Push a new beta build to for Production"
+  lane :prod do 
+    apply_prod_properties
     build_ipa
   end
 
