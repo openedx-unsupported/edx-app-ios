@@ -17,8 +17,9 @@ enum APIErrorCode : String {
 }
 
 fileprivate enum ErrorFields: String, RawStringExtractable {
-    case Code = "error_code"
-    case DeveloperMessage = "developer_message"
+    case error = "error"
+    case errorCode = "error_code"
+    case developerMessage = "developer_message"
 }
 
 extension NSError {
@@ -30,16 +31,35 @@ extension NSError {
     }
 
     func isAPIError(code: APIErrorCode) -> Bool {
-        guard let errorCode = errorInfo?[ErrorFields.Code.rawValue] as? String else { return false }
+        guard let errorCode = errorInfo?[ErrorFields.errorCode.rawValue] as? String else { return false }
         return errorCode == code.rawValue
     }
-    
+
     /// error_code can be in the different hierarchy. Like it can be direct or it can be contained in a dictionary under developer_message
     private var errorInfo: Dictionary<AnyHashable, Any>? {
-        guard let errorInfo = userInfo[ErrorFields.DeveloperMessage.rawValue] as? Dictionary<AnyHashable, Any>  else {
-            return userInfo
+        var errorVaule: Any?
+
+        if (userInfo[ErrorFields.errorCode.rawValue] != nil) {
+            errorVaule = userInfo[ErrorFields.errorCode.rawValue]
         }
-        
-        return errorInfo
+        else if (userInfo[ErrorFields.error.rawValue] != nil) {
+            errorVaule = userInfo[ErrorFields.error.rawValue]
+        }
+        else if (userInfo[ErrorFields.developerMessage.rawValue] != nil) {
+            errorVaule = userInfo[ErrorFields.developerMessage.rawValue]
+        }
+
+        return errorInfo(value: errorVaule)
+    }
+
+    private func errorInfo(value: Any?) -> Dictionary<AnyHashable, Any>? {
+        var errorInfo: Dictionary<AnyHashable, Any>? = [:]
+        errorInfo?.setSafeObject(value, forKey: ErrorFields.errorCode.rawValue)
+
+        if errorInfo?.count ?? 0 > 0 {
+            return errorInfo
+        }
+
+        return userInfo
     }
 }
