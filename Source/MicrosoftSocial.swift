@@ -23,14 +23,8 @@ class MicrosoftSocial: NSObject {
     
     static let shared = MicrosoftSocial()
     
-    private var accessToken = String()
-    private var webViewParameters : MSALWebviewParameters?
-    private var completionHandler: MSLoginCompletionHandler?
-    private var applicationContext = MSALPublicClientApplication()
-    var result: MSALResult?
-    
-    private let kAuthority = "https://login.microsoftonline.com/common/v2.0"
     private let kScopes = ["User.Read", "email"]
+    private var result: MSALResult?
     
     private override init() {
         super.init()
@@ -55,31 +49,31 @@ class MicrosoftSocial: NSObject {
                 self.result = result
                 // In the initial acquire token call we'll want to look at the account object
                 // that comes back in the result.
-                let signedInAccount = result.account
+                let account = result.account
                 
-                completion(signedInAccount, result.accessToken, nil)
+                completion(account, result.accessToken, nil)
             }
         } catch let createApplicationError {
             completion(nil, nil, createApplicationError)
         }
     }
     
-    func createClientApplication() throws -> MSALPublicClientApplication {
+    private func createClientApplication() throws -> MSALPublicClientApplication {
         // Initialize a MSALPublicClientApplication with a given clientID and authority
         guard let kClientID = OEXConfig.shared().microsoftConfig.appID else {
             throw NSError(domain: "MSALErrorDomain", code: MSALError.custom.publicClientApplicationCreation.rawValue, userInfo: nil)
         }
         // This MSALPublicClientApplication object is the representation of your app listing, in MSAL. For your own app
         // go to the Microsoft App Portal to register your own applications with their own client IDs.
-        let config = MSALPublicClientApplicationConfig(clientId: kClientID)
+        let configuration = MSALPublicClientApplicationConfig(clientId: kClientID)
         do {
-            return try MSALPublicClientApplication(configuration: config)
+            return try MSALPublicClientApplication(configuration: configuration)
         } catch _ as NSError {
             throw NSError(domain: "MSALErrorDomain", code: MSALError.custom.publicClientApplicationCreation.rawValue, userInfo: nil)
         }
     }
     
-    @discardableResult func currentAccount() throws -> MSALAccount {
+    @discardableResult private func currentAccount() throws -> MSALAccount {
         let clientApplication = try createClientApplication()
         
         var account: MSALAccount?
@@ -96,7 +90,7 @@ class MicrosoftSocial: NSObject {
         return currentAccount
     }
     
-    func requestUserProfileInfo(completion: (_ user: MSALAccount) -> Void) {
+    func getUserProfile(completion: (_ user: MSALAccount) -> Void) {
         guard let user = result?.account else {
             return
         }
@@ -105,7 +99,7 @@ class MicrosoftSocial: NSObject {
     
     private func logout() {
         do {
-            let accountToDelete = try? currentAccount()
+            let account = try? currentAccount()
             
             // Signing out an account requires removing this from MSAL and cleaning up any extra state that the application
             // might be maintaining outside of MSAL for the account.
@@ -116,9 +110,9 @@ class MicrosoftSocial: NSObject {
             // those applications as well if you are using Keychain Cache Sharing (not currently available in MSAL
             // build preview). We do not recommend sharing a ClientID among multiple apps.
             
-            if let accountToDelete = accountToDelete {
+            if let account = account {
                 let application = try createClientApplication()
-                try application.remove(accountToDelete)
+                try application.remove(account)
             }
         } catch let error {
             Logger.logError("Logout","Received error signing user out:: \(error)")
