@@ -505,10 +505,13 @@
                              onViewController:self.navigationController];
     }
 
-    [self.activityIndicator stopAnimating];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.activityIndicator stopAnimating];
+        [self.view setUserInteractionEnabled:YES];
+    });
+    
     [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
-    [self.view setUserInteractionEnabled:YES];
 
     [self tappedToDismiss];
 }
