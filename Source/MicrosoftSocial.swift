@@ -90,7 +90,7 @@ class MicrosoftSocial: NSObject {
         return currentAccount
     }
     
-    func getUserProfile(completion: (_ user: MSALAccount) -> Void) {
+    func getUser(completion: (_ user: MSALAccount) -> Void) {
         guard let user = result?.account else {
             return
         }
@@ -115,7 +115,7 @@ class MicrosoftSocial: NSObject {
                 try application.remove(account)
             }
         } catch let error {
-            Logger.logError("Logout","Received error signing user out:: \(error)")
+            Logger.logError("Logout", "Received error signing user out:: \(error)")
         }
     }
 }

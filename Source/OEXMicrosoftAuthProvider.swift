@@ -38,12 +38,12 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
                 completion(token, nil, error)
             } else if loadUserDetails {
                 // load user details
-                MicrosoftSocial.shared.getUserProfile(completion: { (user) in
+                MicrosoftSocial.shared.getUser(completion: { (user) in
                     let profile = OEXRegisteringUserDetails()
                     
-                    guard let accountClaims = user.accountClaims,
-                        let name = accountClaims["name"] as? String,
-                        let email = accountClaims["email"] as? String else {
+                    guard let account = user.accountClaims,
+                        let name = account["name"] as? String,
+                        let email = account["email"] as? String else {
                             completion(token, nil, error)
                             return
                     }
