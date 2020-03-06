@@ -33,15 +33,23 @@ class OEXMicrosoftAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     func authorizeService(from controller: UIViewController, requestingUserDetails loadUserDetails: Bool, withCompletion completion: @escaping (String?, OEXRegisteringUserDetails?, Error?) -> Void) {
-        MicrosoftSocial.shared.loginFromController(controller: controller) { (token, error) in
+        MicrosoftSocial.shared.loginFromController(controller: controller) { (account, token, error) in
             if let error = error {
                 completion(token, nil, error)
             } else if loadUserDetails {
                 // load user details
-                MicrosoftSocial.shared.requestUserProfileInfo(completion: { (user) in
+                MicrosoftSocial.shared.getUser(completion: { (user) in
                     let profile = OEXRegisteringUserDetails()
-                    profile.name = user.name
-                    profile.email = user.displayableId
+                    
+                    guard let account = user.accountClaims,
+                        let name = account["name"] as? String,
+                        let email = account["email"] as? String else {
+                            completion(token, nil, error)
+                            return
+                    }
+                    
+                    profile.name = name
+                    profile.email = email
                     completion(token, profile, error)
                 })
             } else {
