@@ -79,9 +79,9 @@
 		<true/>
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>for bluetooth</string>
+	<string>so you can use bluetooth enabled devices</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>for bluetooth</string>
+	<string>so you can use bluetooth enabled devices</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>so user can intract with calendar</string>
 	<key>NSCameraUsageDescription</key>
