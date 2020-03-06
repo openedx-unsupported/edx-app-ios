@@ -429,18 +429,21 @@
 
 - (void)externalLoginWithProvider:(id <OEXExternalAuthProvider>)provider {
     self.authProvider = provider;
+    __block BOOL isFailure = false;
     if(!self.reachable) {
         [[UIAlertController alloc] showAlertWithTitle:[Strings networkNotAvailableTitle]
                                                                 message:[Strings networkNotAvailableMessage]
                                                        onViewController:self.navigationController
                                                             ];
         self.authProvider = nil;
+        isFailure = true;
         return;
     }
     
     OEXURLRequestHandler handler = ^(NSData* data, NSHTTPURLResponse* response, NSError* error) {
         if(!response) {
             [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
+            isFailure = true;
             return;
         }
         
@@ -459,9 +462,13 @@
                                   }
                               }];
 
-    [self.view setUserInteractionEnabled:NO];
-    [self.activityIndicator startAnimating];
-    [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
+    if (isFailure == false) {
+        [self.view setUserInteractionEnabled:NO];
+        [self.activityIndicator startAnimating];
+        [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
+    }
+
+    isFailure = false;
 }
 
 - (void)loginHandleLoginError:(NSError*)error {
@@ -505,10 +512,8 @@
                              onViewController:self.navigationController];
     }
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.activityIndicator stopAnimating];
-        [self.view setUserInteractionEnabled:YES];
-    });
+    [self.activityIndicator stopAnimating];
+    [self.view setUserInteractionEnabled:YES];
     
     [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 
@@ -676,3 +681,4 @@
 
 
 @end
+
