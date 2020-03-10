@@ -1,17 +1,17 @@
 /*
- Localizable.strings
- edXVideoLocker
- 
- Created by Nirbhay Agarwal on 07/07/14.
- Copyright (c) 2014-2015 edX. All rights reserved.
- */
+  Localizable.strings
+  edXVideoLocker
+
+  Created by Nirbhay Agarwal on 07/07/14.
+  Copyright (c) 2014-2015 edX. All rights reserved.
+*/
 
 // Please keep in alphabetical order
 
 /* Alert dialog confirmation button when user chooses to download a large video */
 "ACCEPT_LARGE_VIDEO_DOWNLOAD"="Descargar";
 /*Accessibility label for bulk download view when in downloading state */
-"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos";
+"ACCESSIBILITY.DOWNLOADING_VIDEOS_TITLE" = "Descargando Videos";
 /* Label for check box when it's checked. */
 "ACCESSIBILITY_CHECKBOX_CHECKED" = "Marcado";
 /* Label for check box when it's checked. */
@@ -27,11 +27,11 @@
 /* Accessibility hint for subject name label */
 "ACCESSIBILITY.BROWSER_BY_SUBJECT_HINT" = "Double tap to browse by subject, {subject_name}";
 /* Accessibility hint for bulk download switch when in new state */
-"ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Toggling the switch on, will download all videos of this course";
+"ACCESSIBILITY.BULK_DOWNLOAD_HINT" = "Moviendo el interruptor a encendido, se descargarán todos los videos de este curso";
 /* Accessibility hint for bulk download switch when in new partial or downloading state */
-"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_HINT" = "Toggling the switch off, will cancel downloading of all videos and will delete all downloaded videos of this course.";
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADING_HINT" = "Moviendo el interruptor a apagado, cancelará la descarga de todos los videos y se borrarán todos los videos descargados de este curso.";
 /* Accessibility hint for bulk download switch when in downloaded state */
-"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_HINT" = "Toggling the switch off, will delete all downloaded videos of this course.";
+"ACCESSIBILITY.BULK_DOWNLOAD_DOWNLOADED_HINT" = "Moviendo el interruptor a apagado, se borrarán todos los videos descargados de este curso.";
 /* Accessibility hint for close button*/
 "ACCESSIBILITY.CLOSE_HINT" = "Toque dos veces para cerrar.";
 /* Accessibility label for posted data of discussion responses*/
@@ -50,12 +50,14 @@
 "ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Toque dos veces para dejar de seguir.";
 /*Accessibility hint for disabled buttons, cells, etc like for disabled user profile fields on user edit profile screen*/
 "ACCESSIBILITY.DISABLED_HINT" = "Dimmed";
+/* Acessibility hint for the show downloads button. */
+"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Toque dos veces para ver las descargas actuales";
+/* Accessibility hint for view all subjects label*/
+"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Double tap to view all subjects";
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 /* Acessibility label for the download progress button. {percent_complete} is an already localized numeric percentage like "44%" */
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{one}" = "Descarga en progreso: {percent_complete}";
 "ACCESSIBILITY_DOWNLOAD_PROGRESS_BUTTON##{other}" = "Descargas en progreso: {percent_complete}";
-/* Acessibility hint for the show downloads button. */
-"ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Double tap to view current downloads";
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
 /* Accessibility hint for video download list row cells. {video_name} is the name of video being downloaded. {percent_complete} is an already localized numeric percentage like "44%". */
 "ACCESSIBILITY_DOWNLOAD_VIEW_CELL##{one}" = "Descargando {video_name}. {percent_complete} completado.";
@@ -83,7 +85,7 @@
 /* Optional text needs to be added for accesibility*/
 "ACCESSIBILITY.OPTIONAL_INPUT"="Opcional";
 /* Required text needs to be added for accesibility*/
-"ACCESSIBILITY_REQUIRED_INPUT"="Requerido";
+"ACCESSIBILITY_REQUIRED_INPUT"="Required";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Retroceder";
 /* Call to action for Rewind Button in the Video Player */
@@ -95,7 +97,7 @@
 /* Call to action for Course content on Home Screen */
 "ACCESSIBILITY_SHOWS_COURSE_CONTENT" = "Toque dos veces para ver el contenido del curso.";
 /* We don't have a accessility trait for dropdown, so we will be achieving dropdown trait through accessibility label */
-"ACCESSIBILITY_DROPDOWN_TRAIT" = "Dropdown.";
+"ACCESSIBILITY_DROPDOWN_TRAIT" = "Desplegable.";
 /* Call to action for Opening Dropdown */
 "ACCESSIBILITY_SHOWS_DROPDOWN_HINT" = "Toque dos veces para abrir el menú desplegable.";
 /* Call to action for Selecting Option */
@@ -143,7 +145,7 @@
 /*Accessibility text for course share button on course dashboard*/
 "ACCESSIBILITY.SHARE_A_COURSE"="Compartir un curso";
 /*Accessibility text for close button*/
-"ACCESSIBILITY.CLOSE_LABEL"="Cerrado";
+"ACCESSIBILITY.CLOSE_LABEL"="Cerrar";
 /*Accessibility text for profile button*/
 "ACCESSIBILITY.PROFILE_LABEL"="Perfil";
 /* Accessibility trait for image */
@@ -152,8 +154,6 @@
 "ACCOMPLISHMENTS.TITLE" = "Logros";
 /* Default text template when user shares an accomplishment */
 "ACCOMPLISHMENTS.SHARE_TEXT" = "He ganado una insignia en {platform_name}! Dale un vistazo";
-/* Accessibility hint for view all subjects label*/
-"ACCESSIBILITY.VIEW_ALL_SUBJECTS_HINT" = "Double tap to view all subjects";
 /* Add a comment button title and place holder used in discussion comment text view */
 "ADD_A_COMMENT"="Añadir comentario";
 /* Add a response button title used in discussion's responses screen */
@@ -169,23 +169,23 @@
 /*Agreement text*/
 "AGREEMENT.TEXT"="you agree to the {eula} and {tos} and you acknowledge that {platform_name} and each Member process your personal data in accordance with the  {privacy_policy}.";
 /*Agreement text prefix for user on signin screen*/
-"AGREEMENT.TEXT_PREFIX_SIGNIN"="By signing-in to this app, ";
+"AGREEMENT.TEXT_PREFIX_SIGNIN"="Al registrarse en esta aplicación,";
 /*Agreement text prefix for user on signup screen*/
-"AGREEMENT.TEXT_PREFIX_SIGNUP"="By creating an account, ";
+"AGREEMENT.TEXT_PREFIX_SIGNUP"="Al crear una cuenta,";
 /*Link Text for End Use License Agreement*/
-"AGREEMENT.LINK_TEXT_EULA"="{platform_name} End User License Agreement";
+"AGREEMENT.LINK_TEXT_EULA"="Licencia de Acuerdo de Usuario Final de {platform_name}";
 /*Link Text for End Use License Agreement*/
-"AGREEMENT.LINK_TEXT_TOS"="{platform_name} Terms of Service and Honor Code";
+"AGREEMENT.LINK_TEXT_TOS"="Términos de Servicio y Código de Honor de {platform_name}";
 /*Link Text for End Use License Agreement*/
-"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="Privacy Policy";
+"AGREEMENT.LINK_TEXT_PRIVACY_POLICY"="Política de Privacidad";
 /* Alert dialog button allowing user to chosing to allow downloads on cellular */
 "ALLOW"="Permitir";
 /* Filtering option to show all discussion posts */
 "ALL_POSTS"="Todas las publicaciones";
 /*Subtitle for bulk download view when in downloading state */
-"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Remaining, {remaining_videos_size}MB total";
+"ALL_DOWNLOADING_VIDEOS_SUB_TITLE" = "{remaining_videos_count} Restantes, {remaining_videos_size}MB en total";
 /*Title for bulk download view when in downloaded state */
-"ALL_VIDEOS_DOWNLOADED_TITLE" = "All Videos Downloaded";
+"ALL_VIDEOS_DOWNLOADED_TITLE" = "Todos los Videos Descargados";
 /* Message shown when there are no announcements for a course */
 "ANNOUNCEMENT_UNAVAILABLE"="No hay anuncios para este curso.";
 /* Label indicating the response answer in Discussion Add comment screen */
@@ -217,11 +217,11 @@
 /*Asteric for marking fields required*/
 "ASTERIC" = "*";
 /* This error message will be shown if user tried to login with third party (facebook/google) and server returns 400 status code*/
-"AUTH_PROVIDER_ERROR" = "This {auth_provider} account is not linked with any {platform_name} account. Please register.";
+"AUTH_PROVIDER_ERROR" = "Esta cuenta {auth_provider} no esta asociada con ninguna cuenta de {platform_name}. Por favor regístrela.";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is single video*/
-"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB total";
 /*Subtitle for bulk download view when in new, partial or downloaded state - {count} is number of videos*/
-"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {videos_size}MB total";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{one}" = "{count} Video, {videos_size}MB en total";
+"BULK_DOWNLOAD_VIDEOS_SUB_TITLE##{other}" = "{count} Videos, {videos_size}MB en total";
 /* Prefix used with Staff of Community TA on the posts screen */
 "BY_AUTHOR" = "Por {author_name}";
 /* Prefix used with Staff of Community TA on the posts screen */
@@ -243,7 +243,7 @@
 /* Title of resources tab in course dashboardTabBar view */
 "RESOURSES"="Recursos";
 /* Title of course important dates screen */
-"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Fechas importantes";
+"COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Fechas Importantes";
 /* Button text for cancelling any action */
 "CANCEL"="Cancelar";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */
@@ -253,7 +253,7 @@
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Problema cargando el video.\nPor favor revise su conexión a Internet.";
 /* Generic action button label when the user chooses a thing */
-"CHOOSE" = "Elegir";
+ "CHOOSE" = "Elegir";
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Seleccione un tema...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
@@ -304,6 +304,38 @@
 "COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Las fechas del curso no están disponibles en este momento.";
+/* Label for date when course starts */
+"COURSE.STARTING" = "Starting {start_date}";
+/* Label for date when course end */
+"COURSE.ENDING" = "Ending {end_date}";
+/* Label indicated that a course has ended */
+"COURSE.ENDED"="Ended {end_date}";
+/* Course audit will expires on date*/
+"COURSE.AUDIT.EXPIRES_ON" = "Course access expires on {expiry_date}";
+/* Course audit will expires in {time_duration}*/
+"COURSE.AUDIT.EXPIRES_IN" = "Course access expires in {time_duration}";
+/* Course audit expired n days ago*/
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
+/* Course audit expired in less than 24 hours*/
+"COURSE.AUDIT.EXPIRED_AGO" = "Course access expired {time_duaration}";
+/* Course audit expired on date*/
+"COURSE.AUDIT.EXPIRED_ON" = "Course access expired on {expiry_date}";
+/* Course audit expiry in n number of days*/
+"COURSE.AUDIT.DAYS" = "{days} days";
+/* 1 hour remaining in course audit expiry*/
+/* More than 1 hours remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_HOURS##{one}" = "{hours} hour";
+"COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} hours";
+/* 1 minutes remaining in course audit expiry*/
+/* More than 1 minutes remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_MINUTES##{one}" = "{minutes} minute";
+"COURSE_AUDIT_REMAINING_MINUTES##{other}" = "{minutes} minutes";
+/* 1 second remaining in course audit expiry*/
+/* More than 1 seconds remaining in course audit expiry*/
+"COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} second";
+"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} seconds";
+/*Error meessage on course content screen if course audit expires*/
+"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
 /* Title text for the Announcements section within the course dashboard */
 "DASHBOARD.COURSE_ANNOUNCEMENTS"="Anuncios";
 /* Text describing the Announcements section within the course dashboard */
@@ -338,38 +370,6 @@
 "COURSE_DUE_DATE_SAME_DAY"="debido hoy a las {due_date} {time_zone}";
 /* Text describing the course due date*/
 "COURSE_DUE_DATE"="debido {due_date}";
-/* Label for date when course starts */
-"COURSE.STARTING"="Comenzando el {start_date}";
-/* Label indicating that a course will end */
-"COURSE.ENDING"="Tarmina {end_date}";
-/* Label indicated that a course has ended */
-"COURSE.ENDED"="Terminado {end_date}";
-/* Course audit will expires on date*/
-"COURSE.AUDIT.EXPIRES_ON" = "Course access expires on {expiry_date}";
-/* Course audit will expires in {time_duration}*/
-"COURSE.AUDIT.EXPIRES_IN" = "Course access expires in {time_duration}";
-/* Course audit expired n days ago*/
-"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
-/* Course audit expired in less than 24 hours*/
-"COURSE.AUDIT.EXPIRED_AGO" = "Course access expired {time_duaration}";
-/* Course audit expired on date*/
-"COURSE.AUDIT.EXPIRED_ON" = "Course access expired on {expiry_date}";
-/* Course audit expiry in n number of days*/
-"COURSE.AUDIT.DAYS" = "{days} days";
-/* 1 hour remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_HOURS##{one}" = "{hours} hour";
-/* More than 1 hours remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} hours";
-/* 1 minutes remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_MINUTES##{one}" = "{minutes} minute";
-/* More than 1 minutes remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_MINUTES##{other}" = "{minutes} minutes";
-/* 1 second remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} second";
-/* More than 1 seconds remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} seconds";
-/*Error meessage on course content screen if course audit expires*/
-"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
 /* Option to show all different types of course content. Constrasts with 'Show Videos Only'. */
 "COURSE_MODE_FULL"="Mostrar curso completo";
 /* Label to describe the button that allows choosing between Video only mode and All Course Content mode */
@@ -427,17 +427,17 @@
 /* Overlay message after user chooses to download a video */
 "DOWNLOADING_1_VIDEO"="Descargando 1 video.";
 /*Title for bulk download view when in downloading state */
-"DOWNLOADING_VIDEOS_TITLE" = "Downloading Videos...";
+"DOWNLOADING_VIDEOS_TITLE" = "Descargando Videos...";
 /*Title for bulk download view when in new or partial state */
-"DOWNLOAD_TO_DEVICE_TITLE" = "Download to Device";
+"DOWNLOAD_TO_DEVICE_TITLE" = "Descargar a Dispositivo ";
 /*Discover in left drawer(used for courses and programs discovery)*/
-"DISCOVER"="Exploración";
+"DISCOVER"="Descubrir";
 /*Title for the programs in tabbar and navigation bar*/
-"PROGRAMS"="Programs";
+"PROGRAMS"="Programas";
 /*Title for the degrees in navigation bar*/
 "DEGREES"="Degrees";
 /*Debug option title in tabbar */
-"DEBUG"="Debug";
+"DEBUG"="Depurar";
 /* Error message shown when email address is not properly formatted */
 "ERROR_MESSAGE.INVALID_EMAIL_FORMAT"="Por favor revise su dirección de correo e intente de nuevo.";
 /* Alert message shown when user tries to send an email, but email isn't setup */
@@ -477,7 +477,7 @@
 /* Overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_DESCRIPTION"="Ocurrió un error al crear su inscripción al curso";
 /* AlertView message shown when enrolling in a course fails */
-"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="We are unable to enroll you in this course at this time using the {platform_name} mobile application. Please try again on your web browser";
+"FIND_COURSES_UNABLE_TO_ENROLL_ERROR_DESCRIPTION"="No ha sido posible inscribirlo a este curso en este momento usando la aplicación móvil {platform_name}. Por favor inténtelo de nuevo desde su navegador web.";
 /* Title of overlay message shown when enrolling in a course fails */
 "FIND_COURSES_ENROLLMENT_ERROR_TITLE"="Error en la inscripción";
 /* Title of overlay message shown when enrolling in a course succeeds */
@@ -507,7 +507,7 @@
 /* Overlay error shown when logging in with an invalid email address */
 "INVALID_EMAIL_MESSAGE"="Por favor revise su nombre de usuario o dirección de correo e intente de nuevo.";
 /* Overlay error shown when logging in with an invalid username or password */
-"INVALID_USERNAME_PASSWORD"="Por favor revise su nombre de usuario o dirección de correo e intente de nuevo.";
+"INVALID_USERNAME_PASSWORD"="Por favor revise que su nombre de usuario o dirección de correo y contraseña son correctos e intente de nuevo.";
 /* Alert dialog text asking whether it's okay to download large videos */
 "LARGE_DOWNLOAD_MESSAGE"="Los videos que seleccionó suman más de 1 GB. ¿Desea descargarlos?";
 /* Alert dialog title when asking whether it's okay to download large videos */
@@ -569,7 +569,7 @@
 /* Button label to bring up course finder */
 "OR_SIGN_IN_WITH"="O iniciar sesión con";
 /* Login screen password field title text */
-"PASSWORD_TITLE_TEXT" = "Contraseñas";
+"PASSWORD_TITLE_TEXT" = "Password";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_CONTINUE"="Continuar";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
@@ -693,9 +693,9 @@
 "RESPONSE##{other}"="{count} respuestas";
 /* Discussion topics search placeholder */
 "SEARCH_ALL_POSTS"="Buscar en todas las publicaciones";
-/*Placeholder text for search courses textfield*/
+/*Placeholder text for search course textfield*/
 "SEARCH_COURSES_PLACEHOLDER_TEXT"="Search course";
-/*Placeholder text for search programs textfield*/
+/*Placeholder text for search program textfield*/
 "SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Search program";
 /*Placeholder text for search degree textfield*/
 "SEARCH_DEGREES_PLACEHOLDER_TEXT"="Search degree";
@@ -715,7 +715,7 @@
 "SIGN_IN_TEXT"="Iniciar sesión";
 /* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Iniciando sesión";
-/* Accessibility text prefix for  Facebook and Google Buttons*/
+/*  Accessibility text prefix for  Facebook and Google Buttons*/
 "SIGN_IN_PROMPT"="Sign in with";
 /*Sign up screen title and button initiating sign up process on the main screen */
 "REGISTER_TEXT"="Registrarse";
@@ -726,9 +726,9 @@
 /* Info message text on the startup screen */
 "STARTUP.INFO_MESSAGE_TEXT"="Courses from the world's best universities in your pocket.";
 /*Log In button title on the startup screen*/
-"STARTUP.LOGIN_TEXT"="Log In";
+"STARTUP.LOGIN_TEXT"="iniciar sesión";
 /*Create your Account button title on the startup screen*/
-"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Create your Account";
+"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Crea tu Cuenta";
 /* Explore Subjects button text on the first screen */
 "STARTUP_EXPLORE_SUBJECTS"="Explorar temas";
 /* Button allowing user to submit feedback about the app via email */
@@ -774,7 +774,7 @@
 /* Placeholder title for course content with no title */
 "UNTITLED"="Sin título";
 /* Title text for login field */
-"USERNAME_TITLE_TEXT" = "Nombre de usuario o correo electrónico";
+"USERNAME_TITLE_TEXT" = "Username or e-mail address";
 /*Error message when operation failed with unknow error*/
 "UNKNOWN_ERROR" = "Su acción no pudo ser completada.";
 /* Screen title showing a user's account */
@@ -830,4 +830,4 @@
 /* Alert dialog button title to confirm an action */
 "YES"="Si";
 /* Invalid youtube url error message */
-"YOUTUBE_INVALID_URL_ERROR"="Este video no pudo ser cargado, url no valida.";
+"YOUTUBE_INVALID_URL_ERROR"="The video could not loaded, invalid url.";
