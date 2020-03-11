@@ -1,10 +1,10 @@
 /*
- Localizable.strings
- edXVideoLocker
+  Localizable.strings
+  edXVideoLocker
 
- Created by Nirbhay Agarwal on 07/07/14.
- Copyright (c) 2014-2015 edX. All rights reserved.
- */
+  Created by Nirbhay Agarwal on 07/07/14.
+  Copyright (c) 2014-2015 edX. All rights reserved.
+*/
 
 // Please keep in alphabetical order
 
@@ -49,7 +49,7 @@
 /* Accessibility hint for Unfollow button for discussion responses*/
 "ACCESSIBILITY.DISCUSSION_UNFOLLOW_HINT" = "Doppelklicken, um nicht mehr zu folgen.";
 /*Accessibility hint for disabled buttons, cells, etc like for disabled user profile fields on user edit profile screen*/
-"ACCESSIBILITY.DISABLED_HINT" = "Dimmed";
+"ACCESSIBILITY.DISABLED_HINT" = "abgedunkelt";
 /* Acessibility hint for the show downloads button. */
 "ACCESSIBILITY.SHOW_CURRENT_DOWNLOADS_BUTTON_HINT" = "Doppelklick um bisherige Downloads zu sehen.";
 /* Accessibility hint for view all subjects label*/
@@ -149,7 +149,7 @@
 /*Accessibility text for profile button*/
 "ACCESSIBILITY.PROFILE_LABEL"="Profil";
 /* Accessibility trait for image */
-"ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
+"ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Bild";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Leistungen";
 /* Default text template when user shares an accomplishment */
@@ -167,7 +167,7 @@
 /* Add your post button title used in discussion's add a post textview */
 "ADD_YOUR_POST"="Einen Beitrag hinzufügen";
 /*Agreement text*/
-"AGREEMENT.TEXT"="you agree to the {eula} and {tos} and you acknowledge that {platform_name} and each Member process your personal data in accordance with the  {privacy_policy}.";
+"AGREEMENT.TEXT"="Sie stimmen den {eula} und {tos} zu und akzeptieren, dass die {platform_name} und alle Partner Ihrer persönlichen Daten unter Berücksichtigung der  {privacy_policy} verarbeiten können.";
 /*Agreement text prefix for user on signin screen*/
 "AGREEMENT.TEXT_PREFIX_SIGNIN"="Mit anmelden in die App,";
 /*Agreement text prefix for user on signup screen*/
@@ -193,7 +193,7 @@
 /* Navigation title for a Question Post which has endorsed answers */
 "ANSWERED_QUESTION"="Beantwortete Frage";
 /* Accessibility label for rating control of app review. */
-"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "Rating control.";
+"APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_LABEL" = "Bewertungskontrolle.";
 /* Accessibility hint for rating control of app review. */
 "APP_REVIEW.RATING_CONTROL_ACCESSIBILITY_HINT" = "Doppelklick und gedrückt halten, um den Wert zu ändern.";
 /* Alert title for positive app review */
@@ -253,7 +253,7 @@
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Es ist ein Problem beim laden des Videos aufgetreten.\nBitte überprüfen Sie Ihre Internetkonnektivität.";
 /* Generic action button label when the user chooses a thing */
-"CHOOSE" = "Auswählen";
+ "CHOOSE" = "Auswählen";
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Wählen Sie ein Thema";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
@@ -301,7 +301,7 @@
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Diese Interaktive Komponente ist derzeit nicht für Mobile Endgeräte verfügbar.\n\nErkunden Sie andere Komponenten dieses Kurses oder nutzen Sie den Browser.";
 /* Message shown when course content is gated */
-"COURSE_CONTENT_GATED"= "Not available on Mobile";
+"COURSE_CONTENT_GATED"= "Nicht auf dem Smartphone verfügbar";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Kursdaten sind derzeit nicht verfügbar.";
 /* Label for date when course starts */
@@ -383,7 +383,7 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Einen neuen Beitrag erstellen.";
 /* Chrome cast message */
-"CHROMECAST_MESSAGE"="Video is casting to remote device";
+"CHROMECAST_MESSAGE"="Video überträgt auf Remote-Gerät";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Löschen";
 /* Discussion used in the segmented control Creating a new post */
@@ -492,6 +492,8 @@
 "FORM_LABEL"="{label}:";
 /* Google login method */
 "GOOGLE"="Google";
+/*Microsoft login method*/
+"MICROSOFT"="Microsoft";
 /* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
 "SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Stellen Sie sicher, dass Ihr {service} Konto mit Ihrem Benutzerkonto der {platform_name} {destination_name} verlinkt ist.";
 /* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
@@ -519,7 +521,7 @@
 /* Button title to log out the current user */
 "LOGOUT"="Abmelden";
 /* Option to sort discussion post list by most activity */
-"MOST_ACTIVITY"="Most Activity";
+"MOST_ACTIVITY"="Meiste Aktivität";
 /* Option to sort discussion post list by most votes */
 "MOST_VOTES"="Die meisten Stimmen";
 /* Screen title showing a user's courses */
@@ -583,7 +585,7 @@
 /* Navigation item title for post and responses */
 "DISCUSSION_POST" = "Diskussionsbeitrag";
 /* Post discussion button title in Create a new post */
-"POST_DISCUSSION"="Post discussion";
+"POST_DISCUSSION"="Nachbesprechung";
 /* Post question button title in Create a new post */
 "POST_QUESTION"="Frage hinzufügen";
 /* Button title for moving to the previous block in the course */
@@ -702,7 +704,7 @@
 /* Text shown below the video, in portrait mode */
 "ROTATE_DEVICE"="Drehen Sie Ihr Smartphone/tablet, um dieses Video im Vollbildschirmmodus zu sehen";
 /*if filter applied then append this string to error message*/
-"REMOVE_FILTER" = "Try removing your post filter.";
+"REMOVE_FILTER" = "Versuchen Sie, den Beitragsfilter zu entfernen.";
 /* Label shown when user attempts to view a course section that hasn't been synced  */
 "SECTION_UNAVAILABLE_OFFLINE"="Diese Sektion ist nicht verfügbar im Offline Modus.\nBitte bearbeiten Sie zunächst eine Sektion aus, welche Sie bereits heruntergeladen haben.";
 /* Screen title showing a user's settings */
@@ -714,7 +716,7 @@
 /* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Anmelden";
 /*  Accessibility text prefix for  Facebook and Google Buttons*/
-"SIGN_IN_PROMPT"="Sign in with";
+"SIGN_IN_PROMPT"="Anmelden mit";
 /*Sign up screen title and button initiating sign up process on the main screen */
 "REGISTER_TEXT"="Registrieren";
 /* Indicates a date in the near future */
