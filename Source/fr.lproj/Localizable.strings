@@ -1,10 +1,10 @@
 /*
- Localizable.strings
- edXVideoLocker
- 
- Created by Nirbhay Agarwal on 07/07/14.
- Copyright (c) 2014-2015 edX. All rights reserved.
- */
+  Localizable.strings
+  edXVideoLocker
+
+  Created by Nirbhay Agarwal on 07/07/14.
+  Copyright (c) 2014-2015 edX. All rights reserved.
+*/
 
 // Please keep in alphabetical order
 
@@ -147,7 +147,7 @@
 /*Accessibility text for close button*/
 "ACCESSIBILITY.CLOSE_LABEL"="Fermer";
 /*Accessibility text for profile button*/
-"ACCESSIBILITY.PROFILE_LABEL"="Profile";
+"ACCESSIBILITY.PROFILE_LABEL"="Profil";
 /* Accessibility trait for image */
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
 /* Title of user profile section for user accomplishments (like badges) */
@@ -253,7 +253,7 @@
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Problème de téléchargement vidéo.\nVeuillez vérifier que votre connexion Internet est bonne.";
 /* Generic action button label when the user chooses a thing */
-"CHOOSE" = "Choisir";
+ "CHOOSE" = "Choisir";
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Choisir un sujet...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
@@ -301,41 +301,41 @@
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "Ce composant n'est pas encore disponible sur mobile. \n\nExplorer d'autres parties du cours ou le voir sur le web.";
 /* Message shown when course content is gated */
-"COURSE_CONTENT_GATED"= "Not available on Mobile";
+"COURSE_CONTENT_GATED"= "Non disponible sur mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="Aucune date de cours disponible.";
 /* Label for date when course starts */
-"COURSE.STARTING" = "Starting {start_date}";
+"COURSE.STARTING" = "Commence le {start_date}";
 /* Label for date when course end */
-"COURSE.ENDING" = "Ending {end_date}";
+"COURSE.ENDING" = "Se termine le {end_date}";
 /* Label indicated that a course has ended */
-"COURSE.ENDED"="Ended {end_date}";
+"COURSE.ENDED"="Terminé le {end_date}";
 /* Course audit will expires on date*/
-"COURSE.AUDIT.EXPIRES_ON" = "Course access expires on {expiry_date}";
+"COURSE.AUDIT.EXPIRES_ON" = "L'accès au cours expire le {expiry_date}";
 /* Course audit will expires in {time_duration}*/
-"COURSE.AUDIT.EXPIRES_IN" = "Course access expires in {time_duration}";
+"COURSE.AUDIT.EXPIRES_IN" = "L'accès au cours expire dans {time_duration}";
 /* Course audit expired n days ago*/
-"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "Course access expired {days} days ago";
+"COURSE.AUDIT.EXPIRED_DAYS_AGO" = "L'accès au cours a expiré il y a {days} jours";
 /* Course audit expired in less than 24 hours*/
 "COURSE.AUDIT.EXPIRED_AGO" = "Course access expired {time_duaration}";
 /* Course audit expired on date*/
-"COURSE.AUDIT.EXPIRED_ON" = "Course access expired on {expiry_date}";
+"COURSE.AUDIT.EXPIRED_ON" = "L'accès au cours a expiré le {expiry_date}";
 /* Course audit expiry in n number of days*/
-"COURSE.AUDIT.DAYS" = "{days} days";
+"COURSE.AUDIT.DAYS" = "{days} jours";
 /* 1 hour remaining in course audit expiry*/
 /* More than 1 hours remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_HOURS##{one}" = "{hours} hour";
-"COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} hours";
+"COURSE_AUDIT_REMAINING_HOURS##{one}" = "{hours} heure";
+"COURSE_AUDIT_REMAINING_HOURS##{other}" = "{hours} heures";
 /* 1 minutes remaining in course audit expiry*/
 /* More than 1 minutes remaining in course audit expiry*/
 "COURSE_AUDIT_REMAINING_MINUTES##{one}" = "{minutes} minute";
 "COURSE_AUDIT_REMAINING_MINUTES##{other}" = "{minutes} minutes";
 /* 1 second remaining in course audit expiry*/
 /* More than 1 seconds remaining in course audit expiry*/
-"COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} second";
-"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} seconds";
+"COURSE_AUDIT_REMAINING_SECONDS##{one}" = "{seconds} seconde";
+"COURSE_AUDIT_REMAINING_SECONDS##{other}" = "{seconds} secondes";
 /*Error meessage on course content screen if course audit expires*/
-"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Your access to this course has expired";
+"COURSE_AUDIT_EXPIRED_ERROR_MESSAGE" = "Votre accès à ce cours a expiré";
 /* Title text for the Announcements section within the course dashboard */
 "DASHBOARD.COURSE_ANNOUNCEMENTS"="Annonces";
 /* Text describing the Announcements section within the course dashboard */
@@ -383,7 +383,7 @@
 /* Create a new post button title used in discussions' posts screen */
 "CREATE_A_NEW_POST"="Créer un nouveau sujet";
 /* Chrome cast message */
-"CHROMECAST_MESSAGE"="Video is casting to remote device";
+"CHROMECAST_MESSAGE"="La vidéo est diffusée sur un autre appareil";
 /* Button text to initiate or confirm deletion */
 "DELETE"="Effacer";
 /* Discussion used in the segmented control Creating a new post */
@@ -435,7 +435,7 @@
 /*Title for the programs in tabbar and navigation bar*/
 "PROGRAMS"="Programmes";
 /*Title for the degrees in navigation bar*/
-"DEGREES"="Degrees";
+"DEGREES"="Diplômes";
 /*Debug option title in tabbar */
 "DEBUG"="Debug";
 /* Error message shown when email address is not properly formatted */
@@ -492,6 +492,8 @@
 "FORM_LABEL"="{label} :";
 /* Google login method */
 "GOOGLE"="Google";
+/*Microsoft login method*/
+"MICROSOFT"="Microsoft";
 /* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
 "SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Assurez-vous que votre compte {service} est associé avec votre compte {platform_name} sur {destination_name}";
 /* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
@@ -591,7 +593,7 @@
 /* Button title for moving to the next unit in the course */
 "PREVIOUS_UNIT" = "Unité précédente";
 /* A10y hint for the change picture button. */
-"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Double tap to change profile photo";
+"PROFILE.CHANGE_PICTURE_ACCESSIBILITY_HINT" = "Toucher deux fois pour changer de photo de profil";
 /* Change picture button text on edit profile screen. */
 "PROFILE.CHANGE_PICTURE_BUTTON" = "Changer";
 /* Text for use a photo already in library for user profile photo alert */
@@ -692,11 +694,11 @@
 /* Discussion topics search placeholder */
 "SEARCH_ALL_POSTS"="Rechercher";
 /*Placeholder text for search course textfield*/
-"SEARCH_COURSES_PLACEHOLDER_TEXT"="Search course";
+"SEARCH_COURSES_PLACEHOLDER_TEXT"="Chercher un cours";
 /*Placeholder text for search program textfield*/
-"SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Search program";
+"SEARCH_PROGRAMS_PLACEHOLDER_TEXT"="Rechercher un programme";
 /*Placeholder text for search degree textfield*/
-"SEARCH_DEGREES_PLACEHOLDER_TEXT"="Search degree";
+"SEARCH_DEGREES_PLACEHOLDER_TEXT"="Rechercher un diplôme";
 /* Discussion search results  */
 "SEARCH_RESULTS"="Résultats de la recherche";
 /* Text shown below the video, in portrait mode */
@@ -714,7 +716,7 @@
 /* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Connexion en cours";
 /*  Accessibility text prefix for  Facebook and Google Buttons*/
-"SIGN_IN_PROMPT"="Sign in with";
+"SIGN_IN_PROMPT"="Se connecter avec";
 /*Sign up screen title and button initiating sign up process on the main screen */
 "REGISTER_TEXT"="S'inscrire";
 /* Indicates a date in the near future */
@@ -722,7 +724,7 @@
 /* Label for posts pinned by Staff */
 "STAFF"="ENSEIGNANT";
 /* Info message text on the startup screen */
-"STARTUP.INFO_MESSAGE_TEXT"="Courses from the world's best universities in your pocket.";
+"STARTUP.INFO_MESSAGE_TEXT"="Les cours des meilleures universités au monde, dans votre poche.";
 /*Log In button title on the startup screen*/
 "STARTUP.LOGIN_TEXT"="Connexion";
 /*Create your Account button title on the startup screen*/
@@ -828,4 +830,5 @@
 /* Alert dialog button title to confirm an action */
 "YES"="Oui";
 /* Invalid youtube url error message */
-"YOUTUBE_INVALID_URL_ERROR"="La vidéo n'a pas pu être chargée, URL non valide.";
+"YOUTUBE_INVALID_URL_ERROR"="La vidéo n'a pas pu être chargée, URL invalide.";
+
