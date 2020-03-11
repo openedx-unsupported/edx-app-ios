@@ -1,10 +1,10 @@
 /*
- Localizable.strings
- edXVideoLocker
+  Localizable.strings
+  edXVideoLocker
 
- Created by Nirbhay Agarwal on 07/07/14.
- Copyright (c) 2014-2015 edX. All rights reserved.
- */
+  Created by Nirbhay Agarwal on 07/07/14.
+  Copyright (c) 2014-2015 edX. All rights reserved.
+*/
 
 // Please keep in alphabetical order
 
@@ -253,7 +253,7 @@
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Video yüklenirken problem oluştu.\nLütfen İnternet bağlantınızı kontrol edin.";
 /* Generic action button label when the user chooses a thing */
-"CHOOSE" = "Seç";
+ "CHOOSE" = "Seç";
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Bir konu seç...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
@@ -492,6 +492,8 @@
 "FORM_LABEL"="{label}:";
 /* Google login method */
 "GOOGLE"="Google";
+/*Microsoft login method*/
+"MICROSOFT"="Microsoft";
 /* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
 "SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="{service} hesabınızın {destination_name} üzerindeki {platform_name} hesabınızla bağlanmış olduğundan emin olun.";
 /* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
