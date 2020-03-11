@@ -35,7 +35,7 @@
 /* Accessibility hint for close button*/
 "ACCESSIBILITY.CLOSE_HINT" = "הקישו פעמיים לסגירה.";
 /* Accessibility label for posted data of discussion responses*/
-"ACCESSIBILITY.DISCUSSION_POSTED_ON" = "פורסם ב-{date}";
+"ACCESSIBILITY.DISCUSSION_POSTED_ON" = "פורסם ב-{תאריך}";
 /* Accessibility hint for Vote button for discussion responses*/
 "ACCESSIBILITY.DISCUSSION_VOTE_HINT" = "הקישו פעמיים להצביע.";
 /* Accessibility hint for Unvote button for discussion responses*/
@@ -314,6 +314,8 @@
 "COURSE_VIDEO_UNAVAILABLE"="קורס זה אינו כולל קבצי וידאו";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "רכיב אינטראקטיבי זה אינו זמין עדיין בגרסת המובייל.\n\nגלו חלקים אחרים בבקורס זה או צפו ברכיב זה ברשת.";
+/* Message shown when course content is gated */
+"COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="תאריכי הקורס אינם זמינים כעת";
 /* Label for date when course starts */
@@ -514,6 +516,8 @@
 "FORM_LABEL"="{label}:";
 /* Google login method */
 "GOOGLE"="גוגל";
+/*Microsoft login method*/
+"MICROSOFT"="Microsoft";
 /* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
 "SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="ודאו שחשבון ה-{service} שלכם מקושר עם חשבון ה-{platform_name} שלכם ב-{destination_name}";
 /* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
@@ -858,4 +862,4 @@
 /* Alert dialog button title to confirm an action */
 "YES"="כן";
 /* Invalid youtube url error message */
-"YOUTUBE_INVALID_URL_ERROR"="לא ניתן היה לטעון את הווידאו כתובת אתר לא חוקית.";
+"YOUTUBE_INVALID_URL_ERROR"="The video could not loaded, invalid url.";
