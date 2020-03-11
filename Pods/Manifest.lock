@@ -1,8 +1,8 @@
 PODS:
   - Analytics (3.6.10)
-  - Branch (0.25.5):
-    - Branch/Core (= 0.25.5)
-  - Branch/Core (0.25.5)
+  - Branch (0.28.1):
+    - Branch/Core (= 0.28.1)
+  - Branch/Core (0.28.1)
   - Crashlytics (3.10.9):
     - Fabric (~> 1.7.13)
   - DateTools (1.6.1)
@@ -177,12 +177,12 @@ PODS:
 
 DEPENDENCIES:
   - Analytics (~> 3.6.10)
-  - Branch (= 0.25.5)
+  - Branch (= 0.28.1)
   - Crashlytics (~> 3.10.1)
   - DateTools (~> 1.6.1)
   - Fabric (~> 1.7.6)
-  - FBSDKCoreKit
-  - FBSDKLoginKit
+  - FBSDKCoreKit (= 5.5.0)
+  - FBSDKLoginKit (= 5.5.0)
   - Firebase/Analytics (= 5.20.2)
   - Firebase/Core (= 5.20.2)
   - Firebase/InAppMessagingDisplay (= 5.20.2)
@@ -238,7 +238,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Analytics: 63744ad4afa65c3bcdcdb7a94b62515bde5b3900
-  Branch: 848e8e908182a97678d9f5a854d10e59a40af2aa
+  Branch: edf6cab0cecb437d6a6abba3a25d0a0fa6f277ec
   Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
   Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
@@ -273,6 +273,6 @@ SPEC CHECKSUMS:
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
   YoutubePlayer-in-WKWebView: f9c20a456c5d99e5f5248e4d2079a5d3b6950d13
 
-PODFILE CHECKSUM: 6850b35f7de2c801445b6994ff63c4f6212724b7
+PODFILE CHECKSUM: 10b31f7b540c392df30406f730e6928d7cfaf695
 
 COCOAPODS: 1.5.3
