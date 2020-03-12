@@ -1,10 +1,10 @@
 /*
-  Localizable.strings
-  edXVideoLocker
-
-  Created by Nirbhay Agarwal on 07/07/14.
-  Copyright (c) 2014-2015 edX. All rights reserved.
-*/
+ Localizable.strings
+ edXVideoLocker
+ 
+ Created by Nirbhay Agarwal on 07/07/14.
+ Copyright (c) 2014-2015 edX. All rights reserved.
+ */
 
 // Please keep in alphabetical order
 
@@ -249,7 +249,7 @@
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="视频加载出现问题。\n请检查您的网络连接。";
 /* Generic action button label when the user chooses a thing */
- "CHOOSE" = "选择";
+"CHOOSE" = "选择";
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "选择一个主题";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
@@ -293,14 +293,14 @@
 "COURSE_VIDEO_UNAVAILABLE"="此课程没有任何视频。";
 /* Message shown when attempting to display content not available on the app */
 "COURSE_CONTENT_UNKNOWN" = "此组件在手机上不可用。\n\n请浏览此课程的其他部分或在网页中观看。";
-/* Message shown when course content is gated */
-"COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Message shown when there is no course dates */
 "COURSEDATES.COURSE_DATE_UNAVAILABLE"="课程日期当前不可用。";
 /* Label for date when course starts */
 "COURSE.STARTING" = "开始于 {start_date}";
 /* Label for date when course end */
 "COURSE.ENDING" = "结束于 {end_date}";
+/* Message shown when course content is gated */
+"COURSE_CONTENT_GATED"= "Not available on Mobile";
 /* Label indicated that a course has ended */
 "COURSE.ENDED"="已结束 {end_date}";
 /* Course audit will expires on date*/
