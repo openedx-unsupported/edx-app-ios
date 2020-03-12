@@ -1,10 +1,10 @@
 /*
-  Localizable.strings
-  edXVideoLocker
+ Localizable.strings
+ edXVideoLocker
 
-  Created by Nirbhay Agarwal on 07/07/14.
-  Copyright (c) 2014-2015 edX. All rights reserved.
-*/
+ Created by Nirbhay Agarwal on 07/07/14.
+ Copyright (c) 2014-2015 edX. All rights reserved.
+ */
 
 // Please keep in alphabetical order
 
@@ -143,10 +143,10 @@
 "ACCESSIBILITY.SHARE_A_COURSE"="Chia sẻ khóa học";
 /*Accessibility text for close button*/
 "ACCESSIBILITY.CLOSE_LABEL"="Đóng";
-/*Accessibility text for profile button*/
-"ACCESSIBILITY.PROFILE_LABEL"="Hồ sơ";
 /* Accessibility trait for image */
 "ACCESSIBILITY_IMAGE_VOICE_OVER_HINT"="Image";
+/*Accessibility text for profile button*/
+"ACCESSIBILITY.PROFILE_LABEL"="Hồ sơ";
 /* Title of user profile section for user accomplishments (like badges) */
 "ACCOMPLISHMENTS.TITLE" = "Thành tựu";
 /* Default text template when user shares an accomplishment */
@@ -249,7 +249,7 @@
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Có lỗi tải video.\nVui lòng kiểm tra kết nối mạng.";
 /* Generic action button label when the user chooses a thing */
- "CHOOSE" = "Chọn";
+"CHOOSE" = "Chọn";
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Chọn một chủ đề...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
