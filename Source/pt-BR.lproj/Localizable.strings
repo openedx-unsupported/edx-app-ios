@@ -831,4 +831,3 @@
 "YES"="Sim";
 /* Invalid youtube url error message */
 "YOUTUBE_INVALID_URL_ERROR"="O vídeo não pôde ser carregado, o URL inválido.";
-
