@@ -88,10 +88,14 @@
         return;
     }
 
-    if (navigationAction.navigationType == UIWebViewNavigationTypeLinkClicked) {
-        if ([[UIApplication sharedApplication] canOpenURL:URL]) {
-            [[UIApplication sharedApplication] openURL:URL];
-        }
+    switch (navigationAction.navigationType) {
+        case WKNavigationTypeLinkActivated:
+            if ([[UIApplication sharedApplication] canOpenURL:URL]) {
+                [[UIApplication sharedApplication] openURL:URL];
+            }
+            break;
+        default:
+            break;
     }
 
     decisionHandler(WKNavigationActionPolicyCancel);

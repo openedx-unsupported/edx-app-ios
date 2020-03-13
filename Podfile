@@ -23,7 +23,7 @@ pod 'Firebase/InAppMessagingDisplay', '= 5.20.2'
 pod 'Firebase/Analytics', '= 5.20.2'
 pod 'Firebase/Performance', '= 5.20.2'
 pod 'Firebase/Messaging','=5.20.2'
-pod 'Branch', '= 0.25.5'
+pod 'Branch', '= 0.28.1'
 pod 'YoutubePlayer-in-WKWebView', '~> 0.3.0'
 end
 
@@ -41,6 +41,7 @@ post_install do |installer|
         end
         target.build_configurations.each do |config|
             config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
+            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
         end
     end
 end
