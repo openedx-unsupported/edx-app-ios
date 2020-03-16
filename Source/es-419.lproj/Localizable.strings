@@ -85,7 +85,7 @@
 /* Optional text needs to be added for accesibility*/
 "ACCESSIBILITY.OPTIONAL_INPUT"="Opcional";
 /* Required text needs to be added for accesibility*/
-"ACCESSIBILITY_REQUIRED_INPUT"="Required";
+"ACCESSIBILITY_REQUIRED_INPUT"="Requerido";
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Retroceder";
 /* Call to action for Rewind Button in the Video Player */
@@ -253,7 +253,7 @@
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Problema cargando el video.\nPor favor revise su conexión a Internet.";
 /* Generic action button label when the user chooses a thing */
- "CHOOSE" = "Elegir";
+"CHOOSE" = "Elegir";
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Seleccione un tema...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
@@ -569,7 +569,7 @@
 /* Button label to bring up course finder */
 "OR_SIGN_IN_WITH"="O iniciar sesión con";
 /* Login screen password field title text */
-"PASSWORD_TITLE_TEXT" = "Password";
+"PASSWORD_TITLE_TEXT" = "Contraseñas";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video */
 "PLAYBACK_COMPLETE_CONTINUE"="Continuar";
 /* Alert dialog button shown when finishing a video to ask if user should continue by watching the next video (negative option) */
@@ -715,7 +715,7 @@
 "SIGN_IN_TEXT"="Iniciar sesión";
 /* Message shown while user waits for response to a sign in request */
 "SIGN_IN_BUTTON_TEXT_ON_SIGN_IN"="Iniciando sesión";
-/*  Accessibility text prefix for  Facebook and Google Buttons*/
+/* Accessibility text prefix for  Facebook and Google Buttons*/
 "SIGN_IN_PROMPT"="Sign in with";
 /*Sign up screen title and button initiating sign up process on the main screen */
 "REGISTER_TEXT"="Registrarse";

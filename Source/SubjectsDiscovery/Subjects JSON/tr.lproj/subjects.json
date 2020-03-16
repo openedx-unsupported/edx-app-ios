@@ -67,8 +67,8 @@
     },
     {
         "name": "Elektronik",
-        "image_name": "elektronik",
-        "filter": "Elektronik",
+        "image_name": "electronics",
+        "filter": "Electronics",
         "type": "normal"
     },
     {

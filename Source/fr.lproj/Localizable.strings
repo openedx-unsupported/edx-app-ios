@@ -253,7 +253,7 @@
 /* Error message shown when there is a problem loading a video */
 "CHECK_CONNECTION"="Problème de téléchargement vidéo.\nVeuillez vérifier que votre connexion Internet est bonne.";
 /* Generic action button label when the user chooses a thing */
- "CHOOSE" = "Choisir";
+"CHOOSE" = "Choisir";
 /* Title of dropdown from which the user can select topics on New Post Screen */
 "CHOOSE_A_TOPIC" = "Choisir un sujet...";
 /* Prompt text shown after user chooses to begin registering with an external service like Facebook or Google. {service} will be replaced with a service name like Google or Facebook. */
