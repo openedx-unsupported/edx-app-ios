@@ -1,1 +1,2 @@
-include "plugins/edx-app-gradle-plugin"
+include "plugins"
+project(':plugins').projectDir = file('plugins/edx-app-gradle-plugin')

@@ -202,7 +202,7 @@ class IOSHelper {
         if(!key) {
            return
         }
-        def scheme = ["msal" + key, "auth"] 
+        def scheme = ["msauth." + bundleIdentifier] 
         addURLScheme(scheme, plist)
    }
 
@@ -220,7 +220,7 @@ task printBuildEnvironment(type : Exec) {
     commandLine arguments
 }
 
-task uploadDebuggingSymbols << {
+task uploadDebuggingSymbols doLast {
     def taskHelper = new TaskHelper()
     def config = taskHelper.loadConfig(project)
     def fabric = config['FABRIC'] ?: [:]
@@ -232,7 +232,7 @@ task uploadDebuggingSymbols << {
     }
 }
 
-task applyConfig << {
+task applyConfig doLast {
     processDefaultInfoPlist()
     processFirebaseInfoPlist()
 }
@@ -280,8 +280,8 @@ def saveConfigChanges(helper, plist, infoPlistPath, plistPath) {
     assert result == 0
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.10.2'
+wrapper {
+    gradleVersion = '6.2.2'
 }
 
 def testBuildArguments(workspace, scheme, OS, record) {

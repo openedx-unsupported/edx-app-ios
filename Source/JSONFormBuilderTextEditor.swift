@@ -8,6 +8,9 @@
 
 import Foundation
 
+// Server has limit of 300 characters for bio
+private let BioTextMaxLimit = 300
+
 class JSONFormBuilderTextEditorViewController: UIViewController {
     let textView = OEXPlaceholderTextView()
     var text: String { return textView.text }
@@ -64,6 +67,16 @@ extension JSONFormBuilderTextEditorViewController : UITextViewDelegate {
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.resignFirstResponder()
         return true
+    }
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let expectedText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+
+        if expectedText.count > BioTextMaxLimit {
+            let text: NSString = expectedText as NSString
+            textView.text = text.substring(to: BioTextMaxLimit)
+        }
+        return expectedText.count <= BioTextMaxLimit
     }
     
 }

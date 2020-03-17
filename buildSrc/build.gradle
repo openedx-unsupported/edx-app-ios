@@ -14,7 +14,7 @@ subprojects {
     apply plugin: "groovy"
     
     rootProject.dependencies {
-        runtime project(path)
+        runtimeOnly project(path)
     }
 
     it.repositories {
@@ -28,9 +28,9 @@ subprojects {
         // get picked up. We only have one buildSrc plugin
         // so it doesn't really matter, but if we ever get more
         // we should figure this out
-        compile 'org.codehaus.groovy:groovy-all:2.4.15'
-        compile gradleApi()
-        compile 'org.yaml:snakeyaml:1.14'
+        implementation 'org.codehaus.groovy:groovy-all:2.4.15'
+        implementation gradleApi()
+        implementation 'org.yaml:snakeyaml:1.14'
     }
 }
 
@@ -58,4 +58,4 @@ def edXAppPluginSetup(url, ref) {
     grgit.checkout(branch : ref)
 }
 
-edXAppPluginSetup('https://github.com/edx/edx-app-gradle-plugin', '65eb793c128ca4fe7d4989a84f5ef55a5217b8d8')
+edXAppPluginSetup('https://github.com/edx/edx-app-gradle-plugin', '4c8c1e55bf2f124a6c89d9c8b4edbe0bd256f1a2')
