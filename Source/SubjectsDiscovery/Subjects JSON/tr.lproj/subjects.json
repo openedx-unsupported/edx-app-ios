@@ -1,12 +1,12 @@
 [
     {
-        "name": "Architecture",
+        "name": "Mimari",
         "image_name": "architecture",
         "filter": "Architecture",
         "type": "normal"
     },
     {
-        "name": "Art & Culture",
+        "name": "Sanat & Kültür",
         "image_name": "art",
         "filter": "Art & Culture",
         "type": "normal"
@@ -24,37 +24,37 @@
         "type": "popular"
     },
     {
-        "name": "Chemistry",
+        "name": "Kimya",
         "image_name": "chemistry",
         "filter": "Chemistry",
         "type": "normal"
     },
     {
-        "name": "Communication",
+        "name": "İletişim",
         "image_name": "communication",
         "filter": "Communication",
         "type": "normal"
     },
     {
-        "name": "Computer Science",
+        "name": "Bilgisayar Bilimleri",
         "image_name": "computer_science",
         "filter": "Computer Science",
         "type": "popular"
     },
     {
-        "name": "Data Analysis & Statistics",
+        "name": "Veri Analizi & İstatistik",
         "image_name": "data_science",
         "filter": "Data Analysis & Statistics",
         "type": "popular"
     },
     {
-        "name": "Design",
+        "name": "Tasarım",
         "image_name": "design",
         "filter": "Design",
         "type": "normal"
     },
     {
-        "name": "Economics & Finance",
+        "name": "Ekonomi & Finans",
         "image_name": "economics_finance",
         "filter": "Economics & Finance",
         "type": "normal"
@@ -66,7 +66,7 @@
         "type": "normal"
     },
     {
-        "name": "Electronics",
+        "name": "Elektronik",
         "image_name": "electronics",
         "filter": "Electronics",
         "type": "normal"
@@ -78,7 +78,7 @@
         "type": "normal"
     },
     {
-        "name": "Engineering",
+        "name": "Mühendislik",
         "image_name": "engineering",
         "filter": "Engineering",
         "type": "normal"
@@ -108,49 +108,49 @@
         "type": "normal"
     },
     {
-        "name": "History",
+        "name": "Tarih",
         "image_name": "history",
         "filter": "History",
         "type": "normal"
     },
     {
-        "name": "Humanities",
+        "name": "Beşeri Bilimler",
         "image_name": "humanities",
         "filter": "Humanities",
         "type": "popular"
     },
     {
-        "name": "Language",
+        "name": "Dil",
         "image_name": "language",
         "filter": "Language",
         "type": "popular"
     },
     {
-        "name": "Law",
+        "name": "Hukuk",
         "image_name": "law",
         "filter": "Law",
         "type": "normal"
     },
     {
-        "name": "Literature",
+        "name": "Edebiyat",
         "image_name": "literature",
         "filter": "Literature",
         "type": "normal"
     },
     {
-        "name": "Math",
+        "name": "Matematik",
         "image_name": "math",
         "filter": "Math",
         "type": "normal"
     },
     {
-        "name": "Medicine",
+        "name": "Tıp",
         "image_name": "medicine",
         "filter": "Medicine",
         "type": "normal"
     },
     {
-        "name": "Music",
+        "name": "Müzik",
         "image_name": "music",
         "filter": "Music",
         "type": "normal"
@@ -162,19 +162,19 @@
         "type": "normal"
     },
     {
-        "name": "Physics",
+        "name": "Fizik",
         "image_name": "physics",
         "filter": "Physics",
         "type": "normal"
     },
     {
-        "name": "Science",
+        "name": "Bilim",
         "image_name": "science",
         "filter": "Science",
         "type": "normal"
     },
     {
-        "name": "Social Sciences",
+        "name": "Sosyal Bilimler",
         "image_name": "social_sciences",
         "filter": "Social Sciences",
         "type": "normal"

@@ -480,6 +480,8 @@
 "FORM_LABEL"="{label}:";
 /* Google login method */
 "GOOGLE"="Google";
+/*Microsoft login method*/
+"MICROSOFT"="Microsoft";
 /* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
 "SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="请确认您的{service}账号与您{destination_name}上的{platform_name}账号匹配。";
 /* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */
