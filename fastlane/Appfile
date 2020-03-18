@@ -1,5 +1,6 @@
 app_identifier("org.edx.mobile") # The bundle identifier of your app
 apple_id("mumer@edx.org") # Your Apple email address
+git_url("https://github.com/salman2013/Apple-Certificate")
 
 itc_team_id("94496901") # App Store Connect Team ID
 team_id("57UCUYGPA2") # Developer Portal Team ID
