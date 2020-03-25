@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Runtime/FIRIAMSDKSettings.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Runtime/FIRIAMSDKSettings.h

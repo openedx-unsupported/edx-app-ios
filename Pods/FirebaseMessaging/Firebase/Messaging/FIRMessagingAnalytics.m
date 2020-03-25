@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-#import <UIKit/UIKit.h>
-
-#import "FIRMessagingAnalytics.h"
-#import "FIRMessagingLogger.h"
+#import "Firebase/Messaging/FIRMessagingAnalytics.h"
 
 #import <FirebaseAnalyticsInterop/FIRInteropEventNames.h>
 #import <FirebaseAnalyticsInterop/FIRInteropParameterNames.h>
+#import <GoogleUtilities/GULAppDelegateSwizzler.h>
 #import <GoogleUtilities/GULAppEnvironmentUtil.h>
+
+#import "Firebase/Messaging/FIRMessagingLogger.h"
 
 static NSString *const kLogTag = @"FIRMessagingAnalytics";
 
@@ -44,13 +44,20 @@ static NSString *const kReengagementSource = @"Firebase";
 static NSString *const kReengagementMedium = @"notification";
 
 // Analytics
-static NSString *const kAnalyticsEnabled =              @"google.c.a." @"e";
-static NSString *const kAnalyticsComposerIdentifier =   @"google.c.a." @"c_id";
-static NSString *const kAnalyticsComposerLabel =        @"google.c.a." @"c_l";
-static NSString *const kAnalyticsMessageLabel =         @"google.c.a." @"m_l";
-static NSString *const kAnalyticsMessageTimestamp =     @"google.c.a." @"ts";
-static NSString *const kAnalyticsMessageUseDeviceTime = @"google.c.a." @"udt";
-static NSString *const kAnalyticsTrackConversions =     @"google.c.a." @"tc";
+static NSString *const kAnalyticsEnabled = @"google.c.a."
+                                           @"e";
+static NSString *const kAnalyticsComposerIdentifier = @"google.c.a."
+                                                      @"c_id";
+static NSString *const kAnalyticsComposerLabel = @"google.c.a."
+                                                 @"c_l";
+static NSString *const kAnalyticsMessageLabel = @"google.c.a."
+                                                @"m_l";
+static NSString *const kAnalyticsMessageTimestamp = @"google.c.a."
+                                                    @"ts";
+static NSString *const kAnalyticsMessageUseDeviceTime = @"google.c.a."
+                                                        @"udt";
+static NSString *const kAnalyticsTrackConversions = @"google.c.a."
+                                                    @"tc";
 
 @implementation FIRMessagingAnalytics
 
@@ -73,31 +80,29 @@ static NSString *const kAnalyticsTrackConversions =     @"google.c.a." @"tc";
 + (void)logOpenNotification:(NSDictionary *)notification
                 toAnalytics:(id<FIRAnalyticsInterop> _Nullable)analytics {
   [self logUserPropertyForConversionTracking:notification toAnalytics:analytics];
-  [self logEvent:kFIRIEventNotificationOpen
-withNotification:notification
-     toAnalytics:analytics];
+  [self logEvent:kFIRIEventNotificationOpen withNotification:notification toAnalytics:analytics];
 }
 
 + (void)logForegroundNotification:(NSDictionary *)notification
                       toAnalytics:(id<FIRAnalyticsInterop> _Nullable)analytics {
   [self logEvent:kFIRIEventNotificationForeground
-withNotification:notification
-     toAnalytics:analytics];
+      withNotification:notification
+           toAnalytics:analytics];
 }
 
 + (void)logEvent:(NSString *)event
-withNotification:(NSDictionary *)notification
-     toAnalytics:(id<FIRAnalyticsInterop> _Nullable)analytics {
+    withNotification:(NSDictionary *)notification
+         toAnalytics:(id<FIRAnalyticsInterop> _Nullable)analytics {
   if (!event.length) {
     FIRMessagingLoggerDebug(kFIRMessagingMessageCodeAnalyticsInvalidEvent,
-                             @"Can't log analytics with empty event.");
+                            @"Can't log analytics with empty event.");
     return;
   }
   NSMutableDictionary *params = [self paramsForEvent:event withNotification:notification];
 
   [analytics logEventWithOrigin:@"fcm" name:event parameters:params];
-  FIRMessagingLoggerDebug(kFIRMessagingMessageCodeAnalytics005,
-                           @"%@: Sending event: %@ params: %@", kLogTag, event, params);
+  FIRMessagingLoggerDebug(kFIRMessagingMessageCodeAnalytics005, @"%@: Sending event: %@ params: %@",
+                          kLogTag, event, params);
 }
 
 + (NSMutableDictionary *)paramsForEvent:(NSString *)event
@@ -105,7 +110,7 @@ withNotification:(NSDictionary *)notification
   NSDictionary *analyticsDataMap = notification;
   if (!analyticsDataMap.count) {
     FIRMessagingLoggerDebug(kFIRMessagingMessageCodeAnalytics000,
-                             @"No data found in notification. Will not log any analytics events.");
+                            @"No data found in notification. Will not log any analytics events.");
     return nil;
   }
 
@@ -171,23 +176,25 @@ withNotification:(NSDictionary *)notification
     [analytics logEventWithOrigin:@"fcm" name:kFIRIEventFirebaseCampaign parameters:params];
 
     FIRMessagingLoggerDebug(kFIRMessagingMessageCodeAnalytics003,
-                             @"%@: Sending event: %@ params: %@", kLogTag,
-                             kFIRIEventFirebaseCampaign, params);
+                            @"%@: Sending event: %@ params: %@", kLogTag,
+                            kFIRIEventFirebaseCampaign, params);
 
   } else {
     FIRMessagingLoggerDebug(kFIRMessagingMessageCodeAnalytics004,
-                             @"%@: Failed to set user property: %@ value: %@", kLogTag,
-                             kFIRIUserPropertyLastNotification, composerIdentifier);
+                            @"%@: Failed to set user property: %@ value: %@", kLogTag,
+                            kFIRIUserPropertyLastNotification, composerIdentifier);
   }
 }
 
 + (void)logMessage:(NSDictionary *)notification
        toAnalytics:(id<FIRAnalyticsInterop> _Nullable)analytics {
+  // iOS onlly because Analytics doesn't support tvOS.
+#if TARGET_OS_IOS
   if (![self canLogNotification:notification]) {
     return;
   }
 
-  UIApplication *application = [self currentUIApplication];
+  UIApplication *application = [GULAppDelegateSwizzler sharedApplication];
   if (!application) {
     return;
   }
@@ -209,17 +216,7 @@ withNotification:(NSDictionary *)notification
       // is in the background. These messages aren't loggable anyway.
       break;
   }
-}
-
-+ (UIApplication *)currentUIApplication {
-  Class applicationClass = nil;
-  if (![GULAppEnvironmentUtil isAppExtension]) {
-    Class cls = NSClassFromString(@"UIApplication");
-    if (cls && [cls respondsToSelector:NSSelectorFromString(@"sharedApplication")]) {
-      applicationClass = cls;
-    }
-  }
-  return [applicationClass sharedApplication];
+#endif
 }
 
 @end

@@ -38,7 +38,7 @@ typedef NS_ENUM(NSUInteger, FIRMessagingConnectionCloseReason) {
   kFIRMessagingConnectionCloseReasonUserDisconnect,
 };
 
-@protocol FIRMessagingConnectionDelegate<NSObject>
+@protocol FIRMessagingConnectionDelegate <NSObject>
 
 - (void)connection:(FIRMessagingConnection *)fcmConnection
     didCloseForReason:(FIRMessagingConnectionCloseReason)reason;
@@ -47,12 +47,10 @@ typedef NS_ENUM(NSUInteger, FIRMessagingConnectionCloseReason) {
 /**
  * Called when a stream ACK or a selective ACK are received - this indicates the
  * message has been received by MCS.
- * @return The count of rmqIds deleted from the client RMQ store.
  */
-- (int)connectionDidReceiveAckForRmqIds:(NSArray *)rmqIds;
+- (void)connectionDidReceiveAckForRmqIds:(NSArray *)rmqIds;
 
 @end
-
 
 /**
  * This class maintains the actual FIRMessaging connection that we use to receive and send messages
@@ -80,8 +78,8 @@ typedef NS_ENUM(NSUInteger, FIRMessagingConnectionCloseReason) {
                    rmq2Manager:(FIRMessagingRmqManager *)rmq2Manager
                     fcmManager:(FIRMessagingDataMessageManager *)dataMessageManager;
 
-- (void)signIn; // connect
-- (void)signOut; // disconnect
+- (void)signIn;   // connect
+- (void)signOut;  // disconnect
 
 /**
  * Teardown the FIRMessaging connection and deallocate the resources being held up by the

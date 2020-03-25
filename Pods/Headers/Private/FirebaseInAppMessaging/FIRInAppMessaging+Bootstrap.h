@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Runtime/FIRInAppMessaging+Bootstrap.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Runtime/FIRInAppMessaging+Bootstrap.h

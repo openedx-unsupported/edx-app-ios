@@ -1,0 +1,1 @@
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/DefaultUI/Banner/FIRIAMBannerViewUIWindow.h

@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-#import "FIRMessagingPubSub.h"
+#import "Firebase/Messaging/FIRMessagingPubSub.h"
 
+#import <FirebaseMessaging/FIRMessaging.h>
+#import <GoogleUtilities/GULSecureCoding.h>
 #import <GoogleUtilities/GULUserDefaults.h>
 
-#import "FIRMessaging.h"
-#import "FIRMessagingClient.h"
-#import "FIRMessagingDefines.h"
-#import "FIRMessagingLogger.h"
-#import "FIRMessagingPendingTopicsList.h"
-#import "FIRMessagingUtilities.h"
-#import "FIRMessaging_Private.h"
-#import "NSDictionary+FIRMessaging.h"
-#import "NSError+FIRMessaging.h"
+#import "Firebase/Messaging/FIRMessagingClient.h"
+#import "Firebase/Messaging/FIRMessagingDefines.h"
+#import "Firebase/Messaging/FIRMessagingLogger.h"
+#import "Firebase/Messaging/FIRMessagingPendingTopicsList.h"
+#import "Firebase/Messaging/FIRMessagingUtilities.h"
+#import "Firebase/Messaging/FIRMessaging_Private.h"
+#import "Firebase/Messaging/NSDictionary+FIRMessaging.h"
+#import "Firebase/Messaging/NSError+FIRMessaging.h"
 
 static NSString *const kPendingSubscriptionsListKey =
     @"com.firebase.messaging.pending-subscriptions";
@@ -59,8 +60,6 @@ static NSString *const kPendingSubscriptionsListKey =
                      topic:(NSString *)topic
                    options:(NSDictionary *)options
                    handler:(FIRMessagingTopicOperationCompletion)handler {
-  _FIRMessagingDevAssert([token length], @"FIRMessaging error no token specified");
-  _FIRMessagingDevAssert([topic length], @"FIRMessaging error Invalid empty topic specified");
   if (!self.client) {
     handler([NSError errorWithFCMErrorCode:kFIRMessagingErrorCodePubSubFIRMessagingNotSetup]);
     return;
@@ -102,14 +101,10 @@ static NSString *const kPendingSubscriptionsListKey =
                        topic:(NSString *)topic
                      options:(NSDictionary *)options
                      handler:(FIRMessagingTopicOperationCompletion)handler {
-  _FIRMessagingDevAssert([token length], @"FIRMessaging error no token specified");
-  _FIRMessagingDevAssert([topic length], @"FIRMessaging error Invalid empty topic specified");
-
   if (!self.client) {
     handler([NSError errorWithFCMErrorCode:kFIRMessagingErrorCodePubSubFIRMessagingNotSetup]);
     return;
   }
-
   token = [token copy];
   topic = [topic copy];
   if (![options count]) {
@@ -164,10 +159,9 @@ static NSString *const kPendingSubscriptionsListKey =
 #pragma mark - FIRMessagingPendingTopicsListDelegate
 
 - (void)pendingTopicsList:(FIRMessagingPendingTopicsList *)list
-  requestedUpdateForTopic:(NSString *)topic
-                   action:(FIRMessagingTopicAction)action
-               completion:(FIRMessagingTopicOperationCompletion)completion {
-
+    requestedUpdateForTopic:(NSString *)topic
+                     action:(FIRMessagingTopicAction)action
+                 completion:(FIRMessagingTopicOperationCompletion)completion {
   NSString *fcmToken = [[FIRMessaging messaging] defaultFcmToken];
   if (action == FIRMessagingTopicActionSubscribe) {
     [self subscribeWithToken:fcmToken topic:topic options:nil handler:completion];
@@ -189,7 +183,13 @@ static NSString *const kPendingSubscriptionsListKey =
 
 - (void)archivePendingTopicsList:(FIRMessagingPendingTopicsList *)topicsList {
   GULUserDefaults *defaults = [GULUserDefaults standardUserDefaults];
-  NSData *pendingData = [NSKeyedArchiver archivedDataWithRootObject:topicsList];
+  NSError *error;
+  NSData *pendingData = [GULSecureCoding archivedDataWithRootObject:topicsList error:&error];
+  if (error) {
+    FIRMessagingLoggerError(kFIRMessagingMessageCodePubSubArchiveError,
+                            @"Failed to archive topic list data %@", error);
+    return;
+  }
   [defaults setObject:pendingData forKey:kPendingSubscriptionsListKey];
   [defaults synchronize];
 }
@@ -198,20 +198,23 @@ static NSString *const kPendingSubscriptionsListKey =
   GULUserDefaults *defaults = [GULUserDefaults standardUserDefaults];
   NSData *pendingData = [defaults objectForKey:kPendingSubscriptionsListKey];
   FIRMessagingPendingTopicsList *subscriptions;
-  @try {
-    if (pendingData) {
-      subscriptions = [NSKeyedUnarchiver unarchiveObjectWithData:pendingData];
+  if (pendingData) {
+    NSError *error;
+    subscriptions = [GULSecureCoding
+        unarchivedObjectOfClasses:[NSSet setWithObjects:FIRMessagingPendingTopicsList.class, nil]
+                         fromData:pendingData
+                            error:&error];
+    if (error) {
+      FIRMessagingLoggerError(kFIRMessagingMessageCodePubSubUnarchiveError,
+                              @"Failed to unarchive topic list data %@", error);
     }
-  } @catch (NSException *exception) {
-    // Nothing we can do, just continue as if we don't have pending subscriptions
-  } @finally {
-    if (subscriptions) {
-      self.pendingTopicUpdates = subscriptions;
-    } else {
-      self.pendingTopicUpdates = [[FIRMessagingPendingTopicsList alloc] init];
-    }
-    self.pendingTopicUpdates.delegate = self;
   }
+  if (subscriptions) {
+    self.pendingTopicUpdates = subscriptions;
+  } else {
+    self.pendingTopicUpdates = [[FIRMessagingPendingTopicsList alloc] init];
+  }
+  self.pendingTopicUpdates.delegate = self;
 }
 
 #pragma mark - Private Helpers

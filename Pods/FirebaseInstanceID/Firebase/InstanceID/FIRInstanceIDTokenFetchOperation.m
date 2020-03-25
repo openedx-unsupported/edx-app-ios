@@ -25,11 +25,17 @@
 #import "FIRInstanceIDUtilities.h"
 #import "NSError+FIRInstanceID.h"
 
+#import <FirebaseCore/FIRAppInternal.h>
+#import <FirebaseCore/FIRHeartbeatInfo.h>
+
 // We can have a static int since this error should theoretically only
 // happen once (for the first time). If it repeats there is something
 // else that is wrong.
 static int phoneRegistrationErrorRetryCount = 0;
 static const int kMaxPhoneRegistrationErrorRetryCount = 10;
+NSString *const kFIRInstanceIDFirebaseUserAgentKey = @"X-firebase-client";
+NSString *const kFIRInstanceIDFirebaseHeartbeatKey = @"X-firebase-client-log-type";
+NSString *const kFIRInstanceIDHeartbeatTag = @"fire-iid";
 
 @implementation FIRInstanceIDTokenFetchOperation
 
@@ -37,24 +43,26 @@ static const int kMaxPhoneRegistrationErrorRetryCount = 10;
                                    scope:(NSString *)scope
                                  options:(nullable NSDictionary<NSString *, NSString *> *)options
                       checkinPreferences:(FIRInstanceIDCheckinPreferences *)checkinPreferences
-                                 keyPair:(FIRInstanceIDKeyPair *)keyPair {
+                              instanceID:(NSString *)instanceID {
   self = [super initWithAction:FIRInstanceIDTokenActionFetch
            forAuthorizedEntity:authorizedEntity
                          scope:scope
                        options:options
             checkinPreferences:checkinPreferences
-                       keyPair:keyPair];
+                    instanceID:instanceID];
   if (self) {
   }
   return self;
 }
 
 - (void)performTokenOperation {
-  NSString *authHeader =
-      [FIRInstanceIDTokenOperation HTTPAuthHeaderFromCheckin:self.checkinPreferences];
-  NSMutableURLRequest *request = [[self class] requestWithAuthHeader:authHeader];
+  NSMutableURLRequest *request = [self tokenRequest];
   NSString *checkinVersionInfo = self.checkinPreferences.versionInfo;
   [request setValue:checkinVersionInfo forHTTPHeaderField:@"info"];
+  [request setValue:[FIRApp firebaseUserAgent]
+      forHTTPHeaderField:kFIRInstanceIDFirebaseUserAgentKey];
+  [request setValue:@([FIRHeartbeatInfo heartbeatCodeForTag:kFIRInstanceIDHeartbeatTag]).stringValue
+      forHTTPHeaderField:kFIRInstanceIDFirebaseHeartbeatKey];
 
   // Build form-encoded body
   NSString *deviceAuthID = self.checkinPreferences.deviceID;
@@ -65,7 +73,7 @@ static const int kMaxPhoneRegistrationErrorRetryCount = 10;
   [queryItems addObject:[FIRInstanceIDURLQueryItem queryItemWithName:@"X-subtype"
                                                                value:self.authorizedEntity]];
 
-  [queryItems addObjectsFromArray:[self queryItemsWithKeyPair:self.keyPair]];
+  [queryItems addObjectsFromArray:[self queryItemsWithInstanceID:self.instanceID]];
 
   // Create query items from passed-in options
   id apnsTokenData = self.options[kFIRInstanceIDTokenOptionsAPNSKey];
@@ -132,7 +140,6 @@ static const int kMaxPhoneRegistrationErrorRetryCount = 10;
     return;
   }
   NSDictionary *parsedResponse = [self parseFetchTokenResponse:dataResponse];
-  _FIRInstanceIDDevAssert(parsedResponse.count, @"Invalid registration response");
 
   if ([parsedResponse[@"token"] length]) {
     [self finishWithResult:FIRInstanceIDTokenOperationSucceeded

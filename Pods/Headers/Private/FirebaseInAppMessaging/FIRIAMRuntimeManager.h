@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Runtime/FIRIAMRuntimeManager.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Runtime/FIRIAMRuntimeManager.h

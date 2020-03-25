@@ -17,33 +17,16 @@
 #ifndef FIRMessaging_xcodeproj_FIRMessagingDefines_h
 #define FIRMessaging_xcodeproj_FIRMessagingDefines_h
 
-#define _FIRMessaging_VERBOSE_LOGGING 1
-
-// Verbose Logging
-#if (_FIRMessaging_VERBOSE_LOGGING)
-#define FIRMessaging_DEV_VERBOSE_LOG(...) NSLog(__VA_ARGS__)
-#else
-#define FIRMessaging_DEV_VERBOSE_LOG(...) do { } while (0)
-#endif // FIRMessaging_VERBOSE_LOGGING
-
-
 // WEAKIFY & STRONGIFY
 // Helper macro.
-#define _FIRMessaging_WEAKNAME(VAR) VAR ## _weak_
+#define _FIRMessaging_WEAKNAME(VAR) VAR##_weak_
 
 #define FIRMessaging_WEAKIFY(VAR) __weak __typeof__(VAR) _FIRMessaging_WEAKNAME(VAR) = (VAR);
 
-#define FIRMessaging_STRONGIFY(VAR) \
-_Pragma("clang diagnostic push") \
-_Pragma("clang diagnostic ignored \"-Wshadow\"") \
-__strong __typeof__(VAR) VAR = _FIRMessaging_WEAKNAME(VAR); \
-_Pragma("clang diagnostic pop")
-
-
-// Type Conversions (used for NSInteger etc)
-#ifndef _FIRMessaging_L
-#define _FIRMessaging_L(v) (long)(v)
-#endif
+#define FIRMessaging_STRONGIFY(VAR)                                                 \
+  _Pragma("clang diagnostic push") _Pragma("clang diagnostic ignored \"-Wshadow\"") \
+      __strong __typeof__(VAR) VAR = _FIRMessaging_WEAKNAME(VAR);                   \
+  _Pragma("clang diagnostic pop")
 
 #ifndef _FIRMessaging_UL
 #define _FIRMessaging_UL(v) (unsigned long)(v)
@@ -51,34 +34,12 @@ _Pragma("clang diagnostic pop")
 
 #endif
 
-// Debug Assert
-#ifndef _FIRMessagingDevAssert
-// we directly invoke the NSAssert handler so we can pass on the varargs
-// (NSAssert doesn't have a macro we can use that takes varargs)
-#ifdef DEBUG
-#define _FIRMessagingDevAssert(condition, ...)                                       \
-  do {                                                                      \
-    if (!(condition)) {                                                     \
-      [[NSAssertionHandler currentHandler]                                  \
-          handleFailureInFunction:(NSString *)                              \
-                                      [NSString stringWithUTF8String:__PRETTY_FUNCTION__] \
-                             file:(NSString *)[NSString stringWithUTF8String:__FILE__]  \
-                       lineNumber:__LINE__                                  \
-                      description:__VA_ARGS__];                             \
-    }                                                                       \
-  } while(0)
-#else // !defined(DEBUG)
-#define _FIRMessagingDevAssert(condition, ...) do { } while (0)
-#endif // !defined(DEBUG)
-
-#endif // _FIRMessagingDevAssert
-
 // Invalidates the initializer from which it's called.
 #ifndef FIRMessagingInvalidateInitializer
-#define FIRMessagingInvalidateInitializer() \
-  do { \
+#define FIRMessagingInvalidateInitializer()                    \
+  do {                                                         \
     [self class]; /* Avoid warning of dead store to |self|. */ \
-    _FIRMessagingDevAssert(NO, @"Invalid initializer."); \
-    return nil; \
+    NSAssert(NO, @"Invalid initializer.");                     \
+    return nil;                                                \
   } while (0)
 #endif

@@ -44,6 +44,8 @@ typedef NS_ENUM(NSInteger, FIRInstanceIDMessageCode) {
   kFIRInstanceIDMessageCodeInstanceID014 = 3014,
   kFIRInstanceIDMessageCodeInstanceID015 = 3015,
   kFIRInstanceIDMessageCodeRefetchingTokenForAPNS = 3016,
+  kFIRInstanceIDMessageCodeInstanceID017 = 3017,
+  kFIRInstanceIDMessageCodeInstanceID018 = 3018,
   // FIRInstanceIDAuthService.m
   kFIRInstanceIDMessageCodeAuthService000 = 5000,
   kFIRInstanceIDMessageCodeAuthService001 = 5001,
@@ -53,10 +55,10 @@ typedef NS_ENUM(NSInteger, FIRInstanceIDMessageCode) {
   kFIRInstanceIDMessageCodeAuthServiceCheckinInProgress = 5004,
 
   // FIRInstanceIDBackupExcludedPlist.m
+  // Do NOT USE 6003
   kFIRInstanceIDMessageCodeBackupExcludedPlist000 = 6000,
   kFIRInstanceIDMessageCodeBackupExcludedPlist001 = 6001,
   kFIRInstanceIDMessageCodeBackupExcludedPlist002 = 6002,
-  kFIRInstanceIDMessageCodeBackupExcludedPlistInvalidPlistEnum = 6003,
   // FIRInstanceIDCheckinService.m
   kFIRInstanceIDMessageCodeService000 = 7000,
   kFIRInstanceIDMessageCodeService001 = 7001,
@@ -65,35 +67,21 @@ typedef NS_ENUM(NSInteger, FIRInstanceIDMessageCode) {
   kFIRInstanceIDMessageCodeService004 = 7004,
   kFIRInstanceIDMessageCodeService005 = 7005,
   kFIRInstanceIDMessageCodeService006 = 7006,
-  kFIRIntsanceIDInvalidNetworkSession = 7007,
+  kFIRInstanceIDInvalidNetworkSession = 7007,
+  kFIRInstanceIDInvalidSettingResponse = 7008,
   // FIRInstanceIDCheckinStore.m
   // DO NOT USE 8002, 8004 - 8008
   kFIRInstanceIDMessageCodeCheckinStore000 = 8000,
   kFIRInstanceIDMessageCodeCheckinStore001 = 8001,
   kFIRInstanceIDMessageCodeCheckinStore003 = 8003,
-  // FIRInstanceIDKeyPair.m
-  // DO NOT USE 9001, 9003
-  kFIRInstanceIDMessageCodeKeyPair000 = 9000,
-  kFIRInstanceIDMessageCodeKeyPair002 = 9002,
-  kFIRInstanceIDMessageCodeKeyPairMigrationError = 9004,
-  kFIRInstanceIDMessageCodeKeyPairMigrationSuccess = 9005,
-  kFIRInstanceIDMessageCodeKeyPairNoLegacyKeyPair = 9006,
+  kFIRInstanceIDMessageCodeCheckinStoreCheckinPlistDeleted = 8009,
+  kFIRInstanceIDMessageCodeCheckinStoreCheckinPlistSaved = 8010,
 
-  // FIRInstanceIDKeyPairStore.m
-  kFIRInstanceIDMessageCodeKeyPairStore000 = 10000,
-  kFIRInstanceIDMessageCodeKeyPairStore001 = 10001,
-  kFIRInstanceIDMessageCodeKeyPairStore002 = 10002,
-  kFIRInstanceIDMessageCodeKeyPairStore003 = 10003,
-  kFIRInstanceIDMessageCodeKeyPairStore004 = 10004,
-  kFIRInstanceIDMessageCodeKeyPairStore005 = 10005,
-  kFIRInstanceIDMessageCodeKeyPairStore006 = 10006,
-  kFIRInstanceIDMessageCodeKeyPairStore007 = 10007,
-  kFIRInstanceIDMessageCodeKeyPairStore008 = 10008,
-  kFIRInstanceIDMessageCodeKeyPairStoreCouldNotLoadKeyPair = 10009,
-  // FIRInstanceIDKeyPairUtilities.m
-  kFIRInstanceIDMessageCodeKeyPairUtilities000 = 11000,
-  kFIRInstanceIDMessageCodeKeyPairUtilities001 = 11001,
-  kFIRInstanceIDMessageCodeKeyPairUtilitiesFirstConcatenateParamNil = 11002,
+  // DO NOT USE 9000 - 9006
+
+  // DO NOT USE 10000 - 10009
+
+  // DO NOT USE 11000 - 11002
 
   // DO NOT USE 12000 - 12014
 
@@ -155,4 +143,5 @@ typedef NS_ENUM(NSInteger, FIRInstanceIDMessageCode) {
   kFIRInstanceIDKeychainCreateKeyPairError = 23003,
   kFIRInstanceIDKeychainUpdateItemError = 23004,
 
+  // DO NOT USE 24000, 24001
 };

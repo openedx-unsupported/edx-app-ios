@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Data/FIRIAMFetchResponseParser.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Data/FIRIAMFetchResponseParser.h

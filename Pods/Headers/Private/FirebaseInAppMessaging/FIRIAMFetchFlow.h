@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Flows/FIRIAMFetchFlow.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Runtime/FIRIAMFetchFlow.h

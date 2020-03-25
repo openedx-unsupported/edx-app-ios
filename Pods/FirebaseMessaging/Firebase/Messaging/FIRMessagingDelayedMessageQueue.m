@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-#import "FIRMessagingDelayedMessageQueue.h"
+#import "Firebase/Messaging/FIRMessagingDelayedMessageQueue.h"
 
-#import "Protos/GtalkCore.pbobjc.h"
+#import "Firebase/Messaging/Protos/GtalkCore.pbobjc.h"
 
-#import "FIRMessagingDefines.h"
-#import "FIRMessagingRmqManager.h"
-#import "FIRMessagingUtilities.h"
+#import "Firebase/Messaging/FIRMessagingDefines.h"
+#import "Firebase/Messaging/FIRMessagingRmqManager.h"
+#import "Firebase/Messaging/FIRMessagingUtilities.h"
 
 static const int kMaxQueuedMessageCount = 10;
 
 @interface FIRMessagingDelayedMessageQueue ()
 
 @property(nonatomic, readonly, weak) id<FIRMessagingRmqScanner> rmqScanner;
-@property(nonatomic, readonly, copy) FIRMessagingSendDelayedMessagesHandler sendDelayedMessagesHandler;
+@property(nonatomic, readonly, copy)
+    FIRMessagingSendDelayedMessagesHandler sendDelayedMessagesHandler;
 
 @property(nonatomic, readwrite, assign) int persistedMessageCount;
 // the scheduled timeout or -1 if not set
@@ -48,8 +49,8 @@ static const int kMaxQueuedMessageCount = 10;
 }
 
 - (instancetype)initWithRmqScanner:(id<FIRMessagingRmqScanner>)rmqScanner
-        sendDelayedMessagesHandler:(FIRMessagingSendDelayedMessagesHandler)sendDelayedMessagesHandler {
-  _FIRMessagingDevAssert(sendDelayedMessagesHandler, @"Invalid nil callback for delayed messages");
+        sendDelayedMessagesHandler:
+            (FIRMessagingSendDelayedMessagesHandler)sendDelayedMessagesHandler {
   self = [super init];
   if (self) {
     _rmqScanner = rmqScanner;
@@ -93,14 +94,16 @@ static const int kMaxQueuedMessageCount = 10;
   // add persistent messages
   if (self.persistedMessageCount > 0) {
     FIRMessaging_WEAKIFY(self);
-    [self.rmqScanner scanWithRmqMessageHandler:nil
-                            dataMessageHandler:^(int64_t rmqId, GtalkDataMessageStanza *stanza) {
-                              FIRMessaging_STRONGIFY(self);
-                              if ([stanza hasMaxDelay] &&
-                                  [stanza sent] >= self.lastDBScanTimestampSeconds) {
-                                [delayedMessages addObject:stanza];
-                              }
-                            }];
+    [self.rmqScanner scanWithRmqMessageHandler:^(NSDictionary *messages) {
+      FIRMessaging_STRONGIFY(self);
+      for (NSString *rmqID in messages) {
+        GPBMessage *proto = messages[rmqID];
+        GtalkDataMessageStanza *stanza = (GtalkDataMessageStanza *)proto;
+        if ([stanza hasMaxDelay] && [stanza sent] >= self.lastDBScanTimestampSeconds) {
+          [delayedMessages addObject:stanza];
+        }
+      }
+    }];
     self.lastDBScanTimestampSeconds = FIRMessagingCurrentTimestampInSeconds();
     self.persistedMessageCount = 0;
   }

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#import "FIRMessagingUtilities.h"
+#import "Firebase/Messaging/FIRMessagingUtilities.h"
 
-#import "Protos/GtalkCore.pbobjc.h"
+#import "Firebase/Messaging/Protos/GtalkCore.pbobjc.h"
 
-#import "FIRMessagingLogger.h"
+#import "Firebase/Messaging/FIRMessagingLogger.h"
 
 #import <GoogleUtilities/GULAppEnvironmentUtil.h>
 
@@ -149,8 +149,26 @@ NSString *FIRMessagingCurrentAppVersion(void) {
   return version;
 }
 
+NSString *FIRMessagingBundleIDByRemovingLastPartFrom(NSString *bundleID) {
+  NSString *bundleIDComponentsSeparator = @".";
+
+  NSMutableArray<NSString *> *bundleIDComponents =
+      [[bundleID componentsSeparatedByString:bundleIDComponentsSeparator] mutableCopy];
+  [bundleIDComponents removeLastObject];
+
+  return [bundleIDComponents componentsJoinedByString:bundleIDComponentsSeparator];
+}
+
 NSString *FIRMessagingAppIdentifier(void) {
-  return [[NSBundle mainBundle] bundleIdentifier];
+  NSString *bundleID = [[NSBundle mainBundle] bundleIdentifier];
+#if TARGET_OS_WATCH
+  // The code is running in watchKit extension target but the actually bundleID is in the watchKit
+  // target. So we need to remove the last part of the bundle ID in watchKit extension to match
+  // the one in watchKit target.
+  return FIRMessagingBundleIDByRemovingLastPartFrom(bundleID);
+#else
+  return bundleID;
+#endif
 }
 
 uint64_t FIRMessagingGetFreeDiskSpaceInMB(void) {
@@ -174,23 +192,10 @@ uint64_t FIRMessagingGetFreeDiskSpaceInMB(void) {
   }
 }
 
-UIApplication *FIRMessagingUIApplication(void) {
-  static Class applicationClass = nil;
-  // iOS App extensions should not call [UIApplication sharedApplication], even if UIApplication
-  // responds to it.
-  if (![GULAppEnvironmentUtil isAppExtension]) {
-    Class cls = NSClassFromString(@"UIApplication");
-    if (cls && [cls respondsToSelector:NSSelectorFromString(@"sharedApplication")]) {
-      applicationClass = cls;
-    }
-  }
-  return [applicationClass sharedApplication];
-}
-
 NSSearchPathDirectory FIRMessagingSupportedDirectory(void) {
 #if TARGET_OS_TV
-    return NSCachesDirectory;
+  return NSCachesDirectory;
 #else
-    return NSApplicationSupportDirectory;
+  return NSApplicationSupportDirectory;
 #endif
 }

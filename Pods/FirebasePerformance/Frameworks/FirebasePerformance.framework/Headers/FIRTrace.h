@@ -28,33 +28,6 @@ NS_SWIFT_NAME(Trace)
  */
 - (void)stop;
 
-/**
- * Increments the counter for the provided counter name by 1. If it is a new counter name, the
- * counter value will be initialized to 1. Does nothing if the trace has not been started or has
- * already been stopped.
- *
- * Note: This API has been deprecated. Please use -incrementMetric:byInt: instead.
- *
- * @param counterName The name of the counter to increment.
- */
-- (void)incrementCounterNamed:(nonnull NSString *)counterName
-    NS_SWIFT_NAME(incrementCounter(named:))
-    DEPRECATED_MSG_ATTRIBUTE("Please use -incrementMetric:byInt: instead.");
-
-/**
- * Increments the counter for the provided counter name with the provided value. If it is a new
- * counter name, the counter value will be initialized to the value. Does nothing if the trace has
- * not been started or has already been stopped.
- *
- * Note: This API has been deprecated. Please use -incrementMetric:byInt: instead.
- *
- * @param counterName The name of the counter to increment.
- * @param incrementValue The value the counter would be incremented with.
- */
-- (void)incrementCounterNamed:(nonnull NSString *)counterName by:(NSInteger)incrementValue
-    NS_SWIFT_NAME(incrementCounter(named:by:))
-    DEPRECATED_MSG_ATTRIBUTE("Please use -incrementMetric:byInt: instead.");
-
 #pragma mark - Metrics API
 
 /**

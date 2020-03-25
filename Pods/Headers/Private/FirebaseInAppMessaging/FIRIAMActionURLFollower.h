@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Runtime/FIRIAMActionURLFollower.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Runtime/FIRIAMActionURLFollower.h

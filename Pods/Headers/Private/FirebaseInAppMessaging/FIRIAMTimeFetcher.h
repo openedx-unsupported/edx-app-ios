@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Util/FIRIAMTimeFetcher.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Util/FIRIAMTimeFetcher.h

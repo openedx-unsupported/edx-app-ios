@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Runtime/FIRIAMSDKRuntimeErrorCodes.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Runtime/FIRIAMSDKRuntimeErrorCodes.h

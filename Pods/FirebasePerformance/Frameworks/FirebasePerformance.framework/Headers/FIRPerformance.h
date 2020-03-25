@@ -2,12 +2,13 @@
 
 #import "FIRTrace.h"
 
-/** This class allows you to configure the Firebase Performance Reporting SDK. It also provides the
- *  interfaces to create timers and enable or disable automatic metrics capture.
+/**
+ * This class allows you to configure the Firebase Performance Reporting SDK. It also provides the
+ * interfaces to create timers and enable or disable automatic metrics capture.
  *
- * This SDK uses a Firebase Instance ID token to identify the app instance and periodically sends
- * data to the Firebase backend. (see `[FIRInstanceID getIDWithHandler:]`).
- * To stop the periodic sync, call `[FIRInstanceID deleteIDWithHandler:]` and
+ * This SDK uses a Firebase Installations ID to identify the app instance and periodically sends
+ * data to the Firebase backend. (see `[FIRInstallations installationIDWithCompletion:]`).
+ * To stop the periodic sync, call `[FIRInstallations deleteWithCompletion:]` and
  * either disable this SDK or set FIRPerformance.dataCollectionEnabled to NO.
  */
 NS_EXTENSION_UNAVAILABLE("FirebasePerformance does not support app extensions at this time.")

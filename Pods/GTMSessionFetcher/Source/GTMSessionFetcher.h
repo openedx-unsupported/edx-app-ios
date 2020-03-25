@@ -342,15 +342,6 @@
   #endif  // __has_feature(nullability)
 #endif  // GTM_NULLABLE
 
-#if (TARGET_OS_TV \
-     || TARGET_OS_WATCH \
-     || (!TARGET_OS_IPHONE && defined(MAC_OS_X_VERSION_10_12) && MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_12) \
-     || (TARGET_OS_IPHONE && defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0))
-#define GTMSESSION_DEPRECATE_ON_2016_SDKS(_MSG) __attribute__((deprecated("" _MSG)))
-#else
-#define GTMSESSION_DEPRECATE_ON_2016_SDKS(_MSG)
-#endif
-
 #ifndef GTM_DECLARE_GENERICS
   #if __has_feature(objc_generics)
     #define GTM_DECLARE_GENERICS 1
@@ -422,6 +413,32 @@ extern "C" {
     #define kGTMBridgeFetcherStatusDomain kGTMHTTPFetcherStatusDomain
     #define kGTMBridgeFetcherStatusBadRequest kGTMHTTPFetcherStatusBadRequest
   #endif  // GTM_USE_SESSION_FETCHER
+#endif
+
+// When creating background sessions to perform out-of-process uploads and
+// downloads, on app launch any background sessions must be reconnected in
+// order to receive events that occurred while the app was not running.
+//
+// The fetcher will automatically attempt to recreate the sessions on app
+// start, but doing so reads from NSUserDefaults. This may have launch-time
+// performance impacts.
+//
+// To avoid launch performance impacts, on iPhone/iPad with iOS 13+ the
+// GTMSessionFetcher class will register for the app launch notification and
+// perform the reconnect then.
+//
+// Apps targeting Mac or older iOS SDKs can opt into the new behavior by defining
+// GTMSESSION_RECONNECT_BACKGROUND_SESSIONS_ON_LAUNCH=1.
+//
+// Apps targeting new SDKs can force the old behavior by defining
+// GTMSESSION_RECONNECT_BACKGROUND_SESSIONS_ON_LAUNCH = 0.
+#ifndef GTMSESSION_RECONNECT_BACKGROUND_SESSIONS_ON_LAUNCH
+  // Default to the on-launch behavior for iOS 13+.
+  #if TARGET_OS_IOS && defined(__IPHONE_13_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
+    #define GTMSESSION_RECONNECT_BACKGROUND_SESSIONS_ON_LAUNCH 1
+  #else
+    #define GTMSESSION_RECONNECT_BACKGROUND_SESSIONS_ON_LAUNCH 0
+  #endif
 #endif
 
 GTM_ASSUME_NONNULL_BEGIN
