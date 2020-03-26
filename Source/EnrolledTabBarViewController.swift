@@ -189,7 +189,18 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         case .program, .programDetail:
             selectedIndex = tabBarViewControllerIndex(with: ProgramsViewController.self)
         case .courseDiscovery, .courseDetail, .programDiscovery, .programDiscoveryDetail, .degreeDiscovery, .degreeDiscoveryDetail:
-            selectedIndex = tabBarViewControllerIndex(with: DiscoveryViewController.self)
+            let isCourseDiscoveryEnabled = environment.config.discovery.course.isEnabled
+            let isProgramDiscoveryEnabled = environment.config.discovery.program.isEnabled
+            let isDegreeDiscveryEnabled = environment.config.discovery.degree.isEnabled
+            
+            if (isCourseDiscoveryEnabled && isProgramDiscoveryEnabled && isDegreeDiscveryEnabled) ||
+                (isCourseDiscoveryEnabled && isProgramDiscoveryEnabled) ||
+                (isCourseDiscoveryEnabled && isDegreeDiscveryEnabled) {
+                selectedIndex = tabBarViewControllerIndex(with: DiscoveryViewController.self)
+            }
+            else if isCourseDiscoveryEnabled {
+                selectedIndex = tabBarViewControllerIndex(with: CourseCatalogViewController.self)
+            }
         default:
             selectedIndex = 0
             break
