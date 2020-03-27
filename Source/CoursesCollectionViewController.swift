@@ -1,5 +1,5 @@
 //
-//  CoursesTableViewController.swift
+//  CoursesCollectionViewController.swift
 //  edX
 //
 //  Created by Anna Callahan on 10/15/15.
