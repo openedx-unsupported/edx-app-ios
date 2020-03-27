@@ -199,7 +199,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
                 selectedIndex = tabBarViewControllerIndex(with: DiscoveryViewController.self)
             }
             else if isCourseDiscoveryEnabled {
-                selectedIndex = tabBarViewControllerIndex(with: CourseCatalogViewController.self)
+                selectedIndex = environment.config.discovery.course.type == .webview ? tabBarViewControllerIndex(with: OEXFindCoursesViewController.self) : tabBarViewControllerIndex(with: CourseCatalogViewController.self)
             }
         default:
             selectedIndex = 0
