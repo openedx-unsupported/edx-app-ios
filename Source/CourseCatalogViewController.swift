@@ -8,17 +8,17 @@
 
 import UIKit
 
-class CourseCatalogViewController: UIViewController, CoursesTableViewControllerDelegate, InterfaceOrientationOverriding {
+class CourseCatalogViewController: UIViewController, CoursesCollectionViewControllerDelegate, InterfaceOrientationOverriding {
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXConfigProvider & OEXAnalyticsProvider
     
     private let environment : Environment
-    private let tableController : CoursesTableViewController
+    private let collectionController : CoursesCollectionViewController
     private let loadController = LoadStateViewController()
     private let insetsController = ContentInsetsController()
     
     init(environment : Environment) {
         self.environment = environment
-        self.tableController = CoursesTableViewController(environment: environment, context: .CourseCatalog)
+        self.collectionController = CoursesCollectionViewController(environment: environment, context: .CourseCatalog)
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = Strings.findCourses
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
@@ -40,7 +40,7 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
             return CourseCatalogAPI.getCourseCatalog(userID: username, page: page, organizationCode: organizationCode)
         }
-        return PaginationController(paginator: paginator, tableView: self.tableController.tableView)
+        return PaginationController(paginator: paginator, collectionView: self.collectionController.collectionView)
     }()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,31 +49,31 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
     }
 
     private func setupAndLoadCourseCatalog() {
-        addChild(tableController)
-        tableController.didMove(toParent: self)
-        self.loadController.setupInController(controller: self, contentView: tableController.view)
+        addChild(collectionController)
+        collectionController.didMove(toParent: self)
+        self.loadController.setupInController(controller: self, contentView: collectionController.view)
 
-        self.view.addSubview(tableController.view)
-        tableController.view.snp.makeConstraints { make in
+        self.view.addSubview(collectionController.view)
+        collectionController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
 
         self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
 
-        tableController.delegate = self
+        collectionController.delegate = self
 
         paginationController.stream.listen(self, success:
             {[weak self] courses in
                 self?.setupLoadingState(courses: courses)
-                self?.tableController.courses = courses
-                self?.tableController.tableView.reloadData()
+                self?.collectionController.courses = courses
+                self?.collectionController.collectionView.reloadData()
             }, failure: {[weak self] error in
                 self?.loadController.state = LoadState.failed(error: error)
             }
         )
         paginationController.loadMore()
 
-        insetsController.setupInController(owner: self, scrollView: tableController.tableView)
+        insetsController.setupInController(owner: self, scrollView: collectionController.collectionView)
         insetsController.addSource(
             // add a little padding to the bottom since we have a big space between
             // each course card

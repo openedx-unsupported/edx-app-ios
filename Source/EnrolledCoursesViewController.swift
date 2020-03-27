@@ -10,12 +10,12 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesCollectionViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider
     
     private let environment : Environment
-    private let tableController : CoursesTableViewController
+    private let collectionController : CoursesCollectionViewController
     private let loadController = LoadStateViewController()
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
@@ -23,7 +23,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     private let userPreferencesFeed: Feed<UserPreference?>
 
     init(environment: Environment) {
-        self.tableController = CoursesTableViewController(environment: environment, context: .EnrollmentList)
+        self.collectionController = CoursesCollectionViewController(environment: environment, context: .EnrollmentList)
         self.enrollmentFeed = environment.dataManager.enrollmentManager.feed
         self.userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
         self.environment = environment
@@ -43,20 +43,20 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
         self.view.accessibilityIdentifier = "enrolled-courses-screen"
         view.backgroundColor = environment.styles.standardBackgroundColor()
 
-        addChild(tableController)
-        tableController.didMove(toParent: self)
-        self.loadController.setupInController(controller: self, contentView: tableController.view)
+        addChild(collectionController)
+        collectionController.didMove(toParent: self)
+        self.loadController.setupInController(controller: self, contentView: collectionController.view)
         
-        self.view.addSubview(tableController.view)
-        tableController.view.snp.makeConstraints { make in
+        self.view.addSubview(collectionController.view)
+        collectionController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
-        tableController.delegate = self
+        collectionController.delegate = self
         
-        refreshController.setupInScrollView(scrollView: self.tableController.tableView)
+        refreshController.setupInScrollView(scrollView: self.collectionController.collectionView)
         refreshController.delegate = self
         
-        insetsController.setupInController(owner: self, scrollView: tableController.tableView)
+        insetsController.setupInController(owner: self, scrollView: collectionController.collectionView)
         insetsController.addSource(source: self.refreshController)
 
         // We visually separate each course card so we also need a little padding
@@ -119,8 +119,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             switch result {
             case let Result.success(enrollments):
                 if let enrollments = enrollments {
-                    self?.tableController.courses = enrollments.compactMap { $0.course } 
-                    self?.tableController.tableView.reloadData()
+                    self?.collectionController.courses = enrollments.compactMap { $0.course }
+                    self?.collectionController.collectionView.reloadData()
                     self?.loadController.state = .Loaded
                     if enrollments.count <= 0 {
                         self?.enrollmentsEmptyState()
@@ -151,12 +151,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             footer.findCoursesAction = {[weak self] in
                 self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
             }
-            
             footer.sizeToFit()
-            self.tableController.tableView.tableFooterView = footer
-        }
-        else {
-            tableController.tableView.tableFooterView = UIView()
         }
     }
     
@@ -207,7 +202,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private func hideSnackBarForFullScreenError() {
-        if tableController.courses.count <= 0 {
+        if collectionController.courses.count <= 0 {
             hideSnackBar()
         }
     }
@@ -229,7 +224,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableController.tableView.autolayoutFooter()
     }
     
     //MARK:- PullRefreshControllerDelegate method

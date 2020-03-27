@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let defaultCoverImageAspectRatio:CGFloat = 0.533
+let defaultCoverImageAspectRatio:CGFloat = 0.533
 
 @IBDesignable
 class CourseCardView: UIView, UIGestureRecognizerDelegate {
