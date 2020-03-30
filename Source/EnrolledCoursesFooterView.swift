@@ -8,7 +8,9 @@
 
 import Foundation
 
-class EnrolledCoursesFooterView : UICollectionViewCell {
+let EnrolledCoursesFooterViewHeight: CGFloat = 100
+
+class EnrolledCoursesFooterView : UICollectionReusableView {
     static let identifier = "EnrolledCoursesFooterView"
     
     private let promptLabel = UILabel()

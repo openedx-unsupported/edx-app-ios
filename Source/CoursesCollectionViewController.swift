@@ -18,7 +18,7 @@ class CourseCardCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-                
+        
         let horizMargin = CourseCardCell.margin
         
         self.contentView.addSubview(courseView)
@@ -88,9 +88,9 @@ class CoursesCollectionViewController: UICollectionViewController, UICollectionV
         self.collectionView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
-
+        
         collectionView.register(CourseCardCell.self, forCellWithReuseIdentifier: CourseCardCell.cellIdentifier)
-        collectionView.register(EnrolledCoursesFooterView.self, forCellWithReuseIdentifier: EnrolledCoursesFooterView.identifier)
+        collectionView.register(EnrolledCoursesFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: EnrolledCoursesFooterView.identifier)
         
         self.insetsController.addSource(
             source: ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
@@ -113,7 +113,7 @@ class CoursesCollectionViewController: UICollectionViewController, UICollectionV
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
-        let heightPerItem = indexPath.row == courses.count ? 100 : widthPerItem * defaultCoverImageAspectRatio
+        let heightPerItem = widthPerItem * defaultCoverImageAspectRatio
         
         return CGSize(width: widthPerItem, height: heightPerItem)
     }
@@ -123,18 +123,26 @@ class CoursesCollectionViewController: UICollectionViewController, UICollectionV
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.courses.count + 1
+        return self.courses.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.size.height, height: EnrolledCoursesFooterViewHeight)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionFooter {
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: EnrolledCoursesFooterView.identifier, for: indexPath) as! EnrolledCoursesFooterView
+            footerView.findCoursesAction = {[weak self] in
+                self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
+            }
+            return footerView
+        }
+        
+        return UICollectionReusableView()
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == courses.count {
-            let footerCell = collectionView.dequeueReusableCell(withReuseIdentifier: EnrolledCoursesFooterView.identifier, for: indexPath as IndexPath) as! EnrolledCoursesFooterView
-            footerCell.findCoursesAction = {[weak self] in
-                self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
-            }
-            return footerCell
-        }
-        
         let course = self.courses[indexPath.row]
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CourseCardCell.cellIdentifier, for: indexPath as IndexPath) as! CourseCardCell
