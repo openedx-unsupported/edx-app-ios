@@ -1,5 +1,5 @@
 //
-//  CollectionPaginatorManipulation.swift
+//  CollectionPaginationManipulator.swift
 //  edX
 //
 //  Created by Muhammad Umer on 26/03/2020.
