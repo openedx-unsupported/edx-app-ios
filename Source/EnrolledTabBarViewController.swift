@@ -193,9 +193,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
             let isProgramDiscoveryEnabled = environment.config.discovery.program.isEnabled
             let isDegreeDiscveryEnabled = environment.config.discovery.degree.isEnabled
             
-            if (isCourseDiscoveryEnabled && isProgramDiscoveryEnabled && isDegreeDiscveryEnabled) ||
-                (isCourseDiscoveryEnabled && isProgramDiscoveryEnabled) ||
-                (isCourseDiscoveryEnabled && isDegreeDiscveryEnabled) {
+            if (isCourseDiscoveryEnabled && (isProgramDiscoveryEnabled || isDegreeDiscveryEnabled)) {
                 selectedIndex = tabBarViewControllerIndex(with: DiscoveryViewController.self)
             }
             else if isCourseDiscoveryEnabled {

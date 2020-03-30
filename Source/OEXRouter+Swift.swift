@@ -418,9 +418,7 @@ extension OEXRouter {
         let isProgramDiscoveryEnabled = environment.config.discovery.program.isEnabled
         let isDegreeDiscveryEnabled = environment.config.discovery.degree.isEnabled
         
-        if (isCourseDiscoveryEnabled && isProgramDiscoveryEnabled && isDegreeDiscveryEnabled) ||
-            (isCourseDiscoveryEnabled && isProgramDiscoveryEnabled) ||
-            (isCourseDiscoveryEnabled && isDegreeDiscveryEnabled) {
+        if (isCourseDiscoveryEnabled && (isProgramDiscoveryEnabled || isDegreeDiscveryEnabled)) {
             return DiscoveryViewController(with: environment, bottomBar: bottomBar, searchQuery: searchQuery)
         }
         else if isCourseDiscoveryEnabled {
