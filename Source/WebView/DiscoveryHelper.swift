@@ -28,6 +28,7 @@ enum WebviewActions: String {
     case enrolledCourseDetail = "enrolled_course_info"
     case enrolledProgramDetail = "enrolled_program_info"
     case programDetail = "program_info"
+    case courseProgram = "course"
 }
 
 class DiscoveryHelper: NSObject {
@@ -161,7 +162,11 @@ extension DiscoveryHelper {
             let type = (controller is DegreesViewController) ? ProgramDiscoveryScreen.degree: ProgramDiscoveryScreen.program
             environment.router?.showProgramDetail(from: controller, with: pathId, bottomBar: bottomBar, type: type)
             break
+        case .courseProgram:
+            environment.router?.showDiscoveryController(from: controller, type: .programDiscovery, isUserLoggedIn: true, pathID: nil)
+            break
         }
+        
         return true
     }
 }
