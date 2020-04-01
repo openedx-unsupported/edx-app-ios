@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Util/UIColor+FIRIAMHexString.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Util/UIColor+FIRIAMHexString.h

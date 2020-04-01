@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Flows/FIRIAMDisplayCheckOnFetchDoneNotificationFlow.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Flows/FIRIAMDisplayCheckOnFetchDoneNotificationFlow.h

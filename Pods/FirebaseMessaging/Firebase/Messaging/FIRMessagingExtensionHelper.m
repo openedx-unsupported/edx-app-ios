@@ -14,38 +14,41 @@
  * limitations under the License.
  */
 
- #import "FIRMessagingExtensionHelper.h"
+#import <FirebaseMessaging/FIRMessagingExtensionHelper.h>
 
- #import "FIRMMessageCode.h"
-#import "FIRMessagingLogger.h"
+#import "Firebase/Messaging/FIRMMessageCode.h"
+#import "Firebase/Messaging/FIRMessagingLogger.h"
 
- static NSString *const kPayloadOptionsName = @"fcm_options";
+static NSString *const kPayloadOptionsName = @"fcm_options";
 static NSString *const kPayloadOptionsImageURLName = @"image";
 
- @interface FIRMessagingExtensionHelper ()
+@interface FIRMessagingExtensionHelper ()
 @property(nonatomic, strong) void (^contentHandler)(UNNotificationContent *contentToDeliver);
 @property(nonatomic, strong) UNMutableNotificationContent *bestAttemptContent;
 
- @end
+@end
 
- @implementation FIRMessagingExtensionHelper
+@implementation FIRMessagingExtensionHelper
 
- - (void)populateNotificationContent:(UNMutableNotificationContent *)content
+- (void)populateNotificationContent:(UNMutableNotificationContent *)content
                  withContentHandler:(void (^)(UNNotificationContent *_Nonnull))contentHandler {
   self.contentHandler = [contentHandler copy];
   self.bestAttemptContent = content;
 
-   NSString *currentImageURL = content.userInfo[kPayloadOptionsName][kPayloadOptionsImageURLName];
+  // The `userInfo` property isn't available on newer versions of tvOS.
+#if TARGET_OS_IOS || TARGET_OS_OSX || TARGET_OS_WATCH
+  NSString *currentImageURL = content.userInfo[kPayloadOptionsName][kPayloadOptionsImageURLName];
   if (!currentImageURL) {
     [self deliverNotification];
     return;
   }
-#if TARGET_OS_IOS
   NSURL *attachmentURL = [NSURL URLWithString:currentImageURL];
   if (attachmentURL) {
     [self loadAttachmentForURL:attachmentURL
              completionHandler:^(UNNotificationAttachment *attachment) {
-               self.bestAttemptContent.attachments = @[ attachment ];
+               if (attachment != nil) {
+                 self.bestAttemptContent.attachments = @[ attachment ];
+               }
                [self deliverNotification];
              }];
   } else {
@@ -58,12 +61,12 @@ static NSString *const kPayloadOptionsImageURLName = @"image";
 #endif
 }
 
- #if TARGET_OS_IOS
+#if TARGET_OS_IOS || TARGET_OS_OSX || TARGET_OS_WATCH
 - (void)loadAttachmentForURL:(NSURL *)attachmentURL
            completionHandler:(void (^)(UNNotificationAttachment *))completionHandler {
   __block UNNotificationAttachment *attachment = nil;
 
-   NSURLSession *session = [NSURLSession
+  NSURLSession *session = [NSURLSession
       sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
   [[session
       downloadTaskWithURL:attachmentURL
@@ -76,7 +79,7 @@ static NSString *const kPayloadOptionsImageURLName = @"image";
             return;
           }
 
-           NSFileManager *fileManager = [NSFileManager defaultManager];
+          NSFileManager *fileManager = [NSFileManager defaultManager];
           NSString *fileExtension =
               [NSString stringWithFormat:@".%@", [response.suggestedFilename pathExtension]];
           NSURL *localURL = [NSURL
@@ -91,7 +94,7 @@ static NSString *const kPayloadOptionsImageURLName = @"image";
             return;
           }
 
-           attachment = [UNNotificationAttachment attachmentWithIdentifier:@""
+          attachment = [UNNotificationAttachment attachmentWithIdentifier:@""
                                                                       URL:localURL
                                                                   options:nil
                                                                     error:&error];
@@ -107,11 +110,10 @@ static NSString *const kPayloadOptionsImageURLName = @"image";
 }
 #endif
 
- - (void)deliverNotification {
+- (void)deliverNotification {
   if (self.contentHandler) {
     self.contentHandler(self.bestAttemptContent);
   }
 }
 
- @end
-
+@end

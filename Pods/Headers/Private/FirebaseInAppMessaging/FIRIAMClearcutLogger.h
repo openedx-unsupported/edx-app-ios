@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Analytics/FIRIAMClearcutLogger.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Analytics/FIRIAMClearcutLogger.h

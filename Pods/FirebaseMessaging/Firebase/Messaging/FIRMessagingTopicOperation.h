@@ -16,9 +16,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "FIRMessaging.h"
-#import "FIRMessagingCheckinService.h"
-#import "FIRMessagingTopicsCommon.h"
+#import <FirebaseMessaging/FIRMessaging.h>
+
+#import "Firebase/Messaging/FIRMessagingTopicsCommon.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,13 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, assign) FIRMessagingTopicAction action;
 @property(nonatomic, readonly, copy) NSString *token;
 @property(nonatomic, readonly, copy, nullable) NSDictionary *options;
-@property(nonatomic, readonly, strong) FIRMessagingCheckinService *checkinService;
 
 - (instancetype)initWithTopic:(NSString *)topic
                        action:(FIRMessagingTopicAction)action
                         token:(NSString *)token
                       options:(nullable NSDictionary *)options
-               checkinService:(FIRMessagingCheckinService *)checkinService
                    completion:(FIRMessagingTopicOperationCompletion)completion;
 
 @end

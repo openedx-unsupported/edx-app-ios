@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Flows/FIRIAMMessageClientCache.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Flows/FIRIAMMessageClientCache.h

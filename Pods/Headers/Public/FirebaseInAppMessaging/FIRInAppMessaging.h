@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Public/FIRInAppMessaging.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Public/FIRInAppMessaging.h

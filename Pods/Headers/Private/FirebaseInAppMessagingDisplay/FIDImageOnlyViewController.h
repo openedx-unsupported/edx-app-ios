@@ -1,1 +1,0 @@
-../../../FirebaseInAppMessagingDisplay/Firebase/InAppMessagingDisplay/ImageOnly/FIDImageOnlyViewController.h

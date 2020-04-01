@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Analytics/FIRIAMClearcutHttpRequestSender.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Analytics/FIRIAMClearcutHttpRequestSender.h

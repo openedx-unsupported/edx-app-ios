@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-#import "FIRMessagingTopicOperation.h"
+#import "Firebase/Messaging/FIRMessagingTopicOperation.h"
 
-#import "FIRMessagingCheckinService.h"
-#import "FIRMessagingDefines.h"
-#import "FIRMessagingLogger.h"
-#import "FIRMessagingUtilities.h"
-#import "NSError+FIRMessaging.h"
+#import <FirebaseInstanceID/FIRInstanceID_Private.h>
 
-#define DEBUG_LOG_SUBSCRIPTION_OPERATION_DURATIONS 0
+#import "Firebase/Messaging/FIRMessagingDefines.h"
+#import "Firebase/Messaging/FIRMessagingLogger.h"
+#import "Firebase/Messaging/FIRMessagingUtilities.h"
+#import "Firebase/Messaging/NSError+FIRMessaging.h"
 
 static NSString *const kFIRMessagingSubscribeServerHost =
     @"https://iid.googleapis.com/iid/register";
@@ -51,7 +50,6 @@ NSString *FIRMessagingSubscriptionsServer() {
 @property(nonatomic, readwrite, assign) FIRMessagingTopicAction action;
 @property(nonatomic, readwrite, copy) NSString *token;
 @property(nonatomic, readwrite, copy) NSDictionary *options;
-@property(nonatomic, readwrite, strong) FIRMessagingCheckinService *checkinService;
 @property(nonatomic, readwrite, copy) FIRMessagingTopicOperationCompletion completion;
 
 @property(atomic, strong) NSURLSessionDataTask *dataTask;
@@ -76,14 +74,12 @@ NSString *FIRMessagingSubscriptionsServer() {
                        action:(FIRMessagingTopicAction)action
                         token:(NSString *)token
                       options:(NSDictionary *)options
-               checkinService:(FIRMessagingCheckinService *)checkinService
                    completion:(FIRMessagingTopicOperationCompletion)completion {
   if (self = [super init]) {
     _topic = topic;
     _action = action;
     _token = token;
     _options = options;
-    _checkinService = checkinService;
     _completion = completion;
 
     _isExecuting = NO;
@@ -95,7 +91,6 @@ NSString *FIRMessagingSubscriptionsServer() {
 - (void)dealloc {
   _topic = nil;
   _token = nil;
-  _checkinService = nil;
   _completion = nil;
 }
 
@@ -158,16 +153,15 @@ NSString *FIRMessagingSubscriptionsServer() {
 }
 
 - (void)performSubscriptionChange {
-
   NSURL *url = [NSURL URLWithString:FIRMessagingSubscriptionsServer()];
   NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
   NSString *appIdentifier = FIRMessagingAppIdentifier();
-  NSString *deviceAuthID = self.checkinService.deviceAuthID;
-  NSString *secretToken = self.checkinService.secretToken;
+  NSString *deviceAuthID = [FIRInstanceID instanceID].deviceAuthID;
+  NSString *secretToken = [FIRInstanceID instanceID].secretToken;
   NSString *authString = [NSString stringWithFormat:@"AidLogin %@:%@", deviceAuthID, secretToken];
   [request setValue:authString forHTTPHeaderField:@"Authorization"];
   [request setValue:appIdentifier forHTTPHeaderField:@"app"];
-  [request setValue:self.checkinService.versionInfo forHTTPHeaderField:@"info"];
+  [request setValue:[FIRInstanceID instanceID].versionInfo forHTTPHeaderField:@"info"];
 
   // Topic can contain special characters (like `%`) so encode the value.
   NSCharacterSet *characterSet = [NSCharacterSet URLQueryAllowedCharacterSet];
@@ -182,15 +176,11 @@ NSString *FIRMessagingSubscriptionsServer() {
     encodedTopic = self.topic;
   }
 
-  NSMutableString *content = [NSMutableString stringWithFormat:
-                              @"sender=%@&app=%@&device=%@&"
-                              @"app_ver=%@&X-gcm.topic=%@&X-scope=%@",
-                              self.token,
-                              appIdentifier,
-                              deviceAuthID,
-                              FIRMessagingCurrentAppVersion(),
-                              encodedTopic,
-                              encodedTopic];
+  NSMutableString *content = [NSMutableString
+      stringWithFormat:@"sender=%@&app=%@&device=%@&"
+                       @"app_ver=%@&X-gcm.topic=%@&X-scope=%@",
+                       self.token, appIdentifier, deviceAuthID, FIRMessagingCurrentAppVersion(),
+                       encodedTopic, encodedTopic];
 
   if (self.action == FIRMessagingTopicActionUnsubscribe) {
     [content appendString:@"&delete=true"];
@@ -202,50 +192,38 @@ NSString *FIRMessagingSubscriptionsServer() {
   request.HTTPBody = [content dataUsingEncoding:NSUTF8StringEncoding];
   [request setHTTPMethod:@"POST"];
 
-#if DEBUG_LOG_SUBSCRIPTION_OPERATION_DURATIONS
-  NSDate *start = [NSDate date];
-#endif
-
-  FIRMessaging_WEAKIFY(self)
-  void(^requestHandler)(NSData *, NSURLResponse *, NSError *) =
+  FIRMessaging_WEAKIFY(self) void (^requestHandler)(NSData *, NSURLResponse *, NSError *) =
       ^(NSData *data, NSURLResponse *URLResponse, NSError *error) {
-        FIRMessaging_STRONGIFY(self)
-    if (error) {
-      // Our operation could have been cancelled, which would result in our data task's error being
-      // NSURLErrorCancelled
-      if (error.code == NSURLErrorCancelled) {
-        // We would only have been cancelled in the -cancel method, which will call finish for us
-        // so just return and do nothing.
-        return;
-      }
-      FIRMessagingLoggerDebug(kFIRMessagingMessageCodeTopicOption001,
-                              @"Device registration HTTP fetch error. Error Code: %ld",
-                              _FIRMessaging_L(error.code));
-      [self finishWithError:error];
-      return;
-    }
-    NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    if (response.length == 0) {
-      FIRMessagingLoggerDebug(kFIRMessagingMessageCodeTopicOperationEmptyResponse,
-                              @"Invalid registration response - zero length.");
-      [self finishWithError:[NSError errorWithFCMErrorCode:kFIRMessagingErrorCodeUnknown]];
-      return;
-    }
-    NSArray *parts = [response componentsSeparatedByString:@"="];
-    _FIRMessagingDevAssert(parts.count, @"Invalid registration response");
-    if (![parts[0] isEqualToString:@"token"] || parts.count <= 1) {
-      FIRMessagingLoggerDebug(kFIRMessagingMessageCodeTopicOption002,
-                              @"Invalid registration response %@", response);
-      [self finishWithError:[NSError errorWithFCMErrorCode:kFIRMessagingErrorCodeUnknown]];
-      return;
-    }
-#if DEBUG_LOG_SUBSCRIPTION_OPERATION_DURATIONS
-    NSTimeInterval duration = -[start timeIntervalSinceNow];
-    FIRMessagingLoggerDebug(@"%@ change took %.2fs", self.topic, duration);
-#endif
-    [self finishWithError:nil];
-
-  };
+        FIRMessaging_STRONGIFY(self) if (error) {
+          // Our operation could have been cancelled, which would result in our data task's error
+          // being NSURLErrorCancelled
+          if (error.code == NSURLErrorCancelled) {
+            // We would only have been cancelled in the -cancel method, which will call finish for
+            // us so just return and do nothing.
+            return;
+          }
+          FIRMessagingLoggerDebug(kFIRMessagingMessageCodeTopicOption001,
+                                  @"Device registration HTTP fetch error. Error Code: %ld",
+                                  (long)error.code);
+          [self finishWithError:error];
+          return;
+        }
+        NSString *response = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if (response.length == 0) {
+          FIRMessagingLoggerDebug(kFIRMessagingMessageCodeTopicOperationEmptyResponse,
+                                  @"Invalid registration response - zero length.");
+          [self finishWithError:[NSError errorWithFCMErrorCode:kFIRMessagingErrorCodeUnknown]];
+          return;
+        }
+        NSArray *parts = [response componentsSeparatedByString:@"="];
+        if (![parts[0] isEqualToString:@"token"] || parts.count <= 1) {
+          FIRMessagingLoggerDebug(kFIRMessagingMessageCodeTopicOption002,
+                                  @"Invalid registration response %@", response);
+          [self finishWithError:[NSError errorWithFCMErrorCode:kFIRMessagingErrorCodeUnknown]];
+          return;
+        }
+        [self finishWithError:nil];
+      };
 
   NSURLSession *urlSession = [FIRMessagingTopicOperation sharedSession];
 

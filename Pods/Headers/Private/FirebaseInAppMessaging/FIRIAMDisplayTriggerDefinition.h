@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/DisplayTrigger/FIRIAMDisplayTriggerDefinition.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/DisplayTrigger/FIRIAMDisplayTriggerDefinition.h

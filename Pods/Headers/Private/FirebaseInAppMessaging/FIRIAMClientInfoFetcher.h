@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Flows/FIRIAMClientInfoFetcher.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Analytics/FIRIAMClientInfoFetcher.h

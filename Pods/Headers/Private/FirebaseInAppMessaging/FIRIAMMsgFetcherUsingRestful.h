@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Flows/FIRIAMMsgFetcherUsingRestful.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Flows/FIRIAMMsgFetcherUsingRestful.h

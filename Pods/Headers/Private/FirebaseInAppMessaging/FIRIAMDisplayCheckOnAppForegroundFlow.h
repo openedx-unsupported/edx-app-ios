@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Flows/FIRIAMDisplayCheckOnAppForegroundFlow.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Flows/FIRIAMDisplayCheckOnAppForegroundFlow.h

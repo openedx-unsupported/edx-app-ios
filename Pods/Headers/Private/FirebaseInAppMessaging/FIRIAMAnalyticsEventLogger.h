@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Analytics/FIRIAMAnalyticsEventLogger.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Flows/FIRIAMAnalyticsEventLogger.h

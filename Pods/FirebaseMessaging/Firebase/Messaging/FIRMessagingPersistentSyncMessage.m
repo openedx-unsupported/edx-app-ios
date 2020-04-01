@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#import "FIRMessagingPersistentSyncMessage.h"
+#import "Firebase/Messaging/FIRMessagingPersistentSyncMessage.h"
 
-#import "FIRMessagingDefines.h"
+#import "Firebase/Messaging/FIRMessagingDefines.h"
 
 @interface FIRMessagingPersistentSyncMessage ()
 
@@ -43,8 +43,9 @@
 - (NSString *)description {
   NSString *classDescription = NSStringFromClass([self class]);
   NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.expirationTime];
-  return [NSString stringWithFormat:@"%@: (rmqID: %@, apns: %d, mcs: %d, expiry: %@",
-          classDescription, self.rmqID, self.mcsReceived, self.apnsReceived, date];
+  return
+      [NSString stringWithFormat:@"%@: (rmqID: %@, apns: %d, mcs: %d, expiry: %@", classDescription,
+                                 self.rmqID, self.mcsReceived, self.apnsReceived, date];
 }
 
 - (NSString *)debugDescription {

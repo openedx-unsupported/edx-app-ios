@@ -1,1 +1,1 @@
-../../../FirebaseInAppMessaging/Firebase/InAppMessaging/Analytics/FIRIAMClearcutUploader.h
+../../../FirebaseInAppMessaging/FirebaseInAppMessaging/Sources/Private/Analytics/FIRIAMClearcutUploader.h
