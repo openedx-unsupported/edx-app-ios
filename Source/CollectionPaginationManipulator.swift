@@ -7,10 +7,8 @@
 //
 
 class CollectionPaginationManipulator : ScrollingPaginationViewManipulator {
-    // MARK: Delegate
-    func setFooter(footer: UIView, visible: Bool) {
-        
-    }
+    // MARK: ScrollingPaginationViewManipulator Delegate method
+    func setFooter(footer: UIView, visible: Bool) { }
     
     private let collectionView : UICollectionView
 
