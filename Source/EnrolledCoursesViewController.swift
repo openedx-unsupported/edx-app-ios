@@ -23,14 +23,14 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesColle
     private let userPreferencesFeed: Feed<UserPreference?>
 
     init(environment: Environment) {
-        self.collectionController = CoursesCollectionViewController(environment: environment, context: .EnrollmentList)
-        self.enrollmentFeed = environment.dataManager.enrollmentManager.feed
-        self.userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
+        collectionController = CoursesCollectionViewController(environment: environment, context: .EnrollmentList)
+        enrollmentFeed = environment.dataManager.enrollmentManager.feed
+        userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
         self.environment = environment
         
         super.init(env: environment)
-        self.navigationItem.title = Strings.courses
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.title = Strings.courses
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -40,24 +40,24 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesColle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.accessibilityIdentifier = "enrolled-courses-screen"
+        view.accessibilityIdentifier = "enrolled-courses-screen"
         view.backgroundColor = environment.styles.standardBackgroundColor()
 
         addChild(collectionController)
         collectionController.didMove(toParent: self)
-        self.loadController.setupInController(controller: self, contentView: collectionController.view)
+        loadController.setupInController(controller: self, contentView: collectionController.view)
         
-        self.view.addSubview(collectionController.view)
+        view.addSubview(collectionController.view)
         collectionController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
         collectionController.delegate = self
         
-        refreshController.setupInScrollView(scrollView: self.collectionController.collectionView)
+        refreshController.setupInScrollView(scrollView: collectionController.collectionView)
         refreshController.delegate = self
         
         insetsController.setupInController(owner: self, scrollView: collectionController.collectionView)
-        insetsController.addSource(source: self.refreshController)
+        insetsController.addSource(source: refreshController)
 
         // We visually separate each course card so we also need a little padding
         // at the bottom to match
@@ -65,8 +65,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesColle
             source: ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
         )
         
-        self.enrollmentFeed.refresh()
-        self.userPreferencesFeed.refresh()
+        enrollmentFeed.refresh()
+        userPreferencesFeed.refresh()
         
         setupListener()
         setupFooter()
@@ -209,7 +209,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesColle
     
     func coursesTableChoseCourse(course: OEXCourse) {
         if let course_id = course.course_id {
-            self.environment.router?.showCourseWithID(courseID: course_id, fromController: self, animated: true)
+            environment.router?.showCourseWithID(courseID: course_id, fromController: self, animated: true)
         }
         else {
             preconditionFailure("course without a course id")
@@ -228,8 +228,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesColle
     
     //MARK:- PullRefreshControllerDelegate method
     func refreshControllerActivated(controller: PullRefreshController) {
-        self.enrollmentFeed.refresh()
-        self.userPreferencesFeed.refresh()
+        enrollmentFeed.refresh()
+        userPreferencesFeed.refresh()
     }
     
     //MARK:- LoadStateViewReloadSupport method 

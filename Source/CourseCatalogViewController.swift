@@ -18,10 +18,10 @@ class CourseCatalogViewController: UIViewController, CoursesCollectionViewContro
     
     init(environment : Environment) {
         self.environment = environment
-        self.collectionController = CoursesCollectionViewController(environment: environment, context: .CourseCatalog)
+        collectionController = CoursesCollectionViewController(environment: environment, context: .CourseCatalog)
         super.init(nibName: nil, bundle: nil)
-        self.navigationItem.title = Strings.findCourses
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.title = Strings.findCourses
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.accessibilityIdentifier = "CourseCatalogViewController:cancel-bar-button-item"
         view.accessibilityIdentifier = "course-catalog-screen"
 
@@ -33,14 +33,14 @@ class CourseCatalogViewController: UIViewController, CoursesCollectionViewContro
     }
     
     fileprivate lazy var paginationController : PaginationController<OEXCourse> = {
-        let username = self.environment.session.currentUser?.username ?? ""
+        let username = environment.session.currentUser?.username ?? ""
         precondition(username != "", "Shouldn't be showing course catalog without a logged in user")
-        let organizationCode =  self.environment.config.organizationCode()
+        let organizationCode =  environment.config.organizationCode()
         
-        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+        let paginator = WrappedPaginator(networkManager: environment.networkManager) { page in
             return CourseCatalogAPI.getCourseCatalog(userID: username, page: page, organizationCode: organizationCode)
         }
-        return PaginationController(paginator: paginator, collectionView: self.collectionController.collectionView)
+        return PaginationController(paginator: paginator, collectionView: collectionController.collectionView)
     }()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,14 +51,14 @@ class CourseCatalogViewController: UIViewController, CoursesCollectionViewContro
     private func setupAndLoadCourseCatalog() {
         addChild(collectionController)
         collectionController.didMove(toParent: self)
-        self.loadController.setupInController(controller: self, contentView: collectionController.view)
+        loadController.setupInController(controller: self, contentView: collectionController.view)
 
-        self.view.addSubview(collectionController.view)
+        view.addSubview(collectionController.view)
         collectionController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
 
-        self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
 
         collectionController.delegate = self
 
@@ -85,7 +85,7 @@ class CourseCatalogViewController: UIViewController, CoursesCollectionViewContro
         guard let courseID = course.course_id else {
             return
         }
-        self.environment.router?.showCourseCatalogDetail(courseID: courseID, fromController:self)
+        environment.router?.showCourseCatalogDetail(courseID: courseID, fromController:self)
     }
     
     func setupLoadingState(courses: [OEXCourse]) {

@@ -22,15 +22,15 @@ class CourseCardCell : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        let horizMargin = CourseCardCell.margin
+        let horizontalMargin = CourseCardCell.margin
         
-        self.contentView.addSubview(courseView)
+        contentView.addSubview(courseView)
         
         courseView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(CourseCardCell.margin)
             make.bottom.equalTo(contentView)
-            make.leading.equalTo(contentView).offset(horizMargin)
-            make.trailing.equalTo(contentView).offset(-horizMargin)
+            make.leading.equalTo(contentView).offset(horizontalMargin)
+            make.trailing.equalTo(contentView).offset(-horizontalMargin)
             make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
         
@@ -48,7 +48,7 @@ protocol CoursesCollectionViewControllerDelegate : class {
     func coursesTableChoseCourse(course : OEXCourse)
 }
 
-class CoursesCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class CoursesCollectionViewController: UICollectionViewController {
     
     enum Context {
         case CourseCatalog
@@ -63,17 +63,11 @@ class CoursesCollectionViewController: UICollectionViewController, UICollectionV
     weak var delegate : CoursesCollectionViewControllerDelegate?
     var courses : [OEXCourse] = []
     let insetsController = ContentInsetsController()
-    private var sectionInsets: UIEdgeInsets
     
     init(environment : Environment, context: Context) {
-        self.context = context
         self.environment = environment
+        self.context = context
         
-        if  UIDevice.current.userInterfaceIdiom == .pad {
-            sectionInsets = UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
-        } else {
-            sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -83,19 +77,19 @@ class CoursesCollectionViewController: UICollectionViewController, UICollectionV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
-        self.collectionView.backgroundColor = OEXStyles.shared().neutralXLight()
-        self.collectionView.accessibilityIdentifier = "courses-table-view"
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = OEXStyles.shared().neutralXLight()
+        collectionView.accessibilityIdentifier = "courses-table-view"
         
-        self.collectionView.snp.makeConstraints { make in
+        collectionView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
         
         collectionView.register(CourseCardCell.self, forCellWithReuseIdentifier: CourseCardCell.cellIdentifier)
         collectionView.register(EnrolledCoursesFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: EnrolledCoursesFooterView.identifier)
         
-        self.insetsController.addSource(
+        insetsController.addSource(
             source: ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
         )
     }
@@ -111,22 +105,8 @@ class CoursesCollectionViewController: UICollectionViewController, UICollectionV
         )
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 2 : 1
-        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
-        let availableWidth = view.frame.width - paddingSpace
-        let widthPerItem = availableWidth / itemsPerRow
-        let heightPerItem = widthPerItem * defaultCoverImageAspectRatio
-        
-        return CGSize(width: widthPerItem, height: heightPerItem)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return sectionInsets
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.courses.count
+        return courses.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
@@ -146,7 +126,7 @@ class CoursesCollectionViewController: UICollectionViewController, UICollectionV
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let course = self.courses[indexPath.row]
+        let course = courses[indexPath.row]
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CourseCardCell.cellIdentifier, for: indexPath as IndexPath) as! CourseCardCell
         DispatchQueue.main.async {
@@ -159,9 +139,9 @@ class CoursesCollectionViewController: UICollectionViewController, UICollectionV
         
         switch context {
         case .CourseCatalog:
-            CourseCardViewModel.onCourseCatalog(course: course, wrapTitle: true).apply(card: cell.courseView, networkManager: self.environment.networkManager)
+            CourseCardViewModel.onCourseCatalog(course: course, wrapTitle: true).apply(card: cell.courseView, networkManager: environment.networkManager)
         case .EnrollmentList:
-            CourseCardViewModel.onHome(course: course).apply(card: cell.courseView, networkManager: self.environment.networkManager)
+            CourseCardViewModel.onHome(course: course).apply(card: cell.courseView, networkManager: environment.networkManager)
         }
         cell.course = course
         
@@ -170,7 +150,39 @@ class CoursesCollectionViewController: UICollectionViewController, UICollectionV
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.insetsController.updateInsets()
+        insetsController.updateInsets()
     }
 }
 
+extension CoursesCollectionViewController: UICollectionViewDelegateFlowLayout {
+    fileprivate var sectionInsets: UIEdgeInsets {
+        return .zero
+    }
+    
+    fileprivate var itemsPerRow: CGFloat {
+        return UIDevice.current.userInterfaceIdiom == .pad ? 2 : 1
+    }
+    
+    fileprivate var minimumSpace: CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return minimumSpace
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return minimumSpace
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let widthPerItem = view.frame.width / itemsPerRow
+        let heightPerItem = widthPerItem * defaultCoverImageAspectRatio
+        
+        return CGSize(width: widthPerItem, height: heightPerItem)
+    }
+}
