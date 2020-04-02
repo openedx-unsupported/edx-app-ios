@@ -51,8 +51,8 @@ protocol CoursesCollectionViewControllerDelegate : class {
 class CoursesCollectionViewController: UICollectionViewController {
     
     enum Context {
-        case CourseCatalog
-        case EnrollmentList
+        case courseCatalog
+        case enrollmentList
     }
     
     typealias Environment = NetworkManagerProvider & OEXRouterProvider
@@ -138,9 +138,9 @@ class CoursesCollectionViewController: UICollectionViewController {
         }
         
         switch context {
-        case .CourseCatalog:
+        case .courseCatalog:
             CourseCardViewModel.onCourseCatalog(course: course, wrapTitle: true).apply(card: cell.courseView, networkManager: environment.networkManager)
-        case .EnrollmentList:
+        case .enrollmentList:
             CourseCardViewModel.onHome(course: course).apply(card: cell.courseView, networkManager: environment.networkManager)
         }
         cell.course = course

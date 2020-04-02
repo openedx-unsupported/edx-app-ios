@@ -18,7 +18,7 @@ class CourseCatalogViewController: UIViewController, CoursesCollectionViewContro
     
     init(environment : Environment) {
         self.environment = environment
-        collectionController = CoursesCollectionViewController(environment: environment, context: .CourseCatalog)
+        collectionController = CoursesCollectionViewController(environment: environment, context: .courseCatalog)
         super.init(nibName: nil, bundle: nil)
         navigationItem.title = Strings.findCourses
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)

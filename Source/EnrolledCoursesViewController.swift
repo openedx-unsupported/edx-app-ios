@@ -23,7 +23,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesColle
     private let userPreferencesFeed: Feed<UserPreference?>
 
     init(environment: Environment) {
-        collectionController = CoursesCollectionViewController(environment: environment, context: .EnrollmentList)
+        collectionController = CoursesCollectionViewController(environment: environment, context: .enrollmentList)
         enrollmentFeed = environment.dataManager.enrollmentManager.feed
         userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
         self.environment = environment
