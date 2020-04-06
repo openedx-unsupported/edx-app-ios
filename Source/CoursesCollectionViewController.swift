@@ -17,24 +17,21 @@ class CourseCardCell : UICollectionViewCell {
     fileprivate static let cellIdentifier = "CourseCardCell"
     fileprivate let courseView = CourseCardView(frame: CGRect.zero)
     fileprivate var course : OEXCourse?
-    private let courseCardBorderStyle = BorderStyle()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        let horizontalMargin = CourseCardCell.margin
-        
+                
         contentView.addSubview(courseView)
         
         courseView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(CourseCardCell.margin)
             make.bottom.equalTo(contentView)
-            make.leading.equalTo(contentView).offset(horizontalMargin)
-            make.trailing.equalTo(contentView).offset(-horizontalMargin)
+            make.leading.equalTo(contentView).offset(CourseCardCell.margin)
+            make.trailing.equalTo(contentView).offset(-CourseCardCell.margin)
             make.height.equalTo(CourseCardView.cardHeight(leftMargin: CourseCardCell.margin, rightMargin: CourseCardCell.margin))
         }
         
-        courseView.applyBorderStyle(style: courseCardBorderStyle)
+        courseView.applyBorderStyle(style: BorderStyle())
         
         contentView.backgroundColor = OEXStyles.shared().neutralXLight()
     }
@@ -59,14 +56,16 @@ class CoursesCollectionViewController: UICollectionViewController {
     
     private let environment : Environment
     private let context: Context
+    private let showfooter: Bool
     
     weak var delegate : CoursesCollectionViewControllerDelegate?
     var courses : [OEXCourse] = []
     let insetsController = ContentInsetsController()
     
-    init(environment : Environment, context: Context) {
+    init(environment : Environment, context: Context, showFooter: Bool) {
         self.environment = environment
         self.context = context
+        self.showfooter = showFooter
         
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
@@ -110,7 +109,7 @@ class CoursesCollectionViewController: UICollectionViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.size.height, height: EnrolledCoursesFooterViewHeight)
+        return CGSize(width: collectionView.frame.size.height, height: showfooter ? EnrolledCoursesFooterViewHeight : 0)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -140,8 +139,10 @@ class CoursesCollectionViewController: UICollectionViewController {
         switch context {
         case .courseCatalog:
             CourseCardViewModel.onCourseCatalog(course: course, wrapTitle: true).apply(card: cell.courseView, networkManager: environment.networkManager)
+            break
         case .enrollmentList:
             CourseCardViewModel.onHome(course: course).apply(card: cell.courseView, networkManager: environment.networkManager)
+            break
         }
         cell.course = course
         
@@ -155,15 +156,15 @@ class CoursesCollectionViewController: UICollectionViewController {
 }
 
 extension CoursesCollectionViewController: UICollectionViewDelegateFlowLayout {
-    fileprivate var sectionInsets: UIEdgeInsets {
+    private var sectionInsets: UIEdgeInsets {
         return .zero
     }
     
-    fileprivate var itemsPerRow: CGFloat {
+    private var itemsPerRow: CGFloat {
         return UIDevice.current.userInterfaceIdiom == .pad ? 2 : 1
     }
     
-    fileprivate var minimumSpace: CGFloat {
+    private var minimumSpace: CGFloat {
         return 0
     }
     

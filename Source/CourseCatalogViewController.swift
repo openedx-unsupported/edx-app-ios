@@ -12,13 +12,13 @@ class CourseCatalogViewController: UIViewController, CoursesCollectionViewContro
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXConfigProvider & OEXAnalyticsProvider
     
     private let environment : Environment
-    private let collectionController : CoursesCollectionViewController
+    private let coursesController : CoursesCollectionViewController
     private let loadController = LoadStateViewController()
     private let insetsController = ContentInsetsController()
     
     init(environment : Environment) {
         self.environment = environment
-        collectionController = CoursesCollectionViewController(environment: environment, context: .courseCatalog)
+        coursesController = CoursesCollectionViewController(environment: environment, context: .courseCatalog, showFooter: false)
         super.init(nibName: nil, bundle: nil)
         navigationItem.title = Strings.findCourses
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
@@ -40,7 +40,7 @@ class CourseCatalogViewController: UIViewController, CoursesCollectionViewContro
         let paginator = WrappedPaginator(networkManager: environment.networkManager) { page in
             return CourseCatalogAPI.getCourseCatalog(userID: username, page: page, organizationCode: organizationCode)
         }
-        return PaginationController(paginator: paginator, collectionView: collectionController.collectionView)
+        return PaginationController(paginator: paginator, collectionView: coursesController.collectionView)
     }()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,31 +49,31 @@ class CourseCatalogViewController: UIViewController, CoursesCollectionViewContro
     }
 
     private func setupAndLoadCourseCatalog() {
-        addChild(collectionController)
-        collectionController.didMove(toParent: self)
-        loadController.setupInController(controller: self, contentView: collectionController.view)
+        addChild(coursesController)
+        coursesController.didMove(toParent: self)
+        loadController.setupInController(controller: self, contentView: coursesController.view)
 
-        view.addSubview(collectionController.view)
-        collectionController.view.snp.makeConstraints { make in
+        view.addSubview(coursesController.view)
+        coursesController.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
 
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
 
-        collectionController.delegate = self
+        coursesController.delegate = self
 
         paginationController.stream.listen(self, success:
             {[weak self] courses in
                 self?.setupLoadingState(courses: courses)
-                self?.collectionController.courses = courses
-                self?.collectionController.collectionView.reloadData()
+                self?.coursesController.courses = courses
+                self?.coursesController.collectionView.reloadData()
             }, failure: {[weak self] error in
                 self?.loadController.state = LoadState.failed(error: error)
             }
         )
         paginationController.loadMore()
 
-        insetsController.setupInController(owner: self, scrollView: collectionController.collectionView)
+        insetsController.setupInController(owner: self, scrollView: coursesController.collectionView)
         insetsController.addSource(
             // add a little padding to the bottom since we have a big space between
             // each course card
