@@ -14,6 +14,7 @@ env:
 script:
     - instruments -s devices | grep "iPhone 8 (${IOS_VERSION}" | awk -F '[\[]' '{print $2}' | sed 's/.$//' | xargs open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app --args -CurrentDeviceUDID
     - set -o pipefail
+    - ./gradlew -version
     - travis_retry ./gradlew -q $TEST_TASK | xcpretty -c
 
 after_success:
