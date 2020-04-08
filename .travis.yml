@@ -25,3 +25,6 @@ branches:
 
 notifications:
   email: true
+
+jdk:
+ - oraclejdk8
