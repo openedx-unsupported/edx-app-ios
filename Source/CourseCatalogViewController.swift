@@ -12,13 +12,13 @@ class CourseCatalogViewController: UIViewController, CoursesContainerViewControl
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXConfigProvider & OEXAnalyticsProvider
     
     private let environment : Environment
-    private let coursesController : CoursesContainerViewController
+    private let coursesContainer : CoursesContainerViewController
     private let loadController = LoadStateViewController()
     private let insetsController = ContentInsetsController()
     
     init(environment : Environment) {
         self.environment = environment
-        coursesController = CoursesContainerViewController(environment: environment, context: .courseCatalog)
+        coursesContainer = CoursesContainerViewController(environment: environment, context: .courseCatalog)
         super.init(nibName: nil, bundle: nil)
         navigationItem.title = Strings.findCourses
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
@@ -40,7 +40,7 @@ class CourseCatalogViewController: UIViewController, CoursesContainerViewControl
         let paginator = WrappedPaginator(networkManager: environment.networkManager) { page in
             return CourseCatalogAPI.getCourseCatalog(userID: username, page: page, organizationCode: organizationCode)
         }
-        return PaginationController(paginator: paginator, collectionView: coursesController.collectionView)
+        return PaginationController(paginator: paginator, collectionView: coursesContainer.collectionView)
     }()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,31 +49,31 @@ class CourseCatalogViewController: UIViewController, CoursesContainerViewControl
     }
 
     private func setupAndLoadCourseCatalog() {
-        addChild(coursesController)
-        coursesController.didMove(toParent: self)
-        loadController.setupInController(controller: self, contentView: coursesController.view)
+        addChild(coursesContainer)
+        coursesContainer.didMove(toParent: self)
+        loadController.setupInController(controller: self, contentView: coursesContainer.view)
 
-        view.addSubview(coursesController.view)
-        coursesController.view.snp.makeConstraints { make in
+        view.addSubview(coursesContainer.view)
+        coursesContainer.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
 
         view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
 
-        coursesController.delegate = self
+        coursesContainer.delegate = self
 
         paginationController.stream.listen(self, success:
             {[weak self] courses in
                 self?.setupLoadingState(courses: courses)
-                self?.coursesController.courses = courses
-                self?.coursesController.collectionView.reloadData()
+                self?.coursesContainer.courses = courses
+                self?.coursesContainer.collectionView.reloadData()
             }, failure: {[weak self] error in
                 self?.loadController.state = LoadState.failed(error: error)
             }
         )
         paginationController.loadMore()
 
-        insetsController.setupInController(owner: self, scrollView: coursesController.collectionView)
+        insetsController.setupInController(owner: self, scrollView: coursesContainer.collectionView)
         insetsController.addSource(
             // add a little padding to the bottom since we have a big space between
             // each course card
@@ -81,7 +81,7 @@ class CourseCatalogViewController: UIViewController, CoursesContainerViewControl
         )
     }
     
-    func coursesContainerChosenCourse(course: OEXCourse) {
+    func coursesContainerChoseCourse(course: OEXCourse) {
         guard let courseID = course.course_id else {
             return
         }

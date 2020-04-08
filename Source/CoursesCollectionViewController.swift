@@ -42,7 +42,7 @@ class CourseCardCell : UICollectionViewCell {
 }
 
 protocol CoursesContainerViewControllerDelegate : class {
-    func coursesContainerChosenCourse(course : OEXCourse)
+    func coursesContainerChoseCourse(course : OEXCourse)
 }
 
 class CoursesContainerViewController: UICollectionViewController {
@@ -107,7 +107,7 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.size.height, height: context == .enrollmentList ? EnrolledCoursesFooterViewHeight : 0)
+        return CGSize(width: collectionView.frame.size.width, height: context == .enrollmentList ? EnrolledCoursesFooterViewHeight : 0)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -131,7 +131,7 @@ class CoursesContainerViewController: UICollectionViewController {
         }
         cell.accessibilityHint = Strings.accessibilityShowsCourseContent
         cell.courseView.tapAction = { [weak self] card in
-            self?.delegate?.coursesContainerChosenCourse(course: course)
+            self?.delegate?.coursesContainerChoseCourse(course: course)
         }
         
         switch context {

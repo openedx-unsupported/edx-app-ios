@@ -207,7 +207,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         }
     }
     
-    func coursesContainerChosenCourse(course: OEXCourse) {
+    func coursesContainerChoseCourse(course: OEXCourse) {
         if let course_id = course.course_id {
             environment.router?.showCourseWithID(courseID: course_id, fromController: self, animated: true)
         }
