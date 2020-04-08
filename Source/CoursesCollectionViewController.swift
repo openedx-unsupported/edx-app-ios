@@ -52,7 +52,7 @@ class CoursesContainerViewController: UICollectionViewController {
         case enrollmentList
     }
     
-    typealias Environment = NetworkManagerProvider & OEXRouterProvider
+    typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXConfigProvider
     
     private let environment : Environment
     private let context: Context
@@ -60,6 +60,14 @@ class CoursesContainerViewController: UICollectionViewController {
     weak var delegate : CoursesContainerViewControllerDelegate?
     var courses : [OEXCourse] = []
     private let insetsController = ContentInsetsController()
+    
+    private var isCourseDiscoveryEnabled: Bool {
+        return environment.config.discovery.course.isEnabled
+    }
+    
+    private var shouldShowFooter: Bool {
+        return context == .enrollmentList && isCourseDiscoveryEnabled
+    }
     
     init(environment : Environment, context: Context) {
         self.environment = environment
@@ -107,7 +115,7 @@ class CoursesContainerViewController: UICollectionViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: context == .enrollmentList ? EnrolledCoursesFooterViewHeight : 0)
+        return CGSize(width: collectionView.frame.size.width, height: shouldShowFooter ? EnrolledCoursesFooterViewHeight : 0)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

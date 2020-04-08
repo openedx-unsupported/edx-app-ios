@@ -69,7 +69,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         userPreferencesFeed.refresh()
         
         setupListener()
-        setupFooter()
         setupObservers()
         addFindCoursesButton()
     }
@@ -142,16 +141,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
                     self?.hideSnackBar()
                 }
             }
-        }
-    }
-    
-    private func setupFooter() {
-        if isCourseDiscoveryEnabled {
-            let footer = EnrolledCoursesFooterView()
-            footer.findCoursesAction = {[weak self] in
-                self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
-            }
-            footer.sizeToFit()
         }
     }
     
