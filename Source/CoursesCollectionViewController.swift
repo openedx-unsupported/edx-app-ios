@@ -41,11 +41,11 @@ class CourseCardCell : UICollectionViewCell {
     }
 }
 
-protocol CoursesCollectionViewControllerDelegate : class {
-    func coursesTableChoseCourse(course : OEXCourse)
+protocol CoursesContainerViewControllerDelegate : class {
+    func coursesContainerChosenCourse(course : OEXCourse)
 }
 
-class CoursesCollectionViewController: UICollectionViewController {
+class CoursesContainerViewController: UICollectionViewController {
     
     enum Context {
         case courseCatalog
@@ -56,16 +56,14 @@ class CoursesCollectionViewController: UICollectionViewController {
     
     private let environment : Environment
     private let context: Context
-    private let showfooter: Bool
     
-    weak var delegate : CoursesCollectionViewControllerDelegate?
+    weak var delegate : CoursesContainerViewControllerDelegate?
     var courses : [OEXCourse] = []
-    let insetsController = ContentInsetsController()
+    private let insetsController = ContentInsetsController()
     
-    init(environment : Environment, context: Context, showFooter: Bool) {
+    init(environment : Environment, context: Context) {
         self.environment = environment
         self.context = context
-        self.showfooter = showFooter
         
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
@@ -79,10 +77,10 @@ class CoursesCollectionViewController: UICollectionViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = OEXStyles.shared().neutralXLight()
-        collectionView.accessibilityIdentifier = "courses-table-view"
+        collectionView.accessibilityIdentifier = "courses-container-view"
         
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(safeEdges)
+            make.edges.equalTo(view)
         }
         
         collectionView.register(CourseCardCell.self, forCellWithReuseIdentifier: CourseCardCell.cellIdentifier)
@@ -109,7 +107,7 @@ class CoursesCollectionViewController: UICollectionViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.size.height, height: showfooter ? EnrolledCoursesFooterViewHeight : 0)
+        return CGSize(width: collectionView.frame.size.height, height: context == .enrollmentList ? EnrolledCoursesFooterViewHeight : 0)
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -133,7 +131,7 @@ class CoursesCollectionViewController: UICollectionViewController {
         }
         cell.accessibilityHint = Strings.accessibilityShowsCourseContent
         cell.courseView.tapAction = { [weak self] card in
-            self?.delegate?.coursesTableChoseCourse(course: course)
+            self?.delegate?.coursesContainerChosenCourse(course: course)
         }
         
         switch context {
@@ -155,7 +153,7 @@ class CoursesCollectionViewController: UICollectionViewController {
     }
 }
 
-extension CoursesCollectionViewController: UICollectionViewDelegateFlowLayout {
+extension CoursesContainerViewController: UICollectionViewDelegateFlowLayout {
     private var sectionInsets: UIEdgeInsets {
         return .zero
     }
@@ -182,7 +180,7 @@ extension CoursesCollectionViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let widthPerItem = view.frame.width / itemsPerRow
-        let heightPerItem = widthPerItem * defaultCoverImageAspectRatio
+        let heightPerItem = widthPerItem * StandardImageAspectRatio
         
         return CGSize(width: widthPerItem, height: heightPerItem)
     }

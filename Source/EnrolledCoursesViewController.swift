@@ -10,12 +10,12 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesCollectionViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider
     
     private let environment : Environment
-    private let coursesController : CoursesCollectionViewController
+    private let coursesController : CoursesContainerViewController
     private let loadController = LoadStateViewController()
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
@@ -23,7 +23,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesColle
     private let userPreferencesFeed: Feed<UserPreference?>
 
     init(environment: Environment) {
-        coursesController = CoursesCollectionViewController(environment: environment, context: .enrollmentList, showFooter: true)
+        coursesController = CoursesContainerViewController(environment: environment, context: .enrollmentList)
         enrollmentFeed = environment.dataManager.enrollmentManager.feed
         userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
         self.environment = environment
@@ -207,7 +207,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesColle
         }
     }
     
-    func coursesTableChoseCourse(course: OEXCourse) {
+    func coursesContainerChosenCourse(course: OEXCourse) {
         if let course_id = course.course_id {
             environment.router?.showCourseWithID(courseID: course_id, fromController: self, animated: true)
         }

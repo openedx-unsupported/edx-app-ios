@@ -8,7 +8,7 @@
 
 import UIKit
 
-let defaultCoverImageAspectRatio:CGFloat = 0.533
+let StandardImageAspectRatio: CGFloat = 0.533
 
 @IBDesignable
 class CourseCardView: UIView, UIGestureRecognizerDelegate {
@@ -33,7 +33,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     private var coverImageAspectRatio : CGFloat {
         // Let the placeholder image aspect ratio determine the course card image aspect ratio.
         guard let placeholder = UIImage(named:"placeholderCourseCardImage") else {
-            return defaultCoverImageAspectRatio
+            return StandardImageAspectRatio
         }
         return placeholder.size.height / placeholder.size.width
     }
@@ -236,7 +236,7 @@ extension CourseCardView {
         var height: CGFloat = 0
         let screenHeight = UIScreen.main.bounds.size.height
         let halfScreenHeight = (screenHeight / 2.0) - (leftMargin + rightMargin)
-        let ratioedHeight = screenWidth * defaultCoverImageAspectRatio
+        let ratioedHeight = screenWidth * StandardImageAspectRatio
         height = CGFloat(Int(halfScreenHeight > ratioedHeight ? ratioedHeight : halfScreenHeight))
         return height
     }

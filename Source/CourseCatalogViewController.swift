@@ -8,17 +8,17 @@
 
 import UIKit
 
-class CourseCatalogViewController: UIViewController, CoursesCollectionViewControllerDelegate, InterfaceOrientationOverriding {
+class CourseCatalogViewController: UIViewController, CoursesContainerViewControllerDelegate, InterfaceOrientationOverriding {
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXConfigProvider & OEXAnalyticsProvider
     
     private let environment : Environment
-    private let coursesController : CoursesCollectionViewController
+    private let coursesController : CoursesContainerViewController
     private let loadController = LoadStateViewController()
     private let insetsController = ContentInsetsController()
     
     init(environment : Environment) {
         self.environment = environment
-        coursesController = CoursesCollectionViewController(environment: environment, context: .courseCatalog, showFooter: false)
+        coursesController = CoursesContainerViewController(environment: environment, context: .courseCatalog)
         super.init(nibName: nil, bundle: nil)
         navigationItem.title = Strings.findCourses
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
@@ -81,7 +81,7 @@ class CourseCatalogViewController: UIViewController, CoursesCollectionViewContro
         )
     }
     
-    func coursesTableChoseCourse(course: OEXCourse) {
+    func coursesContainerChosenCourse(course: OEXCourse) {
         guard let courseID = course.course_id else {
             return
         }
