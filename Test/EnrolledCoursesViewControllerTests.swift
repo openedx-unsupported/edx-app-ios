@@ -58,7 +58,7 @@ class EnrolledCoursesViewControllerTests: SnapshotTestCase {
         }
     }
     
-    func testCourseListCourseDiscoveryEnabled() {
+    func testCourseListDiscoveryEnabled() {
         let courses = [OEXCourse.freshCourse(), OEXCourse.freshCourse()]
         let configDictionary = [
             "DISCOVERY": [
@@ -69,7 +69,6 @@ class EnrolledCoursesViewControllerTests: SnapshotTestCase {
         ]
         
         let config =  OEXConfig(dictionary: configDictionary)
-        
         let environment = TestRouterEnvironment(config: config, interface: nil).logInTestUser()
         environment.mockEnrollmentManager.courses = courses
         let controller = EnrolledCoursesViewController(environment: environment)
