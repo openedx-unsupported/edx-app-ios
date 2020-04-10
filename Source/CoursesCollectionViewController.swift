@@ -1,9 +1,6 @@
 //
-//  CoursesCollectionViewController.swift
+//  CoursesContainerViewController.swift
 //  edX
-//
-//  Created by Anna Callahan on 10/15/15.
-//  Copyright © 2015 edX. All rights reserved.
 //
 //  Created by Muhammad Umer on 26/03/2020.
 //  Copyright © 2020 edX. All rights reserved.

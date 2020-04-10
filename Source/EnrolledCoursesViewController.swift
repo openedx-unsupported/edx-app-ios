@@ -15,7 +15,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider
     
     private let environment : Environment
-    private let coursesController : CoursesContainerViewController
+    private let coursesContainer : CoursesContainerViewController
     private let loadController = LoadStateViewController()
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
@@ -23,7 +23,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     private let userPreferencesFeed: Feed<UserPreference?>
 
     init(environment: Environment) {
-        coursesController = CoursesContainerViewController(environment: environment, context: .enrollmentList)
+        coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
         enrollmentFeed = environment.dataManager.enrollmentManager.feed
         userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
         self.environment = environment
@@ -43,20 +43,20 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         view.accessibilityIdentifier = "enrolled-courses-screen"
         view.backgroundColor = environment.styles.standardBackgroundColor()
 
-        addChild(coursesController)
-        coursesController.didMove(toParent: self)
-        loadController.setupInController(controller: self, contentView: coursesController.view)
+        addChild(coursesContainer)
+        coursesContainer.didMove(toParent: self)
+        loadController.setupInController(controller: self, contentView: coursesContainer.view)
         
-        view.addSubview(coursesController.view)
-        coursesController.view.snp.makeConstraints { make in
+        view.addSubview(coursesContainer.view)
+        coursesContainer.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
-        coursesController.delegate = self
+        coursesContainer.delegate = self
         
-        refreshController.setupInScrollView(scrollView: coursesController.collectionView)
+        refreshController.setupInScrollView(scrollView: coursesContainer.collectionView)
         refreshController.delegate = self
         
-        insetsController.setupInController(owner: self, scrollView: coursesController.collectionView)
+        insetsController.setupInController(owner: self, scrollView: coursesContainer.collectionView)
         insetsController.addSource(source: refreshController)
 
         // We visually separate each course card so we also need a little padding
@@ -118,8 +118,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
             switch result {
             case let Result.success(enrollments):
                 if let enrollments = enrollments {
-                    self?.coursesController.courses = enrollments.compactMap { $0.course }
-                    self?.coursesController.collectionView.reloadData()
+                    self?.coursesContainer.courses = enrollments.compactMap { $0.course }
+                    self?.coursesContainer.collectionView.reloadData()
                     self?.loadController.state = .Loaded
                     if enrollments.count <= 0 {
                         self?.enrollmentsEmptyState()
@@ -191,7 +191,7 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     }
     
     private func hideSnackBarForFullScreenError() {
-        if coursesController.courses.count <= 0 {
+        if coursesContainer.courses.count <= 0 {
             hideSnackBar()
         }
     }
