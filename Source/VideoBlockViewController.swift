@@ -177,13 +177,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             addChromeCastButton()
             showChromeCastOverlay()
         }
-        
-        if !(environment.interface?.canDownload() ?? false) {
-            guard let video = environment.interface?.stateForVideo(withID: blockID, courseID : courseID), video.downloadState == .complete else {
-                showOverlay(withMessage: environment.interface?.networkErrorMessage() ?? Strings.noWifiMessage)
-                return
-            }
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
