@@ -446,7 +446,7 @@
 		778F176C1C0CF57F0099BF93 /* RouterEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F176B1C0CF57F0099BF93 /* RouterEnvironment.swift */; };
 		778F17711C0CFD310099BF93 /* OEXRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17701C0CFD310099BF93 /* OEXRouterTests.swift */; };
 		778F17781C0D123F0099BF93 /* CourseCatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17771C0D123F0099BF93 /* CourseCatalogViewController.swift */; };
-		778F177A1C0D125A0099BF93 /* CoursesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17791C0D125A0099BF93 /* CoursesCollectionViewController.swift */; };
+		778F177A1C0D125A0099BF93 /* CoursesContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17791C0D125A0099BF93 /* CoursesContainerViewController.swift */; };
 		778F177C1C0D12780099BF93 /* CourseCatalogAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F177B1C0D12780099BF93 /* CourseCatalogAPI.swift */; };
 		778F177E1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F177D1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift */; };
 		778F17831C0E06640099BF93 /* TestRouterEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17811C0E06480099BF93 /* TestRouterEnvironment.swift */; };
@@ -1485,7 +1485,7 @@
 		778F176B1C0CF57F0099BF93 /* RouterEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterEnvironment.swift; sourceTree = "<group>"; };
 		778F17701C0CFD310099BF93 /* OEXRouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXRouterTests.swift; sourceTree = "<group>"; };
 		778F17771C0D123F0099BF93 /* CourseCatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCatalogViewController.swift; sourceTree = "<group>"; };
-		778F17791C0D125A0099BF93 /* CoursesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesCollectionViewController.swift; sourceTree = "<group>"; };
+		778F17791C0D125A0099BF93 /* CoursesContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesContainerViewController.swift; sourceTree = "<group>"; };
 		778F177B1C0D12780099BF93 /* CourseCatalogAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCatalogAPI.swift; sourceTree = "<group>"; };
 		778F177D1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCatalogViewControllerTests.swift; sourceTree = "<group>"; };
 		778F17811C0E06480099BF93 /* TestRouterEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestRouterEnvironment.swift; sourceTree = "<group>"; };
@@ -3645,7 +3645,7 @@
 			children = (
 				223DD6B91F9F59C3004A21B9 /* Tab Layout Dashboard */,
 				221D31801EC08AEE001D8D71 /* Course Dates */,
-				778F17791C0D125A0099BF93 /* CoursesCollectionViewController.swift */,
+				778F17791C0D125A0099BF93 /* CoursesContainerViewController.swift */,
 				77EA92251BB4590A00EC625A /* DownloadsAccessoryView.swift */,
 				77056C3D1B3F320800D9DB4A /* DetailToolbarButton.swift */,
 				9EDB10B21B0C72EF00C760C6 /* Custom Cells */,
@@ -4896,7 +4896,7 @@
 				9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */,
 				1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */,
 				46CECC3C1B041D270073C63A /* AdditionalTableViewCell.swift in Sources */,
-				778F177A1C0D125A0099BF93 /* CoursesCollectionViewController.swift in Sources */,
+				778F177A1C0D125A0099BF93 /* CoursesContainerViewController.swift in Sources */,
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
 				1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */,
 				77236EED1C21C376006AC1A4 /* Paginator.swift in Sources */,
