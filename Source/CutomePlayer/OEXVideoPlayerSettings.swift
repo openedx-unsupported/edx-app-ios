@@ -43,7 +43,7 @@ class VideoPlayerSettings : NSObject {
     var settings: [OEXVideoPlayerSetting]  {
         get {
             self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
-            let rows:[RowType] = [("0.25x",  OEXVideoSpeed.xxSlow), ("0.5x",  OEXVideoSpeed.xSlow), ("0.75x",  OEXVideoSpeed.slow), ("Normal", OEXVideoSpeed.default), ("1.25x", OEXVideoSpeed.fast), ("1.5x", OEXVideoSpeed.xFast), ("1.75x", OEXVideoSpeed.xxFast), ("2x", OEXVideoSpeed.xxxFast)]
+            let rows:[RowType] = [("0.25x",  OEXVideoSpeed.xxSlow), ("0.5x",  OEXVideoSpeed.xSlow), ("0.75x",  OEXVideoSpeed.slow), ("1.0x", OEXVideoSpeed.default), ("1.25x", OEXVideoSpeed.fast), ("1.5x", OEXVideoSpeed.xFast), ("1.75x", OEXVideoSpeed.xxFast), ("2.0x", OEXVideoSpeed.xxxFast)]
             let speeds = OEXVideoPlayerSetting(title: Strings.videoSettingPlaybackSpeed, rows:rows , isSelected: { (row) -> Bool in
                 var selected = false
                 let savedSpeed = OEXInterface.getCCSelectedPlaybackSpeed()
