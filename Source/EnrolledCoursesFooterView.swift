@@ -8,7 +8,11 @@
 
 import Foundation
 
-class EnrolledCoursesFooterView : UIView {
+let EnrolledCoursesFooterViewHeight: CGFloat = 100
+
+class EnrolledCoursesFooterView : UICollectionReusableView {
+    static let identifier = "EnrolledCoursesFooterView"
+    
     private let promptLabel = UILabel()
     private let findCoursesButton = UIButton(type:.system)
     
@@ -20,7 +24,7 @@ class EnrolledCoursesFooterView : UIView {
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
     }
     
-    init() {
+    override init(frame: CGRect) {    
         super.init(frame: CGRect.zero)
         
         addSubview(container)

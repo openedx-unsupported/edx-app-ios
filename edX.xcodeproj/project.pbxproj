@@ -174,6 +174,7 @@
 		5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */; };
 		5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */; };
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
+		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
 		5F514FBA240696D700BA113A /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; };
 		5F514FBB240696D700BA113A /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67FDC7528B4181D9153A7C36 /* Pods_edXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */; };
@@ -445,7 +446,7 @@
 		778F176C1C0CF57F0099BF93 /* RouterEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F176B1C0CF57F0099BF93 /* RouterEnvironment.swift */; };
 		778F17711C0CFD310099BF93 /* OEXRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17701C0CFD310099BF93 /* OEXRouterTests.swift */; };
 		778F17781C0D123F0099BF93 /* CourseCatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17771C0D123F0099BF93 /* CourseCatalogViewController.swift */; };
-		778F177A1C0D125A0099BF93 /* CoursesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17791C0D125A0099BF93 /* CoursesTableViewController.swift */; };
+		778F177A1C0D125A0099BF93 /* CoursesContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17791C0D125A0099BF93 /* CoursesContainerViewController.swift */; };
 		778F177C1C0D12780099BF93 /* CourseCatalogAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F177B1C0D12780099BF93 /* CourseCatalogAPI.swift */; };
 		778F177E1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F177D1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift */; };
 		778F17831C0E06640099BF93 /* TestRouterEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778F17811C0E06480099BF93 /* TestRouterEnvironment.swift */; };
@@ -1180,6 +1181,7 @@
 		5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewPostViewController.swift; sourceTree = "<group>"; };
 		5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewPostViewController.xib; sourceTree = "<group>"; };
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
+		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
 		5F514FB9240696D700BA113A /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Libraries/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		61E8D7FCCFA0751E2D510864 /* libPods-EndToEndTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EndToEndTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6919F5FE1D65CD27006935C8 /* OEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColors.swift; sourceTree = "<group>"; };
@@ -1483,7 +1485,7 @@
 		778F176B1C0CF57F0099BF93 /* RouterEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterEnvironment.swift; sourceTree = "<group>"; };
 		778F17701C0CFD310099BF93 /* OEXRouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXRouterTests.swift; sourceTree = "<group>"; };
 		778F17771C0D123F0099BF93 /* CourseCatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCatalogViewController.swift; sourceTree = "<group>"; };
-		778F17791C0D125A0099BF93 /* CoursesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesTableViewController.swift; sourceTree = "<group>"; };
+		778F17791C0D125A0099BF93 /* CoursesContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoursesContainerViewController.swift; sourceTree = "<group>"; };
 		778F177B1C0D12780099BF93 /* CourseCatalogAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCatalogAPI.swift; sourceTree = "<group>"; };
 		778F177D1C0E049B0099BF93 /* CourseCatalogViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseCatalogViewControllerTests.swift; sourceTree = "<group>"; };
 		778F17811C0E06480099BF93 /* TestRouterEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestRouterEnvironment.swift; sourceTree = "<group>"; };
@@ -3643,7 +3645,7 @@
 			children = (
 				223DD6B91F9F59C3004A21B9 /* Tab Layout Dashboard */,
 				221D31801EC08AEE001D8D71 /* Course Dates */,
-				778F17791C0D125A0099BF93 /* CoursesTableViewController.swift */,
+				778F17791C0D125A0099BF93 /* CoursesContainerViewController.swift */,
 				77EA92251BB4590A00EC625A /* DownloadsAccessoryView.swift */,
 				77056C3D1B3F320800D9DB4A /* DetailToolbarButton.swift */,
 				9EDB10B21B0C72EF00C760C6 /* Custom Cells */,
@@ -4030,6 +4032,7 @@
 				9EDCC51D1B395BDE00A4F39D /* CourseInfoAPI.swift */,
 				F22A0ABA1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift */,
 				E0FF457820FDD24400109662 /* VideoCompletionApi.swift */,
+				5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -4893,7 +4896,7 @@
 				9EEFFD651B300E87002A88B0 /* OEXInterface+Swift.swift in Sources */,
 				1A9A1E481B8F3BB8005AE336 /* OEXCheckBox.swift in Sources */,
 				46CECC3C1B041D270073C63A /* AdditionalTableViewCell.swift in Sources */,
-				778F177A1C0D125A0099BF93 /* CoursesTableViewController.swift in Sources */,
+				778F177A1C0D125A0099BF93 /* CoursesContainerViewController.swift in Sources */,
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
 				1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */,
 				77236EED1C21C376006AC1A4 /* Paginator.swift in Sources */,
@@ -5112,6 +5115,7 @@
 				779D1CE11B8E6FE000FCC847 /* PullRefreshController.swift in Sources */,
 				B4D31D351AB1904200C8D45C /* NSJSONSerialization+OEXSafeAccess.m in Sources */,
 				223895CF1F25CF76005B9C15 /* SwipeableCell.swift in Sources */,
+				5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */,
 				777DE7141C1630110068E280 /* CourseMediaInfo.swift in Sources */,
 				E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */,
 				F22A0ABD1CE660B300D50DFF /* LoginApi.swift in Sources */,

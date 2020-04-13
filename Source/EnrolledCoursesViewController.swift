@@ -10,12 +10,12 @@ import Foundation
 
 var isActionTakenOnUpgradeSnackBar: Bool = false
 
-class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTableViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
+class EnrolledCoursesViewController : OfflineSupportViewController, CoursesContainerViewControllerDelegate, PullRefreshControllerDelegate, LoadStateViewReloadSupport,InterfaceOrientationOverriding {
     
     typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXRouterProvider & OEXStylesProvider
     
     private let environment : Environment
-    private let tableController : CoursesTableViewController
+    private let coursesContainer : CoursesContainerViewController
     private let loadController = LoadStateViewController()
     private let refreshController = PullRefreshController()
     private let insetsController = ContentInsetsController()
@@ -23,14 +23,14 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     private let userPreferencesFeed: Feed<UserPreference?>
 
     init(environment: Environment) {
-        self.tableController = CoursesTableViewController(environment: environment, context: .EnrollmentList)
-        self.enrollmentFeed = environment.dataManager.enrollmentManager.feed
-        self.userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
+        coursesContainer = CoursesContainerViewController(environment: environment, context: .enrollmentList)
+        enrollmentFeed = environment.dataManager.enrollmentManager.feed
+        userPreferencesFeed = environment.dataManager.userPreferenceManager.feed
         self.environment = environment
         
         super.init(env: environment)
-        self.navigationItem.title = Strings.courses
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.title = Strings.courses
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -40,24 +40,24 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.accessibilityIdentifier = "enrolled-courses-screen"
+        view.accessibilityIdentifier = "enrolled-courses-screen"
         view.backgroundColor = environment.styles.standardBackgroundColor()
 
-        addChild(tableController)
-        tableController.didMove(toParent: self)
-        self.loadController.setupInController(controller: self, contentView: tableController.view)
+        addChild(coursesContainer)
+        coursesContainer.didMove(toParent: self)
+        loadController.setupInController(controller: self, contentView: coursesContainer.view)
         
-        self.view.addSubview(tableController.view)
-        tableController.view.snp.makeConstraints { make in
+        view.addSubview(coursesContainer.view)
+        coursesContainer.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
-        tableController.delegate = self
+        coursesContainer.delegate = self
         
-        refreshController.setupInScrollView(scrollView: self.tableController.tableView)
+        refreshController.setupInScrollView(scrollView: coursesContainer.collectionView)
         refreshController.delegate = self
         
-        insetsController.setupInController(owner: self, scrollView: tableController.tableView)
-        insetsController.addSource(source: self.refreshController)
+        insetsController.setupInController(owner: self, scrollView: coursesContainer.collectionView)
+        insetsController.addSource(source: refreshController)
 
         // We visually separate each course card so we also need a little padding
         // at the bottom to match
@@ -65,11 +65,10 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             source: ConstantInsetsSource(insets: UIEdgeInsets(top: 0, left: 0, bottom: StandardVerticalMargin, right: 0), affectsScrollIndicators: false)
         )
         
-        self.enrollmentFeed.refresh()
-        self.userPreferencesFeed.refresh()
+        enrollmentFeed.refresh()
+        userPreferencesFeed.refresh()
         
         setupListener()
-        setupFooter()
         setupObservers()
         addFindCoursesButton()
     }
@@ -119,8 +118,8 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
             switch result {
             case let Result.success(enrollments):
                 if let enrollments = enrollments {
-                    self?.tableController.courses = enrollments.compactMap { $0.course } 
-                    self?.tableController.tableView.reloadData()
+                    self?.coursesContainer.courses = enrollments.compactMap { $0.course }
+                    self?.coursesContainer.collectionView.reloadData()
                     self?.loadController.state = .Loaded
                     if enrollments.count <= 0 {
                         self?.enrollmentsEmptyState()
@@ -142,21 +141,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
                     self?.hideSnackBar()
                 }
             }
-        }
-    }
-    
-    private func setupFooter() {
-        if isCourseDiscoveryEnabled {
-            let footer = EnrolledCoursesFooterView()
-            footer.findCoursesAction = {[weak self] in
-                self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
-            }
-            
-            footer.sizeToFit()
-            self.tableController.tableView.tableFooterView = footer
-        }
-        else {
-            tableController.tableView.tableFooterView = UIView()
         }
     }
     
@@ -207,14 +191,14 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     }
     
     private func hideSnackBarForFullScreenError() {
-        if tableController.courses.count <= 0 {
+        if coursesContainer.courses.count <= 0 {
             hideSnackBar()
         }
     }
     
-    func coursesTableChoseCourse(course: OEXCourse) {
+    func coursesContainerChoseCourse(course: OEXCourse) {
         if let course_id = course.course_id {
-            self.environment.router?.showCourseWithID(courseID: course_id, fromController: self, animated: true)
+            environment.router?.showCourseWithID(courseID: course_id, fromController: self, animated: true)
         }
         else {
             preconditionFailure("course without a course id")
@@ -229,13 +213,12 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesTable
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableController.tableView.autolayoutFooter()
     }
     
     //MARK:- PullRefreshControllerDelegate method
     func refreshControllerActivated(controller: PullRefreshController) {
-        self.enrollmentFeed.refresh()
-        self.userPreferencesFeed.refresh()
+        enrollmentFeed.refresh()
+        userPreferencesFeed.refresh()
     }
     
     //MARK:- LoadStateViewReloadSupport method 
