@@ -12,6 +12,7 @@ import CoreMedia
 protocol VideoPlayerControlsDelegate: class {
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool)
     func seekBackwardPressed(playerControls: VideoPlayerControls)
+    func seekForwardPressed(playerControls: VideoPlayerControls)
     func fullscreenPressed(playerControls: VideoPlayerControls)
     func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed)
     func sliderValueChanged(playerControls: VideoPlayerControls)
@@ -34,7 +35,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private let previousButtonSize = CGSize(width: 42.0, height: 42.0)
     private let rewindButtonSize = CGSize(width: 42.0, height: 42.0)
     private let durationSliderHeight: CGFloat = 34.0
-    private let timeRemainingLabelSize = CGSize(width: 120.0, height: 34.0)
+    private let timeRemainingLabelSize = CGSize(width: 80, height: 34.0)
     private let settingButtonSize = CGSize(width: 24.0, height: 24.0)
     private let fullScreenButtonSize = CGSize(width: 20.0, height: 20.0)
     private let tableSettingSize = CGSize(width: 110.0, height: 100.0)
@@ -88,6 +89,19 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
                 weakSelf.delegate?.seekBackwardPressed(playerControls: weakSelf)
+            }
+            }, for: .touchUpInside)
+        return button
+    }()
+    
+    lazy private var forwardButton: CustomPlayerButton = {
+        let button = CustomPlayerButton()
+        button.setImage(UIImage.RewindIcon(), for: .normal)
+        button.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1); //Flipped
+        button.tintColor = .white
+        button.oex_addAction({[weak self] (action) in
+            if let weakSelf = self {
+                weakSelf.delegate?.seekForwardPressed(playerControls: weakSelf)
             }
             }, for: .touchUpInside)
         return button
@@ -243,7 +257,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubview(topBar)
         topBar.addSubview(videoTitleLabel)
         addSubview(bottomBar)
-        bottomBar.addSubview(rewindButton)
         bottomBar.addSubview(durationSlider)
         bottomBar.addSubview(timeRemainingLabel)
         bottomBar.addSubview(btnSettings)
@@ -252,6 +265,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubview(btnNext)
         addSubview(btnPrevious)
         addSubview(playPauseButton)
+        addSubview(rewindButton)
+        addSubview(forwardButton)
         addSubview(subTitleLabel)
         addSubview(tableSettings)
 
@@ -317,14 +332,23 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         
         rewindButton.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(StandardVerticalMargin)
+            make.leading.equalTo(btnPrevious)
+            make.trailing.equalTo(playPauseButton).offset(-StandardHorizontalMargin*3)
             make.height.equalTo(rewindButtonSize.height)
             make.width.equalTo(rewindButtonSize.width)
-            make.centerY.equalTo(bottomBar.snp.centerY)
+            make.centerY.equalTo(self.snp.centerY)
+        }
+        
+        forwardButton.snp.makeConstraints { make in
+            make.leading.equalTo(playPauseButton).offset(StandardHorizontalMargin*3)
+            make.trailing.equalTo(btnNext)
+            make.height.equalTo(rewindButtonSize.height)
+            make.width.equalTo(rewindButtonSize.width)
+            make.centerY.equalTo(self.snp.centerY)
         }
         
         durationSlider.snp.makeConstraints { make in
-            make.leading.equalTo(rewindButton.snp.trailing).offset(StandardVerticalMargin)
+            make.leading.equalTo(self).offset(StandardVerticalMargin)
             make.height.equalTo(durationSliderHeight)
             make.centerY.equalTo(bottomBar.snp.centerY)
         }
@@ -396,6 +420,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         btnNext.accessibilityLabel = Strings.next
         rewindButton.accessibilityLabel = Strings.accessibilityRewind
         rewindButton.accessibilityHint = Strings.accessibilityRewindHint
+        forwardButton.accessibilityLabel = Strings.accessibilityForward
+        forwardButton.accessibilityHint = Strings.accessibilityForwardHint
         btnSettings.accessibilityLabel = Strings.accessibilitySettings
         fullScreenButton.accessibilityLabel = Strings.accessibilityFullscreen
         playPauseButton.setAccessibilityLabelsForStateNormal(normalStateLabel: Strings.accessibilityPause, selectedStateLabel: Strings.accessibilityPlay)
@@ -429,6 +455,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             self?.bottomBar.isUserInteractionEnabled = !isHidden
             self?.playPauseButton.alpha = alpha
             self?.playPauseButton.isUserInteractionEnabled = !isHidden
+            self?.rewindButton.alpha = alpha
+            self?.rewindButton.isUserInteractionEnabled = !isHidden
+            self?.forwardButton.alpha = alpha
+            self?.forwardButton.isUserInteractionEnabled = !isHidden
             self?.btnPrevious.alpha = alpha
             self?.btnNext.alpha = alpha
             self?.btnNext.isUserInteractionEnabled = !isHidden

@@ -46,7 +46,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     let loadingIndicatorView = UIActivityIndicatorView(style: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
-    private let videoSkipBackwardsDuration: Double = 30
+    private let videoSkipBackwardsDuration: Double = 10
+    private let videoSkipForwardsDuration: Double = 15
     private var playerTimeBeforeSeek:TimeInterval = 0
     private var playerState: PlayerState = .stoped
     private var isObserverAdded: Bool = false
@@ -569,7 +570,20 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         seek(to: backTime)
         
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+            environment.analytics.trackVideoSeek(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+        }
+    }
+    
+    func seekForwardPressed(playerControls: VideoPlayerControls) {
+        let oldTime = currentTime
+        let videoDuration = CMTimeGetSeconds(duration)
+        let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
+        let forwardTime = elapsedTime < videoDuration ? elapsedTime + videoSkipForwardsDuration : videoDuration
+        playerControls.updateTimeLabel(elapsedTime: forwardTime, duration: videoDuration)
+        seek(to: forwardTime)
+        
+        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+            environment.analytics.trackVideoSeek(videoId, requestedDuration:videoSkipForwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
     }
     
@@ -599,7 +613,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerControls.updateTimeLabel(elapsedTime: elapsedTime, duration: videoDuration)
         seek(to: elapsedTime)
         if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:currentTime - playerTimeBeforeSeek, oldTime:playerTimeBeforeSeek, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
+            environment.analytics.trackVideoSeek(videoId, requestedDuration:currentTime - playerTimeBeforeSeek, oldTime:playerTimeBeforeSeek, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
         }
     }
     

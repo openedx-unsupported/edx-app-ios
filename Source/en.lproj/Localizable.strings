@@ -89,7 +89,11 @@
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "Rewind";
 /* Call to action for Rewind Button in the Video Player */
-"ACCESSIBILITY_REWIND_HINT" = "Rewinds by 30 seconds.";
+"ACCESSIBILITY_REWIND_HINT" = "Rewinds by 10 seconds.";
+/* Accessibility label for Forward Button in the Video Player */
+"ACCESSIBILITY_FORWARD" = "Forward";
+/* Call to action for forward Button in the Video Player */
+"ACCESSIBILITY_FORWARD_HINT" = "Forward by 15 seconds.";
 /* Accessibility label for Seek bar in the Video Player */
 "ACCESSIBILITY_SEEK_BAR" = "Seek Bar";
 /* Accessibility label for Settings Button in the Video Player */

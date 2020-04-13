@@ -95,7 +95,11 @@
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "חזור אחורה";
 /* Call to action for Rewind Button in the Video Player */
-"ACCESSIBILITY_REWIND_HINT" = "מחזיר 30 שניות אחרוה.";
+"ACCESSIBILITY_REWIND_HINT" = "מחזיר 10 שניות אחרוה.";
+/* Accessibility label for Forward Button in the Video Player */
+"ACCESSIBILITY_FORWARD" = "Forward";
+/* Call to action for forward Button in the Video Player */
+"ACCESSIBILITY_FORWARD_HINT" = "Forward by 15 seconds.";
 /* Accessibility label for Seek bar in the Video Player */
 "ACCESSIBILITY_SEEK_BAR" = "שורת חיפוש";
 /* Accessibility label for Settings Button in the Video Player */
