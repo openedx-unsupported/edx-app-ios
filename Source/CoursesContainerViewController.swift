@@ -71,6 +71,7 @@ class CoursesContainerViewController: UICollectionViewController {
         self.context = context
         
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.alwaysBounceVertical = true
     }
     
     required init?(coder aDecoder: NSCoder) {
