@@ -28,6 +28,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private let environment : Environment
     fileprivate var settings = VideoPlayerSettings()
     private var isControlsHidden = true
+    private var isAnimating = false
     fileprivate var subtitleActivated = false
     private var bufferedTimer: Timer?
     weak private var videoPlayer: VideoPlayer?
@@ -82,6 +83,26 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         return view
     }()
     
+    lazy private var seekForwardLabel : UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.textColor = .white
+        label.alpha = 0.0
+        label.font = self.environment.styles.sansSerif(ofSize: 30)
+        label.layer.shouldRasterize = true
+        return label
+    }()
+    
+    lazy private var seekRewindLabel : UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.textColor = .white
+        label.alpha = 0.0
+        label.font = self.environment.styles.sansSerif(ofSize: 30)
+        label.layer.shouldRasterize = true
+        return label
+    }()
+    
     lazy private var rewindButton: CustomPlayerButton = {
         let button = CustomPlayerButton()
         button.setImage(UIImage.RewindIcon(), for: .normal)
@@ -89,11 +110,15 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
                 weakSelf.delegate?.seekBackwardPressed(playerControls: weakSelf)
+                if let duration = weakSelf.videoPlayer?.videoSkipBackwardsDuration {
+                    weakSelf.seekRewindLabel.text = String(format:"-%d", Int(duration))
+                }
+                weakSelf.seekRewindAnimation()
             }
             }, for: .touchUpInside)
         return button
     }()
-    
+
     lazy private var forwardButton: CustomPlayerButton = {
         let button = CustomPlayerButton()
         button.setImage(UIImage.RewindIcon(), for: .normal)
@@ -102,6 +127,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
                 weakSelf.delegate?.seekForwardPressed(playerControls: weakSelf)
+                if let duration = weakSelf.videoPlayer?.videoSkipForwardsDuration {
+                    weakSelf.seekForwardLabel.text = String(format:"+%d", Int(duration))
+                }
+                weakSelf.seekForwardAnimation()
             }
             }, for: .touchUpInside)
         return button
@@ -269,6 +298,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubview(forwardButton)
         addSubview(subTitleLabel)
         addSubview(tableSettings)
+        addSubview(seekForwardLabel)
+        addSubview(seekRewindLabel)
 
         sendSubviewToBack(tapButton)
     }
@@ -345,6 +376,20 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.height.equalTo(rewindButtonSize.height)
             make.width.equalTo(rewindButtonSize.width)
             make.centerY.equalTo(self.snp.centerY)
+        }
+        
+        seekForwardLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(forwardButton.snp.centerX).offset(5)
+            make.centerY.equalTo(forwardButton.snp.centerY)
+            make.height.equalTo(rewindButtonSize.height)
+            make.width.equalTo(rewindButtonSize.width)
+        }
+        
+        seekRewindLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(rewindButton.snp.centerX).offset(5)
+            make.centerY.equalTo(rewindButton.snp.centerY)
+            make.height.equalTo(rewindButtonSize.height)
+            make.width.equalTo(rewindButtonSize.width)
         }
         
         durationSlider.snp.makeConstraints { make in
@@ -464,6 +509,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             self?.btnNext.isUserInteractionEnabled = !isHidden
             self?.btnPrevious.alpha = alpha
             self?.btnPrevious.isUserInteractionEnabled = !isHidden
+            self?.seekRewindLabel.alpha = 0
+            self?.seekForwardLabel.alpha = 0
             
             if (!isHidden) {
                 if let owner = self {
@@ -615,6 +662,42 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     func reset() {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
         stopBufferedTimer()
+    }
+    
+    func seekForwardAnimation() {
+        if !isAnimating {
+            UIView.animate(withDuration: 0.7, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: { [weak self] in
+                self?.isAnimating = true
+                self?.seekForwardLabel.alpha = 1.0
+                if let positionX = self?.seekForwardLabel.frame.origin.x, let positionY = self?.seekForwardLabel.frame.origin.y, let width = self?.seekForwardLabel.frame.size.width, let height = self?.seekForwardLabel.frame.size.height {
+                    self?.seekForwardLabel.frame = CGRect(x: positionX + 60, y: positionY, width: width, height: height)
+                }
+            }) { [weak self] finished in
+                if let positionX = self?.seekForwardLabel.frame.origin.x, let positionY = self?.seekForwardLabel.frame.origin.y, let width = self?.seekForwardLabel.frame.size.width, let height = self?.seekForwardLabel.frame.size.height {
+                    self?.seekForwardLabel.frame = CGRect(x: positionX - 60, y: positionY, width: width, height: height)
+                }
+                self?.seekForwardLabel.alpha = 0.0
+                self?.isAnimating = false
+            }
+        }
+    }
+ 
+    func seekRewindAnimation() {
+        if !isAnimating {
+            UIView.animate(withDuration: 0.7, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: { [weak self] in
+                self?.isAnimating = true
+                self?.seekRewindLabel.alpha = 1.0
+                if let positionX = self?.seekRewindLabel.frame.origin.x, let positionY = self?.seekRewindLabel.frame.origin.y, let width = self?.seekRewindLabel.frame.size.width, let height = self?.seekRewindLabel.frame.size.height {
+                    self?.seekRewindLabel.frame = CGRect(x: positionX - 60, y: positionY, width: width, height: height)
+                }
+            }) { [weak self] finished in
+                if let positionX = self?.seekRewindLabel.frame.origin.x, let positionY = self?.seekRewindLabel.frame.origin.y, let width = self?.seekRewindLabel.frame.size.width, let height = self?.seekRewindLabel.frame.size.height {
+                    self?.seekRewindLabel.frame = CGRect(x: positionX + 60, y: positionY, width: width, height: height)
+                }
+                self?.seekRewindLabel.alpha = 0.0
+                self?.isAnimating = false
+            }
+        }
     }
 }
 

@@ -46,8 +46,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     let loadingIndicatorView = UIActivityIndicatorView(style: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
-    private let videoSkipBackwardsDuration: Double = 10
-    private let videoSkipForwardsDuration: Double = 15
+    let videoSkipBackwardsDuration: Double = 10
+    let videoSkipForwardsDuration: Double = 15
     private var playerTimeBeforeSeek:TimeInterval = 0
     private var playerState: PlayerState = .stoped
     private var isObserverAdded: Bool = false
