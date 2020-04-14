@@ -8,20 +8,20 @@
 
 import UIKit
 
-class CourseCatalogViewController: UIViewController, CoursesTableViewControllerDelegate, InterfaceOrientationOverriding {
+class CourseCatalogViewController: UIViewController, CoursesContainerViewControllerDelegate, InterfaceOrientationOverriding {
     typealias Environment = NetworkManagerProvider & OEXRouterProvider & OEXSessionProvider & OEXConfigProvider & OEXAnalyticsProvider
     
     private let environment : Environment
-    private let tableController : CoursesTableViewController
+    private let coursesContainer : CoursesContainerViewController
     private let loadController = LoadStateViewController()
     private let insetsController = ContentInsetsController()
     
     init(environment : Environment) {
         self.environment = environment
-        self.tableController = CoursesTableViewController(environment: environment, context: .CourseCatalog)
+        coursesContainer = CoursesContainerViewController(environment: environment, context: .courseCatalog)
         super.init(nibName: nil, bundle: nil)
-        self.navigationItem.title = Strings.findCourses
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.title = Strings.findCourses
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.accessibilityIdentifier = "CourseCatalogViewController:cancel-bar-button-item"
         view.accessibilityIdentifier = "course-catalog-screen"
 
@@ -33,14 +33,14 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
     }
     
     fileprivate lazy var paginationController : PaginationController<OEXCourse> = {
-        let username = self.environment.session.currentUser?.username ?? ""
+        let username = environment.session.currentUser?.username ?? ""
         precondition(username != "", "Shouldn't be showing course catalog without a logged in user")
-        let organizationCode =  self.environment.config.organizationCode()
+        let organizationCode =  environment.config.organizationCode()
         
-        let paginator = WrappedPaginator(networkManager: self.environment.networkManager) { page in
+        let paginator = WrappedPaginator(networkManager: environment.networkManager) { page in
             return CourseCatalogAPI.getCourseCatalog(userID: username, page: page, organizationCode: organizationCode)
         }
-        return PaginationController(paginator: paginator, tableView: self.tableController.tableView)
+        return PaginationController(paginator: paginator, collectionView: coursesContainer.collectionView)
     }()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,31 +49,31 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
     }
 
     private func setupAndLoadCourseCatalog() {
-        addChild(tableController)
-        tableController.didMove(toParent: self)
-        self.loadController.setupInController(controller: self, contentView: tableController.view)
+        addChild(coursesContainer)
+        coursesContainer.didMove(toParent: self)
+        loadController.setupInController(controller: self, contentView: coursesContainer.view)
 
-        self.view.addSubview(tableController.view)
-        tableController.view.snp.makeConstraints { make in
+        view.addSubview(coursesContainer.view)
+        coursesContainer.view.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
 
-        self.view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
 
-        tableController.delegate = self
+        coursesContainer.delegate = self
 
         paginationController.stream.listen(self, success:
             {[weak self] courses in
                 self?.setupLoadingState(courses: courses)
-                self?.tableController.courses = courses
-                self?.tableController.tableView.reloadData()
+                self?.coursesContainer.courses = courses
+                self?.coursesContainer.collectionView.reloadData()
             }, failure: {[weak self] error in
                 self?.loadController.state = LoadState.failed(error: error)
             }
         )
         paginationController.loadMore()
 
-        insetsController.setupInController(owner: self, scrollView: tableController.tableView)
+        insetsController.setupInController(owner: self, scrollView: coursesContainer.collectionView)
         insetsController.addSource(
             // add a little padding to the bottom since we have a big space between
             // each course card
@@ -81,11 +81,11 @@ class CourseCatalogViewController: UIViewController, CoursesTableViewControllerD
         )
     }
     
-    func coursesTableChoseCourse(course: OEXCourse) {
+    func coursesContainerChoseCourse(course: OEXCourse) {
         guard let courseID = course.course_id else {
             return
         }
-        self.environment.router?.showCourseCatalogDetail(courseID: courseID, fromController:self)
+        environment.router?.showCourseCatalogDetail(courseID: courseID, fromController:self)
     }
     
     func setupLoadingState(courses: [OEXCourse]) {
