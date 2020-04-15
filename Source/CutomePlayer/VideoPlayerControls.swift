@@ -231,7 +231,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubviews()
         setConstraints()
         setPlayerControlAccessibilityID()
-        hideAndShowControls(isHidden: isControlsHidden)
+        hideControls()
         showHideNextPrevious(isHidden: true)
     }
     
@@ -473,8 +473,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             if topBar.alpha == 1 { // hide controlls if already showing
                 hideControls()
             }
-            else { // show controlls
-                hideAndShowControls(isHidden: false)
+            else {
+                showControls()
             }
         }
         else {
@@ -485,6 +485,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
 
     @objc private func hideControls() {
         hideAndShowControls(isHidden: true)
+    }
+
+    @objc private func showControls() {
+        hideAndShowControls(isHidden: false)
     }
     
     private func settingsButtonClicked() {
