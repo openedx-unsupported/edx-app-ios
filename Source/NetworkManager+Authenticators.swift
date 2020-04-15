@@ -33,7 +33,7 @@ extension NetworkManager {
                 let json = JSON(raw)
                 
                 guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode),
-                    let error = NSError(json: json, code: response.statusCode), statusCode == .code401Unauthorised else
+                    let error = NSError(json: json, code: response.statusCode), statusCode.is4xx else
                 {
                     return AuthenticationAction.proceed
                 }
