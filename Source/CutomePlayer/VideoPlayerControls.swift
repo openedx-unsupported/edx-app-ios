@@ -490,6 +490,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private func settingsButtonClicked() {
         NSObject.cancelPreviousPerformRequests(withTarget:self)
         tableSettings.isHidden = !tableSettings.isHidden
+
+        if tableSettings.isHidden {
+            autoHide()
+        }
     }
     
     func showSubSettings(chooser: UIAlertController) {
