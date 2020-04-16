@@ -112,7 +112,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             if let weakSelf = self {
                 weakSelf.autoHide()
                 weakSelf.delegate?.seekBackwardPressed(playerControls: weakSelf)
-                if let duration = weakSelf.videoPlayer?.videoSkipBackwardsDuration {
+                if let duration = weakSelf.videoPlayer?.videoSkipBackwardDuration {
                     weakSelf.seekRewindLabel.text = String(format: "-%d", Int(duration))
                 }
                 weakSelf.seekRewindAnimation()
@@ -130,7 +130,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             if let weakSelf = self {
                 weakSelf.autoHide()
                 weakSelf.delegate?.seekForwardPressed(playerControls: weakSelf)
-                if let duration = weakSelf.videoPlayer?.videoSkipForwardsDuration {
+                if let duration = weakSelf.videoPlayer?.videoSkipForwardDuration {
                     weakSelf.seekForwardLabel.text = String(format: "+%d", Int(duration))
                 }
                 weakSelf.seekForwardAnimation()

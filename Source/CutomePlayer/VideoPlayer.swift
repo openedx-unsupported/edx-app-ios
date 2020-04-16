@@ -46,8 +46,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     let loadingIndicatorView = UIActivityIndicatorView(style: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
-    let videoSkipBackwardsDuration: Double = 10
-    let videoSkipForwardsDuration: Double = 15
+    let videoSkipBackwardDuration: Double = 10
+    let videoSkipForwardDuration: Double = 15
     private var playerTimeBeforeSeek:TimeInterval = 0
     private var playerState: PlayerState = .stoped
     private var isObserverAdded: Bool = false
@@ -565,14 +565,14 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let oldTime = currentTime
         let videoDuration = CMTimeGetSeconds(duration)
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
-        let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
+        let backTime = elapsedTime > videoSkipBackwardDuration ? elapsedTime - videoSkipBackwardDuration : 0.0
         playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
         seek(to: backTime)
         
         if let videoId = video?.summary?.videoID,
             let courseId = video?.course_id,
             let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeek(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+            environment.analytics.trackVideoSeek(videoId, requestedDuration:-videoSkipBackwardDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
     }
     
@@ -580,14 +580,14 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let oldTime = currentTime
         let videoDuration = CMTimeGetSeconds(duration)
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
-        let forwardTime = elapsedTime < videoDuration ? elapsedTime + videoSkipForwardsDuration : videoDuration
+        let forwardTime = elapsedTime < videoDuration ? elapsedTime + videoSkipForwardDuration : videoDuration
         playerControls.updateTimeLabel(elapsedTime: forwardTime, duration: videoDuration)
         seek(to: forwardTime)
         
         if let videoId = video?.summary?.videoID,
             let courseId = video?.course_id,
             let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeek(videoId, requestedDuration:videoSkipForwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+            environment.analytics.trackVideoSeek(videoId, requestedDuration:videoSkipForwardDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
     }
     
