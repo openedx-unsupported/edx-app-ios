@@ -43,13 +43,12 @@ class VideoPlayerSettings : NSObject {
     var settings: [OEXVideoPlayerSetting]  {
         get {
             self.updateMargins() //needs to be done here because the table loads the data too soon otherwise and it's nil
-            let rows:[RowType] = [("0.5x",  OEXVideoSpeed.slow), ("1.0x", OEXVideoSpeed.default), ("1.5x", OEXVideoSpeed.fast), ("2.0x", OEXVideoSpeed.xFast)]
-            let speeds = OEXVideoPlayerSetting(title: "Video Speed", rows:rows , isSelected: { (row) -> Bool in
+            let rows:[RowType] = [("0.25x",  OEXVideoSpeed.xxSlow), ("0.5x",  OEXVideoSpeed.xSlow), ("0.75x",  OEXVideoSpeed.slow), ("1.0x", OEXVideoSpeed.default), ("1.25x", OEXVideoSpeed.fast), ("1.5x", OEXVideoSpeed.xFast), ("1.75x", OEXVideoSpeed.xxFast), ("2.0x", OEXVideoSpeed.xxxFast)]
+            let speeds = OEXVideoPlayerSetting(title: Strings.videoSettingPlaybackSpeed, rows:rows , isSelected: { (row) -> Bool in
                 var selected = false
                 let savedSpeed = OEXInterface.getCCSelectedPlaybackSpeed()
-    
                 let speed = rows[row].value as! OEXVideoSpeed
-    
+                
                 selected = savedSpeed == speed
     
                 return selected
@@ -68,7 +67,7 @@ class VideoPlayerSettings : NSObject {
                     }
                 }
     
-                let cc = OEXVideoPlayerSetting(title: "Closed Captions", rows: rows, isSelected: { (row) -> Bool in
+                let cc = OEXVideoPlayerSetting(title: Strings.videoSettingClosedCaptions, rows: rows, isSelected: { (row) -> Bool in
                     var selected = false
                     if let selectedLanguage:String = OEXInterface.getCCSelectedLanguage() {
                         let lang = rows[row].value as! String

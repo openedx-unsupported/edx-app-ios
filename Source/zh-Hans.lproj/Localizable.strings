@@ -776,6 +776,10 @@
 "VIDEO_NOT_AVAILABLE"="本视频在离线模式下不可看。\n请选择一个已下载到设备中的视频。";
 /* Shows in the video setting sub-table which item is selected */
 "VIDEO_SETTING_SELECTED" = "✓ %@";
+/*Shows this closed captions option in the video setting*/
+"VIDEO_SETTING_CLOSED_CAPTIONS" = "Closed Captions";
+/*Shows this video speed option in the video setting*/
+"VIDEO_SETTING_PLAYBACK_SPEED" = "Video Speed";
 /* Button action to open app on YouTube */
 "VIDEO.VIEW_ON_YOUTUBE" = "在YouTube上观看视频";
 /* Message shown for videos that can only be played external the app via YouTube. */

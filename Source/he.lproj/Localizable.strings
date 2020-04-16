@@ -817,6 +817,10 @@
 "VIDEO_NOT_AVAILABLE"="סרטון זה לא זמין במצב לא מקוון.\nאנא בחר בסרטון שהורדת למכשירך.";
 /* Shows in the video setting sub-table which item is selected */
 "VIDEO_SETTING_SELECTED" = "✓ %@";
+/*Shows this closed captions option in the video setting*/
+"VIDEO_SETTING_CLOSED_CAPTIONS" = "Closed Captions";
+/*Shows this video speed option in the video setting*/
+"VIDEO_SETTING_PLAYBACK_SPEED" = "Video Speed";
 /* Button action to open app on YouTube */
 "VIDEO.VIEW_ON_YOUTUBE" = "צפו בוידאו ביוטיוב";
 /* Message shown for videos that can only be played external the app via YouTube. */

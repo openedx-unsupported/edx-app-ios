@@ -241,15 +241,31 @@ static OEXInterface* _sharedInterface = nil;
 
 + (float) getOEXVideoSpeed:(OEXVideoSpeed) speed {
     switch (speed) {
+        case OEXVideoSpeedXXSlow:
+            return 0.25;
+            break;
+        case OEXVideoSpeedXSlow:
+            return 0.5;
+            break;
+        case OEXVideoSpeedSlow:
+            return 0.75;
+            break;
         case OEXVideoSpeedDefault:
             return 1.0;
             break;
-        case OEXVideoSpeedSlow:
-            return 0.5;
         case OEXVideoSpeedFast:
-            return 1.5;
+            return 1.25;
+            break;
         case OEXVideoSpeedXFast:
+            return 1.5;
+            break;
+        case OEXVideoSpeedXXFast:
+            return 1.75;
+            break;
+        case OEXVideoSpeedXXXFast:
             return 2.0;
+            break;
+        
         default:
             return 1.0;
             break;
