@@ -231,7 +231,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubviews()
         setConstraints()
         setPlayerControlAccessibilityID()
-        hideAndShowControls(isHidden: isControlsHidden)
+        hideControls()
         showHideNextPrevious(isHidden: true)
     }
     
@@ -417,7 +417,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     @objc func autoHide() {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
         if !UIAccessibility.isVoiceOverRunning {
-            perform(#selector(hideAndShowControls(isHidden:)), with: 1, afterDelay: 3.0)
+            perform(#selector(VideoPlayerControls.hideControls), with: nil, afterDelay: 3.0)
         }
     }
     
@@ -470,17 +470,34 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     private func contentTapped() {
         if tableSettings.isHidden {
-            hideAndShowControls(isHidden: !isControlsHidden)
+            if topBar.alpha == 1 { // hide controlls if already showing
+                hideControls()
+            }
+            else {
+                showControls()
+            }
         }
         else {
             tableSettings.isHidden = true
             autoHide()
         }
     }
+
+    @objc private func hideControls() {
+        hideAndShowControls(isHidden: true)
+    }
+
+    @objc private func showControls() {
+        hideAndShowControls(isHidden: false)
+    }
     
     private func settingsButtonClicked() {
         NSObject.cancelPreviousPerformRequests(withTarget:self)
         tableSettings.isHidden = !tableSettings.isHidden
+
+        if tableSettings.isHidden {
+            autoHide()
+        }
     }
     
     func showSubSettings(chooser: UIAlertController) {
@@ -489,6 +506,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         
         chooser.configurePresentationController(withSourceView: btnSettings)
         controller?.present(chooser, animated: true, completion: nil)
+        autoHide()
     }
     
     func setCaption(language: String) {
