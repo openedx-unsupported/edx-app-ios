@@ -569,7 +569,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
         seek(to: backTime)
         
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+        if let videoId = video?.summary?.videoID,
+            let courseId = video?.course_id,
+            let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSeek(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
     }
@@ -582,7 +584,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         playerControls.updateTimeLabel(elapsedTime: forwardTime, duration: videoDuration)
         seek(to: forwardTime)
         
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+        if let videoId = video?.summary?.videoID,
+            let courseId = video?.course_id,
+            let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSeek(videoId, requestedDuration:videoSkipForwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
     }
@@ -612,7 +616,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
         playerControls.updateTimeLabel(elapsedTime: elapsedTime, duration: videoDuration)
         seek(to: elapsedTime)
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
+        if let videoId = video?.summary?.videoID,
+            let courseId = video?.course_id,
+            let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoSeek(videoId, requestedDuration:currentTime - playerTimeBeforeSeek, oldTime:playerTimeBeforeSeek, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
         }
     }

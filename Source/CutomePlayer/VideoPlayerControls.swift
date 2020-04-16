@@ -41,6 +41,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private let fullScreenButtonSize = CGSize(width: 20.0, height: 20.0)
     private let tableSettingSize = CGSize(width: 110.0, height: 100.0)
     private let nextButtonSize = CGSize(width: 42.0, height: 42.0)
+    private let seekAnimationDuration = 0.4
     
     var video : OEXHelperVideoDownload? {
         didSet {
@@ -109,9 +110,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.tintColor = .white
         button.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
+                weakSelf.autoHide()
                 weakSelf.delegate?.seekBackwardPressed(playerControls: weakSelf)
                 if let duration = weakSelf.videoPlayer?.videoSkipBackwardsDuration {
-                    weakSelf.seekRewindLabel.text = String(format:"-%d", Int(duration))
+                    weakSelf.seekRewindLabel.text = String(format: "-%d", Int(duration))
                 }
                 weakSelf.seekRewindAnimation()
             }
@@ -126,9 +128,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.tintColor = .white
         button.oex_addAction({[weak self] (action) in
             if let weakSelf = self {
+                weakSelf.autoHide()
                 weakSelf.delegate?.seekForwardPressed(playerControls: weakSelf)
                 if let duration = weakSelf.videoPlayer?.videoSkipForwardsDuration {
-                    weakSelf.seekForwardLabel.text = String(format:"+%d", Int(duration))
+                    weakSelf.seekForwardLabel.text = String(format: "+%d", Int(duration))
                 }
                 weakSelf.seekForwardAnimation()
             }
@@ -666,15 +669,21 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     func seekForwardAnimation() {
         if !isAnimating {
-            UIView.animate(withDuration: 0.7, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: { [weak self] in
+            UIView.animate(withDuration: seekAnimationDuration, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: { [weak self] in
                 self?.isAnimating = true
                 self?.seekForwardLabel.alpha = 1.0
-                if let positionX = self?.seekForwardLabel.frame.origin.x, let positionY = self?.seekForwardLabel.frame.origin.y, let width = self?.seekForwardLabel.frame.size.width, let height = self?.seekForwardLabel.frame.size.height {
-                    self?.seekForwardLabel.frame = CGRect(x: positionX + 60, y: positionY, width: width, height: height)
+                if let positionX = self?.seekForwardLabel.frame.origin.x,
+                    let positionY = self?.seekForwardLabel.frame.origin.y,
+                    let width = self?.seekForwardLabel.frame.size.width,
+                    let height = self?.seekForwardLabel.frame.size.height {
+                    self?.seekForwardLabel.frame = CGRect(x: positionX + 50, y: positionY, width: width, height: height)
                 }
             }) { [weak self] finished in
-                if let positionX = self?.seekForwardLabel.frame.origin.x, let positionY = self?.seekForwardLabel.frame.origin.y, let width = self?.seekForwardLabel.frame.size.width, let height = self?.seekForwardLabel.frame.size.height {
-                    self?.seekForwardLabel.frame = CGRect(x: positionX - 60, y: positionY, width: width, height: height)
+                if let positionX = self?.seekForwardLabel.frame.origin.x,
+                    let positionY = self?.seekForwardLabel.frame.origin.y,
+                    let width = self?.seekForwardLabel.frame.size.width,
+                    let height = self?.seekForwardLabel.frame.size.height {
+                    self?.seekForwardLabel.frame = CGRect(x: positionX - 50, y: positionY, width: width, height: height)
                 }
                 self?.seekForwardLabel.alpha = 0.0
                 self?.isAnimating = false
@@ -684,15 +693,15 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
  
     func seekRewindAnimation() {
         if !isAnimating {
-            UIView.animate(withDuration: 0.7, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: { [weak self] in
+            UIView.animate(withDuration: seekAnimationDuration, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: { [weak self] in
                 self?.isAnimating = true
                 self?.seekRewindLabel.alpha = 1.0
                 if let positionX = self?.seekRewindLabel.frame.origin.x, let positionY = self?.seekRewindLabel.frame.origin.y, let width = self?.seekRewindLabel.frame.size.width, let height = self?.seekRewindLabel.frame.size.height {
-                    self?.seekRewindLabel.frame = CGRect(x: positionX - 60, y: positionY, width: width, height: height)
+                    self?.seekRewindLabel.frame = CGRect(x: positionX - 45, y: positionY, width: width, height: height)
                 }
             }) { [weak self] finished in
                 if let positionX = self?.seekRewindLabel.frame.origin.x, let positionY = self?.seekRewindLabel.frame.origin.y, let width = self?.seekRewindLabel.frame.size.width, let height = self?.seekRewindLabel.frame.size.height {
-                    self?.seekRewindLabel.frame = CGRect(x: positionX + 60, y: positionY, width: width, height: height)
+                    self?.seekRewindLabel.frame = CGRect(x: positionX + 45, y: positionY, width: width, height: height)
                 }
                 self?.seekRewindLabel.alpha = 0.0
                 self?.isAnimating = false
