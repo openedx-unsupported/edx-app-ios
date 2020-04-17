@@ -88,15 +88,27 @@ class VideoPlayerTests: XCTestCase {
         }
     }
     
-    // Test the backwarward seek functionality
+    // Test the backward seek functionality
     func testSeekBackword() {
         loadVideoPlayer { videoPlayer in
             XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
             videoPlayer.seek(to: 34.168155555555558)
             videoPlayer.t_controls?.durationSliderValue = 1.01
-            videoPlayer.seekBackwardPressed(playerControls: videoPlayer.t_controls!)
+            videoPlayer.seekVideo(playerControls: videoPlayer.t_controls!, skipDuration: 10, type: .rewind)
             let currentTime = videoPlayer.currentTime
-            XCTAssertGreaterThanOrEqual(currentTime, 3.93)
+            XCTAssertGreaterThanOrEqual(currentTime, 23.93)
+        }
+    }
+    
+    // Test the forward seek functionality
+    func testSeekForword() {
+        loadVideoPlayer { videoPlayer in
+            XCTAssertEqual(videoPlayer.t_playerCurrentState, .readyToPlay)
+            videoPlayer.seek(to: 34.168155555555558)
+            videoPlayer.t_controls?.durationSliderValue = 1.01
+            videoPlayer.seekVideo(playerControls: videoPlayer.t_controls!, skipDuration: 15, type: .forward)
+            let currentTime = videoPlayer.currentTime
+            XCTAssertGreaterThanOrEqual(currentTime, 23.93)
         }
     }
     

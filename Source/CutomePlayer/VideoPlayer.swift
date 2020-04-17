@@ -46,8 +46,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     let loadingIndicatorView = UIActivityIndicatorView(style: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
-    let videoSkipBackwardDuration: Double = 10
-    let videoSkipForwardDuration: Double = 15
     private var playerTimeBeforeSeek:TimeInterval = 0
     private var playerState: PlayerState = .stoped
     private var isObserverAdded: Bool = false
@@ -561,33 +559,30 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    func seekBackwardPressed(playerControls: VideoPlayerControls) {
+    func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType) {
         let oldTime = currentTime
         let videoDuration = CMTimeGetSeconds(duration)
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
-        let backTime = elapsedTime > videoSkipBackwardDuration ? elapsedTime - videoSkipBackwardDuration : 0.0
-        playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
-        seek(to: backTime)
+        var time = 0.0
+        var requestedDuration: Double = 0.0
         
-        if let videoId = video?.summary?.videoID,
-            let courseId = video?.course_id,
-            let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeek(videoId, requestedDuration:-videoSkipBackwardDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+        switch type {
+        case .rewind:
+            time = elapsedTime > skipDuration ? elapsedTime - skipDuration : 0.0
+            requestedDuration = -skipDuration
+            break
+        case .forward:
+            time = (elapsedTime + skipDuration) < videoDuration ? elapsedTime + skipDuration : videoDuration
+            requestedDuration = skipDuration
+            break
         }
-    }
-    
-    func seekForwardPressed(playerControls: VideoPlayerControls) {
-        let oldTime = currentTime
-        let videoDuration = CMTimeGetSeconds(duration)
-        let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
-        let forwardTime = elapsedTime < videoDuration ? elapsedTime + videoSkipForwardDuration : videoDuration
-        playerControls.updateTimeLabel(elapsedTime: forwardTime, duration: videoDuration)
-        seek(to: forwardTime)
         
+        playerControls.updateTimeLabel(elapsedTime: time, duration: videoDuration)
+        seek(to: time)
         if let videoId = video?.summary?.videoID,
             let courseId = video?.course_id,
             let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeek(videoId, requestedDuration:videoSkipForwardDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+            environment.analytics.trackVideoSeek(videoId, requestedDuration:requestedDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
     }
     
