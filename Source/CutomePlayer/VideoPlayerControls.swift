@@ -443,7 +443,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             }
             else {
                 if let owner = self {
-                    self?.tableSettings.isHidden = true
+                    owner.tableSettings.isHidden = true
                     owner.bringSubviewToFront(owner.tapButton)
                 }
             }
