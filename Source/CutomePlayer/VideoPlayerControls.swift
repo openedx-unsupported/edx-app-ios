@@ -116,9 +116,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.tintColor = .white
         button.oex_addAction({[weak self] (action) in
             guard let weakSelf = self, weakSelf.durationSliderValue > weakSelf.durationSlider.minimumValue else {return}
-                weakSelf.autoHide()
                 weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekBackwardDuration, type: .rewind)
-                weakSelf.seekAnimation(seekLabel: weakSelf.seekRewindLabel, seekType: .rewind, animationFrame: 45)
+                weakSelf.seekAnimation(seekLabel: weakSelf.seekRewindLabel, seekType: .rewind, animationOffset: 45)
             }, for: .touchUpInside)
         return button
     }()
@@ -130,9 +129,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.tintColor = .white
         button.oex_addAction({[weak self] (action) in
             guard let weakSelf = self, weakSelf.durationSliderValue < weakSelf.durationSlider.maximumValue - 0.001 else {return}
-                weakSelf.autoHide()
                 weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekForwardDuration, type: .forward)
-            weakSelf.seekAnimation(seekLabel: weakSelf.seekForwardLabel, seekType: .forward, animationFrame: 50)
+                weakSelf.seekAnimation(seekLabel: weakSelf.seekForwardLabel, seekType: .forward, animationOffset: 50)
             }, for: .touchUpInside)
         return button
     }()
@@ -663,17 +661,18 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         stopBufferedTimer()
     }
     
-    func seekAnimation(seekLabel: UILabel, seekType: SeekType, animationFrame: CGFloat) {
+    func seekAnimation(seekLabel: UILabel, seekType: SeekType, animationOffset: CGFloat) {
+        autoHide()
         if !isAnimating {
             isAnimating = true
+            let defaultFrame = seekLabel.frame
             seekLabel.text = seekType == .rewind ? String(format: "-%d", Int(seekBackwardDuration)) : String(format: "+%d", Int(seekForwardDuration))
             UIView.animate(withDuration: seekAnimationDuration, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {
                 seekLabel.alpha = 1.0
-                let positionX = seekType == .forward ? animationFrame : -animationFrame
-                seekLabel.frame = CGRect(x: seekLabel.frame.origin.x + positionX, y: seekLabel.frame.origin.y, width: seekLabel.frame.size.width, height: seekLabel.frame.size.height)
+                let offset = seekType == .forward ? animationOffset : -animationOffset
+                seekLabel.frame = CGRect(x: seekLabel.frame.origin.x + offset, y: seekLabel.frame.origin.y, width: seekLabel.frame.size.width, height: seekLabel.frame.size.height)
             }) { [weak self] finished in
-                let positionX = seekType == .forward ? -animationFrame : animationFrame
-                    seekLabel.frame = CGRect(x: seekLabel.frame.origin.x + positionX, y: seekLabel.frame.origin.y, width: seekLabel.frame.size.width, height: seekLabel.frame.size.height)
+                seekLabel.frame = defaultFrame
                 seekLabel.alpha = 0.0
                 self?.isAnimating = false
             }
