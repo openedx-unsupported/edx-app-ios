@@ -670,7 +670,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             UIView.animate(withDuration: seekAnimationDuration, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {
                 seekLabel.alpha = 1.0
                 let offset = seekType == .forward ? animationOffset : -animationOffset
-                seekLabel.frame = CGRect(x: seekLabel.frame.origin.x + offset, y: seekLabel.frame.origin.y, width: seekLabel.frame.size.width, height: seekLabel.frame.size.height)
+                seekLabel.frame = CGRect(x: defaultFrame.origin.x + offset, y: defaultFrame.origin.y, width: defaultFrame.size.width, height: defaultFrame.size.height)
             }) { [weak self] finished in
                 seekLabel.frame = defaultFrame
                 seekLabel.alpha = 0.0
