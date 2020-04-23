@@ -254,6 +254,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubview(playPauseButton)
         addSubview(subTitleLabel)
         addSubview(tableSettings)
+
+        sendSubviewToBack(tapButton)
     }
     
     var durationSliderValue: Float {
@@ -359,10 +361,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         
         tapButton.snp.makeConstraints { make in
-            make.leading.equalTo(self)
-            make.trailing.equalTo(self)
-            make.top.equalTo(self)
-            make.bottom.equalTo(bottomBar.snp.top)
+            make.edges.equalTo(self)
         }
         
         btnPrevious.snp.makeConstraints { make in
@@ -437,10 +436,16 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             self?.btnPrevious.isUserInteractionEnabled = !isHidden
             
             if (!isHidden) {
-                self?.autoHide()
+                if let owner = self {
+                    owner.autoHide()
+                    owner.sendSubviewToBack(owner.tapButton)
+                }
             }
             else {
-                self?.tableSettings.isHidden = true
+                if let owner = self {
+                    owner.tableSettings.isHidden = true
+                    owner.bringSubviewToFront(owner.tapButton)
+                }
             }
             }, completion: { [weak self] _ in
                 self?.updateSubtTitleConstraints()
