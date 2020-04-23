@@ -122,7 +122,9 @@ OEXRegistrationViewControllerDelegate
 }
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
-    [self presentViewController:[self loginViewController] fromController:[[UIApplication sharedApplication] topMostController] completion:completion];
+    if ([[[UIApplication sharedApplication] topMostController] isKindOfClass:[OEXLoginViewController class]] == NO) {
+        [self presentViewController:[self loginViewController] fromController:[[UIApplication sharedApplication] topMostController] completion:completion];
+    }
 }
 
 - (UINavigationController *) loginViewController {
