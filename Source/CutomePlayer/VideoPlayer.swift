@@ -540,12 +540,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
         else {
-
+            
             guard let video = video else { return }
-
+            
             let playedInterval = environment.interface?.lastPlayedInterval(forVideo: video) ?? 0.0
             let duration = Float(video.summary?.duration ?? 0)
-
+            
             // Ignore the last second of video because sometimes saved played time is 1 second less duration for a watched video
             if duration > 0 && playedInterval + 1 >= duration {
                 // Replay the video

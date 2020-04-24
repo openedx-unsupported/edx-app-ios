@@ -46,8 +46,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private let nextButtonSize = CGSize(width: 42.0, height: 42.0)
     private let seekAnimationDuration = 0.4
     private let seekLabelSize : CGFloat = OEXTextStyle.pointSize(for: OEXTextSize.base)
-    let seekBackwardDuration: Double = 10
-    let seekForwardDuration: Double = 15
+    private let seekBackwardDuration: Double = 10
+    private let seekForwardDuration: Double = 15
     
     var video : OEXHelperVideoDownload? {
         didSet {
@@ -95,7 +95,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.backgroundColor = .clear
         label.textColor = .white
         label.alpha = 0.0
-        label.font = self.environment.styles.sansSerif(ofSize: seekLabelSize)
+        label.font = environment.styles.sansSerif(ofSize: seekLabelSize)
         label.layer.shouldRasterize = true
         return label
     }()
@@ -105,7 +105,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         label.backgroundColor = .clear
         label.textColor = .white
         label.alpha = 0.0
-        label.font = self.environment.styles.sansSerif(ofSize: seekLabelSize)
+        label.font = environment.styles.sansSerif(ofSize: seekLabelSize)
         label.layer.shouldRasterize = true
         return label
     }()
@@ -114,23 +114,23 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         let button = CustomPlayerButton()
         button.setImage(UIImage.RewindIcon(), for: .normal)
         button.tintColor = .white
-        button.oex_addAction({[weak self] (action) in
-            guard let weakSelf = self, weakSelf.durationSliderValue > weakSelf.durationSlider.minimumValue else {return}
-                weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekBackwardDuration, type: .rewind)
-                weakSelf.seekAnimation(seekLabel: weakSelf.seekRewindLabel, seekType: .rewind, animationOffset: 45)
+        button.oex_addAction({ [weak self] action in
+            guard let weakSelf = self, weakSelf.durationSliderValue > weakSelf.durationSlider.minimumValue else { return }
+            weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekBackwardDuration, type: .rewind)
+            weakSelf.seekAnimation(seekLabel: weakSelf.seekRewindLabel, seekType: .rewind, animationOffset: 45)
             }, for: .touchUpInside)
         return button
     }()
-
+    
     lazy private var forwardButton: CustomPlayerButton = {
         let button = CustomPlayerButton()
         button.setImage(UIImage.RewindIcon(), for: .normal)
         button.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1); //Flipped
         button.tintColor = .white
-        button.oex_addAction({[weak self] (action) in
-            guard let weakSelf = self, weakSelf.durationSliderValue < weakSelf.durationSlider.maximumValue - 0.001 else {return}
-                weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekForwardDuration, type: .forward)
-                weakSelf.seekAnimation(seekLabel: weakSelf.seekForwardLabel, seekType: .forward, animationOffset: 50)
+        button.oex_addAction( {[weak self] action in
+            guard let weakSelf = self, weakSelf.durationSliderValue < weakSelf.durationSlider.maximumValue - 0.001 else { return }
+            weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekForwardDuration, type: .forward)
+            weakSelf.seekAnimation(seekLabel: weakSelf.seekForwardLabel, seekType: .forward, animationOffset: 50)
             }, for: .touchUpInside)
         return button
     }()
@@ -299,7 +299,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubview(tableSettings)
         addSubview(seekForwardLabel)
         addSubview(seekRewindLabel)
-
+        
         sendSubviewToBack(tapButton)
     }
     
@@ -561,11 +561,11 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             autoHide()
         }
     }
-
+    
     @objc private func hideControls() {
         hideAndShowControls(isHidden: true)
     }
-
+    
     @objc private func showControls() {
         hideAndShowControls(isHidden: false)
     }
@@ -573,7 +573,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private func settingsButtonClicked() {
         NSObject.cancelPreviousPerformRequests(withTarget:self)
         tableSettings.isHidden = !tableSettings.isHidden
-
+        
         if tableSettings.isHidden {
             autoHide()
         }
