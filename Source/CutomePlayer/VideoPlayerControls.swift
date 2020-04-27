@@ -127,7 +127,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.setImage(UIImage.RewindIcon(), for: .normal)
         button.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1); //Flipped
         button.tintColor = .white
-        button.oex_addAction( {[weak self] action in
+        button.oex_addAction({ [weak self] action in
             guard let weakSelf = self, weakSelf.durationSliderValue < weakSelf.durationSlider.maximumValue - 0.001 else { return }
             weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekForwardDuration, type: .forward)
             weakSelf.seekAnimation(seekLabel: weakSelf.seekForwardLabel, seekType: .forward, animationOffset: 50)
@@ -141,7 +141,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         slider.setThumbImage(UIImage(named: "ic_seek_thumb.png"), for: .normal)
         slider.setMinimumTrackImage(UIImage(named: "ic_progressbar.png"), for: .normal)
         slider.secondaryTrackColor = UIColor(red: 76.0/255.0, green: 135.0/255.0, blue: 130.0/255.0, alpha: 0.9)
-        slider.oex_addAction({[weak self] (action) in
+        slider.oex_addAction({ [weak self] (action) in
             if let weakSelf = self {
                 weakSelf.delegate?.sliderValueChanged(playerControls: weakSelf)
             }

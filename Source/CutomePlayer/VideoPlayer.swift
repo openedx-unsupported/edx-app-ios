@@ -52,6 +52,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     private let playerTimeOutInterval:TimeInterval = 60.0
     private let preferredTimescale:Int32 = 100
     fileprivate var fullScreenContainerView: UIView?
+    private var seekInProgress = false
     
     // UIPageViewController keep multiple viewControllers simultanously for smooth switching
     // on view transitioning this method calls for every viewController which cause framing issue for fullscreen mode
@@ -209,7 +210,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let duration = CMTimeGetSeconds(self.duration)
         if duration.isFinite {
             let elapsedTime = CMTimeGetSeconds(elapsedTime)
-            controls?.durationSliderValue = Float(elapsedTime / duration)
+            if !seekInProgress {
+                controls?.durationSliderValue = Float(elapsedTime / duration)
+            }
             controls?.updateTimeLabel(elapsedTime: elapsedTime, duration: duration)
         }
     }
@@ -558,36 +561,38 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
     }
-    
+        
     func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType) {
         let oldTime = currentTime
         let videoDuration = CMTimeGetSeconds(duration)
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
-        var time = 0.0
         var requestedDuration: Double = 0.0
-        
+
         switch type {
         case .rewind:
-            time = elapsedTime > skipDuration ? elapsedTime - skipDuration : 0.0
             requestedDuration = -skipDuration
             break
         case .forward:
-            time = (elapsedTime + skipDuration) < videoDuration ? elapsedTime + skipDuration : videoDuration
             requestedDuration = skipDuration
             break
         }
         
-        playerControls.updateTimeLabel(elapsedTime: time, duration: videoDuration)
-        seek(to: time)
+        let estimatedSliderValue = Float((elapsedTime + requestedDuration) / duration.seconds)
+        playerControls.durationSliderValue = estimatedSliderValue
+        seekInProgress = true
+        seek(to: elapsedTime + requestedDuration) {
+            self.seekInProgress = false
+        }
+        
         if let videoId = video?.summary?.videoID,
             let courseId = video?.course_id,
             let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeek(videoId, requestedDuration:requestedDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+            environment.analytics.trackVideoSeek(videoId, requestedDuration: requestedDuration, oldTime: oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
     }
     
     func fullscreenPressed(playerControls: VideoPlayerControls) {
-        DispatchQueue.main.async {[weak self] in
+        DispatchQueue.main.async{ [weak self] in
             if let weakSelf = self {
                 weakSelf.setFullscreen(fullscreen: !weakSelf.isFullScreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:!weakSelf.isVerticallyCompact())
             }
@@ -617,11 +622,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             environment.analytics.trackVideoSeek(videoId, requestedDuration:currentTime - playerTimeBeforeSeek, oldTime:playerTimeBeforeSeek, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
         }
     }
-    
-    func seek(to time: Double) {
+
+    func seek(to time: Double, completion: (() -> Void)? = nil) {
         if player.currentItem?.status != .readyToPlay { return }
         
-        player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) { [weak self]
+        let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale)
+        player.currentItem?.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self]
             (completed: Bool) -> Void in
             if self?.playerState == .playing {
                 self?.controls?.autoHide()
@@ -630,6 +636,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             else {
                 self?.savePlayedTime()
             }
+            completion?()
         }
     }
     
