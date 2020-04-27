@@ -104,7 +104,7 @@ class YoutubeVideoPlayer: VideoPlayer {
         }
     }
 
-    override func seek(to time: Double, completion: (() -> Void)? = nil) {
+    override func seek(to time: Double) {
         playerView.seek(toSeconds: Float(time), allowSeekAhead: true)
     }
     
