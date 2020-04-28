@@ -236,6 +236,10 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 + (OEXVideoSpeed)getCCSelectedPlaybackSpeed {
+    
+    if(![[NSUserDefaults standardUserDefaults] objectForKey:PERSIST_PLAYBACKSPEED]) {
+        return OEXVideoSpeedDefault;
+    }
     return [[NSUserDefaults standardUserDefaults] integerForKey:PERSIST_PLAYBACKSPEED];
 }
 

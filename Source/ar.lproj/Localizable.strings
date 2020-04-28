@@ -101,7 +101,11 @@
 /* Accessibility label for Rewind Button in the Video Player */
 "ACCESSIBILITY_REWIND" = "رجوع";
 /* Call to action for Rewind Button in the Video Player */
-"ACCESSIBILITY_REWIND_HINT" = "رجوع بفاصل زمني 30 ثانية";
+"ACCESSIBILITY_REWIND_HINT" = "رجوع بفاصل زمني 10 ثانية";
+/* Accessibility label for Forward Button in the Video Player */
+"ACCESSIBILITY_FORWARD" = "Forward";
+/* Call to action for forward Button in the Video Player */
+"ACCESSIBILITY_FORWARD_HINT" = "Forward by 15 seconds.";
 /* Accessibility label for Seek bar in the Video Player */
 "ACCESSIBILITY_SEEK_BAR" = "شريط التتبّع";
 /* Accessibility label for Settings Button in the Video Player */

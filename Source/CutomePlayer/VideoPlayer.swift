@@ -46,7 +46,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     let loadingIndicatorView = UIActivityIndicatorView(style: .white)
     private var lastElapsedTime: TimeInterval = 0
     private var transcriptManager: TranscriptManager?
-    private let videoSkipBackwardsDuration: Double = 30
     private var playerTimeBeforeSeek:TimeInterval = 0
     private var playerState: PlayerState = .stoped
     private var isObserverAdded: Bool = false
@@ -541,12 +540,12 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             environment.interface?.sendAnalyticsEvents(.pause, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
         else {
-
+            
             guard let video = video else { return }
-
+            
             let playedInterval = environment.interface?.lastPlayedInterval(forVideo: video) ?? 0.0
             let duration = Float(video.summary?.duration ?? 0)
-
+            
             // Ignore the last second of video because sometimes saved played time is 1 second less duration for a watched video
             if duration > 0 && playedInterval + 1 >= duration {
                 // Replay the video
@@ -559,22 +558,27 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: nil)
         }
     }
-    
-    func seekBackwardPressed(playerControls: VideoPlayerControls) {
+        
+    func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType) {
         let oldTime = currentTime
         let videoDuration = CMTimeGetSeconds(duration)
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
-        let backTime = elapsedTime > videoSkipBackwardsDuration ? elapsedTime - videoSkipBackwardsDuration : 0.0
-        playerControls.updateTimeLabel(elapsedTime: backTime, duration: videoDuration)
-        seek(to: backTime)
+        let requestedDuration = type == .rewind ? -skipDuration : skipDuration
+        let updatedElapseTime = elapsedTime + requestedDuration
+        let estimatedSliderValue = Float(updatedElapseTime / duration.seconds)
+        playerControls.durationSliderValue = estimatedSliderValue
+        playerControls.updateTimeLabel(elapsedTime: updatedElapseTime, duration: CMTimeGetSeconds(self.duration))
+        seek(to: elapsedTime + requestedDuration)
         
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:-videoSkipBackwardsDuration, oldTime:oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
+        if let videoId = video?.summary?.videoID,
+            let courseId = video?.course_id,
+            let unitUrl = video?.summary?.unitURL {
+            environment.analytics.trackVideoSeek(videoId, requestedDuration: requestedDuration, oldTime: oldTime, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "skip")
         }
     }
     
     func fullscreenPressed(playerControls: VideoPlayerControls) {
-        DispatchQueue.main.async {[weak self] in
+        DispatchQueue.main.async{ [weak self] in
             if let weakSelf = self {
                 weakSelf.setFullscreen(fullscreen: !weakSelf.isFullScreen, animated: true, with: UIInterfaceOrientation.landscapeLeft, forceRotate:!weakSelf.isVerticallyCompact())
             }
@@ -598,15 +602,18 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         let elapsedTime: Float64 = videoDuration * Float64(playerControls.durationSliderValue)
         playerControls.updateTimeLabel(elapsedTime: elapsedTime, duration: videoDuration)
         seek(to: elapsedTime)
-        if let videoId = video?.summary?.videoID, let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
-            environment.analytics.trackVideoSeekRewind(videoId, requestedDuration:currentTime - playerTimeBeforeSeek, oldTime:playerTimeBeforeSeek, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
+        if let videoId = video?.summary?.videoID,
+            let courseId = video?.course_id,
+            let unitUrl = video?.summary?.unitURL {
+            environment.analytics.trackVideoSeek(videoId, requestedDuration:currentTime - playerTimeBeforeSeek, oldTime:playerTimeBeforeSeek, newTime: currentTime, courseID: courseId, unitURL: unitUrl, skipType: "slide")
         }
     }
-    
+
     func seek(to time: Double) {
         if player.currentItem?.status != .readyToPlay { return }
         
-        player.currentItem?.seek(to: CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.zero) { [weak self]
+        let cmTime = CMTimeMakeWithSeconds(time, preferredTimescale: preferredTimescale)
+        player.currentItem?.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self]
             (completed: Bool) -> Void in
             if self?.playerState == .playing {
                 self?.controls?.autoHide()

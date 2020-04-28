@@ -271,7 +271,7 @@ static OEXAnalytics* sAnalytics;
     [self trackVideoPlayerEvent:event withInfo:info];
 }
 
-- (void)trackVideoSeekRewind:(NSString*)videoId
+- (void)trackVideoSeek:(NSString*)videoId
            RequestedDuration:(NSTimeInterval)requestedDuration
                      OldTime:(NSTimeInterval)oldTime
                      NewTime:(NSTimeInterval)newTime

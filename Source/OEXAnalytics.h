@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
                    CourseID:(NSString*)courseId
                     UnitURL:(NSString*)unitUrl;
 
-- (void)trackVideoSeekRewind:(NSString*)videoId
+- (void)trackVideoSeek:(NSString*)videoId
            RequestedDuration:(NSTimeInterval)requestedDuration
                      OldTime:(NSTimeInterval)oldTime
                      NewTime:(NSTimeInterval)newTime

@@ -9,9 +9,13 @@
 import UIKit
 import CoreMedia
 
+enum SeekType {
+    case rewind, forward
+}
+
 protocol VideoPlayerControlsDelegate: class {
     func playPausePressed(playerControls: VideoPlayerControls, isPlaying: Bool)
-    func seekBackwardPressed(playerControls: VideoPlayerControls)
+    func seekVideo(playerControls: VideoPlayerControls, skipDuration: Double, type: SeekType)
     func fullscreenPressed(playerControls: VideoPlayerControls)
     func setPlayBackSpeed(playerControls: VideoPlayerControls, speed:OEXVideoSpeed)
     func sliderValueChanged(playerControls: VideoPlayerControls)
@@ -27,6 +31,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private let environment : Environment
     fileprivate var settings = VideoPlayerSettings()
     private var isControlsHidden = true
+    private var isAnimating = false
     fileprivate var subtitleActivated = false
     private var bufferedTimer: Timer?
     weak private var videoPlayer: VideoPlayer?
@@ -34,11 +39,15 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private let previousButtonSize = CGSize(width: 42.0, height: 42.0)
     private let rewindButtonSize = CGSize(width: 42.0, height: 42.0)
     private let durationSliderHeight: CGFloat = 34.0
-    private let timeRemainingLabelSize = CGSize(width: 120.0, height: 34.0)
+    private let timeRemainingLabelSize = CGSize(width: 80, height: 34.0)
     private let settingButtonSize = CGSize(width: 24.0, height: 24.0)
     private let fullScreenButtonSize = CGSize(width: 20.0, height: 20.0)
     private let tableSettingSize = CGSize(width: 110.0, height: 100.0)
     private let nextButtonSize = CGSize(width: 42.0, height: 42.0)
+    private let seekAnimationDuration = 0.4
+    private let seekLabelSize : CGFloat = OEXTextStyle.pointSize(for: OEXTextSize.base)
+    private let seekBackwardDuration: Double = 10
+    private let seekForwardDuration: Double = 15
     
     var video : OEXHelperVideoDownload? {
         didSet {
@@ -81,14 +90,47 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         return view
     }()
     
+    lazy private var seekForwardLabel : UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.textColor = .white
+        label.alpha = 0.0
+        label.font = environment.styles.sansSerif(ofSize: seekLabelSize)
+        label.layer.shouldRasterize = true
+        return label
+    }()
+    
+    lazy private var seekRewindLabel : UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.textColor = .white
+        label.alpha = 0.0
+        label.font = environment.styles.sansSerif(ofSize: seekLabelSize)
+        label.layer.shouldRasterize = true
+        return label
+    }()
+    
     lazy private var rewindButton: CustomPlayerButton = {
         let button = CustomPlayerButton()
         button.setImage(UIImage.RewindIcon(), for: .normal)
         button.tintColor = .white
-        button.oex_addAction({[weak self] (action) in
-            if let weakSelf = self {
-                weakSelf.delegate?.seekBackwardPressed(playerControls: weakSelf)
-            }
+        button.oex_addAction({ [weak self] action in
+            guard let weakSelf = self, weakSelf.durationSliderValue > weakSelf.durationSlider.minimumValue else { return }
+            weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekBackwardDuration, type: .rewind)
+            weakSelf.seekAnimation(seekLabel: weakSelf.seekRewindLabel, seekType: .rewind, animationOffset: 45)
+            }, for: .touchUpInside)
+        return button
+    }()
+    
+    lazy private var forwardButton: CustomPlayerButton = {
+        let button = CustomPlayerButton()
+        button.setImage(UIImage.RewindIcon(), for: .normal)
+        button.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1); //Flipped
+        button.tintColor = .white
+        button.oex_addAction({ [weak self] action in
+            guard let weakSelf = self, weakSelf.durationSliderValue < weakSelf.durationSlider.maximumValue - 0.001 else { return }
+            weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekForwardDuration, type: .forward)
+            weakSelf.seekAnimation(seekLabel: weakSelf.seekForwardLabel, seekType: .forward, animationOffset: 50)
             }, for: .touchUpInside)
         return button
     }()
@@ -99,7 +141,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         slider.setThumbImage(UIImage(named: "ic_seek_thumb.png"), for: .normal)
         slider.setMinimumTrackImage(UIImage(named: "ic_progressbar.png"), for: .normal)
         slider.secondaryTrackColor = UIColor(red: 76.0/255.0, green: 135.0/255.0, blue: 130.0/255.0, alpha: 0.9)
-        slider.oex_addAction({[weak self] (action) in
+        slider.oex_addAction({ [weak self] (action) in
             if let weakSelf = self {
                 weakSelf.delegate?.sliderValueChanged(playerControls: weakSelf)
             }
@@ -243,7 +285,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubview(topBar)
         topBar.addSubview(videoTitleLabel)
         addSubview(bottomBar)
-        bottomBar.addSubview(rewindButton)
         bottomBar.addSubview(durationSlider)
         bottomBar.addSubview(timeRemainingLabel)
         bottomBar.addSubview(btnSettings)
@@ -252,9 +293,13 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubview(btnNext)
         addSubview(btnPrevious)
         addSubview(playPauseButton)
+        addSubview(rewindButton)
+        addSubview(forwardButton)
         addSubview(subTitleLabel)
         addSubview(tableSettings)
-
+        addSubview(seekForwardLabel)
+        addSubview(seekRewindLabel)
+        
         sendSubviewToBack(tapButton)
     }
     
@@ -317,14 +362,35 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         
         rewindButton.snp.makeConstraints { make in
-            make.leading.equalTo(self).offset(StandardVerticalMargin)
+            make.trailing.equalTo(playPauseButton).inset(110)
             make.height.equalTo(rewindButtonSize.height)
             make.width.equalTo(rewindButtonSize.width)
-            make.centerY.equalTo(bottomBar.snp.centerY)
+            make.centerY.equalTo(self.snp.centerY)
+        }
+        
+        forwardButton.snp.makeConstraints { make in
+            make.leading.equalTo(playPauseButton).inset(112)
+            make.height.equalTo(rewindButtonSize.height)
+            make.width.equalTo(rewindButtonSize.width)
+            make.centerY.equalTo(self.snp.centerY)
+        }
+        
+        seekForwardLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(forwardButton.snp.centerX).offset(5)
+            make.centerY.equalTo(forwardButton.snp.centerY)
+            make.height.equalTo(rewindButtonSize.height)
+            make.width.equalTo(rewindButtonSize.width)
+        }
+        
+        seekRewindLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(rewindButton.snp.centerX).offset(5)
+            make.centerY.equalTo(rewindButton.snp.centerY)
+            make.height.equalTo(rewindButtonSize.height)
+            make.width.equalTo(rewindButtonSize.width)
         }
         
         durationSlider.snp.makeConstraints { make in
-            make.leading.equalTo(rewindButton.snp.trailing).offset(StandardVerticalMargin)
+            make.leading.equalTo(self).offset(StandardVerticalMargin)
             make.height.equalTo(durationSliderHeight)
             make.centerY.equalTo(bottomBar.snp.centerY)
         }
@@ -396,6 +462,8 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         btnNext.accessibilityLabel = Strings.next
         rewindButton.accessibilityLabel = Strings.accessibilityRewind
         rewindButton.accessibilityHint = Strings.accessibilityRewindHint
+        forwardButton.accessibilityLabel = Strings.accessibilityForward
+        forwardButton.accessibilityHint = Strings.accessibilityForwardHint
         btnSettings.accessibilityLabel = Strings.accessibilitySettings
         fullScreenButton.accessibilityLabel = Strings.accessibilityFullscreen
         playPauseButton.setAccessibilityLabelsForStateNormal(normalStateLabel: Strings.accessibilityPause, selectedStateLabel: Strings.accessibilityPlay)
@@ -429,11 +497,17 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             self?.bottomBar.isUserInteractionEnabled = !isHidden
             self?.playPauseButton.alpha = alpha
             self?.playPauseButton.isUserInteractionEnabled = !isHidden
+            self?.rewindButton.alpha = alpha
+            self?.rewindButton.isUserInteractionEnabled = !isHidden
+            self?.forwardButton.alpha = alpha
+            self?.forwardButton.isUserInteractionEnabled = !isHidden
             self?.btnPrevious.alpha = alpha
             self?.btnNext.alpha = alpha
             self?.btnNext.isUserInteractionEnabled = !isHidden
             self?.btnPrevious.alpha = alpha
             self?.btnPrevious.isUserInteractionEnabled = !isHidden
+            self?.seekRewindLabel.alpha = 0
+            self?.seekForwardLabel.alpha = 0
             
             if (!isHidden) {
                 if let owner = self {
@@ -487,11 +561,11 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             autoHide()
         }
     }
-
+    
     @objc private func hideControls() {
         hideAndShowControls(isHidden: true)
     }
-
+    
     @objc private func showControls() {
         hideAndShowControls(isHidden: false)
     }
@@ -499,7 +573,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private func settingsButtonClicked() {
         NSObject.cancelPreviousPerformRequests(withTarget:self)
         tableSettings.isHidden = !tableSettings.isHidden
-
+        
         if tableSettings.isHidden {
             autoHide()
         }
@@ -585,6 +659,24 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     func reset() {
         NSObject.cancelPreviousPerformRequests(withTarget: self)
         stopBufferedTimer()
+    }
+    
+    func seekAnimation(seekLabel: UILabel, seekType: SeekType, animationOffset: CGFloat) {
+        autoHide()
+        if !isAnimating {
+            isAnimating = true
+            let defaultFrame = seekLabel.frame
+            seekLabel.text = seekType == .rewind ? String(format: "-%d", Int(seekBackwardDuration)) : String(format: "+%d", Int(seekForwardDuration))
+            UIView.animate(withDuration: seekAnimationDuration, delay: 0.0, options: UIView.AnimationOptions.curveEaseOut, animations: {
+                seekLabel.alpha = 1.0
+                let offset = seekType == .forward ? animationOffset : -animationOffset
+                seekLabel.frame = CGRect(x: defaultFrame.origin.x + offset, y: defaultFrame.origin.y, width: defaultFrame.size.width, height: defaultFrame.size.height)
+            }) { [weak self] finished in
+                seekLabel.frame = defaultFrame
+                seekLabel.alpha = 0.0
+                self?.isAnimating = false
+            }
+        }
     }
 }
 
