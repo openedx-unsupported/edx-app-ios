@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.22",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Más opciones de velocidad de reproducción",
+                "message":"Hemos agregado más opciones para controlar la velocidad del video para satisfacer sus necesidades."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Rebobinar y reenviar videos",
+                "message":"¡Te hemos escuchado! Ahora puede rebobinar o reenviar videos para llegar al punto exacto donde importa."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Mejoras para iPad",
+                "message":"La pantalla Mis cursos ahora está optimizada para funcionar en iPads."
+            }
+        ]
+    },
+    {
         "version":"2.21",
         "messages":[
             {
