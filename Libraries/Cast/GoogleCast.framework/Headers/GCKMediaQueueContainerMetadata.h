@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, GCKMediaQueueContainerType) {
 };
 
 /**
- * A container metadata of media queue.
+ * Additional metadata for the media queue container.
  *
  * @since 4.4.1
  */

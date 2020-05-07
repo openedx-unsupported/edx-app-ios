@@ -1,6 +1,6 @@
 // GoogleCast Framework
-// Build generated on Fri Sep 20 12:54:23 PDT 2019.
-// Copyright 2013-2019 Google Inc.
+// Build generated on Mon Feb 24 11:36:36 PST 2020.
+// Copyright 2013-2020 Google Inc.
 
 
 #import <GoogleCast/GCKAdBreakClipInfo.h>

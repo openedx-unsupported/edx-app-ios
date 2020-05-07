@@ -70,8 +70,8 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 		<string>fb-messenger-api</string>
-        <string>msauthv2</string>
-        <string>msauthv3</string>
+		<string>msauthv2</string>
+		<string>msauthv3</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -80,10 +80,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>so you can use bluetooth enabled devices</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>so you can use bluetooth enabled devices</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>so user can intract with calendar</string>
 	<key>NSCameraUsageDescription</key>

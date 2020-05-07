@@ -5,7 +5,6 @@ framework module GoogleCast {
   module * { export * }
 
   link framework "CFNetwork"
-  link framework "CoreBluetooth"
   link framework "CoreText"
   link framework "Foundation"
   link framework "MediaAccessibility"

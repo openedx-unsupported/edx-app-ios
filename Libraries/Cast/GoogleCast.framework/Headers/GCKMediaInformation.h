@@ -110,7 +110,10 @@ GCK_EXPORT
 @property(nonatomic, readonly, nullable) GCKVASTAdsRequest *VMAP;
 
 /**
- * The epoch time in seconds of the stream start time.
+ * The epoch time, in seconds, of a live stream's start time.
+ * For live streams that have a known start time, e.g. a live TV show or sport game, it would be the
+ * epoch time that the event started. Otherwise, it will be start time of the live seekable range
+ * when the streaming started.
  *
  * @since 4.4.1
  */

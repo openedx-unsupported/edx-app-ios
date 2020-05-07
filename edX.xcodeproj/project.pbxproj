@@ -11,8 +11,6 @@
 		021AD6281F166F78009AF653 /* CourseCatalogDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777DE7171C1649630068E280 /* CourseCatalogDetailViewControllerTests.swift */; };
 		021AD6291F166F7F009AF653 /* Dictionary+SafeAccessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021AD6261F166331009AF653 /* Dictionary+SafeAccessTests.swift */; };
 		0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */; };
-		0D15761B235ED91A0007B0B7 /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761A235ED91A0007B0B7 /* GoogleCast.framework */; };
-		0D15761C235ED91A0007B0B7 /* GoogleCast.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761A235ED91A0007B0B7 /* GoogleCast.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0D15761E235ED9800007B0B7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761D235ED9800007B0B7 /* Accelerate.framework */; };
 		0D157620235ED98E0007B0B7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761F235ED98D0007B0B7 /* AudioToolbox.framework */; };
 		0D157622235ED9990007B0B7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D157621235ED9980007B0B7 /* AVFoundation.framework */; };
@@ -25,7 +23,6 @@
 		0D157630235EDA040007B0B7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15762F235EDA040007B0B7 /* Security.framework */; };
 		0D157633235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D157632235EDA7C0007B0B7 /* ChromeCastButtonDelegate.swift */; };
 		0D157635235EDA950007B0B7 /* ChromeCastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D157634235EDA950007B0B7 /* ChromeCastManager.swift */; };
-		0D157636235EDAA30007B0B7 /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D15761A235ED91A0007B0B7 /* GoogleCast.framework */; };
 		0D930BC223680983001C80AF /* ChromeCastMiniPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D930BC123680983001C80AF /* ChromeCastMiniPlayer.swift */; };
 		0D930BC4236978D6001C80AF /* ChromeCastMetaDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D930BC3236978D6001C80AF /* ChromeCastMetaDataModel.swift */; };
 		1904A14C1A1386C2006A5524 /* OEXDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1904A1401A1386C2006A5524 /* OEXDBManager.m */; };
@@ -175,6 +172,8 @@
 		5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */; };
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
+		5F4AB7792463F891002D1C9C /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4AB7782463F891002D1C9C /* GoogleCast.framework */; };
+		5F4AB77A2463F891002D1C9C /* GoogleCast.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4AB7782463F891002D1C9C /* GoogleCast.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F514FBA240696D700BA113A /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; };
 		5F514FBB240696D700BA113A /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67FDC7528B4181D9153A7C36 /* Pods_edXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */; };
@@ -930,8 +929,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5F4AB77A2463F891002D1C9C /* GoogleCast.framework in Embed Frameworks */,
 				5F514FBB240696D700BA113A /* MSAL.framework in Embed Frameworks */,
-				0D15761C235ED91A0007B0B7 /* GoogleCast.framework in Embed Frameworks */,
 				77E647CB1C90CA1400B6740D /* edXCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -944,7 +943,6 @@
 		021AD6261F166331009AF653 /* Dictionary+SafeAccessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+SafeAccessTests.swift"; sourceTree = "<group>"; };
 		0B1212211B4F089A002EE96C /* OEXCoursewareAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXCoursewareAccess.m; sourceTree = "<group>"; };
 		0B1212231B4F08B6002EE96C /* OEXCoursewareAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OEXCoursewareAccess.h; sourceTree = "<group>"; };
-		0D15761A235ED91A0007B0B7 /* GoogleCast.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleCast.framework; path = Libraries/Cast/GoogleCast.framework; sourceTree = "<group>"; };
 		0D15761D235ED9800007B0B7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		0D15761F235ED98D0007B0B7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		0D157621235ED9980007B0B7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -1182,6 +1180,7 @@
 		5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewPostViewController.xib; sourceTree = "<group>"; };
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
+		5F4AB7782463F891002D1C9C /* GoogleCast.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleCast.framework; path = Libraries/Cast/GoogleCast.framework; sourceTree = "<group>"; };
 		5F514FB9240696D700BA113A /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Libraries/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		61E8D7FCCFA0751E2D510864 /* libPods-EndToEndTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EndToEndTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6919F5FE1D65CD27006935C8 /* OEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColors.swift; sourceTree = "<group>"; };
@@ -2093,9 +2092,9 @@
 				0D157622235ED9990007B0B7 /* AVFoundation.framework in Frameworks */,
 				0D157620235ED98E0007B0B7 /* AudioToolbox.framework in Frameworks */,
 				0D15761E235ED9800007B0B7 /* Accelerate.framework in Frameworks */,
-				0D15761B235ED91A0007B0B7 /* GoogleCast.framework in Frameworks */,
 				8F562F901A1F451600320DB3 /* CoreMotion.framework in Frameworks */,
 				8F562F8E1A1F450A00320DB3 /* AssetsLibrary.framework in Frameworks */,
+				5F4AB7792463F891002D1C9C /* GoogleCast.framework in Frameworks */,
 				8F562F8C1A1F44FC00320DB3 /* AddressBook.framework in Frameworks */,
 				77E647A31C90C10300B6740D /* edXCore.framework in Frameworks */,
 				77ACA1CB1A323C2500039AD1 /* Fabric.framework in Frameworks */,
@@ -2114,7 +2113,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D157636235EDAA30007B0B7 /* GoogleCast.framework in Frameworks */,
 				BECB7B301924C0C3009C77F1 /* UIKit.framework in Frameworks */,
 				BECB7B2F1924C0C3009C77F1 /* Foundation.framework in Frameworks */,
 				67FDC7528B4181D9153A7C36 /* Pods_edXTests.framework in Frameworks */,
@@ -3730,6 +3728,7 @@
 		BECB7B0D1924C0C3009C77F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F4AB7782463F891002D1C9C /* GoogleCast.framework */,
 				5F514FB9240696D700BA113A /* MSAL.framework */,
 				0D15762F235EDA040007B0B7 /* Security.framework */,
 				0D15762C235ED9F30007B0B7 /* MediaAccessibility.framework */,
@@ -3741,7 +3740,6 @@
 				0D157621235ED9980007B0B7 /* AVFoundation.framework */,
 				0D15761F235ED98D0007B0B7 /* AudioToolbox.framework */,
 				0D15761D235ED9800007B0B7 /* Accelerate.framework */,
-				0D15761A235ED91A0007B0B7 /* GoogleCast.framework */,
 				776F39281B4EF4CD00ED11E3 /* WebKit.framework */,
 				805329111B0EA2DC0093B177 /* QuartzCore.framework */,
 				77ACA1C81A323C2500039AD1 /* Crashlytics.framework */,
