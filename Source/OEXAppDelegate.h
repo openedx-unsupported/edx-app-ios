@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) id <Reachability> reachability;
 
 - (void)callCompletionHandlerForSession:(NSString*)identifier;
+- (void)initilizeChromeCast;
 
 @end
 

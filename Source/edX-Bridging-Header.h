@@ -20,6 +20,7 @@
 #import "OEXNetworkConstants.h"
 #import "NSArray+OEXFunctional.h"
 
+#import "OEXAppDelegate.h"
 #import "OEXAuthentication.h"
 #import "OEXAccessToken.h"
 #import "OEXAnalytics.h"
