@@ -61,17 +61,30 @@ class ChromeCastMiniPlayer: UIViewController {
         super.viewDidAppear(animated)
     }
     
-    func play(video: OEXHelperVideoDownload, time: TimeInterval) {
-        guard let videoURL = video.summary?.videoURL,
-            let url = URL(string: videoURL),
-            let videoID = video.summary?.videoID else {
-            return
-        }
+    private func cast(_ video: OEXHelperVideoDownload, _ url: URL, _ videoID: String, _ time: TimeInterval) {
         self.video = video
         let thumbnail = video.summary?.videoThumbnailURL ?? courseImageURLString
         let mediaInfo = mediaInformation(contentID: url.absoluteString, title: video.summary?.name ?? "", videoID: videoID, contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
         
         play(with: mediaInfo, at: time)
+    }
+    
+    func play(video: OEXHelperVideoDownload, time: TimeInterval, fallback: ((Error)->())? = nil) {
+        guard let videoURL = video.summary?.videoURL,
+            let url = URL(string: videoURL),
+            let videoID = video.summary?.videoID else { return }
+        
+        if video.summary?.isYoutubeVideo ?? false {
+            YoutubeLink.extract(for: .urlString(videoURL), success: { [weak self] videoInformation in
+                guard let link = videoInformation.highestQualityPlayableLink,
+                    let youtubeUrl = URL(string: link) else { return }
+                self?.cast(video, youtubeUrl, videoID, time)
+                }, failure: { error in
+                    fallback?(error)
+            })
+        } else {
+            cast(video, url, videoID, time)
+        }        
     }
     
     private func contentType(url: String) -> ChromeCastContentType {
@@ -80,11 +93,11 @@ class ChromeCastMiniPlayer: UIViewController {
         
         switch videoType {
         case .mp4:
-            return ChromeCastContentType.mp4
+            return .mp4
         case .hls:
-            return ChromeCastContentType.hls
+            return .hls
         default:
-            return ChromeCastContentType.defalut
+            return .defalut
         }
     }
     

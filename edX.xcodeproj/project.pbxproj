@@ -175,6 +175,12 @@
 		5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */; };
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
+		5F3E0AC4246577EE001A1212 /* ExtractionSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3E0ABD246577EE001A1212 /* ExtractionSource.swift */; };
+		5F3E0AC5246577EE001A1212 /* YoutubeLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3E0ABE246577EE001A1212 /* YoutubeLink.swift */; };
+		5F3E0AC6246577EE001A1212 /* VideoInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3E0ABF246577EE001A1212 /* VideoInfo.swift */; };
+		5F3E0AC7246577EE001A1212 /* Array+SafeSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3E0AC1246577EE001A1212 /* Array+SafeSubscript.swift */; };
+		5F3E0AC8246577EE001A1212 /* String+Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3E0AC2246577EE001A1212 /* String+Components.swift */; };
+		5F3E0AC9246577EE001A1212 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3E0AC3246577EE001A1212 /* Errors.swift */; };
 		5F514FBA240696D700BA113A /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; };
 		5F514FBB240696D700BA113A /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		67FDC7528B4181D9153A7C36 /* Pods_edXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */; };
@@ -1182,6 +1188,12 @@
 		5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewPostViewController.xib; sourceTree = "<group>"; };
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
+		5F3E0ABD246577EE001A1212 /* ExtractionSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtractionSource.swift; sourceTree = "<group>"; };
+		5F3E0ABE246577EE001A1212 /* YoutubeLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoutubeLink.swift; sourceTree = "<group>"; };
+		5F3E0ABF246577EE001A1212 /* VideoInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoInfo.swift; sourceTree = "<group>"; };
+		5F3E0AC1246577EE001A1212 /* Array+SafeSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+SafeSubscript.swift"; sourceTree = "<group>"; };
+		5F3E0AC2246577EE001A1212 /* String+Components.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Components.swift"; sourceTree = "<group>"; };
+		5F3E0AC3246577EE001A1212 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		5F514FB9240696D700BA113A /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Libraries/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		61E8D7FCCFA0751E2D510864 /* libPods-EndToEndTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EndToEndTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6919F5FE1D65CD27006935C8 /* OEXColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OEXColors.swift; sourceTree = "<group>"; };
@@ -2451,6 +2463,28 @@
 			path = QLearnSDK;
 			sourceTree = SOURCE_ROOT;
 		};
+		5F3E0ABC246577EE001A1212 /* YoutubeDirectLinkExtractor */ = {
+			isa = PBXGroup;
+			children = (
+				5F3E0ABD246577EE001A1212 /* ExtractionSource.swift */,
+				5F3E0ABE246577EE001A1212 /* YoutubeLink.swift */,
+				5F3E0ABF246577EE001A1212 /* VideoInfo.swift */,
+				5F3E0AC0246577EE001A1212 /* Extensions */,
+				5F3E0AC3246577EE001A1212 /* Errors.swift */,
+			);
+			name = YoutubeDirectLinkExtractor;
+			path = Source/YoutubeDirectLinkExtractor;
+			sourceTree = SOURCE_ROOT;
+		};
+		5F3E0AC0246577EE001A1212 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5F3E0AC1246577EE001A1212 /* Array+SafeSubscript.swift */,
+				5F3E0AC2246577EE001A1212 /* String+Components.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		6919F5FB1D65CD14006935C8 /* Colors */ = {
 			isa = PBXGroup;
 			children = (
@@ -3689,6 +3723,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5F3E0ABC246577EE001A1212 /* YoutubeDirectLinkExtractor */,
 				E02661662269A821002721B7 /* OCMock */,
 				B7CCC6F9209B16B000A66923 /* SnapKit */,
 				77509D8B1BE1710200B10CD3 /* TZStackView */,
@@ -4829,6 +4864,7 @@
 				193B504519459C2F0038E11C /* OEXCustomButton.m in Sources */,
 				1A2CCDAB1BDE6F6500D03022 /* OEXAnalytics+Profiles.swift in Sources */,
 				B4B6D6001A949EFC000F44E8 /* OEXRegistrationDescription.m in Sources */,
+				5F3E0AC9246577EE001A1212 /* Errors.swift in Sources */,
 				5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */,
 				BE0D4551192DE65200D720D6 /* OEXInterface.m in Sources */,
 				77F9C1741B0D496B004D39E7 /* CourseStructureAPI.swift in Sources */,
@@ -4905,6 +4941,7 @@
 				77D6A9A61C28F98A00E67CCF /* EnrolledCoursesViewController.swift in Sources */,
 				77691F911B388626003922F2 /* UIGestureRecognizer+BlockActions.swift in Sources */,
 				1AB539F81BFE046C0065501F /* DebugMenuLogger.swift in Sources */,
+				5F3E0AC7246577EE001A1212 /* Array+SafeSubscript.swift in Sources */,
 				B7CCC729209B16B100A66923 /* ConstraintInsetTarget.swift in Sources */,
 				9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */,
 				7725016A1C80FB5C002549A9 /* ServerChangedChecker.swift in Sources */,
@@ -5138,6 +5175,7 @@
 				77D470571C11EB4D00C6F0C9 /* ChoiceLabel.swift in Sources */,
 				77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */,
 				77DCD23B1C2B14BA00CAEBB5 /* UITableView+Layout.swift in Sources */,
+				5F3E0AC8246577EE001A1212 /* String+Components.swift in Sources */,
 				B7CCC731209B16B100A66923 /* ConstraintMakerEditable.swift in Sources */,
 				22A3CECE22D31527005A046E /* APIURLVersionConfig.swift in Sources */,
 				77509D941BE1710200B10CD3 /* TZStackView.swift in Sources */,
@@ -5167,9 +5205,11 @@
 				B4B6D6391A95042B000F44E8 /* OEXCheckBoxView.m in Sources */,
 				0D157635235EDA950007B0B7 /* ChromeCastManager.swift in Sources */,
 				1A22CD901B90B31A005B07D0 /* UIImage+OEXIcon.swift in Sources */,
+				5F3E0AC5246577EE001A1212 /* YoutubeLink.swift in Sources */,
 				1ACD163C1BB1BE63006ACC82 /* UserProfileViewController.swift in Sources */,
 				5D836DCA1B2FA12E00411CAB /* DiscussionNewCommentViewController.swift in Sources */,
 				1AFEB1B11BBD51EE004C471D /* JSONFormBuilderChooser.swift in Sources */,
+				5F3E0AC4246577EE001A1212 /* ExtractionSource.swift in Sources */,
 				19321F651961698B00B7D75C /* OEXDownloadTableCell.m in Sources */,
 				E40AEA73218D074700049C39 /* YoutubeVideoConfig.swift in Sources */,
 				B7CCC730209B16B100A66923 /* ConstraintOffsetTarget.swift in Sources */,
@@ -5216,6 +5256,7 @@
 				E03E6A191D38EC7500944AAA /* UIView+UIViewController.swift in Sources */,
 				77EC889E1AB787630050F9CF /* OEXAnalyticsData.m in Sources */,
 				7772BE961AF9587E0081CA7A /* CourseContentPageViewController.swift in Sources */,
+				5F3E0AC6246577EE001A1212 /* VideoInfo.swift in Sources */,
 				9EDB10B61B0C742C00C760C6 /* CourseOutlineItemView.swift in Sources */,
 				2271C54821634AC8001EA1E6 /* DeepLink.swift in Sources */,
 				1A5501A01BBA316900D5F9DD /* UserProfileEditViewController.swift in Sources */,

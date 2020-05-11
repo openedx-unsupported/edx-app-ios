@@ -121,12 +121,10 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func configureChromecast() {
-        guard let video = video else { return }
         if !chromeCastManager.isConnected || chromeCastMiniPlayer != nil { return }
         
         chromeCastMiniPlayer = ChromeCastMiniPlayer(environment: environment)
-        let isYoutubeVideo = (video.summary?.isYoutubeVideo ?? true)
-        guard let chromeCastMiniPlayer = chromeCastMiniPlayer, !isYoutubeVideo else { return }
+        guard let chromeCastMiniPlayer = chromeCastMiniPlayer else { return }
         addChild(chromeCastMiniPlayer)
         contentView?.addSubview(chromeCastMiniPlayer.view)
         chromeCastMiniPlayer.didMove(toParent: self)
@@ -140,7 +138,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
                 controller.removeFromParent()
             }
         }
-        chromeCastManager.remove(delegate: self)
+        chromeCastManager.delegate = nil
         removeOverlayCastMessage()
         removeChromeCastButton()
         chromeCastMiniPlayer = nil
@@ -154,7 +152,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     override func viewDidAppear(_ animated : Bool) {
-        
         // There's a weird OS bug where the bottom layout guide doesn't get set properly until
         // the layout cycle after viewDidAppear so cause a layout cycle
         view.setNeedsUpdateConstraints()
@@ -166,17 +163,15 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         if !chromeCastManager.viewExpanded {
             loadVideoIfNecessary()
         }
-        chromeCastManager.add(delegate: self)
+        chromeCastManager.delegate = self
         chromeCastManager.viewExpanded = false
         
         if !chromeCastManager.isConnected && videoTranscriptView?.transcripts.count ?? 0 > 0 {
             validateSubtitleTimer()
         }
         
-        if !(video?.summary?.isYoutubeVideo ?? true) {
-            addChromeCastButton()
-            showChromeCastOverlay()
-        }
+        addChromeCastButton()
+        showChromeCastOverlay()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -235,26 +230,27 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         chromeCastMiniPlayer?.view.isHidden = !hide
     }
     
-    private func cast(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
-        addOverlyCastMessage()
-        updateControlsVisibility(hide: true)
-        videoPlayer.loadingIndicatorView.stopAnimating()
-        videoPlayer.removeControls()
+    private func cast(video: OEXHelperVideoDownload, time: TimeInterval, fallback: ((Error)->())? = nil) {
+        videoPlayer.video = video
+
+        DispatchQueue.main.async { [weak self] in
+            self?.addOverlyCastMessage()
+            self?.updateControlsVisibility(hide: true)
+            self?.videoPlayer.loadingIndicatorView.stopAnimating()
+            self?.videoPlayer.removeControls()
+        }
+
         configureChromecast()
         
-        var playedTime: TimeInterval = 0.0
-        if let time = time {
-            playedTime = time
-        }
-        else {
-            playedTime = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
-        }
-        chromeCastMiniPlayer?.play(video: video, time: playedTime)
+        chromeCastMiniPlayer?.play(video: video, time: time, fallback: fallback)
     }
     
-    private func playLocally(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
-        updateControlsVisibility(hide: false)
-        videoPlayer.play(video: video, time: time)
+    private func playLocally(video: OEXHelperVideoDownload, time: TimeInterval) {
+        DispatchQueue.main.async { [weak self] in
+            self?.removeOverlayCastMessage()
+            self?.updateControlsVisibility(hide: false)
+            self?.videoPlayer.play(video: video, time: time)
+        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -263,7 +259,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     override func updateViewConstraints() {
-        if  isVerticallyCompact() {
+        if isVerticallyCompact() {
             applyLandscapeConstraints()
         }
         else{
@@ -368,10 +364,13 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func play(video: OEXHelperVideoDownload) {
-        if chromeCastManager.isConnected && !(video.summary?.isYoutubeVideo ?? true) {
-            cast(video: video)
+        let playedTime = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
+        if chromeCastManager.isConnected {
+            cast(video: video, time: playedTime) { [weak self] error in
+                self?.playLocally(video: video, time: playedTime)
+            }
         } else {
-            playLocally(video: video)
+            playLocally(video: video, time: playedTime)
         }
         environment.interface?.insertVideoData(video)
     }
@@ -530,6 +529,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func removeOverlayCastMessage() {
+        removeOverlayPlayButton()
         chromeCastMiniPlayer?.view.isHidden = true
         overlayLabel?.text = ""
         overlayLabel?.isHidden = true
@@ -583,7 +583,6 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
         if videoPlayer.isFullScreen {
             videoPlayer.setFullscreen(fullscreen: false, animated: true, with: currentOrientation(), forceRotate: false)
         }
-        let time = videoPlayer.currentTime
         videoPlayer.resetPlayer()
         
         guard let video = video else {
@@ -591,21 +590,19 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
             return
         }
         
-        cast(video: video, time: time)
+        play(video: video)
     }
     
-    func chromeCastDidDisconnect(playedTime: TimeInterval) {
-        removeOverlayCastMessage()
-        removeOverlayPlayButton()
+    func chromeCastDidDisconnect() {
         guard let video = video else {
             loadVideoIfNecessary()
             return
         }
-        playLocally(video: video, time: playedTime)
+        play(video: video)
     }
     
     func chromeCastVideoPlaying() {
-
+        updateControlsVisibility(hide: true)
     }
     
     func chromeCastDidFinishPlaying() {

@@ -366,15 +366,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         loadingIndicatorView.startAnimating()
         addObservers()
         
-        var timeInterval: TimeInterval  = 0.0
-        if let time = time {
-            timeInterval = time
-        }
-        else {
-            timeInterval = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
-        }
-        
-        play(at: timeInterval)
+        play(at: time ?? 0)
         controls?.isTapButtonHidden = true
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, object: player.currentItem as Any) {(notification, observer, _) in
             observer.playerDidFinishPlaying(note: notification)
@@ -438,7 +430,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
         
         if let video = video {
-            environment.interface?.markLastPlayedInterval(Float(currentTime), forVideo: video)
+            environment.interface?.markLastPlayedInterval(Float(lastElapsedTime), forVideo: video)
             let state = doublesWithinEpsilon(left: duration.seconds, right: currentTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
             environment.interface?.markVideoState(state, forVideo: video)
         }
@@ -659,7 +651,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
     }
     
-    func setVideo(video: OEXHelperVideoDownload){
+    func setVideo(video: OEXHelperVideoDownload) {
         self.video = video
     }
     
