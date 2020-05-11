@@ -231,8 +231,6 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func cast(video: OEXHelperVideoDownload, time: TimeInterval, fallback: ((Error)->())? = nil) {
-        videoPlayer.video = video
-
         DispatchQueue.main.async { [weak self] in
             self?.addOverlyCastMessage()
             self?.updateControlsVisibility(hide: true)

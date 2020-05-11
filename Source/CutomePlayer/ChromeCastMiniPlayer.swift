@@ -77,7 +77,10 @@ class ChromeCastMiniPlayer: UIViewController {
         if video.summary?.isYoutubeVideo ?? false {
             YoutubeLink.extract(for: .urlString(videoURL), success: { [weak self] videoInformation in
                 guard let link = videoInformation.highestQualityPlayableLink,
-                    let youtubeUrl = URL(string: link) else { return }
+                    let youtubeUrl = URL(string: link) else {
+                        fallback?(YoutubeLinkExtractorError.unkown)
+                        return
+                }
                 self?.cast(video, youtubeUrl, videoID, time)
                 }, failure: { error in
                     fallback?(error)

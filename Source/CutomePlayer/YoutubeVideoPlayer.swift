@@ -11,7 +11,6 @@ class YoutubeVideoPlayer: VideoPlayer {
     let playerView: WKYTPlayerView
     var videoID: String = ""
     private var videoCurrentTime: Float = 0.0
-    private var seekAtStart = false
     private let barTintColor: UIColor
     
     private struct playerVars {
@@ -86,7 +85,11 @@ class YoutubeVideoPlayer: VideoPlayer {
             return
         }
 
-        let playerVars = YoutubeVideoPlayer.playerVars(playsinline: 1, start: 0)
+        var startTime = 0
+        if let time = time {
+            startTime = Int(time)
+        }
+        let playerVars = YoutubeVideoPlayer.playerVars(playsinline: 1, start: startTime)
         guard let videoID = url.queryItems?.first?.value else {
             Logger.logError("YOUTUBE_VIDEO", "invalid video ID")
             showErrorMessage(message: Strings.youtubeInvalidUrlError)
@@ -99,17 +102,12 @@ class YoutubeVideoPlayer: VideoPlayer {
     override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
         isFullScreen = fullscreen
         let playerVars = YoutubeVideoPlayer.playerVars(playsinline: Int(truncating: NSNumber(value:!fullscreen)), start: Int(currentTime))
-
         playerView.load(withVideoId: videoID, playerVars: playerVars.value)
         setVideoPlayerMode(isPortrait: !fullscreen)
         
         if let courseId = video?.course_id, let unitUrl = video?.summary?.unitURL {
             environment.analytics.trackVideoOrientation(videoID, courseID: courseId, currentTime: CGFloat(currentTime), mode: fullscreen, unitURL: unitUrl, playMedium: value_play_medium_youtube)
         }
-    }
-    
-    override func resume(at time: TimeInterval) {
-        seek(to: time)
     }
 
     override func seek(to time: Double) {
@@ -157,13 +155,6 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
             break
         case .playing:
             environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: value_play_medium_youtube)
-            guard let video = video, !seekAtStart else { return }
-            seekAtStart = true
-            let timeInterval = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
-            resume(at: timeInterval)
-            break
-        case .queued:
-            seekAtStart = false
             break
         default:
             break
