@@ -11,13 +11,14 @@ class YoutubeVideoPlayer: VideoPlayer {
     let playerView: WKYTPlayerView
     var videoID: String = ""
     private var videoCurrentTime: Float = 0.0
-    let barTintColor: UIColor
-
+    private var seekAtStart = false
+    private let barTintColor: UIColor
+    
     private struct playerVars {
         var playsinline = 0
         var start = 0
-        var value: [String:Int] {
-            get{
+        var value: [String : Int] {
+            get {
                 return [
                     "playsinline": playsinline,
                     "autohide": 1,
@@ -35,6 +36,7 @@ class YoutubeVideoPlayer: VideoPlayer {
         })
         return Double(videoCurrentTime)
     }
+    
     override init(environment : Environment) {
         playerView = WKYTPlayerView()
         barTintColor = UINavigationBar.appearance().barTintColor ?? environment.styles.navigationItemTintColor()
@@ -48,7 +50,6 @@ class YoutubeVideoPlayer: VideoPlayer {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        createYoutubePlayer()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -76,6 +77,9 @@ class YoutubeVideoPlayer: VideoPlayer {
 
     override func play(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
         super.setVideo(video: video)
+        
+        createYoutubePlayer()
+
         guard let videoUrl = video.summary?.videoURL, let url = URLComponents(string : videoUrl) else {
             Logger.logError("YOUTUBE_VIDEO", "invalid url")
             showErrorMessage(message: Strings.youtubeInvalidUrlError)
@@ -103,9 +107,19 @@ class YoutubeVideoPlayer: VideoPlayer {
             environment.analytics.trackVideoOrientation(videoID, courseID: courseId, currentTime: CGFloat(currentTime), mode: fullscreen, unitURL: unitUrl, playMedium: value_play_medium_youtube)
         }
     }
+    
+    override func resume(at time: TimeInterval) {
+        seek(to: time)
+    }
 
     override func seek(to time: Double) {
         playerView.seek(toSeconds: Float(time), allowSeekAhead: true)
+    }
+    
+    override func resetPlayer() {
+        super.resetPlayer()
+        playerView.stopVideo()
+        playerView.removeFromSuperview()
     }
     
     private func showErrorMessage(message : String) {
@@ -143,10 +157,16 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
             break
         case .playing:
             environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: value_play_medium_youtube)
+            guard let video = video, !seekAtStart else { return }
+            seekAtStart = true
+            let timeInterval = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
+            resume(at: timeInterval)
+            break
+        case .queued:
+            seekAtStart = false
             break
         default:
             break
         }
     }
-
 }

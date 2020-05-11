@@ -14,7 +14,7 @@ import GoogleCast
 /// ConnectedToChromeCast, DisconnectedFromChromeCast, StartPlayingOnChromeCast, FinishedPlayingOnChromecast
 protocol ChromeCastPlayerStatusDelegate: class {
     func chromeCastDidConnect()
-    func chromeCastDidDisconnect(playedTime: TimeInterval)
+    func chromeCastDidDisconnect()
     func chromeCastVideoPlaying()
     func chromeCastDidFinishPlaying()
 }
@@ -29,11 +29,11 @@ private enum DelegateCallbackType: Int {
     typealias Environment = OEXInterfaceProvider
     
     @objc static let shared = ChromeCastManager()
+    var delegate: ChromeCastPlayerStatusDelegate?
     private let context = GCKCastContext.sharedInstance()
-    
-    private var delegates: [ChromeCastPlayerStatusDelegate] = []
     private var discoveryManager: GCKDiscoveryManager?
     var sessionManager: GCKSessionManager?
+    
     private var streamPosition: TimeInterval {
         return sessionManager?.currentSession?.remoteMediaClient?.mediaStatus?.streamPosition ?? .zero
     }
@@ -46,12 +46,15 @@ private enum DelegateCallbackType: Int {
     var isConnected: Bool {
         return sessionManager?.hasConnectedCastSession() ?? false
     }
-    
+        
     private var callbackType: DelegateCallbackType = .none {
-        didSet {
-            delegateCallBacks()
+        didSet (value) {
+            if value != callbackType {
+                delegateCallBacks()
+            }
         }
     }
+    
     /// Chrome cast SDK is not giving callbacks for the clicks of GCKUICastButton and GCKUIMiniMediaControlsViewController
     var viewExpanded = false
     
@@ -76,19 +79,6 @@ private enum DelegateCallbackType: Int {
         sessionManager?.add(self)
         discoveryManager?.passiveScan = true
         discoveryManager?.startDiscovery()
-    }
-    
-    func add(delegate: ChromeCastPlayerStatusDelegate) {
-        let conteins = delegates.filter { $0 === delegate }
-        if conteins.count > 0 { return }
-        
-        delegates.append(delegate)
-    }
-    
-    func remove(delegate: ChromeCastPlayerStatusDelegate) {
-        let objectIndex = delegates.firstIndexMatching { $0 === delegate }
-        guard let index = objectIndex else { return }
-        delegates.remove(at: index)
     }
     
     private func addMediaListner() {
@@ -118,25 +108,23 @@ private enum DelegateCallbackType: Int {
     }
     
     private func delegateCallBacks() {
-        for delegate in delegates {
-            switch callbackType {
-            case .connect:
-                delegate.chromeCastDidConnect()
-                break
-            case .disconnect:
-                delegate.chromeCastDidDisconnect(playedTime: playedTime)
-                break
-            case .playing:
-                playedTime = streamPosition
-                delegate.chromeCastVideoPlaying()
-                break
-            case .finished:
-                playedTime = 0.0
-                delegate.chromeCastDidFinishPlaying()
-                break
-            default:
-                break
-            }
+        switch callbackType {
+        case .connect:
+            delegate?.chromeCastDidConnect()
+            break
+        case .disconnect:
+            delegate?.chromeCastDidDisconnect()
+            break
+        case .playing:
+            playedTime = streamPosition
+            delegate?.chromeCastVideoPlaying()
+            break
+        case .finished:
+            playedTime = 0.0
+            delegate?.chromeCastDidFinishPlaying()
+            break
+        default:
+            break
         }
     }
     
@@ -174,12 +162,12 @@ private enum DelegateCallbackType: Int {
                 DispatchQueue.main.async { [weak self] in
                     self?.callbackType = .finished
                 }
+                saveStreamProgress()
             }
         case .playing:
             DispatchQueue.main.async { [weak self] in
                 self?.callbackType = .playing
             }
-            
             saveStreamProgress()
         default:
             break

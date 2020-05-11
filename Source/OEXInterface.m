@@ -1044,7 +1044,7 @@ static OEXInterface* _sharedInterface = nil;
 }
 
 - (void)markLastPlayedInterval:(float)playedInterval forVideoID:(NSString*)videoId {
-    if(playedInterval <= 0) {
+    if(playedInterval < 0) {
         return;
     }
     [_storage markLastPlayedInterval:playedInterval forVideoID:videoId];
