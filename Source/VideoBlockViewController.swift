@@ -139,7 +139,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             }
         }
         chromeCastManager.delegate = nil
-        removeOverlayCastMessage()
+        removeCastOverlay()
         removeChromeCastButton()
         chromeCastMiniPlayer = nil
     }
@@ -245,7 +245,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     
     private func playLocally(video: OEXHelperVideoDownload, time: TimeInterval) {
         DispatchQueue.main.async { [weak self] in
-            self?.removeOverlayCastMessage()
+            self?.removeCastOverlay()
             self?.updateControlsVisibility(hide: false)
             self?.videoPlayer.play(video: video, time: time)
         }
@@ -526,8 +526,12 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         })
     }
     
-    private func removeOverlayCastMessage() {
+    private func removeCastOverlay() {
         removeOverlayPlayButton()
+        removeOverlayCastMessage()
+    }
+    
+    private func removeOverlayCastMessage() {
         chromeCastMiniPlayer?.view.isHidden = true
         overlayLabel?.text = ""
         overlayLabel?.isHidden = true
@@ -538,7 +542,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     func createOverlayPlayButton() {
         if playOverlayButton != nil { return }
         chromeCastManager.isMiniPlayerAdded = false
-        removeOverlayCastMessage()
+        removeCastOverlay()
         playOverlayButton = UIButton()
         playOverlayButton?.tintColor = .white
         playOverlayButton?.setImage(UIImage.PlayIcon(), for: .normal)
@@ -600,6 +604,8 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
     }
     
     func chromeCastVideoPlaying() {
+        // When swiping between videos, sometimes the transcripts does not hide.
+        // So this calling below function will ensure to hide transcripts.
         updateControlsVisibility(hide: true)
     }
     
