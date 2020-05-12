@@ -48,10 +48,8 @@ private enum DelegateCallbackType: Int {
     }
         
     private var callbackType: DelegateCallbackType = .none {
-        didSet (value) {
-            if value != callbackType {
-                delegateCallBacks()
-            }
+        didSet {
+            delegateCallBacks()
         }
     }
     
