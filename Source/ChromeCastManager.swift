@@ -131,8 +131,8 @@ private enum DelegateCallbackType: Int {
             let videoID = metadata.string(forKey: ChromeCastVideoID),
             let videoData = environment?.interface?.videoData(forVideoID: videoID),
             let duration = Double(videoData.duration), streamPosition > 1  else { return }
-        // remoteMediaClient didUpdate called on buffering initilized with stream position 0 and then seek happen if there is any. If user switched in between two update calls then video stream progress marked override last played value
-        
+        // remoteMediaClient didUpdate called on buffering initilized with stream position 0 and then seek happen if there is any.
+        // If user switched in between two update calls then video stream progress marked override last played value
         environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideoID: videoID)
         let state = doublesWithinEpsilon(left: duration, right: playedTime) ? OEXPlayedState.watched : OEXPlayedState.partiallyWatched
         environment?.interface?.markVideoState(state, forVideoID: videoID)
