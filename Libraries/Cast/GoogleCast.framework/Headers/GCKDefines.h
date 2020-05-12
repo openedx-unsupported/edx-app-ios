@@ -4,7 +4,7 @@
 
 #define GCK_VERSION_MAJOR 4
 #define GCK_VERSION_MINOR 4
-#define GCK_VERSION_FIX 5
+#define GCK_VERSION_FIX 7
 
 #define GCK_VERSION_IS_LESS_THAN(__major, __minor, __fix)               \
   ((__major > GCK_VERSION_MAJOR)                                        \

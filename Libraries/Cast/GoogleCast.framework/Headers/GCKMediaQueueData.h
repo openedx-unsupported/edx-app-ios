@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, GCKMediaQueueType) {
 };
 
 /**
- * A container for media queue data.
+ * A class that holds the information of the playing queue or media container.
  *
  * @since 4.4.1
  */
