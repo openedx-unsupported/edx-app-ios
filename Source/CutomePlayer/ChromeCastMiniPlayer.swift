@@ -84,9 +84,7 @@ class ChromeCastMiniPlayer: UIViewController {
                         return
                 }
                 self?.cast(video, youtubeUrl, videoID, time, completion)
-                }, failure: { error in
-                    failure(error)
-            })
+                }, failure: failure)
         } else {
             cast(video, url, videoID, time, completion)
         }
