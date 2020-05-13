@@ -23,7 +23,7 @@ private enum KnownVideoType: String {
     case none = ""
 }
 
-typealias ChromeCastItemSuccessCompletion = () -> ()
+typealias ChromeCastItemSuccessCompletion = (String) -> ()
 typealias ChromeCastItemFailureCompletion = (Error) -> ()
 
 class ChromeCastMiniPlayer: UIViewController {
@@ -63,15 +63,15 @@ class ChromeCastMiniPlayer: UIViewController {
         super.viewDidAppear(animated)
     }
     
-    private func cast(_ video: OEXHelperVideoDownload, _ url: URL, _ videoID: String, _ time: TimeInterval, _ completion: ChromeCastItemSuccessCompletion, _ failure: ChromeCastItemFailureCompletion) {
+    private func cast(_ video: OEXHelperVideoDownload, _ url: URL, _ videoID: String, _ time: TimeInterval, _ completion: ChromeCastItemSuccessCompletion) {
         self.video = video
         let thumbnail = video.summary?.videoThumbnailURL ?? courseImageURLString
         let mediaInfo = mediaInformation(contentID: url.absoluteString, title: video.summary?.name ?? "", videoID: videoID, contentType: contentType(url: url.absoluteString), streamType: .buffered, thumbnailUrl: thumbnail)
         
-        play(with: mediaInfo, at: time, completion: completion)
+        play(with: mediaInfo, at: time, videoID: videoID, completion: completion)
     }
     
-    func play(video: OEXHelperVideoDownload, time: TimeInterval, _ completion: ChromeCastItemSuccessCompletion, _ failure: ChromeCastItemFailureCompletion) {
+    func play(video: OEXHelperVideoDownload, time: TimeInterval, _ completion: @escaping ChromeCastItemSuccessCompletion, _ failure: @escaping ChromeCastItemFailureCompletion) {
         guard let videoURL = video.summary?.videoURL,
             let url = URL(string: videoURL),
             let videoID = video.summary?.videoID else { return }
@@ -83,12 +83,12 @@ class ChromeCastMiniPlayer: UIViewController {
                         failure(YoutubeLinkExtractorError.unkown)
                         return
                 }
-                self?.cast(video, youtubeUrl, videoID, time, completion, failure)
+                self?.cast(video, youtubeUrl, videoID, time, completion)
                 }, failure: { error in
                     failure(error)
             })
         } else {
-            cast(video, url, videoID, time, completion, failure)
+            cast(video, url, videoID, time, completion)
         }
     }
     
@@ -139,7 +139,7 @@ class ChromeCastMiniPlayer: UIViewController {
         return GCKMediaInformation.buildMediaInformation(contentID: contentID, title: title, videoID: videoID, contentType: contentType, streamType: streamType, thumbnailUrl: thumbnailUrl, deviceName: deviceName)
     }
     
-    private func play(with mediaInfo: GCKMediaInformation, at time: TimeInterval, completion: ChromeCastItemSuccessCompletion) {
+    private func play(with mediaInfo: GCKMediaInformation, at time: TimeInterval, videoID: String, completion: ChromeCastItemSuccessCompletion) {
         guard let currentSession = ChromeCastManager.shared.sessionManager?.currentSession,
             !isAlreadyPlaying(mediaInfo: mediaInfo) else {
             return
@@ -149,7 +149,7 @@ class ChromeCastMiniPlayer: UIViewController {
         options.playPosition = time
         currentSession.remoteMediaClient?.loadMedia(mediaInfo, with: options)
         
-        completion(true)
+        completion(videoID)
     }
     
     private func isAlreadyPlaying(mediaInfo: GCKMediaInformation) -> Bool {

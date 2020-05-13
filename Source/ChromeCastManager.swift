@@ -29,7 +29,8 @@ private enum DelegateCallbackType: Int {
     typealias Environment = OEXInterfaceProvider
     
     @objc static let shared = ChromeCastManager()
-    var delegate: ChromeCastPlayerStatusDelegate?
+    weak var delegate: ChromeCastPlayerStatusDelegate?
+    var videoID: String?
     private let context = GCKCastContext.sharedInstance()
     private var discoveryManager: GCKDiscoveryManager?
     var sessionManager: GCKSessionManager?
@@ -111,6 +112,8 @@ private enum DelegateCallbackType: Int {
             delegate?.chromeCastDidConnect()
             break
         case .disconnect:
+            saveStreamProgress()
+            videoID = nil
             delegate?.chromeCastDidDisconnect()
             break
         case .playing:
@@ -119,6 +122,8 @@ private enum DelegateCallbackType: Int {
             break
         case .finished:
             playedTime = 0.0
+            saveStreamProgress()
+            videoID = nil
             delegate?.chromeCastDidFinishPlaying()
             break
         default:
@@ -126,11 +131,18 @@ private enum DelegateCallbackType: Int {
         }
     }
     
-    private func saveStreamProgress() {
+    private func getVideoID() -> String? {
         guard let metadata = sessionManager?.currentCastSession?.remoteMediaClient?.mediaStatus?.mediaInformation?.metadata,
-            let videoID = metadata.string(forKey: ChromeCastVideoID),
+            let videoID = metadata.string(forKey: ChromeCastVideoID) else {
+                return self.videoID
+        }
+        return videoID
+    }
+    
+    private func saveStreamProgress() {
+        guard let videoID = getVideoID(),
             let videoData = environment?.interface?.videoData(forVideoID: videoID),
-            let duration = Double(videoData.duration), streamPosition > 1  else { return }
+            let duration = Double(videoData.duration)  else { return }
         // remoteMediaClient didUpdate called on buffering initilized with stream position 0 and then seek happen if there is any.
         // If user switched in between two update calls then video stream progress marked override last played value
         environment?.interface?.markLastPlayedInterval(Float(streamPosition), forVideoID: videoID)
@@ -143,7 +155,6 @@ private enum DelegateCallbackType: Int {
             self?.removeMediaListener()
             self?.callbackType = .disconnect
             self?.removeChromeCastButton()
-            //self?.saveStreamProgress()
         }
     }
     
@@ -161,7 +172,6 @@ private enum DelegateCallbackType: Int {
                 DispatchQueue.main.async { [weak self] in
                     self?.callbackType = .finished
                 }
-                saveStreamProgress()
             }
         case .playing:
             DispatchQueue.main.async { [weak self] in

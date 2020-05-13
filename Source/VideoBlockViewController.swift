@@ -230,7 +230,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         chromeCastMiniPlayer?.view.isHidden = !hide
     }
     
-    private func cast(video: OEXHelperVideoDownload, time: TimeInterval, completion: ChromeCastItemSuccessCompletion, fallback: ChromeCastItemFailureCompletion? = nil) {
+    private func cast(video: OEXHelperVideoDownload, time: TimeInterval, completion: @escaping ChromeCastItemSuccessCompletion, failure: @escaping ChromeCastItemFailureCompletion) {
         DispatchQueue.main.async { [weak self] in
             self?.addOverlyCastMessage()
             self?.updateControlsVisibility(hide: true)
@@ -240,7 +240,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
 
         configureChromecast()
         
-        chromeCastMiniPlayer?.play(video: video, time: time, completion: completion, fallback: fallback)
+        chromeCastMiniPlayer?.play(video: video, time: time, completion, failure)
     }
     
     private func playLocally(video: OEXHelperVideoDownload, time: TimeInterval) {
@@ -364,9 +364,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     private func play(video: OEXHelperVideoDownload) {
         let playedTime = TimeInterval(environment.interface?.lastPlayedInterval(forVideo: video) ?? 0)
         if chromeCastManager.isConnected {
-            cast(video: video, time: playedTime) { [weak self] error in
+            cast(video: video, time: playedTime, completion: { [weak self] videoID in
+                self?.chromeCastManager.videoID = videoID
+            }, failure: { [weak self] _ in
                 self?.playLocally(video: video, time: playedTime)
-            }
+            })
         } else {
             playLocally(video: video, time: playedTime)
         }
@@ -611,6 +613,5 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
     
     func chromeCastDidFinishPlaying() {
         createOverlayPlayButton()
-        videoPlayer.savePlayedTime(time: .zero)
     }
 }
