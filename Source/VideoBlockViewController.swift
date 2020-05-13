@@ -230,7 +230,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         chromeCastMiniPlayer?.view.isHidden = !hide
     }
     
-    private func cast(video: OEXHelperVideoDownload, time: TimeInterval, fallback: ((Error)->())? = nil) {
+    private func cast(video: OEXHelperVideoDownload, time: TimeInterval, completion: ChromeCastItemSuccessCompletion, fallback: ChromeCastItemFailureCompletion? = nil) {
         DispatchQueue.main.async { [weak self] in
             self?.addOverlyCastMessage()
             self?.updateControlsVisibility(hide: true)
@@ -240,7 +240,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
 
         configureChromecast()
         
-        chromeCastMiniPlayer?.play(video: video, time: time, fallback: fallback)
+        chromeCastMiniPlayer?.play(video: video, time: time, completion: completion, fallback: fallback)
     }
     
     private func playLocally(video: OEXHelperVideoDownload, time: TimeInterval) {

@@ -143,6 +143,7 @@ private enum DelegateCallbackType: Int {
             self?.removeMediaListener()
             self?.callbackType = .disconnect
             self?.removeChromeCastButton()
+            //self?.saveStreamProgress()
         }
     }
     
