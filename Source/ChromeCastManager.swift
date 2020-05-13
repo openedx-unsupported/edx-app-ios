@@ -112,7 +112,6 @@ private enum DelegateCallbackType: Int {
             delegate?.chromeCastDidConnect()
             break
         case .disconnect:
-            saveStreamProgress()
             videoID = nil
             delegate?.chromeCastDidDisconnect()
             break
