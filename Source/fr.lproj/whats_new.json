@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.22",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Plus d'options de vitesse de lecture",
+                "message":"Nous avons ajouté plus d'options pour contrôler la vitesse de la vidéo pour répondre à vos besoins."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Rembobiner et avancer des vidéos",
+                "message":"Nous vous avons entendu! Vous pouvez maintenant rembobiner ou transférer des vidéos pour arriver au point exact où cela compte."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Améliorations pour iPad",
+                "message":"L'écran Mes cours est désormais optimisé pour fonctionner sur iPad."
+            }
+        ]
+    },
+    {
         "version":"2.21",
         "messages":[
             {

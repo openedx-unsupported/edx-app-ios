@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.22",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Weitere Optionen für die Wiedergabegeschwindigkeit",
+                "message":"Wir haben weitere Optionen zur Steuerung der Videogeschwindigkeit hinzugefügt, um Ihren Anforderungen gerecht zu werden."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Videos zurückspulen und weiterleiten",
+                "message":"Wir haben Sie gehört! Jetzt können Sie Videos zurückspulen oder weiterleiten, um genau den Punkt zu erreichen, an dem es darauf ankommt."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"Verbesserungen für iPad",
+                "message":"Der Bildschirm 'Meine Kurse' ist jetzt für die Verwendung auf iPads optimiert."
+            }
+        ]
+    },
+    {
         "version":"2.21",
         "messages":[
             {

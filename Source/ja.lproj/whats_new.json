@@ -1,5 +1,37 @@
 [
     {
+        "version":"2.22",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"その他の再生速度オプション",
+                "message":"ニーズに合わせてビデオ速度を制御するオプションがさらに追加されました。"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"ビデオの巻き戻しと転送",
+                "message":"聞いたよ！これで、ビデオを巻き戻しまたは転送して、重要なポイントに正確に到達できます。"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_3",
+                "title":"iPadの改善",
+                "message":"コース画面がiPadで動作するように最適化されました。"
+            }
+        ]
+    },
+    {
         "version":"2.21",
         "messages":[
             {
