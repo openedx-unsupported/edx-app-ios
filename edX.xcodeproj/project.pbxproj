@@ -99,7 +99,6 @@
 		2217A54A1ECDB464009B4D04 /* CourseShareUtmParameterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */; };
 		221D31821EC08B69001D8D71 /* CourseDatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */; };
 		222C39202167761F0038E388 /* DeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222C391F2167761F0038E388 /* DeepLinkTests.swift */; };
-		2231FF4D1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2231FF4C1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift */; };
 		223895CF1F25CF76005B9C15 /* SwipeableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CB1F25CF76005B9C15 /* SwipeableCell.swift */; };
 		223895D01F25CF76005B9C15 /* SwipeActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */; };
 		223895D11F25CF76005B9C15 /* SwipeAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223895CD1F25CF76005B9C15 /* SwipeAnimator.swift */; };
@@ -459,8 +458,6 @@
 		779D1CE11B8E6FE000FCC847 /* PullRefreshController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 779D1CE01B8E6FE000FCC847 /* PullRefreshController.swift */; };
 		77A340211AB2461800C8E141 /* OEXRegistrationViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */; };
 		77AB8C851B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AB8C841B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift */; };
-		77ACA1CA1A323C2500039AD1 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C81A323C2500039AD1 /* Crashlytics.framework */; };
-		77ACA1CB1A323C2500039AD1 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77ACA1C91A323C2500039AD1 /* Fabric.framework */; };
 		77ADB7941C9222A6006A66A1 /* XCTestCase+Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77ADB7921C92228D006A66A1 /* XCTestCase+Stream.swift */; };
 		77ADF49E1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF49D1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m */; };
 		77ADF4A31AC1AF9800AC8955 /* OEXFacebookAuthProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 77ADF4A21AC1AF9800AC8955 /* OEXFacebookAuthProvider.m */; };
@@ -627,7 +624,6 @@
 		B4B285DC1A9A490400DD603A /* OEXFacebookConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DB1A9A490400DD603A /* OEXFacebookConfig.m */; };
 		B4B285DF1A9A493A00DD603A /* OEXNewRelicConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */; };
 		B4B285E21A9A497A00DD603A /* OEXSegmentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E11A9A497A00DD603A /* OEXSegmentConfig.m */; };
-		B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E41A9A49FF00DD603A /* OEXFabricConfig.m */; };
 		B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */; };
 		B4B285EA1A9B182900DD603A /* OEXConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285E91A9B182900DD603A /* OEXConfigTests.m */; };
 		B4B285ED1A9B429200DD603A /* OEXNetworkUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B285EC1A9B429200DD603A /* OEXNetworkUtility.m */; };
@@ -838,7 +834,6 @@
 		E054B09F1EC3178200FACBA6 /* screen_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E054B09E1EC3178200FACBA6 /* screen_1.png */; };
 		E055D53D1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift in Sources */ = {isa = PBXBuildFile; fileRef = E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */; };
 		E06292751F7BAFFF006D5EFC /* BranchConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06292741F7BAFFF006D5EFC /* BranchConfig.swift */; };
-		E06292771F7BB452006D5EFC /* FabricKits.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06292761F7BB452006D5EFC /* FabricKits.swift */; };
 		E06292791F7E349D006D5EFC /* BranchConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06292781F7E349D006D5EFC /* BranchConfigTests.swift */; };
 		E06BEB0A2270863F00C7CF01 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E06BEB092270863E00C7CF01 /* GoogleService-Info.plist */; };
 		E0702D392211947100D3544D /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0702D382211947100D3544D /* Typealiases.swift */; };
@@ -1071,7 +1066,6 @@
 		2217A5491ECDB464009B4D04 /* CourseShareUtmParameterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameterTests.swift; sourceTree = "<group>"; };
 		221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseDatesViewController.swift; sourceTree = "<group>"; };
 		222C391F2167761F0038E388 /* DeepLinkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkTests.swift; sourceTree = "<group>"; };
-		2231FF4C1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnswerAnalyticsTracker.swift; sourceTree = "<group>"; };
 		223895CB1F25CF76005B9C15 /* SwipeableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeableCell.swift; sourceTree = "<group>"; };
 		223895CC1F25CF76005B9C15 /* SwipeActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeActionButton.swift; sourceTree = "<group>"; };
 		223895CD1F25CF76005B9C15 /* SwipeAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeAnimator.swift; sourceTree = "<group>"; };
@@ -1498,8 +1492,6 @@
 		779D1CE01B8E6FE000FCC847 /* PullRefreshController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PullRefreshController.swift; sourceTree = "<group>"; };
 		77A340201AB2461800C8E141 /* OEXRegistrationViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXRegistrationViewControllerTests.m; sourceTree = "<group>"; };
 		77AB8C841B345F6400AB3FC0 /* NSString+OEXCryptoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+OEXCryptoTests.swift"; sourceTree = "<group>"; };
-		77ACA1C81A323C2500039AD1 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Libraries/Crashlytics.framework; sourceTree = "<group>"; };
-		77ACA1C91A323C2500039AD1 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = Libraries/Fabric.framework; sourceTree = "<group>"; };
 		77ADB7921C92228D006A66A1 /* XCTestCase+Stream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Stream.swift"; sourceTree = "<group>"; };
 		77ADF49C1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXExternalRegistrationOptionsView.h; sourceTree = "<group>"; };
 		77ADF49D1AC1ACAA00AC8955 /* OEXExternalRegistrationOptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXExternalRegistrationOptionsView.m; sourceTree = "<group>"; };
@@ -1699,8 +1691,6 @@
 		B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXNewRelicConfig.m; sourceTree = "<group>"; };
 		B4B285E01A9A497A00DD603A /* OEXSegmentConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXSegmentConfig.h; sourceTree = "<group>"; };
 		B4B285E11A9A497A00DD603A /* OEXSegmentConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXSegmentConfig.m; sourceTree = "<group>"; };
-		B4B285E31A9A49FF00DD603A /* OEXFabricConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXFabricConfig.h; sourceTree = "<group>"; };
-		B4B285E41A9A49FF00DD603A /* OEXFabricConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXFabricConfig.m; sourceTree = "<group>"; };
 		B4B285E61A9A662600DD603A /* OEXZeroRatingConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEXZeroRatingConfig.h; sourceTree = "<group>"; };
 		B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXZeroRatingConfig.m; sourceTree = "<group>"; };
 		B4B285E91A9B182900DD603A /* OEXConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEXConfigTests.m; sourceTree = "<group>"; };
@@ -1982,7 +1972,6 @@
 		E054B09E1EC3178200FACBA6 /* screen_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screen_1.png; sourceTree = "<group>"; };
 		E055D53C1D25256500230CA4 /* NetworkManager+ResponseInterceptors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkManager+ResponseInterceptors.swift"; sourceTree = SOURCE_ROOT; };
 		E06292741F7BAFFF006D5EFC /* BranchConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchConfig.swift; sourceTree = "<group>"; };
-		E06292761F7BB452006D5EFC /* FabricKits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FabricKits.swift; sourceTree = "<group>"; };
 		E06292781F7E349D006D5EFC /* BranchConfigTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BranchConfigTests.swift; sourceTree = "<group>"; };
 		E06BEB092270863E00C7CF01 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E0702D382211947100D3544D /* Typealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
@@ -2097,11 +2086,9 @@
 				5F4AB7792463F891002D1C9C /* GoogleCast.framework in Frameworks */,
 				8F562F8C1A1F44FC00320DB3 /* AddressBook.framework in Frameworks */,
 				77E647A31C90C10300B6740D /* edXCore.framework in Frameworks */,
-				77ACA1CB1A323C2500039AD1 /* Fabric.framework in Frameworks */,
 				BE8163F61954244E00F9A2C5 /* MessageUI.framework in Frameworks */,
 				E02661732269A821002721B7 /* libOCMock.a in Frameworks */,
 				BE0EE28B192B78DA00F9FF98 /* libz.dylib in Frameworks */,
-				77ACA1CA1A323C2500039AD1 /* Crashlytics.framework in Frameworks */,
 				BE0EE287192B78C400F9FF98 /* CoreTelephony.framework in Frameworks */,
 				BECB7B131924C0C3009C77F1 /* UIKit.framework in Frameworks */,
 				BECB7B0F1924C0C3009C77F1 /* Foundation.framework in Frameworks */,
@@ -2245,7 +2232,6 @@
 				1940D8C91A230E25000318A3 /* OEXAnalytics.h */,
 				1940D8CA1A230E25000318A3 /* OEXAnalytics.m */,
 				E01F45661E03D04100B9D7DC /* FirebaseAnalyticsTracker.swift */,
-				2231FF4C1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift */,
 			);
 			name = Analytics;
 			sourceTree = "<group>";
@@ -3326,14 +3312,11 @@
 				B4B285DE1A9A493A00DD603A /* OEXNewRelicConfig.m */,
 				B4B285E01A9A497A00DD603A /* OEXSegmentConfig.h */,
 				B4B285E11A9A497A00DD603A /* OEXSegmentConfig.m */,
-				B4B285E31A9A49FF00DD603A /* OEXFabricConfig.h */,
-				B4B285E41A9A49FF00DD603A /* OEXFabricConfig.m */,
 				B4B285E61A9A662600DD603A /* OEXZeroRatingConfig.h */,
 				B4B285E71A9A662600DD603A /* OEXZeroRatingConfig.m */,
 				1A8172521C3C21DE007262AA /* TwitterConfig.swift */,
 				E0A2461E1D5DA12A0066C766 /* AppStoreConfig.swift */,
 				E06292741F7BAFFF006D5EFC /* BranchConfig.swift */,
-				E06292761F7BB452006D5EFC /* FabricKits.swift */,
 				22ABBA0B211C16420001020B /* MicrosoftConfig.swift */,
 				2255C94D2111BADC005F7C8C /* ProgramConfig.swift */,
 				22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */,
@@ -3742,8 +3725,6 @@
 				0D15761D235ED9800007B0B7 /* Accelerate.framework */,
 				776F39281B4EF4CD00ED11E3 /* WebKit.framework */,
 				805329111B0EA2DC0093B177 /* QuartzCore.framework */,
-				77ACA1C81A323C2500039AD1 /* Crashlytics.framework */,
-				77ACA1C91A323C2500039AD1 /* Fabric.framework */,
 				8F562F8F1A1F451600320DB3 /* CoreMotion.framework */,
 				8F562F8D1A1F450A00320DB3 /* AssetsLibrary.framework */,
 				8F562F8B1A1F44FC00320DB3 /* AddressBook.framework */,
@@ -4212,6 +4193,7 @@
 				77E647AC1C90C10400B6740D /* Embed Frameworks */,
 				E0D9C59723FEAE100085218B /* Remove Unsupported Architectures */,
 				A5227C8DDB2ED6310729C274 /* [CP] Copy Pods Resources */,
+				E094D55D2474E8150071BAAD /* Firebase Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -4694,6 +4676,26 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-edX/Pods-edX-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E094D55D2474E8150071BAAD /* Firebase Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Firebase Crashlytics";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 		E0D9C59723FEAE100085218B /* Remove Unsupported Architectures */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4864,7 +4866,6 @@
 				B4B285E81A9A662600DD603A /* OEXZeroRatingConfig.m in Sources */,
 				E0AF4E8E1BFB19CC0083753C /* PassthroughView.swift in Sources */,
 				BD7C6C3E1DCA32370004D135 /* OEXFonts.swift in Sources */,
-				2231FF4D1F7A5F23002F3549 /* AnswerAnalyticsTracker.swift in Sources */,
 				E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */,
 				B70BD00720B57E89005F0D19 /* OEXTabBarItemsCell.m in Sources */,
 				E02F65681E8B94CC000D1C4E /* TZSpacerView.swift in Sources */,
@@ -5146,7 +5147,6 @@
 				7793764D1BED27D000900A8C /* BasicAuthCredential.swift in Sources */,
 				E0EC115C221AE70900F0574A /* ListenableObject.m in Sources */,
 				B7CCC72D209B16B100A66923 /* ConstraintLayoutGuide.swift in Sources */,
-				B4B285E51A9A49FF00DD603A /* OEXFabricConfig.m in Sources */,
 				1A81971B1C060FA50030254D /* ShareHelper.swift in Sources */,
 				22547414220038BC000E5957 /* DegreesViewController.swift in Sources */,
 				223A98FC1FA8610B0018DF67 /* AdditionalTabBarViewController.swift in Sources */,
@@ -5223,7 +5223,6 @@
 				9EF21A9E1B4697CA000048F8 /* CourseLastAccessedController.swift in Sources */,
 				698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */,
 				694D34A01D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift in Sources */,
-				E06292771F7BB452006D5EFC /* FabricKits.swift in Sources */,
 				B70BD00A20B57E92005F0D19 /* OEXCourseInfoCell.m in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
 				77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */,

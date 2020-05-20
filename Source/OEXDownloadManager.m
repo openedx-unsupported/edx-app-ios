@@ -10,7 +10,6 @@
 
 #import "edX-Swift.h"
 #import "Logger+OEXObjC.h"
-#import <Crashlytics/Crashlytics.h>
 #import "OEXAnalytics.h"
 #import "OEXAppDelegate.h"
 #import "OEXFileUtility.h"

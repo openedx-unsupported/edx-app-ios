@@ -14,7 +14,6 @@
 #import "OEXDBManager.h"
 
 #import "edX-Swift.h"
-#import <Crashlytics/Crashlytics.h>
 #import "LastAccessed.h"
 #import "Logger+OEXObjC.h"
 #import "OEXFileUtility.h"
