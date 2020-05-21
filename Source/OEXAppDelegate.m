@@ -240,7 +240,7 @@
 }
 
 - (void) configureBranch:(NSDictionary*) launchOptions {
-    if (self.environment.config.branchConfig.enabled) {
+    if (self.environment.config.branchConfig.enabled && self.environment.config.branchConfig.branchKey != nil) {
         [Branch setBranchKey:self.environment.config.branchConfig.branchKey];
         if ([Branch branchKey]){
             [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {

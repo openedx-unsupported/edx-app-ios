@@ -22,7 +22,7 @@ class BranchConfig: NSObject {
         if let enabled = dictionary?[BranchKeys.enabled] as? Bool {
             self.enabled = enabled
         }
-        branchKey = dictionary?[BranchKeys.key] as? String ?? ""
+        branchKey = dictionary?[BranchKeys.key] as? String
     }
 }
 

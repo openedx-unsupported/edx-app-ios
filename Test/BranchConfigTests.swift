@@ -12,7 +12,7 @@ import XCTest
 
 class BranchConfigTests: XCTestCase{
     func testBranchConfig() {
-        let config = BranchConfig(dictionary: ["ENABLED": true, "BRANCH_KEY": "branch_key"])
+        let config = BranchConfig(dictionary: ["ENABLED": true, "KEY": "branch_key"])
         
         XCTAssertNotNil(config)
         XCTAssertTrue(config.enabled)
