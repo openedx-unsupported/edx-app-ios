@@ -150,11 +150,11 @@ class IOSHelper {
         plist['GCM_SENDER_ID'] = GCMSenderID
 
         // set optional keys if present in config
-        def productID = firebase['PRODUCT_ID']
-        if (productID) {
-            plist['PROJECT_ID'] = productID
-            plist['STORAGE_BUCKET'] = productID + '.appspot.com'
-            plist['DATABASE_URL'] = 'https://' + productID + '.firebaseio.com'
+        def projectID = firebase['PROJECT_ID']
+        if (projectID) {
+            plist['PROJECT_ID'] = projectID
+            plist['STORAGE_BUCKET'] = projectID + '.appspot.com'
+            plist['DATABASE_URL'] = 'https://' + projectID + '.firebaseio.com'
         }
 
         def reversedCliendID = firebase['REVERSED_CLIENT_ID']
