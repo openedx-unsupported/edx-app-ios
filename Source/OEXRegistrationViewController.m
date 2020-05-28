@@ -234,10 +234,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         if ([formField.name isEqualToString:@"social_auth_provider"]) {
             for (id <OEXExternalAuthProvider> provider in self.externalAuthProviders) {
                 if ([formField.defaultValue isEqualToString:provider.displayName]) {
-                    NSString *access_token = [[NSUserDefaults standardUserDefaults] stringForKey:@"access_token"];
-                    self.externalAccessToken = access_token;
+                    self.externalAccessToken = self.environment.session.thirdPartyAuthAccessToken;
                     self.externalProvider = provider;
-                    
+
                     UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
                                [self useHeadingView:headingView];
                     break;
@@ -430,8 +429,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.externalAccessToken = accessToken;
     self.externalProvider = provider;
     
-    [[NSUserDefaults standardUserDefaults] setObject:accessToken forKey:@"access_token"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    self.environment.session.thirdPartyAuthAccessToken = accessToken;
     
     // Long term, we should update the registration.json description to provide this mapping.
     // We will need to do this if we ever transition to fetching that from the server
@@ -491,8 +489,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [parameters setSafeObject:self.environment.config.oauthClientID forKey:@"client_id"];
     }
 
-    [self registerWithParameters:parameters];
-
+    [self registerWithParameters:parameters success:^{
+        self.environment.session.thirdPartyAuthAccessToken = nil;
+    }];
 }
 
 - (void) showInputErrorAlert {
@@ -581,7 +580,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (void)t_registerWithParameters:(NSDictionary*)parameters {
-    [self registerWithParameters:parameters];
+    [self registerWithParameters:parameters success:nil];
 }
 
 @end
