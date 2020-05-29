@@ -36,7 +36,6 @@ extern NSString* const OEXSessionEndedNotification;
 /// access_token is saved to resume the third party registration flow.
 /// Registration flow would resume from that point and matching access_token with the one returned by server.
 /// When registration is sucssessful, this token is removed.
-@property (nonatomic, strong, nullable) NSString* thirdPartyAuthProvider;
 @property (nonatomic, strong, nullable) NSString* thirdPartyAuthAccessToken;
 
 - (void)loadTokenFromStore;
