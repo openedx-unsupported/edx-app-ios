@@ -33,8 +33,8 @@ extern NSString* const OEXSessionEndedNotification;
 @property (readonly, nonatomic, strong, nullable) OEXUserDetails* currentUser;
 
 /// This field holds in-memory external auth token when user starts external registration flow such as Google
-/// accessToken is stored so if user dismisses the controller and opens the controller again,
-/// registration flow would resume from that point and matching access_token with he one returned by server.
+/// access_token is saved to resume the third party registration flow.
+/// Registration flow would resume from that point and matching access_token with the one returned by server.
 /// When registration is sucssessful, this token is removed.
 @property (nonatomic, strong, nullable) NSString* thirdPartyAuthAccessToken;
 
