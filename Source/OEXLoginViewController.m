@@ -455,6 +455,8 @@
                        requestingUserDetails:NO
                               withCompletion:^(NSString* accessToken, OEXRegisteringUserDetails* details, NSError* error) {
                                   if(accessToken) {
+                                      self.environment.session.thirdPartyAuthProvider = provider.displayName;
+                                      self.environment.session.thirdPartyAuthAccessToken = accessToken;
                                       [OEXAuthentication requestTokenWithProvider:provider externalToken:accessToken completion:handler];
                                   }
                                   else {

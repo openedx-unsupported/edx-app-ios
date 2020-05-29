@@ -429,6 +429,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.externalAccessToken = accessToken;
     self.externalProvider = provider;
     
+    self.environment.session.thirdPartyAuthProvider = provider.displayName;
     self.environment.session.thirdPartyAuthAccessToken = accessToken;
     
     // Long term, we should update the registration.json description to provide this mapping.
@@ -487,7 +488,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [parameters setSafeObject:self.externalAccessToken forKey: @"access_token"];
         [parameters setSafeObject:self.externalProvider.backendName forKey:@"provider"];
         [parameters setSafeObject:self.environment.config.oauthClientID forKey:@"client_id"];
-        self.environment.session.thirdPartyAuthAccessToken = nil;
     }
     
     [self registerWithParameters:parameters];
