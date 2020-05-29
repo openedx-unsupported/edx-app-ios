@@ -37,6 +37,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 /// Contents are id <OEXRegistrationFieldController>
 @property (strong, nonatomic) NSArray* fieldControllers;
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
+@property (strong, nonatomic) NSMutableArray* externalAuthProviders;
 // Used in auth from an external provider
 @property (strong, nonatomic) UIView* currentHeadingView;
 @property (strong, nonatomic) id <OEXExternalAuthProvider> externalProvider;
@@ -109,6 +110,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         weakSelf.registrationDescription = response;
         [weakSelf makeFieldControllers];
         [weakSelf initializeViews];
+        [weakSelf checkIfResumingRegistration];
         [weakSelf refreshFormFields];
     }];
 }
@@ -160,20 +162,20 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     [tapGesture addTarget:self action:@selector(scrollViewTapped:)];
     [self.scrollView addGestureRecognizer:tapGesture];
     
-    NSMutableArray* providers = [[NSMutableArray alloc] init];
+    self.externalAuthProviders = [[NSMutableArray alloc] init];
     if(self.environment.config.googleConfig.enabled) {
-        [providers addObject:[[OEXGoogleAuthProvider alloc] init]];
+        [self.externalAuthProviders addObject:[[OEXGoogleAuthProvider alloc] init]];
     }
     if(self.environment.config.facebookConfig.enabled) {
-        [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
+        [self.externalAuthProviders addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
     
     if(self.environment.config.microsoftConfig.enabled) {
-        [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
+        [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
     
-    if(providers.count > 0) {
-        OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:self.view.bounds providers:providers];
+    if(self.externalAuthProviders.count > 0) {
+        OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:self.view.bounds providers:self.externalAuthProviders];
         headingView.delegate = self;
         [self useHeadingView:headingView];
     }
@@ -226,8 +228,37 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     return self.externalProvider != nil && [field.name isEqualToString:@"password"];
 }
 
+- (void)checkIfResumingRegistration {
+    NSArray* fields = self.registrationDescription.registrationFormFields;
+    for (OEXRegistrationFormField* formField in fields) {
+        if ([formField.name isEqualToString:@"social_auth_provider"]) {
+            for (id <OEXExternalAuthProvider> provider in self.externalAuthProviders) {
+                if ([formField.defaultValue isEqualToString:provider.displayName]) {
+                    self.externalAccessToken = self.environment.session.thirdPartyAuthAccessToken;
+                    self.externalProvider = provider;
+
+                    UIView* headingView = [[OEXUsingExternalAuthHeadingView alloc] initWithFrame:self.view.bounds serviceName:provider.displayName];
+                               [self useHeadingView:headingView];
+                    break;
+                }
+            }
+        }
+    }
+}
+
 - (void)refreshFormFields {
     for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
+        if (([fieldController.field.defaultValue isEqualToString:@""] == NO) ) {
+            if([[fieldController field].name isEqualToString:@"name"]) {
+                [fieldController setValue:fieldController.field.defaultValue];
+            }
+            if([[fieldController field].name isEqualToString:@"username"]) {
+                [fieldController setValue:fieldController.field.defaultValue];
+            }
+            if([[fieldController field].name isEqualToString:@"email"]) {
+                [fieldController setValue:fieldController.field.defaultValue];
+            }
+        }
         // Add view to scroll view if field is not optional and it is not agreement field.
         UIView* view = fieldController.view;
         if(fieldController.field.isRequired && ![self shouldFilterField:fieldController.field]) {
@@ -397,6 +428,9 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void)receivedFields:(OEXRegisteringUserDetails*)profile fromProvider:(id <OEXExternalAuthProvider>)provider withAccessToken:(NSString*)accessToken {
     self.externalAccessToken = accessToken;
     self.externalProvider = provider;
+    
+    self.environment.session.thirdPartyAuthAccessToken = accessToken;
+    
     // Long term, we should update the registration.json description to provide this mapping.
     // We will need to do this if we ever transition to fetching that from the server
     for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
@@ -454,9 +488,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [parameters setSafeObject:self.externalProvider.backendName forKey:@"provider"];
         [parameters setSafeObject:self.environment.config.oauthClientID forKey:@"client_id"];
     }
-
+    
     [self registerWithParameters:parameters];
-
 }
 
 - (void) showInputErrorAlert {

@@ -69,6 +69,7 @@ static NSString* OEXSessionClearedCache = @"OEXSessionClearedCache";
     if(token != nil && userDetails != nil) {
         [[NSNotificationCenter defaultCenter] postNotificationName:OEXSessionStartedNotification object:nil userInfo:@{OEXSessionStartedUserDetailsKey : userDetails}];
     }
+    self.thirdPartyAuthAccessToken = nil;
 }
 
 - (void)loadTokenFromStore {

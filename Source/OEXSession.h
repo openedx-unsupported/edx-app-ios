@@ -32,6 +32,12 @@ extern NSString* const OEXSessionEndedNotification;
 @property (readonly, nonatomic, strong, nullable) OEXAccessToken* token;
 @property (readonly, nonatomic, strong, nullable) OEXUserDetails* currentUser;
 
+/// This field holds in-memory external auth token when user starts external registration flow such as Google
+/// access_token is saved to resume the third party registration flow.
+/// Registration flow would resume from that point and matching access_token with the one returned by server.
+/// When registration is sucssessful, this token is removed.
+@property (nonatomic, strong, nullable) NSString* thirdPartyAuthAccessToken;
+
 - (void)loadTokenFromStore;
 - (void)saveAccessToken:(OEXAccessToken*)token userDetails:(OEXUserDetails*)userDetails;
 - (void)closeAndClearSession;
