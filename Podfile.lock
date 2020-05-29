@@ -3,10 +3,7 @@ PODS:
   - Branch (0.28.1):
     - Branch/Core (= 0.28.1)
   - Branch/Core (0.28.1)
-  - Crashlytics (3.10.9):
-    - Fabric (~> 1.7.13)
   - DateTools (1.6.1)
-  - Fabric (1.7.13)
   - FBSDKCoreKit (5.5.0):
     - FBSDKCoreKit/Basics (= 5.5.0)
     - FBSDKCoreKit/Core (= 5.5.0)
@@ -22,6 +19,9 @@ PODS:
     - FirebaseAnalytics (= 6.4.0)
   - Firebase/CoreOnly (6.21.0):
     - FirebaseCore (= 6.6.5)
+  - Firebase/Crashlytics (6.21.0):
+    - Firebase/CoreOnly
+    - FirebaseCrashlytics (~> 4.0.0-beta.6)
   - Firebase/InAppMessaging (6.21.0):
     - Firebase/CoreOnly
     - FirebaseInAppMessaging (~> 0.19.1)
@@ -57,6 +57,14 @@ PODS:
     - GoogleUtilities/Logger (~> 6.5)
     - nanopb (~> 0.3.901)
   - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseCrashlytics (4.0.0-beta.6):
+    - FirebaseAnalyticsInterop (~> 1.2)
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstallations (~> 1.1)
+    - GoogleDataTransport (~> 5.1)
+    - GoogleDataTransportCCTSupport (>= 2.0.1, ~> 2.0)
+    - nanopb (~> 0.3.901)
+    - PromisesObjC (~> 1.2)
   - FirebaseInAppMessaging (0.19.1):
     - FirebaseABTesting (~> 3.2)
     - FirebaseAnalyticsInterop (~> 1.3)
@@ -200,13 +208,12 @@ PODS:
 DEPENDENCIES:
   - Analytics (~> 3.6.10)
   - Branch (= 0.28.1)
-  - Crashlytics (~> 3.10.1)
   - DateTools (~> 1.6.1)
-  - Fabric (~> 1.7.6)
   - FBSDKCoreKit (= 5.5.0)
   - FBSDKLoginKit (= 5.5.0)
   - Firebase/Analytics (= 6.21.0)
   - Firebase/Core (~> 6.2)
+  - Firebase/Crashlytics (= 6.21.0)
   - Firebase/InAppMessaging (= 6.21.0)
   - Firebase/Messaging (= 6.21.0)
   - Firebase/Performance (= 6.21.0)
@@ -224,9 +231,7 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Analytics
     - Branch
-    - Crashlytics
     - DateTools
-    - Fabric
     - FBSDKCoreKit
     - FBSDKLoginKit
     - Firebase
@@ -236,6 +241,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
+    - FirebaseCrashlytics
     - FirebaseInAppMessaging
     - FirebaseInstallations
     - FirebaseInstanceID
@@ -266,9 +272,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Analytics: 63744ad4afa65c3bcdcdb7a94b62515bde5b3900
   Branch: edf6cab0cecb437d6a6abba3a25d0a0fa6f277ec
-  Crashlytics: 55e24fc23989680285a21cb1146578d9d18e432c
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
-  Fabric: 25d0963b691fc97be566392243ff0ecef5a68338
   FBSDKCoreKit: 7ade9cfea30eef2f6cf105a1aa904f89ea68fb7d
   FBSDKLoginKit: bb28062f24e79590c44ba03297ca9bea4b6436d2
   Firebase: f378c80340dd41c0ad0914af740c021eb282a04b
@@ -278,6 +282,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 9f495d3afacb7b558711e6218ebb14b1c51b5802
   FirebaseCoreDiagnostics: e9b4cd8ba60dee0f2d13347332e4b7898cca5b61
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseCrashlytics: b9e729da8b80d9c45f234f791a73b5fe647d4c31
   FirebaseInAppMessaging: 297660b3706fdb1ec86c11abd0597ca3ae578b5d
   FirebaseInstallations: acb3216eb9784d3b1d2d2d635ff74fa892cc0c44
   FirebaseInstanceID: 7ee0d6777013bb952f377b41965bf132b6a075be
@@ -305,6 +310,6 @@ SPEC CHECKSUMS:
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
   YoutubePlayer-in-WKWebView: af2f5929fc78882d94bfdfeea999b661b78d9717
 
-PODFILE CHECKSUM: 09d84b3c3ac5c66ab4add75453adf5627f3ed867
+PODFILE CHECKSUM: 4e04f1496a83e7b043f6c6270d66b0a415f7d0e4
 
 COCOAPODS: 1.5.3

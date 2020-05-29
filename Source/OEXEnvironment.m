@@ -9,7 +9,6 @@
 #import "edX-Swift.h"
 
 #import "OEXEnvironment.h"
-#import "OEXFabricConfig.h"
 #import <Analytics/SEGAnalytics.h>
 #import "OEXAnalytics.h"
 #import "OEXConfig.h"
@@ -74,10 +73,6 @@
             
             if((segmentConfig.apiKey != nil && segmentConfig.isEnabled) || (env.config.firebaseConfig.enabled && env.config.firebaseConfig.isAnalyticsSourceFirebase)) {
                 [analytics addTracker:[[LoggingAnalyticsTracker alloc] init]];
-            }
-            
-            if(env.config.fabricConfig.kits.answersEnabled) {
-                [analytics addTracker:[[AnswerAnalyticsTracker alloc] init]];
             }
             
             return analytics;

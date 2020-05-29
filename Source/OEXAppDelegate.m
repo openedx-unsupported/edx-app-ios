@@ -9,8 +9,6 @@
 @import edXCore;
 @import FirebaseAnalytics;
 @import GoogleCast;
-#import <Crashlytics/Crashlytics.h>
-#import <Fabric/Fabric.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <GoogleSignIn/GoogleSignIn.h>
 #import <NewRelicAgent/NewRelic.h>
@@ -25,7 +23,6 @@
 #import "OEXConfig.h"
 #import "OEXDownloadManager.h"
 #import "OEXEnvironment.h"
-#import "OEXFabricConfig.h"
 #import "OEXFacebookConfig.h"
 #import "OEXGoogleConfig.h"
 #import "OEXGoogleSocial.h"
@@ -83,7 +80,7 @@
     [self setupGlobalEnvironment];
     [self.environment.session performMigrations];
     [self.environment.router openInWindow:self.window];
-    [self configureFabricKits:launchOptions];
+    [self configureBranch:launchOptions];
     [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
     return YES;
@@ -100,7 +97,7 @@
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     // pass the url to the handle deep link call
     BOOL handled = false;
-    if (self.environment.config.fabricConfig.kits.branchConfig.enabled) {
+    if (self.environment.config.branchConfig.enabled) {
         handled = [[Branch getInstance] application:app openURL:url options:options];
         if (handled) {
             return handled;
@@ -130,7 +127,7 @@
 // Respond to Universal Links
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler {
     
-    if (self.environment.config.fabricConfig.kits.branchConfig.enabled) {
+    if (self.environment.config.branchConfig.enabled) {
         return [[Branch getInstance] continueUserActivity:userActivity];
     }
     return NO;
@@ -228,12 +225,6 @@
         [NewRelicAgent enableCrashReporting:NO];
         [NewRelicAgent startWithApplicationToken:newrelic.apiKey];
     }
-
-    //Initialize Fabric
-    OEXFabricConfig* fabric = [config fabricConfig];
-    if(fabric.appKey && fabric.isEnabled) {
-        [Fabric with:@[CrashlyticsKit]];
-    }
     
     [self initilizeChromeCast];
 }
@@ -248,9 +239,9 @@
     [ChromeCastManager.shared configureWithEnvironment:self.environment.router.environment];
 }
 
-- (void) configureFabricKits:(NSDictionary*) launchOptions {
-    if (self.environment.config.fabricConfig.kits.branchConfig.enabled) {
-        [Branch setBranchKey:self.environment.config.fabricConfig.kits.branchConfig.branchKey];
+- (void) configureBranch:(NSDictionary*) launchOptions {
+    if (self.environment.config.branchConfig.enabled && self.environment.config.branchConfig.branchKey != nil) {
+        [Branch setBranchKey:self.environment.config.branchConfig.branchKey];
         if ([Branch branchKey]){
             [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
                 // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
