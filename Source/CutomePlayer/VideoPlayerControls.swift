@@ -102,29 +102,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         return label
     }()
     
-    lazy private var rewindButtonContainer: UIView = {
-        let view = UIView()
-        
-        let singleTapGesture = UITapGestureRecognizer()
-        singleTapGesture.numberOfTapsRequired = 1
-        singleTapGesture.addAction { [weak self] _ in
-            self?.contentTapped()
-        }
-        view.addGestureRecognizer(singleTapGesture)
-        
-        let doubleTapGesture = UITapGestureRecognizer()
-        doubleTapGesture.numberOfTapsRequired = 2
-        doubleTapGesture.addAction { [weak self] _ in
-            self?.seekRewindAction()
-        }
-        view.addGestureRecognizer(doubleTapGesture)
-        singleTapGesture.require(toFail: doubleTapGesture)
-        singleTapGesture.delaysTouchesBegan = true
-        doubleTapGesture.delaysTouchesBegan = true
-        
-        return view
-    }()
-    
     lazy private var rewindButton: CustomPlayerButton = {
         let button = CustomPlayerButton()
         button.setImage(UIImage.RewindIcon(), for: .normal)
@@ -144,29 +121,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             self?.seekForwardAction()
         }, for: .touchUpInside)
         return button
-    }()
-    
-    lazy private var forwardButtonContainer: UIView = {
-        let view = UIView()
-        
-        let singleTapGesture = UITapGestureRecognizer()
-        singleTapGesture.numberOfTapsRequired = 1
-        singleTapGesture.addAction { [weak self] _ in
-            self?.contentTapped()
-        }
-        view.addGestureRecognizer(singleTapGesture)
-        
-        let doubleTapGesture = UITapGestureRecognizer()
-        doubleTapGesture.numberOfTapsRequired = 2
-        doubleTapGesture.addAction { [weak self] _ in
-            self?.seekForwardAction()
-        }
-        view.addGestureRecognizer(doubleTapGesture)
-        singleTapGesture.require(toFail: doubleTapGesture)
-        singleTapGesture.delaysTouchesBegan = true
-        doubleTapGesture.delaysTouchesBegan = true
-        
-        return view
     }()
     
     lazy private var durationSlider: CustomSlider = {
@@ -326,14 +280,13 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubview(btnNext)
         addSubview(btnPrevious)
         addSubview(playPauseButton)
-        addSubview(rewindButtonContainer)
         addSubview(rewindButton)
-        addSubview(forwardButtonContainer)
         addSubview(forwardButton)
         addSubview(subTitleLabel)
         addSubview(tableSettings)
         addSubview(seekForwardLabel)
         addSubview(seekRewindLabel)
+        addTapGestures()
     }
     
     var durationSliderValue: Float {
@@ -347,6 +300,33 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     var isRTL: Bool {
         return (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft)
+    }
+    
+    func addTapGestures() {
+        let singleTapGesture = UITapGestureRecognizer()
+        singleTapGesture.numberOfTapsRequired = 1
+        singleTapGesture.addAction { [weak self] _ in
+            self?.contentTapped()
+        }
+        let doubleTapGesture = UITapGestureRecognizer()
+        doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.addAction(action: handleTapGesture(action:))
+        addGestureRecognizer(singleTapGesture)
+        addGestureRecognizer(doubleTapGesture)
+        singleTapGesture.require(toFail: doubleTapGesture)
+        singleTapGesture.delaysTouchesBegan = true
+        doubleTapGesture.delaysTouchesBegan = true
+    }
+    
+    func handleTapGesture(action: UITapGestureRecognizer) {
+        let location = action.location(in: self)
+        let touchAreaWidth: CGFloat = frame.size.width / 2
+
+        if location.x <= touchAreaWidth {
+            seekRewindAction()
+        } else if location.x >= (frame.size.width - touchAreaWidth) {
+            seekForwardAction()
+        }
     }
     
     private func startBufferedTimer() {
@@ -392,12 +372,12 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.centerY.equalTo(self.snp.centerY)
         }
         
-        forwardButtonContainer.snp.makeConstraints { make in
-            make.leading.equalTo(playPauseButton.snp.trailing)
-            make.top.equalTo(self.snp.top)
-            make.bottom.equalTo(self.bottomBar.snp.top)
-            make.trailing.equalTo(self.snp.trailing)
-        }
+//        forwardButtonContainer.snp.makeConstraints { make in
+//            make.leading.equalTo(playPauseButton.snp.trailing)
+//            make.top.equalTo(self.snp.top)
+//            make.bottom.equalTo(self.bottomBar.snp.top)
+//            make.trailing.equalTo(self.snp.trailing)
+//        }
         
         forwardButton.snp.makeConstraints { make in
             make.leading.equalTo(playPauseButton).inset(112)
@@ -411,13 +391,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.centerY.equalTo(forwardButton.snp.centerY)
             make.height.equalTo(rewindButtonSize.height)
             make.width.equalTo(rewindButtonSize.width)
-        }
-        
-        rewindButtonContainer.snp.makeConstraints { make in
-            make.leading.equalTo(self.snp.leading)
-            make.top.equalTo(self.snp.top)
-            make.bottom.equalTo(self.bottomBar.snp.top)
-            make.trailing.equalTo(playPauseButton.snp.leading)
         }
         
         seekRewindLabel.snp.makeConstraints { make in
