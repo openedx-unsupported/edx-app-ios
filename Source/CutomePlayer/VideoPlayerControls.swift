@@ -76,14 +76,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         return view
     }()
     
-    lazy private var tapButton: UIButton = {
-        let button = UIButton()
-        button.oex_addAction({ [weak self] _ in
-            self?.contentTapped()
-            }, for: .touchUpInside)
-        return button
-    }()
-    
     lazy private var bottomBar: UIView = {
         let view = UIView()
         view.backgroundColor = self.barColor
@@ -110,14 +102,35 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         return label
     }()
     
+    lazy private var rewindButtonContainer: UIView = {
+        let view = UIView()
+        
+        let singleTapGesture = UITapGestureRecognizer()
+        singleTapGesture.numberOfTapsRequired = 1
+        singleTapGesture.addAction { [weak self] _ in
+            self?.contentTapped()
+        }
+        view.addGestureRecognizer(singleTapGesture)
+        
+        let doubleTapGesture = UITapGestureRecognizer()
+        doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.addAction { [weak self] _ in
+            self?.seekRewindAction()
+        }
+        view.addGestureRecognizer(doubleTapGesture)
+        singleTapGesture.require(toFail: doubleTapGesture)
+        singleTapGesture.delaysTouchesBegan = true
+        doubleTapGesture.delaysTouchesBegan = true
+        
+        return view
+    }()
+    
     lazy private var rewindButton: CustomPlayerButton = {
         let button = CustomPlayerButton()
         button.setImage(UIImage.RewindIcon(), for: .normal)
         button.tintColor = .white
-        button.oex_addAction({ [weak self] action in
-            guard let weakSelf = self, weakSelf.durationSliderValue > weakSelf.durationSlider.minimumValue else { return }
-            weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekBackwardDuration, type: .rewind)
-            weakSelf.seekAnimation(seekLabel: weakSelf.seekRewindLabel, seekType: .rewind, animationOffset: 45)
+        button.oex_addAction({ [weak self] _ in
+            self?.seekRewindAction()
             }, for: .touchUpInside)
         return button
     }()
@@ -127,12 +140,33 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         button.setImage(UIImage.RewindIcon(), for: .normal)
         button.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1); //Flipped
         button.tintColor = .white
-        button.oex_addAction({ [weak self] action in
-            guard let weakSelf = self, weakSelf.durationSliderValue < weakSelf.durationSlider.maximumValue - 0.001 else { return }
-            weakSelf.delegate?.seekVideo(playerControls: weakSelf, skipDuration: weakSelf.seekForwardDuration, type: .forward)
-            weakSelf.seekAnimation(seekLabel: weakSelf.seekForwardLabel, seekType: .forward, animationOffset: 50)
-            }, for: .touchUpInside)
+        button.oex_addAction({ [weak self] _ in
+            self?.seekForwardAction()
+        }, for: .touchUpInside)
         return button
+    }()
+    
+    lazy private var forwardButtonContainer: UIView = {
+        let view = UIView()
+        
+        let singleTapGesture = UITapGestureRecognizer()
+        singleTapGesture.numberOfTapsRequired = 1
+        singleTapGesture.addAction { [weak self] _ in
+            self?.contentTapped()
+        }
+        view.addGestureRecognizer(singleTapGesture)
+        
+        let doubleTapGesture = UITapGestureRecognizer()
+        doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.addAction { [weak self] _ in
+            self?.seekForwardAction()
+        }
+        view.addGestureRecognizer(doubleTapGesture)
+        singleTapGesture.require(toFail: doubleTapGesture)
+        singleTapGesture.delaysTouchesBegan = true
+        doubleTapGesture.delaysTouchesBegan = true
+        
+        return view
     }()
     
     lazy private var durationSlider: CustomSlider = {
@@ -289,18 +323,17 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         bottomBar.addSubview(timeRemainingLabel)
         bottomBar.addSubview(btnSettings)
         bottomBar.addSubview(fullScreenButton)
-        addSubview(tapButton)
         addSubview(btnNext)
         addSubview(btnPrevious)
         addSubview(playPauseButton)
+        addSubview(rewindButtonContainer)
         addSubview(rewindButton)
+        addSubview(forwardButtonContainer)
         addSubview(forwardButton)
         addSubview(subTitleLabel)
         addSubview(tableSettings)
         addSubview(seekForwardLabel)
         addSubview(seekRewindLabel)
-        
-        sendSubviewToBack(tapButton)
     }
     
     var durationSliderValue: Float {
@@ -309,15 +342,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
         get {
             return durationSlider.value
-        }
-    }
-    
-    var isTapButtonHidden: Bool {
-        set {
-            tapButton.isHidden = newValue
-        }
-        get {
-            return tapButton.isHidden
         }
     }
     
@@ -368,6 +392,13 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.centerY.equalTo(self.snp.centerY)
         }
         
+        forwardButtonContainer.snp.makeConstraints { make in
+            make.leading.equalTo(playPauseButton.snp.trailing)
+            make.top.equalTo(self.snp.top)
+            make.bottom.equalTo(self.bottomBar.snp.top)
+            make.trailing.equalTo(self.snp.trailing)
+        }
+        
         forwardButton.snp.makeConstraints { make in
             make.leading.equalTo(playPauseButton).inset(112)
             make.height.equalTo(rewindButtonSize.height)
@@ -380,6 +411,13 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.centerY.equalTo(forwardButton.snp.centerY)
             make.height.equalTo(rewindButtonSize.height)
             make.width.equalTo(rewindButtonSize.width)
+        }
+        
+        rewindButtonContainer.snp.makeConstraints { make in
+            make.leading.equalTo(self.snp.leading)
+            make.top.equalTo(self.snp.top)
+            make.bottom.equalTo(self.bottomBar.snp.top)
+            make.trailing.equalTo(playPauseButton.snp.leading)
         }
         
         seekRewindLabel.snp.makeConstraints { make in
@@ -426,10 +464,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.centerX.equalTo(btnSettings.snp.centerX).offset(standardFooterHeight)
         }
         
-        tapButton.snp.makeConstraints { make in
-            make.edges.equalTo(self)
-        }
-        
         btnPrevious.snp.makeConstraints { make in
             make.leading.equalTo(self).offset(StandardHorizontalMargin*2)
             make.height.equalTo(previousButtonSize.height)
@@ -456,6 +490,20 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         }
     }
     
+    private func seekForwardAction() {
+        if (durationSliderValue < durationSlider.maximumValue - 0.001) {
+            delegate?.seekVideo(playerControls: self, skipDuration: seekForwardDuration, type: .forward)
+            seekAnimation(seekLabel: seekForwardLabel, seekType: .forward, animationOffset: 50)
+        }
+    }
+    
+    private func seekRewindAction() {
+        if (durationSliderValue > durationSlider.minimumValue) {
+            delegate?.seekVideo(playerControls: self, skipDuration: seekBackwardDuration, type: .rewind)
+            seekAnimation(seekLabel: seekRewindLabel, seekType: .rewind, animationOffset: 45)
+        }
+    }
+    
     private func setPlayerControlAccessibilityID() {
         durationSlider.accessibilityLabel = Strings.accessibilitySeekBar
         btnPrevious.accessibilityLabel = Strings.previous
@@ -467,7 +515,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         btnSettings.accessibilityLabel = Strings.accessibilitySettings
         fullScreenButton.accessibilityLabel = Strings.accessibilityFullscreen
         playPauseButton.setAccessibilityLabelsForStateNormal(normalStateLabel: Strings.accessibilityPause, selectedStateLabel: Strings.accessibilityPlay)
-        tapButton.isAccessibilityElement = false
     }
     
     private func updateSubtTitleConstraints() {
@@ -512,13 +559,11 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             if (!isHidden) {
                 if let owner = self {
                     owner.autoHide()
-                    owner.sendSubviewToBack(owner.tapButton)
                 }
             }
             else {
                 if let owner = self {
                     owner.tableSettings.isHidden = true
-                    owner.bringSubviewToFront(owner.tapButton)
                 }
             }
             }, completion: { [weak self] _ in
