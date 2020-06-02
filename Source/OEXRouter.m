@@ -123,7 +123,6 @@ OEXRegistrationViewControllerDelegate
 
 - (void)showLoginScreenFromController:(UIViewController*)controller completion:(void(^)(void))completion {
     UIViewController *topMostController = [[UIApplication sharedApplication] topMostController];
-
     if ([topMostController isKindOfClass:[WhatsNewViewController class]]) {
         [topMostController dismissViewControllerAnimated:true completion:^{
             [self presentViewController:[self loginViewController] fromController:[[UIApplication sharedApplication] topMostController] completion:completion];
