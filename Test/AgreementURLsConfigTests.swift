@@ -64,12 +64,9 @@ class AgreementURLsConfigTests : XCTestCase {
         let config = OEXConfig(dictionary: configDictionary)
         
         XCTAssertNotNil(config.agreementURLsConfig)
-
-        let tosUrlBundle = Bundle.main.url(forResource: "TermsOfServices", withExtension: "htm")
-        let privacyPolicyUrlBundle = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "htm")
-        
         XCTAssertEqual(config.agreementURLsConfig.eulaURL?.absoluteString, eulaUrlOverride)
-        XCTAssertEqual(config.agreementURLsConfig.tosURL, tosUrlBundle)
-        XCTAssertEqual(config.agreementURLsConfig.privacyPolicyURL, privacyPolicyUrlBundle)
+
+        XCTAssertNil(config.agreementURLsConfig.tosURL)
+        XCTAssertNil(config.agreementURLsConfig.privacyPolicyURL)
     }
 }

@@ -40,11 +40,15 @@ class AgreementTextView: UITextView {
         let privacyPolicyText = Strings.Agreement.linkTextPrivacyPolicy
         let agreementText = "\(prefix)\(Strings.Agreement.text(eula: eulaText, tos: tosText, platformName: platformName, privacyPolicy: privacyPolicyText))"
         var attributedString = style.attributedString(withText: agreementText)
-        if let eulaUrl = config?.agreementURLsConfig.eulaURL,
-            let tosUrl = config?.agreementURLsConfig.tosURL,
-            let privacyPolicyUrl = config?.agreementURLsConfig.privacyPolicyURL {
+        if let eulaUrl = config?.agreementURLsConfig.eulaURL {
             attributedString = attributedString.addLink(on: eulaText, value: eulaUrl)
+        }
+
+        if let tosUrl = config?.agreementURLsConfig.tosURL {
             attributedString = attributedString.addLink(on: tosText, value: tosUrl)
+        }
+
+        if let privacyPolicyUrl = config?.agreementURLsConfig.privacyPolicyURL {
             attributedString = attributedString.addLink(on: privacyPolicyText, value: privacyPolicyUrl)
         }
         attributedText = attributedString
