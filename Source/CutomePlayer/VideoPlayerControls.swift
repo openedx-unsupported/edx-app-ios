@@ -308,18 +308,25 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         singleTapGesture.addAction { [weak self] _ in
             self?.contentTapped()
         }
+        addGestureRecognizer(singleTapGesture)
+        singleTapGesture.delaysTouchesBegan = true
+
         let doubleTapGesture = UITapGestureRecognizer()
         doubleTapGesture.numberOfTapsRequired = 2
         doubleTapGesture.addAction(action: handleTapGesture(action:))
-        addGestureRecognizer(singleTapGesture)
         addGestureRecognizer(doubleTapGesture)
-        singleTapGesture.require(toFail: doubleTapGesture)
-        singleTapGesture.delaysTouchesBegan = true
         doubleTapGesture.delaysTouchesBegan = true
+
+        singleTapGesture.require(toFail: doubleTapGesture)
     }
     
-    func handleTapGesture(action: UITapGestureRecognizer) {
+    private func handleTapGesture(action: UITapGestureRecognizer) {
         let location = action.location(in: self)
+        
+        if playPauseButton.frame.contains(location) {
+            return
+        }
+        
         let middleOfScreen: CGFloat = frame.size.width / 2
 
         if location.x <= middleOfScreen {
@@ -371,13 +378,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
             make.width.equalTo(rewindButtonSize.width)
             make.centerY.equalTo(self.snp.centerY)
         }
-        
-//        forwardButtonContainer.snp.makeConstraints { make in
-//            make.leading.equalTo(playPauseButton.snp.trailing)
-//            make.top.equalTo(self.snp.top)
-//            make.bottom.equalTo(self.bottomBar.snp.top)
-//            make.trailing.equalTo(self.snp.trailing)
-//        }
         
         forwardButton.snp.makeConstraints { make in
             make.leading.equalTo(playPauseButton).inset(112)
@@ -695,6 +695,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
                 self?.isAnimating = false
             }
         }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        contentTapped()
     }
 }
 
