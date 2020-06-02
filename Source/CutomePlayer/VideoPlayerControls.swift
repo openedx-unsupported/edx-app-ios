@@ -320,11 +320,11 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     func handleTapGesture(action: UITapGestureRecognizer) {
         let location = action.location(in: self)
-        let halfOfScreen: CGFloat = frame.size.width / 2
+        let middleOfScreen: CGFloat = frame.size.width / 2
 
-        if location.x <= halfOfScreen {
+        if location.x <= middleOfScreen {
             seekRewindAction()
-        } else if location.x >= halfOfScreen {
+        } else if location.x >= middleOfScreen {
             seekForwardAction()
         }
     }
