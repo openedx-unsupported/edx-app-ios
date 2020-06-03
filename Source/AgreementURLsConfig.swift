@@ -14,30 +14,32 @@ fileprivate enum AgreementURLsKeys: String, RawStringExtractable {
 }
 
 class AgreementURLsConfig : NSObject {
-    let eulaURL: URL?
-    let tosURL: URL?
-    let privacyPolicyURL: URL?
+    var eulaURL: URL? = nil
+    var tosURL: URL? = nil
+    var privacyPolicyURL: URL? = nil
     
     init(dictionary: [String: AnyObject]) {
-        if let eulaURL = dictionary[AgreementURLsKeys.eulaURL] as? String {
-            self.eulaURL = URL(string: eulaURL)
+        let eulaURL = dictionary[AgreementURLsKeys.eulaURL] as? String
+        let tosURL = dictionary[AgreementURLsKeys.tosURL] as? String
+        let privacyPolicyURL = dictionary[AgreementURLsKeys.privacyPolicyURL] as? String
+
+        if eulaURL != nil || tosURL != nil || privacyPolicyURL != nil {
+            if let eulaURL = eulaURL, !eulaURL.isEmpty {
+                self.eulaURL = URL(string: eulaURL)
+            }
+
+            if let tosURL = tosURL, !tosURL.isEmpty {
+                self.tosURL = URL(string: tosURL)
+            }
+
+            if let privacyPolicyURL = privacyPolicyURL, !privacyPolicyURL.isEmpty {
+                self.privacyPolicyURL = URL(string: privacyPolicyURL)
+            }
         }
         else {
-            eulaURL = Bundle.main.url(forResource: "MobileAppEula", withExtension: "htm")
-        }
-        
-        if let tosURL = dictionary[AgreementURLsKeys.tosURL] as? String {
-            self.tosURL = URL(string: tosURL)
-        }
-        else {
-            tosURL = Bundle.main.url(forResource: "TermsOfServices", withExtension: "htm")
-        }
-        
-        if let privacyPolicyURL = dictionary[AgreementURLsKeys.privacyPolicyURL] as? String {
-            self.privacyPolicyURL = URL(string: privacyPolicyURL)
-        }
-        else {
-            privacyPolicyURL = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "htm")
+            self.eulaURL = Bundle.main.url(forResource: "MobileAppEula", withExtension: "htm")
+            self.tosURL = Bundle.main.url(forResource: "TermsOfServices", withExtension: "htm")
+            self.privacyPolicyURL = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "htm")
         }
     }
 }

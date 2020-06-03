@@ -51,11 +51,12 @@
     webView = [[WKWebView alloc] init];
     webView.navigationDelegate = self;
     [self.view addSubview:webView];
-    [self.view bringSubviewToFront:webView];
 
     [webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(webviewContainer);
     }];
+
+    [self.view bringSubviewToFront:activityIndicator];
 }
 
 - (void)addObserver {
@@ -90,16 +91,17 @@
 
     switch (navigationAction.navigationType) {
         case WKNavigationTypeLinkActivated:
+        WKNavigationTypeFormSubmitted:
+        WKNavigationTypeFormResubmitted:
             if ([[UIApplication sharedApplication] canOpenURL:URL]) {
                 [[UIApplication sharedApplication] openURL:URL];
             }
+            decisionHandler(WKNavigationActionPolicyCancel);
             break;
         default:
+            decisionHandler(WKNavigationActionPolicyAllow);
             break;
     }
-
-    decisionHandler(WKNavigationActionPolicyCancel);
-
 }
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
