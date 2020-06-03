@@ -313,14 +313,14 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
 
         let doubleTapGesture = UITapGestureRecognizer()
         doubleTapGesture.numberOfTapsRequired = 2
-        doubleTapGesture.addAction(action: handleTapGesture(action:))
+        doubleTapGesture.addAction(action: handleDoubleTapGesture(action:))
         addGestureRecognizer(doubleTapGesture)
         doubleTapGesture.delaysTouchesBegan = true
 
         singleTapGesture.require(toFail: doubleTapGesture)
     }
     
-    private func handleTapGesture(action: UITapGestureRecognizer) {
+    private func handleDoubleTapGesture(action: UITapGestureRecognizer) {
         let location = action.location(in: self)
         
         if playPauseButton.frame.contains(location) {
@@ -464,14 +464,14 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     }
     
     private func seekForwardAction() {
-        if (durationSliderValue < durationSlider.maximumValue - 0.001) {
+        if durationSliderValue < durationSlider.maximumValue - 0.001 {
             delegate?.seekVideo(playerControls: self, skipDuration: seekForwardDuration, type: .forward)
             seekAnimation(seekLabel: seekForwardLabel, seekType: .forward, animationOffset: 50)
         }
     }
     
     private func seekRewindAction() {
-        if (durationSliderValue > durationSlider.minimumValue) {
+        if durationSliderValue > durationSlider.minimumValue {
             delegate?.seekVideo(playerControls: self, skipDuration: seekBackwardDuration, type: .rewind)
             seekAnimation(seekLabel: seekRewindLabel, seekType: .rewind, animationOffset: 45)
         }
