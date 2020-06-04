@@ -259,6 +259,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         settings.delegate = self
         backgroundColor = .clear
         addSubviews()
+        addTapGestures()
         setConstraints()
         setPlayerControlAccessibilityID()
         hideControls()
@@ -286,7 +287,6 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         addSubview(tableSettings)
         addSubview(seekForwardLabel)
         addSubview(seekRewindLabel)
-        addTapGestures()
     }
     
     var durationSliderValue: Float {
@@ -322,16 +322,15 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     private func handleDoubleTapGesture(action: UITapGestureRecognizer) {
         let location = action.location(in: self)
-        
-        if playPauseButton.frame.contains(location) {
-            return
-        }
-        
         let middleOfScreen: CGFloat = frame.size.width / 2
-
-        if location.x <= middleOfScreen {
+        let playPauseButtonBoundAreaX = middleOfScreen - (playPauseButton.frame.width / 2)
+        let playPauseAreaBoundFrame = CGRect(x: playPauseButtonBoundAreaX, y: 0, width: playPauseButton.frame.width, height: frame.height)
+        
+        if playPauseAreaBoundFrame.contains(location) {
+            return
+        } else if location.x < middleOfScreen {
             seekRewindAction()
-        } else if location.x >= middleOfScreen {
+        } else if location.x > middleOfScreen {
             seekForwardAction()
         }
     }
