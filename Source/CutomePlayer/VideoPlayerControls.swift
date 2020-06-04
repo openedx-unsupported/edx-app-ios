@@ -325,12 +325,15 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         let middleOfScreen: CGFloat = frame.size.width / 2
         let playPauseAreaBoundFrame = CGRect(x: playPauseButton.frame.minX, y: 0, width: playPauseButton.frame.width, height: frame.height)
         
+        // we are ignoring touches within bound of playPausebutton for better user experience,
+        // if user touches on that area, then no seek or rewind happens
         if playPauseAreaBoundFrame.contains(location) {
             return
-        } else if location.x < middleOfScreen {
-            seekRewindAction()
+        }
+        if location.x < middleOfScreen {
+           seekRewindAction()
         } else if location.x > middleOfScreen {
-            seekForwardAction()
+           seekForwardAction()
         }
     }
     
