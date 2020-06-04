@@ -323,8 +323,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     private func handleDoubleTapGesture(action: UITapGestureRecognizer) {
         let location = action.location(in: self)
         let middleOfScreen: CGFloat = frame.size.width / 2
-        let playPauseButtonBoundAreaX = middleOfScreen - (playPauseButton.frame.width / 2)
-        let playPauseAreaBoundFrame = CGRect(x: playPauseButtonBoundAreaX, y: 0, width: playPauseButton.frame.width, height: frame.height)
+        let playPauseAreaBoundFrame = CGRect(x: playPauseButton.frame.minX, y: 0, width: playPauseButton.frame.width, height: frame.height)
         
         if playPauseAreaBoundFrame.contains(location) {
             return
