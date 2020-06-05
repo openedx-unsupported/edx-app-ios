@@ -291,13 +291,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                     perform(#selector(t_postNotification))
                     
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
-                    controls?.isTapButtonHidden = false
-                    break
-                case .unknown:
-                    controls?.isTapButtonHidden = true
-                    break
-                case .failed:
-                    controls?.isTapButtonHidden = true
                     break
                 @unknown default:
                     break
@@ -375,7 +368,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
         }
         
         play(at: timeInterval)
-        controls?.isTapButtonHidden = true
         NotificationCenter.default.oex_addObserver(observer: self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime.rawValue, object: player.currentItem as Any) {(notification, observer, _) in
             observer.playerDidFinishPlaying(note: notification)
         }
