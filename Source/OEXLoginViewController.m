@@ -408,11 +408,11 @@
         else if(httpResp.statusCode == OEXHTTPStatusCode426UpgradeRequired) {
             [self showUpdateRequiredMessage];
         }
-        else if (httpResp.statusCode == OEXHTTPStatusCode400BadRequest) {
+        else if (httpResp.statusCode == OEXHTTPStatusCode400BadRequest && self.authProvider != nil) {
             NSString *errorMessage = [Strings authProviderErrorWithAuthProvider:self.authProvider.displayName platformName:self.environment.config.platformName];
             [self loginFailedWithErrorMessage:errorMessage title:nil];
         }
-        else if(httpResp.statusCode >= 400 && httpResp.statusCode <= 500) {
+        else if(httpResp.statusCode >= 400 && httpResp.statusCode < 500) {
                 [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
         }
         else {
