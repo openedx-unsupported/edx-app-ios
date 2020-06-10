@@ -42,6 +42,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 @property (strong, nonatomic) UIView* currentHeadingView;
 @property (strong, nonatomic) id <OEXExternalAuthProvider> externalProvider;
 @property (copy, nonatomic) NSString* externalAccessToken;
+@property (copy, nonatomic) NSString* email;
 @property (strong, nonatomic) UIButton* registerButton;
 @property (strong, nonatomic) AgreementTextView* agreementTextView;
 @property (strong, nonatomic) UIButton* toggleOptionalFieldsButton;
@@ -117,6 +118,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [weakSelf initializeViews];
         [weakSelf checkIfResumingRegistration];
         [weakSelf refreshFormFields];
+        [weakSelf populateDefaultFormFields];
     }];
 }
 
@@ -251,19 +253,50 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }
 }
 
-- (void)refreshFormFields {
+- (BOOL)emailMatchesTo:(NSString*)confirmEmail {
+    return [[self email] isEqualToString:confirmEmail];
+}
+
+- (void)populateDefaultFormFields {
     for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
         if (([fieldController.field.defaultValue isEqualToString:@""] == NO) ) {
+            
             if([[fieldController field].name isEqualToString:@"name"]) {
                 [fieldController setValue:fieldController.field.defaultValue];
             }
+            
             if([[fieldController field].name isEqualToString:@"username"]) {
                 [fieldController setValue:fieldController.field.defaultValue];
             }
+            
             if([[fieldController field].name isEqualToString:@"email"]) {
                 [fieldController setValue:fieldController.field.defaultValue];
+                self.email = fieldController.field.defaultValue;
+            }
+            
+            if([[fieldController field].name isEqualToString:@"confirm_email"]) {
+                [fieldController setValue:self.email];
             }
         }
+    }
+}
+
+- (void)refreshFormFields {
+    for(id <OEXRegistrationFieldController>fieldController in self.fieldControllers) {
+        if([[fieldController field].name isEqualToString:@"email"]) {
+            self.email = [fieldController currentValue];
+        }
+        
+        if([[fieldController field].name isEqualToString:@"confirm_email"]) {
+            if([fieldController hasValue] && [fieldController isValidInput]) {
+                if ([self.email isEqualToString:[fieldController currentValue]]) {
+                    [fieldController handleError:NULL];
+                } else {
+                    [fieldController handleError:fieldController.field.errorMessage.required];
+                }
+            }
+        }
+        
         // Add view to scroll view if field is not optional and it is not agreement field.
         UIView* view = fieldController.view;
         if(fieldController.field.isRequired && ![self shouldFilterField:fieldController.field]) {
@@ -468,7 +501,15 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     for(id <OEXRegistrationFieldController> controller in self.fieldControllers) {
         if([controller isValidInput]) {
             if([controller hasValue]) {
-                [parameters setSafeObject:[controller currentValue] forKey:[controller field].name];
+                if ([[controller field].name isEqualToString:@"confirm_email"]) {
+                    if ([self emailMatchesTo:[controller currentValue]]) {
+                        [parameters setSafeObject:[controller currentValue] forKey:[controller field].name];
+                    } else {
+                        hasError = YES;
+                    }
+                } else {
+                    [parameters setSafeObject:[controller currentValue] forKey:[controller field].name];
+                }
             }
         }
         else if(![self shouldFilterField:controller.field]){
@@ -502,9 +543,12 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     
     [[UIAlertController alloc] showAlertWithTitle:[Strings registrationErrorAlertTitle] message:[Strings registrationErrorAlertMessage] cancelButtonTitle:[Strings ok] onViewController:self tapBlock:^(UIAlertController * _Nonnull controller, UIAlertAction * _Nonnull action, NSInteger index) {
         for(id <OEXRegistrationFieldController> controller in weakSelf.fieldControllers) {
-            if(![controller isValidInput]) {
-                    [[controller accessibleInputField] becomeFirstResponder];
-                    break;
+            if([[controller field].name isEqualToString:@"confirm_email"] && ([self emailMatchesTo:[controller field].name] == NO)) {
+                [[controller accessibleInputField] becomeFirstResponder];
+                break;
+            } else if(![controller isValidInput]) {
+                [[controller accessibleInputField] becomeFirstResponder];
+                break;
             }
         }
     }];

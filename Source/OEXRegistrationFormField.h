@@ -49,7 +49,7 @@ typedef enum
 /// Contents are OEXRegistrationOption*
 @property (readonly, nonatomic, copy) NSArray* fieldOptions;
 
-- (OEXRegistrationFieldType)registrationFieldType:(NSString*)fieldType;
+- (OEXRegistrationFieldType)registrationFieldType:(NSString*)fieldType name:(NSString*)name;
 
 @end
 

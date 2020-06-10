@@ -53,7 +53,7 @@
             });
         }
         self.type = dictionary[@"type"];
-        self.fieldType = [self registrationFieldType:dictionary[@"type"]];
+        self.fieldType = [self registrationFieldType:dictionary[@"type"] name:dictionary[@"name"]];
         self.errorMessage = [[OEXRegistrationErrorMessage alloc] initWithDictionary:dictionary[@"errorMessages"]];
         if(dictionary[@"agreement"]) {
             self.agreement = [[OEXRegistrationAgreement alloc] initWithDictionary:dictionary[@"agreement"]];
@@ -75,8 +75,8 @@
     return self;
 }
 
-- (OEXRegistrationFieldType)registrationFieldType:(NSString*)fieldType {
-    if([fieldType isEqualToString:@"email"]) {
+- (OEXRegistrationFieldType)registrationFieldType:(NSString *)fieldType name:(NSString *)name {
+    if ([fieldType isEqualToString:@"email"]) {
         return OEXRegistrationFieldTypeEmail;
     }
     else if([fieldType isEqualToString:@"password"]) {
