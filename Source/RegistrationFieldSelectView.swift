@@ -12,7 +12,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
     @objc var options : [OEXRegistrationOption] = []
     @objc private(set) var selected : OEXRegistrationOption?
     
-    @objc let picker = UIPickerView(frame: CGRect.zero)
+    @objc let picker = UIPickerView(frame: .zero)
     private let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 27, height: 40))
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
@@ -47,7 +47,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         textInputField.rightViewMode = .always
         textInputField.rightView = dropdownView
         tapButton.oex_addAction({[weak self] _ in
-            self?.makeFirstResponder()
+            self?.showAutoCompleteActionSheet()
             }, for: UIControl.Event.touchUpInside)
         self.addSubview(tapButton)
         
@@ -120,9 +120,31 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         valueDidChange()
     }
     
-    func makeFirstResponder() {
-        becomeFirstResponder()
-        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: picker)
+    func showAutoCompleteActionSheet() {
+        guard let parent = firstAvailableUIViewController() else { return }
+        var selectedItem: OEXAutoCompleteSelectModel?
+
+        let items = options.compactMap { OEXAutoCompleteSelectModel(name: $0.name, value: $0.value) }
+        
+        let buttonSelect = UIAlertAction(title: Strings.choose, style: .default) { [weak self] _ in
+            if let item = selectedItem {
+                self?.setButtonTitle(title: item.name)
+            }
+        }
+        buttonSelect.isEnabled = false
+        
+        let controller = OEXAutoCompleteSelectViewController(options: items) { item in
+            selectedItem = item
+            buttonSelect.isEnabled = item != nil
+        }
+        
+        let alert = UIAlertController(style: .actionSheet, childController: controller)
+        alert.addAction(buttonSelect)
+        alert.addCancelAction()
+        alert.configurePresentationController(withSourceView: self)
+        parent.present(alert, animated: true, completion: nil)
+        
+        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: alert)
     }
     
     override func validate() -> String? {
