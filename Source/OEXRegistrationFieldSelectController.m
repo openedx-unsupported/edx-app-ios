@@ -26,7 +26,7 @@
         self.view = [[RegistrationFieldSelectView alloc] initWith:field];
         self.view.options = self.field.fieldOptions;
         self.view.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
-        self.view.picker.accessibilityIdentifier = [NSString stringWithFormat:@"picker-field-%@", field.name];
+        self.view.alertView.view.accessibilityIdentifier = [NSString stringWithFormat:@"picker-field-%@", field.name];
     }
     return self;
 }

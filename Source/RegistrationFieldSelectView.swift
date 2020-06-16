@@ -8,11 +8,11 @@
 
 import UIKit
 
-class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelegate, UIPickerViewDataSource {
+class RegistrationFieldSelectView: RegistrationFormFieldView {
     @objc var options : [OEXRegistrationOption] = []
     @objc private(set) var selected : OEXRegistrationOption?
     
-    @objc let picker = UIPickerView(frame: .zero)
+    @objc var alertView = UIAlertController()
     private let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 27, height: 40))
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
@@ -31,10 +31,6 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
     
     override func loadView() {
         super.loadView()
-        picker.dataSource = self
-        picker.delegate = self
-        picker.showsSelectionIndicator = true;
-        picker.accessibilityIdentifier = "RegistrationFieldSelectView:picker-view"
         textInputField.isEnabled = false
         dropdownView.addSubview(dropdownTab)
         dropdownView.layoutIfNeeded()
@@ -83,41 +79,9 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         tapButton.accessibilityLabel = String(format: "%@, %@, %@", formField?.label ?? "", title, Strings.accessibilityDropdownTrait)
         tapButton.accessibilityIdentifier = "RegistrationFieldSelectView:\(String(describing: formField?.name))-\(title)-dropdown"
     }
-    
-    override var canBecomeFirstResponder: Bool {
-        return true
-    }
-    
-    override var inputView : UIView {
-        return picker
-    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return options.count
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return options[row].name
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        selected = options[row]
-        if let selected = selected, !selected.value.isEmpty {
-            setButtonTitle(title: selected.name)
-        }
-        else {
-            setButtonTitle(title: "")
-        }
-        endEditing(true)
-        valueDidChange()
     }
     
     func showAutoCompleteActionSheet() {
@@ -129,6 +93,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
         let buttonSelect = UIAlertAction(title: Strings.choose, style: .default) { [weak self] _ in
             if let item = selectedItem {
                 self?.setButtonTitle(title: item.name)
+                self?.valueDidChange()
             }
         }
         buttonSelect.isEnabled = false
@@ -138,13 +103,13 @@ class RegistrationFieldSelectView: RegistrationFormFieldView, UIPickerViewDelega
             buttonSelect.isEnabled = item != nil
         }
         
-        let alert = UIAlertController(style: .actionSheet, childController: controller)
-        alert.addAction(buttonSelect)
-        alert.addCancelAction()
-        alert.configurePresentationController(withSourceView: self)
-        parent.present(alert, animated: true, completion: nil)
+        alertView = UIAlertController(style: .actionSheet, childController: controller)
+        alertView.addAction(buttonSelect)
+        alertView.addCancelAction()
+        alertView.configurePresentationController(withSourceView: self)
+        parent.present(alertView, animated: true, completion: nil)
         
-        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: alert)
+        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: alertView)
     }
     
     override func validate() -> String? {
