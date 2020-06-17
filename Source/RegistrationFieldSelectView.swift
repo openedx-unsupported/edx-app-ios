@@ -16,6 +16,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
     private let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 27, height: 40))
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
+    private var selectedItem: OEXAutoCompleteSelectModel?
     
     private var titleStyle : OEXTextStyle {
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
@@ -85,26 +86,21 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
     }
     
     func showAutoCompleteActionSheet() {
-        guard let parent = firstAvailableUIViewController() else { return }
-        var selectedItem: OEXAutoCompleteSelectModel?
-
-        let items = options.compactMap { OEXAutoCompleteSelectModel(name: $0.name, value: $0.value) }
-        
-        let buttonSelect = UIAlertAction(title: Strings.choose, style: .default) { [weak self] _ in
-            if let item = selectedItem {
+        guard let field = formField, let parent = firstAvailableUIViewController() else { return }
+        let items = options.compactMap { item -> OEXAutoCompleteSelectModel? in
+            return OEXAutoCompleteSelectModel(name: item.name, value: item.value)
+        }
+                
+        let controller = OEXAutoCompleteSelectViewController(options: items, selectedItem: selectedItem) { [weak self] item in
+            if let item = item {
+                self?.selectedItem = item
                 self?.setButtonTitle(title: item.name)
                 self?.valueDidChange()
+                self?.alertView.dismiss(animated: true, completion: nil)
             }
         }
-        buttonSelect.isEnabled = false
         
-        let controller = OEXAutoCompleteSelectViewController(options: items) { item in
-            selectedItem = item
-            buttonSelect.isEnabled = item != nil
-        }
-        
-        alertView = UIAlertController(style: .actionSheet, childController: controller)
-        alertView.addAction(buttonSelect)
+        alertView = UIAlertController.init(style: .actionSheet, childController: controller, title: field.label)
         alertView.addCancelAction()
         alertView.configurePresentationController(withSourceView: self)
         parent.present(alertView, animated: true, completion: nil)

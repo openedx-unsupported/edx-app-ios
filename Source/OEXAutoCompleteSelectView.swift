@@ -87,9 +87,10 @@ class OEXAutoCompleteSelectViewController: UIViewController {
     }()
     
     // MARK: Initialize
-    required init(options: [OEXAutoCompleteSelectModel], selectionHandler: @escaping OEXAutoCompleteSelectModelCompletion) {
+    required init(options: [OEXAutoCompleteSelectModel], selectedItem: OEXAutoCompleteSelectModel?, selectionHandler: @escaping OEXAutoCompleteSelectModelCompletion) {
         super.init(nibName: nil, bundle: nil)
         self.options = options
+        self.selectedItem = selectedItem
         self.selectionHandler = selectionHandler
     }
     
@@ -102,37 +103,41 @@ class OEXAutoCompleteSelectViewController: UIViewController {
         let _ = searchController.view
     }
     
-    override func loadView() {
-        view = tableView
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        searchView.addSubview(searchController.searchBar)
-        tableView.tableHeaderView = searchView
-        
-        //extendedLayoutIncludesOpaqueBars = true
-        //edgesForExtendedLayout = .bottom
-        definesPresentationContext = true
+        setupViews()
 
         tableView.register(OEXAutoCompleteSelectTableViewCell.self, forCellReuseIdentifier: OEXAutoCompleteSelectTableViewCell.identifier)
         tableView.reloadData()
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        tableView.tableHeaderView?.frame.size.height = searchViewHeight
-        searchController.searchBar.frame.size.width = searchView.frame.size.width
-        searchController.searchBar.frame.size.height = searchView.frame.size.height
+        scrollToSelectedItem()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        preferredContentSize.height = tableView.contentSize.height
+        preferredContentSize.height = (tableViewRowHeight * 4) + searchViewHeight
     }
     
-    func itemForCell(at indexPath: IndexPath) -> OEXAutoCompleteSelectModel {
+    private func setupViews() {
+        searchView.addSubview(searchController.searchBar)
+        view.addSubview(searchView)
+        searchView.snp.makeConstraints { make in
+            make.top.equalTo(self.view)
+            make.leading.equalTo(self.view)
+            make.trailing.equalTo(self.view)
+            make.height.equalTo(searchViewHeight)
+        }
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(self.searchView.snp.bottom)
+            make.leading.equalTo(self.view)
+            make.trailing.equalTo(self.view)
+            make.bottom.equalTo(self.view)
+        }
+        definesPresentationContext = true
+    }
+    
+    private func itemForCell(at indexPath: IndexPath) -> OEXAutoCompleteSelectModel {
         if searchController.isActive {
             return filteredItems[indexPath.row]
         } else {
@@ -140,7 +145,7 @@ class OEXAutoCompleteSelectViewController: UIViewController {
         }
     }
     
-    func indexPathOfSelectedItem() -> IndexPath? {
+    private func indexPathOfSelectedItem() -> IndexPath? {
         guard let selectedItem = selectedItem else { return nil }
         if searchController.isActive {
             for row in 0 ..< filteredItems.count {
@@ -156,6 +161,11 @@ class OEXAutoCompleteSelectViewController: UIViewController {
             }
         }
         return nil
+    }
+    
+    private func scrollToSelectedItem() {
+        guard let selectedIndexPath = indexPathOfSelectedItem() else { return }
+        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
     }
 }
 
@@ -173,9 +183,7 @@ extension OEXAutoCompleteSelectViewController: UISearchResultsUpdating {
             }
         }
         tableView.reloadData()
-        
-        guard let selectedIndexPath = indexPathOfSelectedItem() else { return }
-        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+        scrollToSelectedItem()
     }
 }
 
@@ -210,7 +218,7 @@ extension OEXAutoCompleteSelectViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: OEXAutoCompleteSelectTableViewCell.identifier) as! OEXAutoCompleteSelectTableViewCell
         cell.textLabel?.text = item.name
         if let selected = selectedItem, selected.name == item.name {
-            cell.isSelected = true
+            cell.setSelected(true, animated: true)
         }
         return cell
     }
