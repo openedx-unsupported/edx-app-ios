@@ -1,5 +1,5 @@
 //
-//  OEXAutoCompleteSelectView.swift
+//  OEXFieldSelectViewController.swift
 //  edX
 //
 //  Created by Muhammad Umer on 15/06/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public struct OEXAutoCompleteSelectModel {
+public struct OEXFieldSelectViewModel {
     public var name: String
     public var value: String
     
@@ -18,8 +18,8 @@ public struct OEXAutoCompleteSelectModel {
     }
 }
 
-class OEXAutoCompleteSelectTableViewCell : UITableViewCell {
-    static let identifier = "OEXAutoCompleteSelectTableViewCell"
+class OEXFieldSelectViewCell : UITableViewCell {
+    static let identifier = String(describing: OEXFieldSelectViewCell.self)
     
     // MARK: Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -44,15 +44,15 @@ class OEXAutoCompleteSelectTableViewCell : UITableViewCell {
     }
 }
 
-typealias OEXAutoCompleteSelectModelCompletion = (OEXAutoCompleteSelectModel?) -> Swift.Void
+typealias OEXFieldSelectViewModelSelection = (OEXFieldSelectViewModel?) -> Swift.Void
 
-class OEXAutoCompleteSelectViewController: UIViewController {
+class OEXFieldSelectViewController: UIViewController {
     // MARK: Properties
-    private var selectionHandler: OEXAutoCompleteSelectModelCompletion?
-    private var options = [OEXAutoCompleteSelectModel]()
+    private var selectionHandler: OEXFieldSelectViewModelSelection?
+    private var options = [OEXFieldSelectViewModel]()
 
-    private var filteredItems: [OEXAutoCompleteSelectModel] = []
-    private var selectedItem: OEXAutoCompleteSelectModel?
+    private var filteredItems: [OEXFieldSelectViewModel] = []
+    private var selectedItem: OEXFieldSelectViewModel?
     
     private var searchViewHeight: CGFloat = 60
     private var tableViewRowHeight: CGFloat = 44
@@ -87,7 +87,7 @@ class OEXAutoCompleteSelectViewController: UIViewController {
     }()
     
     // MARK: Initialize
-    required init(options: [OEXAutoCompleteSelectModel], selectedItem: OEXAutoCompleteSelectModel?, selectionHandler: @escaping OEXAutoCompleteSelectModelCompletion) {
+    required init(options: [OEXFieldSelectViewModel], selectedItem: OEXFieldSelectViewModel?, selectionHandler: @escaping OEXFieldSelectViewModelSelection) {
         super.init(nibName: nil, bundle: nil)
         self.options = options
         self.selectedItem = selectedItem
@@ -108,7 +108,7 @@ class OEXAutoCompleteSelectViewController: UIViewController {
                 
         setupViews()
 
-        tableView.register(OEXAutoCompleteSelectTableViewCell.self, forCellReuseIdentifier: OEXAutoCompleteSelectTableViewCell.identifier)
+        tableView.register(OEXFieldSelectViewCell.self, forCellReuseIdentifier: OEXFieldSelectViewCell.identifier)
         tableView.reloadData()
         scrollToSelectedItem()
     }
@@ -137,7 +137,7 @@ class OEXAutoCompleteSelectViewController: UIViewController {
         definesPresentationContext = true
     }
     
-    private func itemForCell(at indexPath: IndexPath) -> OEXAutoCompleteSelectModel {
+    private func itemForCell(at indexPath: IndexPath) -> OEXFieldSelectViewModel {
         if searchController.isActive {
             return filteredItems[indexPath.row]
         } else {
@@ -169,10 +169,10 @@ class OEXAutoCompleteSelectViewController: UIViewController {
     }
 }
 
-extension OEXAutoCompleteSelectViewController: UISearchControllerDelegate { }
+extension OEXFieldSelectViewController: UISearchControllerDelegate { }
 
 // MARK: - UISearchResultsUpdating
-extension OEXAutoCompleteSelectViewController: UISearchResultsUpdating {
+extension OEXFieldSelectViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, searchController.isActive {
             filteredItems = []
@@ -188,10 +188,10 @@ extension OEXAutoCompleteSelectViewController: UISearchResultsUpdating {
 }
 
 // MARK: - UISearchBarDelegate
-extension OEXAutoCompleteSelectViewController: UISearchBarDelegate { }
+extension OEXFieldSelectViewController: UISearchBarDelegate { }
 
 // MARK: - TableViewDelegate
-extension OEXAutoCompleteSelectViewController: UITableViewDelegate {
+extension OEXFieldSelectViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = itemForCell(at: indexPath)
         selectedItem = item
@@ -200,7 +200,7 @@ extension OEXAutoCompleteSelectViewController: UITableViewDelegate {
 }
 
 // MARK: - TableViewDataSource
-extension OEXAutoCompleteSelectViewController: UITableViewDataSource {
+extension OEXFieldSelectViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
        return 1
     }
@@ -215,7 +215,7 @@ extension OEXAutoCompleteSelectViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = itemForCell(at: indexPath)
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: OEXAutoCompleteSelectTableViewCell.identifier) as! OEXAutoCompleteSelectTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: OEXFieldSelectViewCell.identifier) as! OEXFieldSelectViewCell
         cell.textLabel?.text = item.name
         if let selected = selectedItem, selected.name == item.name {
             cell.setSelected(true, animated: true)

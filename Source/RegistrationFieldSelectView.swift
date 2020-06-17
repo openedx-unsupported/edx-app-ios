@@ -16,7 +16,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
     private let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 27, height: 40))
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
-    private var selectedItem: OEXAutoCompleteSelectModel?
+    private var selectedItem: OEXFieldSelectViewModel?
     
     private var titleStyle : OEXTextStyle {
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
@@ -87,11 +87,11 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
     
     func showAutoCompleteActionSheet() {
         guard let field = formField, let parent = firstAvailableUIViewController() else { return }
-        let items = options.compactMap { item -> OEXAutoCompleteSelectModel? in
-            return OEXAutoCompleteSelectModel(name: item.name, value: item.value)
+        let items = options.compactMap { item -> OEXFieldSelectViewModel? in
+            return OEXFieldSelectViewModel(name: item.name, value: item.value)
         }
                 
-        let controller = OEXAutoCompleteSelectViewController(options: items, selectedItem: selectedItem) { [weak self] item in
+        let controller = OEXFieldSelectViewController(options: items, selectedItem: selectedItem) { [weak self] item in
             if let item = item {
                 self?.selectedItem = item
                 self?.setButtonTitle(title: item.name)
