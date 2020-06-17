@@ -113,6 +113,13 @@ class OEXFieldSelectViewController: UIViewController {
         scrollToSelectedItem()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        DispatchQueue.main.async { [weak self] in
+           self?.searchController.searchBar.becomeFirstResponder()
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         preferredContentSize.height = (tableViewRowHeight * 4) + searchViewHeight
@@ -134,6 +141,8 @@ class OEXFieldSelectViewController: UIViewController {
             make.trailing.equalTo(self.view)
             make.bottom.equalTo(self.view)
         }
+        searchController.isActive = true
+        searchController.searchBar.becomeFirstResponder()
         definesPresentationContext = true
     }
     
@@ -188,7 +197,11 @@ extension OEXFieldSelectViewController: UISearchResultsUpdating {
 }
 
 // MARK: - UISearchBarDelegate
-extension OEXFieldSelectViewController: UISearchBarDelegate { }
+extension OEXFieldSelectViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        dismiss(animated: true, completion: nil)
+    }
+}
 
 // MARK: - TableViewDelegate
 extension OEXFieldSelectViewController: UITableViewDelegate {

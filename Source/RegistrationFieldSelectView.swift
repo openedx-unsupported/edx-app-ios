@@ -87,9 +87,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
     
     func showAutoCompleteActionSheet() {
         guard let field = formField, let parent = firstAvailableUIViewController() else { return }
-        let items = options.compactMap { item -> OEXFieldSelectViewModel? in
-            return OEXFieldSelectViewModel(name: item.name, value: item.value)
-        }
+        let items = options.compactMap { OEXFieldSelectViewModel(name: $0.name, value: $0.value) }
                 
         let controller = OEXFieldSelectViewController(options: items, selectedItem: selectedItem) { [weak self] item in
             if let item = item {
