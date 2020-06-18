@@ -45,6 +45,7 @@ typedef NS_ENUM(NSUInteger, OEXVideoSpeed) {
 
 // Registration
 #define NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE @"RegistrationFormFieldValueDidChange"
+#define NOTIFICATION_REGISTRATION_FORM_SELECT_FIELD_DID_OPEN @"RegistrationFormFieldSelectDidOpen"
 
 // Dynamic Text Type Notification
 # define NOTIFICATION_DYNAMIC_TEXT_TYPE_UPDATE @"DynamicTextTypeUpdateNotification"

@@ -86,6 +86,8 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
     }
     
     func showAutoCompleteActionSheet() {
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_REGISTRATION_FORM_SELECT_FIELD_DID_OPEN)))
+        
         guard let field = formField, let parent = firstAvailableUIViewController() else { return }
         let items = options.compactMap { OEXFieldSelectViewModel(name: $0.name, value: $0.value) }
                 
@@ -98,7 +100,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
             }
         }
         
-        alertView = UIAlertController.init(style: .actionSheet, childController: controller, title: field.label)
+        alertView = UIAlertController(style: .actionSheet, childController: controller, title: field.label)
         alertView.addCancelAction()
         alertView.configurePresentationController(withSourceView: self)
         parent.present(alertView, animated: true, completion: nil)
