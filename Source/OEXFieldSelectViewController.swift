@@ -113,13 +113,6 @@ class OEXFieldSelectViewController: UIViewController {
         scrollToSelectedItem()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        DispatchQueue.main.async { [weak self] in
-           self?.searchController.searchBar.becomeFirstResponder()
-        }
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         preferredContentSize.height = (tableViewRowHeight * 4) + searchViewHeight
@@ -197,11 +190,7 @@ extension OEXFieldSelectViewController: UISearchResultsUpdating {
 }
 
 // MARK: - UISearchBarDelegate
-extension OEXFieldSelectViewController: UISearchBarDelegate {
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        dismiss(animated: true, completion: nil)
-    }
-}
+extension OEXFieldSelectViewController: UISearchBarDelegate { }
 
 // MARK: - TableViewDelegate
 extension OEXFieldSelectViewController: UITableViewDelegate {
