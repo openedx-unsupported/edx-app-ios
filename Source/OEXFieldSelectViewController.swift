@@ -23,7 +23,7 @@ class OEXFieldSelectViewCell : UITableViewCell {
     
     // MARK: Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         backgroundColor = nil
         contentView.backgroundColor = nil
