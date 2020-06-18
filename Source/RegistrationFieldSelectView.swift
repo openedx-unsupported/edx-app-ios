@@ -9,7 +9,12 @@
 import UIKit
 
 class RegistrationFieldSelectView: RegistrationFormFieldView {
-    @objc var options : [OEXRegistrationOption] = []
+    @objc var options: [OEXRegistrationOption] = [] {
+        didSet {
+            // this removes '--' string that is coming in reponse from server
+            options.removeFirst()
+        }
+    }
     @objc private(set) var selected : OEXRegistrationOption?
     
     @objc var alertView = UIAlertController()
