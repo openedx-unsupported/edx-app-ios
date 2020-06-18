@@ -46,9 +46,15 @@ extension NetworkManager {
                     return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
                 }
                 
-                // This case should not happen on production. It is useful for devs
-                // when switching between development environments.
-                if error.isAPIError(code: .OAuth2Nonexistent) || error.isAPIError(code: .OAuth2InvalidGrant) {
+                // Retry request with the current access_token if the original access_token used in
+                // request does not match the current access_token. This case can occur when
+                // asynchronous calls are made and are attempting to refresh the access_token where
+                // one call succeeds but the other fails.
+                if error.isAPIError(code: .OAuth2Nonexistent) {
+                   return refreshAccessToken(clientId: clientId, refreshToken: refreshToken, session: session)
+                }
+
+                if error.isAPIError(code: .OAuth2InvalidGrant) {
                     return logout(router: router)
                 }
             }
@@ -57,6 +63,7 @@ extension NetworkManager {
             }
             
         }
+        
         Logger.logError("Network Authenticator", "Request failed: " + response.debugDescription)
         return AuthenticationAction.proceed
     }
