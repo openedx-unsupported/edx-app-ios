@@ -139,6 +139,12 @@ class OEXFieldSelectViewController: UIViewController {
         definesPresentationContext = true
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        searchController.searchBar.frame.size.width = searchView.frame.size.width
+        searchController.searchBar.frame.size.height = searchView.frame.size.height
+    }
+    
     private func itemForCell(at indexPath: IndexPath) -> OEXFieldSelectViewModel {
         if searchController.isActive {
             return filteredItems[indexPath.row]
