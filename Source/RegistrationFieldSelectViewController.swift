@@ -56,7 +56,6 @@ class RegistrationFieldSelectViewController: UIViewController {
     
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.delegate = self
         searchController.searchBar.backgroundColor = OEXStyles.shared().neutralXXLight()
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
