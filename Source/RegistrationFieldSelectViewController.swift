@@ -1,5 +1,5 @@
 //
-//  OEXFieldSelectViewController.swift
+//  RegistrationFieldSelectViewController.swift
 //  edX
 //
 //  Created by Muhammad Umer on 15/06/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public struct OEXFieldSelectViewModel {
+public struct RegistrationFieldSelectViewModel {
     public var name: String
     public var value: String
     
@@ -18,8 +18,8 @@ public struct OEXFieldSelectViewModel {
     }
 }
 
-class OEXFieldSelectViewCell : UITableViewCell {
-    static let identifier = String(describing: OEXFieldSelectViewCell.self)
+class RegistrationFieldSelectViewCell : UITableViewCell {
+    static let identifier = String(describing: RegistrationFieldSelectViewCell.self)
     
     // MARK: Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -33,10 +33,6 @@ class OEXFieldSelectViewCell : UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
     // MARK: Configure Selection
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -44,15 +40,15 @@ class OEXFieldSelectViewCell : UITableViewCell {
     }
 }
 
-typealias OEXFieldSelectViewModelSelection = (OEXFieldSelectViewModel?) -> Swift.Void
+typealias RegistrationFieldSelectViewCompletion = (RegistrationFieldSelectViewModel?) -> Swift.Void
 
-class OEXFieldSelectViewController: UIViewController {
+class RegistrationFieldSelectViewController: UIViewController {
     // MARK: Properties
-    private var selectionHandler: OEXFieldSelectViewModelSelection?
-    private var options = [OEXFieldSelectViewModel]()
+    private var selectionHandler: RegistrationFieldSelectViewCompletion?
+    private var options = [RegistrationFieldSelectViewModel]()
 
-    private var filteredItems: [OEXFieldSelectViewModel] = []
-    private var selectedItem: OEXFieldSelectViewModel?
+    private var filteredOptions: [RegistrationFieldSelectViewModel] = []
+    private var selectedItem: RegistrationFieldSelectViewModel?
     
     private var searchViewHeight: CGFloat = 60
     private var tableViewRowHeight: CGFloat = 44
@@ -63,7 +59,6 @@ class OEXFieldSelectViewController: UIViewController {
         searchController.delegate = self
         searchController.searchBar.backgroundColor = OEXStyles.shared().neutralXXLight()
         searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = true
         searchController.searchBar.searchBarStyle = .minimal
@@ -78,16 +73,13 @@ class OEXFieldSelectViewController: UIViewController {
         tableView.delegate = self
         tableView.rowHeight = tableViewRowHeight
         tableView.separatorColor = OEXStyles.shared().neutralLight()
-        tableView.bounces = true
         tableView.backgroundColor = nil
         tableView.tableFooterView = UIView()
-        tableView.sectionIndexBackgroundColor = .clear
-        tableView.sectionIndexTrackingBackgroundColor = .clear
         return tableView
     }()
     
     // MARK: Initialize
-    required init(options: [OEXFieldSelectViewModel], selectedItem: OEXFieldSelectViewModel?, selectionHandler: @escaping OEXFieldSelectViewModelSelection) {
+    required init(options: [RegistrationFieldSelectViewModel], selectedItem: RegistrationFieldSelectViewModel?, selectionHandler: @escaping RegistrationFieldSelectViewCompletion) {
         super.init(nibName: nil, bundle: nil)
         self.options = options
         self.selectedItem = selectedItem
@@ -100,7 +92,7 @@ class OEXFieldSelectViewController: UIViewController {
     
     deinit {
         // http://stackoverflow.com/questions/32675001/uisearchcontroller-warning-attempting-to-load-the-view-of-a-view-controller/
-        let _ = searchController.view
+        searchController.loadViewIfNeeded()
     }
     
     override func viewDidLoad() {
@@ -108,7 +100,7 @@ class OEXFieldSelectViewController: UIViewController {
                 
         setupViews()
 
-        tableView.register(OEXFieldSelectViewCell.self, forCellReuseIdentifier: OEXFieldSelectViewCell.identifier)
+        tableView.register(RegistrationFieldSelectViewCell.self, forCellReuseIdentifier: RegistrationFieldSelectViewCell.identifier)
         tableView.reloadData()
         scrollToSelectedItem()
     }
@@ -121,19 +113,22 @@ class OEXFieldSelectViewController: UIViewController {
     private func setupViews() {
         searchView.addSubview(searchController.searchBar)
         view.addSubview(searchView)
+        view.addSubview(tableView)
+
         searchView.snp.makeConstraints { make in
-            make.top.equalTo(self.view)
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
+            make.top.equalTo(view)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
             make.height.equalTo(searchViewHeight)
         }
-        view.addSubview(tableView)
+        
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(self.searchView.snp.bottom)
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
-            make.bottom.equalTo(self.view)
+            make.top.equalTo(searchView.snp.bottom)
+            make.leading.equalTo(view)
+            make.trailing.equalTo(view)
+            make.bottom.equalTo(view)
         }
+        
         searchController.isActive = true
         searchController.searchBar.becomeFirstResponder()
         definesPresentationContext = true
@@ -145,9 +140,9 @@ class OEXFieldSelectViewController: UIViewController {
         searchController.searchBar.frame.size.height = searchView.frame.size.height
     }
     
-    private func itemForCell(at indexPath: IndexPath) -> OEXFieldSelectViewModel {
+    private func itemForCell(at indexPath: IndexPath) -> RegistrationFieldSelectViewModel {
         if searchController.isActive {
-            return filteredItems[indexPath.row]
+            return filteredOptions[indexPath.row]
         } else {
             return options[indexPath.row]
         }
@@ -156,8 +151,8 @@ class OEXFieldSelectViewController: UIViewController {
     private func indexPathOfSelectedItem() -> IndexPath? {
         guard let selectedItem = selectedItem else { return nil }
         if searchController.isActive {
-            for row in 0 ..< filteredItems.count {
-                if filteredItems[row].name == selectedItem.name {
+            for row in 0 ..< filteredOptions.count {
+                if filteredOptions[row].name == selectedItem.name {
                     return IndexPath(row: row, section: 0)
                 }
             }
@@ -177,17 +172,17 @@ class OEXFieldSelectViewController: UIViewController {
     }
 }
 
-extension OEXFieldSelectViewController: UISearchControllerDelegate { }
+extension RegistrationFieldSelectViewController: UISearchControllerDelegate { }
 
 // MARK: - UISearchResultsUpdating
-extension OEXFieldSelectViewController: UISearchResultsUpdating {
+extension RegistrationFieldSelectViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text, searchController.isActive {
-            filteredItems = []
+            filteredOptions = []
             if searchText.count > 0 {
-                filteredItems.append(contentsOf: options.filter { $0.name.hasPrefix(searchText) })
+                filteredOptions.append(contentsOf: options.filter { $0.name.hasPrefix(searchText) })
             } else {
-                filteredItems = options
+                filteredOptions = options
             }
         }
         tableView.reloadData()
@@ -195,11 +190,8 @@ extension OEXFieldSelectViewController: UISearchResultsUpdating {
     }
 }
 
-// MARK: - UISearchBarDelegate
-extension OEXFieldSelectViewController: UISearchBarDelegate { }
-
 // MARK: - TableViewDelegate
-extension OEXFieldSelectViewController: UITableViewDelegate {
+extension RegistrationFieldSelectViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = itemForCell(at: indexPath)
         selectedItem = item
@@ -208,14 +200,14 @@ extension OEXFieldSelectViewController: UITableViewDelegate {
 }
 
 // MARK: - TableViewDataSource
-extension OEXFieldSelectViewController: UITableViewDataSource {
+extension RegistrationFieldSelectViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive {
-            return filteredItems.count
+            return filteredOptions.count
         }
         return options.count
     }
@@ -223,7 +215,7 @@ extension OEXFieldSelectViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = itemForCell(at: indexPath)
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: OEXFieldSelectViewCell.identifier) as! OEXFieldSelectViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: RegistrationFieldSelectViewCell.identifier) as! RegistrationFieldSelectViewCell
         cell.textLabel?.text = item.name
         if let selected = selectedItem, selected.name == item.name {
             cell.setSelected(true, animated: true)
