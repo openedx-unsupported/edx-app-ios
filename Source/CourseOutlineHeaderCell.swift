@@ -25,6 +25,13 @@ class CourseOutlineHeaderCell : UITableViewHeaderFooterView {
         super.init(reuseIdentifier: reuseIdentifier)
         addSubviews()
         setStyles()
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "CourseOutlineHeaderCell: view"
+        headerLabel.accessibilityIdentifier = "CourseOutlineHeaderCell: header-label"
+        horizontalTopLine.accessibilityIdentifier = "CourseOutlineHeaderCell: horizontal-top-line"
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -19,6 +19,7 @@ class CourseDashboardLoadStateViewController: UIViewController {
     init(environment: Environment) {
         self.environment = environment
         super.init(nibName: nil, bundle: nil)
+        view.accessibilityIdentifier = "CourseDashboard: load-state-view-controller"
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -74,8 +74,7 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         coverImageView.contentMode = UIView.ContentMode.scaleAspectFill
         coverImageView.clipsToBounds = true
         coverImageView.hidesLoadingSpinner = true
-        
-        container.accessibilityIdentifier = "Title Bar"
+
         container.addSubview(titleLabel)
         container.addSubview(dateLabel)
         
@@ -125,6 +124,19 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
         let tapGesture = UITapGestureRecognizer {[weak self] _ in self?.cardTapped() }
         tapGesture.delegate = self
         addGestureRecognizer(tapGesture)
+
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "CourseCard: view"
+        container.accessibilityIdentifier = "CourseCard: container-view"
+        titleLabel.accessibilityIdentifier = "CourseCard: title-label"
+        coverImageView.accessibilityIdentifier = "CourseCard: cover-image"
+        dateLabel.accessibilityIdentifier = "CourseCard: date-label"
+        bottomLine.accessibilityIdentifier = "CourseCard: bottom-line"
+        overlayContainer.accessibilityIdentifier = "CourseCard: overlay-container"
+        titleAccessoryView?.accessibilityIdentifier = "CourseCard: title-accessory-view"
     }
     
     override func updateConstraints() {

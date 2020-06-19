@@ -97,6 +97,16 @@ public class CourseOutlineHeaderView: UIView {
             make.trailing.lessThanOrEqualTo(viewButton.snp.leading).offset(-10)
         }
         subtitleLabel.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: NSLayoutConstraint.Axis.horizontal)
+
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "CourseOutlineHeader: view"
+        bottomDivider.accessibilityIdentifier = "CourseOutlineHeader: bottom-divider"
+        viewButton.accessibilityIdentifier = "CourseOutlineHeader: view-button"
+        messageView.accessibilityIdentifier = "CourseOutlineHeader: message-label"
+        subtitleLabel.accessibilityIdentifier = "CourseOutlineHeader: subtitle-label"
     }
     
     public func setViewButtonAction(action: @escaping (AnyObject) -> Void) {

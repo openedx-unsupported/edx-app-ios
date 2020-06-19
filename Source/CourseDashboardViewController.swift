@@ -40,6 +40,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        view.accessibilityIdentifier = "CourseDashboardViewController: view"
         viewControllers = [loadStateController]
         courseStream.backWithStream(environment.dataManager.enrollmentManager.streamForCourseWithID(courseID: courseID))
         courseStream.listen(self) {[weak self] in
@@ -80,6 +81,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
                 }, for: .touchUpInside)
             
             let shareItem = UIBarButtonItem(customView: shareButton)
+            shareItem.accessibilityIdentifier = "CourseDashboardViewController: course-share-item"
             navigationItems.append(shareItem)
         } else {
             guard var originalItems = navigationItem.rightBarButtonItems, !originalItems.isEmpty else { return }
@@ -148,6 +150,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
             controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: 20), selectedImage: tabBarItem.icon.imageWithFontSize(size: 20))
+            controller.tabBarItem.accessibilityIdentifier = "CourseDashboardViewController: tabbar-item-\(tabBarItem.title)"
             controllers.append(controller)
         }
         viewControllers = controllers

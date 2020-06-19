@@ -21,8 +21,9 @@ private class StatusMessageView : UIView {
     
     init(message: String) {
         super.init(frame: CGRect.zero)
-
+        self.accessibilityIdentifier = "StatusMessageView: overlay-view"
         messageLabel.numberOfLines = 0
+        messageLabel.accessibilityIdentifier = "StatusMessageView: message-label"
         addSubview(messageLabel)
         
         self.backgroundColor = OEXStyles.shared().neutralDark().withAlphaComponent(0.75)

@@ -36,26 +36,26 @@ class CourseVideosHeaderView: UIView {
     // MARK: - UI Properties -
     lazy private var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.accessibilityIdentifier = "CourseVideosHeaderView:image-view"
+        imageView.accessibilityIdentifier = "CourseVideosHeader: image-view"
         imageView.isAccessibilityElement = false
         imageView.tintColor = self.environment.styles.primaryBaseColor()
         return imageView
     }()
     private let spinner: SpinnerView = {
         let spinner = SpinnerView(size: .Medium, color: .Primary)
-        spinner.accessibilityIdentifier = "CourseVideosHeaderView:spinner"
+        spinner.accessibilityIdentifier = "CourseVideosHeader: spinner"
         spinner.isAccessibilityElement = false
         return spinner
     }()
     lazy private var titleLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "CourseVideosHeaderView:title-label"
+        label.accessibilityIdentifier = "CourseVideosHeader: title-label"
         label.isAccessibilityElement = false
         return label
     }()
     lazy private var subTitleLabel: UILabel = {
         let label = UILabel()
-        label.accessibilityIdentifier = "CourseVideosHeaderView:sub-title-label"
+        label.accessibilityIdentifier = "CourseVideosHeader: subtitle-label"
         label.isAccessibilityElement = false
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.7
@@ -63,7 +63,7 @@ class CourseVideosHeaderView: UIView {
     }()
     lazy private var showDownloadsButton: UIButton = {
         let button =  UIButton()
-        button.accessibilityIdentifier = "CourseVideosHeaderView:show-downloads-button"
+        button.accessibilityIdentifier = "CourseVideosHeader: show-downloads-button"
         button.accessibilityHint = Strings.Accessibility.showCurrentDownloadsButtonHint
         button.accessibilityTraits = UIAccessibilityTraits(rawValue: UIAccessibilityTraits.button.rawValue | UIAccessibilityTraits.updatesFrequently.rawValue)
         button.oex_addAction({
@@ -76,7 +76,7 @@ class CourseVideosHeaderView: UIView {
     }()
     lazy private var toggleSwitch: UISwitch = {
         let toggleSwitch = UISwitch()
-        toggleSwitch.accessibilityIdentifier = "CourseVideosHeaderView:toggle-switch"
+        toggleSwitch.accessibilityIdentifier = "CourseVideosHeader: toggle-switch"
         toggleSwitch.onTintColor = self.environment.styles.utilitySuccessBase()
         toggleSwitch.tintColor = self.environment.styles.neutralLight()
         toggleSwitch.oex_addAction({[weak self] _ in
@@ -86,7 +86,7 @@ class CourseVideosHeaderView: UIView {
     }()
     lazy private var downloadProgressView: UIProgressView = {
         let progressView = UIProgressView()
-        progressView.accessibilityIdentifier = "CourseVideosHeaderView:download-progress-view"
+        progressView.accessibilityIdentifier = "CourseVideosHeader: download-progress-view"
         progressView.isAccessibilityElement = false
         progressView.tintColor = self.environment.styles.utilitySuccessBase()
         progressView.trackTintColor = self.environment.styles.neutralXLight()
@@ -286,6 +286,7 @@ class CourseVideosHeaderView: UIView {
     }
     
     private func configureView() {
+        accessibilityIdentifier = "CourseVideosHeader: view"
         backgroundColor = environment.styles.neutralXXLight()
         addSubviews()
         imageView.image = Icon.CourseVideos.imageWithFontSize(size: 20)

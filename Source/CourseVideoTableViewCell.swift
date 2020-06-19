@@ -86,6 +86,13 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
         
         content.trailingView = downloadView
         downloadView.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "CourseVideoTableViewCell: view"
+        content.accessibilityIdentifier = "CourseVideoTableViewCell: content-view"
+        downloadView.accessibilityIdentifier = "CourseVideoTableViewCell: download-view"
     }
     
     required init?(coder aDecoder: NSCoder) {

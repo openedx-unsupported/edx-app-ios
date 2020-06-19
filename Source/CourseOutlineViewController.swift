@@ -95,6 +95,7 @@ public class CourseOutlineViewController :
         insetsController.setupInController(owner: self, scrollView : self.tableController.tableView)
         view.setNeedsUpdateConstraints()
         addListeners()
+        setAccessibilityIdentifiers()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -141,6 +142,12 @@ public class CourseOutlineViewController :
     
     override func reloadViewData() {
         reload()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "CourseOutlineViewController: view"
+        tableController.tableView.accessibilityIdentifier = "CourseOutlineViewController: course-outline-table-view"
+        loadController.view.accessibilityIdentifier = "CourseOutlineViewController: load-controller-view"
     }
     
     private func setupNavigationItem(block : CourseBlock) {

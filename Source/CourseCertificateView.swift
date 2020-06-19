@@ -84,6 +84,16 @@ class CourseCertificateView: UIView {
             make.trailing.equalTo(titleLabel)
             make.bottom.equalTo(certificateImageView)
         }
+
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "CourseCertificate: view"
+        certificateImageView.accessibilityIdentifier = "CourseCertificate: certificate-image-view"
+        titleLabel.accessibilityIdentifier = "CourseCertificate: title-label"
+        subtitleLabel.accessibilityIdentifier = "CourseCertificate: subtitle-label"
+        viewCertificateButton.accessibilityIdentifier = "CourseCertificate: view-certificate-button"
     }
     
     private func useItem(item: CourseCertificateIem?) {

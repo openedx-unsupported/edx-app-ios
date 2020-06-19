@@ -62,7 +62,16 @@ class DownloadsAccessoryView : UIView {
             make.centerY.equalTo(self)
             make.trailing.equalTo(downloadButton.imageView!.snp.leading).offset(-6)
         }
+
+        setAccessibilityIdentifiers()
         
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "DownloadsAccessoryView: view"
+        downloadButton.accessibilityIdentifier = "DownloadsAccessoryView: download-button"
+        countLabel.accessibilityIdentifier = "DownloadsAccessoryView: count-label"
+        downloadSpinner.accessibilityIdentifier = "DownloadsAccessoryView: download-spinner"
     }
     
     required init?(coder aDecoder: NSCoder) {

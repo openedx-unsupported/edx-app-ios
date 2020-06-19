@@ -17,6 +17,8 @@ class CourseGenericBlockTableViewCell : UITableViewCell, CourseBlockContainerCel
         content.snp.makeConstraints { make in
             make.edges.equalTo(contentView)
         }
+        accessibilityIdentifier = "CourseGenericBlockTableViewCell: view"
+        content.accessibilityIdentifier = "CourseGenericBlockTableViewCell: content-view"
     }
     
     var block : CourseBlock? = nil {
@@ -40,6 +42,7 @@ class CourseHTMLTableViewCell: CourseGenericBlockTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style : style, reuseIdentifier : reuseIdentifier)
         content.setContentIcon(icon: Icon.CourseHTMLContent)
+        accessibilityIdentifier = "CourseHTMLTableViewCell: view"
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -54,6 +57,7 @@ class CourseProblemTableViewCell : CourseGenericBlockTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style : style, reuseIdentifier : reuseIdentifier)
         content.setContentIcon(icon: Icon.CourseProblemContent)
+        accessibilityIdentifier = "CourseProblemTableViewCell: view"
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -70,6 +74,7 @@ class CourseUnknownTableViewCell: CourseGenericBlockTableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         content.leadingIconColor = OEXStyles.shared().neutralBase()
         content.setContentIcon(icon: Icon.CourseUnknownContent)
+        accessibilityIdentifier = "CourseUnknownTableViewCellIdentifier: view"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -85,6 +90,7 @@ class DiscussionTableViewCell: CourseGenericBlockTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         content.setContentIcon(icon: Icon.Discussions)
+        accessibilityIdentifier = "DiscussionTableViewCell: view"
     }
     
     required init?(coder aDecoder: NSCoder) {
