@@ -55,10 +55,10 @@ class IconMessageView : UIView {
 
     private func setAccessibilityIdentifiers() {
         accessibilityIdentifier = "IconMessageView: view"
-        iconView.accessibilityIdentifier = "IconMessageView: icon-image-view"
-        messageView.accessibilityIdentifier = "IconMessageView: message-label"
-        bottomButton.accessibilityIdentifier = "IconMessageView: bottom-button"
-        container.accessibilityIdentifier = "IconMessageView: container-view"
+        iconView.accessibilityIdentifier = "IconMessageView:icon-image-view"
+        messageView.accessibilityIdentifier = "IconMessageView:message-label"
+        bottomButton.accessibilityIdentifier = "IconMessageView:bottom-button"
+        container.accessibilityIdentifier = "IconMessageView:container-view"
     }
     
     var message : String? {

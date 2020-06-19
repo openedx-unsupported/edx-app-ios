@@ -89,11 +89,11 @@ class CourseCertificateView: UIView {
     }
 
     private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "CourseCertificate: view"
-        certificateImageView.accessibilityIdentifier = "CourseCertificate: certificate-image-view"
-        titleLabel.accessibilityIdentifier = "CourseCertificate: title-label"
-        subtitleLabel.accessibilityIdentifier = "CourseCertificate: subtitle-label"
-        viewCertificateButton.accessibilityIdentifier = "CourseCertificate: view-certificate-button"
+        accessibilityIdentifier = "CourseCertificateView:view"
+        certificateImageView.accessibilityIdentifier = "CourseCertificateView:certificate-image-view"
+        titleLabel.accessibilityIdentifier = "CourseCertificateView:title-label"
+        subtitleLabel.accessibilityIdentifier = "CourseCertificateView:subtitle-label"
+        viewCertificateButton.accessibilityIdentifier = "CourseCertificateView:view-certificate-button"
     }
     
     private func useItem(item: CourseCertificateIem?) {

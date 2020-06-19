@@ -68,10 +68,10 @@ class DownloadsAccessoryView : UIView {
     }
 
     private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "DownloadsAccessoryView: view"
-        downloadButton.accessibilityIdentifier = "DownloadsAccessoryView: download-button"
-        countLabel.accessibilityIdentifier = "DownloadsAccessoryView: count-label"
-        downloadSpinner.accessibilityIdentifier = "DownloadsAccessoryView: download-spinner"
+        accessibilityIdentifier = "DownloadsAccessoryView:view"
+        downloadButton.accessibilityIdentifier = "DownloadsAccessoryView:download-button"
+        countLabel.accessibilityIdentifier = "DownloadsAccessoryView:count-label"
+        downloadSpinner.accessibilityIdentifier = "DownloadsAccessoryView:download-spinner"
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -102,11 +102,11 @@ public class CourseOutlineHeaderView: UIView {
     }
 
     private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "CourseOutlineHeader: view"
-        bottomDivider.accessibilityIdentifier = "CourseOutlineHeader: bottom-divider"
-        viewButton.accessibilityIdentifier = "CourseOutlineHeader: view-button"
-        messageView.accessibilityIdentifier = "CourseOutlineHeader: message-label"
-        subtitleLabel.accessibilityIdentifier = "CourseOutlineHeader: subtitle-label"
+        accessibilityIdentifier = "CourseOutlineHeaderView:view"
+        bottomDivider.accessibilityIdentifier = "CourseOutlineHeaderView:bottom-divider"
+        viewButton.accessibilityIdentifier = "CourseOutlineHeaderView:view-button"
+        messageView.accessibilityIdentifier = "CourseOutlineHeaderView:message-label"
+        subtitleLabel.accessibilityIdentifier = "CourseOutlineHeaderView:subtitle-label"
     }
     
     public func setViewButtonAction(action: @escaping (AnyObject) -> Void) {

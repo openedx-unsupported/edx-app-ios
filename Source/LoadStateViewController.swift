@@ -101,10 +101,10 @@ class LoadStateViewController : UIViewController {
     }
 
     private func setAccessibilityIdentifiers() {
-        view.accessibilityIdentifier = "LoadStateViewController: view"
-        loadingView.accessibilityIdentifier = "LoadStateViewController: loading-view"
-        contentView?.accessibilityIdentifier = "LoadStateViewController: content-view"
-        messageView.accessibilityMessage = "LoadStateViewController: message-view"
+        view.accessibilityIdentifier = "LoadStateViewController:view"
+        loadingView.accessibilityIdentifier = "LoadStateViewController:loading-view"
+        contentView?.accessibilityIdentifier = "LoadStateViewController:content-view"
+        messageView.accessibilityMessage = "LoadStateViewController:message-view"
     }
     
     var messageStyle : OEXTextStyle {

@@ -74,7 +74,7 @@ class SwipeCellActionView: UIView {
         backgroundColor = UIColor.init(red: 203.0/255.0, green: 7.0/255.0, blue: 18.0/255.0, alpha: 1.0)
         
         buttons = addButtons(for: self.buttons, withMaximum: maxSize)
-        accessibilityIdentifier = "SwipeCellActionView: view"
+        accessibilityIdentifier = "SwipeCellActionView:view"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -97,7 +97,7 @@ class SwipeCellActionView: UIView {
             button.frame = (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft) ? CGRect(x: frame.width - minimumButtonWidth, y: 0, width: minimumButtonWidth, height: frame.height) : CGRect(x: 0, y: 0, width: minimumButtonWidth, height: frame.height)
             addSubview(button)
             button.setMaximumImageHeight(maxImageHeight: maximumImageHeight)
-            button.accessibilityIdentifier = "SwipeCellActionView: button-\(index)"
+            button.accessibilityIdentifier = "SwipeCellActionView:button-\(index)"
         }
         
         return buttons

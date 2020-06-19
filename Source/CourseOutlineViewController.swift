@@ -145,9 +145,9 @@ public class CourseOutlineViewController :
     }
 
     private func setAccessibilityIdentifiers() {
-        view.accessibilityIdentifier = "CourseOutlineViewController: view"
-        tableController.tableView.accessibilityIdentifier = "CourseOutlineViewController: course-outline-table-view"
-        loadController.view.accessibilityIdentifier = "CourseOutlineViewController: load-controller-view"
+        view.accessibilityIdentifier = "CourseOutlineViewController:view"
+        tableController.tableView.accessibilityIdentifier = "CourseOutlineViewController:course-outline-table-view"
+        loadController.view.accessibilityIdentifier = "CourseOutlineViewController:load-state-controller-view"
     }
     
     private func setupNavigationItem(block : CourseBlock) {

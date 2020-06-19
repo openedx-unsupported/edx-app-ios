@@ -81,7 +81,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
                 }, for: .touchUpInside)
             
             let shareItem = UIBarButtonItem(customView: shareButton)
-            shareItem.accessibilityIdentifier = "CourseDashboardViewController: course-share-item"
+            shareItem.accessibilityIdentifier = "CourseDashboardViewController:course-share-item"
             navigationItems.append(shareItem)
         } else {
             guard var originalItems = navigationItem.rightBarButtonItems, !originalItems.isEmpty else { return }
@@ -150,7 +150,7 @@ class CourseDashboardViewController: UITabBarController, InterfaceOrientationOve
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
             controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: 20), selectedImage: tabBarItem.icon.imageWithFontSize(size: 20))
-            controller.tabBarItem.accessibilityIdentifier = "CourseDashboardViewController: tabbar-item-\(tabBarItem.title)"
+            controller.tabBarItem.accessibilityIdentifier = "CourseDashboardViewController:tabbar-item-\(tabBarItem.title)"
             controllers.append(controller)
         }
         viewControllers = controllers

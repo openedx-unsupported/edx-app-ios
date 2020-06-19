@@ -35,10 +35,10 @@ public class ProgressController: NSObject {
         circularProgressView = DACircularProgressView(frame: ProgressViewFrame)
         circularProgressView.progressTintColor = OEXStyles.shared().progressBarTintColor
         circularProgressView.trackTintColor = OEXStyles.shared().progressBarTrackTintColor
-        circularProgressView.accessibilityIdentifier = "ProgressController: circular-progress-view"
+        circularProgressView.accessibilityIdentifier = "ProgressController:circular-progress-view"
         
         downloadButton = UIButton(type: .system)
-        downloadButton.accessibilityIdentifier = "ProgressController: download-button"
+        downloadButton.accessibilityIdentifier = "ProgressController:download-button"
         downloadButton.setImage(UIImage(named: "ic_download_arrow"), for: .normal)
         downloadButton.tintColor = OEXStyles.shared().navigationItemTintColor()
         downloadButton.accessibilityLabel = Strings.accessibilityDownloadProgressButton(percentComplete: 0, formatted: nil)
@@ -79,7 +79,7 @@ public class ProgressController: NSObject {
     
     func navigationItem() -> UIBarButtonItem {
         let item = UIBarButtonItem(customView: circularProgressView)
-        item.accessibilityIdentifier = "ProgressController: navigation-item"
+        item.accessibilityIdentifier = "ProgressController:navigation-item"
         return item
     }
     

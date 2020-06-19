@@ -129,14 +129,14 @@ class CourseCardView: UIView, UIGestureRecognizerDelegate {
     }
 
     private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "CourseCard: view"
-        container.accessibilityIdentifier = "CourseCard: container-view"
-        titleLabel.accessibilityIdentifier = "CourseCard: title-label"
-        coverImageView.accessibilityIdentifier = "CourseCard: cover-image"
-        dateLabel.accessibilityIdentifier = "CourseCard: date-label"
-        bottomLine.accessibilityIdentifier = "CourseCard: bottom-line"
-        overlayContainer.accessibilityIdentifier = "CourseCard: overlay-container"
-        titleAccessoryView?.accessibilityIdentifier = "CourseCard: title-accessory-view"
+        accessibilityIdentifier = "CourseCardView:view"
+        container.accessibilityIdentifier = "CourseCardView:container-view"
+        titleLabel.accessibilityIdentifier = "CourseCardView:title-label"
+        coverImageView.accessibilityIdentifier = "CourseCardView:cover-image"
+        dateLabel.accessibilityIdentifier = "CourseCardView:date-label"
+        bottomLine.accessibilityIdentifier = "CourseCardView:bottom-line"
+        overlayContainer.accessibilityIdentifier = "CourseCardView:overlay-container"
+        titleAccessoryView?.accessibilityIdentifier = "CourseCardView:title-accessory-view"
     }
     
     override func updateConstraints() {

@@ -90,9 +90,9 @@ class CourseVideoTableViewCell: SwipeableCell, CourseBlockContainerCell {
     }
 
     private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "CourseVideoTableViewCell: view"
-        content.accessibilityIdentifier = "CourseVideoTableViewCell: content-view"
-        downloadView.accessibilityIdentifier = "CourseVideoTableViewCell: download-view"
+        accessibilityIdentifier = "CourseVideoTableViewCell:view"
+        content.accessibilityIdentifier = "CourseVideoTableViewCell:content-view"
+        downloadView.accessibilityIdentifier = "CourseVideoTableViewCell:download-view"
     }
     
     required init?(coder aDecoder: NSCoder) {

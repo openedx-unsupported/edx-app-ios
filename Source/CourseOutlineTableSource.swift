@@ -71,12 +71,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
 
     private func setAccessibilityIdentifiers() {
-        tableView.accessibilityIdentifier = "CourseOutline: table-view"
-        headerContainer.accessibilityIdentifier = "CourseOutline: header-container"
-        courseVideosHeaderView?.accessibilityIdentifier = "CourseOutline: vourse-videos-header-view"
-        courseCertificateView?.accessibilityIdentifier = "CourseOutline: certificate-view"
-        lastAccessedView.accessibilityIdentifier = "CourseOutline: last-access-view"
-        courseCard.accessibilityIdentifier = "CourseOutline: course-card"
+        tableView.accessibilityIdentifier = "CourseOutlineTableController:table-view"
+        headerContainer.accessibilityIdentifier = "CourseOutlineTableController:header-container"
+        courseVideosHeaderView?.accessibilityIdentifier = "CourseOutlineTableController:course-videos-header-view"
+        courseCertificateView?.accessibilityIdentifier = "CourseOutlineTableController:certificate-view"
+        lastAccessedView.accessibilityIdentifier = "CourseOutlineTableController:last-access-view"
+        courseCard.accessibilityIdentifier = "CourseOutlineTableController:course-card"
     }
     
     override func viewDidLoad() {

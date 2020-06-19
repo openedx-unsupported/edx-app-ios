@@ -88,14 +88,14 @@ public class CourseOutlineItemView: UIView {
     }
 
     private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "CourseOutlineItem: view"
-        titleLabel.accessibilityIdentifier = "CourseOutlineItem: title-label"
-        subtitleLabel.accessibilityIdentifier = "CourseOutlineItem: subtitle-label"
-        videoSizeLabel.accessibilityIdentifier = "CourseOutlineItem: video-size-label"
-        leadingImageButton.accessibilityIdentifier = "CourseOutlineItem: leading-image-button"
-        checkmark.accessibilityIdentifier = "CourseOutlineItem: check-image-view"
-        trailingContainer.accessibilityIdentifier = "CourseOutlineItem: trailing-container-view"
-        trailingView?.accessibilityIdentifier = "CourseOutlineItem: trailing-view"
+        accessibilityIdentifier = "CourseOutlineItemView:view"
+        titleLabel.accessibilityIdentifier = "CourseOutlineItemView:title-label"
+        subtitleLabel.accessibilityIdentifier = "CourseOutlineItemView:subtitle-label"
+        videoSizeLabel.accessibilityIdentifier = "CourseOutlineItemView:video-size-label"
+        leadingImageButton.accessibilityIdentifier = "CourseOutlineItemView:leading-image-button"
+        checkmark.accessibilityIdentifier = "CourseOutlineItemView:check-image-view"
+        trailingContainer.accessibilityIdentifier = "CourseOutlineItemView:trailing-container-view"
+        trailingView?.accessibilityIdentifier = "CourseOutlineItemView:trailing-view"
     }
     
     func setTitleText(title : String?) {

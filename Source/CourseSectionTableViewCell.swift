@@ -70,9 +70,9 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
     }
 
     private func setAccessibilityIdentifiers() {
-        accessibilityIdentifier = "CourseSectionTableViewCell: view"
-        content.accessibilityIdentifier = "CourseSectionTableViewCell: content-view"
-        downloadView.accessibilityIdentifier = "CourseSectionTableViewCell: download-view"
+        accessibilityIdentifier = "CourseSectionTableViewCell:view"
+        content.accessibilityIdentifier = "CourseSectionTableViewCell:content-view"
+        downloadView.accessibilityIdentifier = "CourseSectionTableViewCell:download-view"
     }
     
     var videos : OEXStream<[OEXHelperVideoDownload]> = OEXStream() {

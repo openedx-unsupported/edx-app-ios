@@ -52,9 +52,9 @@ class SwipeableCell: UITableViewCell {
         tapGestureRecognizer.delegate = self
         configure()
 
-        accessibilityIdentifier = "SwipeableCell: view"
-        tableView?.accessibilityIdentifier = "SwipeableCell: table-view"
-        actionsView?.accessibilityIdentifier = "SwipeableCell: action-view"
+        accessibilityIdentifier = "SwipeableCell:view"
+        tableView?.accessibilityIdentifier = "SwipeableCell:table-view"
+        actionsView?.accessibilityIdentifier = "SwipeableCell:Source/UIViewController+Overlay.swiftaction-view"
     }
     
     required init?(coder aDecoder: NSCoder) {
