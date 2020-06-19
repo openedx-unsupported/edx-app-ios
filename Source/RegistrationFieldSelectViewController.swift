@@ -172,8 +172,6 @@ class RegistrationFieldSelectViewController: UIViewController {
     }
 }
 
-extension RegistrationFieldSelectViewController: UISearchControllerDelegate { }
-
 // MARK: - UISearchResultsUpdating
 extension RegistrationFieldSelectViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
