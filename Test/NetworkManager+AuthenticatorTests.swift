@@ -49,15 +49,24 @@ class NetworkManager_AuthenticationTests : XCTestCase {
         XCTAssertTrue(router.logoutCalled)
     }
     
-    func testLogoutForErrorsOtherThanExpiredAccessToken() {
+    func testNonExistentAccessToken() {
         let router = MockRouter()
         let session = sessionWithRefreshTokenBuilder()
         let response = simpleResponseBuilder(401)
         let data = "{\"error_code\":\"token_nonexistent\"}".data(using: String.Encoding.utf8)!
         let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: true)
+        XCTAssertTrue(result.isAuthenticate)
+        
+    }
+
+    func testLogoutForInvalidGrantAccessToken() {
+        let router = MockRouter()
+        let session = sessionWithRefreshTokenBuilder()
+        let response = simpleResponseBuilder(401)
+        let data = "{\"error_code\":\"invalid_grant\"}".data(using: String.Encoding.utf8)!
+        let result = authenticatorResponseForRequest(response!, data: data, session: session, router: router, waitForLogout: true)
         XCTAssertTrue(result.isProceed)
         XCTAssertTrue(router.logoutCalled)
-        
     }
     
     func testLogoutWithNonJSONData() {
