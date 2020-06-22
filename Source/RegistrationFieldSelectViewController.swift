@@ -8,7 +8,7 @@
 
 import UIKit
 
-public struct RegistrationFieldSelectViewModel {
+public struct RegistrationSelectOpetionViewModel {
     public var name: String
     public var value: String
     
@@ -25,8 +25,8 @@ class RegistrationFieldSelectViewCell : UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
-        backgroundColor = nil
-        contentView.backgroundColor = nil
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,15 +40,15 @@ class RegistrationFieldSelectViewCell : UITableViewCell {
     }
 }
 
-typealias RegistrationFieldSelectViewCompletion = (RegistrationFieldSelectViewModel?) -> Swift.Void
+typealias RegistrationFieldSelectViewCompletion = (RegistrationSelectOpetionViewModel?) -> Swift.Void
 
 class RegistrationFieldSelectViewController: UIViewController {
     // MARK: Properties
     private var selectionHandler: RegistrationFieldSelectViewCompletion?
-    private var options = [RegistrationFieldSelectViewModel]()
+    private var options = [RegistrationSelectOpetionViewModel]()
 
-    private var filteredOptions: [RegistrationFieldSelectViewModel] = []
-    private var selectedItem: RegistrationFieldSelectViewModel?
+    private var filteredOptions: [RegistrationSelectOpetionViewModel] = []
+    private var selectedItem: RegistrationSelectOpetionViewModel?
     
     private var searchViewHeight: CGFloat = 60
     private var tableViewRowHeight: CGFloat = 44
@@ -59,7 +59,6 @@ class RegistrationFieldSelectViewController: UIViewController {
         searchController.searchBar.backgroundColor = OEXStyles.shared().neutralXXLight()
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = true
         searchController.searchBar.searchBarStyle = .minimal
         searchController.searchBar.textField?.textColor = OEXStyles.shared().neutralBlackT()
         searchController.searchBar.textField?.clearButtonMode = .whileEditing
@@ -70,15 +69,16 @@ class RegistrationFieldSelectViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = tableViewRowHeight
+        tableView.estimatedRowHeight = tableViewRowHeight
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorColor = OEXStyles.shared().neutralLight()
-        tableView.backgroundColor = nil
+        tableView.backgroundColor = .clear
         tableView.tableFooterView = UIView()
         return tableView
     }()
     
     // MARK: Initialize
-    required init(options: [RegistrationFieldSelectViewModel], selectedItem: RegistrationFieldSelectViewModel?, selectionHandler: @escaping RegistrationFieldSelectViewCompletion) {
+    required init(options: [RegistrationSelectOpetionViewModel], selectedItem: RegistrationSelectOpetionViewModel?, selectionHandler: @escaping RegistrationFieldSelectViewCompletion) {
         super.init(nibName: nil, bundle: nil)
         self.options = options
         self.selectedItem = selectedItem
@@ -106,7 +106,7 @@ class RegistrationFieldSelectViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        preferredContentSize.height = (tableViewRowHeight * 4) + searchViewHeight
+        preferredContentSize.height = (tableView.estimatedRowHeight * 4) + searchViewHeight
     }
     
     private func setupViews() {
@@ -139,7 +139,7 @@ class RegistrationFieldSelectViewController: UIViewController {
         searchController.searchBar.frame.size.height = searchView.frame.size.height
     }
     
-    private func itemForCell(at indexPath: IndexPath) -> RegistrationFieldSelectViewModel {
+    private func itemForCell(at indexPath: IndexPath) -> RegistrationSelectOpetionViewModel {
         if searchController.isActive {
             return filteredOptions[indexPath.row]
         } else {
@@ -167,7 +167,7 @@ class RegistrationFieldSelectViewController: UIViewController {
     
     private func scrollToSelectedItem() {
         guard let selectedIndexPath = indexPathOfSelectedItem() else { return }
-        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .none)
+        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .top)
     }
 }
 
@@ -183,7 +183,6 @@ extension RegistrationFieldSelectViewController: UISearchResultsUpdating {
             }
         }
         tableView.reloadData()
-        scrollToSelectedItem()
     }
 }
 

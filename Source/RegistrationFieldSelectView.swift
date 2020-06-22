@@ -16,7 +16,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
     private let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 27, height: 40))
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
-    private var selectedItem: RegistrationFieldSelectViewModel?
+    private var selectedItem: RegistrationSelectOpetionViewModel?
     
     private var titleStyle : OEXTextStyle {
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
@@ -44,7 +44,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
         textInputField.rightViewMode = .always
         textInputField.rightView = dropdownView
         tapButton.oex_addAction( {[weak self] _ in
-            self?.showRegistrationSelectForm()
+            self?.showRegistrationSelectView()
             }, for: UIControl.Event.touchUpInside)
         self.addSubview(tapButton)
         
@@ -85,11 +85,11 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func showRegistrationSelectForm() {
+    private func showRegistrationSelectView() {
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_REGISTRATION_FORM_SELECT_FIELD_DID_OPEN)))
         
         guard let field = formField, let parent = firstAvailableUIViewController() else { return }
-        let items = options.compactMap { RegistrationFieldSelectViewModel(name: $0.name, value: $0.value) }
+        let items = options.compactMap { RegistrationSelectOpetionViewModel(name: $0.name, value: $0.value) }
                 
         let controller = RegistrationFieldSelectViewController(options: items, selectedItem: selectedItem) { [weak self] item in
             if let item = item {
