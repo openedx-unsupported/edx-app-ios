@@ -12,7 +12,7 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
     @objc var options: [OEXRegistrationOption] = []
     @objc private(set) var selected : OEXRegistrationOption?
     
-    @objc var alertView = UIAlertController()
+    @objc var alertController = UIAlertController()
     private let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 27, height: 40))
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
@@ -100,16 +100,22 @@ class RegistrationFieldSelectView: RegistrationFormFieldView {
                     self?.setButtonTitle(title: item.name)
                     self?.valueDidChange()
                 }
-                self?.alertView.dismiss(animated: true, completion: nil)
+                self?.alertController.dismiss(animated: true, completion: nil)
             }
         }
         
-        alertView = UIAlertController(style: .actionSheet, childController: controller, title: field.label)
-        alertView.addCancelAction()
-        alertView.configurePresentationController(withSourceView: self)
-        parent.present(alertView, animated: true, completion: nil)
+        alertController = UIAlertController(style: .actionSheet, childController: controller, title: field.label)
+        alertController.addCancelAction()
+        alertController.configurePresentationController(withSourceView: self)
         
-        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: alertView)
+        if let alertView = alertController.view, parent.isiPad() {
+            let height = NSLayoutConstraint(item: alertView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: parent.view.frame.height / 2)
+            alertController.view.addConstraint(height)
+        }
+        
+        parent.present(alertController, animated: true, completion: nil)
+        
+        UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: alertController)
     }
     
     override func validate() -> String? {

@@ -135,8 +135,15 @@ class RegistrationFieldSelectViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        searchController.searchBar.frame.size.width = searchView.frame.size.width
-        searchController.searchBar.frame.size.height = searchView.frame.size.height
+        
+        searchController.searchBar.snp.makeConstraints { make in
+            make.height.equalTo(searchViewHeight)
+            if isiPad() {
+                make.width.equalTo(view)
+            } else {
+                make.width.equalTo(searchView)
+            }
+        }
     }
     
     private func itemForCell(at indexPath: IndexPath) -> RegistrationSelectOpetionViewModel {
