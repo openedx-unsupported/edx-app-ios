@@ -51,7 +51,7 @@ class RegistrationSelectOptionViewController: UIViewController {
     private var selectedItem: RegistrationSelectOptionViewModel?
     
     private var searchViewHeight: CGFloat = 60
-    private var tableViewRowHeight: CGFloat = 44
+    private var tableViewEstimatedRowHeight: CGFloat = 44
     private var visibleRows: CGFloat = 4
     private lazy var searchView: UIView = UIView()
     
@@ -70,7 +70,7 @@ class RegistrationSelectOptionViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.estimatedRowHeight = tableViewRowHeight
+        tableView.estimatedRowHeight = tableViewEstimatedRowHeight
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorColor = OEXStyles.shared().neutralLight()
         tableView.backgroundColor = .clear
@@ -127,9 +127,7 @@ class RegistrationSelectOptionViewController: UIViewController {
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             make.bottom.equalTo(view)
-            if isiPad() {
-                make.height.equalTo((tableView.estimatedRowHeight * visibleRows) + searchViewHeight)
-            }
+            make.height.equalTo(tableView.estimatedRowHeight * visibleRows)
         }
         
         searchController.isActive = true
@@ -140,12 +138,8 @@ class RegistrationSelectOptionViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        if isiPad() {
-            searchController.searchBar.frame.size.width = view.frame.size.width
-            searchController.searchBar.frame.size.height = searchViewHeight
-        } else {
-            searchController.searchBar.frame = searchView.frame
-        }
+        searchController.searchBar.frame.size.width = view.frame.size.width
+        searchController.searchBar.frame.size.height = searchViewHeight
     }
     
     private func itemForCell(at indexPath: IndexPath) -> RegistrationSelectOptionViewModel {
