@@ -1,5 +1,5 @@
 //
-//  RegistrationFieldSelectViewController.swift
+//  RegistrationSelectOptionViewController.swift
 //  edX
 //
 //  Created by Muhammad Umer on 15/06/2020.
@@ -136,13 +136,11 @@ class RegistrationSelectOptionViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        searchController.searchBar.snp.makeConstraints { make in
-            make.height.equalTo(searchViewHeight)
-            if isiPad() {
-                make.width.equalTo(view)
-            } else {
-                make.width.equalTo(searchView)
-            }
+        if isiPad() {
+            searchController.searchBar.frame.size.width = view.frame.size.width
+            searchController.searchBar.frame.size.height = searchViewHeight
+        } else {
+            searchController.searchBar.frame = searchView.frame
         }
     }
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegistrationFieldSelectView: RegistrationFormFieldView {
+class RegistrationSelectOptionView: RegistrationFormFieldView {
     @objc var options: [OEXRegistrationOption] = []
     @objc private(set) var selected : OEXRegistrationOption?
     
