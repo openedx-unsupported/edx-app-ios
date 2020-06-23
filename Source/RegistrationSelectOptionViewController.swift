@@ -52,6 +52,7 @@ class RegistrationSelectOptionViewController: UIViewController {
     
     private var searchViewHeight: CGFloat = 60
     private var tableViewRowHeight: CGFloat = 44
+    private var visibleRows: CGFloat = 4
     private lazy var searchView: UIView = UIView()
     
     private lazy var searchController: UISearchController = {
@@ -106,7 +107,7 @@ class RegistrationSelectOptionViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        preferredContentSize.height = (tableView.estimatedRowHeight * 4) + searchViewHeight
+        preferredContentSize.height = (tableView.estimatedRowHeight * visibleRows) + searchViewHeight
     }
     
     private func setupViews() {
@@ -126,6 +127,9 @@ class RegistrationSelectOptionViewController: UIViewController {
             make.leading.equalTo(view)
             make.trailing.equalTo(view)
             make.bottom.equalTo(view)
+            if isiPad() {
+                make.height.equalTo((tableView.estimatedRowHeight * visibleRows) + searchViewHeight)
+            }
         }
         
         searchController.isActive = true

@@ -108,11 +108,6 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
         alertController.addCancelAction()
         alertController.configurePresentationController(withSourceView: self)
         
-        if let alertView = alertController.view, parent.isiPad() {
-            let height = NSLayoutConstraint(item: alertView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: parent.view.frame.height / 2)
-            alertController.view.addConstraint(height)
-        }
-        
         parent.present(alertController, animated: true, completion: nil)
         
         UIAccessibility.post(notification: UIAccessibility.Notification.layoutChanged, argument: alertController)
