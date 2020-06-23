@@ -1,5 +1,5 @@
 //
-//  RegistrationFieldSelectView.swift
+//  RegistrationSelectOptionView.swift
 //  edX
 //
 //  Created by Akiva Leffert on 6/9/15.
