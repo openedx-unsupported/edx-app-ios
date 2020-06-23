@@ -254,7 +254,6 @@
     OEXFBSocial *facebookManager = [[OEXFBSocial alloc]init];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     if([self.authProvider isKindOfClass:[OEXGoogleAuthProvider class]] && ![[OEXGoogleSocial sharedInstance] handledOpenUrl]) {
-        [[OEXGoogleSocial sharedInstance] clearHandler];
         [self handleActivationDuringLogin];
     }
     else if(![facebookManager isLogin] && [self.authProvider isKindOfClass:[OEXFacebookAuthProvider class]]) {
