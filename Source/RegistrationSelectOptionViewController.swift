@@ -8,9 +8,9 @@
 
 import UIKit
 
-public struct RegistrationSelectOptionViewModel {
+@objc class RegistrationSelectOptionViewModel: NSObject {
     public var name: String
-    public var value: String
+    @objc public var value: String
     
     init(name: String, value: String) {
         self.name = name
