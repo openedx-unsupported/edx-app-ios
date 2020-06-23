@@ -93,10 +93,18 @@ class LoadStateViewController : UIViewController {
         messageView = IconMessageView()
         loadingView = SpinnerView(size: .Large, color: .Primary)
         super.init(nibName: nil, bundle: nil)
+        setAccessibilityIdentifiers()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "LoadStateViewController:view"
+        loadingView.accessibilityIdentifier = "LoadStateViewController:loading-view"
+        contentView?.accessibilityIdentifier = "LoadStateViewController:content-view"
+        messageView.accessibilityMessage = "LoadStateViewController:message-view"
     }
     
     var messageStyle : OEXTextStyle {

@@ -16,6 +16,8 @@ public class PullRefreshView : UIView {
     public init() {
         spinner.stopAnimating()
         super.init(frame : CGRect.zero)
+        accessibilityIdentifier = "PullRefreshView:view"
+        spinner.accessibilityIdentifier = "PullRefreshView:spinner"
         addSubview(spinner)
         spinner.snp.makeConstraints { make in
             make.centerX.equalTo(self)
@@ -54,6 +56,7 @@ public class PullRefreshController: NSObject, ContentInsetsSource {
     
     public override init() {
         view = PullRefreshView()
+        view.accessibilityIdentifier = "PullRefreshController:view"
         super.init()
     }
     

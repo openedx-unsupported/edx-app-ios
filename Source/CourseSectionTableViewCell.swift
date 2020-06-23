@@ -66,6 +66,13 @@ class CourseSectionTableViewCell: SwipeableCell, CourseBlockContainerCell {
             }
         }
         downloadView.addGestureRecognizer(tapGesture)
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "CourseSectionTableViewCell:view"
+        content.accessibilityIdentifier = "CourseSectionTableViewCell:content-view"
+        downloadView.accessibilityIdentifier = "CourseSectionTableViewCell:download-view"
     }
     
     var videos : OEXStream<[OEXHelperVideoDownload]> = OEXStream() {

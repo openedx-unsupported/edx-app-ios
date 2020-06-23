@@ -47,6 +47,8 @@ public class SpinnerView : UIView {
     public init(size : Size, color : Color) {
         self.size = size
         super.init(frame : CGRect.zero)
+        accessibilityIdentifier = "SpinnerView:view"
+        content.accessibilityIdentifier = "SpinnerView:content-image-view"
         addSubview(content)
         content.image = Icon.Spinner.imageWithFontSize(size: 30)
         content.tintColor = color.value

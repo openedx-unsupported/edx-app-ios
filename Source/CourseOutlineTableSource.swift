@@ -69,6 +69,15 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             headerContainer.addSubview(courseCertificateView)
         }
     }
+
+    private func setAccessibilityIdentifiers() {
+        tableView.accessibilityIdentifier = "CourseOutlineTableController:table-view"
+        headerContainer.accessibilityIdentifier = "CourseOutlineTableController:header-container"
+        courseVideosHeaderView?.accessibilityIdentifier = "CourseOutlineTableController:course-videos-header-view"
+        courseCertificateView?.accessibilityIdentifier = "CourseOutlineTableController:certificate-view"
+        lastAccessedView.accessibilityIdentifier = "CourseOutlineTableController:last-access-view"
+        courseCard.accessibilityIdentifier = "CourseOutlineTableController:course-card"
+    }
     
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -83,6 +92,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.register(DiscussionTableViewCell.self, forCellReuseIdentifier: DiscussionTableViewCell.identifier)
         configureHeaderView()
         refreshController.setupInScrollView(scrollView: tableView)
+
+        setAccessibilityIdentifiers()
     }
     
     private func configureHeaderView() {

@@ -80,10 +80,22 @@ public class CourseOutlineItemView: UIView {
         isGraded = false
         addSubviews()
         setAccessibility()
+        setAccessibilityIdentifiers()
     }
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "CourseOutlineItemView:view"
+        titleLabel.accessibilityIdentifier = "CourseOutlineItemView:title-label"
+        subtitleLabel.accessibilityIdentifier = "CourseOutlineItemView:subtitle-label"
+        videoSizeLabel.accessibilityIdentifier = "CourseOutlineItemView:video-size-label"
+        leadingImageButton.accessibilityIdentifier = "CourseOutlineItemView:leading-image-button"
+        checkmark.accessibilityIdentifier = "CourseOutlineItemView:check-image-view"
+        trailingContainer.accessibilityIdentifier = "CourseOutlineItemView:trailing-container-view"
+        trailingView?.accessibilityIdentifier = "CourseOutlineItemView:trailing-view"
     }
     
     func setTitleText(title : String?) {
