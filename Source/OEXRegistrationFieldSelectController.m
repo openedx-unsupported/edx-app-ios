@@ -31,6 +31,10 @@
     return self;
 }
 
+- (void)openSelectOptionView {
+    [self.view showRegistrationSelectOptionView];
+}
+
 - (NSString*)currentValue {
     return [self.view.selected.value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
