@@ -7,6 +7,10 @@
 //
 
 NS_ASSUME_NONNULL_BEGIN
+<<<<<<< HEAD
+=======
+@class RouterEnvironment;
+>>>>>>> c9ac68b5... add api v2 check to registration api
 @class OEXUserDetails;
 @protocol OEXExternalAuthProvider;
 
