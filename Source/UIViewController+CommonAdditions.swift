@@ -17,6 +17,10 @@ extension UIViewController {
         return self.traitCollection.verticalSizeClass == .compact
     }
     
+    func isiPad() -> Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     func currentOrientation() -> UIInterfaceOrientation {
         return UIApplication.shared.statusBarOrientation
     }

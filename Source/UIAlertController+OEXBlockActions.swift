@@ -168,3 +168,9 @@ extension UIAlertController {
     
 }
 
+extension UIAlertController {
+    convenience init(style: UIAlertController.Style, childController: UIViewController, title: String? = nil, message: String? = nil) {
+        self.init(title: title, message: message, preferredStyle: style)
+        setValue(childController, forKey: "contentViewController")
+    }
+}

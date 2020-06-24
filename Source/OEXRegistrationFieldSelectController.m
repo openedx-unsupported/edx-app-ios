@@ -14,7 +14,7 @@
 
 @interface OEXRegistrationFieldSelectController ()
 @property(nonatomic, strong) OEXRegistrationFormField* field;
-@property(nonatomic, strong) RegistrationFieldSelectView* view;
+@property(nonatomic, strong) RegistrationSelectOptionView* view;
 @end
 
 @implementation OEXRegistrationFieldSelectController
@@ -23,10 +23,10 @@
     self = [super init];
     if(self) {
         self.field = field;
-        self.view = [[RegistrationFieldSelectView alloc] initWith:field];
+        self.view = [[RegistrationSelectOptionView alloc] initWith:field];
         self.view.options = self.field.fieldOptions;
         self.view.accessibilityIdentifier = [NSString stringWithFormat:@"field-%@", field.name];
-        self.view.picker.accessibilityIdentifier = [NSString stringWithFormat:@"picker-field-%@", field.name];
+        self.view.alertController.view.accessibilityIdentifier = [NSString stringWithFormat:@"picker-field-%@", field.name];
     }
     return self;
 }

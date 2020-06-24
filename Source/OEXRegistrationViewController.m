@@ -85,6 +85,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     self.toggleButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(formFieldValueDidChange:) name:NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(formFieldSelectionDidOpen:) name:NOTIFICATION_REGISTRATION_FORM_SELECT_FIELD_DID_OPEN object:nil];
     
     [self getFormFields];
     [self setAccessibilityIdentifiers];
@@ -101,6 +102,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 -(void)formFieldValueDidChange: (NSNotification *)notification {
     [self refreshFormFields];
+}
+
+-(void)formFieldSelectionDidOpen: (NSNotification *)notification {
+    [self.view endEditing:TRUE];
 }
 
 - (void)getFormFields {

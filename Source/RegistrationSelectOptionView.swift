@@ -1,5 +1,5 @@
 //
-//  RegistrationFieldSelectView.swift
+//  RegistrationSelectOptionView.swift
 //  edX
 //
 //  Created by Akiva Leffert on 6/9/15.
@@ -10,13 +10,12 @@ import UIKit
 
 class RegistrationSelectOptionView: RegistrationFormFieldView {
     @objc var options: [OEXRegistrationOption] = []
-    @objc private(set) var selected : OEXRegistrationOption?
-    
+    @objc private(set) var selected : RegistrationSelectOptionViewModel?
+
     @objc var alertController = UIAlertController()
     private let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 27, height: 40))
     private let dropdownTab = UIImageView()
     private let tapButton = UIButton()
-    private var selectedItem: RegistrationSelectOptionViewModel?
     
     private var titleStyle : OEXTextStyle {
         return OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
@@ -44,7 +43,7 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
         textInputField.rightViewMode = .always
         textInputField.rightView = dropdownView
         tapButton.oex_addAction( {[weak self] _ in
-            self?.showRegistrationSelectView()
+            self?.showRegistrationSelectOptionView()
             }, for: UIControl.Event.touchUpInside)
         self.addSubview(tapButton)
         
@@ -85,18 +84,18 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func showRegistrationSelectView() {
+    private func showRegistrationSelectOptionView() {
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_REGISTRATION_FORM_SELECT_FIELD_DID_OPEN)))
         
         guard let field = formField, let parent = firstAvailableUIViewController() else { return }
         let items = options.compactMap { RegistrationSelectOptionViewModel(name: $0.name, value: $0.value) }
                 
-        let controller = RegistrationFieldSelectViewController(options: items, selectedItem: selectedItem) { [weak self] item in
+        let controller = RegistrationSelectOptionViewController(options: items, selectedItem: selected) { [weak self] item in
             if let item = item {
                 if item.value.isEmpty {
                     self?.setButtonTitle(title: "")
                 } else {
-                    self?.selectedItem = item
+                    self?.selected = item
                     self?.setButtonTitle(title: item.name)
                     self?.valueDidChange()
                 }
@@ -107,11 +106,6 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
         alertController = UIAlertController(style: .actionSheet, childController: controller, title: field.label)
         alertController.addCancelAction()
         alertController.configurePresentationController(withSourceView: self)
-        
-        if let alertView = alertController.view, parent.isiPad() {
-            let height = NSLayoutConstraint(item: alertView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: parent.view.frame.height / 2)
-            alertController.view.addConstraint(height)
-        }
         
         parent.present(alertController, animated: true, completion: nil)
         
