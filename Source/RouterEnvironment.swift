@@ -8,16 +8,16 @@
 
 import UIKit
 
-@objc public class RouterEnvironment: NSObject, OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, OEXInterfaceProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider, OEXSessionProvider, OEXStylesProvider {
-    public let analytics: OEXAnalytics
-    public let config: OEXConfig
-    public let dataManager: DataManager
-    public let reachability: Reachability
-    public let interface: OEXInterface?
-    public let networkManager: NetworkManager
-    weak public var router: OEXRouter?
-    public let session: OEXSession
-    public let styles: OEXStyles
+@objc class RouterEnvironment: NSObject, OEXAnalyticsProvider, OEXConfigProvider, DataManagerProvider, OEXInterfaceProvider, NetworkManagerProvider, ReachabilityProvider, OEXRouterProvider, OEXSessionProvider, OEXStylesProvider {
+    let analytics: OEXAnalytics
+    let config: OEXConfig
+    let dataManager: DataManager
+    let reachability: Reachability
+    let interface: OEXInterface?
+    let networkManager: NetworkManager
+    weak var router: OEXRouter?
+    let session: OEXSession
+    let styles: OEXStyles
     
     @objc init(
         analytics: OEXAnalytics,

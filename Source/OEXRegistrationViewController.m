@@ -112,7 +112,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 - (void)getFormFields {
     __weak typeof(self) weakSelf = self;
     
-    [self getRegistrationFormDescriptionWithEnvoirnment:self.environment success:^(OEXRegistrationDescription * _Nonnull response) {
+    [self getRegistrationFormDescriptionWithSuccess:^(OEXRegistrationDescription * _Nonnull response) {
         weakSelf.registrationDescription = response;
         [weakSelf makeFieldControllers];
         [weakSelf initializeViews];
