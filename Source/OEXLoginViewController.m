@@ -244,9 +244,7 @@
 
 - (void)handleActivationDuringLogin {
     if(self.authProvider != nil) {
-        [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
-        [self.activityIndicator stopAnimating];
-        [self.view setUserInteractionEnabled:YES];
+        [self setLoginDefaultState];
     }
 }
 
@@ -280,8 +278,7 @@
     OEXTextStyle *forgotButtonStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightBold size:OEXTextSizeBase color:[self.environment.styles primaryBaseColor]];
     [self.btn_TroubleLogging setAttributedTitle:[forgotButtonStyle attributedStringWithText:[Strings troubleInLoginButton]] forState:UIControlStateNormal];
 
-    [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
-    [self.activityIndicator stopAnimating];
+    [self setLoginDefaultState];
 
     NSString* username = [[NSUserDefaults standardUserDefaults] objectForKey:USER_EMAIL];
 
@@ -298,13 +295,7 @@
     }
     else {
         self.reachable = NO;
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.view setUserInteractionEnabled:YES];
-        });
-        [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
-
-        [self.activityIndicator stopAnimating];
+        [self setLoginDefaultState];
     }
 }
 
@@ -388,16 +379,24 @@
             [self handleLoginResponseWith:data response:response error:error];
         } ];
 
-        [self.view setUserInteractionEnabled:NO];
-        [self.activityIndicator startAnimating];
-        [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
+        [self setLoginInProgressState];
     }
+}
+
+- (void) setLoginInProgressState {
+    [self.view setUserInteractionEnabled:NO];
+    [self.activityIndicator startAnimating];
+    [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
+}
+
+- (void) setLoginDefaultState {
+    [self.view setUserInteractionEnabled:YES];
+    [self.activityIndicator stopAnimating];
+    [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
 }
 
 - (void)handleLoginResponseWith:(NSData*)data response:(NSURLResponse*)response error:(NSError*)error {
     [[OEXGoogleSocial sharedInstance] clearHandler];
-
-    [self.view setUserInteractionEnabled:YES];
 
     if(!error) {
         NSHTTPURLResponse* httpResp = (NSHTTPURLResponse*) response;
@@ -429,6 +428,7 @@
 - (void)externalLoginWithProvider:(id <OEXExternalAuthProvider>)provider {
     self.authProvider = provider;
     __block BOOL isFailure = false;
+    __block OEXLoginViewController *blockSelf = self;
     if(!self.reachable) {
         [[UIAlertController alloc] showAlertWithTitle:[Strings networkNotAvailableTitle]
                                                                 message:[Strings networkNotAvailableMessage]
@@ -441,7 +441,7 @@
     
     OEXURLRequestHandler handler = ^(NSData* data, NSHTTPURLResponse* response, NSError* error) {
         if(!response) {
-            [self loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
+            [blockSelf loginFailedWithErrorMessage:[Strings invalidUsernamePassword] title:nil];
             isFailure = true;
             return;
         }
@@ -454,7 +454,8 @@
                        requestingUserDetails:NO
                               withCompletion:^(NSString* accessToken, OEXRegisteringUserDetails* details, NSError* error) {
                                   if(accessToken) {
-                                      self.environment.session.thirdPartyAuthAccessToken = accessToken;
+                                      [blockSelf setLoginInProgressState];
+                                      blockSelf.environment.session.thirdPartyAuthAccessToken = accessToken;
                                       [OEXAuthentication requestTokenWithProvider:provider externalToken:accessToken completion:handler];
                                   }
                                   else {
@@ -463,9 +464,7 @@
                               }];
 
     if (isFailure == false) {
-        [self.view setUserInteractionEnabled:NO];
-        [self.activityIndicator startAnimating];
-        [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[Strings signInButtonTextOnSignIn]];
+        [self setLoginInProgressState];
     }
 
     isFailure = false;
@@ -488,6 +487,8 @@
             [self loginFailedWithErrorMessage:[error localizedDescription] title: nil];
         }
     }
+
+    [self.view setUserInteractionEnabled:YES];
 }
 
 - (void)loginFailedWithServiceName:(NSString*)serviceName {
@@ -512,20 +513,14 @@
                              onViewController:self.navigationController];
     }
 
-    [self.activityIndicator stopAnimating];
-    [self.view setUserInteractionEnabled:YES];
-    
-    [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
-
+    [self setLoginDefaultState];
 
     [self tappedToDismiss];
 }
 
 - (void) showUpdateRequiredMessage {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [self.activityIndicator stopAnimating];
-    [self.btn_Login applyButtonStyleWithStyle:[self.environment.styles filledPrimaryButtonStyle] withTitle:[self signInButtonText]];
-    [self.view setUserInteractionEnabled:YES];
+    [self setLoginDefaultState];
     [self tappedToDismiss];
     
     UIAlertController *alertController = [[UIAlertController alloc] showAlertWithTitle:nil message:[Strings versionUpgradeOutDatedLoginMessage] cancelButtonTitle:[Strings cancel] onViewController:self];
