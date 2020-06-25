@@ -273,10 +273,6 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
                 [fieldController setValue:fieldController.field.defaultValue];
                 self.email = fieldController.field.defaultValue;
             }
-            
-            if([[fieldController field].name isEqualToString:@"confirm_email"]) {
-                [fieldController setValue:self.email];
-            }
         }
     }
 }
