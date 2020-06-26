@@ -232,7 +232,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 }
 
 - (BOOL)shouldFilterField:(OEXRegistrationFormField*)field {
-    return self.externalProvider != nil && [field.name isEqualToString:@"password"];
+    if (self.externalProvider != nil) {
+        return [field.name isEqualToString:@"password"] || [field.name isEqualToString:@"confirm_email"];
+    }
+    return false;
 }
 
 - (void)checkIfResumingRegistration {
