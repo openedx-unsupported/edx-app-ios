@@ -24,7 +24,7 @@ protocol VideoPlayerControlsDelegate: class {
     func captionUpdate(playerControls: VideoPlayerControls, language: String)
 }
 
-class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
+class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecognizerDelegate {
     
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
@@ -308,12 +308,14 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
         singleTapGesture.addAction { [weak self] _ in
             self?.contentTapped()
         }
+        singleTapGesture.delegate = self
         addGestureRecognizer(singleTapGesture)
         singleTapGesture.delaysTouchesBegan = true
 
         let doubleTapGesture = UITapGestureRecognizer()
         doubleTapGesture.numberOfTapsRequired = 2
         doubleTapGesture.addAction(action: handleDoubleTapGesture(action:))
+        doubleTapGesture.delegate = self
         addGestureRecognizer(doubleTapGesture)
         doubleTapGesture.delaysTouchesBegan = true
 
@@ -700,6 +702,13 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         contentTapped()
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if tableSettings.frame.contains(touch.location(in: self)) {
+            return false
+        }
+        return true
     }
 }
 
