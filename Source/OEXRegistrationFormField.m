@@ -75,8 +75,8 @@
     return self;
 }
 
-- (OEXRegistrationFieldType)registrationFieldType:(NSString*)fieldType {
-    if([fieldType isEqualToString:@"email"]) {
+- (OEXRegistrationFieldType)registrationFieldType:(NSString *)fieldType {
+    if ([fieldType isEqualToString:@"email"]) {
         return OEXRegistrationFieldTypeEmail;
     }
     else if([fieldType isEqualToString:@"password"]) {

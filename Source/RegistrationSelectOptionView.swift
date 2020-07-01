@@ -84,7 +84,7 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func showRegistrationSelectOptionView() {
+    @objc func showRegistrationSelectOptionView() {
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_REGISTRATION_FORM_SELECT_FIELD_DID_OPEN)))
         
         guard let field = formField, let parent = firstAvailableUIViewController() else { return }

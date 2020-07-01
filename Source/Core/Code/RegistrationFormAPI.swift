@@ -14,9 +14,11 @@ public struct RegistrationFormAPI {
         return json.dictionaryObject.map { OEXRegistrationDescription(dictionary: $0) }.toResult()
     }
     
-    public static func registrationFormRequest() -> NetworkRequest<(OEXRegistrationDescription)> {
+    public static func registrationFormRequest(version: String) -> NetworkRequest<(OEXRegistrationDescription)> {
+        let path = NSString.oex_string(withFormat: SIGN_UP_URL, parameters: ["version" : version])
+        
         return NetworkRequest(method: .GET,
-                              path: SIGN_UP_URL,
+                              path: path,
                               deserializer: .jsonResponse(registrationFormDeserializer))
         
     }

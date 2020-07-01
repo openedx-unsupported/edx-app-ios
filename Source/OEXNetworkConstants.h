@@ -35,6 +35,6 @@
 #define URL_GET_USER_INFO @"/api/mobile/v0.5/my_user_info"
 #define URL_COURSE_ENROLLMENT @"/api/enrollment/v1/enrollment"
 #define URL_COURSE_ENROLLMENT_EMAIL_OPT_IN @"/api/user_api/v1/preferences/email_opt_in"
-#define SIGN_UP_URL @"/user_api/v1/account/registration/"
+#define SIGN_UP_URL @"/user_api/{version}/account/registration/"
 
 #endif

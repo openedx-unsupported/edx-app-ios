@@ -7,7 +7,6 @@
 //
 
 NS_ASSUME_NONNULL_BEGIN
-
 @class OEXUserDetails;
 @protocol OEXExternalAuthProvider;
 
@@ -32,7 +31,7 @@ typedef void (^ OEXURLRequestHandler)(NSData* _Nullable data, NSHTTPURLResponse*
 
 + (void)resetPasswordWithEmailId:(NSString*)email completionHandler:(OEXURLRequestHandler)completionBlock;
 
-+ (void)registerUserWithParameters:(NSDictionary*)parameters completionHandler:(OEXURLRequestHandler)handler;
++ (void)registerUserWithApiVersion:(NSString*)apiVersion paramaters:(NSDictionary*)parameters completionHandler:(OEXURLRequestHandler)handler;
 
 @end
 
