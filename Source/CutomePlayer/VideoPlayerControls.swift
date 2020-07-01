@@ -705,7 +705,7 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if tableSettings.frame.contains(touch.location(in: self)) {
+        if !tableSettings.isHidden && tableSettings.frame.contains(touch.location(in: self)) {
             return false
         }
         return true
