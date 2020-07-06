@@ -9,19 +9,32 @@
 import UIKit
 import WebKit
 
-class CourseDatesViewController: UIViewController, AuthenticatedWebViewControllerDelegate, InterfaceOrientationOverriding {
+class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
-    public typealias Environment =  OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider
-    private var webController: AuthenticatedWebViewController
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider
+    
+    private let datesLoader = BackedStream<(CourseDateModel)>()
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.tableFooterView = UIView()
+        tableView.estimatedRowHeight = 90
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.register(TimelineTableViewCell.self, forCellReuseIdentifier: TimelineTableViewCell.identifier)
+        
+        return tableView
+    }()
+    
     private let courseID: String
     private let environment: Environment
     
     init(environment: Environment, courseID: String) {
-        webController = AuthenticatedWebViewController(environment: environment)
         self.courseID = courseID
         self.environment = environment
         super.init(nibName: nil, bundle :nil)
-        webController.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,17 +43,17 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addChild(webController)
-        webController.didMove(toParent: self)
-        view.addSubview(webController.view)
+        view.addSubview(tableView)
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
+        
         setConstraints()
+        tableView.reloadData()
         loadCourseDates()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-           environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseDates.rawValue, courseID: courseID, value: nil)
+        environment.analytics.trackScreen(withName: AnalyticsScreenName.CourseDates.rawValue, courseID: courseID, value: nil)
     }
     
     override var shouldAutorotate: Bool {
@@ -52,47 +65,69 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
     }
     
     private func loadCourseDates() {
-        let courseDateURLString = String(format: "%@/courses/%@/course/mobile_dates_fragment", environment.config.apiHostURL()?.absoluteString ?? "", courseID)
-        let request = NSURLRequest(url: URL(string: courseDateURLString)!)
-        webController.loadRequest(request: request)
+        let networkRequest = CourseDatesAPI.courseDatesRequest(courseID: courseID)
+        let stream = environment.networkManager.streamForRequest(networkRequest)
+        datesLoader.addBackingStream(stream)
+        
+        stream.listen(self, success: { data in
+            print(data)
+        }, failure: { error in
+            print(error.localizedDescription)
+        })
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     private func setConstraints() {
-        webController.view.snp.makeConstraints { make in
+        tableView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
     }
-    
-    // MARK: AuthenticatedWebViewController Delegate
-    func authenticatedWebViewController(authenticatedController: AuthenticatedWebViewController, didFinishLoading webview: WKWebView) {
-        
-        let path = Bundle.main.path(forResource: "course-dates", ofType: "js") ?? ""
-        let javaScriptString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8)
-        webview.filterHTML(withJavaScript: javaScriptString!, classname: "date-summary-container", paddingLeft: 20, paddingTop: 30, paddingRight: 0, completionHandler: {[weak self] (result, error) in
-            let isCourseDateAvailable = result as? Bool
-            if isCourseDateAvailable == true
-            {
-                self?.perform(#selector(self?.showLoadedCourseDates), with:nil, afterDelay: 0.4)
-            }
-            else{
-                authenticatedController.showError(error: nil, icon: nil, message:Strings.Coursedates.courseDateUnavailable)
-            }
-        })
+}
+
+extension CourseDatesViewController: UITableViewDataSource {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableView.estimatedRowHeight
     }
     
-    @objc func showLoadedCourseDates() {
-        webController.setLoadControllerState(withState: LoadState.Loaded)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TimelineTableViewCell.identifier, for: indexPath) as! TimelineTableViewCell
+        cell.selectionStyle = .none
+ 
+        cell.timeline.topColor = .clear
+        cell.timeline.bottomColor = .clear
+        cell.timelinePoint.color = .black
+        
+        if indexPath.row == 0 {
+            cell.timeline.bottomColor = .black
+        }
+        if indexPath.row != 0 {
+            cell.timeline.topColor = .black
+            cell.timeline.bottomColor = .black
+        }
+        
+        if indexPath.row == 2 {
+            cell.timelinePoint.color = .yellow
+            cell.timelinePoint.strokeColor = .black
+            cell.timelinePoint.diameter = 12
+        }
+        
+        if indexPath.row == 4 {
+            cell.timeline.bottomColor = .clear
+        }
+        
+        cell.dateText = "Fri, July 3, 2020"
+        cell.titleText = "Upgrade to Verified Certificate"
+        cell.descriptionText = "Don't miss the opportunity to highlight your new knowledge and skills by earning a verified certificate"
+        
+        return cell
     }
 }
 
-extension WKWebView {
-    
-    func filterHTML(withJavaScript javaScriptString: String, classname: String, paddingLeft: Int, paddingTop: Int, paddingRight: Int, completionHandler:((Any?, Error?) -> Swift.Void)? = nil) {
-        evaluateJavaScript(String(format: javaScriptString, classname, paddingLeft, paddingTop, paddingRight), completionHandler:completionHandler)
-    }
-}
+extension CourseDatesViewController: UITableViewDelegate { }

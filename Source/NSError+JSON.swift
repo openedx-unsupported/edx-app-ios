@@ -53,7 +53,8 @@ extension NSError {
             }
         }
 
-        return errorInfo(value: errorVaule)
+        guard let errorValue = errorVaule else { return userInfo }
+        return errorInfo(value: errorValue)
     }
 
     private func errorInfo(value: Any?) -> Dictionary<AnyHashable, Any>? {

@@ -170,7 +170,13 @@
 		5DD0FFCF1B1D225C00837121 /* DiscussionNewPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */; };
 		5DD0FFD21B1D23DA00837121 /* DiscussionNewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */; };
 		5DEA47D71B62F64300831EC9 /* DiscussionObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */; };
+		5F0248C624AC9ED8000AF1FF /* CourseDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C524AC9ED8000AF1FF /* CourseDateModel.swift */; };
+		5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
+		5F46A7CC24ADFFA300347EFC /* TimelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C724ADFFA200347EFC /* TimelineTableViewCell.swift */; };
+		5F46A7CD24ADFFA300347EFC /* TimelineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F46A7C824ADFFA200347EFC /* TimelineTableViewCell.xib */; };
+		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
+		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
 		5F4AB7792463F891002D1C9C /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4AB7782463F891002D1C9C /* GoogleCast.framework */; };
 		5F4AB77A2463F891002D1C9C /* GoogleCast.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4AB7782463F891002D1C9C /* GoogleCast.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F514FBA240696D700BA113A /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; };
@@ -1174,7 +1180,13 @@
 		5DD0FFCD1B1D225C00837121 /* DiscussionNewPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionNewPostViewController.swift; sourceTree = "<group>"; };
 		5DD0FFD11B1D23DA00837121 /* DiscussionNewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscussionNewPostViewController.xib; sourceTree = "<group>"; };
 		5DEA47D61B62F64300831EC9 /* DiscussionObjectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionObjectModel.swift; sourceTree = "<group>"; };
+		5F0248C524AC9ED8000AF1FF /* CourseDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDateModel.swift; sourceTree = "<group>"; };
+		5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesAPI.swift; sourceTree = "<group>"; };
 		5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPaginationManipulator.swift; sourceTree = "<group>"; };
+		5F46A7C724ADFFA200347EFC /* TimelineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelineTableViewCell.swift; sourceTree = "<group>"; };
+		5F46A7C824ADFFA200347EFC /* TimelineTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimelineTableViewCell.xib; sourceTree = "<group>"; };
+		5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimelinePoint.swift; sourceTree = "<group>"; };
+		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		5F4AB7782463F891002D1C9C /* GoogleCast.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleCast.framework; path = Libraries/Cast/GoogleCast.framework; sourceTree = "<group>"; };
 		5F514FB9240696D700BA113A /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Libraries/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationSelectOptionViewController.swift; sourceTree = "<group>"; };
@@ -2437,6 +2449,17 @@
 			path = QLearnSDK;
 			sourceTree = SOURCE_ROOT;
 		};
+		5F46A7C624ADFF5B00347EFC /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				5F46A7CB24ADFFA300347EFC /* Timeline.swift */,
+				5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */,
+				5F46A7C724ADFFA200347EFC /* TimelineTableViewCell.swift */,
+				5F46A7C824ADFFA200347EFC /* TimelineTableViewCell.xib */,
+			);
+			name = Timeline;
+			sourceTree = "<group>";
+		};
 		6919F5FB1D65CD14006935C8 /* Colors */ = {
 			isa = PBXGroup;
 			children = (
@@ -3010,6 +3033,7 @@
 				E08A008A1CF7546200F92DE7 /* DiscussionModel.swift */,
 				22AB111E2375695C007D03D2 /* PushLink.swift */,
 				228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */,
+				5F0248C524AC9ED8000AF1FF /* CourseDateModel.swift */,
 			);
 			name = "Course Structure";
 			sourceTree = "<group>";
@@ -3673,6 +3697,7 @@
 		BE76FEAA193C8D9C00BB9BDD /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5F46A7C624ADFF5B00347EFC /* Timeline */,
 				E02661662269A821002721B7 /* OCMock */,
 				B7CCC6F9209B16B000A66923 /* SnapKit */,
 				77509D8B1BE1710200B10CD3 /* TZStackView */,
@@ -4015,6 +4040,7 @@
 				F22A0ABA1CE60D5E00D50DFF /* NetworkManager+Authenticators.swift */,
 				E0FF457820FDD24400109662 /* VideoCompletionApi.swift */,
 				5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */,
+				5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -4471,6 +4497,7 @@
 				69ECC63E1D50D1170030CF87 /* icon_google_white.png in Resources */,
 				B71AA1A020CEF64D00700C5E /* social_sciences@3x.png in Resources */,
 				69ECC63D1D50D1170030CF87 /* icon_facebook_white@2x.png in Resources */,
+				5F46A7CD24ADFFA300347EFC /* TimelineTableViewCell.xib in Resources */,
 				228E169C2136BC0E006FA184 /* FontAwesome.ttf in Resources */,
 				69ECC6361D50D1170030CF87 /* ic_partiallywatched@2x.png in Resources */,
 				69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */,
@@ -5135,10 +5162,12 @@
 				775EB3AE1B1FF1AD009526A8 /* ButtonStyle.swift in Sources */,
 				7772BE731AF2FECC0081CA7A /* CourseOutlineHeaderCell.swift in Sources */,
 				1A5501A41BBAB8BD00D5F9DD /* JSONFormBuilder.swift in Sources */,
+				5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */,
 				9ED03B951B204CDF0081A19A /* CourseSectionTableViewCell.swift in Sources */,
 				77BECB041B0A5FDB00894276 /* ContentInsetsController.swift in Sources */,
 				B4B6D6021A949EFC000F44E8 /* OEXRegistrationFormField.m in Sources */,
 				77D470571C11EB4D00C6F0C9 /* ChoiceLabel.swift in Sources */,
+				5F46A7CC24ADFFA300347EFC /* TimelineTableViewCell.swift in Sources */,
 				77FDF4191B02910D00E8C639 /* IconMessageView.swift in Sources */,
 				77DCD23B1C2B14BA00CAEBB5 /* UITableView+Layout.swift in Sources */,
 				B7CCC731209B16B100A66923 /* ConstraintMakerEditable.swift in Sources */,
@@ -5155,8 +5184,10 @@
 				22547414220038BC000E5957 /* DegreesViewController.swift in Sources */,
 				223A98FC1FA8610B0018DF67 /* AdditionalTabBarViewController.swift in Sources */,
 				77F76A6E1B0BD32A00ED3E39 /* OEXSession+Authorization.swift in Sources */,
+				5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */,
 				B7A1EA83209C41C400BD369A /* SnapKit+SafeAreaLayoutGuide.swift in Sources */,
 				228E0B8F1F43208C0073E6FA /* AccountViewCell.swift in Sources */,
+				5F0248C624AC9ED8000AF1FF /* CourseDateModel.swift in Sources */,
 				9E0CC1031BA9574E00A1CFDB /* SpinnerButton.swift in Sources */,
 				191A002419405B91004F7902 /* OEXUserDetails.m in Sources */,
 				021AD6251F150BA3009AF653 /* Dictionary+SafeAccess.swift in Sources */,
@@ -5228,6 +5259,7 @@
 				698EE6E91E38A53600DF4FEA /* RatingView.swift in Sources */,
 				694D34A01D75BDF80047F3F4 /* UIAlertController+OEXBlockActions.swift in Sources */,
 				B70BD00A20B57E92005F0D19 /* OEXCourseInfoCell.m in Sources */,
+				5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */,
 				BECB7B1B1924C0C3009C77F1 /* main.m in Sources */,
 				77691F981B38A09B003922F2 /* NSAttributedString+Combination.swift in Sources */,
 				77ADF4B31AC1FACC00AC8955 /* OEXTextStyle.m in Sources */,
