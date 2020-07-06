@@ -46,7 +46,7 @@ class RegistrationFormFieldView: UIView {
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.addTarget(self, action: #selector(RegistrationFormFieldView.valueDidChange), for: .editingChanged)
-        textField.addTarget(self, action: #selector(RegistrationFormFieldView.editingEnded), for: .editingDidEnd)
+        textField.addTarget(self, action: #selector(RegistrationFormFieldView.editingDidEnd), for: .editingDidEnd)
         textField.accessibilityIdentifier = "\(accessibilityIdPrefix)-text-input-field"
         return textField
     }()
@@ -210,7 +210,7 @@ class RegistrationFormFieldView: UIView {
         validateInput()
     }
 
-    @objc private  func editingEnded() {
+    @objc private  func editingDidEnd() {
         if tapout { return }
 
         tapout = true
