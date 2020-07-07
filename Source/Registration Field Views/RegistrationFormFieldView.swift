@@ -21,7 +21,9 @@ class RegistrationFormFieldView: UIView {
     let titleLabelStyle = OEXMutableTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralDark())
     let instructionsLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().neutralDark())
     let errorLabelStyle = OEXMutableTextStyle(weight: .normal, size: .xxSmall, color: OEXStyles.shared().errorLight())
-    
+    // This is to keep track of either user tapped out first time from the field or not
+    // Show validation error first time on tap out and then while editing
+    var tapout: Bool = false
     
     private var accessibilityIdPrefix: String {
         return "RegistrationFormFieldView:\(formField?.name ?? "")"
@@ -44,7 +46,8 @@ class RegistrationFormFieldView: UIView {
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         textField.addTarget(self, action: #selector(RegistrationFormFieldView.valueDidChange), for: .editingChanged)
-        textField.accessibilityIdentifier = "\(self.accessibilityIdPrefix)-text-input-field"
+        textField.addTarget(self, action: #selector(RegistrationFormFieldView.editingDidEnd), for: .editingDidEnd)
+        textField.accessibilityIdentifier = "\(accessibilityIdPrefix)-text-input-field"
         return textField
     }()
     
@@ -202,6 +205,19 @@ class RegistrationFormFieldView: UIView {
     }
     
     @objc func valueDidChange() {
+        if !tapout { return }
+
+        validateInput()
+    }
+
+    @objc private  func editingDidEnd() {
+        if tapout { return }
+
+        tapout = true
+        validateInput()
+    }
+
+    private func validateInput() {
         errorMessage = validate()
         NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NOTIFICATION_REGISTRATION_FORM_FIELD_VALUE_DID_CHANGE)))
     }
