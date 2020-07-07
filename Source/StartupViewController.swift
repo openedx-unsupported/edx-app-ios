@@ -19,6 +19,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private let logoImageView = UIImageView()
     private let searchView = UIView()
     private let messageLabel = UILabel()
+    lazy private var searchViewTitle = UILabel()
     fileprivate let environment: Environment
     private let bottomBar: BottomBarView
     
@@ -141,11 +142,18 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             environment.config.discovery.program.isEnabled else { return }
         
         view.addSubview(searchView)
+        view.addSubview(searchViewTitle)
         let borderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment.styles.primaryBaseColor())
         searchView.applyBorderStyle(style: borderStyle)
 
-        searchView.snp.makeConstraints { make in
+        searchViewTitle.snp.makeConstraints { (make) in
             make.top.equalTo(messageLabel.snp.bottom).offset(6 * StandardVerticalMargin)
+            make.leading.equalTo(messageLabel)
+            make.trailing.equalTo(messageLabel)
+        }
+
+        searchView.snp.makeConstraints { make in
+            make.top.equalTo(searchViewTitle.snp.bottom).offset(StandardVerticalMargin)
             make.leading.equalTo(messageLabel)
             make.trailing.equalTo(messageLabel)
             make.height.equalTo(45)
@@ -169,7 +177,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let searchTextField = UITextField()
         searchTextField.accessibilityIdentifier = "StartUpViewController:search-textfield"
         searchTextField.delegate = self
-        let placeholderText = courseEnrollmentEnabled ? Strings.searchCoursesPlaceholderText : Strings.searchProgramsPlaceholderText
+        let placeholderText = self.placeholderText
         searchTextField.attributedPlaceholder = textStyle.attributedString(withText: placeholderText)
         searchTextField.textColor = environment.styles.primaryBaseColor()
         searchTextField.returnKeyType = .search
@@ -181,6 +189,28 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             make.trailing.equalTo(searchView).offset(-StandardHorizontalMargin)
             make.centerY.equalTo(searchView)
         }
+
+        let labelStyle = OEXTextStyle(weight: .normal, size: .large, color: environment.styles.primaryBaseColor())
+        searchViewTitle.attributedText = labelStyle.attributedString(withText: Strings.Startup.searchTitleText)
+    }
+
+    private var placeholderText: String {
+
+        let discovery = environment.config.discovery
+        let courseDiscoveryEnabled = discovery.course.isEnabled
+        let programDiscoveryEnabled = discovery.program.isEnabled
+
+        if courseDiscoveryEnabled && programDiscoveryEnabled {
+            return Strings.Startup.searchPlaceholderText
+        }
+        else if courseDiscoveryEnabled {
+            return Strings.searchCoursesPlaceholderText
+        }
+        else if programDiscoveryEnabled {
+            return Strings.searchProgramsPlaceholderText
+        }
+
+        return Strings.searchCoursesPlaceholderText
     }
 
     private func setupBottomBar() {
@@ -235,7 +265,7 @@ public class BottomBarView: UIView, NSCopying {
         signInButton.accessibilityIdentifier = "StartUpViewController:sign-in-button"
         
         let signinTextStyle = OEXTextStyle(weight: .normal, size: .large, color: environment?.styles.primaryBaseColor())
-        signInButton.setAttributedTitle(signinTextStyle.attributedString(withText: Strings.Startup.loginText), for: .normal)
+        signInButton.setAttributedTitle(signinTextStyle.attributedString(withText: Strings.signInText), for: .normal)
         let signInEvent = OEXAnalytics.loginEvent()
         signInButton.oex_addAction({ [weak self] _ in
             self?.showLogin()
@@ -245,7 +275,7 @@ public class BottomBarView: UIView, NSCopying {
         registerButton.applyBorderStyle(style: BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(0), color: nil))
         registerButton.accessibilityIdentifier = "StartUpViewController:register-button"
         let registerTextStyle = OEXTextStyle(weight: .normal, size: .large, color: environment?.styles.neutralWhite())
-        registerButton.setAttributedTitle(registerTextStyle.attributedString(withText: Strings.Startup.createYourAccountText), for: .normal)
+        registerButton.setAttributedTitle(registerTextStyle.attributedString(withText: Strings.registerText), for: .normal)
         let signUpEvent = OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue)
         registerButton.oex_addAction({ [weak self] _ in
             self?.showRegistration()
@@ -264,34 +294,25 @@ public class BottomBarView: UIView, NSCopying {
         bottomBar.snp.makeConstraints { make in
             make.edges.equalTo(self)
         }
-        
-        if registerButton.titleLabel?.font.isPreferredSizeLarge ?? false  && !(UIDevice.current.orientation.isLandscape) {
-            signInButton.snp.removeConstraints()
-            registerButton.snp.removeConstraints()
-            bottomBar.axis = .vertical
-            bottomBar.snp.remakeConstraints { make in
-                make.edges.equalTo(self)
-            }
-        } else {
-            bottomBar.axis = .horizontal
-            bottomBar.snp.remakeConstraints { make in
-                make.edges.equalTo(self)
-                make.height.equalTo(BottomBarHeight)
-            }
-            
-            signInButton.snp.makeConstraints { make in
-                make.top.equalTo(bottomBar).offset(BottomBarMargin)
-                make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
-                make.trailing.equalTo(bottomBar).offset(-BottomBarMargin)
-                make.width.equalTo(95)
-            }
-            
-            registerButton.snp.makeConstraints { make in
-                make.top.equalTo(bottomBar).offset(BottomBarMargin)
-                make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
-                make.leading.equalTo(bottomBar).offset(BottomBarMargin)
-                make.trailing.equalTo(signInButton.snp.leading).offset(-BottomBarMargin)
-            }
+
+        bottomBar.axis = .horizontal
+        bottomBar.snp.remakeConstraints { make in
+            make.edges.equalTo(self)
+            make.height.equalTo(BottomBarHeight)
+        }
+
+        signInButton.snp.makeConstraints { make in
+            make.top.equalTo(bottomBar).offset(BottomBarMargin)
+            make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
+            make.trailing.equalTo(bottomBar).offset(-BottomBarMargin)
+            make.width.equalTo(95)
+        }
+
+        registerButton.snp.makeConstraints { make in
+            make.top.equalTo(bottomBar).offset(BottomBarMargin)
+            make.bottom.equalTo(bottomBar).offset(-BottomBarMargin)
+            make.leading.equalTo(bottomBar).offset(BottomBarMargin)
+            make.trailing.equalTo(signInButton.snp.leading).offset(-BottomBarMargin)
         }
     }
     

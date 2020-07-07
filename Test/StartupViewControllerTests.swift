@@ -11,11 +11,25 @@ import XCTest
 
 class StartupViewControllerTests: SnapshotTestCase {
 
-    func testScreenshot() {
-        let config = OEXConfig(dictionary: [
-            "COURSE_ENROLLMENT": [
-                "TYPE": "webview"]
-            ])
+    func testDiscoveryEnabledScreenshot() {
+        let configDictionary = [
+            "DISCOVERY": [
+                "COURSE": [
+                    "TYPE": "webview",
+                    "WEBVIEW": [
+                        "BASE_URL": "www.example.com",
+                    ]
+                ],
+                "PROGRAM": [
+                    "TYPE": "webview",
+                    "WEBVIEW": [
+                        "BASE_URL": "www.example.com",
+                    ]
+                ]
+            ]
+        ]
+
+        let config = OEXConfig(dictionary: configDictionary)
         
         let mockEnv = TestRouterEnvironment(config: config, interface: nil)
         let controller = StartupViewController(environment: mockEnv)
@@ -23,4 +37,15 @@ class StartupViewControllerTests: SnapshotTestCase {
             assertSnapshotValidWithContent(controller)
         }
     }
+
+    func testDiscoveryDisabledScreenshot() {
+        let config = OEXConfig(dictionary: [:])
+
+        let mockEnv = TestRouterEnvironment(config: config, interface: nil)
+        let controller = StartupViewController(environment: mockEnv)
+        inScreenDisplayContext(controller) {
+            assertSnapshotValidWithContent(controller)
+        }
+    }
+
 }

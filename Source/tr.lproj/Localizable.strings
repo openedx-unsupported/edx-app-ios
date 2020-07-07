@@ -728,11 +728,11 @@
 /* Label for posts pinned by Staff */
 "STAFF"="AKADEMİK PERSONEL";
 /* Info message text on the startup screen */
-"STARTUP.INFO_MESSAGE_TEXT"="Dünya'nın en iyi üniversitelerinden dersler cebinizde.";
-/*Log In button title on the startup screen*/
-"STARTUP.LOGIN_TEXT"="Giriş";
-/*Create your Account button title on the startup screen*/
-"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="Hesabınızı Oluşturun";
+"STARTUP.INFO_MESSAGE_TEXT"="Courses and programs from the world's best universities in your pocket.";
+/*Label text for seach field on startup screen */
+"STARTUP.SEARCH_TITLE_TEXT"="What do you want to learn?";
+/*Place holder text for search field on startup screen*/
+"STARTUP.SEARCH_PLACEHOLDER_TEXT"="Search courses and programs";
 /* Explore Subjects button text on the first screen */
 "STARTUP_EXPLORE_SUBJECTS"="Konuları Keşfet";
 /* Button allowing user to submit feedback about the app via email */
