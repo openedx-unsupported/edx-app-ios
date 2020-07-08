@@ -122,7 +122,8 @@ extension CourseDatesViewController: UITableViewDataSource {
             cell.timeline.bottomColor = .clear
         }
         
-        cell.dateText = "Fri, July 3, 2020"
+        cell.dateText = DateFormatting.date(withServerString: "2020-07-08T08:33:26.435638Z")?.formattedDate(with: .medium)
+        cell.status = "Completed"
         cell.titleText = "Upgrade to Verified Certificate"
         cell.descriptionText = "Don't miss the opportunity to highlight your new knowledge and skills by earning a verified certificate"
         

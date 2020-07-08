@@ -11,17 +11,39 @@ import UIKit
 class TimelineTableViewCell: UITableViewCell {
     static let identifier = String(describing: self)
     
+    private lazy var dateLabel = UILabel()
+    private lazy var statusLabel = UILabel()
+    private lazy var titleLabel = UILabel()
+    
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
     private lazy var containerView: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.layer.cornerRadius = 5
         return view
     }()
+    
+    var timelinePoint = TimelinePoint()
+    var timeline = Timeline()
     
     var dateText: String? {
         didSet {
             let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralDark())
             style.alignment = .left
             dateLabel.attributedText = style.attributedString(withText: dateText ?? "")
+        }
+    }
+    
+    var status: String? {
+        didSet {
+            let style = OEXMutableTextStyle(weight: .bold, size: .xxSmall, color: OEXStyles.shared().neutralDark())
+            style.alignment = .center
+            statusLabel.attributedText = style.attributedString(withText: status ?? "")
         }
     }
     
@@ -35,7 +57,7 @@ class TimelineTableViewCell: UITableViewCell {
     
     var descriptionText: String? {
         didSet {
-            let style = OEXMutableTextStyle(weight: .semiBold, size: .xSmall, color: OEXStyles.shared().neutralDark())
+            let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
             style.alignment = .left
             descriptionLabel.attributedText = style.attributedString(withText: descriptionText ?? "")
             descriptionLabel.sizeToFit()
@@ -43,25 +65,14 @@ class TimelineTableViewCell: UITableViewCell {
         }
     }
     
-    private let dateLabel = UILabel()
-    
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.lineBreakMode = .byWordWrapping
-        label.numberOfLines = 0
-        return label
-    }()
-        
-    private let titleLabel = UILabel()
-    
-    var timelinePoint = TimelinePoint()
-    
-    var timeline = Timeline()
+    private var minLabelWidth = 60
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupViews()
+        setupConstrains()
+        containerView.backgroundColor = .systemYellow
     }
     
     required init?(coder: NSCoder) {
@@ -91,7 +102,6 @@ class TimelineTableViewCell: UITableViewCell {
         dateLabel.sizeToFit()
         titleLabel.sizeToFit()
         
-        
         timelinePoint.position = CGPoint(x: (StandardVerticalMargin * 3), y: dateLabel.frame.origin.y + dateLabel.intrinsicContentSize.height / 2)
         
         timeline.start = CGPoint(x: (StandardVerticalMargin * 3), y: 0)
@@ -102,42 +112,47 @@ class TimelineTableViewCell: UITableViewCell {
         timelinePoint.draw(view: contentView)
     }
     
-    func setupViews() {
+    private func setupViews() {
         contentView.addSubview(containerView)
         contentView.addSubview(dateLabel)
         contentView.addSubview(titleLabel)
         contentView.addSubview(descriptionLabel)
-
-        containerView.backgroundColor = .clear
+        containerView.addSubview(statusLabel)
+    }
+    
+    private func setupConstrains() {
+        dateLabel.snp.makeConstraints { make in
+            make.top.equalTo(contentView).offset(StandardHorizontalMargin)
+            make.leading.equalTo(contentView).offset(StandardVerticalMargin * 5)
+            make.height.equalTo(StandardHorizontalMargin)
+            make.width.greaterThanOrEqualTo(minLabelWidth)
+        }
         
         containerView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardHorizontalMargin)
             make.leading.equalTo(dateLabel.snp.trailing).offset(StandardVerticalMargin)
-            make.width.greaterThanOrEqualTo(60)
-            //make.trailing.equalTo(contentView)
-            make.height.equalTo(16)
+            make.height.equalTo(StandardHorizontalMargin)
+            make.width.greaterThanOrEqualTo(minLabelWidth)
         }
         
-        dateLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView).offset(StandardHorizontalMargin)
-            make.leading.equalTo(contentView).offset(StandardVerticalMargin * 5)
-            make.width.greaterThanOrEqualTo(60)
-            //make.trailing.equalTo(containerView.snp.leading).inset(StandardVerticalMargin)
-            make.height.equalTo(16)
+        statusLabel.snp.makeConstraints { make in
+            make.top.equalTo(containerView)
+            make.bottom.equalTo(containerView)
+            make.leading.equalTo(containerView).offset(StandardVerticalMargin)
+            make.trailing.equalTo(containerView).inset(StandardVerticalMargin)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom)
+            make.top.equalTo(dateLabel.snp.bottom).offset(4)
             make.leading.equalTo(contentView).offset(StandardVerticalMargin * 5)
             make.trailing.equalTo(contentView).inset(StandardVerticalMargin)
-            make.height.equalTo(16)
+            make.height.equalTo(StandardHorizontalMargin)
         }
         
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(4)
             make.leading.equalTo(contentView).offset(StandardVerticalMargin * 5)
             make.trailing.equalTo(contentView).inset(StandardVerticalMargin)
-            //make.bottom.equalTo(contentView).offset(StandardHorizontalMargin * 4)
         }
     }
 }
