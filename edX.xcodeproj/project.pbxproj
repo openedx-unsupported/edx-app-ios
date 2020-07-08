@@ -174,7 +174,6 @@
 		5F0248C824AC9F09000AF1FF /* CourseDatesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0248C724AC9F09000AF1FF /* CourseDatesAPI.swift */; };
 		5F2C5A19242C99EE00FBF986 /* CollectionPaginationManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2C5A18242C99EE00FBF986 /* CollectionPaginationManipulator.swift */; };
 		5F46A7CC24ADFFA300347EFC /* TimelineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C724ADFFA200347EFC /* TimelineTableViewCell.swift */; };
-		5F46A7CD24ADFFA300347EFC /* TimelineTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F46A7C824ADFFA200347EFC /* TimelineTableViewCell.xib */; };
 		5F46A7CE24ADFFA300347EFC /* TimelinePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7C924ADFFA200347EFC /* TimelinePoint.swift */; };
 		5F46A7CF24ADFFA300347EFC /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F46A7CB24ADFFA300347EFC /* Timeline.swift */; };
 		5F4AB7792463F891002D1C9C /* GoogleCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4AB7782463F891002D1C9C /* GoogleCast.framework */; };
@@ -4497,7 +4496,6 @@
 				69ECC63E1D50D1170030CF87 /* icon_google_white.png in Resources */,
 				B71AA1A020CEF64D00700C5E /* social_sciences@3x.png in Resources */,
 				69ECC63D1D50D1170030CF87 /* icon_facebook_white@2x.png in Resources */,
-				5F46A7CD24ADFFA300347EFC /* TimelineTableViewCell.xib in Resources */,
 				228E169C2136BC0E006FA184 /* FontAwesome.ttf in Resources */,
 				69ECC6361D50D1170030CF87 /* ic_partiallywatched@2x.png in Resources */,
 				69ECC6081D50D1170030CF87 /* Icon-29.png in Resources */,
