@@ -123,9 +123,19 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     }
 
     private func setupMessageLabel() {
+        var infoText = ""
+        let programDiscoveryEnabled = environment.config.discovery.program.isEnabled
+
+        if programDiscoveryEnabled {
+            infoText = Strings.Startup.infoMessageText(programsText: Strings.Startup.infoMessageProgramText)
+        }
+        else {
+            infoText = Strings.Startup.infoMessageText(programsText: "")
+        }
+
         let labelStyle = OEXTextStyle(weight: .semiBold, size: .xxLarge, color: environment.styles.primaryBaseColor())
         messageLabel.numberOfLines = 0
-        messageLabel.attributedText = labelStyle.attributedString(withText: Strings.Startup.infoMessageText)
+        messageLabel.attributedText = labelStyle.attributedString(withText: infoText)
         messageLabel.accessibilityIdentifier = "StartUpViewController:message-label"
         view.addSubview(messageLabel)
         

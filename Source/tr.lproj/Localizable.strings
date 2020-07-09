@@ -728,7 +728,9 @@
 /* Label for posts pinned by Staff */
 "STAFF"="AKADEMİK PERSONEL";
 /* Info message text on the startup screen */
-"STARTUP.INFO_MESSAGE_TEXT"="Courses and programs from the world's best universities in your pocket.";
+"STARTUP.INFO_MESSAGE_TEXT"="Courses{programs_text} from the world's best universities in your pocket.";
+/*Programs text addition in INFO_MESSAGE_TEXT text if program discovery enabled*/
+"STARTUP.INFO_MESSAGE_PROGRAM_TEXT"=" and programs";
 /*Label text for seach field on startup screen */
 "STARTUP.SEARCH_TITLE_TEXT"="What do you want to learn?";
 /*Place holder text for search field on startup screen*/
