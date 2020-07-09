@@ -22,7 +22,40 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     lazy private var searchViewTitle = UILabel()
     fileprivate let environment: Environment
     private let bottomBar: BottomBarView
-    
+
+    private var placeholderText: String {
+        get {
+            let discovery = environment.config.discovery
+            let courseDiscoveryEnabled = discovery.course.isEnabled
+            let programDiscoveryEnabled = discovery.program.isEnabled
+
+            if courseDiscoveryEnabled && programDiscoveryEnabled {
+                return Strings.Startup.searchPlaceholderText
+            }
+            else if courseDiscoveryEnabled {
+                return Strings.searchCoursesPlaceholderText
+            }
+            else if programDiscoveryEnabled {
+                return Strings.searchProgramsPlaceholderText
+            }
+
+            return Strings.searchCoursesPlaceholderText
+        }
+    }
+
+    private var infoMessage: String {
+        get {
+            let programDiscoveryEnabled = environment.config.discovery.program.isEnabled
+
+            if programDiscoveryEnabled {
+                return Strings.Startup.infoMessageText(programsText: Strings.Startup.infoMessageProgramText)
+            }
+            else {
+                return Strings.Startup.infoMessageText(programsText: "")
+            }
+        }
+    }
+
     init(environment: Environment) {
         self.environment = environment
         bottomBar = BottomBarView(environment: environment)
@@ -117,25 +150,16 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
             make.height.equalTo((logo?.size.height ?? 0) / 2)
         }
         
-        logoImageView.snp.remakeConstraints { (make) in
+        logoImageView.snp.remakeConstraints { make in
             make.center.edges.equalTo(imageContainer)
         }
     }
 
     private func setupMessageLabel() {
-        var infoText = ""
-        let programDiscoveryEnabled = environment.config.discovery.program.isEnabled
-
-        if programDiscoveryEnabled {
-            infoText = Strings.Startup.infoMessageText(programsText: Strings.Startup.infoMessageProgramText)
-        }
-        else {
-            infoText = Strings.Startup.infoMessageText(programsText: "")
-        }
 
         let labelStyle = OEXTextStyle(weight: .semiBold, size: .xxLarge, color: environment.styles.primaryBaseColor())
         messageLabel.numberOfLines = 0
-        messageLabel.attributedText = labelStyle.attributedString(withText: infoText)
+        messageLabel.attributedText = labelStyle.attributedString(withText: infoMessage)
         messageLabel.accessibilityIdentifier = "StartUpViewController:message-label"
         view.addSubview(messageLabel)
         
@@ -187,7 +211,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let searchTextField = UITextField()
         searchTextField.accessibilityIdentifier = "StartUpViewController:search-textfield"
         searchTextField.delegate = self
-        let placeholderText = self.placeholderText
         searchTextField.attributedPlaceholder = textStyle.attributedString(withText: placeholderText)
         searchTextField.textColor = environment.styles.primaryBaseColor()
         searchTextField.returnKeyType = .search
@@ -202,25 +225,6 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
 
         let labelStyle = OEXTextStyle(weight: .normal, size: .large, color: environment.styles.primaryBaseColor())
         searchViewTitle.attributedText = labelStyle.attributedString(withText: Strings.Startup.searchTitleText)
-    }
-
-    private var placeholderText: String {
-
-        let discovery = environment.config.discovery
-        let courseDiscoveryEnabled = discovery.course.isEnabled
-        let programDiscoveryEnabled = discovery.program.isEnabled
-
-        if courseDiscoveryEnabled && programDiscoveryEnabled {
-            return Strings.Startup.searchPlaceholderText
-        }
-        else if courseDiscoveryEnabled {
-            return Strings.searchCoursesPlaceholderText
-        }
-        else if programDiscoveryEnabled {
-            return Strings.searchProgramsPlaceholderText
-        }
-
-        return Strings.searchCoursesPlaceholderText
     }
 
     private func setupBottomBar() {
@@ -301,12 +305,8 @@ public class BottomBarView: UIView, NSCopying {
     }
     
     fileprivate func updateContraints() {
-        bottomBar.snp.makeConstraints { make in
-            make.edges.equalTo(self)
-        }
-
         bottomBar.axis = .horizontal
-        bottomBar.snp.remakeConstraints { make in
+        bottomBar.snp.makeConstraints { make in
             make.edges.equalTo(self)
             make.height.equalTo(BottomBarHeight)
         }
