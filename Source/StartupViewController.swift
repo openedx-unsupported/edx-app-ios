@@ -19,7 +19,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
     private let logoImageView = UIImageView()
     private let searchView = UIView()
     private let messageLabel = UILabel()
-    lazy private var searchViewTitle = UILabel()
+    private lazy var searchViewTitle = UILabel()
     fileprivate let environment: Environment
     private let bottomBar: BottomBarView
 
@@ -180,7 +180,7 @@ class StartupViewController: UIViewController, InterfaceOrientationOverriding {
         let borderStyle = BorderStyle(cornerRadius: .Size(CornerRadius), width: .Size(1), color: environment.styles.primaryBaseColor())
         searchView.applyBorderStyle(style: borderStyle)
 
-        searchViewTitle.snp.makeConstraints { (make) in
+        searchViewTitle.snp.makeConstraints { make in
             make.top.equalTo(messageLabel.snp.bottom).offset(6 * StandardVerticalMargin)
             make.leading.equalTo(messageLabel)
             make.trailing.equalTo(messageLabel)
