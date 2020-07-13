@@ -38,6 +38,7 @@ class AdditionalTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureViews()
+        setAccessibilityIdentifiers()
     }
 
     func useItem(item : AdditionalCellItem) {
@@ -86,5 +87,14 @@ class AdditionalTableViewCell: UITableViewCell {
             make.top.equalTo(titleLabel.snp.bottom)
             make.height.equalTo(LABEL_SIZE_HEIGHT)
         }
+    }
+
+    private func setAccessibilityIdentifiers() {
+        contentView.accessibilityIdentifier = "setAccessibilityIdentifiers:content-view"
+        container.accessibilityIdentifier = "AdditionalTableViewCell:container-view"
+        titleLabel.accessibilityIdentifier = "AdditionalTableViewCell:title-label"
+        detailLabel.accessibilityIdentifier = "AdditionalTableViewCell:detail-label"
+        iconView.accessibilityIdentifier = "AdditionalTableViewCell:icon-view"
+        bottomLine.accessibilityIdentifier = "AdditionalTableViewCell:bottom-line"
     }
 }
