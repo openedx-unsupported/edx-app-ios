@@ -4192,7 +4192,6 @@
 				BECB7B081924C0C3009C77F1 /* Frameworks */,
 				BECB7B091924C0C3009C77F1 /* Resources */,
 				77BDD65E1A44BD7300EA2A9C /* Process Config */,
-				77B4BAF31A52152A00B14C39 /* Upload Debugging Symbols */,
 				77E647AC1C90C10400B6740D /* Embed Frameworks */,
 				E0D9C59723FEAE100085218B /* Remove Unsupported Architectures */,
 				A5227C8DDB2ED6310729C274 /* [CP] Copy Pods Resources */,
@@ -4607,20 +4606,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# copy config from app bundle to test bundle\n\nSOURCE=$BUILT_PRODUCTS_DIR/$TEST_TARGET_NAME.app/config.plist\nDEST=$TARGET_BUILD_DIR/$WRAPPER_NAME/config.plist\ncp $SOURCE $DEST";
-		};
-		77B4BAF31A52152A00B14C39 /* Upload Debugging Symbols */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Upload Debugging Symbols";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "if [ $CONFIGURATION == 'Release' ]\nthen\n    ${SRCROOT}/gradlew uploadDebuggingSymbols --stacktrace --info\nfi\n";
 		};
 		77BDD65E1A44BD7300EA2A9C /* Process Config */ = {
 			isa = PBXShellScriptBuildPhase;
