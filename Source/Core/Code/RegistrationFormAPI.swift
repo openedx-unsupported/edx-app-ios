@@ -30,8 +30,8 @@ public struct RegistrationFormAPI {
     public static func registrationFormValidationRequest(parameters: [String : String]) -> NetworkRequest<RegistrationFormValidation> {
         print(SIGN_UP_VALIDATION_URL)
         return NetworkRequest(method: .POST,
-                       path: SIGN_UP_VALIDATION_URL,
-                       body: .jsonBody(JSON(parameters)),
-                       deserializer: .jsonResponse(regirationFromValidationDeserializer))
+                              path: SIGN_UP_VALIDATION_URL,
+                              body: .jsonBody(JSON(parameters)),
+                              deserializer: .jsonResponse(regirationFromValidationDeserializer))
     }
 }
