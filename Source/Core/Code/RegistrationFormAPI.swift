@@ -24,7 +24,6 @@ public struct RegistrationFormAPI {
     }
     
     private static func regirationFromValidationDeserializer(response: HTTPURLResponse, json: JSON) -> Result<RegistrationFormValidation> {
-        print(json)
         return RegistrationFormValidation(json: json).toResult()
     }
     
