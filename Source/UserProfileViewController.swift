@@ -54,6 +54,9 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
         addProfileListener()
         addExtraTabsListener()
         addCloseButton()
+
+        view.accessibilityIdentifier = "UserProfileViewController:view"
+        contentView.accessibilityIdentifier = "UserProfileViewController:content-view"
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -77,6 +80,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     private func addProfileEditButton() {
         if editable {
             let editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: nil)
+            editButton.accessibilityIdentifier = "UserProfileViewController:edit-button"
             editButton.oex_setAction() { [weak self] in
                 if let owner = self {
                     owner.environment.router?.showProfileEditorFromController(controller: owner)
@@ -91,6 +95,7 @@ class UserProfileViewController: OfflineSupportViewController, UserProfilePresen
     private func addCloseButton() {
         if (isModal()) {//isModal check if the view is presented then add close button
             let closeButton = UIBarButtonItem(title: Strings.close, style: .plain, target: nil, action: nil)
+            closeButton.accessibilityIdentifier = "UserProfileViewController:close-button"
             closeButton.accessibilityLabel = Strings.Accessibility.closeLabel
             closeButton.accessibilityHint = Strings.Accessibility.closeHint
             navigationItem.leftBarButtonItem = closeButton

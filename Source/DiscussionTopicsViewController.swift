@@ -112,6 +112,15 @@ public class DiscussionTopicsViewController: OfflineSupportViewController, UITab
         
         loadController.setupInController(controller: self, contentView: contentView)
         loadTopics()
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "DiscussionTopicsViewController:view"
+        searchBar.accessibilityIdentifier = "DiscussionTopicsViewController:search-bar"
+        contentView.accessibilityIdentifier = "DiscussionTopicsViewController:content-view"
+        tableView.accessibilityIdentifier = "DiscussionTopicsViewController:table-view"
+        searchBarSeparator.accessibilityIdentifier = "DiscussionTopicsViewController:search-bar-separator"
     }
     
     private func loadTopics() {

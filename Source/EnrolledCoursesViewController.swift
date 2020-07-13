@@ -70,7 +70,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
         
         setupListener()
         setupObservers()
-        addFindCoursesButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,18 +94,6 @@ class EnrolledCoursesViewController : OfflineSupportViewController, CoursesConta
     
     private var isCourseDiscoveryEnabled: Bool {
         return environment.config.discovery.course.isEnabled
-    }
-
-    private func addFindCoursesButton() {
-        if environment.config.discovery.course.isEnabled {
-            let findcoursesButton = UIBarButtonItem(barButtonSystemItem: .search, target: nil, action: nil)
-            findcoursesButton.accessibilityLabel = Strings.findCourses
-            navigationItem.rightBarButtonItem = findcoursesButton
-            
-            findcoursesButton.oex_setAction { [weak self] in
-                self?.environment.router?.showCourseCatalog(fromController: self, bottomBar: nil)
-            }
-        }
     }
     
     private func setupListener() {

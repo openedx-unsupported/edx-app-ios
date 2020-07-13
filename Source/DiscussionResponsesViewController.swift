@@ -61,6 +61,8 @@ class DiscussionPostCell: UITableViewCell {
         reportButton.localizedHorizontalContentAlignment = .Trailing
         authorButton.localizedHorizontalContentAlignment = .Leading
         DiscussionHelper.styleAuthorProfileImageView(imageView: authorProfileImage)
+
+        setAccessibilityIdentifiers()
     }
     
     func setAccessibility(thread: DiscussionThread) {
@@ -98,6 +100,22 @@ class DiscussionPostCell: UITableViewCell {
             self.authorButton.accessibilityLabel = authorName
             self.authorButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
         }
+    }
+
+    private func setAccessibilityIdentifiers() {
+        contentView.accessibilityIdentifier = "DiscussionPostCell:content-view"
+        titleLabel.accessibilityIdentifier = "DiscussionPostCell:title-label"
+        bodyTextLabel.accessibilityIdentifier = "DiscussionPostCell:body-text-label"
+        visibilityLabel.accessibilityIdentifier = "DiscussionPostCell:visibility-label"
+        authorButton.accessibilityIdentifier = "DiscussionPostCell:author-button"
+        responseCountLabel.accessibilityIdentifier = "DiscussionPostCell:response-count-label"
+        voteButton.accessibilityIdentifier = "DiscussionPostCell:vote-button"
+        followButton.accessibilityIdentifier = "DiscussionPostCell:DiscussionPostCellfollow-button"
+        reportButton.accessibilityIdentifier = "DiscussionPostCell:report-button"
+        separatorLine.accessibilityIdentifier = "DiscussionPostCell:separator-line-view"
+        authorProfileImage.accessibilityIdentifier = "DiscussionPostCell:author-profile-image-view"
+        authorNameLabel.accessibilityIdentifier = "DiscussionPostCell:author-name-label"
+        dateLabel.accessibilityIdentifier = "DiscussionPostCell:date-label"
     }
 }
 
@@ -150,6 +168,24 @@ class DiscussionResponseCell: UITableViewCell {
         accessibilityTraits = UIAccessibilityTraits.header
         bodyTextView.isAccessibilityElement = false
         endorsedByButton.isAccessibilityElement = false
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        contentView.accessibilityIdentifier = "DiscussionResponseCell:content-view"
+        containerView.accessibilityIdentifier = "DiscussionResponseCell:container-view"
+        bodyTextView.accessibilityIdentifier = "DiscussionResponseCell:body-text-view"
+        authorButton.accessibilityIdentifier = "DiscussionResponseCell:author-button"
+        voteButton.accessibilityIdentifier = "DiscussionResponseCell:vote-button"
+        reportButton.accessibilityIdentifier = "DiscussionResponseCell:report-button"
+        commentButton.accessibilityIdentifier = "DiscussionResponseCell:comment-button"
+        commentBox.accessibilityIdentifier = "DiscussionResponseCell:comment-box"
+        endorsedLabel.accessibilityIdentifier = "DiscussionResponseCell:endorsed-lebel"
+        separatorLine.accessibilityIdentifier = "DiscussionResponseCell:separator-line"
+        endorsedByButton.accessibilityIdentifier = "DiscussionResponseCell:endorsed-by-button"
+        authorProfileImage.accessibilityIdentifier = "DiscussionResponseCell:author-profile-image-view"
+        authorNameLabel.accessibilityIdentifier = "DiscussionResponseCell:author-name-label"
+        dateLabel.accessibilityIdentifier = "DiscussionResponseCell:date-label"
     }
     
     var endorsed : Bool = false {
@@ -317,6 +353,7 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
         
         markThreadAsRead()
         setupProfileLoader()
+        setAccessibilityIdentifiers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -330,6 +367,13 @@ class DiscussionResponsesViewController: UIViewController, UITableViewDataSource
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "DiscussionResponsesViewController:view"
+        tableView.accessibilityIdentifier = "DiscussionResponsesViewController:table-view"
+        contentView.accessibilityIdentifier = "DiscussionResponsesViewController:content-view"
+        addResponseButton.accessibilityIdentifier = "DiscussionResponsesViewController:add-response-button"
     }
     
     private func logScreenEvent(){

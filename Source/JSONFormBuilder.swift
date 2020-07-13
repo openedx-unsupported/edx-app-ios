@@ -89,6 +89,15 @@ class JSONFormBuilder {
                 make.trailing.equalTo(contentView.snp.trailingMargin)
                 make.bottom.equalTo(contentView.snp.bottomMargin)
             }
+
+            setAccessibilityIdentifiers()
+        }
+
+        private func setAccessibilityIdentifiers() {
+            contentView.accessibilityIdentifier = "SegmentCell:content-view"
+            titleLabel.accessibilityIdentifier = "SegmentCell:title-label"
+            descriptionLabel.accessibilityIdentifier = "SegmentCell:description-label"
+            typeControl.accessibilityIdentifier = "SegmentCell:type-control"
         }
         
         func applyData(field: JSONFormBuilder.Field, data: FormData) {
@@ -148,6 +157,8 @@ class JSONFormBuilder {
             choiceView.snp.makeConstraints { make in
                 make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin))
             }
+            contentView.accessibilityIdentifier = "OptionsCell:content-view"
+            choiceView.accessibilityIdentifier = "OptionsCell:choice-view"
         }
         
         func applyData(field: Field, data: FormData) {
@@ -177,6 +188,8 @@ class JSONFormBuilder {
             choiceView.snp.makeConstraints { make in
                 make.edges.equalTo(contentView).inset(UIEdgeInsets(top: 0, left: StandardHorizontalMargin, bottom: 0, right: StandardHorizontalMargin))
             }
+            contentView.accessibilityIdentifier = "TextAreaCell:content-view"
+            choiceView.accessibilityIdentifier = "TextAreaCell:choice-view"
         }
         
         func applyData(field: Field, data: FormData) {

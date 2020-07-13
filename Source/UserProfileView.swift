@@ -42,6 +42,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
 
         setupViews()
         setupConstraints()
+        setAccessibilityIdentifiers()
     }
 
     private func setupViews() {
@@ -92,6 +93,19 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         self.addSubview(header)
 
         bottomBackground.backgroundColor = environment.styles.standardBackgroundColor()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "UserProfileView:"
+        scrollView.accessibilityIdentifier = "UserProfileView:scroll-view"
+        usernameLabel.accessibilityIdentifier = "UserProfileView:username-label"
+        messageLabel.accessibilityIdentifier = "UserProfileView:message-label"
+        countryLabel.accessibilityIdentifier = "UserProfileView:country-label"
+        languageLabel.accessibilityIdentifier = "UserProfileView:language-label"
+        bioText.accessibilityIdentifier = "UserProfileView:bio-text-view"
+        bioSystemMessage.accessibilityIdentifier = "UserProfileView:bio-system-message-label"
+        header.accessibilityIdentifier = "UserProfileView:profile-header-view"
+        bottomBackground.accessibilityIdentifier = "UserProfileView:bottom-background-view"
     }
 
     required init?(coder aDecoder: NSCoder) {

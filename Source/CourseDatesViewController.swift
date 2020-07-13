@@ -33,6 +33,7 @@ class CourseDatesViewController: UIViewController, AuthenticatedWebViewControlle
         addChild(webController)
         webController.didMove(toParent: self)
         view.addSubview(webController.view)
+        view.accessibilityIdentifier = "CourseDatesViewController:view"
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         setConstraints()
         loadCourseDates()

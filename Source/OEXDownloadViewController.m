@@ -80,7 +80,12 @@
     [self.btn_View setClipsToBounds:true];
     self.percentFormatter = [[NSNumberFormatter alloc] init];
     self.percentFormatter.numberStyle = NSNumberFormatterPercentStyle;
-    
+    [self setAccessibilityIdentifiers];
+}
+
+- (void) setAccessibilityIdentifiers {
+    [self.view setAccessibilityIdentifier:@"OEXDownloadViewController:view"];
+    [self.table_Downloads setAccessibilityIdentifier:@"OEXDownloadViewController:table-view"];
 }
 
 - (void)reloadDownloadingVideos {

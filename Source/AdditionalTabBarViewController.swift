@@ -69,8 +69,16 @@ class AdditionalTabBarViewController: UIViewController, UITableViewDataSource, U
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
+
+        setAccessibilityIdentifiers()
     }
-    
+
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "AdditionalTabBarViewController:view"
+        tableView.accessibilityIdentifier = "AdditionalTabBarViewController:table-view"
+    }
+
     private func prepareTableViewData(items:[TabBarItem]) {
         cellItems = []
         for item in items {

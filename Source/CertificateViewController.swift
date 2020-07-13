@@ -47,6 +47,7 @@ class CertificateViewController: UIViewController, InterfaceOrientationOverridin
         title = Strings.Certificates.viewCertTitle
         loadController.state = .Initial
 
+        setAccessibilityIdentifiers()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +62,12 @@ class CertificateViewController: UIViewController, InterfaceOrientationOverridin
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         webView.stopLoading()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "CertificateViewController:view"
+        webView.accessibilityIdentifier = "CertificateViewController:web-view"
+        shareButton.accessibilityIdentifier = "CertificateViewController:share-button"
     }
 
     func addShareButton() {

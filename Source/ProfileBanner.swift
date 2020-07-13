@@ -81,6 +81,7 @@ class ProfileBanner: UIView {
         changeCallback = didChange
         super.init(frame: CGRect.zero)
         setupViews()
+        setAccessibilityIdentifiers()
     }
     
     override init(frame: CGRect) {
@@ -94,7 +95,14 @@ class ProfileBanner: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "ProfileBanner:view"
+        shortProfView.accessibilityIdentifier = "ProfileBanner:short-profile-image-view"
+        usernameLabel.accessibilityIdentifier = "ProfileBanner:username-label"
+        changeButton.accessibilityIdentifier = "ProfileBanner:change-button"
+    }
+
     func showProfile(profile: UserProfile, networkManager: NetworkManager) {
         shortProfView.remoteImage = profile.image(networkManager: networkManager)
         usernameLabel.attributedText = usernameStyle.attributedString(withText: profile.username)

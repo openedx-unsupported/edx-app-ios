@@ -204,9 +204,8 @@ class RegistrationFormFieldView: UIView {
         errorMessage = nil
     }
     
-    @objc func valueDidChange() {
-        if !tapout { return }
-
+    @objc func valueDidChange(isPicker: Bool = false) {
+        if !tapout && !isPicker { return }
         validateInput()
     }
 
