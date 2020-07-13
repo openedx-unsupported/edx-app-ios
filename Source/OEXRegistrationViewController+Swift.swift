@@ -27,6 +27,74 @@ extension OEXRegistrationViewController {
         }
     }
     
+    @objc func validateRegistrationForm(parameters: [String: String]) {
+        showProgress(true)
+        
+        let networkManager = environment.networkManager
+        let networkRequest = RegistrationFormAPI.registrationFormValidationRequest(parameters: parameters)
+        
+        networkManager.taskForRequest(networkRequest) { [weak self] result in
+            guard let owner = self,
+                let validation = result.data?.validationDecisions else {
+                    self?.showProgress(false)
+                    self?.register(withParameters: parameters)
+                    return
+            }
+            
+            var firstControllerWithError: OEXRegistrationFieldController?
+            
+            for case let controller as OEXRegistrationFieldController in owner.fieldControllers {
+                controller.accessibleInputField?.resignFirstResponder()
+                
+                if !validation.name.isEmpty && controller.field.name == "name" {
+                    controller.handleError(validation.name)
+                    if firstControllerWithError == nil {
+                        firstControllerWithError = controller
+                    }
+                }
+                
+                if !validation.username.isEmpty && controller.field.name == "username" {
+                    controller.handleError(validation.username)
+                    if firstControllerWithError == nil {
+                        firstControllerWithError = controller
+                    }
+                }
+                
+                if !validation.email.isEmpty && controller.field.name == "email" {
+                    controller.handleError(validation.email)
+                    if firstControllerWithError == nil {
+                        firstControllerWithError = controller
+                    }
+                }
+                
+                if !validation.password.isEmpty && controller.field.name == "password" {
+                    controller.handleError(validation.password)
+                    if firstControllerWithError == nil {
+                        firstControllerWithError = controller
+                    }
+                }
+                
+                if !validation.country.isEmpty && controller.field.name == "country" {
+                    controller.handleError(validation.country)
+                    if firstControllerWithError == nil {
+                        firstControllerWithError = controller
+                    }
+                }
+            }
+            
+            owner.showProgress(false)
+            
+            if firstControllerWithError == nil {
+                owner.register(withParameters: parameters)
+            } else {
+                owner.refreshFormFields()
+                UIAlertController().showAlert(withTitle: Strings.registrationErrorAlertTitle, message: Strings.registrationErrorAlertMessage, cancelButtonTitle: Strings.ok, onViewController: owner) { _, _, _ in
+                    firstControllerWithError?.accessibleInputField?.becomeFirstResponder()
+                }
+            }
+        }
+    }
+    
     @objc func register(withParameters parameter:[String:String]) {
         showProgress(true)
         let infoDict :[String: String] = [OEXAnalyticsKeyProvider: self.externalProvider?.backendName ?? ""]

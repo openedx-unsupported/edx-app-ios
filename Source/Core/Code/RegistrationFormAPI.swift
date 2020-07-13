@@ -10,7 +10,7 @@ import Foundation
 
 public struct RegistrationFormAPI {
     
-    static func registrationFormDeserializer(response : HTTPURLResponse, json : JSON) -> Result<OEXRegistrationDescription> {
+    private static func registrationFormDeserializer(response : HTTPURLResponse, json : JSON) -> Result<OEXRegistrationDescription> {
         return json.dictionaryObject.map { OEXRegistrationDescription(dictionary: $0) }.toResult()
     }
     
@@ -21,5 +21,18 @@ public struct RegistrationFormAPI {
                               path: path,
                               deserializer: .jsonResponse(registrationFormDeserializer))
         
+    }
+    
+    private static func regirationFromValidationDeserializer(response: HTTPURLResponse, json: JSON) -> Result<RegistrationFormValidation> {
+        print(json)
+        return RegistrationFormValidation(json: json).toResult()
+    }
+    
+    public static func registrationFormValidationRequest(parameters: [String : String]) -> NetworkRequest<RegistrationFormValidation> {
+        print(SIGN_UP_VALIDATION_URL)
+        return NetworkRequest(method: .POST,
+                       path: SIGN_UP_VALIDATION_URL,
+                       body: .jsonBody(JSON(parameters)),
+                       deserializer: .jsonResponse(regirationFromValidationDeserializer))
     }
 }
