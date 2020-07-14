@@ -34,6 +34,7 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
         textView.delegate = self
         
         setupViews()
+        setAccessibilityIdentifiers()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,6 +44,11 @@ class JSONFormBuilderTextEditorViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         OEXAnalytics.shared().trackScreen(withName: OEXAnalyticsScreenEditTextFormValue)
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "JSONFormBuilderTextEditorViewController:view"
+        textView.accessibilityIdentifier = "JSONFormBuilderTextEditorViewController:text-view"
     }
 
     private func setupViews() {

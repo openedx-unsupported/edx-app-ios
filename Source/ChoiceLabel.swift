@@ -27,6 +27,14 @@ class ChoiceLabel : UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "ChoiceLabel:view"
+        iconView.accessibilityIdentifier = "ChoiceLabel:icon-image-view"
+        titleLabel.accessibilityIdentifier = "ChoiceLabel:title-label"
+        valueLabel.accessibilityIdentifier = "ChoiceLabel:value-label"
     }
     
     private func setup() {

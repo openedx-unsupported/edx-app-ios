@@ -44,6 +44,8 @@ class TabContainerView : UIView {
             let index = (control as! UISegmentedControl).selectedSegmentIndex
             self?.showTabAtIndex(index: index)
             }, for: .valueChanged)
+
+        setAccessibilityIdentifiers()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -68,6 +70,13 @@ class TabContainerView : UIView {
             }
             control.isHidden = items.count < 2
         }
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "TabContainerView:view"
+        control.accessibilityIdentifier = "TabContainerView:segment-control"
+        stackView.accessibilityIdentifier = "TabContainerView:stack-view"
+        activeTabBodyView?.accessibilityIdentifier = "TabContainerView:active-tab-body-view"
     }
 
     private func showTabAtIndex(index: Int) {

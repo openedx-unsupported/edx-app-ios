@@ -32,6 +32,8 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             contentView.addSubview(optionLabel)
+            contentView.accessibilityIdentifier = "MenuOptionTableViewCell:content-view"
+            optionLabel.accessibilityIdentifier = "MenuOptionTableViewCell:option-label"
             optionLabel.snp.makeConstraints { make in
                 make.leading.equalTo(contentView)
                 make.centerY.equalTo(contentView)
@@ -74,6 +76,12 @@ public class MenuOptionsViewController: UIViewController, UITableViewDataSource,
         view.addSubview(tableView!)
         
         setConstraints()
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "MenuOptionsViewController:view"
+        tableView?.accessibilityIdentifier = "MenuOptionsViewController:table-view"
     }
     
     private func setConstraints() {

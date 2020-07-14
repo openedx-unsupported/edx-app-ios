@@ -69,6 +69,8 @@ class AdditionalTabBarViewController: UIViewController, UITableViewDataSource, U
         tableView.snp.makeConstraints { make in
             make.edges.equalTo(safeEdges)
         }
+
+        setAccessibilityIdentifiers()
     }
 
 

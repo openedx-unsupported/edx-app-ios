@@ -63,6 +63,20 @@ class DiscussionCommentCell: UITableViewCell {
         containerView.applyBorderStyle(style: BorderStyle())
         accessibilityTraits = UIAccessibilityTraits.header
         bodyTextView.isAccessibilityElement = false
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        contentView.accessibilityIdentifier = "DiscussionCommentCell:content-view"
+        bodyTextView.accessibilityIdentifier = "DiscussionCommentCell:body-text-view"
+        authorButton.accessibilityIdentifier = "DiscussionCommentCell:author-button"
+        commentCountOrReportIconButton.accessibilityIdentifier = "DiscussionCommentCell:comment-count-or-report-icon-button"
+        divider.accessibilityIdentifier = "DiscussionCommentCell:divider-view"
+        containerView.accessibilityIdentifier = "DiscussionCommentCell:container-view"
+        endorsedLabel.accessibilityIdentifier = "DiscussionCommentCell:endorsed-label"
+        authorProfileImage.accessibilityIdentifier = "DiscussionCommentCell:author-profile-image-view"
+        authorNameLabel.accessibilityIdentifier = "DiscussionCommentCell:author-name-label"
+        dateLabel.accessibilityIdentifier = "DiscussionCommentCell:date-label"
     }
     
     private func addSubViews() {
@@ -374,6 +388,8 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         else {
             loadDiscussionResponse()
         }
+
+        setAccessibilityIdentifiers()
     }
     
     private func initializeViewContent() {
@@ -381,7 +397,14 @@ class DiscussionCommentsViewController: UIViewController, UITableViewDataSource,
         loadContent()
         setupProfileLoader()
     }
-    
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "DiscussionCommentsViewController:view"
+        contentView.accessibilityIdentifier = "DiscussionCommentsViewController:content-view"
+        addCommentButton.accessibilityIdentifier = "DiscussionCommentsViewController:add-comment-button"
+        tableView.accessibilityIdentifier = "DiscussionCommentsViewController:table-view"
+    }
+
     private func loadThread() {
         guard let threadID = threadID else { return }
 
