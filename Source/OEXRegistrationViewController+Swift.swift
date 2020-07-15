@@ -27,7 +27,7 @@ extension OEXRegistrationViewController {
         }
     }
     
-    private func matchPropertyWithErrorType(controller: inout OEXRegistrationFieldController, validation: ValidationDecisions) -> OEXRegistrationFieldController? {
+    private func matchControllerWithValidation(controller: inout OEXRegistrationFieldController, validation: ValidationDecisions) -> OEXRegistrationFieldController? {
         switch controller.field.name {
         case "name":
             if !validation.name.isEmpty {
@@ -83,7 +83,7 @@ extension OEXRegistrationViewController {
             for case var controller as OEXRegistrationFieldController in owner.fieldControllers {
                 controller.accessibleInputField?.resignFirstResponder()
                 
-                let errorController = owner.matchPropertyWithErrorType(controller: &controller, validation: validation)
+                let errorController = owner.matchControllerWithValidation(controller: &controller, validation: validation)
                 if firstControllerWithError == nil {
                     firstControllerWithError = errorController
                 }
