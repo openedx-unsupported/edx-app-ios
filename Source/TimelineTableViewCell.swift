@@ -12,8 +12,15 @@ class TimelineTableViewCell: UITableViewCell {
     static let identifier = String(describing: self)
     
     private lazy var dateLabel = UILabel()
+    
     private lazy var statusLabel = UILabel()
-    private lazy var titleLabel = UILabel()
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -28,20 +35,31 @@ class TimelineTableViewCell: UITableViewCell {
         return view
     }()
     
-    var timelinePoint = TimelinePoint()
-    var timeline = Timeline()
+    let stackView = TZStackView()
+    
+    var timelinePoint = TimelinePoint() {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    var timeline = Timeline() {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
     var dateText: String? {
         didSet {
             let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralDark())
             style.alignment = .left
-            dateLabel.attributedText = style.attributedString(withText: dateText ?? "")
+            dateLabel.attributedText = style.attributedString(withText: dateText ?? "")            
         }
     }
     
     var status: String? {
         didSet {
-            let style = OEXMutableTextStyle(weight: .bold, size: .xxSmall, color: OEXStyles.shared().neutralDark())
+            let style = OEXMutableTextStyle(weight: .bold, size: .xxSmall, color: OEXStyles.shared().neutralWhite())
             style.alignment = .center
             statusLabel.attributedText = style.attributedString(withText: status ?? "")
         }
@@ -49,17 +67,27 @@ class TimelineTableViewCell: UITableViewCell {
     
     var titleText: String? {
         didSet {
+            guard let title = titleText else {
+                stackView.removeArrangedSubview(titleLabel)
+                return
+            }
             let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralDark())
             style.alignment = .left
-            titleLabel.attributedText = style.attributedString(withText: titleText ?? "")
+            titleLabel.attributedText = style.attributedString(withText: title)
+            titleLabel.sizeToFit()
+            titleLabel.layoutIfNeeded()
         }
     }
     
     var descriptionText: String? {
         didSet {
+            guard let description = descriptionText else {
+                stackView.removeArrangedSubview(descriptionLabel)
+                return
+            }
             let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: OEXStyles.shared().neutralDark())
             style.alignment = .left
-            descriptionLabel.attributedText = style.attributedString(withText: descriptionText ?? "")
+            descriptionLabel.attributedText = style.attributedString(withText: description)
             descriptionLabel.sizeToFit()
             descriptionLabel.layoutIfNeeded()
         }
@@ -72,7 +100,7 @@ class TimelineTableViewCell: UITableViewCell {
         
         setupViews()
         setupConstrains()
-        containerView.backgroundColor = .systemYellow
+        containerView.backgroundColor = .black
     }
     
     required init?(coder: NSCoder) {
@@ -85,6 +113,7 @@ class TimelineTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        titleLabel.sizeToFit()
         descriptionLabel.sizeToFit()
     }
     
@@ -113,10 +142,14 @@ class TimelineTableViewCell: UITableViewCell {
     }
     
     private func setupViews() {
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(descriptionLabel)
+        stackView.alignment = .leading
+        stackView.axis = .vertical
+        
+        contentView.addSubview(stackView)
         contentView.addSubview(containerView)
         contentView.addSubview(dateLabel)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
         containerView.addSubview(statusLabel)
     }
     
@@ -124,14 +157,14 @@ class TimelineTableViewCell: UITableViewCell {
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardHorizontalMargin)
             make.leading.equalTo(contentView).offset(StandardVerticalMargin * 5)
-            make.height.equalTo(StandardHorizontalMargin)
+            make.height.equalTo(StandardHorizontalMargin + 4)
             make.width.greaterThanOrEqualTo(minLabelWidth)
         }
         
         containerView.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(StandardHorizontalMargin)
             make.leading.equalTo(dateLabel.snp.trailing).offset(StandardVerticalMargin)
-            make.height.equalTo(StandardHorizontalMargin)
+            make.height.equalTo(StandardHorizontalMargin + 4)
             make.width.greaterThanOrEqualTo(minLabelWidth)
         }
         
@@ -142,17 +175,11 @@ class TimelineTableViewCell: UITableViewCell {
             make.trailing.equalTo(containerView).inset(StandardVerticalMargin)
         }
         
-        titleLabel.snp.makeConstraints { make in
+        stackView.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom).offset(4)
             make.leading.equalTo(contentView).offset(StandardVerticalMargin * 5)
             make.trailing.equalTo(contentView).inset(StandardVerticalMargin)
-            make.height.equalTo(StandardHorizontalMargin)
-        }
-        
-        descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(4)
-            make.leading.equalTo(contentView).offset(StandardVerticalMargin * 5)
-            make.trailing.equalTo(contentView).inset(StandardVerticalMargin)
+            make.bottom.equalTo(contentView).inset(4)
         }
     }
 }

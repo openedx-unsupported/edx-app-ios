@@ -264,6 +264,18 @@
 "RESOURSES"="Resources";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
+/* Course Date Type Completed */
+"COURSEDATES.COMPLETED"="Completed";
+/* Course Date Type Past Due */
+"COURSEDATES.PAST_DUE"="Past Due";
+/* Course Date Type Due Next */
+"COURSEDATES.DUE_NEXT"="Due Next";
+/* Course Date Type Unreleased */
+"COURSEDATES.UNRELEASED"="Unreleased";
+/* Course Date Completed */
+"COURSEDATES.VERFIED_ONLY"="Verified Only";
+/* Course Date Event */
+"COURSEDATES.EVENT"="Event";
 /* Button text for cancelling any action */
 "CANCEL"="إلغاء";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */

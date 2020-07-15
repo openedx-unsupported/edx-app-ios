@@ -28,6 +28,12 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return tableView
     }()
     
+    private var datesResponse: CourseDateModel? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
     private let courseID: String
     private let environment: Environment
     
@@ -69,11 +75,15 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         let stream = environment.networkManager.streamForRequest(networkRequest)
         datesLoader.addBackingStream(stream)
         
-        stream.listen(self, success: { data in
-            print(data)
-        }, failure: { error in
-            print(error.localizedDescription)
-        })
+        stream.listen(self) { [weak self] response in
+            switch response {
+            case .success(let data):
+                self?.datesResponse = data
+                break
+            case .failure:
+                break
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -89,43 +99,65 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
 
 extension CourseDatesViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let item = datesResponse?.courseDateBlocks[indexPath.row] else { return tableView.estimatedRowHeight }
+        if item.descriptionField.isEmpty {
+            return 60
+        }
         return tableView.estimatedRowHeight
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return datesResponse?.courseDateBlocks.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TimelineTableViewCell.identifier, for: indexPath) as! TimelineTableViewCell
         cell.selectionStyle = .none
- 
+        
+        guard let items = datesResponse?.courseDateBlocks else { return cell }
+        
+        let index = indexPath.row
+        let item = items[index]
+        let count = items.count
+        
         cell.timeline.topColor = .clear
         cell.timeline.bottomColor = .clear
-        cell.timelinePoint.color = .black
-        
-        if indexPath.row == 0 {
+
+        if index == 0 {
+            cell.timeline.topColor = .clear
             cell.timeline.bottomColor = .black
-        }
-        if indexPath.row != 0 {
+        } else if index == count - 1 {
+            cell.timeline.topColor = .black
+            cell.timeline.bottomColor = .clear
+        } else {
             cell.timeline.topColor = .black
             cell.timeline.bottomColor = .black
         }
         
-        if indexPath.row == 2 {
-            cell.timelinePoint.color = .yellow
-            cell.timelinePoint.strokeColor = .black
-            cell.timelinePoint.diameter = 12
-        }
         
-        if indexPath.row == 4 {
-            cell.timeline.bottomColor = .clear
-        }
+//        if indexPath.row == 0 {
+//            cell.timeline.topColor = .clear
+//            cell.timeline.bottomColor = .black
+//        }
+//        if indexPath.row != 0 {
+//
+//        }
         
-        cell.dateText = DateFormatting.date(withServerString: "2020-07-08T08:33:26.435638Z")?.formattedDate(with: .medium)
-        cell.status = "Completed"
-        cell.titleText = "Upgrade to Verified Certificate"
-        cell.descriptionText = "Don't miss the opportunity to highlight your new knowledge and skills by earning a verified certificate"
+//        if indexPath.row == 2 {
+//            cell.timelinePoint.color = .yellow
+//            cell.timelinePoint.strokeColor = .black
+//            cell.timelinePoint.diameter = 12
+//        }
+        
+//        if indexPath.row == count - 1 {
+//            cell.timeline.topColor = .black
+//            cell.timeline.bottomColor = .clear
+//        }
+        
+        cell.dateText = item.dateText
+        cell.status = item.blockStatus.localized
+        cell.titleText = item.title
+        cell.descriptionText = item.descriptionField
         
         return cell
     }
