@@ -27,6 +27,43 @@ extension OEXRegistrationViewController {
         }
     }
     
+    private func matchPropertyWithErrorType(controller: inout OEXRegistrationFieldController, validation: ValidationDecisions) -> OEXRegistrationFieldController? {
+        switch controller.field.name {
+        case "name":
+            if !validation.name.isEmpty {
+                controller.handleError(validation.name)
+                return controller
+            }
+            break
+            
+        case "username":
+            if !validation.username.isEmpty {
+                controller.handleError(validation.username)
+                return controller
+            }
+            break
+            
+        case "email":
+            if !validation.email.isEmpty {
+                controller.handleError(validation.email)
+                return controller
+            }
+            break
+            
+        case "password":
+            if !validation.password.isEmpty {
+                controller.handleError(validation.password)
+                return controller
+            }
+            break
+            
+        default:
+            return nil
+        }
+        
+        return nil
+    }
+    
     @objc func validateRegistrationForm(parameters: [String: String]) {
         showProgress(true)
         
@@ -43,42 +80,12 @@ extension OEXRegistrationViewController {
             
             var firstControllerWithError: OEXRegistrationFieldController?
             
-            for case let controller as OEXRegistrationFieldController in owner.fieldControllers {
+            for case var controller as OEXRegistrationFieldController in owner.fieldControllers {
                 controller.accessibleInputField?.resignFirstResponder()
                 
-                if !validation.name.isEmpty && controller.field.name == "name" {
-                    controller.handleError(validation.name)
-                    if firstControllerWithError == nil {
-                        firstControllerWithError = controller
-                    }
-                }
-                
-                if !validation.username.isEmpty && controller.field.name == "username" {
-                    controller.handleError(validation.username)
-                    if firstControllerWithError == nil {
-                        firstControllerWithError = controller
-                    }
-                }
-                
-                if !validation.email.isEmpty && controller.field.name == "email" {
-                    controller.handleError(validation.email)
-                    if firstControllerWithError == nil {
-                        firstControllerWithError = controller
-                    }
-                }
-                
-                if !validation.password.isEmpty && controller.field.name == "password" {
-                    controller.handleError(validation.password)
-                    if firstControllerWithError == nil {
-                        firstControllerWithError = controller
-                    }
-                }
-                
-                if !validation.country.isEmpty && controller.field.name == "country" {
-                    controller.handleError(validation.country)
-                    if firstControllerWithError == nil {
-                        firstControllerWithError = controller
-                    }
+                let errorController = owner.matchPropertyWithErrorType(controller: &controller, validation: validation)
+                if firstControllerWithError == nil {
+                    firstControllerWithError = errorController
                 }
             }
             
@@ -97,7 +104,7 @@ extension OEXRegistrationViewController {
     
     @objc func register(withParameters parameter:[String:String]) {
         showProgress(true)
-        let infoDict :[String: String] = [OEXAnalyticsKeyProvider: self.externalProvider?.backendName ?? ""]
+        let infoDict: [String: String] = [OEXAnalyticsKeyProvider: externalProvider?.backendName ?? ""]
         environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue), forComponent: nil, withInfo: infoDict)
         let apiVersion = environment.config.apiUrlVersionConfig.registration
         OEXAuthentication.registerUser(withApiVersion: apiVersion, paramaters: parameter) { [weak self] (data: Data?, response: HTTPURLResponse?, error: Error?) in
