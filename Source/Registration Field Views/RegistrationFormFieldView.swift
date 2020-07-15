@@ -204,10 +204,14 @@ class RegistrationFormFieldView: UIView {
         errorMessage = nil
     }
     
-    @objc func valueDidChange() {
-        if !tapout { return }
+    @objc func valueDidChange(isPicker: Bool = false) {
+        if isPicker {
+            validateInput()
+        } else {
+            if !tapout { return }
 
-        validateInput()
+            validateInput()
+        }
     }
 
     @objc private  func editingDidEnd() {

@@ -97,7 +97,7 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
                 } else {
                     self?.selected = item
                     self?.setButtonTitle(title: item.name)
-                    self?.valueDidChange()
+                    self?.valueDidChange(isPicker: true)
                 }
                 self?.alertController.dismiss(animated: true, completion: nil)
             }
