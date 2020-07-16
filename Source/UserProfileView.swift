@@ -102,7 +102,7 @@ class UserProfileView : UIView, UIScrollViewDelegate {
         messageLabel.accessibilityIdentifier = "UserProfileView:message-label"
         countryLabel.accessibilityIdentifier = "UserProfileView:country-label"
         languageLabel.accessibilityIdentifier = "UserProfileView:language-label"
-        bioText.accessibilityIdentifier = "UserProfileView:boi-text-view"
+        bioText.accessibilityIdentifier = "UserProfileView:bio-text-view"
         bioSystemMessage.accessibilityIdentifier = "UserProfileView:bio-system-message-label"
         header.accessibilityIdentifier = "UserProfileView:profile-header-view"
         bottomBackground.accessibilityIdentifier = "UserProfileView:bottom-background-view"
