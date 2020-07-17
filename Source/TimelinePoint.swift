@@ -10,22 +10,22 @@ import Foundation
 import UIKit
 
 public struct TimelinePoint {
-    public var diameter: CGFloat = 6.0 {
+    public var diameter: CGFloat = 6 {
         didSet {
-            if diameter < 0.0 {
-                diameter = 0.0
-            } else if diameter > 100.0 {
-                diameter = 100.0
+            if diameter < 0 {
+                diameter = 0
+            } else if diameter > 100 {
+                diameter = 100
             }
         }
     }
     
-    public var lineWidth: CGFloat = 2.0 {
+    public var lineWidth: CGFloat = 2 {
         didSet {
-            if lineWidth < 0.0 {
-                lineWidth = 0.0
-            } else if lineWidth > 20.0 {
-                lineWidth = 20.0
+            if lineWidth < 0 {
+                lineWidth = 0
+            } else if lineWidth > 20 {
+                lineWidth = 20
             }
         }
     }
@@ -45,15 +45,15 @@ public struct TimelinePoint {
     }
     
     public init(diameter: CGFloat, color: UIColor, filled: Bool) {
-        self.init(diameter: diameter, lineWidth: 4.0, color: color, filled: filled)
+        self.init(diameter: diameter, lineWidth: 4, color: color, filled: filled)
     }
     
     public init(color: UIColor, filled: Bool) {
-        self.init(diameter: 6.0, lineWidth: 4.0, color: color, filled: filled)
+        self.init(diameter: 6, lineWidth: 4, color: color, filled: filled)
     }
     
     public init() {
-        self.init(diameter: 10.0, lineWidth: 1.0, color: .black, filled: true)
+        self.init(diameter: 10, lineWidth: 1, color: .black, filled: true)
     }
     
     public func draw(view: UIView) {

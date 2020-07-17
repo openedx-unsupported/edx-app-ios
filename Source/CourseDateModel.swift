@@ -10,6 +10,7 @@ import Foundation
 
 enum CourseStatusType {
     case completed
+    case today
     case pastDue
     case dueNext
     case unreleased
@@ -28,6 +29,9 @@ enum CourseStatusType {
         switch self {
         case .completed:
             return Strings.Coursedates.completed
+            
+        case .today:
+            return "Today"
             
         case .pastDue:
             return Strings.Coursedates.pastDue
@@ -105,12 +109,12 @@ enum CourseStatusType {
 
 public class CourseDateModel: NSObject {
     var courseDateBlocks: [CourseDateBlock] = []
-    let datesBannerInfo: DatesBannerInfo?
-    let learnerIsFullAccess: Bool
-    let missedDeadlines: Bool
-    let missedGatedContent: Bool
-    let userTimezone : String
-    let verifiedUpgradeLink: String
+    var datesBannerInfo: DatesBannerInfo? = nil
+    var learnerIsFullAccess: Bool = false
+    var missedDeadlines: Bool = false
+    var missedGatedContent: Bool = false
+    var userTimezone: String = ""
+    var verifiedUpgradeLink: String = ""
     
     public init?(json: JSON) {
         let courseDateBlocksArray = json["course_date_blocks"].array ?? []
@@ -144,20 +148,22 @@ class DatesBannerInfo: NSObject {
 }
 
 class CourseDateBlock: NSObject{
-    let complete: Bool
+    var complete: Bool = false
     var blockDate: Date = Date()
-    let dateType: String
-    let descriptionField: String
-    let learnerHasAccess: Bool
-    let link: String
-    let linkText: String
-    let title: String
-    let dateText: String
-    let isAssignment: Bool
+    var dateType: String = ""
+    var descriptionField: String = ""
+    var learnerHasAccess: Bool = false
+    var link: String = ""
+    var linkText: String = ""
+    var title: String = ""
+    var dateText: String = ""
+    var isAssignment: Bool = false
+    
+    var titleAndLinks: [[String: String]] = []
     
     var blockStatus: CourseStatusType {
         get {
-            return calculateStatus(date: blockDate, type: dateType)
+            return calculateStatus(type: dateType)
         }
     }
     
@@ -173,22 +179,30 @@ class CourseDateBlock: NSObject{
         isAssignment = CourseStatusType.isAssignment(type: dateType)
         
         guard let formattedDate = DateFormatting.date(withServerString: date) else {
-            dateText = ""
+            let today = NSDate()
+            blockDate = today as Date
+            dateText = today.formattedDate(with: .medium)
             return
         }
         blockDate = formattedDate as Date
         dateText = formattedDate.formattedDate(with: .medium)
     }
     
-    private var isInPast: Bool {
+    init(date: Date) {
+        let today = date as NSDate
+        self.blockDate = today as Date
+        self.dateText = today.formattedDate(with: .medium)
+    }
+    
+    var isInPast: Bool {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date()) == .orderedAscending
     }
     
-    private var isToday: Bool {
-        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date()) == .orderedSame
+    var isInToday: Bool {
+        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date()) == .orderedSame || dateType.isEmpty
     }
     
-    private var isInFuture: Bool {
+    var isInFuture: Bool {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date()) == .orderedDescending
     }
     
@@ -204,7 +218,18 @@ class CourseDateBlock: NSObject{
      course-start-date:
      course-end-date:
      */
-    private func calculateStatus(date: Date, type: String) -> CourseStatusType {
+    
+    func isToday(type: String) -> Bool {
+        if isInToday {
+            return true
+        }
+        return false
+    }
+    private func calculateStatus(type: String) -> CourseStatusType {
+        if isToday(type: type) {
+            return .today
+        }
+        
         if complete {
             return .completed
         } else {
@@ -213,6 +238,8 @@ class CourseDateBlock: NSObject{
                     if !complete {
                         if isInPast {
                             return .pastDue
+                        } else if isInToday {
+                            return .today
                         } else if isInFuture {
                             return .dueNext
                         }

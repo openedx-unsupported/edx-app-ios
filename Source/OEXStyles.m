@@ -278,6 +278,11 @@ static OEXStyles* sSharedStyles;
                              size:size dynamicTypeSupported:dynamicTypeSupported];
 }
 
+- (UIFont*)italicSansSerifOfSize:(CGFloat)size dynamicTypeSupported:(BOOL) dynamicTypeSupported {
+    return [self.oexFonts fontFor:FontIdentifiersItalic
+                             size:size dynamicTypeSupported:dynamicTypeSupported];
+}
+
 - (NSString*)styleHTMLContent:(NSString*)htmlString stylesheet:(NSString*)stylesheet {
     NSString* path = [[NSBundle mainBundle] pathForResource:stylesheet ofType:@"css"];
     NSError* error = nil;

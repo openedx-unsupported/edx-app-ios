@@ -28,11 +28,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         return tableView
     }()
     
-    private var datesResponse: CourseDateModel? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    private var datesResponse: CourseDateModel?
+    
+    private var blocks: [CourseDateBlock] = []
     
     private let courseID: String
     private let environment: Environment
@@ -78,12 +76,59 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         stream.listen(self) { [weak self] response in
             switch response {
             case .success(let data):
-                self?.datesResponse = data
+                self?.handleResponse(data: data)
                 break
             case .failure:
                 break
             }
         }
+    }
+    
+    private func handleResponse(data: CourseDateModel) {
+        datesResponse = data
+        blocks = data.courseDateBlocks
+        
+        let past = blocks.filter { $0.isInPast }
+        let future = blocks.filter { $0.isInFuture }
+        
+        let todayBlock = CourseDateBlock.init(date: Date())
+        
+        blocks.removeAll()
+        
+        blocks.append(contentsOf: past)
+        blocks.append(todayBlock)
+        blocks.append(contentsOf: future)
+        
+        var dictionary = [String : CourseDateBlock]()
+        
+        for block in blocks {
+            let key = block.dateText
+            if dictionary.keys.contains(key) {
+                if let item = dictionary[key] {
+                    let titleLink: [String: String] = [block.title : block.link]
+                    item.titleAndLinks.append(titleLink)
+                    
+//                    item.titles.append(block.title)
+//                    item.links.append(block.link)
+                    //item.title = item.title + "\n" + block.title
+                }
+            } else {
+                let titleLink: [String: String] = [block.title : block.link]
+                block.titleAndLinks.append(titleLink)
+                
+                dictionary[key] = block
+            }
+        }
+        
+        
+        blocks.removeAll()
+        blocks = dictionary.values.map { $0 }
+        blocks.sort { $0.blockDate < $1.blockDate }
+        
+        //print(blocks)
+        //print(b)
+        
+        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -98,31 +143,34 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
 }
 
 extension CourseDatesViewController: UITableViewDataSource {
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let item = datesResponse?.courseDateBlocks[indexPath.row] else { return tableView.estimatedRowHeight }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        let item = blocks[indexPath.row]
+        
         if item.descriptionField.isEmpty {
             return 60
         }
         return tableView.estimatedRowHeight
     }
     
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return datesResponse?.courseDateBlocks.count ?? 0
+        return blocks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TimelineTableViewCell.identifier, for: indexPath) as! TimelineTableViewCell
         cell.selectionStyle = .none
         
-        guard let items = datesResponse?.courseDateBlocks else { return cell }
-        
         let index = indexPath.row
-        let item = items[index]
-        let count = items.count
+        let item = blocks[index]
+        let count = blocks.count
         
         cell.timeline.topColor = .clear
         cell.timeline.bottomColor = .clear
-
+        
         if index == 0 {
             cell.timeline.topColor = .clear
             cell.timeline.bottomColor = .black
@@ -134,33 +182,35 @@ extension CourseDatesViewController: UITableViewDataSource {
             cell.timeline.bottomColor = .black
         }
         
+        if item.isInPast {
+            cell.timelinePoint.color = .lightGray
+            cell.timelinePoint.diameter = 10
+        } else if item.isInFuture {
+            cell.timelinePoint.color = .black
+            cell.timelinePoint.diameter = 10
+        }
         
-//        if indexPath.row == 0 {
-//            cell.timeline.topColor = .clear
-//            cell.timeline.bottomColor = .black
-//        }
-//        if indexPath.row != 0 {
-//
-//        }
-        
-//        if indexPath.row == 2 {
-//            cell.timelinePoint.color = .yellow
-//            cell.timelinePoint.strokeColor = .black
-//            cell.timelinePoint.diameter = 12
-//        }
-        
-//        if indexPath.row == count - 1 {
-//            cell.timeline.topColor = .black
-//            cell.timeline.bottomColor = .clear
-//        }
-        
+        cell.drawTimelineView()
+        if item.dateText.contains(find: "6") {
+            print("yo")
+        }
+        cell.dateStatus = item.blockStatus
         cell.dateText = item.dateText
-        cell.status = item.blockStatus.localized
-        cell.titleText = item.title
+        cell.titleAndLink = item.titleAndLinks
         cell.descriptionText = item.descriptionField
         
+        cell.sizeToFit()
         return cell
     }
 }
 
 extension CourseDatesViewController: UITableViewDelegate { }
+
+extension Array {
+    func uniques<T: Hashable>(by keyPath: KeyPath<Element, T>) -> [Element] {
+        return reduce([]) { result, element in
+            let alreadyExists = (result.contains(where: { $0[keyPath: keyPath] == element[keyPath: keyPath] }))
+            return alreadyExists ? result : result + [element]
+        }
+    }
+}
