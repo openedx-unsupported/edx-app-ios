@@ -32,6 +32,10 @@ class CourseCardCell : UICollectionViewCell {
         
         contentView.backgroundColor = OEXStyles.shared().neutralXLight()
 
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
         contentView.accessibilityIdentifier = "CourseCardCell:content-view"
         courseView.accessibilityIdentifier = "CourseCardCell:course-card-view"
     }

@@ -44,8 +44,7 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
         webView.navigationDelegate = self
         view.backgroundColor = environment.styles.standardBackgroundColor()
 
-        view.accessibilityIdentifier = "CourseHandoutsViewController:view"
-        webView.accessibilityIdentifier = "CourseHandoutsViewController:web-view"
+        setAccessibilityIdentifiers()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -64,6 +63,11 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
     
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "CourseHandoutsViewController:view"
+        webView.accessibilityIdentifier = "CourseHandoutsViewController:web-view"
     }
     
     private func addSubviews() {

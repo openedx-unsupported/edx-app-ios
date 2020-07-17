@@ -90,7 +90,7 @@ class AdditionalTableViewCell: UITableViewCell {
     }
 
     private func setAccessibilityIdentifiers() {
-        contentView.accessibilityIdentifier = "setAccessibilityIdentifiers:content-view"
+        contentView.accessibilityIdentifier = "AdditionalTableViewCell:content-view"
         container.accessibilityIdentifier = "AdditionalTableViewCell:container-view"
         titleLabel.accessibilityIdentifier = "AdditionalTableViewCell:title-label"
         detailLabel.accessibilityIdentifier = "AdditionalTableViewCell:detail-label"
