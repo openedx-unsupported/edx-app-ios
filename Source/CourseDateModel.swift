@@ -181,17 +181,17 @@ class CourseDateBlock: NSObject{
         guard let formattedDate = DateFormatting.date(withServerString: date) else {
             let today = NSDate()
             blockDate = today as Date
-            dateText = today.formattedDate(with: .medium)
+            dateText = today.formattedDate(with: .full)
             return
         }
         blockDate = formattedDate as Date
-        dateText = formattedDate.formattedDate(with: .medium)
+        dateText = formattedDate.formattedDate(with: .full)
     }
     
     init(date: Date) {
         let today = date as NSDate
         self.blockDate = today as Date
-        self.dateText = today.formattedDate(with: .medium)
+        self.dateText = today.formattedDate(with: .full)
     }
     
     var isInPast: Bool {
@@ -199,7 +199,11 @@ class CourseDateBlock: NSObject{
     }
     
     var isInToday: Bool {
-        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date()) == .orderedSame || dateType.isEmpty
+        if dateType.isEmpty {
+            return true
+        } else {
+            return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date()) == .orderedSame
+        }
     }
     
     var isInFuture: Bool {
@@ -208,7 +212,7 @@ class CourseDateBlock: NSObject{
     
     /*
      For completeness sake, here are the badge triggers:
-     completed: should be if the item has the currently-never-present-by-accident completed boolean to true (and is an assignment)
+     completed: should be if the item has the completed boolean to true (and is an assignment)
      past due: is an assignment, the learner has access, is not complete, and due in the past
      due next: is an assignment, the learner has access, is not complete, and is the next assignment due
      unreleased: is an assignment, the learner has access, and there's no link property (and/or it's empty, I forget which)
@@ -219,14 +223,8 @@ class CourseDateBlock: NSObject{
      course-end-date:
      */
     
-    func isToday(type: String) -> Bool {
-        if isInToday {
-            return true
-        }
-        return false
-    }
     private func calculateStatus(type: String) -> CourseStatusType {
-        if isToday(type: type) {
+        if isInToday {
             return .today
         }
         
@@ -256,3 +254,13 @@ class CourseDateBlock: NSObject{
         return .event
     }
 }
+
+extension Date {
+    public func removeTimeStamp() -> Date {
+        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
+            fatalError("Failed to strip time from Date object")
+        }
+        return date
+    }
+}
+

@@ -18,7 +18,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.tableFooterView = UIView()
-        tableView.estimatedRowHeight = 90
+        tableView.estimatedRowHeight = 60
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
         tableView.delegate = self
@@ -29,9 +29,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }()
     
     private var datesResponse: CourseDateModel?
-    
-    private var blocks: [CourseDateBlock] = []
-    
+    private var courseDateBlockMap = [Date : [CourseDateBlock]]()
+    private var courseDateBlockMapSortedKeys = [Dictionary<Date, [CourseDateBlock]>.Keys.Element]()
+        
     private let courseID: String
     private let environment: Environment
     
@@ -86,48 +86,37 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private func handleResponse(data: CourseDateModel) {
         datesResponse = data
-        blocks = data.courseDateBlocks
+        var blocks = data.courseDateBlocks
         
-        let past = blocks.filter { $0.isInPast }
-        let future = blocks.filter { $0.isInFuture }
+        courseDateBlockMap = [Date : [CourseDateBlock]]()
+                
+        let foundToday = blocks.first { $0.blockStatus == .today }
         
-        let todayBlock = CourseDateBlock.init(date: Date())
-        
-        blocks.removeAll()
-        
-        blocks.append(contentsOf: past)
-        blocks.append(todayBlock)
-        blocks.append(contentsOf: future)
-        
-        var dictionary = [String : CourseDateBlock]()
+        if foundToday == nil {
+            let past = blocks.filter { $0.isInPast }
+            let future = blocks.filter { $0.isInFuture }
+            let todayBlock = CourseDateBlock(date: Date())
+            
+            blocks.removeAll()
+            
+            blocks.append(contentsOf: past)
+            blocks.append(todayBlock)
+            blocks.append(contentsOf: future)
+        }
         
         for block in blocks {
-            let key = block.dateText
-            if dictionary.keys.contains(key) {
-                if let item = dictionary[key] {
-                    let titleLink: [String: String] = [block.title : block.link]
-                    item.titleAndLinks.append(titleLink)
-                    
-//                    item.titles.append(block.title)
-//                    item.links.append(block.link)
-                    //item.title = item.title + "\n" + block.title
+            let key = block.blockDate.removeTimeStamp()
+            if courseDateBlockMap.keys.contains(key) {
+                if var item = courseDateBlockMap[key] {
+                    item.append(block)
+                    courseDateBlockMap[key] = item
                 }
             } else {
-                let titleLink: [String: String] = [block.title : block.link]
-                block.titleAndLinks.append(titleLink)
-                
-                dictionary[key] = block
+                courseDateBlockMap[key] = [block]
             }
         }
         
-        
-        blocks.removeAll()
-        blocks = dictionary.values.map { $0 }
-        blocks.sort { $0.blockDate < $1.blockDate }
-        
-        //print(blocks)
-        //print(b)
-        
+        courseDateBlockMapSortedKeys = Array(courseDateBlockMap.keys).sorted()
         tableView.reloadData()
     }
     
@@ -144,11 +133,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
 
 extension CourseDatesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        let item = blocks[indexPath.row]
-        
-        if item.descriptionField.isEmpty {
-            return 60
-        }
         return tableView.estimatedRowHeight
     }
     
@@ -157,7 +141,7 @@ extension CourseDatesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return blocks.count
+        return courseDateBlockMapSortedKeys.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -165,8 +149,9 @@ extension CourseDatesViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         
         let index = indexPath.row
-        let item = blocks[index]
-        let count = blocks.count
+        let key = courseDateBlockMapSortedKeys[index]
+        let item = courseDateBlockMap[key]
+        let count = courseDateBlockMapSortedKeys.count
         
         cell.timeline.topColor = .clear
         cell.timeline.bottomColor = .clear
@@ -182,35 +167,12 @@ extension CourseDatesViewController: UITableViewDataSource {
             cell.timeline.bottomColor = .black
         }
         
-        if item.isInPast {
-            cell.timelinePoint.color = .lightGray
-            cell.timelinePoint.diameter = 10
-        } else if item.isInFuture {
-            cell.timelinePoint.color = .black
-            cell.timelinePoint.diameter = 10
-        }
+        guard let blocks = item else { return cell }
         
-        cell.drawTimelineView()
-        if item.dateText.contains(find: "6") {
-            print("yo")
-        }
-        cell.dateStatus = item.blockStatus
-        cell.dateText = item.dateText
-        cell.titleAndLink = item.titleAndLinks
-        cell.descriptionText = item.descriptionField
+        cell.blocks = blocks
         
-        cell.sizeToFit()
         return cell
     }
 }
 
 extension CourseDatesViewController: UITableViewDelegate { }
-
-extension Array {
-    func uniques<T: Hashable>(by keyPath: KeyPath<Element, T>) -> [Element] {
-        return reduce([]) { result, element in
-            let alreadyExists = (result.contains(where: { $0[keyPath: keyPath] == element[keyPath: keyPath] }))
-            return alreadyExists ? result : result + [element]
-        }
-    }
-}
