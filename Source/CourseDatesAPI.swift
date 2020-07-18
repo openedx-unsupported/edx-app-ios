@@ -21,7 +21,6 @@ public class CourseDatesAPI: NSObject {
     
     class func courseDatesRequest(courseID: String)-> NetworkRequest<CourseDateModel> {
         let datesPath = path(courseID: courseID)
-        print(datesPath)
         return NetworkRequest(
             method: HTTPMethod.GET,
             path : datesPath,
