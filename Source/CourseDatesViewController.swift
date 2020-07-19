@@ -191,3 +191,10 @@ fileprivate extension Date {
         return date
     }
 }
+
+// For use in testing only
+extension CourseDatesViewController {
+    func t_loadData(data: CourseDateModel) {
+        handleResponse(data: data)
+    }
+}
