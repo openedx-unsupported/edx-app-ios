@@ -24,7 +24,7 @@ public class RegistrationFormValidation: NSObject {
 class ValidationDecisions: NSObject {
     @objc let name, email, username, password, country: String
     
-    enum Keys: String, RawStringExtractable {
+    enum Keys: String, RawStringExtractable, CaseIterable {
         case name
         case email
         case username

@@ -28,42 +28,11 @@ extension OEXRegistrationViewController {
     }
     
     private func errorWithErrorType(name: String, validation: ValidationDecisions) -> String? {
-        switch name {
-        case ValidationDecisions.Keys.name.rawValue:
-            if !validation.name.isEmpty {
-                return validation.name
-            }
-            break
-            
-        case ValidationDecisions.Keys.username.rawValue:
-            if !validation.username.isEmpty {
-                return validation.username
-            }
-            break
-            
-        case ValidationDecisions.Keys.email.rawValue:
-            if !validation.email.isEmpty {
-                return validation.email
-            }
-            break
-            
-        case ValidationDecisions.Keys.password.rawValue:
-            if !validation.password.isEmpty {
-                return validation.password
-            }
-            break
-            
-        case ValidationDecisions.Keys.country.rawValue:
-            if !validation.country.isEmpty {
-                return validation.country
-            }
-            break
-            
-        default:
-            return nil
-        }
-        
-        return nil
+        guard let value = ValidationDecisions.Keys(rawValue: name),
+            ValidationDecisions.Keys.allCases.contains(value),
+            let errorValue = validation.value(forKeyPath: value.rawValue) as? String,
+            !errorValue.isEmpty else { return nil }
+        return errorValue
     }
     
     @objc func validateRegistrationForm(parameters: [String: String]) {
