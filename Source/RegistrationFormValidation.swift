@@ -11,12 +11,12 @@ import Foundation
 public class RegistrationFormValidation: NSObject {
     let validationDecisions: ValidationDecisions?
     
-    private enum Keys: String {
+    private enum Keys: String, RawStringExtractable {
         case validationDecisions = "validation_decisions"
     }
     
     public init?(json: JSON) {
-        let validationDecisionJson = json[Keys.validationDecisions.rawValue]
+        let validationDecisionJson = json[Keys.validationDecisions]
         validationDecisions = ValidationDecisions(json: validationDecisionJson) ?? nil
     }
 }
@@ -24,7 +24,7 @@ public class RegistrationFormValidation: NSObject {
 class ValidationDecisions: NSObject {
     @objc let name, email, username, password, country: String
     
-    private enum Keys: String {
+    private enum Keys: String, RawStringExtractable {
         case name
         case email
         case username
@@ -33,10 +33,10 @@ class ValidationDecisions: NSObject {
     }
     
     public init?(json: JSON) {
-        name = json[Keys.name.rawValue].string ?? ""
-        email = json[Keys.email.rawValue].string ?? ""
-        username = json[Keys.username.rawValue].string ?? ""
-        password = json[Keys.password.rawValue].string ?? ""
-        country = json[Keys.country.rawValue].string ?? ""
+        name = json[Keys.name].string ?? ""
+        email = json[Keys.email].string ?? ""
+        username = json[Keys.username].string ?? ""
+        password = json[Keys.password].string ?? ""
+        country = json[Keys.country].string ?? ""
     }
 }

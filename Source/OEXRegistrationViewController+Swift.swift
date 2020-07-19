@@ -27,33 +27,29 @@ extension OEXRegistrationViewController {
         }
     }
     
-    private func matchControllerWithValidation(controller: inout OEXRegistrationFieldController, validation: ValidationDecisions) -> OEXRegistrationFieldController? {
-        switch controller.field.name {
+    private func errorWithErrorType(name: String, validation: ValidationDecisions) -> String? {
+       switch name {
         case "name":
             if !validation.name.isEmpty {
-                controller.handleError(validation.name)
-                return controller
+                return validation.name
             }
             break
             
         case "username":
             if !validation.username.isEmpty {
-                controller.handleError(validation.username)
-                return controller
+                return validation.username
             }
             break
             
         case "email":
             if !validation.email.isEmpty {
-                controller.handleError(validation.email)
-                return controller
+                return validation.email
             }
             break
             
         case "password":
             if !validation.password.isEmpty {
-                controller.handleError(validation.password)
-                return controller
+                return validation.password
             }
             break
             
@@ -80,12 +76,14 @@ extension OEXRegistrationViewController {
             
             var firstControllerWithError: OEXRegistrationFieldController?
             
-            for case var controller as OEXRegistrationFieldController in owner.fieldControllers {
+            for case let controller as OEXRegistrationFieldController in owner.fieldControllers {
                 controller.accessibleInputField?.resignFirstResponder()
                 
-                let errorController = owner.matchControllerWithValidation(controller: &controller, validation: validation)
-                if firstControllerWithError == nil {
-                    firstControllerWithError = errorController
+                if let error = owner.errorWithErrorType(name: controller.field.name, validation: validation) {
+                    controller.handleError(error)
+                    if firstControllerWithError == nil {
+                        firstControllerWithError = controller
+                    }
                 }
             }
             
