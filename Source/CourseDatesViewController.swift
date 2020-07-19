@@ -11,7 +11,7 @@ import WebKit
 
 class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
     
     private let datesLoader = BackedStream<(CourseDateModel)>()
     
@@ -23,7 +23,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
-        tableView.register(TimelineTableViewCell.self, forCellReuseIdentifier: TimelineTableViewCell.identifier)
+        tableView.register(CourseDateViewCell.self, forCellReuseIdentifier: CourseDateViewCell.identifier)
         
         return tableView
     }()
@@ -31,7 +31,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var datesResponse: CourseDateModel?
     private var courseDateBlockMap = [Date : [CourseDateBlock]]()
     private var courseDateBlockMapSortedKeys = [Dictionary<Date, [CourseDateBlock]>.Keys.Element]()
-        
+    
     private let courseID: String
     private let environment: Environment
     
@@ -89,13 +89,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         var blocks = data.courseDateBlocks
         
         courseDateBlockMap = [Date : [CourseDateBlock]]()
-                
+        
         let foundToday = blocks.first { $0.blockStatus == .today }
         
         if foundToday == nil {
             let past = blocks.filter { $0.isInPast }
             let future = blocks.filter { $0.isInFuture }
-            let todayBlock = CourseDateBlock(date: Date())
+            let todayBlock = CourseDateBlock()
             
             blocks.removeAll()
             
@@ -105,7 +105,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
         
         for block in blocks {
-            let key = block.blockDate.removeTimeStamp()
+            let key = block.blockDate.stripTimeStamp()
             if courseDateBlockMap.keys.contains(key) {
                 if var item = courseDateBlockMap[key] {
                     item.append(block)
@@ -145,7 +145,7 @@ extension CourseDatesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TimelineTableViewCell.identifier, for: indexPath) as! TimelineTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CourseDateViewCell.identifier, for: indexPath) as! CourseDateViewCell
         cell.selectionStyle = .none
         
         let index = indexPath.row
@@ -168,7 +168,7 @@ extension CourseDatesViewController: UITableViewDataSource {
         }
         
         guard let blocks = item else { return cell }
-        
+        cell.delegate = self
         cell.blocks = blocks
         
         return cell
@@ -176,3 +176,18 @@ extension CourseDatesViewController: UITableViewDataSource {
 }
 
 extension CourseDatesViewController: UITableViewDelegate { }
+
+extension CourseDatesViewController: CourseDateViewCellDelegate {
+    func didSelectLinkWith(url: URL) {
+        // environment.router?.showCourseDatesWebViewController(controller: self, courseID: courseID, url: url)
+    }
+}
+
+fileprivate extension Date {
+    func stripTimeStamp() -> Date {
+        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
+            return self
+        }
+        return date
+    }
+}

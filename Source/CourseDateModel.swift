@@ -15,8 +15,6 @@ enum CourseStatusType {
     case dueNext
     case unreleased
     case verifiedOnly
-    case event
-    
     case assignment
     case verifiedUpgradeDeadline
     case courseExpiredDate
@@ -24,6 +22,7 @@ enum CourseStatusType {
     case certificateAvailbleDate
     case courseStartDate
     case courseEndDate
+    case event
     
     var localized: String {
         switch self {
@@ -31,7 +30,7 @@ enum CourseStatusType {
             return Strings.Coursedates.completed
             
         case .today:
-            return "Today"
+            return Strings.Coursedates.today
             
         case .pastDue:
             return Strings.Coursedates.pastDue
@@ -49,25 +48,25 @@ enum CourseStatusType {
             return Strings.Coursedates.event
             
         case .assignment:
-            return "Assignment Due Date"
+            return Strings.Coursedates.assignmentDueDate
             
         case .verifiedUpgradeDeadline:
-            return "Verified Upgrade Deadline"
+            return Strings.Coursedates.verifiedUpgradeDeadline
             
         case .courseExpiredDate:
-            return "Course Expired Date"
+            return Strings.Coursedates.courseExpiredDate
             
         case .verificationDeadlineDate:
-            return "Verification Deadline Date"
+            return Strings.Coursedates.verificationDeadlineDate
             
         case .certificateAvailbleDate:
-            return "Certificate Available Date"
+            return Strings.Coursedates.certificateAvailableDate
             
         case .courseStartDate:
-            return "Course Start Date"
+            return Strings.Coursedates.courseStartDate
             
         case .courseEndDate:
-            return "Course End Date"
+            return Strings.Coursedates.courseEndDate
         }
     }
     
@@ -101,13 +100,19 @@ enum CourseStatusType {
             return .event
         }
     }
-    
-    static func isAssignment(type: String) -> Bool {
-        return type == "assignment-due-date"
-    }
 }
 
 public class CourseDateModel: NSObject {
+    private enum Keys: String, RawStringExtractable {
+        case courseDateBlocks = "course_date_blocks"
+        case datesBannerInfo = "dates_banner_info"
+        case learnerIsFullAccess = "learner_is_full_access"
+        case missedDeadlines = "missed_deadlines"
+        case missedGatedContent = "missed_gated_content"
+        case userTimezone = "user_timezone"
+        case verifiedUpgradeLink = "verified_upgrade_link"
+    }
+    
     var courseDateBlocks: [CourseDateBlock] = []
     var datesBannerInfo: DatesBannerInfo? = nil
     var learnerIsFullAccess: Bool = false
@@ -117,37 +122,55 @@ public class CourseDateModel: NSObject {
     var verifiedUpgradeLink: String = ""
     
     public init?(json: JSON) {
-        let courseDateBlocksArray = json["course_date_blocks"].array ?? []
+        let courseDateBlocksArray = json[Keys.courseDateBlocks].array ?? []
         for courseDateBlocksJsonObject in courseDateBlocksArray {
             if let courseDateblock = CourseDateBlock(json: courseDateBlocksJsonObject) {
                 courseDateBlocks.append(courseDateblock)
             }
         }
-        let datesBannerInfoJson = json["dates_banner_info"]
+        let datesBannerInfoJson = json[Keys.datesBannerInfo]
         datesBannerInfo = DatesBannerInfo(json: datesBannerInfoJson) ?? nil
-        learnerIsFullAccess = json["learner_is_full_access"].bool ?? false
-        missedDeadlines = json["missed_deadlines"].bool ?? false
-        missedGatedContent = json["missed_gated_content"].bool ?? false
-        userTimezone = json["user_timezone"].string ?? ""
-        verifiedUpgradeLink = json["verified_upgrade_link"].string ?? ""
+        learnerIsFullAccess = json[Keys.learnerIsFullAccess].bool ?? false
+        missedDeadlines = json[Keys.missedDeadlines].bool ?? false
+        missedGatedContent = json[Keys.missedGatedContent].bool ?? false
+        userTimezone = json[Keys.userTimezone].string ?? ""
+        verifiedUpgradeLink = json[Keys.verifiedUpgradeLink].string ?? ""
     }
 }
 
 class DatesBannerInfo: NSObject {
+    private enum Keys: String, RawStringExtractable {
+        case contentTypeGatingEnabled = "content_type_gating_enabled"
+        case missedDeadlines = "missed_deadlines"
+        case missedGatedContent = "missed_gated_content"
+        case verifiedUpgradeLink = "verified_upgrade_link"
+    }
+    
     let contentTypeGatingEnabled: Bool
     let missedDeadlines: Bool
     let missedGatedContent: Bool
     let verifiedUpgradeLink: String
     
     public init?(json: JSON) {
-        contentTypeGatingEnabled = json["content_type_gating_enabled"].bool ?? false
-        missedDeadlines = json["missed_deadlines"].bool ?? false
-        missedGatedContent = json["missed_gated_content"].bool ?? false
-        verifiedUpgradeLink = json["verified_upgrade_link"].string ?? ""
+        contentTypeGatingEnabled = json[Keys.contentTypeGatingEnabled].bool ?? false
+        missedDeadlines = json[Keys.missedDeadlines].bool ?? false
+        missedGatedContent = json[Keys.missedGatedContent].bool ?? false
+        verifiedUpgradeLink = json[Keys.verifiedUpgradeLink].string ?? ""
     }
 }
 
-class CourseDateBlock: NSObject{
+class CourseDateBlock: NSObject {
+    private enum Keys: String, RawStringExtractable {
+        case complete = "complete"
+        case date = "date"
+        case dateType = "date_type"
+        case description = "description"
+        case learnerHasAccess = "learner_has_access"
+        case link = "link"
+        case linkText = "link_text"
+        case title = "title"
+    }
+    
     var complete: Bool = false
     var blockDate: Date = Date()
     var dateType: String = ""
@@ -157,26 +180,16 @@ class CourseDateBlock: NSObject{
     var linkText: String = ""
     var title: String = ""
     var dateText: String = ""
-    var isAssignment: Bool = false
-    
-    var titleAndLinks: [[String: String]] = []
-    
-    var blockStatus: CourseStatusType {
-        get {
-            return calculateStatus(type: dateType)
-        }
-    }
     
     public init?(json: JSON) {
-        complete = json["complete"].bool ?? false
-        let date = json["date"].string ?? ""
-        dateType = json["date_type"].string ?? ""
-        descriptionField = json["description"].string ?? ""
-        learnerHasAccess = json["learner_has_access"].bool ?? false
-        link = json["link"].string ?? ""
-        linkText = json["link_text"].string ?? ""
-        title = json["title"].string ?? ""
-        isAssignment = CourseStatusType.isAssignment(type: dateType)
+        complete = json[Keys.complete].bool ?? false
+        let date = json[Keys.date].string ?? ""
+        dateType = json[Keys.dateType].string ?? ""
+        descriptionField = json[Keys.description].string ?? ""
+        learnerHasAccess = json[Keys.learnerHasAccess].bool ?? false
+        link = json[Keys.link].string ?? ""
+        linkText = json[Keys.linkText].string ?? ""
+        title = json[Keys.title].string ?? ""
         
         guard let formattedDate = DateFormatting.date(withServerString: date) else {
             let today = NSDate()
@@ -188,7 +201,7 @@ class CourseDateBlock: NSObject{
         dateText = formattedDate.formattedDate(with: .full)
     }
     
-    init(date: Date) {
+    init(date: Date = Date()) {
         let today = date as NSDate
         self.blockDate = today as Date
         self.dateText = today.formattedDate(with: .full)
@@ -241,7 +254,7 @@ class CourseDateBlock: NSObject{
                         } else if isInFuture {
                             return .dueNext
                         }
-                    } else if link.isEmpty {
+                    } else if isUnreleased {
                         return .unreleased
                     }
                 } else {
@@ -255,12 +268,36 @@ class CourseDateBlock: NSObject{
     }
 }
 
-extension Date {
-    public func removeTimeStamp() -> Date {
-        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
-            fatalError("Failed to strip time from Date object")
-        }
-        return date
+extension CourseDateBlock {
+    var blockStatus: CourseStatusType {
+        return calculateStatus(type: dateType)
+    }
+    
+    var isAssignment: Bool {
+        return dateType == "assignment-due-date"
+    }
+    
+    var isLearnerAssignment: Bool {
+        return learnerHasAccess && isAssignment
+    }
+
+    var isPastDue: Bool {
+        return !complete && (blockDate < Date())
+    }
+
+    var isUnreleased: Bool {
+        return link.isEmpty
+    }
+    
+    var showLink: Bool {
+        return !link.isEmpty && isLearnerAssignment;
+    }
+    
+    var available: Bool {
+        return learnerHasAccess && (!link.isEmpty || !isLearnerAssignment)
+    }
+    
+    var hasDesription: Bool {
+        return !description.isEmpty
     }
 }
-
