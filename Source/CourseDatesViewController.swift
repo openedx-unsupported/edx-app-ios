@@ -31,7 +31,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var datesResponse: CourseDateModel?
     private var courseDateBlockMap = [Date : [CourseDateBlock]]()
     private var courseDateBlockMapSortedKeys = [Dictionary<Date, [CourseDateBlock]>.Keys.Element]()
-        
+    
     private let courseID: String
     private let environment: Environment
     
@@ -89,7 +89,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         var blocks = data.courseDateBlocks
         
         courseDateBlockMap = [Date : [CourseDateBlock]]()
-                
+        
         let foundToday = blocks.first { $0.blockStatus == .today }
         
         if foundToday == nil {
