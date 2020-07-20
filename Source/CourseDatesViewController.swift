@@ -97,6 +97,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         courseDateBlockMap = [Date : [CourseDateBlock]]()
         
+        blocks.forEach { print($0.blockStatus) }
         let foundToday = blocks.first { $0.blockStatus == .today }
         
         if foundToday == nil {
@@ -192,15 +193,6 @@ extension CourseDatesViewController: UITableViewDelegate { }
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLinkWith(url: URL) {
         // environment.router?.showCourseDatesWebViewController(controller: self, courseID: courseID, url: url)
-    }
-}
-
-fileprivate extension Date {
-    func stripTimeStamp() -> Date {
-        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
-            return self
-        }
-        return date
     }
 }
 

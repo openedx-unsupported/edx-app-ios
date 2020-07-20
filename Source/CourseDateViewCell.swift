@@ -185,8 +185,8 @@ class CourseDateViewCell: UITableViewCell {
         }
         
         statusStackView.snp.makeConstraints { make in
-            make.leading.equalTo(statusContainerView).offset(StandardHorizontalMargin)
-            make.trailing.equalTo(statusContainerView).inset(StandardHorizontalMargin)
+            make.leading.equalTo(statusContainerView).offset(StandardHorizontalMargin / 2)
+            make.trailing.equalTo(statusContainerView).inset(StandardHorizontalMargin / 2)
             make.top.equalTo(statusContainerView)
             make.bottom.equalTo(statusContainerView)
         }

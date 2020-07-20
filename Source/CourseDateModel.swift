@@ -172,7 +172,7 @@ class CourseDateBlock: NSObject {
     }
     
     var complete: Bool = false
-    var blockDate: Date = Date()
+    var blockDate: Date = Date().stripTimeStamp()
     var dateType: String = ""
     var descriptionField: String = ""
     var learnerHasAccess: Bool = false
@@ -193,35 +193,37 @@ class CourseDateBlock: NSObject {
         
         guard let formattedDate = DateFormatting.date(withServerString: date) else {
             let today = NSDate()
-            blockDate = today as Date
-            dateText = today.formattedDate(with: .full)
+            blockDate = (today as Date).stripTimeStamp()
+            dateText = DateFormatting.format(asWeekDayMonthDateYear: today as Date)
             return
         }
-        blockDate = formattedDate as Date
-        dateText = formattedDate.formattedDate(with: .full)
+        blockDate = (formattedDate as Date).stripTimeStamp()
+        dateText = DateFormatting.format(asWeekDayMonthDateYear: blockDate as Date)
     }
     
     init(date: Date = Date()) {
-        let today = date as NSDate
-        self.blockDate = today as Date
-        self.dateText = today.formattedDate(with: .full)
+        let today = date.stripTimeStamp() as NSDate
+        self.blockDate = (today as Date).stripTimeStamp()
+        dateText = DateFormatting.format(asWeekDayMonthDateYear: today as Date)
     }
     
     var isInPast: Bool {
-        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date()) == .orderedAscending
+        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date().stripTimeStamp()) == .orderedAscending
     }
     
     var isInToday: Bool {
         if dateType.isEmpty {
             return true
         } else {
-            return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date()) == .orderedSame
+            return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date().stripTimeStamp()) == .orderedSame
         }
     }
     
     var isInFuture: Bool {
-        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date()) == .orderedDescending
+        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date().stripTimeStamp()) == .orderedDescending
     }
+    
+    
     
     /*
      For completeness sake, here are the badge triggers:
@@ -237,6 +239,9 @@ class CourseDateBlock: NSObject {
      */
     
     private func calculateStatus(type: String) -> CourseStatusType {
+        if dateText.contains(find: "July 20") {
+            print("yo")
+        }
         if isInToday {
             return .today
         }
@@ -282,7 +287,7 @@ extension CourseDateBlock {
     }
 
     var isPastDue: Bool {
-        return !complete && (blockDate < Date())
+        return !complete && (blockDate < Date().stripTimeStamp())
     }
 
     var isUnreleased: Bool {

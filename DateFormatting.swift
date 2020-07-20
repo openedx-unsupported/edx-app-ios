@@ -101,6 +101,12 @@ open class DateFormatting: NSObject {
         return formatter.string(from: date as Date)
     }
     
+    open class func format(asWeekDayMonthDateYear date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EE, MMM, d yyyy"
+        return dateFormatter.string(from: date)
+    }
+    
     /// Get the order of two dates comparison
     open class func compareTwoDates(fromDate date: Date, toDate: Date) -> ComparisonResult {
         if(date > toDate) {
@@ -134,5 +140,14 @@ open class DateFormatting: NSObject {
         }
     
         return abbreviatedKey
+    }
+}
+
+public extension Date {
+    func stripTimeStamp() -> Date {
+        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
+            return self
+        }
+        return date
     }
 }
