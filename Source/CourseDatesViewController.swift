@@ -27,7 +27,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         return tableView
     }()
-    
+    private let loadController: LoadStateViewController
+
     private var datesResponse: CourseDateModel?
     private var courseDateBlockMap = [Date : [CourseDateBlock]]()
     private var courseDateBlockMapSortedKeys = [Dictionary<Date, [CourseDateBlock]>.Keys.Element]()
@@ -38,7 +39,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
-        super.init(nibName: nil, bundle :nil)
+        loadController = LoadStateViewController()
+        
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -50,8 +53,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         view.addSubview(tableView)
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         
+        loadController.setupInController(controller: self, contentView: tableView)
+
         setConstraints()
-        tableView.reloadData()
+        setAccessibilityIdentifiers()
         loadCourseDates()
     }
     
@@ -77,8 +82,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             switch response {
             case .success(let data):
                 self?.handleResponse(data: data)
+                self?.loadController.state = .Loaded
                 break
             case .failure:
+                self?.loadController.state = .failed()
                 break
             }
         }
@@ -122,6 +129,11 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "CourseDatesViewController:view"
+        tableView.accessibilityIdentifier = "CourseDatesViewController:table-view"
     }
     
     private func setConstraints() {
@@ -170,7 +182,7 @@ extension CourseDatesViewController: UITableViewDataSource {
         guard let blocks = item else { return cell }
         cell.delegate = self
         cell.blocks = blocks
-        
+        cell.accessibilityIdentifier = "CourseDatesViewController:table-cell"
         return cell
     }
 }
