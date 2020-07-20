@@ -82,7 +82,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             switch response {
             case .success(let data):
                 self?.handleResponse(data: data)
-                self?.loadController.state = .Loaded
                 break
             case .failure:
                 self?.loadController.state = .failed()
@@ -92,6 +91,11 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func handleResponse(data: CourseDateModel) {
+        populate(data: data)
+        loadController.state = .Loaded
+    }
+    
+    private func populate(data: CourseDateModel) {
         datesResponse = data
         var blocks = data.courseDateBlocks
         
