@@ -250,6 +250,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     func removeControls() {
+        controls?.reset()
         controls?.removeFromSuperview()
         controls = nil
     }
@@ -393,6 +394,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     @objc private func movieTimedOut() {
         stop()
         playerDelegate?.playerDidTimeout(videoPlayer: self)
+        loadingIndicatorView.stopAnimating()
     }
     
     fileprivate func resume() {
