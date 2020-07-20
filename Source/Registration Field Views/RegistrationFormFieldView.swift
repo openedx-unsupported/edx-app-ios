@@ -205,13 +205,8 @@ class RegistrationFormFieldView: UIView {
     }
     
     @objc func valueDidChange(isPicker: Bool = false) {
-        if isPicker {
-            validateInput()
-        } else {
-            if !tapout { return }
-
-            validateInput()
-        }
+        if !tapout && !isPicker { return }
+        validateInput()
     }
 
     @objc private  func editingDidEnd() {
