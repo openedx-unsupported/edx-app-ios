@@ -9,7 +9,7 @@
 import Foundation
 
 public struct RegistrationFormAPI {
-    private static let RegistrationValidationURL = "/api/user/v1/validation/registration"
+    private static let RegistrationValidationPath = "/api/user/v1/validation/registration"
     
     private static func registrationFormDeserializer(response : HTTPURLResponse, json : JSON) -> Result<OEXRegistrationDescription> {
         return json.dictionaryObject.map { OEXRegistrationDescription(dictionary: $0) }.toResult()
@@ -30,7 +30,7 @@ public struct RegistrationFormAPI {
     
     public static func registrationFormValidationRequest(parameters: [String : String]) -> NetworkRequest<RegistrationFormValidation> {
         return NetworkRequest(method: .POST,
-                              path: RegistrationValidationURL,
+                              path: RegistrationValidationPath,
                               body: .jsonBody(JSON(parameters)),
                               deserializer: .jsonResponse(regirationFromValidationDeserializer))
     }
