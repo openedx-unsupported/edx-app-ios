@@ -180,6 +180,7 @@ class CourseDateBlock: NSObject {
     var linkText: String = ""
     var title: String = ""
     var dateText: String = ""
+    var today = Date().stripTimeStamp()
     
     public init?(json: JSON) {
         complete = json[Keys.complete].bool ?? false
@@ -208,19 +209,19 @@ class CourseDateBlock: NSObject {
     }
     
     var isInPast: Bool {
-        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date().stripTimeStamp()) == .orderedAscending
+        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedAscending
     }
     
     var isInToday: Bool {
         if dateType.isEmpty {
             return true
         } else {
-            return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date().stripTimeStamp()) == .orderedSame
+            return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedSame
         }
     }
     
     var isInFuture: Bool {
-        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: Date().stripTimeStamp()) == .orderedDescending
+        return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedDescending
     }
     
     
@@ -239,9 +240,6 @@ class CourseDateBlock: NSObject {
      */
     
     private func calculateStatus(type: String) -> CourseStatusType {
-        if dateText.contains(find: "July 20") {
-            print("yo")
-        }
         if isInToday {
             return .today
         }
@@ -287,7 +285,7 @@ extension CourseDateBlock {
     }
 
     var isPastDue: Bool {
-        return !complete && (blockDate < Date().stripTimeStamp())
+        return !complete && (blockDate < today)
     }
 
     var isUnreleased: Bool {
