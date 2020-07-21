@@ -255,7 +255,7 @@ class CourseDateViewCell: UITableViewCell {
             let descriptionLabel = UILabel()
             descriptionLabel.lineBreakMode = .byWordWrapping
             descriptionLabel.numberOfLines = 0
-            descriptionLabel.attributedText = descriptionStyle.attributedString(withText: block.descriptionField)
+            descriptionLabel.attributedText = descriptionStyle.attributedString(withText: block.description)
             descriptionLabel.sizeToFit()
             descriptionLabel.layoutIfNeeded()
             

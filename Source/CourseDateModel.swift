@@ -102,7 +102,7 @@ enum CourseStatusType {
     }
 }
 
-public class CourseDateModel: NSObject {
+public struct CourseDateModel {
     private enum Keys: String, RawStringExtractable {
         case courseDateBlocks = "course_date_blocks"
         case datesBannerInfo = "dates_banner_info"
@@ -138,7 +138,7 @@ public class CourseDateModel: NSObject {
     }
 }
 
-class DatesBannerInfo: NSObject {
+struct DatesBannerInfo {
     private enum Keys: String, RawStringExtractable {
         case contentTypeGatingEnabled = "content_type_gating_enabled"
         case missedDeadlines = "missed_deadlines"
@@ -159,7 +159,7 @@ class DatesBannerInfo: NSObject {
     }
 }
 
-class CourseDateBlock: NSObject {
+struct CourseDateBlock {
     private enum Keys: String, RawStringExtractable {
         case complete = "complete"
         case date = "date"
@@ -174,7 +174,7 @@ class CourseDateBlock: NSObject {
     var complete: Bool = false
     var blockDate: Date = Date().stripTimeStamp()
     var dateType: String = ""
-    var descriptionField: String = ""
+    var description: String = ""
     var learnerHasAccess: Bool = false
     var link: String = ""
     var linkText: String = ""
@@ -186,7 +186,7 @@ class CourseDateBlock: NSObject {
         complete = json[Keys.complete].bool ?? false
         let date = json[Keys.date].string ?? ""
         dateType = json[Keys.dateType].string ?? ""
-        descriptionField = json[Keys.description].string ?? ""
+        description = json[Keys.description].string ?? ""
         learnerHasAccess = json[Keys.learnerHasAccess].bool ?? false
         link = json[Keys.link].string ?? ""
         linkText = json[Keys.linkText].string ?? ""
@@ -207,7 +207,9 @@ class CourseDateBlock: NSObject {
         self.blockDate = (today as Date).stripTimeStamp()
         dateText = DateFormatting.format(asWeekDayMonthDateYear: today as Date)
     }
-    
+}
+
+extension CourseDateBlock {
     var isInPast: Bool {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedAscending
     }
@@ -224,7 +226,37 @@ class CourseDateBlock: NSObject {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedDescending
     }
     
+    var blockStatus: CourseStatusType {
+        return calculateStatus(type: dateType)
+    }
     
+    var isAssignment: Bool {
+        return dateType == "assignment-due-date"
+    }
+    
+    var isLearnerAssignment: Bool {
+        return learnerHasAccess && isAssignment
+    }
+
+    var isPastDue: Bool {
+        return !complete && (blockDate < today)
+    }
+
+    var isUnreleased: Bool {
+        return link.isEmpty
+    }
+    
+    var showLink: Bool {
+        return !link.isEmpty && isLearnerAssignment;
+    }
+    
+    var available: Bool {
+        return learnerHasAccess && (!link.isEmpty || !isLearnerAssignment)
+    }
+    
+    var hasDesription: Bool {
+        return !description.isEmpty
+    }
     
     /*
      For completeness sake, here are the badge triggers:
@@ -268,39 +300,5 @@ class CourseDateBlock: NSObject {
             }
         }
         return .event
-    }
-}
-
-extension CourseDateBlock {
-    var blockStatus: CourseStatusType {
-        return calculateStatus(type: dateType)
-    }
-    
-    var isAssignment: Bool {
-        return dateType == "assignment-due-date"
-    }
-    
-    var isLearnerAssignment: Bool {
-        return learnerHasAccess && isAssignment
-    }
-
-    var isPastDue: Bool {
-        return !complete && (blockDate < today)
-    }
-
-    var isUnreleased: Bool {
-        return link.isEmpty
-    }
-    
-    var showLink: Bool {
-        return !link.isEmpty && isLearnerAssignment;
-    }
-    
-    var available: Bool {
-        return learnerHasAccess && (!link.isEmpty || !isLearnerAssignment)
-    }
-    
-    var hasDesription: Bool {
-        return !description.isEmpty
     }
 }
