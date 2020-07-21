@@ -6,12 +6,23 @@
 //  Copyright © 2018 edX. All rights reserved.
 //
 
+private let playerTimeOutInterval = 60.0
+
 class YoutubeVideoPlayer: VideoPlayer {
 
     let playerView: WKYTPlayerView
     var videoID: String = ""
     private var videoCurrentTime: Float = 0.0
     let barTintColor: UIColor
+
+    private lazy var errorMessageLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textColor = .white
+        label.textAlignment = .center
+
+        return label
+    }()
 
     private struct playerVars {
         var playsinline = 0
@@ -90,6 +101,11 @@ class YoutubeVideoPlayer: VideoPlayer {
         }
         self.videoID = videoID
         playerView.load(withVideoId: videoID, playerVars: playerVars.value)
+
+        if view.subviews.contains(errorMessageLabel){
+            removeErrorMessage()
+        }
+        perform(#selector(videoTimedOut), with: nil, afterDelay: playerTimeOutInterval)
     }
 
     override func setFullscreen(fullscreen: Bool, animated: Bool, with deviceOrientation: UIInterfaceOrientation, forceRotate rotate: Bool) {
@@ -109,21 +125,30 @@ class YoutubeVideoPlayer: VideoPlayer {
     }
     
     private func showErrorMessage(message : String) {
-        let label = UILabel()
-        label.textColor = .white
-        label.textAlignment = .center
-        
-        view.addSubview(label)
+
+        if !view.subviews.contains(errorMessageLabel) {
+            view.addSubview(errorMessageLabel)
+        }
         
         let textStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralWhite())
-        label.attributedText = textStyle.attributedString(withText: message)
+        errorMessageLabel.attributedText = textStyle.attributedString(withText: message)
         
-        label.snp.remakeConstraints { (make) in
+        errorMessageLabel.snp.remakeConstraints { (make) in
             make.centerX.equalTo(view)
             make.centerY.equalTo(view)
         }
 
         loadingIndicatorView.stopAnimating()
+    }
+
+    private func removeErrorMessage() {
+        errorMessageLabel.attributedText = nil
+        errorMessageLabel.removeFromSuperview()
+    }
+
+    @objc private func videoTimedOut() {
+        playerView.stopVideo()
+        showErrorMessage(message: Strings.timeoutCheckInternetConnection)
     }
  }
 
@@ -143,6 +168,7 @@ extension YoutubeVideoPlayer: WKYTPlayerViewDelegate {
             break
         case .playing:
             environment.interface?.sendAnalyticsEvents(.play, withCurrentTime: currentTime, forVideo: video, playMedium: value_play_medium_youtube)
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoTimedOut), object: nil)
             break
         default:
             break
