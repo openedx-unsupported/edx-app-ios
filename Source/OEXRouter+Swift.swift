@@ -137,11 +137,6 @@ extension OEXRouter {
         controller.navigationController?.pushViewController(courseDates, animated: true)
     }
     
-    func showCourseDatesWebViewController(controller:UIViewController, courseID: String, url: URL) {
-        let courseDates = CourseDatesWebViewController(environment: environment, courseID: courseID, url: url)
-        controller.navigationController?.pushViewController(courseDates, animated: true)
-    }
-    
     func showCourseVideos(controller:UIViewController, courseID: String) {
         showContainerForBlockWithID(blockID: nil, type: CourseBlockDisplayType.Outline, parentID: nil, courseID : courseID, fromController: controller, forMode: .video)
     }

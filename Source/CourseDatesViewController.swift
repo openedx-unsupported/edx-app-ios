@@ -196,7 +196,7 @@ extension CourseDatesViewController: UITableViewDelegate { }
 
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLinkWith(url: URL) {
-        // environment.router?.showCourseDatesWebViewController(controller: self, courseID: courseID, url: url)
+        UIApplication.shared.openURL(url)
     }
 }
 

@@ -180,7 +180,6 @@
 		5F4AB77A2463F891002D1C9C /* GoogleCast.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F4AB7782463F891002D1C9C /* GoogleCast.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5F514FBA240696D700BA113A /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; };
 		5F514FBB240696D700BA113A /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5F622B0D24C4350900B8C93B /* CourseDatesWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F622B0C24C4350900B8C93B /* CourseDatesWebViewController.swift */; };
 		5FB44C1324978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */; };
 		5FC78DEB24C1678D00594724 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC78DEA24C1678D00594724 /* TTTAttributedLabel.m */; };
 		67FDC7528B4181D9153A7C36 /* Pods_edXTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F80CBFF126E890C3709DEAF /* Pods_edXTests.framework */; };
@@ -1190,7 +1189,6 @@
 		5F46A7CB24ADFFA300347EFC /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		5F4AB7782463F891002D1C9C /* GoogleCast.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleCast.framework; path = Libraries/Cast/GoogleCast.framework; sourceTree = "<group>"; };
 		5F514FB9240696D700BA113A /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Libraries/MSAL/MSAL.framework; sourceTree = "<group>"; };
-		5F622B0C24C4350900B8C93B /* CourseDatesWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesWebViewController.swift; sourceTree = "<group>"; };
 		5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationSelectOptionViewController.swift; sourceTree = "<group>"; };
 		5FC78DEA24C1678D00594724 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		5FC78DEC24C167A900594724 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
@@ -2360,7 +2358,6 @@
 			isa = PBXGroup;
 			children = (
 				221D31811EC08B69001D8D71 /* CourseDatesViewController.swift */,
-				5F622B0C24C4350900B8C93B /* CourseDatesWebViewController.swift */,
 			);
 			name = "Course Dates";
 			sourceTree = "<group>";
@@ -5111,7 +5108,6 @@
 				22AC5B0D23741C8900DCA505 /* FCMListner.swift in Sources */,
 				0B1212221B4F089A002EE96C /* OEXCoursewareAccess.m in Sources */,
 				77DCD2391C2B13AA00CAEBB5 /* EnrolledCoursesFooterView.swift in Sources */,
-				5F622B0D24C4350900B8C93B /* CourseDatesWebViewController.swift in Sources */,
 				B78B233F20908C3D00F8D976 /* AgreementTextView.swift in Sources */,
 				E0D159951EB87699005E2A76 /* WhatsNewDataModel.swift in Sources */,
 				77ADF4A91AC1B57800AC8955 /* UIImage+OEXColors.m in Sources */,
