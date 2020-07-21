@@ -27,10 +27,10 @@ extension OEXRegistrationViewController {
         }
     }
     
-    private func error(with name: String, validation: ValidationDecisions) -> String? {
+    private func error(with name: String, _ validationDecisions: ValidationDecisions) -> String? {
         guard let value = ValidationDecisions.Keys(rawValue: name),
             ValidationDecisions.Keys.allCases.contains(value),
-            let errorValue = validation.value(forKeyPath: value.rawValue) as? String,
+            let errorValue = validationDecisions.value(forKeyPath: value.rawValue) as? String,
             !errorValue.isEmpty else { return nil }
         return errorValue
     }
@@ -43,7 +43,7 @@ extension OEXRegistrationViewController {
         
         networkManager.taskForRequest(networkRequest) { [weak self] result in
             guard let owner = self,
-                let validation = result.data?.validationDecisions else {
+                let validationDecisions = result.data?.validationDecisions else {
                     self?.showProgress(false)
                     self?.register(withParameters: parameters)
                     return
@@ -54,7 +54,7 @@ extension OEXRegistrationViewController {
             for case let controller as OEXRegistrationFieldController in owner.fieldControllers {
                 controller.accessibleInputField?.resignFirstResponder()
                 
-                if let error = owner.error(with: controller.field.name, validation: validation) {
+                if let error = owner.error(with: controller.field.name, validationDecisions) {
                     controller.handleError(error)
                     if firstControllerWithError == nil {
                         firstControllerWithError = controller
