@@ -466,7 +466,9 @@ extension OEXRouter {
     
     func showWhatsNew(fromController controller : UIViewController) {
         let whatsNewController = WhatsNewViewController(environment: environment)
-        controller.present(whatsNewController, animated: true, completion: nil)
+        let navController = ForwardingNavigationController(rootViewController: whatsNewController)
+        navController.setNavigationBarHidden(true, animated: false)
+        controller.present(navController, animated: true, completion: nil)
     }
 
     // MARK: - LOGIN / LOGOUT
