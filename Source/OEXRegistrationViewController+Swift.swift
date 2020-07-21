@@ -27,7 +27,7 @@ extension OEXRegistrationViewController {
         }
     }
     
-    private func errorWithErrorType(name: String, validation: ValidationDecisions) -> String? {
+    private func error(with name: String, validation: ValidationDecisions) -> String? {
         guard let value = ValidationDecisions.Keys(rawValue: name),
             ValidationDecisions.Keys.allCases.contains(value),
             let errorValue = validation.value(forKeyPath: value.rawValue) as? String,
@@ -54,7 +54,7 @@ extension OEXRegistrationViewController {
             for case let controller as OEXRegistrationFieldController in owner.fieldControllers {
                 controller.accessibleInputField?.resignFirstResponder()
                 
-                if let error = owner.errorWithErrorType(name: controller.field.name, validation: validation) {
+                if let error = owner.error(with: controller.field.name, validation: validation) {
                     controller.handleError(error)
                     if firstControllerWithError == nil {
                         firstControllerWithError = controller

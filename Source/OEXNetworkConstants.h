@@ -36,6 +36,5 @@
 #define URL_COURSE_ENROLLMENT @"/api/enrollment/v1/enrollment"
 #define URL_COURSE_ENROLLMENT_EMAIL_OPT_IN @"/api/user_api/v1/preferences/email_opt_in"
 #define SIGN_UP_URL @"/user_api/{version}/account/registration/"
-#define SIGN_UP_VALIDATION_URL @"/api/user/v1/validation/registration"
 
 #endif
