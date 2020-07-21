@@ -24,11 +24,7 @@ class CourseDateViewCell: UITableViewCell {
     private lazy var statusLabel = UILabel()
     
     private lazy var dateAndStatusContainerView = UIView()
-    private let statusContainerView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = cornerRadius
-        return view
-    }()
+    private let statusContainerView = UIView()
     
     private lazy var lockedImageView: UIImageView = {
         let image = Icon.Closed.imageWithFontSize(size: imageSize).withRenderingMode(.alwaysTemplate)
@@ -211,14 +207,15 @@ class CourseDateViewCell: UITableViewCell {
             
             switch block.blockStatus {
             case .today:
-                statusContainerView.backgroundColor = .systemYellow
+                statusContainerView.configure(backgroundColor: .systemYellow, borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
+
                 statusLabel.textColor = OEXStyles.shared().neutralWhite()
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
                 
             case .verifiedOnly:
-                statusContainerView.backgroundColor = OEXStyles.shared().neutralXDark()
+                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralXDark(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
                 statusLabel.textColor = OEXStyles.shared().neutralWhite()
                 statusStackView.addArrangedSubview(lockedImageView)
                 statusStackView.addArrangedSubview(statusLabel)
@@ -226,21 +223,21 @@ class CourseDateViewCell: UITableViewCell {
                 break
                 
             case .completed:
-                statusContainerView.backgroundColor = OEXStyles.shared().neutralXLight()
+                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralWhite(), borderColor: OEXStyles.shared().neutralXDark(), borderWith: 0.5, cornerRadius: cornerRadius)
                 statusLabel.textColor = OEXStyles.shared().neutralXDark()
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
                 
             case .pastDue:
-                statusContainerView.backgroundColor = OEXStyles.shared().neutralLight()
+                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralLight(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
                 statusLabel.textColor = OEXStyles.shared().neutralXDark()
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
                 
             case .dueNext:
-                statusContainerView.backgroundColor = OEXStyles.shared().neutralLight()
+                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralLight(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
                 statusLabel.textColor = OEXStyles.shared().neutralXDark()
                 statusStackView.addArrangedSubview(statusLabel)
                 
@@ -302,5 +299,14 @@ class CourseDateViewCell: UITableViewCell {
 extension CourseDateViewCell: TTTAttributedLabelDelegate {
     func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {
         delegate?.didSelectLinkWith(url: url)
+    }
+}
+
+fileprivate extension UIView {
+    func configure(backgroundColor: UIColor, borderColor: UIColor , borderWith: CGFloat, cornerRadius: CGFloat) {
+        layer.backgroundColor = backgroundColor.cgColor
+        layer.borderWidth = borderWith
+        layer.borderColor = borderColor.cgColor
+        layer.cornerRadius = cornerRadius
     }
 }
