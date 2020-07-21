@@ -237,8 +237,8 @@ class CourseDateViewCell: UITableViewCell {
                 break
                 
             case .dueNext:
-                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralLight(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = OEXStyles.shared().neutralXDark()
+                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralDark(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
+                statusLabel.textColor = OEXStyles.shared().neutralWhite()
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
