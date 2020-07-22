@@ -25,7 +25,7 @@ extension UIViewController {
         return UIApplication.shared.statusBarOrientation
     }
     
-    func isModal() -> Bool {
+   @objc func isModal() -> Bool {
         return (navigationController?.viewControllers.firstIndex(of: self) == 0) &&
             (presentingViewController?.presentedViewController == self
             || isRootModal()
