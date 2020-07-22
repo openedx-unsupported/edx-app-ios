@@ -62,6 +62,15 @@ class EnrolledCoursesFooterView : UICollectionReusableView {
         findCoursesButton.oex_addAction({[weak self] _ in
             self?.findCoursesAction?()
             }, for: .touchUpInside)
+
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        accessibilityIdentifier = "EnrolledCoursesFooterView:view"
+        promptLabel.accessibilityIdentifier = "EnrolledCoursesFooterView:prompt-label"
+        findCoursesButton.accessibilityIdentifier = "EnrolledCoursesFooterView:find-courses-button"
+        container.accessibilityIdentifier = "EnrolledCoursesFooterView:container-view"
     }
     
     required init?(coder aDecoder: NSCoder) {

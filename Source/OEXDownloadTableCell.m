@@ -18,6 +18,16 @@
     [self.lbl_totalSize setTextAlignment:NSTextAlignmentNatural];
     self.accessibilityTraits = UIAccessibilityTraitUpdatesFrequently;
     [self tintCancelButton];
+    [self setAccessibilityIdentifiers];
+}
+
+- (void) setAccessibilityIdentifiers {
+    [self.contentView setAccessibilityIdentifier:@"OEXDownloadTableCell:content-view"];
+    [self.lbl_title setAccessibilityIdentifier:@"OEXDownloadTableCell:title-label"];
+    [self.lbl_time setAccessibilityIdentifier:@"OEXDownloadTableCell:time-label"];
+    [self.lbl_totalSize setAccessibilityIdentifier:@"OEXDownloadTableCell:total-size-label"];
+    [self.progressView setAccessibilityIdentifier:@"OEXDownloadTableCell:progress-view"];
+    [self.btn_cancel setAccessibilityIdentifier:@"OEXDownloadTableCell:cancel-button"];
 }
 
 -(void) tintCancelButton {

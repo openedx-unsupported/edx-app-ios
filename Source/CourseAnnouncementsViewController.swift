@@ -84,6 +84,16 @@ class CourseAnnouncementsViewController: OfflineSupportViewController, LoadState
                 }
             }
         }
+
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "CourseAnnouncementsViewController:view"
+        webView.accessibilityIdentifier = "CourseAnnouncementsViewController:web-view"
+        notificationBar.accessibilityIdentifier = "CourseAnnouncementsViewController:notification-bar"
+        notificationLabel.accessibilityIdentifier = "CourseAnnouncementsViewController:notification-label"
+        notificationSwitch.accessibilityIdentifier = "CourseAnnouncementsViewController:notification-switch"
     }
     
     private static func requestForCourse(course: OEXCourse) -> NetworkRequest<[OEXAnnouncement]> {
