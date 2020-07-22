@@ -535,7 +535,7 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [parameters setSafeObject:self.environment.config.oauthClientID forKey:@"client_id"];
     }
     
-    [self registerWithParameters:parameters];
+    [self validateRegistrationFormWithParameters:parameters];
 }
 
 - (void) showInputErrorAlert {

@@ -741,11 +741,13 @@
 /* Label for posts pinned by Staff */
 "STAFF"="员工";
 /* Info message text on the startup screen */
-"STARTUP.INFO_MESSAGE_TEXT"="世界顶级大学的课程，应有尽有！";
-/*Log In button title on the startup screen*/
-"STARTUP.LOGIN_TEXT"="登录";
-/*Create your Account button title on the startup screen*/
-"STARTUP.CREATE_YOUR_ACCOUNT_TEXT"="创建账号";
+"STARTUP.INFO_MESSAGE_TEXT"="Courses{programs_text} from the world's best universities in your pocket.";
+/*Programs text addition in INFO_MESSAGE_TEXT text if program discovery enabled*/
+"STARTUP.INFO_MESSAGE_PROGRAM_TEXT"=" and programs";
+/*Label text for seach field on startup screen */
+"STARTUP.SEARCH_TITLE_TEXT"="What do you want to learn?";
+/*Place holder text for search field on startup screen*/
+"STARTUP.SEARCH_PLACEHOLDER_TEXT"="Search courses and programs";
 /* Explore Subjects button text on the first screen */
 "STARTUP_EXPLORE_SUBJECTS"="浏览主题";
 /* Button allowing user to submit feedback about the app via email */

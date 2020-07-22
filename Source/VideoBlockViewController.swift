@@ -10,7 +10,7 @@ import Foundation
 import MediaPlayer
 import UIKit
 
-class VideoBlockViewController : UIViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
+class VideoBlockViewController : OfflineSupportViewController, CourseBlockViewController, StatusBarOverriding, InterfaceOrientationOverriding, VideoTranscriptDelegate, RatingViewControllerDelegate, VideoPlayerDelegate {
     
     typealias Environment = DataManagerProvider & OEXInterfaceProvider & ReachabilityProvider & OEXConfigProvider & OEXRouterProvider & OEXAnalyticsProvider & OEXStylesProvider & OEXSessionProvider & NetworkManagerProvider
     
@@ -43,7 +43,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         else {
             videoPlayer = VideoPlayer(environment: environment)
         }
-        super.init(nibName: nil, bundle: nil)
+        super.init(env: environment)
         addChild(videoPlayer)
         videoPlayer.didMove(toParent: self)
         videoPlayer.playerDelegate = self
@@ -141,7 +141,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             }
         }
         chromeCastManager.remove(delegate: self)
-        removeOverlayCastMessage()
+        removeOverlayMessage()
         removeChromeCastButton()
         chromeCastMiniPlayer = nil
     }
@@ -236,7 +236,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     }
     
     private func cast(video: OEXHelperVideoDownload, time: TimeInterval? = nil) {
-        addOverlyCastMessage()
+        addOverly(with: Strings.chromecastMessage)
         updateControlsVisibility(hide: true)
         videoPlayer.loadingIndicatorView.stopAnimating()
         videoPlayer.removeControls()
@@ -489,7 +489,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             UIAlertController().showAlert(withTitle: Strings.timeoutCheckInternetConnection, message: "", cancelButtonTitle: Strings.close, onViewController: self)
         }
         else {
-            showOverlay(withMessage: Strings.timeoutCheckInternetConnection)
+            addOverly(with: Strings.timeoutCheckInternetConnection)
         }
     }
     
@@ -498,7 +498,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
             UIAlertController().showAlert(withTitle: errorMessage, message: "", cancelButtonTitle: Strings.close, onViewController: self)
         }
         else {
-            showOverlay(withMessage: errorMessage)
+            addOverly(with: errorMessage)
         }
     }
     
@@ -515,21 +515,22 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         }
     }
     
-    private func addOverlyCastMessage() {
+    private func addOverly(with message: String) {
         if overlayLabel != nil { return }
         removeOverlayPlayButton()
         overlayLabel = UILabel()
+        overlayLabel?.numberOfLines = 0
         guard let overlayLabel = overlayLabel else { return }
         view.addSubview(overlayLabel)
         let style = OEXTextStyle(weight: .normal, size: .large, color: .white)
-        overlayLabel.attributedText = style.attributedString(withText: Strings.chromecastMessage)
+        overlayLabel.attributedText = style.attributedString(withText: message)
         
         overlayLabel.snp.makeConstraints({ (make) in
             make.center.equalTo(videoPlayer.view)
         })
     }
     
-    private func removeOverlayCastMessage() {
+    private func removeOverlayMessage() {
         chromeCastMiniPlayer?.view.isHidden = true
         overlayLabel?.text = ""
         overlayLabel?.isHidden = true
@@ -540,7 +541,7 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
     func createOverlayPlayButton() {
         if playOverlayButton != nil { return }
         chromeCastManager.isMiniPlayerAdded = false
-        removeOverlayCastMessage()
+        removeOverlayMessage()
         playOverlayButton = UIButton()
         playOverlayButton?.tintColor = .white
         playOverlayButton?.setImage(UIImage.PlayIcon(), for: .normal)
@@ -565,6 +566,11 @@ class VideoBlockViewController : UIViewController, CourseBlockViewController, St
         playOverlayButton?.isHidden = true
         playOverlayButton?.removeFromSuperview()
         playOverlayButton = nil
+    }
+
+    @objc override func reloadViewData() {
+        removeOverlayMessage()
+        loadVideoIfNecessary()
     }
 }
 
@@ -595,7 +601,7 @@ extension VideoBlockViewController: ChromeCastPlayerStatusDelegate {
     }
     
     func chromeCastDidDisconnect(playedTime: TimeInterval) {
-        removeOverlayCastMessage()
+        removeOverlayMessage()
         removeOverlayPlayButton()
         guard let video = video else {
             loadVideoIfNecessary()

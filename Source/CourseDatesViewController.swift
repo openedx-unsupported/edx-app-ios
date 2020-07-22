@@ -51,6 +51,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
+        view.accessibilityIdentifier = "CourseDatesViewController:view"
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         
         loadController.setupInController(controller: self, contentView: tableView)

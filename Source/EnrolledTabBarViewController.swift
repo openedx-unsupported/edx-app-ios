@@ -65,6 +65,8 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         setupProfileLoader()
         prepareTabViewData()
         delegate = self
+
+        view.accessibilityIdentifier = "EnrolledTabBarViewController:view"
     }
     
     override func didReceiveMemoryWarning() {
@@ -120,7 +122,7 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
         for tabBarItem in tabBarItems {
             let controller = tabBarItem.viewController
             controller.tabBarItem = UITabBarItem(title:tabBarItem.title, image:tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize), selectedImage: tabBarItem.icon.imageWithFontSize(size: tabBarImageFontSize))
-            controller.tabBarItem.accessibilityIdentifier = "EnrolledTabBarViewController:tab-bar-item"
+            controller.tabBarItem.accessibilityIdentifier = "EnrolledTabBarViewController:tab-bar-item-\(tabBarItem.title)"
             controllers.append(controller)
         }
         viewControllers = controllers
@@ -144,7 +146,9 @@ class EnrolledTabBarViewController: UITabBarController, UITabBarControllerDelega
     private func addProfileButton() {
         if environment.config.profilesEnabled {
             let profileView = UIView(frame: CGRect(x: 0, y: 0, width: UserProfileImageSize.width, height: UserProfileImageSize.height))
+            profileView.accessibilityIdentifier = "EnrolledTabBarViewController:profile-view"
             let profileButton = UIButton()
+            profileButton.accessibilityIdentifier = "EnrolledTabBarViewController:profile-button"
             profileButton.accessibilityHint = Strings.accessibilityShowUserProfileHint
             profileButton.accessibilityLabel = Strings.Accessibility.profileLabel
             profileView.addSubview(userProfileImageView)

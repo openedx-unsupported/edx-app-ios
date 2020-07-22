@@ -163,26 +163,6 @@ class IOSHelper {
         }
     }
 
-    def addFabricConfig(config, plist) {
-        def fabric = config['FABRIC'] ?: [:]
-        
-        def key = fabric['FABRIC_KEY']
-        if(!key) {
-            return
-        }
-
-        def body = [
-            'APIKey' : key,
-            'Kits' : [
-                [
-                    'KitInfo' : [],
-                    'KitName' : 'Crashlytics'
-                ]
-            ]
-        ]
-        plist["Fabric"] = body
-    }
-
     def addGoogleConfig(config, plist) {
         def google = config['GOOGLE'] ?: [:]
 
@@ -220,18 +200,6 @@ task printBuildEnvironment(type : Exec) {
     commandLine arguments
 }
 
-task uploadDebuggingSymbols doLast {
-    def taskHelper = new TaskHelper()
-    def config = taskHelper.loadConfig(project)
-    def fabric = config['FABRIC'] ?: [:]
-    def key = fabric['FABRIC_KEY']
-    def secret = fabric['FABRIC_BUILD_SECRET']
-    def srcroot = System.getenv()['SRCROOT']
-    if(key && secret && srcroot) {
-        [srcroot + "/Pods/Fabric/Fabric.framework/run", key, secret].execute().waitFor()
-    }
-}
-
 task applyConfig doLast {
     processDefaultInfoPlist()
     processFirebaseInfoPlist()
@@ -240,7 +208,6 @@ task applyConfig doLast {
 def processDefaultInfoPlist() {
     def (config, helper, plist, infoPlistPath, plistPath) = getConfigProcessHelpers(false)
     helper.addFacebookConfig(config, plist)
-    helper.addFabricConfig(config, plist)
     helper.addGoogleConfig(config, plist)
     helper.addMicrosoftConfig(config, plist)
     saveConfigChanges(helper, plist, infoPlistPath, plistPath)

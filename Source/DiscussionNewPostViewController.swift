@@ -193,8 +193,23 @@ public class DiscussionNewPostViewController: UIViewController, UITextViewDelega
         tapButton.oex_addAction({[weak self] (sender) in
             self?.view.endEditing(true)
             }, for: .touchUpInside)
+        setAccessibilityIdentifiers()
     }
-    
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "DiscussionNewPostViewController:view"
+        scrollView.accessibilityIdentifier = "DiscussionNewPostViewController:scroll-view"
+        backgroundView.accessibilityIdentifier = "DiscussionNewPostViewController:background-view"
+        contentTextView.accessibilityIdentifier = "DiscussionNewPostViewController:content-text-view"
+        titleTextField.accessibilityIdentifier = "DiscussionNewPostViewController:title-text-field"
+        discussionQuestionSegmentedControl.accessibilityIdentifier = "DiscussionNewPostViewController:segment-control"
+        topicButton.accessibilityIdentifier = "DiscussionNewPostViewController:topic-button"
+        postButton.accessibilityIdentifier = "DiscussionNewPostViewController:post-button"
+        contentTitleLabel.accessibilityIdentifier = "DiscussionNewPostViewController:content-title-label"
+        titleLabel.accessibilityIdentifier = "DiscussionNewPostViewController:title-label"
+        tapButton.accessibilityIdentifier = "DiscussionNewPostViewController:tap-button"
+    }
+
     private func configureSegmentControl() {
         discussionQuestionSegmentedControl.removeAllSegments()
         let questionIcon = Icon.Question.attributedTextWithStyle(style: titleTextStyle)

@@ -129,6 +129,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         
         
         let bannerWrapper = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: headerHeight))
+        bannerWrapper.accessibilityIdentifier = "UserProfileEditViewController:banner-wrapper-view"
         bannerWrapper.addSubview(banner)
         
         banner.snp.makeConstraints { make in
@@ -139,6 +140,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
         }
         
         let bottomLine = UIView()
+        bottomLine.accessibilityIdentifier = "UserProfileEditViewController:bottom-line-view"
         bottomLine.backgroundColor = OEXStyles.shared().neutralLight()
         bannerWrapper.addSubview(bottomLine)
         bottomLine.snp.makeConstraints { make in
@@ -170,6 +172,15 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
             fields = form.fields ?? []
         }
         addBackBarButtonItem()
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "UserProfileEditViewController:view"
+        tableView.accessibilityIdentifier = "UserProfileEditViewController:table-view"
+        footer.accessibilityIdentifier = "UserProfileEditViewController:footer"
+        banner.accessibilityIdentifier = "UserProfileEditViewController:banner-view"
+        spinner.accessibilityIdentifier = "UserProfileEditViewController:spinner-view"
     }
     
     private func addSubViews() {
@@ -186,6 +197,7 @@ class UserProfileEditViewController: UIViewController, UITableViewDelegate, UITa
     
     private func addBackBarButtonItem() {
         let backItem = UIBarButtonItem(image: Icon.ArrowLeft.imageWithFontSize(size: 40), style: .plain, target: nil, action: nil)
+        backItem.accessibilityIdentifier = "UserProfileEditViewController:back-item"
         backItem.oex_setAction {[weak self] in
             self?.navigationController?.navigationBar.applyUserProfileNavbarColorScheme()
             self?.navigationController?.popViewController(animated: true)

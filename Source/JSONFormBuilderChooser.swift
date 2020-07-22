@@ -12,6 +12,8 @@ private class JSONFormTableSelectionCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
         tintColor = OEXStyles.shared().utilitySuccessBase()
+        contentView.accessibilityIdentifier = "JSONFormTableSelectionCell:content-view"
+        textLabel?.accessibilityIdentifier = "JSONFormTableSelectionCell:title-label"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,6 +43,7 @@ class JSONFormViewController<T>: UIViewController {
     private func makeAndInstallHeader() {
         if let instructions = instructions {
             let headerView = UIView()
+            headerView.accessibilityIdentifier = "JSONFormViewController:header-view"
             headerView.backgroundColor = OEXStyles.shared().neutralXLight()
             
             let instructionStyle = OEXTextStyle(weight: .normal, size: .base, color: OEXStyles.shared().neutralBlackT())
@@ -53,6 +56,7 @@ class JSONFormViewController<T>: UIViewController {
             }
             
             let label = UILabel()
+            label.accessibilityIdentifier = "JSONFormViewController:heaer-title-label"
             label.attributedText = headerStr
             label.numberOfLines = 0
             
@@ -80,6 +84,12 @@ class JSONFormViewController<T>: UIViewController {
         tableView.cellLayoutMarginsFollowReadableWidth = false
         makeAndInstallHeader()
         addSubViews()
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "JSONFormViewController:view"
+        tableView.accessibilityIdentifier = "JSONFormViewController:table-view"
     }
 
     private func addSubViews() {

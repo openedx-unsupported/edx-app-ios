@@ -194,6 +194,21 @@ class PostsViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadContent()
         
         setAccessibility()
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "PostsViewController:view"
+        tableView.accessibilityIdentifier = "PostsViewController:table-view"
+        viewSeparator.accessibilityIdentifier = "PostsViewController:view-separator"
+        refineLabel.accessibilityIdentifier = "PostsViewController:refine-label"
+        headerButtonHolderView.accessibilityIdentifier = "PostsViewController:header-button-holder-view"
+        headerView.accessibilityIdentifier = "PostsViewController:header-view"
+        searchBar?.accessibilityIdentifier = "PostsViewController:search-bar"
+        filterButton.accessibilityIdentifier = "PostsViewController:filter-button"
+        sortButton.accessibilityIdentifier = "PostsViewController:sort-button"
+        newPostButton.accessibilityIdentifier = "PostsViewController:new-post-button"
+        contentView.accessibilityIdentifier = "PostsViewController:content-view"
     }
     
     private func setAccessibility() {

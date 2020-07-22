@@ -31,6 +31,13 @@ class CourseCardCell : UICollectionViewCell {
         courseView.applyBorderStyle(style: BorderStyle())
         
         contentView.backgroundColor = OEXStyles.shared().neutralXLight()
+
+        setAccessibilityIdentifiers()
+    }
+
+    private func setAccessibilityIdentifiers() {
+        contentView.accessibilityIdentifier = "CourseCardCell:content-view"
+        courseView.accessibilityIdentifier = "CourseCardCell:course-card-view"
     }
     
     required init?(coder aDecoder: NSCoder) {

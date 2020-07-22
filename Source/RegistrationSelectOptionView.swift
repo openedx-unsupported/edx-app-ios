@@ -94,10 +94,11 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
             if let item = item {
                 if item.value.isEmpty {
                     self?.setButtonTitle(title: "")
+                    self?.selected = nil
                 } else {
                     self?.selected = item
                     self?.setButtonTitle(title: item.name)
-                    self?.valueDidChange()
+                    self?.valueDidChange(isPicker: true)
                 }
                 self?.alertController.dismiss(animated: true, completion: nil)
             }

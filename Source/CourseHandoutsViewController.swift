@@ -11,7 +11,7 @@ import WebKit
 
 public class CourseHandoutsViewController: OfflineSupportViewController, LoadStateViewReloadSupport, InterfaceOrientationOverriding {
     
-    public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider
+    public typealias Environment = DataManagerProvider & NetworkManagerProvider & ReachabilityProvider & OEXAnalyticsProvider & OEXStylesProvider
 
     let courseID : String
     let environment : Environment
@@ -42,6 +42,9 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
         setConstraints()
         setStyles()
         webView.navigationDelegate = self
+        view.backgroundColor = environment.styles.standardBackgroundColor()
+
+        setAccessibilityIdentifiers()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +63,11 @@ public class CourseHandoutsViewController: OfflineSupportViewController, LoadSta
     
     override public var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+
+    private func setAccessibilityIdentifiers() {
+        view.accessibilityIdentifier = "CourseHandoutsViewController:view"
+        webView.accessibilityIdentifier = "CourseHandoutsViewController:web-view"
     }
     
     private func addSubviews() {

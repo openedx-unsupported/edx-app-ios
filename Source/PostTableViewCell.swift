@@ -51,10 +51,20 @@ class PostTableViewCell: UITableViewCell {
         addConstraints()
         
         titleLabel.numberOfLines = 2
+
+        setAccessibilityIdentifiers()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setAccessibilityIdentifiers() {
+        contentView.accessibilityIdentifier = "PostTableViewCell:content-view"
+        typeLabel.accessibilityIdentifier = "PostTableViewCell:type-label"
+        infoLabel.accessibilityIdentifier = "PostTableViewCell:info-label"
+        titleLabel.accessibilityIdentifier = "PostTableViewCell:title-label"
+        countLabel.accessibilityIdentifier = "PostTableViewCell:count-label"
     }
     
     private func addConstraints() {
