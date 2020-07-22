@@ -247,11 +247,11 @@ extension CourseDateBlock {
     }
     
     var showLink: Bool {
-        return !link.isEmpty && isLearnerAssignment;
+        return !isUnreleased && isLearnerAssignment;
     }
     
     var available: Bool {
-        return learnerHasAccess && (!link.isEmpty || !isLearnerAssignment)
+        return learnerHasAccess && (!isUnreleased || !isLearnerAssignment)
     }
     
     var hasDesription: Bool {
