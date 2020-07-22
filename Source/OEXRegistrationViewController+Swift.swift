@@ -27,9 +27,57 @@ extension OEXRegistrationViewController {
         }
     }
     
+    private func error(with name: String, _ validationDecisions: ValidationDecisions) -> String? {
+        guard let value = ValidationDecisions.Keys(rawValue: name),
+            ValidationDecisions.Keys.allCases.contains(value),
+            let errorValue = validationDecisions.value(forKeyPath: value.rawValue) as? String,
+            !errorValue.isEmpty else { return nil }
+        return errorValue
+    }
+    
+    @objc func validateRegistrationForm(parameters: [String: String]) {
+        showProgress(true)
+        
+        let networkManager = environment.networkManager
+        let networkRequest = RegistrationFormAPI.registrationFormValidationRequest(parameters: parameters)
+        
+        networkManager.taskForRequest(networkRequest) { [weak self] result in
+            guard let owner = self,
+                let validationDecisions = result.data?.validationDecisions else {
+                    self?.showProgress(false)
+                    self?.register(withParameters: parameters)
+                    return
+            }
+            
+            var firstControllerWithError: OEXRegistrationFieldController?
+            
+            for case let controller as OEXRegistrationFieldController in owner.fieldControllers {
+                controller.accessibleInputField?.resignFirstResponder()
+                
+                if let error = owner.error(with: controller.field.name, validationDecisions) {
+                    controller.handleError(error)
+                    if firstControllerWithError == nil {
+                        firstControllerWithError = controller
+                    }
+                }
+            }
+            
+            owner.showProgress(false)
+            
+            if firstControllerWithError == nil {
+                owner.register(withParameters: parameters)
+            } else {
+                owner.refreshFormFields()
+                UIAlertController().showAlert(withTitle: Strings.registrationErrorAlertTitle, message: Strings.registrationErrorAlertMessage, cancelButtonTitle: Strings.ok, onViewController: owner) { _, _, _ in
+                    firstControllerWithError?.accessibleInputField?.becomeFirstResponder()
+                }
+            }
+        }
+    }
+    
     @objc func register(withParameters parameter:[String:String]) {
         showProgress(true)
-        let infoDict :[String: String] = [OEXAnalyticsKeyProvider: self.externalProvider?.backendName ?? ""]
+        let infoDict: [String: String] = [OEXAnalyticsKeyProvider: externalProvider?.backendName ?? ""]
         environment.analytics.trackEvent(OEXAnalytics.registerEvent(name: AnalyticsEventName.UserRegistrationClick.rawValue, displayName: AnalyticsDisplayName.CreateAccount.rawValue), forComponent: nil, withInfo: infoDict)
         let apiVersion = environment.config.apiUrlVersionConfig.registration
         OEXAuthentication.registerUser(withApiVersion: apiVersion, paramaters: parameter) { [weak self] (data: Data?, response: HTTPURLResponse?, error: Error?) in
