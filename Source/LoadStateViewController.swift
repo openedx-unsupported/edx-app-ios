@@ -93,7 +93,6 @@ class LoadStateViewController : UIViewController {
         messageView = IconMessageView()
         loadingView = SpinnerView(size: .Large, color: .Primary)
         super.init(nibName: nil, bundle: nil)
-        setAccessibilityIdentifiers()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -156,6 +155,8 @@ class LoadStateViewController : UIViewController {
         
         view.setNeedsUpdateConstraints()
         view.isUserInteractionEnabled = false
+
+        setAccessibilityIdentifiers()
     }
     
     override func viewDidAppear(_ animated: Bool) {
