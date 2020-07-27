@@ -53,11 +53,15 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         self.bottomBar = bottomBar
         self.searchQuery = searchQuery
         super.init(nibName: nil, bundle: nil)
-        setupView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -115,6 +119,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
                 assert(true, "Invalid control")
             }
         }, for: .valueChanged)
+        tabBarController?.navigationItem.title = Strings.discover
         navigationItem.title = Strings.discover
     }
     
@@ -183,7 +188,7 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         return requiredIndex
     }
     
-    // MARK: Deep Linking    
+    // MARK: Deep Linking
     func switchSegment(with type: DeepLinkType) {
         switch type {
         case .courseDiscovery, .courseDetail:
