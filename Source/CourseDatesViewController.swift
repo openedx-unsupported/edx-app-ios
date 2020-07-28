@@ -32,6 +32,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private var datesResponse: CourseDateModel?
     private var courseDateBlockMap: [Date : [CourseDateBlock]] = [:]
     private var courseDateBlockMapSortedKeys: [Date] = []
+    private var setDueNext = false
     
     private let courseID: String
     private let environment: Environment
@@ -186,6 +187,11 @@ extension CourseDatesViewController: UITableViewDataSource {
         
         guard let blocks = item else { return cell }
         cell.delegate = self
+        if !setDueNext {
+            cell.setDueNextOnThisBlock = true
+        } else {
+            cell.setDueNextOnThisBlock = false
+        }
         cell.blocks = blocks
         cell.accessibilityIdentifier = "CourseDatesViewController:table-cell"
         return cell
@@ -197,6 +203,10 @@ extension CourseDatesViewController: UITableViewDelegate { }
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLinkWith(url: URL) {
         UIApplication.shared.openURL(url)
+    }
+    
+    func didSetDueNext() {
+        setDueNext = true
     }
 }
 

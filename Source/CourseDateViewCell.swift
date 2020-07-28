@@ -10,6 +10,7 @@ import UIKit
 
 protocol CourseDateViewCellDelegate {
     func didSelectLinkWith(url: URL)
+    func didSetDueNext()
 }
 
 private let imageSize: CGFloat = 14
@@ -84,6 +85,8 @@ class CourseDateViewCell: UITableViewCell {
     private var minimumViewWidth = 60
     private var todayTimelinePointDiameter: CGFloat = 12
     private var defaultTimelinePointDiameter: CGFloat = 8
+    
+    var setDueNextOnThisBlock = false
 
     var blocks: [CourseDateBlock]? {
         didSet {
@@ -247,9 +250,14 @@ class CourseDateViewCell: UITableViewCell {
                 break
                 
             case .dueNext:
-                statusContainerView.configure(backgroundColor: dark, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = white
-                statusStackView.addArrangedSubview(statusLabel)
+                if setDueNextOnThisBlock {
+                    statusContainerView.configure(backgroundColor: dark, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
+                    statusLabel.textColor = white
+                    statusStackView.addArrangedSubview(statusLabel)
+                    delegate?.didSetDueNext()
+                } else {
+                    statusContainerView.backgroundColor = clear
+                }
                 
                 break
                 
