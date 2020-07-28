@@ -211,8 +211,8 @@ extension CourseDatesViewController {
         datesResponse = data
         let blocks = data.courseDateBlocks
         
-        courseDateBlockMap = [Date : [CourseDateBlock]]()
-        
+        courseDateBlockMap = [:]
+
         for block in blocks {
             let key = block.blockDate.stripTimeStamp()
             if courseDateBlockMap.keys.contains(key) {
