@@ -219,8 +219,7 @@ class CourseDateViewCell: UITableViewCell {
             switch block.blockStatus {
             case .today:
                 statusContainerView.configure(backgroundColor: yellow, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
-
-                statusLabel.textColor = white
+                statusLabel.textColor = xDark
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
