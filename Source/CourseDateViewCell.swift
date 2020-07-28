@@ -44,25 +44,25 @@ class CourseDateViewCell: UITableViewCell {
     }()
     
     private lazy var dateStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .small, color: xDark)
+        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: xDark)
         style.alignment = .left
         return style
     }()
     
     private lazy var statusStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .semiBold, size: .xSmall, color: white)
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .small, color: white)
         style.alignment = .center
         return style
     }()
     
     private lazy var titleStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .small, color: xDark)
+        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: xDark)
         style.alignment = .left
         return style
     }()
     
     private lazy var descriptionStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .normal, size: .xSmall, color: dark)
+        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: dark)
         style.alignment = .left
         return style
     }()
