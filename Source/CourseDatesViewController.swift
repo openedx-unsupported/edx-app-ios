@@ -203,6 +203,29 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
 // For use in testing only
 extension CourseDatesViewController {
     func t_loadData(data: CourseDateModel) {
-        handleResponse(data: data)
+        t_handleResponse(data: data)
+        loadController.state = .Loaded
+    }
+    
+    func t_handleResponse(data: CourseDateModel) {
+        datesResponse = data
+        let blocks = data.courseDateBlocks
+        
+        courseDateBlockMap = [Date : [CourseDateBlock]]()
+        
+        for block in blocks {
+            let key = block.blockDate.stripTimeStamp()
+            if courseDateBlockMap.keys.contains(key) {
+                if var item = courseDateBlockMap[key] {
+                    item.append(block)
+                    courseDateBlockMap[key] = item
+                }
+            } else {
+                courseDateBlockMap[key] = [block]
+            }
+        }
+        
+        courseDateBlockMapSortedKeys = Array(courseDateBlockMap.keys).sorted()
+        tableView.reloadData()
     }
 }
