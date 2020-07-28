@@ -30,8 +30,8 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private let loadController: LoadStateViewController
 
     private var datesResponse: CourseDateModel?
-    private var courseDateBlockMap = [Date : [CourseDateBlock]]()
-    private var courseDateBlockMapSortedKeys = [Dictionary<Date, [CourseDateBlock]>.Keys.Element]()
+    private var courseDateBlockMap: [Date : [CourseDateBlock]] = [:]
+    private var courseDateBlockMapSortedKeys: [Date] = []
     
     private let courseID: String
     private let environment: Environment
@@ -100,7 +100,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         datesResponse = data
         var blocks = data.courseDateBlocks
         
-        courseDateBlockMap = [Date : [CourseDateBlock]]()
+        courseDateBlockMap = [:]
         
         let foundToday = blocks.first { $0.blockStatus == .today }
         
@@ -128,7 +128,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
             }
         }
         
-        courseDateBlockMapSortedKeys = Array(courseDateBlockMap.keys).sorted()
+        courseDateBlockMapSortedKeys = courseDateBlockMap.keys.sorted()
         tableView.reloadData()
     }
     
