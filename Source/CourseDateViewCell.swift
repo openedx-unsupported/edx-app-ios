@@ -24,6 +24,7 @@ class CourseDateViewCell: UITableViewCell {
     private var dark = OEXStyles.shared().neutralDark()
     private var xDark = OEXStyles.shared().neutralXDark()
     private var black = OEXStyles.shared().neutralBlack()
+    private var xxlight = OEXStyles.shared().neutralXXLight()
     private var light = OEXStyles.shared().neutralLight()
     private var white = OEXStyles.shared().neutralWhite()
     private var clear = UIColor.clear
@@ -236,7 +237,7 @@ class CourseDateViewCell: UITableViewCell {
                 break
                 
             case .completed:
-                statusContainerView.configure(backgroundColor: white, borderColor: xDark, borderWith: 0.5, cornerRadius: cornerRadius)
+                statusContainerView.configure(backgroundColor: xxlight, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
                 statusLabel.textColor = xDark
                 statusStackView.addArrangedSubview(statusLabel)
                 
