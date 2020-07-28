@@ -225,7 +225,7 @@ extension CourseDatesViewController {
             }
         }
         
-        courseDateBlockMapSortedKeys = Array(courseDateBlockMap.keys).sorted()
+        courseDateBlockMapSortedKeys = courseDateBlockMap.keys.sorted()
         tableView.reloadData()
     }
 }
