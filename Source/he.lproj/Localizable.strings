@@ -263,7 +263,7 @@
 /* Course Date Type Due Next */
 "COURSEDATES.DUE_NEXT"="Due Next";
 /* Course Date Type Unreleased */
-"COURSEDATES.UNRELEASED"="Unreleased";
+"COURSEDATES.UNRELEASED"="Not Yet Released";
 /* Course Date Completed */
 "COURSEDATES.VERFIED_ONLY"="Verified Only";
 /* Course Date Today*/

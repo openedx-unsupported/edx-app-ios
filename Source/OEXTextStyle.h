@@ -15,7 +15,6 @@ typedef NS_ENUM(NSUInteger, OEXTextWeight) {
     OEXTextWeightLight,
     OEXTextWeightSemiBold,
     OEXTextWeightBold,
-    OEXTextWeightItalic
     // TODO: Add XLight when necessary
 };
 

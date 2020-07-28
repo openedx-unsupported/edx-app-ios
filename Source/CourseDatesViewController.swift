@@ -102,7 +102,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         courseDateBlockMap = [Date : [CourseDateBlock]]()
         
-        blocks.forEach { print($0.blockStatus) }
         let foundToday = blocks.first { $0.blockStatus == .today }
         
         if foundToday == nil {

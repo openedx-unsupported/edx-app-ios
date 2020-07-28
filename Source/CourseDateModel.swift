@@ -169,6 +169,7 @@ struct CourseDateBlock {
         case link = "link"
         case linkText = "link_text"
         case title = "title"
+        case extraInfo = "extra_info"
     }
     
     var complete: Bool = false
@@ -181,6 +182,7 @@ struct CourseDateBlock {
     var title: String = ""
     var dateText: String = ""
     var today = Date().stripTimeStamp()
+    var extraInfo: String = ""
     
     public init?(json: JSON) {
         complete = json[Keys.complete].bool ?? false
@@ -191,6 +193,7 @@ struct CourseDateBlock {
         link = json[Keys.link].string ?? ""
         linkText = json[Keys.linkText].string ?? ""
         title = json[Keys.title].string ?? ""
+        extraInfo = json[Keys.extraInfo].string ?? ""
         
         guard let formattedDate = DateFormatting.date(withServerString: date) else {
             let today = NSDate()
@@ -247,7 +250,7 @@ extension CourseDateBlock {
     }
     
     var showLink: Bool {
-        return !isUnreleased && isLearnerAssignment;
+        return !isUnreleased && isLearnerAssignment
     }
     
     var available: Bool {
@@ -287,7 +290,11 @@ extension CourseDateBlock {
                         } else if isInToday {
                             return .today
                         } else if isInFuture {
-                            return .dueNext
+                            if isUnreleased {
+                                return .unreleased
+                            } else {
+                                return .dueNext
+                            }
                         }
                     } else if isUnreleased {
                         return .unreleased

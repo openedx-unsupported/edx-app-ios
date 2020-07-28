@@ -48,7 +48,7 @@ class CourseDateViewCell: UITableViewCell {
     }()
     
     private lazy var statusStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .italic, size: .xSmall, color: white)
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .xSmall, color: white)
         style.alignment = .center
         return style
     }()
@@ -102,17 +102,20 @@ class CourseDateViewCell: UITableViewCell {
                 titleLabel.lineBreakMode = .byWordWrapping
                 titleLabel.numberOfLines = 0
                 
-                titleStyle.color = block.available ? dark : light
-                titleLabel.attributedText = titleStyle.attributedString(withText: block.title)
+                addTitle(block, titleLabel)
                 
-                addLink(block, titleLabel)
+                if block.showLink {
+                    addLink(block, titleLabel)
+                }
                 
                 titleLabel.sizeToFit()
                 titleLabel.layoutIfNeeded()
                 
                 titleAndDescriptionStackView.addArrangedSubview(titleLabel)
                 
-                addDescriptionLabel(block)
+                if block.hasDesription {
+                    addDescriptionLabel(block)
+                }
             }
         }
     }
@@ -251,6 +254,13 @@ class CourseDateViewCell: UITableViewCell {
                 
                 break
                 
+            case .unreleased:
+                statusContainerView.configure(backgroundColor: white, borderColor: xDark, borderWith: 0.5, cornerRadius: cornerRadius)
+                statusLabel.textColor = xDark
+                statusStackView.addArrangedSubview(statusLabel)
+                
+                break
+                
             default:
                 statusContainerView.backgroundColor = clear
                 
@@ -258,34 +268,34 @@ class CourseDateViewCell: UITableViewCell {
         }
     }
     
+    private func addTitle(_ block: CourseDateBlock, _ titleLabel: TTTAttributedLabel) {
+        titleStyle.color = block.available ? dark : light
+        titleLabel.attributedText = titleStyle.attributedString(withText: block.title)
+    }
+    
     private func addDescriptionLabel(_ block: CourseDateBlock) {
-        if block.hasDesription {
-            let descriptionLabel = UILabel()
-            descriptionLabel.lineBreakMode = .byWordWrapping
-            descriptionLabel.numberOfLines = 0
-            descriptionLabel.attributedText = descriptionStyle.attributedString(withText: block.description)
-            descriptionLabel.sizeToFit()
-            descriptionLabel.layoutIfNeeded()
-            
-            titleAndDescriptionStackView.addArrangedSubview(descriptionLabel)
-        }
+        let descriptionLabel = UILabel()
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.attributedText = descriptionStyle.attributedString(withText: block.description)
+        descriptionLabel.sizeToFit()
+        descriptionLabel.layoutIfNeeded()
+        
+        titleAndDescriptionStackView.addArrangedSubview(descriptionLabel)
     }
     
     private func addLink(_ block: CourseDateBlock, _ titleLabel: TTTAttributedLabel) {
-        if block.showLink {
-            if let url = URL(string: block.link) {
-                let range = (block.title as NSString).range(of: block.title)
-                
-                let linkAttributes: [String: Any] = [
-                    NSAttributedString.Key.foregroundColor.rawValue: dark.cgColor,
-                    NSAttributedString.Key.underlineStyle.rawValue: true,
-                ]
-                titleLabel.delegate = self
-                titleLabel.linkAttributes = linkAttributes
-                titleLabel.activeLinkAttributes = linkAttributes
-                titleLabel.addLink(to: url, with: range)
-            }
-        }
+        guard let url = URL(string: block.link) else { return }
+        let range = (block.title as NSString).range(of: block.title)
+        
+        let linkAttributes: [String: Any] = [
+            NSAttributedString.Key.foregroundColor.rawValue: dark.cgColor,
+            NSAttributedString.Key.underlineStyle.rawValue: true,
+        ]
+        titleLabel.delegate = self
+        titleLabel.linkAttributes = linkAttributes
+        titleLabel.activeLinkAttributes = linkAttributes
+        titleLabel.addLink(to: url, with: range)
     }
     
     private func updateTimelinePoint(_ block: CourseDateBlock) {
@@ -301,6 +311,9 @@ class CourseDateViewCell: UITableViewCell {
                 timelinePoint.diameter = defaultTimelinePointDiameter
             } else if block.blockStatus == .verifiedOnly {
                 timelinePoint.color = black
+                timelinePoint.diameter = defaultTimelinePointDiameter
+            } else if block.blockStatus == .pastDue {
+                timelinePoint.color = light
                 timelinePoint.diameter = defaultTimelinePointDiameter
             } else {
                 timelinePoint.color = light
