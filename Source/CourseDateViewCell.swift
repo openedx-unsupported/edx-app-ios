@@ -2,8 +2,8 @@
 //  CourseDateViewCell.swift
 //  CourseDateViewCell
 //
-//  Created by Zheng-Xiang Ke on 2016/10/20.
-//  Copyright © 2016年 Zheng-Xiang Ke. All rights reserved.
+//  Created by Muhammad Umer on 01/07/2020.
+//  Copyright © 2020 edX. All rights reserved.
 //
 
 import UIKit
