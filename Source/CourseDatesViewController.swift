@@ -51,12 +51,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(tableView)
-        view.accessibilityIdentifier = "CourseDatesViewController:view"
-        navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
-        
-        loadController.setupInController(controller: self, contentView: tableView)
-
+        setupView()
         setConstraints()
         setAccessibilityIdentifiers()
         loadCourseDates()
@@ -73,6 +68,13 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .allButUpsideDown
+    }
+    
+    private func setupView() {
+        view.addSubview(tableView)
+        navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
+        
+        loadController.setupInController(controller: self, contentView: tableView)
     }
     
     private func loadCourseDates() {
