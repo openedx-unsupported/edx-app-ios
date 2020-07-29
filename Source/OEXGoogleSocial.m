@@ -18,7 +18,7 @@
 #import "OEXRouter.h"
 #import "OEXSession.h"
 
-@interface OEXGoogleSocial () <GIDSignInDelegate, GIDSignInUIDelegate>
+@interface OEXGoogleSocial () <GIDSignInDelegate>
 
 @property (copy, nonatomic) OEXGoogleOEXLoginCompletionHandler completionHandler;
 @property (strong, nonatomic) UIViewController* presentingController;
@@ -62,7 +62,8 @@
     signIn.scopes = @[ @"profile" ];            // "profile" scope
     // Optional: declare signIn.actions, see "app activities"
     signIn.delegate = self;
-    signIn.uiDelegate = self;
+    //signIn.uiDelegate = self;
+    signIn.presentingViewController = self.presentingController;
     [signIn signIn];
 }
 
@@ -70,7 +71,7 @@
     OEXConfig* config = [OEXConfig sharedConfig];
     OEXGoogleConfig* googleConfig = [config googleConfig];
     if(googleConfig.apiKey && googleConfig.enabled) {
-        return [[GIDSignIn sharedInstance] hasAuthInKeychain];
+        return [[GIDSignIn sharedInstance] hasPreviousSignIn];
     }
 
     return NO;
