@@ -69,6 +69,8 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
         if environment.session.currentUser != nil {
             bottomBar?.removeFromSuperview()
         }
+        tabBarController?.navigationItem.title = Strings.discover
+        navigationItem.title = Strings.discover
     }
     
     private func prepareSegmentViewData() {
@@ -119,8 +121,6 @@ class DiscoveryViewController: UIViewController, InterfaceOrientationOverriding 
                 assert(true, "Invalid control")
             }
         }, for: .valueChanged)
-        tabBarController?.navigationItem.title = Strings.discover
-        navigationItem.title = Strings.discover
     }
     
     private func controllerVisibility(with segmentIndex: Int) {
