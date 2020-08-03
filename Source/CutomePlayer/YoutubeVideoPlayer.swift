@@ -13,7 +13,6 @@ class YoutubeVideoPlayer: VideoPlayer {
     let playerView: WKYTPlayerView
     var videoID: String = ""
     private var videoCurrentTime: Float = 0.0
-    let barTintColor: UIColor
 
     private lazy var errorMessageLabel: UILabel = {
         let label = UILabel()
@@ -28,7 +27,7 @@ class YoutubeVideoPlayer: VideoPlayer {
         var playsinline = 0
         var start = 0
         var value: [String:Int] {
-            get{
+            get {
                 return [
                     "playsinline": playsinline,
                     "autohide": 1,
@@ -41,14 +40,14 @@ class YoutubeVideoPlayer: VideoPlayer {
     }
 
     override var currentTime: TimeInterval {
-        playerView.getCurrentTime({ [weak self] (time, nil) in
+        playerView.getCurrentTime { [weak self] time, _ in
             self?.videoCurrentTime = time
-        })
+        }
         return Double(videoCurrentTime)
     }
+    
     override init(environment : Environment) {
         playerView = WKYTPlayerView()
-        barTintColor = UINavigationBar.appearance().barTintColor ?? environment.styles.navigationItemTintColor()
         super.init(environment: environment)
         playerView.delegate = self
     }
@@ -62,15 +61,26 @@ class YoutubeVideoPlayer: VideoPlayer {
         createYoutubePlayer()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if environment.styles.navigationBarItemTintColor == nil {
+            environment.styles.navigationBarItemTintColor = UINavigationBar.appearance().barTintColor ?? environment.styles.navigationItemTintColor()
+        }
+        UINavigationBar.appearance().barTintColor = .black
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        playerView.stopVideo()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        playerView.stopVideo()
-        UINavigationBar.appearance().barTintColor = barTintColor
+        UINavigationBar.appearance().barTintColor = environment.styles.navigationBarItemTintColor
     }
 
     private func createYoutubePlayer() {
         loadingIndicatorView.startAnimating()
-        UINavigationBar.appearance().barTintColor = .black
         view.addSubview(playerView)
     }
 
