@@ -63,9 +63,6 @@ class YoutubeVideoPlayer: VideoPlayer {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if environment.styles.navigationBarItemTintColor == nil {
-            environment.styles.navigationBarItemTintColor = UINavigationBar.appearance().barTintColor ?? environment.styles.navigationItemTintColor()
-        }
         UINavigationBar.appearance().barTintColor = .black
     }
     
@@ -76,7 +73,7 @@ class YoutubeVideoPlayer: VideoPlayer {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        UINavigationBar.appearance().barTintColor = environment.styles.navigationBarItemTintColor
+        UINavigationBar.appearance().barTintColor = environment.styles.navigationBarColor()
     }
 
     private func createYoutubePlayer() {

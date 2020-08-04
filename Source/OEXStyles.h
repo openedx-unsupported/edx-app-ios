@@ -14,10 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OEXStyles : NSObject
 
-/// This variable holds navigationBarItemTint color when Youtube video is played.
-/// So after playing youtube video, it gives back the original tint color to NavigationBarItem
-@property (copy, nonatomic, nullable) UIColor* navigationBarItemTintColor;
-
 /// Note that these are not thread safe. The expectation is that these operations are done
 /// immediately when the app launches or synchronously at the start of a test.
 + (instancetype)sharedStyles;
