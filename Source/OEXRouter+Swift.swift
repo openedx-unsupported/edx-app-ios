@@ -400,6 +400,9 @@ extension OEXRouter {
         guard let controller = discoveryViewController(bottomBar: bottomBar, searchQuery: searchQuery) else { return }
         if let fromController = fromController {
             fromController.tabBarController?.selectedIndex = EnrolledTabBarViewController.courseCatalogIndex
+            if let discovery = fromController.tabBarController?.children.first(where: { $0.isKind(of: DiscoveryViewController.self)} ) as? DiscoveryViewController {
+                discovery.switchSegment(with: .courseDiscovery)
+            }
         } else {
             showControllerFromStartupScreen(controller: controller)
         }
