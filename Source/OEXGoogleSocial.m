@@ -62,7 +62,6 @@
     signIn.scopes = @[ @"profile" ];            // "profile" scope
     // Optional: declare signIn.actions, see "app activities"
     signIn.delegate = self;
-    //signIn.uiDelegate = self;
     signIn.presentingViewController = self.presentingController;
     [signIn signIn];
 }

@@ -112,9 +112,6 @@
     }
     
     if (self.environment.config.googleConfig.enabled){
-    //    handled = [[GIDSignIn sharedInstance] handleURL:url
-      //                             sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-        //                                  annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
         handled = [[GIDSignIn sharedInstance] handleURL:url];
     }
     
