@@ -93,16 +93,13 @@ enum CourseStatusType {
         case "course-end-date":
             return .courseEndDate
             
-        case "event":
-            return .event
-            
         default:
             return .event
         }
     }
 }
 
-public struct CourseDateModel {
+class CourseDateModel {
     private enum Keys: String, RawStringExtractable {
         case courseDateBlocks = "course_date_blocks"
         case datesBannerInfo = "dates_banner_info"
@@ -123,11 +120,7 @@ public struct CourseDateModel {
     
     public init?(json: JSON) {
         let courseDateBlocksArray = json[Keys.courseDateBlocks].array ?? []
-        for courseDateBlocksJsonObject in courseDateBlocksArray {
-            if let courseDateblock = CourseDateBlock(json: courseDateBlocksJsonObject) {
-                courseDateBlocks.append(courseDateblock)
-            }
-        }
+        courseDateBlocks = courseDateBlocksArray.compactMap { CourseDateBlock(json: $0) }
         let datesBannerInfoJson = json[Keys.datesBannerInfo]
         datesBannerInfo = DatesBannerInfo(json: datesBannerInfoJson) ?? nil
         learnerIsFullAccess = json[Keys.learnerIsFullAccess].bool ?? false
@@ -138,7 +131,7 @@ public struct CourseDateModel {
     }
 }
 
-struct DatesBannerInfo {
+class DatesBannerInfo {
     private enum Keys: String, RawStringExtractable {
         case contentTypeGatingEnabled = "content_type_gating_enabled"
         case missedDeadlines = "missed_deadlines"
@@ -159,7 +152,7 @@ struct DatesBannerInfo {
     }
 }
 
-struct CourseDateBlock {
+class CourseDateBlock {
     private enum Keys: String, RawStringExtractable {
         case complete = "complete"
         case date = "date"
@@ -207,7 +200,7 @@ struct CourseDateBlock {
     
     init(date: Date = Date()) {
         let today = date.stripTimeStamp() as NSDate
-        self.blockDate = (today as Date).stripTimeStamp()
+        blockDate = (today as Date).stripTimeStamp()
         dateText = DateFormatting.format(asWeekDayMonthDateYear: today as Date)
     }
 }
@@ -234,7 +227,15 @@ extension CourseDateBlock {
     }
     
     var isAssignment: Bool {
-        return dateType == "assignment-due-date"
+        return CourseStatusType.typeOf(dateType: dateType) == .assignment
+    }
+    
+    var isVerifiedOnly: Bool {
+        return !learnerHasAccess
+    }
+    
+    var isComlete: Bool {
+        return complete
     }
     
     var isLearnerAssignment: Bool {
@@ -282,30 +283,21 @@ extension CourseDateBlock {
         if complete {
             return .completed
         } else {
-            if learnerHasAccess {
-                if isAssignment {
-                    if !complete {
-                        if isInPast {
-                            return .pastDue
-                        } else if isInToday {
-                            return .today
-                        } else if isInFuture {
-                            if isUnreleased {
-                                return .unreleased
-                            } else {
-                                return .dueNext
-                            }
-                        }
-                    } else if isUnreleased {
-                        return .unreleased
-                    }
-                } else {
-                    return CourseStatusType.typeOf(dateType: type)
-                }
-            } else {
+            if !learnerHasAccess {
                 return .verifiedOnly
+            } else if isLearnerAssignment {
+                if isInPast {
+                    return isUnreleased ? .unreleased : .pastDue
+                } else if isInToday {
+                    return .today
+                } else if isInFuture {
+                    return isUnreleased ? .unreleased : .dueNext
+                }
+            } else if learnerHasAccess && !isAssignment {
+                return CourseStatusType.typeOf(dateType: type)
             }
+            
+            return .event
         }
-        return .event
     }
 }

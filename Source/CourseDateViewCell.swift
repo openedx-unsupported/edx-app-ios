@@ -135,10 +135,6 @@ class CourseDateViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()        
-    }
-    
     override func draw(_ rect: CGRect) {
         drawTimelineView()
     }
@@ -214,8 +210,9 @@ class CourseDateViewCell: UITableViewCell {
         }
     }
     
-    // MARK:- Cell Building
+    // MARK:- Cell Information Designing
     
+    /// Designs the badge/pill with appropirate state of block
     private func updateBadge(_ block: CourseDateBlock) {
             statusLabel.attributedText = statusStyle.attributedString(withText: block.blockStatus.localized)
             statusLabel.textColor = clear
@@ -276,11 +273,13 @@ class CourseDateViewCell: UITableViewCell {
         }
     }
     
+    /// Add title and updates title color based on if it is availble to the user
     private func addTitle(_ block: CourseDateBlock, _ titleLabel: TTTAttributedLabel) {
         titleStyle.color = block.available ? dark : light
         titleLabel.attributedText = titleStyle.attributedString(withText: block.title)
     }
     
+    /// Adds description to titleAndDescriptionStackView if block does contains description
     private func addDescriptionLabel(_ block: CourseDateBlock) {
         let descriptionLabel = UILabel()
         descriptionLabel.lineBreakMode = .byWordWrapping
@@ -292,6 +291,7 @@ class CourseDateViewCell: UITableViewCell {
         titleAndDescriptionStackView.addArrangedSubview(descriptionLabel)
     }
     
+    /// Adds link to title and make it clickable if title is available for block
     private func addLink(_ block: CourseDateBlock, _ titleLabel: TTTAttributedLabel) {
         guard let url = URL(string: block.link) else { return }
         let range = (block.title as NSString).range(of: block.title)
@@ -306,6 +306,7 @@ class CourseDateViewCell: UITableViewCell {
         titleLabel.addLink(to: url, with: range)
     }
     
+    /// Updates timeline point color based on appropirate state
     private func updateTimelinePoint(_ block: CourseDateBlock) {
         if block.isInToday {
             timelinePoint.color = yellow
@@ -313,20 +314,16 @@ class CourseDateViewCell: UITableViewCell {
         } else if block.isInPast {
             if block.blockStatus == .completed {
                 timelinePoint.color = white
-                timelinePoint.diameter = defaultTimelinePointDiameter
             } else if block.blockStatus == .courseStartDate {
                 timelinePoint.color = white
-                timelinePoint.diameter = defaultTimelinePointDiameter
             } else if block.blockStatus == .verifiedOnly {
                 timelinePoint.color = black
-                timelinePoint.diameter = defaultTimelinePointDiameter
             } else if block.blockStatus == .pastDue {
                 timelinePoint.color = light
-                timelinePoint.diameter = defaultTimelinePointDiameter
             } else {
                 timelinePoint.color = light
-                timelinePoint.diameter = defaultTimelinePointDiameter
             }
+            timelinePoint.diameter = defaultTimelinePointDiameter
         } else if block.isInFuture {
             timelinePoint.color = black
             timelinePoint.diameter = defaultTimelinePointDiameter

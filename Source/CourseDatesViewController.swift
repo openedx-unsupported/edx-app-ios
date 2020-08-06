@@ -27,8 +27,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         return tableView
     }()
-    private let loadController: LoadStateViewController
-
+    
+    private lazy var loadController = LoadStateViewController()
+    
     private var datesResponse: CourseDateModel?
     private var courseDateBlockMap: [Date : [CourseDateBlock]] = [:]
     private var courseDateBlockMapSortedKeys: [Date] = []
@@ -40,8 +41,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     init(environment: Environment, courseID: String) {
         self.courseID = courseID
         self.environment = environment
-        loadController = LoadStateViewController()
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -73,7 +72,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private func setupView() {
         view.addSubview(tableView)
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
-        
         loadController.setupInController(controller: self, contentView: tableView)
     }
     
@@ -167,7 +165,8 @@ extension CourseDatesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CourseDateViewCell.identifier, for: indexPath) as! CourseDateViewCell
         cell.selectionStyle = .none
-        
+        cell.accessibilityIdentifier = "CourseDatesViewController:table-cell"
+
         let index = indexPath.row
         let key = courseDateBlockMapSortedKeys[index]
         let item = courseDateBlockMap[key]
@@ -176,26 +175,30 @@ extension CourseDatesViewController: UITableViewDataSource {
         cell.timeline.topColor = .clear
         cell.timeline.bottomColor = .clear
         
+        let dark = OEXStyles.shared().neutralXDark()
+        
         if index == 0 {
             cell.timeline.topColor = .clear
-            cell.timeline.bottomColor = OEXStyles.shared().neutralXDark()
+            cell.timeline.bottomColor = dark
         } else if index == count - 1 {
-            cell.timeline.topColor = OEXStyles.shared().neutralXDark()
+            cell.timeline.topColor = dark
             cell.timeline.bottomColor = .clear
         } else {
-            cell.timeline.topColor = OEXStyles.shared().neutralXDark()
+            cell.timeline.topColor = dark
             cell.timeline.bottomColor = .black
         }
         
         guard let blocks = item else { return cell }
+        
         cell.delegate = self
+        
         if !setDueNext {
             cell.setDueNextOnThisBlock = true
         } else {
             cell.setDueNextOnThisBlock = false
         }
         cell.blocks = blocks
-        cell.accessibilityIdentifier = "CourseDatesViewController:table-cell"
+        
         return cell
     }
 }
