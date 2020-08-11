@@ -192,11 +192,8 @@ extension CourseDatesViewController: UITableViewDataSource {
         
         cell.delegate = self
         
-        if !setDueNext {
-            cell.setDueNextOnThisBlock = true
-        } else {
-            cell.setDueNextOnThisBlock = false
-        }
+        cell.setDueNextOnThisBlock = !setDueNext
+        
         cell.blocks = blocks
         
         return cell

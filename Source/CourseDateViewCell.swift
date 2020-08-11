@@ -33,6 +33,13 @@ class CourseDateViewCell: UITableViewCell {
     private lazy var dateLabel = UILabel()
     private lazy var statusLabel = UILabel()
     
+    private lazy var descriptionLabel : UILabel = {
+        let descriptionLabel = UILabel()
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.numberOfLines = 0
+        return descriptionLabel
+    }()
+    
     private lazy var dateAndStatusContainerView = UIView()
     private let statusContainerView = UIView()
     
@@ -56,7 +63,7 @@ class CourseDateViewCell: UITableViewCell {
     }()
     
     private lazy var titleStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: xDark)
+        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: black)
         style.alignment = .left
         return style
     }()
@@ -111,9 +118,6 @@ class CourseDateViewCell: UITableViewCell {
                 if block.showLink {
                     addLink(block, titleLabel)
                 }
-                
-                titleLabel.sizeToFit()
-                titleLabel.layoutIfNeeded()
                 
                 titleAndDescriptionStackView.addArrangedSubview(titleLabel)
                 
@@ -275,15 +279,12 @@ class CourseDateViewCell: UITableViewCell {
     
     /// Add title and updates title color based on if it is availble to the user
     private func addTitle(_ block: CourseDateBlock, _ titleLabel: TTTAttributedLabel) {
-        titleStyle.color = block.available ? dark : light
+        titleStyle.color = block.available ? black : light
         titleLabel.attributedText = titleStyle.attributedString(withText: block.title)
     }
     
     /// Adds description to titleAndDescriptionStackView if block does contains description
     private func addDescriptionLabel(_ block: CourseDateBlock) {
-        let descriptionLabel = UILabel()
-        descriptionLabel.lineBreakMode = .byWordWrapping
-        descriptionLabel.numberOfLines = 0
         descriptionLabel.attributedText = descriptionStyle.attributedString(withText: block.description)
         descriptionLabel.sizeToFit()
         descriptionLabel.layoutIfNeeded()
@@ -308,7 +309,7 @@ class CourseDateViewCell: UITableViewCell {
     
     /// Updates timeline point color based on appropirate state
     private func updateTimelinePoint(_ block: CourseDateBlock) {
-        if block.isInToday {
+        if block.blockStatus == .today {
             timelinePoint.color = yellow
             timelinePoint.diameter = todayTimelinePointDiameter
         } else if block.isInPast {
