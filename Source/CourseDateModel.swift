@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum CourseStatusType {
+enum BlockStatusType {
     case completed
     case today
     case pastDue
@@ -70,7 +70,7 @@ enum CourseStatusType {
         }
     }
     
-    static func typeOf(dateType: String) -> CourseStatusType {
+    static func typeOf(dateType: String) -> BlockStatusType {
         switch dateType {
         case "assignment-due-date":
             return .assignment
@@ -222,12 +222,12 @@ extension CourseDateBlock {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedDescending
     }
     
-    var blockStatus: CourseStatusType {
+    var blockStatus: BlockStatusType {
         return calculateStatus(type: dateType)
     }
     
     var isAssignment: Bool {
-        return CourseStatusType.typeOf(dateType: dateType) == .assignment
+        return BlockStatusType.typeOf(dateType: dateType) == .assignment
     }
     
     var isVerifiedOnly: Bool {
@@ -275,7 +275,7 @@ extension CourseDateBlock {
      course-end-date:
      */
     
-    private func calculateStatus(type: String) -> CourseStatusType {
+    private func calculateStatus(type: String) -> BlockStatusType {
         if isInToday {
             return .today
         }
@@ -294,7 +294,7 @@ extension CourseDateBlock {
                     return isUnreleased ? .unreleased : .dueNext
                 }
             } else if learnerHasAccess && !isAssignment {
-                return CourseStatusType.typeOf(dateType: type)
+                return BlockStatusType.typeOf(dateType: type)
             }
             
             return .event

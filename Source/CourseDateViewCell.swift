@@ -309,7 +309,7 @@ class CourseDateViewCell: UITableViewCell {
     
     /// Updates timeline point color based on appropirate state
     private func updateTimelinePoint(_ block: CourseDateBlock) {
-        if block.blockStatus == .today {
+        if block.isInToday {
             timelinePoint.color = yellow
             timelinePoint.diameter = todayTimelinePointDiameter
         } else if block.isInPast {
