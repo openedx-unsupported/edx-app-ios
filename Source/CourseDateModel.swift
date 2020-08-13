@@ -223,7 +223,7 @@ extension CourseDateBlock {
     }
     
     var blockStatus: BlockStatusType {
-        return calculateStatus(type: dateType)
+        return calculateBlockStatus(type: dateType)
     }
     
     var isAssignment: Bool {
@@ -275,7 +275,7 @@ extension CourseDateBlock {
      course-end-date:
      */
     
-    private func calculateStatus(type: String) -> BlockStatusType {
+    private func calculateBlockStatus(type: String) -> BlockStatusType {
         if isInToday {
             return .today
         }
@@ -285,7 +285,7 @@ extension CourseDateBlock {
         } else {
             if !learnerHasAccess {
                 return .verifiedOnly
-            } else if isLearnerAssignment {
+            } else if learnerHasAccess && isAssignment {
                 if isInPast {
                     return isUnreleased ? .unreleased : .pastDue
                 } else if isInToday {
