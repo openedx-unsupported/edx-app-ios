@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 
 fileprivate enum QueryParameterKeys {
-    static let searchQuery = "search_query"
+    static let searchQuery = "q"
     static let subject = "subject"
 }
 
@@ -332,6 +332,7 @@ extension DiscoveryWebViewHelper: SubjectsViewControllerDelegate, PopularSubject
         set(value: subject.filter, for: QueryParameterKeys.subject, in: &params)
         environment?.analytics.trackSubjectDiscovery(subjectID: subject.filter)
         if let url = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {
+            searchBar.resignFirstResponder()
             loadController.state = .Initial
             loadRequest(withURL: url)
         }
@@ -363,11 +364,20 @@ extension DiscoveryWebViewHelper: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        guard discoveryType == .program,
-            searchText.isEmpty,
+        guard searchText.isEmpty,
             webView.url != baseURL,
-            let baseURL = baseURL else { return }
-        loadRequest(withURL: baseURL)
+            let baseURL = baseURL,
+            var params = params, params[QueryParameterKeys.searchQuery] != nil else { return }
+
+        removeParam(for: QueryParameterKeys.searchQuery, in: &params)
+
+        if let URL = DiscoveryWebViewHelper.buildQuery(baseURL: baseURL.URLString, params: params) {
+            loadRequest(withURL: URL)
+        }
+    }
+
+    private func removeParam(for key: String, in params: inout [String: String]) {
+        params.removeValue(forKey: key)
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -391,7 +401,10 @@ extension DiscoveryWebViewHelper: UISearchBarDelegate {
         var query = baseURL
         for param in params {
             let join = query.contains("?") ? "&" : "?"
-            query = query + join + param.key + "=" + param.value
+            let value = param.key + "=" + param.value
+            if !query.contains(find: value) {
+                query = query + join + value
+            }
         }
         
         return URL(string: query)
