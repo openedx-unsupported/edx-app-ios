@@ -103,7 +103,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         courseDateBlockMap = [:]
         
-        let foundToday = blocks.first { $0.blockStatus == .today }
+        let foundToday = blocks.first { $0.blockStatus == .isToday }
         
         if foundToday == nil {
             let past = blocks.filter { $0.isInPast }
@@ -118,7 +118,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
         
         for block in blocks {
-            let key = block.blockDate.stripTimeStamp()
+            let key = block.blockDate
             if courseDateBlockMap.keys.contains(key) {
                 if var item = courseDateBlockMap[key] {
                     item.append(block)
@@ -191,9 +191,7 @@ extension CourseDatesViewController: UITableViewDataSource {
         guard let blocks = item else { return cell }
         
         cell.delegate = self
-        
-        cell.setDueNextOnThisBlock = !setDueNext
-        
+        cell.setDueNextOnThisBlock = !setDueNext        
         cell.blocks = blocks
         
         return cell
@@ -226,7 +224,7 @@ extension CourseDatesViewController {
         courseDateBlockMap = [:]
 
         for block in blocks {
-            let key = block.blockDate.stripTimeStamp()
+            let key = block.blockDate
             if courseDateBlockMap.keys.contains(key) {
                 if var item = courseDateBlockMap[key] {
                     item.append(block)

@@ -222,7 +222,7 @@ class CourseDateViewCell: UITableViewCell {
             statusLabel.textColor = clear
             
             switch block.blockStatus {
-            case .today:
+            case .isToday:
                 statusContainerView.configure(backgroundColor: yellow, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
                 statusLabel.textColor = xDark
                 statusStackView.addArrangedSubview(statusLabel)

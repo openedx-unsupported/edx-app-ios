@@ -181,13 +181,133 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         additionalController.selectedIndex = 3
         
         if let selectedViewController = additionalController.selectedViewController as? CourseDatesViewController,
-            let data = CourseDateModel(json: JSON(parseJSON: datesJsonString)) {
-            selectedViewController.t_loadData(data: data)
+            let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            selectedViewController.t_loadData(data: courseDates)
         }
         
         inScreenNavigationContext(additionalController, action: { () -> () in
             assertSnapshotValidWithContent(additionalController.navigationController!)
         })
+    }
+    
+    func testDatesIsInToday() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            var blocks = courseDates.courseDateBlocks
+            
+            let foundToday = blocks.first { $0.blockStatus == .isToday }
+                   
+            if foundToday == nil {
+                let past = blocks.filter { $0.isInPast }
+                let future = blocks.filter { $0.isInFuture }
+                let todayBlock = CourseDateBlock()
+                
+                blocks.removeAll()
+                
+                blocks.append(contentsOf: past)
+                blocks.append(todayBlock)
+                blocks.append(contentsOf: future)
+                
+                if let _ = blocks.first(where: { $0.blockStatus == .isToday }) {
+                    XCTAssert(true, "Expected Course Date in today")
+                } else {
+                    XCTAssert(false, "Expected Course Date in today")
+                }
+                
+            } else {
+                XCTAssert(true, "Expected Course Date in today")
+            }
+        }
+    }
+    
+    func testDatesIsInPast() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.isInPast }
+            XCTAssert(blocks.count > 0, "Expected Course Dates in past")
+        }
+    }
+    
+    func testDatesIsInFuture() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.isInFuture }
+            XCTAssert(blocks.count > 0, "Expected Course Dates in future")
+        }
+    }
+    
+    func testDatesIsPastDue() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.blockStatus == .pastDue }
+            XCTAssert(blocks.count > 0, "Expected Course Dates is Past Due")
+        }
+    }
+    
+    func testDatesIsDueNext() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.blockStatus == .dueNext }
+            XCTAssert(blocks.count > 0, "Expected Course Dates is Due Next")
+        }
+    }
+    
+    func testDatesLearnerHasAccess() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.learnerHasAccess }
+            XCTAssert(blocks.count > 0, "Expected Course Dates Learner Has Access")
+        }
+    }
+    
+    func testDatesShowLink() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.showLink }
+            XCTAssert(blocks.count > 0, "Expected Course Dates Show Link")
+        }
+    }
+    
+    func testDatesUnreleased() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.isUnreleased }
+            XCTAssert(blocks.count > 0, "Expected Course Dates Unreleased")
+        }
+    }
+    
+    func testDatesIsReleased() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { !$0.isUnreleased }
+            XCTAssert(blocks.count > 0, "Expected Course Dates Released")
+        }
+    }
+    
+    func testDatesIsAvailable() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.available }
+            XCTAssert(blocks.count > 0, "Expected Course Dates is Available")
+        }
+    }
+    
+    func testDatesIsAssignment() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.isAssignment }
+            XCTAssert(blocks.count > 0, "Expected Course Dates is Assignment")
+        }
+    }
+    
+    func testDatesIsLernerAssignment() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.isLearnerAssignment }
+            XCTAssert(blocks.count > 0, "Expected Course Dates Learner has Access and is Assignment")
+        }
+    }
+    
+    func testDatesHasDescription() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.hasDesription }
+            XCTAssert(blocks.count > 0, "Expected Course Dates Has Description")
+        }
+    }
+    
+    func testDatesisVerifiedOnly() {
+        if let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
+            let blocks = courseDates.courseDateBlocks.filter { $0.hasDesription }
+            XCTAssert(blocks.count > 0, "Expected Course Dates is Verified Only")
+        }
     }
     
     func testAccessOkay() {
@@ -214,175 +334,3 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         }
     }
 }
-
-private var datesJsonString: String {
-       return """
-       {
-           "course_date_blocks": [
-               {
-                   "date": "2020-05-01T17:59:41Z",
-                   "date_type": "course-start-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "",
-                   "title": "Course Starts"
-               },
-               {
-                   "complete": true,
-                   "date": "2020-05-04T02:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "title": "Multi Badges Completed"
-               },
-               {
-                   "date": "2020-05-05T02:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "title": "Multi Badges Past Due"
-               },
-               {
-                   "date": "2020-05-27T02:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "https://example.com/",
-                   "title": "Both Past Due 1"
-               },
-               {
-                   "date": "2020-05-27T02:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "https://example.com/",
-                   "title": "Both Past Due 2"
-               },
-               {
-                   "complete": true,
-                   "date": "2020-05-28T08:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "https://example.com/",
-                   "title": "One Completed/Due 1"
-               },
-               {
-                   "date": "2020-05-28T08:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "https://example.com/",
-                   "title": "One Completed/Due 2"
-               },
-               {
-                   "complete": true,
-                   "date": "2020-05-29T08:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "https://example.com/",
-                   "title": "Both Completed 1"
-               },
-               {
-                   "complete": true,
-                   "date": "2020-05-29T08:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "https://example.com/",
-                   "title": "Both Completed 2"
-               },
-               {
-                   "date": "2020-06-16T17:59:40.942669Z",
-                   "date_type": "verified-upgrade-deadline",
-                   "description": "Don't miss the opportunity to highlight your new knowledge and skills by earning a verified certificate.",
-                   "learner_has_access": true,
-                   "link": "https://example.com/",
-                   "title": "Upgrade to Verified Certificate"
-               },
-               {
-                   "date": "2030-08-17T05:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": false,
-                   "link": "https://example.com/",
-                   "title": "One Verified 1"
-               },
-               {
-                   "date": "2030-08-17T05:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "https://example.com/",
-                   "title": "One Verified 2"
-               },
-               {
-                   "date": "2030-08-18T05:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": false,
-                   "link": "https://example.com/",
-                   "title": "Both Verified 1"
-               },
-               {
-                   "date": "2030-08-18T05:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": false,
-                   "link": "https://example.com/",
-                   "title": "Both Verified 2"
-               },
-               {
-                   "date": "2030-08-19T05:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "title": "One Unreleased 1"
-               },
-               {
-                   "date": "2030-08-19T05:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "https://example.com/",
-                   "title": "One Unreleased 2"
-               },
-               {
-                   "date": "2030-08-20T05:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "title": "Both Unreleased 1"
-               },
-               {
-                   "date": "2030-08-20T05:59:40.942669Z",
-                   "date_type": "assignment-due-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "title": "Both Unreleased 2"
-               },
-               {
-                   "date": "2030-08-23T00:00:00Z",
-                   "date_type": "course-end-date",
-                   "description": "",
-                   "learner_has_access": true,
-                   "link": "",
-                   "title": "Course Ends"
-               },
-               {
-                   "date": "2030-09-01T00:00:00Z",
-                   "date_type": "verification-deadline-date",
-                   "description": "You must successfully complete verification before this date to qualify for a Verified Certificate.",
-                   "learner_has_access": false,
-                   "link": "https://example.com/",
-                   "title": "Verification Deadline"
-               }
-           ],
-           "display_reset_dates_text": false,
-           "learner_is_verified": false,
-           "user_timezone": "America/New_York",
-           "verified_upgrade_link": "https://example.com/"
-       }
-       """
-   }

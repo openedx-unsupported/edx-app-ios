@@ -10,7 +10,7 @@ import Foundation
 
 enum BlockStatusType {
     case completed
-    case today
+    case isToday
     case pastDue
     case dueNext
     case unreleased
@@ -29,7 +29,7 @@ enum BlockStatusType {
         case .completed:
             return Strings.Coursedates.completed
             
-        case .today:
+        case .isToday:
             return Strings.Coursedates.today
             
         case .pastDue:
@@ -188,13 +188,7 @@ class CourseDateBlock {
         title = json[Keys.title].string ?? ""
         extraInfo = json[Keys.extraInfo].string ?? ""
         
-        guard let formattedDate = DateFormatting.date(withServerString: date) else {
-            let today = NSDate()
-            blockDate = (today as Date).stripTimeStamp()
-            dateText = DateFormatting.format(asWeekDayMonthDateYear: today as Date)
-            return
-        }
-        blockDate = (formattedDate as Date).stripTimeStamp()
+        blockDate = getBlockDate(date: date)
         dateText = DateFormatting.format(asWeekDayMonthDateYear: blockDate as Date)
     }
     
@@ -202,6 +196,14 @@ class CourseDateBlock {
         let today = date.stripTimeStamp() as NSDate
         blockDate = (today as Date).stripTimeStamp()
         dateText = DateFormatting.format(asWeekDayMonthDateYear: today as Date)
+    }
+    
+    private func getBlockDate(date: String) -> Date {
+        guard let formattedDate = DateFormatting.date(withServerString: date) else {
+            let today = NSDate()
+            return (today as Date).stripTimeStamp()
+        }
+        return (formattedDate as Date).stripTimeStamp()
     }
 }
 
@@ -223,7 +225,7 @@ extension CourseDateBlock {
     }
     
     var blockStatus: BlockStatusType {
-        return calculateBlockStatus(type: dateType)
+        return getBlockStatus(type: dateType)
     }
     
     var isAssignment: Bool {
@@ -275,9 +277,9 @@ extension CourseDateBlock {
      course-end-date:
      */
     
-    private func calculateBlockStatus(type: String) -> BlockStatusType {
+    private func getBlockStatus(type: String) -> BlockStatusType {
         if isInToday {
-            return .today
+            return .isToday
         }
         
         if complete {
@@ -289,7 +291,7 @@ extension CourseDateBlock {
                 if isInPast {
                     return isUnreleased ? .unreleased : .pastDue
                 } else if isInToday {
-                    return .today
+                    return .isToday
                 } else if isInFuture {
                     return isUnreleased ? .unreleased : .dueNext
                 }
