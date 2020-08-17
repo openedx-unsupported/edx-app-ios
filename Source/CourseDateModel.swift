@@ -10,7 +10,7 @@ import Foundation
 
 enum BlockStatusType {
     case completed
-    case isToday
+    case today
     case pastDue
     case dueNext
     case unreleased
@@ -29,7 +29,7 @@ enum BlockStatusType {
         case .completed:
             return Strings.Coursedates.completed
             
-        case .isToday:
+        case .today:
             return Strings.Coursedates.today
             
         case .pastDue:
@@ -260,7 +260,7 @@ extension CourseDateBlock {
         return learnerHasAccess && (!isUnreleased || !isLearnerAssignment)
     }
     
-    var hasDesription: Bool {
+    var hasDescription: Bool {
         return !description.isEmpty
     }
     
@@ -279,7 +279,7 @@ extension CourseDateBlock {
     
     private func getBlockStatus(type: String) -> BlockStatusType {
         if isInToday {
-            return .isToday
+            return .today
         }
         
         if complete {
@@ -291,7 +291,7 @@ extension CourseDateBlock {
                 if isInPast {
                     return isUnreleased ? .unreleased : .pastDue
                 } else if isInToday {
-                    return .isToday
+                    return .today
                 } else if isInFuture {
                     return isUnreleased ? .unreleased : .dueNext
                 }

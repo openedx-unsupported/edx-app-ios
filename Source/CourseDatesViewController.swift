@@ -103,9 +103,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         courseDateBlockMap = [:]
         
-        let foundToday = blocks.first { $0.blockStatus == .isToday }
+        let isToday = blocks.first { $0.blockStatus == .today }
         
-        if foundToday == nil {
+        if isToday == nil {
             let past = blocks.filter { $0.isInPast }
             let future = blocks.filter { $0.isInFuture }
             let todayBlock = CourseDateBlock()

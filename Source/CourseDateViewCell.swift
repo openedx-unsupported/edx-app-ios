@@ -121,7 +121,7 @@ class CourseDateViewCell: UITableViewCell {
                 
                 titleAndDescriptionStackView.addArrangedSubview(titleLabel)
                 
-                if block.hasDesription {
+                if block.hasDescription {
                     addDescriptionLabel(block)
                 }
             }
@@ -222,7 +222,7 @@ class CourseDateViewCell: UITableViewCell {
             statusLabel.textColor = clear
             
             switch block.blockStatus {
-            case .isToday:
+            case .today:
                 statusContainerView.configure(backgroundColor: yellow, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
                 statusLabel.textColor = xDark
                 statusStackView.addArrangedSubview(statusLabel)

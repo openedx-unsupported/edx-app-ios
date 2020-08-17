@@ -181,6 +181,7 @@
 		5F514FBA240696D700BA113A /* MSAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; };
 		5F514FBB240696D700BA113A /* MSAL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5F514FB9240696D700BA113A /* MSAL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5FAE055324EA647D00A29B1D /* CourseDates.json in Resources */ = {isa = PBXBuildFile; fileRef = 5FAE055124EA618000A29B1D /* CourseDates.json */; };
+		5FAE055524EA866900A29B1D /* CourseDatesModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FAE055424EA866900A29B1D /* CourseDatesModelTests.swift */; };
 		5FB44C1324978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */; };
 		5FB69A8E24BC2CD800BBCAD7 /* RegistrationFormValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB69A8D24BC2CD800BBCAD7 /* RegistrationFormValidation.swift */; };
 		5FC78DEB24C1678D00594724 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC78DEA24C1678D00594724 /* TTTAttributedLabel.m */; };
@@ -1191,6 +1192,7 @@
 		5F4AB7782463F891002D1C9C /* GoogleCast.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleCast.framework; path = Libraries/Cast/GoogleCast.framework; sourceTree = "<group>"; };
 		5F514FB9240696D700BA113A /* MSAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MSAL.framework; path = Libraries/MSAL/MSAL.framework; sourceTree = "<group>"; };
 		5FAE055124EA618000A29B1D /* CourseDates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CourseDates.json; sourceTree = "<group>"; };
+		5FAE055424EA866900A29B1D /* CourseDatesModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseDatesModelTests.swift; sourceTree = "<group>"; };
 		5FB44C1224978EFB00C59DD0 /* RegistrationSelectOptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationSelectOptionViewController.swift; sourceTree = "<group>"; };
 		5FB69A8D24BC2CD800BBCAD7 /* RegistrationFormValidation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationFormValidation.swift; sourceTree = "<group>"; };
 		5FC78DEA24C1678D00594724 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
@@ -3986,6 +3988,7 @@
 				E0EC115B221AE70900F0574A /* ListenableObject.m */,
 				22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */,
 				2295E2A62369BFFB00FC51D5 /* MicrosoftConfigTests.swift */,
+				5FAE055424EA866900A29B1D /* CourseDatesModelTests.swift */,
 			);
 			name = "Unit Tests";
 			path = Test;
@@ -5362,6 +5365,7 @@
 				021AD6291F166F7F009AF653 /* Dictionary+SafeAccessTests.swift in Sources */,
 				F2C1F0D81CFDDC400051743C /* NetworkManagerTests.swift in Sources */,
 				7753914B1C98A16600FA959C /* VideoBlockViewControllerTests.swift in Sources */,
+				5FAE055524EA866900A29B1D /* CourseDatesModelTests.swift in Sources */,
 				E0FC64C31C85B492004E3E92 /* DiscussionDataParsingTests.swift in Sources */,
 				770A27AC1A702B6500DFC6FF /* OEXDataParserTests.m in Sources */,
 				222C39202167761F0038E388 /* DeepLinkTests.swift in Sources */,
