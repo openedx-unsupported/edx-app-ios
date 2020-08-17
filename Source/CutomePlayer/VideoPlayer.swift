@@ -612,6 +612,8 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             if self?.playerState == .playing {
                 self?.controls?.autoHide()
                 self?.player.play()
+                let speed = OEXInterface.getCCSelectedPlaybackSpeed()
+                self?.rate = OEXInterface.getOEXVideoSpeed(speed)
             }
             else {
                 self?.savePlayedTime()
