@@ -54,7 +54,6 @@ class CourseDatesModelTests: XCTestCase {
     }
     
     func testDatesIsInPast() {
-        let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates"))
         let blocks = courseDates!.courseDateBlocks.filter { $0.isInPast }
         XCTAssert(blocks.count > 0, "Expected Course Dates in past")
     }
