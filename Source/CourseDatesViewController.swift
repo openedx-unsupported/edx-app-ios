@@ -70,6 +70,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func setupView() {
+        view.backgroundColor = OEXStyles.shared().standardBackgroundColor()
         view.addSubview(tableView)
         navigationItem.title = Strings.Coursedates.courseImportantDatesTitle
         loadController.setupInController(controller: self, contentView: tableView)
@@ -86,15 +87,19 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 self?.handleResponse(data: data)
                 break
             case .failure:
-                self?.loadController.state = .failed()
+                self?.loadController.state = LoadState.failed(message: Strings.Coursedates.courseDateUnavailable)
                 break
             }
         }
     }
     
     private func handleResponse(data: CourseDateModel) {
-        populate(data: data)
-        loadController.state = .Loaded
+        if data.courseDateBlocks.isEmpty {
+            loadController.state = LoadState.failed(message: Strings.Coursedates.courseDateUnavailable)
+        } else {
+            populate(data: data)
+            loadController.state = .Loaded
+        }
     }
     
     private func populate(data: CourseDateModel) {
