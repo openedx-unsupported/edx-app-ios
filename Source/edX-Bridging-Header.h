@@ -8,7 +8,6 @@
 #import <FirebaseMessaging/FIRMessaging.h>
 #import <FirebaseCrashlytics/FIRCrashlytics.h>
 
-#import "TTTAttributedLabel.h"
 #import "DACircularProgressView.h"
 #import <DateTools/NSDate+DateTools.h>
 #import "LastAccessed.h"

@@ -23,6 +23,23 @@ extension NSAttributedString {
         
         return self
     }
+    
+    func addLink(on subString: String, value: URL, color: UIColor) -> NSAttributedString {
+        if string.contains(find: subString) {
+            let mutableAttributedString = NSMutableAttributedString(attributedString: self)
+            let range = (string as NSString).range(of: subString)
+            let attributes = [
+                NSAttributedString.Key.link: value,
+                NSAttributedString.Key.foregroundColor: color,
+                NSAttributedString.Key.underlineStyle: true,
+                ] as [NSAttributedString.Key : Any]
+            
+            mutableAttributedString.addAttributes(attributes, range: range)
+            return mutableAttributedString
+        }
+        
+        return self
+    }
 }
 
 extension OEXTextStyle {
