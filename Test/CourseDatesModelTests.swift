@@ -115,7 +115,7 @@ class CourseDatesModelTests: XCTestCase {
     }
     
     func testDatesIsVerifiedOnly() {
-        let blocks = courseDates!.courseDateBlocks.filter { !$0.isLearnerAssignment }
+        let blocks = courseDates!.courseDateBlocks.filter { $0.isVerifiedOnly }
         XCTAssert(blocks.count > 0, "Expected Course Dates is Verified Only")
     }
 }
