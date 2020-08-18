@@ -288,6 +288,9 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber, let newStatus = AVPlayerItem.Status(rawValue: newStatusAsNumber.intValue) {
                 switch newStatus {
                 case .readyToPlay:
+                    let speed = OEXInterface.getCCSelectedPlaybackSpeed()
+                    rate = OEXInterface.getOEXVideoSpeed(speed)
+                    
                     //This notification call specifically for test cases in readyToPlay state
                     perform(#selector(t_postNotification))
                     
@@ -612,8 +615,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             if self?.playerState == .playing {
                 self?.controls?.autoHide()
                 self?.player.play()
-                let speed = OEXInterface.getCCSelectedPlaybackSpeed()
-                self?.rate = OEXInterface.getOEXVideoSpeed(speed)
             }
             else {
                 self?.savePlayedTime()
