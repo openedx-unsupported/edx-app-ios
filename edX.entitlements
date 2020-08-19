@@ -16,6 +16,7 @@
 	<key>keychain-access-groups</key>
 	<array>
 		<string>$(AppIdentifierPrefix)org.edx.mobile</string>
+		<string>$(AppIdentifierPrefix)com.microsoft.adalcache</string>
 	</array>
 </dict>
 </plist>
