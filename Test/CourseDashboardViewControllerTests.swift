@@ -180,10 +180,9 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         let additionalController = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
         additionalController.selectedIndex = 3
         
-        if let selectedViewController = additionalController.selectedViewController as? CourseDatesViewController,
-            let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates")) {
-            selectedViewController.t_loadData(data: courseDates)
-        }
+        let courseDatesViewcontroller = additionalController.selectedViewController as! CourseDatesViewController
+        let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates"))!
+        courseDatesViewcontroller.t_loadData(data: courseDates)
         
         inScreenNavigationContext(additionalController, action: { () -> () in
             assertSnapshotValidWithContent(additionalController.navigationController!)
