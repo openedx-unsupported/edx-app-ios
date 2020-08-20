@@ -91,7 +91,7 @@ static CGFloat rowHeight = 30;
 }
 
 - (NSUInteger)itemsInRow:(NSUInteger)row withMaxItemsPerRow:(NSUInteger)maxItems itemCount:(NSUInteger)itemCount {
-    return ((row + 1)* maxItems < itemCount) ? maxItems : (itemCount % maxItems ?: itemCount);
+    return ((row + 1)* maxItems <= itemCount) ? maxItems : (itemCount % maxItems ?: itemCount);
 }
 
 - (void)layoutSubviews {
