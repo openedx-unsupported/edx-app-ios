@@ -296,7 +296,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                     
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
                     break
-                @unknown default:
+                default:
                     break
                 }
             }
@@ -410,8 +410,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 (completed: Bool) -> Void in
                 self?.player.play()
                 self?.playerState = .playing
-                let speed = OEXInterface.getCCSelectedPlaybackSpeed()
-                self?.rate = OEXInterface.getOEXVideoSpeed(speed)
             }
         }
     }
