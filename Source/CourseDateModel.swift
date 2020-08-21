@@ -173,7 +173,6 @@ struct CourseDateBlock {
     var link: String = ""
     var linkText: String = ""
     var title: String = ""
-    //var dateText: String = ""
     var today = Date().stripTimeStamp()
     var extraInfo: String = ""
         
@@ -189,13 +188,11 @@ struct CourseDateBlock {
         extraInfo = json[Keys.extraInfo].string ?? ""
         
         blockDate = getBlockDate(date: date)
-        //dateText = DateFormatting.format(asWeekDayMonthDateYear: blockDate as Date)
     }
     
     init(date: Date = Date()) {
         let today = date.stripTimeStamp() as NSDate
         blockDate = (today as Date).stripTimeStamp()
-        //dateText = DateFormatting.format(asWeekDayMonthDateYear: today as Date)
     }
     
     private func getBlockDate(date: String) -> Date {
