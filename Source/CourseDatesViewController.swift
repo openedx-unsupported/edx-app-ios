@@ -18,7 +18,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.tableFooterView = UIView()
-        tableView.estimatedRowHeight = 60
         tableView.rowHeight = UITableView.automaticDimension
         tableView.dataSource = self
         tableView.delegate = self
@@ -30,9 +29,9 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     
     private lazy var loadController = LoadStateViewController()
     
-    private var datesResponse: CourseDateModel?
-    private var courseDateBlockMap: [Date : [CourseDateBlock]] = [:]
-    private var courseDateBlockMapSortedKeys: [Date] = []
+    private var courseDateModel: CourseDateModel?
+    private var dateBlocksMap: [Date : [CourseDateBlock]] = [:]
+    private var dateBlocksMapSortedKeys: [Date] = []
     private var setDueNext = false
     
     private let courseID: String
@@ -103,10 +102,10 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func populate(data: CourseDateModel) {
-        datesResponse = data
+        courseDateModel = data
         var blocks = data.courseDateBlocks
         
-        courseDateBlockMap = [:]
+        dateBlocksMap = [:]
         
         let isToday = blocks.first { $0.blockStatus == .today }
         
@@ -124,17 +123,17 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         for block in blocks {
             let key = block.blockDate
-            if courseDateBlockMap.keys.contains(key) {
-                if var item = courseDateBlockMap[key] {
+            if dateBlocksMap.keys.contains(key) {
+                if var item = dateBlocksMap[key] {
                     item.append(block)
-                    courseDateBlockMap[key] = item
+                    dateBlocksMap[key] = item
                 }
             } else {
-                courseDateBlockMap[key] = [block]
+                dateBlocksMap[key] = [block]
             }
         }
         
-        courseDateBlockMapSortedKeys = courseDateBlockMap.keys.sorted()
+        dateBlocksMapSortedKeys = dateBlocksMap.keys.sorted()
         tableView.reloadData()
     }
     
@@ -155,27 +154,20 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
 }
 
 extension CourseDatesViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.estimatedRowHeight
-    }
-    
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return courseDateBlockMapSortedKeys.count
+        return dateBlocksMapSortedKeys.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CourseDateViewCell.identifier, for: indexPath) as! CourseDateViewCell
-        cell.selectionStyle = .none
-        cell.accessibilityIdentifier = "CourseDatesViewController:table-cell"
 
         let index = indexPath.row
-        let key = courseDateBlockMapSortedKeys[index]
-        let item = courseDateBlockMap[key]
-        let count = courseDateBlockMapSortedKeys.count
+        let key = dateBlocksMapSortedKeys[index]
+        let count = dateBlocksMapSortedKeys.count
         
         cell.timeline.topColor = .clear
         cell.timeline.bottomColor = .clear
@@ -193,10 +185,11 @@ extension CourseDatesViewController: UITableViewDataSource {
             cell.timeline.bottomColor = .black
         }
         
-        guard let blocks = item else { return cell }
+        guard let blocks = dateBlocksMap[key] else { return cell }
         
         cell.delegate = self
-        cell.setDueNextOnThisBlock = !setDueNext        
+        cell.setDueNextOnThisBlock = !setDueNext
+        cell.userTimeZone = courseDateModel?.userTimezone
         cell.blocks = blocks
         
         return cell
@@ -207,7 +200,9 @@ extension CourseDatesViewController: UITableViewDelegate { }
 
 extension CourseDatesViewController: CourseDateViewCellDelegate {
     func didSelectLinkWith(url: URL) {
-        UIApplication.shared.openURL(url)
+       if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.openURL(url)
+        }
     }
     
     func didSetDueNext() {
@@ -223,24 +218,24 @@ extension CourseDatesViewController {
     }
     
     func t_handleResponse(data: CourseDateModel) {
-        datesResponse = data
+        courseDateModel = data
         let blocks = data.courseDateBlocks
         
-        courseDateBlockMap = [:]
+        dateBlocksMap = [:]
 
         for block in blocks {
             let key = block.blockDate
-            if courseDateBlockMap.keys.contains(key) {
-                if var item = courseDateBlockMap[key] {
+            if dateBlocksMap.keys.contains(key) {
+                if var item = dateBlocksMap[key] {
                     item.append(block)
-                    courseDateBlockMap[key] = item
+                    dateBlocksMap[key] = item
                 }
             } else {
-                courseDateBlockMap[key] = [block]
+                dateBlocksMap[key] = [block]
             }
         }
         
-        courseDateBlockMapSortedKeys = courseDateBlockMap.keys.sorted()
+        dateBlocksMapSortedKeys = dateBlocksMap.keys.sorted()
         tableView.reloadData()
     }
 }

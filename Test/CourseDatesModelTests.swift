@@ -79,7 +79,7 @@ class CourseDatesModelTests: XCTestCase {
     }
     
     func testDatesShowLink() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.showLink }
+        let blocks = courseDates!.courseDateBlocks.filter { $0.canShowLink }
         XCTAssert(blocks.count > 0, "Expected Course Dates Show Link")
     }
     
@@ -94,7 +94,7 @@ class CourseDatesModelTests: XCTestCase {
     }
     
     func testDatesIsAvailable() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.available }
+        let blocks = courseDates!.courseDateBlocks.filter { $0.isAvailable }
         XCTAssert(blocks.count > 0, "Expected Course Dates is Available")
     }
     

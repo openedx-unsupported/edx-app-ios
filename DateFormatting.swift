@@ -101,8 +101,11 @@ open class DateFormatting: NSObject {
         return formatter.string(from: date as Date)
     }
     
-    open class func format(asWeekDayMonthDateYear date: Date) -> String {
+    open class func format(asWeekDayMonthDateYear date: Date, timeZoneIdentifier: String?) -> String {
         let dateFormatter = DateFormatter()
+        if let timeZone = timeZoneIdentifier {
+            dateFormatter.timeZone = TimeZone(identifier: timeZone)
+        }
         dateFormatter.dateFormat = "EE, MMM, d yyyy"
         return dateFormatter.string(from: date)
     }

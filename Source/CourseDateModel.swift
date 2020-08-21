@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum BlockStatusType {
+enum DateStatus {
     case completed
     case today
     case pastDue
@@ -70,7 +70,7 @@ enum BlockStatusType {
         }
     }
     
-    static func typeOf(dateType: String) -> BlockStatusType {
+    static func typeOf(dateType: String) -> DateStatus {
         switch dateType {
         case "assignment-due-date":
             return .assignment
@@ -99,12 +99,12 @@ enum BlockStatusType {
     }
 }
 
-class CourseDateModel {
+struct CourseDateModel {
     private enum Keys: String, RawStringExtractable {
         case courseDateBlocks = "course_date_blocks"
         case datesBannerInfo = "dates_banner_info"
-        case learnerIsFullAccess = "learner_is_full_access"
-        case missedDeadlines = "missed_deadlines"
+        case learnerHasFullAccess = "learner_is_full_access"
+        case missedDeadline = "missed_deadlines"
         case missedGatedContent = "missed_gated_content"
         case userTimezone = "user_timezone"
         case verifiedUpgradeLink = "verified_upgrade_link"
@@ -112,47 +112,47 @@ class CourseDateModel {
     
     var courseDateBlocks: [CourseDateBlock] = []
     var datesBannerInfo: DatesBannerInfo? = nil
-    var learnerIsFullAccess: Bool = false
-    var missedDeadlines: Bool = false
+    var learnerHasFullAccess: Bool = false
+    var missedDeadline: Bool = false
     var missedGatedContent: Bool = false
-    var userTimezone: String = ""
+    var userTimezone: String?
     var verifiedUpgradeLink: String = ""
     
     public init?(json: JSON) {
         let courseDateBlocksArray = json[Keys.courseDateBlocks].array ?? []
         courseDateBlocks = courseDateBlocksArray.compactMap { CourseDateBlock(json: $0) }
         let datesBannerInfoJson = json[Keys.datesBannerInfo]
-        datesBannerInfo = DatesBannerInfo(json: datesBannerInfoJson) ?? nil
-        learnerIsFullAccess = json[Keys.learnerIsFullAccess].bool ?? false
-        missedDeadlines = json[Keys.missedDeadlines].bool ?? false
+        datesBannerInfo = DatesBannerInfo(json: datesBannerInfoJson)
+        learnerHasFullAccess = json[Keys.learnerHasFullAccess].bool ?? false
+        missedDeadline = json[Keys.missedDeadline].bool ?? false
         missedGatedContent = json[Keys.missedGatedContent].bool ?? false
-        userTimezone = json[Keys.userTimezone].string ?? ""
+        userTimezone = json[Keys.userTimezone].string ?? nil
         verifiedUpgradeLink = json[Keys.verifiedUpgradeLink].string ?? ""
     }
 }
 
-class DatesBannerInfo {
+struct DatesBannerInfo {
     private enum Keys: String, RawStringExtractable {
         case contentTypeGatingEnabled = "content_type_gating_enabled"
-        case missedDeadlines = "missed_deadlines"
+        case missedDeadline = "missed_deadlines"
         case missedGatedContent = "missed_gated_content"
         case verifiedUpgradeLink = "verified_upgrade_link"
     }
     
     let contentTypeGatingEnabled: Bool
-    let missedDeadlines: Bool
+    let missedDeadline: Bool
     let missedGatedContent: Bool
     let verifiedUpgradeLink: String
     
-    public init?(json: JSON) {
+    public init(json: JSON) {
         contentTypeGatingEnabled = json[Keys.contentTypeGatingEnabled].bool ?? false
-        missedDeadlines = json[Keys.missedDeadlines].bool ?? false
+        missedDeadline = json[Keys.missedDeadline].bool ?? false
         missedGatedContent = json[Keys.missedGatedContent].bool ?? false
         verifiedUpgradeLink = json[Keys.verifiedUpgradeLink].string ?? ""
     }
 }
 
-class CourseDateBlock {
+struct CourseDateBlock {
     private enum Keys: String, RawStringExtractable {
         case complete = "complete"
         case date = "date"
@@ -173,11 +173,11 @@ class CourseDateBlock {
     var link: String = ""
     var linkText: String = ""
     var title: String = ""
-    var dateText: String = ""
+    //var dateText: String = ""
     var today = Date().stripTimeStamp()
     var extraInfo: String = ""
-    
-    public init?(json: JSON) {
+        
+    public init(json: JSON) {
         complete = json[Keys.complete].bool ?? false
         let date = json[Keys.date].string ?? ""
         dateType = json[Keys.dateType].string ?? ""
@@ -189,30 +189,41 @@ class CourseDateBlock {
         extraInfo = json[Keys.extraInfo].string ?? ""
         
         blockDate = getBlockDate(date: date)
-        dateText = DateFormatting.format(asWeekDayMonthDateYear: blockDate as Date)
+        //dateText = DateFormatting.format(asWeekDayMonthDateYear: blockDate as Date)
     }
     
     init(date: Date = Date()) {
         let today = date.stripTimeStamp() as NSDate
         blockDate = (today as Date).stripTimeStamp()
-        dateText = DateFormatting.format(asWeekDayMonthDateYear: today as Date)
+        //dateText = DateFormatting.format(asWeekDayMonthDateYear: today as Date)
     }
     
     private func getBlockDate(date: String) -> Date {
         guard let formattedDate = DateFormatting.date(withServerString: date) else {
-            let today = NSDate()
-            return (today as Date).stripTimeStamp()
+            return Date().stripTimeStamp()
         }
         return (formattedDate as Date).stripTimeStamp()
     }
 }
 
+/*
+ For completeness sake, here are the badge triggers:
+ completed: should be if the item has the completed boolean to true (and is an assignment)
+ past due: is an assignment, the learner has access, is not complete, and due in the past
+ due next: is an assignment, the learner has access, is not complete, and is the next assignment due
+ unreleased: is an assignment, the learner has access, and there's no link property (and/or it's empty, I forget which)
+ verified only: the learner does not have access (note that it can be an assignment or something else)
+ verification-deadline-date:
+ certificate-available-date:
+ course-start-date:
+ course-end-date:
+ */
 extension CourseDateBlock {
     var isInPast: Bool {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedAscending
     }
     
-    var isInToday: Bool {
+    var isToday: Bool {
         if dateType.isEmpty {
             return true
         } else {
@@ -224,12 +235,12 @@ extension CourseDateBlock {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedDescending
     }
     
-    var blockStatus: BlockStatusType {
+    var blockStatus: DateStatus {
         return getBlockStatus(type: dateType)
     }
     
     var isAssignment: Bool {
-        return BlockStatusType.typeOf(dateType: dateType) == .assignment
+        return DateStatus.typeOf(dateType: dateType) == .assignment
     }
     
     var isVerifiedOnly: Bool {
@@ -252,11 +263,11 @@ extension CourseDateBlock {
         return link.isEmpty
     }
     
-    var showLink: Bool {
+    var canShowLink: Bool {
         return !isUnreleased && isLearnerAssignment
     }
     
-    var available: Bool {
+    var isAvailable: Bool {
         return learnerHasAccess && (!isUnreleased || !isLearnerAssignment)
     }
     
@@ -264,21 +275,8 @@ extension CourseDateBlock {
         return !description.isEmpty
     }
     
-    /*
-     For completeness sake, here are the badge triggers:
-     completed: should be if the item has the completed boolean to true (and is an assignment)
-     past due: is an assignment, the learner has access, is not complete, and due in the past
-     due next: is an assignment, the learner has access, is not complete, and is the next assignment due
-     unreleased: is an assignment, the learner has access, and there's no link property (and/or it's empty, I forget which)
-     verified only: the learner does not have access (note that it can be an assignment or something else)
-     verification-deadline-date:
-     certificate-available-date:
-     course-start-date:
-     course-end-date:
-     */
-    
-    private func getBlockStatus(type: String) -> BlockStatusType {
-        if isInToday {
+    private func getBlockStatus(type: String) -> DateStatus {
+        if isToday {
             return .today
         }
         
@@ -290,13 +288,13 @@ extension CourseDateBlock {
             } else if learnerHasAccess && isAssignment {
                 if isInPast {
                     return isUnreleased ? .unreleased : .pastDue
-                } else if isInToday {
+                } else if isToday {
                     return .today
                 } else if isInFuture {
                     return isUnreleased ? .unreleased : .dueNext
                 }
             } else if learnerHasAccess && !isAssignment {
-                return BlockStatusType.typeOf(dateType: type)
+                return DateStatus.typeOf(dateType: type)
             }
             
             return .event

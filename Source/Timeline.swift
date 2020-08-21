@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public struct Timeline {
+struct Timeline {
     public var width: CGFloat = 1 {
         didSet {
             if width < 0.0 {
@@ -19,20 +19,14 @@ public struct Timeline {
     }
     
     public var (topColor, bottomColor) = (UIColor.black, UIColor.black)
-    
     public var leftMargin: CGFloat = 80.0
-    
-    internal var (start, middle, end) = (CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 0))
+    public var (start, middle, end) = (CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 0))
     
     public init(width: CGFloat, frontColor: UIColor, backColor: UIColor) {
         self.width = width
         self.topColor = frontColor
         self.bottomColor = backColor
         self.leftMargin -= width / 2
-    }
-    
-    public init(frontColor: UIColor, backColor: UIColor) {
-        self.init(width: 1, frontColor: frontColor, backColor: backColor)
     }
     
     public init() {

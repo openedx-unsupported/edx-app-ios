@@ -20,16 +20,7 @@ class CourseDateViewCell: UITableViewCell {
     static let identifier = String(describing: self)
     
     var delegate: CourseDateViewCellDelegate?
-    
-    private var dark = OEXStyles.shared().neutralDark()
-    private var xDark = OEXStyles.shared().neutralXDark()
-    private var black = OEXStyles.shared().neutralBlack()
-    private var xxlight = OEXStyles.shared().neutralXXLight()
-    private var light = OEXStyles.shared().neutralLight()
-    private var white = OEXStyles.shared().neutralWhite()
-    private var clear = UIColor.clear
-    private var yellow = UIColor.systemYellow
-    
+        
     private lazy var dateLabel = UILabel()
     private lazy var statusLabel = UILabel()
     
@@ -46,33 +37,28 @@ class CourseDateViewCell: UITableViewCell {
     private lazy var lockedImageView: UIImageView = {
         let image = Icon.Closed.imageWithFontSize(size: imageSize).withRenderingMode(.alwaysTemplate)
         let imageView = UIImageView(image: image)
-        imageView.tintColor = white
+        imageView.tintColor = OEXStyles.shared().neutralWhite()
         return imageView
     }()
     
     private lazy var dateStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: xDark)
-        style.alignment = .left
-        return style
+        return OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().neutralXDark())
     }()
     
     private lazy var statusStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .semiBold, size: .small, color: white)
+        let style = OEXMutableTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralWhite())
         style.alignment = .center
         return style
     }()
     
     private lazy var titleStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: black)
-        style.alignment = .left
+        let style = OEXMutableTextStyle(weight: .bold, size: .base, color: OEXStyles.shared().neutralBlack())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
     
     private lazy var descriptionStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .normal, size: .small, color: dark)
-        style.alignment = .left
-        return style
+        return OEXMutableTextStyle(weight: .normal, size: .small, color: OEXStyles.shared().neutralDark())
     }()
     
     private let titleAndDescriptionStackView = TZStackView()
@@ -96,7 +82,8 @@ class CourseDateViewCell: UITableViewCell {
     private var defaultTimelinePointDiameter: CGFloat = 8
     
     var setDueNextOnThisBlock = false
-
+    var userTimeZone: String?
+    
     var blocks: [CourseDateBlock]? {
         didSet {
             guard let blocks = blocks else { return }
@@ -104,35 +91,34 @@ class CourseDateViewCell: UITableViewCell {
             statusStackView.subviews.forEach { $0.removeFromSuperview() }
             
             if let block = blocks.first {
-                dateLabel.attributedText = dateStyle.attributedString(withText: block.dateText)
+                let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZoneIdentifier: userTimeZone)
+                dateLabel.attributedText = dateStyle.attributedString(withText: dateText)
                 updateTimelinePoint(block)
                 updateBadge(block)
             }
             
             for block in blocks {
-                let titleLabel = UITextView(frame: .zero)
-                titleLabel.isUserInteractionEnabled = true
-                titleLabel.isScrollEnabled = false
-                titleLabel.isEditable = false
-                titleLabel.textContainerInset = .zero
-                titleLabel.textContainer.lineFragmentPadding = .zero
+                let titleTextView = UITextView(frame: .zero)
+                titleTextView.isUserInteractionEnabled = true
+                titleTextView.isScrollEnabled = false
+                titleTextView.isEditable = false
+                titleTextView.textContainerInset = .zero
+                titleTextView.textContainer.lineFragmentPadding = .zero
                 
-                let color = block.available ? black : light
+                let color = block.isAvailable ? OEXStyles.shared().neutralBlack() : OEXStyles.shared().neutralLight()
                 titleStyle.color = color
-                titleLabel.tintColor = color
+                titleTextView.tintColor = color
                 var attributedString = titleStyle.attributedString(withText: block.title)
                                 
-                if block.showLink {
-                    if let url = URL(string: block.link) {
-                        attributedString = attributedString.addLink(on: block.title, value: url, color: color)
-                        titleLabel.delegate = self
-                    }
+                if block.canShowLink, let url = URL(string: block.link) {
+                    attributedString = attributedString.addLink(on: block.title, value: url, foregroundColor: color, showUnderline: true)
+                    titleTextView.delegate = self
                 }
 
-                titleLabel.attributedText = attributedString
-                titleLabel.sizeToFit()
+                titleTextView.attributedText = attributedString
+                titleTextView.sizeToFit()
 
-                titleAndDescriptionStackView.addArrangedSubview(titleLabel)
+                titleAndDescriptionStackView.addArrangedSubview(titleTextView)
                 
                 if block.hasDescription {
                     addDescriptionLabel(block)
@@ -143,6 +129,9 @@ class CourseDateViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = .none
+        accessibilityIdentifier = "CourseDatesViewController:table-cell"
         
         setupViews()
         setupConstrains()
@@ -232,59 +221,59 @@ class CourseDateViewCell: UITableViewCell {
     /// Designs the badge/pill with appropirate state of block
     private func updateBadge(_ block: CourseDateBlock) {
             statusLabel.attributedText = statusStyle.attributedString(withText: block.blockStatus.localized)
-            statusLabel.textColor = clear
+            statusLabel.textColor = .clear
             
             switch block.blockStatus {
             case .today:
-                statusContainerView.configure(backgroundColor: yellow, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = xDark
+                statusContainerView.configure(backgroundColor: .systemYellow, borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
+                statusLabel.textColor = OEXStyles.shared().neutralXDark()
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
                 
             case .verifiedOnly:
-                statusContainerView.configure(backgroundColor: xDark, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = white
+                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralXDark(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
+                statusLabel.textColor = OEXStyles.shared().neutralWhite()
                 statusStackView.addArrangedSubview(lockedImageView)
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
                 
             case .completed:
-                statusContainerView.configure(backgroundColor: xxlight, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = xDark
+                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralXXLight(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
+                statusLabel.textColor = OEXStyles.shared().neutralXDark()
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
                 
             case .pastDue:
-                statusContainerView.configure(backgroundColor: light, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
-                statusLabel.textColor = xDark
+                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralLight(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
+                statusLabel.textColor = OEXStyles.shared().neutralXDark()
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
                 
             case .dueNext:
                 if setDueNextOnThisBlock {
-                    statusContainerView.configure(backgroundColor: dark, borderColor: clear, borderWith: 0, cornerRadius: cornerRadius)
-                    statusLabel.textColor = white
+                    statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralDark(), borderColor: .clear, borderWith: 0, cornerRadius: cornerRadius)
+                    statusLabel.textColor = OEXStyles.shared().neutralWhite()
                     statusStackView.addArrangedSubview(statusLabel)
                     delegate?.didSetDueNext()
                 } else {
-                    statusContainerView.backgroundColor = clear
+                    statusContainerView.backgroundColor = .clear
                 }
                 
                 break
                 
             case .unreleased:
-                statusContainerView.configure(backgroundColor: white, borderColor: xDark, borderWith: 0.5, cornerRadius: cornerRadius)
-                statusLabel.textColor = xDark
+                statusContainerView.configure(backgroundColor: OEXStyles.shared().neutralWhite(), borderColor: OEXStyles.shared().neutralXDark(), borderWith: 0.5, cornerRadius: cornerRadius)
+                statusLabel.textColor = OEXStyles.shared().neutralXDark()
                 statusStackView.addArrangedSubview(statusLabel)
                 
                 break
                 
             default:
-                statusContainerView.backgroundColor = clear
+                statusContainerView.backgroundColor = .clear
                 
                 break
         }
@@ -301,24 +290,32 @@ class CourseDateViewCell: UITableViewCell {
     
     /// Updates timeline point color based on appropirate state
     private func updateTimelinePoint(_ block: CourseDateBlock) {
-        if block.isInToday {
-            timelinePoint.color = yellow
+        if block.isToday {
+            timelinePoint.color = .systemYellow
             timelinePoint.diameter = todayTimelinePointDiameter
         } else if block.isInPast {
-            if block.blockStatus == .completed {
-                timelinePoint.color = white
-            } else if block.blockStatus == .courseStartDate {
-                timelinePoint.color = white
-            } else if block.blockStatus == .verifiedOnly {
-                timelinePoint.color = black
-            } else if block.blockStatus == .pastDue {
-                timelinePoint.color = light
-            } else {
-                timelinePoint.color = light
+            
+            switch block.blockStatus {
+            case .courseStartDate, .completed:
+                timelinePoint.color = OEXStyles.shared().neutralWhite()
+                break
+                
+            case .verifiedOnly:
+                timelinePoint.color = OEXStyles.shared().neutralBlack()
+                break
+                
+            case .pastDue:
+                timelinePoint.color = OEXStyles.shared().neutralLight()
+                break
+                
+            default:
+                timelinePoint.color = OEXStyles.shared().neutralLight()
+                break
             }
+            
             timelinePoint.diameter = defaultTimelinePointDiameter
         } else if block.isInFuture {
-            timelinePoint.color = black
+            timelinePoint.color = OEXStyles.shared().neutralBlack()
             timelinePoint.diameter = defaultTimelinePointDiameter
         }
         
