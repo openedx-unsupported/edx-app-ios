@@ -70,8 +70,8 @@ enum DateStatus {
         }
     }
     
-    static func typeOf(dateType: String) -> DateStatus {
-        switch dateType {
+    static func status(of type: String) -> DateStatus {
+        switch type {
         case "assignment-due-date":
             return .assignment
             
@@ -120,7 +120,7 @@ struct CourseDateModel {
     
     public init?(json: JSON) {
         let courseDateBlocksArray = json[Keys.courseDateBlocks].array ?? []
-        courseDateBlocks = courseDateBlocksArray.compactMap { CourseDateBlock(json: $0) }
+        courseDateBlocks = courseDateBlocksArray.compactMap { CourseDateBlock(json: $0, userTimeZone: json[Keys.userTimezone].string) }
         let datesBannerInfoJson = json[Keys.datesBannerInfo]
         datesBannerInfo = DatesBannerInfo(json: datesBannerInfoJson)
         learnerHasFullAccess = json[Keys.learnerHasFullAccess].bool ?? false
@@ -176,7 +176,7 @@ struct CourseDateBlock {
     var today = Date().stripTimeStamp()
     var extraInfo: String = ""
         
-    public init(json: JSON) {
+    public init(json: JSON, userTimeZone: String?) {
         complete = json[Keys.complete].bool ?? false
         let date = json[Keys.date].string ?? ""
         dateType = json[Keys.dateType].string ?? ""
@@ -187,7 +187,7 @@ struct CourseDateBlock {
         title = json[Keys.title].string ?? ""
         extraInfo = json[Keys.extraInfo].string ?? ""
         
-        blockDate = getBlockDate(date: date)
+        blockDate = getBlockDate(date: date, userTimeZone: userTimeZone)
     }
     
     init(date: Date = Date()) {
@@ -195,8 +195,8 @@ struct CourseDateBlock {
         blockDate = (today as Date).stripTimeStamp()
     }
     
-    private func getBlockDate(date: String) -> Date {
-        guard let formattedDate = DateFormatting.date(withServerString: date) else {
+    private func getBlockDate(date: String, userTimeZone: String? = nil) -> Date {
+        guard let formattedDate = DateFormatting.date(withServerString: date, timeZoneIdentifier: userTimeZone) else {
             return Date().stripTimeStamp()
         }
         return (formattedDate as Date).stripTimeStamp()
@@ -237,7 +237,7 @@ extension CourseDateBlock {
     }
     
     var isAssignment: Bool {
-        return DateStatus.typeOf(dateType: dateType) == .assignment
+        return DateStatus.status(of: dateType) == .assignment
     }
     
     var isVerifiedOnly: Bool {
@@ -291,7 +291,7 @@ extension CourseDateBlock {
                     return isUnreleased ? .unreleased : .dueNext
                 }
             } else if learnerHasAccess && !isAssignment {
-                return DateStatus.typeOf(dateType: type)
+                return DateStatus.status(of: type)
             }
             
             return .event
