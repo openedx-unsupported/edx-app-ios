@@ -20,12 +20,6 @@ class CourseCatalogViewController: UIViewController, CoursesContainerViewControl
         self.environment = environment
         coursesContainer = CoursesContainerViewController(environment: environment, context: .courseCatalog)
         super.init(nibName: nil, bundle: nil)
-        navigationItem.title = Strings.findCourses
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem?.accessibilityIdentifier = "CourseCatalogViewController:cancel-bar-button-item"
-        view.accessibilityIdentifier = "course-catalog-screen"
-
-        setupAndLoadCourseCatalog()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,9 +37,24 @@ class CourseCatalogViewController: UIViewController, CoursesContainerViewControl
         return PaginationController(paginator: paginator, collectionView: coursesContainer.collectionView)
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupView()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationItem.title = Strings.findCourses
+        tabBarController?.navigationItem.title = Strings.findCourses
         environment.analytics.trackScreen(withName: OEXAnalyticsScreenFindCourses)
+    }
+    
+    private func setupView() {
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem?.accessibilityIdentifier = "CourseCatalogViewController:cancel-bar-button-item"
+        view.accessibilityIdentifier = "course-catalog-screen"
+        
+        setupAndLoadCourseCatalog()
     }
 
     private func setupAndLoadCourseCatalog() {

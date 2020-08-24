@@ -35,6 +35,15 @@ extension OEXRegistrationViewController {
         return errorValue
     }
     
+    private func handle(_ error: NSError) {
+        view.isUserInteractionEnabled = true
+        if error.code == -1001 || error.code == -1003 {
+            UIAlertController().showAlert(withTitle: Strings.timeoutAlertTitle, message: Strings.timeoutCheckInternetConnection, onViewController: self)
+        } else {
+            UIAlertController().showAlert(withTitle: Strings.Accessibility.errorText, message: error.localizedDescription, onViewController: self)
+        }
+    }
+    
     @objc func validateRegistrationForm(parameters: [String: String]) {
         showProgress(true)
         
@@ -42,6 +51,11 @@ extension OEXRegistrationViewController {
         let networkRequest = RegistrationFormAPI.registrationFormValidationRequest(parameters: parameters)
         
         networkManager.taskForRequest(networkRequest) { [weak self] result in
+            if let error = result.error {
+                self?.showProgress(false)
+                self?.handle(error)
+                return
+            }
             guard let owner = self,
                 let validationDecisions = result.data?.validationDecisions else {
                     self?.showProgress(false)

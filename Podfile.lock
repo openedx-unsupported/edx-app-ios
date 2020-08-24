@@ -1,5 +1,10 @@
 PODS:
   - Analytics (3.6.10)
+  - AppAuth (1.4.0):
+    - AppAuth/Core (= 1.4.0)
+    - AppAuth/ExternalUserAgent (= 1.4.0)
+  - AppAuth/Core (1.4.0)
+  - AppAuth/ExternalUserAgent (1.4.0)
   - Branch (0.28.1):
     - Branch/Core (= 0.28.1)
   - Branch/Core (0.28.1)
@@ -120,22 +125,15 @@ PODS:
     - GoogleDataTransport (~> 5.1)
     - nanopb (~> 0.3.901)
   - GoogleIDFASupport (3.14.0)
-  - GoogleSignIn (4.4.0):
-    - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
-    - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
+  - GoogleSignIn (5.0.2):
+    - AppAuth (~> 1.2)
+    - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/DebugUtils (2.2.2):
-    - GoogleToolboxForMac/Defines (= 2.2.2)
   - GoogleToolboxForMac/Defines (2.2.2)
   - GoogleToolboxForMac/Logger (2.2.2):
     - GoogleToolboxForMac/Defines (= 2.2.2)
   - "GoogleToolboxForMac/NSData+zlib (2.2.2)":
     - GoogleToolboxForMac/Defines (= 2.2.2)
-  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.2.2)":
-    - GoogleToolboxForMac/DebugUtils (= 2.2.2)
-    - GoogleToolboxForMac/Defines (= 2.2.2)
-    - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.2)"
-  - "GoogleToolboxForMac/NSString+URLArguments (2.2.2)"
   - GoogleUtilities/AppDelegateSwizzler (6.5.2):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -155,7 +153,14 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.5.2):
     - GoogleUtilities/Logger
+  - GTMAppAuth (1.0.0):
+    - AppAuth/Core (~> 1.0)
+    - GTMSessionFetcher (~> 1.1)
+  - GTMSessionFetcher (1.3.1):
+    - GTMSessionFetcher/Full (= 1.3.1)
   - GTMSessionFetcher/Core (1.3.1)
+  - GTMSessionFetcher/Full (1.3.1):
+    - GTMSessionFetcher/Core (= 1.3.1)
   - iOSSnapshotTestCase (5.0.2):
     - iOSSnapshotTestCase/SwiftSupport (= 5.0.2)
   - iOSSnapshotTestCase/Core (5.0.2)
@@ -217,7 +222,7 @@ DEPENDENCIES:
   - Firebase/InAppMessaging (= 6.21.0)
   - Firebase/Messaging (= 6.21.0)
   - Firebase/Performance (= 6.21.0)
-  - GoogleSignIn (~> 4.4.0)
+  - GoogleSignIn (~> 5.0.2)
   - iOSSnapshotTestCase (= 5.0.2)
   - Masonry (~> 0.6)
   - NewRelicAgent (~> 4.1)
@@ -230,6 +235,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Analytics
+    - AppAuth
     - Branch
     - DateTools
     - FBSDKCoreKit
@@ -256,6 +262,7 @@ SPEC REPOS:
     - GoogleSignIn
     - GoogleToolboxForMac
     - GoogleUtilities
+    - GTMAppAuth
     - GTMSessionFetcher
     - iOSSnapshotTestCase
     - Masonry
@@ -271,6 +278,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Analytics: 63744ad4afa65c3bcdcdb7a94b62515bde5b3900
+  AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   Branch: edf6cab0cecb437d6a6abba3a25d0a0fa6f277ec
   DateTools: 9bcc89e4f2f9004d8a7a2bd1b49269cf78968e65
   FBSDKCoreKit: 7ade9cfea30eef2f6cf105a1aa904f89ea68fb7d
@@ -294,9 +302,10 @@ SPEC CHECKSUMS:
   GoogleDataTransport: b29a21d813e906014ca16c00897827e40e4a24ab
   GoogleDataTransportCCTSupport: 6f15a89b0ca35d6fa523e1f752ef818588885988
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
-  GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
+  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GoogleToolboxForMac: 800648f8b3127618c1b59c7f97684427630c5ea3
   GoogleUtilities: ad0f3b691c67909d03a3327cc205222ab8f42e0e
+  GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   iOSSnapshotTestCase: 2d51aa06775e95cecb0a1fb9c5c159ccd1dd4596
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
@@ -310,6 +319,6 @@ SPEC CHECKSUMS:
   Smartling.i18n: 0d508b89a2a12f0e070e6369e4dcdcf46ae2d59f
   YoutubePlayer-in-WKWebView: af2f5929fc78882d94bfdfeea999b661b78d9717
 
-PODFILE CHECKSUM: 4e04f1496a83e7b043f6c6270d66b0a415f7d0e4
+PODFILE CHECKSUM: 241750c27ec008f3c8e431f7566f326d26f96180
 
 COCOAPODS: 1.5.3
