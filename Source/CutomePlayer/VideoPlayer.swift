@@ -288,12 +288,15 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             if let newStatusAsNumber = change?[NSKeyValueChangeKey.newKey] as? NSNumber, let newStatus = AVPlayerItem.Status(rawValue: newStatusAsNumber.intValue) {
                 switch newStatus {
                 case .readyToPlay:
+                    let speed = OEXInterface.getCCSelectedPlaybackSpeed()
+                    rate = OEXInterface.getOEXVideoSpeed(speed)
+                    
                     //This notification call specifically for test cases in readyToPlay state
                     perform(#selector(t_postNotification))
                     
                     NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(movieTimedOut), object: nil)
                     break
-                @unknown default:
+                default:
                     break
                 }
             }
@@ -407,8 +410,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
                 (completed: Bool) -> Void in
                 self?.player.play()
                 self?.playerState = .playing
-                let speed = OEXInterface.getCCSelectedPlaybackSpeed()
-                self?.rate = OEXInterface.getOEXVideoSpeed(speed)
             }
         }
     }
