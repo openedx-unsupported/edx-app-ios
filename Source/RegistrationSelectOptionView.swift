@@ -31,6 +31,7 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
     
     override func loadView() {
         super.loadView()
+        
         textInputField.isEnabled = false
         dropdownView.addSubview(dropdownTab)
         dropdownView.layoutIfNeeded()
@@ -45,7 +46,7 @@ class RegistrationSelectOptionView: RegistrationFormFieldView {
         tapButton.oex_addAction( {[weak self] _ in
             self?.showRegistrationSelectOptionView()
             }, for: UIControl.Event.touchUpInside)
-        self.addSubview(tapButton)
+        addSubview(tapButton)
         
         tapButton.snp.makeConstraints { make in
             make.top.equalTo(textInputField)

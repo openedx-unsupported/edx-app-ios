@@ -45,8 +45,7 @@ typealias RegistrationSelectOptionViewCompletion = (RegistrationSelectOptionView
 class RegistrationSelectOptionViewController: UIViewController {
     // MARK: Properties
     private var selectionHandler: RegistrationSelectOptionViewCompletion?
-    private var options = [RegistrationSelectOptionViewModel]()
-
+    private var options: [RegistrationSelectOptionViewModel] = []
     private var filteredOptions: [RegistrationSelectOptionViewModel] = []
     private var selectedItem: RegistrationSelectOptionViewModel?
     
@@ -143,25 +142,21 @@ class RegistrationSelectOptionViewController: UIViewController {
     }
     
     private func itemForCell(at indexPath: IndexPath) -> RegistrationSelectOptionViewModel {
-        if searchController.isActive {
-            return filteredOptions[indexPath.row]
-        } else {
-            return options[indexPath.row]
-        }
+        return searchController.isActive ? filteredOptions[indexPath.row] : options[indexPath.row]
     }
     
     private func indexPathOfSelectedItem() -> IndexPath? {
         guard let selectedItem = selectedItem else { return nil }
         if searchController.isActive {
-            for row in 0 ..< filteredOptions.count {
-                if filteredOptions[row].name == selectedItem.name {
-                    return IndexPath(row: row, section: 0)
+            for (key, value) in filteredOptions.enumerated() {
+                if value.name == selectedItem.name {
+                    return IndexPath(row: key, section: 0)
                 }
             }
         } else {
-            for row in 0 ..< options.count {
-                if options[row].name == selectedItem.name {
-                    return IndexPath(row: row, section: 0)
+            for (key, value) in options.enumerated() {
+                if value.name == selectedItem.name {
+                    return IndexPath(row: key, section: 0)
                 }
             }
         }
@@ -177,12 +172,12 @@ class RegistrationSelectOptionViewController: UIViewController {
 // MARK: - UISearchResultsUpdating
 extension RegistrationSelectOptionViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text, searchController.isActive {
-            filteredOptions = []
-            if searchText.count > 0 {
-                filteredOptions.append(contentsOf: options.filter { $0.name.hasPrefix(searchText) })
-            } else {
+        if let searchText = searchController.searchBar.text?.lowercased(), searchController.isActive {
+            filteredOptions.removeAll()
+            if searchText.isEmpty {
                 filteredOptions = options
+            } else {
+                filteredOptions.append(contentsOf: options.filter { $0.name.lowercased().hasPrefix(searchText) })
             }
         }
         tableView.reloadData()
@@ -205,10 +200,7 @@ extension RegistrationSelectOptionViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive {
-            return filteredOptions.count
-        }
-        return options.count
+        return searchController.isActive ? filteredOptions.count : options.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
