@@ -18,22 +18,25 @@ struct Timeline {
         }
     }
     
-    public var (topColor, bottomColor) = (UIColor.black, UIColor.black)
+    public var topColor = UIColor.black
+    public var bottomColor = UIColor.black
     public var leftMargin: CGFloat = 80.0
-    public var (start, middle, end) = (CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 0), CGPoint(x: 0, y: 0))
+    public var start = CGPoint.zero
+    public var middle = CGPoint.zero
+    public var end = CGPoint.zero
     
-    public init(width: CGFloat, frontColor: UIColor, backColor: UIColor) {
+    public init(width: CGFloat, topColor: UIColor, bottomColor: UIColor) {
         self.width = width
-        self.topColor = frontColor
-        self.bottomColor = backColor
+        self.topColor = topColor
+        self.bottomColor = bottomColor
         self.leftMargin -= width / 2
     }
     
     public init() {
-        self.init(width: 1, frontColor: .black, backColor: .black)
+        self.init(width: 1, topColor: .black, bottomColor: .black)
     }
     
-    public func draw(view: UIView) {
+    func draw(view: UIView) {
         draw(view: view, from: start, to: middle, color: topColor)
         draw(view: view, from: middle, to: end, color: bottomColor)
     }

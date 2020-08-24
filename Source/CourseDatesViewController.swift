@@ -30,7 +30,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private lazy var loadController = LoadStateViewController()
     
     private var courseDateModel: CourseDateModel?
-    private var dateBlocksMap: [Date : [CourseDateBlock]] = [:]
+    private var dateBlocksMap: [Date : [DateBlock]] = [:]
     private var dateBlocksMapSortedKeys: [Date] = []
     private var setDueNext = false
     
@@ -83,7 +83,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         stream.listen(self) { [weak self] response in
             switch response {
             case .success(let data):
-                self?.handleResponse(data: data)
+                self?.handleResponse(dateModel: data)
                 break
             case .failure:
                 self?.loadController.state = LoadState.failed(message: Strings.Coursedates.courseDateUnavailable)
@@ -92,18 +92,18 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         }
     }
     
-    private func handleResponse(data: CourseDateModel) {
-        if data.courseDateBlocks.isEmpty {
+    private func handleResponse(dateModel: CourseDateModel) {
+        if dateModel.dateBlocks.isEmpty {
             loadController.state = LoadState.failed(message: Strings.Coursedates.courseDateUnavailable)
         } else {
-            populate(data: data)
+            populate(with: dateModel)
             loadController.state = .Loaded
         }
     }
     
-    private func populate(data: CourseDateModel) {
-        courseDateModel = data
-        var blocks = data.courseDateBlocks
+    private func populate(with dateModel: CourseDateModel) {
+        courseDateModel = dateModel
+        var blocks = dateModel.dateBlocks
         
         dateBlocksMap = [:]
         
@@ -112,7 +112,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         if isToday == nil {
             let past = blocks.filter { $0.isInPast }
             let future = blocks.filter { $0.isInFuture }
-            let todayBlock = CourseDateBlock()
+            let todayBlock = DateBlock()
             
             blocks.removeAll()
             
@@ -154,10 +154,6 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
 }
 
 extension CourseDatesViewController: UITableViewDataSource {
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dateBlocksMapSortedKeys.count
     }
@@ -182,7 +178,7 @@ extension CourseDatesViewController: UITableViewDataSource {
             cell.timeline.bottomColor = .clear
         } else {
             cell.timeline.topColor = dark
-            cell.timeline.bottomColor = .black
+            cell.timeline.bottomColor = OEXStyles.shared().neutralBlackT()
         }
         
         guard let blocks = dateBlocksMap[key] else { return cell }
@@ -199,8 +195,8 @@ extension CourseDatesViewController: UITableViewDataSource {
 extension CourseDatesViewController: UITableViewDelegate { }
 
 extension CourseDatesViewController: CourseDateViewCellDelegate {
-    func didSelectLinkWith(url: URL) {
-       if UIApplication.shared.canOpenURL(url) {
+    func didSelectLinkWith(with url: URL) {
+        if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.openURL(url)
         }
     }
@@ -219,7 +215,7 @@ extension CourseDatesViewController {
     
     func t_handleResponse(data: CourseDateModel) {
         courseDateModel = data
-        let blocks = data.courseDateBlocks
+        let blocks = data.dateBlocks
         
         dateBlocksMap = [:]
 

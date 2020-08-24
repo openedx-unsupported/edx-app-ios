@@ -9,14 +9,14 @@
 import Foundation
 
 extension NSAttributedString {
-    func addLink(on subString: String, value: URL, foregroundColor: UIColor = OEXStyles.shared().primaryBaseColor(), showUnderline: Bool = false) -> NSAttributedString {
+    func addLink(on subString: String, value: URL, foregroundColor: UIColor = OEXStyles.shared().primaryBaseColor(), underline: Bool = false) -> NSAttributedString {
         if string.contains(find: subString) {
             let mutableAttributedString = NSMutableAttributedString(attributedString: self)
             let range = (string as NSString).range(of: subString)
             let attributes = [
                 NSAttributedString.Key.link: value,
                 NSAttributedString.Key.foregroundColor: foregroundColor,
-                NSAttributedString.Key.underlineStyle: showUnderline
+                NSAttributedString.Key.underlineStyle: underline
                 ] as [NSAttributedString.Key : Any]
             mutableAttributedString.addAttributes(attributes, range: range)
             return mutableAttributedString

@@ -110,8 +110,8 @@ struct CourseDateModel {
         case verifiedUpgradeLink = "verified_upgrade_link"
     }
     
-    var courseDateBlocks: [CourseDateBlock] = []
-    var datesBannerInfo: DatesBannerInfo? = nil
+    var dateBlocks: [DateBlock] = []
+    var bannerInfo: DatesBannerInfo? = nil
     var learnerHasFullAccess: Bool = false
     var missedDeadline: Bool = false
     var missedGatedContent: Bool = false
@@ -120,9 +120,9 @@ struct CourseDateModel {
     
     public init?(json: JSON) {
         let courseDateBlocksArray = json[Keys.courseDateBlocks].array ?? []
-        courseDateBlocks = courseDateBlocksArray.compactMap { CourseDateBlock(json: $0, userTimeZone: json[Keys.userTimezone].string) }
+        dateBlocks = courseDateBlocksArray.compactMap { DateBlock(json: $0, userTimeZone: json[Keys.userTimezone].string) }
         let datesBannerInfoJson = json[Keys.datesBannerInfo]
-        datesBannerInfo = DatesBannerInfo(json: datesBannerInfoJson)
+        bannerInfo = DatesBannerInfo(json: datesBannerInfoJson)
         learnerHasFullAccess = json[Keys.learnerHasFullAccess].bool ?? false
         missedDeadline = json[Keys.missedDeadline].bool ?? false
         missedGatedContent = json[Keys.missedGatedContent].bool ?? false
@@ -152,7 +152,7 @@ struct DatesBannerInfo {
     }
 }
 
-struct CourseDateBlock {
+struct DateBlock {
     private enum Keys: String, RawStringExtractable {
         case complete = "complete"
         case date = "date"
@@ -191,8 +191,7 @@ struct CourseDateBlock {
     }
     
     init(date: Date = Date()) {
-        let today = date.stripTimeStamp() as NSDate
-        blockDate = (today as Date).stripTimeStamp()
+        blockDate = date.stripTimeStamp()
     }
     
     private func getBlockDate(date: String, userTimeZone: String? = nil) -> Date {
@@ -215,7 +214,7 @@ struct CourseDateBlock {
  course-start-date:
  course-end-date:
  */
-extension CourseDateBlock {
+extension DateBlock {
     var isInPast: Bool {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedAscending
     }

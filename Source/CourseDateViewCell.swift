@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CourseDateViewCellDelegate {
-    func didSelectLinkWith(url: URL)
+    func didSelectLinkWith(with url: URL)
     func didSetDueNext()
 }
 
@@ -84,7 +84,7 @@ class CourseDateViewCell: UITableViewCell {
     var setDueNextOnThisBlock = false
     var userTimeZone: String?
     
-    var blocks: [CourseDateBlock]? {
+    var blocks: [DateBlock]? {
         didSet {
             guard let blocks = blocks else { return }
             titleAndDescriptionStackView.subviews.forEach { $0.removeFromSuperview() }
@@ -111,7 +111,7 @@ class CourseDateViewCell: UITableViewCell {
                 var attributedString = titleStyle.attributedString(withText: block.title)
                                 
                 if block.canShowLink, let url = URL(string: block.link) {
-                    attributedString = attributedString.addLink(on: block.title, value: url, foregroundColor: color, showUnderline: true)
+                    attributedString = attributedString.addLink(on: block.title, value: url, foregroundColor: color, underline: true)
                     titleTextView.delegate = self
                 }
 
@@ -219,7 +219,7 @@ class CourseDateViewCell: UITableViewCell {
     // MARK:- Cell Information Designing
     
     /// Designs the badge/pill with appropirate state of block
-    private func updateBadge(_ block: CourseDateBlock) {
+    private func updateBadge(_ block: DateBlock) {
             statusLabel.attributedText = statusStyle.attributedString(withText: block.blockStatus.localized)
             statusLabel.textColor = .clear
             
@@ -280,7 +280,7 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     /// Adds description to titleAndDescriptionStackView if block does contains description
-    private func addDescriptionLabel(_ block: CourseDateBlock) {
+    private func addDescriptionLabel(_ block: DateBlock) {
         descriptionLabel.attributedText = descriptionStyle.attributedString(withText: block.description)
         descriptionLabel.sizeToFit()
         descriptionLabel.layoutIfNeeded()
@@ -289,7 +289,7 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     /// Updates timeline point color based on appropirate state
-    private func updateTimelinePoint(_ block: CourseDateBlock) {
+    private func updateTimelinePoint(_ block: DateBlock) {
         if block.isToday {
             timelinePoint.color = .systemYellow
             timelinePoint.diameter = todayTimelinePointDiameter
@@ -325,7 +325,7 @@ class CourseDateViewCell: UITableViewCell {
 
 extension CourseDateViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        delegate?.didSelectLinkWith(url: URL)
+        delegate?.didSelectLinkWith(with: URL)
         return false
     }
 }

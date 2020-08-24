@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 struct TimelinePoint {
-    public var diameter: CGFloat = 6 {
+    var diameter: CGFloat = 6 {
         didSet {
             if diameter < 0 {
                 diameter = 0
@@ -20,7 +20,7 @@ struct TimelinePoint {
         }
     }
     
-    public var lineWidth: CGFloat = 2 {
+    var lineWidth: CGFloat = 2 {
         didSet {
             if lineWidth < 0 {
                 lineWidth = 0
@@ -30,11 +30,11 @@ struct TimelinePoint {
         }
     }
     
-    public var color: UIColor = .black
-    public var strokeColor: UIColor = .black
-    public var position = CGPoint(x: 0, y: 0)
+    var color: UIColor = .black
+    var strokeColor: UIColor = .black
+    var position = CGPoint(x: 0, y: 0)
 
-    private var isFilled = true
+    var isFilled = true
     
     public init(diameter: CGFloat, lineWidth: CGFloat, color: UIColor, filled: Bool) {
         self.diameter = diameter
@@ -47,7 +47,7 @@ struct TimelinePoint {
         self.init(diameter: 10, lineWidth: 1, color: .black, filled: true)
     }
     
-    public func draw(view: UIView) {
+    func draw(view: UIView) {
         let path = UIBezierPath(ovalIn: CGRect(x: position.x - diameter / 2, y: position.y - diameter / 2, width: diameter, height: diameter))
 
         let shapeLayer = CAShapeLayer()

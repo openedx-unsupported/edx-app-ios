@@ -22,14 +22,14 @@ class CourseDatesModelTests: XCTestCase {
     }
     
     func testDatesIsInToday() {
-        var blocks = courseDates!.courseDateBlocks
+        var blocks = courseDates!.dateBlocks
         
         let isToday = blocks.first { $0.blockStatus == .today }
         
         if isToday == nil {
             let past = blocks.filter { $0.isInPast }
             let future = blocks.filter { $0.isInFuture }
-            let todayBlock = CourseDateBlock()
+            let todayBlock = DateBlock()
             
             blocks.removeAll()
             
@@ -49,72 +49,72 @@ class CourseDatesModelTests: XCTestCase {
     }
     
     func testDatesIsInNotToday() {
-        let isToday = courseDates!.courseDateBlocks.first { $0.blockStatus == .today }
+        let isToday = courseDates!.dateBlocks.first { $0.blockStatus == .today }
         XCTAssert(isToday == nil, "Expected Course Date in Not Today")
     }
     
     func testDatesIsInPast() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.isInPast }
+        let blocks = courseDates!.dateBlocks.filter { $0.isInPast }
         XCTAssert(blocks.count > 0, "Expected Course Dates in past")
     }
     
     func testDatesIsInFuture() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.isInFuture }
+        let blocks = courseDates!.dateBlocks.filter { $0.isInFuture }
         XCTAssert(blocks.count > 0, "Expected Course Dates in future")
     }
     
     func testDatesIsPastDue() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.blockStatus == .pastDue }
+        let blocks = courseDates!.dateBlocks.filter { $0.blockStatus == .pastDue }
         XCTAssert(blocks.count > 0, "Expected Course Dates is Past Due")
     }
     
     func testDatesIsDueNext() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.blockStatus == .dueNext }
+        let blocks = courseDates!.dateBlocks.filter { $0.blockStatus == .dueNext }
         XCTAssert(blocks.count > 0, "Expected Course Dates is Due Next")
     }
     
     func testDatesLearnerHasAccess() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.learnerHasAccess }
+        let blocks = courseDates!.dateBlocks.filter { $0.learnerHasAccess }
         XCTAssert(blocks.count > 0, "Expected Course Dates Learner Has Access")
     }
     
     func testDatesShowLink() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.canShowLink }
+        let blocks = courseDates!.dateBlocks.filter { $0.canShowLink }
         XCTAssert(blocks.count > 0, "Expected Course Dates Show Link")
     }
     
     func testDatesUnreleased() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.isUnreleased }
+        let blocks = courseDates!.dateBlocks.filter { $0.isUnreleased }
         XCTAssert(blocks.count > 0, "Expected Course Dates Unreleased")
     }
     
     func testDatesIsReleased() {
-        let blocks = courseDates!.courseDateBlocks.filter { !$0.isUnreleased }
+        let blocks = courseDates!.dateBlocks.filter { !$0.isUnreleased }
         XCTAssert(blocks.count > 0, "Expected Course Dates Released")
     }
     
     func testDatesIsAvailable() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.isAvailable }
+        let blocks = courseDates!.dateBlocks.filter { $0.isAvailable }
         XCTAssert(blocks.count > 0, "Expected Course Dates is Available")
     }
     
     func testDatesIsAssignment() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.isAssignment }
+        let blocks = courseDates!.dateBlocks.filter { $0.isAssignment }
         XCTAssert(blocks.count > 0, "Expected Course Dates is Assignment")
     }
     
     func testDatesIsLearnerAssignment() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.isLearnerAssignment }
+        let blocks = courseDates!.dateBlocks.filter { $0.isLearnerAssignment }
         XCTAssert(blocks.count > 0, "Expected Course Dates Learner has Access and is Assignment")
     }
     
     func testDatesHasDescription() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.hasDescription }
+        let blocks = courseDates!.dateBlocks.filter { $0.hasDescription }
         XCTAssert(blocks.count > 0, "Expected Course Dates Has Description")
     }
     
     func testDatesIsVerifiedOnly() {
-        let blocks = courseDates!.courseDateBlocks.filter { $0.isVerifiedOnly }
+        let blocks = courseDates!.dateBlocks.filter { $0.isVerifiedOnly }
         XCTAssert(blocks.count > 0, "Expected Course Dates is Verified Only")
     }
 }
