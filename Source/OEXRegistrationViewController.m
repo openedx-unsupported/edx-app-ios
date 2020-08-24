@@ -181,6 +181,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
     
+    if(self.environment.config.appleConfig.enabled) {
+        [self.externalAuthProviders addObject:[[OEXAppleAuthProvider alloc] init]];
+    }
+    
     if(self.externalAuthProviders.count > 0) {
         OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:self.view.bounds providers:self.externalAuthProviders];
         headingView.delegate = self;

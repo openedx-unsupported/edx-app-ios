@@ -104,6 +104,10 @@
     return [self.environment.config microsoftConfig].enabled;
 }
 
+- (BOOL)isAppleEnabled {
+    return [self.environment.config appleConfig].enabled;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -119,6 +123,10 @@
 
     if([self isMicrosoftEnabled]) {
         [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
+    }
+    
+    if([self isAppleEnabled]) {
+        [providers addObject:[[OEXAppleAuthProvider alloc] init]];
     }
 
     __weak __typeof(self) owner = self;
