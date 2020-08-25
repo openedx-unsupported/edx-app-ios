@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 struct Timeline {
-    public var width: CGFloat = 1 {
+    var width: CGFloat = 1 {
         didSet {
             if width < 0.0 {
                 width = 0.0
@@ -18,22 +18,22 @@ struct Timeline {
         }
     }
     
-    public var topColor = UIColor.black
-    public var bottomColor = UIColor.black
-    public var leftMargin: CGFloat = 80.0
-    public var start = CGPoint.zero
-    public var middle = CGPoint.zero
-    public var end = CGPoint.zero
+    var topColor = OEXStyles.shared().neutralBlackT()
+    var bottomColor = OEXStyles.shared().neutralBlackT()
+    var leftMargin: CGFloat = 80.0
+    var start = CGPoint.zero
+    var middle = CGPoint.zero
+    var end = CGPoint.zero
     
-    public init(width: CGFloat, topColor: UIColor, bottomColor: UIColor) {
+    init(width: CGFloat, topColor: UIColor, bottomColor: UIColor) {
         self.width = width
         self.topColor = topColor
         self.bottomColor = bottomColor
         self.leftMargin -= width / 2
     }
     
-    public init() {
-        self.init(width: 1, topColor: .black, bottomColor: .black)
+    init() {
+        self.init(width: 1, topColor: OEXStyles.shared().neutralBlackT(), bottomColor: OEXStyles.shared().neutralBlackT())
     }
     
     func draw(view: UIView) {

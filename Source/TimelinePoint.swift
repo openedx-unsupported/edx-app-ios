@@ -30,21 +30,21 @@ struct TimelinePoint {
         }
     }
     
-    var color: UIColor = .black
-    var strokeColor: UIColor = .black
+    var color = OEXStyles.shared().neutralBlackT()
+    var strokeColor = OEXStyles.shared().neutralBlackT()
     var position = CGPoint(x: 0, y: 0)
 
     var isFilled = true
     
-    public init(diameter: CGFloat, lineWidth: CGFloat, color: UIColor, filled: Bool) {
+    init(diameter: CGFloat, lineWidth: CGFloat, color: UIColor, filled: Bool) {
         self.diameter = diameter
         self.lineWidth = lineWidth
         self.color = color
         self.isFilled = filled
     }
     
-    public init() {
-        self.init(diameter: 10, lineWidth: 1, color: .black, filled: true)
+    init() {
+        self.init(diameter: 10, lineWidth: 1, color: OEXStyles.shared().neutralBlackT(), filled: true)
     }
     
     func draw(view: UIView) {
@@ -53,7 +53,7 @@ struct TimelinePoint {
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = path.cgPath
         shapeLayer.strokeColor = strokeColor.cgColor
-        shapeLayer.fillColor = isFilled ? color.cgColor : UIColor.white.cgColor
+        shapeLayer.fillColor = isFilled ? color.cgColor : OEXStyles.shared().neutralWhiteT().cgColor
         shapeLayer.lineWidth = lineWidth
 
         view.layer.addSublayer(shapeLayer)

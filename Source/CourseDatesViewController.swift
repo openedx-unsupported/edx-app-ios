@@ -167,17 +167,15 @@ extension CourseDatesViewController: UITableViewDataSource {
         
         cell.timeline.topColor = .clear
         cell.timeline.bottomColor = .clear
-        
-        let dark = OEXStyles.shared().neutralXDark()
-        
+                
         if index == 0 {
             cell.timeline.topColor = .clear
-            cell.timeline.bottomColor = dark
+            cell.timeline.bottomColor = OEXStyles.shared().neutralXDark()
         } else if index == count - 1 {
-            cell.timeline.topColor = dark
+            cell.timeline.topColor = OEXStyles.shared().neutralXDark()
             cell.timeline.bottomColor = .clear
         } else {
-            cell.timeline.topColor = dark
+            cell.timeline.topColor = OEXStyles.shared().neutralXDark()
             cell.timeline.bottomColor = OEXStyles.shared().neutralBlackT()
         }
         

@@ -105,6 +105,8 @@ open class DateFormatting: NSObject {
         return formatter.string(from: date as Date)
     }
     
+    /// Format Date like Tue, Aug, 25 2020
+    /// If TimeZoneIdentifier is provided, then it is applied to fomatter
     open class func format(asWeekDayMonthDateYear date: Date, timeZoneIdentifier: String?) -> String {
         let dateFormatter = DateFormatter()
         if let timeZone = timeZoneIdentifier {
