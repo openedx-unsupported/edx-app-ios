@@ -186,10 +186,14 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
     }
     
     if(self.externalAuthProviders.count > 0) {
-        OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:self.view.bounds providers:self.externalAuthProviders];
-        headingView.delegate = self;
-        [self useHeadingView:headingView];
+        [self updateAuthView:self.view.bounds];
     }
+}
+
+- (void)updateAuthView:(CGRect)frame {
+    OEXExternalRegistrationOptionsView* headingView = [[OEXExternalRegistrationOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders];
+    headingView.delegate = self;
+    [self useHeadingView:headingView];
 }
 
 -(void) setUpAgreementTextView {
@@ -598,6 +602,10 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self updateAuthView:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, size.width, size.height)];
 }
 
 #pragma mark - Scolling on Keyboard Hide/Show

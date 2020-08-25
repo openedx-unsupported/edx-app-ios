@@ -46,6 +46,9 @@
 @property (nonatomic, strong) NSString* signInID;
 @property (nonatomic, strong) NSString* signInPassword;
 @property (nonatomic, assign) BOOL reachable;
+@property (nonatomic, assign) OEXExternalAuthOptionsView *authView;
+@property (strong, nonatomic) NSMutableArray* externalAuthProviders;
+
 @property (strong, nonatomic) IBOutlet UIView* externalAuthContainer;
 @property (weak, nonatomic, nullable) IBOutlet OEXCustomLabel* lbl_OrSignIn;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorLeft;
@@ -113,30 +116,23 @@
     
     [self setTitle:[Strings signInText]];
 
-    NSMutableArray* providers = [[NSMutableArray alloc] init];
+    self.externalAuthProviders = [[NSMutableArray alloc] init];
     if([self isGoogleEnabled]) {
-        [providers addObject:[[OEXGoogleAuthProvider alloc] init]];
+        [self.externalAuthProviders addObject:[[OEXGoogleAuthProvider alloc] init]];
     }
     if([self isFacebookEnabled]) {
-        [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
+        [self.externalAuthProviders addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
 
     if([self isMicrosoftEnabled]) {
-        [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
+        [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
     
     if([self isAppleEnabled]) {
-        [providers addObject:[[OEXAppleAuthProvider alloc] init]];
+        [self.externalAuthProviders addObject:[[OEXAppleAuthProvider alloc] init]];
     }
 
-    __weak __typeof(self) owner = self;
-    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
-        [owner externalLoginWithProvider:provider];
-    }];
-    [self.externalAuthContainer addSubview:externalAuthOptions];
-    [externalAuthOptions mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.externalAuthContainer);
-    }];
+    [self addAuthView:self.externalAuthContainer.bounds];
 
     [self.lbl_OrSignIn setText:[Strings orSignInWith]];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
@@ -173,6 +169,24 @@
     _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
     [self setAccessibilityIdentifiers];
     [self setUpAgreementTextView];
+}
+
+- (void)addAuthView:(CGRect)frame {
+    __weak __typeof(self) owner = self;
+    
+    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
+        [owner externalLoginWithProvider:provider];
+    }];
+    self.authView = externalAuthOptions;
+    [self.externalAuthContainer addSubview:externalAuthOptions];
+    [externalAuthOptions mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.externalAuthContainer);
+    }];
+}
+
+- (void)updateAuthView:(CGSize)size {
+    [self.authView removeFromSuperview];
+    [self addAuthView:CGRectMake(self.externalAuthContainer.bounds.origin.x, self.externalAuthContainer.bounds.origin.y, size.width, size.height)];
 }
 
 -(void) setUpAgreementTextView {
@@ -682,6 +696,9 @@
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [self updateAuthView:size];
+}
 
 @end
 
