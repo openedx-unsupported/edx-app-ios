@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DateStatus {
+enum DateBlockStatus {
     case completed
     case today
     case pastDue
@@ -70,7 +70,7 @@ enum DateStatus {
         }
     }
     
-    static func status(of type: String) -> DateStatus {
+    static func status(of type: String) -> DateBlockStatus {
         switch type {
         case "assignment-due-date":
             return .assignment
@@ -110,7 +110,7 @@ struct CourseDateModel {
         case verifiedUpgradeLink = "verified_upgrade_link"
     }
     
-    var dateBlocks: [DateBlock] = []
+    var dateBlocks: [CourseDateBlock] = []
     var bannerInfo: DatesBannerInfo? = nil
     var learnerHasFullAccess: Bool = false
     var missedDeadline: Bool = false
@@ -118,9 +118,9 @@ struct CourseDateModel {
     var userTimezone: String?
     var verifiedUpgradeLink: String = ""
     
-    public init?(json: JSON) {
+    init?(json: JSON) {
         let courseDateBlocksArray = json[Keys.courseDateBlocks].array ?? []
-        dateBlocks = courseDateBlocksArray.compactMap { DateBlock(json: $0, userTimeZone: json[Keys.userTimezone].string) }
+        dateBlocks = courseDateBlocksArray.compactMap { CourseDateBlock(json: $0, userTimeZone: json[Keys.userTimezone].string) }
         let datesBannerInfoJson = json[Keys.datesBannerInfo]
         bannerInfo = DatesBannerInfo(json: datesBannerInfoJson)
         learnerHasFullAccess = json[Keys.learnerHasFullAccess].bool ?? false
@@ -144,7 +144,7 @@ struct DatesBannerInfo {
     let missedGatedContent: Bool
     let verifiedUpgradeLink: String
     
-    public init(json: JSON) {
+    init(json: JSON) {
         contentTypeGatingEnabled = json[Keys.contentTypeGatingEnabled].bool ?? false
         missedDeadline = json[Keys.missedDeadline].bool ?? false
         missedGatedContent = json[Keys.missedGatedContent].bool ?? false
@@ -152,7 +152,7 @@ struct DatesBannerInfo {
     }
 }
 
-struct DateBlock {
+struct CourseDateBlock {
     private enum Keys: String, RawStringExtractable {
         case complete = "complete"
         case date = "date"
@@ -176,7 +176,7 @@ struct DateBlock {
     var today = Date().stripTimeStamp()
     var extraInfo: String = ""
         
-    public init(json: JSON, userTimeZone: String?) {
+    init(json: JSON, userTimeZone: String?) {
         complete = json[Keys.complete].bool ?? false
         let date = json[Keys.date].string ?? ""
         dateType = json[Keys.dateType].string ?? ""
@@ -214,7 +214,7 @@ struct DateBlock {
  course-start-date:
  course-end-date:
  */
-extension DateBlock {
+extension CourseDateBlock {
     var isInPast: Bool {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedAscending
     }
@@ -231,12 +231,12 @@ extension DateBlock {
         return DateFormatting.compareTwoDates(fromDate: blockDate, toDate: today) == .orderedDescending
     }
     
-    var blockStatus: DateStatus {
-        return getBlockStatus(type: dateType)
+    var blockStatus: DateBlockStatus {
+        return getBlockStatus(of: dateType)
     }
     
     var isAssignment: Bool {
-        return DateStatus.status(of: dateType) == .assignment
+        return DateBlockStatus.status(of: dateType) == .assignment
     }
     
     var isVerifiedOnly: Bool {
@@ -271,7 +271,7 @@ extension DateBlock {
         return !description.isEmpty
     }
     
-    private func getBlockStatus(type: String) -> DateStatus {
+    private func getBlockStatus(of type: String) -> DateBlockStatus {
         if isToday {
             return .today
         }
@@ -290,7 +290,7 @@ extension DateBlock {
                     return isUnreleased ? .unreleased : .dueNext
                 }
             } else if learnerHasAccess && !isAssignment {
-                return DateStatus.status(of: type)
+                return DateBlockStatus.status(of: type)
             }
             
             return .event

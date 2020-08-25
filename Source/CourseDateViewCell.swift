@@ -84,7 +84,7 @@ class CourseDateViewCell: UITableViewCell {
     var setDueNextOnThisBlock = false
     var userTimeZone: String?
     
-    var blocks: [DateBlock]? {
+    var blocks: [CourseDateBlock]? {
         didSet {
             guard let blocks = blocks else { return }
             titleAndDescriptionStackView.subviews.forEach { $0.removeFromSuperview() }
@@ -219,7 +219,7 @@ class CourseDateViewCell: UITableViewCell {
     // MARK:- Cell Information Designing
     
     /// Designs the badge/pill with appropirate state of block
-    private func updateBadge(_ block: DateBlock) {
+    private func updateBadge(_ block: CourseDateBlock) {
             statusLabel.attributedText = statusStyle.attributedString(withText: block.blockStatus.localized)
             statusLabel.textColor = .clear
             
@@ -280,7 +280,7 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     /// Adds description to titleAndDescriptionStackView if block does contains description
-    private func addDescriptionLabel(_ block: DateBlock) {
+    private func addDescriptionLabel(_ block: CourseDateBlock) {
         descriptionLabel.attributedText = descriptionStyle.attributedString(withText: block.description)
         descriptionLabel.sizeToFit()
         descriptionLabel.layoutIfNeeded()
@@ -289,7 +289,7 @@ class CourseDateViewCell: UITableViewCell {
     }
     
     /// Updates timeline point color based on appropirate state
-    private func updateTimelinePoint(_ block: DateBlock) {
+    private func updateTimelinePoint(_ block: CourseDateBlock) {
         if block.isToday {
             timelinePoint.color = .systemYellow
             timelinePoint.diameter = todayTimelinePointDiameter

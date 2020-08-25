@@ -30,7 +30,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     private lazy var loadController = LoadStateViewController()
     
     private var courseDateModel: CourseDateModel?
-    private var dateBlocksMap: [Date : [DateBlock]] = [:]
+    private var dateBlocksMap: [Date : [CourseDateBlock]] = [:]
     private var dateBlocksMapSortedKeys: [Date] = []
     private var setDueNext = false
     
@@ -112,7 +112,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         if isToday == nil {
             let past = blocks.filter { $0.isInPast }
             let future = blocks.filter { $0.isInFuture }
-            let todayBlock = DateBlock()
+            let todayBlock = CourseDateBlock()
             
             blocks.removeAll()
             

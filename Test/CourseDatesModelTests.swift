@@ -29,7 +29,7 @@ class CourseDatesModelTests: XCTestCase {
         if isToday == nil {
             let past = blocks.filter { $0.isInPast }
             let future = blocks.filter { $0.isInFuture }
-            let todayBlock = DateBlock()
+            let todayBlock = CourseDateBlock()
             
             blocks.removeAll()
             
