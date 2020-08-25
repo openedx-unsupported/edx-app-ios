@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CourseDateViewCellDelegate {
-    func didSelectLinkWith(with url: URL)
+    func didSelectLink(with url: URL)
     func didSetDueNext()
 }
 
@@ -325,7 +325,7 @@ class CourseDateViewCell: UITableViewCell {
 
 extension CourseDateViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
-        delegate?.didSelectLinkWith(with: URL)
+        delegate?.didSelectLink(with: URL)
         return false
     }
 }

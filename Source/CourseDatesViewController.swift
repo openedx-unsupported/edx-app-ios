@@ -193,7 +193,7 @@ extension CourseDatesViewController: UITableViewDataSource {
 extension CourseDatesViewController: UITableViewDelegate { }
 
 extension CourseDatesViewController: CourseDateViewCellDelegate {
-    func didSelectLinkWith(with url: URL) {
+    func didSelectLink(with url: URL) {
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.openURL(url)
         }
