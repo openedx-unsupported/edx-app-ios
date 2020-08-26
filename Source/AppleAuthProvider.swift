@@ -1,5 +1,5 @@
 //
-//  OEXAppleAuthProvider.swift
+//  AppleAuthProvider.swift
 //  edX
 //
 //  Created by Salman on 20/08/2020.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-class OEXAppleAuthProvider: NSObject, OEXExternalAuthProvider {
+class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
 
     override init() {
         super.init()
     }
     
     var displayName: String  {
-        return "Apple"
+        return Strings.apple
     }
     
     var backendName: String  {

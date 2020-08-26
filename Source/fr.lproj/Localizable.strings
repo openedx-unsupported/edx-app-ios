@@ -498,6 +498,8 @@
 "GOOGLE"="Google";
 /*Microsoft login method*/
 "MICROSOFT"="Microsoft";
+/*Apple login method*/
+"APPLE"="Apple";
 /* Overlay message shown when third party login fails because the user's account isn't linked. {service} is a third party login service like "Facebook". {platform_name} is the name of the service like "edX". {destination_name} is the name of service's web destination like "edx.org" */
 "SERVICE_ACCOUNT_NOT_ASSOCIATED_MESSAGE"="Assurez-vous que votre compte {service} est associé avec votre compte {platform_name} sur {destination_name}";
 /* Title of overlay message shown when login through an external service fails because the user's account isn't linked. For example, "Google account not associated with edX account" */

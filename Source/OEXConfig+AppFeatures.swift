@@ -75,4 +75,11 @@ extension OEXConfig {
     var isAnnouncementsEnabled: Bool {
         return bool(forKey: "ANNOUNCEMENTS_ENABLED")
     }
+    
+    @objc var isAppleLoginEnable: Bool {
+        if UIDevice.current.isOSVersionAtLeast(version: 13) {
+            return bool(forKey: "REGISTRATION_ENABLED")
+        }
+        return false
+    }
 }

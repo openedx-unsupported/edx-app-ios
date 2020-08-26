@@ -124,7 +124,6 @@
 		227386A7204EBF26007AA396 /* VideoPlayerControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A6204EBF26007AA396 /* VideoPlayerControls.swift */; };
 		227386AA2057C0AA007AA396 /* TranscriptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227386A92057C0AA007AA396 /* TranscriptParser.swift */; };
 		227812BB1EF29773000D25EF /* OEXVideoSummaryTestDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FDF4121B016CF300E8C639 /* OEXVideoSummaryTestDataFactory.swift */; };
-		227E9B7E24F3B74C0052E374 /* AppleConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 227E9B7D24F3B74C0052E374 /* AppleConfig.swift */; };
 		2283C7532060EF8600A2E9BE /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2283C7522060EF8600A2E9BE /* MathUtilities.swift */; };
 		2285121720FDC365006A4736 /* DiscoveryHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2285121620FDC365006A4736 /* DiscoveryHelper.swift */; };
 		228CBD881ECF553E0054D063 /* CourseShareUtmParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */; };
@@ -139,7 +138,7 @@
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
 		22A970E524EECFAC008FCAF6 /* icon_apple@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A970E324EECFAC008FCAF6 /* icon_apple@1x.png */; };
 		22A970E624EECFAC008FCAF6 /* icon_apple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A970E424EECFAC008FCAF6 /* icon_apple@2x.png */; };
-		22A970E824EED00E008FCAF6 /* OEXAppleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A970E724EED00E008FCAF6 /* OEXAppleAuthProvider.swift */; };
+		22A970E824EED00E008FCAF6 /* AppleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A970E724EED00E008FCAF6 /* AppleAuthProvider.swift */; };
 		22A98BD922D89ED30007330C /* APIURLDefaultVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */; };
 		22AB111F2375695C007D03D2 /* PushLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB111E2375695C007D03D2 /* PushLink.swift */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
@@ -1114,7 +1113,6 @@
 		2271C54921634E40001EA1E6 /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		227386A6204EBF26007AA396 /* VideoPlayerControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerControls.swift; sourceTree = "<group>"; };
 		227386A92057C0AA007AA396 /* TranscriptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptParser.swift; sourceTree = "<group>"; };
-		227E9B7D24F3B74C0052E374 /* AppleConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleConfig.swift; sourceTree = "<group>"; };
 		2283C7522060EF8600A2E9BE /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
 		2285121620FDC365006A4736 /* DiscoveryHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoveryHelper.swift; sourceTree = "<group>"; };
 		228CBD871ECF553E0054D063 /* CourseShareUtmParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CourseShareUtmParameters.swift; sourceTree = "<group>"; };
@@ -1147,7 +1145,7 @@
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
 		22A970E324EECFAC008FCAF6 /* icon_apple@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_apple@1x.png"; sourceTree = "<group>"; };
 		22A970E424EECFAC008FCAF6 /* icon_apple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_apple@2x.png"; sourceTree = "<group>"; };
-		22A970E724EED00E008FCAF6 /* OEXAppleAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OEXAppleAuthProvider.swift; sourceTree = "<group>"; };
+		22A970E724EED00E008FCAF6 /* AppleAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthProvider.swift; sourceTree = "<group>"; };
 		22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLDefaultVersionTests.swift; sourceTree = "<group>"; };
 		22AB111E2375695C007D03D2 /* PushLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushLink.swift; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
@@ -2946,7 +2944,7 @@
 				77ADF4A21AC1AF9800AC8955 /* OEXFacebookAuthProvider.m */,
 				77ADF49F1AC1AD1200AC8955 /* OEXExternalAuthProvider.h */,
 				220B1D342119B8380048ACBA /* OEXMicrosoftAuthProvider.swift */,
-				22A970E724EED00E008FCAF6 /* OEXAppleAuthProvider.swift */,
+				22A970E724EED00E008FCAF6 /* AppleAuthProvider.swift */,
 			);
 			name = Providers;
 			sourceTree = "<group>";
@@ -3336,7 +3334,6 @@
 				2255C94D2111BADC005F7C8C /* ProgramConfig.swift */,
 				22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */,
 				E40AEA72218D074600049C39 /* YoutubeVideoConfig.swift */,
-				227E9B7D24F3B74C0052E374 /* AppleConfig.swift */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -4826,7 +4823,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22A970E824EED00E008FCAF6 /* OEXAppleAuthProvider.swift in Sources */,
+				22A970E824EED00E008FCAF6 /* AppleAuthProvider.swift in Sources */,
 				77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */,
 				7742F8DD1C3C979D009E555A /* DiscoveryConfig.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,
@@ -4906,7 +4903,6 @@
 				77ADF4AF1AC1F80E00AC8955 /* OEXGoogleAuthProvider.m in Sources */,
 				1A7CEA331BABA8C70043A58C /* ProfileImageView.swift in Sources */,
 				77236EED1C21C376006AC1A4 /* Paginator.swift in Sources */,
-				227E9B7E24F3B74C0052E374 /* AppleConfig.swift in Sources */,
 				B7CCC739209B16B100A66923 /* ConstraintRelatableTarget.swift in Sources */,
 				1A8172511C3C1F2E007262AA /* OEXConfig+swift.swift in Sources */,
 				77D6A9A61C28F98A00E67CCF /* EnrolledCoursesViewController.swift in Sources */,

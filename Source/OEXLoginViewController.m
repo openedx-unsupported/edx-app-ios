@@ -107,8 +107,8 @@
     return [self.environment.config microsoftConfig].enabled;
 }
 
-- (BOOL)isAppleEnabled {
-    return [self.environment.config appleConfig].enabled;
+- (BOOL)isAppleLoginEnabled {
+    return self.environment.config.isAppleLoginEnable;
 }
 
 - (void)viewDidLoad {
@@ -128,8 +128,8 @@
         [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
     
-    if([self isAppleEnabled]) {
-        [self.externalAuthProviders addObject:[[OEXAppleAuthProvider alloc] init]];
+    if([self isAppleLoginEnabled]) {
+        [self.externalAuthProviders addObject:[[AppleAuthProvider alloc] init]];
     }
 
     [self addAuthView:self.externalAuthContainer.bounds];
@@ -182,11 +182,6 @@
     [externalAuthOptions mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.externalAuthContainer);
     }];
-}
-
-- (void)updateAuthView:(CGSize)size {
-    [self.authView removeFromSuperview];
-    [self addAuthView:CGRectMake(self.externalAuthContainer.bounds.origin.x, self.externalAuthContainer.bounds.origin.y, size.width, size.height)];
 }
 
 -(void) setUpAgreementTextView {
@@ -697,7 +692,12 @@
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    [self updateAuthView:size];
+   if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+       self.agreementTextViewTop.constant = -30;
+   }
+   else {
+       self.agreementTextViewTop.constant = 8;
+   }
 }
 
 @end

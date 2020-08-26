@@ -181,8 +181,8 @@ NSString* const OEXExternalRegistrationWithExistingAccountNotification = @"OEXEx
         [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
     
-    if(self.environment.config.appleConfig.enabled) {
-        [self.externalAuthProviders addObject:[[OEXAppleAuthProvider alloc] init]];
+    if(self.environment.config.isAppleLoginEnable) {
+        [self.externalAuthProviders addObject:[[AppleAuthProvider alloc] init]];
     }
     
     if(self.externalAuthProviders.count > 0) {

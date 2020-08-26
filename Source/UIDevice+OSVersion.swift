@@ -11,7 +11,7 @@ import Foundation
 extension UIDevice {
     /// This is only for use from Objective-C code. Swift code should use
     /// if #available.
-    private func isOSVersionAtLeast(version : Int) -> Bool {
+    func isOSVersionAtLeast(version : Int) -> Bool {
         return UIDevice.current.systemVersion.compare(String(version), options: NSString.CompareOptions.numeric) != .orderedAscending
     }
     
