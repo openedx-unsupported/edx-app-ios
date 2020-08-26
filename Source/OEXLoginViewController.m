@@ -108,7 +108,7 @@
 }
 
 - (BOOL)isAppleLoginEnabled {
-    return self.environment.config.isAppleLoginEnable;
+    return self.environment.config.isAppleSigninEnabled;
 }
 
 - (void)viewDidLoad {
@@ -689,15 +689,6 @@
 
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-   if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
-       self.agreementTextViewTop.constant = -30;
-   }
-   else {
-       self.agreementTextViewTop.constant = 8;
-   }
 }
 
 @end
