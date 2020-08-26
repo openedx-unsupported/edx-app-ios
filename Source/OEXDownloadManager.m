@@ -104,7 +104,7 @@ static NSURLSession* videosBackgroundSession = nil;
 
 //Start Download for video
 - (void)downloadVideoForObject:(VideoData*)video withCompletionHandler:(void (^)(NSURLSessionDownloadTask* downloadTask))completionHandler {
-   // [self checkIfVideoIsDownloading:video withCompletionHandler:completionHandler];
+    [self checkIfVideoIsDownloading:video withCompletionHandler:completionHandler];
 }
 
 // Start Download for video Url

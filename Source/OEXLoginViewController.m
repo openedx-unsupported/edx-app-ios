@@ -107,7 +107,7 @@
     return [self.environment.config microsoftConfig].enabled;
 }
 
-- (BOOL)isAppleLoginEnabled {
+- (BOOL)isAppleEnabled {
     return self.environment.config.isAppleSigninEnabled;
 }
 
@@ -121,18 +121,27 @@
         [self.externalAuthProviders addObject:[[OEXGoogleAuthProvider alloc] init]];
     }
     if([self isFacebookEnabled]) {
-        [self.externalAuthProviders addObject:[[OEXFacebookAuthProvider alloc] init]];
+       // [self.externalAuthProviders addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
 
     if([self isMicrosoftEnabled]) {
-        [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
+       // [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
     
-    if([self isAppleLoginEnabled]) {
+    if([self isAppleEnabled]) {
         [self.externalAuthProviders addObject:[[AppleAuthProvider alloc] init]];
     }
-
-    [self addAuthView:self.externalAuthContainer.bounds];
+    
+    __weak __typeof(self) owner = self;
+    
+    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:self.externalAuthProviders accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
+        [owner externalLoginWithProvider:provider];
+    }];
+    self.authView = externalAuthOptions;
+    [self.externalAuthContainer addSubview:externalAuthOptions];
+    [externalAuthOptions mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.externalAuthContainer);
+    }];
 
     [self.lbl_OrSignIn setText:[Strings orSignInWith]];
     [self.lbl_OrSignIn setTextColor:[UIColor colorWithRed:60.0 / 255.0 green:64.0 / 255.0 blue:69.0 / 255.0 alpha:1.0]];
@@ -169,19 +178,6 @@
     _placeHolderStyle = [[OEXTextStyle alloc] initWithWeight:OEXTextWeightNormal size:OEXTextSizeBase color:[[OEXStyles sharedStyles] neutralDark]];
     [self setAccessibilityIdentifiers];
     [self setUpAgreementTextView];
-}
-
-- (void)addAuthView:(CGRect)frame {
-    __weak __typeof(self) owner = self;
-    
-    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:frame providers:self.externalAuthProviders accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
-        [owner externalLoginWithProvider:provider];
-    }];
-    self.authView = externalAuthOptions;
-    [self.externalAuthContainer addSubview:externalAuthOptions];
-    [externalAuthOptions mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.externalAuthContainer);
-    }];
 }
 
 -(void) setUpAgreementTextView {
