@@ -121,11 +121,11 @@
         [self.externalAuthProviders addObject:[[OEXGoogleAuthProvider alloc] init]];
     }
     if([self isFacebookEnabled]) {
-       // [self.externalAuthProviders addObject:[[OEXFacebookAuthProvider alloc] init]];
+        [self.externalAuthProviders addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
 
     if([self isMicrosoftEnabled]) {
-       // [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
+        [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
     
     if([self isAppleEnabled]) {
