@@ -46,9 +46,6 @@
 @property (nonatomic, strong) NSString* signInID;
 @property (nonatomic, strong) NSString* signInPassword;
 @property (nonatomic, assign) BOOL reachable;
-@property (nonatomic, assign) OEXExternalAuthOptionsView *authView;
-@property (strong, nonatomic) NSMutableArray* externalAuthProviders;
-
 @property (strong, nonatomic) IBOutlet UIView* externalAuthContainer;
 @property (weak, nonatomic, nullable) IBOutlet OEXCustomLabel* lbl_OrSignIn;
 @property(nonatomic, strong) IBOutlet UIImageView* seperatorLeft;
@@ -116,28 +113,27 @@
     
     [self setTitle:[Strings signInText]];
 
-    self.externalAuthProviders = [[NSMutableArray alloc] init];
+    NSMutableArray* providers = [[NSMutableArray alloc] init];
     if([self isGoogleEnabled]) {
-        [self.externalAuthProviders addObject:[[OEXGoogleAuthProvider alloc] init]];
+        [providers addObject:[[OEXGoogleAuthProvider alloc] init]];
     }
     if([self isFacebookEnabled]) {
-        [self.externalAuthProviders addObject:[[OEXFacebookAuthProvider alloc] init]];
+        [providers addObject:[[OEXFacebookAuthProvider alloc] init]];
     }
 
     if([self isMicrosoftEnabled]) {
-        [self.externalAuthProviders addObject:[[OEXMicrosoftAuthProvider alloc] init]];
+        [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
     
     if([self isAppleEnabled]) {
-        [self.externalAuthProviders addObject:[[AppleAuthProvider alloc] init]];
+        [providers addObject:[[AppleAuthProvider alloc] init]];
     }
     
     __weak __typeof(self) owner = self;
     
-    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:self.externalAuthProviders accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
+    OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
         [owner externalLoginWithProvider:provider];
     }];
-    self.authView = externalAuthOptions;
     [self.externalAuthContainer addSubview:externalAuthOptions];
     [externalAuthOptions mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.externalAuthContainer);
