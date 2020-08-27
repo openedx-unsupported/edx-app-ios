@@ -181,7 +181,7 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         additionalController.selectedIndex = 3
         
         let courseDatesViewcontroller = additionalController.selectedViewController as! CourseDatesViewController
-        let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates"))!
+        let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates"))
         courseDatesViewcontroller.t_loadData(data: courseDates)
         
         inScreenNavigationContext(additionalController, action: { () -> () in

@@ -12,7 +12,15 @@ import edXCore
 public class CourseDatesAPI: NSObject {
     
     private static func courseDateDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDateModel> {
-        return CourseDateModel(json: json).toResult()
+        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), statusCode.is4xx else {
+            let courseDatesModel = CourseDateModel(json: json)
+            if courseDatesModel.dateBlocks.isEmpty {
+                return Failure(e: NSError(domain: "CourseDatesErrorDomain", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: Strings.Coursedates.courseDateUnavailable]))
+            } else {
+                return Success(v: courseDatesModel)
+            }
+        }
+        return Failure(e: NSError(domain: "CourseDatesErrorDomain", code: response.statusCode, userInfo: [NSLocalizedDescriptionKey: Strings.Coursedates.courseDateUnavailable]))
     }
     
     private class func path(courseID: String)-> String {

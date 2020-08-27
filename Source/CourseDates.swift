@@ -118,7 +118,7 @@ struct CourseDateModel {
     var userTimezone: String?
     var verifiedUpgradeLink: String = ""
     
-    init?(json: JSON) {
+    init(json: JSON) {
         let courseDateBlocksArray = json[Keys.courseDateBlocks].array ?? []
         dateBlocks = courseDateBlocksArray.compactMap { CourseDateBlock(json: $0, userTimeZone: json[Keys.userTimezone].string) }
         let datesBannerInfoJson = json[Keys.datesBannerInfo]

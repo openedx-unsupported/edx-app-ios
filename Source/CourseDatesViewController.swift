@@ -82,25 +82,18 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         
         stream.listen(self) { [weak self] response in
             switch response {
-            case .success(let data):
-                self?.handleResponse(dateModel: data)
+            case .success(let courseDateModel):
+                self?.populate(with: courseDateModel)
+                self?.loadController.state = .Loaded
                 break
-            case .failure:
-                self?.loadController.state = LoadState.failed(message: Strings.Coursedates.courseDateUnavailable)
+                
+            case .failure(let error):
+                self?.loadController.state = LoadState.failed(message: error.localizedDescription)
                 break
             }
         }
     }
-    
-    private func handleResponse(dateModel: CourseDateModel) {
-        if dateModel.dateBlocks.isEmpty {
-            loadController.state = LoadState.failed(message: Strings.Coursedates.courseDateUnavailable)
-        } else {
-            populate(with: dateModel)
-            loadController.state = .Loaded
-        }
-    }
-    
+
     private func populate(with dateModel: CourseDateModel) {
         courseDateModel = dateModel
         var blocks = dateModel.dateBlocks
@@ -207,11 +200,7 @@ extension CourseDatesViewController: CourseDateViewCellDelegate {
 // For use in testing only
 extension CourseDatesViewController {
     func t_loadData(data: CourseDateModel) {
-        t_handleResponse(data: data)
         loadController.state = .Loaded
-    }
-    
-    func t_handleResponse(data: CourseDateModel) {
         courseDateModel = data
         let blocks = data.dateBlocks
         
