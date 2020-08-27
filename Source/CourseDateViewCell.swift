@@ -46,7 +46,7 @@ class CourseDateViewCell: UITableViewCell {
     }()
     
     private lazy var statusStyle: OEXMutableTextStyle = {
-        let style = OEXMutableTextStyle(weight: .semiBold, size: .small, color: OEXStyles.shared().neutralWhite())
+        let style = OEXMutableTextStyle(weight: .bold, size: .xxSmall, color: OEXStyles.shared().neutralWhite())
         style.alignment = .center
         return style
     }()
@@ -77,7 +77,7 @@ class CourseDateViewCell: UITableViewCell {
         }
     }
     
-    private var minimumViewWidth = 60
+    private var minimumViewWidth = 20
     private var todayTimelinePointDiameter: CGFloat = 12
     private var defaultTimelinePointDiameter: CGFloat = 8
     
@@ -173,7 +173,7 @@ class CourseDateViewCell: UITableViewCell {
         
         statusStackView.alignment = .center
         statusStackView.axis = .horizontal
-        statusStackView.spacing = (StandardHorizontalMargin / 2)
+        statusStackView.spacing = (StandardHorizontalMargin / 4)
         
         dateAndStatusContainerStackView.alignment = .center
         dateAndStatusContainerStackView.axis = .horizontal
@@ -186,7 +186,7 @@ class CourseDateViewCell: UITableViewCell {
     
     private func setupConstrains() {
         statusContainerView.snp.makeConstraints { make in
-            make.height.equalTo(StandardHorizontalMargin + 4)
+            make.height.equalTo(StandardHorizontalMargin * 3)
             make.width.greaterThanOrEqualTo(minimumViewWidth)
         }
         
@@ -198,8 +198,8 @@ class CourseDateViewCell: UITableViewCell {
         }
         
         statusStackView.snp.makeConstraints { make in
-            make.leading.equalTo(statusContainerView).offset(StandardHorizontalMargin / 2)
-            make.trailing.equalTo(statusContainerView).inset(StandardHorizontalMargin / 2)
+            make.leading.equalTo(statusContainerView).offset(StandardHorizontalMargin / 3)
+            make.trailing.equalTo(statusContainerView).inset(StandardHorizontalMargin / 3)
             make.top.equalTo(statusContainerView)
             make.bottom.equalTo(statusContainerView)
         }
