@@ -136,6 +136,9 @@
 		22A3CECE22D31527005A046E /* APIURLVersionConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A3CECD22D31526005A046E /* APIURLVersionConfig.swift */; };
 		22A4191D1EB1CF1500BBC8CA /* shareCourse.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191B1EB1CF1500BBC8CA /* shareCourse.png */; };
 		22A4191E1EB1CF1500BBC8CA /* shareCourse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */; };
+		22A970E524EECFAC008FCAF6 /* icon_apple@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A970E324EECFAC008FCAF6 /* icon_apple@1x.png */; };
+		22A970E624EECFAC008FCAF6 /* icon_apple@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22A970E424EECFAC008FCAF6 /* icon_apple@2x.png */; };
+		22A970E824EED00E008FCAF6 /* AppleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A970E724EED00E008FCAF6 /* AppleAuthProvider.swift */; };
 		22A98BD922D89ED30007330C /* APIURLDefaultVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */; };
 		22AB111F2375695C007D03D2 /* PushLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB111E2375695C007D03D2 /* PushLink.swift */; };
 		22AB76181FFF62A80082F4EE /* CourseCertificateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */; };
@@ -1140,6 +1143,9 @@
 		22A3CED722D46B68005A046E /* he */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = he; path = he.lproj/whats_new.json; sourceTree = "<group>"; };
 		22A4191B1EB1CF1500BBC8CA /* shareCourse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareCourse.png; sourceTree = "<group>"; };
 		22A4191C1EB1CF1500BBC8CA /* shareCourse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareCourse@2x.png"; sourceTree = "<group>"; };
+		22A970E324EECFAC008FCAF6 /* icon_apple@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_apple@1x.png"; sourceTree = "<group>"; };
+		22A970E424EECFAC008FCAF6 /* icon_apple@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_apple@2x.png"; sourceTree = "<group>"; };
+		22A970E724EED00E008FCAF6 /* AppleAuthProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleAuthProvider.swift; sourceTree = "<group>"; };
 		22A98BD822D89ED30007330C /* APIURLDefaultVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIURLDefaultVersionTests.swift; sourceTree = "<group>"; };
 		22AB111E2375695C007D03D2 /* PushLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushLink.swift; sourceTree = "<group>"; };
 		22AB76171FFF62A80082F4EE /* CourseCertificateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseCertificateView.swift; sourceTree = "<group>"; };
@@ -2504,6 +2510,8 @@
 		69ECC5B61D50D1170030CF87 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				22A970E324EECFAC008FCAF6 /* icon_apple@1x.png */,
+				22A970E424EECFAC008FCAF6 /* icon_apple@2x.png */,
 				2266C5612362F6AE00F96BCA /* icon_microsoft_white.png */,
 				E039A8011F74C0D80064ABDB /* loginScreenImage~ipad.png */,
 				E039A8021F74C0D80064ABDB /* logo~ipad.png */,
@@ -2936,6 +2944,7 @@
 				77ADF4A21AC1AF9800AC8955 /* OEXFacebookAuthProvider.m */,
 				77ADF49F1AC1AD1200AC8955 /* OEXExternalAuthProvider.h */,
 				220B1D342119B8380048ACBA /* OEXMicrosoftAuthProvider.swift */,
+				22A970E724EED00E008FCAF6 /* AppleAuthProvider.swift */,
 			);
 			name = Providers;
 			sourceTree = "<group>";
@@ -4394,6 +4403,7 @@
 				B71AA1C220CEF64D00700C5E /* physics@2x.png in Resources */,
 				B71AA1A720CEF64D00700C5E /* history@3x.png in Resources */,
 				1AFEB1B91BBD88F3004C471D /* languages.json in Resources */,
+				22A970E624EECFAC008FCAF6 /* icon_apple@2x.png in Resources */,
 				9E7D1BCC1AEA5BF5000AF768 /* OEXDownloadViewController.storyboard in Resources */,
 				69ECC6421D50D1170030CF87 /* logo@2x.png in Resources */,
 				69ECC61A1D50D1170030CF87 /* bt_grey_default.png in Resources */,
@@ -4470,6 +4480,7 @@
 				B4B6D64A1A95CF33000F44E8 /* OEXUserLicenseAgreementViewController.xib in Resources */,
 				B71AA19120CEF64D00700C5E /* environmental_studies@3x.png in Resources */,
 				BD837BB81DC8D5D400341EFD /* Icon-76.png in Resources */,
+				22A970E524EECFAC008FCAF6 /* icon_apple@1x.png in Resources */,
 				69ECC63E1D50D1170030CF87 /* icon_google_white.png in Resources */,
 				B71AA1A020CEF64D00700C5E /* social_sciences@3x.png in Resources */,
 				69ECC63D1D50D1170030CF87 /* icon_facebook_white@2x.png in Resources */,
@@ -4812,6 +4823,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22A970E824EED00E008FCAF6 /* AppleAuthProvider.swift in Sources */,
 				77E6486E1C912DA200B6740D /* NetworkManager+StandardInterceptors.swift in Sources */,
 				7742F8DD1C3C979D009E555A /* DiscoveryConfig.swift in Sources */,
 				9E71B73F1B1D9DBD009C81E2 /* OEXStyles+Swift.swift in Sources */,

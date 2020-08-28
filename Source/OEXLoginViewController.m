@@ -104,6 +104,10 @@
     return [self.environment.config microsoftConfig].enabled;
 }
 
+- (BOOL)isAppleEnabled {
+    return self.environment.config.isAppleSigninEnabled;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -120,8 +124,13 @@
     if([self isMicrosoftEnabled]) {
         [providers addObject:[[OEXMicrosoftAuthProvider alloc] init]];
     }
-
+    
+    if([self isAppleEnabled]) {
+        [providers addObject:[[AppleAuthProvider alloc] init]];
+    }
+    
     __weak __typeof(self) owner = self;
+    
     OEXExternalAuthOptionsView* externalAuthOptions = [[OEXExternalAuthOptionsView alloc] initWithFrame:self.externalAuthContainer.bounds providers:providers accessibilityLabel:[Strings signInPrompt] tapAction:^(id<OEXExternalAuthProvider> provider) {
         [owner externalLoginWithProvider:provider];
     }];
@@ -673,7 +682,6 @@
 - (UIInterfaceOrientationMask) supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
-
 
 @end
 

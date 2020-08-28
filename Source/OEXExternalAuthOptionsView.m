@@ -91,7 +91,7 @@ static CGFloat rowHeight = 30;
 }
 
 - (NSUInteger)itemsInRow:(NSUInteger)row withMaxItemsPerRow:(NSUInteger)maxItems itemCount:(NSUInteger)itemCount {
-    return ((row + 1)* maxItems < itemCount) ? maxItems : (itemCount % maxItems ?: itemCount);
+    return ((row + 1)* maxItems <= itemCount) ? maxItems : (itemCount % maxItems ?: itemCount);
 }
 
 - (void)layoutSubviews {
@@ -114,7 +114,7 @@ static CGFloat rowHeight = 30;
                 NSUInteger itemsInRow = [self itemsInRow:row withMaxItemsPerRow:itemsPerRow itemCount:self.optionButtons.count];
                 NSUInteger column = idx % itemsPerRow;
                 CGFloat y = rowHeight * row + self.rowSpacing * row;
-                CGFloat interItemSpacing = (self.bounds.size.width - width * itemsInRow) / (itemsInRow + 1);
+                CGFloat interItemSpacing = ((self.bounds.size.width - width * itemsInRow)) / (itemsInRow + 1);
                 CGFloat x = column * width + (column + 1) * interItemSpacing;
                 obj.frame = CGRectMake(x, y, width, rowHeight);
             }];
