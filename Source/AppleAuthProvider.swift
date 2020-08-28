@@ -19,7 +19,7 @@ class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     var backendName: String  {
-        return ""
+        return "apple-id"
     }
     
     func freshAuthButton() -> UIButton {
@@ -31,7 +31,8 @@ class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     func authorizeService(from controller: UIViewController, requestingUserDetails loadUserDetails: Bool, withCompletion completion: @escaping (String?, OEXRegisteringUserDetails?, Error?) -> Void) {
-        // TODO
-        return
+        AppleSocial.shared.loginFromController(controller: controller) { (userdetails, token, error) in
+            completion(token,userdetails, error)
+        }
     }
 }
