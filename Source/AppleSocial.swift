@@ -6,18 +6,17 @@
 //  Copyright © 2020 edX. All rights reserved.
 //
 
-import Foundation
-import UIKit
-import MSAL
 import AuthenticationServices
 
-typealias AppleLoginCompletionHandler =  (OEXRegisteringUserDetails?, _ accessToken: String?, Error?) -> Void
+private let errorDomain = "AppleSocial"
+
+typealias AppleLoginCompletionHandler = (OEXRegisteringUserDetails?, _ accessToken: String?, Error?) -> Void
 
 
 class AppleSocial: NSObject {
 
     static let shared = AppleSocial()
-    var completionHandler: AppleLoginCompletionHandler!
+    private var completionHandler: AppleLoginCompletionHandler?
 
     private override init() {
         super.init()
@@ -38,8 +37,8 @@ class AppleSocial: NSObject {
             authorizationController.performRequests()
         }
         else {
-            let error = NSError(domain: NSCocoaErrorDomain, code: -10000, userInfo: ["messgae": "Apple Sign In not supported prior to iOS 13"])
-            completionHandler(nil, nil, error)
+            let error = NSError(domain: errorDomain, code: -10000, userInfo: [NSLocalizedDescriptionKey: "Apple Sign In not supported prior to iOS 13"])
+            completionHandler?(nil, nil, error)
         }
     }
 }
@@ -48,14 +47,14 @@ class AppleSocial: NSObject {
 extension AppleSocial: ASAuthorizationControllerDelegate {
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        completionHandler(nil, nil, error)
+        completionHandler?(nil, nil, error)
     }
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
 
         guard let credentials = authorization.credential as? ASAuthorizationAppleIDCredential else {
-            let error = NSError(domain: NSCocoaErrorDomain, code: ASAuthorizationError.unknown.rawValue, userInfo: ["messgae": "Failed to get credentials"])
-            completionHandler(nil, nil, error)
+            let error = NSError(domain: errorDomain, code: ASAuthorizationError.unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Failed to get credentials"])
+            completionHandler?(nil, nil, error)
             return
         }
 
@@ -75,8 +74,8 @@ extension AppleSocial: ASAuthorizationControllerDelegate {
             completionHandler?(userDetails, code, nil)
         }
         else {
-            let error = NSError(domain: NSCocoaErrorDomain, code: ASAuthorizationError.failed.rawValue, userInfo: ["messgae": "unable to extract apple identity token"])
-            completionHandler(nil, nil, error)
+            let error = NSError(domain: errorDomain, code: ASAuthorizationError.failed.rawValue, userInfo: [NSLocalizedDescriptionKey: "Unable to extract apple identity token"])
+            completionHandler?(nil, nil, error)
         }
     }
 

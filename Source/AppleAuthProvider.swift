@@ -31,7 +31,7 @@ class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     func authorizeService(from controller: UIViewController, requestingUserDetails loadUserDetails: Bool, withCompletion completion: @escaping (String?, OEXRegisteringUserDetails?, Error?) -> Void) {
-        AppleSocial.shared.loginFromController(controller: controller) { (userdetails, token, error) in
+        AppleSocial.shared.loginFromController(controller: controller) { userdetails, token, error in
             completion(token,userdetails, error)
         }
     }
