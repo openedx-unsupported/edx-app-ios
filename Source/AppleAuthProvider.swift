@@ -8,8 +8,9 @@
 
 import UIKit
 
-class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
+@objc class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
 
+    @objc static let backendName = "apple-id"
     override init() {
         super.init()
     }
@@ -19,7 +20,7 @@ class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     var backendName: String  {
-        return "apple-id"
+        return AppleAuthProvider.backendName
     }
     
     func freshAuthButton() -> UIButton {
