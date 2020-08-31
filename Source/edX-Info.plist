@@ -21,10 +21,48 @@
 		<string>Icon-76.png</string>
 		<string>Icon-76@2x.png</string>
 	</array>
-	<key>CFBundleIcons</key>
-	<dict/>
-	<key>CFBundleIcons~ipad</key>
-	<dict/>
+    <key>CFBundleIcons</key>
+    <dict>
+        <key>CFBundleAlternateIcons</key>
+        <dict>
+            <key>Bars2</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>AppIcon-Bars2-20x20</string>
+                    <string>AppIcon-Bars2-29x29</string>
+                    <string>AppIcon-Bars2-40x40</string>
+                    <string>AppIcon-Bars2-60x60</string>
+                    <string>AppIcon-Bars2-76x76</string>
+                    <string>AppIcon-Bars2-83.5x83.5</string>
+                    <string>AppIcon-Bars2-1024x1024</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+        </dict>
+    </dict>
+    <key>CFBundleIcons~ipad</key>
+    <dict>
+        <key>CFBundleAlternateIcons</key>
+        <dict>
+            <key>Bars2</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>AppIcon-Bars2-20x20</string>
+                    <string>AppIcon-Bars2-29x29</string>
+                    <string>AppIcon-Bars2-40x40</string>
+                    <string>AppIcon-Bars2-60x60</string>
+                    <string>AppIcon-Bars2-76x76</string>
+                    <string>AppIcon-Bars2-83.5x83.5</string>
+                    <string>AppIcon-Bars2-1024x1024</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+        </dict>
+    </dict>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>

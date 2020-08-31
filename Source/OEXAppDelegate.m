@@ -66,7 +66,9 @@
         [OEXFileUtility nukeUserData];
     }
 #endif
-
+    
+    [[AppIcon shared] changeIcon];
+    
     // logout user automatically if server changed
     [[[ServerChangedChecker alloc] init] logoutIfServerChanged];
 
