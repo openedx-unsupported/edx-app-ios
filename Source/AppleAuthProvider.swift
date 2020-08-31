@@ -8,8 +8,9 @@
 
 import UIKit
 
-class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
+@objc class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
 
+    @objc static let backendName = "apple-id"
     override init() {
         super.init()
     }
@@ -19,7 +20,7 @@ class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     var backendName: String  {
-        return ""
+        return AppleAuthProvider.backendName
     }
     
     func freshAuthButton() -> UIButton {
@@ -31,7 +32,8 @@ class AppleAuthProvider: NSObject, OEXExternalAuthProvider {
     }
     
     func authorizeService(from controller: UIViewController, requestingUserDetails loadUserDetails: Bool, withCompletion completion: @escaping (String?, OEXRegisteringUserDetails?, Error?) -> Void) {
-        // TODO
-        return
+        AppleSocial.shared.loginFromController(controller: controller) { userdetails, token, error in
+            completion(token,userdetails, error)
+        }
     }
 }

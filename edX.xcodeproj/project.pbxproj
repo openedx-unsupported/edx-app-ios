@@ -807,6 +807,7 @@
 		CBED55012260F90700C4F2F1 /* YoutubeVideoConfigTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBED55002260F90700C4F2F1 /* YoutubeVideoConfigTest.swift */; };
 		E00523431CF81D9800B7F5C3 /* DiscussionBlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523421CF81D9800B7F5C3 /* DiscussionBlockViewController.swift */; };
 		E00523451CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00523441CFD768700B7F5C3 /* DiscussionBlockViewControllerTests.swift */; };
+		E006FDDA24F904F9006E91C2 /* AppleSocial.swift in Sources */ = {isa = PBXBuildFile; fileRef = E006FDD924F904F9006E91C2 /* AppleSocial.swift */; };
 		E008D9061CCE150F007F3643 /* DiscussionResponsesViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */; };
 		E00A33C11D3CEB3400963D8F /* SnackbarViewsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */; };
 		E01591F21D533F3B00201B15 /* UIViewController+CommonAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01591F11D533F3B00201B15 /* UIViewController+CommonAdditions.swift */; };
@@ -1921,6 +1922,7 @@
 		E006BD1422DF29D100AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/profiles.json"; sourceTree = "<group>"; };
 		E006BD1522DF29D100AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/languages.json"; sourceTree = "<group>"; };
 		E006BD1622DF29D200AA5185 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "pt-BR"; path = "pt-BR.lproj/whats_new.json"; sourceTree = "<group>"; };
+		E006FDD924F904F9006E91C2 /* AppleSocial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppleSocial.swift; sourceTree = "<group>"; };
 		E008D9041CCE1506007F3643 /* DiscussionResponsesViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscussionResponsesViewControllerTests.swift; sourceTree = "<group>"; };
 		E00A33C01D3CEB3400963D8F /* SnackbarViewsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnackbarViewsTests.swift; sourceTree = "<group>"; };
 		E01287DD22EEDD290093285E /* de */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = de; path = de.lproj/subjects.json; sourceTree = "<group>"; };
@@ -3235,6 +3237,7 @@
 		8FE04B4A1A1E24C7007F88B8 /* SocialLogin */ = {
 			isa = PBXGroup;
 			children = (
+				E006FDD924F904F9006E91C2 /* AppleSocial.swift */,
 				8F562F861A1F2D2C00320DB3 /* OEXGoogleSocial.h */,
 				8F562F871A1F2D2C00320DB3 /* OEXGoogleSocial.m */,
 				8FE04B4B1A1E2637007F88B8 /* OEXFBSocial.h */,
@@ -4912,6 +4915,7 @@
 				9ED168AE1B29A4ED00AA7B5B /* UserAPI.swift in Sources */,
 				7725016A1C80FB5C002549A9 /* ServerChangedChecker.swift in Sources */,
 				E07107931C7591360004B76C /* DiscussionHelper.swift in Sources */,
+				E006FDDA24F904F9006E91C2 /* AppleSocial.swift in Sources */,
 				77092C751B42E4C1004AA1A1 /* UIStatusBarStyle+Styles.swift in Sources */,
 				191A002E19405E97004F7902 /* OEXLatestUpdates.m in Sources */,
 				1AFEB1B61BBD5B95004C471D /* ProfilePictureTaker.swift in Sources */,
