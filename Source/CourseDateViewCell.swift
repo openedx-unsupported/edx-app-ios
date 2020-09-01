@@ -24,13 +24,6 @@ class CourseDateViewCell: UITableViewCell {
     private lazy var dateLabel = UILabel()
     private lazy var statusLabel = UILabel()
     
-    private lazy var descriptionLabel: UILabel = {
-        let descriptionLabel = UILabel()
-        descriptionLabel.lineBreakMode = .byWordWrapping
-        descriptionLabel.numberOfLines = 0
-        return descriptionLabel
-    }()
-    
     private lazy var dateAndStatusContainerView = UIView()
     private let statusContainerView = UIView()
     
@@ -281,6 +274,9 @@ class CourseDateViewCell: UITableViewCell {
     
     /// Adds description to titleAndDescriptionStackView if block does contains description
     private func addDescriptionLabel(_ block: CourseDateBlock) {
+        let descriptionLabel = UILabel()
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.numberOfLines = 0
         descriptionLabel.attributedText = descriptionStyle.attributedString(withText: block.description)
         descriptionLabel.sizeToFit()
         descriptionLabel.layoutIfNeeded()
