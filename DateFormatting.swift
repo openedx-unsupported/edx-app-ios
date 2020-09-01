@@ -157,10 +157,12 @@ open class DateFormatting: NSObject {
 public extension Date {
     func stripTimeStamp(timeZoneIdentifier: String? = nil) -> Date {
         var calender = Calendar(identifier: .gregorian)
-        if let identifier = timeZoneIdentifier {
-            calender.timeZone = TimeZone(identifier: identifier) ?? TimeZone.current
-        } else if let timeZone = TimeZone(abbreviation: "UTC") {
+        if let identifier = timeZoneIdentifier, let timeZone = TimeZone(identifier: identifier) {
             calender.timeZone = timeZone
+        } else if let timeZone = TimeZone(abbreviation: "GMT") {
+            calender.timeZone = timeZone
+        } else {
+            calender.timeZone = TimeZone.current
         }
         
         let components = calender.dateComponents([.year, .month, .day], from: self)
