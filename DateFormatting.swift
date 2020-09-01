@@ -111,6 +111,8 @@ open class DateFormatting: NSObject {
         let dateFormatter = DateFormatter()
         if let timeZone = timeZoneIdentifier {
             dateFormatter.timeZone = TimeZone(identifier: timeZone)
+        } else {
+            dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         }
         dateFormatter.dateFormat = "EE, MMM, d yyyy"
         return dateFormatter.string(from: date)
@@ -153,10 +155,20 @@ open class DateFormatting: NSObject {
 }
 
 public extension Date {
-    func stripTimeStamp() -> Date {
-        guard let date = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: self)) else {
+    func stripTimeStamp(timeZoneIdentifier: String? = nil) -> Date {
+        var calender = Calendar(identifier: .gregorian)
+        if let identifier = timeZoneIdentifier {
+            calender.timeZone = TimeZone(identifier: identifier) ?? TimeZone.current
+        } else if let timeZone = TimeZone(abbreviation: "UTC") {
+            calender.timeZone = timeZone
+        }
+        
+        let components = calender.dateComponents([.year, .month, .day], from: self)
+        
+        if let newDate = calender.date(from: components) {
+            return newDate
+        } else {
             return self
         }
-        return date
     }
 }

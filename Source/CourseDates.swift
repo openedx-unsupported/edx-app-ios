@@ -198,7 +198,7 @@ struct CourseDateBlock {
         guard let formattedDate = DateFormatting.date(withServerString: date, timeZoneIdentifier: userTimeZone) else {
             return Date().stripTimeStamp()
         }
-        return (formattedDate as Date).stripTimeStamp()
+        return (formattedDate as Date).stripTimeStamp(timeZoneIdentifier: userTimeZone)
     }
 }
 
