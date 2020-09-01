@@ -1,5 +1,28 @@
 [
     {
+        "version":"2.23",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"発見体験の向上",
+                "message":"お気に入りのコースやプログラムを検索して登録する方法が改善されました。"
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Appleサインイン",
+                "message":"これで、Apple IDを使用して、プラットフォームに登録およびサインインできます。 甘いですね。"
+            }
+        ]
+    },
+    {
         "version":"2.22",
         "messages":[
             {

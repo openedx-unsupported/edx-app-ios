@@ -1,5 +1,28 @@
 [
     {
+        "version":"2.23",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Cải thiện trải nghiệm khám phá",
+                "message":"Chúng tôi đã cải thiện cách bạn tìm kiếm và đăng ký các khóa học & chương trình yêu thích của mình."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Đăng nhập Apple",
+                "message":"Giờ đây, bạn có thể sử dụng Apple ID của mình để đăng ký và đăng nhập vào nền tảng của chúng tôi. Thật ngọt ngào phải không?"
+            }
+        ]
+    },
+    {
         "version":"2.22",
         "messages":[
             {

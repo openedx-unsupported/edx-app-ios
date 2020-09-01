@@ -1,5 +1,28 @@
 [
     {
+        "version":"2.23",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Expérience de découverte améliorée",
+                "message":"Nous avons amélioré la façon dont vous recherchez et vous inscrivez à vos cours et programmes préférés."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Connexion Apple",
+                "message":"Vous pouvez désormais utiliser votre identifiant Apple pour vous inscrire et vous connecter à notre plateforme. Doux, non?"
+            }
+        ]
+    },
+    {
         "version":"2.22",
         "messages":[
             {

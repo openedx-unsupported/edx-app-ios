@@ -1,5 +1,28 @@
 [
     {
+        "version":"2.23",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Improved Discovery Experience",
+                "message":"We've improved the way you search for and enroll in your favorite courses & programs."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Apple Sign-in",
+                "message":"Now you can use your Apple ID to register and sign in to our platform. Sweet, isn't it?"
+            }
+        ]
+    },
+    {
         "version":"2.22",
         "messages":[
             {
