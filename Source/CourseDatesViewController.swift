@@ -83,12 +83,16 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
         stream.listen(self) { [weak self] response in
             switch response {
             case .success(let courseDateModel):
-                self?.populate(with: courseDateModel)
-                self?.loadController.state = .Loaded
+                if courseDateModel.dateBlocks.isEmpty {
+                    self?.loadController.state = .failed(message: Strings.Coursedates.courseDateUnavailable)
+                } else {
+                    self?.populate(with: courseDateModel)
+                    self?.loadController.state = .Loaded
+                }
                 break
                 
             case .failure(let error):
-                self?.loadController.state = LoadState.failed(message: error.localizedDescription)
+                self?.loadController.state = .failed(message: error.localizedDescription)
                 break
             }
         }

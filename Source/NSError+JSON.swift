@@ -52,7 +52,8 @@ extension NSError {
             if let infoDict = errorValue as? Dictionary<AnyHashable, Any> {
                 return parseError(info: infoDict)
             }
-        } else if (info?[ErrorFields.detail.rawValue] != nil) {
+        }
+        else if (info?[ErrorFields.detail.rawValue] != nil) {
             errorValue = info?[ErrorFields.detail.rawValue]
         }
 
