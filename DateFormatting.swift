@@ -166,10 +166,6 @@ public extension Date {
         
         let components = calender.dateComponents([.year, .month, .day], from: self)
         
-        if let newDate = calender.date(from: components) {
-            return newDate
-        } else {
-            return self
-        }
+        return calender.date(from: components) ?? self
     }
 }
