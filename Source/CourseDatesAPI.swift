@@ -12,7 +12,7 @@ import edXCore
 public class CourseDatesAPI: NSObject {
     
     private static func courseDateDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDateModel> {
-        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), statusCode.is4xx else {
+        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {
             let courseDatesModel = CourseDateModel(json: json)
             return Success(v: courseDatesModel)
         }
