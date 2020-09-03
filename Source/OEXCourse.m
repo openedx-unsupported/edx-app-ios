@@ -95,9 +95,9 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
     self = [super init];
     if(self != nil) {
         info = [info oex_replaceNullsWithEmptyStrings];
-        self.end = [DateFormatting dateWithServerString:[info objectForKey:@"end"] timeZoneIdentifier:NULL];
+        self.end = [DateFormatting dateWithServerString:[info objectForKey:@"end"] timeZone:NULL];
         
-        NSDate* startDate = [DateFormatting dateWithServerString:[info objectForKey:@"start"] timeZoneIdentifier:NULL];
+        NSDate* startDate = [DateFormatting dateWithServerString:[info objectForKey:@"start"] timeZone:NULL];
         self.start_display_info = [[OEXCourseStartDisplayInfo alloc]
                                    initWithDate:startDate
                                    displayDate:[info objectForKey:@"start_display"]
@@ -139,7 +139,7 @@ NSString* NSStringForOEXStartType(OEXStartType type) {
 }
 
 - (instancetype) initWithDictionary:(NSDictionary *)info auditExpiryDate:(nullable NSString *) auditExpiryDate {
-    self.audit_expiry_date = [DateFormatting dateWithServerString:auditExpiryDate timeZoneIdentifier:NULL];
+    self.audit_expiry_date = [DateFormatting dateWithServerString:auditExpiryDate timeZone:NULL];
     return [self initWithDictionary:info];
 }
 

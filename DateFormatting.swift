@@ -29,13 +29,14 @@ open class DateFormatting: NSObject {
     }
     
     /// Converts a string in standard ISO8601 format to a date
-    @objc open class func date(withServerString dateString: String?, timeZoneIdentifier: String? = nil) -> NSDate? {
+    @objc open class func date(withServerString dateString: String?, timeZone: TimeZone? = nil) -> NSDate? {
         guard let dateString = dateString else { return nil }
         
         let formatter = DateFormatter()
         formatter.dateFormat = StandardDateFormat
-        if let identifier = timeZoneIdentifier {
-            formatter.timeZone = TimeZone(identifier: identifier)
+        
+        if let timeZone = timeZone {
+            formatter.timeZone = timeZone
         } else {
             formatter.timeZone = TimeZone(abbreviation: "GMT")
         }

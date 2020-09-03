@@ -211,7 +211,7 @@ struct CourseDateBlock {
     }
     
     private func getBlockDate(date: String) -> Date {
-        guard let formattedDate = DateFormatting.date(withServerString: date, timeZoneIdentifier: userTimeZone) else {
+        guard let formattedDate = DateFormatting.date(withServerString: date, timeZone: calculatedTimeZone) else {
             return today
         }
         return (formattedDate as Date).stripTimeStamp(timeZone: calculatedTimeZone)
@@ -222,7 +222,7 @@ struct CourseDateBlock {
         
         if let identifier = userTimeZone, let newTimeZone = TimeZone(identifier: identifier) {
             timeZone = newTimeZone
-        } else if let identifier = preferenceTimeZone, let newTimeZone = TimeZone(abbreviation: identifier)  {
+        } else if let abbreviation = preferenceTimeZone, let newTimeZone = TimeZone(abbreviation: abbreviation)  {
             timeZone = newTimeZone
         } else {
             timeZone = TimeZone(abbreviation: "UTC") ?? TimeZone.current
@@ -330,7 +330,14 @@ extension CourseDateBlock {
 
 fileprivate extension Date {
     func stripTimeStamp(timeZone: TimeZone) -> Date {
-        var calender = Calendar(identifier: .gregorian)
+        var calender: Calendar
+        
+        if inTestingMode {
+            calender = Calendar(identifier: .gregorian)
+        } else {
+            calender = Calendar.current
+        }
+        
         calender.timeZone = timeZone
         let components = calender.dateComponents([.year, .month, .day], from: self)
         
@@ -350,4 +357,8 @@ fileprivate extension Array {
         modifyElement(&element)
         self[index] = element
     }
+}
+
+fileprivate var inTestingMode: Bool {
+    return ProcessInfo.processInfo.arguments.contains(where: { $0 == "-UNIT_TEST"})
 }
