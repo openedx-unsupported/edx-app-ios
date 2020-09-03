@@ -155,13 +155,15 @@ open class DateFormatting: NSObject {
 }
 
 public extension Date {
-    func stripTimeStamp(timeZoneIdentifier: String? = nil) -> Date {
+    func stripTimeStamp(timeZoneIdentifier: String? = nil, userPreferenceTimeZone: String? = nil) -> Date {
         var calender = Calendar(identifier: .gregorian)
         
         if let identifier = timeZoneIdentifier, let timeZone = TimeZone(identifier: identifier) {
             calender.timeZone = timeZone
-        } else  {
-            calender.timeZone = NSTimeZone.default
+        } else if let identifier = userPreferenceTimeZone, let timeZone = TimeZone(abbreviation: identifier)  {
+            calender.timeZone = timeZone
+        } else {
+            calender.timeZone = TimeZone(abbreviation: "UTC") ?? TimeZone.current
         }
         
         let components = calender.dateComponents([.year, .month, .day], from: self)

@@ -115,8 +115,16 @@ struct CourseDateModel {
     var learnerHasFullAccess: Bool = false
     var missedDeadline: Bool = false
     var missedGatedContent: Bool = false
-    var userTimezone: String?
     var verifiedUpgradeLink: String = ""
+    var userTimezone: String?
+
+    var preferenceTimeZone: String?  {
+        didSet {
+            dateBlocks.modifyForEach { block in
+                block.preferenceTimeZone = preferenceTimeZone
+            }
+        }
+    }
     
     init(json: JSON) {
         let courseDateBlocksArray = json[Keys.courseDateBlocks].array ?? []
@@ -166,19 +174,28 @@ struct CourseDateBlock {
     }
     
     var complete: Bool = false
-    var blockDate: Date = Date().stripTimeStamp()
     var dateType: String = ""
     var description: String = ""
     var learnerHasAccess: Bool = false
     var link: String = ""
     var linkText: String = ""
     var title: String = ""
-    var today = Date().stripTimeStamp()
     var extraInfo: String = ""
+    var dateString: String = ""
+    var timeZone: String?
+    var preferenceTimeZone: String?
+    
+    var today: Date {
+        return Date().stripTimeStamp(timeZoneIdentifier: timeZone, userPreferenceTimeZone: preferenceTimeZone)
+    }
+    
+    var blockDate: Date {
+        return dateString.isEmpty ? today : getBlockDate(date: dateString, userTimeZone: timeZone, userPreferenceTimeZone: preferenceTimeZone)
+    }
         
     init(json: JSON, userTimeZone: String?) {
         complete = json[Keys.complete].bool ?? false
-        let date = json[Keys.date].string ?? ""
+        dateString = json[Keys.date].string ?? ""
         dateType = json[Keys.dateType].string ?? ""
         description = json[Keys.description].string ?? ""
         learnerHasAccess = json[Keys.learnerHasAccess].bool ?? false
@@ -186,19 +203,18 @@ struct CourseDateBlock {
         linkText = json[Keys.linkText].string ?? ""
         title = json[Keys.title].string ?? ""
         extraInfo = json[Keys.extraInfo].string ?? ""
-        
-        blockDate = getBlockDate(date: date, userTimeZone: userTimeZone)
+        timeZone = userTimeZone
     }
     
-    init(date: Date = Date()) {
-        blockDate = date.stripTimeStamp()
+    init() {
+        dateString = ""
     }
     
-    private func getBlockDate(date: String, userTimeZone: String? = nil) -> Date {
+    private func getBlockDate(date: String, userTimeZone: String? = nil, userPreferenceTimeZone: String? = nil) -> Date {
         guard let formattedDate = DateFormatting.date(withServerString: date, timeZoneIdentifier: userTimeZone) else {
-            return Date().stripTimeStamp()
+            return today
         }
-        return (formattedDate as Date).stripTimeStamp(timeZoneIdentifier: userTimeZone)
+        return (formattedDate as Date).stripTimeStamp(timeZoneIdentifier: userTimeZone, userPreferenceTimeZone: userPreferenceTimeZone)
     }
 }
 
@@ -295,5 +311,19 @@ extension CourseDateBlock {
             
             return .event
         }
+    }
+}
+
+fileprivate extension Array {
+    mutating func modifyForEach(_ body: (_ element: inout Element) -> ()) {
+        for index in indices {
+            modifyElement(atIndex: index) { body(&$0) }
+        }
+    }
+
+    mutating func modifyElement(atIndex index: Index, _ modifyElement: (_ element: inout Element) -> ()) {
+        var element = self[index]
+        modifyElement(&element)
+        self[index] = element
     }
 }

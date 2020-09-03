@@ -11,9 +11,10 @@ import WebKit
 
 class CourseDatesViewController: UIViewController, InterfaceOrientationOverriding {
     
-    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider
-    
-    private let datesLoader = BackedStream<(CourseDateModel)>()
+    public typealias Environment = OEXAnalyticsProvider & OEXConfigProvider & OEXSessionProvider & OEXStylesProvider & ReachabilityProvider & NetworkManagerProvider & OEXRouterProvider & DataManagerProvider
+
+    private let datesLoader = BackedStream<(CourseDateModel, UserPreference?)>()
+    private var stream: OEXStream<(CourseDateModel, UserPreference?)>?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -76,16 +77,19 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
     }
     
     private func loadCourseDates() {
+        let preferenceStream = environment.dataManager.userPreferenceManager.feed.output
         let networkRequest = CourseDatesAPI.courseDatesRequest(courseID: courseID)
-        let stream = environment.networkManager.streamForRequest(networkRequest)
-        datesLoader.addBackingStream(stream)
+        let datesStream = environment.networkManager.streamForRequest(networkRequest)
+        stream = joinStreams(datesStream, preferenceStream)
+        datesLoader.addBackingStream(datesLoader)
         
-        stream.listen(self) { [weak self] response in
+        stream?.listen(self) { [weak self] response in
             switch response {
-            case .success(let courseDateModel):
+            case .success((var courseDateModel, let userPreference)):
                 if courseDateModel.dateBlocks.isEmpty {
                     self?.loadController.state = .failed(message: Strings.Coursedates.courseDateUnavailable)
                 } else {
+                    courseDateModel.preferenceTimeZone = userPreference?.timeZone
                     self?.populate(with: courseDateModel)
                     self?.loadController.state = .Loaded
                 }
