@@ -244,6 +244,34 @@
 "RESOURSES"="Resources";
 /* Title of course important dates screen */
 "COURSEDATES.COURSE_IMPORTANT_DATES_TITLE"="Important Dates";
+/* Course Date Type Completed */
+"COURSEDATES.COMPLETED"="Completed";
+/* Course Date Type Past Due */
+"COURSEDATES.PAST_DUE"="Past Due";
+/* Course Date Type Due Next */
+"COURSEDATES.DUE_NEXT"="Due Next";
+/* Course Date Type Unreleased */
+"COURSEDATES.UNRELEASED"="Not Yet Released";
+/* Course Date Completed */
+"COURSEDATES.VERFIED_ONLY"="Verified Only";
+/* Course Date Today*/
+"COURSEDATES.TODAY"="Today";
+/* Course date Assignment Due Date*/
+"COURSEDATES.ASSIGNMENT_DUE_DATE"="Assignment Due Date";
+/* Course Date Verified Upgrade Deadline*/
+"COURSEDATES.VERIFIED_UPGRADE_DEADLINE"="Verified Upgrade Deadline";
+/* Course Date Course Expired Date*/
+"COURSEDATES.COURSE_EXPIRED_DATE"="Course Expired Date";
+/* Course Date Verification Deadline Date*/
+"COURSEDATES.VERIFICATION_DEADLINE_DATE"="Verification Deadline Date";
+/* Course Date Certificate Available Date*/
+"COURSEDATES.CERTIFICATE_AVAILABLE_DATE"="Certificate Available Date";
+/* Course Date Course Start Date*/
+"COURSEDATES.COURSE_START_DATE"="Course Start Date";
+/* Course Date Course End Date*/
+"COURSEDATES.COURSE_END_DATE"="Course End Date";
+/* Course Date Event */
+"COURSEDATES.EVENT"="Event";
 /* Button text for cancelling any action */
 "CANCEL"="キャンセル";
 /* Alert explaining charges will apply since the "Wi-fi only" switch was turned off */

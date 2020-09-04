@@ -20,6 +20,7 @@ fileprivate enum ErrorFields: String, RawStringExtractable {
     case error = "error"
     case errorCode = "error_code"
     case developerMessage = "developer_message"
+    case detail = "detail"
 }
 
 extension NSError {
@@ -38,22 +39,25 @@ extension NSError {
 
     /// error_code can be in the different hierarchy. Like it can be direct or it can be contained in a dictionary under developer_message
     private func parseError(info: Dictionary<AnyHashable, Any>?) -> Dictionary<AnyHashable, Any>? {
-        var errorVaule: Any?
+        var errorValue: Any?
 
         if (info?[ErrorFields.errorCode.rawValue] != nil) {
-            errorVaule = info?[ErrorFields.errorCode.rawValue]
+            errorValue = info?[ErrorFields.errorCode.rawValue]
         }
         else if (info?[ErrorFields.error.rawValue] != nil) {
-            errorVaule = info?[ErrorFields.error.rawValue]
+            errorValue = info?[ErrorFields.error.rawValue]
         }
         else if (info?[ErrorFields.developerMessage.rawValue] != nil) {
-            errorVaule = info?[ErrorFields.developerMessage.rawValue]
-            if let infoDict = errorVaule as? Dictionary<AnyHashable, Any> {
+            errorValue = info?[ErrorFields.developerMessage.rawValue]
+            if let infoDict = errorValue as? Dictionary<AnyHashable, Any> {
                 return parseError(info: infoDict)
             }
         }
+        else if (info?[ErrorFields.detail.rawValue] != nil) {
+            errorValue = info?[ErrorFields.detail.rawValue]
+        }
 
-        return errorInfo(value: errorVaule)
+        return errorInfo(value: errorValue)
     }
 
     private func errorInfo(value: Any?) -> Dictionary<AnyHashable, Any>? {

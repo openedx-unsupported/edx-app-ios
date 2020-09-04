@@ -170,6 +170,25 @@ class CourseDashboardViewControllerTests: SnapshotTestCase {
         })
     }
     
+    func testDatesViewSnapshot() {
+        let config = OEXConfig(courseVideosEnabled: true, courseDatesEnabled: true, discussionsEnabled: true, courseSharingEnabled: true, isAnnouncementsEnabled: true)
+        let course = OEXCourse.freshCourse()
+        let environment = TestRouterEnvironment(config: config)
+        environment.mockEnrollmentManager.courses = [course]
+        environment.logInTestUser()
+        
+        let additionalController = CourseDashboardViewController(environment: environment, courseID: course.course_id!)
+        additionalController.selectedIndex = 3
+        
+        let courseDatesViewcontroller = additionalController.selectedViewController as! CourseDatesViewController
+        let courseDates = CourseDateModel(json: JSON(resourceNamed: "CourseDates"))
+        courseDatesViewcontroller.t_loadData(data: courseDates)
+        
+        inScreenNavigationContext(additionalController, action: { () -> () in
+            assertSnapshotValidWithContent(additionalController.navigationController!)
+        })
+    }
+    
     func testAccessOkay() {
         let course = OEXCourse.freshCourse()
         let environment = TestRouterEnvironment()

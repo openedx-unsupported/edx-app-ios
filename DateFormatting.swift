@@ -29,12 +29,17 @@ open class DateFormatting: NSObject {
     }
     
     /// Converts a string in standard ISO8601 format to a date
-    @objc open class func date(withServerString dateString: String?) -> NSDate? {
+    @objc open class func date(withServerString dateString: String?, timeZone: TimeZone? = nil) -> NSDate? {
         guard let dateString = dateString else { return nil }
         
         let formatter = DateFormatter()
         formatter.dateFormat = StandardDateFormat
-        formatter.timeZone = TimeZone(abbreviation: "GMT")
+        
+        if let timeZone = timeZone {
+            formatter.timeZone = timeZone
+        } else {
+            formatter.timeZone = TimeZone(abbreviation: "GMT")
+        }
         
         var result = formatter.date(from: dateString)
         if result == nil {
@@ -99,6 +104,19 @@ open class DateFormatting: NSObject {
         let order = compareTwoDates(fromDate: getDate(withFormat: "MMM dd, yyyy", date: Date()), toDate: getDate(withFormat: "MMM dd, yyyy", date: date as Date))
         formatter.dateFormat = (order == .orderedSame) ? "HH:mm" : "MMM dd, yyyy"
         return formatter.string(from: date as Date)
+    }
+    
+    /// Format Date like Tue, Aug, 25 2020
+    /// If TimeZoneIdentifier is provided, then it is applied to fomatter
+    open class func format(asWeekDayMonthDateYear date: Date, timeZoneIdentifier: String?) -> String {
+        let dateFormatter = DateFormatter()
+        if let timeZone = timeZoneIdentifier {
+            dateFormatter.timeZone = TimeZone(identifier: timeZone)
+        } else {
+            dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+        }
+        dateFormatter.dateFormat = "EE, MMM, d yyyy"
+        return dateFormatter.string(from: date)
     }
     
     /// Get the order of two dates comparison
