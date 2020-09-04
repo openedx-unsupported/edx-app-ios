@@ -89,7 +89,7 @@ class CourseDatesViewController: UIViewController, InterfaceOrientationOverridin
                 if courseDateModel.dateBlocks.isEmpty {
                     self?.loadController.state = .failed(message: Strings.Coursedates.courseDateUnavailable)
                 } else {
-                    courseDateModel.preferenceTimeZone = userPreference?.timeZone
+                    courseDateModel.defaultTimeZone = userPreference?.timeZone
                     self?.populate(with: courseDateModel)
                     self?.loadController.state = .Loaded
                 }

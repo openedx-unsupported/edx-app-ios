@@ -118,10 +118,10 @@ struct CourseDateModel {
     var verifiedUpgradeLink: String = ""
     var userTimezone: String?
 
-    var preferenceTimeZone: String?  {
+    var defaultTimeZone: String?  {
         didSet {
             dateBlocks.modifyForEach { block in
-                block.preferenceTimeZone = preferenceTimeZone
+                block.preferenceTimeZone = defaultTimeZone
             }
         }
     }
@@ -186,7 +186,7 @@ struct CourseDateBlock {
     var preferenceTimeZone: String?
     
     var today: Date {
-        return Date().stripTimeStamp(timeZone: calculatedTimeZone)
+        return Date().stripTimeStamp(timeZone: timeZone)
     }
     
     var blockDate: Date {
@@ -211,13 +211,13 @@ struct CourseDateBlock {
     }
     
     private func getBlockDate(date: String) -> Date {
-        guard let formattedDate = DateFormatting.date(withServerString: date, timeZone: calculatedTimeZone) else {
+        guard let formattedDate = DateFormatting.date(withServerString: date, timeZone: timeZone) else {
             return today
         }
-        return (formattedDate as Date).stripTimeStamp(timeZone: calculatedTimeZone)
+        return (formattedDate as Date).stripTimeStamp(timeZone: timeZone)
     }
     
-    private var calculatedTimeZone: TimeZone {
+    private var timeZone: TimeZone {
         var timeZone: TimeZone
         
         if let identifier = userTimeZone, let newTimeZone = TimeZone(identifier: identifier) {
