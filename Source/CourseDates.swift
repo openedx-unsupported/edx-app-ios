@@ -162,6 +162,7 @@ struct DatesBannerInfo {
 
 struct CourseDateBlock {
     private enum Keys: String, RawStringExtractable {
+        case assignmentType = "assignment_type"
         case complete = "complete"
         case date = "date"
         case dateType = "date_type"
@@ -173,6 +174,7 @@ struct CourseDateBlock {
         case extraInfo = "extra_info"
     }
     
+    var assignmentType: String = ""
     var complete: Bool = false
     var dateType: String = ""
     var description: String = ""
@@ -194,6 +196,7 @@ struct CourseDateBlock {
     }
         
     init(json: JSON, timeZone: String?) {
+        assignmentType = json[Keys.assignmentType].string ?? ""
         complete = json[Keys.complete].bool ?? false
         dateString = json[Keys.date].string ?? ""
         dateType = json[Keys.dateType].string ?? ""

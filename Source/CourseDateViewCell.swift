@@ -101,8 +101,9 @@ class CourseDateViewCell: UITableViewCell {
                 let color = block.isAvailable ? OEXStyles.shared().neutralBlack() : OEXStyles.shared().neutralLight()
                 titleStyle.color = color
                 titleTextView.tintColor = color
-                var attributedString = titleStyle.attributedString(withText: block.title)
-                                
+                let blockTitle = block.assignmentType.isEmpty ? block.title : "\(block.assignmentType): \(block.title)"
+                var attributedString = titleStyle.attributedString(withText: blockTitle)
+                
                 if block.canShowLink, let url = URL(string: block.link) {
                     attributedString = attributedString.addLink(on: block.title, value: url, foregroundColor: color, underline: true)
                     titleTextView.delegate = self
