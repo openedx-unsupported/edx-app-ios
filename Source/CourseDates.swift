@@ -220,7 +220,7 @@ struct CourseDateBlock {
         return (formattedDate as Date).stripTimeStamp(timeZone: timeZone)
     }
     
-    private var timeZone: TimeZone {
+    var timeZone: TimeZone {
         var timeZone: TimeZone
         
         if let identifier = userTimeZone, let newTimeZone = TimeZone(identifier: identifier) {

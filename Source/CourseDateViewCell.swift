@@ -75,7 +75,6 @@ class CourseDateViewCell: UITableViewCell {
     private var defaultTimelinePointDiameter: CGFloat = 8
     
     var setDueNextOnThisBlock = false
-    var userTimeZone: String?
     
     var blocks: [CourseDateBlock]? {
         didSet {
@@ -84,7 +83,7 @@ class CourseDateViewCell: UITableViewCell {
             statusStackView.subviews.forEach { $0.removeFromSuperview() }
             
             if let block = blocks.first {
-                let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZoneIdentifier: userTimeZone)
+                let dateText = DateFormatting.format(asWeekDayMonthDateYear: block.blockDate, timeZone: block.timeZone)
                 dateLabel.attributedText = dateStyle.attributedString(withText: dateText)
                 updateTimelinePoint(block)
                 updateBadge(block)

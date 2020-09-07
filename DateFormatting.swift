@@ -107,15 +107,16 @@ open class DateFormatting: NSObject {
     }
     
     /// Format Date like Tue, Aug, 25 2020
-    /// If TimeZoneIdentifier is provided, then it is applied to fomatter
-    open class func format(asWeekDayMonthDateYear date: Date, timeZoneIdentifier: String?) -> String {
+    /// If TimeZone is provided, then it is applied to fomatter, else UTC is applied as timeZone
+    open class func format(asWeekDayMonthDateYear date: Date, timeZone: TimeZone?) -> String {
         let dateFormatter = DateFormatter()
-        if let timeZone = timeZoneIdentifier {
-            dateFormatter.timeZone = TimeZone(identifier: timeZone)
+        if let timeZone = timeZone {
+            dateFormatter.timeZone = timeZone
         } else {
-            dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
+            dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         }
         dateFormatter.dateFormat = "EE, MMM, d yyyy"
+        
         return dateFormatter.string(from: date)
     }
     
