@@ -1,5 +1,28 @@
 [
     {
+        "version":"2.23",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Verbesserte Erkennungserfahrung",
+                "message":"Wir haben die Art und Weise, wie Sie nach Ihren Lieblingskursen und -programmen suchen und sich dafür anmelden, verbessert."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Apple-Anmeldung",
+                "message":"Jetzt können Sie sich mit Ihrer Apple ID registrieren und bei unserer Plattform anmelden. Süß, nicht wahr?"
+            }
+        ]
+    },
+    {
         "version":"2.22",
         "messages":[
             {

@@ -1,5 +1,28 @@
 [
     {
+        "version":"2.23",
+        "messages":[
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_1",
+                "title":"Experiencia de descubrimiento mejorada",
+                "message":"Hemos mejorado la forma de buscar e inscribirse en sus cursos y programas favoritos."
+            },
+            {
+                "platforms":[
+                    "ios",
+                    "android"
+                ],
+                "image":"screen_2",
+                "title":"Inicio de sesión de Apple",
+                "message":"Ahora puede usar su ID de Apple para registrarse e iniciar sesión en nuestra plataforma. Dulce, ¿no?"
+            }
+        ]
+    },
+    {
         "version":"2.22",
         "messages":[
             {
