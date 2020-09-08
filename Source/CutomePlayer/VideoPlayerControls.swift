@@ -550,8 +550,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     func updateTimeLabel(elapsedTime: Float64, duration: Float64) {
         guard let duration = videoPlayer?.duration else { return }
         let totalTime: Float64 = CMTimeGetSeconds (duration)
-        
-        timeRemainingLabel.text = String(format: "%02d:%02d / %02d:%02d", ((lround(elapsedTime) / 60) % 60), lround(elapsedTime) % 60, ((lround(totalTime) / 60) % 60), lround(totalTime) % 60)
+
+        let remainingTimeString = DateFormatting.formatSeconds(asVideoLength: elapsedTime)
+        let totalTimeString = DateFormatting.formatSeconds(asVideoLength: totalTime)
+        timeRemainingLabel.text = "\(remainingTimeString)/\(totalTimeString)"
         if subtitleActivated {
             subTitleLabel.text = videoPlayer?.subTitle(at: elapsedTime).decodingHTMLEntities
         }
