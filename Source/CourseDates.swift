@@ -116,7 +116,6 @@ struct CourseDateModel {
     var missedDeadline: Bool = false
     var missedGatedContent: Bool = false
     var verifiedUpgradeLink: String = ""
-    var userTimezone: String?
 
     var defaultTimeZone: String?  {
         didSet {
@@ -134,7 +133,6 @@ struct CourseDateModel {
         learnerHasFullAccess = json[Keys.learnerHasFullAccess].bool ?? false
         missedDeadline = json[Keys.missedDeadline].bool ?? false
         missedGatedContent = json[Keys.missedGatedContent].bool ?? false
-        userTimezone = json[Keys.userTimezone].string ?? nil
         verifiedUpgradeLink = json[Keys.verifiedUpgradeLink].string ?? ""
     }
 }

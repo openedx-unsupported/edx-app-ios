@@ -113,4 +113,9 @@ class CourseDatesModelTests: XCTestCase {
         let blocks = courseDates.dateBlocks.filter { $0.isVerifiedOnly }
         XCTAssert(blocks.count > 0, "Expected Course Dates is Verified Only")
     }
+    
+    func testDatesAssignmentTypIsHomework() {
+        let blocks = courseDates.dateBlocks.filter { $0.assignmentType == "Homework" }
+        XCTAssert(blocks.count > 0, "Expected Course Dates Type is Assignment")
+    }
 }
