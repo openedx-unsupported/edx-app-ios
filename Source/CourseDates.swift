@@ -139,6 +139,72 @@ struct CourseDateModel {
     }
 }
 
+enum BannerInfoStatus {
+    case datesTabInfoBanner
+    case upgradeToCompleteGradedBanner
+    case upgradeToResetBanner
+    case resetDatesBanner
+    
+    case event
+    
+    var header: String {
+        switch self {
+        case .datesTabInfoBanner:
+            return Strings.Coursedates.ResetDate.TabInfoBanner.header
+            
+        case .upgradeToCompleteGradedBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToCompleteGradedBanner.header
+            
+        case .upgradeToResetBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToResetBanner.header
+            
+        case .resetDatesBanner:
+            return Strings.Coursedates.ResetDate.ResetDateBanner.header
+            
+        default:
+            return ""
+        }
+    }
+    
+    var body: String {
+        switch self {
+        case .datesTabInfoBanner:
+            return Strings.Coursedates.ResetDate.TabInfoBanner.body
+                        
+        case .upgradeToCompleteGradedBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToCompleteGradedBanner.body
+            
+        case .upgradeToResetBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToResetBanner.body
+            
+        case .resetDatesBanner:
+            return Strings.Coursedates.ResetDate.ResetDateBanner.body
+
+        default:
+            return ""
+        }
+    }
+    
+    var button: String {
+        switch self {
+        case .datesTabInfoBanner:
+            return Strings.Coursedates.ResetDate.TabInfoBanner.button
+                        
+        case .upgradeToCompleteGradedBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToCompleteGradedBanner.button
+            
+        case .upgradeToResetBanner:
+            return Strings.Coursedates.ResetDate.UpgradeToResetBanner.button
+            
+        case .resetDatesBanner:
+            return Strings.Coursedates.ResetDate.ResetDateBanner.button
+
+        default:
+            return ""
+        }
+    }
+}
+
 struct DatesBannerInfo {
     private enum Keys: String, RawStringExtractable {
         case contentTypeGatingEnabled = "content_type_gating_enabled"
@@ -157,6 +223,20 @@ struct DatesBannerInfo {
         missedDeadline = json[Keys.missedDeadline].bool ?? false
         missedGatedContent = json[Keys.missedGatedContent].bool ?? false
         verifiedUpgradeLink = json[Keys.verifiedUpgradeLink].string ?? ""
+    }
+    
+    var status: BannerInfoStatus {
+        if upgradeToCompleteGraded {
+            return .upgradeToCompleteGradedBanner
+        } else if upgradeToReset {
+            return .upgradeToResetBanner
+        } else if resetDates {
+            return .resetDatesBanner
+        } else if showDatesTabBannerInfo {
+            return .datesTabInfoBanner
+        }
+        
+        return .event
     }
     
     var showDatesTabBannerInfo: Bool {
