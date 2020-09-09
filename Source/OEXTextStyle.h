@@ -74,8 +74,6 @@ typedef NS_ENUM(NSUInteger, OEXTextSize) {
 
 - (NSAttributedString*)attributedStringWithText:(nullable NSString*)text;
 
-- (UIFont*)fontFromStyle;
-
 - (NSAttributedString*)markdownStringWithText:(nullable NSString*)text;
 
 @end

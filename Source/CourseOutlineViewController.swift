@@ -163,11 +163,11 @@ public class CourseOutlineViewController :
         let courseDeadlineStream = environment.networkManager.streamForRequest(request)
         courseDeadlineLoader.backWithStream(courseDeadlineStream)
         
-        courseDeadlineStream.listen(self) { result in
+        courseDeadlineStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseDeadline):
                 print(courseDeadline)
-                
+                self?.loadCourseDatesResetView(courseDeadline: courseDeadline)
                 break
                 
             case .failure(let error):
@@ -194,6 +194,13 @@ public class CourseOutlineViewController :
             }
         )
         reload()
+    }
+    
+    private func loadCourseDatesResetView(courseDeadline: CourseDeadline) {
+        tableController.showDateResetBanner(bannerInfo: courseDeadline.bannerInfo)
+        //if !courseDeadline.hasEnded {
+        // tableController.showDateResetBanner(courseDeadline: courseDeadline)
+       // }
     }
     
     private func reload() {

@@ -35,7 +35,8 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let headerContainer = UIView()
     private let lastAccessedView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     var courseVideosHeaderView: CourseVideosHeaderView?
-    private var lastAccess:Bool = false
+    private var lastAccess = false
+    private var showBanner = false
     private var shouldHideTableViewHeader:Bool = false
     let refreshController = PullRefreshController()
     private var courseBlockID : CourseBlockID?
@@ -323,6 +324,12 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         tableView.tableHeaderView = nil
     }
     
+    func showDateResetBanner(bannerInfo: DatesBannerInfo) {
+        showBanner = true
+        courseDatesResetView.bannerInfo = bannerInfo
+        refreshTableHeaderView(lastAccess: lastAccess)
+    }
+    
     private func refreshTableHeaderView(lastAccess: Bool) {
         self.lastAccess = lastAccess
         lastAccessedView.isHidden = !lastAccess
@@ -330,23 +337,19 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         switch courseOutlineMode {
         case .full:
             if shouldHideTableViewHeader { return }
-            let bannerText = "It looks like you missed some important deadlines based on our suggested schedule."
-            
-            let height = courseDatesResetView.heightForView(text: bannerText, width: headerContainer.frame.width / 2)
             
             courseDatesResetView.snp.remakeConstraints { make in
                 make.trailing.equalTo(headerContainer)
                 make.leading.equalTo(headerContainer)
                 make.top.equalTo(headerContainer)
-                make.height.greaterThanOrEqualTo(0)
-                
-                courseDatesResetView.snp.remakeConstraints { make in
-                    make.height.equalTo(height + 60)
-                }
+                let bannerHeight = showBanner ? courseDatesResetView.heightForView(width: headerContainer.frame.width) : 0
+                make.height.equalTo(bannerHeight)
             }
             
-             courseDatesResetView.bannerText = bannerText
-            
+            if showBanner {
+                courseDatesResetView.setupView()
+            }
+                        
             var constraintView: UIView = courseCard
             courseCard.snp.remakeConstraints { make in
                 make.trailing.equalTo(headerContainer)
@@ -392,11 +395,20 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             tableView.setAndLayoutTableHeaderView(header: headerContainer)
             break
         }
+    }
+    
+    private func resetDates() {
         
     }
 }
 
-extension UITableView {
+extension CourseOutlineTableController: CourseResetDateViewDelegate {
+    func didSelectResetDatesButton() {
+        resetDates()
+    }
+}
+
+fileprivate extension UITableView {
     //set the tableHeaderView so that the required height can be determined, update the header's frame and set it again
     func setAndLayoutTableHeaderView(header: UIView) {
         header.setNeedsLayout()

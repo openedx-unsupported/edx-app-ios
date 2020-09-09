@@ -144,9 +144,7 @@ enum BannerInfoStatus {
     case upgradeToCompleteGradedBanner
     case upgradeToResetBanner
     case resetDatesBanner
-    
-    case event
-    
+        
     var header: String {
         switch self {
         case .datesTabInfoBanner:
@@ -160,9 +158,6 @@ enum BannerInfoStatus {
             
         case .resetDatesBanner:
             return Strings.Coursedates.ResetDate.ResetDateBanner.header
-            
-        default:
-            return ""
         }
     }
     
@@ -179,17 +174,11 @@ enum BannerInfoStatus {
             
         case .resetDatesBanner:
             return Strings.Coursedates.ResetDate.ResetDateBanner.body
-
-        default:
-            return ""
         }
     }
     
     var button: String {
         switch self {
-        case .datesTabInfoBanner:
-            return Strings.Coursedates.ResetDate.TabInfoBanner.button
-                        
         case .upgradeToCompleteGradedBanner:
             return Strings.Coursedates.ResetDate.UpgradeToCompleteGradedBanner.button
             
@@ -232,11 +221,9 @@ struct DatesBannerInfo {
             return .upgradeToResetBanner
         } else if resetDates {
             return .resetDatesBanner
-        } else if showDatesTabBannerInfo {
+        } else {
             return .datesTabInfoBanner
         }
-        
-        return .event
     }
     
     var showDatesTabBannerInfo: Bool {

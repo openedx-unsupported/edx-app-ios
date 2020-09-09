@@ -10,8 +10,13 @@ import UIKit
 
 private let cornerRadius: CGFloat = 5
 
+protocol CourseResetDateViewDelegate {
+    func didSelectResetDatesButton()
+}
+
 class CourseResetDateView: UIView {
-    private let maxHeight: CGFloat = 200
+    private let labelMaxHeight: CGFloat = 200
+    private let buttonMinHeight: CGFloat = 80
     
     private lazy var container = UIView()
     private lazy var stackView = UIStackView()
@@ -23,8 +28,14 @@ class CourseResetDateView: UIView {
         return label
     }()
     
-    private lazy var bannerStyle: OEXMutableTextStyle = {
+    private lazy var bannerHeaderStyle: OEXMutableTextStyle = {
         let style = OEXMutableTextStyle(weight: .bold, size: .small, color: OEXStyles.shared().neutralBlack())
+        style.lineBreakMode = .byWordWrapping
+        return style
+    }()
+    
+    private lazy var bannerBodyStyle: OEXMutableTextStyle = {
+        let style = OEXMutableTextStyle(weight: .light, size: .small, color: OEXStyles.shared().neutralBlack())
         style.lineBreakMode = .byWordWrapping
         return style
     }()
@@ -34,56 +45,51 @@ class CourseResetDateView: UIView {
     }()
     
     private lazy var bannerButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
         button.configure(backgroundColor: OEXStyles.shared().neutralWhiteT(), borderColor: OEXStyles.shared().neutralXDark(), borderWith: 1, cornerRadius: cornerRadius)
+        button.oex_addAction({ [weak self] _ in
+            self?.actionResetDates()
+            }, for: .touchUpInside)
         return button
     }()
     
-    var bannerText: String? {
-        didSet {
-            guard let bannerText = bannerText else { return }
-            bannerLabel.attributedText = bannerStyle.attributedString(withText: bannerText)
-            bannerLabel.sizeToFit()
-            
-            let buttonText = buttonStyle.attributedString(withText: "Shift due dates")
-            bannerButton.setAttributedTitle(buttonText, for: .normal)
-        }
+    private var isButtonTextAvailable: Bool {
+        guard let bannerInfo = bannerInfo else { return true }
+        return !bannerInfo.status.button.isEmpty
     }
+    
+    var bannerInfo: DatesBannerInfo?
+    var delegate: CourseResetDateViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        setupView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-        setupView()
     }
     
-    private func setupView() {
+    func setupView() {
         configureViews()
         applyContrains()
         setAccessibilityIdentifiers()
+        populate()
     }
     
     private func configureViews() {
         backgroundColor = OEXStyles.shared().neutralLight()
-
         addSubview(container)
-                        
         stackView.alignment = .leading
         stackView.axis = .vertical
-        stackView.spacing = (StandardHorizontalMargin)
-        
+        stackView.spacing = StandardHorizontalMargin
         stackView.addArrangedSubview(bannerLabel)
-        stackView.addArrangedSubview(buttonContainer)
-        
         container.addSubview(stackView)
         
-        buttonContainer.addSubview(bannerButton)
+        if isButtonTextAvailable {
+            stackView.addArrangedSubview(buttonContainer)
+            buttonContainer.addSubview(bannerButton)
+        }
     }
     
     private func applyContrains() {
@@ -95,11 +101,13 @@ class CourseResetDateView: UIView {
             make.edges.equalTo(container).inset(StandardVerticalMargin)
         }
         
-        bannerButton.snp.makeConstraints { make in
-            make.leading.equalTo(buttonContainer.snp.leading)
-            make.top.equalTo(buttonContainer.snp.top)
-            make.bottom.equalTo(buttonContainer.snp.bottom)
-            make.width.greaterThanOrEqualTo(80)
+        if isButtonTextAvailable {
+            bannerButton.snp.makeConstraints { make in
+                make.leading.equalTo(buttonContainer.snp.leading)
+                make.top.equalTo(buttonContainer.snp.top)
+                make.bottom.equalTo(buttonContainer.snp.bottom)
+                make.width.greaterThanOrEqualTo(buttonMinHeight)
+            }
         }
     }
     
@@ -108,16 +116,47 @@ class CourseResetDateView: UIView {
         bannerButton.accessibilityIdentifier = "CourseResetDateView:reset-date-button"
     }
     
-    func heightForView(text: String, width: CGFloat) -> CGFloat {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: maxHeight))
+    private func populate() {
+        guard let bannerInfo = bannerInfo else { return }
+        
+        let headerText = bannerHeaderStyle.attributedString(withText: bannerInfo.status.header)
+        let bodyText = bannerBodyStyle.attributedString(withText: bannerInfo.status.body)
+        
+        let attributedString = NSMutableAttributedString(attributedString: headerText)
+        attributedString.append(bodyText)
+        
+        bannerLabel.attributedText = attributedString
+        bannerLabel.sizeToFit()
+        
+        if isButtonTextAvailable {
+            let buttonText = buttonStyle.attributedString(withText: bannerInfo.status.button)
+            bannerButton.setAttributedTitle(buttonText, for: .normal)
+        }
+    }
+    
+    private func actionResetDates() {
+        guard let bannerInfo = bannerInfo, let url = URL(string: bannerInfo.verifiedUpgradeLink) else { return }
+        
+        if bannerInfo.status == .resetDatesBanner {
+            delegate?.didSelectResetDatesButton()
+        } else {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
+    
+    func heightForView(width: CGFloat) -> CGFloat {
+        guard let bannerInfo = bannerInfo else { return 0 }
+        
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: labelMaxHeight))
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = bannerStyle.fontFromStyle()
-        label.text = text
-
+        label.font = OEXStyles().boldSansSerif(ofSize: 14)
+        label.text = bannerInfo.status.header + bannerInfo.status.body
         label.sizeToFit()
         
-        return label.frame.height
+        return bannerInfo.status.button.isEmpty ? label.frame.height : label.frame.height + buttonMinHeight
     }
 }
 
