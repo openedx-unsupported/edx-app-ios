@@ -99,6 +99,10 @@ static OEXStyles* sSharedStyles;
     }
 }
 
+- (void)changeFontTheme {
+    [self.oexFonts changeFontTheme];
+}
+
 #pragma mark Primary
 
 - (UIColor*)primaryXDarkColor {

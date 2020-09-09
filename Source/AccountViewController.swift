@@ -13,9 +13,11 @@ fileprivate enum AccountviewOptions : Int {
     case Profile,
          UserSettings,
          SubmitFeedback,
-         Logout
+         Logout,
+         ChangeFont
+        
     
-        static let accountOptions = [Profile, UserSettings, SubmitFeedback, Logout]
+        static let accountOptions = [Profile, UserSettings, SubmitFeedback, Logout, ChangeFont]
 }
 
 class AccountViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -46,6 +48,10 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         configureViews()
         addCloseButton()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        view.backgroundColor = environment.styles.standardBackgroundColor()
     }
     
     func configureViews() {
@@ -139,6 +145,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
                 dismiss(animated: true, completion: { [weak self] in
                     self?.environment.router?.logout()
                 })
+            case .ChangeFont:
+                OEXStyles.shared().changeFontTheme()
             }
         }
         tableView.deselectRow(at: indexPath, animated: true)
@@ -174,6 +182,8 @@ class AccountViewController: UIViewController, UITableViewDelegate, UITableViewD
             return Strings.SubmitFeedback.optionTitle
         case .Logout:
             return Strings.logout
+        case .ChangeFont:
+            return "Change Font"
         }
         
         return nil

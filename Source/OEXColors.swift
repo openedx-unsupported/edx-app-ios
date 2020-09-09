@@ -30,6 +30,25 @@ public class OEXColors: NSObject {
         colorsDictionary = initializeColorsDictionary()
     }
     
+    @objc func changeTheme() {
+        colorsDictionary = loadNewTheme()
+    }
+    
+    func loadNewTheme() -> [String: AnyObject] {
+        guard let filePath = Bundle.main.path(forResource: "black-colors", ofType: "json") else {
+            return fallbackColors()
+        }
+        if let data = NSData(contentsOfFile: filePath) {
+            var error : NSError?
+            
+            if let json = JSON(data: data as Data, error: &error).dictionaryObject{
+                return json as [String : AnyObject]
+            }
+            return fallbackColors()
+        }
+        return fallbackColors()
+    }
+    
     private func initializeColorsDictionary() -> [String: AnyObject] {
         guard let filePath = Bundle.main.path(forResource: "colors", ofType: "json") else {
             return fallbackColors()

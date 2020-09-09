@@ -23,6 +23,25 @@ public class OEXFonts: NSObject {
         fontsDictionary = initializeFontsDictionary()
     }
     
+    @objc func changeFontTheme() {
+        fontsDictionary = loadNewFontTheme()
+    }
+    
+    func loadNewFontTheme() -> [String: AnyObject] {
+        guard let filePath = Bundle.main.path(forResource: "fonts-new", ofType: "json") else {
+            return fallbackFonts()
+        }
+        if let data = NSData(contentsOfFile: filePath) {
+            var error : NSError?
+            
+            if let json = JSON(data: data as Data, error: &error).dictionaryObject{
+                return json as [String : AnyObject]
+            }
+            return fallbackFonts()
+        }
+        return fallbackFonts()
+    }
+    
     private func initializeFontsDictionary() -> [String: AnyObject] {
         guard let filePath = Bundle.main.path(forResource: "fonts", ofType: "json") else {
             return fallbackFonts()
@@ -51,9 +70,11 @@ public class OEXFonts: NSObject {
     @objc public func font(for identifier: FontIdentifiers, size: CGFloat) -> UIFont {
         
         let preferredFontDescriptor = UIFont().preferredDescriptor(name: fontName(identifier: identifier), size: size)
+        //let preferredFontDescriptor = UIFontDescriptor(name: "Bristone", size: size)
         let preferredFontSize = UIFont().preferredFontSize(descriptor: preferredFontDescriptor)
         
         return UIFont(descriptor: preferredFontDescriptor, size: preferredFontSize)
+
     }
 
     @objc public func font(for identifier: FontIdentifiers, size: CGFloat, dynamicTypeSupported: Bool) -> UIFont {

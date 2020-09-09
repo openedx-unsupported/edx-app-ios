@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setSharedStyles:(nullable OEXStyles*)styles;
 
 + (CGFloat)dividerSize;
-
 - (UIFont*)sansSerifOfSize:(CGFloat)size;
 - (UIFont*)lightSansSerifOfSize:(CGFloat)size;
 - (UIFont*)semiBoldSansSerifOfSize:(CGFloat)size;
@@ -99,7 +98,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIColor*)errorLight;
 - (UIColor*)banner;
 - (UIColor*)disabledButtonColor;
-
+- (void)changeFontTheme;
 @end
 
 @protocol OEXStylesProvider <NSObject>
