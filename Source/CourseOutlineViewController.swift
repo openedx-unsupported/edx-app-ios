@@ -37,7 +37,8 @@ public class CourseOutlineViewController :
     private let blockIDStream = BackedStream<CourseBlockID?>()
     private let headersLoader = BackedStream<CourseOutlineQuerier.BlockGroup>()
     fileprivate let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
-    
+    private let courseDeadlineLoader = BackedStream<(CourseDeadline)>()
+
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
     private var lastAccessedController : CourseLastAccessedController
@@ -156,8 +157,26 @@ public class CourseOutlineViewController :
     
     private func loadStreams() {
         loadController.state = .Initial
-        let stream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
-        stream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
+        let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
+        
+        let request = CourseDatesAPI.courseDeadlineRequest(courseID: courseID)
+        let courseDeadlineStream = environment.networkManager.streamForRequest(request)
+        courseDeadlineLoader.backWithStream(courseDeadlineStream)
+        
+        courseDeadlineStream.listen(self) { result in
+            switch result {
+            case .success(let courseDeadline):
+                print(courseDeadline)
+                
+                break
+                
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
+        
+        courseOutlineStream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
                 if self?.blockID == rootID || self?.blockID == nil {
                     if self?.courseOutlineMode == .full {
                         self?.environment.analytics.trackScreen(withName: OEXAnalyticsScreenCourseOutline, courseID: self?.courseID, value: nil)

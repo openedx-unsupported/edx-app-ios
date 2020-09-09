@@ -328,6 +328,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         switch courseOutlineMode {
         case .full:
             if shouldHideTableViewHeader { return }
+            
+            
+            
             var constraintView: UIView = courseCard            
             courseCard.snp.remakeConstraints { make in
                 make.trailing.equalTo(headerContainer)

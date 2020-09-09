@@ -158,6 +158,22 @@ struct DatesBannerInfo {
         missedGatedContent = json[Keys.missedGatedContent].bool ?? false
         verifiedUpgradeLink = json[Keys.verifiedUpgradeLink].string ?? ""
     }
+    
+    var showDatesTabBannerInfo: Bool {
+        return !missedDeadline
+    }
+    
+    var upgradeToCompleteGraded: Bool {
+        return contentTypeGatingEnabled && !missedDeadline
+    }
+    
+    var upgradeToReset: Bool {
+        return !upgradeToCompleteGraded && missedDeadline && missedGatedContent
+    }
+    
+    var resetDates: Bool {
+        return !upgradeToCompleteGraded && missedDeadline && !missedGatedContent
+    }
 }
 
 struct CourseDateBlock {
