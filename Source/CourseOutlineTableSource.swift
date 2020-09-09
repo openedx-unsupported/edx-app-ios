@@ -29,6 +29,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     let courseID : String
     private var courseOutlineMode: CourseOutlineMode
     
+    private let courseDatesResetView = CourseResetDateView(frame: .zero)
     private let courseCard = CourseCardView(frame: .zero)
     private var courseCertificateView : CourseCertificateView?
     private let headerContainer = UIView()
@@ -98,8 +99,9 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     private func configureHeaderView() {
         if courseOutlineMode == .full {
-            headerContainer.addSubview(lastAccessedView)
+            headerContainer.addSubview(courseDatesResetView)
             headerContainer.addSubview(courseCard)
+            headerContainer.addSubview(lastAccessedView)
             addCertificateView()
         }
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
@@ -328,14 +330,28 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         switch courseOutlineMode {
         case .full:
             if shouldHideTableViewHeader { return }
+            let bannerText = "It looks like you missed some important deadlines based on our suggested schedule."
             
+            let height = courseDatesResetView.heightForView(text: bannerText, width: headerContainer.frame.width / 2)
             
-            
-            var constraintView: UIView = courseCard            
-            courseCard.snp.remakeConstraints { make in
+            courseDatesResetView.snp.remakeConstraints { make in
                 make.trailing.equalTo(headerContainer)
                 make.leading.equalTo(headerContainer)
                 make.top.equalTo(headerContainer)
+                make.height.greaterThanOrEqualTo(0)
+                
+                courseDatesResetView.snp.remakeConstraints { make in
+                    make.height.equalTo(height + 60)
+                }
+            }
+            
+             courseDatesResetView.bannerText = bannerText
+            
+            var constraintView: UIView = courseCard
+            courseCard.snp.remakeConstraints { make in
+                make.trailing.equalTo(headerContainer)
+                make.leading.equalTo(headerContainer)
+                make.top.equalTo(courseDatesResetView.snp.bottom)
                 make.height.equalTo(CourseCardView.cardHeight())
             }
             

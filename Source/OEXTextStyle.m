@@ -179,6 +179,10 @@
     return [[NSAttributedString alloc] initWithString:text ?: @"" attributes:self.attributes];
 }
 
+- (UIFont*)fontFromStyle {
+    return [self.attributes valueForKey:NSFontAttributeName];
+}
+
 - (NSAttributedString*)markdownStringWithText:(NSString*)text{
     UIFont *font = [self.attributes valueForKey:NSFontAttributeName];
     UIColor *textColor = [self.attributes valueForKey:NSForegroundColorAttributeName];
