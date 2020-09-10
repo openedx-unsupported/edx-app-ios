@@ -214,16 +214,18 @@ struct DatesBannerInfo {
         verifiedUpgradeLink = json[Keys.verifiedUpgradeLink].string ?? ""
     }
     
-    var status: BannerInfoStatus {
+    var status: BannerInfoStatus? {
         if upgradeToCompleteGraded {
             return .upgradeToCompleteGradedBanner
         } else if upgradeToReset {
             return .upgradeToResetBanner
         } else if resetDates {
             return .resetDatesBanner
-        } else {
+        } else if showDatesTabBannerInfo {
             return .datesTabInfoBanner
         }
+        
+        return nil
     }
     
     var showDatesTabBannerInfo: Bool {

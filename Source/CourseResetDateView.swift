@@ -56,8 +56,8 @@ class CourseResetDateView: UIView {
     }()
     
     private var isButtonTextAvailable: Bool {
-        guard let bannerInfo = bannerInfo else { return true }
-        return !bannerInfo.status.button.isEmpty
+        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return true }
+        return !status.button.isEmpty
     }
     
     var bannerInfo: DatesBannerInfo?
@@ -123,10 +123,10 @@ class CourseResetDateView: UIView {
     }
     
     private func populate() {
-        guard let bannerInfo = bannerInfo else { return }
+        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return }
         
-        let headerText = bannerHeaderStyle.attributedString(withText: bannerInfo.status.header)
-        let bodyText = bannerBodyStyle.attributedString(withText: bannerInfo.status.body)
+        let headerText = bannerHeaderStyle.attributedString(withText: status.header)
+        let bodyText = bannerBodyStyle.attributedString(withText: status.body)
         
         let attributedString = NSMutableAttributedString(attributedString: headerText)
         attributedString.append(bodyText)
@@ -135,7 +135,7 @@ class CourseResetDateView: UIView {
         bannerLabel.sizeToFit()
         
         if isButtonTextAvailable {
-            let buttonText = buttonStyle.attributedString(withText: bannerInfo.status.button)
+            let buttonText = buttonStyle.attributedString(withText: status.button)
             bannerButton.setAttributedTitle(buttonText, for: .normal)
         }
     }
@@ -153,16 +153,16 @@ class CourseResetDateView: UIView {
     }
     
     func heightForView(width: CGFloat) -> CGFloat {
-        guard let bannerInfo = bannerInfo else { return 0 }
-        
+        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
+
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: labelMaxHeight))
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.font = OEXStyles().boldSansSerif(ofSize: OEXTextStyle.pointSize(for: .base))
-        label.text = bannerInfo.status.header + bannerInfo.status.body
+        label.text = status.header + status.body
         label.sizeToFit()
         
-        return bannerInfo.status.button.isEmpty ? label.frame.height : label.frame.height + buttonContainerMinHeight
+        return status.button.isEmpty ? label.frame.height : label.frame.height + buttonContainerMinHeight
     }
 }
 
