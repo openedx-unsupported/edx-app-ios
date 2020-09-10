@@ -318,7 +318,10 @@ public class CourseOutlineViewController :
     func resetCourseDate(controller: CourseOutlineTableController) {
         let request = CourseDatesAPI.courseResetDeadlineRequest(courseID: courseID)
         environment.networkManager.taskForRequest(request) { [weak self] result  in
-            if result.error == nil {
+            if let _ = result.error {
+                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: controller)
+            } else {
+                UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: controller)
                 self?.courseQuerier.needsRefresh = true
                 self?.reload()
             }

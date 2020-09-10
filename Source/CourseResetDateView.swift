@@ -142,9 +142,7 @@ class CourseResetDateView: UIView {
     
     @objc private func actionResetDates() {
         guard let bannerInfo = bannerInfo, let url = URL(string: bannerInfo.verifiedUpgradeLink) else { return }
-        
-        bannerButton.isEnabled = false
-        
+                
         if bannerInfo.status == .resetDatesBanner {
             delegate?.didSelectResetDatesButton()
         } else {

@@ -272,6 +272,12 @@
 "COURSEDATES.COURSE_END_DATE"="Course End Date";
 /* Course Date Event */
 "COURSEDATES.EVENT"="Event";
+/* Course Reset Date Title */
+"COURSEDATES.RESET_DATE.TITLE"="Course Dates";
+/* Course Reset Date Success Message */
+"COURSEDATES.RESET_DATE.SUCCESS_MESSAGE"="Your dates have been successfully shifted.";
+/* Course Reset Date Error Message */
+"COURSEDATES.RESET_DATE.ERROR_MESSAGE"="Your dates could not be shifted. Please try again.";
 /* Course Reset Date Tab Info Banner Header */
 "COURSEDATES.RESET_DATE.TAB_INFO_BANNER.HEADER"="We've built a suggested schedule to help you stay on track. ";
 /* Course Reset Date Tab Info Banner Body */

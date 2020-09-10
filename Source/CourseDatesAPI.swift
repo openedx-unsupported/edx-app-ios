@@ -40,11 +40,11 @@ public class CourseDatesAPI: NSObject {
         return Failure()
     }
     
-    private class func courseResetDeadlineInfoPath(courseID: String)-> String {
+    private class func courseResetDeadlineInfoPath(courseID: String) -> String {
         return "/api/course_experience/v1/course_deadlines_info/{courseID}".oex_format(withParameters: ["courseID" : courseID])
     }
     
-    class func courseDeadlineInfoRequest(courseID: String)-> NetworkRequest<CourseDeadline> {
+    class func courseDeadlineInfoRequest(courseID: String) -> NetworkRequest<CourseDeadline> {
         return NetworkRequest(
             method: .GET,
             path : courseResetDeadlineInfoPath(courseID: courseID),
