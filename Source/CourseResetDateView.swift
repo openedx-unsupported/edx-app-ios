@@ -16,7 +16,8 @@ protocol CourseResetDateViewDelegate {
 
 class CourseResetDateView: UIView {
     private let labelMaxHeight: CGFloat = 200
-    private let buttonMinHeight: CGFloat = 80
+    private let buttonMinWidth: CGFloat = 80
+    private let buttonContainerMinHeight: CGFloat = 80
     
     private lazy var container = UIView()
     private lazy var stackView = UIStackView()
@@ -102,11 +103,16 @@ class CourseResetDateView: UIView {
         }
         
         if isButtonTextAvailable {
+            buttonContainer.snp.makeConstraints { make in
+                make.width.equalTo(stackView.snp.width)
+                make.bottom.equalTo(stackView.snp.bottom)
+            }
+            
             bannerButton.snp.makeConstraints { make in
                 make.leading.equalTo(buttonContainer.snp.leading)
                 make.top.equalTo(buttonContainer.snp.top)
                 make.bottom.equalTo(buttonContainer.snp.bottom)
-                make.width.greaterThanOrEqualTo(buttonMinHeight)
+                make.width.greaterThanOrEqualTo(buttonMinWidth)
             }
         }
     }
@@ -134,8 +140,10 @@ class CourseResetDateView: UIView {
         }
     }
     
-    private func actionResetDates() {
+    @objc private func actionResetDates() {
         guard let bannerInfo = bannerInfo, let url = URL(string: bannerInfo.verifiedUpgradeLink) else { return }
+        
+        bannerButton.isEnabled = false
         
         if bannerInfo.status == .resetDatesBanner {
             delegate?.didSelectResetDatesButton()
@@ -152,11 +160,11 @@ class CourseResetDateView: UIView {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: labelMaxHeight))
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = OEXStyles().boldSansSerif(ofSize: 14)
+        label.font = OEXStyles().boldSansSerif(ofSize: OEXTextStyle.pointSize(for: .base))
         label.text = bannerInfo.status.header + bannerInfo.status.body
         label.sizeToFit()
         
-        return bannerInfo.status.button.isEmpty ? label.frame.height : label.frame.height + buttonMinHeight
+        return bannerInfo.status.button.isEmpty ? label.frame.height : label.frame.height + buttonContainerMinHeight
     }
 }
 

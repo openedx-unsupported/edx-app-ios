@@ -159,14 +159,13 @@ public class CourseOutlineViewController :
         loadController.state = .Initial
         let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
         
-        let request = CourseDatesAPI.courseDeadlineRequest(courseID: courseID)
+        let request = CourseDatesAPI.courseDeadlineInfoRequest(courseID: courseID)
         let courseDeadlineStream = environment.networkManager.streamForRequest(request)
         courseDeadlineLoader.backWithStream(courseDeadlineStream)
         
         courseDeadlineStream.listen(self) { [weak self] result in
             switch result {
             case .success(let courseDeadline):
-                print(courseDeadline)
                 self?.loadCourseDatesResetView(courseDeadline: courseDeadline)
                 break
                 
@@ -197,10 +196,9 @@ public class CourseOutlineViewController :
     }
     
     private func loadCourseDatesResetView(courseDeadline: CourseDeadline) {
-        tableController.showDateResetBanner(bannerInfo: courseDeadline.bannerInfo)
-        //if !courseDeadline.hasEnded {
-        // tableController.showDateResetBanner(courseDeadline: courseDeadline)
-       // }
+        if !courseDeadline.hasEnded {
+            tableController.showDateResetBanner(bannerInfo: courseDeadline.bannerInfo)
+        }
     }
     
     private func reload() {
@@ -315,6 +313,16 @@ public class CourseOutlineViewController :
     func outlineTableControllerReload(controller: CourseOutlineTableController) {
         courseQuerier.needsRefresh = true
         reload()
+    }
+    
+    func resetCourseDate(controller: CourseOutlineTableController) {
+        let request = CourseDatesAPI.courseResetDeadlineRequest(courseID: courseID)
+        environment.networkManager.taskForRequest(request) { [weak self] result  in
+            if result.error == nil {
+                self?.courseQuerier.needsRefresh = true
+                self?.reload()
+            }
+        }
     }
     
     //MARK: PullRefreshControllerDelegate

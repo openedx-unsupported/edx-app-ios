@@ -17,6 +17,7 @@ protocol CourseOutlineTableControllerDelegate : class {
     func outlineTableController(controller : CourseOutlineTableController, choseDownloadVideoForBlock block:CourseBlock)
     func outlineTableControllerChoseShowDownloads(controller : CourseOutlineTableController)
     func outlineTableControllerReload(controller: CourseOutlineTableController)
+    func resetCourseDate(controller: CourseOutlineTableController)
 }
 
 class CourseOutlineTableController : UITableViewController, CourseVideoTableViewCellDelegate, CourseSectionTableViewCellDelegate, CourseVideosHeaderViewDelegate {
@@ -100,6 +101,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     
     private func configureHeaderView() {
         if courseOutlineMode == .full {
+            courseDatesResetView.delegate = self
             headerContainer.addSubview(courseDatesResetView)
             headerContainer.addSubview(courseCard)
             headerContainer.addSubview(lastAccessedView)
@@ -396,15 +398,11 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             break
         }
     }
-    
-    private func resetDates() {
-        
-    }
 }
 
 extension CourseOutlineTableController: CourseResetDateViewDelegate {
     func didSelectResetDatesButton() {
-        resetDates()
+        delegate?.resetCourseDate(controller: self)
     }
 }
 
