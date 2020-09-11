@@ -294,18 +294,29 @@ extension DiscoveryWebViewHelper: WKNavigationDelegate {
         self.loadController.state = .Loaded
         
         //Setting webView accessibilityValue for testing
-        webView.evaluateJavaScript("document.getElementsByClassName('course-card')[0].innerText",
+        webView.evaluateJavaScript("document.getElementsByClassName('discovery-card')[0].innerText",
                                    completionHandler: { [weak self] (result: Any?, error: Error?) in
-                                    
+
                                     if (error == nil) {
-                                        self?.webView.accessibilityValue = self?.discoveryType ?? .course == .course ? "findCoursesLoaded" : "findProgramsLoaded"
+                                        self?.webView.accessibilityValue = self?.discovryAccessibilityValue
                                     }
         })
+
         if let bar = bottomBar {
             bar.superview?.bringSubviewToFront(bar)
         }
     }
-    
+    private var discovryAccessibilityValue: String {
+        switch discoveryType {
+        case .course:
+            return "findCoursesLoaded"
+        case .program:
+            return "findProgramsLoaded"
+        case .degree:
+            return "findDegreeLoaded"
+        }
+    }
+
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         showError(error: error as NSError)
     }
