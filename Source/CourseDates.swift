@@ -179,11 +179,10 @@ enum BannerInfoStatus {
     
     var button: String {
         switch self {
-        case .upgradeToCompleteGradedBanner:
-            return Strings.Coursedates.ResetDate.UpgradeToCompleteGradedBanner.button
-            
-        case .upgradeToResetBanner:
-            return Strings.Coursedates.ResetDate.UpgradeToResetBanner.button
+        case .upgradeToCompleteGradedBanner, .upgradeToResetBanner:
+            // Mobile payments are not implemented yet and to avoid breaking appstore guidelines,
+            // upgrade button is hidden, which leads user to payments
+            return ""
             
         case .resetDatesBanner:
             return Strings.Coursedates.ResetDate.ResetDateBanner.button
