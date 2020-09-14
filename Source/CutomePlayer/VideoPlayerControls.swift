@@ -130,24 +130,34 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
         slider.setMinimumTrackImage(UIImage(named: "ic_progressbar.png"), for: .normal)
         slider.secondaryTrackColor = UIColor(red: 76.0/255.0, green: 135.0/255.0, blue: 130.0/255.0, alpha: 0.9)
         slider.oex_addAction({ [weak self] (action) in
-            if let weakSelf = self {
-                weakSelf.delegate?.sliderValueChanged(playerControls: weakSelf)
-            }
+                if let weakSelf = self {
+                    weakSelf.delegate?.sliderValueChanged(playerControls: weakSelf)
+                }
             }, for: .valueChanged)
         slider.oex_addAction({[weak self] (action) in
-            if let weakSelf = self {
-                weakSelf.delegate?.sliderTouchBegan(playerControls: weakSelf)
-            }
+                if let weakSelf = self {
+                    weakSelf.delegate?.sliderTouchBegan(playerControls: weakSelf)
+                }
             }, for: .touchDown)
         slider.oex_addAction({[weak self] (action) in
-            if let weakSelf = self {
-                weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
-            }
+                if let weakSelf = self {
+                    weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
+                }
             }, for: .touchUpInside)
         slider.oex_addAction({[weak self] (action) in
-            if let weakSelf = self {
-                weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
-            }
+                if let weakSelf = self {
+                    weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
+                }
+            }, for: .touchUpOutside)
+        slider.oex_addAction({[weak self] (action) in
+                if let weakSelf = self {
+                    weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
+                }
+            }, for: .touchDragInside)
+        slider.oex_addAction({[weak self] (action) in
+                if let weakSelf = self {
+                    weakSelf.delegate?.sliderTouchEnded(playerControls: weakSelf)
+                }
             }, for: .touchUpOutside)
         
         return slider
@@ -300,6 +310,10 @@ class VideoPlayerControls: UIView, VideoPlayerSettingsDelegate, UIGestureRecogni
     
     var isRTL: Bool {
         return (UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft)
+    }
+    
+    func getBottomBarPosition() -> CGRect {
+        return bottomBar.frame
     }
     
     func addTapGestures() {

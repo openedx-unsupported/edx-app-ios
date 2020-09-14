@@ -20,6 +20,7 @@ private let currentItemStatusKey = "currentItem.status"
 private let currentItemPlaybackLikelyToKeepUpKey = "currentItem.playbackLikelyToKeepUp"
 
 protocol VideoPlayerDelegate: class {
+    func playerDidFinishLoad(videoPlayer: VideoPlayer)
     func playerDidLoadTranscripts(videoPlayer:VideoPlayer, transcripts: [TranscriptObject])
     func playerWillMoveFromWindow(videoPlayer: VideoPlayer)
     func playerDidTimeout(videoPlayer: VideoPlayer)
@@ -33,7 +34,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     typealias Environment = OEXInterfaceProvider & OEXAnalyticsProvider & OEXStylesProvider
     
     public let environment : Environment
-    fileprivate var controls: VideoPlayerControls?
+    var controls: VideoPlayerControls?
     weak var playerDelegate : VideoPlayerDelegate?
     var isFullScreen : Bool = false {
         didSet {
@@ -376,6 +377,7 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
             observer.playerDidFinishPlaying(note: notification)
         }
         perform(#selector(movieTimedOut), with: nil, afterDelay: playerTimeOutInterval)
+        playerDelegate?.playerDidFinishLoad(videoPlayer: self)
     }
     
     private func play(at timeInterval: TimeInterval) {
@@ -451,7 +453,6 @@ class VideoPlayer: UIViewController,VideoPlayerControlsDelegate,TranscriptManage
     }
     
     fileprivate func addGestures() {
-        
         if let _ = playerView.gestureRecognizers?.contains(leftSwipeGestureRecognizer), let _ = playerView.gestureRecognizers?.contains(rightSwipeGestureRecognizer) {
             removeGestures()
         }
