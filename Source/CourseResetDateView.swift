@@ -119,7 +119,9 @@ class CourseResetDateView: UIView {
     
     private func setAccessibilityIdentifiers() {
         bannerLabel.accessibilityIdentifier = "CourseResetDateView:banner-text-label"
-        bannerButton.accessibilityIdentifier = "CourseResetDateView:reset-date-button"
+        if isButtonTextAvailable {
+            bannerButton.accessibilityIdentifier = "CourseResetDateView:reset-date-button"
+        }
     }
     
     private func populate() {
@@ -141,14 +143,10 @@ class CourseResetDateView: UIView {
     }
     
     @objc private func actionResetDates() {
-        guard let bannerInfo = bannerInfo, let url = URL(string: bannerInfo.verifiedUpgradeLink) else { return }
+        guard let bannerInfo = bannerInfo else { return }
                 
         if bannerInfo.status == .resetDatesBanner {
             delegate?.didSelectResetDatesButton()
-        } else {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.openURL(url)
-            }
         }
     }
     
@@ -162,7 +160,7 @@ class CourseResetDateView: UIView {
         label.text = status.header + status.body
         label.sizeToFit()
         
-        return status.button.isEmpty ? label.frame.height : label.frame.height + buttonContainerMinHeight
+        return status.button.isEmpty ? label.frame.height + (buttonContainerMinHeight / 2) : label.frame.height + buttonContainerMinHeight
     }
 }
 
