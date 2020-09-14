@@ -305,8 +305,7 @@
 /* Course Reset Date Upgrade To Complete Graded Banner Header */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.HEADER"="You are auditing this course, ";
 /* Course Reset Date Upgrade To Complete Graded Banner Body */
-"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded
-assignments as part of this course, you can upgrade today.";
+"COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BODY"="which means that you are unable to participate in graded assignments. To complete graded assignments as part of this course, you can upgrade today.";
 /* Course Reset Date Upgrade To Complete Graded Banner Button */
 "COURSEDATES.RESET_DATE.UPGRADE_TO_COMPLETE_GRADED_BANNER.BUTTON"="Upgrade now";
 /* Course Reset Date Upgrade Reset Banner Header */
