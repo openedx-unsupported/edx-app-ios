@@ -196,7 +196,7 @@ public class CourseOutlineViewController :
     }
     
     private func loadCourseDatesResetView(courseDeadline: CourseDeadline) {
-        if let _ = courseDeadline.bannerInfo.status{
+        if let _ = courseDeadline.bannerInfo.status {
             if !courseDeadline.hasEnded {
                 tableController.showDateResetBanner(bannerInfo: courseDeadline.bannerInfo)
             }
