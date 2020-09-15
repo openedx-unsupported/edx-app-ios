@@ -342,7 +342,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             make.trailing.equalTo(headerContainer)
             make.leading.equalTo(headerContainer)
             make.top.equalTo(headerContainer)
-            make.height.equalTo(courseDatesResetView.bannerHeight)
+            make.height.equalTo(courseDatesResetView.heightForView(width: headerContainer.frame.size.width))
         }
         
         courseDatesResetView.setupView()
@@ -405,7 +405,7 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
 }
 
 extension CourseOutlineTableController: CourseResetDateViewDelegate {
-    func didSelectResetDatesButton() {
+    func courseResetButtonAction() {
         delegate?.resetCourseDate(controller: self)
     }
 }

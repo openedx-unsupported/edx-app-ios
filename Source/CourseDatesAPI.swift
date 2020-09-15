@@ -24,50 +24,48 @@ public class CourseDatesAPI: NSObject {
     }
     
     class func courseDatesRequest(courseID: String)-> NetworkRequest<CourseDateModel> {
-        let datesPath = courseDatesPath(courseID: courseID)
         return NetworkRequest(
             method: HTTPMethod.GET,
-            path : datesPath,
+            path : courseDatesPath(courseID: courseID),
             requiresAuth : true,
             deserializer: .jsonResponse(courseDateDeserializer))
     }
     
-    private static func courseDeadlineInfoDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDeadline> {
+    private static func courseDeadlineInfoDeserializer(response: HTTPURLResponse, json: JSON) -> Result<CourseDateDeadlineInfoModel> {
         guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {
-            let courseDeadlineModel = CourseDeadline(json: json)
-            return Success(v: courseDeadlineModel)
+            return Success(v: CourseDateDeadlineInfoModel(json: json))
         }
         return Failure()
     }
     
-    private class func courseResetDeadlineInfoPath(courseID: String) -> String {
+    private class func resetDatePath(courseID: String) -> String {
         return "/api/course_experience/v1/course_deadlines_info/{courseID}".oex_format(withParameters: ["courseID" : courseID])
     }
     
-    class func courseDeadlineInfoRequest(courseID: String) -> NetworkRequest<CourseDeadline> {
+    class func courseDeadlineInfoRequest(courseID: String) -> NetworkRequest<CourseDateDeadlineInfoModel> {
         return NetworkRequest(
             method: .GET,
-            path : courseResetDeadlineInfoPath(courseID: courseID),
+            path : resetDatePath(courseID: courseID),
             requiresAuth : true,
             deserializer: .jsonResponse(courseDeadlineInfoDeserializer))
     }
     
     private static func courseResetDeadlineDeserializer(response : HTTPURLResponse) -> Result<()> {
-        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else { //
+        guard let statusCode = OEXHTTPStatusCode(rawValue: response.statusCode), !statusCode.is2xx else {
             return Success(v: ())
             
         }
         return Failure()
     }
     
-    private class func courseResetDeadlinePath() -> String {
+    private class var datesResetPath: String {
         return "/api/course_experience/v1/reset_course_deadlines"
     }
     
     class func courseResetDeadlineRequest(courseID: String)-> NetworkRequest<()> {
         return NetworkRequest(
             method: .POST,
-            path : courseResetDeadlinePath(),
+            path : datesResetPath,
             requiresAuth : true,
             body: .jsonBody(
                 JSON(["course_key": courseID])

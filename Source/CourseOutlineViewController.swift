@@ -37,7 +37,7 @@ public class CourseOutlineViewController :
     private let blockIDStream = BackedStream<CourseBlockID?>()
     private let headersLoader = BackedStream<CourseOutlineQuerier.BlockGroup>()
     fileprivate let rowsLoader = BackedStream<[CourseOutlineQuerier.BlockGroup]>()
-    private let courseDeadlineLoader = BackedStream<(CourseDeadline)>()
+    private let courseDeadlineInfoLoader = BackedStream<(CourseDateDeadlineInfoModel)>()
 
     private let loadController : LoadStateViewController
     private let insetsController : ContentInsetsController
@@ -159,22 +159,6 @@ public class CourseOutlineViewController :
         loadController.state = .Initial
         let courseOutlineStream = joinStreams(courseQuerier.rootID, courseQuerier.blockWithID(id: blockID))
         
-        let request = CourseDatesAPI.courseDeadlineInfoRequest(courseID: courseID)
-        let courseDeadlineStream = environment.networkManager.streamForRequest(request)
-        courseDeadlineLoader.backWithStream(courseDeadlineStream)
-        
-        courseDeadlineStream.listen(self) { [weak self] result in
-            switch result {
-            case .success(let courseDeadline):
-                self?.loadCourseDatesResetView(courseDeadline: courseDeadline)
-                break
-                
-            case .failure(let error):
-                print(error)
-                break
-            }
-        }
-        
         courseOutlineStream.extendLifetimeUntilFirstResult (success : { [weak self] (rootID, block) in
                 if self?.blockID == rootID || self?.blockID == nil {
                     if self?.courseOutlineMode == .full {
@@ -192,13 +176,30 @@ public class CourseOutlineViewController :
                 Logger.logError("ANALYTICS", "Unable to load block: \($0)")
             }
         )
+        
+        let courseDeadlineInfoRequest = CourseDatesAPI.courseDeadlineInfoRequest(courseID: courseID)
+        let courseDeadlineInfoStream = environment.networkManager.streamForRequest(courseDeadlineInfoRequest)
+        courseDeadlineInfoLoader.backWithStream(courseDeadlineInfoStream)
+        
+        courseDeadlineInfoStream.listen(self) { [weak self] result in
+            switch result {
+            case .success(let courseDeadlineInfo):
+                self?.loadCourseDatesResetView(courseDeadlineInfo: courseDeadlineInfo)
+                break
+                
+            case .failure(let error):
+                Logger.logError("DatesResetBanner", "Unable to load dates reset banner: \(error.localizedDescription)")
+                break
+            }
+        }
+        
         reload()
     }
     
-    private func loadCourseDatesResetView(courseDeadline: CourseDeadline) {
-        if let _ = courseDeadline.bannerInfo.status {
-            if !courseDeadline.hasEnded {
-                tableController.showDateResetBanner(bannerInfo: courseDeadline.bannerInfo)
+    private func loadCourseDatesResetView(courseDeadlineInfo: CourseDateDeadlineInfoModel) {
+        if let _ = courseDeadlineInfo.bannerInfo.status {
+            if !courseDeadlineInfo.hasEnded {
+                tableController.showDateResetBanner(bannerInfo: courseDeadlineInfo.bannerInfo)
             }
         }
     }

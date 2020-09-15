@@ -1,5 +1,5 @@
 //
-//  CourseDeadline.swift
+//  CourseDateDeadlineInfoModel.swift
 //  edX
 //
 //  Created by Muhammad Umer on 08/09/2020.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CourseDeadline {
+struct CourseDateDeadlineInfoModel {
     private enum Keys: String, RawStringExtractable {
         case bannerInfo = "dates_banner_info"
         case hasEnded = "has_ended"

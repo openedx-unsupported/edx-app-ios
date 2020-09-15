@@ -9,6 +9,12 @@
 import Foundation
 
 extension UIView {
+    var isiPad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+}
+
+extension UIView {
     func firstAvailableUIViewController() -> UIViewController? {
         return traverseResponderChainForUIViewController()
     }
