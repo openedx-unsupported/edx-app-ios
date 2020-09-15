@@ -37,7 +37,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     private let lastAccessedView = CourseOutlineHeaderView(frame: .zero, styles: OEXStyles.shared(), titleText : Strings.lastAccessed, subtitleText : "Placeholder")
     var courseVideosHeaderView: CourseVideosHeaderView?
     private var lastAccess = false
-    private var showBanner = false
     private var shouldHideTableViewHeader:Bool = false
     let refreshController = PullRefreshController()
     private var courseBlockID : CourseBlockID?
@@ -106,6 +105,13 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
             headerContainer.addSubview(courseCard)
             headerContainer.addSubview(lastAccessedView)
             addCertificateView()
+            
+            courseDatesResetView.snp.remakeConstraints { make in
+                make.trailing.equalTo(headerContainer)
+                make.leading.equalTo(headerContainer)
+                make.top.equalTo(headerContainer)
+                make.height.equalTo(0)
+            }
         }
         if let course = environment.interface?.enrollmentForCourse(withID: courseID)?.course {
             switch courseOutlineMode {
@@ -327,9 +333,19 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
     }
     
     func showDateResetBanner(bannerInfo: DatesBannerInfo) {
-        showBanner = true
         courseDatesResetView.bannerInfo = bannerInfo
-        refreshTableHeaderView(lastAccess: lastAccess)
+        updateResetBannerView()
+    }
+    
+    private func updateResetBannerView() {
+        courseDatesResetView.snp.remakeConstraints { make in
+            make.trailing.equalTo(headerContainer)
+            make.leading.equalTo(headerContainer)
+            make.top.equalTo(headerContainer)
+            make.height.equalTo(courseDatesResetView.bannerHeight)
+        }
+        
+        courseDatesResetView.setupView()
     }
     
     private func refreshTableHeaderView(lastAccess: Bool) {
@@ -339,18 +355,6 @@ class CourseOutlineTableController : UITableViewController, CourseVideoTableView
         switch courseOutlineMode {
         case .full:
             if shouldHideTableViewHeader { return }
-            
-            courseDatesResetView.snp.remakeConstraints { make in
-                make.trailing.equalTo(headerContainer)
-                make.leading.equalTo(headerContainer)
-                make.top.equalTo(headerContainer)
-                let bannerHeight = showBanner ? courseDatesResetView.heightForView(width: headerContainer.frame.height) : 0
-                make.height.equalTo(bannerHeight)
-            }
-            
-            if showBanner {
-                courseDatesResetView.setupView()
-            }
                         
             var constraintView: UIView = courseCard
             courseCard.snp.remakeConstraints { make in

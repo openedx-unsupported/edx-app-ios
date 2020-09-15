@@ -15,9 +15,9 @@ protocol CourseResetDateViewDelegate {
 }
 
 class CourseResetDateView: UIView {
-    private let labelMaxHeight: CGFloat = 200
+    private let labelMaxHeight: CGFloat = 100
     private let buttonMinWidth: CGFloat = 80
-    private let buttonContainerMinHeight: CGFloat = 80
+    private let buttonContainerHeight: CGFloat = 60
     
     private lazy var container = UIView()
     private lazy var stackView = UIStackView()
@@ -60,6 +60,12 @@ class CourseResetDateView: UIView {
         return !status.button.isEmpty
     }
     
+    var bannerHeight: CGFloat {
+        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
+        
+        return status.button.isEmpty ? labelMaxHeight : labelMaxHeight + buttonContainerHeight
+    }
+    
     var bannerInfo: DatesBannerInfo?
     var delegate: CourseResetDateViewDelegate?
     
@@ -79,6 +85,7 @@ class CourseResetDateView: UIView {
     }
     
     private func configureViews() {
+        stackView.subviews.forEach { $0.removeFromSuperview() }
         backgroundColor = OEXStyles.shared().neutralLight()
         addSubview(container)
         stackView.alignment = .leading
@@ -148,19 +155,6 @@ class CourseResetDateView: UIView {
         if bannerInfo.status == .resetDatesBanner {
             delegate?.didSelectResetDatesButton()
         }
-    }
-    
-    func heightForView(width: CGFloat) -> CGFloat {
-        guard let bannerInfo = bannerInfo, let status = bannerInfo.status else { return 0 }
-
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: labelMaxHeight))
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = OEXStyles().boldSansSerif(ofSize: OEXTextStyle.pointSize(for: .base))
-        label.text = status.header + status.body
-        label.sizeToFit()
-        
-        return status.button.isEmpty ? label.frame.height + (buttonContainerMinHeight / 2) : label.frame.height + buttonContainerMinHeight
     }
 }
 

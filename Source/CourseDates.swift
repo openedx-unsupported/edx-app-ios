@@ -193,7 +193,7 @@ enum BannerInfoStatus {
     }
 }
 
-struct DatesBannerInfo {
+class DatesBannerInfo {
     private enum Keys: String, RawStringExtractable {
         case contentTypeGatingEnabled = "content_type_gating_enabled"
         case missedDeadline = "missed_deadlines"
@@ -227,19 +227,23 @@ struct DatesBannerInfo {
         return nil
     }
     
-    var showDatesTabBannerInfo: Bool {
+    // Case 1
+    private var showDatesTabBannerInfo: Bool {
         return !missedDeadline
     }
     
-    var upgradeToCompleteGraded: Bool {
+    // Case 2
+    private var upgradeToCompleteGraded: Bool {
         return contentTypeGatingEnabled && !missedDeadline
     }
     
-    var upgradeToReset: Bool {
+    // Case 3
+    private var upgradeToReset: Bool {
         return !upgradeToCompleteGraded && missedDeadline && missedGatedContent
     }
     
-    var resetDates: Bool {
+    // Case 4
+    private var resetDates: Bool {
         return !upgradeToCompleteGraded && missedDeadline && !missedGatedContent
     }
 }

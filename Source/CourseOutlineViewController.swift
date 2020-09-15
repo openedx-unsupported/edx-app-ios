@@ -324,10 +324,15 @@ public class CourseOutlineViewController :
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.errorMessage, onViewController: controller)
             } else {
                 UIAlertController().showAlert(withTitle: Strings.Coursedates.ResetDate.title, message: Strings.Coursedates.ResetDate.successMessage, onViewController: controller)
-                self?.courseQuerier.needsRefresh = true
-                self?.reload()
+                self?.reloadAfterCourseDateReset()
             }
         }
+    }
+    
+    private func reloadAfterCourseDateReset() {
+        courseQuerier.needsRefresh = true
+        addListeners()
+        loadStreams()
     }
     
     //MARK: PullRefreshControllerDelegate
